@@ -63,7 +63,7 @@ services:
         constraints: [node.role == worker]
 
   liferay-active:
-    image: liferay-ems:${LFR_TAG_VERSION}
+    image: liferayems:${LFR_TAG_VERSION}
     build : 
       context: ./images/liferay-ems
       args:
@@ -107,7 +107,7 @@ services:
         constraints: [node.role == manager]
   
   liferay-backup:
-    image: liferay-ems:${LFR_TAG_VERSION}
+    image: liferayems:${LFR_TAG_VERSION}
     build : 
       context: ./images/liferay-ems
       args:
