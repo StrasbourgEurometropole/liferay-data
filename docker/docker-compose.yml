@@ -13,10 +13,6 @@ services:
       - cluster.name=LiferayElasticsearchCluster
       - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
       - "network.host=0.0.0.0"
-      - "xpack.security.enabled: 'false'"
-      - "xpack.monitoring.enabled: 'false'"
-      - "xpack.watcher.enabled: 'false'"
-      - "xpack.ml.enabled: 'false'"
     ulimits:
       memlock:
         soft: -1
