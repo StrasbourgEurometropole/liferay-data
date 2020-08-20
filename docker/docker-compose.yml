@@ -6,6 +6,7 @@ services:
     image: elasticsearch-ems
     build: 
       context: ./images/elasticsearch-ems
+    hostname: elasticsearch
     environment:
 # --- For docker-compose (without Swarm mode) ----
 #      - bootstrap.memory_lock=true
