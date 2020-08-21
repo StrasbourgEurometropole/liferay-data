@@ -47,6 +47,8 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -161,8 +163,50 @@ public class FormSendDisplayContext {
                         JSONObject json = JSONFactoryUtil.createJSONObject(jsonObject.toString());
                         JSONObject jsonField = JSONFactoryUtil.createJSONObject();
                         String[] field = {json.getString("instanceId"),json.getString("name"),""};
-                        if(!json.isNull("value"))
-                            field[2] = json.getJSONObject("value").getString(locale.toString()).replaceAll("(\r\n|\n)", "<br />");
+                        String stringValue = "";
+                        if(!json.isNull("value")){
+                            String value = json.getJSONObject("value").getString(locale.toString());
+                            switch (getFieldType(json.getString("name"))){
+                                case "document_library":
+                                    JSONObject jsonFile = JSONFactoryUtil.createJSONObject(value);
+                                    if(jsonFile.length() > 0)
+                                        stringValue = jsonFile.getString("title");
+                                    break;
+                                case "grid":
+                                    JSONObject jsonGrid = JSONFactoryUtil.createJSONObject(value);
+                                    for (String key : jsonGrid.keySet()) {
+                                        if(Validator.isNotNull(stringValue))
+                                            stringValue += "<br />";
+                                        stringValue += key + " : " + jsonGrid.getString(key);
+                                    }
+                                    break;
+                                case "checkbox_multiple":
+                                    JSONArray arrayCB = JSONFactoryUtil.createJSONArray(value);
+                                    for (int i=0; i<arrayCB.length(); i++) {
+                                        if(Validator.isNotNull(stringValue))
+                                            stringValue += ", ";
+                                        stringValue += arrayCB.getString(i);
+                                    }
+                                    break;
+                                case "date":
+                                    if(Validator.isNotNull(value)) {
+                                        LocalDate date = LocalDate.parse(value);
+                                        stringValue = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                                    }
+                                    break;
+                                case "select":
+                                    JSONArray arraySelect = JSONFactoryUtil.createJSONArray(value);
+                                    for (int i=0; i<arraySelect.length(); i++) {
+                                        if(Validator.isNotNull(stringValue))
+                                            stringValue += ", ";
+                                        stringValue += arraySelect.getString(i);
+                                    }
+                                    break;
+                                default:
+                                    stringValue = value.replaceAll("(\r\n|\n)", "<br />");
+                            }
+                        }
+                        field[2] = stringValue;
                         recordFields.add(field);
                     }
                 } catch (JSONException e) {

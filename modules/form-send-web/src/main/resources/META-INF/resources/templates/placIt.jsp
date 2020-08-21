@@ -25,70 +25,67 @@
                         <c:set var="fieldsToShow" value="${dc.fieldsToShow}" />
                         <c:forEach var="recordField" items="${dc.getRecordFields(record.storageId, locale)}">
                             <c:if test="${fn:contains(fieldsToShow, recordField[1]) && not empty recordField[2] && recordField[2] != '[]'}">
-                                <c:set var="type" value="${dc.getFieldType(recordField[1])}" />
-                                <c:if test="${type.equals('text')}">
-                                    <c:set var="formSendRecordField" value="${dc.getFormSendRecordField(record.storageId,recordField[0])}" />
-                                    <span class="pro-title-question" id="rep_${formSendRecordField.formSendRecordFieldId}">${dc.getLabel(recordField[1], locale)}</span>
-                                    <p>${dc.getTip(recordField[1], locale)}</p>
-                                    <div class="pro-item-response pro-item-response-highlight">
-                                        <c:if test="${! dc.isToShow(formSendRecordField.formSendRecordFieldId)}" >
-                                            <div class="pro-bloc-texte">
-                                                <p>
-                                                    ${dc.texteModeration}
-                                                </p>
-                                            </div>
-                                        </c:if>
-                                        <c:if test="${dc.isToShow(formSendRecordField.formSendRecordFieldId)}" >
-                                            <div class="pro-bloc-texte">
-                                                <p>
-                                                    ${fn:toUpperCase(fn:substring(recordField[2], 0, 1))}${fn:toLowerCase(fn:substring(recordField[2], 1,fn:length(recordField[2])))}
-                                                </p>
-                                            </div>
-                                            <div class="pro-interactions">
-                                                <a href="#pro-avis-like-pro" class="pro-like"
-                                                    data-typeid="20"
-                                                    data-isdislike="false"
-                                                    data-title=""
-                                                    data-entityid="${formSendRecordField.formSendRecordFieldId}"
-                                                    data-entitygroupid="${formSendRecordField.groupId}">
-                                                    ${formSendRecordField.nbLikes}
-                                                </a>
-                                                <a href="#pro-avis-dislike-pro" class="pro-dislike"
-                                                    data-typeid="20"
-                                                    data-isdislike="true"
-                                                    data-title=""
-                                                    data-entityid="${formSendRecordField.formSendRecordFieldId}"
-                                                    data-entitygroupid="${formSendRecordField.groupId}">
-                                                    ${formSendRecordField.nbDislikes}
-                                                </a>
-                                                <c:if test="${!dc.isUserBanned() && dc.hasUserSigned()}">
-                                                    <div class="pro-action-link">
-                                                        <a href="#Signaler" title="Signaler la proposition" data-toggle="modal" data-target="#modalSignaler" data-entityid="${formSendRecordField.formSendRecordFieldId}">
-                                                            Signaler
-                                                        </a>
-                                                    </div>
-                                                </c:if>
-                                            </div>
-                                        </c:if>
-                                        <c:if test="${not empty formSendRecordField && not empty formSendRecordField.response}">
-                                            <div class="pro-footer-response">
-                                                <c:set var="user" value="${dc.getUser(formSendRecordField.responseUserId)}" />
-                                                <div class="pro-author">
-                                                    <figure role="group">
-                                                        <img src="${user.getPortraitURL(themeDisplay)}" width="40" height="40" alt="Image participation">
-                                                    </figure>
-                                                    <div class="pro-meta-txt">
-                                                        <p>R&eacute;ponse publi&eacute;e par :</p>
-                                                        <p><strong>${user.getFullName()}</strong></p>
-                                                    </div>
+                                <c:set var="formSendRecordField" value="${dc.getFormSendRecordField(record.storageId,recordField[0])}" />
+                                <span class="pro-title-question" id="rep_${formSendRecordField.formSendRecordFieldId}">${dc.getLabel(recordField[1], locale)}</span>
+                                <p>${dc.getTip(recordField[1], locale)}</p>
+                                <div class="pro-item-response pro-item-response-highlight">
+                                    <c:if test="${! dc.isToShow(formSendRecordField.formSendRecordFieldId)}" >
+                                        <div class="pro-bloc-texte">
+                                            <p>
+                                                ${dc.texteModeration}
+                                            </p>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${dc.isToShow(formSendRecordField.formSendRecordFieldId)}" >
+                                        <div class="pro-bloc-texte">
+                                            <p style="text-transform: capitalize">
+                                                ${recordField[2]}
+                                            </p>
+                                        </div>
+                                        <div class="pro-interactions">
+                                            <a href="#pro-avis-like-pro" class="pro-like"
+                                                data-typeid="20"
+                                                data-isdislike="false"
+                                                data-title=""
+                                                data-entityid="${formSendRecordField.formSendRecordFieldId}"
+                                                data-entitygroupid="${formSendRecordField.groupId}">
+                                                ${formSendRecordField.nbLikes}
+                                            </a>
+                                            <a href="#pro-avis-dislike-pro" class="pro-dislike"
+                                                data-typeid="20"
+                                                data-isdislike="true"
+                                                data-title=""
+                                                data-entityid="${formSendRecordField.formSendRecordFieldId}"
+                                                data-entitygroupid="${formSendRecordField.groupId}">
+                                                ${formSendRecordField.nbDislikes}
+                                            </a>
+                                            <c:if test="${!dc.isUserBanned() && dc.hasUserSigned()}">
+                                                <div class="pro-action-link">
+                                                    <a href="#Signaler" title="Signaler la proposition" data-toggle="modal" data-target="#modalSignaler" data-entityid="${formSendRecordField.formSendRecordFieldId}">
+                                                        Signaler
+                                                    </a>
                                                 </div>
-                                                <div class="pro-txt">
-                                                    <p>${formSendRecordField.response}</p>
+                                            </c:if>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${not empty formSendRecordField && not empty formSendRecordField.response}">
+                                        <div class="pro-footer-response">
+                                            <c:set var="user" value="${dc.getUser(formSendRecordField.responseUserId)}" />
+                                            <div class="pro-author">
+                                                <figure role="group">
+                                                    <img src="${user.getPortraitURL(themeDisplay)}" width="40" height="40" alt="Image participation">
+                                                </figure>
+                                                <div class="pro-meta-txt">
+                                                    <p>R&eacute;ponse publi&eacute;e par :</p>
+                                                    <p><strong>${user.getFullName()}</strong></p>
                                                 </div>
                                             </div>
-                                        </c:if>
-                                    </div>
-                                </c:if>
+                                            <div class="pro-txt">
+                                                <p>${formSendRecordField.response}</p>
+                                            </div>
+                                        </div>
+                                    </c:if>
+                                </div>
                             </c:if>
                         </c:forEach>
                     </div>
