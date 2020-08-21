@@ -511,6 +511,16 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 		_alert.persist();
 	}
 
+<<<<<<< Updated upstream
+=======
+	@Override
+	public boolean sendMail(
+		java.util.List<eu.strasbourg.service.ejob.model.Offer> listOffer) {
+
+		return _alert.sendMail(listOffer);
+	}
+
+>>>>>>> Stashed changes
 	/**
 	 * Sets the alert ID of this alert.
 	 *
