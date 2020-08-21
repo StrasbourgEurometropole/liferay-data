@@ -40,13 +40,7 @@ import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 import com.liferay.portlet.asset.model.impl.AssetEntryImpl;
 
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
@@ -187,7 +181,7 @@ public class SearchAssetDisplayContext {
 		SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
 
 		// Mots clés
-		String keywords = ParamUtil.getString(this._request, "keywords");
+		String keywords = HtmlUtil.escape(ParamUtil.getString(this._request, "keywords"));
 
 		// ClassNames de la configuration
 		String[] classNames = this.getFilterClassNames();
@@ -464,7 +458,7 @@ public class SearchAssetDisplayContext {
 	 */
 	public String getKeywords() {
 		if (Validator.isNull(_keywords)) {
-			_keywords = ParamUtil.getString(_request, "keywords");
+			_keywords = HtmlUtil.escape(ParamUtil.getString(_request, "keywords"));
 		}
 		return _keywords;
 	}
@@ -844,7 +838,7 @@ public class SearchAssetDisplayContext {
 		SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
 
 		// Mots clés
-		String keywords = ParamUtil.getString(this._request, "keywords");
+		String keywords = HtmlUtil.escape(ParamUtil.getString(this._request, "keywords"));
 
 		// ClassNames de la configuration
 		String[] classNames = this.getFilterClassNames();
