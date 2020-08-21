@@ -12,11 +12,15 @@ import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.OfferLocalService;
 import eu.strasbourg.service.office.exporter.api.OffersCsvExporter;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.Date;
@@ -94,6 +98,46 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 			printWriter.print(csv);
 		} catch (FileNotFoundException e) {
 			log.error(e);
+		}
+
+		try {
+			String host = "localhost";
+			int port = 21;
+			String user = "";
+			String password = "";
+
+			FTPClient ftpClient = new FTPClient();
+			ftpClient.connect(host, port);
+			showServerReply(ftpClient);
+			int replyCode = ftpClient.getReplyCode();
+			if (!FTPReply.isPositiveCompletion(replyCode)) {
+				log.error("Accès au serveur refusé. Code de l'erreur: " + replyCode);
+				return;
+			}
+			boolean success = ftpClient.login(user, password);
+			showServerReply(ftpClient);
+			if (!success) {
+				log.error("Connexion au serveur échoué.");
+				return;
+			} else {
+				ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+				FileInputStream fileIS= new FileInputStream(fileName );
+				ftpClient.storeFile(fileName, fileIS);
+			}
+
+			ftpClient.logout();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void showServerReply(FTPClient ftp) {
+		String[] replies = ftp.getReplyStrings();
+		if (replies != null && replies.length > 0) {
+			for (String aReply : replies) {
+				log.info("SERVER: " + aReply);
+			}
 		}
 	}
 
