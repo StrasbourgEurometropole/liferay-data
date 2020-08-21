@@ -2,7 +2,7 @@
 <workflow-definition
 	xmlns="urn:liferay.com:liferay-workflow_7.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:liferay.com:liferay-workflow_7.0.0 http://www.liferay.com/dtd/liferay-workflow-definition_7_0_0.xsd">
-	<name>Single Approver Webmag</name>
+	<name>Single Approver Offre</name>
 	<description>A single approver can approve a workflow content.</description>
 	<version>1</version>
 	<condition>
@@ -101,8 +101,8 @@
 						import com.liferay.portal.kernel.workflow.WorkflowConstants;
 						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("denied"), workflowContext);
 						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("pending"), workflowContext);]]>
-				</script>
-				<script-language>javascript</script-language>
+						</script>
+				<script-language>groovy</script-language>
 				<execution-type>onAssignment</execution-type>
 			</action>
 			<notification>
@@ -166,7 +166,6 @@
 				</description>
 				<template>
 					<![CDATA[Votre soumission a été revue
-					
 					
 					<#if taskComments?has_content> et le validateur a émis le commentaire suivant : ${taskComments}</#if>.]]>
 				</template>
