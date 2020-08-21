@@ -35,7 +35,7 @@
                         </#if>
                     </span>
                     <a href="${layoutHelper.getDashboardURL()}" style="text-decoration: none; width: auto;" title="<@liferay_ui.message key='eu.dashboard' />" class="connect">
-                      <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
+                      <span class="text">${request.session.getAttribute("publik_given_name")?html}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]?html}.</span>
                     </a>
                     <span class="arrow" style="display: none;"></span>
                   </span>
@@ -48,7 +48,7 @@
                   settingsScope="group" />
                 </div>
             <#else>
-              <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay_ui.message key='eu.login.strasbourg' />" class="connect">
+              <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" title="<@liferay_ui.message key='eu.login.strasbourg' />" class="connect">
                 <span class="flexbox">
                   <span class="picto"></span>
                 </span>    
