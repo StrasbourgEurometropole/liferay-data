@@ -68,10 +68,7 @@ public interface Alert extends AlertModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories();
 
-<<<<<<< Updated upstream
-=======
 	public boolean sendMail(
 		java.util.List<eu.strasbourg.service.ejob.model.Offer> listOffer);
 
->>>>>>> Stashed changes
 }
