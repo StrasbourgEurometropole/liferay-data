@@ -39,17 +39,19 @@
         <c:forEach var="form" items="${formulaireList}" >
             <aui:fieldset cssClass="fields form_${form.formInstanceId}" >
                 <c:forEach var="champs" items="${form.fields}" varStatus="status">
-                    <c:set var="FieldForm" value="${form.formInstanceId}_${champs.name}" />
-                    <aui:input type="checkbox" name="fieldsSelected" id="formFields" value="${FieldForm}" label="${champs.getLabel(locale)} ${champs.isRequired()?' *':' '}"
-                            checked="${fn:contains(fieldsSelected, FieldForm)}" />
-                    <c:set var="newLibArray" value="${fn:split(fieldsLib[status.index], '--')}" />
-                    <c:if test="${fn:length(newLibArray) > 1}">
-                        <aui:input type="text" name="newLib_${FieldForm}" id="newLib_${FieldForm}" value="${newLibArray[1]}" label="new-lib"/>
+                    <c:if test="${!champs.type.equals('paragraph')}">
+                        <c:set var="FieldForm" value="${form.formInstanceId}_${champs.name}" />
+                        <aui:input type="checkbox" name="fieldsSelected" id="formFields" value="${FieldForm}" label="${champs.getLabel(locale)} ${champs.isRequired()?' *':' '}"
+                                checked="${fn:contains(fieldsSelected, FieldForm)}" />
+                        <c:set var="newLibArray" value="${fn:split(fieldsLib[status.index], '--')}" />
+                        <c:if test="${fn:length(newLibArray) > 1}">
+                            <aui:input type="text" name="newLib_${FieldForm}" id="newLib_${FieldForm}" value="${newLibArray[1]}" label="new-lib"/>
+                        </c:if>
+                        <c:if test="${fn:length(newLibArray) == 1}">
+                            <aui:input type="text" name="newLib_${FieldForm}" id="newLib_${FieldForm}" label="new-lib"/>
+                        </c:if>
+                        <br>
                     </c:if>
-                    <c:if test="${fn:length(newLibArray) == 1}">
-                        <aui:input type="text" name="newLib_${FieldForm}" id="newLib_${FieldForm}" label="new-lib"/>
-                    </c:if>
-                    <br>
                 </c:forEach>
             </aui:fieldset>
         </c:forEach>

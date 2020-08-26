@@ -1,10 +1,7 @@
 package eu.strasbourg.portlet.form_send.configuration;
 
-import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalService;
-import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -18,13 +15,10 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.form_send.context.FormSendDisplayContext;
 import eu.strasbourg.portlet.form_send.formulaire.Formulaire;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
-
-import com.liferay.dynamic.data.lists.model.DDLRecordSet;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -32,9 +26,7 @@ import javax.portlet.PortletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component(
@@ -129,8 +121,6 @@ public class FormSendConfigurationAction
                     .getPortletDisplay().getPortletInstanceConfiguration(
                             FormSendConfiguration.class);
 
-            FormSendDisplayContext dc = new FormSendDisplayContext(request, response);
-
             // Titre
             String title;
             String titleParam = ParamUtil.getString(request,
@@ -152,7 +142,7 @@ public class FormSendConfigurationAction
                 if(Validator.isNotNull(configuration.nbEntries())) {
                     nbEntries = configuration.nbEntries();
                 }else{
-                    nbEntries = "" + dc.getDelta();
+                    nbEntries = "5";
                 }
             }
             request.setAttribute("nbEntries", nbEntries);

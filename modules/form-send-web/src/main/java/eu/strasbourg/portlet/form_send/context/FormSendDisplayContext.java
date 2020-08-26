@@ -64,16 +64,6 @@ public class FormSendDisplayContext {
     private SearchContainer<DDMFormInstanceRecord> searchContainer;
     private Map<String, String> newLibs;
 
-    public FormSendDisplayContext(HttpServletRequest request, HttpServletResponse response) {
-        this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-        try {
-            this.configuration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(FormSendConfiguration.class);
-        } catch (ConfigurationException e) {
-            e.printStackTrace();
-        }
-    }
-
     public FormSendDisplayContext(RenderRequest request, RenderResponse response) {
         this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         try {
@@ -161,53 +151,37 @@ public class FormSendDisplayContext {
                         // name -> nom du champs
                         // value -> saisie utilisateur (n'est pas renseigné pour les paragraphes)
                         JSONObject json = JSONFactoryUtil.createJSONObject(jsonObject.toString());
-                        JSONObject jsonField = JSONFactoryUtil.createJSONObject();
-                        String[] field = {json.getString("instanceId"),json.getString("name"),""};
-                        String stringValue = "";
-                        if(!json.isNull("value")){
+                        String[] field = {json.getString("instanceId"), json.getString("name"), ""};
+                        if (!json.isNull("value")){
                             String value = json.getJSONObject("value").getString(locale.toString());
                             switch (getFieldType(json.getString("name"))){
                                 case "document_library":
                                     JSONObject jsonFile = JSONFactoryUtil.createJSONObject(value);
                                     if(jsonFile.length() > 0)
-                                        stringValue = jsonFile.getString("title");
+                                        field[2] = jsonFile.getString("title");
                                     break;
                                 case "grid":
                                     JSONObject jsonGrid = JSONFactoryUtil.createJSONObject(value);
-                                    for (String key : jsonGrid.keySet()) {
-                                        if(Validator.isNotNull(stringValue))
-                                            stringValue += "<br />";
-                                        stringValue += key + " : " + jsonGrid.getString(key);
-                                    }
+                                    if(jsonGrid.length() > 0)
+                                        field[2] = jsonGrid.toString();
                                     break;
                                 case "checkbox_multiple":
+                                case "select":
                                     JSONArray arrayCB = JSONFactoryUtil.createJSONArray(value);
-                                    for (int i=0; i<arrayCB.length(); i++) {
-                                        if(Validator.isNotNull(stringValue))
-                                            stringValue += ", ";
-                                        stringValue += arrayCB.getString(i);
-                                    }
+                                    if(arrayCB.length() > 0)
+                                        field[2] = arrayCB.toString();
                                     break;
                                 case "date":
                                     if(Validator.isNotNull(value)) {
                                         LocalDate date = LocalDate.parse(value);
-                                        stringValue = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                                    }
-                                    break;
-                                case "select":
-                                    JSONArray arraySelect = JSONFactoryUtil.createJSONArray(value);
-                                    for (int i=0; i<arraySelect.length(); i++) {
-                                        if(Validator.isNotNull(stringValue))
-                                            stringValue += ", ";
-                                        stringValue += arraySelect.getString(i);
+                                        field[2] = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                                     }
                                     break;
                                 default:
-                                    stringValue = value.replaceAll("(\r\n|\n)", "<br />");
+                                    field[2] = value.replaceAll("(\r\n|\n)", "<br />");
                             }
                         }
-                        field[2] = stringValue;
-                        recordFields.add(field);
+                    recordFields.add(field);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -312,7 +286,6 @@ public class FormSendDisplayContext {
 
     // Recuperation des informations de l'utilisateur
     public PublikUser getPublikUser() {
-
         PublikUser publikUser = null;
 
         LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
@@ -380,6 +353,43 @@ public class FormSendDisplayContext {
         return options;
     }
 
+    // récupère les colonnes de grille
+    public List<Option> getColumns(String name) {
+        List<Option> columns = new ArrayList<Option>();
+        if(Validator.isNotNull(this.getForm())) {
+            Champ champ = this.formulaire.getField(name);
+            if (Validator.isNotNull(champ))
+                columns = champ.getColumns();
+        }
+
+        return columns;
+    }
+
+    // récupère les lignes de grille
+    public List<Option> getRows(String name) {
+        List<Option> rows = new ArrayList<Option>();
+        if(Validator.isNotNull(this.getForm())) {
+            Champ champ = this.formulaire.getField(name);
+            if (Validator.isNotNull(champ))
+                rows = champ.getRows();
+        }
+
+        return rows;
+    }
+
+    // récupère les lignes de grille
+    public String getValueOfGridKey(String resultGrid, String key) {
+        String value = "";
+        try {
+            JSONObject grid = JSONFactoryUtil.createJSONObject(resultGrid);
+            value = grid.getString(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return value;
+    }
+
     /**
      * Retourne le nombre d'entrées à afficher par page
      */
@@ -400,6 +410,7 @@ public class FormSendDisplayContext {
             Map<String, String[]> parameterMap = request.getParameterMap();
             PortletURL iteratorURL = this.response.createRenderURL();
             iteratorURL.setParameters(parameterMap);
+            iteratorURL.setParameter("delta", String.valueOf(this.getDelta()));
             searchContainer = new SearchContainer<DDMFormInstanceRecord>(request, iteratorURL, null,
                     "no-entries-were-found");
             searchContainer.setDelta(this.getDelta());
@@ -422,6 +433,17 @@ public class FormSendDisplayContext {
     public Pager getPager() {
         return new Pager(this.getSearchContainer().getTotal(), (int) this.getDelta(),
                 this.getSearchContainer().getCur());
+    }
+
+    /**
+     * Retourne l'URL sur laquelle aller pour avoir X items par page
+     */
+    public String getURLForDelta(long delta) {
+        PortletURL url = this.getSearchContainer().getIteratorURL();
+        url.setParameter("delta", String.valueOf(delta));
+        String valueToReturn = url.toString();
+        url.setParameter("delta", String.valueOf(this.getDelta()));
+        return valueToReturn;
     }
 
     /**

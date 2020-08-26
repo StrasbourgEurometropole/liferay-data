@@ -13,6 +13,7 @@
     </c:if>
 
     <c:if test="${dc.searchContainer.total gt 0}">
+
         <!-- Liste des résultats -->
         <c:set var="fieldsToShow" value="${dc.fieldsToShow}" />
         <aui:form method="post" name="fm" cssClass="pro-page-registre">
@@ -27,7 +28,6 @@
                             <c:if test="${fn:contains(fieldsToShow, recordField[1]) && not empty recordField[2] && recordField[2] != '[]'}">
                                 <c:set var="formSendRecordField" value="${dc.getFormSendRecordField(record.storageId,recordField[0])}" />
                                 <span class="pro-title-question" id="rep_${formSendRecordField.formSendRecordFieldId}">${dc.getLabel(recordField[1], locale)}</span>
-                                <p>${dc.getTip(recordField[1], locale)}</p>
                                 <div class="pro-item-response pro-item-response-highlight">
                                     <c:if test="${! dc.isToShow(formSendRecordField.formSendRecordFieldId)}" >
                                         <div class="pro-bloc-texte">
@@ -38,9 +38,53 @@
                                     </c:if>
                                     <c:if test="${dc.isToShow(formSendRecordField.formSendRecordFieldId)}" >
                                         <div class="pro-bloc-texte">
-                                            <p style="text-transform: capitalize">
-                                                ${recordField[2]}
-                                            </p>
+                                            <c:set var="type" value="${dc.getFieldType(recordField[1])}" />
+                                            <c:choose>
+                                                <c:when test="${type.equals('radio') || type.equals('select') || type.equals('checkbox_multiple')}">
+                                                    <p>
+                                                        <c:set var="status" value="0" />
+                                                        <c:forEach var="option" items="${dc.getOptions(recordField[1])}">
+                                                            <c:if test="${fn:contains(recordField[2], option.value)}">
+                                                                <c:set var="status" value="${status + 1}" />
+                                                                <c:if test="${status > 1}">
+                                                                    <br>
+                                                                </c:if>
+                                                                ${option.getLabel(locale)}
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </p>
+                                                </c:when>
+                                                <c:when test="${type.equals('grid')}">
+                                                    <table>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                            <c:forEach var="column" items="${dc.getColumns(recordField[1])}">
+                                                                <td>${column.getLabel(locale)}</td>
+                                                            </c:forEach>
+                                                        </tr>
+                                                        <c:forEach var="row" items="${dc.getRows(recordField[1])}">
+                                                            <tr>
+                                                                <td>${row.getLabel(locale)}</td>
+                                                                <c:forEach var="column" items="${dc.getColumns(recordField[1])}">
+                                                                    <td>
+                                                                        <c:if test="${dc.getValueOfGridKey(recordField[2],row.value) == column.value}">
+                                                                           X
+                                                                        </c:if>
+                                                                        <c:if test="${dc.getValueOfGridKey(recordField[2],row.value) != column.value}">
+                                                                           &nbsp;
+                                                                        </c:if>
+                                                                    </td>
+                                                                </c:forEach>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </table>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <p style="text-transform: capitalize">
+                                                        ${recordField[2]}
+                                                    </p>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                         <div class="pro-interactions">
                                             <a href="#pro-avis-like-pro" class="pro-like"
@@ -186,7 +230,6 @@
 </div>
 
 <style>
-
     .seu-result-count{
         margin-bottom: 50px;
     }

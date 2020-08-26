@@ -31,6 +31,8 @@ public class Champ {
     public boolean showAsSwitcher;
 
     public List<Option> options;
+    public List<Option> rows;
+    public List<Option> columns;
 
     public Map<Locale, String> label;
     public Map<Locale, String> tip;
@@ -63,9 +65,9 @@ public class Champ {
         showAsSwitcher = json.getBoolean("showAsSwitcher");
 
         List<Option> optionsListe = new ArrayList<Option>();
-        JSONArray jsonArray = json.getJSONArray("options");
-        if(Validator.isNotNull(jsonArray)){
-            for (Object option : jsonArray) {
+        JSONArray optionsArray = json.getJSONArray("options");
+        if(Validator.isNotNull(optionsArray)){
+            for (Object option : optionsArray) {
                 try {
                     optionsListe.add(new Option(JSONFactoryUtil.createJSONObject(option.toString())));
                 } catch (JSONException e) {
@@ -74,6 +76,32 @@ public class Champ {
             }
         }
         this.options = optionsListe;
+
+        List<Option> rowsListe = new ArrayList<Option>();
+        JSONArray rowArray = json.getJSONArray("rows");
+        if(Validator.isNotNull(rowArray)){
+            for (Object row : rowArray) {
+                try {
+                    rowsListe.add(new Option(JSONFactoryUtil.createJSONObject(row.toString())));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.rows = rowsListe;
+
+        List<Option> columnsListe = new ArrayList<Option>();
+        JSONArray columnsArray = json.getJSONArray("columns");
+        if(Validator.isNotNull(columnsArray)){
+            for (Object column : columnsArray) {
+                try {
+                    columnsListe.add(new Option(JSONFactoryUtil.createJSONObject(column.toString())));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.columns = columnsListe;
 
         label = new HashMap<Locale, String>();
         JSONObject jsonObject = json.getJSONObject("label");
@@ -290,6 +318,22 @@ public class Champ {
 
     public void setOptions(List<Option> options) {
         this.options = options;
+    }
+
+    public List<Option> getRows() {
+        return rows;
+    }
+
+    public void setRows(List<Option> rows) {
+        this.rows = rows;
+    }
+
+    public List<Option> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<Option> columns) {
+        this.columns = columns;
     }
 
     public Map<Locale, String> getLabelMap() {
