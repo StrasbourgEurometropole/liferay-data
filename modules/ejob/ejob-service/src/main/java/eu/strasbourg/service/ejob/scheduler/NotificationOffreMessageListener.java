@@ -54,13 +54,13 @@ public class NotificationOffreMessageListener
 
 		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
 		Calendar now = Calendar.getInstance();
-		now.add(Calendar.MINUTE, 2);
+		now.add(Calendar.MINUTE, 5);
 		Date fiveMinutesFromNow = now.getTime();
 
 		// Création du trigger "Tous les jours à ??
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				2, TimeUnit.MINUTE);
+				"0 45 1 * * ?");
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
 
