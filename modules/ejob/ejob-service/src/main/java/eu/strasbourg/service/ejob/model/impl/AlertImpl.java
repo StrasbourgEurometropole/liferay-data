@@ -20,6 +20,8 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.Language;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -104,13 +106,6 @@ public class AlertImpl extends AlertBaseImpl {
 	}
 
 	public boolean sendMail(List<Offer> listOffer) {
-
-		// On récupère les informations du mail à envoyer
-		PublikUser alertUser = PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikUserId());
-		String emailTo = alertUser.getEmail();
-		String subject = "\"" + this.getName()+ "\" : " + listOffer.size() + " nouvelle(s) offre(s)";
-
-
 		Locale locale;
 		if (!this.getLanguage().equals("fr") && !this.getLanguage().equals("en") && !this.getLanguage().equals("de")) {
 			locale = Locale.FRANCE;
@@ -119,6 +114,11 @@ public class AlertImpl extends AlertBaseImpl {
 			locale = LocaleUtil.fromLanguageId(this.getLanguage());
 		}
 		String localeString = locale.toString();
+
+		// On récupère les informations du mail à envoyer
+		PublikUser alertUser = PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikUserId());
+		String emailTo = alertUser.getEmail();
+		String subject = "\"" + this.getName()+ "\" : " + listOffer.size() + " " + LanguageUtil.get(locale, "eu.alert-new-offers");
 
 		// Validation
 		boolean hasError = false;
@@ -172,7 +172,7 @@ public class AlertImpl extends AlertBaseImpl {
 			// Chargement du template contenant le sujet du mail
 			templateResourceSubject = new URLTemplateResource("0",
 					Objects.requireNonNull(this.getClass().getClassLoader()
-							.getResource("/templates/alert-mail-subject.ftl")));
+							.getResource("/templates/alert-mail-copy-subject-" + localeString + ".ftl")));
 			subjectTemplate = TemplateManagerUtil.getTemplate(
 					TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
 
@@ -185,7 +185,7 @@ public class AlertImpl extends AlertBaseImpl {
 			//Chargement du template contenant le corps du mail
 			templateResourceBody = new URLTemplateResource("0",
 					Objects.requireNonNull(this.getClass().getClassLoader()
-							.getResource("/templates/alert-mail-body.ftl")));
+							.getResource("/templates/alert-mail-copy-body-" + localeString + ".ftl")));
 			bodyTemplate = TemplateManagerUtil.getTemplate(
 					TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
 

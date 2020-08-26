@@ -14,7 +14,13 @@ Vous trouverez ci-dessous la liste des informations saisies.</p>
         <div class="wi-search-result wi-search-offer">
             <div class="seu-result-right">
                 <a class="seu-result-content">
-                    <h2 class="seu-result-title">${entry.getPost()}</h2>
+                    <h2 class="seu-result-title">
+                        <#if entry.getPost()?length &lt; 190>
+                            ${entry.getPost()}
+                        <#else>
+                            ${entry.getPost()?substring(0,189)} ...
+                        </#if>
+                    </h2>
                     <div class="seu-result-catcher">${entry.offerDirection.getTitle(locale)}
                         <#if entry.offerService??>
                         / ${entry.offerService.getTitle(locale)}
@@ -52,6 +58,10 @@ Vous trouverez ci-dessous la liste des informations saisies.</p>
 </#if>
 
 <style>
+    .offer-content-mail{
+        width: 1450px;
+    }
+
     .wi-search-result {
          width: 45%;
          padding-right: 5px;
