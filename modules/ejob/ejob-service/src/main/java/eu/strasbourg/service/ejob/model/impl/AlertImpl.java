@@ -18,10 +18,56 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+<<<<<<< Updated upstream
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+=======
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+>>>>>>> Stashed changes
+import com.liferay.portal.kernel.service.UserServiceUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.template.*;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.service.ejob.model.Alert;
+import eu.strasbourg.service.ejob.model.Offer;
+<<<<<<< Updated upstream
+=======
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+>>>>>>> Stashed changes
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.MailHelper;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+<<<<<<< Updated upstream
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+=======
+import java.io.StringWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+>>>>>>> Stashed changes
 
 /**
  * The extended model implementation for the Alert service. Represents a row in the &quot;ejob_Alert&quot; database table, with each column mapped to a property of this class.
@@ -34,6 +80,8 @@ import java.util.List;
  */
 @ProviderType
 public class AlertImpl extends AlertBaseImpl {
+
+	private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -60,6 +108,221 @@ public class AlertImpl extends AlertBaseImpl {
 	public List<AssetCategory> getCategories() {
 		return AssetVocabularyHelper
 				.getAssetEntryCategories(this.getAssetEntry());
+	}
+
+<<<<<<< Updated upstream
+	public boolean sendMail(List<Offer> listOffer, ActionRequest request, ActionResponse response) {
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+
+		// On récupère les informations du mail à envoyer
+		User alertUser = null;
+		try {
+			alertUser = UserServiceUtil.getUserById(this.getUserId());
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+		String emailTo = alertUser.getDisplayEmailAddress();
+=======
+	public boolean sendMail(List<Offer> listOffer) {
+
+		// On récupère les informations du mail à envoyer
+		PublikUser alertUser = PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikUserId());
+		String emailTo = alertUser.getEmail();
+>>>>>>> Stashed changes
+		String subject = "\"" + this.getName()+ "\" : " + listOffer.size() + "nouvelle(s) offre(s)";
+
+
+		// Validation
+		boolean hasError = false;
+		if (hasError) {
+			return false;
+		}
+
+		// Envoi du mail au service
+		Map<String, Object> context = new HashMap<>();
+<<<<<<< Updated upstream
+		context.put("website", themeDisplay.getScopeGroup().getName(request.getLocale()));
+=======
+>>>>>>> Stashed changes
+		context.put("content", listOffer);
+		if (subject != null && !subject.isEmpty())
+			context.put("subject", subject);
+
+		LocalDateTime dateTime = LocalDateTime.now();
+		String date = dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		String time = dateTime.format(DateTimeFormatter.ofPattern("hh:mm"));
+		context.put("date", date);
+		context.put("time", time);
+
+		TemplateResource templateResourceSubject;
+		TemplateResource templateResourceBody;
+		Template subjectTemplate;
+		Template bodyTemplate;
+		String mailSubject;
+		String mailBody;
+		StringWriter out;
+
+		boolean success = false;
+		try {
+
+			// Chargement du template contenant le sujet du mail
+			templateResourceSubject = new URLTemplateResource("0",
+					Objects.requireNonNull(this.getClass().getClassLoader()
+							.getResource("/templates/alert-mail-subject.ftl")));
+			subjectTemplate = TemplateManagerUtil.getTemplate(
+					TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
+
+			// Traitement du template sujet
+			out = new StringWriter();
+			subjectTemplate.putAll(context);
+			subjectTemplate.processTemplate(out);
+			mailSubject = out.toString();
+
+			//Chargement du template contenant le corps du mail
+			templateResourceBody = new URLTemplateResource("0",
+					Objects.requireNonNull(this.getClass().getClassLoader()
+							.getResource("/templates/alert-mail-body.ftl")));
+			bodyTemplate = TemplateManagerUtil.getTemplate(
+					TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+			// Traitement du template corps
+			out = new StringWriter();
+			bodyTemplate.putAll(context);
+			bodyTemplate.processTemplate(out);
+			mailBody = out.toString();
+
+<<<<<<< Updated upstream
+			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
+					themeDisplay.getScopeGroup().getName(request.getLocale()));
+=======
+			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu");
+>>>>>>> Stashed changes
+
+			InternetAddress[] toAddresses = new InternetAddress[0];
+			for (String toAddress : emailTo.split(",")) {
+				try {
+					InternetAddress address = new InternetAddress(toAddress);
+					toAddresses = ArrayUtil.append(toAddresses, address);
+				} catch (AddressException ex) {
+					log.error(ex);
+				}
+			}
+			success = MailHelper.sendMailWithHTML(fromAddress, toAddresses, mailSubject, mailBody);
+		} catch (Exception e) {
+			log.error(e);
+		}
+<<<<<<< Updated upstream
+		if (success) {
+			SessionMessages.add(request, "mail-success");
+		} else {
+			SessionErrors.add(request, "unknown-error");
+			return false;
+		}
+
+		// Envoi du mail au destinataire
+		boolean sendCopy = ParamUtil.getBoolean(request, "sendCopy");
+		if (sendCopy) {
+			ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
+=======
+		if (!success) {
+			return false;
+		}
+
+		boolean sendCopy = false;
+		if (sendCopy) {
+			Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId() , "/strasbourg.eu");
+			ExpandoBridge ed = group.getExpandoBridge();
+>>>>>>> Stashed changes
+			try {
+				String headerImage = GetterUtil.getString(ed.getAttribute("image_header_mail_contact"));
+				String footerImage = GetterUtil.getString(ed.getAttribute("image_footer_mail_contact"));
+				context.put("headerImage", headerImage);
+				context.put("footerImage", footerImage);
+			} catch (Exception ex) {
+				log.error("Missing expando field");
+			}
+
+			try {
+<<<<<<< Updated upstream
+				String locale = request.getLocale().toString();
+				if (!locale.equals("fr_FR") && !locale.equals("en_US") && !locale.equals("de_DE")) {
+					locale = "fr_FR";
+				}
+=======
+				Locale locale;
+				if (!this.getLanguage().equals("fr") && !this.getLanguage().equals("en") && !this.getLanguage().equals("de")) {
+					locale = Locale.FRANCE;
+				}
+				else{
+					locale = LocaleUtil.fromLanguageId(this.getLanguage());
+				}
+				String localeString = locale.toString();
+>>>>>>> Stashed changes
+
+				// Chargement du template contenant le sujet du mail
+				templateResourceSubject = new URLTemplateResource("0",
+						Objects.requireNonNull(this.getClass().getClassLoader()
+<<<<<<< Updated upstream
+								.getResource("/templates/alert-mail-copy-subject-" + request.getLocale().toString() + ".ftl")));
+=======
+								.getResource("/templates/alert-mail-copy-subject-" + localeString + ".ftl")));
+>>>>>>> Stashed changes
+				subjectTemplate = TemplateManagerUtil.getTemplate(
+						TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
+
+				// Traitement du template sujet
+				out = new StringWriter();
+				subjectTemplate.putAll(context);
+				subjectTemplate.processTemplate(out);
+				mailSubject = out.toString();
+
+				//Chargement du template contenant le corps du mail
+				templateResourceBody = new URLTemplateResource("0",
+						Objects.requireNonNull(this.getClass().getClassLoader()
+<<<<<<< Updated upstream
+								.getResource("/templates/alert-mail-copy-body-" + request.getLocale().toString() + ".ftl")));
+=======
+								.getResource("/templates/alert-mail-copy-body-" + localeString + ".ftl")));
+>>>>>>> Stashed changes
+				bodyTemplate = TemplateManagerUtil.getTemplate(
+						TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+				// Traitement du template corps
+				out = new StringWriter();
+				bodyTemplate.putAll(context);
+				bodyTemplate.processTemplate(out);
+				mailBody = out.toString();
+
+<<<<<<< Updated upstream
+				InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
+						themeDisplay.getScopeGroup().getName(request.getLocale()));
+=======
+				InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu");
+>>>>>>> Stashed changes
+				InternetAddress to = new InternetAddress(emailTo);
+				InternetAddress[] toAddresses = new InternetAddress[]{to};
+				MailHelper.sendMailWithHTML(fromAddress, toAddresses, mailSubject, mailBody);
+
+			} catch (Exception e) {
+				log.error(e);
+			}
+		}
+<<<<<<< Updated upstream
+
+		// Redirection (évite double requête POST si l'utilisateur actualise sa
+		// page)
+		String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
+		PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
+				PortletRequest.RENDER_PHASE);
+		renderUrl.setParameter("mailSent", "true");
+		try {
+			response.sendRedirect(renderUrl.toString());
+		} catch (IOException e) {
+			log.error(e);
+		}
+=======
+>>>>>>> Stashed changes
+		return true;
 	}
 
 }
