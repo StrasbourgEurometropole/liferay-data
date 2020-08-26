@@ -47,6 +47,8 @@
 		<column name="shareLinkedin" type="boolean" />
 		<column name="publicationStartDate" type="Date" />
 		<column name="publicationEndDate" type="Date" />
+		<column name="isExported" type="int" />
+		<column name="emailSend" type="int" />
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
@@ -55,6 +57,9 @@
 
 		<finder name="PublicationStartDate" return-type="Collection" db-index="true" >
 			<finder-column name="publicationStartDate" />
+		</finder>
+		<finder name="Export" return-type="Collection" db-index="true" >
+			<finder-column name="isExported" />
 		</finder>
 	</entity>
 

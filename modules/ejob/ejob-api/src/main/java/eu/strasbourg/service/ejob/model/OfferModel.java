@@ -1568,6 +1568,34 @@ public interface OfferModel
 	public void setPublicationEndDate(Date publicationEndDate);
 
 	/**
+	 * Returns the is exported of this offer.
+	 *
+	 * @return the is exported of this offer
+	 */
+	public int getIsExported();
+
+	/**
+	 * Sets the is exported of this offer.
+	 *
+	 * @param isExported the is exported of this offer
+	 */
+	public void setIsExported(int isExported);
+
+	/**
+	 * Returns the email send of this offer.
+	 *
+	 * @return the email send of this offer
+	 */
+	public int getEmailSend();
+
+	/**
+	 * Sets the email send of this offer.
+	 *
+	 * @param emailSend the email send of this offer
+	 */
+	public void setEmailSend(int emailSend);
+
+	/**
 	 * Returns <code>true</code> if this offer is approved.
 	 *
 	 * @return <code>true</code> if this offer is approved; <code>false</code> otherwise

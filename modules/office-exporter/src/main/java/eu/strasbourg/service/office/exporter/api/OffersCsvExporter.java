@@ -8,8 +8,6 @@ import java.util.List;
 @ProviderType
 public interface OffersCsvExporter {
 
-	public void exportOffers();
-
-	public void exportOffers(List<Offer> offers);
+	public boolean exportOffers(List<Offer> offers);
 	
 }

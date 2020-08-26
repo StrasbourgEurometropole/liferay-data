@@ -227,12 +227,21 @@ public class OfferLocalServiceUtil {
 	}
 
 	/**
-	 * Retourne une offre via sa date de début de publication
+	 * Retourne les offres via sa date de début de publication
 	 */
 	public static java.util.List<eu.strasbourg.service.ejob.model.Offer>
 		findByPublicationStartDate(java.util.Date date) {
 
 		return getService().findByPublicationStartDate(date);
+	}
+
+	/**
+	 * Retourne les offres qui n'ont pas été exportées
+	 */
+	public static java.util.List<eu.strasbourg.service.ejob.model.Offer>
+		findOffersNotExported() {
+
+		return getService().findOffersNotExported();
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery

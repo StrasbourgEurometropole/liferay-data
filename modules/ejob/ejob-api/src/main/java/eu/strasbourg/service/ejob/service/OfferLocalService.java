@@ -202,9 +202,14 @@ public interface OfferLocalService
 	public long findByKeywordCount(String keyword, long groupId);
 
 	/**
-	 * Retourne une offre via sa date de début de publication
+	 * Retourne les offres via sa date de début de publication
 	 */
 	public List<Offer> findByPublicationStartDate(Date date);
+
+	/**
+	 * Retourne les offres qui n'ont pas été exportées
+	 */
+	public List<Offer> findOffersNotExported();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

@@ -1,8 +1,6 @@
 package eu.strasbourg.service.ejob.scheduler;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
@@ -11,7 +9,6 @@ import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.SchedulerEntry;
 import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
-import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import com.liferay.portal.kernel.search.Document;
@@ -33,12 +30,12 @@ import org.osgi.service.component.annotations.Reference;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * Envoi un email aux utilisateurs ayant créé une alerte sur des offres
@@ -79,7 +76,8 @@ public class NotificationOffreMessageListener
 		String classNames = Offer.class.getName();
 
 		// Champ date
-		LocalDateTime atDate = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
+		LocalDateTime now = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
+		Date today = Timestamp.valueOf(now);
 
 		List<Alert> alerts = _alertLocalService.getAlerts(-1, -1);
 		for (Alert alert : alerts) {
@@ -97,7 +95,7 @@ public class NotificationOffreMessageListener
 			Locale locale = LocaleUtil.fromLanguageId(alert.getLanguage());
 
 			Hits hits = SearchHelper.getOfferWebServiceSearchHits(classNames, categoriesIds,
-					keywords, atDate, locale);
+					keywords, locale);
 
 			if (hits != null) {
 				int i = 0;
@@ -113,8 +111,21 @@ public class NotificationOffreMessageListener
 						offers.add(offer);
 					}
 				}
+
+				// on ne garde que les offres qui n'ont pas encore été envoyées (emailSend=0) qui sont ouvertes (publicationStartDate) et qui ne sont pas finies
+				offers = offers.stream()
+						.filter(o -> o.getEmailSend() == 0)
+						.filter(o -> o.getPublicationStartDate().compareTo(today) <= 0)
+						.filter(o -> o.getPublicationEndDate().after(today))
+						.collect(Collectors.toList());
+
 				if(offers.size() > 0)
-					alert.sendMail(offers);
+					if(alert.sendMail(offers)){
+						for (Offer offer : offers) {
+							offer.setEmailSend(1);
+							_offerLocalService.updateOffer(offer);
+						}
+					}
 			}
 		}
 	}

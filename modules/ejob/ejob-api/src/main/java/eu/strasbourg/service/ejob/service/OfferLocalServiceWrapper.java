@@ -227,13 +227,23 @@ public class OfferLocalServiceWrapper
 	}
 
 	/**
-	 * Retourne une offre via sa date de début de publication
+	 * Retourne les offres via sa date de début de publication
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.ejob.model.Offer>
 		findByPublicationStartDate(java.util.Date date) {
 
 		return _offerLocalService.findByPublicationStartDate(date);
+	}
+
+	/**
+	 * Retourne les offres qui n'ont pas été exportées
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.ejob.model.Offer>
+		findOffersNotExported() {
+
+		return _offerLocalService.findOffersNotExported();
 	}
 
 	@Override

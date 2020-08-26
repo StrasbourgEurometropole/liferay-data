@@ -64,7 +64,7 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(71);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -132,6 +132,10 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		sb.append(publicationStartDate);
 		sb.append(", publicationEndDate=");
 		sb.append(publicationEndDate);
+		sb.append(", isExported=");
+		sb.append(isExported);
+		sb.append(", emailSend=");
+		sb.append(emailSend);
 		sb.append("}");
 
 		return sb.toString();
@@ -328,6 +332,9 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 			offerImpl.setPublicationEndDate(new Date(publicationEndDate));
 		}
 
+		offerImpl.setIsExported(isExported);
+		offerImpl.setEmailSend(emailSend);
+
 		offerImpl.resetOriginalValues();
 
 		return offerImpl;
@@ -376,6 +383,10 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		shareLinkedin = objectInput.readBoolean();
 		publicationStartDate = objectInput.readLong();
 		publicationEndDate = objectInput.readLong();
+
+		isExported = objectInput.readInt();
+
+		emailSend = objectInput.readInt();
 	}
 
 	@Override
@@ -532,6 +543,10 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		objectOutput.writeBoolean(shareLinkedin);
 		objectOutput.writeLong(publicationStartDate);
 		objectOutput.writeLong(publicationEndDate);
+
+		objectOutput.writeInt(isExported);
+
+		objectOutput.writeInt(emailSend);
 	}
 
 	public String uuid;
@@ -567,5 +582,7 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 	public boolean shareLinkedin;
 	public long publicationStartDate;
 	public long publicationEndDate;
+	public int isExported;
+	public int emailSend;
 
 }

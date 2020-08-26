@@ -91,6 +91,8 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 		attributes.put("shareLinkedin", isShareLinkedin());
 		attributes.put("publicationStartDate", getPublicationStartDate());
 		attributes.put("publicationEndDate", getPublicationEndDate());
+		attributes.put("isExported", getIsExported());
+		attributes.put("emailSend", getEmailSend());
 
 		return attributes;
 	}
@@ -297,6 +299,18 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 
 		if (publicationEndDate != null) {
 			setPublicationEndDate(publicationEndDate);
+		}
+
+		Integer isExported = (Integer)attributes.get("isExported");
+
+		if (isExported != null) {
+			setIsExported(isExported);
+		}
+
+		Integer emailSend = (Integer)attributes.get("emailSend");
+
+		if (emailSend != null) {
+			setEmailSend(emailSend);
 		}
 	}
 
@@ -683,6 +697,16 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 		return _offer.getEmails();
 	}
 
+	/**
+	 * Returns the email send of this offer.
+	 *
+	 * @return the email send of this offer
+	 */
+	@Override
+	public int getEmailSend() {
+		return _offer.getEmailSend();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _offer.getExpandoBridge();
@@ -857,6 +881,16 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	@Override
 	public Map<java.util.Locale, String> getIntroductionMap() {
 		return _offer.getIntroductionMap();
+	}
+
+	/**
+	 * Returns the is exported of this offer.
+	 *
+	 * @return the is exported of this offer
+	 */
+	@Override
+	public int getIsExported() {
+		return _offer.getIsExported();
 	}
 
 	/**
@@ -1973,6 +2007,16 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 		_offer.setEmails(emails);
 	}
 
+	/**
+	 * Sets the email send of this offer.
+	 *
+	 * @param emailSend the email send of this offer
+	 */
+	@Override
+	public void setEmailSend(int emailSend) {
+		_offer.setEmailSend(emailSend);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(
 		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
@@ -2135,6 +2179,16 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 		java.util.Locale defaultLocale) {
 
 		_offer.setIntroductionMap(introductionMap, defaultLocale);
+	}
+
+	/**
+	 * Sets the is exported of this offer.
+	 *
+	 * @param isExported the is exported of this offer
+	 */
+	@Override
+	public void setIsExported(int isExported) {
+		_offer.setIsExported(isExported);
 	}
 
 	/**

@@ -50,5 +50,7 @@ create table ejob_Offer (
 	emails VARCHAR(75) null,
 	shareLinkedin BOOLEAN,
 	publicationStartDate DATE null,
-	publicationEndDate DATE null
+	publicationEndDate DATE null,
+	isExported INTEGER,
+	emailSend INTEGER
 );

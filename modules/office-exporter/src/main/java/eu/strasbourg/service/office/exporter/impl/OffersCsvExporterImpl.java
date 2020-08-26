@@ -9,13 +9,11 @@ import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.ejob.model.Offer;
-import eu.strasbourg.service.ejob.service.OfferLocalService;
 import eu.strasbourg.service.office.exporter.api.OffersCsvExporter;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,11 +21,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 @Component(
 	immediate = true,
@@ -39,24 +35,7 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 	private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
 			this.getClass().getClassLoader());
 
-	@Override
-	public void exportOffers() {
-
-		// Recuperation des offres
-		List <Offer> offers = this._offerLocalService.getOffers(-1, -1);
-
-		// ne prend pas les stages ni les apprentissages
-		// ne prend que les offres dont la date du jour est comprise  entre le début et la fin de la date de publication
-		Date now = new Date();
-		offers = offers.stream()
-				.filter(o -> !o.getOfferTypeRecrutement().getName().equals("Stage") && !o.getOfferTypeRecrutement().getName().equals("Apprentissage"))
-				.filter(o -> o.getPublicationStartDate().before(now) && o.getPublicationEndDate().after(now))
-				.collect(Collectors.toList());
-		
-		this.exportOffers(offers);
-	}
-
-	public void exportOffers(List <Offer> offers) {
+	public boolean exportOffers(List <Offer> offers) {
 		StringBundler csv = new StringBundler(); // StringBuilder du CSV
 
 		// Le début est le même pour les deux modes
@@ -112,13 +91,13 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 			int replyCode = ftpClient.getReplyCode();
 			if (!FTPReply.isPositiveCompletion(replyCode)) {
 				log.error("Accès au serveur refusé. Code de l'erreur: " + replyCode);
-				return;
+				return false;
 			}
 			boolean success = ftpClient.login(user, password);
 			showServerReply(ftpClient);
 			if (!success) {
 				log.error("Connexion au serveur échoué.");
-				return;
+				return false;
 			} else {
 				ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
 				FileInputStream fileIS= new FileInputStream(fileName );
@@ -128,7 +107,10 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 			ftpClient.logout();
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
+
+		return true;
 
 	}
 
@@ -142,11 +124,4 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 	}
 
 	Log log = LogFactoryUtil.getLog(this.getClass());
-
-	@Reference(unbind = "-")
-	protected void setOfferLocalService(OfferLocalService offerLocalService) {
-		this._offerLocalService = offerLocalService;
-	}
-
-	private OfferLocalService _offerLocalService;
 }

@@ -708,6 +708,172 @@ public class OfferUtil {
 	}
 
 	/**
+	 * Returns all the offers where isExported = &#63;.
+	 *
+	 * @param isExported the is exported
+	 * @return the matching offers
+	 */
+	public static List<Offer> findByExport(int isExported) {
+		return getPersistence().findByExport(isExported);
+	}
+
+	/**
+	 * Returns a range of all the offers where isExported = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param isExported the is exported
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @return the range of matching offers
+	 */
+	public static List<Offer> findByExport(int isExported, int start, int end) {
+		return getPersistence().findByExport(isExported, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the offers where isExported = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param isExported the is exported
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching offers
+	 */
+	public static List<Offer> findByExport(
+		int isExported, int start, int end,
+		OrderByComparator<Offer> orderByComparator) {
+
+		return getPersistence().findByExport(
+			isExported, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the offers where isExported = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param isExported the is exported
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching offers
+	 */
+	public static List<Offer> findByExport(
+		int isExported, int start, int end,
+		OrderByComparator<Offer> orderByComparator, boolean retrieveFromCache) {
+
+		return getPersistence().findByExport(
+			isExported, start, end, orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	 * Returns the first offer in the ordered set where isExported = &#63;.
+	 *
+	 * @param isExported the is exported
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching offer
+	 * @throws NoSuchOfferException if a matching offer could not be found
+	 */
+	public static Offer findByExport_First(
+			int isExported, OrderByComparator<Offer> orderByComparator)
+		throws eu.strasbourg.service.ejob.exception.NoSuchOfferException {
+
+		return getPersistence().findByExport_First(
+			isExported, orderByComparator);
+	}
+
+	/**
+	 * Returns the first offer in the ordered set where isExported = &#63;.
+	 *
+	 * @param isExported the is exported
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching offer, or <code>null</code> if a matching offer could not be found
+	 */
+	public static Offer fetchByExport_First(
+		int isExported, OrderByComparator<Offer> orderByComparator) {
+
+		return getPersistence().fetchByExport_First(
+			isExported, orderByComparator);
+	}
+
+	/**
+	 * Returns the last offer in the ordered set where isExported = &#63;.
+	 *
+	 * @param isExported the is exported
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching offer
+	 * @throws NoSuchOfferException if a matching offer could not be found
+	 */
+	public static Offer findByExport_Last(
+			int isExported, OrderByComparator<Offer> orderByComparator)
+		throws eu.strasbourg.service.ejob.exception.NoSuchOfferException {
+
+		return getPersistence().findByExport_Last(
+			isExported, orderByComparator);
+	}
+
+	/**
+	 * Returns the last offer in the ordered set where isExported = &#63;.
+	 *
+	 * @param isExported the is exported
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching offer, or <code>null</code> if a matching offer could not be found
+	 */
+	public static Offer fetchByExport_Last(
+		int isExported, OrderByComparator<Offer> orderByComparator) {
+
+		return getPersistence().fetchByExport_Last(
+			isExported, orderByComparator);
+	}
+
+	/**
+	 * Returns the offers before and after the current offer in the ordered set where isExported = &#63;.
+	 *
+	 * @param offerId the primary key of the current offer
+	 * @param isExported the is exported
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next offer
+	 * @throws NoSuchOfferException if a offer with the primary key could not be found
+	 */
+	public static Offer[] findByExport_PrevAndNext(
+			long offerId, int isExported,
+			OrderByComparator<Offer> orderByComparator)
+		throws eu.strasbourg.service.ejob.exception.NoSuchOfferException {
+
+		return getPersistence().findByExport_PrevAndNext(
+			offerId, isExported, orderByComparator);
+	}
+
+	/**
+	 * Removes all the offers where isExported = &#63; from the database.
+	 *
+	 * @param isExported the is exported
+	 */
+	public static void removeByExport(int isExported) {
+		getPersistence().removeByExport(isExported);
+	}
+
+	/**
+	 * Returns the number of offers where isExported = &#63;.
+	 *
+	 * @param isExported the is exported
+	 * @return the number of matching offers
+	 */
+	public static int countByExport(int isExported) {
+		return getPersistence().countByExport(isExported);
+	}
+
+	/**
 	 * Caches the offer in the entity cache if it is enabled.
 	 *
 	 * @param offer the offer

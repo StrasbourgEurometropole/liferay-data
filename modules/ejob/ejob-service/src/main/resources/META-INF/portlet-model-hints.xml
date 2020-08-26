@@ -75,5 +75,7 @@
 		<field name="shareLinkedin" type="boolean" />
 		<field name="publicationStartDate" type="Date" />
 		<field name="publicationEndDate" type="Date" />
+		<field name="isExported" type="int" />
+		<field name="emailSend" type="int" />
 	</model>
 </model-hints>

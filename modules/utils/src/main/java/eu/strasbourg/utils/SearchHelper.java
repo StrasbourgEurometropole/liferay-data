@@ -956,14 +956,13 @@ public class SearchHelper {
 	 * Retourne les Hits correspondant aux paramètres pour le webservice des
 	 * offres
 	 */
-	public static Hits getOfferWebServiceSearchHits(String className, long[] categoriesIds, String keywords,
-													LocalDateTime atDate, Locale locale) {
+	public static Hits getOfferWebServiceSearchHits(String className, long[] categoriesIds, String keywords, Locale locale) {
 		try {
 			SearchContext searchContext = new SearchContext();
 			searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
 
 			// Query
-			Query query = SearchHelper.getOfferWebServiceQuery(className, categoriesIds, keywords, atDate, locale);
+			Query query = SearchHelper.getOfferWebServiceQuery(className, categoriesIds, keywords, locale);
 
 			// Recherche
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
@@ -978,25 +977,13 @@ public class SearchHelper {
 	/**
 	 * Retourne la requête pour le webservice des offres
 	 */
-	private static Query getOfferWebServiceQuery(String className, long[] categoriesIds, String keywords,
-												 LocalDateTime atDate, Locale locale) {
+	private static Query getOfferWebServiceQuery(String className, long[] categoriesIds, String keywords, Locale locale) {
 
 		try {
 			BooleanQuery query = new BooleanQueryImpl();
 
 			query.addRequiredTerm(Field.ENTRY_CLASS_NAME, className, false);
 			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
-
-
-			// Dates
-			BooleanQuery startDateQuery = new BooleanQueryImpl();
-
-			String atDateString = String.format("%04d", atDate.getYear())
-					+ String.format("%02d", atDate.getMonth().getValue())
-					+ String.format("%02d", atDate.getDayOfMonth()) + "000000";
-
-			startDateQuery.addTerm("startDate", atDateString);
-			query.add(startDateQuery, BooleanClauseOccur.MUST);
 
 			// Mots-clés
 			if (Validator.isNotNull(keywords)) {

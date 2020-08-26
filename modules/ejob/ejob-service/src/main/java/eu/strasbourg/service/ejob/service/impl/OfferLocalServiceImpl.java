@@ -311,10 +311,18 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Retourne une offre via sa date de début de publication
+	 * Retourne les offres via sa date de début de publication
 	 */
 	@Override
 	public List<Offer> findByPublicationStartDate(Date date) {
 		return this.offerPersistence.findByPublicationStartDate(date);
+	}
+
+	/**
+	 * Retourne les offres qui n'ont pas été exportées
+	 */
+	@Override
+	public List<Offer> findOffersNotExported() {
+		return this.offerPersistence.findByExport(1);
 	}
 }
