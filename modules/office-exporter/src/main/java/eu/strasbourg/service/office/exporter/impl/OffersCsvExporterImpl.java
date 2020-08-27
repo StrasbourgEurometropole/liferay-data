@@ -50,7 +50,7 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 
 		// On construit notre CSV à partir de la liste des offres
 		for (Offer offer : offers) {
-			String url = "http://vm19012:8080/web/strasbourg.eu/test-azc/-/entity/id/" + offer.getOfferId();
+			String url = StrasbourgPropsUtil.getEJobURLOffer() + offer.getOfferId();
 			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
 			String startDate = dateFormat.format(offer.getPublicationStartDate());
 			String endDate = dateFormat.format(offer.getPublicationEndDate());
@@ -75,20 +75,15 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 		}
 
 		try {
-			String host = "s17st";
-			int port = 21;
-			String user = "testuser";
-			String password = "ejobsully";
-
 			FTPClient ftpClient = new FTPClient();
-			ftpClient.connect(host, port);
+			ftpClient.connect(StrasbourgPropsUtil.getEJobFTPHost(), Integer.parseInt(StrasbourgPropsUtil.getEJobFTPPort()));
 			showServerReply(ftpClient);
 			int replyCode = ftpClient.getReplyCode();
 			if (!FTPReply.isPositiveCompletion(replyCode)) {
 				log.error("Accès au serveur refusé. Code de l'erreur: " + replyCode);
 				return false;
 			}
-			boolean success = ftpClient.login(user, password);
+			boolean success = ftpClient.login(StrasbourgPropsUtil.getEJobFTPUser(), StrasbourgPropsUtil.getEJobFTPPassword());
 			showServerReply(ftpClient);
 			if (!success) {
 				log.error("Connexion au serveur échoué.");

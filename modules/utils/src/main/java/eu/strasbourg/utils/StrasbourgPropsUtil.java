@@ -299,4 +299,13 @@ public class StrasbourgPropsUtil {
 
 	public static String getGMBEmail() {return PropsUtil.get("eu.strasbourg.google.synchronized.report.mail");}
 
+	public static String getEJobURLOffer() {return PropsUtil.get("ejob.ftp.url.offer");}
+
+	public static String getEJobFTPHost() {return PropsUtil.get("ejob.ftp.host");}
+
+	public static String getEJobFTPPort() {return PropsUtil.get("ejob.ftp.port");}
+
+	public static String getEJobFTPUser() {return PropsUtil.get("ejob.ftp.user");}
+
+	public static String getEJobFTPPassword() {return PropsUtil.get("ejob.ftp.password");}
 }

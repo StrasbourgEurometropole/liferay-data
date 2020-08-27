@@ -72,7 +72,7 @@
                         <liferay-ui:message key="this-field-is-required" />
                     </div>
 
-                <%-- Champ : Export vers TOTEM --%>
+                <%-- Champ : Interne/Externe --%>
                 <div id="typeExportTotem">
                     <label><liferay-ui:message key="ejob-interne-externe" /></label><br>
                     <aui:input type="radio" value="interne" name="interneExterne" label="Interne"
@@ -95,7 +95,8 @@
 
                 <%-- Champ : Si contrat permanent
                 Ajout champ texte pré saisie « fonctionnaire ou à défaut contractuel »--%>
-                     <aui:input name="permanentDescription" required="false" placeHolder="fonctionnaire ou à défaut contractuel"/>
+                     <c:set var="permanentDescriptionValue"><liferay-ui:message key='ejob-permanent-description-value' /></c:set>
+                     <aui:input type="text" name="permanentDescription" required="false" value="${permanentDescriptionValue}" />
 
                 <%-- Champ : Durée du contrat  --%>
                      <aui:input name="duration" required="false" />

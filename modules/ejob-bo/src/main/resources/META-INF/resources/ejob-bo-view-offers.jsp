@@ -62,14 +62,40 @@
 					orderable="true" value="${offer.publicationId}" />
 
                 <!-- Colonne : type d'export' -->
+               <c:set var="isExported" value=""/>
+                <c:choose>
+                   <c:when test="${offer.isExported==0}">
+                       <c:set var="isExported"><liferay-ui:message key='ejob-not-concerned' /></c:set>
+                   </c:when>
+                   <c:when test="${offer.isExported==1}">
+                       <c:set var="isExported"><liferay-ui:message key='ejob-not-exported' /></c:set>
+                   </c:when>
+                   <c:otherwise>
+                       <c:set var="isExported"><liferay-ui:message key='ejob-exported' /></c:set>
+                   </c:otherwise>
+                </c:choose>
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="ejob-export-totem" truncate="true"
-					orderable="true" value="${offer.isExported}" />
+					orderable="true" value="${isExported}" />
 
                 <!-- Colonne : intitulé du post -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="post" truncate="true"
 					orderable="true" value="${offer.post}" />
+
+                <!-- Colonne : date de début de publication -->
+				<fmt:formatDate value="${offer.publicationStartDate}"
+					var="formattedPublicationStartDate" type="date" pattern="dd/MM/yyyy" />
+				<liferay-ui:search-container-column-text cssClass="content-column"
+					name="publication-date" truncate="true"
+					orderable="true" value="${formattedPublicationStartDate}" />
+
+                <!-- Colonne : date de modification -->
+				<fmt:formatDate value="${offer.modifiedDate}"
+					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy" />
+				<liferay-ui:search-container-column-text cssClass="content-column"
+					name="modified-date" truncate="true"
+					orderable="true" value="${formattedModifiedDate}" />
 
                 <!-- Colonne : statut -->
 				<liferay-ui:search-container-column-text name="status">
