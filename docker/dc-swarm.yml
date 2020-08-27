@@ -62,6 +62,11 @@ services:
         - PMA_HOST=${MYSQL_ADDRESS}
     ports:
         - 8081:80
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
     deploy:
       placement:
         constraints: [node.role == worker]
