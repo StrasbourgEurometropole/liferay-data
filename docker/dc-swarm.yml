@@ -11,9 +11,9 @@ services:
 # --- For docker-compose (without Swarm mode) ----
 #      - bootstrap.memory_lock=true
       - cluster.name=LiferayElasticsearchCluster
+      - network.host=0.0.0.0
+      - network.publish_host=elasticsearch
       - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
-      - "network.host=0.0.0.0"
-      - network.publish_host=${ELASTICSEARCH_ADDRESS}
     ulimits:
       memlock:
         soft: -1
