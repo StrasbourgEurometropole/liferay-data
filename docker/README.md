@@ -129,7 +129,6 @@ Images à créer :
 
 Créer et remplir le fichier `./.env` suivant où :
  * `DATA_PATH` est le chemin vers le repertoire de persistance monté en NFS
- * `ENV` est l'environnement courant ("prod" / "preprod" / "recette")
  * `LFR_TAG_VERSION` est la version de l'image Liferay
  * `MYSQL_ADDRESS` est l'addresse de connexion à MySQL en prenant en compte, de préférence,  le port
  * `MYSQL_DB` est le nom de la base MySQL utilisé par Liferay
@@ -141,7 +140,6 @@ Créer et remplir le fichier `./.env` suivant où :
 
 ```properties
 DATA_PATH=
-ENV=
 LFR_TAG_VERSION=init
 MYSQL_ADDRESS=
 MYSQL_DB=
