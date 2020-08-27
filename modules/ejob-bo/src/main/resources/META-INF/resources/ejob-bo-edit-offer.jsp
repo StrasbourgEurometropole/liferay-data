@@ -54,7 +54,7 @@
 			<aui:input name="offerId" type="hidden" />
 
 			<%-- Groupe de champs : Generalites --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="general">
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=false%>">
 
                 <%-- Champ : Numero de publication --%>
                     <aui:input name="publicationId" id="publicationId" required="false"/>
@@ -293,10 +293,10 @@
                      <aui:input name="shareLinkedin" required="false" />
 
                 <%-- Champ : Date de début de publication d’une offre (programmation) --%>
-                     <aui:input name="publicationStartDate" required="false" />
+                     <aui:input name="publicationStartDate" required="true" />
 
                 <%-- Champ : Date de fin de publication d’une offre (programmation) --%>
-                     <aui:input name="publicationEndDate" required="false" />
+                     <aui:input name="publicationEndDate" required="true" />
 
             </aui:fieldset>
 
