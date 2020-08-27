@@ -96,10 +96,10 @@ var contact = document.getElementById(namespace + "contact");
 var emails = document.getElementById(namespace + "emails");
 var shareLinkedin = document.getElementById(namespace + "shareLinkedin");
 // gestion de l'affichage des champs en fonction du type d'export
-var typesExport = document.querySelectorAll('input[name=' + namespace + 'exportTotem]');
+var typesExport = document.querySelectorAll('input[name=' + namespace + 'interneExterne]');
 function changeHandlerExport(event) {
     postNumber.parentNode.style.display="none";
-    if(document.querySelector('input[name="' + namespace + 'exportTotem"]:checked').value === "interne"){
+    if(document.querySelector('input[name="' + namespace + 'interneExterne"]:checked').value === "Interne"){
         ejobContact.parentNode.style.display="block";
         contact.parentNode.style.display="block";
         emails.parentNode.style.display="block";
@@ -200,7 +200,7 @@ function setFiliereConditionalValidators(event) {
             rules[namespace + 'ejobFiliere'].required = true;
             rules[namespace + 'ejobCategorie'].required = true;
             rules[namespace + 'ejobGrade'].required = true;
-            var isInterne = document.querySelector('input[name="' + namespace + 'exportTotem"]:checked').value === "interne";
+            var isInterne = document.querySelector('input[name="' + namespace + 'interneExterne"]:checked').value === "Interne";
             if(isInterne){
                 rules[namespace + 'contact'].required = true;
             }else{
