@@ -86,13 +86,13 @@ services:
       - LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_ADDRESS=test@liferay.com
       - LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_NAME=Admin Liferay
     volumes:
-      - ./configs/liferay-ems-swarm:/mnt/liferay
+      - ./configs/liferay-ems:/mnt/liferay
       - ${DATA_PATH}/liferay/doclib:/data/liferay/document_library
       - ${DATA_PATH}/liferay/javamelody:/data/javamelody
       - ${DATA_PATH}/liferay/import/agenda:/data/import/agenda
       - ${DATA_PATH}/liferay/import/gtfs:/data/import/gtfs
-      - ${DATA_PATH}/liferay/logs/liferay:/opt/liferay/logs
-      - ${DATA_PATH}/liferay/logs/tomcat:/opt/liferay/tomcat/logs
+      - ${DATA_PATH}/liferay/logs/active/liferay:/opt/liferay/logs
+      - ${DATA_PATH}/liferay/logs/active/tomcat:/opt/liferay/tomcat/logs
     ports:
       - 8080:8080
       - 8009:8009
@@ -131,13 +131,13 @@ services:
       - LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_NAME=Admin Liferay
       - LIFERAY_SCHEDULER_PERIOD_ENABLED=false
     volumes:
-      - ./configs/liferay-ems-swarm:/mnt/liferay
+      - ./configs/liferay-ems:/mnt/liferay
       - ${DATA_PATH}/liferay/doclib:/data/liferay/document_library
       - ${DATA_PATH}/liferay/javamelody:/data/javamelody
       - ${DATA_PATH}/liferay/import/agenda:/data/import/agenda
       - ${DATA_PATH}/liferay/import/gtfs:/data/import/gtfs
-      - ${DATA_PATH}/liferay/logs/liferay:/opt/liferay/logs
-      - ${DATA_PATH}/liferay/logs/tomcat:/opt/liferay/tomcat/logs
+      - ${DATA_PATH}/liferay/logs/backup/liferay:/opt/liferay/logs
+      - ${DATA_PATH}/liferay/logs/backup/tomcat:/opt/liferay/tomcat/logs
     ports:
       - 9080:8080
       - 9009:8009
