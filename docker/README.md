@@ -127,34 +127,39 @@ Images à créer :
         * `files/osgi/war/liferay-javamelody-hook-1.82.0.0.war` librairie javamelody (@see https://github.com/javamelody/javamelody/wiki/LiferayPlugin).
         * `scripts/wait-for-dependencies.sh` script lancé avant le serveur permettant d'attendre les dépendances MySQL et ElasticSearch
 
-Créer et remplir le fichier `./.env` suivant :
+Créer et remplir le fichier `./.env` suivant où :
+ * `DATA_PATH` est le chemin vers le repertoire de persistance monté en NFS
+ * `CUR_ENV` est l'environnement courant ("prod" / "preprod" / "recette")
+ * `LFR_TAG_VERSION` est la version de l'image Liferay
+ * `MYSQL_ADDRESS` est l'addresse de connexion à MySQL en prenant en compte, de préférence,  le port
+ * `MYSQL_DB` est le nom de la base MySQL utilisé par Liferay
+ * `MYSQL_USER` est l'utilisateur MySQL dédié à Liferay
+ * `MYSQL_PASSWORD` est le mot de passe de l'utilisateur MySQL dédié à Liferay
+ * `VM_MASTER_SMTP_ADDRESS` est l'adresse du serveur SMTP de la VM master (au sens Docker)
+ * `VM_WORKER_SMTP_ADDRESS` est l'adresse du serveur SMTP de la VM slave (au sens Docker)
+ * `TRAIL_MAIL_ADDRESS` est l'email de copie de tous les mails provenant du serveur SMTP (**A NE PAS REMPLIR EN PRODUCTION !**)
 
 ```properties
-# Chemin vers le repertoire de persistance
-DATA_PATH=/var/local
-
-# Version de l'imgage Liferay
+DATA_PATH=
+CUR_ENV=
 LFR_TAG_VERSION=init
-
-# Connection MySQL
 MYSQL_ADDRESS=
 MYSQL_DB=
 MYSQL_USER=
 MYSQL_PASSWORD=
-
-# Adresses des VM
-VM_MASTER_ADDRESS=
-VM_WORKER_ADDRESS=
-
-# Connections au serveur SMTP
+ELASTICSEARCH_ADDRESS=
 VM_MASTER_SMTP_ADDRESS=
 VM_WORKER_SMTP_ADDRESS=
-
-# Email de copie de tous les mails provenant du serveur SMTP
 TRAIL_MAIL_ADDRESS=
 ```
 
 ## Exécution
+
+Exporter les variables d'environnement du fichier `.env` :
+
+```shell
+$ export $(cat .env)
+```
 
 Pour lancer la totalité des services, lancer la commande :
 
