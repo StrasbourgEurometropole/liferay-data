@@ -91,7 +91,7 @@ services:
       - LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_ADDRESS=test@liferay.com
       - LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_NAME=Admin Liferay
     volumes:
-      - ./configs/liferay-ems/${CUR_ENV}:/mnt/liferay
+      - ./configs/liferay-ems/${ENV}:/mnt/liferay
       - ${DATA_PATH}/liferay/doclib:/data/liferay/document_library
       - ${DATA_PATH}/liferay/javamelody:/data/javamelody
       - ${DATA_PATH}/liferay/import/agenda:/data/import/agenda
@@ -136,7 +136,7 @@ services:
       - LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_NAME=Admin Liferay
       - LIFERAY_SCHEDULER_PERIOD_ENABLED=false
     volumes:
-      - ./configs/liferay-ems/${CUR_ENV}:/mnt/liferay
+      - ./configs/liferay-ems/${ENV}:/mnt/liferay
       - ${DATA_PATH}/liferay/doclib:/data/liferay/document_library
       - ${DATA_PATH}/liferay/javamelody:/data/javamelody
       - ${DATA_PATH}/liferay/import/agenda:/data/import/agenda
