@@ -270,9 +270,9 @@ public class AssetVocabularyAccessor {
 		}
 	}
 
-	public static AssetVocabulary getEJobExportTotem(long groupID) {
+	public static AssetVocabulary getEJobInterneExterne(long groupID) {
 		try {
-			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_EXPORT_TOTEM, groupID);
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_INTERNE_EXTERNE, groupID);
 		} catch (Exception e) {
 			return null;
 		}

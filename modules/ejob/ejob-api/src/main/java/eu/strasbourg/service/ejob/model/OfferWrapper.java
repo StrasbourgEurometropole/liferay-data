@@ -712,11 +712,6 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 		return _offer.getExpandoBridge();
 	}
 
-	@Override
-	public String getExportTotem() {
-		return _offer.getExportTotem();
-	}
-
 	/**
 	 * Returns the full time description of this offer.
 	 *
@@ -805,6 +800,11 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	@Override
 	public long getGroupId() {
 		return _offer.getGroupId();
+	}
+
+	@Override
+	public String getInterneExterne() {
+		return _offer.getInterneExterne();
 	}
 
 	/**

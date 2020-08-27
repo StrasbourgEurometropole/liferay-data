@@ -211,11 +211,11 @@ public class OfferImpl extends OfferBaseImpl {
 		return null;
 	}
 
-	public String getExportTotem(){
+	public String getInterneExterne(){
 		List<AssetCategory> list = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.EJOB_EXPORT_TOTEM);
+				VocabularyNames.EJOB_INTERNE_EXTERNE);
 		if(!list.isEmpty()){
-			return list.get(0).getTitle(Locale.FRANCE).toLowerCase();
+			return list.get(0).getTitle(Locale.FRANCE);
 		}
 		return null;
 	}

@@ -56,7 +56,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
 
     private long offerId;
     private String typeRecrutementString;
-    private String exportTotem;
+    private String interneExterne;
     // Défini le format de date à utiliser pour les champs temporels
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -204,9 +204,9 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                 // Champ : exportTotem
                 long groupId = themeDisplay.getLayout().getGroupId();
 
-                AssetVocabulary listExportTotem = AssetVocabularyAccessor.getEJobExportTotem(groupId);
-                for (AssetCategory export : listExportTotem.getCategories()) {
-                    if (export.getTitle(Locale.FRANCE).toLowerCase().equals(this.exportTotem)) {
+                AssetVocabulary listInterneExterne = AssetVocabularyAccessor.getEJobInterneExterne(groupId);
+                for (AssetCategory export : listInterneExterne.getCategories()) {
+                    if (export.getTitle(Locale.FRANCE).toLowerCase().equals(this.interneExterne)) {
                         categories.add("" + export.getCategoryId());
                         break;
                     }
@@ -281,7 +281,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                 offer.setAvantagesMap(avantages);
 
                  // pour les offres internes
-                if(this.exportTotem.equals("interne")) {
+                if(this.interneExterne.equals("Interne")) {
                     // Champ : ejobContact
                     long ejobContact = ParamUtil.getLong(request, "ejobContact");
                     if (Validator.isNotNull(AssetCategoryLocalServiceUtil
@@ -362,7 +362,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
 
 
         // Récupération du type d'export
-        this.exportTotem = ParamUtil.getString(request, "exportTotem");
+        this.interneExterne = ParamUtil.getString(request, "interneExterne");
 
         // initulé du post
         if (Validator.isNull(ParamUtil.getString(request, "post"))) {
@@ -452,7 +452,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
         }
 
         // contact
-        if (Validator.isNull(ParamUtil.getString(request, "contact")) && (this.typeRecrutementString.equals("Stage") || this.exportTotem.equals("interne"))) {
+        if (Validator.isNull(ParamUtil.getString(request, "contact")) && (this.typeRecrutementString.equals("Stage") || this.interneExterne.equals("Interne"))) {
             SessionErrors.add(request, "contact-error");
             isValid = false;
         }

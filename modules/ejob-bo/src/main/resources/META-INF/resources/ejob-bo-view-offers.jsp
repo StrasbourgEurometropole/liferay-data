@@ -64,7 +64,7 @@
                 <!-- Colonne : type d'export' -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="ejob-export-totem" truncate="true"
-					orderable="true" value="${offer.exportTotem}" />
+					orderable="true" value="${offer.isExported}" />
 
                 <!-- Colonne : intitulé du post -->
 				<liferay-ui:search-container-column-text cssClass="content-column"

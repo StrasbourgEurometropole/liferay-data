@@ -74,11 +74,11 @@
 
                 <%-- Champ : Export vers TOTEM --%>
                 <div id="typeExportTotem">
-                    <label><liferay-ui:message key="ejob-export-totem" /></label><br>
-                    <aui:input type="radio" value="interne" name="exportTotem" label="interne"
-                        checked="${empty dc.offer or dc.offer.exportTotem == 'interne' }" />
-                    <aui:input type="radio" value="externe" name="exportTotem" label="externe"
-                        checked="${not empty dc.offer and dc.offer.exportTotem == 'externe' }" /><br>
+                    <label><liferay-ui:message key="ejob-interne-externe" /></label><br>
+                    <aui:input type="radio" value="interne" name="interneExterne" label="Interne"
+                        checked="${empty dc.offer or dc.offer.interneExterne == 'Interne' }" />
+                    <aui:input type="radio" value="externe" name="interneExterne" label="Externe"
+                        checked="${not empty dc.offer and dc.offer.interneExterne == 'Externe' }" /><br>
                 </div>
 
                 <%-- Champ : Numero de poste --%>

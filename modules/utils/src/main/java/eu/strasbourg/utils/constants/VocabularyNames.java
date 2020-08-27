@@ -58,5 +58,5 @@ public class VocabularyNames {
 	public static final String EJOB_NIVEAU_ETUDE = "(e-job) niveau d'etude";
 	public static final String EJOB_FAMILLE = "(e-job) famille de metiers";
 	public static final String EJOB_CONTACT = "(e-job) contact responsable";
-	public static final String EJOB_EXPORT_TOTEM = "(e-job) export totem";
+	public static final String EJOB_INTERNE_EXTERNE = "(e-job) interne/externe";
 }
