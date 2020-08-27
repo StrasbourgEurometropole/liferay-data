@@ -65,11 +65,6 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 		}
 
 		String fileName = "interf_totems.csv";
-//		byte[] bytes = csv.toString().replace('.', ',').getBytes();
-//		String contentType = ContentTypes.APPLICATION_TEXT;
-//		PortletResponseUtil.sendFile(resourceRequest, resourceResponse,
-//				fileName, bytes, contentType);
-
 		String fullPath = StrasbourgPropsUtil.getAgendaImportDirectory() + "/"
 				+ fileName;
 		File file = new File(fullPath);
@@ -80,10 +75,10 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 		}
 
 		try {
-			String host = "localhost";
+			String host = "s17st";
 			int port = 21;
-			String user = "";
-			String password = "";
+			String user = "testuser";
+			String password = "ejobsully";
 
 			FTPClient ftpClient = new FTPClient();
 			ftpClient.connect(host, port);
@@ -100,7 +95,7 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 				return false;
 			} else {
 				ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-				FileInputStream fileIS= new FileInputStream(fileName );
+				FileInputStream fileIS= new FileInputStream(fullPath);
 				ftpClient.storeFile(fileName, fileIS);
 			}
 

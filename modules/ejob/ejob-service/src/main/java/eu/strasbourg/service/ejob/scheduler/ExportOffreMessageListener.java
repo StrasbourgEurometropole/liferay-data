@@ -6,7 +6,6 @@ import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.SchedulerEntry;
 import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
-import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import eu.strasbourg.service.ejob.model.Offer;
@@ -43,8 +42,7 @@ public class ExportOffreMessageListener
 		// Création du trigger "Tous les jours à ??
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-//				"0 45 1 * * ?");
-				5, TimeUnit.MINUTE);
+				"0 45 1 * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
