@@ -10,6 +10,7 @@
 .env
 *portal-ext.properties
 *portal-setup-wizard.properties
+*jdbc_ping.xml
 /images/liferay-ems/dist/*
 !images/mysql-upgrade/sources/pre-upgrade.sql
 !images/mysql-ems/sources/pre-request.sql
