@@ -156,6 +156,8 @@ services:
       - 9080:8080
       - 9009:8009
     hostname: preprod-liferay.strasbourg.eu
+    depends_on:
+      - elasticsearch
     logging:
       driver: "json-file"
       options:
