@@ -51,6 +51,7 @@ services:
       placement:
         constraints: [node.role == worker]
 
+
 networks:
 
   backend-network:
