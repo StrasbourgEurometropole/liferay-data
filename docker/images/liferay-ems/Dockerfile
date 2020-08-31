@@ -11,7 +11,7 @@ USER root
 # Création des dossiers utiles
 RUN mkdir -p /tmp/certificates \
 	mkdir -p /data/imports/agenda/import/archives \
-    chown -r liferay:liferay /data
+    chown -R liferay:liferay /data
 
 # Copie du script permettant d'attendre les autres services avant démarrage du serveur
 COPY --chown=liferay:liferay $SOURCES_PATH/wait-for-it.sh /
