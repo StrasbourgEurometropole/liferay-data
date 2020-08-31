@@ -35,7 +35,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </#if>
                     <div id="limitDate">
                         <h3><@liferay_ui.message key="eu.offer-limit-date" /></h3>
-                        <p>${entry.getLimitDate()?date}</p>
+                        <p>${entry.getLimitDate()?datetime?string("dd/MM/yyyy")}</p>
                     </div>
                 </div>  
         

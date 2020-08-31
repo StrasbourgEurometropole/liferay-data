@@ -18,7 +18,7 @@
                 </#if>
             </div>
             <#if entry.offerGrade??>
-                <div class="seu-result-category">${entry.offerGrade.getTitle(locale)}</div>
+                <div class="seu-result-grade">${entry.offerGrade.getTitle(locale)}</div>
             </#if>
         </a>
         <div class="seu-result-infos">
@@ -26,7 +26,7 @@
                 <@liferay_ui.message key="eu.offer-limit-date" />
             </div>
             <div class="seu-result-infos-bottom">
-                ${entry.getLimitDate()?date}
+                ${entry.getLimitDate()?datetime?string("dd/MM/yyyy")}
             </div>
         </div>
     </div>
