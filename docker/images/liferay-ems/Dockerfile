@@ -10,8 +10,8 @@ USER root
 
 # Création des dossiers utiles
 RUN mkdir -p /tmp/certificates \
-	mkdir -p /data/imports/agenda/import/archives \
-    chown -R liferay:liferay /data
+	&& mkdir -p /data/imports/agenda/import/archives \
+    && chown -R liferay:liferay /data
 
 # Copie du script permettant d'attendre les autres services avant démarrage du serveur
 COPY --chown=liferay:liferay $SOURCES_PATH/wait-for-it.sh /
@@ -32,7 +32,7 @@ RUN keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alia
         -file /tmp/certificates/apiYoutube.cer -storepass changeit -noprompt \
     && rm -rf /tmp/certificates
 
-RUN chown -r liferay:liferay /data
+RUN chown -R liferay:liferay /data
 
 # Changement d'utilisateur pour root (évite le problème de permission sur les fichiers déposés dans le conteneur)
 USER liferay
