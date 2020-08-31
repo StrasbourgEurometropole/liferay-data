@@ -1,0 +1,1 @@
+CATALINA_OPTS="$CATALINA_OPTS -Dfile.encoding=UTF8 -Djava.net.preferIPv4Stack=true -Duser.timezone=Europe/Paris -Djava.locale.providers=JRE,COMPAT,CLDR -Xmx8192m -XX:MaxPermSize=512m -Djavamelody.storage-directory=/data/javamelody"
