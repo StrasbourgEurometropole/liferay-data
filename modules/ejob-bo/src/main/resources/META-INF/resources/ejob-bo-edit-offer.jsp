@@ -42,6 +42,8 @@
     <liferay-ui:error key="date-limit-error" message="date-limit-error" />
     <liferay-ui:error key="contact-error" message="contact-error" />
     <liferay-ui:error key="publication-dates-error" message="publication-dates-error" />
+    <liferay-ui:error key="publication-start-date-error" message="publication-start-date-error" />
+    <liferay-ui:error key="publication-end-date-error" message="publication-end-date-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveOfferURL}" method="post" name="fm" onSubmit="submitForm(event);">
@@ -59,13 +61,11 @@
                 <%-- Champ : Numero de publication --%>
                     <aui:input name="publicationId" id="publicationId" required="false"/>
 
-                <c:set var="offerCateg" value="${dc.offerCateg}" />
-
                 <%-- Champ : Type de recrutement   --%>
                     <aui:select cssClass="toCustomSelect" id="ejobTypeRecrutement" name="ejobTypeRecrutement" label="ejobTypeRecrutement" required="true">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-typeRecrutement" /></aui:option>
                         <c:forEach items="${dc.typeRecrutements}" var="typeRecrutement">
-                            <aui:option value="${typeRecrutement.categoryId}" selected="${fn:contains(offerCateg, typeRecrutement.categoryId)}" >${typeRecrutement.name}</aui:option>
+                            <aui:option value="${typeRecrutement.categoryId}" selected="${dc.offer.offerTypeRecrutement.categoryId == typeRecrutement.categoryId}" >${typeRecrutement.name}</aui:option>
                         </c:forEach>
                     </aui:select>
                     <div id="type-recrutement-error" style="display: none">
@@ -74,11 +74,11 @@
 
                 <%-- Champ : Interne/Externe --%>
                 <div id="typeExportTotem">
-                    <label><liferay-ui:message key="ejob-interne-externe" /></label><br>
-                    <aui:input type="radio" value="interne" name="interneExterne" label="Interne"
-                        checked="${empty dc.offer or dc.offer.interneExterne == 'Interne' }" />
-                    <aui:input type="radio" value="externe" name="interneExterne" label="Externe"
-                        checked="${not empty dc.offer and dc.offer.interneExterne == 'Externe' }" /><br>
+                    <label><liferay-ui:message key="ejob-type-publication" /></label><br>
+                    <c:forEach items="${dc.typePublications}" var="typePublication">
+                        <aui:input type="radio" value="${typePublication.categoryId}" name="typePublication" label="${typePublication.name}"
+                            checked="${(empty dc.offer and typePublication.getTitle(locale) == 'Interne et externe') or dc.offer.typePublication.categoryId == typePublication.categoryId }" />
+                    </c:forEach>
                 </div>
 
                 <%-- Champ : Numero de poste --%>
@@ -88,7 +88,20 @@
                      <aui:input name="jobCreationDescription" required="false" />
 
                 <%-- Champ : Date de départ  --%>
-                     <aui:input name="startDate" required="false" />
+                     <fmt:formatDate value="${dc.offer.startDate}"
+                        var="formattedStartDate" type="date" pattern="dd/MM/yyyy" />
+                     <aui:input type="text" name="startDate2" required="false" placeHolder="JJ/MM/AAAA" value="${empty dc.offer.startDate?'':formattedStartDate}" >
+                        <aui:validator name="custom" errorMessage="please-enter-a-valid-date">
+                            function (val, fieldNode, ruleValue) {
+                                var validate = document.getElementById('_eu_strasbourg_portlet_ejob_EjobBOPortlet_startDate2').value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+                                if (!validate) {
+                                    document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_startDate2").scrollIntoView();
+                                    event.preventDefault();
+                                }
+                                return validate;
+                            }
+                        </aui:validator>
+                      </aui:input>
 
                 <%-- Champ : Motif  --%>
                      <aui:input name="motif" required="false" />
@@ -108,7 +121,7 @@
                     <aui:select cssClass="toCustomSelect" id="ejobDirection" name="ejobDirection" label="ejobDirection" required="true">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-direction" /></aui:option>
                         <c:forEach items="${dc.directions}" var="direction">
-                            <aui:option value="${direction.categoryId}" selected="${fn:contains(offerCateg, direction.categoryId)}">${direction.name}</aui:option>
+                            <aui:option value="${direction.categoryId}" selected="${dc.offer.offerDirection.categoryId == direction.categoryId}">${direction.name}</aui:option>
                         </c:forEach>
                     </aui:select>
 
@@ -116,7 +129,7 @@
                     <aui:select cssClass="toCustomSelect" id="ejobService" name="ejobService" label="ejobService">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-service" /></aui:option>
                         <c:forEach items="${dc.services}" var="service">
-                            <aui:option data-direction-id="${service.parentCategoryId}" value="${service.categoryId}" selected="${fn:contains(offerCateg, service.categoryId)}">${service.name}</aui:option>
+                            <aui:option data-direction-id="${service.parentCategoryId}" value="${service.categoryId}" selected="${dc.offer.offerService.categoryId == service.categoryId}">${service.name}</aui:option>
                         </c:forEach>
                     </aui:select>
 
@@ -136,7 +149,7 @@
                     <aui:select cssClass="toCustomSelect" id="ejobFiliere" name="ejobFiliere" label="ejobFiliere" required="true">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-filiere" /></aui:option>
                         <c:forEach items="${dc.filieres}" var="filiere">
-                            <aui:option value="${filiere.categoryId}" selected="${fn:contains(offerCateg, filiere.categoryId)}">${filiere.name}</aui:option>
+                            <aui:option value="${filiere.categoryId}" selected="${dc.offer.offerFiliere.categoryId == filiere.categoryId}">${filiere.name}</aui:option>
                         </c:forEach>
                     </aui:select>
 
@@ -144,7 +157,7 @@
                     <aui:select cssClass="toCustomSelect" id="ejobCategorie" name="ejobCategorie" label="ejobCategorie" required="true">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-categorie" /></aui:option>
                         <c:forEach items="${dc.filieresCategories}" var="categorie">
-                            <aui:option data-filiere-id="${categorie.parentCategoryId}" value="${categorie.categoryId}" selected="${fn:contains(offerCateg, categorie.categoryId)}">${categorie.name}</aui:option>
+                            <aui:option data-filiere-id="${categorie.parentCategoryId}" value="${categorie.categoryId}" selected="${dc.offer.offerFiliereCategorie.categoryId == categorie.categoryId}">${categorie.name}</aui:option>
                         </c:forEach>
                     </aui:select>
 
@@ -152,7 +165,7 @@
                     <aui:select cssClass="toCustomSelect" id="ejobGrade" name="ejobGrade" label="ejobGrade" required="true">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-grade" /></aui:option>
                         <c:forEach items="${dc.grades}" var="grade">
-                            <aui:option data-filiere-id="${grade.parentCategory.parentCategoryId}" data-categorie-id ="${grade.parentCategoryId}" value="${grade.categoryId}" selected="${fn:contains(offerCateg, grade.categoryId)}">${grade.name}</aui:option>
+                            <aui:option data-filiere-id="${grade.parentCategory.parentCategoryId}" data-categorie-id ="${grade.parentCategoryId}" value="${grade.categoryId}" selected="${dc.offer.offerGrade.categoryId == grade.categoryId}">${grade.name}</aui:option>
                         </c:forEach>
                     </aui:select>
 
@@ -160,7 +173,7 @@
                     <aui:select cssClass="toCustomSelect" id="ejobNiveauEtude" name="ejobNiveauEtude" label="ejobNiveauEtude" required="true">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-niveau-etude" /></aui:option>
                         <c:forEach items="${dc.niveauEtudes}" var="niveauEtudes">
-                            <aui:option value="${niveauEtudes.categoryId}" selected="${fn:contains(offerCateg, niveauEtudes.categoryId)}">${niveauEtudes.name}</aui:option>
+                            <aui:option value="${niveauEtudes.categoryId}" selected="${dc.offer.offerNiveauEtude.categoryId == niveauEtudes.categoryId}">${niveauEtudes.name}</aui:option>
                         </c:forEach>
                     </aui:select>
 
@@ -264,20 +277,33 @@
                     <aui:select cssClass="toCustomSelect" id="ejobFamille" name="ejobFamille" label="ejobFamille" required="true">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-famille" /></aui:option>
                         <c:forEach items="${dc.familles}" var="famille">
-                            <aui:option value="${famille.categoryId}" selected="${fn:contains(offerCateg, famille.categoryId)}">${famille.name}</aui:option>
+                            <aui:option value="${famille.categoryId}" selected="${dc.offer.offerFamille.categoryId == famille.categoryId}">${famille.name}</aui:option>
                         </c:forEach>
                     </aui:select>
 
                 <%-- Champ : Date limite de candidatures --%>
-                    <aui:input name="limitDate" required="true" >
-                        <aui:validator name="required" errorMessage="this-field-is-required" />
-                    </aui:input>
+                    <aui:input name="limitDate" required="true" />
+                    <!-- Hack pour ajouter une validation -->
+                    <div class="has-error form-group">
+                        <aui:input type="hidden" name="limitDateValidatorInputHelper" value="placeholder">
+                            <aui:validator name="custom" errorMessage="this-field-is-required">
+                                function (val, fieldNode, ruleValue) {
+                                    var validate = document.getElementById('_eu_strasbourg_portlet_ejob_EjobBOPortlet_limitDate').value.length > 0;
+                                    if (!validate) {
+                                        document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_limitDate").scrollIntoView();
+                                        event.preventDefault();
+                                    }
+                                    return validate;
+                                }
+                            </aui:validator>
+                        </aui:input>
+                    </div>
 
                 <%-- Champ : Nom du RE + contact téléphonique  --%>
                     <aui:select cssClass="toCustomSelect" id="ejobContact" name="ejobContact" label="ejobContact">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-contact" /></aui:option>
                         <c:forEach items="${dc.contacts}" var="contact">
-                            <aui:option value="${contact.categoryId}" selected="${fn:contains(offerCateg, contact.categoryId)}">${contact.name}</aui:option>
+                            <aui:option value="${contact.categoryId}" selected="${dc.offer.offerContact.categoryId == contact.categoryId}">${contact.name}</aui:option>
                         </c:forEach>
                     </aui:select>
 
@@ -285,18 +311,75 @@
                      <aui:input name="contact" required="true" />
 
                 <%-- Champ : Envoi par mail de l’offre (lien + PDF) --%>
-                     <aui:input name="emails" >
-                        <aui:validator name="email"/>
-                     </aui:input>
+                    <div id="email-fields">
+                        <label><liferay-ui:message key="emails" /></label>
+                        <c:if test="${empty dc.offer.emails}">
+                            <div class="lfr-form-row" id="email${param.index}">
+                                <div class="row-fields">
+                                    <liferay-util:include page="/includes/email-row.jsp" servletContext="<%=application %>">
+                                        <liferay-util:param name="index" value="1" />
+                                        <liferay-util:param name="email" value="" />
+                                    </liferay-util:include>
+                                </div>
+                            </div>
+                        </c:if>
+
+                        <c:forEach items="${dc.offer.emails.split(',')}" var="email" varStatus="status">
+                            <div class="lfr-form-row" id="email${param.index}">
+                                <div class="row-fields">
+                                    <liferay-util:include page="/includes/email-row.jsp" servletContext="<%=application %>">
+                                        <liferay-util:param name="index" value="${status.count}" />
+                                        <liferay-util:param name="email" value="${email}" />
+                                    </liferay-util:include>
+                                </div>
+                            </div>
+                        </c:forEach>
+                        <c:if test="${empty dc.offer.emails}">
+                            <aui:input type="hidden" name="emailsIndexes" value="1" />
+                        </c:if>
+                        <c:if test="${not empty dc.offer.emails}">
+                            <aui:input type="hidden" name="emailsIndexes" value="${dc.getDefaultIndexes(dc.offer.emails)}" />
+                        </c:if>
+                     </div>
 
                 <%-- Champ : Champ partage Linkedin  --%>
                      <aui:input name="shareLinkedin" required="false" />
 
                 <%-- Champ : Date de début de publication d’une offre (programmation) --%>
                      <aui:input name="publicationStartDate" required="true" />
+                    <!-- Hack pour ajouter une validation -->
+                    <div class="has-error form-group">
+                        <aui:input type="hidden" name="publicationStartDateValidatorInputHelper" value="placeholder">
+                            <aui:validator name="custom" errorMessage="this-field-is-required">
+                                function (val, fieldNode, ruleValue) {
+                                    var validate = document.getElementById('_eu_strasbourg_portlet_ejob_EjobBOPortlet_publicationStartDate').value.length > 0;
+                                    if (!validate) {
+                                        document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_publicationStartDate").scrollIntoView();
+                                        event.preventDefault();
+                                    }
+                                    return validate;
+                                }
+                            </aui:validator>
+                        </aui:input>
+                    </div>
 
                 <%-- Champ : Date de fin de publication d’une offre (programmation) --%>
                      <aui:input name="publicationEndDate" required="true" />
+                    <!-- Hack pour ajouter une validation -->
+                    <div class="has-error form-group">
+                        <aui:input type="hidden" name="publicationEndDateValidatorInputHelper" value="placeholder">
+                            <aui:validator name="custom" errorMessage="this-field-is-required">
+                                function (val, fieldNode, ruleValue) {
+                                    var validate = document.getElementById('_eu_strasbourg_portlet_ejob_EjobBOPortlet_publicationEndDate').value.length > 0;
+                                    if (!validate) {
+                                        document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_publicationEndDate").scrollIntoView();
+                                        event.preventDefault();
+                                    }
+                                    return validate;
+                                }
+                            </aui:validator>
+                        </aui:input>
+                    </div>
 
             </aui:fieldset>
 
@@ -331,6 +414,11 @@
 
 </div>
 
+<liferay-util:html-top>
+	<script>
+	var getemailRowJSPURL = '${emailRowURL}';
+	</script>
+</liferay-util:html-top>
 <liferay-util:html-bottom>
 	<script src="/o/ejobbo/js/ejob-bo-edit-offer.js" type="text/javascript"></script>
 	<style>

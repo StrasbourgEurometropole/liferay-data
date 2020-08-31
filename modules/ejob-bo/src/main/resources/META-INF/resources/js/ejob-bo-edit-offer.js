@@ -7,7 +7,7 @@ var typeRecrutements = document.getElementById(namespace + "ejobTypeRecrutement"
 var typeExportTotem = document.getElementById("typeExportTotem");
 var postNumber = document.getElementById(namespace + "postNumber");
 var jobCreationDescription = document.querySelectorAll('[for=' + namespace + 'jobCreationDescription]')[0];
-var startDate = document.querySelectorAll('[for=' + namespace + 'startDate]')[0];
+var startDate = document.querySelectorAll('[for=' + namespace + 'startDate2]')[0];
 var motif = document.querySelectorAll('[for=' + namespace + 'motif]')[0];
 var permanentDescription = document.querySelectorAll('[for=' + namespace + 'permanentDescription]')[0];
 // gestion de l'affichage des sélecteurs de service
@@ -92,43 +92,17 @@ ejobCategorie.onchange = function(){
 }
 var avantages = document.getElementById('avantages');
 var ejobContact = document.getElementById(namespace + "ejobContact");
-var contact = document.getElementById(namespace + "contact");
-var emails = document.getElementById(namespace + "emails");
-var shareLinkedin = document.getElementById(namespace + "shareLinkedin");
-// gestion de l'affichage des champs en fonction du type d'export
-var typesExport = document.querySelectorAll('input[name=' + namespace + 'interneExterne]');
-function changeHandlerExport(event) {
-    postNumber.parentNode.style.display="none";
-    if(document.querySelector('input[name="' + namespace + 'interneExterne"]:checked').value === "Interne"){
-        ejobContact.parentNode.style.display="block";
-        contact.parentNode.style.display="block";
-        emails.parentNode.style.display="block";
-        shareLinkedin.parentNode.parentNode.style.display="block";
-    }else{
-        ejobContact.options[0].selected = 'selected';
-        ejobContact.parentNode.style.display="none";
-        contact.value = "";
-        contact.parentNode.style.display="none";
-        emails.value = "";
-        emails.parentNode.style.display="none";
-        shareLinkedin.checked = "";
-        shareLinkedin.parentNode.parentNode.style.display="none";
-    }
-}
-Array.prototype.forEach.call(typesExport, function(typeExport) {
-   typeExport.addEventListener('change', changeHandlerExport);
-});
 // gestion de l'affichage des champs en fonction du type de recrutement
 function initialise(){
     var typeRecrutementsValue= typeRecrutements.children[typeRecrutements.selectedIndex].text;
     if (typeRecrutementsValue == "Stage"){
-        typesExport[0].checked = "true";
-        changeHandlerExport();
+        var typePublication = document.getElementsByName(namespace + "typePublication");
+        typePublication[0].checked = "true";
         typeExportTotem.style.display="none";
         postNumber.parentNode.style.display="block";
         document.getElementById(namespace + "jobCreationDescription").value = "";
         jobCreationDescription.parentNode.style.display="none";
-        document.getElementById(namespace + "startDate").value = "";
+        document.getElementById(namespace + "startDate2").value = "";
         startDate.parentNode.style.display="none";
         document.getElementById(namespace + "motif").value = "";
         motif.parentNode.style.display="none";
@@ -148,22 +122,20 @@ function initialise(){
         avantages.style.display="none";
         ejobContact.options[0].selected = 'selected';
         ejobContact.parentNode.style.display="none";
-        contact.parentNode.style.display="block";
-        emails.parentNode.style.display="block";
-        shareLinkedin.parentNode.parentNode.style.display="block";
     }else{
         typeExportTotem.style.display="block";
         postNumber.value = "";
         postNumber.parentNode.style.display="none";
-        changeHandlerExport();
         jobCreationDescription.parentNode.style.display="block";
-        document.getElementById(namespace + "startDate").value = new Date().toLocaleString().split(" à ")[0];
+        if(publicationId.value == '')
+            document.getElementById(namespace + "startDate2").value = new Date().toLocaleString().split(" à ")[0];
         startDate.parentNode.style.display="block";
         motif.parentNode.style.display="block";
         permanentDescription.parentNode.style.display="block";
         blockFullTime.style.display="block";
         ejobFiliere.parentNode.style.display="block";
         avantages.style.display="block";
+        ejobContact.parentNode.style.display="block";
     }
 }
 typeRecrutements.addEventListener('change', initialise);
@@ -179,7 +151,7 @@ submitButton.onclick = function(event){
     setFiliereConditionalValidators(event);
 
     if (!allValidate) {
-       // event.preventDefault();
+       event.preventDefault();
     }
 };
 
@@ -195,17 +167,30 @@ function setFiliereConditionalValidators(event) {
             rules[namespace + 'ejobFiliere'].required = false;
             rules[namespace + 'ejobCategorie'].required = false;
             rules[namespace + 'ejobGrade'].required = false;
-            rules[namespace + 'contact'].required = true;
         } else {
             rules[namespace + 'ejobFiliere'].required = true;
             rules[namespace + 'ejobCategorie'].required = true;
             rules[namespace + 'ejobGrade'].required = true;
-            var isInterne = document.querySelector('input[name="' + namespace + 'interneExterne"]:checked').value === "Interne";
-            if(isInterne){
-                rules[namespace + 'contact'].required = true;
-            }else{
-                rules[namespace + 'contact'].required = false;
-            }
         }
     });
 }
+
+
+// envoi par email de l'offre
+var autoFields = undefined; // Référence au champ répétable (setté plus loin)
+(function($) {
+    var namespace = "_eu_strasbourg_portlet_ejob_EjobBOPortlet_"; // Namespace du portlet
+
+	// Configuration de l'autofield
+	AUI().use('liferay-auto-fields', function(Y) {
+		if (!!document.getElementById('email-fields')) {
+			// Création de l'autofield
+			autoFields = new Liferay.AutoFields({
+				contentBox : '#email-fields',
+				fieldIndexes : namespace + 'emailsIndexes',
+				namespace : namespace,
+				url : getemailRowJSPURL
+			}).render();
+		}
+	});
+})(jQuery);

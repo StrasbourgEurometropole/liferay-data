@@ -12,6 +12,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
+
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-portlet:renderURL varImpl="emailRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+	<portlet:param name="mvcPath" value="/includes/email-row.jsp" />
+</liferay-portlet:renderURL>

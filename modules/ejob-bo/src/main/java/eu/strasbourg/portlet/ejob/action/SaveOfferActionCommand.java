@@ -24,7 +24,6 @@ import eu.strasbourg.service.ejob.service.OfferLocalService;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -54,9 +53,10 @@ public class SaveOfferActionCommand implements MVCActionCommand {
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
+    private ThemeDisplay themeDisplay;
     private long offerId;
     private String typeRecrutementString;
-    private String interneExterne;
+    private String typePublicationCategString;
     // Défini le format de date à utiliser pour les champs temporels
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -65,7 +65,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
         try {
             // Récupération du contexte de la requêtes
             ServiceContext sc = ServiceContextFactory.getInstance(request);
-            ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+            themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
             // Validation
             boolean isValid = this.validate(request);
@@ -94,6 +94,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
             List<String> categories = new ArrayList<>();
 
             // Champs globaux
+
             // Champ : ejobTypeRecrutement
             long ejobTypeRecrutement = ParamUtil.getLong(request, "ejobTypeRecrutement");
             if (Validator.isNotNull(AssetCategoryLocalServiceUtil
@@ -164,6 +165,29 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                     "limitDate" , dateFormat);
             offer.setLimitDate(limitDate);
 
+            // Champ : contact
+            String contact = ParamUtil.getString(request,
+                    "contact");
+            offer.setContact(contact);
+
+            // Champ : emails
+            String emails = "";
+            String emailsIndexes = ParamUtil.getString(request, "emailsIndexes");
+            for (String emailsIndex : emailsIndexes.split(",")) {
+                if (Validator.isNotNull(emailsIndex)
+                        && Validator.isNotNull(ParamUtil.getString(request, "email" + emailsIndex))) {
+                    if(Validator.isNotNull(emails))
+                        emails += ",";
+                    emails += ParamUtil.getString(request, "email" + emailsIndex);
+                }
+            }
+            offer.setEmails(emails);
+
+            // Champ : shareLinkedin
+            boolean shareLinkedin = ParamUtil.getBoolean(request,
+                    "shareLinkedin");
+            offer.setShareLinkedin(shareLinkedin);
+
             // Champ : publicationStartDate
             Date publicationStartDate = ParamUtil.getDate(request,
                     "publicationStartDate" , dateFormat);
@@ -184,32 +208,15 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                 String postNumber = ParamUtil.getString(request,
                         "postNumber");
                 offer.setPostNumber(postNumber);
-
-                // Champ : contact
-                String contact = ParamUtil.getString(request,
-                        "contact");
-                offer.setContact(contact);
-
-                // Champ : emails
-                String emails = ParamUtil.getString(request,
-                        "emails");
-                offer.setEmails(emails);
-
-                // Champ : shareLinkedin
-                boolean shareLinkedin = ParamUtil.getBoolean(request,
-                        "shareLinkedin");
-                offer.setShareLinkedin(shareLinkedin);
             }else{
                 // pour les offres internes ou  externes
-                // Champ : exportTotem
-                long groupId = themeDisplay.getLayout().getGroupId();
-
-                AssetVocabulary listInterneExterne = AssetVocabularyAccessor.getEJobInterneExterne(groupId);
-                for (AssetCategory export : listInterneExterne.getCategories()) {
-                    if (export.getTitle(Locale.FRANCE).toLowerCase().equals(this.interneExterne)) {
-                        categories.add("" + export.getCategoryId());
-                        break;
-                    }
+                // champ : type de publication
+                long typePublication = ParamUtil.getLong(request, "typePublication");
+                AssetCategory typePublicationCateg = AssetCategoryLocalServiceUtil
+                        .fetchAssetCategory(typePublication);
+                if (Validator.isNotNull(typePublicationCateg)) {
+                    typePublicationCategString = typePublicationCateg.getTitle(Locale.FRANCE);
+                    categories.add(Long.toString(typePublication));
                 }
 
                 // Champ : jobCreationDescription
@@ -218,9 +225,15 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                 offer.setJobCreationDescriptionMap(jobCreationDescription);
 
                 // Champ : startDate
-                Date startDate = ParamUtil.getDate(request,
-                        "startDate" , dateFormat);
-                offer.setStartDate(startDate);
+                String startDateString = ParamUtil.getString(request,
+                        "startDate2");
+                if(Validator.isNotNull(startDateString)) {
+                    Date startDate = ParamUtil.getDate(request,
+                            "startDate2", dateFormat);
+                    offer.setStartDate(startDate);
+                }else{
+                    offer.setStartDate(null);
+                }
 
                 // Champ : motif
                 Map<Locale, String> motif = LocalizationUtil
@@ -260,6 +273,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
 
                 // Champ : ejobCategorie A/B/C
                 String linkedCategory = AssetVocabularyHelper.getCategoryProperty(ejobCategorie, "linked-category");
+                long groupId = themeDisplay.getLayout().getGroupId();
                 AssetVocabulary listCategory = AssetVocabularyAccessor.getEJobCategories(groupId);
                 for (AssetCategory category : listCategory.getCategories()) {
                     if (category.getTitle(Locale.FRANCE).equals(linkedCategory)) {
@@ -280,31 +294,23 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                         .getLocalizationMap(request, "avantages");
                 offer.setAvantagesMap(avantages);
 
-                 // pour les offres internes
-                if(this.interneExterne.equals("Interne")) {
-                    // Champ : ejobContact
-                    long ejobContact = ParamUtil.getLong(request, "ejobContact");
-                    if (Validator.isNotNull(AssetCategoryLocalServiceUtil
-                            .fetchAssetCategory(ejobContact))) {
-                        categories.add(""+ejobContact);
-                    }
-
-                    // Champ : contact
-                    String contact = ParamUtil.getString(request,
-                            "contact");
-                    offer.setContact(contact);
-
-                    // Champ : emails
-                    String emails = ParamUtil.getString(request,
-                            "emails");
-                    offer.setEmails(emails);
-
-                    // Champ : shareLinkedin
-                    boolean shareLinkedin = ParamUtil.getBoolean(request,
-                            "shareLinkedin");
-                    offer.setShareLinkedin(shareLinkedin);
+                // Champ : ejobContact
+                long ejobContact = ParamUtil.getLong(request, "ejobContact");
+                if (Validator.isNotNull(AssetCategoryLocalServiceUtil
+                        .fetchAssetCategory(ejobContact))) {
+                    categories.add(""+ejobContact);
                 }
+            }
 
+            // Champ : isExported (1 si offre interne)
+            // si =  2 ne pas modifier
+            if(offer.getIsExported() != 2){
+                if(Validator.isNotNull(typePublicationCategString)) {
+                    if (typePublicationCategString.equals("Interne uniquement") || typePublicationCategString.equals("Interne et externe"))
+                        offer.setIsExported(1);
+                    else
+                        offer.setIsExported(0);
+                }
             }
 
             // Mise à jour de l'entrée en base
@@ -360,10 +366,6 @@ public class SaveOfferActionCommand implements MVCActionCommand {
             this.typeRecrutementString = category.getTitle(Locale.FRANCE);
         }
 
-
-        // Récupération du type d'export
-        this.interneExterne = ParamUtil.getString(request, "interneExterne");
-
         // initulé du post
         if (Validator.isNull(ParamUtil.getString(request, "post"))) {
             SessionErrors.add(request, "post-error");
@@ -374,33 +376,6 @@ public class SaveOfferActionCommand implements MVCActionCommand {
         if (Validator.isNull(ParamUtil.getLong(request, "ejobDirection"))) {
             SessionErrors.add(request, "direction-error");
             isValid = false;
-        }
-
-        // si offre pas stage
-        if(!this.typeRecrutementString.equals("Stage")) {
-            // si temps complet
-            if (Validator.isNull(ParamUtil.getBoolean(request, "isFullTime"))) {
-                SessionErrors.add(request, "full-time-error");
-                isValid = false;
-            }
-
-            // filière
-            if (Validator.isNull(ParamUtil.getLong(request, "ejobFiliere"))) {
-                SessionErrors.add(request, "filiere-error");
-                isValid = false;
-            }
-
-            // catégorie
-            if (Validator.isNull(ParamUtil.getLong(request, "ejobCategorie"))) {
-                SessionErrors.add(request, "categorie-error");
-                isValid = false;
-            }
-
-            // grade
-            if (Validator.isNull(ParamUtil.getLong(request, "ejobGrade"))) {
-                SessionErrors.add(request, "grade-error");
-                isValid = false;
-            }
         }
 
         // niveau d'étude
@@ -433,12 +408,6 @@ public class SaveOfferActionCommand implements MVCActionCommand {
             isValid = false;
         }
 
-        // avantages
-        if (Validator.isNull(ParamUtil.getString(request, "avantagesEditor")) && !this.typeRecrutementString.equals("Stage")) {
-            SessionErrors.add(request, "avantages-error");
-            isValid = false;
-        }
-
         // famille
         if (Validator.isNull(ParamUtil.getString(request, "ejobFamille"))) {
             SessionErrors.add(request, "famille-error");
@@ -452,21 +421,63 @@ public class SaveOfferActionCommand implements MVCActionCommand {
         }
 
         // contact
-        if (Validator.isNull(ParamUtil.getString(request, "contact")) && (this.typeRecrutementString.equals("Stage") || this.interneExterne.equals("Interne"))) {
+        if (Validator.isNull(ParamUtil.getString(request, "contact"))) {
             SessionErrors.add(request, "contact-error");
             isValid = false;
         }
 
         // date de début de publication
         String publicationStartDateString = ParamUtil.getString(request, "publicationStartDate");
-        Date publicationStartDate = ParamUtil.getDate(request, "publicationStartDate", dateFormat);
+        if (Validator.isNull(publicationStartDateString)) {
+            SessionErrors.add(request, "publication-start-date-error");
+            isValid = false;
+        }
         // date de fin de publication
         String publicationEndDateString = ParamUtil.getString(request, "publicationEndDate");
+        if (Validator.isNull(publicationEndDateString)) {
+            SessionErrors.add(request, "publication-end-date-error");
+            isValid = false;
+        }
+
+        Date publicationStartDate = ParamUtil.getDate(request, "publicationStartDate", dateFormat);
         Date publicationEndDate = ParamUtil.getDate(request, "publicationEndDate", dateFormat);
         if ((Validator.isNotNull(publicationStartDateString) && Validator.isNotNull(publicationEndDateString)
                 && publicationStartDate.compareTo(publicationEndDate) > 0)) {
             SessionErrors.add(request, "publication-dates-error");
             isValid = false;
+        }
+
+        // si offre pas stage
+        if(!this.typeRecrutementString.equals("Stage")) {
+            // si temps complet
+            if (Validator.isNull(ParamUtil.getBoolean(request, "isFullTime"))) {
+                SessionErrors.add(request, "full-time-error");
+                isValid = false;
+            }
+
+            // filière
+            if (Validator.isNull(ParamUtil.getLong(request, "ejobFiliere"))) {
+                SessionErrors.add(request, "filiere-error");
+                isValid = false;
+            }
+
+            // catégorie
+            if (Validator.isNull(ParamUtil.getLong(request, "ejobCategorie"))) {
+                SessionErrors.add(request, "categorie-error");
+                isValid = false;
+            }
+
+            // grade
+            if (Validator.isNull(ParamUtil.getLong(request, "ejobGrade"))) {
+                SessionErrors.add(request, "grade-error");
+                isValid = false;
+            }
+
+            // avantages
+            if (Validator.isNull(ParamUtil.getString(request, "avantagesEditor"))) {
+                SessionErrors.add(request, "avantages-error");
+                isValid = false;
+            }
         }
 
         return isValid;

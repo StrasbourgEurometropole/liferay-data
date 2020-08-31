@@ -62,6 +62,21 @@ public class EditOfferDisplayContext {
     }
 
     /**
+     * Renvoie les types de publication
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getTypePublications() {
+        long groupId = themeDisplay.getLayout().getGroupId();
+        List<AssetCategory> typePublications = new ArrayList<>();
+        AssetVocabulary typePublication_voca = AssetVocabularyAccessor.getEJobTypePublication(groupId);
+        for (AssetCategory typePublication: typePublication_voca.getCategories()) {
+            typePublications.add(typePublication);
+        }
+
+        return typePublications;
+    }
+
+    /**
      * Renvoie les Direction
      */
     @SuppressWarnings("unused")
@@ -198,22 +213,6 @@ public class EditOfferDisplayContext {
         return contacts;
     }
 
-
-    /**
-     * Renvoie les catégories Id de l'offre
-     */
-    @SuppressWarnings("unused")
-    public String getOfferCateg() {
-        String categoriesId = "";
-        if(Validator.isNotNull(getOffer())) {
-            for (AssetCategory category : offer.getCategories()) {
-                categoriesId += category.getCategoryId() + " ";
-            }
-        }
-
-        return categoriesId;
-    }
-
     /**
      * @return True si le framework workflow est actif pour ce type d'entité
      */
@@ -232,6 +231,17 @@ public class EditOfferDisplayContext {
         return this.themeDisplay.getPermissionChecker().hasPermission(
                 this.themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.EJOB_BO,
                 StrasbourgPortletKeys.EJOB_BO, actionId);
+    }
+
+    public String getDefaultIndexes(String emails) {
+        String indexes = "";
+        for (int i = 1; i <= emails.split(",").length; i++) {
+            if (Validator.isNotNull(indexes)) {
+                indexes += ",";
+            }
+            indexes += i;
+        }
+        return indexes;
     }
 
 }

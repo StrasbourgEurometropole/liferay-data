@@ -56,8 +56,8 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 			String endDate = dateFormat.format(offer.getPublicationEndDate());
 			String description = "Du " + startDate + " au " + endDate;
 			String diffusion = "";
-			if(Validator.isNotNull(offer.getInterneExterne()))
-				diffusion = "Publié en " + offer.getInterneExterne();
+			if(Validator.isNotNull(offer.getTypePublication()))
+				diffusion = "Publié en " + offer.getTypePublication().getTitle(Locale.FRANCE).toLowerCase();
 
 			csv.append(offer.getOfferId() + ";" + url + ";" + offer.getPost(Locale.FRANCE)
 					+ ";" + description + ";" + startDate + ";" + endDate + ";" + diffusion);

@@ -802,11 +802,6 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 		return _offer.getGroupId();
 	}
 
-	@Override
-	public String getInterneExterne() {
-		return _offer.getInterneExterne();
-	}
-
 	/**
 	 * Returns the introduction of this offer.
 	 *
@@ -1080,7 +1075,7 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
-	 * Renvoie les contact RE
+	 * Renvoie le contact RE
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getOfferContact() {
@@ -1088,7 +1083,7 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
-	 * Retourne les types de l'événement
+	 * Retourne la direction
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getOfferDirection() {
@@ -1096,7 +1091,7 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
-	 * Renvoie les Famille de métiers
+	 * Renvoie la Famille de métiers
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getOfferFamille() {
@@ -1104,7 +1099,7 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
-	 * Retourne les types de l'événement
+	 * Retourne la filière
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getOfferFiliere() {
@@ -1112,7 +1107,7 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
-	 * Renvoie les categories des filieres
+	 * Renvoie la categorie des filières
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory
@@ -1122,7 +1117,7 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
-	 * Renvoie les grades
+	 * Renvoie le grade
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getOfferGrade() {
@@ -1140,7 +1135,7 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
-	 * Renvoie les Niveau d'étude
+	 * Renvoie le Niveau d'étude
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getOfferNiveauEtude() {
@@ -1148,7 +1143,7 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
-	 * Retourne les types de l'événement
+	 * Retourne le service
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getOfferService() {
@@ -1156,7 +1151,7 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
-	 * Renvoie les types de recrutements
+	 * Renvoie le type de recrutement
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory
@@ -1520,6 +1515,11 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	@Override
 	public Date getStatusDate() {
 		return _offer.getStatusDate();
+	}
+
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getTypePublication() {
+		return _offer.getTypePublication();
 	}
 
 	/**

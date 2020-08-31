@@ -2,7 +2,31 @@
     display: flex
 }
 
-.management-bar .container-fluid-1280 .management-bar-nav ul:first-child a{
+.management-bar .container-fluid-1280 .management-bar-nav li:first-child a{
     padding-bottom: 1.21875rem;
     padding-top: 1.21875rem;
+}
+
+.lfr-form-row{
+    display: flex;
+    padding: 0;
+    margin: 0;
+    border: none;
+
+    &:hover{
+        border: none;
+    }
+
+    .row-fields{
+        flex-grow: 1;
+        margin-right: 10px;
+    }
+
+    &:not(:last-of-type) .row-fields .form-group{
+        margin-bottom: 5px;
+    }
+
+    .lfr-autorow-controls{
+        position: static;
+    }
 }

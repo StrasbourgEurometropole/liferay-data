@@ -17,19 +17,13 @@ package eu.strasbourg.service.ejob.model.impl;
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.ejob.model.Offer;
-import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * The extended model implementation for the Offer service. Represents a row in the &quot;ejob_Offer&quot; database table, with each column mapped to a property of this class.
@@ -71,7 +65,7 @@ public class OfferImpl extends OfferBaseImpl {
 	}
 
 	/**
-	 * Retourne les types de l'événement
+	 * Retourne la direction
 	 */
 	@Override
 	public AssetCategory getOfferDirection() {
@@ -84,7 +78,7 @@ public class OfferImpl extends OfferBaseImpl {
 	}
 
 	/**
-	 * Retourne les types de l'événement
+	 * Retourne le service
 	 */
 	@Override
 	public AssetCategory getOfferService() {
@@ -103,7 +97,7 @@ public class OfferImpl extends OfferBaseImpl {
 	}
 
 	/**
-	 * Retourne les types de l'événement
+	 * Retourne la filière
 	 */
 	@Override
 	public AssetCategory getOfferFiliere() {
@@ -122,7 +116,7 @@ public class OfferImpl extends OfferBaseImpl {
 	}
 
 	/**
-	 * Renvoie les categories des filieres
+	 * Renvoie la categorie des filières
 	 */
 	@SuppressWarnings("unused")
 	public AssetCategory getOfferFiliereCategorie() {
@@ -141,7 +135,7 @@ public class OfferImpl extends OfferBaseImpl {
 	}
 
 	/**
-	 * Renvoie les grades
+	 * Renvoie le grade
 	 */
 	@SuppressWarnings("unused")
 	public AssetCategory getOfferGrade() {
@@ -160,7 +154,7 @@ public class OfferImpl extends OfferBaseImpl {
 	}
 
 	/**
-	 * Renvoie les Famille de métiers
+	 * Renvoie la Famille de métiers
 	 */
 	@SuppressWarnings("unused")
 	public AssetCategory getOfferFamille() {
@@ -173,7 +167,7 @@ public class OfferImpl extends OfferBaseImpl {
 	}
 
 	/**
-	 * Renvoie les Niveau d'étude
+	 * Renvoie le Niveau d'étude
 	 */
 	@SuppressWarnings("unused")
 	public AssetCategory getOfferNiveauEtude() {
@@ -186,7 +180,7 @@ public class OfferImpl extends OfferBaseImpl {
 	}
 
 	/**
-	 * Renvoie les types de recrutements
+	 * Renvoie le type de recrutement
 	 */
 	@SuppressWarnings("unused")
 	public AssetCategory getOfferTypeRecrutement() {
@@ -199,7 +193,7 @@ public class OfferImpl extends OfferBaseImpl {
 	}
 
 	/**
-	 * Renvoie les contact RE
+	 * Renvoie le contact RE
 	 */
 	@SuppressWarnings("unused")
 	public AssetCategory getOfferContact() {
@@ -211,11 +205,11 @@ public class OfferImpl extends OfferBaseImpl {
 		return null;
 	}
 
-	public String getInterneExterne(){
+	public AssetCategory getTypePublication(){
 		List<AssetCategory> list = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EJOB_INTERNE_EXTERNE);
 		if(!list.isEmpty()){
-			return list.get(0).getTitle(Locale.FRANCE);
+			return list.get(0);
 		}
 		return null;
 	}

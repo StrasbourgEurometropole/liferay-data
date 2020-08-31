@@ -59,7 +59,6 @@ public class ExportOffreMessageListener
 	@Override
 	protected void doReceive(Message message) throws Exception {
 		// Recuperation des offres concernées et non exportées (isExported=1)
-		// les offres non concernées sont les stages, les apprentissages et les offres externes (isExported=0)
 		List<Offer> offers = _offerLocalService.findOffersNotExported();
 
 		// on ne prend pas les stages ni les apprentissages

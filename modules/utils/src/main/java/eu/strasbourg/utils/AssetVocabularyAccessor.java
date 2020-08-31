@@ -270,7 +270,7 @@ public class AssetVocabularyAccessor {
 		}
 	}
 
-	public static AssetVocabulary getEJobInterneExterne(long groupID) {
+	public static AssetVocabulary getEJobTypePublication(long groupID) {
 		try {
 			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_INTERNE_EXTERNE, groupID);
 		} catch (Exception e) {
