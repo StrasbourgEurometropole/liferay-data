@@ -96,7 +96,6 @@ services:
     volumes:
       - ./configs/liferay-ems-active:/mnt/liferay
       - ${DATA_PATH}/liferay/doclib:/data/liferay/document_library
-      - ${DATA_PATH}/liferay/javamelody:/data/javamelody
       - ${DATA_PATH}/liferay/import/agenda:/data/import/agenda
       - ${DATA_PATH}/liferay/import/gtfs:/data/import/gtfs
       - ${DATA_PATH}/liferay/logs/active/liferay:/opt/liferay/logs
@@ -147,7 +146,6 @@ services:
     volumes:
       - ./configs/liferay-ems-backup:/mnt/liferay
       - ${DATA_PATH}/liferay/doclib:/data/liferay/document_library
-      - ${DATA_PATH}/liferay/javamelody:/data/javamelody
       - ${DATA_PATH}/liferay/import/agenda:/data/import/agenda
       - ${DATA_PATH}/liferay/import/gtfs:/data/import/gtfs
       - ${DATA_PATH}/liferay/logs/backup/liferay:/opt/liferay/logs
