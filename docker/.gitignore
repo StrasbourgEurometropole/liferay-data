@@ -18,4 +18,4 @@
 !configs/liferay-ems/files/tomcat/lib/ext/*
 !configs/liferay-ems/files/osgi/war/*
 !configs/liferay-ems/files/tomcat/*
-!configs/liferay-ems/patching/*.zip
+!configs/liferay-ems-*/patching/*.zip
