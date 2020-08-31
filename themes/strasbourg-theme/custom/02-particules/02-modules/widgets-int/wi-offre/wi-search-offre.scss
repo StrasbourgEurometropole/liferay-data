@@ -57,49 +57,59 @@
 .wi-search-result.wi-search-offer {
     width: 61em;
     margin: auto;
-    
-    .seu-result-right .seu-result-infos{
-        width: 310px;
-    }
+    .seu-result-right{
+        .seu-result-grade {
+            font-weight: 600;
+            color: #5c5c5c;
+        }
 
-    .seu-result-right .seu-result-infos-top {
-        color: $core-color;        
-        display: flex;
-        justify-content: center;
-        min-height: 50%;
-        padding: 20px 0;
-        font-family: $montserrat;
-        font-size: 1.4rem;
-        color: $core-color;
-        text-transform: none;
-        font-weight: 500;
-        font-size: 12px;
-        &:before {
-            content:'';
-            background-image: url(svg-bg-uri($svg-calendar, $core-color));
-            margin-right: 12px;
-            margin-top: -3px;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: inline-block;
-            height: 20px;
-            width: 20px;
+        .seu-result-infos{
+            width: 310px;
+        }
+
+        .seu-result-infos-top {
+            color: $core-color;        
+            display: flex;
+            justify-content: center;
+            min-height: 50%;
+            padding: 10px 0;
+            font-family: $montserrat;
+            font-size: 1.2rem;
+            color: $core-color;
+            text-transform: none;
+            font-weight: 500;
+            &:before {
+                content:'';
+                background-image: url(svg-bg-uri($svg-calendar, $core-color));
+                margin-right: 12px;
+                margin-top: -3px;
+                background-position: center;
+                background-repeat: no-repeat;
+                display: inline-block;
+                height: 20px;
+                width: 20px;
+            }
+            &:after {
+                display: none;
+            }
+            &+.seu-result-infos-bottom {
+                margin-top: 0;
+            }
+        }
+
+        .seu-result-infos-bottom {
+            display: flex;
+            justify-content: center;
+            font-family: $montserrat;
+            font-size: 1.2rem;
+            color: $core-color;
+            text-transform: uppercase;
+            font-weight: 500;
+            min-height: 50%;
+            padding: 10px 0;
         }
     }
-
-    .seu-result-right .seu-result-infos-bottom {
-        display: flex;
-        justify-content: center;
-        font-family: $montserrat;
-        font-size: 1.4rem;
-        color: $core-color;
-        text-transform: uppercase;
-        font-weight: 500;
-        min-height: 50%;
-        padding: 20px 0;
-    }
 }
-
 
 
 @include RWD(mobile){

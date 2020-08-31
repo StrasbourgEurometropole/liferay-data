@@ -35,7 +35,7 @@ Vous trouverez ci-dessous la liste des informations saisies.</p>
                         Date limite de dépôt des candidatures
                     </div>
                     <div class="seu-result-infos-bottom">
-                        ${entry.getLimitDate()?datetime?string("dd-MM-yyyy")}
+                        ${entry.getLimitDate()?datetime?string("dd/MM/yyyy")}
                     </div>
                 </div>
             </div>
