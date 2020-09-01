@@ -10,3 +10,6 @@ docker image push $REGISTRY_ADDRESS\liferay-ems:$LFR_TAG_VERSION
 
 echo -e "\n\n \e[35m4# Lancement de la stack EMS\e[0m"
 docker stack deploy -c docker-compose.yml ems-stack --with-registry-auth
+
+echo -e "\n\n \e[35m4# Visualisation des services\e[0m"
+docker service ls
