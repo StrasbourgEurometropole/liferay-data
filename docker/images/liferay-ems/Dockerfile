@@ -41,4 +41,4 @@ USER liferay
 ARG DIST_PATH_VERSION
 
 # Copie des livrables dans deploy
-COPY --chown=liferay:liferay $DIST_PATH/$DIST_PATH_VERSION/ /etc/liferay/mount/deploy/
+COPY --chown=liferay:liferay $DIST_PATH/$DIST_PATH_VERSION/ /opt/liferay/deploy/
