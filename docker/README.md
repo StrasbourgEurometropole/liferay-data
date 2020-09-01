@@ -124,8 +124,7 @@ Images à créer :
         * `files/portal-ext.properties` pour définir les proprités Liferay et EMS.
         * `files/portal-setup-wizzard.properties` pour définir les proprités de connection à la BDD et d'administration par defaut de Liferay.
         * `files/osgi/configs` dossier dans lequel placer tous les fichiers de config osgi.
-        * `files/osgi/war/liferay-javamelody-hook-1.82.0.0.war` librairie javamelody (@see https://github.com/javamelody/javamelody/wiki/LiferayPlugin).
-        * `scripts/wait-for-dependencies.sh` script lancé avant le serveur permettant d'attendre les dépendances MySQL et ElasticSearch
+        * `scripts/wait-for-dependencies.sh` script lancé avant le serveur permettant d'attendre les dépendances ElasticSearch et Liferay actif pour le backup.
 
 Créer et remplir le fichier `./.env` suivant où :
  * `DATA_PATH` est le chemin vers le repertoire de persistance monté en NFS
@@ -161,20 +160,18 @@ Exporter les variables d'environnement du fichier `.env` :
 $ export $(cat .env)
 ```
 
+Buil des images
+
 Pour lancer la totalité des services, lancer la commande :
 
 ```shell
-$ docker-compose up -d
+$ docker stack deploy -c docker-compose.yml ems-stack --with-registry-auth
 ```
 
-**notes** : 
-* Lors du premier lancement, toutes les images seront créés.
-* Lors de la livraison d'une nouvelle version, seule l'image Liferay sera recrée.
-
-Suivre les logs via la commande :
+Suivre les logs d'un service via la commande suivante en remplaçant `SERVICE_ID` par celui récupéré avec `docker service ls` :
 
 ```shell
-$ docker-compose logs -f
+$ docker service logs SERVICE_ID -f
 ```
 
 ## Livraison d'une nouvelle version
