@@ -1,12 +1,17 @@
 package eu.strasbourg.portlet.ejob.display.context;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.OfferLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
@@ -18,10 +23,16 @@ import java.util.List;
 public class ViewOfferDisplayContext
 	extends ViewListBaseDisplayContext<Offer> {
 	private List<Offer> _offers;
+	private final RenderRequest request;
+	private final ThemeDisplay themeDisplay;
+	private AssetVocabulary filieres;
+	private AssetVocabulary niveauEtudes;
 
 	public ViewOfferDisplayContext(RenderRequest request,
 								   RenderResponse response) {
 		super(Offer.class, request, response);
+		this.request = request;
+		this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 	@SuppressWarnings("unused")
 	public List<Offer> getOffers() throws PortalException {
@@ -52,6 +63,26 @@ public class ViewOfferDisplayContext
 			this._themeDisplay.getScopeGroupId(),
 			StrasbourgPortletKeys.EJOB_BO, StrasbourgPortletKeys.EJOB_BO,
 			actionId);
+	}
+
+	/**
+	 * Renvoie le vocabulaire Filieres
+	 */
+	@SuppressWarnings("unused")
+	public AssetVocabulary getFilieres() {
+		long groupId = themeDisplay.getLayout().getGroupId();
+		this.filieres = AssetVocabularyAccessor.getEJobFilieres(groupId);
+		return this.filieres;
+	}
+
+	/**
+	 * Renvoie le vocabulaire Niveau d'étude
+	 */
+	@SuppressWarnings("unused")
+	public AssetVocabulary getNiveauEtudes() {
+		long groupId = themeDisplay.getLayout().getGroupId();
+		this.niveauEtudes = AssetVocabularyAccessor.getEJobNiveauEtude(groupId);
+		return this.niveauEtudes;
 	}
 
 }

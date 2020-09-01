@@ -22,9 +22,11 @@
 				<li><a>Filtrer par :</a></li>
 			</c:if>
 			<c:forEach var="vocabulary" items="${dc.vocabularies}">
-                    <liferay-frontend:management-bar-filter
-                        managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}"
-                        value="${dc.getVocabularyFilterLabel(vocabulary)}" />
+                <c:if test="${(vocabulary != dc.filieres) && (vocabulary != dc.niveauEtudes)}">
+                <liferay-frontend:management-bar-filter
+                    managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}"
+                    value="${dc.getVocabularyFilterLabel(vocabulary)}" />
+                </c:if>
 
 			</c:forEach>
             <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
