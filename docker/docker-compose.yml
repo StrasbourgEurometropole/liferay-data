@@ -122,7 +122,7 @@ services:
     build : 
       context: ./images/liferay-ems
       args:
-        - DiST_PATH_VERSION=${LFR_TAG_VERSION}
+        - DIST_PATH_VERSION=${LFR_TAG_VERSION}
     environment:
       - JAVA_VERSION=zulu11
       - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME=com.mysql.cj.jdbc.Driver
