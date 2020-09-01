@@ -39,6 +39,6 @@ USER liferay
 
 # Dossier dans ./dist contenant les livrables
 ARG DiST_PATH_VERSION
- 
+
 # Copie des livrables dans deploy
 COPY --chown=liferay:liferay $DIST_PATH/$DiST_PATH_VERSION/* /etc/liferay/mount/deploy/*
