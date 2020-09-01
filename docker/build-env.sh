@@ -17,7 +17,8 @@ else
         $deployPath/liferay/imports/agenda/batch \
         $deployPath/liferay/imports/gtfs/import \
         $deployPath/liferay/imports/gtfs/batch \
-        $deployPath/portainer
+        $deployPath/portainer \
+        $deployPath/maintenance
     
     echo "\e[35m12# Change /esdata permission\e[0m"
     chmod g+rwx $deployPath/esdata
