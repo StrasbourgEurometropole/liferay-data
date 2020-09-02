@@ -8,10 +8,8 @@ ENV DIST_PATH=./dist
 # Changement d'utilisateur sur root pour les opérations nécéssitants ses droits 
 USER root
 
-# Création des dossiers utiles
-RUN mkdir -p /tmp/certificates \
-	&& mkdir -p /data/import/agenda/archives \
-    && chown -R liferay:liferay /data
+# Création des dossiers temporaires
+RUN mkdir -p /tmp/certificates
 
 # Copie du script permettant d'attendre les autres services avant démarrage du serveur
 COPY --chown=liferay:liferay $SOURCES_PATH/wait-for-it.sh /
@@ -34,6 +32,10 @@ RUN keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alia
 
 # Repositionnement sur l'utilisateur liferay
 USER liferay
+
+# Création des dossiers utils
+RUN mkdir -p /data/import/agenda/archives \
+    && mkdir -p /data/liferay/document_library
 
 # Dossier dans ./dist contenant les livrables
 ARG DIST_PATH_VERSION
