@@ -10,6 +10,9 @@ USER root
 
 # Création des dossiers temporaires
 RUN mkdir -p /tmp/certificates \
+
+# Création du repertoire de données
+RUN mkdir /data \
     && chown -R liferay:liferay /data
 
 # Copie du script permettant d'attendre les autres services avant démarrage du serveur
@@ -34,7 +37,7 @@ RUN keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alia
 # Repositionnement sur l'utilisateur liferay
 USER liferay
 
-# Création des dossiers utils
+# Création des dossiers utils pour la persistance et les imports
 RUN mkdir -p /data/import/agenda/archives \
     && mkdir -p /data/liferay/document_library
 
