@@ -100,36 +100,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <span class="seu-btn-arrow"></span>
                     </span>
                 </button>
-                
-                <div class="seu-wi-duo portlet-layout row">
-                    <div class="col-md-6 portlet-column portlet-column-first">
-                        <div class="portlet-dropzone portlet-column-content portlet-column-content-first"></div>
-                    </div>
-                    <div class="col-md-6 portlet-column portlet-column-last">
-                        <div class="portlet-dropzone portlet-column-content portlet-column-content-last"></div>
-                    </div>
-                </div>
-
-                <div class="seu-wi seu-wi-quote offer-contact"> 
-                    <div class="seu-container"> 
-                        <h2 class="seu-section-title">
-                            <span class="seu-title"><@liferay_ui.message key="eu.offer-candidature-spontanee" /></span>
-                        </h2>
-                        <div class="rte">
-                            <div>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</div>
-                            <br>
-                            <!-- Candidater -->
-                            <button type="button" class="seu-btn-square seu-filled seu-core" id="candidatureSpontanee">
-                                <span class="seu-flexbox">
-                                    <span class="seu-btn-text">
-                                        <a><@liferay_ui.message key="eu.offer-candidater" /></a>
-                                    </span>
-                                    <span class="seu-btn-arrow"></span>
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>  
         </div>  
     </main>
@@ -142,16 +112,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         // on vérifie que l'utilisateur est connecté
         if(window.publikInternalId != undefined){
             window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getPublikApiApply()}?refposte=${entry.publicationId}&libposte=${entry.getPost(locale)}";
-        }else{
-            window.createPopin(Liferay.Language.get('log-in-to-apply'),function() {
-                window.location = window.loginURL;
-            },undefined,Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'));
-        }
-    };
-    document.getElementById("candidatureSpontanee").onclick = function(e){
-        // on vérifie que l'utilisateur est connecté
-        if(window.publikInternalId != undefined){
-            window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getPublikApiApply()}?refposte=0&libposte=candidature%20spontanee";
         }else{
             window.createPopin(Liferay.Language.get('log-in-to-apply'),function() {
                 window.location = window.loginURL;
