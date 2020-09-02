@@ -99,9 +99,8 @@
 				<script>
 					<![CDATA[import com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil;
 						import com.liferay.portal.kernel.workflow.WorkflowConstants;
-						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("denied"), workflowContext);
-						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("pending"), workflowContext);]]>
-						</script>
+						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("draft"), workflowContext);]]>
+				</script>
 				<script-language>groovy</script-language>
 				<execution-type>onAssignment</execution-type>
 			</action>
