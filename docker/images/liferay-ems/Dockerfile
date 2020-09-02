@@ -5,12 +5,12 @@ FROM liferay/dxp:7.2.10-dxp-6
 ENV SOURCES_PATH=./sources
 ENV DIST_PATH=./dist
 
-# Changement d'utilisateur pour root (évite le problème de permission sur les fichiers déposés dans le conteneur)
+# Changement d'utilisateur sur root pour les opérations nécéssitants ses droits 
 USER root
 
 # Création des dossiers utiles
 RUN mkdir -p /tmp/certificates \
-	&& mkdir -p /data/imports/agenda/import/archives \
+	&& mkdir -p /data/import/agenda/archives \
     && chown -R liferay:liferay /data
 
 # Copie du script permettant d'attendre les autres services avant démarrage du serveur
@@ -32,9 +32,7 @@ RUN keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alia
         -file /tmp/certificates/apiYoutube.cer -storepass changeit -noprompt \
     && rm -rf /tmp/certificates
 
-RUN chown -R liferay:liferay /data
-
-# Changement d'utilisateur pour root (évite le problème de permission sur les fichiers déposés dans le conteneur)
+# Repositionnement sur l'utilisateur liferay
 USER liferay
 
 # Dossier dans ./dist contenant les livrables
