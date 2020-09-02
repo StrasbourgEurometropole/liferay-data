@@ -9,7 +9,7 @@ ENV DIST_PATH=./dist
 USER root
 
 # Création des dossiers temporaires
-RUN mkdir -p /tmp/certificates \
+RUN mkdir -p /tmp/certificates
 
 # Création du repertoire de données
 RUN mkdir /data \
