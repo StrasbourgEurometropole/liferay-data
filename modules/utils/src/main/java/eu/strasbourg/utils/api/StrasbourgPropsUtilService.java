@@ -9,5 +9,7 @@ import aQute.bnd.annotation.ProviderType;
 public interface StrasbourgPropsUtilService {
     public String getPublikApiBase() ;
 
-    public String getPublikApiApply() ;
+    public String getPublikJobApply() ;
+
+    public String getPublikJobOfferApply() ;
 }

@@ -1,6 +1,5 @@
 package eu.strasbourg.utils;
 
-import eu.strasbourg.utils.api.AssetVocabularyHelperService;
 import eu.strasbourg.utils.api.StrasbourgPropsUtilService;
 import org.osgi.service.component.annotations.Component;
 
@@ -16,8 +15,13 @@ public class StrasbourgPropsUtilImpl  implements StrasbourgPropsUtilService {
 	}
 
 	@Override
-	public String getPublikApiApply() {
-		return StrasbourgPropsUtil.getPublikApiApply();
+	public String getPublikJobOfferApply() {
+		return StrasbourgPropsUtil.getPublikJobOfferApply();
+	}
+
+	@Override
+	public String getPublikJobApply() {
+		return StrasbourgPropsUtil.getPublikJobApply();
 	}
 
 
