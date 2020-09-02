@@ -52,21 +52,6 @@
     .seu-media-title{
         text-transform: uppercase;
     }
-        
-    div.seu-wi-duo{
-        height: 250px;
-        margin-top: 60px;
-
-        .portlet-column{
-            &:nth-child(1){
-                background-color: $second-color;
-            }
-
-            &:nth-child(2){
-                background-color: #5ddfd1;
-            }
-        }
-    }
 
     .offer-contact {
         margin-bottom: 0;

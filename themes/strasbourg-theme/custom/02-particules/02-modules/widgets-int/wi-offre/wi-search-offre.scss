@@ -111,6 +111,32 @@
     }
 }
 
+.offer-contact {
+    margin-bottom: 0;
+
+    .seu-container:before, .seu-container:after{
+        content: none;
+    }
+
+    h2 span.seu-title{
+        text-transform: uppercase;
+    }
+    
+    .seu-btn-square.seu-filled.seu-core{
+        display: block;
+        margin: 0 auto;
+        
+        a{
+            color: white;
+            text-decoration: none;
+        }
+        
+        &:hover a{
+            color: $core-color;
+        }
+    }
+}
+
 
 @include RWD(mobile){
     .seu-view-offer .seu-filter-line .widget {
