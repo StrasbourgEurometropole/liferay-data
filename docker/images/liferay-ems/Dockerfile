@@ -9,7 +9,8 @@ ENV DIST_PATH=./dist
 USER root
 
 # Création des dossiers temporaires
-RUN mkdir -p /tmp/certificates
+RUN mkdir -p /tmp/certificates \
+    && chown -R liferay:liferay /data
 
 # Copie du script permettant d'attendre les autres services avant démarrage du serveur
 COPY --chown=liferay:liferay $SOURCES_PATH/wait-for-it.sh /
