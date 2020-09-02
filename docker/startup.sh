@@ -3,7 +3,7 @@ cat .env
 export $(cat .env)
 
 echo -e "\n\n \e[35m2# Construction de l'image ElasticSearch\e[0m"
-docker image build --build-arg -t $REGISTRY_ADDRESS\elasticsearch-ems ./images/liferay-ems
+docker image build --build-arg -t $REGISTRY_ADDRESS\elasticsearch-ems ./images/elasticsearch-ems
 
 echo -e "\n\n \e[35m3# Push sur le registry de l'image ElasticSearch\e[0m"
 docker image push $REGISTRY_ADDRESS\elasticsearch-ems
