@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <div class="pro-reagir">
                     <div>
-                        <h3><liferay-ui:message key="modal.disable"/></h3>
+                        <h3><liferay-ui:message key="modal.disable.new.team"/></h3>
                         <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-petition-ok"/> />
                     </div>
                 </div>
