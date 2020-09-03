@@ -17,6 +17,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <h3><@liferay_ui.message key="eu.offer-publication-id" /></h3>
                         <p>${entry.getPublicationId()}</p>
                     </div>
+                    <#if entry.getPostNumber()?? && entry.offerTypeRecrutement.getTitle(locale)=="Stage">
+                        <div id="postNumber">
+                            <h3><@liferay_ui.message key="eu.offer-post-number" /></h3>
+                            <p>${entry.getPostNumber()}</p>
+                        </div>
+                        </#if>
                     <div id="typeRecrutement">
                         <h3><@liferay_ui.message key="eu.offer-type-recrutement" /></h3>
                         <p>${entry.offerTypeRecrutement.getTitle(locale)}</p>
