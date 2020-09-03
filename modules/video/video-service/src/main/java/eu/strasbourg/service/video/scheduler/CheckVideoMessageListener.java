@@ -14,6 +14,9 @@ import com.liferay.portal.kernel.messaging.Message;
 import eu.strasbourg.service.video.service.VideoGalleryLocalService;
 import eu.strasbourg.service.video.service.VideoLocalService;
 
+import java.util.Calendar;
+import java.util.Date;
+
 @Component(immediate = true, service = CheckVideoMessageListener.class)
 public class CheckVideoMessageListener extends BaseMessageListener {
 
@@ -23,9 +26,14 @@ public class CheckVideoMessageListener extends BaseMessageListener {
 
 		String listenerClass = getClass().getName();
 
+		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date fiveMinutesFromNow = now.getTime();
+
 		// Création du trigger "Toutes les 15 minutes"
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, null, null,
+				listenerClass, listenerClass, fiveMinutesFromNow, null,
 				15, TimeUnit.MINUTE);
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(

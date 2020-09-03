@@ -33,8 +33,11 @@ body.signed-in {
     margin-bottom: 0rem;
 }
 
-.autofit-row {
-    margin-bottom: 0rem;
+// L'endroit d'affichage du titre du portlet qu'on ne veut pas
+// En non connecté, ça permet de supprimer un margin non voulu
+// Mais en connecté on a ce margin à cause d'un border qui annule le margincollapsing
+.portlet-content .autofit-row {
+    display: none;
 }
 
 //affichage des articles en ipad doit etre comme en mobile et pas comme desktop

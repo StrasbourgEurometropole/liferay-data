@@ -690,14 +690,27 @@
             }
 
             function saveUserConfig() {
-                AUI().use('aui-io-request', function(A) {
-                    A.io.request(window.interestPointUrl, {
-                        method: 'post',
-                        form: {
-                            id: window.aroundMePortletNamespace + 'addItemForm'
-                        },
-                    });
+
+                //Get form values
+                var form = document.getElementById(window.aroundMePortletNamespace+'addItemForm');
+                var data = $(form).serializeArray();
+                var formData = new FormData(form);
+                data.forEach(function(entry){
+                    formData.append(entry.name, entry.value);
                 });
+                var request = new XMLHttpRequest();
+                request.open('POST', window.interestPointUrl, true);
+                //request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+                request.onload = function() {
+                    if (this.status >= 200 && this.status < 400) {
+                        // Success!
+                    }
+                    else {
+                        // We reached our target server, but it returned an error
+                    }
+                };
+                request.send(formData);
                 showPois();
             }
 

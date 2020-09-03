@@ -66,6 +66,7 @@ import static eu.strasbourg.portlet.projectpopup.utils.ProjectPopupUtils.getPubl
 )
 public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 
+    /** Id paramètres de requête */
     private static final String BIRTHDAY = "birthday";
     private static final String ADDRESS = "address";
     private static final String CITY = "city";
@@ -84,6 +85,14 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private static final String SAVEINFO = "saveinfo";
     private static final String PATTERN = "dd/MM/yyyy";
 
+    /** Clef de language */
+    private static final String ERROR_FILE_TO_LARGE = "project.popup.web.error.file.to.large";
+    private static final String ERROR_UNABLE_TO_SCAN_FILE = "project.popup.web.error.unable.to.scan.file.for.viruses";
+    private static final String ERROR_VIRUS_DETECTED = "project.popup.web.error.a.virus.was.detected.in.the.file";
+    private static final String ERROR_DURING_FILE_SCAN = "project.popup.web.error.during.file.scan";
+    private static final String ERROR_SUSPECT_FILE_DETECTED = "project.popup.web.error.suspect.file.detected";
+
+    /** Tampon paramètres de requête */
     private String publikID;
     private PublikUser user;
     private DateFormat dateFormat;
@@ -109,6 +118,10 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
      * le log
      */
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
+    /** Fichier local de langue */
+    private ResourceBundle languageBundle = ResourceBundleUtil.getBundle("content.Language",
+            this.getClass().getClassLoader());
 
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
@@ -477,10 +490,10 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                         budgetParticipatif.setFilesIds(filesIds);
                         return budgetParticipatif;
                     }else{
-                        throw new PortalException("Fichier(s) suspect(s) d&eacute;tect&eacute;(s)");
+                        throw new PortalException(LanguageUtil.get(languageBundle, ERROR_SUSPECT_FILE_DETECTED));
                     }
                 }else{
-                    throw new PortalException("Fichier(s) trop volumineux (maximum autoris&eacute; : "
+                    throw new PortalException(LanguageUtil.get(languageBundle, ERROR_FILE_TO_LARGE)
                             + ParamUtil.getLong(request, "sizeFile") + "Mo)");
                 }
             } else {
@@ -555,17 +568,17 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                 if (Validator.isNotNull(error)) {
                     switch (error){
                         case "unable-to-scan-file-for-viruses":
-                            this.message = "L’analyse de s&eacute;curit&eacute; de vos documents n’a pas pu &ecirc;tre" +
-                                    "effectu&eacute;e. Le projet n'a pas &eacute;t&eacute; enregistr&eacute;";
+                            this.message = LanguageUtil.get(languageBundle, ERROR_UNABLE_TO_SCAN_FILE);
                             break;
                         case "a-virus-was-detected-in-the-file":
-                            this.message = "Fichier(s) suspect(s) d&eacute;tect&eacute;(s)";
+                            this.message = LanguageUtil.get(languageBundle, ERROR_VIRUS_DETECTED);
                             break;
                         default:
-                            this.message = "Erreur lors de l'ex&eacute;cution du l'antivirus";
+                            this.message = LanguageUtil.get(languageBundle, ERROR_DURING_FILE_SCAN);
                             break;
                     }
-                    return false;
+                    result = false;
+                    break;
                 }
             }
         }
@@ -667,7 +680,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                     return false;
                 }else{
                     if (!validateFileSizes(request)) {
-                        this.message = "Fichier(s) trop volumineux (maximum autoris&eacute; : "
+                        this.message = LanguageUtil.get(languageBundle, ERROR_FILE_TO_LARGE)
                                 + ParamUtil.getLong(request, "sizeFile") + "Mo)";
                         return false;
                     }else if (!antiVirusVerif()) {

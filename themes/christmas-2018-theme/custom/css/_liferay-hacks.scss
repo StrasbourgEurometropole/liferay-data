@@ -102,6 +102,17 @@ h2.portlet-title-text {
     .lfr-pagination-buttons {
       line-height: 46px;
     }
+    small.search-results {
+      font-size : 85%;
+    }
+   .lfr-icon-menu-arrow.caret {
+        font-size: 14px;
+   }
+}
+
+// Taille des options des listes déroulantes de liferay
+.lfr-icon-item.taglib-icon {
+  font-size: 14px;
 }
 
 .mns-triple-actu-bloc .mns-bloc-actu img{

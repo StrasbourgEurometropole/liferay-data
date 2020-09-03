@@ -127,7 +127,14 @@
                                                 ${occupationState.occupation}
                                         </c:if>
                                     </div>
-                                    <div class="favoris-teaser__crowding-label"><liferay-ui:message key="${occupationState.label}" /></div>
+                                    <div class="favoris-teaser__crowding-label">
+                                    	<liferay-ui:message key="${occupationState.label}" />
+                                    	<!-- ajout post covid : affichage capacité totale -->
+                                    	<c:if test="${favorite.place.isSwimmingPool()}">
+                                    		<br>
+                                            <liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                                        </c:if>
+                                   	</div>
                                 </div>
                             </c:if>
 

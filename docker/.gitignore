@@ -1,10 +1,12 @@
 *.sql
 *.war
 *.jar
+!configs/liferay-ems/files/tomcat/lib/ext/*
 !configs/liferay-ems/files/osgi/war/*
 *.log
 *.7z
 *.zip
+!configs/liferay-ems/patching/*.zip
 *.aatf
 *.tar.gz
 *.cer

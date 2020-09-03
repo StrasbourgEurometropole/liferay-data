@@ -15,6 +15,9 @@ import com.liferay.portal.kernel.messaging.Message;
 import eu.strasbourg.service.edition.service.EditionGalleryLocalService;
 import eu.strasbourg.service.edition.service.EditionLocalService;
 
+import java.util.Calendar;
+import java.util.Date;
+
 @Component(immediate = true, service = CheckEditionMessageListener.class)
 public class CheckEditionMessageListener
 	extends BaseMessageListener {
@@ -24,9 +27,14 @@ public class CheckEditionMessageListener
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
+		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date fiveMinutesFromNow = now.getTime();
+
 		// Création du trigger "Toutes les 15 minutes"
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, null, null,
+				listenerClass, listenerClass, fiveMinutesFromNow, null,
 				15, TimeUnit.MINUTE);
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(

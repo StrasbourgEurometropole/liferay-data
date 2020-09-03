@@ -4,6 +4,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
+import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.scheduler.*;
@@ -18,6 +19,7 @@ import eu.strasbourg.service.oidc.service.PublikUserLocalService;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.osgi.service.component.annotations.*;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -33,12 +35,20 @@ public class PublikUsersAnonymized extends BaseMessageListener {
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
+		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date fiveMinutesFromNow = now.getTime();
+
 		// Création du trigger "Tous les jours à 3h30"
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, null, null, "0 30 3 * * ?");
+				listenerClass, listenerClass, fiveMinutesFromNow, null, "0 30 3 * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
+
+		_schedulerEngineHelper.register(
+				this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
 	}
 
 	@Deactivate
