@@ -9,5 +9,18 @@ public interface AssetPublisherTemplateHelperService {
      */
     String getImageWidthHeight(String filePath);
 
+    /**
+     * Récupère l'URL d'une image à partir des données fournies par la Structure d'un WebContent
+     */
     String getDocumentUrl(String documentStructure);
+
+    /**
+     * Enleve les acccents, lowercase, remplace l'espace par un '-' pour utiliser le string dans un URL
+     */
+    String slugify(String s);
+
+    /**
+     * Remplace le renderUrl de liferay pour le site des musees
+     */
+    String createRenderUrlMusee(String type, String musee);
 }

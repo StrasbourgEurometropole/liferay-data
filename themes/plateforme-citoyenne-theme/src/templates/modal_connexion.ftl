@@ -30,7 +30,7 @@
 										<div>
 											<h3>Se connecter</h3>
 											<p>Vous devez être identifié avec votre compte MonStrasbourg.eu pour agir sur le site.</p>                          
-											<a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="pro-btn-yellow" title="Connexion">
+											<a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="pro-btn-yellow" title="Connexion">
 												Se connecter
 											</a>									
 										</div>

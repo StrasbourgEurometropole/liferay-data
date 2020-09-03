@@ -26,4 +26,16 @@ public class AssetPublisherTemplateHelperImpl implements AssetPublisherTemplateH
         return AssetPublisherTemplateHelper.getDocumentUrl(documentStructure);
     }
 
+    @Override
+    public String slugify(String s) {
+        return AssetPublisherTemplateHelper.slugify(s);
+    }
+
+    /**
+     * Remplace le renderUrl de liferay pour le site des musees
+     */
+    @Override
+    public String createRenderUrlMusee(String type, String musee){
+        return AssetPublisherTemplateHelper.createRenderUrlMusee(type,  musee);
+    }
 }

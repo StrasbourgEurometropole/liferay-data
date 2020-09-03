@@ -1,19 +1,19 @@
 {
 	"devDependencies": {
+		"compass-mixins": "0.12.10",
 		"gulp": "3.9.1",
 		"gulp-autoprefixer": "latest",
 		"gulp-concat": "latest",
-		"gulp-load-plugins": "latest",
+		"gulp-load-plugins": "^2.0.4",
 		"gulp-notify": "latest",
 		"gulp-rename": "latest",
-		"gulp-sass": "latest",
+		"gulp-sass": "^4.1.0",
 		"gulp-tinypng": "latest",
 		"gulp-uglify": "latest",
-		"liferay-theme-tasks": "^9.5.0",
-		"compass-mixins": "0.12.10",
 		"liferay-frontend-common-css": "1.0.4",
 		"liferay-frontend-theme-styled": "4.0.21",
-		"liferay-frontend-theme-unstyled": "4.0.17"
+		"liferay-frontend-theme-unstyled": "4.0.17",
+		"liferay-theme-tasks": "^9.5.2"
 	},
 	"keywords": [
 		"liferay-theme"
