@@ -5,15 +5,18 @@ FROM liferay/dxp:7.2.10-dxp-6
 ENV SOURCES_PATH=./sources
 ENV DIST_PATH=./dist
 
-# Changement d'utilisateur pour root (évite le problème de permission sur les fichiers déposés dans le conteneur)
+# Changement d'utilisateur sur root pour les opérations nécéssitants ses droits 
 USER root
 
-# Création des dossiers utiles
-RUN mkdir -p /data/certificates \
-	mkdir -p /data/import/agenda/archives
+# Création des dossiers temporaires
+RUN mkdir -p /tmp/certificates
+
+# Création du repertoire de données
+RUN mkdir /data \
+    && chown -R liferay:liferay /data
 
 # Copie du script permettant d'attendre les autres services avant démarrage du serveur
-COPY $SOURCES_PATH/wait-for-it.sh /
+COPY --chown=liferay:liferay $SOURCES_PATH/wait-for-it.sh /
 RUN chmod +x /wait-for-it.sh
 
 # Installation de ClamAV
@@ -22,16 +25,24 @@ RUN chmod +x /wait-for-it.sh
 #    freshclam
 
 # Installation des certificats
-COPY $SOURCES_PATH/*.cer /data/certificates/
+COPY --chown=liferay:liferay $SOURCES_PATH/*.cer /tmp/certificates/
 RUN keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias certigna-authority-2015-2025 \
-        -file /data/certificates/certigna-authority-2015-2025.cer -storepass changeit -noprompt \
+        -file /tmp/certificates/certigna-authority-2015-2025.cer -storepass changeit -noprompt \
     && keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias aipDailymotion \
-        -file /data/certificates/apiDailymotion.cer -storepass changeit -noprompt \
+        -file /tmp/certificates/apiDailymotion.cer -storepass changeit -noprompt \
     && keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias apiYoutube \
-        -file /data/certificates/apiYoutube.cer -storepass changeit -noprompt
+        -file /tmp/certificates/apiYoutube.cer -storepass changeit -noprompt \
+    && rm -rf /tmp/certificates
+
+# Repositionnement sur l'utilisateur liferay
+USER liferay
+
+# Création des dossiers utils pour la persistance et les imports
+RUN mkdir -p /data/import/agenda/archives \
+    && mkdir -p /data/liferay/document_library
 
 # Dossier dans ./dist contenant les livrables
-ARG DiST_PATH_VERSION
+ARG DIST_PATH_VERSION
 
 # Copie des livrables dans deploy
-COPY $DIST_PATH/$DiST_PATH_VERSION/ /opt/liferay/deploy/
+COPY --chown=liferay:liferay $DIST_PATH/$DIST_PATH_VERSION/ /opt/liferay/deploy/
