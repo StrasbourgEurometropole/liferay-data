@@ -28,7 +28,7 @@
                         <tbody>
                             <c:forEach var="application" items="${dc.applicationPaginatedResults}">
                                 <tr>
-                                    <td>${application.title}</td>
+                                    <td></td>
                                     <td><a href="${application.url}">${application.codeSuivi}</a></td>
                                     <td>${application.date}</td>
                                     <td>${application.status}</td>
