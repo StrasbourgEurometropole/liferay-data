@@ -128,14 +128,6 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.publik.url.api.base");
 	}
 
-	public static String getPublikJobOfferApply() {
-		return PropsUtil.get("eu.strasbourg.publik.url.job.offer.apply");
-	}
-
-	public static String getPublikJobApply() {
-		return PropsUtil.get("eu.strasbourg.publik.url.job.apply");
-	}
-
 	public static String getPublikApiSynchronization() { return PropsUtil.get("eu.strasbourg.publik.url.api.synchronization");	}
 
 	public static String getPublikApiOrigin() {
@@ -303,13 +295,21 @@ public class StrasbourgPropsUtil {
 
 	public static String getGMBEmail() {return PropsUtil.get("eu.strasbourg.google.synchronized.report.mail");}
 
-	public static String getEJobURLOffer() {return PropsUtil.get("ejob.ftp.url.offer");}
+	public static String getEJobURLOfferApply() {
+		return PropsUtil.get("eu.strasbourg.ejob.publik.url.offer.apply");
+	}
 
-	public static String getEJobFTPHost() {return PropsUtil.get("ejob.ftp.host");}
+	public static String getEJobURLApply() {
+		return PropsUtil.get("eu.strasbourg.ejob.publik.url.apply");
+	}
 
-	public static String getEJobFTPPort() {return PropsUtil.get("ejob.ftp.port");}
+	public static String getEJobURLOffer() {return PropsUtil.get("eu.strasbourg.ejob.ftp.url.offer");}
 
-	public static String getEJobFTPUser() {return PropsUtil.get("ejob.ftp.user");}
+	public static String getEJobFTPHost() {return PropsUtil.get("eu.strasbourg.ejob.ftp.host");}
 
-	public static String getEJobFTPPassword() {return PropsUtil.get("ejob.ftp.password");}
+	public static String getEJobFTPPort() {return PropsUtil.get("eu.strasbourg.ejob.ftp.port");}
+
+	public static String getEJobFTPUser() {return PropsUtil.get("eu.strasbourg.ejob.ftp.user");}
+
+	public static String getEJobFTPPassword() {return PropsUtil.get("eu.strasbourg.ejob.ftp.password");}
 }

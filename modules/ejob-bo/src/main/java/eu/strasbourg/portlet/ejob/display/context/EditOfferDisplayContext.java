@@ -5,7 +5,6 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.OfferLocalServiceUtil;
@@ -233,15 +232,15 @@ public class EditOfferDisplayContext {
                 StrasbourgPortletKeys.EJOB_BO, actionId);
     }
 
-    public String getDefaultIndexes(String emails) {
-        String indexes = "";
-        for (int i = 1; i <= emails.split(",").length; i++) {
-            if (Validator.isNotNull(indexes)) {
-                indexes += ",";
+    public String getDefaultIndexes() {
+        if(this.offer != null){
+            String indexes = "0";
+            for (int i = 1; i < this.offer.getEmails().split(",").length; i++) {
+                indexes += "," + i;
             }
-            indexes += i;
+            return indexes;
         }
-        return indexes;
+		return "";
     }
 
 }

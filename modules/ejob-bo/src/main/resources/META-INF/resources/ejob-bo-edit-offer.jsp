@@ -108,8 +108,7 @@
 
                 <%-- Champ : Si contrat permanent
                 Ajout champ texte pré saisie « fonctionnaire ou à défaut contractuel »--%>
-                     <c:set var="permanentDescriptionValue"><liferay-ui:message key='ejob-permanent-description-value' /></c:set>
-                     <aui:input type="text" name="permanentDescription" required="false" value="${permanentDescriptionValue}" />
+                     <aui:input name="permanentDescription" required="false" />
 
                 <%-- Champ : Durée du contrat  --%>
                      <aui:input name="duration" required="false" />
@@ -260,7 +259,7 @@
                                         var estRenseigne = document.getElementById('_eu_strasbourg_portlet_ejob_EjobBOPortlet_avantages_fr_FR').value.length > 0;
                                         var sel = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_ejobTypeRecrutement");
                                         var text= sel.options[sel.selectedIndex].text;
-                                        var estVisible = text != "Stage";
+                                        var estVisible = text != "Stage" && text != "Apprentissage";
                                         var validate = estRenseigne || !estVisible;
                                         if (!validate) {
                                             document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_avantagesEditorContainer").scrollIntoView();
@@ -314,32 +313,29 @@
                     <div id="email-fields">
                         <label><liferay-ui:message key="emails" /></label>
                         <c:if test="${empty dc.offer.emails}">
-                            <div class="lfr-form-row" id="email${param.index}">
+                            <div class="lfr-form-row" id="email0">
                                 <div class="row-fields">
                                     <liferay-util:include page="/includes/email-row.jsp" servletContext="<%=application %>">
-                                        <liferay-util:param name="index" value="1" />
+                                        <liferay-util:param name="index" value="0" />
                                         <liferay-util:param name="email" value="" />
                                     </liferay-util:include>
                                 </div>
                             </div>
                         </c:if>
 
-                        <c:forEach items="${dc.offer.emails.split(',')}" var="email" varStatus="status">
-                            <div class="lfr-form-row" id="email${param.index}">
-                                <div class="row-fields">
-                                    <liferay-util:include page="/includes/email-row.jsp" servletContext="<%=application %>">
-                                        <liferay-util:param name="index" value="${status.count}" />
-                                        <liferay-util:param name="email" value="${email}" />
-                                    </liferay-util:include>
-                                </div>
-                            </div>
-                        </c:forEach>
-                        <c:if test="${empty dc.offer.emails}">
-                            <aui:input type="hidden" name="emailsIndexes" value="1" />
-                        </c:if>
                         <c:if test="${not empty dc.offer.emails}">
-                            <aui:input type="hidden" name="emailsIndexes" value="${dc.getDefaultIndexes(dc.offer.emails)}" />
+                            <c:forEach items="${dc.offer.emails.split(',')}" var="email" varStatus="status">
+                                <div class="lfr-form-row" id="email${param.index}">
+                                    <div class="row-fields">
+                                        <liferay-util:include page="/includes/email-row.jsp" servletContext="<%=application %>">
+                                            <liferay-util:param name="index" value="${status.index}" />
+                                            <liferay-util:param name="email" value="${email}" />
+                                        </liferay-util:include>
+                                    </div>
+                                </div>
+                            </c:forEach>
                         </c:if>
+                        <aui:input type="hidden" name="offerEmailsIndexes" value="${dc.getDefaultIndexes()}" />
                      </div>
 
                 <%-- Champ : Champ partage Linkedin  --%>
@@ -414,11 +410,16 @@
 
 </div>
 
+<liferay-portlet:actionURL name="getOfferEmailRow" varImpl="offerEmailRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+	<liferay-portlet:param name="mvcPath" value="/includes/email-row.jsp" />
+</liferay-portlet:actionURL>
+
 <liferay-util:html-top>
 	<script>
-	var getemailRowJSPURL = '${emailRowURL}';
+	    var getOfferEmailRowJSPURL = '${offerEmailRowURL}';
 	</script>
 </liferay-util:html-top>
+
 <liferay-util:html-bottom>
 	<script src="/o/ejobbo/js/ejob-bo-edit-offer.js" type="text/javascript"></script>
 	<style>

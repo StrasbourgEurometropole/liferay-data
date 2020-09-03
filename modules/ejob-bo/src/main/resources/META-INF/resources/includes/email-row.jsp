@@ -4,3 +4,9 @@
     value="${param.email}" >
   <aui:validator name="email"/>
 </aui:input>
+
+<c:if test="${not empty fromAjax}">
+	<aui:script>
+		$('#email-fields').trigger('emailCreated', ${param.index});
+	</aui:script>
+</c:if>

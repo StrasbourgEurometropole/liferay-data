@@ -17,7 +17,3 @@
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
-
-<liferay-portlet:renderURL varImpl="emailRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
-	<portlet:param name="mvcPath" value="/includes/email-row.jsp" />
-</liferay-portlet:renderURL>

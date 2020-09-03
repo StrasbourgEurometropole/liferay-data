@@ -1,11 +1,8 @@
 .page-offre{
     @extend %molecule-inlines-rte;
 
-    .intro{
-        margin-bottom: 40px;
-    }
-
     h2{
+        margin-top: 50px;
         margin-bottom: 30px;
     }
 
@@ -53,9 +50,5 @@
                 background-image: url( svg-bg-uri($svg-filled-close-white,  $second-color) );
             }
         }
-    }
-
-    .text{
-        margin-bottom: 40px;
     }
 }

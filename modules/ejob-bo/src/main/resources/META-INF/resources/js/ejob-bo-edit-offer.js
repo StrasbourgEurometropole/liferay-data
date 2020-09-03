@@ -1,3 +1,5 @@
+var autoFields = undefined; // Référence au champ répétable (setté plus loin)
+
 //Initialisation de l'affichage des champs en fonction du type de recrutement,
 // du type d'export, des filières et catégories et des directions
 var namespace = "_eu_strasbourg_portlet_ejob_EjobBOPortlet_";
@@ -54,7 +56,7 @@ if(ejobFiliere.value == "")
 var ejobGrade = document.getElementById(namespace + "ejobGrade");
 if(ejobCategorie.value == "")
     ejobGrade.parentNode.style.display='none';
-// gestion de l'affichage des sélecteurs de catégories
+// gestion de l'affichage des sélecteurs de catégories de filières
 ejobFiliere.onchange = function(){
     ejobCategorie.parentNode.style.display = "block";
     Array.prototype.forEach.call(ejobCategorie.children, function(child, i){
@@ -95,18 +97,18 @@ var ejobContact = document.getElementById(namespace + "ejobContact");
 // gestion de l'affichage des champs en fonction du type de recrutement
 function initialise(){
     var typeRecrutementsValue= typeRecrutements.children[typeRecrutements.selectedIndex].text;
-    if (typeRecrutementsValue == "Stage"){
-        var typePublication = document.getElementsByName(namespace + "typePublication");
-        typePublication[0].checked = "true";
-        typeExportTotem.style.display="none";
-        postNumber.parentNode.style.display="block";
+    if(typeRecrutementsValue == "Stage" || typeRecrutementsValue == "Apprentissage"){
+//        var typePublication = document.getElementsByName(namespace + "typePublication");
+//        typePublication[0].checked = "true";
+//        typeExportTotem.style.display="none";
+//        postNumber.parentNode.style.display="block";
         document.getElementById(namespace + "jobCreationDescription").value = "";
         jobCreationDescription.parentNode.style.display="none";
         document.getElementById(namespace + "startDate2").value = "";
         startDate.parentNode.style.display="none";
         document.getElementById(namespace + "motif").value = "";
         motif.parentNode.style.display="none";
-        document.getElementById(namespace + "permanentDescription").value = "";
+        document.getElementById(namespace + "permanentDescription").value = Liferay.Language.get('ejob-permanent-description-value');
         permanentDescription.parentNode.style.display="none";
         fullTime[0].checked = "true";
         changeHandlerFullTime();
@@ -123,17 +125,31 @@ function initialise(){
         ejobContact.options[0].selected = 'selected';
         ejobContact.parentNode.style.display="none";
     }else{
-        typeExportTotem.style.display="block";
-        postNumber.value = "";
-        postNumber.parentNode.style.display="none";
+//        typeExportTotem.style.display="block";
+//        postNumber.value = "";
+//        postNumber.parentNode.style.display="none";
         jobCreationDescription.parentNode.style.display="block";
         if(publicationId.value == '')
             document.getElementById(namespace + "startDate2").value = new Date().toLocaleString().split(" à ")[0];
         startDate.parentNode.style.display="block";
         motif.parentNode.style.display="block";
-        permanentDescription.parentNode.style.display="block";
         blockFullTime.style.display="block";
-        ejobFiliere.parentNode.style.display="block";
+        if (typeRecrutementsValue == "Permanent"){
+                permanentDescription.parentNode.style.display="block";
+        }else{
+                document.getElementById(namespace + "permanentDescription").value = Liferay.Language.get('eu.offer-job-permanent-description-value');
+                permanentDescription.parentNode.style.display="none";
+        }
+        if (typeRecrutementsValue == "Vacataire"){
+            ejobFiliere.options[0].selected = 'selected';
+            ejobFiliere.parentNode.style.display="none";
+            ejobCategorie.options[0].selected = 'selected';
+            ejobCategorie.parentNode.style.display="none";
+            ejobGrade.options[0].selected = 'selected';
+            ejobGrade.parentNode.style.display="none";
+        }else{
+            ejobFiliere.parentNode.style.display="block";
+        }
         avantages.style.display="block";
         ejobContact.parentNode.style.display="block";
     }
@@ -155,6 +171,12 @@ submitButton.onclick = function(event){
     }
 };
 
+//Soumission du formulaire
+function submitForm(event) {
+	autoFields.save(event.target);
+	return true;
+}
+
 
 
 function setFiliereConditionalValidators(event) {
@@ -163,7 +185,9 @@ function setFiliereConditionalValidators(event) {
         var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
         var typeRecrutementsValue = typeRecrutements.children[typeRecrutements.selectedIndex].text;
         var isStage = typeRecrutementsValue === "Stage";
-        if (isStage) {
+        var isApprentissage = typeRecrutementsValue === "Apprentissage";
+        var isVacataire = typeRecrutementsValue === "Vacataire";
+        if (isStage || isApprentissage || isVacataire) {
             rules[namespace + 'ejobFiliere'].required = false;
             rules[namespace + 'ejobCategorie'].required = false;
             rules[namespace + 'ejobGrade'].required = false;
@@ -177,7 +201,6 @@ function setFiliereConditionalValidators(event) {
 
 
 // envoi par email de l'offre
-var autoFields = undefined; // Référence au champ répétable (setté plus loin)
 (function($) {
     var namespace = "_eu_strasbourg_portlet_ejob_EjobBOPortlet_"; // Namespace du portlet
 
@@ -187,9 +210,9 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 			// Création de l'autofield
 			autoFields = new Liferay.AutoFields({
 				contentBox : '#email-fields',
-				fieldIndexes : namespace + 'emailsIndexes',
+				fieldIndexes : namespace + 'offerEmailsIndexes',
 				namespace : namespace,
-				url : getemailRowJSPURL
+				url : getOfferEmailRowJSPURL
 			}).render();
 		}
 	});

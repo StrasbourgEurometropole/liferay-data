@@ -15,13 +15,13 @@ public class StrasbourgPropsUtilImpl  implements StrasbourgPropsUtilService {
 	}
 
 	@Override
-	public String getPublikJobOfferApply() {
-		return StrasbourgPropsUtil.getPublikJobOfferApply();
+	public String getEJobURLOfferApply() {
+		return StrasbourgPropsUtil.getEJobURLOfferApply();
 	}
 
 	@Override
-	public String getPublikJobApply() {
-		return StrasbourgPropsUtil.getPublikJobApply();
+	public String getEJobURLApply() {
+		return StrasbourgPropsUtil.getEJobURLApply();
 	}
 
 
