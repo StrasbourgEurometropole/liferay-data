@@ -112,17 +112,19 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 			paragraph.add(offer.getOfferTypeRecrutement().getTitle(locale));
 			paragraph.add("\n\n");
 
-			if(offer.getPermanentDescription() != null && offer.getOfferTypeRecrutement().getTitle(locale)!="Stage") {
+			if(offer.getPermanentDescription(locale) != null && !offer.getPermanentDescription(locale).equals("") && offer.getOfferTypeRecrutement().getTitle(locale)!="Stage") {
 				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-permanent-description") + " : ").setFont(fontBold).setFontSize(16f));
 				paragraph.add("\n");
 				paragraph.add(offer.getPermanentDescription(locale));
 				paragraph.add("\n\n");
 			}
 
-			paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-duree-contrat") + " : ").setFont(fontBold).setFontSize(16f));
-			paragraph.add("\n");
-			paragraph.add(offer.getDuration(locale));
-			paragraph.add("\n\n");
+			if(offer.getDuration(locale) != null && !offer.getDuration(locale).equals("")) {
+				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-duree-contrat") + " : ").setFont(fontBold).setFontSize(16f));
+				paragraph.add("\n");
+				paragraph.add(offer.getDuration(locale));
+				paragraph.add("\n\n");
+			}
 
 			paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-direction") + " : ").setFont(fontBold).setFontSize(16f));
 			paragraph.add("\n");
@@ -146,7 +148,7 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 				paragraph.add("\n\n");
 			}
 
-			if(offer.getFullTimeDescription(locale) != null  && offer.getIsFullTime() && offer.getOfferTypeRecrutement().getTitle(locale)!="Stage") {
+			if(offer.getFullTimeDescription(locale) != null && !offer.getFullTimeDescription(locale).equals("") && offer.getIsFullTime() && offer.getOfferTypeRecrutement().getTitle(locale)!="Stage") {
 				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-full-time-description") + " : ").setFont(fontBold).setFontSize(16f));
 				paragraph.add("\n");
 				paragraph.add(offer.getFullTimeDescription(locale));

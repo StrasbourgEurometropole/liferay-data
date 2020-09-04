@@ -28,7 +28,7 @@
                         <tbody>
                             <c:forEach var="application" items="${dc.applicationPaginatedResults}">
                                 <tr>
-                                    <td></td>
+                                    <td>${fn:length(application.title) > 35?fn:substring(application.title,0,35)+='...':application.title}</td>
                                     <td><a href="${application.url}">${application.codeSuivi}</a></td>
                                     <td>${application.date}</td>
                                     <td>${application.status}</td>
@@ -85,7 +85,7 @@
                     <c:if test="${dc.applicationSearchContainer.total gt 0}">
                         <li class="pagin-next pagin-item">
                             <a class="btn-square bordered core" title="<liferay-ui:message key="see-all" />"
-                                data-action="next" href="">
+                                data-action="next" href="${dc.proceduresURL}">
                                 <span class="flexbox">
                                     <span class="btn-text"><liferay-ui:message key="see-all" /></span>
                                     <span class="btn-arrow"></span>
