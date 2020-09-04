@@ -42,6 +42,14 @@ public class OfferServiceWrapper
 		return _offerService.exportOffer(offerId, locale, baos);
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getOffer(
+			String publicationId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _offerService.getOffer(publicationId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

@@ -202,6 +202,11 @@ public interface OfferLocalService
 	public long findByKeywordCount(String keyword, long groupId);
 
 	/**
+	 * Retourne une offre via son publicationId
+	 */
+	public Offer findByPublicationId(String publicationId);
+
+	/**
 	 * Retourne les offres via sa date de début de publication
 	 */
 	public List<Offer> findByPublicationStartDate(Date date);

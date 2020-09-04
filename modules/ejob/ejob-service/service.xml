@@ -55,6 +55,10 @@
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 
+		<finder name="PublicationId" return-type="Offer" db-index="true" >
+			<finder-column name="publicationId" />
+		</finder>
+
 		<finder name="PublicationStartDate" return-type="Collection" db-index="true" >
 			<finder-column name="publicationStartDate" />
 		</finder>

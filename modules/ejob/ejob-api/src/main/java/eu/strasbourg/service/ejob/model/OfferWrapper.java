@@ -2747,6 +2747,14 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 		return new OfferWrapper(_offer.toEscapedModel());
 	}
 
+	/**
+	 * Retourne la version JSON de l'offre
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _offer.toJSON();
+	}
+
 	@Override
 	public String toString() {
 		return _offer.toString();

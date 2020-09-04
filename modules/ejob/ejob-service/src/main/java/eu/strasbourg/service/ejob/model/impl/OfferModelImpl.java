@@ -184,11 +184,13 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	public static final long ISEXPORTED_COLUMN_BITMASK = 4L;
 
-	public static final long PUBLICATIONSTARTDATE_COLUMN_BITMASK = 8L;
+	public static final long PUBLICATIONID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long PUBLICATIONSTARTDATE_COLUMN_BITMASK = 16L;
 
-	public static final long OFFERID_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
+
+	public static final long OFFERID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -1325,7 +1327,17 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setPublicationId(String publicationId) {
+		_columnBitmask |= PUBLICATIONID_COLUMN_BITMASK;
+
+		if (_originalPublicationId == null) {
+			_originalPublicationId = _publicationId;
+		}
+
 		_publicationId = publicationId;
+	}
+
+	public String getOriginalPublicationId() {
+		return GetterUtil.getString(_originalPublicationId);
 	}
 
 	@JSON
@@ -3226,6 +3238,8 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 		offerModelImpl._setModifiedDate = false;
 
+		offerModelImpl._originalPublicationId = offerModelImpl._publicationId;
+
 		offerModelImpl._originalPublicationStartDate =
 			offerModelImpl._publicationStartDate;
 
@@ -3560,6 +3574,7 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _publicationId;
+	private String _originalPublicationId;
 	private String _postNumber;
 	private String _jobCreationDescription;
 	private String _jobCreationDescriptionCurrentLanguageId;

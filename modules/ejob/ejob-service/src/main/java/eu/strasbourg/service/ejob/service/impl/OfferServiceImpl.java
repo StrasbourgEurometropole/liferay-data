@@ -30,9 +30,15 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.base.OfferServiceBaseImpl;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -258,5 +264,33 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 		}
 
 		return offer.getPost(locale);
+	}
+
+	@Override
+	public JSONObject getOffer(String publicationId) throws PortalException {
+		if (!isAuthorized()) {
+			return error("not authorized");
+		}
+
+		Offer offer = this.offerLocalService.findByPublicationId(publicationId);
+		if (offer == null || !offer.isApproved()) {
+			return JSONFactoryUtil.createJSONObject();
+		}
+		return offer.toJSON();
+	}
+
+	private JSONObject error(String message) {
+		return JSONFactoryUtil.createJSONObject().put("error", message);
+	}
+
+	private boolean isAuthorized() {
+		try {
+			Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
+			long globalGroupId = defaultCompany.getGroup().getGroupId();
+			return this.getPermissionChecker().hasPermission(globalGroupId, StrasbourgPortletKeys.EJOB_BO,
+					StrasbourgPortletKeys.EJOB_BO, "VIEW");
+		} catch (PortalException e) {
+			return false;
+		}
 	}
 }

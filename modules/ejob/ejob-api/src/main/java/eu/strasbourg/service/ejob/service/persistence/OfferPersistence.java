@@ -397,6 +397,51 @@ public interface OfferPersistence extends BasePersistence<Offer> {
 	public int countByUuid_C(String uuid, long companyId);
 
 	/**
+	 * Returns the offer where publicationId = &#63; or throws a <code>NoSuchOfferException</code> if it could not be found.
+	 *
+	 * @param publicationId the publication ID
+	 * @return the matching offer
+	 * @throws NoSuchOfferException if a matching offer could not be found
+	 */
+	public Offer findByPublicationId(String publicationId)
+		throws NoSuchOfferException;
+
+	/**
+	 * Returns the offer where publicationId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param publicationId the publication ID
+	 * @return the matching offer, or <code>null</code> if a matching offer could not be found
+	 */
+	public Offer fetchByPublicationId(String publicationId);
+
+	/**
+	 * Returns the offer where publicationId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param publicationId the publication ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching offer, or <code>null</code> if a matching offer could not be found
+	 */
+	public Offer fetchByPublicationId(
+		String publicationId, boolean retrieveFromCache);
+
+	/**
+	 * Removes the offer where publicationId = &#63; from the database.
+	 *
+	 * @param publicationId the publication ID
+	 * @return the offer that was removed
+	 */
+	public Offer removeByPublicationId(String publicationId)
+		throws NoSuchOfferException;
+
+	/**
+	 * Returns the number of offers where publicationId = &#63;.
+	 *
+	 * @param publicationId the publication ID
+	 * @return the number of matching offers
+	 */
+	public int countByPublicationId(String publicationId);
+
+	/**
 	 * Returns all the offers where publicationStartDate = &#63;.
 	 *
 	 * @param publicationStartDate the publication start date

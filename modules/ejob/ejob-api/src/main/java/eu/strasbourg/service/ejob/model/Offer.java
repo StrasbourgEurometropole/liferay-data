@@ -123,4 +123,9 @@ public interface Offer extends OfferModel, PersistedModel {
 
 	public com.liferay.asset.kernel.model.AssetCategory getTypePublication();
 
+	/**
+	 * Retourne la version JSON de l'offre
+	 */
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
 }
