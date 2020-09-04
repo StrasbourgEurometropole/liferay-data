@@ -11,7 +11,7 @@
         
         <#assign offer = entry.assetRenderer.offer />
 
-        <#if offer.interneExterne=="Interne">
+        <#if offer.interneExterne=="Interne uniquement">
             <div class="wi-search-result wi-search-offer">
                 <div class="seu-result-right">
                     <a class="seu-result-content" href="${homeURL}offre/-/entity/id/${offer.getOfferId()}">

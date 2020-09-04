@@ -7,7 +7,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <div class="seu-page-offer">
     <main class="seu-container">
         <h1>${entry.getPost()}</h1>
-        
+
         <div class="seu-flexbox">
 
             <div class="seu-offer-container">
