@@ -17,26 +17,100 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <h3><@liferay_ui.message key="eu.offer-publication-id" /></h3>
                         <p>${entry.getPublicationId()}</p>
                     </div>
+                    <#if entry.getPostNumber()?? && entry.offerTypeRecrutement.getTitle(locale)=="Stage">
+                        <div id="postNumber">
+                            <h3><@liferay_ui.message key="eu.offer-post-number" /></h3>
+                            <p>${entry.getPostNumber()}</p>
+                        </div>
+                    </#if>
+                    <div id="typeRecrutement">
+                        <h3><@liferay_ui.message key="eu.offer-type-recrutement" /></h3>
+                        <p>${entry.offerTypeRecrutement.getTitle(locale)}</p>
+                    </div>
+                    <#if entry.getPermanentDescription()?? && entry.offerTypeRecrutement.getTitle(locale)!="Stage">
+                        <div id="permanentDescription">
+                            <h3><@liferay_ui.message key="eu.offer-permanent-description" /></h3>
+                            <p>${entry.getPermanentDescription(locale)}</p>
+                        </div>
+                    </#if>
+                    <div id="dureeContrat">
+                        <h3><@liferay_ui.message key="eu.offer-duree-contrat" /></h3>
+                        <p>${entry.getDuration(locale)}</p>
+                    </div>  
                     <div id="direction">
                         <h3><@liferay_ui.message key="eu.offer-direction" /></h3>
                         <p>${entry.offerDirection.getTitle(locale)}</p>
                     </div>
                     <#if entry.offerService??>
-                        <div id="Service">
+                        <div id="service">
                             <h3><@liferay_ui.message key="eu.offer-service" /></h3>
                             <p>${entry.offerService.getTitle(locale)}</p>
                         </div>
                     </#if>
-                    <#if entry.offerGrade??>
-                        <div id="Grade">
+                    <#if entry.getIsFullTime()?? && entry.offerTypeRecrutement.getTitle(locale)!="Stage">
+                        <div id="isFullTime">
+                            <h3><@liferay_ui.message key="eu.offer-is-full-time" /></h3>
+                            <#if entry.getIsFullTime()>
+                                <p><@liferay_ui.message key="eu.offer-full-time-true" /></p>
+                            <#else>
+                                <p><@liferay_ui.message key="eu.offer-full-time-false" /></p>
+                            </#if>  
+                        </div>
+                        <#if entry.getFullTimeDescription(locale)?? && entry.getIsFullTime()>
+                            <div id="fullTimeDescription">
+                                <h3><@liferay_ui.message key="eu.offer-full-time-description" /></h3>
+                                <p>${entry.getFullTimeDescription(locale)}</p>
+                            </div>
+                        </#if>                    
+                    </#if>  
+                    <#if entry.offerFiliere?? && entry.offerTypeRecrutement.getTitle(locale)!="Stage">
+                        <div id="filiere">
+                            <h3><@liferay_ui.message key="eu.offer-filiere" /></h3>
+                            <p>${entry.offerFiliere.getTitle(locale)}</p>
+                        </div>
+                    </#if>
+                    <#if entry.offerFiliereCategorie?? && entry.offerTypeRecrutement.getTitle(locale)!="Stage">
+                        <div id="filiereCategorie">
+                            <h3><@liferay_ui.message key="eu.offer-filiere-categorie" /></h3>
+                            <p>${entry.offerFiliereCategorie.getTitle(locale)}</p>
+                        </div>
+                    </#if>
+                    <#if entry.offerGrade?? && entry.offerTypeRecrutement.getTitle(locale)!="Stage">
+                        <div id="grade">
                             <h3><@liferay_ui.message key="eu.offer-grade" /></h3>
                             <p>${entry.offerGrade.getTitle(locale)}</p>
+                        </div>
+                    </#if>
+                    <#if entry.offerNiveauEtude?? && entry.offerTypeRecrutement.getTitle(locale)=="Stage">
+                        <div id="niveauEtude">
+                            <h3><@liferay_ui.message key="eu.offer-niveau-etude" /></h3>
+                            <p>${entry.offerNiveauEtude.getTitle(locale)}</p>
                         </div>
                     </#if>
                     <div id="limitDate">
                         <h3><@liferay_ui.message key="eu.offer-limit-date" /></h3>
                         <p>${entry.getLimitDate()?datetime?string("dd/MM/yyyy")}</p>
                     </div>
+                    <#if entry.offerFamille??>
+                        <div id="familleMetier">
+                            <h3><@liferay_ui.message key="eu.offer-famille-metier" /></h3>
+                            <p>${entry.offerFamille.getTitle(locale)}</p>
+                        </div>
+                    </#if>
+                    <#if entry.offerContact?? && entry.typePublication.getTitle(locale)=="Interne uniquement">
+                        <div id="nomRE">
+                            <h3><@liferay_ui.message key="eu.offer-nom-RE" /></h3>
+                            <p>${entry.offerContact.getTitle(locale)}</p>
+                        </div>
+                    </#if>
+                    <#if entry.getContact()??>
+                        <#if entry.offerTypeRecrutement.getTitle(locale)=="Stage" || entry.typePublication.getTitle(locale)=="Interne uniquement">
+                            <div id="nomRRH">
+                                <h3><@liferay_ui.message key="eu.offer-nom-RRH" /></h3>
+                                <p>${entry.getContact()}</p>
+                            </div>
+                        </#if>
+                    </#if>
                 </div>  
         
                 <!-- Introduction  -->
@@ -63,7 +137,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </div>
 
                 <!-- Avantages -->
-                <#if entry.avantages??>
+                <#if entry.avantages?? && entry.offerTypeRecrutement.getTitle(locale)!="Stage">
                     <div id="offerAvantages">
                         <h2><@liferay_ui.message key="eu.offer-avantages" /></h2>
                         ${entry.getAvantages(locale)}
@@ -111,7 +185,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     document.getElementById("candidater").onclick = function(e){
         // on vérifie que l'utilisateur est connecté
         if(window.publikInternalId != undefined){
-            window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getPublikApiApply()}?refposte=${entry.publicationId}&libposte=${entry.getPost(locale)}";
+            window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLOfferApply()}?refposte=${entry.publicationId}&libposte=${entry.getPost(locale)}";
         }else{
             window.createPopin(Liferay.Language.get('log-in-to-apply'),function() {
                 window.location = window.loginURL;

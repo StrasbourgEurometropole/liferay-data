@@ -25,7 +25,7 @@
     document.getElementById("candidatureSpontanee").onclick = function(e){
         // on vérifie que l'utilisateur est connecté
         if(window.publikInternalId != undefined){
-            window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getPublikApiApply()}?refposte=0&libposte=candidature%20spontanee";
+            window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLApply()}?refposte=0&libposte=candidature%20spontanee";
         }else{
             window.createPopin(Liferay.Language.get('log-in-to-apply'),function() {
                 window.location = window.loginURL;
