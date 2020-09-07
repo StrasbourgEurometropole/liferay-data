@@ -86,6 +86,22 @@
 				<script-language>groovy</script-language>
 				<execution-type>onEntry</execution-type>
 			</action>
+			<notification>
+				<name>Approve Notification User</name>
+				<description>
+					<![CDATA[Envoi une notification d'acceptation de soumission à l'utilisateur]]>
+				</description>
+				<template>
+					<![CDATA[Votre soumission a été acceptée.]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<notification-type>user-notification</notification-type>
+				<recipients receptionType="to">
+					<user/>
+				</recipients>
+				<execution-type>onEntry</execution-type>
+			</notification>
 		</actions>
 	</state>
 	<state>
@@ -112,8 +128,6 @@
 				</description>
 				<template>
 					<![CDATA[Votre soumission a été rejeté
-					
-					
 					<#if taskComments?has_content> et le validateur a émis le commentaire suivant : ${taskComments}</#if>.
 					Veuillez modifier l'offre et la soumettre à nouveau.]]>
 				</template>
@@ -156,13 +170,6 @@
 				</description>
 				<template>
 					<![CDATA[La soumission a été revue
-					
-					
-					
-					
-					
-					
-					
 					<#if taskComments?has_content> et le validateur a émis le commentaire suivant : ${taskComments}</#if>.]]>
 				</template>
 				<template-language>freemarker</template-language>
