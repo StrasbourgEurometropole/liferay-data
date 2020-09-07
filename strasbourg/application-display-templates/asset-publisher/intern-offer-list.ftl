@@ -11,11 +11,11 @@
         
         <#assign offer = entry.assetRenderer.offer />
 
-        <#if offer.interneExterne=="Interne uniquement">
+        <#if offer.typePublication?? && offer.typePublication.getTitle(locale)=="Interne uniquement">
             <div class="wi-search-result wi-search-offer">
                 <div class="seu-result-right">
                     <a class="seu-result-content" href="${homeURL}offre/-/entity/id/${offer.getOfferId()}">
-                        <h2 class="seu-result-title">${offer.getPost()}</h2>
+                        <h2 class="seu-result-title">${offer.getPost(locale)}</h2>
                         <div class="seu-result-catcher">${offer.offerDirection.getTitle(locale)}
                             <#if offer.offerService??>
                             / ${offer.offerService.getTitle(locale)}

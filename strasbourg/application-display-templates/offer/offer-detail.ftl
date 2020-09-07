@@ -6,7 +6,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <div class="seu-page-offer">
     <main class="seu-container">
-        <h1>${entry.getPost()}</h1>
+        <h1>${entry.getPost(locale)}</h1>
 
         <div class="seu-flexbox">
 
@@ -17,7 +17,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <h3><@liferay_ui.message key="eu.offer-publication-id" /></h3>
                         <p>${entry.getPublicationId()}</p>
                     </div>
-                    <#if entry.getPostNumber()?? && entry.offerTypeRecrutement.getTitle(locale)=="Stage">
+                    <#if entry.getPostNumber()?has_content && entry.offerTypeRecrutement.getTitle(locale)=="Stage">
                         <div id="postNumber">
                             <h3><@liferay_ui.message key="eu.offer-post-number" /></h3>
                             <p>${entry.getPostNumber()}</p>
@@ -27,16 +27,18 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <h3><@liferay_ui.message key="eu.offer-type-recrutement" /></h3>
                         <p>${entry.offerTypeRecrutement.getTitle(locale)}</p>
                     </div>
-                    <#if entry.getPermanentDescription()?? && entry.offerTypeRecrutement.getTitle(locale)!="Stage">
+                    <#if entry.getPermanentDescription(locale)?? && entry.offerTypeRecrutement.getTitle(locale)!="Stage">
                         <div id="permanentDescription">
                             <h3><@liferay_ui.message key="eu.offer-permanent-description" /></h3>
                             <p>${entry.getPermanentDescription(locale)}</p>
                         </div>
                     </#if>
-                    <div id="dureeContrat">
-                        <h3><@liferay_ui.message key="eu.offer-duree-contrat" /></h3>
-                        <p>${entry.getDuration(locale)}</p>
-                    </div>  
+                    <#if entry.getDuration(locale)?has_content>
+                        <div id="dureeContrat">
+                            <h3><@liferay_ui.message key="eu.offer-duree-contrat" /></h3>
+                            <p>${entry.getDuration(locale)}</p>
+                        </div> 
+                    </#if> 
                     <div id="direction">
                         <h3><@liferay_ui.message key="eu.offer-direction" /></h3>
                         <p>${entry.offerDirection.getTitle(locale)}</p>
@@ -56,7 +58,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <p><@liferay_ui.message key="eu.offer-full-time-false" /></p>
                             </#if>  
                         </div>
-                        <#if entry.getFullTimeDescription(locale)?? && entry.getIsFullTime()>
+                        <#if entry.getFullTimeDescription(locale)?has_content && entry.getIsFullTime()>
                             <div id="fullTimeDescription">
                                 <h3><@liferay_ui.message key="eu.offer-full-time-description" /></h3>
                                 <p>${entry.getFullTimeDescription(locale)}</p>
