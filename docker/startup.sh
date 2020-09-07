@@ -10,11 +10,11 @@ docker image push $REGISTRY_ADDRESS\elasticsearch-ems
 
 echo -e "\n\n \e[35m4# Copie des clefs d'activation Liferay\e[0m"
 echo " - Copie dans le noeud actif :"
-ls -l /activation-keys/liferay-ems-active/*
-cp /activation-keys/liferay-ems-active/* /configs/liferay-ems-active/deploy/
+ls -l ./activation-keys/liferay-ems-active/*
+cp ./activation-keys/liferay-ems-active/* ./configs/liferay-ems-active/deploy/
 echo " - Copie dans le noeud backup :"
-ls -l /activation-keys/liferay-ems-backup/*
-cp /activation-keys/liferay-ems-backup/* /configs/liferay-ems-backup/deploy/
+ls -l ./activation-keys/liferay-ems-backup/*
+cp ./activation-keys/liferay-ems-backup/* ./configs/liferay-ems-backup/deploy/
 
 echo -e "\n\n \e[35m5# Construction de l'image Liferay\e[0m"
 docker image build --build-arg DIST_PATH_VERSION=$LFR_TAG_VERSION -t $REGISTRY_ADDRESS\liferay-ems:$LFR_TAG_VERSION ./images/liferay-ems
