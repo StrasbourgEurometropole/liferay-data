@@ -26,11 +26,11 @@
 
 				Role siteAdministrator = RoleLocalServiceUtil.getRole(companyId, "Site Administrator");
 				Role administrator = RoleLocalServiceUtil.getRole(companyId, "Administrator");
-				Role validateur = RoleLocalServiceUtil.getRole(companyId, "Validateur Offre");
+				Role responsableEmploi = RoleLocalServiceUtil.getRole(companyId, "Responsable emploi");
 
 				returnValue = "review";
 
-				if(UserGroupRoleLocalServiceUtil.hasUserGroupRole( GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_USER_ID)) , groupId, validateur.getRoleId())
+				if(UserGroupRoleLocalServiceUtil.hasUserGroupRole( GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_USER_ID)) , groupId, responsableEmploi.getRoleId())
 				||
 				UserGroupRoleLocalServiceUtil.hasUserGroupRole( GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_USER_ID)) , groupId, siteAdministrator.getRoleId())
 				||
@@ -88,49 +88,45 @@
 			</action>
 		</actions>
 	</state>
-	<task>
-		<name>update</name>
+	<state>
+		<name>rejected</name>
 		<metadata>
-			<![CDATA[{"transitions":{"resubmit":{"bendpoints":[[303,140]]}},"xy":[728,299]}]]>
+			<![CDATA[{"xy":[631,307]}]]>
 		</metadata>
 		<actions>
 			<action>
 				<name>reject</name>
+				<description></description>
 				<script>
 					<![CDATA[import com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil;
 						import com.liferay.portal.kernel.workflow.WorkflowConstants;
-						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("draft"), workflowContext);]]>
+						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("denied"), workflowContext);]]>
 				</script>
 				<script-language>groovy</script-language>
-				<execution-type>onAssignment</execution-type>
+				<execution-type>onEntry</execution-type>
 			</action>
 			<notification>
-				<name>Creator Modification Notification</name>
+				<name>Reject Notification User</name>
 				<description>
-					<![CDATA[]]>
+					<![CDATA[Envoi une notification de rejet de soumission à l'utilisateur]]>
 				</description>
 				<template>
-					<![CDATA[Votre soumission a été rejeté. Veuillez modifier l'offre et la soumettre à nouveau.]]>
+					<![CDATA[Votre soumission a été rejeté
+					
+					
+					<#if taskComments?has_content> et le validateur a émis le commentaire suivant : ${taskComments}</#if>.
+					Veuillez modifier l'offre et la soumettre à nouveau.]]>
 				</template>
-				<template-language>text</template-language>
+				<template-language>freemarker</template-language>
 				<notification-type>email</notification-type>
+				<notification-type>user-notification</notification-type>
 				<recipients receptionType="to">
-					<assignees/>
+					<user/>
 				</recipients>
-				<execution-type>onAssignment</execution-type>
+				<execution-type>onEntry</execution-type>
 			</notification>
 		</actions>
-		<assignments>
-			<user/>
-		</assignments>
-		<transitions>
-			<transition>
-				<name>resubmit</name>
-				<target>review</target>
-				<default>true</default>
-			</transition>
-		</transitions>
-	</task>
+	</state>
 	<task>
 		<name>review</name>
 		<metadata>
@@ -138,40 +134,53 @@
 		</metadata>
 		<actions>
 			<notification>
-				<name>Review Notification</name>
+				<name>Assignment Notification</name>
 				<description>
-					<![CDATA[]]>
+					<![CDATA[Envoi une notification d'assignement aux validateurs]]>
 				</description>
 				<template>
 					<![CDATA[Vous avez une nouvelle soumission d'offre.]]>
 				</template>
 				<template-language>text</template-language>
 				<notification-type>email</notification-type>
+				<notification-type>user-notification</notification-type>
 				<recipients receptionType="to">
-					<roles>
-						<role>
-							<role-type>site</role-type>
-							<name>Validateur offre</name>
-							<auto-create>false</auto-create>
-						</role>
-					</roles>
+					<assignees/>
 				</recipients>
 				<execution-type>onAssignment</execution-type>
 			</notification>
 			<notification>
-				<name>Review Completion Notification</name>
+				<name>Reject Notification Validators</name>
 				<description>
-					<![CDATA[]]>
+					<![CDATA[Envoi une notification de rejet de soumission à l'utilisateur]]>
 				</description>
 				<template>
-					<![CDATA[Votre soumission a été revue
+					<![CDATA[La soumission a été revue
+					
+					
+					
+					
+					
+					
 					
 					<#if taskComments?has_content> et le validateur a émis le commentaire suivant : ${taskComments}</#if>.]]>
 				</template>
 				<template-language>freemarker</template-language>
 				<notification-type>email</notification-type>
+				<notification-type>user-notification</notification-type>
 				<recipients receptionType="to">
-					<user/>
+					<roles>
+						<role>
+							<role-type>site</role-type>
+							<name>Responsable emploi</name>
+							<auto-create>true</auto-create>
+						</role>
+						<role>
+							<role-type>site</role-type>
+							<name>Validation Hiérarchique</name>
+							<auto-create>true</auto-create>
+						</role>
+					</roles>
 				</recipients>
 				<execution-type>onExit</execution-type>
 			</notification>
@@ -180,7 +189,12 @@
 			<roles>
 				<role>
 					<role-type>site</role-type>
-					<name>Validateur offre</name>
+					<name>Responsable emploi</name>
+					<auto-create>true</auto-create>
+				</role>
+				<role>
+					<role-type>site</role-type>
+					<name>Validation Hiérarchique</name>
 					<auto-create>true</auto-create>
 				</role>
 			</roles>
@@ -193,7 +207,7 @@
 			</transition>
 			<transition>
 				<name>reject</name>
-				<target>update</target>
+				<target>rejected</target>
 				<default>false</default>
 			</transition>
 		</transitions>
