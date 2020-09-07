@@ -135,9 +135,10 @@ Images à créer :
         * `scripts/wait-for-dependencies.sh` script lancé avant le serveur permettant d'attendre les dépendances ElasticSearch et Liferay actif pour le backup.
 
 Créer et remplir le fichier `./.env` à la racine du repertoire `docker` où :
- * `DATA_PATH` est le chemin vers le repertoire de persistance monté en NFS
- * `LCS_LIFERAY_HOSTNAME` est le hostname utilisé par les conteneurs pour enregistrer la licence
  * `LFR_TAG_VERSION` est la version de l'image Liferay
+ * `DATA_PATH` est le chemin vers le repertoire de persistance monté en NFS
+ * `LCS_LIFERAY_ACTIVE_HOSTNAME` est le hostname utilisé par le conteneur Liferay actif (pour enregistrer la licence)
+ * `LCS_LIFERAY_BACKUP_HOSTNAME` est le hostname utilisé par le conteneur Liferay backup (pour enregistrer la licence)
  * `REGISTRY_ADDRESS` est l'adresse du registry Docker dans Nexus
  * `MYSQL_ADDRESS` est l'addresse de connexion à MySQL en prenant en compte, de préférence,  le port
  * `MYSQL_DB` est le nom de la base MySQL utilisé par Liferay
@@ -148,10 +149,11 @@ Créer et remplir le fichier `./.env` à la racine du repertoire `docker` où :
  * `TRAIL_MAIL_ADDRESS` est l'email de copie de tous les mails provenant du serveur SMTP (**A NE PAS REMPLIR EN PRODUCTION !**)
 
 ```properties
-DATA_PATH=
-LCS_LIFERAY_HOSTNAME=
-REGISTRY_ADDRESS=
 LFR_TAG_VERSION=
+DATA_PATH=
+LCS_LIFERAY_ACTIVE_HOSTNAME=
+LCS_LIFERAY_BACKUP_HOSTNAME=
+REGISTRY_ADDRESS=
 MYSQL_ADDRESS=
 MYSQL_DB=
 MYSQL_USER=

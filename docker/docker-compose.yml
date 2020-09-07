@@ -102,7 +102,7 @@ services:
     ports:
       - 8080:8080
       - 8009:8009
-    hostname: ${LCS_LIFERAY_HOSTNAME}
+    hostname: ${LCS_LIFERAY_ACTIVE_HOSTNAME}
     depends_on:
       - elasticsearch
     logging:
@@ -151,7 +151,7 @@ services:
     ports:
       - 9080:8080
       - 9009:8009
-    hostname: ${LCS_LIFERAY_HOSTNAME}
+    hostname: ${LCS_LIFERAY_BACKUP_HOSTNAME}
     depends_on:
       - elasticsearch
     logging:
