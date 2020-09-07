@@ -136,6 +136,7 @@ Images à créer :
 
 Créer et remplir le fichier `./.env` à la racine du repertoire `docker` où :
  * `DATA_PATH` est le chemin vers le repertoire de persistance monté en NFS
+ * `LCS_LIFERAY_HOSTNAME` est le hostname utilisé par les conteneurs pour enregistrer la licence
  * `LFR_TAG_VERSION` est la version de l'image Liferay
  * `REGISTRY_ADDRESS` est l'adresse du registry Docker dans Nexus
  * `MYSQL_ADDRESS` est l'addresse de connexion à MySQL en prenant en compte, de préférence,  le port
@@ -148,6 +149,7 @@ Créer et remplir le fichier `./.env` à la racine du repertoire `docker` où :
 
 ```properties
 DATA_PATH=
+LCS_LIFERAY_HOSTNAME=
 REGISTRY_ADDRESS=
 LFR_TAG_VERSION=
 MYSQL_ADDRESS=

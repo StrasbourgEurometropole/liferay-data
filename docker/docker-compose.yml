@@ -102,7 +102,7 @@ services:
     ports:
       - 8080:8080
       - 8009:8009
-    hostname: preprod-liferay.strasbourg.eu
+    hostname: ${LCS_LIFERAY_HOSTNAME}
     depends_on:
       - elasticsearch
     logging:
@@ -151,7 +151,7 @@ services:
     ports:
       - 9080:8080
       - 9009:8009
-    hostname: preprod-liferay.strasbourg.eu
+    hostname: ${LCS_LIFERAY_HOSTNAME}
     depends_on:
       - elasticsearch
     logging:
