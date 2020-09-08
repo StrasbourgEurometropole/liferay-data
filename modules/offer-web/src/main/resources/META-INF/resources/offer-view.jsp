@@ -115,7 +115,7 @@
                         <thead>
                             <tr>
                                 <td width="20%"><liferay-ui:message key="title" /></td>
-                                <td width="60%"><liferay-ui:message key="keywords" /></td>
+                                <td width="60%"><liferay-ui:message key="keywords-categories" /></td>
                                 <td></td>
                             </tr>
                         </thead>
@@ -127,7 +127,18 @@
 
                                 <tr>
                                     <td>${alert.name}</td>
-                                    <td>${alert.keyWord}</td>
+                                    <td>
+                                        ${alert.keyWord}
+                                        <c:if test="${not empty alert.keyWord && not empty alert.categories}">
+                                            ,
+                                        </c:if>
+                                        <c:forEach var="category" items="${alert.categories}" varStatus="status">
+                                            <c:if test="${status.index > 0}">
+                                                ,
+                                            </c:if>
+                                           ${category.getTitle(locale)}
+                                        </c:forEach>
+                                    </td>
                                     <td>
                                         <a href="${deleteAlert}" class="delete-alert">Supprimer</a>
                                     </td>

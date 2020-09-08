@@ -1596,6 +1596,20 @@ public interface OfferModel
 	public void setEmailSend(int emailSend);
 
 	/**
+	 * Returns the email partner sent of this offer.
+	 *
+	 * @return the email partner sent of this offer
+	 */
+	public int getEmailPartnerSent();
+
+	/**
+	 * Sets the email partner sent of this offer.
+	 *
+	 * @param emailPartnerSent the email partner sent of this offer
+	 */
+	public void setEmailPartnerSent(int emailPartnerSent);
+
+	/**
 	 * Returns <code>true</code> if this offer is approved.
 	 *
 	 * @return <code>true</code> if this offer is approved; <code>false</code> otherwise

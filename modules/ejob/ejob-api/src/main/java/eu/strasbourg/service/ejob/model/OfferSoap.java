@@ -69,6 +69,7 @@ public class OfferSoap implements Serializable {
 		soapModel.setPublicationEndDate(model.getPublicationEndDate());
 		soapModel.setIsExported(model.getIsExported());
 		soapModel.setEmailSend(model.getEmailSend());
+		soapModel.setEmailPartnerSent(model.getEmailPartnerSent());
 
 		return soapModel;
 	}
@@ -409,6 +410,14 @@ public class OfferSoap implements Serializable {
 		_emailSend = emailSend;
 	}
 
+	public int getEmailPartnerSent() {
+		return _emailPartnerSent;
+	}
+
+	public void setEmailPartnerSent(int emailPartnerSent) {
+		_emailPartnerSent = emailPartnerSent;
+	}
+
 	private String _uuid;
 	private long _offerId;
 	private long _groupId;
@@ -444,5 +453,6 @@ public class OfferSoap implements Serializable {
 	private Date _publicationEndDate;
 	private int _isExported;
 	private int _emailSend;
+	private int _emailPartnerSent;
 
 }
