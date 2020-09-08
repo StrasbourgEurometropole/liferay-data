@@ -23,6 +23,8 @@ services:
 
   liferay-portal:
     image: liferay-upgrade
+    build : 
+      context: ./images/liferay-upgrade
     volumes:
       - ./configs/liferay-upgrade/osgi:/opt/liferay/osgi/configs
       - ./configs/liferay-upgrade/app-server.properties:/opt/liferay/tools/portal-tools-db-upgrade-client/app-server.properties

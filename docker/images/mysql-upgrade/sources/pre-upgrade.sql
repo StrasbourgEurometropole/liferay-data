@@ -6,6 +6,7 @@ ALTER TABLE activity_ActivityCourse CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE activity_ActivityCoursePlace CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE activity_ActivityCourseSchedule CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE activity_ActivityOrganizer CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE activity_Association CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE activity_Practice CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 ALTER TABLE agenda_AgendaExport CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -28,6 +29,14 @@ ALTER TABLE artwork_ArtworkToArtworkCollection CHARACTER SET utf8 COLLATE utf8_u
 ALTER TABLE comment_Comment CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE comment_Signalement CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
+ALTER TABLE council_CouncilSession CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE council_Deliberation CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE council_Official CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE council_OfficialTypeCouncil CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE council_Procuration CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE council_Type CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE council_Vote CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
 ALTER TABLE edition_Edition CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE edition_EditionGallery CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE edition_EditionToEditionGallery CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -40,6 +49,19 @@ ALTER TABLE favorite_Favorite CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 ALTER TABLE formSendRecordField_FormSendRecordField CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE formSendRecordField_FormSendRecordFieldSignalement CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+ALTER TABLE gtfs_Agency CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE gtfs_Alert CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE gtfs_Arret CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE gtfs_Calendar CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE gtfs_CalendarDate CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE gtfs_Direction CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE gtfs_ImportHistoric CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE gtfs_Ligne CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE gtfs_Route CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE gtfs_Stop CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE gtfs_StopTime CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE gtfs_Trip CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 ALTER TABLE interest_Interest CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE interest_UserInterest CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -56,6 +78,9 @@ ALTER TABLE notification_UserNotificationType CHARACTER SET utf8 COLLATE utf8_un
 ALTER TABLE objtp_FoundObject CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE objtp_ObjectCategory CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
+ALTER TABLE official_Official CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+ALTER TABLE place_GoogleMyBusinessHistoric CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE place_Period CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE place_Place CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE place_Price CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -76,6 +101,8 @@ ALTER TABLE project_Project CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE project_ProjectFollowed CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE project_ProjectTimeline CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE project_Signataire CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+ALTER TABLE publik_AnonymisationHistoric CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 ALTER TABLE publik_PublikUser CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
