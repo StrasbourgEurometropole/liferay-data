@@ -112,9 +112,8 @@ Le fichier `migrated-dump.sql`se trouve désormais dans le répertoire `output` 
     *  dans le répertoire de configuration `configs/elasticsearch-ems` :
         *  `synonyms.txt` pour la description des synonymes.
 * Pour liferay-ems :
-    * dans le répertoire des clefs d'activation `activation-keys`
-        * la clef d'activation du noeud Liferay actif dans `liferay-ems-active`
-        * la clef d'activation du noeud Liferay backup dans `liferay-ems-backup`
+    * dans le répertoire des clefs d'activation `images/liferay-ems/sources/activation-keys`
+        * la clef d'activation du cluster Liferay
     * dans le répertoire de source pour la création de l'image `images/liferay-ems/sources` :
         * le script `wait-for-it.sh` permettant de tester la disponibilité d'autres noeuds.
         * le certificat `certigna-authority-2015-2025.cer`
