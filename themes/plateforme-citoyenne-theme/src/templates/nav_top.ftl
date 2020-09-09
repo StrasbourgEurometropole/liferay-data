@@ -43,7 +43,7 @@
                     <div class="pro-right">
                         
                         <#if request.session.getAttribute("publik_logged_in")!false>
-                            <a href="${layoutHelper.getPublikProfileURL()}" target="_blank" class="pro-btn-connexion connexion-black" title="Mon compte">
+                            <a href="${layoutHelper.getPublikProfileURL()?html}" target="_blank" class="pro-btn-connexion connexion-black" title="Mon compte">
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                     <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
@@ -55,7 +55,7 @@
                                 </span>
                             </a>
                         <#else>
-                            <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="pro-btn-connexion connexion-black" title="Connexion">
+                            <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="pro-btn-connexion connexion-black" title="Connexion">
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                     <span class="text">Connexion</span>
