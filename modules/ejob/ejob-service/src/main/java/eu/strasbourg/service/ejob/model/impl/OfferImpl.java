@@ -20,6 +20,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -231,7 +232,9 @@ public class OfferImpl extends OfferBaseImpl {
 		jsonOffer.put("typePublication", this.getTypePublication()!=null?this.getTypePublication().getTitle(Locale.getDefault()):"");
 		jsonOffer.put("postNumber", this.getPostNumber());
 		jsonOffer.put("jobCreationDescription", this.getJobCreationDescription(Locale.getDefault()));
-		String dateString = sdf.format(this.getStartDate());
+		String dateString = "";
+		if(Validator.isNotNull(this.getStartDate()))
+			dateString = sdf.format(this.getStartDate());
 		jsonOffer.put("startDate", dateString);
 		jsonOffer.put("motif", this.getMotif(Locale.getDefault()));
 		jsonOffer.put("permanentDescription", this.getPermanentDescription(Locale.getDefault()));
