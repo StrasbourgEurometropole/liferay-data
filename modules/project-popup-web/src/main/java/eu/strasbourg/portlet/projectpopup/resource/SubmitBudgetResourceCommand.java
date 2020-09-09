@@ -35,6 +35,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -118,14 +119,12 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private long quartierId;
     private long themeId;
     private String message;
-    private File budgetPhoto;
-    private String fileName;
-    private String[] fileNames;
-    private File[] files;
+    private File photoFile;
+    private String photoFileName;
+    private String[] documentsFileNames;
+    private File[] documentFiles;
 
-    /**
-     * le log
-     */
+    /** le log */
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
     /** Fichier local de langue */
@@ -134,7 +133,6 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
-
         // Recuperation du contexte de la requete
         this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         try {
@@ -170,10 +168,10 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         this.projectId = ParamUtil.getLong(request, PROJECT);
         this.quartierId = ParamUtil.getLong(request, QUARTIER);
         this.themeId = ParamUtil.getLong(request, THEME);
-        this.budgetPhoto = uploadRequest.getFile(PHOTO);
-        this.fileName = uploadRequest.getFileName("budgetPhoto");
-        this.files = uploadRequest.getFiles("budgetFile");
-        this.fileNames = uploadRequest.getFileNames("budgetFile");
+        this.photoFile = uploadRequest.getFile(PHOTO);
+        this.photoFileName = uploadRequest.getFileName("budgetPhoto");
+        this.documentFiles = uploadRequest.getFiles("budgetFile");
+        this.documentsFileNames = uploadRequest.getFileNames("budgetFile");
         
         // Verification de la validite des informations
         if (validate(request)) {
@@ -224,6 +222,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         
         try {
             this.sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
+
             List<Long> identifiants = new ArrayList<>();
             if (this.quartierId == 0) {
                 List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
@@ -339,7 +338,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submitbudget.mail.information");
 			
 			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
-					themeDisplay.getScopeGroup().getName(request.getLocale()));
+					this.themeDisplay.getScopeGroup().getName(request.getLocale()));
 			
 			InternetAddress[] toAddresses = new InternetAddress[0];
 			InternetAddress address = new InternetAddress(this.user.getEmail());
@@ -362,8 +361,8 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private BudgetParticipatif uploadFile(BudgetParticipatif budgetParticipatif) throws IOException, PortalException {
 
         // Verification de la bonne recuperation du contenu du fichier
-        if (this.budgetPhoto != null && this.budgetPhoto.exists()) {
-            byte[] imageBytes = FileUtil.getBytes(this.budgetPhoto);
+        if (this.photoFile != null && this.photoFile.exists()) {
+            byte[] imageBytes = FileUtil.getBytes(this.photoFile);
 
             // Dossier a la racine
             DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(this.themeDisplay.getScopeGroupId(),
@@ -376,14 +375,14 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             // Ajout du fichier
             FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
                     this.sc.getUserId(), folder.getRepositoryId(),
-                    folder.getFolderId(), this.budgetPhoto.getName(),
-                    MimeTypesUtil.getContentType(this.budgetPhoto),
-                    this.budgetPhoto.getName(), this.title,
+                    folder.getFolderId(), this.photoFile.getName(),
+                    MimeTypesUtil.getContentType(this.photoFile),
+                    this.photoFile.getName(), this.title,
                     "", imageBytes, this.sc);
             // Lien de l'image a l'entite
             budgetParticipatif.setImageId(fileEntry.getFileEntryId());
 
-            _log.info("Photo budget participatif uploade : [" + this.budgetPhoto + "]");
+            _log.info("Photo budget participatif uploade : [" + this.photoFile + "]");
 
         }
         return budgetParticipatif;
@@ -400,7 +399,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         String filesIds = "";
 
         int numFile = 0;
-        for (File file : this.files) {
+        for (File file : this.documentFiles) {
 
             // Verification de la bonne recuperation du contenu du fichier
             if (file != null && file.exists()) {
@@ -444,7 +443,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                 }
 
                 //récupère le nom du fichier envoyé
-                String name = this.fileNames[numFile];
+                String name = this.documentsFileNames[numFile];
 
                 // Ajout du fichier
                 FileEntry fileEntry;
@@ -474,31 +473,31 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         return budgetParticipatif;
     }
 
-    private boolean validateFileName() {
+    private boolean validateFileName(String fileName) {
         boolean result = true;
 
-        if (this.fileName != null && !this.fileName.isEmpty()) {
-            String type = this.fileName.substring(this.fileName.lastIndexOf(".")).toLowerCase();
+        if (fileName != null && !fileName.isEmpty()) {
+            String type = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
             result = type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
         }
         return result;
     }
 
-    private boolean validateNbFiles()  {
+    private boolean validateNbFiles(File[] files)  {
         boolean result = true;
-        if (this.files.length > 0) {
+        if (files.length > 0) {
             long nbFileMax = !this.configuration.nbFiles().equals("") ? Integer.parseInt(this.configuration.nbFiles()) : 3;
-            if (this.files.length > nbFileMax) {
+            if (files.length > nbFileMax) {
                 result = false;
             }
         }
         return result;
     }
 
-    private boolean validateFileExtensions() {
+    private boolean validateFileExtensions(String[] fileNames) {
         boolean result = true;
         String[] typesFiles = this.configuration.typesFiles().split(",");
-        for (String fileName : this.fileNames) {
+        for (String fileName : fileNames) {
             if (fileName != null && !fileName.isEmpty()) {
                 String type = fileName.substring(fileName.lastIndexOf(".") + 1);
                 if (!Arrays.stream(typesFiles).anyMatch(type.toLowerCase()::equals)) {
@@ -510,10 +509,10 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         return result;
     }
 
-    private boolean validateFileSizes()  {
+    private boolean validateFileSizes(File[] documentFiles)  {
         boolean result = true;
         long fileSizeMax = !this.configuration.sizeFile().equals("") ? Integer.parseInt(this.configuration.sizeFile()) : 3;
-        for (File file : this.files) {
+        for (File file : documentFiles) {
             if (file != null) {
                 long fileSize = file.length() / (1024 * 1024);
                 if(fileSize > fileSizeMax){
@@ -525,35 +524,36 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         return result;
     }
 
-    private boolean antiVirusVerif() {
+    private boolean antiVirusVerif(File[] files) {
         boolean result = true;
-        for (File file : this.files) {
-            if (file != null) {
-                String error = FileEntryHelper.scanFile(file);
-                if (Validator.isNotNull(error)) {
-                    switch (error){
-                        case "unable-to-scan-file-for-viruses":
-                            this.message = LanguageUtil.get(languageBundle, ERROR_UNABLE_TO_SCAN_FILE);
-                            return true;
-                            //break;
-                        case "a-virus-was-detected-in-the-file":
-                            this.message = LanguageUtil.get(languageBundle, ERROR_VIRUS_DETECTED);
-                            result = false;
-                            break;
-                        default:
-                            this.message = LanguageUtil.get(languageBundle, ERROR_DURING_FILE_SCAN);
-                            result = false;
-                            break;
+        //if (StrasbourgPropsUtil.getParticiperAntivirusActivation()) {
+            for (File file : files) {
+                if (file != null) {
+                    String error = FileEntryHelper.scanFile(file);
+                    if (Validator.isNotNull(error)) {
+                        switch (error) {
+                            case "unable-to-scan-file-for-viruses":
+                                this.message = LanguageUtil.get(languageBundle, ERROR_UNABLE_TO_SCAN_FILE);
+                                result = false;
+                                break;
+                            case "a-virus-was-detected-in-the-file":
+                                this.message = LanguageUtil.get(languageBundle, ERROR_VIRUS_DETECTED);
+                                result = false;
+                                break;
+                            default:
+                                this.message = LanguageUtil.get(languageBundle, ERROR_DURING_FILE_SCAN);
+                                result = false;
+                                break;
+                        }
+                        break;
                     }
-                    break;
                 }
-            }
+            //}
         }
         return result;
     }
 
     private boolean validate(ResourceRequest request) {
-        
         // utilisateur
         if (this.publikID == null || this.publikID.isEmpty()) {
             this.message = "Utilisateur non reconnu";
@@ -625,25 +625,28 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         }
 
         // Photo
-        if (!validateFileName()) {
+        if (!validateFileName(this.photoFileName)) {
             this.message = "Nom du fichier de l'image non valide";
+            return false;
+        }
+        if (!antiVirusVerif(new File[]{this.photoFile})) {
             return false;
         }
 
         // Documents
-        if (!validateNbFiles()) {
+        if (!validateNbFiles(this.documentFiles)) {
             this.message = "Trop de fichiers";
             return false;
         } else {
-            if (!validateFileExtensions()) {
+            if (!validateFileExtensions(this.documentsFileNames)) {
                 this.message = "Extension(s) de fichier(s) non valide(s)";
                 return false;
             } else {
-                if (!validateFileSizes()) {
+                if (!validateFileSizes(this.documentFiles)) {
                     this.message = LanguageUtil.get(languageBundle, ERROR_FILE_TO_LARGE)
                             + ParamUtil.getLong(request, "sizeFile") + "Mo)";
                     return false;
-                } else if (!antiVirusVerif()) {
+                } else if (!antiVirusVerif(this.documentFiles)) {
                     return false;
                 }
             }

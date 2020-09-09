@@ -1,5 +1,7 @@
 package eu.strasbourg.utils;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 
 public class StrasbourgPropsUtil {
@@ -269,6 +271,16 @@ public class StrasbourgPropsUtil {
 
 	public static String getParticiperName() {
 		return PropsUtil.get("eu.strasbourg.participer.name");
+	}
+
+	public static boolean getParticiperAntivirusActivation() {
+		boolean result = true;
+		try {
+			String propertiesContent = PropsUtil.get("eu.strasbourg.participer.antivirus.activation");
+			if (propertiesContent.equals("false"))
+				result = false;
+		} catch (Exception ignored) {}
+		return result;
 	}
 
 	public static String getDemarcheSuiviURL(){
