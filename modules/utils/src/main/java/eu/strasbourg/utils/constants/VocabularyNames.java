@@ -50,4 +50,13 @@ public class VocabularyNames {
 	public static final String TYPE_NOEL = "type noel";
 	public static final String TAUX_NOEL = "taux noel";
 	public static final String DUREE_NOEL = "duree noel";
+
+	public static final String EJOB_FILIERES = "(e-job) filieres";
+	public static final String EJOB_CATEGORIES = "(e-job) categories";
+	public static final String EJOB_TYPE_RECRUTEMENT = "(e-job) type de recrutement";
+	public static final String EJOB_DIRECTION = "(e-job) direction";
+	public static final String EJOB_NIVEAU_ETUDE = "(e-job) niveau d'etude";
+	public static final String EJOB_FAMILLE = "(e-job) famille de metiers";
+	public static final String EJOB_CONTACT = "(e-job) contact responsable";
+	public static final String EJOB_INTERNE_EXTERNE = "(e-job) type de publication";
 }

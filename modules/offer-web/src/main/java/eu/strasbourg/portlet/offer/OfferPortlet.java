@@ -1,0 +1,54 @@
+package eu.strasbourg.portlet.offer;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.util.ParamUtil;
+import eu.strasbourg.service.ejob.service.AlertLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.io.IOException;
+
+/**
+ * @author angelique.champougny
+ */
+@Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
+		"com.liferay.portlet.instanceable=true", "com.liferay.portlet.required-namespaced-parameters=false",
+		"javax.portlet.display-name=Offer",
+		"javax.portlet.init-param.template-path=/",
+		"javax.portlet.init-param.view-template=/offer-view.jsp",
+		"javax.portlet.init-param.config-template=/configuration/offer-configuration.jsp",
+		"javax.portlet.name=" + StrasbourgPortletKeys.OFFER_WEB,
+		"javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+public class OfferPortlet extends MVCPortlet {
+
+	@Override
+	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
+
+		OfferDisplayContext dc = new OfferDisplayContext(request, response);
+
+		request.setAttribute("dc", dc);
+		super.render(request, response);
+	}
+
+	public void deleteAlert(ActionRequest actionRequest, ActionResponse actionResponse)
+			throws PortalException, SystemException {
+
+		Long alertId = ParamUtil.getLong(actionRequest, "alertId");
+
+		// Supprime l'alerte
+		AlertLocalServiceUtil.deleteAlert(alertId);
+	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+}
