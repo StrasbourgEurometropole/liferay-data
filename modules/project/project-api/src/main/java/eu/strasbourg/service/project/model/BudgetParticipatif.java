@@ -142,6 +142,13 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
 
+	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux communes du bp
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCityCategories();
+
 	public java.lang.String getBudgetParticipatifStatusCategoryColor();
 
 	/**

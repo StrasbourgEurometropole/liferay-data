@@ -81,8 +81,8 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 	}
 
 	@Override
-	public String getDistrictTitle(Locale locale, List<AssetCategory> assetCategories) {
-		return AssetVocabularyHelper.getDistrictTitle(locale, assetCategories);
+	public String getDistrictTitle(Locale locale, List<AssetCategory> assetDistrictCategories, List<AssetCategory> assetCityCategories) {
+		return AssetVocabularyHelper.getDistrictTitle(locale, assetDistrictCategories, assetCityCategories);
 	}
 
 	@Override

@@ -561,14 +561,25 @@ public class AssetVocabularyHelper {
 	}
 
 
-	public static String getDistrictTitle(Locale locale, List<AssetCategory> assetCategories) {
+	public static String getDistrictTitle(Locale locale, List<AssetCategory> assetDistrictCategories, List<AssetCategory> assetCityCategories) {
 		StringBuilder result = new StringBuilder();
-		if (assetCategories == null || assetCategories.isEmpty()) {
+
+		if (assetCityCategories == null || assetCityCategories.isEmpty()) {
+			result.append("aucune commune");
+		} else if (AssetVocabularyHelper.isAllDistrict(assetCityCategories.size())) {
+			result.append("toutes les communes");
+		} else {
+			result.append(assetCityCategories.stream()
+					.map(assetCategory -> assetCategory.getTitle(locale))
+					.collect(Collectors.joining(" - ")));
+		}
+
+		if (assetDistrictCategories == null || assetDistrictCategories.isEmpty()) {
 			result.append("aucun quartier");
-		} else if (AssetVocabularyHelper.isAllDistrict(assetCategories.size())) {
+		} else if (AssetVocabularyHelper.isAllDistrict(assetDistrictCategories.size())) {
 			result.append("tous les quartiers");
 		} else {
-			result.append(assetCategories.stream()
+			result.append(assetDistrictCategories.stream()
 					.map(assetCategory -> assetCategory.getTitle(locale))
 					.collect(Collectors.joining(" - ")));
 		}

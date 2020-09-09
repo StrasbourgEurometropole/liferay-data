@@ -138,6 +138,25 @@ public class PetitionImpl extends PetitionBaseImpl {
 	}
 
 	/**
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux communes de la pétition
+	 * @return : null si vide, sinon la liste des catégories
+	 */
+	@Override
+	public List<AssetCategory> getCityCategories() {
+		List<AssetCategory> territories = getTerritoryCategories();
+		List<AssetCategory> cities = new ArrayList<>();
+		for (AssetCategory territory : territories) {
+			try {
+				if (territory.getAncestors().size() == 1) {
+					cities.add(territory);
+				}
+			} catch (PortalException ignored) {
+			}
+		}
+		return cities;
+	}
+
+	/**
 	 * méthode permettant de récuperer les faux signataires d'une pétitions.
 	 *
 	 * @return les faux signataires.
@@ -191,7 +210,8 @@ public class PetitionImpl extends PetitionBaseImpl {
 	@Override
 	public String getDistrictLabel(Locale locale) {
 		List<AssetCategory> districts = getDistrictCategories();
-		return AssetVocabularyHelper.getDistrictTitle(locale, districts);
+		List<AssetCategory> cities = getCityCategories();
+		return AssetVocabularyHelper.getDistrictTitle(locale, districts, cities);
 	}
 
 	@Override

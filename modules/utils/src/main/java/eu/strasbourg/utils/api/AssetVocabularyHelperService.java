@@ -58,7 +58,7 @@ public interface AssetVocabularyHelperService {
      *
      * @return : null si vide, sinon la liste des catégories
      */
-    String getDistrictTitle(Locale locale, List<AssetCategory> assetCategories);
+    String getDistrictTitle(Locale locale, List<AssetCategory> assetDistrictCategories, List<AssetCategory> assetCityCategories);
 
     /**
      * méthode permettant de récupérer les titres des thématiques

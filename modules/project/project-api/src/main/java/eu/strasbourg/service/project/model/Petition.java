@@ -69,6 +69,13 @@ public interface Petition extends PetitionModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
 
 	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux communes de la pétition
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCityCategories();
+
+	/**
 	* méthode permettant de récuperer les faux signataires d'une pétitions.
 	*
 	* @return les faux signataires.

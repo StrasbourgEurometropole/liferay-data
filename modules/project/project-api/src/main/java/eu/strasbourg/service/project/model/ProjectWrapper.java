@@ -531,14 +531,6 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
-	* Retourne les quartiers du projet
-	*/
-	@Override
-	public java.lang.String getDistrictCategories(java.util.Locale locale) {
-		return _project.getDistrictCategories(locale);
-	}
-
-	/**
 	* Retourne une chaine des 'Territoires' correspondant aux quartiers du projet
 	*
 	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
