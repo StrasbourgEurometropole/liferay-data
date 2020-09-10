@@ -560,6 +560,18 @@ public class AssetVocabularyHelper {
 		return json;
 	}
 
+	public static String getTerritoryTitle(Locale locale, List<AssetCategory> assetTerritoryCategories) {
+		StringBuilder result = new StringBuilder();
+
+		if (assetTerritoryCategories == null || assetTerritoryCategories.isEmpty()) {
+			result.append("aucun territoire");
+		} else {
+			result.append(assetTerritoryCategories.stream()
+					.map(assetCategory -> assetCategory.getTitle(locale))
+					.collect(Collectors.joining(" - ")));
+		}
+		return result.toString();
+	}
 
 	public static String getDistrictTitle(Locale locale, List<AssetCategory> assetDistrictCategories, List<AssetCategory> assetCityCategories) {
 		StringBuilder result = new StringBuilder();

@@ -658,8 +658,8 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getTerritoryLabel(Locale locale) {
-		List<AssetCategory> districts = getTerritories();
-		return AssetVocabularyHelper.getDistrictTitle(locale, districts);
+		List<AssetCategory> territories = getTerritories();
+		return AssetVocabularyHelper.getTerritoryTitle(locale, territories);
 	}
 
 	/**
