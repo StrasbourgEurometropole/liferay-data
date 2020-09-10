@@ -11,6 +11,8 @@ dependencies {
 
 	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 
+	compileOnly group: 'commons-net', name: 'commons-net', version: '3.5'
+
 	compileOnly group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
 	compileOnly group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
 
@@ -29,4 +31,5 @@ dependencies {
 	compile project (':modules:comment:comment-api')
 	compile project (':modules:project:project-api')
 	compile project (':modules:council:council-api')
+	compile project (':modules:ejob:ejob-api')
 }

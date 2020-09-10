@@ -18,7 +18,7 @@
                     <a href="${layoutHelper.getDashboardURL()}" class="nav-account nav-btn" title="Mon tableau de bord">
                         <span class="flexbox">
                             <span class="picto"></span>
-                            <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
+                            <span class="text">${request.session.getAttribute("publik_given_name")?html}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]?html}.</span>
                         </span>    
                     </a>
                     <a class="nav-btn nav-logout" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay.language key='eu.logout' />">
@@ -27,7 +27,7 @@
                         </span>  
                     </a>
                 <#else>
-                    <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="nav-account nav-btn" title="Connexion">
+                    <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="nav-account nav-btn" title="Connexion">
                         <span class="flexbox">
                             <span class="picto"></span>
                             <span class="text">Connexion</span>

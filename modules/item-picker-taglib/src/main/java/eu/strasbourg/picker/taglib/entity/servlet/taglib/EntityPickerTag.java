@@ -11,24 +11,30 @@ import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.taglib.util.IncludeTag;
 import eu.strasbourg.picker.taglib.file.internal.servlet.ServletContextUtil;
-import eu.strasbourg.portlet.activity.itemselector.*;
+import eu.strasbourg.portlet.activity.itemselector.ActivityCourseItemSelectorCriterion;
+import eu.strasbourg.portlet.activity.itemselector.ActivityItemSelectorCriterion;
+import eu.strasbourg.portlet.activity.itemselector.ActivityOrganizerItemSelectorCriterion;
+import eu.strasbourg.portlet.activity.itemselector.AssociationItemSelectorCriterion;
+import eu.strasbourg.portlet.activity.itemselector.PracticeItemSelectorCriterion;
 import eu.strasbourg.portlet.agenda.itemselector.EventItemSelectorCriterion;
 import eu.strasbourg.portlet.agenda.itemselector.ManifestationItemSelectorCriterion;
 import eu.strasbourg.portlet.artwork.itemselector.ArtworkCollectionItemSelectorCriterion;
 import eu.strasbourg.portlet.artwork.itemselector.ArtworkItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionItemSelectorCriterion;
+import eu.strasbourg.portlet.ejob.itemselector.AlertItemSelectorCriterion;
+import eu.strasbourg.portlet.ejob.itemselector.OfferItemSelectorCriterion;
 import eu.strasbourg.portlet.gtfs.itemselector.ArretItemSelectorCriterion;
 import eu.strasbourg.portlet.gtfs.itemselector.LigneItemSelectorCriterion;
 import eu.strasbourg.portlet.link.itemselector.LinkItemSelectorCriterion;
 import eu.strasbourg.portlet.official.itemselector.OfficialItemSelectorCriterion;
 import eu.strasbourg.portlet.place.itemselector.PlaceItemSelectorCriterion;
-import eu.strasbourg.portlet.project.itemselector.PetitionItemSelectorCriterion;
-import eu.strasbourg.portlet.project.itemselector.ProjectItemSelectorCriterion;
 import eu.strasbourg.portlet.project.itemselector.BudgetParticipatifItemSelectorCriterion;
 import eu.strasbourg.portlet.project.itemselector.BudgetPhaseItemSelectorCriterion;
 import eu.strasbourg.portlet.project.itemselector.InitiativeItemSelectorCriterion;
 import eu.strasbourg.portlet.project.itemselector.ParticipationItemSelectorCriterion;
+import eu.strasbourg.portlet.project.itemselector.PetitionItemSelectorCriterion;
+import eu.strasbourg.portlet.project.itemselector.ProjectItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoItemSelectorCriterion;
 
@@ -359,6 +365,26 @@ public class EntityPickerTag extends IncludeTag {
 						.getItemSelectorURL(
 								RequestBackedPortletURLFactoryUtil.create(request),
 								"itemSelected" + _name, ligneItemSelectorCriterion);
+				break;
+			case "eu.strasbourg.service.ejob.model.Offer":
+				OfferItemSelectorCriterion offerItemSelectorCriterion = new OfferItemSelectorCriterion();
+				offerItemSelectorCriterion
+						.setDesiredItemSelectorReturnTypes(
+								desiredItemSelectorReturnTypes);
+				itemSelectorURL = ServletContextUtil.getItemSelector()
+						.getItemSelectorURL(
+								RequestBackedPortletURLFactoryUtil.create(request),
+								"itemSelected" + _name, offerItemSelectorCriterion);
+				break;
+			case "eu.strasbourg.service.ejob.model.Alert":
+				AlertItemSelectorCriterion alertItemSelectorCriterion = new AlertItemSelectorCriterion();
+				alertItemSelectorCriterion
+						.setDesiredItemSelectorReturnTypes(
+								desiredItemSelectorReturnTypes);
+				itemSelectorURL = ServletContextUtil.getItemSelector()
+						.getItemSelectorURL(
+								RequestBackedPortletURLFactoryUtil.create(request),
+								"itemSelected" + _name, alertItemSelectorCriterion);
 				break;
 		}
 		

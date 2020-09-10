@@ -1,0 +1,68 @@
+.seu-page-offer .seu-offer-container{
+
+    .seu-gray-box{
+        background-color: #F6F6F6;
+        padding: 30px 50px; 
+        margin-bottom: 30px;
+        
+        div+div{
+            margin-top: 10px;
+        }
+
+        h3{
+            font-family: $montserrat;
+            font-weight: 700;
+            color: $core-color;
+        }
+
+        h3+p{
+            font-family: $montserrat;
+            color: $core-color;
+        }  
+    }
+
+    #offerActivities, #offerProfil, #offerConditions, #offerAvantages{
+        h2{
+            font-family: $montserrat;
+            color: #505050;
+            font-size: 2.5rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            line-height: 1.2;
+            word-break: break-word;
+            hyphens: auto;
+            margin-top: 30px;
+        }
+    }      
+    
+    .seu-btn-square.seu-filled.seu-core{
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 30px;
+        
+        a{
+            color: white;
+            text-decoration: none;
+        }
+        
+        &:hover a{
+            color: $core-color;
+        }
+    }
+
+    .seu-media-title{
+        text-transform: uppercase;
+    }
+
+    .offer-contact {
+        margin-bottom: 0;
+
+        .seu-container:before, .seu-container:after{
+            content: none;
+        }
+
+        h2 span.seu-title{
+            text-transform: uppercase;
+        }
+    }
+}

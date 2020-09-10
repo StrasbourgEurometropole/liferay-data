@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="eu.strasbourg.service.ejob">
+	<namespace>ejob</namespace>
+	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
+	<entity local-service="true" name="Offer" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+		<column name="offerId" primary="true" type="long" id-type="identity" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Other fields -->
+		<column name="publicationId" type="String" />
+		<column name="postNumber" type="String" />
+		<column name="jobCreationDescription" type="String" localized="true" />
+		<column name="startDate" type="Date" />
+		<column name="motif" type="String" localized="true" />
+		<column name="permanentDescription" type="String" localized="true" />
+		<column name="duration" type="String" localized="true" />
+		<column name="post" type="String" localized="true" />
+		<column name="isFullTime" type="boolean" />
+		<column name="fullTimeDescription" type="String" localized="true" />
+		<column name="introduction" type="String" localized="true" />
+		<column name="activities" type="String" localized="true" />
+		<column name="profil" type="String" localized="true" />
+		<column name="conditions" type="String" localized="true" />
+		<column name="avantages" type="String" localized="true" />
+		<column name="limitDate" type="Date" />
+		<column name="contact" type="String" />
+		<column name="emails" type="String" />
+		<column name="shareLinkedin" type="boolean" />
+		<column name="publicationStartDate" type="Date" />
+		<column name="publicationEndDate" type="Date" />
+		<column name="isExported" type="int" />
+		<column name="emailSend" type="int" />
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+		<finder name="PublicationId" return-type="Offer" db-index="true" >
+			<finder-column name="publicationId" />
+		</finder>
+
+		<finder name="PublicationStartDate" return-type="Collection" db-index="true" >
+			<finder-column name="publicationStartDate" />
+		</finder>
+		<finder name="Export" return-type="Collection" db-index="true" >
+			<finder-column name="isExported" />
+		</finder>
+	</entity>
+
+	<entity local-service="true" name="Alert" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+		<column name="alertId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Other fields -->
+		<column name="name" type="String" />
+		<column name="keyWord" type="String" />
+		<column name="publikUserId" type="String" />
+		<column name="language" type="String" />
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+		<finder name="PublikUserId" return-type="Collection" db-index="true" >
+			<finder-column name="publikUserId" />
+		</finder>
+	</entity>
+</service-builder>
