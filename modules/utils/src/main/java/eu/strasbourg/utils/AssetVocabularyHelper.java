@@ -604,10 +604,10 @@ public class AssetVocabularyHelper {
 		boolean isAllDistricts = AssetVocabularyHelper.isAllDistrict(assetDistrictCategories.size());
 		boolean isAllCities= AssetVocabularyHelper.isAllFrenchCity(assetCityCategories.size());
 
-		if (assetCityCategories == null || assetCityCategories.isEmpty()) {
-			result.append("aucune commune");
+		if ((assetCityCategories == null || assetCityCategories.isEmpty()) && (assetDistrictCategories == null || assetDistrictCategories.isEmpty())) {
+			result.append("Aucune commune");
 		} else if (AssetVocabularyHelper.isAllFrenchCity(assetCityCategories.size())) {
-			result.append("toutes les communes de l\u2019Eurom\u00e9tropole");
+			result.append("Toutes les communes de l\u2019Eurom\u00e9tropole");
 		} else {
 			if (!isAllDistricts && !assetDistrictCategories.isEmpty()) {
 				long globalGroupId =0;
