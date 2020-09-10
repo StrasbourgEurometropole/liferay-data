@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
@@ -35,6 +36,9 @@ import java.util.stream.LongStream;
  *
  */
 public class AssetVocabularyHelper {
+
+	public static final String FRANCE="France";
+
 	/**
 	 * Retourne la liste des vocabulaires rattachés à un type d'entité
 	 */
@@ -162,7 +166,7 @@ public class AssetVocabularyHelper {
 		if (territories!=null&&!territories.isEmpty()){
 			for (AssetCategory territory :territories) {
 				try {
-					if (territory.getAncestors().size()==1 && territory.getAncestors().get(0).getName().equals("France")){
+					if (territory.getAncestors().size()==1 && territory.getAncestors().get(0).getName().equals(FRANCE)){
 						index++;
 					}
 				} catch (PortalException ignored){
@@ -597,27 +601,40 @@ public class AssetVocabularyHelper {
 
 	public static String getDistrictTitle(Locale locale, List<AssetCategory> assetDistrictCategories, List<AssetCategory> assetCityCategories) {
 		StringBuilder result = new StringBuilder();
+		boolean isAllDistricts = AssetVocabularyHelper.isAllDistrict(assetDistrictCategories.size());
+		boolean isAllCities= AssetVocabularyHelper.isAllFrenchCity(assetCityCategories.size());
 
 		if (assetCityCategories == null || assetCityCategories.isEmpty()) {
 			result.append("aucune commune");
 		} else if (AssetVocabularyHelper.isAllFrenchCity(assetCityCategories.size())) {
-			result.append("toutes les communes");
+			result.append("toutes les communes de l\u2019Eurom\u00e9tropole");
 		} else {
+			if (!isAllDistricts && !assetDistrictCategories.isEmpty()) {
+				long globalGroupId =0;
+				try {
+					Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
+					globalGroupId = defaultCompany.getGroup().getGroupId();
+				} catch (PortalException e) {
+					_log.error("Le group Global n'a pas été trouvé");
+				}
+				if(globalGroupId != 0) {
+					AssetCategory strasbourg = getCategory("Strasbourg", globalGroupId);
+					assetCityCategories.remove(strasbourg);
+					assetCityCategories.add(strasbourg);
+				}
+			}
+
 			result.append(assetCityCategories.stream()
 					.map(assetCategory -> assetCategory.getTitle(locale))
 					.collect(Collectors.joining(" - ")));
 		}
 
-		result.append(" - ");
-
-		if (assetDistrictCategories == null || assetDistrictCategories.isEmpty()) {
-			result.append("aucun quartier");
-		} else if (AssetVocabularyHelper.isAllDistrict(assetDistrictCategories.size())) {
-			result.append("tous les quartiers");
-		} else {
+		if(!isAllCities && !isAllDistricts && !assetDistrictCategories.isEmpty()) {
+			result.append(" (");
 			result.append(assetDistrictCategories.stream()
 					.map(assetCategory -> assetCategory.getTitle(locale))
 					.collect(Collectors.joining(" - ")));
+			result.append(")");
 		}
 		return result.toString();
 	}
