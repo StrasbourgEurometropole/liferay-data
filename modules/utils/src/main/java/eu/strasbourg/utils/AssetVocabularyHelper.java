@@ -150,6 +150,28 @@ public class AssetVocabularyHelper {
         return index == listDistrictSizeToCompare;
     }
 
+	public static boolean isAllFrenchCity(int listCitySizeToCompare){
+		AssetVocabulary territoryVocabulary = null;
+		try {
+			territoryVocabulary = getGlobalVocabulary(VocabularyNames.TERRITORY);
+		} catch (PortalException ignored) {
+		}
+		assert territoryVocabulary != null;
+		List<AssetCategory> territories = territoryVocabulary.getCategories();
+		int index = 0;
+		if (territories!=null&&!territories.isEmpty()){
+			for (AssetCategory territory :territories) {
+				try {
+					if (territory.getAncestors().size()==1 && territory.getAncestors().get(0).getName().equals("France")){
+						index++;
+					}
+				} catch (PortalException ignored){
+				}
+			}
+		}
+		return index == listCitySizeToCompare;
+	}
+
 	/**
 	 * Retourne le vocabulaire ayant le nom donné et faisant parti du groupe
 	 * donné
@@ -578,13 +600,15 @@ public class AssetVocabularyHelper {
 
 		if (assetCityCategories == null || assetCityCategories.isEmpty()) {
 			result.append("aucune commune");
-		} else if (AssetVocabularyHelper.isAllDistrict(assetCityCategories.size())) {
+		} else if (AssetVocabularyHelper.isAllFrenchCity(assetCityCategories.size())) {
 			result.append("toutes les communes");
 		} else {
 			result.append(assetCityCategories.stream()
 					.map(assetCategory -> assetCategory.getTitle(locale))
 					.collect(Collectors.joining(" - ")));
 		}
+
+		result.append(" - ");
 
 		if (assetDistrictCategories == null || assetDistrictCategories.isEmpty()) {
 			result.append("aucun quartier");

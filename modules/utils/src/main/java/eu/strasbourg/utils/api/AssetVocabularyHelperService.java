@@ -55,6 +55,14 @@ public interface AssetVocabularyHelperService {
     boolean isAllDistrict(int listDistrictSizeToCompare);
 
     /**
+     * méthode permettant de savoir si le nombre entré en parametre est égale au nombre de villes de France total.
+     *
+     * @param listCitySizeToCompare le nombre de ville présent dans l'asset.
+     * @return le boolean.
+     */
+    boolean isAllFrenchCity(int listCitySizeToCompare);
+
+    /**
      * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la participation
      *
      * @return : null si vide, sinon la liste des catégories
