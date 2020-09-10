@@ -17,6 +17,7 @@ import eu.strasbourg.service.ejob.model.Alert;
 import eu.strasbourg.service.ejob.service.AlertLocalServiceUtil;
 import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.PublikApiClient;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
@@ -156,6 +157,10 @@ public class OfferDisplayContext {
         String valueToReturn = url.toString();
         url.setParameter("cur", String.valueOf(this.getApplicationSearchContainer().getCur()));
         return valueToReturn;
+    }
+
+    public String getProceduresURL() {
+        return StrasbourgPropsUtil.getPublikProceduresURL();
     }
 
     public String getTexte() {

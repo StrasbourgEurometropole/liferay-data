@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -1464,6 +1465,243 @@ public class OfferPersistenceImpl
 	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
 		"offer.companyId = ?";
 
+	private FinderPath _finderPathFetchByPublicationId;
+	private FinderPath _finderPathCountByPublicationId;
+
+	/**
+	 * Returns the offer where publicationId = &#63; or throws a <code>NoSuchOfferException</code> if it could not be found.
+	 *
+	 * @param publicationId the publication ID
+	 * @return the matching offer
+	 * @throws NoSuchOfferException if a matching offer could not be found
+	 */
+	@Override
+	public Offer findByPublicationId(String publicationId)
+		throws NoSuchOfferException {
+
+		Offer offer = fetchByPublicationId(publicationId);
+
+		if (offer == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("publicationId=");
+			msg.append(publicationId);
+
+			msg.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchOfferException(msg.toString());
+		}
+
+		return offer;
+	}
+
+	/**
+	 * Returns the offer where publicationId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param publicationId the publication ID
+	 * @return the matching offer, or <code>null</code> if a matching offer could not be found
+	 */
+	@Override
+	public Offer fetchByPublicationId(String publicationId) {
+		return fetchByPublicationId(publicationId, true);
+	}
+
+	/**
+	 * Returns the offer where publicationId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param publicationId the publication ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching offer, or <code>null</code> if a matching offer could not be found
+	 */
+	@Override
+	public Offer fetchByPublicationId(
+		String publicationId, boolean retrieveFromCache) {
+
+		publicationId = Objects.toString(publicationId, "");
+
+		Object[] finderArgs = new Object[] {publicationId};
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByPublicationId, finderArgs, this);
+		}
+
+		if (result instanceof Offer) {
+			Offer offer = (Offer)result;
+
+			if (!Objects.equals(publicationId, offer.getPublicationId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_OFFER_WHERE);
+
+			boolean bindPublicationId = false;
+
+			if (publicationId.isEmpty()) {
+				query.append(_FINDER_COLUMN_PUBLICATIONID_PUBLICATIONID_3);
+			}
+			else {
+				bindPublicationId = true;
+
+				query.append(_FINDER_COLUMN_PUBLICATIONID_PUBLICATIONID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPublicationId) {
+					qPos.add(publicationId);
+				}
+
+				List<Offer> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(
+						_finderPathFetchByPublicationId, finderArgs, list);
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"OfferPersistenceImpl.fetchByPublicationId(String, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Offer offer = list.get(0);
+
+					result = offer;
+
+					cacheResult(offer);
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(
+					_finderPathFetchByPublicationId, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Offer)result;
+		}
+	}
+
+	/**
+	 * Removes the offer where publicationId = &#63; from the database.
+	 *
+	 * @param publicationId the publication ID
+	 * @return the offer that was removed
+	 */
+	@Override
+	public Offer removeByPublicationId(String publicationId)
+		throws NoSuchOfferException {
+
+		Offer offer = findByPublicationId(publicationId);
+
+		return remove(offer);
+	}
+
+	/**
+	 * Returns the number of offers where publicationId = &#63;.
+	 *
+	 * @param publicationId the publication ID
+	 * @return the number of matching offers
+	 */
+	@Override
+	public int countByPublicationId(String publicationId) {
+		publicationId = Objects.toString(publicationId, "");
+
+		FinderPath finderPath = _finderPathCountByPublicationId;
+
+		Object[] finderArgs = new Object[] {publicationId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_OFFER_WHERE);
+
+			boolean bindPublicationId = false;
+
+			if (publicationId.isEmpty()) {
+				query.append(_FINDER_COLUMN_PUBLICATIONID_PUBLICATIONID_3);
+			}
+			else {
+				bindPublicationId = true;
+
+				query.append(_FINDER_COLUMN_PUBLICATIONID_PUBLICATIONID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPublicationId) {
+					qPos.add(publicationId);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_PUBLICATIONID_PUBLICATIONID_2 =
+		"offer.publicationId = ?";
+
+	private static final String _FINDER_COLUMN_PUBLICATIONID_PUBLICATIONID_3 =
+		"(offer.publicationId IS NULL OR offer.publicationId = '')";
+
 	private FinderPath _finderPathWithPaginationFindByPublicationStartDate;
 	private FinderPath _finderPathWithoutPaginationFindByPublicationStartDate;
 	private FinderPath _finderPathCountByPublicationStartDate;
@@ -2562,6 +2800,10 @@ public class OfferPersistenceImpl
 			_finderPathFetchByUUID_G,
 			new Object[] {offer.getUuid(), offer.getGroupId()}, offer);
 
+		finderCache.putResult(
+			_finderPathFetchByPublicationId,
+			new Object[] {offer.getPublicationId()}, offer);
+
 		offer.resetOriginalValues();
 	}
 
@@ -2643,6 +2885,13 @@ public class OfferPersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, offerModelImpl, false);
+
+		args = new Object[] {offerModelImpl.getPublicationId()};
+
+		finderCache.putResult(
+			_finderPathCountByPublicationId, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByPublicationId, args, offerModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -2667,6 +2916,24 @@ public class OfferPersistenceImpl
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
 			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {offerModelImpl.getPublicationId()};
+
+			finderCache.removeResult(_finderPathCountByPublicationId, args);
+			finderCache.removeResult(_finderPathFetchByPublicationId, args);
+		}
+
+		if ((offerModelImpl.getColumnBitmask() &
+			 _finderPathFetchByPublicationId.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				offerModelImpl.getOriginalPublicationId()
+			};
+
+			finderCache.removeResult(_finderPathCountByPublicationId, args);
+			finderCache.removeResult(_finderPathFetchByPublicationId, args);
 		}
 	}
 
@@ -3454,6 +3721,19 @@ public class OfferPersistenceImpl
 			OfferModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathFetchByPublicationId = new FinderPath(
+			OfferModelImpl.ENTITY_CACHE_ENABLED,
+			OfferModelImpl.FINDER_CACHE_ENABLED, OfferImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByPublicationId",
+			new String[] {String.class.getName()},
+			OfferModelImpl.PUBLICATIONID_COLUMN_BITMASK);
+
+		_finderPathCountByPublicationId = new FinderPath(
+			OfferModelImpl.ENTITY_CACHE_ENABLED,
+			OfferModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublicationId",
+			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByPublicationStartDate = new FinderPath(
 			OfferModelImpl.ENTITY_CACHE_ENABLED,

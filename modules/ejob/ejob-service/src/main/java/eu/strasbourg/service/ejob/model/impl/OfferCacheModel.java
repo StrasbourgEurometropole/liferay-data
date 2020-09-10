@@ -64,7 +64,7 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(71);
+		StringBundler sb = new StringBundler(73);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -136,6 +136,8 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		sb.append(isExported);
 		sb.append(", emailSend=");
 		sb.append(emailSend);
+		sb.append(", emailPartnerSent=");
+		sb.append(emailPartnerSent);
 		sb.append("}");
 
 		return sb.toString();
@@ -334,6 +336,7 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 
 		offerImpl.setIsExported(isExported);
 		offerImpl.setEmailSend(emailSend);
+		offerImpl.setEmailPartnerSent(emailPartnerSent);
 
 		offerImpl.resetOriginalValues();
 
@@ -387,6 +390,8 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		isExported = objectInput.readInt();
 
 		emailSend = objectInput.readInt();
+
+		emailPartnerSent = objectInput.readInt();
 	}
 
 	@Override
@@ -547,6 +552,8 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		objectOutput.writeInt(isExported);
 
 		objectOutput.writeInt(emailSend);
+
+		objectOutput.writeInt(emailPartnerSent);
 	}
 
 	public String uuid;
@@ -584,5 +591,6 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 	public long publicationEndDate;
 	public int isExported;
 	public int emailSend;
+	public int emailPartnerSent;
 
 }

@@ -116,7 +116,6 @@ jQuery(function() {
 		jQuery('#place-' + index + ' .place-autocomplete-input-wrapper input').autocomplete(
 				options);
 	});
-
 });
 
 //Soumission du formulaire

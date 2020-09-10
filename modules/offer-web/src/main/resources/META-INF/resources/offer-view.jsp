@@ -28,7 +28,7 @@
                         <tbody>
                             <c:forEach var="application" items="${dc.applicationPaginatedResults}">
                                 <tr>
-                                    <td></td>
+                                    <td>${fn:length(application.title) > 35?fn:substring(application.title,0,35)+='...':application.title}</td>
                                     <td><a href="${application.url}">${application.codeSuivi}</a></td>
                                     <td>${application.date}</td>
                                     <td>${application.status}</td>
@@ -85,7 +85,7 @@
                     <c:if test="${dc.applicationSearchContainer.total gt 0}">
                         <li class="pagin-next pagin-item">
                             <a class="btn-square bordered core" title="<liferay-ui:message key="see-all" />"
-                                data-action="next" href="">
+                                data-action="next" href="${dc.proceduresURL}">
                                 <span class="flexbox">
                                     <span class="btn-text"><liferay-ui:message key="see-all" /></span>
                                     <span class="btn-arrow"></span>
@@ -115,7 +115,7 @@
                         <thead>
                             <tr>
                                 <td width="20%"><liferay-ui:message key="title" /></td>
-                                <td width="60%"><liferay-ui:message key="keywords" /></td>
+                                <td width="60%"><liferay-ui:message key="keywords-categories" /></td>
                                 <td></td>
                             </tr>
                         </thead>
@@ -127,7 +127,18 @@
 
                                 <tr>
                                     <td>${alert.name}</td>
-                                    <td>${alert.keyWord}</td>
+                                    <td>
+                                        ${alert.keyWord}
+                                        <c:if test="${not empty alert.keyWord && not empty alert.categories}">
+                                            ,
+                                        </c:if>
+                                        <c:forEach var="category" items="${alert.categories}" varStatus="status">
+                                            <c:if test="${status.index > 0}">
+                                                ,
+                                            </c:if>
+                                           ${category.getTitle(locale)}
+                                        </c:forEach>
+                                    </td>
                                     <td>
                                         <a href="${deleteAlert}" class="delete-alert">Supprimer</a>
                                     </td>

@@ -227,6 +227,15 @@ public class OfferLocalServiceUtil {
 	}
 
 	/**
+	 * Retourne une offre via son publicationId
+	 */
+	public static eu.strasbourg.service.ejob.model.Offer findByPublicationId(
+		String publicationId) {
+
+		return getService().findByPublicationId(publicationId);
+	}
+
+	/**
 	 * Retourne les offres via sa date de début de publication
 	 */
 	public static java.util.List<eu.strasbourg.service.ejob.model.Offer>

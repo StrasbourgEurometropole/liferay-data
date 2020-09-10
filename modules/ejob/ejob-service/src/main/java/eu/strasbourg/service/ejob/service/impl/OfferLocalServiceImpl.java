@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
+import eu.strasbourg.service.ejob.exception.NoSuchOfferException;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.base.OfferLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -308,6 +309,18 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 		}
 
 		return offerPersistence.countWithDynamicQuery(dynamicQuery);
+	}
+
+	/**
+	 * Retourne une offre via son publicationId
+	 */
+	@Override
+	public Offer findByPublicationId(String publicationId) {
+		try {
+			return this.offerPersistence.findByPublicationId(publicationId);
+		} catch (NoSuchOfferException e) {
+			return null;
+		}
 	}
 
 	/**

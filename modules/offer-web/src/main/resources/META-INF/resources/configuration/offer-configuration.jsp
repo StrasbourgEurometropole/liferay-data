@@ -21,7 +21,7 @@
 		<aui:input name="text" type="text" label="text"
 			value="${text}" />
 
-		<aui:input name="url" type="text" label="url"
+		<aui:input name="url" type="text" label="url-offer"
 			value="${url}" />
 		
 		<aui:button-row>

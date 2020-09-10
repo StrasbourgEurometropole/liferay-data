@@ -49,11 +49,16 @@
 		<column name="publicationEndDate" type="Date" />
 		<column name="isExported" type="int" />
 		<column name="emailSend" type="int" />
+		<column name="emailPartnerSent" type="int" />
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+		<finder name="PublicationId" return-type="Offer" db-index="true" >
+			<finder-column name="publicationId" />
+		</finder>
 
 		<finder name="PublicationStartDate" return-type="Collection" db-index="true" >
 			<finder-column name="publicationStartDate" />

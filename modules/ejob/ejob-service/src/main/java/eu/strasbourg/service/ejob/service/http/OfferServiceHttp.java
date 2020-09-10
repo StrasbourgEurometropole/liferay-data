@@ -91,10 +91,50 @@ public class OfferServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getOffer(
+			HttpPrincipal httpPrincipal, String publicationId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				OfferServiceUtil.class, "getOffer", _getOfferParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, publicationId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(OfferServiceHttp.class);
 
 	private static final Class<?>[] _exportOfferParameterTypes0 = new Class[] {
 		Long.class, java.util.Locale.class, java.io.ByteArrayOutputStream.class
+	};
+	private static final Class<?>[] _getOfferParameterTypes1 = new Class[] {
+		String.class
 	};
 
 }

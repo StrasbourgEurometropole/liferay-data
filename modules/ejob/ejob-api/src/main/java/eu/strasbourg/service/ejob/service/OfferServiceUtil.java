@@ -48,6 +48,13 @@ public class OfferServiceUtil {
 		return getService().exportOffer(offerId, locale, baos);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getOffer(
+			String publicationId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getOffer(publicationId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

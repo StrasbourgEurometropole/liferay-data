@@ -227,6 +227,16 @@ public class OfferLocalServiceWrapper
 	}
 
 	/**
+	 * Retourne une offre via son publicationId
+	 */
+	@Override
+	public eu.strasbourg.service.ejob.model.Offer findByPublicationId(
+		String publicationId) {
+
+		return _offerLocalService.findByPublicationId(publicationId);
+	}
+
+	/**
 	 * Retourne les offres via sa date de début de publication
 	 */
 	@Override
