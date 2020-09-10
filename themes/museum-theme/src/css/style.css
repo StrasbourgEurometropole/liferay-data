@@ -1701,7 +1701,7 @@ strong {
 #page {
   position: relative;
   /* Set the position property so z-index will apply */
-  z-index: 20;
+  z-index: 989;
   /* Make sure this is higher than #mobile-menu */
   height: 100%;
   background: white;
