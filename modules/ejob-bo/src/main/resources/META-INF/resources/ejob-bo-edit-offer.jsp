@@ -36,7 +36,6 @@
     <liferay-ui:error key="introduction-error" message="introduction-error" />
     <liferay-ui:error key="activities-error" message="activities-error" />
     <liferay-ui:error key="profil-error" message="profil-error" />
-    <liferay-ui:error key="conditions-error" message="conditions-error" />
     <liferay-ui:error key="avantages-error" message="avantages-error" />
     <liferay-ui:error key="famille-error" message="famille-error" />
     <liferay-ui:error key="date-limit-error" message="date-limit-error" />
@@ -231,22 +230,7 @@
                     </div>
 
                 <%-- Champ : Condition d'exercice --%>
-                     <aui:input name="conditions" required="true" />
-                    <!-- Hack pour ajouter une validation -->
-                    <div class="has-error form-group">
-                        <aui:input type="hidden" name="conditionsValidatorInputHelper" value="placeholder">
-                            <aui:validator name="custom" errorMessage="this-field-is-required">
-                                function (val, fieldNode, ruleValue) {
-                                    var validate = document.getElementById('_eu_strasbourg_portlet_ejob_EjobBOPortlet_conditions_fr_FR').value.length > 0;
-                                    if (!validate) {
-                                        document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_conditionsEditorContainer").scrollIntoView();
-                                        event.preventDefault();
-                                    }
-                                    return validate;
-                                }
-                            </aui:validator>
-                        </aui:input>
-                    </div>
+                     <aui:input name="conditions" />
 
                 <%-- Champ : Avantages liés au poste --%>
                     <div id="avantages">

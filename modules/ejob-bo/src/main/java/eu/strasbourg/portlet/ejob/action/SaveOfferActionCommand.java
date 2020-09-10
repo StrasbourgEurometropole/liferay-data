@@ -432,12 +432,6 @@ public class SaveOfferActionCommand implements MVCActionCommand {
             isValid = false;
         }
 
-        // conditions
-        if (Validator.isNull(ParamUtil.getString(request, "conditionsEditor"))) {
-            SessionErrors.add(request, "conditions-error");
-            isValid = false;
-        }
-
         // famille
         if (Validator.isNull(ParamUtil.getString(request, "ejobFamille"))) {
             SessionErrors.add(request, "famille-error");
