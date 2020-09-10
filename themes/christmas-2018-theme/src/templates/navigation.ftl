@@ -106,9 +106,9 @@
                         <li><a href="${nav_item.getURL()}">${nav_item.getName()}</a></li>
                     </#if>
                 </#list>
-                <li>
+                <!-- <li>
                     <a href="/experientiel" class="mns-btn-yellow"><@liferay_ui.message key='prepare-your-program' /></a>
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>
