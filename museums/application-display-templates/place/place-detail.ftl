@@ -1,5 +1,10 @@
 <!-- Détail lieu -->
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+   <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+   <#assign homeURL = "/" />
+</#if>
 <#setting date_format="d MMMM yyyy">
 <#assign EventLocalService = serviceLocator.findService("eu.strasbourg.service.agenda.service.EventLocalService")/>
 
@@ -297,7 +302,7 @@
 	                        			<#assign categoriesIds = categoriesIds + "," + type.getCategoryId() />
 	                                </#if> 
 	                            </#list>
-	                            <a href="https://www.musees.strasbourg.eu/tous-les-horaires"><@liferay_ui.message key="eu.all-times" /></a>
+	                            <a href="${homeURL}tous-les-horaires"><@liferay_ui.message key="eu.all-times" /></a>
 	                        </#if>
 	                    </h4>
 	                    <#assign hasURL = 0 />
