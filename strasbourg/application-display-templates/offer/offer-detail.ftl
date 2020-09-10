@@ -133,10 +133,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </div>
 
                 <!-- Condition -->
-                <div id="offerConditions">
-                    <h2><@liferay_ui.message key="eu.offer-conditions" /></h2>
-                    ${entry.getConditions(locale)}
-                </div>
+                <#if entry.getConditions(locale)?has_content>
+                    <div id="offerConditions">
+                        <h2><@liferay_ui.message key="eu.offer-conditions" /></h2>
+                        ${entry.getConditions(locale)}
+                    </div>
+                </#if>
 
                 <!-- Avantages -->
                 <#if entry.avantages?? && entry.offerTypeRecrutement.getTitle(locale)!="Stage">
