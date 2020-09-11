@@ -1112,6 +1112,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux communes du bp
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCityCategories() {
+		return _budgetParticipatif.getCityCategories();
+	}
+
+	/**
 	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers du bp
 	*
 	* @return : null si vide, sinon la liste des catégories

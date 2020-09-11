@@ -1078,6 +1078,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux communes de la pétition
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCityCategories() {
+		return _petition.getCityCategories();
+	}
+
+	/**
 	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
 	*
 	* @return : null si vide, sinon la liste des catégories

@@ -285,7 +285,8 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     @Override
     public String getDistrictLabel(Locale locale) {
         List<AssetCategory> districts = getDistrictCategories();
-        return AssetVocabularyHelper.getDistrictTitle(locale, districts);
+		List<AssetCategory> cities = getCityCategories();
+        return AssetVocabularyHelper.getDistrictTitle(locale, districts, cities);
     }
 
     /**
@@ -306,6 +307,25 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         }
         return districts;
     }
+
+	/**
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux communes du bp
+	 * @return : null si vide, sinon la liste des catégories
+	 */
+	@Override
+	public List<AssetCategory> getCityCategories() {
+		List<AssetCategory> territories = getTerritoryCategories();
+		List<AssetCategory> cities = new ArrayList<>();
+		for (AssetCategory territory : territories) {
+			try {
+				if (territory.getAncestors().size() == 1) {
+					cities.add(territory);
+				}
+			} catch (PortalException ignored) {
+			}
+		}
+		return cities;
+	}
     
     @Override
     public String getBudgetParticipatifStatusCategoryColor() {

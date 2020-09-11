@@ -365,7 +365,8 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	@Override
 	public String getDistrictLabel(Locale locale) {
 		List<AssetCategory> districts = getDistrictCategories();
-		return AssetVocabularyHelper.getDistrictTitle(locale, districts);
+		List<AssetCategory> cities = getCityCategories();
+		return AssetVocabularyHelper.getDistrictTitle(locale, districts, cities);
 	}
 
 	/**

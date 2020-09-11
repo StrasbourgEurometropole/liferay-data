@@ -117,11 +117,6 @@ public interface Project extends ProjectModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
 
 	/**
-	* Retourne les quartiers du projet
-	*/
-	public java.lang.String getDistrictCategories(java.util.Locale locale);
-
-	/**
 	* Retourne une chaine des 'Territoires' correspondant aux quartiers du projet
 	*
 	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
