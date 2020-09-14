@@ -70,25 +70,28 @@ public class OfferIndexer extends BaseIndexer<Offer> {
 		document.addLocalizedText(Field.TITLE, offer.getPostMap());
 
 		Map<Locale, String> descriptionMap = new HashMap<Locale, String>();
+		Map<Locale, String> contentMap = new HashMap<Locale, String>();
 
 		for (Map.Entry<Locale, String> titleMap : offer.getPostMap().entrySet()) {
 			Locale locale = titleMap.getKey();
 
-			// On ajoute les données de service et activité, tarif, nom et description des
-			// sous-lieux d'un lieu dans la map présentation
-			String description = offer.getIntroduction(locale);
-			description += offer.getActivities(locale);
-			description += offer.getAvantages(locale);
-			description += offer.getConditions(locale);
-			description += offer.getDuration(locale);
-			description += offer.getMotif(locale);
-			description += offer.getProfil(locale);
-			description += offer.getPermanentDescription(locale);
-			description += offer.getFullTimeDescription(locale);
-			description += offer.getJobCreationDescription(locale);
+			// On ajoute les données du bloc gris
+			String description = offer.getPermanentDescription(locale);
+			description += " " + offer.getFullTimeDescription(locale);
+			description += " " + offer.getDuration(locale);
 			descriptionMap.put(locale, description);
+
+
+			// On ajoute les autres données
+			String content = offer.getIntroduction(locale);
+			content += " " + offer.getActivities(locale);
+			content += " " + offer.getProfil(locale);
+			content += " " + offer.getAvantages(locale);
+			content += " " + offer.getConditions(locale);
+			contentMap.put(locale, content);
 		}
 		document.addLocalizedText(Field.DESCRIPTION, descriptionMap);
+		document.addLocalizedText(Field.CONTENT, contentMap);
 		document.addNumber(Field.STATUS, offer.getStatus());
 
 		List<Date> dates = new ArrayList<Date>();
