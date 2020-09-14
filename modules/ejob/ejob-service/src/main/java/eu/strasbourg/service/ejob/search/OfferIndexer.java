@@ -24,8 +24,10 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @Component(immediate = true, service = Indexer.class)
 public class OfferIndexer extends BaseIndexer<Offer> {
@@ -66,26 +68,27 @@ public class OfferIndexer extends BaseIndexer<Offer> {
 			assetCategories);
 		
 		document.addLocalizedText(Field.TITLE, offer.getPostMap());
-		document.addLocalizedText("introduction",
-				offer.getIntroductionMap());
-		document.addLocalizedText("activities",
-				offer.getActivitiesMap());
-		document.addLocalizedText("avantages",
-				offer.getAvantagesMap());
-		document.addLocalizedText("conditions",
-				offer.getConditionsMap());
-		document.addLocalizedText("duration",
-				offer.getDurationMap());
-		document.addLocalizedText("motif",
-				offer.getMotifMap());
-		document.addLocalizedText("profil",
-				offer.getProfilMap());
-		document.addLocalizedText("permanentDes",
-				offer.getPermanentDescriptionMap());
-		document.addLocalizedText("fullTimeDes",
-				offer.getFullTimeDescriptionMap());
-		document.addLocalizedText("jobCreationDes",
-				offer.getJobCreationDescriptionMap());
+
+		Map<Locale, String> descriptionMap = new HashMap<Locale, String>();
+
+		for (Map.Entry<Locale, String> titleMap : offer.getPostMap().entrySet()) {
+			Locale locale = titleMap.getKey();
+
+			// On ajoute les données de service et activité, tarif, nom et description des
+			// sous-lieux d'un lieu dans la map présentation
+			String description = offer.getIntroduction(locale);
+			description += offer.getActivities(locale);
+			description += offer.getAvantages(locale);
+			description += offer.getConditions(locale);
+			description += offer.getDuration(locale);
+			description += offer.getMotif(locale);
+			description += offer.getProfil(locale);
+			description += offer.getPermanentDescription(locale);
+			description += offer.getFullTimeDescription(locale);
+			description += offer.getJobCreationDescription(locale);
+			descriptionMap.put(locale, description);
+		}
+		document.addLocalizedText(Field.DESCRIPTION, descriptionMap);
 		document.addNumber(Field.STATUS, offer.getStatus());
 
 		List<Date> dates = new ArrayList<Date>();
