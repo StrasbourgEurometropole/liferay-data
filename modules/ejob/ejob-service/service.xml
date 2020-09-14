@@ -49,6 +49,7 @@
 		<column name="publicationEndDate" type="Date" />
 		<column name="isExported" type="int" />
 		<column name="emailSend" type="int" />
+		<column name="emailPartnerSent" type="int" />
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />

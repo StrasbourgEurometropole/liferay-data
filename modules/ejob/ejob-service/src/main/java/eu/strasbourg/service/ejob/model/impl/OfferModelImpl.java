@@ -103,7 +103,7 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		{"emails", Types.VARCHAR}, {"shareLinkedin", Types.BOOLEAN},
 		{"publicationStartDate", Types.TIMESTAMP},
 		{"publicationEndDate", Types.TIMESTAMP}, {"isExported", Types.INTEGER},
-		{"emailSend", Types.INTEGER}
+		{"emailSend", Types.INTEGER}, {"emailPartnerSent", Types.INTEGER}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -145,10 +145,11 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		TABLE_COLUMNS_MAP.put("publicationEndDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("isExported", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("emailSend", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("emailPartnerSent", Types.INTEGER);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table ejob_Offer (uuid_ VARCHAR(75) null,offerId LONG not null primary key IDENTITY,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,publicationId VARCHAR(75) null,postNumber VARCHAR(75) null,jobCreationDescription STRING null,startDate DATE null,motif STRING null,permanentDescription STRING null,duration STRING null,post STRING null,isFullTime BOOLEAN,fullTimeDescription STRING null,introduction TEXT null,activities TEXT null,profil TEXT null,conditions TEXT null,avantages TEXT null,limitDate DATE null,contact VARCHAR(75) null,emails VARCHAR(75) null,shareLinkedin BOOLEAN,publicationStartDate DATE null,publicationEndDate DATE null,isExported INTEGER,emailSend INTEGER)";
+		"create table ejob_Offer (uuid_ VARCHAR(75) null,offerId LONG not null primary key IDENTITY,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,publicationId VARCHAR(75) null,postNumber VARCHAR(75) null,jobCreationDescription STRING null,startDate DATE null,motif STRING null,permanentDescription STRING null,duration STRING null,post STRING null,isFullTime BOOLEAN,fullTimeDescription STRING null,introduction TEXT null,activities TEXT null,profil TEXT null,conditions TEXT null,avantages TEXT null,limitDate DATE null,contact VARCHAR(75) null,emails VARCHAR(75) null,shareLinkedin BOOLEAN,publicationStartDate DATE null,publicationEndDate DATE null,isExported INTEGER,emailSend INTEGER,emailPartnerSent INTEGER)";
 
 	public static final String TABLE_SQL_DROP = "drop table ejob_Offer";
 
@@ -240,6 +241,7 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		model.setPublicationEndDate(soapModel.getPublicationEndDate());
 		model.setIsExported(soapModel.getIsExported());
 		model.setEmailSend(soapModel.getEmailSend());
+		model.setEmailPartnerSent(soapModel.getEmailPartnerSent());
 
 		return model;
 	}
@@ -1085,6 +1087,26 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 				@Override
 				public void accept(Offer offer, Object emailSend) {
 					offer.setEmailSend((Integer)emailSend);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"emailPartnerSent",
+			new Function<Offer, Object>() {
+
+				@Override
+				public Object apply(Offer offer) {
+					return offer.getEmailPartnerSent();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"emailPartnerSent",
+			new BiConsumer<Offer, Object>() {
+
+				@Override
+				public void accept(Offer offer, Object emailPartnerSent) {
+					offer.setEmailPartnerSent((Integer)emailPartnerSent);
 				}
 
 			});
@@ -2720,6 +2742,17 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		_emailSend = emailSend;
 	}
 
+	@JSON
+	@Override
+	public int getEmailPartnerSent() {
+		return _emailPartnerSent;
+	}
+
+	@Override
+	public void setEmailPartnerSent(int emailPartnerSent) {
+		_emailPartnerSent = emailPartnerSent;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
@@ -3164,6 +3197,7 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		offerImpl.setPublicationEndDate(getPublicationEndDate());
 		offerImpl.setIsExported(getIsExported());
 		offerImpl.setEmailSend(getEmailSend());
+		offerImpl.setEmailPartnerSent(getEmailPartnerSent());
 
 		offerImpl.resetOriginalValues();
 
@@ -3488,6 +3522,8 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 		offerCacheModel.emailSend = getEmailSend();
 
+		offerCacheModel.emailPartnerSent = getEmailPartnerSent();
+
 		return offerCacheModel;
 	}
 
@@ -3611,6 +3647,7 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	private int _originalIsExported;
 	private boolean _setOriginalIsExported;
 	private int _emailSend;
+	private int _emailPartnerSent;
 	private long _columnBitmask;
 	private Offer _escapedModel;
 
