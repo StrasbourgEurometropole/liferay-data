@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
@@ -35,6 +36,9 @@ import java.util.stream.LongStream;
  *
  */
 public class AssetVocabularyHelper {
+
+	public static final String FRANCE="France";
+
 	/**
 	 * Retourne la liste des vocabulaires rattachés à un type d'entité
 	 */
@@ -149,6 +153,28 @@ public class AssetVocabularyHelper {
         }
         return index == listDistrictSizeToCompare;
     }
+
+	public static boolean isAllFrenchCity(int listCitySizeToCompare){
+		AssetVocabulary territoryVocabulary = null;
+		try {
+			territoryVocabulary = getGlobalVocabulary(VocabularyNames.TERRITORY);
+		} catch (PortalException ignored) {
+		}
+		assert territoryVocabulary != null;
+		List<AssetCategory> territories = territoryVocabulary.getCategories();
+		int index = 0;
+		if (territories!=null&&!territories.isEmpty()){
+			for (AssetCategory territory :territories) {
+				try {
+					if (territory.getAncestors().size()==1 && territory.getAncestors().get(0).getName().equals(FRANCE)){
+						index++;
+					}
+				} catch (PortalException ignored){
+				}
+			}
+		}
+		return index == listCitySizeToCompare;
+	}
 
 	/**
 	 * Retourne le vocabulaire ayant le nom donné et faisant parti du groupe
@@ -560,17 +586,55 @@ public class AssetVocabularyHelper {
 		return json;
 	}
 
-
-	public static String getDistrictTitle(Locale locale, List<AssetCategory> assetCategories) {
+	public static String getTerritoryTitle(Locale locale, List<AssetCategory> assetTerritoryCategories) {
 		StringBuilder result = new StringBuilder();
-		if (assetCategories == null || assetCategories.isEmpty()) {
-			result.append("aucun quartier");
-		} else if (AssetVocabularyHelper.isAllDistrict(assetCategories.size())) {
-			result.append("tous les quartiers");
+
+		if (assetTerritoryCategories == null || assetTerritoryCategories.isEmpty()) {
+			result.append("aucun territoire");
 		} else {
-			result.append(assetCategories.stream()
+			result.append(assetTerritoryCategories.stream()
 					.map(assetCategory -> assetCategory.getTitle(locale))
 					.collect(Collectors.joining(" - ")));
+		}
+		return result.toString();
+	}
+
+	public static String getDistrictTitle(Locale locale, List<AssetCategory> assetDistrictCategories, List<AssetCategory> assetCityCategories) {
+		StringBuilder result = new StringBuilder();
+		boolean isAllDistricts = AssetVocabularyHelper.isAllDistrict(assetDistrictCategories.size());
+		boolean isAllCities= AssetVocabularyHelper.isAllFrenchCity(assetCityCategories.size());
+
+		if ((assetCityCategories == null || assetCityCategories.isEmpty()) && (assetDistrictCategories == null || assetDistrictCategories.isEmpty())) {
+			result.append("Aucune commune");
+		} else if (AssetVocabularyHelper.isAllFrenchCity(assetCityCategories.size())) {
+			result.append("Toutes les communes de l\u2019Eurom\u00e9tropole");
+		} else {
+			if (!isAllDistricts && !assetDistrictCategories.isEmpty()) {
+				long globalGroupId =0;
+				try {
+					Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
+					globalGroupId = defaultCompany.getGroup().getGroupId();
+				} catch (PortalException e) {
+					_log.error("Le group Global n'a pas été trouvé");
+				}
+				if(globalGroupId != 0) {
+					AssetCategory strasbourg = getCategory("Strasbourg", globalGroupId);
+					assetCityCategories.remove(strasbourg);
+					assetCityCategories.add(strasbourg);
+				}
+			}
+
+			result.append(assetCityCategories.stream()
+					.map(assetCategory -> assetCategory.getTitle(locale))
+					.collect(Collectors.joining(" - ")));
+		}
+
+		if(!isAllCities && !isAllDistricts && !assetDistrictCategories.isEmpty()) {
+			result.append(" (");
+			result.append(assetDistrictCategories.stream()
+					.map(assetCategory -> assetCategory.getTitle(locale))
+					.collect(Collectors.joining(" - ")));
+			result.append(")");
 		}
 		return result.toString();
 	}

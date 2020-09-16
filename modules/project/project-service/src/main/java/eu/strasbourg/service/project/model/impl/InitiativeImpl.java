@@ -200,18 +200,9 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	 */
 	@Override
 	public String getDistrictLabel(Locale locale) {
-		StringBuilder result = new StringBuilder();
 		List<AssetCategory> districts = getDistrictCategories();
-		if (districts==null || districts.isEmpty()){
-			result.append("Aucun quartier");
-		} else if (AssetVocabularyHelper.isAllDistrict(districts.size())){
-			result.append("Tous les quartiers");
-		} else {
-		    result.append(districts.stream()
-                    .map(district -> district.getTitle(locale))
-                    .collect(Collectors.joining(" - ")));
-		}
-		return result.toString();
+		List<AssetCategory> cities = getCityCategories();
+		return AssetVocabularyHelper.getDistrictTitle(locale, districts, cities);
 	}
 	
 	/**

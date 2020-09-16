@@ -4,6 +4,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.List;
 import java.util.Locale;
@@ -54,11 +55,22 @@ public interface AssetVocabularyHelperService {
     boolean isAllDistrict(int listDistrictSizeToCompare);
 
     /**
+     * méthode permettant de savoir si le nombre entré en parametre est égale au nombre de villes de France total.
+     *
+     * @param listCitySizeToCompare le nombre de ville présent dans l'asset.
+     * @return le boolean.
+     */
+    boolean isAllFrenchCity(int listCitySizeToCompare);
+
+    /**
      * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la participation
      *
      * @return : null si vide, sinon la liste des catégories
      */
-    String getDistrictTitle(Locale locale, List<AssetCategory> assetCategories);
+    String getDistrictTitle(Locale locale, List<AssetCategory> assetDistrictCategories, List<AssetCategory> assetCityCategories);
+
+
+    String getTerritoryTitle(Locale locale, List<AssetCategory> assetTerritoryCategories);
 
     /**
      * méthode permettant de récupérer les titres des thématiques
