@@ -62,5 +62,6 @@
 		<property name="publicationEndDate" type="org.hibernate.type.TimestampType" />
 		<property name="isExported" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="emailSend" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="emailPartnerSent" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 	</class>
 </hibernate-mapping>

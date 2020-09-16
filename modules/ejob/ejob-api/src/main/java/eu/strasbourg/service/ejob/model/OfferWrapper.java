@@ -93,6 +93,7 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 		attributes.put("publicationEndDate", getPublicationEndDate());
 		attributes.put("isExported", getIsExported());
 		attributes.put("emailSend", getEmailSend());
+		attributes.put("emailPartnerSent", getEmailPartnerSent());
 
 		return attributes;
 	}
@@ -311,6 +312,12 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 
 		if (emailSend != null) {
 			setEmailSend(emailSend);
+		}
+
+		Integer emailPartnerSent = (Integer)attributes.get("emailPartnerSent");
+
+		if (emailPartnerSent != null) {
+			setEmailPartnerSent(emailPartnerSent);
 		}
 	}
 
@@ -685,6 +692,16 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	@Override
 	public Map<java.util.Locale, String> getDurationMap() {
 		return _offer.getDurationMap();
+	}
+
+	/**
+	 * Returns the email partner sent of this offer.
+	 *
+	 * @return the email partner sent of this offer
+	 */
+	@Override
+	public int getEmailPartnerSent() {
+		return _offer.getEmailPartnerSent();
 	}
 
 	/**
@@ -1995,6 +2012,16 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 		java.util.Locale defaultLocale) {
 
 		_offer.setDurationMap(durationMap, defaultLocale);
+	}
+
+	/**
+	 * Sets the email partner sent of this offer.
+	 *
+	 * @param emailPartnerSent the email partner sent of this offer
+	 */
+	@Override
+	public void setEmailPartnerSent(int emailPartnerSent) {
+		_offer.setEmailPartnerSent(emailPartnerSent);
 	}
 
 	/**

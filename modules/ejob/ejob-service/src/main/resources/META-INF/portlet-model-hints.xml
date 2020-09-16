@@ -77,5 +77,6 @@
 		<field name="publicationEndDate" type="Date" />
 		<field name="isExported" type="int" />
 		<field name="emailSend" type="int" />
+		<field name="emailPartnerSent" type="int" />
 	</model>
 </model-hints>

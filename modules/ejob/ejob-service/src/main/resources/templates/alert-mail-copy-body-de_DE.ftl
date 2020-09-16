@@ -16,9 +16,9 @@ Vous trouverez ci-dessous la liste des informations saisies.</p>
                 <a class="seu-result-content">
                     <h2 class="seu-result-title">
                         <#if entry.getPost()?length &lt; 190>
-                            ${entry.getPost()}
+                            ${entry.getPost(locale)}
                         <#else>
-                            ${entry.getPost()?substring(0,189)} ...
+                            ${entry.getPost(locale)?substring(0,189)} ...
                         </#if>
                     </h2>
                     <div class="seu-result-catcher">${entry.offerDirection.getTitle(locale)}
@@ -151,23 +151,11 @@ Vous trouverez ci-dessous la liste des informations saisies.</p>
                 margin-bottom: 10px;
     }
      .wi-search-result .seu-result-right .seu-result-content .seu-result-category {
-         font: 400 12px OpenSans,arial;
+         font: 600 12px OpenSans,arial;
          color: #5c5c5c;
          display: flex;
          align-items: center;
          line-height: 1.2;
-    }
-     .wi-search-result .seu-result-right .seu-result-content .seu-result-category:before {
-         content: '';
-         display: inline-block;
-         width: 20px;
-         height: 20px;
-         background-size: 12px;
-         background-position: center;
-         background-repeat: no-repeat;
-         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%235c5c5c' viewBox='0 0 370.8 370.5'%3E%3Cpath d='M356.6 205.1l-143.9-144c-7.6-7.6-17.8-11.8-28.5-11.8 -0.9 0-1.8 0-2.6 0.1L77.5 56.2c-11.3 0.7-20.4 9.8-21.1 21.1l-2.5 37c-5.3-3-10.3-6.9-14.9-11.4C27.9 91.8 21 77.9 19.6 63.8c-1.4-13.4 2.5-25.3 10.8-33.6 17.7-17.7 50.2-13.8 72.7 8.6 3.8 3.8 9.8 3.8 13.6 0 3.8-3.8 3.8-9.8 0-13.6 -30.1-29.8-74.9-33.7-100-8.6C4.2 29.2-1.6 46.6 0.4 65.8c1.8 18.5 10.7 36.5 25 50.7 8 8 17.3 14.3 27.1 18.6l-3 46.3c-0.8 11.6 3.5 23 11.8 31.2l144 144c9.1 9.1 21.2 14.1 34.1 14.1 12.9 0 25-5 34.1-14.1l83.4-83.4c9.1-9.1 14.1-21.2 14.1-34.1C370.8 226.2 365.7 214.2 356.6 205.1L356.6 205.1zM343.1 259.6l-83.5 83.5c-5.4 5.4-12.7 8.5-20.5 8.5 -7.8 0-15-3-20.5-8.5l-144-144c-4.3-4.3-6.6-10.2-6.2-16.3l2.8-41.9c1.6 0.2 3.2 0.5 4.8 0.6 2.4 0.2 4.8 0.4 7.1 0.4 16.4 0 31-5.8 41.9-16.6 3.8-3.8 3.8-9.8 0-13.6 -3.8-3.8-9.8-3.8-13.6 0 -8.3 8.3-20.2 12.2-33.6 10.8 -1.8-0.2-3.6-0.5-5.4-0.8L75.4 78.8c0.1-1.8 1.5-3.1 3.3-3.3l104.1-6.9c0.5 0 1-0.1 1.4-0.1 5.6 0 11 2.2 15 6.2L343.1 218.6c5.4 5.4 8.5 12.7 8.5 20.5C351.6 246.9 348.5 254.2 343.1 259.6L343.1 259.6zM343.1 259.6'/%3E%3C/svg%3E");
-         margin-right: 10px;
-         transform: rotate(90deg);
     }
      .wi-search-result .seu-result-right .seu-result-infos {
          position: relative;

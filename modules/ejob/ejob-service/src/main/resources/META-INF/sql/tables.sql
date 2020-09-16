@@ -52,5 +52,6 @@ create table ejob_Offer (
 	publicationStartDate DATE null,
 	publicationEndDate DATE null,
 	isExported INTEGER,
-	emailSend INTEGER
+	emailSend INTEGER,
+	emailPartnerSent INTEGER
 );

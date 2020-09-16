@@ -165,7 +165,7 @@
 						<span id="place-autocomplete-hidden-value">
 							<aui:input type="hidden" name="placeSIGId" value="${dc.event.placeSIGId}" />
 						</span>
-						<aui:input label="Lieu choisi" type="text" value="${not empty dc.event.placeSIGId ? dc.event.getPlaceAlias(locale) : ''}" name="selectedPlace" disabled="true" cssClass="selected-place" />
+						<aui:input label="choosen-place" type="text" value="${not empty dc.event.placeSIGId ? dc.event.getPlaceAlias(locale) : ''}" name="selectedPlace" disabled="true" cssClass="selected-place" />
 						<aui:input type="hidden" value="${not empty dc.event.placeSIGId ? dc.event.getPlaceAlias(locale) : ''}" name="selectedPlace2" cssClass="selected-place2" >
                             <aui:validator name="required" errorMessage="this-field-is-required" />
 						</aui:input>
