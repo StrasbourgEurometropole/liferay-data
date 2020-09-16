@@ -107,32 +107,6 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 			paragraph.add(offer.getPublicationId());
 			paragraph.add("\n\n");
 
-			if(Validator.isNotNull(offer.getPostNumber()) && offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
-				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-post-number") + " : ").setFont(fontBold).setFontSize(16f));
-				paragraph.add("\n");
-				paragraph.add(offer.getPostNumber());
-				paragraph.add("\n\n");
-			}
-
-			paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-type-recrutement") + " : ").setFont(fontBold).setFontSize(16f));
-			paragraph.add("\n");
-			paragraph.add(offer.getOfferTypeRecrutement().getTitle(locale));
-			paragraph.add("\n\n");
-
-			if(Validator.isNotNull(offer.getPermanentDescription(locale)) && !offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
-				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-permanent-description") + " : ").setFont(fontBold).setFontSize(16f));
-				paragraph.add("\n");
-				paragraph.add(offer.getPermanentDescription(locale));
-				paragraph.add("\n\n");
-			}
-
-			if(Validator.isNotNull(offer.getDuration(locale)) && !offer.getDuration(locale).equals("")) {
-				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-duree-contrat") + " : ").setFont(fontBold).setFontSize(16f));
-				paragraph.add("\n");
-				paragraph.add(offer.getDuration(locale));
-				paragraph.add("\n\n");
-			}
-
 			paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-direction") + " : ").setFont(fontBold).setFontSize(16f));
 			paragraph.add("\n");
 			paragraph.add(offer.getOfferDirection().getTitle(locale));
@@ -145,6 +119,22 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 				paragraph.add("\n\n");
 			}
 
+			if(Validator.isNotNull(offer.getOfferFiliereCategorie()) && !offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
+				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-filiere-categorie") + " : ").setFont(fontBold).setFontSize(16f));
+				paragraph.add("\n");
+				paragraph.add(offer.getOfferCategorie());
+				paragraph.add("\n\n");
+			}
+
+			paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-type-recrutement") + " : ").setFont(fontBold).setFontSize(16f));
+			paragraph.add("\n");
+			paragraph.add(offer.getOfferTypeRecrutement().getTitle(locale));
+			if(Validator.isNotNull(offer.getPermanentDescription(locale)) && offer.getOfferTypeRecrutement().getTitle(locale)!="Stage") {
+				paragraph.add("\n");
+				paragraph.add(offer.getPermanentDescription(locale));
+			}
+			paragraph.add("\n\n");
+
 			if(!offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
 				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-is-full-time") + " : ").setFont(fontBold).setFontSize(16f));
 				paragraph.add("\n");
@@ -155,38 +145,10 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 				paragraph.add("\n\n");
 			}
 
-			if(Validator.isNotNull(offer.getFullTimeDescription(locale)) && offer.getIsFullTime() && !offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
-				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-full-time-description") + " : ").setFont(fontBold).setFontSize(16f));
-				paragraph.add("\n");
-				paragraph.add(offer.getFullTimeDescription(locale));
-				paragraph.add("\n\n");
-			}
-
-			if(Validator.isNotNull(offer.getOfferFiliere()) && !offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
-				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-filiere") + " : ").setFont(fontBold).setFontSize(16f));
-				paragraph.add("\n");
-				paragraph.add(offer.getOfferFiliere().getTitle(locale));
-				paragraph.add("\n\n");
-			}
-
-			if(Validator.isNotNull(offer.getOfferFiliereCategorie()) && !offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
-				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-filiere-categorie") + " : ").setFont(fontBold).setFontSize(16f));
-				paragraph.add("\n");
-				paragraph.add(offer.getOfferFiliereCategorie().getTitle(locale));
-				paragraph.add("\n\n");
-			}
-
 			if(Validator.isNotNull(offer.getOfferGrade()) && !offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
 				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-grade") + " : ").setFont(fontBold).setFontSize(16f));
 				paragraph.add("\n");
 				paragraph.add(offer.getOfferGrade().getTitle(locale));
-				paragraph.add("\n\n");
-			}
-
-			if(Validator.isNotNull(offer.getOfferNiveauEtude()) && offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
-				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-niveau-etude") + " : ").setFont(fontBold).setFontSize(16f));
-				paragraph.add("\n");
-				paragraph.add(offer.getOfferNiveauEtude().getTitle(locale));
 				paragraph.add("\n\n");
 			}
 
@@ -195,26 +157,18 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			paragraph.add(sdf.format(offer.getLimitDate()));
 
-			if(Validator.isNotNull(offer.getOfferFamille())) {
+			if(Validator.isNotNull(offer.getDuration(locale))) {
 				paragraph.add("\n\n");
-				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-famille-metier") + " : ").setFont(fontBold).setFontSize(16f));
+				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-duree-contrat") + " : ").setFont(fontBold).setFontSize(16f));
 				paragraph.add("\n");
-				paragraph.add(offer.getOfferFamille().getTitle(locale));
+				paragraph.add(offer.getDuration(locale));
 			}
 
-			if(Validator.isNotNull(offer.getOfferContact()) && offer.getTypePublication().getTitle(locale).equals("Interne uniquement")) {
+			if(Validator.isNotNull(offer.getOfferNiveauEtude()) && offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
 				paragraph.add("\n\n");
-				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-nom-RE") + " : ").setFont(fontBold).setFontSize(16f));
+				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-niveau-etude") + " : ").setFont(fontBold).setFontSize(16f));
 				paragraph.add("\n");
-				paragraph.add(offer.getOfferContact().getTitle(locale));
-			}
-
-			if(Validator.isNotNull(offer.getContact())
-					&& (offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage") || offer.getTypePublication().getTitle(locale).equals("Interne uniquement"))) {
-				paragraph.add("\n\n");
-				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-nom-RRH") + " : ").setFont(fontBold).setFontSize(16f));
-				paragraph.add("\n");
-				paragraph.add(offer.getContact());
+				paragraph.add(offer.getOfferNiveauEtude().getTitle(locale));
 			}
 			document.add(paragraph);
 
@@ -225,7 +179,7 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 			}
 
 			paragraph = new Paragraph().setMarginBottom(-10f);
-			paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-activities") + " : ").setFont(fontBold).setFontSize(16f));
+			paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-activities").toUpperCase() + " : ").setFont(fontBold).setFontSize(16f));
 			document.add(paragraph);
 			elements = HtmlConverter.convertToElements(offer.getActivities(locale));
 			for (IElement element : elements) {
@@ -233,30 +187,30 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 			}
 
 			paragraph = new Paragraph().setMarginBottom(-10f);
-			paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-profil") + " : ").setFont(fontBold).setFontSize(16f));
+			paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-profil").toUpperCase() + " : ").setFont(fontBold).setFontSize(16f));
 			document.add(paragraph);
 			elements = HtmlConverter.convertToElements(offer.getProfil(locale));
 			for (IElement element : elements) {
 				document.add((IBlockElement)element);
 			}
 
-			if(Validator.isNotNull(offer.getConditions(locale))) {
-				paragraph = new Paragraph().setMarginBottom(-10f);
-				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-conditions") + " : ").setFont(fontBold).setFontSize(16f));
-				document.add(paragraph);
-				elements = HtmlConverter.convertToElements(offer.getConditions(locale));
-				for (IElement element : elements) {
-					document.add((IBlockElement) element);
-				}
-			}
-
 			if(Validator.isNotNull(offer.getAvantages(locale)) && !offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
 				paragraph = new Paragraph().setMarginBottom(-10f);
-				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-avantages") + " : ").setFont(fontBold).setFontSize(16f));
+				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-avantages") + " : ").setFont(fontBold).setFontSize(12f));
 				document.add(paragraph);
 				elements = HtmlConverter.convertToElements(offer.getAvantages(locale));
 				for (IElement element : elements) {
 					document.add((IBlockElement)element);
+				}
+			}
+
+			if(Validator.isNotNull(offer.getConditions(locale))) {
+				paragraph = new Paragraph().setMarginBottom(-10f);
+				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-conditions") + " : ").setFont(fontBold).setFontSize(12f));
+				document.add(paragraph);
+				elements = HtmlConverter.convertToElements(offer.getConditions(locale));
+				for (IElement element : elements) {
+					document.add((IBlockElement) element);
 				}
 			}
 
