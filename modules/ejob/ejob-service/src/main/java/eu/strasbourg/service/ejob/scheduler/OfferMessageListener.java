@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.SchedulerEntry;
 import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
-import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import com.liferay.portal.kernel.search.Document;
@@ -50,14 +49,13 @@ public class OfferMessageListener
 
 		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
 		Calendar now = Calendar.getInstance();
-		now.add(Calendar.SECOND, 5);
+		now.add(Calendar.MINUTE, 5);
 		Date fiveMinutesFromNow = now.getTime();
 
 		// Création du trigger "Tous les jours à ??
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				5, TimeUnit.SECOND);
-//		"0 5 1 * * ?");
+		"0 5 1 * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
