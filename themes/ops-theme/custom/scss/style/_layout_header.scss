@@ -268,10 +268,19 @@
 								text-decoration: none;
 								color: $c_main;
 							}
+
+							.svg-youtube{
+								fill: $c_main;
+							}
 						}
 						span {
 							position: relative;
 							top: 3px;
+						}
+
+						.svg-youtube{
+							fill: #000;
+							width: 20px;
 						}
 					}
 				}
