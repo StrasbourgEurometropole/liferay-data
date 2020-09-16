@@ -372,13 +372,8 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             DLFolder folder = DLFolderLocalServiceUtil.getFolder(this.themeDisplay.getScopeGroupId(),
                                                                 folderparent.getFolderId(),
                                                                 "uploads");
-
-            _log.info("File : Photo budget before upload in doclib : \n "
-                    + " [ canonical path : " + this.photoFile.getCanonicalPath() + " ]\n"
-                    + " [ absolute path : " + this.photoFile.getAbsolutePath() + " ]\n"
-                    + " [ name : " + this.photoFile.getName() + " ]\n"
-                    + " [ exist ? : " + new File(this.photoFile.getAbsolutePath()).exists() + " ]\n"
-                    );
+            // TODO Remove this after debug
+            FileEntryHelper.logFileInfo(this.photoFile);
 
             // Ajout du fichier
             FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
@@ -457,12 +452,8 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                 // Ajout du fichier
                 FileEntry fileEntry;
                 try {
-                    _log.info("File : Document budget " + numFile + "before upload in doclib : \n "
-                            + " [ canonical path : " + file.getCanonicalPath() + " ]\n"
-                            + " [ absolute path : " + file.getAbsolutePath() + " ]\n"
-                            + " [ name : " + this.photoFile.getName() + " ]\n"
-                            + " [ exist ? : " + new File(file.getAbsolutePath()).exists() + " ]\n"
-                    );
+                    // TODO Remove this after debug
+                    FileEntryHelper.logFileInfo(file);
 
                     fileEntry = DLAppLocalServiceUtil.addFileEntry(
                             this.sc.getUserId(), folder.getRepositoryId(),
