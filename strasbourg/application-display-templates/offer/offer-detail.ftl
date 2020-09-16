@@ -10,7 +10,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
         <div class="seu-flexbox">
 
-            <div class="seu-offer-container">
+            <div class="seu-offer-container rte">
                 <!-- Informations -->
                 <div class="seu-gray-box">
                     <div id="publicationId">
