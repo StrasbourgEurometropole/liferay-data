@@ -8,24 +8,16 @@ docker image build -t $REGISTRY_ADDRESS\elasticsearch-ems ./images/elasticsearch
 echo -e "\n\n \e[35m3# Push sur le registry de l'image ElasticSearch\e[0m"
 docker image push $REGISTRY_ADDRESS\elasticsearch-ems
 
-echo -e "\n\n \e[35m4# Copie des clefs d'activation Liferay\e[0m"
-echo " - Copie dans le noeud actif :"
-ls -l /activation-keys/liferay-ems-active/*
-cp /activation-keys/liferay-ems-active/* /configs/liferay-ems-active/deploy/
-echo " - Copie dans le noeud backup :"
-ls -l /activation-keys/liferay-ems-backup/*
-cp /activation-keys/liferay-ems-backup/* /configs/liferay-ems-backup/deploy/
-
-echo -e "\n\n \e[35m5# Construction de l'image Liferay\e[0m"
+echo -e "\n\n \e[35m4# Construction de l'image Liferay\e[0m"
 docker image build --build-arg DIST_PATH_VERSION=$LFR_TAG_VERSION -t $REGISTRY_ADDRESS\liferay-ems:$LFR_TAG_VERSION ./images/liferay-ems
 
-echo -e "\n\n \e[35m6# Push sur le registry de l'image Liferay\e[0m"
+echo -e "\n\n \e[35m5# Push sur le registry de l'image Liferay\e[0m"
 docker image push $REGISTRY_ADDRESS\liferay-ems:$LFR_TAG_VERSION
 
-echo -e "\n\n \e[35m7# Lancement de la stack EMS\e[0m"
+echo -e "\n\n \e[35m6# Lancement de la stack EMS\e[0m"
 docker stack deploy -c docker-compose.yml ems-stack --with-registry-auth
 
-echo -e "\n\n \e[35m8# Visualisation des services\e[0m"
+echo -e "\n\n \e[35m7# Visualisation des services\e[0m"
 docker service ls
 
 echo -e "\n\n"

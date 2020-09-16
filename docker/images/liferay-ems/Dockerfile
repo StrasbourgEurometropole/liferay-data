@@ -3,6 +3,7 @@ FROM liferay/dxp:7.2.10-dxp-6
 
 # Chemin vers les éléments "constants" ajoutés à l'image (scripts, fichiers d'install ou autres)
 ENV SOURCES_PATH=./sources
+ENV KEY_PATH=./activation-key
 ENV DIST_PATH=./dist
 
 # Changement d'utilisateur sur root pour les opérations nécéssitants ses droits 
@@ -40,6 +41,9 @@ USER liferay
 # Création des dossiers utils pour la persistance et les imports
 RUN mkdir -p /data/import/agenda/archives \
     && mkdir -p /data/liferay/document_library
+
+# Copie de la licence dans deploy
+COPY --chown=liferay:liferay $KEY_PATH/*.xml /opt/liferay/deploy/
 
 # Dossier dans ./dist contenant les livrables
 ARG DIST_PATH_VERSION
