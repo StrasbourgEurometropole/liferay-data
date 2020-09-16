@@ -2763,6 +2763,511 @@ public class OfferPersistenceImpl
 	private static final String _FINDER_COLUMN_EXPORT_ISEXPORTED_2 =
 		"offer.isExported = ?";
 
+	private FinderPath _finderPathWithPaginationFindBySent;
+	private FinderPath _finderPathWithoutPaginationFindBySent;
+	private FinderPath _finderPathCountBySent;
+
+	/**
+	 * Returns all the offers where emailPartnerSent = &#63;.
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @return the matching offers
+	 */
+	@Override
+	public List<Offer> findBySent(int emailPartnerSent) {
+		return findBySent(
+			emailPartnerSent, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the offers where emailPartnerSent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @return the range of matching offers
+	 */
+	@Override
+	public List<Offer> findBySent(int emailPartnerSent, int start, int end) {
+		return findBySent(emailPartnerSent, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the offers where emailPartnerSent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching offers
+	 */
+	@Override
+	public List<Offer> findBySent(
+		int emailPartnerSent, int start, int end,
+		OrderByComparator<Offer> orderByComparator) {
+
+		return findBySent(
+			emailPartnerSent, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the offers where emailPartnerSent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching offers
+	 */
+	@Override
+	public List<Offer> findBySent(
+		int emailPartnerSent, int start, int end,
+		OrderByComparator<Offer> orderByComparator, boolean retrieveFromCache) {
+
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			pagination = false;
+			finderPath = _finderPathWithoutPaginationFindBySent;
+			finderArgs = new Object[] {emailPartnerSent};
+		}
+		else {
+			finderPath = _finderPathWithPaginationFindBySent;
+			finderArgs = new Object[] {
+				emailPartnerSent, start, end, orderByComparator
+			};
+		}
+
+		List<Offer> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Offer>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Offer offer : list) {
+					if ((emailPartnerSent != offer.getEmailPartnerSent())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_OFFER_WHERE);
+
+			query.append(_FINDER_COLUMN_SENT_EMAILPARTNERSENT_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(OfferModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(emailPartnerSent);
+
+				if (!pagination) {
+					list = (List<Offer>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Offer>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first offer in the ordered set where emailPartnerSent = &#63;.
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching offer
+	 * @throws NoSuchOfferException if a matching offer could not be found
+	 */
+	@Override
+	public Offer findBySent_First(
+			int emailPartnerSent, OrderByComparator<Offer> orderByComparator)
+		throws NoSuchOfferException {
+
+		Offer offer = fetchBySent_First(emailPartnerSent, orderByComparator);
+
+		if (offer != null) {
+			return offer;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("emailPartnerSent=");
+		msg.append(emailPartnerSent);
+
+		msg.append("}");
+
+		throw new NoSuchOfferException(msg.toString());
+	}
+
+	/**
+	 * Returns the first offer in the ordered set where emailPartnerSent = &#63;.
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching offer, or <code>null</code> if a matching offer could not be found
+	 */
+	@Override
+	public Offer fetchBySent_First(
+		int emailPartnerSent, OrderByComparator<Offer> orderByComparator) {
+
+		List<Offer> list = findBySent(
+			emailPartnerSent, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last offer in the ordered set where emailPartnerSent = &#63;.
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching offer
+	 * @throws NoSuchOfferException if a matching offer could not be found
+	 */
+	@Override
+	public Offer findBySent_Last(
+			int emailPartnerSent, OrderByComparator<Offer> orderByComparator)
+		throws NoSuchOfferException {
+
+		Offer offer = fetchBySent_Last(emailPartnerSent, orderByComparator);
+
+		if (offer != null) {
+			return offer;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("emailPartnerSent=");
+		msg.append(emailPartnerSent);
+
+		msg.append("}");
+
+		throw new NoSuchOfferException(msg.toString());
+	}
+
+	/**
+	 * Returns the last offer in the ordered set where emailPartnerSent = &#63;.
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching offer, or <code>null</code> if a matching offer could not be found
+	 */
+	@Override
+	public Offer fetchBySent_Last(
+		int emailPartnerSent, OrderByComparator<Offer> orderByComparator) {
+
+		int count = countBySent(emailPartnerSent);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Offer> list = findBySent(
+			emailPartnerSent, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the offers before and after the current offer in the ordered set where emailPartnerSent = &#63;.
+	 *
+	 * @param offerId the primary key of the current offer
+	 * @param emailPartnerSent the email partner sent
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next offer
+	 * @throws NoSuchOfferException if a offer with the primary key could not be found
+	 */
+	@Override
+	public Offer[] findBySent_PrevAndNext(
+			long offerId, int emailPartnerSent,
+			OrderByComparator<Offer> orderByComparator)
+		throws NoSuchOfferException {
+
+		Offer offer = findByPrimaryKey(offerId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Offer[] array = new OfferImpl[3];
+
+			array[0] = getBySent_PrevAndNext(
+				session, offer, emailPartnerSent, orderByComparator, true);
+
+			array[1] = offer;
+
+			array[2] = getBySent_PrevAndNext(
+				session, offer, emailPartnerSent, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Offer getBySent_PrevAndNext(
+		Session session, Offer offer, int emailPartnerSent,
+		OrderByComparator<Offer> orderByComparator, boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_OFFER_WHERE);
+
+		query.append(_FINDER_COLUMN_SENT_EMAILPARTNERSENT_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(OfferModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(emailPartnerSent);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(offer)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Offer> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the offers where emailPartnerSent = &#63; from the database.
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 */
+	@Override
+	public void removeBySent(int emailPartnerSent) {
+		for (Offer offer :
+				findBySent(
+					emailPartnerSent, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
+			remove(offer);
+		}
+	}
+
+	/**
+	 * Returns the number of offers where emailPartnerSent = &#63;.
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @return the number of matching offers
+	 */
+	@Override
+	public int countBySent(int emailPartnerSent) {
+		FinderPath finderPath = _finderPathCountBySent;
+
+		Object[] finderArgs = new Object[] {emailPartnerSent};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_OFFER_WHERE);
+
+			query.append(_FINDER_COLUMN_SENT_EMAILPARTNERSENT_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(emailPartnerSent);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SENT_EMAILPARTNERSENT_2 =
+		"offer.emailPartnerSent = ?";
+
 	public OfferPersistenceImpl() {
 		setModelClass(Offer.class);
 
@@ -3144,6 +3649,12 @@ public class OfferPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByExport, args);
 
+			args = new Object[] {offerModelImpl.getEmailPartnerSent()};
+
+			finderCache.removeResult(_finderPathCountBySent, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindBySent, args);
+
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
@@ -3228,6 +3739,25 @@ public class OfferPersistenceImpl
 				finderCache.removeResult(_finderPathCountByExport, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByExport, args);
+			}
+
+			if ((offerModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindBySent.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					offerModelImpl.getOriginalEmailPartnerSent()
+				};
+
+				finderCache.removeResult(_finderPathCountBySent, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindBySent, args);
+
+				args = new Object[] {offerModelImpl.getEmailPartnerSent()};
+
+				finderCache.removeResult(_finderPathCountBySent, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindBySent, args);
 			}
 		}
 
@@ -3778,6 +4308,28 @@ public class OfferPersistenceImpl
 			OfferModelImpl.ENTITY_CACHE_ENABLED,
 			OfferModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByExport",
+			new String[] {Integer.class.getName()});
+
+		_finderPathWithPaginationFindBySent = new FinderPath(
+			OfferModelImpl.ENTITY_CACHE_ENABLED,
+			OfferModelImpl.FINDER_CACHE_ENABLED, OfferImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySent",
+			new String[] {
+				Integer.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindBySent = new FinderPath(
+			OfferModelImpl.ENTITY_CACHE_ENABLED,
+			OfferModelImpl.FINDER_CACHE_ENABLED, OfferImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySent",
+			new String[] {Integer.class.getName()},
+			OfferModelImpl.EMAILPARTNERSENT_COLUMN_BITMASK);
+
+		_finderPathCountBySent = new FinderPath(
+			OfferModelImpl.ENTITY_CACHE_ENABLED,
+			OfferModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySent",
 			new String[] {Integer.class.getName()});
 	}
 

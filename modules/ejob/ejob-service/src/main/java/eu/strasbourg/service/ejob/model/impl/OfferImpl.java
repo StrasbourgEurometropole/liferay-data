@@ -18,17 +18,45 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.template.Template;
+import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateManagerUtil;
+import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.URLTemplateResource;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * The extended model implementation for the Offer service. Represents a row in the &quot;ejob_Offer&quot; database table, with each column mapped to a property of this class.
@@ -41,6 +69,8 @@ import java.util.Locale;
  */
 @ProviderType
 public class OfferImpl extends OfferBaseImpl {
+
+	private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -123,7 +153,7 @@ public class OfferImpl extends OfferBaseImpl {
 	/**
 	 * Renvoie la categorie des filières
 	 */
-	@SuppressWarnings("unused")
+	@Override
 	public AssetCategory getOfferFiliereCategorie() {
 		List<AssetCategory> filieresCategories = new ArrayList<>();
 		if (filieresCategories == null || filieresCategories.isEmpty()) {
@@ -140,9 +170,21 @@ public class OfferImpl extends OfferBaseImpl {
 	}
 
 	/**
+	 * Renvoie la categorie A, B ou C
+	 */
+	@Override
+	public String getOfferCategorie() {
+		AssetCategory ejobCategorie = getOfferFiliereCategorie();
+		if(Validator.isNotNull(ejobCategorie))
+			return AssetVocabularyHelper.getCategoryProperty(ejobCategorie.getCategoryId(), "linked-category");
+		else
+			return "";
+	}
+
+	/**
 	 * Renvoie le grade
 	 */
-	@SuppressWarnings("unused")
+	@Override
 	public AssetCategory getOfferGrade() {
 		List<AssetCategory> grades = new ArrayList<>();
 		if (grades == null || grades.isEmpty()) {
@@ -161,7 +203,7 @@ public class OfferImpl extends OfferBaseImpl {
 	/**
 	 * Renvoie la Famille de métiers
 	 */
-	@SuppressWarnings("unused")
+	@Override
 	public AssetCategory getOfferFamille() {
 		List<AssetCategory> list = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EJOB_FAMILLE);
@@ -174,7 +216,7 @@ public class OfferImpl extends OfferBaseImpl {
 	/**
 	 * Renvoie le Niveau d'étude
 	 */
-	@SuppressWarnings("unused")
+	@Override
 	public AssetCategory getOfferNiveauEtude() {
 		List<AssetCategory> list = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EJOB_NIVEAU_ETUDE);
@@ -187,7 +229,7 @@ public class OfferImpl extends OfferBaseImpl {
 	/**
 	 * Renvoie le type de recrutement
 	 */
-	@SuppressWarnings("unused")
+	@Override
 	public AssetCategory getOfferTypeRecrutement() {
 		List<AssetCategory> list = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EJOB_TYPE_RECRUTEMENT);
@@ -200,7 +242,7 @@ public class OfferImpl extends OfferBaseImpl {
 	/**
 	 * Renvoie le contact RE
 	 */
-	@SuppressWarnings("unused")
+	@Override
 	public AssetCategory getOfferContact() {
 		List<AssetCategory> list = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EJOB_CONTACT);
@@ -210,6 +252,7 @@ public class OfferImpl extends OfferBaseImpl {
 		return null;
 	}
 
+	@Override
 	public AssetCategory getTypePublication(){
 		List<AssetCategory> list = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EJOB_INTERNE_EXTERNE);
@@ -217,6 +260,101 @@ public class OfferImpl extends OfferBaseImpl {
 			return list.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public boolean sendMail() {
+		// On récupère les informations du mail à envoyer
+		String emailTo = this.getEmails();
+		String subject = LanguageUtil.get(Locale.FRANCE, "eu.offer.subject-email-partner") + " : " + this.getPost(Locale.FRANCE);
+
+		// Envoi du mail aux partenaires
+		Map<String, Object> context = new HashMap<>();
+		context.put("content", this);
+		context.put("locale", Locale.FRANCE);
+		if (subject != null && !subject.isEmpty())
+			context.put("subject", subject);
+
+		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId() , "/strasbourg.eu");
+		User admin = null;
+		try {
+			admin = UserLocalServiceUtil.getDefaultUser(group.getCompanyId());
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+		PermissionChecker checker = PermissionCheckerFactoryUtil.create(admin);
+		PermissionThreadLocal.setPermissionChecker(checker);
+		ExpandoBridge ed = group.getExpandoBridge();
+		try {
+			String headerImage = GetterUtil.getString(ed.getAttribute("image_header_mail_contact"));
+			String footerText = GetterUtil.getString(ed.getAttribute("text_footer_mail_contact"));
+			context.put("headerImage", headerImage);
+			context.put("footerText", footerText);
+		} catch (Exception ex) {
+			log.error("Missing expando field");
+		}
+
+		LocalDateTime dateTime = LocalDateTime.now();
+		String date = dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		String time = dateTime.format(DateTimeFormatter.ofPattern("hh:mm"));
+		context.put("date", date);
+		context.put("time", time);
+
+		TemplateResource templateResourceSubject;
+		TemplateResource templateResourceBody;
+		Template subjectTemplate;
+		Template bodyTemplate;
+		String mailSubject;
+		String mailBody;
+		StringWriter out;
+
+		boolean success = false;
+		try {
+
+			// Chargement du template contenant le sujet du mail
+			templateResourceSubject = new URLTemplateResource("0",
+					Objects.requireNonNull(this.getClass().getClassLoader()
+							.getResource("/templates/offer-mail-subject.ftl")));
+			subjectTemplate = TemplateManagerUtil.getTemplate(
+					TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
+
+			// Traitement du template sujet
+			out = new StringWriter();
+			subjectTemplate.putAll(context);
+			subjectTemplate.processTemplate(out);
+			mailSubject = out.toString();
+
+			//Chargement du template contenant le corps du mail
+			templateResourceBody = new URLTemplateResource("0",
+					Objects.requireNonNull(this.getClass().getClassLoader()
+							.getResource("/templates/offer-mail-body.ftl")));
+			bodyTemplate = TemplateManagerUtil.getTemplate(
+					TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+			// Traitement du template corps
+			out = new StringWriter();
+			bodyTemplate.putAll(context);
+			bodyTemplate.processTemplate(out);
+			mailBody = out.toString();
+			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu");
+
+			for (String toAddress : emailTo.split(",")) {
+				boolean successSend = true;
+				try {
+					InternetAddress[] toAddresses = {new InternetAddress(toAddress)};
+					successSend = MailHelper.sendMailWithHTML(fromAddress, toAddresses, mailSubject, mailBody);
+				} catch (AddressException ex) {
+					log.error(ex);
+				}
+				success = success ? success : successSend;
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
+		if (!success) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -246,6 +384,7 @@ public class OfferImpl extends OfferBaseImpl {
 		jsonOffer.put("description", this.getFullTimeDescription(Locale.getDefault()));
 		jsonOffer.put("filiere", this.getOfferFiliere()!=null?this.getOfferFiliere().getTitle(Locale.getDefault()):"");
 		jsonOffer.put("categorieFiliere", this.getOfferFiliereCategorie()!=null?this.getOfferFiliereCategorie().getTitle(Locale.getDefault()):"");
+		jsonOffer.put("categorie", this.getOfferCategorie()!=null?this.getOfferCategorie():"");
 		jsonOffer.put("grade", this.getOfferGrade()!=null?this.getOfferGrade().getTitle(Locale.getDefault()):"");
 		jsonOffer.put("niveauEtude", this.getOfferNiveauEtude()!=null?this.getOfferNiveauEtude().getTitle(Locale.getDefault()):"");
 		jsonOffer.put("introduction", this.getIntroduction(Locale.getDefault()));

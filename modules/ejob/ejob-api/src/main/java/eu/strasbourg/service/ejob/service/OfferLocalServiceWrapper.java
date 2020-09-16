@@ -256,6 +256,16 @@ public class OfferLocalServiceWrapper
 		return _offerLocalService.findOffersNotExported();
 	}
 
+	/**
+	 * Retourne les offres qui n'ont pas été envoyées aux partenaires
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.ejob.model.Offer>
+		findOffersNotSent() {
+
+		return _offerLocalService.findOffersNotSent();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {

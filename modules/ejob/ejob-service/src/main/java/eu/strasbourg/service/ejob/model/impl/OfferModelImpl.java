@@ -181,17 +181,19 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long EMAILPARTNERSENT_COLUMN_BITMASK = 2L;
 
-	public static final long ISEXPORTED_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long PUBLICATIONID_COLUMN_BITMASK = 8L;
+	public static final long ISEXPORTED_COLUMN_BITMASK = 8L;
 
-	public static final long PUBLICATIONSTARTDATE_COLUMN_BITMASK = 16L;
+	public static final long PUBLICATIONID_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long PUBLICATIONSTARTDATE_COLUMN_BITMASK = 32L;
 
-	public static final long OFFERID_COLUMN_BITMASK = 64L;
+	public static final long UUID_COLUMN_BITMASK = 64L;
+
+	public static final long OFFERID_COLUMN_BITMASK = 128L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -2750,7 +2752,19 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setEmailPartnerSent(int emailPartnerSent) {
+		_columnBitmask |= EMAILPARTNERSENT_COLUMN_BITMASK;
+
+		if (!_setOriginalEmailPartnerSent) {
+			_setOriginalEmailPartnerSent = true;
+
+			_originalEmailPartnerSent = _emailPartnerSent;
+		}
+
 		_emailPartnerSent = emailPartnerSent;
+	}
+
+	public int getOriginalEmailPartnerSent() {
+		return _originalEmailPartnerSent;
 	}
 
 	@Override
@@ -3281,6 +3295,11 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 		offerModelImpl._setOriginalIsExported = false;
 
+		offerModelImpl._originalEmailPartnerSent =
+			offerModelImpl._emailPartnerSent;
+
+		offerModelImpl._setOriginalEmailPartnerSent = false;
+
 		offerModelImpl._columnBitmask = 0;
 	}
 
@@ -3648,6 +3667,8 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	private boolean _setOriginalIsExported;
 	private int _emailSend;
 	private int _emailPartnerSent;
+	private int _originalEmailPartnerSent;
+	private boolean _setOriginalEmailPartnerSent;
 	private long _columnBitmask;
 	private Offer _escapedModel;
 

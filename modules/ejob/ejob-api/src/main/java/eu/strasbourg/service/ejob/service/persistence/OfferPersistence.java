@@ -729,6 +729,149 @@ public interface OfferPersistence extends BasePersistence<Offer> {
 	public int countByExport(int isExported);
 
 	/**
+	 * Returns all the offers where emailPartnerSent = &#63;.
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @return the matching offers
+	 */
+	public java.util.List<Offer> findBySent(int emailPartnerSent);
+
+	/**
+	 * Returns a range of all the offers where emailPartnerSent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @return the range of matching offers
+	 */
+	public java.util.List<Offer> findBySent(
+		int emailPartnerSent, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the offers where emailPartnerSent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching offers
+	 */
+	public java.util.List<Offer> findBySent(
+		int emailPartnerSent, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Offer>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the offers where emailPartnerSent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching offers
+	 */
+	public java.util.List<Offer> findBySent(
+		int emailPartnerSent, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Offer>
+			orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	 * Returns the first offer in the ordered set where emailPartnerSent = &#63;.
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching offer
+	 * @throws NoSuchOfferException if a matching offer could not be found
+	 */
+	public Offer findBySent_First(
+			int emailPartnerSent,
+			com.liferay.portal.kernel.util.OrderByComparator<Offer>
+				orderByComparator)
+		throws NoSuchOfferException;
+
+	/**
+	 * Returns the first offer in the ordered set where emailPartnerSent = &#63;.
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching offer, or <code>null</code> if a matching offer could not be found
+	 */
+	public Offer fetchBySent_First(
+		int emailPartnerSent,
+		com.liferay.portal.kernel.util.OrderByComparator<Offer>
+			orderByComparator);
+
+	/**
+	 * Returns the last offer in the ordered set where emailPartnerSent = &#63;.
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching offer
+	 * @throws NoSuchOfferException if a matching offer could not be found
+	 */
+	public Offer findBySent_Last(
+			int emailPartnerSent,
+			com.liferay.portal.kernel.util.OrderByComparator<Offer>
+				orderByComparator)
+		throws NoSuchOfferException;
+
+	/**
+	 * Returns the last offer in the ordered set where emailPartnerSent = &#63;.
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching offer, or <code>null</code> if a matching offer could not be found
+	 */
+	public Offer fetchBySent_Last(
+		int emailPartnerSent,
+		com.liferay.portal.kernel.util.OrderByComparator<Offer>
+			orderByComparator);
+
+	/**
+	 * Returns the offers before and after the current offer in the ordered set where emailPartnerSent = &#63;.
+	 *
+	 * @param offerId the primary key of the current offer
+	 * @param emailPartnerSent the email partner sent
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next offer
+	 * @throws NoSuchOfferException if a offer with the primary key could not be found
+	 */
+	public Offer[] findBySent_PrevAndNext(
+			long offerId, int emailPartnerSent,
+			com.liferay.portal.kernel.util.OrderByComparator<Offer>
+				orderByComparator)
+		throws NoSuchOfferException;
+
+	/**
+	 * Removes all the offers where emailPartnerSent = &#63; from the database.
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 */
+	public void removeBySent(int emailPartnerSent);
+
+	/**
+	 * Returns the number of offers where emailPartnerSent = &#63;.
+	 *
+	 * @param emailPartnerSent the email partner sent
+	 * @return the number of matching offers
+	 */
+	public int countBySent(int emailPartnerSent);
+
+	/**
 	 * Caches the offer in the entity cache if it is enabled.
 	 *
 	 * @param offer the offer

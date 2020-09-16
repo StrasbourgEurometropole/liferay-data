@@ -1092,6 +1092,14 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
+	 * Renvoie la categorie A, B ou C
+	 */
+	@Override
+	public String getOfferCategorie() {
+		return _offer.getOfferCategorie();
+	}
+
+	/**
 	 * Renvoie le contact RE
 	 */
 	@Override
@@ -1717,6 +1725,11 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
 		_offer.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	public boolean sendMail() {
+		return _offer.sendMail();
 	}
 
 	/**

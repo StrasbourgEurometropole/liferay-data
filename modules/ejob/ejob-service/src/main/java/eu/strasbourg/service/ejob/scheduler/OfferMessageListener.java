@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.SchedulerEntry;
 import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
+import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import com.liferay.portal.kernel.search.Document;
@@ -49,13 +50,14 @@ public class OfferMessageListener
 
 		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
 		Calendar now = Calendar.getInstance();
-		now.add(Calendar.MINUTE, 5);
+		now.add(Calendar.SECOND, 5);
 		Date fiveMinutesFromNow = now.getTime();
 
 		// Création du trigger "Tous les jours à ??
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				"0 45 1 * * ?");
+				5, TimeUnit.SECOND);
+//		"0 5 1 * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
@@ -73,7 +75,6 @@ public class OfferMessageListener
 	protected void doReceive(Message message) {
 		LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
 		Date now = Timestamp.valueOf(today);
-
 
 		// Export TOTEM
 		// Recuperation des offres concernées et non exportées (isExported=1)
@@ -95,9 +96,27 @@ public class OfferMessageListener
 		}
 
 
+
 		// Envoi mail aux partenaires
-		// Recuperation des offres externes
-		List<Offer> offersExterne = _offerLocalService.findOffersNotExported();
+		// Recuperation des offres a envoyer
+		List<Offer> offersExterne = _offerLocalService.findOffersNotSent();
+
+		// on ne prend que les offres externes
+		// on ne prend que les offres ayant au moins une adresse mail
+		// on ne prend que les offres dont la date du jour est comprise  entre le début et la fin de la date de publication
+		offersExterne = offersExterne.stream()
+				.filter(o -> !o.getTypePublication().getName().equals("Interne uniquement"))
+				.filter(o -> Validator.isNotNull(o.getEmails()))
+				.filter(o -> o.getPublicationStartDate().compareTo(now) <= 0 && o.getPublicationEndDate().after(now))
+				.collect(Collectors.toList());
+		// on envoi un mail aux partenaires
+		for (Offer offer : offersExterne) {
+			if (offer.sendMail()) {
+				offer.setEmailPartnerSent(1);
+				_offerLocalService.updateOffer(offer);
+			}
+		}
+
 
 
 		// Envoi mail des offres aux utilisateurs
@@ -135,17 +154,17 @@ public class OfferMessageListener
 				// qui sont ouvertes (publicationStartDate) et qui ne sont pas finies
 				offersToSend = offersToSend.stream()
 						.filter(o -> o.getEmailSend() == 0)
-						.filter(o -> o.getPublicationStartDate().compareTo(now) <= 0)
-						.filter(o -> o.getPublicationEndDate().after(now))
+						.filter(o -> o.getPublicationStartDate().compareTo(now) <= 0 && o.getPublicationEndDate().after(now))
 						.collect(Collectors.toList());
 
-				if(offersToSend.size() > 0)
-					if(alert.sendMail(offersToSend)){
+				if(offersToSend.size() > 0) {
+					if (alert.sendMail(offersToSend)) {
 						for (Offer offer : offersToSend) {
 							offer.setEmailSend(1);
 							_offerLocalService.updateOffer(offer);
 						}
 					}
+				}
 			}
 		}
 	}

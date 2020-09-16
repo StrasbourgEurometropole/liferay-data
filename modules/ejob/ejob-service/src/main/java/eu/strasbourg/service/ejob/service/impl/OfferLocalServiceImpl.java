@@ -338,4 +338,12 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 	public List<Offer> findOffersNotExported() {
 		return this.offerPersistence.findByExport(1);
 	}
+
+	/**
+	 * Retourne les offres qui n'ont pas été envoyées aux partenaires
+	 */
+	@Override
+	public List<Offer> findOffersNotSent() {
+		return this.offerPersistence.findBySent(0);
+	}
 }

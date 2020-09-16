@@ -86,42 +86,43 @@ public interface Offer extends OfferModel, PersistedModel {
 	/**
 	 * Renvoie la categorie des filières
 	 */
-	@SuppressWarnings(value = "unused")
 	public com.liferay.asset.kernel.model.AssetCategory
 		getOfferFiliereCategorie();
 
 	/**
+	 * Renvoie la categorie A, B ou C
+	 */
+	public String getOfferCategorie();
+
+	/**
 	 * Renvoie le grade
 	 */
-	@SuppressWarnings(value = "unused")
 	public com.liferay.asset.kernel.model.AssetCategory getOfferGrade();
 
 	/**
 	 * Renvoie la Famille de métiers
 	 */
-	@SuppressWarnings(value = "unused")
 	public com.liferay.asset.kernel.model.AssetCategory getOfferFamille();
 
 	/**
 	 * Renvoie le Niveau d'étude
 	 */
-	@SuppressWarnings(value = "unused")
 	public com.liferay.asset.kernel.model.AssetCategory getOfferNiveauEtude();
 
 	/**
 	 * Renvoie le type de recrutement
 	 */
-	@SuppressWarnings(value = "unused")
 	public com.liferay.asset.kernel.model.AssetCategory
 		getOfferTypeRecrutement();
 
 	/**
 	 * Renvoie le contact RE
 	 */
-	@SuppressWarnings(value = "unused")
 	public com.liferay.asset.kernel.model.AssetCategory getOfferContact();
 
 	public com.liferay.asset.kernel.model.AssetCategory getTypePublication();
+
+	public boolean sendMail();
 
 	/**
 	 * Retourne la version JSON de l'offre

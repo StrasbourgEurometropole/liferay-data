@@ -216,6 +216,11 @@ public interface OfferLocalService
 	 */
 	public List<Offer> findOffersNotExported();
 
+	/**
+	 * Retourne les offres qui n'ont pas été envoyées aux partenaires
+	 */
+	public List<Offer> findOffersNotSent();
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 

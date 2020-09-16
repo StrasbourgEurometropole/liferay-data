@@ -66,6 +66,9 @@
 		<finder name="Export" return-type="Collection" db-index="true" >
 			<finder-column name="isExported" />
 		</finder>
+		<finder name="Sent" return-type="Collection" db-index="true" >
+			<finder-column name="emailPartnerSent" />
+		</finder>
 	</entity>
 
 	<entity local-service="true" name="Alert" remote-service="true" uuid="true">

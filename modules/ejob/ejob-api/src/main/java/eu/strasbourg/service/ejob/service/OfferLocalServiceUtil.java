@@ -253,6 +253,15 @@ public class OfferLocalServiceUtil {
 		return getService().findOffersNotExported();
 	}
 
+	/**
+	 * Retourne les offres qui n'ont pas été envoyées aux partenaires
+	 */
+	public static java.util.List<eu.strasbourg.service.ejob.model.Offer>
+		findOffersNotSent() {
+
+		return getService().findOffersNotSent();
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
