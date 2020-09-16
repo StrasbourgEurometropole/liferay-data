@@ -94,7 +94,6 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private static final String ERROR_FILE_TO_LARGE = "project.popup.web.error.file.to.large";
     private static final String ERROR_UNABLE_TO_SCAN_FILE = "project.popup.web.error.unable.to.scan.file.for.viruses";
     private static final String ERROR_VIRUS_DETECTED = "project.popup.web.error.a.virus.was.detected.in.the.file";
-    private static final String ERROR_DURING_FILE_SCAN = "project.popup.web.error.during.file.scan";
     private static final String ERROR_DURING_SAVING_PROJECT = "project.popup.web.error.while.project.saving";
 
     /** Tampon contexte de requête */
@@ -293,7 +292,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                         + budgetParticipatif.getBudgetParticipatifId());
         } catch (PortalException | IOException e) {
             _log.error(e);
-            this.message = LanguageUtil.get(languageBundle, ERROR_DURING_SAVING_PROJECT);;
+            this.message = LanguageUtil.get(languageBundle, ERROR_DURING_SAVING_PROJECT);
             return false;
         }
         _log.info("budget cree : " + budgetParticipatif);
@@ -541,16 +540,13 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                     String error = FileEntryHelper.scanFile(file);
                     if (Validator.isNotNull(error)) {
                         switch (error) {
-                            case "unable-to-scan-file-for-viruses":
-                                this.message = LanguageUtil.get(languageBundle, ERROR_UNABLE_TO_SCAN_FILE);
-                                result = false;
-                                break;
                             case "a-virus-was-detected-in-the-file":
                                 this.message = LanguageUtil.get(languageBundle, ERROR_VIRUS_DETECTED);
                                 result = false;
                                 break;
+                            case "unable-to-scan-file-for-viruses":
                             default:
-                                this.message = LanguageUtil.get(languageBundle, ERROR_DURING_FILE_SCAN);
+                                this.message = LanguageUtil.get(languageBundle, ERROR_UNABLE_TO_SCAN_FILE);
                                 result = false;
                                 break;
                         }
