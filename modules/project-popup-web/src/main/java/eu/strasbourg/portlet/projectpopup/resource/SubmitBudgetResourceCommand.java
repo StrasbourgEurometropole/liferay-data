@@ -95,6 +95,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private static final String ERROR_UNABLE_TO_SCAN_FILE = "project.popup.web.error.unable.to.scan.file.for.viruses";
     private static final String ERROR_VIRUS_DETECTED = "project.popup.web.error.a.virus.was.detected.in.the.file";
     private static final String ERROR_DURING_FILE_SCAN = "project.popup.web.error.during.file.scan";
+    private static final String ERROR_DURING_SAVING_PROJECT = "project.popup.web.error.while.project.saving";
 
     /** Tampon contexte de requête */
     private ThemeDisplay themeDisplay;
@@ -292,7 +293,8 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                         + budgetParticipatif.getBudgetParticipatifId());
         } catch (PortalException | IOException e) {
             _log.error(e);
-            throw new PortletException(e);
+            this.message = LanguageUtil.get(languageBundle, ERROR_DURING_SAVING_PROJECT);;
+            return false;
         }
         _log.info("budget cree : " + budgetParticipatif);
         return true;
