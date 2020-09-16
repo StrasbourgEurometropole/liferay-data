@@ -44,9 +44,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <p>
                             <#if entry.getIsFullTime()>
                                 <@liferay_ui.message key="eu.offer-full-time-true" />
-                                <#if entry.getFullTimeDescription(locale)?has_content>
-                                    &nbsp;${entry.getFullTimeDescription(locale)}
-                                </#if> 
                             <#else>
                                 <@liferay_ui.message key="eu.offer-full-time-false" />
                             </#if>  
