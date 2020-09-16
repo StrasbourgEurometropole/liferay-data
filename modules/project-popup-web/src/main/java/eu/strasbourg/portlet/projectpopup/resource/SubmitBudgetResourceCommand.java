@@ -372,6 +372,14 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             DLFolder folder = DLFolderLocalServiceUtil.getFolder(this.themeDisplay.getScopeGroupId(),
                                                                 folderparent.getFolderId(),
                                                                 "uploads");
+
+            _log.info("File : Photo budget before upload in doclib : \n "
+                    + " [ canonical path : " + this.photoFile.getCanonicalPath() + " ]\n"
+                    + " [ absolute path : " + this.photoFile.getAbsolutePath() + " ]\n"
+                    + " [ name : " + this.photoFile.getName() + " ]\n"
+                    + " [ exist ? : " + new File(this.photoFile.getAbsolutePath()).exists() + " ]\n"
+                    );
+
             // Ajout du fichier
             FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
                     this.sc.getUserId(), folder.getRepositoryId(),
@@ -379,6 +387,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                     MimeTypesUtil.getContentType(this.photoFile),
                     this.photoFile.getName(), this.title,
                     "", imageBytes, this.sc);
+
             // Lien de l'image a l'entite
             budgetParticipatif.setImageId(fileEntry.getFileEntryId());
 
@@ -448,6 +457,13 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                 // Ajout du fichier
                 FileEntry fileEntry;
                 try {
+                    _log.info("File : Document budget " + numFile + "before upload in doclib : \n "
+                            + " [ canonical path : " + file.getCanonicalPath() + " ]\n"
+                            + " [ absolute path : " + file.getAbsolutePath() + " ]\n"
+                            + " [ name : " + this.photoFile.getName() + " ]\n"
+                            + " [ exist ? : " + new File(file.getAbsolutePath()).exists() + " ]\n"
+                    );
+
                     fileEntry = DLAppLocalServiceUtil.addFileEntry(
                             this.sc.getUserId(), folder.getRepositoryId(),
                             folder.getFolderId(), name,
@@ -526,7 +542,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 
     private boolean antiVirusVerif(File[] files) {
         boolean result = true;
-        //if (StrasbourgPropsUtil.getParticiperAntivirusActivation()) {
+        if (StrasbourgPropsUtil.getParticiperAntivirusActivation()) {
             for (File file : files) {
                 if (file != null) {
                     String error = FileEntryHelper.scanFile(file);
@@ -548,7 +564,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                         break;
                     }
                 }
-            //}
+            }
         }
         return result;
     }
