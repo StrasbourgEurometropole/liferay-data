@@ -1,6 +1,11 @@
 package eu.strasbourg.utils;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.FileOwnerAttributeView;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -240,6 +245,32 @@ public class FileEntryHelper {
 		}
 
 		return error;
+	}
+
+	/**
+	 * DEBUG : Afficher les information d'un fichier dans les log
+	 * NOTE : Vérifier le niveau de journalisation si les logs INFO n'apparaissent pas
+	 * 			--> "Administration du serveur" --> "Niveau de journalisation" --> "eu.strasbour.utils" à "INFO"
+	 * @param file fichier à analyser
+	 */
+	public static void logFileInfo(File file) {
+		String lineSep = System.lineSeparator();
+		Path path = Paths.get(file.getAbsolutePath());
+		FileOwnerAttributeView foav = Files.getFileAttributeView(path, FileOwnerAttributeView.class);
+		try {
+			_log.info("File : Photo budget before upload in doclib : " + lineSep
+					+ " [ canonical path : " + file.getCanonicalPath() + " ]" + lineSep
+					+ " [ absolute path : " + file.getAbsolutePath() + " ]" + lineSep
+					+ " [ name : " + file.getName() + " ]" + lineSep
+					+ " [ exist : " + new File(file.getAbsolutePath()).exists() + " ]" + lineSep
+					+ " [ owner : " + foav.getOwner().getName() + " ]" + lineSep
+					+ " [ executable : " + file.canExecute() + " ]" + lineSep
+					+ " [ readable : " + file.canRead() + " ]" + lineSep
+					+ " [ writable : " + file.canWrite() + " ]" + lineSep
+			);
+		} catch (IOException e) {
+			_log.error("Error during file analysis of " + file);
+		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(FileEntryHelper.class.getName());

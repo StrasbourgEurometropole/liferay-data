@@ -250,3 +250,13 @@ input#_com_liferay_login_web_portlet_LoginPortlet_captchaText,input#_com_liferay
 		line-height: initial;
 	} 
 }
+
+//Font size des options de configuration des portlets
+.dropdown-menu.dropdown-menu-right li, .dropdown-menu.dropdown-menu-left-side li{
+	font-size: 16px;
+    margin: 10px;
+}
+
+.portlet-name-text{
+	font-size: 16px;
+}

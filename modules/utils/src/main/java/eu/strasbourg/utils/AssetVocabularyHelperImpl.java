@@ -81,8 +81,18 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 	}
 
 	@Override
-	public String getDistrictTitle(Locale locale, List<AssetCategory> assetCategories) {
-		return AssetVocabularyHelper.getDistrictTitle(locale, assetCategories);
+	public boolean isAllFrenchCity(int listCitySizeToCompare) {
+		return AssetVocabularyHelper.isAllFrenchCity(listCitySizeToCompare);
+	}
+
+	@Override
+	public String getDistrictTitle(Locale locale, List<AssetCategory> assetDistrictCategories, List<AssetCategory> assetCityCategories) {
+		return AssetVocabularyHelper.getDistrictTitle(locale, assetDistrictCategories, assetCityCategories);
+	}
+
+	@Override
+	public String getTerritoryTitle(Locale locale, List<AssetCategory> assetTerritoryCategories) {
+		return AssetVocabularyHelper.getTerritoryTitle(locale, assetTerritoryCategories);
 	}
 
 	@Override

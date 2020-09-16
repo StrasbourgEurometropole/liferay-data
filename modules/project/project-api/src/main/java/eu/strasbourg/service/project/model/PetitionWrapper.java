@@ -17,7 +17,9 @@ package eu.strasbourg.service.project.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
+
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -39,7 +41,6 @@ import java.util.Objects;
  */
 @ProviderType
 public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
-
 	public PetitionWrapper(Petition petition) {
 		_petition = petition;
 	}
@@ -87,12 +88,12 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("petitionnaireCity", getPetitionnaireCity());
 		attributes.put("petitionnairePhone", getPetitionnairePhone());
 		attributes.put("petitionnaireEmail", getPetitionnaireEmail());
-		attributes.put("isSupported", isIsSupported());
+		attributes.put("isSupported", getIsSupported());
 		attributes.put("supportedBy", getSupportedBy());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
-		attributes.put("mediaChoice", isMediaChoice());
+		attributes.put("mediaChoice", getMediaChoice());
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
@@ -229,35 +230,35 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		}
 
 		String petitionnaireLastname = (String)attributes.get(
-			"petitionnaireLastname");
+				"petitionnaireLastname");
 
 		if (petitionnaireLastname != null) {
 			setPetitionnaireLastname(petitionnaireLastname);
 		}
 
 		String petitionnaireFirstname = (String)attributes.get(
-			"petitionnaireFirstname");
+				"petitionnaireFirstname");
 
 		if (petitionnaireFirstname != null) {
 			setPetitionnaireFirstname(petitionnaireFirstname);
 		}
 
 		Date petitionnaireBirthday = (Date)attributes.get(
-			"petitionnaireBirthday");
+				"petitionnaireBirthday");
 
 		if (petitionnaireBirthday != null) {
 			setPetitionnaireBirthday(petitionnaireBirthday);
 		}
 
 		String petitionnaireAdresse = (String)attributes.get(
-			"petitionnaireAdresse");
+				"petitionnaireAdresse");
 
 		if (petitionnaireAdresse != null) {
 			setPetitionnaireAdresse(petitionnaireAdresse);
 		}
 
 		Long petitionnairePostalCode = (Long)attributes.get(
-			"petitionnairePostalCode");
+				"petitionnairePostalCode");
 
 		if (petitionnairePostalCode != null) {
 			setPetitionnairePostalCode(petitionnairePostalCode);
@@ -269,15 +270,13 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 			setPetitionnaireCity(petitionnaireCity);
 		}
 
-		String petitionnairePhone = (String)attributes.get(
-			"petitionnairePhone");
+		String petitionnairePhone = (String)attributes.get("petitionnairePhone");
 
 		if (petitionnairePhone != null) {
 			setPetitionnairePhone(petitionnairePhone);
 		}
 
-		String petitionnaireEmail = (String)attributes.get(
-			"petitionnaireEmail");
+		String petitionnaireEmail = (String)attributes.get("petitionnaireEmail");
 
 		if (petitionnaireEmail != null) {
 			setPetitionnaireEmail(petitionnaireEmail);
@@ -308,7 +307,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		}
 
 		String externalImageCopyright = (String)attributes.get(
-			"externalImageCopyright");
+				"externalImageCopyright");
 
 		if (externalImageCopyright != null) {
 			setExternalImageCopyright(externalImageCopyright);
@@ -339,789 +338,42 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new PetitionWrapper((Petition)_petition.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.Petition petition) {
-
-		return _petition.compareTo(petition);
-	}
-
 	/**
-	 * Retourne les commentaires de l'entité
-	 */
-	@Override
-	public java.util.List<eu.strasbourg.service.comment.model.Comment>
-		getApprovedComments() {
-
-		return _petition.getApprovedComments();
-	}
-
-	/**
-	 * Retourne l'AssetEntry rattaché cet item
-	 */
-	@Override
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _petition.getAssetEntry();
-	}
-
-	@Override
-	public String getAssetEntryTitle() {
-		return _petition.getAssetEntryTitle();
-	}
-
-	/**
-	 * Retourne l'URL de l'image de l'utilisateur
-	 */
-	@Override
-	public String getAuthorImageURL() {
-		return _petition.getAuthorImageURL();
-	}
-
-	/**
-	 * Retourne le nom du depositaire sous forme "Truc M." ou le "Au nom de ..."
-	 */
-	@Override
-	public String getAuthorLabel() {
-		return _petition.getAuthorLabel();
-	}
-
-	/**
-	 * Retourne l'auteur en publik user
-	 *
-	 * @return
-	 */
-	@Override
-	public eu.strasbourg.service.oidc.model.PublikUser getAuthorPublikUser() {
-		return _petition.getAuthorPublikUser();
-	}
-
-	/**
-	 * Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
-	 */
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
-		getCategories() {
-
-		return _petition.getCategories();
-	}
-
-	/**
-	 * Returns the company ID of this petition.
-	 *
-	 * @return the company ID of this petition
-	 */
-	@Override
-	public long getCompanyId() {
-		return _petition.getCompanyId();
-	}
-
-	/**
-	 * méthode permettant de récuperer les faux signataires d'une pétitions.
-	 *
-	 * @return les faux signataires.
-	 */
-	@Override
-	public int getCountFakeSignataire() {
-		return _petition.getCountFakeSignataire();
-	}
-
-	/**
-	 * Returns the create date of this petition.
-	 *
-	 * @return the create date of this petition
-	 */
-	@Override
-	public Date getCreateDate() {
-		return _petition.getCreateDate();
-	}
-
-	/**
-	 * Returns the description of this petition.
-	 *
-	 * @return the description of this petition
-	 */
-	@Override
-	public String getDescription() {
-		return _petition.getDescription();
-	}
-
-	/**
-	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
-	 *
-	 * @return : null si vide, sinon la liste des catégories
-	 */
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
-		getDistrictCategories() {
-
-		return _petition.getDistrictCategories();
-	}
-
-	/**
-	 * Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
-	 *
-	 * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
-	 */
-	@Override
-	public String getDistrictLabel(java.util.Locale locale) {
-		return _petition.getDistrictLabel(locale);
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _petition.getExpandoBridge();
-	}
-
-	/**
-	 * Returns the expiration date of this petition.
-	 *
-	 * @return the expiration date of this petition
-	 */
-	@Override
-	public Date getExpirationDate() {
-		return _petition.getExpirationDate();
-	}
-
-	/**
-	 * Returns the extension date of this petition.
-	 *
-	 * @return the extension date of this petition
-	 */
-	@Override
-	public Date getExtensionDate() {
-		return _petition.getExtensionDate();
-	}
-
-	/**
-	 * Returns the external image copyright of this petition.
-	 *
-	 * @return the external image copyright of this petition
-	 */
-	@Override
-	public String getExternalImageCopyright() {
-		return _petition.getExternalImageCopyright();
-	}
-
-	/**
-	 * Returns the external image url of this petition.
-	 *
-	 * @return the external image url of this petition
-	 */
-	@Override
-	public String getExternalImageURL() {
-		return _petition.getExternalImageURL();
-	}
-
-	/**
-	 * Returns the files download of this petition.
-	 *
-	 * @return the files download of this petition
-	 */
-	@Override
-	public String getFilesDownload() {
-		return _petition.getFilesDownload();
-	}
-
-	/**
-	 * Returns the files IDs of this petition.
-	 *
-	 * @return the files IDs of this petition
-	 */
-	@Override
-	public String getFilesIds() {
-		return _petition.getFilesIds();
-	}
-
-	/**
-	 * Retourne la liste des URLs des documents
-	 */
-	@Override
-	public java.util.List<String> getFilesURLs() {
-		return _petition.getFilesURLs();
-	}
-
-	/**
-	 * méthode de récupération du status
-	 *
-	 * @return le status.
-	 */
-	@Override
-	public String getFrontStatusFR() {
-		return _petition.getFrontStatusFR();
-	}
-
-	/**
-	 * Returns the group ID of this petition.
-	 *
-	 * @return the group ID of this petition
-	 */
-	@Override
-	public long getGroupId() {
-		return _petition.getGroupId();
-	}
-
-	/**
-	 * Retourne le copyright de l'image principale
-	 */
-	@Override
-	public String getImageCopyright(java.util.Locale locale) {
-		return _petition.getImageCopyright(locale);
-	}
-
-	/**
-	 * Returns the image ID of this petition.
-	 *
-	 * @return the image ID of this petition
-	 */
-	@Override
-	public long getImageId() {
-		return _petition.getImageId();
-	}
-
-	/**
-	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
-	 */
-	@Override
-	public String getImageURL() {
-		return _petition.getImageURL();
-	}
-
-	/**
-	 * Returns the in the name of of this petition.
-	 *
-	 * @return the in the name of of this petition
-	 */
-	@Override
-	public String getInTheNameOf() {
-		return _petition.getInTheNameOf();
-	}
-
-	/**
-	 * Returns the is supported of this petition.
-	 *
-	 * @return the is supported of this petition
-	 */
+	* Returns the is supported of this petition.
+	*
+	* @return the is supported of this petition
+	*/
 	@Override
 	public boolean getIsSupported() {
 		return _petition.getIsSupported();
 	}
 
 	/**
-	 * Returns the media choice of this petition.
-	 *
-	 * @return the media choice of this petition
-	 */
+	* Returns the media choice of this petition.
+	*
+	* @return the media choice of this petition
+	*/
 	@Override
 	public boolean getMediaChoice() {
 		return _petition.getMediaChoice();
 	}
 
 	/**
-	 * Returns the modified date of this petition.
-	 *
-	 * @return the modified date of this petition
-	 */
+	* Demande si l'utilisateur demandé a signe la petition
+	*
+	* @throws PortletException
+	*/
 	@Override
-	public Date getModifiedDate() {
-		return _petition.getModifiedDate();
-	}
-
-	/**
-	 * Retourne le nombre de commentaires de l'entité
-	 */
-	@Override
-	public int getNbApprovedComments() {
-		return _petition.getNbApprovedComments();
-	}
-
-	/**
-	 * Retourne le label de 5 digits du nombre de commentaires de l'entité
-	 */
-	@Override
-	public String getNbApprovedCommentsLabel() {
-		return _petition.getNbApprovedCommentsLabel();
-	}
-
-	/**
-	 * Retourne le nombre de dislikes de l'entité
-	 *
-	 * @see eu.strasbourg.service.like.model.LikeType
-	 */
-	@Override
-	public int getNbDislikes() {
-		return _petition.getNbDislikes();
-	}
-
-	/**
-	 * Retourne le nombre de likes de l'entité
-	 *
-	 * @see eu.strasbourg.service.like.model.LikeType
-	 */
-	@Override
-	public int getNbLikes() {
-		return _petition.getNbLikes();
-	}
-
-	/**
-	 * Méthode permettant de retourner le nombre de signataire de la pétition
-	 *
-	 * @return le nombre.
-	 */
-	@Override
-	public long getNombreSignature() {
-		return _petition.getNombreSignature();
-	}
-
-	/**
-	 * méthode permettant d'afficher le nombre de signature.
-	 *
-	 * @return le nombre avec des zeros devant.
-	 */
-	@Override
-	public String getNombreSignatureBoard() {
-		return _petition.getNombreSignatureBoard();
-	}
-
-	/**
-	 * Returns the petition ID of this petition.
-	 *
-	 * @return the petition ID of this petition
-	 */
-	@Override
-	public long getPetitionId() {
-		return _petition.getPetitionId();
-	}
-
-	/**
-	 * Returns the petitionnaire adresse of this petition.
-	 *
-	 * @return the petitionnaire adresse of this petition
-	 */
-	@Override
-	public String getPetitionnaireAdresse() {
-		return _petition.getPetitionnaireAdresse();
-	}
-
-	/**
-	 * Returns the petitionnaire birthday of this petition.
-	 *
-	 * @return the petitionnaire birthday of this petition
-	 */
-	@Override
-	public Date getPetitionnaireBirthday() {
-		return _petition.getPetitionnaireBirthday();
-	}
-
-	/**
-	 * Returns the petitionnaire city of this petition.
-	 *
-	 * @return the petitionnaire city of this petition
-	 */
-	@Override
-	public String getPetitionnaireCity() {
-		return _petition.getPetitionnaireCity();
-	}
-
-	/**
-	 * Returns the petitionnaire email of this petition.
-	 *
-	 * @return the petitionnaire email of this petition
-	 */
-	@Override
-	public String getPetitionnaireEmail() {
-		return _petition.getPetitionnaireEmail();
-	}
-
-	/**
-	 * Returns the petitionnaire firstname of this petition.
-	 *
-	 * @return the petitionnaire firstname of this petition
-	 */
-	@Override
-	public String getPetitionnaireFirstname() {
-		return _petition.getPetitionnaireFirstname();
-	}
-
-	/**
-	 * Returns the petitionnaire lastname of this petition.
-	 *
-	 * @return the petitionnaire lastname of this petition
-	 */
-	@Override
-	public String getPetitionnaireLastname() {
-		return _petition.getPetitionnaireLastname();
-	}
-
-	/**
-	 * Returns the petitionnaire phone of this petition.
-	 *
-	 * @return the petitionnaire phone of this petition
-	 */
-	@Override
-	public String getPetitionnairePhone() {
-		return _petition.getPetitionnairePhone();
-	}
-
-	/**
-	 * Returns the petitionnaire postal code of this petition.
-	 *
-	 * @return the petitionnaire postal code of this petition
-	 */
-	@Override
-	public long getPetitionnairePostalCode() {
-		return _petition.getPetitionnairePostalCode();
-	}
-
-	/**
-	 * méthode de récupération du status
-	 *
-	 * @return le status.
-	 */
-	@Override
-	public String getPetitionStatus() {
-		return _petition.getPetitionStatus();
-	}
-
-	/**
-	 * Retourne le status de la petition
-	 */
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory
-		getPetitionStatusCategory() {
-
-		return _petition.getPetitionStatusCategory();
-	}
-
-	/**
-	 * méthode d'affichage des information du status pour excel.
-	 *
-	 * @return le status.
-	 */
-	@Override
-	public String getPetitionStatusExcel() {
-		return _petition.getPetitionStatusExcel();
-	}
-
-	/**
-	 * Returns the place text area of this petition.
-	 *
-	 * @return the place text area of this petition
-	 */
-	@Override
-	public String getPlaceTextArea() {
-		return _petition.getPlaceTextArea();
-	}
-
-	/**
-	 * Retourne la liste des lieux placit liés à la petition
-	 */
-	@Override
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
-		getPlacitPlaces() {
-
-		return _petition.getPlacitPlaces();
-	}
-
-	/**
-	 * méthode permettant de récupérer le pourcentage de signatures obtenu.
-	 *
-	 * @return le pourcentage en long.
-	 */
-	@Override
-	public double getPourcentageSignature() {
-		return _petition.getPourcentageSignature();
-	}
-
-	/**
-	 * Returns the primary key of this petition.
-	 *
-	 * @return the primary key of this petition
-	 */
-	@Override
-	public long getPrimaryKey() {
-		return _petition.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _petition.getPrimaryKeyObj();
-	}
-
-	/**
-	 * méthode de récupération du status
-	 *
-	 * @return le status.
-	 */
-	@Override
-	public String getProDureeFR() {
-		return _petition.getProDureeFR();
-	}
-
-	/**
-	 * Retourne le projet de la petition (
-	 */
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
-		return _petition.getProjectCategory();
-	}
-
-	@Override
-	public String getProjectTitle(java.util.Locale locale) {
-		return _petition.getProjectTitle(locale);
-	}
-
-	/**
-	 * Returns the publication date of this petition.
-	 *
-	 * @return the publication date of this petition
-	 */
-	@Override
-	public Date getPublicationDate() {
-		return _petition.getPublicationDate();
-	}
-
-	@Override
-	public String getPublicationDateFr() {
-		return _petition.getPublicationDateFr();
-	}
-
-	/**
-	 * Returns the publik ID of this petition.
-	 *
-	 * @return the publik ID of this petition
-	 */
-	@Override
-	public String getPublikId() {
-		return _petition.getPublikId();
-	}
-
-	/**
-	 * Returns the quota signature of this petition.
-	 *
-	 * @return the quota signature of this petition
-	 */
-	@Override
-	public long getQuotaSignature() {
-		return _petition.getQuotaSignature();
-	}
-
-	/**
-	 * méthode permettant de récuperer le nombre de signataire nécessaire pour finir la pétition.
-	 *
-	 * @return le nombre
-	 */
-	@Override
-	public long getSignataireNeeded() {
-		return _petition.getSignataireNeeded();
-	}
-
-	@Override
-	public java.util.List<eu.strasbourg.service.project.model.Signataire>
-		getSignataires() {
-
-		return _petition.getSignataires();
-	}
-
-	/**
-	 * Returns the status of this petition.
-	 *
-	 * @return the status of this petition
-	 */
-	@Override
-	public int getStatus() {
-		return _petition.getStatus();
-	}
-
-	/**
-	 * Returns the status by user ID of this petition.
-	 *
-	 * @return the status by user ID of this petition
-	 */
-	@Override
-	public long getStatusByUserId() {
-		return _petition.getStatusByUserId();
-	}
-
-	/**
-	 * Returns the status by user name of this petition.
-	 *
-	 * @return the status by user name of this petition
-	 */
-	@Override
-	public String getStatusByUserName() {
-		return _petition.getStatusByUserName();
-	}
-
-	/**
-	 * Returns the status by user uuid of this petition.
-	 *
-	 * @return the status by user uuid of this petition
-	 */
-	@Override
-	public String getStatusByUserUuid() {
-		return _petition.getStatusByUserUuid();
-	}
-
-	/**
-	 * Returns the status date of this petition.
-	 *
-	 * @return the status date of this petition
-	 */
-	@Override
-	public Date getStatusDate() {
-		return _petition.getStatusDate();
-	}
-
-	/**
-	 * Retourne X suggestions max pour une pétition
-	 *
-	 * @param request
-	 la requete
-	 * @param nbSuggestions
-	 le nombre de suggestions.
-	 * @return la liste de pétition.
-	 */
-	@Override
-	public java.util.List<eu.strasbourg.service.project.model.Petition>
-			getSuggestions(
-				javax.servlet.http.HttpServletRequest request,
-				int nbSuggestions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			   com.liferay.portal.kernel.search.SearchException {
-
-		return _petition.getSuggestions(request, nbSuggestions);
-	}
-
-	/**
-	 * Returns the supported by of this petition.
-	 *
-	 * @return the supported by of this petition
-	 */
-	@Override
-	public String getSupportedBy() {
-		return _petition.getSupportedBy();
-	}
-
-	/**
-	 * Retourne les catégories 'Territoire' correspondant aux pays de la petition
-	 */
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
-		getTerritoryCategories() {
-
-		return _petition.getTerritoryCategories();
-	}
-
-	/**
-	 * Retourne les thematiques de la petition (
-	 */
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
-		getThematicCategories() {
-
-		return _petition.getThematicCategories();
-	}
-
-	@Override
-	public String getThematicLabel(java.util.Locale locale) {
-		return _petition.getThematicLabel(locale);
-	}
-
-	/**
-	 * Returns the title of this petition.
-	 *
-	 * @return the title of this petition
-	 */
-	@Override
-	public String getTitle() {
-		return _petition.getTitle();
-	}
-
-	/**
-	 * Calcul la différence de jours entre la date du jour et celle d'expiration
-	 */
-	@Override
-	public int getTodayExpirationDifferenceDays() {
-		return _petition.getTodayExpirationDifferenceDays();
-	}
-
-	/**
-	 * Returns the user ID of this petition.
-	 *
-	 * @return the user ID of this petition
-	 */
-	@Override
-	public long getUserId() {
-		return _petition.getUserId();
-	}
-
-	/**
-	 * Returns the user name of this petition.
-	 *
-	 * @return the user name of this petition
-	 */
-	@Override
-	public String getUserName() {
-		return _petition.getUserName();
-	}
-
-	/**
-	 * Returns the user uuid of this petition.
-	 *
-	 * @return the user uuid of this petition
-	 */
-	@Override
-	public String getUserUuid() {
-		return _petition.getUserUuid();
-	}
-
-	/**
-	 * Returns the uuid of this petition.
-	 *
-	 * @return the uuid of this petition
-	 */
-	@Override
-	public String getUuid() {
-		return _petition.getUuid();
-	}
-
-	/**
-	 * Returns the video url of this petition.
-	 *
-	 * @return the video url of this petition
-	 */
-	@Override
-	public String getVideoUrl() {
-		return _petition.getVideoUrl();
-	}
-
-	@Override
-	public int hashCode() {
-		return _petition.hashCode();
-	}
-
-	/**
-	 * Demande si l'utilisateur demandé a signe la petition
-	 *
-	 * @throws PortletException
-	 */
-	@Override
-	public boolean hasUserSigned(String publikUserId)
+	public boolean hasUserSigned(java.lang.String publikUserId)
 		throws javax.portlet.PortletException {
-
 		return _petition.hasUserSigned(publikUserId);
 	}
 
 	/**
-	 * Returns <code>true</code> if this petition is approved.
-	 *
-	 * @return <code>true</code> if this petition is approved; <code>false</code> otherwise
-	 */
+	* Returns <code>true</code> if this petition is approved.
+	*
+	* @return <code>true</code> if this petition is approved; <code>false</code> otherwise
+	*/
 	@Override
 	public boolean isApproved() {
 		return _petition.isApproved();
@@ -1133,20 +385,20 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	 * Returns <code>true</code> if this petition is denied.
-	 *
-	 * @return <code>true</code> if this petition is denied; <code>false</code> otherwise
-	 */
+	* Returns <code>true</code> if this petition is denied.
+	*
+	* @return <code>true</code> if this petition is denied; <code>false</code> otherwise
+	*/
 	@Override
 	public boolean isDenied() {
 		return _petition.isDenied();
 	}
 
 	/**
-	 * Returns <code>true</code> if this petition is a draft.
-	 *
-	 * @return <code>true</code> if this petition is a draft; <code>false</code> otherwise
-	 */
+	* Returns <code>true</code> if this petition is a draft.
+	*
+	* @return <code>true</code> if this petition is a draft; <code>false</code> otherwise
+	*/
 	@Override
 	public boolean isDraft() {
 		return _petition.isDraft();
@@ -1158,58 +410,58 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	 * Returns <code>true</code> if this petition is expired.
-	 *
-	 * @return <code>true</code> if this petition is expired; <code>false</code> otherwise
-	 */
+	* Returns <code>true</code> if this petition is expired.
+	*
+	* @return <code>true</code> if this petition is expired; <code>false</code> otherwise
+	*/
 	@Override
 	public boolean isExpired() {
 		return _petition.isExpired();
 	}
 
 	/**
-	 * Returns <code>true</code> if this petition is inactive.
-	 *
-	 * @return <code>true</code> if this petition is inactive; <code>false</code> otherwise
-	 */
+	* Returns <code>true</code> if this petition is inactive.
+	*
+	* @return <code>true</code> if this petition is inactive; <code>false</code> otherwise
+	*/
 	@Override
 	public boolean isInactive() {
 		return _petition.isInactive();
 	}
 
 	/**
-	 * Returns <code>true</code> if this petition is incomplete.
-	 *
-	 * @return <code>true</code> if this petition is incomplete; <code>false</code> otherwise
-	 */
+	* Returns <code>true</code> if this petition is incomplete.
+	*
+	* @return <code>true</code> if this petition is incomplete; <code>false</code> otherwise
+	*/
 	@Override
 	public boolean isIncomplete() {
 		return _petition.isIncomplete();
 	}
 
 	/**
-	 * Returns <code>true</code> if this petition is is supported.
-	 *
-	 * @return <code>true</code> if this petition is is supported; <code>false</code> otherwise
-	 */
+	* Returns <code>true</code> if this petition is is supported.
+	*
+	* @return <code>true</code> if this petition is is supported; <code>false</code> otherwise
+	*/
 	@Override
 	public boolean isIsSupported() {
 		return _petition.isIsSupported();
 	}
 
 	/**
-	 * Peut apporter une reaction (commenter, liker, participer) a l'entite
-	 */
+	* Peut apporter une reaction (commenter, liker, participer) a l'entite
+	*/
 	@Override
 	public boolean isJudgeable() {
 		return _petition.isJudgeable();
 	}
 
 	/**
-	 * Returns <code>true</code> if this petition is media choice.
-	 *
-	 * @return <code>true</code> if this petition is media choice; <code>false</code> otherwise
-	 */
+	* Returns <code>true</code> if this petition is media choice.
+	*
+	* @return <code>true</code> if this petition is media choice; <code>false</code> otherwise
+	*/
 	@Override
 	public boolean isMediaChoice() {
 		return _petition.isMediaChoice();
@@ -1221,23 +473,792 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	 * Returns <code>true</code> if this petition is pending.
-	 *
-	 * @return <code>true</code> if this petition is pending; <code>false</code> otherwise
-	 */
+	* Returns <code>true</code> if this petition is pending.
+	*
+	* @return <code>true</code> if this petition is pending; <code>false</code> otherwise
+	*/
 	@Override
 	public boolean isPending() {
 		return _petition.isPending();
 	}
 
 	/**
-	 * Returns <code>true</code> if this petition is scheduled.
-	 *
-	 * @return <code>true</code> if this petition is scheduled; <code>false</code> otherwise
-	 */
+	* Returns <code>true</code> if this petition is scheduled.
+	*
+	* @return <code>true</code> if this petition is scheduled; <code>false</code> otherwise
+	*/
 	@Override
 	public boolean isScheduled() {
 		return _petition.isScheduled();
+	}
+
+	/**
+	* Retourne le status de la petition
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getPetitionStatusCategory() {
+		return _petition.getPetitionStatusCategory();
+	}
+
+	/**
+	* Retourne le projet de la petition (
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
+		return _petition.getProjectCategory();
+	}
+
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _petition.getAssetEntry();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _petition.getExpandoBridge();
+	}
+
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		java.lang.String publikUserId) {
+		return _petition.toJSON(publikUserId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.Petition> toCacheModel() {
+		return _petition.toCacheModel();
+	}
+
+	/**
+	* méthode permettant de récupérer le pourcentage de signatures obtenu.
+	*
+	* @return le pourcentage en long.
+	*/
+	@Override
+	public double getPourcentageSignature() {
+		return _petition.getPourcentageSignature();
+	}
+
+	/**
+	* Retourne l'auteur en publik user
+	*
+	* @return
+	*/
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthorPublikUser() {
+		return _petition.getAuthorPublikUser();
+	}
+
+	@Override
+	public eu.strasbourg.service.project.model.Petition toEscapedModel() {
+		return new PetitionWrapper(_petition.toEscapedModel());
+	}
+
+	@Override
+	public eu.strasbourg.service.project.model.Petition toUnescapedModel() {
+		return new PetitionWrapper(_petition.toUnescapedModel());
+	}
+
+	@Override
+	public int compareTo(eu.strasbourg.service.project.model.Petition petition) {
+		return _petition.compareTo(petition);
+	}
+
+	/**
+	* méthode permettant de récuperer les faux signataires d'une pétitions.
+	*
+	* @return les faux signataires.
+	*/
+	@Override
+	public int getCountFakeSignataire() {
+		return _petition.getCountFakeSignataire();
+	}
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	@Override
+	public int getNbApprovedComments() {
+		return _petition.getNbApprovedComments();
+	}
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbDislikes() {
+		return _petition.getNbDislikes();
+	}
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikes() {
+		return _petition.getNbLikes();
+	}
+
+	/**
+	* Returns the status of this petition.
+	*
+	* @return the status of this petition
+	*/
+	@Override
+	public int getStatus() {
+		return _petition.getStatus();
+	}
+
+	/**
+	* Calcul la différence de jours entre la date du jour et celle d'expiration
+	*/
+	@Override
+	public int getTodayExpirationDifferenceDays() {
+		return _petition.getTodayExpirationDifferenceDays();
+	}
+
+	@Override
+	public int hashCode() {
+		return _petition.hashCode();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _petition.getPrimaryKeyObj();
+	}
+
+	@Override
+	public java.lang.Object clone() {
+		return new PetitionWrapper((Petition)_petition.clone());
+	}
+
+	@Override
+	public java.lang.String getAssetEntryTitle() {
+		return _petition.getAssetEntryTitle();
+	}
+
+	/**
+	* Retourne l'URL de l'image de l'utilisateur
+	*/
+	@Override
+	public java.lang.String getAuthorImageURL() {
+		return _petition.getAuthorImageURL();
+	}
+
+	/**
+	* Retourne le nom du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	*/
+	@Override
+	public java.lang.String getAuthorLabel() {
+		return _petition.getAuthorLabel();
+	}
+
+	/**
+	* Returns the description of this petition.
+	*
+	* @return the description of this petition
+	*/
+	@Override
+	public java.lang.String getDescription() {
+		return _petition.getDescription();
+	}
+
+	/**
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+	*
+	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	*/
+	@Override
+	public java.lang.String getDistrictLabel(java.util.Locale locale) {
+		return _petition.getDistrictLabel(locale);
+	}
+
+	/**
+	* Returns the external image copyright of this petition.
+	*
+	* @return the external image copyright of this petition
+	*/
+	@Override
+	public java.lang.String getExternalImageCopyright() {
+		return _petition.getExternalImageCopyright();
+	}
+
+	/**
+	* Returns the external image url of this petition.
+	*
+	* @return the external image url of this petition
+	*/
+	@Override
+	public java.lang.String getExternalImageURL() {
+		return _petition.getExternalImageURL();
+	}
+
+	/**
+	* Returns the files download of this petition.
+	*
+	* @return the files download of this petition
+	*/
+	@Override
+	public java.lang.String getFilesDownload() {
+		return _petition.getFilesDownload();
+	}
+
+	/**
+	* Returns the files IDs of this petition.
+	*
+	* @return the files IDs of this petition
+	*/
+	@Override
+	public java.lang.String getFilesIds() {
+		return _petition.getFilesIds();
+	}
+
+	/**
+	* méthode de récupération du status
+	*
+	* @return le status.
+	*/
+	@Override
+	public java.lang.String getFrontStatusFR() {
+		return _petition.getFrontStatusFR();
+	}
+
+	/**
+	* Retourne le copyright de l'image principale
+	*/
+	@Override
+	public java.lang.String getImageCopyright(java.util.Locale locale) {
+		return _petition.getImageCopyright(locale);
+	}
+
+	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	@Override
+	public java.lang.String getImageURL() {
+		return _petition.getImageURL();
+	}
+
+	/**
+	* Returns the in the name of of this petition.
+	*
+	* @return the in the name of of this petition
+	*/
+	@Override
+	public java.lang.String getInTheNameOf() {
+		return _petition.getInTheNameOf();
+	}
+
+	/**
+	* Retourne le label de 5 digits du nombre de commentaires de l'entité
+	*/
+	@Override
+	public java.lang.String getNbApprovedCommentsLabel() {
+		return _petition.getNbApprovedCommentsLabel();
+	}
+
+	/**
+	* méthode permettant d'afficher le nombre de signature.
+	*
+	* @return le nombre avec des zeros devant.
+	*/
+	@Override
+	public java.lang.String getNombreSignatureBoard() {
+		return _petition.getNombreSignatureBoard();
+	}
+
+	/**
+	* méthode de récupération du status
+	*
+	* @return le status.
+	*/
+	@Override
+	public java.lang.String getPetitionStatus() {
+		return _petition.getPetitionStatus();
+	}
+
+	/**
+	* méthode d'affichage des information du status pour excel.
+	*
+	* @return le status.
+	*/
+	@Override
+	public java.lang.String getPetitionStatusExcel() {
+		return _petition.getPetitionStatusExcel();
+	}
+
+	/**
+	* Returns the petitionnaire adresse of this petition.
+	*
+	* @return the petitionnaire adresse of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireAdresse() {
+		return _petition.getPetitionnaireAdresse();
+	}
+
+	/**
+	* Returns the petitionnaire city of this petition.
+	*
+	* @return the petitionnaire city of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireCity() {
+		return _petition.getPetitionnaireCity();
+	}
+
+	/**
+	* Returns the petitionnaire email of this petition.
+	*
+	* @return the petitionnaire email of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireEmail() {
+		return _petition.getPetitionnaireEmail();
+	}
+
+	/**
+	* Returns the petitionnaire firstname of this petition.
+	*
+	* @return the petitionnaire firstname of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireFirstname() {
+		return _petition.getPetitionnaireFirstname();
+	}
+
+	/**
+	* Returns the petitionnaire lastname of this petition.
+	*
+	* @return the petitionnaire lastname of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireLastname() {
+		return _petition.getPetitionnaireLastname();
+	}
+
+	/**
+	* Returns the petitionnaire phone of this petition.
+	*
+	* @return the petitionnaire phone of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnairePhone() {
+		return _petition.getPetitionnairePhone();
+	}
+
+	/**
+	* Returns the place text area of this petition.
+	*
+	* @return the place text area of this petition
+	*/
+	@Override
+	public java.lang.String getPlaceTextArea() {
+		return _petition.getPlaceTextArea();
+	}
+
+	/**
+	* méthode de récupération du status
+	*
+	* @return le status.
+	*/
+	@Override
+	public java.lang.String getProDureeFR() {
+		return _petition.getProDureeFR();
+	}
+
+	@Override
+	public java.lang.String getProjectTitle(java.util.Locale locale) {
+		return _petition.getProjectTitle(locale);
+	}
+
+	@Override
+	public java.lang.String getPublicationDateFr() {
+		return _petition.getPublicationDateFr();
+	}
+
+	/**
+	* Returns the publik ID of this petition.
+	*
+	* @return the publik ID of this petition
+	*/
+	@Override
+	public java.lang.String getPublikId() {
+		return _petition.getPublikId();
+	}
+
+	/**
+	* Returns the status by user name of this petition.
+	*
+	* @return the status by user name of this petition
+	*/
+	@Override
+	public java.lang.String getStatusByUserName() {
+		return _petition.getStatusByUserName();
+	}
+
+	/**
+	* Returns the status by user uuid of this petition.
+	*
+	* @return the status by user uuid of this petition
+	*/
+	@Override
+	public java.lang.String getStatusByUserUuid() {
+		return _petition.getStatusByUserUuid();
+	}
+
+	/**
+	* Returns the supported by of this petition.
+	*
+	* @return the supported by of this petition
+	*/
+	@Override
+	public java.lang.String getSupportedBy() {
+		return _petition.getSupportedBy();
+	}
+
+	@Override
+	public java.lang.String getThematicLabel(java.util.Locale locale) {
+		return _petition.getThematicLabel(locale);
+	}
+
+	/**
+	* Returns the title of this petition.
+	*
+	* @return the title of this petition
+	*/
+	@Override
+	public java.lang.String getTitle() {
+		return _petition.getTitle();
+	}
+
+	/**
+	* Returns the user name of this petition.
+	*
+	* @return the user name of this petition
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _petition.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this petition.
+	*
+	* @return the user uuid of this petition
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _petition.getUserUuid();
+	}
+
+	/**
+	* Returns the uuid of this petition.
+	*
+	* @return the uuid of this petition
+	*/
+	@Override
+	public java.lang.String getUuid() {
+		return _petition.getUuid();
+	}
+
+	/**
+	* Returns the video url of this petition.
+	*
+	* @return the video url of this petition
+	*/
+	@Override
+	public java.lang.String getVideoUrl() {
+		return _petition.getVideoUrl();
+	}
+
+	@Override
+	public java.lang.String toString() {
+		return _petition.toString();
+	}
+
+	@Override
+	public java.lang.String toXmlString() {
+		return _petition.toXmlString();
+	}
+
+	/**
+	* Returns the create date of this petition.
+	*
+	* @return the create date of this petition
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _petition.getCreateDate();
+	}
+
+	/**
+	* Returns the expiration date of this petition.
+	*
+	* @return the expiration date of this petition
+	*/
+	@Override
+	public Date getExpirationDate() {
+		return _petition.getExpirationDate();
+	}
+
+	/**
+	* Returns the extension date of this petition.
+	*
+	* @return the extension date of this petition
+	*/
+	@Override
+	public Date getExtensionDate() {
+		return _petition.getExtensionDate();
+	}
+
+	/**
+	* Returns the modified date of this petition.
+	*
+	* @return the modified date of this petition
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _petition.getModifiedDate();
+	}
+
+	/**
+	* Returns the petitionnaire birthday of this petition.
+	*
+	* @return the petitionnaire birthday of this petition
+	*/
+	@Override
+	public Date getPetitionnaireBirthday() {
+		return _petition.getPetitionnaireBirthday();
+	}
+
+	/**
+	* Returns the publication date of this petition.
+	*
+	* @return the publication date of this petition
+	*/
+	@Override
+	public Date getPublicationDate() {
+		return _petition.getPublicationDate();
+	}
+
+	/**
+	* Returns the status date of this petition.
+	*
+	* @return the status date of this petition
+	*/
+	@Override
+	public Date getStatusDate() {
+		return _petition.getStatusDate();
+	}
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments() {
+		return _petition.getApprovedComments();
+	}
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _petition.getCategories();
+	}
+
+	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux communes de la pétition
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCityCategories() {
+		return _petition.getCityCategories();
+	}
+
+	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories() {
+		return _petition.getDistrictCategories();
+	}
+
+	/**
+	* Retourne la liste des URLs des documents
+	*/
+	@Override
+	public java.util.List<java.lang.String> getFilesURLs() {
+		return _petition.getFilesURLs();
+	}
+
+	/**
+	* Retourne la liste des lieux placit liés à la petition
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
+		return _petition.getPlacitPlaces();
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Signataire> getSignataires() {
+		return _petition.getSignataires();
+	}
+
+	/**
+	* Retourne X suggestions max pour une pétition
+	*
+	* @param request
+	la requete
+	* @param nbSuggestions
+	le nombre de suggestions.
+	* @return la liste de pétition.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getSuggestions(
+		javax.servlet.http.HttpServletRequest request, int nbSuggestions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.search.SearchException {
+		return _petition.getSuggestions(request, nbSuggestions);
+	}
+
+	/**
+	* Retourne les catégories 'Territoire' correspondant aux pays de la petition
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories() {
+		return _petition.getTerritoryCategories();
+	}
+
+	/**
+	* Retourne les thematiques de la petition (
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories() {
+		return _petition.getThematicCategories();
+	}
+
+	/**
+	* Returns the company ID of this petition.
+	*
+	* @return the company ID of this petition
+	*/
+	@Override
+	public long getCompanyId() {
+		return _petition.getCompanyId();
+	}
+
+	/**
+	* Returns the group ID of this petition.
+	*
+	* @return the group ID of this petition
+	*/
+	@Override
+	public long getGroupId() {
+		return _petition.getGroupId();
+	}
+
+	/**
+	* Returns the image ID of this petition.
+	*
+	* @return the image ID of this petition
+	*/
+	@Override
+	public long getImageId() {
+		return _petition.getImageId();
+	}
+
+	/**
+	* Méthode permettant de retourner le nombre de signataire de la pétition
+	*
+	* @return le nombre.
+	*/
+	@Override
+	public long getNombreSignature() {
+		return _petition.getNombreSignature();
+	}
+
+	/**
+	* Returns the petition ID of this petition.
+	*
+	* @return the petition ID of this petition
+	*/
+	@Override
+	public long getPetitionId() {
+		return _petition.getPetitionId();
+	}
+
+	/**
+	* Returns the petitionnaire postal code of this petition.
+	*
+	* @return the petitionnaire postal code of this petition
+	*/
+	@Override
+	public long getPetitionnairePostalCode() {
+		return _petition.getPetitionnairePostalCode();
+	}
+
+	/**
+	* Returns the primary key of this petition.
+	*
+	* @return the primary key of this petition
+	*/
+	@Override
+	public long getPrimaryKey() {
+		return _petition.getPrimaryKey();
+	}
+
+	/**
+	* Returns the quota signature of this petition.
+	*
+	* @return the quota signature of this petition
+	*/
+	@Override
+	public long getQuotaSignature() {
+		return _petition.getQuotaSignature();
+	}
+
+	/**
+	* méthode permettant de récuperer le nombre de signataire nécessaire pour finir la pétition.
+	*
+	* @return le nombre
+	*/
+	@Override
+	public long getSignataireNeeded() {
+		return _petition.getSignataireNeeded();
+	}
+
+	/**
+	* Returns the status by user ID of this petition.
+	*
+	* @return the status by user ID of this petition
+	*/
+	@Override
+	public long getStatusByUserId() {
+		return _petition.getStatusByUserId();
+	}
+
+	/**
+	* Returns the user ID of this petition.
+	*
+	* @return the user ID of this petition
+	*/
+	@Override
+	public long getUserId() {
+		return _petition.getUserId();
 	}
 
 	@Override
@@ -1251,40 +1272,33 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	 * Sets the company ID of this petition.
-	 *
-	 * @param companyId the company ID of this petition
-	 */
+	* Sets the company ID of this petition.
+	*
+	* @param companyId the company ID of this petition
+	*/
 	@Override
 	public void setCompanyId(long companyId) {
 		_petition.setCompanyId(companyId);
 	}
 
 	/**
-	 * Sets the create date of this petition.
-	 *
-	 * @param createDate the create date of this petition
-	 */
+	* Sets the create date of this petition.
+	*
+	* @param createDate the create date of this petition
+	*/
 	@Override
 	public void setCreateDate(Date createDate) {
 		_petition.setCreateDate(createDate);
 	}
 
 	/**
-	 * Sets the description of this petition.
-	 *
-	 * @param description the description of this petition
-	 */
+	* Sets the description of this petition.
+	*
+	* @param description the description of this petition
+	*/
 	@Override
-	public void setDescription(String description) {
+	public void setDescription(java.lang.String description) {
 		_petition.setDescription(description);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_petition.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -1293,125 +1307,132 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+		_petition.setExpandoBridgeAttributes(baseModel);
+	}
+
+	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_petition.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	 * Sets the expiration date of this petition.
-	 *
-	 * @param expirationDate the expiration date of this petition
-	 */
+	* Sets the expiration date of this petition.
+	*
+	* @param expirationDate the expiration date of this petition
+	*/
 	@Override
 	public void setExpirationDate(Date expirationDate) {
 		_petition.setExpirationDate(expirationDate);
 	}
 
 	/**
-	 * Sets the extension date of this petition.
-	 *
-	 * @param extensionDate the extension date of this petition
-	 */
+	* Sets the extension date of this petition.
+	*
+	* @param extensionDate the extension date of this petition
+	*/
 	@Override
 	public void setExtensionDate(Date extensionDate) {
 		_petition.setExtensionDate(extensionDate);
 	}
 
 	/**
-	 * Sets the external image copyright of this petition.
-	 *
-	 * @param externalImageCopyright the external image copyright of this petition
-	 */
+	* Sets the external image copyright of this petition.
+	*
+	* @param externalImageCopyright the external image copyright of this petition
+	*/
 	@Override
-	public void setExternalImageCopyright(String externalImageCopyright) {
+	public void setExternalImageCopyright(
+		java.lang.String externalImageCopyright) {
 		_petition.setExternalImageCopyright(externalImageCopyright);
 	}
 
 	/**
-	 * Sets the external image url of this petition.
-	 *
-	 * @param externalImageURL the external image url of this petition
-	 */
+	* Sets the external image url of this petition.
+	*
+	* @param externalImageURL the external image url of this petition
+	*/
 	@Override
-	public void setExternalImageURL(String externalImageURL) {
+	public void setExternalImageURL(java.lang.String externalImageURL) {
 		_petition.setExternalImageURL(externalImageURL);
 	}
 
 	/**
-	 * Sets the files download of this petition.
-	 *
-	 * @param filesDownload the files download of this petition
-	 */
+	* Sets the files download of this petition.
+	*
+	* @param filesDownload the files download of this petition
+	*/
 	@Override
-	public void setFilesDownload(String filesDownload) {
+	public void setFilesDownload(java.lang.String filesDownload) {
 		_petition.setFilesDownload(filesDownload);
 	}
 
 	/**
-	 * Sets the files IDs of this petition.
-	 *
-	 * @param filesIds the files IDs of this petition
-	 */
+	* Sets the files IDs of this petition.
+	*
+	* @param filesIds the files IDs of this petition
+	*/
 	@Override
-	public void setFilesIds(String filesIds) {
+	public void setFilesIds(java.lang.String filesIds) {
 		_petition.setFilesIds(filesIds);
 	}
 
 	/**
-	 * Sets the group ID of this petition.
-	 *
-	 * @param groupId the group ID of this petition
-	 */
+	* Sets the group ID of this petition.
+	*
+	* @param groupId the group ID of this petition
+	*/
 	@Override
 	public void setGroupId(long groupId) {
 		_petition.setGroupId(groupId);
 	}
 
 	/**
-	 * Sets the image ID of this petition.
-	 *
-	 * @param imageId the image ID of this petition
-	 */
+	* Sets the image ID of this petition.
+	*
+	* @param imageId the image ID of this petition
+	*/
 	@Override
 	public void setImageId(long imageId) {
 		_petition.setImageId(imageId);
 	}
 
 	/**
-	 * Sets the in the name of of this petition.
-	 *
-	 * @param inTheNameOf the in the name of of this petition
-	 */
+	* Sets the in the name of of this petition.
+	*
+	* @param inTheNameOf the in the name of of this petition
+	*/
 	@Override
-	public void setInTheNameOf(String inTheNameOf) {
+	public void setInTheNameOf(java.lang.String inTheNameOf) {
 		_petition.setInTheNameOf(inTheNameOf);
 	}
 
 	/**
-	 * Sets whether this petition is is supported.
-	 *
-	 * @param isSupported the is supported of this petition
-	 */
+	* Sets whether this petition is is supported.
+	*
+	* @param isSupported the is supported of this petition
+	*/
 	@Override
 	public void setIsSupported(boolean isSupported) {
 		_petition.setIsSupported(isSupported);
 	}
 
 	/**
-	 * Sets whether this petition is media choice.
-	 *
-	 * @param mediaChoice the media choice of this petition
-	 */
+	* Sets whether this petition is media choice.
+	*
+	* @param mediaChoice the media choice of this petition
+	*/
 	@Override
 	public void setMediaChoice(boolean mediaChoice) {
 		_petition.setMediaChoice(mediaChoice);
 	}
 
 	/**
-	 * Sets the modified date of this petition.
-	 *
-	 * @param modifiedDate the modified date of this petition
-	 */
+	* Sets the modified date of this petition.
+	*
+	* @param modifiedDate the modified date of this petition
+	*/
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_petition.setModifiedDate(modifiedDate);
@@ -1423,110 +1444,111 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	 * Sets the petition ID of this petition.
-	 *
-	 * @param petitionId the petition ID of this petition
-	 */
+	* Sets the petition ID of this petition.
+	*
+	* @param petitionId the petition ID of this petition
+	*/
 	@Override
 	public void setPetitionId(long petitionId) {
 		_petition.setPetitionId(petitionId);
 	}
 
 	/**
-	 * Sets the petitionnaire adresse of this petition.
-	 *
-	 * @param petitionnaireAdresse the petitionnaire adresse of this petition
-	 */
+	* Sets the petitionnaire adresse of this petition.
+	*
+	* @param petitionnaireAdresse the petitionnaire adresse of this petition
+	*/
 	@Override
-	public void setPetitionnaireAdresse(String petitionnaireAdresse) {
+	public void setPetitionnaireAdresse(java.lang.String petitionnaireAdresse) {
 		_petition.setPetitionnaireAdresse(petitionnaireAdresse);
 	}
 
 	/**
-	 * Sets the petitionnaire birthday of this petition.
-	 *
-	 * @param petitionnaireBirthday the petitionnaire birthday of this petition
-	 */
+	* Sets the petitionnaire birthday of this petition.
+	*
+	* @param petitionnaireBirthday the petitionnaire birthday of this petition
+	*/
 	@Override
 	public void setPetitionnaireBirthday(Date petitionnaireBirthday) {
 		_petition.setPetitionnaireBirthday(petitionnaireBirthday);
 	}
 
 	/**
-	 * Sets the petitionnaire city of this petition.
-	 *
-	 * @param petitionnaireCity the petitionnaire city of this petition
-	 */
+	* Sets the petitionnaire city of this petition.
+	*
+	* @param petitionnaireCity the petitionnaire city of this petition
+	*/
 	@Override
-	public void setPetitionnaireCity(String petitionnaireCity) {
+	public void setPetitionnaireCity(java.lang.String petitionnaireCity) {
 		_petition.setPetitionnaireCity(petitionnaireCity);
 	}
 
 	/**
-	 * Sets the petitionnaire email of this petition.
-	 *
-	 * @param petitionnaireEmail the petitionnaire email of this petition
-	 */
+	* Sets the petitionnaire email of this petition.
+	*
+	* @param petitionnaireEmail the petitionnaire email of this petition
+	*/
 	@Override
-	public void setPetitionnaireEmail(String petitionnaireEmail) {
+	public void setPetitionnaireEmail(java.lang.String petitionnaireEmail) {
 		_petition.setPetitionnaireEmail(petitionnaireEmail);
 	}
 
 	/**
-	 * Sets the petitionnaire firstname of this petition.
-	 *
-	 * @param petitionnaireFirstname the petitionnaire firstname of this petition
-	 */
+	* Sets the petitionnaire firstname of this petition.
+	*
+	* @param petitionnaireFirstname the petitionnaire firstname of this petition
+	*/
 	@Override
-	public void setPetitionnaireFirstname(String petitionnaireFirstname) {
+	public void setPetitionnaireFirstname(
+		java.lang.String petitionnaireFirstname) {
 		_petition.setPetitionnaireFirstname(petitionnaireFirstname);
 	}
 
 	/**
-	 * Sets the petitionnaire lastname of this petition.
-	 *
-	 * @param petitionnaireLastname the petitionnaire lastname of this petition
-	 */
+	* Sets the petitionnaire lastname of this petition.
+	*
+	* @param petitionnaireLastname the petitionnaire lastname of this petition
+	*/
 	@Override
-	public void setPetitionnaireLastname(String petitionnaireLastname) {
+	public void setPetitionnaireLastname(java.lang.String petitionnaireLastname) {
 		_petition.setPetitionnaireLastname(petitionnaireLastname);
 	}
 
 	/**
-	 * Sets the petitionnaire phone of this petition.
-	 *
-	 * @param petitionnairePhone the petitionnaire phone of this petition
-	 */
+	* Sets the petitionnaire phone of this petition.
+	*
+	* @param petitionnairePhone the petitionnaire phone of this petition
+	*/
 	@Override
-	public void setPetitionnairePhone(String petitionnairePhone) {
+	public void setPetitionnairePhone(java.lang.String petitionnairePhone) {
 		_petition.setPetitionnairePhone(petitionnairePhone);
 	}
 
 	/**
-	 * Sets the petitionnaire postal code of this petition.
-	 *
-	 * @param petitionnairePostalCode the petitionnaire postal code of this petition
-	 */
+	* Sets the petitionnaire postal code of this petition.
+	*
+	* @param petitionnairePostalCode the petitionnaire postal code of this petition
+	*/
 	@Override
 	public void setPetitionnairePostalCode(long petitionnairePostalCode) {
 		_petition.setPetitionnairePostalCode(petitionnairePostalCode);
 	}
 
 	/**
-	 * Sets the place text area of this petition.
-	 *
-	 * @param placeTextArea the place text area of this petition
-	 */
+	* Sets the place text area of this petition.
+	*
+	* @param placeTextArea the place text area of this petition
+	*/
 	@Override
-	public void setPlaceTextArea(String placeTextArea) {
+	public void setPlaceTextArea(java.lang.String placeTextArea) {
 		_petition.setPlaceTextArea(placeTextArea);
 	}
 
 	/**
-	 * Sets the primary key of this petition.
-	 *
-	 * @param primaryKey the primary key of this petition
-	 */
+	* Sets the primary key of this petition.
+	*
+	* @param primaryKey the primary key of this petition
+	*/
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_petition.setPrimaryKey(primaryKey);
@@ -1538,190 +1560,153 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	 * Sets the publication date of this petition.
-	 *
-	 * @param publicationDate the publication date of this petition
-	 */
+	* Sets the publication date of this petition.
+	*
+	* @param publicationDate the publication date of this petition
+	*/
 	@Override
 	public void setPublicationDate(Date publicationDate) {
 		_petition.setPublicationDate(publicationDate);
 	}
 
 	/**
-	 * Sets the publik ID of this petition.
-	 *
-	 * @param publikId the publik ID of this petition
-	 */
+	* Sets the publik ID of this petition.
+	*
+	* @param publikId the publik ID of this petition
+	*/
 	@Override
-	public void setPublikId(String publikId) {
+	public void setPublikId(java.lang.String publikId) {
 		_petition.setPublikId(publikId);
 	}
 
 	/**
-	 * Sets the quota signature of this petition.
-	 *
-	 * @param quotaSignature the quota signature of this petition
-	 */
+	* Sets the quota signature of this petition.
+	*
+	* @param quotaSignature the quota signature of this petition
+	*/
 	@Override
 	public void setQuotaSignature(long quotaSignature) {
 		_petition.setQuotaSignature(quotaSignature);
 	}
 
 	/**
-	 * Sets the status of this petition.
-	 *
-	 * @param status the status of this petition
-	 */
+	* Sets the status of this petition.
+	*
+	* @param status the status of this petition
+	*/
 	@Override
 	public void setStatus(int status) {
 		_petition.setStatus(status);
 	}
 
 	/**
-	 * Sets the status by user ID of this petition.
-	 *
-	 * @param statusByUserId the status by user ID of this petition
-	 */
+	* Sets the status by user ID of this petition.
+	*
+	* @param statusByUserId the status by user ID of this petition
+	*/
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
 		_petition.setStatusByUserId(statusByUserId);
 	}
 
 	/**
-	 * Sets the status by user name of this petition.
-	 *
-	 * @param statusByUserName the status by user name of this petition
-	 */
+	* Sets the status by user name of this petition.
+	*
+	* @param statusByUserName the status by user name of this petition
+	*/
 	@Override
-	public void setStatusByUserName(String statusByUserName) {
+	public void setStatusByUserName(java.lang.String statusByUserName) {
 		_petition.setStatusByUserName(statusByUserName);
 	}
 
 	/**
-	 * Sets the status by user uuid of this petition.
-	 *
-	 * @param statusByUserUuid the status by user uuid of this petition
-	 */
+	* Sets the status by user uuid of this petition.
+	*
+	* @param statusByUserUuid the status by user uuid of this petition
+	*/
 	@Override
-	public void setStatusByUserUuid(String statusByUserUuid) {
+	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
 		_petition.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
-	 * Sets the status date of this petition.
-	 *
-	 * @param statusDate the status date of this petition
-	 */
+	* Sets the status date of this petition.
+	*
+	* @param statusDate the status date of this petition
+	*/
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_petition.setStatusDate(statusDate);
 	}
 
 	/**
-	 * Sets the supported by of this petition.
-	 *
-	 * @param supportedBy the supported by of this petition
-	 */
+	* Sets the supported by of this petition.
+	*
+	* @param supportedBy the supported by of this petition
+	*/
 	@Override
-	public void setSupportedBy(String supportedBy) {
+	public void setSupportedBy(java.lang.String supportedBy) {
 		_petition.setSupportedBy(supportedBy);
 	}
 
 	/**
-	 * Sets the title of this petition.
-	 *
-	 * @param title the title of this petition
-	 */
+	* Sets the title of this petition.
+	*
+	* @param title the title of this petition
+	*/
 	@Override
-	public void setTitle(String title) {
+	public void setTitle(java.lang.String title) {
 		_petition.setTitle(title);
 	}
 
 	/**
-	 * Sets the user ID of this petition.
-	 *
-	 * @param userId the user ID of this petition
-	 */
+	* Sets the user ID of this petition.
+	*
+	* @param userId the user ID of this petition
+	*/
 	@Override
 	public void setUserId(long userId) {
 		_petition.setUserId(userId);
 	}
 
 	/**
-	 * Sets the user name of this petition.
-	 *
-	 * @param userName the user name of this petition
-	 */
+	* Sets the user name of this petition.
+	*
+	* @param userName the user name of this petition
+	*/
 	@Override
-	public void setUserName(String userName) {
+	public void setUserName(java.lang.String userName) {
 		_petition.setUserName(userName);
 	}
 
 	/**
-	 * Sets the user uuid of this petition.
-	 *
-	 * @param userUuid the user uuid of this petition
-	 */
+	* Sets the user uuid of this petition.
+	*
+	* @param userUuid the user uuid of this petition
+	*/
 	@Override
-	public void setUserUuid(String userUuid) {
+	public void setUserUuid(java.lang.String userUuid) {
 		_petition.setUserUuid(userUuid);
 	}
 
 	/**
-	 * Sets the uuid of this petition.
-	 *
-	 * @param uuid the uuid of this petition
-	 */
+	* Sets the uuid of this petition.
+	*
+	* @param uuid the uuid of this petition
+	*/
 	@Override
-	public void setUuid(String uuid) {
+	public void setUuid(java.lang.String uuid) {
 		_petition.setUuid(uuid);
 	}
 
 	/**
-	 * Sets the video url of this petition.
-	 *
-	 * @param videoUrl the video url of this petition
-	 */
+	* Sets the video url of this petition.
+	*
+	* @param videoUrl the video url of this petition
+	*/
 	@Override
-	public void setVideoUrl(String videoUrl) {
+	public void setVideoUrl(java.lang.String videoUrl) {
 		_petition.setVideoUrl(videoUrl);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.project.model.Petition> toCacheModel() {
-
-		return _petition.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.Petition toEscapedModel() {
-		return new PetitionWrapper(_petition.toEscapedModel());
-	}
-
-	/**
-	 * Retourne la version JSON de l'entité
-	 */
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject toJSON(
-		String publikUserId) {
-
-		return _petition.toJSON(publikUserId);
-	}
-
-	@Override
-	public String toString() {
-		return _petition.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.Petition toUnescapedModel() {
-		return new PetitionWrapper(_petition.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _petition.toXmlString();
 	}
 
 	@Override
@@ -1769,5 +1754,4 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	private final Petition _petition;
-
 }

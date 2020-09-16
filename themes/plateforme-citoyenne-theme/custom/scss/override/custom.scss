@@ -189,6 +189,199 @@
         }
     }
 }
+.pro-custom-form {
+    .portlet-forms {
+        h2.ddl-form-description {
+            @include ft($f_hx, 1.25em, 700, $c_txt, 1.3em);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: inline-block;
+            word-break: break-word;
+        }
+
+        .ddl-form-builder-app .lfr-ddm-form-container .lfr-ddm-form-page {
+            padding : 0px;
+
+            .required-warning{
+                margin-top: 0;
+            }
+            
+            > .row {
+                margin-left: -15px;
+                margin-right: -15px;
+
+                .lfr-ddm-form-field-container{
+                    padding: 0px;
+
+                    .input-select-wrapper{        
+                        .control-label {
+                            @include ft($f_txt, 0.875em, 400, #4c4c4c, 1.571em);
+                            position: relative;
+                            display: block;
+                            text-align: left;
+                            clear: both;
+                            user-select: none;
+                            margin-bottom: 5px;
+                            span {
+                                color: #ff0000;
+                            }
+                        }
+                    }
+    
+                    .control-label {
+                        @include ft($f_hx, 1.25em, 700, $c_txt, 1.625em);
+                        margin-top: 10px;
+                        text-transform: none;
+                    }
+    
+                    .liferay-ddm-form-field-tip {
+                        margin: 0 0 10px 0;
+                        font-size: 13px;
+                        font-weight: 400;
+                        color: #4C4C4C;
+                        font-style: italic;
+                    }
+                    
+                    .liferay-ddm-form-field-checkbox-multiple>label{
+                        display: inline-block;
+                        font-family: $f_hx;
+                        font-size: 1.25em;
+                        font-weight: 700;
+                        line-height: 1.625em;
+                        margin-top: 10px;
+                        text-transform: none;
+                    }
+
+                    .liferay-ddm-form-field-paragraph {
+                        h6 {
+                            color: #4C4C4C;
+                        }
+                    }
+
+                    .checkbox input[type="checkbox"]{
+                        position: relative;
+                        margin-right: 10px;
+                    }
+
+                    .liferay-ddm-form-field-checkbox, .checkbox-default{
+                        margin-top: 20px;
+                        margin-bottom: 15px;
+
+                        input {
+                            opacity: 1;
+
+                            &:checked {
+                                &:after {
+                                    opacity: 1;
+                                    transform: scale(1);
+                                }
+                            }
+
+                            &:before {
+                                content: '';
+                                position: absolute;
+                                float: left;
+                                margin-right: 10px;
+                                transform: none;
+                                text-align: left;
+                                width: 20px;
+                                height: 20px;
+                                border: 1px solid #a6a6a6;
+                                border-radius: 2px;
+                                background: $c_white;
+                                left: 0;
+                                top: 0;
+                            }
+
+                            &:after {
+                                content: "\e91a";
+                                @include font();
+                                text-shadow: 1px 1px 0 $c_white, 0px -2px 0 $c_white;
+                                font-size: 16px;
+                                position: absolute;
+                                left: 5px;
+                                top: 0;
+                                transform: translateY(-50%);
+                                transform: translate3d(0, -50%, 0);
+                                color: $c_txt;
+                                transition: all .2s;
+                                background: none;
+                                opacity: 0;
+                                transform: scale(0);
+                                @include addTransitionCurve();
+                            }
+                        }
+                    }
+
+                    .radio {
+                        margin-top: 20px;
+                        margin-bottom: 5px;
+
+                        input {
+                            opacity: 1;
+                            top: 2px;
+                            left: 2px;
+                            
+                            &:checked {
+                                &:after {
+                                    background: $c_sub;
+                                    border-radius: 50px;
+                                    content: " ";
+                                    height: 10px;
+                                    left: 1px;
+                                    position: absolute;
+                                    top: 3px;
+                                    width: 10px;
+                                }
+                            }
+
+                            &:before {
+                                content: '';
+                                position: absolute;
+                                margin-right: 7px;
+                                padding: 7px;
+                                display: inline-block;
+                                border: 1px solid #a6a6a6;
+                                border-radius: 50px;
+                                background: $c_white;
+                                left: -2px;
+                                top: 0;
+                            }
+                        }
+                        
+                    }
+
+                    .input-group-container{
+                        select{
+                            @include ft($f_txt, 0.875em, 400, $c_txt, 20px);
+
+                            option{
+                                @include ft($f_txt, 0.875em, 400, $c_txt, 1.429em);
+
+                                &:disabled { 
+                                    filter: alpha(opacity=50);
+                                    opacity: 0.5;
+                                    cursor: default !important;
+                                    background: none !important;
+                                    color: #666 !important;
+                                    user-select: none;
+                                }
+                                
+                                &:not(:disabled):checked { 
+                                    background: #E5E5E5;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .icon-asterisk:before{
+                content: none;
+            }
+        }
+    }
+}
 // Fin du style pour les formulaires
 
 //  Style pour le signalement
@@ -294,22 +487,3 @@
     top: 100px;
 } 
 // Fin style pour les alertes de modifications de budget participatifs
-
-
-/** 
-* START Adaptations migration 7.2 
-**/
-
-// Suppression des border-style sur les labels présents en 7.2
-#th-global .selectric .label {
-    border-style: none;
-}
-
-// Suppression de la bande grise présent sur /mon-activite-citoyenne en 7.2
-#th-global .portlet-layout .portlet-header {
-    margin-bottom: 0rem;
-}
-
-/** 
-* END Adaptations migration 7.2 
-**/
