@@ -5,7 +5,9 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -164,7 +166,7 @@ public class OfferDisplayContext {
     }
 
     public String getTexte() {
-        String text =  configuration.text();
+        String text =  configuration.text().replace("[link-porte-document]", StrasbourgPropsUtil.getURLPorteDocument());
         if (Validator.isNull(text)) {
             text = "No configuration";
         }
@@ -211,10 +213,18 @@ public class OfferDisplayContext {
     }
 
     public String getSearchOfferURL() {
-        String url =  configuration.url();
+        String url =  getVirtualHostName() + configuration.url();
         if (Validator.isNull(url)) {
             url = "No configuration";
         }
         return url;
+    }
+
+    public String getVirtualHostName() {
+        String home = "/web/strasbourg.eu/";
+        Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
+        if(Validator.isNotNull(group.getPublicLayoutSet().getVirtualHostname()))
+           return "https://" + group.getPublicLayoutSet().getVirtualHostname();
+        return home;
     }
 }

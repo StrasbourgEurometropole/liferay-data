@@ -4287,7 +4287,7 @@ a {
       font-size: 1.6rem; } }
 
 /* line 71, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-#direction h1, #districts-configuration h1, #ecoles h1, #elu h1, #mairie h1, #sliders h1, #direction h3, #districts-configuration h3, #ecoles h3, #elu h3, #mairie h3, #sliders h3, .home-section h2, #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #family-space h2, #favoris h2, #mediatheque h2, #personnalisation h2, #placeit h2, #resid h2, #serial h2, #survey h2, #validation-address h2, #vote h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2, .page-offre table thead td {
+#direction h1, #districts-configuration h1, #ecoles h1, #elu h1, #mairie h1, #sliders h1, #direction h3, #districts-configuration h3, #ecoles h3, #elu h3, #mairie h3, #sliders h3, .home-section h2, #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #family-space h2, #favoris h2, #mediatheque h2, #personnalisation h2, #placeit h2, #resid h2, #serial h2, #survey h2, #validation-address h2, #vote h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2, .page-offre .candidaturesList .candidatureInfo, .page-offre .candidaturesList .alerteInfo, .page-offre .alertesList .candidatureInfo, .page-offre .alertesList .alerteInfo, .page-offre .candidaturesList .candidatureDetail .titre:before, .page-offre .candidaturesList .candidatureDetail .code:before, .page-offre .candidaturesList .candidatureDetail .date:before, .page-offre .candidaturesList .candidatureDetail .statut:before, .page-offre .candidaturesList .candidatureDetail .filtre:before, .page-offre .candidaturesList .candidatureDetail .supprimer:before, .page-offre .candidaturesList .alerteDetail .titre:before, .page-offre .candidaturesList .alerteDetail .code:before, .page-offre .candidaturesList .alerteDetail .date:before, .page-offre .candidaturesList .alerteDetail .statut:before, .page-offre .candidaturesList .alerteDetail .filtre:before, .page-offre .candidaturesList .alerteDetail .supprimer:before, .page-offre .alertesList .candidatureDetail .titre:before, .page-offre .alertesList .candidatureDetail .code:before, .page-offre .alertesList .candidatureDetail .date:before, .page-offre .alertesList .candidatureDetail .statut:before, .page-offre .alertesList .candidatureDetail .filtre:before, .page-offre .alertesList .candidatureDetail .supprimer:before, .page-offre .alertesList .alerteDetail .titre:before, .page-offre .alertesList .alerteDetail .code:before, .page-offre .alertesList .alerteDetail .date:before, .page-offre .alertesList .alerteDetail .statut:before, .page-offre .alertesList .alerteDetail .filtre:before, .page-offre .alertesList .alerteDetail .supprimer:before {
   font-family: "MontSerrat", arial;
   font-weight: 700;
   font-size: 3.5rem;
@@ -13762,40 +13762,161 @@ footer .footer .portlet {
   margin-bottom: 30px; }
 
 /* line 9, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .candidaturePagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  /* line 12, custom/02-particules/03-pages/_page-offres.scss */
+  .page-offre .candidaturePagination ul {
+    width: auto;
+    margin-top: 0;
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+    @media only screen and (max-width: 1279px) {
+      /* line 12, custom/02-particules/03-pages/_page-offres.scss */
+      .page-offre .candidaturePagination ul {
+        -webkit-box-ordinal-group: 0;
+            -ms-flex-order: -1;
+                order: -1;
+        margin-left: -15px; }
+        /* line 22, custom/02-particules/03-pages/_page-offres.scss */
+        .page-offre .candidaturePagination ul .pagin-item {
+          display: inline-block !important; } }
+  @media only screen and (max-width: 1279px) {
+    /* line 9, custom/02-particules/03-pages/_page-offres.scss */
+    .page-offre .candidaturePagination {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column; } }
+
+/* line 33, custom/02-particules/03-pages/_page-offres.scss */
 .page-offre .candidatures, .page-offre .alertes {
   margin-bottom: 40px; }
 
-/* line 13, custom/02-particules/03-pages/_page-offres.scss */
-.page-offre table {
+/* line 37, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .candidaturesList, .page-offre .alertesList {
   width: 100%;
-  margin-bottom: 30px; }
-  /* line 17, custom/02-particules/03-pages/_page-offres.scss */
-  .page-offre table thead td {
+  margin-bottom: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  word-break: break-word; }
+  /* line 44, custom/02-particules/03-pages/_page-offres.scss */
+  .page-offre .candidaturesList .candidatureInfo, .page-offre .candidaturesList .alerteInfo, .page-offre .alertesList .candidatureInfo, .page-offre .alertesList .alerteInfo {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 10px;
     color: #31455d;
     letter-spacing: 0.03em; }
-  /* line 26, custom/02-particules/03-pages/_page-offres.scss */
-  .page-offre table tbody tr {
-    border-top: solid transparent 15px; }
-  /* line 32, custom/02-particules/03-pages/_page-offres.scss */
-  .page-offre table .delete-alert:after {
-    content: '';
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z' id='path825' /%3E%3Cpath style='fill:white;' d='m 158.4228,366.81829 c -8.46662,-3.02163 -13.71558,-9.81138 -14.4613,-18.70627 -0.3905,-4.65788 0.78999,-9.69401 3.11365,-13.28322 0.77942,-1.20392 18.66252,-19.41002 39.74024,-40.45801 l 38.32311,-38.26906 -38.78802,-38.89278 c -44.44835,-44.56838 -42.22829,-41.84421 -42.25791,-51.85355 -0.0152,-5.12655 0.16751,-6.10255 1.74282,-9.31098 2.23728,-4.55664 5.77296,-8.09231 10.3296,-10.32959 3.1541,-1.54864 4.23506,-1.75978 9.00956,-1.75978 4.84238,0 5.85881,0.2053 9.45785,1.91035 3.72297,1.76376 7.00737,4.87387 42.80071,40.52946 l 38.7683,38.61911 39.48516,-39.42677 39.48515,-39.42677 4.44459,-1.33462 c 10.78921,-3.23978 21.45248,1.22469 26.22528,10.97993 3.06168,6.25785 2.66106,14.8506 -0.97925,21.00337 -0.68657,1.16044 -18.56355,19.47509 -39.72661,40.69921 l -38.47829,38.5893 38.84762,38.84412 c 44.40322,44.39922 42.23067,41.74497 42.20529,51.56313 -0.0118,4.56407 -0.26401,5.96332 -1.58855,8.81333 -2.12673,4.57608 -5.15958,7.78019 -9.68937,10.23654 -3.58071,1.94169 -4.09464,2.04907 -9.807,2.04907 -10.45623,0 -7.44395,2.43706 -51.98949,-42.0618 l -38.72731,-38.68672 -38.73594,38.62911 c -43.63211,43.51177 -41.65833,41.86793 -50.72723,42.24788 -3.6442,0.15268 -5.68548,-0.0799 -8.02266,-0.91399 z' id='path847' /%3E%3C/svg%3E");
-    background-size: 20px;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: absolute; }
-  /* line 44, custom/02-particules/03-pages/_page-offres.scss */
-  .page-offre table .delete-alert:focus {
-    outline: none; }
-  /* line 49, custom/02-particules/03-pages/_page-offres.scss */
-  .page-offre table .delete-alert:hover:after, .page-offre table .delete-alert:focus:after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2346cfc0' viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z' id='path825' /%3E%3Cpath style='fill:white;' d='m 158.4228,366.81829 c -8.46662,-3.02163 -13.71558,-9.81138 -14.4613,-18.70627 -0.3905,-4.65788 0.78999,-9.69401 3.11365,-13.28322 0.77942,-1.20392 18.66252,-19.41002 39.74024,-40.45801 l 38.32311,-38.26906 -38.78802,-38.89278 c -44.44835,-44.56838 -42.22829,-41.84421 -42.25791,-51.85355 -0.0152,-5.12655 0.16751,-6.10255 1.74282,-9.31098 2.23728,-4.55664 5.77296,-8.09231 10.3296,-10.32959 3.1541,-1.54864 4.23506,-1.75978 9.00956,-1.75978 4.84238,0 5.85881,0.2053 9.45785,1.91035 3.72297,1.76376 7.00737,4.87387 42.80071,40.52946 l 38.7683,38.61911 39.48516,-39.42677 39.48515,-39.42677 4.44459,-1.33462 c 10.78921,-3.23978 21.45248,1.22469 26.22528,10.97993 3.06168,6.25785 2.66106,14.8506 -0.97925,21.00337 -0.68657,1.16044 -18.56355,19.47509 -39.72661,40.69921 l -38.47829,38.5893 38.84762,38.84412 c 44.40322,44.39922 42.23067,41.74497 42.20529,51.56313 -0.0118,4.56407 -0.26401,5.96332 -1.58855,8.81333 -2.12673,4.57608 -5.15958,7.78019 -9.68937,10.23654 -3.58071,1.94169 -4.09464,2.04907 -9.807,2.04907 -10.45623,0 -7.44395,2.43706 -51.98949,-42.0618 l -38.72731,-38.68672 -38.73594,38.62911 c -43.63211,43.51177 -41.65833,41.86793 -50.72723,42.24788 -3.6442,0.15268 -5.68548,-0.0799 -8.02266,-0.91399 z' id='path847' /%3E%3C/svg%3E"); }
+    @media only screen and (max-width: 1279px) {
+      /* line 44, custom/02-particules/03-pages/_page-offres.scss */
+      .page-offre .candidaturesList .candidatureInfo, .page-offre .candidaturesList .alerteInfo, .page-offre .alertesList .candidatureInfo, .page-offre .alertesList .alerteInfo {
+        display: none; } }
+  /* line 59, custom/02-particules/03-pages/_page-offres.scss */
+  .page-offre .candidaturesList .candidatureDetail, .page-offre .candidaturesList .alerteDetail, .page-offre .alertesList .candidatureDetail, .page-offre .alertesList .alerteDetail {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    padding-bottom: 10px;
+    line-height: normal; }
+    @media only screen and (max-width: 1279px) {
+      /* line 59, custom/02-particules/03-pages/_page-offres.scss */
+      .page-offre .candidaturesList .candidatureDetail, .page-offre .candidaturesList .alerteDetail, .page-offre .alertesList .candidatureDetail, .page-offre .alertesList .alerteDetail {
+        margin-top: 10px; } }
+    @media only screen and (max-width: 1279px) {
+      /* line 69, custom/02-particules/03-pages/_page-offres.scss */
+      .page-offre .candidaturesList .candidatureDetail:not(:last-child), .page-offre .candidaturesList .alerteDetail:not(:last-child), .page-offre .alertesList .candidatureDetail:not(:last-child), .page-offre .alertesList .alerteDetail:not(:last-child) {
+        border-bottom: solid black 1px; } }
+    /* line 76, custom/02-particules/03-pages/_page-offres.scss */
+    .page-offre .candidaturesList .candidatureDetail .titre:before, .page-offre .candidaturesList .candidatureDetail .code:before, .page-offre .candidaturesList .candidatureDetail .date:before, .page-offre .candidaturesList .candidatureDetail .statut:before, .page-offre .candidaturesList .candidatureDetail .filtre:before, .page-offre .candidaturesList .candidatureDetail .supprimer:before, .page-offre .candidaturesList .alerteDetail .titre:before, .page-offre .candidaturesList .alerteDetail .code:before, .page-offre .candidaturesList .alerteDetail .date:before, .page-offre .candidaturesList .alerteDetail .statut:before, .page-offre .candidaturesList .alerteDetail .filtre:before, .page-offre .candidaturesList .alerteDetail .supprimer:before, .page-offre .alertesList .candidatureDetail .titre:before, .page-offre .alertesList .candidatureDetail .code:before, .page-offre .alertesList .candidatureDetail .date:before, .page-offre .alertesList .candidatureDetail .statut:before, .page-offre .alertesList .candidatureDetail .filtre:before, .page-offre .alertesList .candidatureDetail .supprimer:before, .page-offre .alertesList .alerteDetail .titre:before, .page-offre .alertesList .alerteDetail .code:before, .page-offre .alertesList .alerteDetail .date:before, .page-offre .alertesList .alerteDetail .statut:before, .page-offre .alertesList .alerteDetail .filtre:before, .page-offre .alertesList .alerteDetail .supprimer:before {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #31455d;
+      letter-spacing: 0.03em;
+      width: 40%;
+      position: absolute;
+      left: 0; }
+      @media only screen and (min-width: 1280px) {
+        /* line 76, custom/02-particules/03-pages/_page-offres.scss */
+        .page-offre .candidaturesList .candidatureDetail .titre:before, .page-offre .candidaturesList .candidatureDetail .code:before, .page-offre .candidaturesList .candidatureDetail .date:before, .page-offre .candidaturesList .candidatureDetail .statut:before, .page-offre .candidaturesList .candidatureDetail .filtre:before, .page-offre .candidaturesList .candidatureDetail .supprimer:before, .page-offre .candidaturesList .alerteDetail .titre:before, .page-offre .candidaturesList .alerteDetail .code:before, .page-offre .candidaturesList .alerteDetail .date:before, .page-offre .candidaturesList .alerteDetail .statut:before, .page-offre .candidaturesList .alerteDetail .filtre:before, .page-offre .candidaturesList .alerteDetail .supprimer:before, .page-offre .alertesList .candidatureDetail .titre:before, .page-offre .alertesList .candidatureDetail .code:before, .page-offre .alertesList .candidatureDetail .date:before, .page-offre .alertesList .candidatureDetail .statut:before, .page-offre .alertesList .candidatureDetail .filtre:before, .page-offre .alertesList .candidatureDetail .supprimer:before, .page-offre .alertesList .alerteDetail .titre:before, .page-offre .alertesList .alerteDetail .code:before, .page-offre .alertesList .alerteDetail .date:before, .page-offre .alertesList .alerteDetail .statut:before, .page-offre .alertesList .alerteDetail .filtre:before, .page-offre .alertesList .alerteDetail .supprimer:before {
+          content: none; } }
+
+/* line 95, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .candidaturesList .titre, .page-offre .candidaturesList .code, .page-offre .candidaturesList .date, .page-offre .candidaturesList .statut {
+  width: 25%; }
+  @media only screen and (max-width: 1279px) {
+    /* line 95, custom/02-particules/03-pages/_page-offres.scss */
+    .page-offre .candidaturesList .titre, .page-offre .candidaturesList .code, .page-offre .candidaturesList .date, .page-offre .candidaturesList .statut {
+      width: 100%;
+      padding-left: 45%;
+      position: relative;
+      min-height: 25px; } }
+
+@media only screen and (max-width: 767px) {
+  /* line 104, custom/02-particules/03-pages/_page-offres.scss */
+  .page-offre .candidaturesList .titre, .page-offre .candidaturesList .code {
+    min-height: 40px; } }
+
+/* line 113, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .alertesList .titre, .page-offre .alertesList .supprimer {
+  width: 20%; }
+  @media only screen and (max-width: 1279px) {
+    /* line 113, custom/02-particules/03-pages/_page-offres.scss */
+    .page-offre .alertesList .titre, .page-offre .alertesList .supprimer {
+      width: 100%;
+      padding-left: 45%;
+      position: relative;
+      min-height: 25px; } }
+  /* line 122, custom/02-particules/03-pages/_page-offres.scss */
+  .page-offre .alertesList .titre a, .page-offre .alertesList .supprimer a {
+    line-height: 30px; }
+
+/* line 127, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .alertesList .filtre {
+  width: 60%; }
+  @media only screen and (max-width: 1279px) {
+    /* line 127, custom/02-particules/03-pages/_page-offres.scss */
+    .page-offre .alertesList .filtre {
+      width: 100%;
+      padding-left: 45%;
+      position: relative;
+      min-height: 40px; } }
+
+/* line 139, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .alertesList .delete-alert:after {
+  content: '';
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z' id='path825' /%3E%3Cpath style='fill:white;' d='m 158.4228,366.81829 c -8.46662,-3.02163 -13.71558,-9.81138 -14.4613,-18.70627 -0.3905,-4.65788 0.78999,-9.69401 3.11365,-13.28322 0.77942,-1.20392 18.66252,-19.41002 39.74024,-40.45801 l 38.32311,-38.26906 -38.78802,-38.89278 c -44.44835,-44.56838 -42.22829,-41.84421 -42.25791,-51.85355 -0.0152,-5.12655 0.16751,-6.10255 1.74282,-9.31098 2.23728,-4.55664 5.77296,-8.09231 10.3296,-10.32959 3.1541,-1.54864 4.23506,-1.75978 9.00956,-1.75978 4.84238,0 5.85881,0.2053 9.45785,1.91035 3.72297,1.76376 7.00737,4.87387 42.80071,40.52946 l 38.7683,38.61911 39.48516,-39.42677 39.48515,-39.42677 4.44459,-1.33462 c 10.78921,-3.23978 21.45248,1.22469 26.22528,10.97993 3.06168,6.25785 2.66106,14.8506 -0.97925,21.00337 -0.68657,1.16044 -18.56355,19.47509 -39.72661,40.69921 l -38.47829,38.5893 38.84762,38.84412 c 44.40322,44.39922 42.23067,41.74497 42.20529,51.56313 -0.0118,4.56407 -0.26401,5.96332 -1.58855,8.81333 -2.12673,4.57608 -5.15958,7.78019 -9.68937,10.23654 -3.58071,1.94169 -4.09464,2.04907 -9.807,2.04907 -10.45623,0 -7.44395,2.43706 -51.98949,-42.0618 l -38.72731,-38.68672 -38.73594,38.62911 c -43.63211,43.51177 -41.65833,41.86793 -50.72723,42.24788 -3.6442,0.15268 -5.68548,-0.0799 -8.02266,-0.91399 z' id='path847' /%3E%3C/svg%3E");
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute; }
+
+/* line 151, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .alertesList .delete-alert:focus {
+  outline: none; }
+
+/* line 156, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .alertesList .delete-alert:hover:after, .page-offre .alertesList .delete-alert:focus:after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2346cfc0' viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z' id='path825' /%3E%3Cpath style='fill:white;' d='m 158.4228,366.81829 c -8.46662,-3.02163 -13.71558,-9.81138 -14.4613,-18.70627 -0.3905,-4.65788 0.78999,-9.69401 3.11365,-13.28322 0.77942,-1.20392 18.66252,-19.41002 39.74024,-40.45801 l 38.32311,-38.26906 -38.78802,-38.89278 c -44.44835,-44.56838 -42.22829,-41.84421 -42.25791,-51.85355 -0.0152,-5.12655 0.16751,-6.10255 1.74282,-9.31098 2.23728,-4.55664 5.77296,-8.09231 10.3296,-10.32959 3.1541,-1.54864 4.23506,-1.75978 9.00956,-1.75978 4.84238,0 5.85881,0.2053 9.45785,1.91035 3.72297,1.76376 7.00737,4.87387 42.80071,40.52946 l 38.7683,38.61911 39.48516,-39.42677 39.48515,-39.42677 4.44459,-1.33462 c 10.78921,-3.23978 21.45248,1.22469 26.22528,10.97993 3.06168,6.25785 2.66106,14.8506 -0.97925,21.00337 -0.68657,1.16044 -18.56355,19.47509 -39.72661,40.69921 l -38.47829,38.5893 38.84762,38.84412 c 44.40322,44.39922 42.23067,41.74497 42.20529,51.56313 -0.0118,4.56407 -0.26401,5.96332 -1.58855,8.81333 -2.12673,4.57608 -5.15958,7.78019 -9.68937,10.23654 -3.58071,1.94169 -4.09464,2.04907 -9.807,2.04907 -10.45623,0 -7.44395,2.43706 -51.98949,-42.0618 l -38.72731,-38.68672 -38.73594,38.62911 c -43.63211,43.51177 -41.65833,41.86793 -50.72723,42.24788 -3.6442,0.15268 -5.68548,-0.0799 -8.02266,-0.91399 z' id='path847' /%3E%3C/svg%3E"); }
 
 /* line 1, custom/02-particules/02-modules/aroundme/aroundme.scss */
 #wi-aroundme.no-widget {

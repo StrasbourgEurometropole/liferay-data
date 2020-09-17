@@ -1,7 +1,5 @@
 package eu.strasbourg.utils;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 
 public class StrasbourgPropsUtil {
@@ -328,4 +326,8 @@ public class StrasbourgPropsUtil {
 	public static String getEJobFTPUser() {return PropsUtil.get("eu.strasbourg.ejob.ftp.user");}
 
 	public static String getEJobFTPPassword() {return PropsUtil.get("eu.strasbourg.ejob.ftp.password");}
+
+	public static String getEJobIP() {return PropsUtil.get("eu.strasbourg.ejob.ip");}
+
+	public static String getURLPorteDocument() {return PropsUtil.get("eu.strasbourg.url.porte.document");}
 }

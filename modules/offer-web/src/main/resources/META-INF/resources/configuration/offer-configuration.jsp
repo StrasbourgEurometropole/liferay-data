@@ -19,7 +19,7 @@
 			value="${introduction}" />
 
 		<aui:input name="text" type="text" label="text"
-			value="${text}" />
+			value="${text}" helpMessage="Remplacer le lien du porte document par [link-porte-document]" />
 
 		<aui:input name="url" type="text" label="url-offer"
 			value="${url}" />

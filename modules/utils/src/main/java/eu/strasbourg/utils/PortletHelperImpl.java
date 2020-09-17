@@ -1,14 +1,10 @@
 package eu.strasbourg.utils;
 
-import javax.portlet.Portlet;
-import javax.portlet.PortletRequest;
-import javax.servlet.http.HttpServletRequest;
-
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import eu.strasbourg.utils.api.PortletHelperService;
 import org.osgi.service.component.annotations.Component;
 
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-
-import eu.strasbourg.utils.api.PortletHelperService;
+import javax.portlet.PortletRequest;
 
 @Component(
     immediate = true,
@@ -60,5 +56,9 @@ public class PortletHelperImpl implements PortletHelperService {
 
 	public void togglePortlet(String portletId, boolean show) {
 		PortletHelper.togglePortlet(portletId, show);
+	}
+
+	public boolean isUserAuthorizedToConsultInternOffer(String typePublication) {
+		return PortletHelper.isUserAuthorizedToConsultInternOffer(typePublication);
 	}
 }
