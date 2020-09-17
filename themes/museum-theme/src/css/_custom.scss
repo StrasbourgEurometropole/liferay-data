@@ -97,3 +97,9 @@ body.signed-in {
 .editions-carousel a[download = '']{
     display: none;
 }
+
+// affichage config du bandeau
+.header-top .portlet:hover > .portlet-topper{
+    transform: translateY(97%);
+    z-index: 21;
+}
