@@ -1,9 +1,6 @@
 package eu.strasbourg.portlet.form_send.context;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.dynamic.data.lists.model.DDLRecord;
-import com.liferay.dynamic.data.lists.model.DDLRecordSet;
-import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMContent;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
@@ -26,7 +23,11 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.portlet.form_send.configuration.FormSendConfiguration;
 import eu.strasbourg.portlet.form_send.formulaire.Champ;
@@ -46,10 +47,14 @@ import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class FormSendDisplayContext {
@@ -173,8 +178,12 @@ public class FormSendDisplayContext {
                                     break;
                                 case "date":
                                     if(Validator.isNotNull(value)) {
-                                        LocalDate date = LocalDate.parse(value);
-                                        field[2] = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                                        try {
+                                            LocalDate date = LocalDate.parse(value);
+                                            field[2] = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                                        }catch(Exception e){
+                                            field[2] = value;
+                                        }
                                     }
                                     break;
                                 default:
