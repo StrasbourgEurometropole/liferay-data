@@ -120,7 +120,7 @@ public class FormSendDisplayContext {
         return this.formulaire;
     }
 
-    // récupère tous les formulaires envoyés au formulaire choisi
+    // récupère les formulaires publiés envoyés au formulaire choisi
     public List<DDMFormInstanceRecord> getRecords() {
         if(Validator.isNull(this.records) && Validator.isNotNull(this.getFormInstance())) {
             this.records = this.formInstance.getFormInstanceRecords();
@@ -132,6 +132,14 @@ public class FormSendDisplayContext {
                     .compareTo(r1.getCreateDate()))
                     .collect(Collectors.toList());
         }
+        this.records = this.records.stream().filter(r -> {
+            try {
+                return r.getStatus() == WorkflowConstants.STATUS_APPROVED;
+            } catch (PortalException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }).collect(Collectors.toList());
 
         return this.records;
     }
