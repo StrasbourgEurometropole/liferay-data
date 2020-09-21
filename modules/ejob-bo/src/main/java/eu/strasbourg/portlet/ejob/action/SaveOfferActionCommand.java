@@ -479,12 +479,6 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                 isValid = false;
             }
 
-            // avantages
-            if (Validator.isNull(ParamUtil.getString(request, "avantagesEditor"))) {
-                SessionErrors.add(request, "avantages-error");
-                isValid = false;
-            }
-
             if(!this.typeRecrutementString.equals("Vacataire")) {
                 // filière
                 if (Validator.isNull(ParamUtil.getLong(request, "ejobFiliere"))) {

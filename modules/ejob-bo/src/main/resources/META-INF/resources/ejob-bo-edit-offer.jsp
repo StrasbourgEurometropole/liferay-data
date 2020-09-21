@@ -234,26 +234,7 @@
 
                 <%-- Champ : Avantages liés au poste --%>
                     <div id="avantages">
-                        <aui:input name="avantages" required="true" />
-                        <!-- Hack pour ajouter une validation -->
-                        <div class="has-error form-group">
-                            <aui:input type="hidden" name="avantagesValidatorInputHelper" value="placeholder">
-                                <aui:validator name="custom" errorMessage="this-field-is-required">
-                                    function (val, fieldNode, ruleValue) {
-                                        var estRenseigne = document.getElementById('_eu_strasbourg_portlet_ejob_EjobBOPortlet_avantages_fr_FR').value.length > 0;
-                                        var sel = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_ejobTypeRecrutement");
-                                        var text= sel.options[sel.selectedIndex].text;
-                                        var estVisible = text != "Stage" && text != "Apprentissage";
-                                        var validate = estRenseigne || !estVisible;
-                                        if (!validate) {
-                                            document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_avantagesEditorContainer").scrollIntoView();
-                                            event.preventDefault();
-                                        }
-                                        return validate;
-                                    }
-                                </aui:validator>
-                            </aui:input>
-                        </div>
+                        <aui:input name="avantages" />
                     </div>
 
                 <%-- Champ : Famille de métiers --%>
