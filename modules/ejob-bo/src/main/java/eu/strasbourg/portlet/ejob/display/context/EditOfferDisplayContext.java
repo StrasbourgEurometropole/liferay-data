@@ -9,11 +9,13 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.OfferLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 public class EditOfferDisplayContext {
 
@@ -52,10 +54,13 @@ public class EditOfferDisplayContext {
     public List<AssetCategory> getTypeRecrutements() {
         long groupId = themeDisplay.getLayout().getGroupId();
         List<AssetCategory> typeRecrutements = new ArrayList<>();
+        TreeMap<Integer, AssetCategory> mapRecrutements = new TreeMap<>();
         AssetVocabulary typeRecrutement_voca = AssetVocabularyAccessor.getEJobTypeRecrutement(groupId);
         for (AssetCategory typeRecrutement: typeRecrutement_voca.getCategories()) {
-            typeRecrutements.add(typeRecrutement);
+            mapRecrutements.put(Integer.parseInt(AssetVocabularyHelper.getCategoryProperty(typeRecrutement.getCategoryId(), "order")),typeRecrutement);
         }
+
+        typeRecrutements = new ArrayList<AssetCategory>(mapRecrutements.values());
 
         return typeRecrutements;
     }
