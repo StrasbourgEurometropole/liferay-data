@@ -58,6 +58,7 @@ services:
     image: phpmyadmin/phpmyadmin:5.0.2
     environment:
         - PMA_HOST=${MYSQL_ADDRESS}
+        - PMA_ABSOLUTE_URI=${PMA_URL}
     ports:
         - 8081:80
     logging:

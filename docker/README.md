@@ -143,8 +143,7 @@ Créer et remplir le fichier `./.env` à la racine du repertoire `docker` où :
  * `MYSQL_DB` est le nom de la base MySQL utilisé par Liferay
  * `MYSQL_USER` est l'utilisateur MySQL dédié à Liferay
  * `MYSQL_PASSWORD` est le mot de passe de l'utilisateur MySQL dédié à Liferay
- * `VM_MASTER_SMTP_ADDRESS` est l'adresse du serveur SMTP de la VM master (au sens Docker)
- * `VM_WORKER_SMTP_ADDRESS` est l'adresse du serveur SMTP de la VM slave (au sens Docker)
+ * `PMA_URL` URL d'accès au service PhpMyAdmin
  * `TRAIL_MAIL_ADDRESS` est l'email de copie de tous les mails provenant du serveur SMTP (**A NE PAS REMPLIR EN PRODUCTION !**)
 
 ```properties
@@ -158,8 +157,7 @@ MYSQL_ADDRESS=
 MYSQL_DB=
 MYSQL_USER=
 MYSQL_PASSWORD=
-VM_MASTER_SMTP_ADDRESS=
-VM_WORKER_SMTP_ADDRESS=
+PMA_URL=
 TRAIL_MAIL_ADDRESS=
 ```
 
