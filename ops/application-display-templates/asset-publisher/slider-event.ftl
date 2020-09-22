@@ -37,7 +37,7 @@
                             </div>
                             <div class="ops-content">
                                 <span class="ops-songs"><strong>${entry.getComposer()}</strong></span>
-                                <span class="ops-names">${entry.getDistribution(label)}</span>
+                                <span class="ops-names">${entry.getDistribution(locale)}</span>
                             </div>
                         </div>
                     </a>
