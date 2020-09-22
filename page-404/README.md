@@ -5,7 +5,7 @@
 Le fichier se place dans l'arborescence suivante :
 
 * bundles
-  * tomcat-8.0.32
+  * tomcat-XXX
     * webapps
       * ROOT
         * html
