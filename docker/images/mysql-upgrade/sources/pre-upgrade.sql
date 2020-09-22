@@ -41,9 +41,6 @@ ALTER TABLE edition_Edition CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE edition_EditionGallery CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE edition_EditionToEditionGallery CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
-ALTER TABLE ejob_Alert CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-ALTER TABLE ejob_Offer CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-
 ALTER TABLE event_Event CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE event_EventToManifestation CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE event_Manifestation CHARACTER SET utf8 COLLATE utf8_unicode_ci;
