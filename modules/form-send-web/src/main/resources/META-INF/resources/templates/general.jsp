@@ -30,12 +30,8 @@
                                             <label>${dc.getLabel(recordField[1], locale)}</label><br>
                                             <c:set var="type" value="${dc.getFieldType(recordField[1])}" />
                                             <c:choose>
-                                                <c:when test="${type.equals('paragraph')}">
-                                                    ${recordField[2]}
-                                                </c:when>
                                                 <c:when test="${type.equals('text')}">
-                                                    ${fn:toUpperCase(fn:substring(recordField[2], 0, 1))}
-                                                    ${fn:toLowerCase(fn:substring(recordField[2], 1,fn:length(recordField[2])))}
+                                                    ${fn:toUpperCase(fn:substring(recordField[2], 0, 1))}${fn:toLowerCase(fn:substring(recordField[2], 1,fn:length(recordField[2])))}
                                                 </c:when>
                                                 <c:when test="${type.equals('select')}">
                                                     <c:if test="${!dc.isMultiple(recordField[1])}">
@@ -58,28 +54,9 @@
                                                         </c:forEach>
                                                     </c:if>
                                                 </c:when>
-                                                <c:when test="${type.equals('radio')}">
-                                                    <c:forEach var="option" items="${dc.getOptions(recordField[1])}">
-                                                        <c:if test="${fn:contains(recordField[2], option.value)}">
-                                                            ${option.getLabel(locale)}
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </c:when>
-                                                <c:when test="${type.equals('date')}">
-                                                    <fmt:parseDate value="${recordField[2]}" pattern="yyyy-MM-dd" var="dateValue" type="both" />
-                                                    ${dc.getShortDate(dateValue, locale)}
-                                                </c:when>
-                                                <c:when test="${type.equals('checkbox')}">
-                                                    <c:if test="${recordField[2]}">
-                                                        Oui
-                                                    </c:if>
-                                                    <c:if test="${!recordField[2]}">
-                                                        Non
-                                                    </c:if>
-                                                </c:when>
                                                 <c:when test="${type.equals('checkbox_multiple')}">
                                                     <c:set var="status" value="0" />
-                                                    <c:forEach var="option" items="${dc.getOptions(field[1])}">
+                                                    <c:forEach var="option" items="${dc.getOptions(recordField[1])}">
                                                         <c:if test="${fn:contains(recordField[2], option.value)}">
                                                             <c:set var="status" value="${status + 1}" />
                                                             <c:if test="${status > 1}">
@@ -89,6 +66,41 @@
                                                         </c:if>
                                                     </c:forEach>
                                                 </c:when>
+                                                <c:when test="${type.equals('radio')}">
+                                                    <c:forEach var="option" items="${dc.getOptions(recordField[1])}">
+                                                        <c:if test="${fn:contains(recordField[2], option.value)}">
+                                                            ${option.getLabel(locale)}
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:when>
+                                                <c:when test="${type.equals('grid')}">
+                                                    <table>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                            <c:forEach var="column" items="${dc.getColumns(recordField[1])}">
+                                                                <td>${column.getLabel(locale)}</td>
+                                                            </c:forEach>
+                                                        </tr>
+                                                        <c:forEach var="row" items="${dc.getRows(recordField[1])}">
+                                                            <tr>
+                                                                <td>${row.getLabel(locale)}</td>
+                                                                <c:forEach var="column" items="${dc.getColumns(recordField[1])}">
+                                                                    <td>
+                                                                        <c:if test="${dc.getValueOfGridKey(recordField[2],row.value) == column.value}">
+                                                                           X
+                                                                        </c:if>
+                                                                        <c:if test="${dc.getValueOfGridKey(recordField[2],row.value) != column.value}">
+                                                                           &nbsp;
+                                                                        </c:if>
+                                                                    </td>
+                                                                </c:forEach>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </table>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${recordField[2]}
+                                                </c:otherwise>
                                             </c:choose>
                                         </div>
                                     </c:if>

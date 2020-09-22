@@ -12,6 +12,7 @@
 *portal-setup-wizard.properties
 *jdbc_ping.xml
 /images/liferay-ems/dist/*
+*/activation-key/*
 !images/mysql-upgrade/sources/pre-upgrade.sql
 !images/mysql-ems/sources/pre-request.sql
 !*mysql-connector-java*.jar
@@ -19,3 +20,4 @@
 !configs/liferay-ems-*/files/osgi/war/*
 !configs/liferay-ems-*/files/tomcat/*
 !configs/liferay-ems-*/patching/*.zip
+!.gitkeep
