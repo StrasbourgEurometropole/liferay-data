@@ -38,10 +38,10 @@
                                     <img src="${entry.getAuthorImageURL()}" width="40" height="40" alt="Image de profil">
                                 </figure>
                                 <p>Pétition publiée par :</p>
-                                <p><strong>${entry.getAuthorLabel()}</strong></p>
+                                <p><strong>${entry.getAuthorLabel()?html}</strong></p>
                             </div>
                             <div class="pro-content-petition">
-                                <a href="${homeURL}detail-petition/-/entity/id/${entry.petitionId}" title="lien de la page"><h3>${entry.title}</h3></a>
+                                <a href="${homeURL}detail-petition/-/entity/id/${entry.petitionId}" title="lien de la page"><h3>${entry.title?html}</h3></a>
                                 <p>Pétition adressée à <u>la ville de Strasbourg</u></p>
                                 <span class="pro-time">Publiée le <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time> / <span class="pro-duree">${entry.getProDureeFR()}</span></span>
                             </div>

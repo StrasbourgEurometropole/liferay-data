@@ -200,7 +200,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <time>${entry.getCreateDate()?date?string['dd/MM/yyyy']}</time>
                                 par :
                             </p>
-                            <p><strong>${entry.getAuthor()}</strong></p>
+                            <p><strong>${entry.getAuthor()?html}</strong></p>
                         </div>
                     </div>
 

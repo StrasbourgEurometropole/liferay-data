@@ -46,10 +46,10 @@
 											<img src="${entry.getAuthorImageURL()}" width="40" height="40" alt="Image de profil">
 										</figure>
                                         <p>Initiative publiée par :</p>
-                                        <p><strong>${entry.getAuthorLabel()}</strong></p>
+                                        <p><strong>${entry.getAuthorLabel()?html}</strong></p>
                                     </div>
                                     <div class="pro-content-initiative">
-                                        <a href="${homeURL}detail-initiative/-/entity/id/${entry.initiativeId}" title="lien de la page"><h3>${entry.title}</h3></a>
+                                        <a href="${homeURL}detail-initiative/-/entity/id/${entry.initiativeId}" title="lien de la page"><h3>${entry.title?html}</h3></a>
                                         <span class="pro-time">Publiée le <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time></span>
                                     </div>
                                 </div>

@@ -76,7 +76,7 @@
                                     </figure>
                                 </#if>
                                 <p>Projet déposé par :</p>
-                                <p><strong>${entry.getAuthor()}</strong></p>
+                                <p><strong>${entry.getAuthor()?html}</strong></p>
                                 <div class="pro-info-top-right">
                                     <span class="pro-encart-theme" style="background : #${statusColor}">
                                         ${entry.getBudgetParticipatifStatusTitle(locale)}
@@ -85,7 +85,7 @@
                             </div>
                             <div class="pro-content-budget">
                                 <a href="${homeURL}detail-budget-participatif/-/entity/id/${entry.budgetParticipatifId}" title="lien de la page de détail">
-                                    <h3>${entry.title}</h3>
+                                    <h3>${entry.title?html}</h3>
                                 </a>
                                 <p>Projet adressée à <u>la ville de Strasbourg</u></p>
                                 <span class="pro-time">
