@@ -120,7 +120,9 @@
 							<portlet:param name="tab" value="offers" />
                             <portlet:param name="offerId" value="${offer.offerId}" />
                         </liferay-portlet:actionURL>
-                        <liferay-ui:icon message="duplicate" url="${copyOfferURL}" />
+						<c:if test="${dc.hasPermission('EDIT_OFFER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<liferay-ui:icon message="duplicate" url="${copyOfferURL}" />
+						</c:if>
 
                         <!-- ACTION : Supprimer -->
 						<liferay-portlet:actionURL name="deleteOffer" var="deleteOfferURL">
