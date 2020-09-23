@@ -40,9 +40,8 @@ import eu.strasbourg.service.ejob.model.Offer;
 
 import java.io.Serializable;
 
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Provides the local service interface for Offer. Methods of this
@@ -76,6 +75,12 @@ public interface OfferLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Offer addOffer(Offer offer);
+
+	/**
+	 * Duplique une offre et la retourne
+	 */
+	public Offer copyOffer(ServiceContext sc, long offerId)
+		throws PortalException;
 
 	/**
 	 * Creates a new offer with the primary key. Does not add the offer to the database.
@@ -209,7 +214,7 @@ public interface OfferLocalService
 	/**
 	 * Retourne les offres via sa date de début de publication
 	 */
-	public List<Offer> findByPublicationStartDate(Date date);
+	public List<Offer> findByPublicationStartDate(java.util.Date date);
 
 	/**
 	 * Retourne les offres qui n'ont pas été exportées
@@ -318,6 +323,9 @@ public interface OfferLocalService
 	 */
 	public Offer removeOffer(long offerId) throws PortalException;
 
+	public void setCategoriesForCopy(
+		Offer offerToCopy, Offer offer, ServiceContext sc);
+
 	/**
 	 * Updates the offer in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -338,7 +346,7 @@ public interface OfferLocalService
 	 */
 	public Offer updateStatus(
 			long userId, long entryId, int status, ServiceContext sc,
-			Map<String, Serializable> workflowContext)
+			java.util.Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 	/**

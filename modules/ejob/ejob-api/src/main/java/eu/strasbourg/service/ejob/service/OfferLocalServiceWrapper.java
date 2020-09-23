@@ -47,6 +47,17 @@ public class OfferLocalServiceWrapper
 	}
 
 	/**
+	 * Duplique une offre et la retourne
+	 */
+	@Override
+	public eu.strasbourg.service.ejob.model.Offer copyOffer(
+			com.liferay.portal.kernel.service.ServiceContext sc, long offerId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _offerLocalService.copyOffer(sc, offerId);
+	}
+
+	/**
 	 * Creates a new offer with the primary key. Does not add the offer to the database.
 	 *
 	 * @param offerId the primary key for the new offer
@@ -409,6 +420,15 @@ public class OfferLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _offerLocalService.removeOffer(offerId);
+	}
+
+	@Override
+	public void setCategoriesForCopy(
+		eu.strasbourg.service.ejob.model.Offer offerToCopy,
+		eu.strasbourg.service.ejob.model.Offer offer,
+		com.liferay.portal.kernel.service.ServiceContext sc) {
+
+		_offerLocalService.setCategoriesForCopy(offerToCopy, offer, sc);
 	}
 
 	/**
