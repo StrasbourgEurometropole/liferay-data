@@ -1,22 +1,20 @@
 package eu.strasbourg.portlet.ejob;
 
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import eu.strasbourg.portlet.ejob.display.context.EditOfferDisplayContext;
+import eu.strasbourg.portlet.ejob.display.context.ViewOfferDisplayContext;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import eu.strasbourg.portlet.ejob.display.context.EditOfferDisplayContext;
-import eu.strasbourg.portlet.ejob.display.context.ViewOfferDisplayContext;
-import org.osgi.service.component.annotations.Component;
-
 import java.io.IOException;
 
 /**
@@ -50,6 +48,10 @@ public class EjobBOPortlet extends MVCPortlet {
 		String tab = ParamUtil.getString(renderRequest, "tab");
 		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 
+		// Verification des requetes issues d'un champ repetable
+		Boolean fromAjaxEmail = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxEmail"));
+		Boolean fromAjaxGradeRange = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxGradeRange"));
+
 		renderResponse.setTitle("EJob");
 
 		// If we are on an "add" page, we set a return URL and show the "back"
@@ -62,7 +64,7 @@ public class EjobBOPortlet extends MVCPortlet {
 		}
 		// If we are on the Session, we add the corresponding
 		// display context
-		if (cmd.equals("editOffer") || mvcPath.equals("/ejob-bo-edit-offer.jsp")) {
+		if (cmd.equals("editOffer") || mvcPath.equals("/ejob-bo-edit-offer.jsp") || fromAjaxEmail || fromAjaxGradeRange) {
 			EditOfferDisplayContext dc = new EditOfferDisplayContext(renderRequest);
 			renderRequest.setAttribute("dc", dc);
 		} else{

@@ -604,6 +604,14 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
+	 * Renvoie le contact RE
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getContactRE() {
+		return _offer.getContactRE();
+	}
+
+	/**
 	 * Returns the create date of this offer.
 	 *
 	 * @return the create date of this offer
@@ -616,6 +624,14 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	@Override
 	public String getDefaultLanguageId() {
 		return _offer.getDefaultLanguageId();
+	}
+
+	/**
+	 * Retourne la direction
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getDirection() {
+		return _offer.getDirection();
 	}
 
 	/**
@@ -730,6 +746,14 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
+	 * Renvoie la Famille de métiers
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getFamille() {
+		return _offer.getFamille();
+	}
+
+	/**
 	 * Returns the full time description of this offer.
 	 *
 	 * @return the full time description of this offer
@@ -807,6 +831,24 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	@Override
 	public Map<java.util.Locale, String> getFullTimeDescriptionMap() {
 		return _offer.getFullTimeDescriptionMap();
+	}
+
+	/**
+	 * Récupère les catégories, filières et grades
+	 */
+	@Override
+	public java.util.List<java.util.List> getGradeRanges() {
+		return _offer.getGradeRanges();
+	}
+
+	/**
+	 * Renvoie les grades
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getGrades() {
+
+		return _offer.getGrades();
 	}
 
 	/**
@@ -1092,61 +1134,11 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
-	 * Renvoie la categorie A, B ou C
+	 * Renvoie le Niveau d'étude
 	 */
 	@Override
-	public String getOfferCategorie() {
-		return _offer.getOfferCategorie();
-	}
-
-	/**
-	 * Renvoie le contact RE
-	 */
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getOfferContact() {
-		return _offer.getOfferContact();
-	}
-
-	/**
-	 * Retourne la direction
-	 */
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getOfferDirection() {
-		return _offer.getOfferDirection();
-	}
-
-	/**
-	 * Renvoie la Famille de métiers
-	 */
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getOfferFamille() {
-		return _offer.getOfferFamille();
-	}
-
-	/**
-	 * Retourne la filière
-	 */
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getOfferFiliere() {
-		return _offer.getOfferFiliere();
-	}
-
-	/**
-	 * Renvoie la categorie des filières
-	 */
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory
-		getOfferFiliereCategorie() {
-
-		return _offer.getOfferFiliereCategorie();
-	}
-
-	/**
-	 * Renvoie le grade
-	 */
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getOfferGrade() {
-		return _offer.getOfferGrade();
+	public com.liferay.asset.kernel.model.AssetCategory getNiveauEtude() {
+		return _offer.getNiveauEtude();
 	}
 
 	/**
@@ -1157,32 +1149,6 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	@Override
 	public long getOfferId() {
 		return _offer.getOfferId();
-	}
-
-	/**
-	 * Renvoie le Niveau d'étude
-	 */
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getOfferNiveauEtude() {
-		return _offer.getOfferNiveauEtude();
-	}
-
-	/**
-	 * Retourne le service
-	 */
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getOfferService() {
-		return _offer.getOfferService();
-	}
-
-	/**
-	 * Renvoie le type de recrutement
-	 */
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory
-		getOfferTypeRecrutement() {
-
-		return _offer.getOfferTypeRecrutement();
 	}
 
 	/**
@@ -1473,6 +1439,14 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
+	 * Retourne le service
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getService() {
+		return _offer.getService();
+	}
+
+	/**
 	 * Returns the share linkedin of this offer.
 	 *
 	 * @return the share linkedin of this offer
@@ -1545,6 +1519,14 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getTypePublication() {
 		return _offer.getTypePublication();
+	}
+
+	/**
+	 * Renvoie le type de recrutement
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getTypeRecrutement() {
+		return _offer.getTypeRecrutement();
 	}
 
 	/**

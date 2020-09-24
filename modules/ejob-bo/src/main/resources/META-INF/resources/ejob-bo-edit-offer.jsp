@@ -29,9 +29,7 @@
 	<liferay-ui:error key="post-error" message="post-error" />
 	<liferay-ui:error key="direction-error" message="direction-error" />
 	<liferay-ui:error key="full-time-error" message="full-time-error" />
-	<liferay-ui:error key="filiere-error" message="filiere-error" />
-	<liferay-ui:error key="categorie-error" message="categorie-error" />
-    <liferay-ui:error key="grade-error" message="grade-error" />
+    <liferay-ui:error key="grade-range-error" message="grade-range-error" />
     <liferay-ui:error key="etude-error" message="etude-error" />
     <liferay-ui:error key="introduction-error" message="introduction-error" />
     <liferay-ui:error key="activities-error" message="activities-error" />
@@ -43,6 +41,7 @@
     <liferay-ui:error key="publication-dates-error" message="publication-dates-error" />
     <liferay-ui:error key="publication-start-date-error" message="publication-start-date-error" />
     <liferay-ui:error key="publication-end-date-error" message="publication-end-date-error" />
+    <liferay-ui:error key="grades-error" message="grades-should-have-same-filiere-category" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveOfferURL}" method="post" name="fm" onSubmit="submitForm(event);">
@@ -64,7 +63,7 @@
                     <aui:select cssClass="toCustomSelect" id="ejobTypeRecrutement" name="ejobTypeRecrutement" label="ejobTypeRecrutement" required="true">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-typeRecrutement" /></aui:option>
                         <c:forEach items="${dc.typeRecrutements}" var="typeRecrutement">
-                            <aui:option value="${typeRecrutement.categoryId}" selected="${dc.offer.offerTypeRecrutement.categoryId == typeRecrutement.categoryId}" >${typeRecrutement.name}</aui:option>
+                            <aui:option value="${typeRecrutement.categoryId}" selected="${dc.offer.typeRecrutement.categoryId == typeRecrutement.categoryId}" >${typeRecrutement.name}</aui:option>
                         </c:forEach>
                     </aui:select>
                     <div id="type-recrutement-error" style="display: none">
@@ -119,7 +118,7 @@
                     <aui:select cssClass="toCustomSelect" id="ejobDirection" name="ejobDirection" label="ejobDirection" required="true">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-direction" /></aui:option>
                         <c:forEach items="${dc.directions}" var="direction">
-                            <aui:option value="${direction.categoryId}" selected="${dc.offer.offerDirection.categoryId == direction.categoryId}">${direction.name}</aui:option>
+                            <aui:option value="${direction.categoryId}" selected="${dc.offer.direction.categoryId == direction.categoryId}">${direction.name}</aui:option>
                         </c:forEach>
                     </aui:select>
 
@@ -127,7 +126,7 @@
                     <aui:select cssClass="toCustomSelect" id="ejobService" name="ejobService" label="ejobService">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-service" /></aui:option>
                         <c:forEach items="${dc.services}" var="service">
-                            <aui:option data-direction-id="${service.parentCategoryId}" value="${service.categoryId}" selected="${dc.offer.offerService.categoryId == service.categoryId}">${service.name}</aui:option>
+                            <aui:option data-direction-id="${service.parentCategoryId}" value="${service.categoryId}" selected="${dc.offer.service.categoryId == service.categoryId}">${service.name}</aui:option>
                         </c:forEach>
                     </aui:select>
 
@@ -137,41 +136,43 @@
                         <aui:input type="radio" value="1" name="isFullTime" label="ejob-full-time"
                             checked="${empty dc.offer or dc.offer.isFullTime}" />
                         <aui:input type="radio" value="0" name="isFullTime" class="no-full-time" label="ejob-partial-time"
-                            checked="${not empty dc.offer and !dc.offer.isFullTime}" /><br>
+                            checked="${not empty dc.offer and !dc.offer.isFullTime}" />
 
                         <%-- Champ : Si temps complet   --%>
                              <aui:input name="fullTimeDescription" id="fullTimeDescription" required="false" />
                     </div>
 
-                <%-- Champ : Filières   --%>
-                    <aui:select cssClass="toCustomSelect" id="ejobFiliere" name="ejobFiliere" label="ejobFiliere" required="true">
-                        <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-filiere" /></aui:option>
-                        <c:forEach items="${dc.filieres}" var="filiere">
-                            <aui:option value="${filiere.categoryId}" selected="${dc.offer.offerFiliere.categoryId == filiere.categoryId}">${filiere.name}</aui:option>
-                        </c:forEach>
-                    </aui:select>
+                    <div id="grade-range-fields">
+                        <c:if test="${empty dc.offer.gradeRanges}">
+                            <div class="lfr-form-row" id="gradeRange0">
+                                <div class="row-fields">
+                                    <liferay-util:include page="/includes/grade-range-row.jsp" servletContext="<%=application %>">
+                                        <liferay-util:param name="index" value="0" />
+                                    </liferay-util:include>
+                                </div>
+                            </div>
+                        </c:if>
 
-                <%-- Champ : Catégories   --%>
-                    <aui:select cssClass="toCustomSelect" id="ejobCategorie" name="ejobCategorie" label="ejobCategorie" required="true">
-                        <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-categorie" /></aui:option>
-                        <c:forEach items="${dc.filieresCategories}" var="categorie">
-                            <aui:option data-filiere-id="${categorie.parentCategoryId}" value="${categorie.categoryId}" selected="${dc.offer.offerFiliereCategorie.categoryId == categorie.categoryId}">${categorie.name}</aui:option>
-                        </c:forEach>
-                    </aui:select>
-
-                <%-- Champ : Choix du grade   --%>
-                    <aui:select cssClass="toCustomSelect" id="ejobGrade" name="ejobGrade" label="ejobGrade" required="true">
-                        <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-grade" /></aui:option>
-                        <c:forEach items="${dc.grades}" var="grade">
-                            <aui:option data-filiere-id="${grade.parentCategory.parentCategoryId}" data-categorie-id ="${grade.parentCategoryId}" value="${grade.categoryId}" selected="${dc.offer.offerGrade.categoryId == grade.categoryId}">${grade.name}</aui:option>
-                        </c:forEach>
-                    </aui:select>
+                        <c:if test="${not empty dc.offer.gradeRanges}">
+                            <c:forEach items="${dc.offer.gradeRanges}" var="gradeRange" varStatus="status">
+    		                    <c:set var="gradeRange" value="${gradeRange}" scope="request"/>
+                                <div class="lfr-form-row" id="gradeRange${status.index}">
+                                    <div class="row-fields">
+                                        <liferay-util:include page="/includes/grade-range-row.jsp" servletContext="<%=application %>">
+                                            <liferay-util:param name="index" value="${status.index}" />
+                                        </liferay-util:include>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </c:if>
+                        <aui:input type="hidden" name="offerGradeRangeIndexes" value="${dc.getDefaultGradeRangeIndexes()}" />
+                     </div>
 
                 <%-- Champ : Niveau d'étude   --%>
                     <aui:select cssClass="toCustomSelect" id="ejobNiveauEtude" name="ejobNiveauEtude" label="ejobNiveauEtude" required="true">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-niveau-etude" /></aui:option>
                         <c:forEach items="${dc.niveauEtudes}" var="niveauEtudes">
-                            <aui:option value="${niveauEtudes.categoryId}" selected="${dc.offer.offerNiveauEtude.categoryId == niveauEtudes.categoryId}">${niveauEtudes.name}</aui:option>
+                            <aui:option value="${niveauEtudes.categoryId}" selected="${dc.offer.niveauEtude.categoryId == niveauEtudes.categoryId}">${niveauEtudes.name}</aui:option>
                         </c:forEach>
                     </aui:select>
 
@@ -241,7 +242,7 @@
                     <aui:select cssClass="toCustomSelect" id="ejobFamille" name="ejobFamille" label="ejobFamille" required="true">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-famille" /></aui:option>
                         <c:forEach items="${dc.familles}" var="famille">
-                            <aui:option value="${famille.categoryId}" selected="${dc.offer.offerFamille.categoryId == famille.categoryId}">${famille.name}</aui:option>
+                            <aui:option value="${famille.categoryId}" selected="${dc.offer.famille.categoryId == famille.categoryId}">${famille.name}</aui:option>
                         </c:forEach>
                     </aui:select>
 
@@ -267,7 +268,7 @@
                     <aui:select cssClass="toCustomSelect" id="ejobContact" name="ejobContact" label="ejobContact">
                         <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-contact" /></aui:option>
                         <c:forEach items="${dc.contacts}" var="contact">
-                            <aui:option value="${contact.categoryId}" selected="${dc.offer.offerContact.categoryId == contact.categoryId}">${contact.name}</aui:option>
+                            <aui:option value="${contact.categoryId}" selected="${dc.offer.contactRE.categoryId == contact.categoryId}">${contact.name}</aui:option>
                         </c:forEach>
                     </aui:select>
 
@@ -300,7 +301,7 @@
                                 </div>
                             </c:forEach>
                         </c:if>
-                        <aui:input type="hidden" name="offerEmailsIndexes" value="${dc.getDefaultIndexes()}" />
+                        <aui:input type="hidden" name="offerEmailsIndexes" value="${dc.getDefaultEmailIndexes()}" />
                      </div>
 
                 <%-- Champ : Champ partage Linkedin  --%>
@@ -379,9 +380,14 @@
 	<liferay-portlet:param name="mvcPath" value="/includes/email-row.jsp" />
 </liferay-portlet:actionURL>
 
+<liferay-portlet:actionURL name="getOfferGradeRangeRow" varImpl="offerGradeRangeRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+	<liferay-portlet:param name="mvcPath" value="/includes/grade-range-row.jsp" />
+</liferay-portlet:actionURL>
+
 <liferay-util:html-top>
 	<script>
 	    var getOfferEmailRowJSPURL = '${offerEmailRowURL}';
+	    var getOfferGradeRangeRowJSPURL = '${offerGradeRangeRowURL}';
 	</script>
 </liferay-util:html-top>
 

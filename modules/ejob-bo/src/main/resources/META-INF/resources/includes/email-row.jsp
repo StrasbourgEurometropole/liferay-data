@@ -5,7 +5,7 @@
   <aui:validator name="email"/>
 </aui:input>
 
-<c:if test="${not empty fromAjax}">
+<c:if test="${not empty fromAjaxEmail}">
 	<aui:script>
 		$('#email-fields').trigger('emailCreated', ${param.index});
 	</aui:script>

@@ -25,13 +25,13 @@ import javax.portlet.PortletException;
 
 @Component(immediate = true, property = {
 		"javax.portlet.name=" + StrasbourgPortletKeys.EJOB_BO,
-		"mvc.command.name=getOfferEmailRow" }, service = MVCActionCommand.class)
-public class GetOfferEmailRowActionCommand implements MVCActionCommand {
+		"mvc.command.name=getOfferGradeRangeRow" }, service = MVCActionCommand.class)
+public class GetOfferGradeRangeRowActionCommand implements MVCActionCommand {
 
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response)
 		throws PortletException {
-		request.setAttribute("fromAjaxEmail", true);
+		request.setAttribute("fromAjaxGradeRange", true);
 		return true;
 	}
 }

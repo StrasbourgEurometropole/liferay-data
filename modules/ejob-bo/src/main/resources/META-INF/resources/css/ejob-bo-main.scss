@@ -7,7 +7,34 @@
     padding-top: 1.21875rem;
 }
 
-.lfr-form-row{
+#grade-range-fields {
+
+    .undomanager{
+        display: none;
+    }
+
+    .unvisible{
+        display: none;
+    }
+
+    .lfr-form-row{
+        border: solid #ccc 1px;
+        padding: 20px;
+
+        .lfr-autorow-controls{
+            position: static;
+            float: right;
+        }
+
+        .offerCategoryError, .offerFiliereError, .offerGradeMinMaxError, .offerGradeMinError, .offerGradeMaxError {
+            margin-top: -10px;
+            margin-bottom: 10px;
+            color: #CC6677;
+        }
+    }
+}
+
+#email-fields .lfr-form-row{
     display: flex;
     padding: 0;
     margin: 0;

@@ -81,7 +81,7 @@ public class OfferMessageListener
 		// on ne prend pas les stages ni les apprentissages
 		// on ne prend que les offres dont la date du jour est comprise  entre le début et la fin de la date de publication
 		offersNotExported = offersNotExported.stream()
-				.filter(o -> !o.getOfferTypeRecrutement().getName().equals("Stage") && !o.getOfferTypeRecrutement().getName().equals("Apprentissage"))
+				.filter(o -> !o.getTypeRecrutement().getName().equals("Stage") && !o.getTypeRecrutement().getName().equals("Apprentissage"))
 				.filter(o -> o.getPublicationStartDate().compareTo(now) <= 0 && o.getPublicationEndDate().after(now))
 				.collect(Collectors.toList());
 

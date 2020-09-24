@@ -1,7 +1,6 @@
 package eu.strasbourg.portlet.ejob.action;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
@@ -21,7 +20,6 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.OfferLocalService;
-import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -265,37 +263,44 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                 }
 
                 if(!this.typeRecrutementString.equals("Vacataire")) {
-                    // Champ : ejobFiliere
-                    long ejobFiliere = ParamUtil.getLong(request, "ejobFiliere");
-                    if (Validator.isNotNull(AssetCategoryLocalServiceUtil
-                            .fetchAssetCategory(ejobFiliere))) {
-                        categories.add("" + ejobFiliere);
-                    }
+                    // Champs : ejobCategorie, ejobFiliere, ejobCategorie label, ejobGrade minimun et ejobGrade maximum
+                    String gradeRangeIndexes = ParamUtil.getString(request, "offerGradeRangeIndexes");
+                    for (String gradeRangeIndex : gradeRangeIndexes.split(",")) {
+                        if (Validator.isNotNull(gradeRangeIndex)){
+                            // Champ : ejobCategorie A/B/C
+                            long ejobCategory = ParamUtil.getLong(request, "ejobCategory" + gradeRangeIndex);
+                            if (Validator.isNotNull(AssetCategoryLocalServiceUtil
+                                    .fetchAssetCategory(ejobCategory))) {
+                                categories.add("" + ejobCategory);
+                            }
 
-                    // Champ : ejobCategorie label
-                    long ejobCategorie = ParamUtil.getLong(request, "ejobCategorie");
-                    if (Validator.isNotNull(AssetCategoryLocalServiceUtil
-                            .fetchAssetCategory(ejobCategorie))) {
-                        categories.add("" + ejobCategorie);
-                    }
+                            // Champ : ejobFiliere
+                            long ejobFiliere = ParamUtil.getLong(request, "ejobFiliere" + gradeRangeIndex);
+                            if (Validator.isNotNull(AssetCategoryLocalServiceUtil
+                                    .fetchAssetCategory(ejobFiliere))) {
+                                categories.add("" + ejobFiliere);
+                            }
 
-                    // Champ : ejobCategorie A/B/C
-                    String linkedCategory = AssetVocabularyHelper.getCategoryProperty(ejobCategorie, "linked-category");
-                    long groupId = themeDisplay.getLayout().getGroupId();
-                    AssetVocabulary listCategory = AssetVocabularyAccessor.getEJobCategories(groupId);
-                    for (AssetCategory category : listCategory.getCategories()) {
-                        if (category.getTitle(Locale.FRANCE).equals(linkedCategory)) {
-                            categories.add("" + category.getCategoryId());
-                            break;
+                            // Champ : ejobGradeMin
+                            long ejobGradeMin = ParamUtil.getLong(request, "ejobGradeMin" + gradeRangeIndex);
+                            if (Validator.isNotNull(AssetCategoryLocalServiceUtil
+                                    .fetchAssetCategory(ejobGradeMin))) {
+                                categories.add("" + ejobGradeMin);
+
+                                // Champ : ejobCategorie label
+                                AssetCategory categoryFiliere = AssetCategoryLocalServiceUtil.fetchAssetCategory(ejobGradeMin).getParentCategory();
+                                categories.add("" + categoryFiliere.getCategoryId());
+                            }
+                            // Champ : ejobGradeMax
+                            long ejobGradeMax = ParamUtil.getLong(request, "ejobGradeMax" + gradeRangeIndex);
+                            if (Validator.isNotNull(AssetCategoryLocalServiceUtil
+                                    .fetchAssetCategory(ejobGradeMax))) {
+                                categories.add("" + ejobGradeMax);
+                            }
                         }
                     }
+                    offer.setEmails(emails);
 
-                    // Champ : ejobGrade
-                    long ejobGrade = ParamUtil.getLong(request, "ejobGrade");
-                    if (Validator.isNotNull(AssetCategoryLocalServiceUtil
-                            .fetchAssetCategory(ejobGrade))) {
-                        categories.add("" + ejobGrade);
-                    }
                 }
 
                 // Champ : avantages
@@ -480,22 +485,26 @@ public class SaveOfferActionCommand implements MVCActionCommand {
             }
 
             if(!this.typeRecrutementString.equals("Vacataire")) {
-                // filière
-                if (Validator.isNull(ParamUtil.getLong(request, "ejobFiliere"))) {
-                    SessionErrors.add(request, "filiere-error");
-                    isValid = false;
-                }
-
-                // catégorie
-                if (Validator.isNull(ParamUtil.getLong(request, "ejobCategorie"))) {
-                    SessionErrors.add(request, "categorie-error");
-                    isValid = false;
-                }
-
-                // grade
-                if (Validator.isNull(ParamUtil.getLong(request, "ejobGrade"))) {
-                    SessionErrors.add(request, "grade-error");
-                    isValid = false;
+                String indexes = ParamUtil.getString(request, "offerGradeRangeIndexes");
+                for (String index: indexes.split(",")) {
+                    if (Validator.isNotNull(index)){
+                        // catégorie, filière, grades
+                        if (Validator.isNull(ParamUtil.getLong(request, "ejobCategory" + index)) || Validator.isNull(ParamUtil.getLong(request, "ejobFiliere" + index))
+                                ||Validator.isNull(ParamUtil.getLong(request, "ejobGradeMin" + index)) || Validator.isNull(ParamUtil.getLong(request, "ejobGradeMax" + index))) {
+                            SessionErrors.add(request, "grade-range-error");
+                            isValid = false;
+                            break;
+                        }
+                        // grade min et max dans la même catégorie de filière
+                        AssetCategory gradeMin = AssetCategoryLocalServiceUtil.fetchAssetCategory(ParamUtil.getLong(request, "ejobGradeMin" + index));
+                        AssetCategory gradeMax = AssetCategoryLocalServiceUtil.fetchAssetCategory(ParamUtil.getLong(request, "ejobGradeMax" + index));
+                        if (Validator.isNotNull(gradeMin) && Validator.isNotNull(gradeMax)
+                            && gradeMin.getParentCategoryId() != gradeMax.getParentCategoryId()) {
+                            SessionErrors.add(request, "grades-error");
+                            isValid = false;
+                            break;
+                        }
+                    }
                 }
             }
         }

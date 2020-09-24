@@ -113,33 +113,39 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 
 				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-direction") + " : ").setFont(fontBold).setFontSize(12f));
 				paragraph.add("\n");
-				paragraph.add(offer.getOfferDirection().getTitle(locale));
+				paragraph.add(offer.getDirection().getTitle(locale));
 				paragraph.add("\n\n");
 
-				if (Validator.isNotNull(offer.getOfferService())) {
+				if (Validator.isNotNull(offer.getService())) {
 					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-service") + " : ").setFont(fontBold).setFontSize(12f));
 					paragraph.add("\n");
-					paragraph.add(offer.getOfferService().getTitle(locale));
+					paragraph.add(offer.getService().getTitle(locale));
 					paragraph.add("\n\n");
 				}
 
-				if (Validator.isNotNull(offer.getOfferFiliereCategorie()) && !offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
+				/*if (!offer.getCategories().isEmpty() && !offer.getTypeRecrutement().getTitle(locale).equals("Stage")) {
 					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-filiere-categorie") + " : ").setFont(fontBold).setFontSize(12f));
 					paragraph.add("\n");
-					paragraph.add(offer.getOfferCategorie());
+					String categories = "";
+					for (AssetCategory category : offer.getCategories()) {
+						if(Validator.isNotNull(categories))
+							categories += ", ";
+						categories += category.getName();
+					}
+					paragraph.add(categories);
 					paragraph.add("\n\n");
-				}
+				}*/
 
 				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-type-recrutement") + " : ").setFont(fontBold).setFontSize(12f));
 				paragraph.add("\n");
-				paragraph.add(offer.getOfferTypeRecrutement().getTitle(locale));
-				if (Validator.isNotNull(offer.getPermanentDescription(locale)) && offer.getOfferTypeRecrutement().getTitle(locale) != "Stage") {
+				paragraph.add(offer.getTypeRecrutement().getTitle(locale));
+				if (Validator.isNotNull(offer.getPermanentDescription(locale)) && offer.getTypeRecrutement().getTitle(locale) != "Stage") {
 					paragraph.add("\n");
 					paragraph.add(offer.getPermanentDescription(locale));
 				}
 				paragraph.add("\n\n");
 
-				if (!offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
+				if (!offer.getTypeRecrutement().getTitle(locale).equals("Stage")) {
 					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-is-full-time") + " : ").setFont(fontBold).setFontSize(12f));
 					paragraph.add("\n");
 					if (offer.getIsFullTime())
@@ -149,12 +155,12 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 					paragraph.add("\n\n");
 				}
 
-				if (Validator.isNotNull(offer.getOfferGrade()) && !offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
-					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-grade") + " : ").setFont(fontBold).setFontSize(12f));
-					paragraph.add("\n");
-					paragraph.add(offer.getOfferGrade().getTitle(locale));
-					paragraph.add("\n\n");
-				}
+//				if (Validator.isNotNull(offer.getGrades()) && !offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
+//					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-grade") + " : ").setFont(fontBold).setFontSize(12f));
+//					paragraph.add("\n");
+//					paragraph.add(offer.getGrades().getTitle(locale));
+//					paragraph.add("\n\n");
+//				}
 
 				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-limit-date") + " : ").setFont(fontBold).setFontSize(12f));
 				paragraph.add("\n");
@@ -168,11 +174,11 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 					paragraph.add(offer.getDuration(locale));
 				}
 
-				if (Validator.isNotNull(offer.getOfferNiveauEtude()) && offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
+				if (Validator.isNotNull(offer.getNiveauEtude()) && offer.getTypeRecrutement().getTitle(locale).equals("Stage")) {
 					paragraph.add("\n\n");
 					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-niveau-etude") + " : ").setFont(fontBold).setFontSize(12f));
 					paragraph.add("\n");
-					paragraph.add(offer.getOfferNiveauEtude().getTitle(locale));
+					paragraph.add(offer.getNiveauEtude().getTitle(locale));
 				}
 				document.add(paragraph);
 
@@ -198,7 +204,7 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 					document.add((IBlockElement) element);
 				}
 
-				if (Validator.isNotNull(offer.getAvantages(locale)) && !offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
+				if (Validator.isNotNull(offer.getAvantages(locale)) && !offer.getTypeRecrutement().getTitle(locale).equals("Stage")) {
 					paragraph = new Paragraph().setMarginBottom(-10f);
 					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-avantages") + " : ").setFont(fontBold).setFontSize(12f));
 					document.add(paragraph);

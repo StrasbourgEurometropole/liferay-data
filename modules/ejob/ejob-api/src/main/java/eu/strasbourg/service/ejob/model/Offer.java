@@ -62,6 +62,23 @@ public interface Offer extends OfferModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
+	 * Renvoie le type de recrutement
+	 */
+	public com.liferay.asset.kernel.model.AssetCategory getTypeRecrutement();
+
+	public com.liferay.asset.kernel.model.AssetCategory getTypePublication();
+
+	/**
+	 * Retourne la direction
+	 */
+	public com.liferay.asset.kernel.model.AssetCategory getDirection();
+
+	/**
+	 * Retourne le service
+	 */
+	public com.liferay.asset.kernel.model.AssetCategory getService();
+
+	/**
 	 * Renvoie la liste des AssetCategory rattachées à cet item (via
 	 * l'assetEntry)
 	 */
@@ -69,58 +86,31 @@ public interface Offer extends OfferModel, PersistedModel {
 		getCategories();
 
 	/**
-	 * Retourne la direction
+	 * Renvoie les grades
 	 */
-	public com.liferay.asset.kernel.model.AssetCategory getOfferDirection();
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getGrades();
 
 	/**
-	 * Retourne le service
+	 * Récupère les catégories, filières et grades
 	 */
-	public com.liferay.asset.kernel.model.AssetCategory getOfferService();
-
-	/**
-	 * Retourne la filière
-	 */
-	public com.liferay.asset.kernel.model.AssetCategory getOfferFiliere();
-
-	/**
-	 * Renvoie la categorie des filières
-	 */
-	public com.liferay.asset.kernel.model.AssetCategory
-		getOfferFiliereCategorie();
-
-	/**
-	 * Renvoie la categorie A, B ou C
-	 */
-	public String getOfferCategorie();
-
-	/**
-	 * Renvoie le grade
-	 */
-	public com.liferay.asset.kernel.model.AssetCategory getOfferGrade();
-
-	/**
-	 * Renvoie la Famille de métiers
-	 */
-	public com.liferay.asset.kernel.model.AssetCategory getOfferFamille();
+	@SuppressWarnings(value = "unused")
+	public java.util.List<java.util.List> getGradeRanges();
 
 	/**
 	 * Renvoie le Niveau d'étude
 	 */
-	public com.liferay.asset.kernel.model.AssetCategory getOfferNiveauEtude();
+	public com.liferay.asset.kernel.model.AssetCategory getNiveauEtude();
 
 	/**
-	 * Renvoie le type de recrutement
+	 * Renvoie la Famille de métiers
 	 */
-	public com.liferay.asset.kernel.model.AssetCategory
-		getOfferTypeRecrutement();
+	public com.liferay.asset.kernel.model.AssetCategory getFamille();
 
 	/**
 	 * Renvoie le contact RE
 	 */
-	public com.liferay.asset.kernel.model.AssetCategory getOfferContact();
-
-	public com.liferay.asset.kernel.model.AssetCategory getTypePublication();
+	public com.liferay.asset.kernel.model.AssetCategory getContactRE();
 
 	public boolean sendMail();
 
