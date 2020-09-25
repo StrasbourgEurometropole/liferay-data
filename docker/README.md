@@ -198,7 +198,7 @@ $ docker service logs SERVICE_ID -f
 4. Effectuer un dump de la base
 
     ```shell
-    $ sudo mysqldump --opt -p liferay_ems_new > dump_29072020_1710.sq
+    $ sudo mysqldump --opt liferay_ems > liferay_ems_$(date +%Y%m%d-%H%M).sql
     ```
 
 5. Lancer la commande suivante à la racine pour arrêter les services conteneurisés :
