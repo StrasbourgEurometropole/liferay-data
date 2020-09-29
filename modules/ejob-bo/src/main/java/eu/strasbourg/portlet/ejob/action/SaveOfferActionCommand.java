@@ -4,7 +4,6 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -374,7 +373,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                     offer.getGroupId(), Offer.class.getName(),
                     offer.getOfferId(), categoryIds, null);
 
-        } catch (PortalException e) {
+        } catch (Exception e) {
             log.error(e);
         }
         return true;

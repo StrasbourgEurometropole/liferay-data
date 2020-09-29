@@ -65,7 +65,7 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 		}
 
 		String fileName = "interf_totems.csv";
-		String fullPath = StrasbourgPropsUtil.getAgendaImportDirectory() + "/"
+		String fullPath = System.getProperty("java.io.tmpdir") + "/"
 				+ fileName;
 		File file = new File(fullPath);
 		try (PrintWriter printWriter = new PrintWriter(file)) {

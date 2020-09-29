@@ -30,17 +30,24 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.base.OfferServiceBaseImpl;
 import eu.strasbourg.utils.PortletHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import java.io.ByteArrayOutputStream;
@@ -88,10 +95,18 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 			document.setMargins(35f, 35f, 35f, 35f);
 			document.setFont(font).setFontSize(12f).setFontColor(new DeviceRgb(49, 69, 93));
 
-			// vagues
-			String domaine = "http://localhost:8080";
-			ImageData image = ImageDataFactory.create(domaine + "/o/strasbourg-theme/images/vagues.jpg");
+			// image
+			Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId() , "/strasbourg.eu");
+			ExpandoBridge ed = group.getExpandoBridge();
+			String headerImage = GetterUtil.getString(ed.getAttribute("image_header_mail_contact"));
+			ImageData image = ImageDataFactory.create(headerImage);
 			Image img = new Image(image);
+			document.add(img.setHorizontalAlignment(HorizontalAlignment.CENTER));
+
+			// vagues
+			String domaine = StrasbourgPropsUtil.getURL();
+			image = ImageDataFactory.create(domaine + "/o/strasbourg-theme/images/vagues.jpg");
+			img = new Image(image);
 			document.add(img.setHorizontalAlignment(HorizontalAlignment.CENTER));
 
 			if(offer.getStatus() == WorkflowConstants.STATUS_APPROVED && PortletHelper.isUserAuthorizedToConsultInternOffer(offer.getTypePublication().getName())) {
@@ -123,18 +138,18 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 					paragraph.add("\n\n");
 				}
 
-				/*if (!offer.getCategories().isEmpty() && !offer.getTypeRecrutement().getTitle(locale).equals("Stage")) {
+				if (!offer.getOfferCategories().isEmpty() && !offer.getTypeRecrutement().getTitle(locale).equals("Stage")) {
 					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-filiere-categorie") + " : ").setFont(fontBold).setFontSize(12f));
 					paragraph.add("\n");
 					String categories = "";
-					for (AssetCategory category : offer.getCategories()) {
+					for (AssetCategory category : offer.getOfferCategories()) {
 						if(Validator.isNotNull(categories))
 							categories += ", ";
 						categories += category.getName();
 					}
 					paragraph.add(categories);
 					paragraph.add("\n\n");
-				}*/
+				}
 
 				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-type-recrutement") + " : ").setFont(fontBold).setFontSize(12f));
 				paragraph.add("\n");
@@ -155,12 +170,21 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 					paragraph.add("\n\n");
 				}
 
-//				if (Validator.isNotNull(offer.getGrades()) && !offer.getOfferTypeRecrutement().getTitle(locale).equals("Stage")) {
-//					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-grade") + " : ").setFont(fontBold).setFontSize(12f));
-//					paragraph.add("\n");
-//					paragraph.add(offer.getGrades().getTitle(locale));
-//					paragraph.add("\n\n");
-//				}
+				List<List> gradeRanges = offer.getGradeRanges();
+				if (Validator.isNotNull(gradeRanges) && !offer.getTypeRecrutement().getTitle(locale).equals("Stage")) {
+					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-grade") + " : ").setFont(fontBold).setFontSize(12f));
+					paragraph.add("\n");
+					String grades = "";
+					for (List<AssetCategory> gradeRange : gradeRanges) {
+						if(Validator.isNotNull(grades))
+							grades += ", ";
+						grades += gradeRange.get(2).getTitle(locale) +
+							" " + LanguageUtil.get(locale, "eu.to") + " " +
+							gradeRange.get(3).getTitle(locale);
+					}
+					paragraph.add(grades);
+					paragraph.add("\n\n");
+				}
 
 				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-limit-date") + " : ").setFont(fontBold).setFontSize(12f));
 				paragraph.add("\n");

@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.ejob.model.Alert;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.AlertLocalService;
@@ -78,9 +79,11 @@ public class OfferMessageListener
 		// Recuperation des offres concernées et non exportées (isExported=1)
 		List<Offer> offersNotExported = _offerLocalService.findOffersNotExported();
 
+		// on ne prend que les offres validées
 		// on ne prend pas les stages ni les apprentissages
 		// on ne prend que les offres dont la date du jour est comprise  entre le début et la fin de la date de publication
 		offersNotExported = offersNotExported.stream()
+				.filter(o -> o.getStatus() == WorkflowConstants.STATUS_APPROVED)
 				.filter(o -> !o.getTypeRecrutement().getName().equals("Stage") && !o.getTypeRecrutement().getName().equals("Apprentissage"))
 				.filter(o -> o.getPublicationStartDate().compareTo(now) <= 0 && o.getPublicationEndDate().after(now))
 				.collect(Collectors.toList());
@@ -99,10 +102,12 @@ public class OfferMessageListener
 		// Recuperation des offres a envoyer
 		List<Offer> offersExterne = _offerLocalService.findOffersNotSent();
 
+		// on ne prend que les offres validées
 		// on ne prend que les offres externes
 		// on ne prend que les offres ayant au moins une adresse mail
 		// on ne prend que les offres dont la date du jour est comprise  entre le début et la fin de la date de publication
 		offersExterne = offersExterne.stream()
+				.filter(o -> o.getStatus() == WorkflowConstants.STATUS_APPROVED)
 				.filter(o -> !o.getTypePublication().getName().equals("Interne uniquement"))
 				.filter(o -> Validator.isNotNull(o.getEmails()))
 				.filter(o -> o.getPublicationStartDate().compareTo(now) <= 0 && o.getPublicationEndDate().after(now))

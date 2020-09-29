@@ -6,7 +6,7 @@
 
 <%-- Champ : Type de recrutement   --%>
 <h3><liferay-ui:message key="eu.offer-type-recrutement" /></h3>
-<p>${entry.offerTypeRecrutement.getTitle(locale)}</p>
+<p>${entry.typeRecrutement.getTitle(locale)}</p>
 
 <%-- Champ : Interne/Externe--%>
 <h3><liferay-ui:message key="eu.offer-type-publication" /></h3>
@@ -56,12 +56,12 @@
 
 <%-- Champ : Direction  --%>
 <h3><liferay-ui:message key="eu.offer-direction" /></h3>
-<p>${entry.offerDirection.getTitle(locale)}</p>
+<p>${entry.direction.getTitle(locale)}</p>
 
 <%-- Champ : Service  --%>
-<c:if test="${not empty entry.offerService}" >
+<c:if test="${not empty entry.service}" >
     <h3><liferay-ui:message key="eu.offer-service" /></h3>
-    <p>${entry.offerService.getTitle(locale)}</p>
+    <p>${entry.service.getTitle(locale)}</p>
 </c:if>
 
 <%-- Champ : Temps complet ou non   --%>
@@ -80,28 +80,38 @@
     </c:if>
 </c:if>
 
-<%-- Champ : Filières   --%>
-<c:if test="${not empty entry.offerFiliere}" >
-    <h3><liferay-ui:message key="eu.offer-filiere" /></h3>
-    <p>${entry.offerFiliere.getTitle(locale)}</p>
-</c:if>
+<%-- Champ : Choix des catégories, des filières et des grades   --%>
+<c:set var="gradeRanges" value="${entry.gradeRanges}" />
+<c:if test="${not empty gradeRanges}" >
+    <c:forEach items="${gradeRanges}" var="gradeRange">
+        <div style="border: solid 1px; padding: 10px;">
+            <h4><liferay-ui:message key="eu.offer-category" /></h4>
+            <p>
+                ${gradeRange[0].getTitle(locale)}
+            </p>
 
-<%-- Champ : Catégories   --%>
-<c:if test="${not empty entry.offerFiliereCategorie}" >
-    <h3><liferay-ui:message key="eu.offer-filiere-categorie" /></h3>
-    <p>${entry.offerFiliereCategorie.getTitle(locale)}</p>
-</c:if>
+            <h4><liferay-ui:message key="eu.offer-filiere" /></h4>
+            <p>
+                ${gradeRange[1].getTitle(locale)}
+            </p>
 
-<%-- Champ : Choix du grade   --%>
-<c:if test="${not empty entry.offerGrade}" >
-    <h3><liferay-ui:message key="eu.offer-grade" /></h3>
-    <p>${entry.offerGrade.getTitle(locale)}</p>
+            <h4><liferay-ui:message key="eu.offer-grade-min" /></h4>
+            <p>
+                ${gradeRange[2].getTitle(locale)}
+            </p>
+
+            <h4><liferay-ui:message key="eu.offer-grade-max" /></h4>
+            <p>
+                ${gradeRange[3].getTitle(locale)}
+            </p>
+        </div>
+    </c:forEach>
 </c:if>
 
 <%-- Champ : Niveau d'étude   --%>
-<c:if test="${not empty entry.offerNiveauEtude}" >
+<c:if test="${not empty entry.niveauEtude}" >
     <h3><liferay-ui:message key="eu.offer-niveau-etude" /></h3>
-    <p>${entry.offerNiveauEtude.getTitle(locale)}</p>
+    <p>${entry.niveauEtude.getTitle(locale)}</p>
 </c:if>
 
 <%-- Champ : Introduction --%>
@@ -127,9 +137,9 @@ ${entry.getConditions(locale)}
 </c:if>
 
 <%-- Champ : Famille de métiers --%>
-<c:if test="${not empty entry.offerFamille}" >
+<c:if test="${not empty entry.famille}" >
     <h3><liferay-ui:message key="eu.offer-famille-metier" /></h3>
-    <p>${entry.offerFamille.getTitle(locale)}</p>
+    <p>${entry.famille.getTitle(locale)}</p>
 </c:if>
 
 <%-- Champ : Date limite de candidatures --%>
@@ -139,9 +149,9 @@ ${entry.getConditions(locale)}
 <p>${formattedLimitDate}</p>
 
 <%-- Champ : Nom du RE + contact téléphonique  --%>
-<c:if test="${not empty entry.offerContact}" >
+<c:if test="${not empty entry.contactRE}" >
     <h3><liferay-ui:message key="eu.offer-nom-RE" /></h3>
-    <p>${entry.offerContact.getTitle(locale)}</p>
+    <p>${entry.contactRE.getTitle(locale)}</p>
 </c:if>
 
 <%-- Champ : Nom du RRH + contact téléphonique --%>

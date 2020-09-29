@@ -86,6 +86,12 @@ public interface Offer extends OfferModel, PersistedModel {
 		getCategories();
 
 	/**
+	 * Renvoie les categories A, B ou C
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getOfferCategories();
+
+	/**
 	 * Renvoie les grades
 	 */
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>

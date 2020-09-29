@@ -53,10 +53,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * The extended model implementation for the Offer service. Represents a row in the &quot;ejob_Offer&quot; database table, with each column mapped to a property of this class.
@@ -88,16 +90,6 @@ public class OfferImpl extends OfferBaseImpl {
 		return AssetEntryLocalServiceUtil.fetchEntry(Offer.class.getName(),
 				this.getOfferId());
 	}
-
-//	/**
-//	 * Renvoie la liste des AssetCategory rattachées à cet item (via
-//	 * l'assetEntry)
-//	 */
-//	@Override
-//	public List<AssetCategory> getCategories() {
-//		return AssetVocabularyHelper
-//				.getAssetEntryCategories(this.getAssetEntry());
-//	}
 
 	/**
 	 * Renvoie le type de recrutement
@@ -165,44 +157,13 @@ public class OfferImpl extends OfferBaseImpl {
 	/**
 	 * Renvoie les categories A, B ou C
 	 */
-	/*@Override
-	public List<AssetCategory> getCategories() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+	@Override
+	public List<AssetCategory> getOfferCategories() {
+		List<AssetCategory> categories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EJOB_CATEGORIES);
-	}*/
-
-	/**
-	 * Retourne les filières
-	 */
-	/*@Override
-	public List<AssetCategory> getFilieres() {
-		List<AssetCategory> filieres = new ArrayList<>();
-		List<AssetCategory> filieres_voca = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.EJOB_FILIERES);
-		for (AssetCategory filiere : AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.EJOB_FILIERES)) {
-			if (filiere.getParentCategory() == null) {
-				filieres.add(filiere);
-			}
-		}
-		return filieres;
-	}*/
-
-	/**
-	 * Renvoie les categories des filières
-	 */
-	/*@Override
-	public List<AssetCategory> getFiliereCategories() {
-		List<AssetCategory> filieresCategories = new ArrayList<>();
-		for (AssetCategory filiereCategory : AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.EJOB_FILIERES)) {
-			if (filiereCategory.getParentCategory() != null && filiereCategory.getParentCategory().getParentCategory() == null) {
-				filieresCategories.add(filiereCategory);
-			}
-		}
-
-		return filieresCategories;
-	}*/
+		Set withoutDupplicate = new HashSet(categories) ;
+		return new ArrayList(withoutDupplicate) ;
+	}
 
 	/**
 	 * Renvoie les grades
@@ -230,13 +191,27 @@ public class OfferImpl extends OfferBaseImpl {
 			AssetCategory categoryFiliere = grade.getParentCategory();
 			List gradeRange = gradeRangesMap.remove(categoryFiliere.getCategoryId());
 			if (Validator.isNotNull(gradeRange)) {
-				gradeRange.set(2, grade);
+				AssetCategory firstGrade = (AssetCategory) gradeRange.get(2);
+				int orderFirstGrade = 0;
+				int orderLastGrade = 0;
+				String orderFirstGradeString = AssetVocabularyHelper.getCategoryProperty(firstGrade.getCategoryId(), "order");
+				if(Validator.isNotNull(orderFirstGradeString))
+					orderFirstGrade = Integer.parseInt(orderFirstGradeString);
+				String orderLastGradeString = AssetVocabularyHelper.getCategoryProperty(grade.getCategoryId(), "order");
+				if(Validator.isNotNull(orderLastGradeString))
+					orderLastGrade = Integer.parseInt(orderLastGradeString);
+				if(orderFirstGrade > orderLastGrade)
+					gradeRange.set(2, grade);
+				else
+					gradeRange.set(3, grade);
 				gradeRangesList.add(gradeRange);
 			} else {
 				String categoryString = AssetVocabularyHelper.getCategoryProperty(categoryFiliere.getCategoryId(), "linked-category");
 				Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId() , "/strasbourg.eu");
 				AssetCategory category = AssetVocabularyHelper.getCategory(categoryString, group.getGroupId());
+				gradeRange = new ArrayList();
 				gradeRange.add(category);
+				gradeRange.add(grade.getParentCategory().getParentCategory());
 				gradeRange.add(grade);
 				gradeRange.add(grade);
 				gradeRangesMap.put(categoryFiliere.getCategoryId(), gradeRange);
@@ -405,7 +380,6 @@ public class OfferImpl extends OfferBaseImpl {
 		jsonOffer.put("service", this.getService()!=null?this.getService().getTitle(Locale.getDefault()):"");
 		jsonOffer.put("temps complet / non-complet", this.getIsFullTime()?"complet":"non-complet");
 		jsonOffer.put("description", this.getFullTimeDescription(Locale.getDefault()));
-		// TODO
 //		jsonOffer.put("categories", this.getCategories().isEmpty()?"":this.getCategories().toString());
 //		jsonOffer.put("filiere", this.getFilieres()!=null?this.getFilieres().getTitle(Locale.getDefault()):"");
 //		jsonOffer.put("categorieFiliere", this.getFiliereCategories()!=null?this.getFiliereCategories().getTitle(Locale.getDefault()):"");

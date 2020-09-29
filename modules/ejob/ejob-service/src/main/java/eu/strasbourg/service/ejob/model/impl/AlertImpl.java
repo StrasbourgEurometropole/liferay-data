@@ -45,6 +45,7 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.MailHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -123,6 +124,7 @@ public class AlertImpl extends AlertBaseImpl {
 		Map<String, Object> context = new HashMap<>();
 		context.put("content", listOffer);
 		context.put("locale", locale);
+		context.put("theme", StrasbourgPropsUtil.getURL());
 		if (subject != null && !subject.isEmpty())
 			context.put("subject", subject);
 

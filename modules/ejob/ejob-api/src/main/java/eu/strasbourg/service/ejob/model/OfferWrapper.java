@@ -1142,6 +1142,16 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
+	 * Renvoie les categories A, B ou C
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getOfferCategories() {
+
+		return _offer.getOfferCategories();
+	}
+
+	/**
 	 * Returns the offer ID of this offer.
 	 *
 	 * @return the offer ID of this offer
