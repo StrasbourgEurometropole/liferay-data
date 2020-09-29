@@ -71,7 +71,7 @@
 
 
             <!-- Logo du site -->
-            <a href="${themeDisplay.getPortalURL()}${homeURL}accueil" title="Lien vers Page d'accueil - Orchestre Philarmonique de Strasbourg" class="ops-logo">
+            <a href="${themeDisplay.getPortalURL()}${homeURL}accueil" title="Lien vers Page d'accueil - Orchestre Philharmonique de Strasbourg" class="ops-logo">
                 <figure>
                     <img src="/o/ops-theme/images/logos/logo-ops.png" srcset="/o/ops-theme/images/logos/logo-ops-2x.png 2x" width="146" height="52" alt="Logo du site OPS"/>
                 </figure>
