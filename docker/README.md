@@ -134,7 +134,8 @@ Le fichier `migrated-dump.sql`se trouve désormais dans le répertoire `output` 
 
 Créer et remplir le fichier `./.env` à la racine du repertoire `docker` où :
  * `LFR_TAG_VERSION` est la version de l'image Liferay
- * `DATA_PATH` est le chemin vers le repertoire de persistance monté en NFS
+ * `DATA_PATH_LIFERAY` est le chemin vers le repertoire de persistance liferay (monté en NFS)
+ * `DATA_PATH_ES` est le chemin vers le repertoire de persistance elasticsearch (non monté en NFS)
  * `LCS_LIFERAY_ACTIVE_HOSTNAME` est le hostname utilisé par le conteneur Liferay actif (pour enregistrer la licence)
  * `LCS_LIFERAY_BACKUP_HOSTNAME` est le hostname utilisé par le conteneur Liferay backup (pour enregistrer la licence)
  * `REGISTRY_ADDRESS` est l'adresse du registry Docker dans Nexus
@@ -142,13 +143,13 @@ Créer et remplir le fichier `./.env` à la racine du repertoire `docker` où :
  * `MYSQL_DB` est le nom de la base MySQL utilisé par Liferay
  * `MYSQL_USER` est l'utilisateur MySQL dédié à Liferay
  * `MYSQL_PASSWORD` est le mot de passe de l'utilisateur MySQL dédié à Liferay
- * `VM_MASTER_SMTP_ADDRESS` est l'adresse du serveur SMTP de la VM master (au sens Docker)
- * `VM_WORKER_SMTP_ADDRESS` est l'adresse du serveur SMTP de la VM slave (au sens Docker)
+ * `PMA_URL` URL d'accès au service PhpMyAdmin
  * `TRAIL_MAIL_ADDRESS` est l'email de copie de tous les mails provenant du serveur SMTP (**A NE PAS REMPLIR EN PRODUCTION !**)
 
 ```properties
 LFR_TAG_VERSION=
-DATA_PATH=
+DATA_PATH_LIFERAY=
+DATA_PATH_ES=
 LCS_LIFERAY_ACTIVE_HOSTNAME=
 LCS_LIFERAY_BACKUP_HOSTNAME=
 REGISTRY_ADDRESS=
@@ -156,8 +157,7 @@ MYSQL_ADDRESS=
 MYSQL_DB=
 MYSQL_USER=
 MYSQL_PASSWORD=
-VM_MASTER_SMTP_ADDRESS=
-VM_WORKER_SMTP_ADDRESS=
+PMA_URL=
 TRAIL_MAIL_ADDRESS=
 ```
 
@@ -198,7 +198,7 @@ $ docker service logs SERVICE_ID -f
 4. Effectuer un dump de la base
 
     ```shell
-    $ sudo mysqldump --opt -p liferay_ems_new > dump_29072020_1710.sq
+    $ sudo mysqldump --opt liferay_ems > liferay_ems_$(date +%Y%m%d-%H%M).sql
     ```
 
 5. Lancer la commande suivante à la racine pour arrêter les services conteneurisés :

@@ -183,7 +183,7 @@ public class ImportReportImpl extends ImportReportBaseImpl {
 			TemplateResource templateResourceSubject = new URLTemplateResource(
 					"0",
 					Objects.requireNonNull(this.getClass().getClassLoader()
-							.getResource("/templates/import-notification-mail-subject.ftl\"")));
+							.getResource("/templates/import-notification-mail-subject.ftl")));
 			Template subjectTemplate = TemplateManagerUtil.getTemplate(
 					TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
 
