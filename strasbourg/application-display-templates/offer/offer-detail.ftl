@@ -22,26 +22,30 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </div>
                         <div id="direction">
                             <h3><@liferay_ui.message key="eu.offer-direction" /></h3>
-                            <p>${entry.offerDirection.getTitle(locale)}</p>
+                            <p>${entry.direction.getTitle(locale)}</p>
                         </div>
-                        <#if entry.offerService??>
+                        <#if entry.service??>
                             <div id="service">
                                 <h3><@liferay_ui.message key="eu.offer-service" /></h3>
-                                <p>${entry.offerService.getTitle(locale)}</p>
+                                <p>${entry.service.getTitle(locale)}</p>
                             </div>
                         </#if>
-                        <#if entry.offerFiliereCategorie?? && entry.offerTypeRecrutement.getTitle(locale)!="Stage">
+                        <#if entry.offerCategories?? && entry.typeRecrutement.getTitle(locale)!="Stage">
                             <div id="filiereCategorie">
                                 <h3><@liferay_ui.message key="eu.offer-filiere-categorie" /></h3>
-                                <p>${entry.offerCategorie}</p>
+                                <p>
+                                    <#list entry.offerCategories as category>
+                                        ${category.getTitle(locale)}<#sep>, </#sep>
+                                    </#list>
+                                </p>
                             </div>
                         </#if>
                         <div id="typeRecrutement">
                             <h3><@liferay_ui.message key="eu.offer-type-recrutement" /></h3>
-                            <p>${entry.offerTypeRecrutement.getTitle(locale)}<br />
+                            <p>${entry.typeRecrutement.getTitle(locale)}<br />
                             ${entry.getPermanentDescription(locale)}</p>
                         </div>
-                        <#if entry.getIsFullTime()?? && entry.offerTypeRecrutement.getTitle(locale)!="Stage">
+                        <#if entry.getIsFullTime()?? && entry.typeRecrutement.getTitle(locale)!="Stage">
                             <div id="isFullTime">
                                 <h3><@liferay_ui.message key="eu.offer-is-full-time" /></h3>
                                 <p>
@@ -52,11 +56,16 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 </#if>  
                                 </p>
                             </div>                   
-                        </#if> 
-                        <#if entry.offerGrade?? && entry.offerTypeRecrutement.getTitle(locale)!="Stage">
+                        </#if>
+                        <#assign gradeRanges = entry.gradeRanges /> 
+                        <#if gradeRanges?? && entry.typeRecrutement.getTitle(locale)!="Stage">
                             <div id="grade">
                                 <h3><@liferay_ui.message key="eu.offer-grade" /></h3>
-                                <p>${entry.offerGrade.getTitle(locale)}</p>
+                                <p>
+                                    <#list gradeRanges as gradeRange>
+                                        ${gradeRange[2].getTitle(locale)} <@liferay_ui.message key="eu.to" /> ${gradeRange[3].getTitle(locale)}<#sep>, </#sep>
+                                    </#list>
+                                </p>
                             </div>
                         </#if>
                         <div id="limitDate">
@@ -69,10 +78,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <p>${entry.getDuration(locale)}</p>
                             </div> 
                         </#if> 
-                        <#if entry.offerNiveauEtude?? && entry.offerTypeRecrutement.getTitle(locale)=="Stage">
+                        <#if entry.niveauEtude?? && entry.typeRecrutement.getTitle(locale)=="Stage">
                             <div id="niveauEtude">
                                 <h3><@liferay_ui.message key="eu.offer-niveau-etude" /></h3>
-                                <p>${entry.offerNiveauEtude.getTitle(locale)}</p>
+                                <p>${entry.niveauEtude.getTitle(locale)}</p>
                             </div>
                         </#if>
                     </div>  
@@ -95,7 +104,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </div>
 
                     <!-- Avantages -->
-                    <#if entry.avantages?? && entry.offerTypeRecrutement.getTitle(locale)!="Stage">
+                    <#if entry.avantages?? && entry.typeRecrutement.getTitle(locale)!="Stage">
                         <div id="offerAvantages">
                             <h3><@liferay_ui.message key="eu.offer-avantages" /></h3>
                             ${entry.getAvantages(locale)}

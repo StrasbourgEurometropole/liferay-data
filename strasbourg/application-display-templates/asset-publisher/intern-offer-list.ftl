@@ -16,13 +16,18 @@
                 <div class="seu-result-right">
                     <a class="seu-result-content" href="${homeURL}offre/-/entity/id/${offer.getOfferId()}">
                         <h2 class="seu-result-title">${offer.getPost(locale)}</h2>
-                        <div class="seu-result-catcher">${offer.offerDirection.getTitle(locale)}
-                            <#if offer.offerService??>
-                            / ${offer.offerService.getTitle(locale)}
+                        <div class="seu-result-catcher">${offer.direction.getTitle(locale)}
+                            <#if offer.service??>
+                            / ${offer.service.getTitle(locale)}
                             </#if>
                         </div>
-                        <#if offer.offerGrade??>
-                            <div class="seu-result-grade">${offer.offerGrade.getTitle(locale)}</div>
+                        <#assign gradeRanges = offer.gradeRanges />
+                        <#if gradeRanges??>
+                            <div class="seu-result-grade">
+                                <#list gradeRanges as gradeRange>
+                                    ${gradeRange[2].getTitle(locale)} <@liferay_ui.message key="eu.to" /> ${gradeRange[3].getTitle(locale)}<#sep>, </#sep>
+                                </#list>
+                            </div>
                         </#if>
                     </a>
                     <div class="seu-result-infos">

@@ -12,13 +12,18 @@
     <div class="seu-result-right">
         <a class="seu-result-content" href="${detailURL}">
             <h2 class="seu-result-title">${entry.getPost()}</h2>
-            <div class="seu-result-catcher">${entry.offerDirection.getTitle(locale)}
-                <#if entry.offerService??>
-                  / ${entry.offerService.getTitle(locale)}
+            <div class="seu-result-catcher">${entry.direction.getTitle(locale)}
+                <#if entry.service??>
+                  / ${entry.service.getTitle(locale)}
                 </#if>
             </div>
-            <#if entry.offerGrade??>
-                <div class="seu-result-grade">${entry.offerGrade.getTitle(locale)}</div>
+            <#assign gradeRanges = entry.gradeRanges />
+            <#if gradeRanges??>
+                <div class="seu-result-grade">
+                    <#list gradeRanges as gradeRange>
+                        ${gradeRange[2].getTitle(locale)} <@liferay_ui.message key="eu.to" /> ${gradeRange[3].getTitle(locale)}<#sep>, </#sep>
+                    </#list>
+                </div>
             </#if>
         </a>
         <div class="seu-result-infos">
