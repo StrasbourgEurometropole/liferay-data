@@ -86,7 +86,7 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
 				e.printStackTrace();
 			}
 		}
-		else if (entry == null && mimeType.equals("image/png")) { //  && size > 500000
+		else if (entry == null && mimeType.equals("image/png") && size > 500000) { //
 			_log.error("Large PNG detected.");
 			try {
 				RenderedImage image = ImageIO.read(is);
