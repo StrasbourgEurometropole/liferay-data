@@ -53,7 +53,7 @@ public class OfferMessageListener
 		now.add(Calendar.MINUTE, 5);
 		Date fiveMinutesFromNow = now.getTime();
 
-		// Création du trigger "Tous les jours à ??
+		// Création du trigger "Tous les jours à 1H05
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
 		"0 5 1 * * ?");
