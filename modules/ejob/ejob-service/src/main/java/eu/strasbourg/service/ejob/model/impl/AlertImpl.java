@@ -124,6 +124,7 @@ public class AlertImpl extends AlertBaseImpl {
 		Map<String, Object> context = new HashMap<>();
 		context.put("content", listOffer);
 		context.put("locale", locale);
+		context.put("urlOffer", StrasbourgPropsUtil.getEJobURLOffer());
 		context.put("theme", StrasbourgPropsUtil.getURL());
 		if (subject != null && !subject.isEmpty())
 			context.put("subject", subject);

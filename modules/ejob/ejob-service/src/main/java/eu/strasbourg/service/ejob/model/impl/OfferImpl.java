@@ -20,6 +20,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -43,6 +44,7 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.MailHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import javax.mail.internet.AddressException;
@@ -270,6 +272,7 @@ public class OfferImpl extends OfferBaseImpl {
 		Map<String, Object> context = new HashMap<>();
 		context.put("content", this);
 		context.put("locale", Locale.FRANCE);
+		context.put("urlOffer", StrasbourgPropsUtil.getEJobURLOffer());
 		if (subject != null && !subject.isEmpty())
 			context.put("subject", subject);
 
@@ -378,12 +381,19 @@ public class OfferImpl extends OfferBaseImpl {
 		jsonOffer.put("post", this.getPost(Locale.getDefault()));
 		jsonOffer.put("direction", this.getDirection()!=null?this.getDirection().getTitle(Locale.getDefault()):"");
 		jsonOffer.put("service", this.getService()!=null?this.getService().getTitle(Locale.getDefault()):"");
-		jsonOffer.put("temps complet / non-complet", this.getIsFullTime()?"complet":"non-complet");
+		jsonOffer.put("tempsTravail", this.getIsFullTime()?"complet":"non-complet");
 		jsonOffer.put("description", this.getFullTimeDescription(Locale.getDefault()));
-//		jsonOffer.put("categories", this.getCategories().isEmpty()?"":this.getCategories().toString());
-//		jsonOffer.put("filiere", this.getFilieres()!=null?this.getFilieres().getTitle(Locale.getDefault()):"");
-//		jsonOffer.put("categorieFiliere", this.getFiliereCategories()!=null?this.getFiliereCategories().getTitle(Locale.getDefault()):"");
-//		jsonOffer.put("grade", this.getGrades()!=null?this.getGrades().getTitle(Locale.getDefault()):"");
+		int i = 1;
+		for (List<AssetCategory> gradeRange : this.getGradeRanges()) {
+			JSONArray jsonGrades = JSONFactoryUtil.createJSONArray();
+			JSONObject jsonGrade = JSONFactoryUtil.createJSONObject();
+			jsonGrade.put("categorie", gradeRange.get(0)!=null?gradeRange.get(0).getTitle(Locale.getDefault()):"");
+			jsonGrade.put("filiere", gradeRange.get(1)!=null?gradeRange.get(1).getTitle(Locale.getDefault()):"");
+			jsonGrade.put("gradeMin", gradeRange.get(2)!=null?gradeRange.get(2).getTitle(Locale.getDefault()):"");
+			jsonGrade.put("gradeMax", gradeRange.get(3)!=null?gradeRange.get(3).getTitle(Locale.getDefault()):"");
+			jsonGrades.put(jsonGrade);
+			jsonOffer.put("grade" + i++, jsonGrades);
+		}
 		jsonOffer.put("niveauEtude", this.getNiveauEtude()!=null?this.getNiveauEtude().getTitle(Locale.getDefault()):"");
 		jsonOffer.put("introduction", this.getIntroduction(Locale.getDefault()));
 		jsonOffer.put("activities", this.getActivities(Locale.getDefault()));

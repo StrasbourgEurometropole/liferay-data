@@ -317,7 +317,7 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.ejob.publik.url.apply");
 	}
 
-	public static String getEJobURLOffer() {return PropsUtil.get("eu.strasbourg.ejob.ftp.url.offer");}
+	public static String getEJobURLOffer() {return PropsUtil.get("eu.strasbourg.ejob.url.offer");}
 
 	public static String getEJobFTPHost() {return PropsUtil.get("eu.strasbourg.ejob.ftp.host");}
 

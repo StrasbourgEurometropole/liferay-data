@@ -1006,45 +1006,13 @@ public class SearchHelper {
 				titleWildcardQuery.setBoost(30);
 				keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
 
-				// introduction
-				MatchQuery introductionQuery = new MatchQuery("introduction_" + locale, keywords);
-				keywordQuery.add(introductionQuery, BooleanClauseOccur.SHOULD);
+				// Description
+				MatchQuery descriptionQuery = new MatchQuery(Field.DESCRIPTION + "_" + locale, keywords);
+				keywordQuery.add(descriptionQuery, BooleanClauseOccur.SHOULD);
 
-				// activities
-				MatchQuery activitiesQuery = new MatchQuery("activities_" + locale, keywords);
-				keywordQuery.add(activitiesQuery, BooleanClauseOccur.SHOULD);
-
-				// avantages
-				MatchQuery avantagesQuery = new MatchQuery(Field.DESCRIPTION + "avantages_" + locale, keywords);
-				keywordQuery.add(avantagesQuery, BooleanClauseOccur.SHOULD);
-
-				// conditions
-				MatchQuery conditionsQuery = new MatchQuery("conditions_" + locale, keywords);
-				keywordQuery.add(conditionsQuery, BooleanClauseOccur.SHOULD);
-
-				// duration
-				MatchQuery durationQuery = new MatchQuery("duration_" + locale, keywords);
-				keywordQuery.add(durationQuery, BooleanClauseOccur.SHOULD);
-
-				// motif
-				MatchQuery motifQuery = new MatchQuery("motif_" + locale, keywords);
-				keywordQuery.add(motifQuery, BooleanClauseOccur.SHOULD);
-
-				// profil
-				MatchQuery profilQuery = new MatchQuery("profil_" + locale, keywords);
-				keywordQuery.add(profilQuery, BooleanClauseOccur.SHOULD);
-
-				// permanentDes
-				MatchQuery permanentDesQuery = new MatchQuery("permanentDes_" + locale, keywords);
-				keywordQuery.add(permanentDesQuery, BooleanClauseOccur.SHOULD);
-
-				// fullTimeDes
-				MatchQuery fullTimeDesQuery = new MatchQuery("fullTimeDes_" + locale, keywords);
-				keywordQuery.add(fullTimeDesQuery, BooleanClauseOccur.SHOULD);
-
-				// jobCreationDes
-				MatchQuery jobCreationDesQuery = new MatchQuery("jobCreationDes_" + locale, keywords);
-				keywordQuery.add(jobCreationDesQuery, BooleanClauseOccur.SHOULD);
+				// Content
+				MatchQuery contentQuery = new MatchQuery(Field.CONTENT + "_" + locale, keywords);
+				keywordQuery.add(contentQuery, BooleanClauseOccur.SHOULD);
 
 				// Fuzzy sur catégorie
 				MatchQuery categoryKeywordQuery = new MatchQuery(Field.ASSET_CATEGORY_TITLES, keywords);

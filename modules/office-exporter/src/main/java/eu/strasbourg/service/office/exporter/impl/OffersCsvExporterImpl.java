@@ -89,9 +89,14 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 				log.error("Connexion au serveur échoué.");
 				return false;
 			} else {
-				ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-				FileInputStream fileIS= new FileInputStream(fullPath);
-				ftpClient.storeFile(fileName, fileIS);
+				if(ftpClient.changeWorkingDirectory(StrasbourgPropsUtil.getEJobFTPUser())) {
+					ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+					FileInputStream fileIS = new FileInputStream(fullPath);
+					ftpClient.storeFile(fileName, fileIS);
+				}else{
+					log.error("Changement de répertoire échoué.");
+					return false;
+				}
 			}
 
 			ftpClient.logout();
