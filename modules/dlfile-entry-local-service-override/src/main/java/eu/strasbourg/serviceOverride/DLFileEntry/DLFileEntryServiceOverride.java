@@ -1,7 +1,6 @@
 package eu.strasbourg.serviceOverride.DLFileEntry;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
-import com.liferay.document.library.kernel.service.DLFileEntryLocalService;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceWrapper;
 
@@ -27,7 +26,9 @@ import javax.imageio.IIOImage;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
 /**
  * @author louis.politanski
  */
@@ -50,34 +51,52 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
 									File file, InputStream is, long size, ServiceContext serviceContext)
 									throws PortalException {
 
+		_log.error("DLFILEENTRY DDMFormValuesMap : "+ddmFormValuesMap.toString());
+
+		// On verifie ou se trouve le document d'entree
+		boolean imageInFile;
+		if (file != null) { imageInFile = true; }
+		else if (is != null) { imageInFile = false; }
+		else {
+			return super.addFileEntry(userId, groupId, repositoryId, folderId, sourceFileName, mimeType, title, description,
+					changeLog, fileEntryTypeId, ddmFormValuesMap, file, is, size, serviceContext);
+		}
 		// Si title deja dans la lib, return
 		DLFileEntry entry = DLFileEntryLocalServiceUtil.fetchFileEntry(groupId, folderId, title);
 		if (entry == null && mimeType.equals("image/jpeg")) {
 			try {
-				RenderedImage image = ImageIO.read(is);
+				_log.error("Image JPEG detectee");
+				// Lecture de l'image
+				RenderedImage image;
+				image = readImage(imageInFile, is, file);
 				// Calcul ratio de compression
 				int height = image.getHeight();
 				int width = image.getWidth();
 				float compressionRatio = (float) width * height / size;
-				float compressionQuality = 0.88f;
 				if (height > 1920 || width > 1920) {
+					_log.error("Scaling et compression");
 					// Scaling
 					image = ImageToolUtil.scale(image, 1920, 1920);
 					// Compression
+					float compressionQuality = 0.88f;
 					ByteArrayOutputStream baos = compressImage(image, compressionQuality);
 					// Remplacement de l'image
-					is = new ByteArrayInputStream(baos.toByteArray());
-					size = baos.size();
+					Path path = Paths.get(file.getPath());
+					is = saveImage(imageInFile, baos, path);
+					size = getNewSize(imageInFile, baos, path);
 				}
 				else if (compressionRatio < 7) {
+					_log.error("Compression");
 					// Compression
+					float compressionQuality = 0.88f;
 					ByteArrayOutputStream baos = compressImage(image, compressionQuality);
 					// Calcul du nouveau pourcentage de compression
 					float newCompressionRatio = 100 * (float)baos.size()/size;
 					// Remplacement de l'image si le pourcentage de compression est satisfaisant
 					if (newCompressionRatio < 90) {
-						is = new ByteArrayInputStream(baos.toByteArray());
-						size = baos.size();
+						Path path = Paths.get(file.getPath());
+						is = saveImage(imageInFile, baos, path);
+						size = getNewSize(imageInFile, baos, path);
 					}
 				}
 			}
@@ -87,36 +106,42 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
 			}
 		}
 		else if (entry == null && mimeType.equals("image/png") && size > 500000) { //
-			_log.error("Large PNG detected.");
+			_log.error("PNG lourd detecte");
 			try {
-				RenderedImage image = ImageIO.read(is);
+				// Lecture de l'image
+				RenderedImage image;
+				image = readImage(imageInFile, is, file);
 				int height = image.getHeight();
 				int width = image.getWidth();
-				float compressionQuality = 0.88f;
+				// Scaling
 				if (height > 1920 || width > 1920) {
-					// Scaling
+					_log.error("Scaling");
 					image = ImageToolUtil.scale(image, 1920, 1920);
 				}
-
 				// Elimination de la transparence du PNG
 				BufferedImage newImg = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
 				newImg.createGraphics().drawImage((Image) image, 0, 0, Color.BLACK, null);
 				image = newImg;
-
 				// Compression
+				float compressionQuality = 0.88f;
 				ByteArrayOutputStream baos = compressImage(image, compressionQuality);
 				// Calcul du nouveau pourcentage de compression
 				float newCompressionRatio = 100 * (float)baos.size()/size;
 				// Remplacement de l'image si le pourcentage de compression est satisfaisant
 				if (newCompressionRatio < 90) {
 					_log.error("On remplace le PNG.");
-					is = new ByteArrayInputStream(baos.toByteArray());
-					size = baos.size();
-					mimeType = "image/jpeg";
+					Path path = Paths.get(file.getPath());
+					is = saveImage(imageInFile, baos, path);
+					size = getNewSize(imageInFile, baos, path);
 					// Modif extension fichier
-					if (sourceFileName.substring(sourceFileName.length()-4).equals(".png")) {
+					mimeType = "image/jpeg";
+					if (sourceFileName.endsWith(".png")) {
 						sourceFileName = sourceFileName.substring(0, sourceFileName.length()-4) + ".jpg";
 						_log.error("New filename:"+sourceFileName);
+					}
+					if (title.endsWith(".png")) {
+						title = title.substring(0, title.length()-4) + ".jpg";
+						_log.error("New title:"+title);
 					}
 				}
 				else {
@@ -131,6 +156,32 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
 
 		return super.addFileEntry(userId, groupId, repositoryId, folderId, sourceFileName, mimeType, title, description,
 				changeLog, fileEntryTypeId, ddmFormValuesMap, file, is, size, serviceContext);
+	}
+
+	private RenderedImage readImage(boolean imageInFile, InputStream is, File file) throws IOException {
+		RenderedImage image;
+		if (!imageInFile) {
+			image = ImageIO.read(is);
+		}
+		else {
+			image = ImageIO.read(file);
+		}
+		return image;
+	}
+
+	private InputStream saveImage(boolean imageInFile, ByteArrayOutputStream baos, Path path)  throws IOException {
+		if (imageInFile) {
+			Files.write(path, baos.toByteArray());
+			return null;
+		}
+		else {
+			return new ByteArrayInputStream(baos.toByteArray());
+		}
+	}
+
+	private long getNewSize(boolean imageInFile, ByteArrayOutputStream baos, Path path) throws IOException {
+		if (imageInFile) { return baos.size(); }
+		else { return Files.size(path); }
 	}
 
 	private ByteArrayOutputStream compressImage(RenderedImage image, float quality) throws IOException {
