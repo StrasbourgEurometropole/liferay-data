@@ -187,6 +187,8 @@
 		<property name="program" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="firstStartDate" type="org.hibernate.type.TimestampType" />
 		<property name="lastEndDate" type="org.hibernate.type.TimestampType" />
+		<property name="createDateSource" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDateSource" type="org.hibernate.type.TimestampType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.EventParticipationImpl" table="agenda_EventParticipation">
@@ -221,9 +223,11 @@
 		<property name="newEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="modifiedEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="errorEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="unmodifiedEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="newManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="modifiedManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="errorManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="unModifiedManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="startDate" type="org.hibernate.type.TimestampType" />
 		<property name="endDate" type="org.hibernate.type.TimestampType" />
 	</class>
@@ -266,5 +270,7 @@
 		<property name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="idSource" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
+		<property name="createDateSource" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDateSource" type="org.hibernate.type.TimestampType" />
 	</class>
 </hibernate-mapping>

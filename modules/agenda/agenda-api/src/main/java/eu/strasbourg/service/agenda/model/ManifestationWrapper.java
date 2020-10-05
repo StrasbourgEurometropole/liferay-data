@@ -82,6 +82,8 @@ public class ManifestationWrapper
 		attributes.put("source", getSource());
 		attributes.put("idSource", getIdSource());
 		attributes.put("publicationDate", getPublicationDate());
+		attributes.put("createDateSource", getCreateDateSource());
+		attributes.put("modifiedDateSource", getModifiedDateSource());
 
 		return attributes;
 	}
@@ -226,6 +228,18 @@ public class ManifestationWrapper
 		if (publicationDate != null) {
 			setPublicationDate(publicationDate);
 		}
+
+		Date createDateSource = (Date)attributes.get("createDateSource");
+
+		if (createDateSource != null) {
+			setCreateDateSource(createDateSource);
+		}
+
+		Date modifiedDateSource = (Date)attributes.get("modifiedDateSource");
+
+		if (modifiedDateSource != null) {
+			setModifiedDateSource(modifiedDateSource);
+		}
 	}
 
 	@Override
@@ -282,6 +296,16 @@ public class ManifestationWrapper
 	@Override
 	public Date getCreateDate() {
 		return _manifestation.getCreateDate();
+	}
+
+	/**
+	 * Returns the create date source of this manifestation.
+	 *
+	 * @return the create date source of this manifestation
+	 */
+	@Override
+	public Date getCreateDateSource() {
+		return _manifestation.getCreateDateSource();
 	}
 
 	@Override
@@ -509,6 +533,16 @@ public class ManifestationWrapper
 	@Override
 	public Date getModifiedDate() {
 		return _manifestation.getModifiedDate();
+	}
+
+	/**
+	 * Returns the modified date source of this manifestation.
+	 *
+	 * @return the modified date source of this manifestation
+	 */
+	@Override
+	public Date getModifiedDateSource() {
+		return _manifestation.getModifiedDateSource();
 	}
 
 	/**
@@ -942,6 +976,16 @@ public class ManifestationWrapper
 	}
 
 	/**
+	 * Sets the create date source of this manifestation.
+	 *
+	 * @param createDateSource the create date source of this manifestation
+	 */
+	@Override
+	public void setCreateDateSource(Date createDateSource) {
+		_manifestation.setCreateDateSource(createDateSource);
+	}
+
+	/**
 	 * Sets the description of this manifestation.
 	 *
 	 * @param description the description of this manifestation
@@ -1113,6 +1157,16 @@ public class ManifestationWrapper
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_manifestation.setModifiedDate(modifiedDate);
+	}
+
+	/**
+	 * Sets the modified date source of this manifestation.
+	 *
+	 * @param modifiedDateSource the modified date source of this manifestation
+	 */
+	@Override
+	public void setModifiedDateSource(Date modifiedDateSource) {
+		_manifestation.setModifiedDateSource(modifiedDateSource);
 	}
 
 	@Override

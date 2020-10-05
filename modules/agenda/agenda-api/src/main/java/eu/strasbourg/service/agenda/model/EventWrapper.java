@@ -111,6 +111,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("program", getProgram());
 		attributes.put("firstStartDate", getFirstStartDate());
 		attributes.put("lastEndDate", getLastEndDate());
+		attributes.put("createDateSource", getCreateDateSource());
+		attributes.put("modifiedDateSource", getModifiedDateSource());
 		attributes.put("imageId", getImageId());
 
 		return attributes;
@@ -438,6 +440,18 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 
 		if (lastEndDate != null) {
 			setLastEndDate(lastEndDate);
+		}
+
+		Date createDateSource = (Date)attributes.get("createDateSource");
+
+		if (createDateSource != null) {
+			setCreateDateSource(createDateSource);
+		}
+
+		Date modifiedDateSource = (Date)attributes.get("modifiedDateSource");
+
+		if (modifiedDateSource != null) {
+			setModifiedDateSource(modifiedDateSource);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -837,6 +851,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public Date getCreateDate() {
 		return _event.getCreateDate();
+	}
+
+	/**
+	 * Returns the create date source of this event.
+	 *
+	 * @return the create date source of this event
+	 */
+	@Override
+	public Date getCreateDateSource() {
+		return _event.getCreateDateSource();
 	}
 
 	/**
@@ -1296,6 +1320,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public Date getModifiedDate() {
 		return _event.getModifiedDate();
+	}
+
+	/**
+	 * Returns the modified date source of this event.
+	 *
+	 * @return the modified date source of this event
+	 */
+	@Override
+	public Date getModifiedDateSource() {
+		return _event.getModifiedDateSource();
 	}
 
 	/**
@@ -2723,6 +2757,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	 * Sets the create date source of this event.
+	 *
+	 * @param createDateSource the create date source of this event
+	 */
+	@Override
+	public void setCreateDateSource(Date createDateSource) {
+		_event.setCreateDateSource(createDateSource);
+	}
+
+	/**
 	 * Sets the description of this event.
 	 *
 	 * @param description the description of this event
@@ -3011,6 +3055,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_event.setModifiedDate(modifiedDate);
+	}
+
+	/**
+	 * Sets the modified date source of this event.
+	 *
+	 * @param modifiedDateSource the modified date source of this event
+	 */
+	@Override
+	public void setModifiedDateSource(Date modifiedDateSource) {
+		_event.setModifiedDateSource(modifiedDateSource);
 	}
 
 	@Override

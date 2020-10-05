@@ -165,6 +165,8 @@ create table agenda_Event (
 	program TEXT null,
 	firstStartDate DATE null,
 	lastEndDate DATE null,
+	createDateSource DATE null,
+	modifiedDateSource DATE null,
 	imageId LONG
 );
 
@@ -203,9 +205,11 @@ create table agenda_ImportReport (
 	newEventsCount LONG,
 	modifiedEventsCount LONG,
 	errorEventsCount LONG,
+	unmodifiedEventsCount LONG,
 	newManifestationsCount LONG,
 	modifiedManifestationsCount LONG,
 	errorManifestationsCount LONG,
+	unModifiedManifestationsCount LONG,
 	startDate DATE null,
 	endDate DATE null
 );
@@ -245,5 +249,7 @@ create table agenda_Manifestation (
 	endDate DATE null,
 	source VARCHAR(75) null,
 	idSource VARCHAR(75) null,
-	publicationDate DATE null
+	publicationDate DATE null,
+	createDateSource DATE null,
+	modifiedDateSource DATE null
 );

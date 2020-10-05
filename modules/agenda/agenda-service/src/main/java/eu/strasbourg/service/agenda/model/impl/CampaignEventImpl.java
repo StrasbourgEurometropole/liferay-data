@@ -14,12 +14,7 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.text.DateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -30,13 +25,16 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.template.*;
+import com.liferay.portal.kernel.template.Template;
+import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateException;
+import com.liferay.portal.kernel.template.TemplateManagerUtil;
+import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.URLTemplateResource;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.model.CampaignEventStatus;
 import eu.strasbourg.service.agenda.model.EventPeriod;
@@ -53,6 +51,18 @@ import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.models.LegacyPlace;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the CampaignEvent service. Represents a
@@ -587,6 +597,15 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		// Id externe
 		jsonEvent.put("externalId",
 				this.getCampaign().getTitleCurrentValue().substring(0, 3) + "_" + this.getCampaignEventId());
+
+		// date de création chez nous (YYYY-MM-DD HH:MM:SS)
+		DateFormat dateTimeFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		jsonEvent.put("creation_date",
+				dateTimeFormat.format(this.getCreateDate().toString()));
+
+		// date de modification chez nous (YYYY-MM-DD HH:MM:SS)
+		jsonEvent.put("modification_date",
+				dateTimeFormat.format(this.getModifiedDate()));
 
 		// Titre, sous-titre, description
 		jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));

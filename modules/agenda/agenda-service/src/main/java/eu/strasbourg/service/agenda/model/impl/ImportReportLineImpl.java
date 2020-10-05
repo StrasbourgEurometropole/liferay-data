@@ -14,11 +14,9 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import com.liferay.portal.kernel.util.Validator;
-
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.utils.ImportReportLineStatus;
-import eu.strasbourg.service.agenda.utils.ImportReportStatus;
 
 /**
  * The extended model implementation for the ImportReportLine service.
@@ -44,7 +42,6 @@ public class ImportReportLineImpl extends ImportReportLineBaseImpl {
 	 * eu.strasbourg.service.agenda.model.ImportReportLine} interface instead.
 	 */
 	public ImportReportLineImpl() {
-		this.setStatus(ImportReportLineStatus.SUCCESS_ADD);
 	}
 
 	@Override

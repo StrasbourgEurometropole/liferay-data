@@ -14,18 +14,17 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import java.io.StringWriter;
-import java.util.*;
-import java.util.stream.Collectors;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.template.*;
+import com.liferay.portal.kernel.template.Template;
+import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateManagerUtil;
+import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.URLTemplateResource;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.ImportReportLine;
 import eu.strasbourg.service.agenda.model.Manifestation;
@@ -34,6 +33,14 @@ import eu.strasbourg.service.agenda.utils.ImportReportLineStatus;
 import eu.strasbourg.service.agenda.utils.ImportReportStatus;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+
+import java.io.StringWriter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 /**
@@ -105,6 +112,17 @@ public class ImportReportImpl extends ImportReportBaseImpl {
 	public void incrementErrorManifestations() {
 		this.setErrorManifestationsCount(
 			this.getErrorManifestationsCount() + 1);
+	}
+
+	@Override
+	public void incrementUnmodifiedEvents() {
+		this.setUnmodifiedEventsCount(this.getUnmodifiedEventsCount() + 1);
+	}
+
+	@Override
+	public void incrementUnmodifiedManifestations() {
+		this.setUnModifiedManifestationsCount(
+				this.getUnModifiedManifestationsCount() + 1);
 	}
 
 	@Override
