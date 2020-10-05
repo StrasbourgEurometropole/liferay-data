@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.ejob.service.impl;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -34,6 +35,8 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.ejob.exception.NoSuchOfferException;
@@ -356,43 +359,40 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 		long pk = counterLocalService.increment();
 		String uuid = PortalUUIDUtil.generate();
 
+		Offer offer = null;
 		Offer offerToCopy = this.getOffer(offerId);
-		Offer offer = (Offer) offerToCopy.clone();
+		if(Validator.isNotNull(offerToCopy)) {
+			offer = (Offer) offerToCopy.clone();
 
-		offer.setGroupId(sc.getScopeGroupId());
-		offer.setUserName(user.getFullName());
-		offer.setUserId(sc.getUserId());
-		offer.setNew(true);
-		// Champ : isExported (1 si offre interne)
-		if (Validator.isNotNull(offer.getTypePublication())) {
-			if (offer.getTypePublication().getName().equals("Interne uniquement") || offer.getTypePublication().getName().equals("Interne et externe"))
-				offer.setIsExported(1);
-			else
-				offer.setIsExported(0);
+			offer.setGroupId(sc.getScopeGroupId());
+			offer.setUserName(user.getFullName());
+			offer.setUserId(sc.getUserId());
+			offer.setNew(true);
+			// Champ : isExported (1 si offre interne)
+			if (Validator.isNotNull(offer.getTypePublication())) {
+				if (offer.getTypePublication().getName().equals("Interne uniquement") || offer.getTypePublication().getName().equals("Interne et externe"))
+					offer.setIsExported(1);
+				else
+					offer.setIsExported(0);
+			}
+			offer.setEmailSend(0);
+			offer.setEmailPartnerSent(0);
+			offer.setUuid(uuid);
+			offer = this.updateOffer(offer, sc);
+
+			String publicationId = AssetVocabularyHelper.getCategoryProperty(offerToCopy.getTypeRecrutement().getCategoryId(), "acro");
+			publicationId += String.format("%06d", offer.getOfferId());
+			offer.setPublicationId(publicationId);
+			offer = this.updateOffer(offer, sc);
+
+			this.setCategoriesForCopy(offerToCopy, offer, sc);
 		}
-		offer.setEmailSend(0);
-		offer.setEmailPartnerSent(0);
-		String publicationId = AssetVocabularyHelper.getCategoryProperty(offer.getOfferTypeRecrutement().getCategoryId(), "acro");
-		publicationId += String.format("%06d", pk);
-		offer.setPublicationId(publicationId);
-		offer.setUuid(uuid);
-		offer = this.updateOffer(offer, sc);
-
-		this.setCategoriesForCopy(offerToCopy, offer, sc);
-
-		publicationId = AssetVocabularyHelper.getCategoryProperty(offer.getOfferTypeRecrutement().getCategoryId(), "acro");
-		publicationId += String.format("%06d", offer.getOfferId());
-		offer.setPublicationId(publicationId);
-		offer = this.updateOffer(offer, sc);
-
-		this.setCategoriesForCopy(offerToCopy, offer, sc);
 
 		return offer;
 	}
 
 	@Override
 	public void setCategoriesForCopy(Offer offerToCopy, Offer offer, ServiceContext sc){
-
 
 		List<AssetCategory> categories = AssetVocabularyHelper.getAssetEntryCategories(offerToCopy.getAssetEntry());
 		long[] categoryIds = new long[categories.size()];
