@@ -346,4 +346,68 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 	public List<Offer> findOffersNotSent() {
 		return this.offerPersistence.findBySent(0);
 	}
+
+	/**
+	 * Duplique une offre et la retourne
+	 */
+	@Override
+	public Offer copyOffer(ServiceContext sc, long offerId) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+		long pk = counterLocalService.increment();
+		String uuid = PortalUUIDUtil.generate();
+
+		Offer offerToCopy = this.getOffer(offerId);
+		Offer offer = (Offer) offerToCopy.clone();
+
+		offer.setGroupId(sc.getScopeGroupId());
+		offer.setUserName(user.getFullName());
+		offer.setUserId(sc.getUserId());
+		offer.setNew(true);
+		// Champ : isExported (1 si offre interne)
+		if (Validator.isNotNull(offer.getTypePublication())) {
+			if (offer.getTypePublication().getName().equals("Interne uniquement") || offer.getTypePublication().getName().equals("Interne et externe"))
+				offer.setIsExported(1);
+			else
+				offer.setIsExported(0);
+		}
+		offer.setEmailSend(0);
+		offer.setEmailPartnerSent(0);
+		String publicationId = AssetVocabularyHelper.getCategoryProperty(offer.getOfferTypeRecrutement().getCategoryId(), "acro");
+		publicationId += String.format("%06d", pk);
+		offer.setPublicationId(publicationId);
+		offer.setUuid(uuid);
+		offer = this.updateOffer(offer, sc);
+
+		this.setCategoriesForCopy(offerToCopy, offer, sc);
+
+		publicationId = AssetVocabularyHelper.getCategoryProperty(offer.getOfferTypeRecrutement().getCategoryId(), "acro");
+		publicationId += String.format("%06d", offer.getOfferId());
+		offer.setPublicationId(publicationId);
+		offer = this.updateOffer(offer, sc);
+
+		this.setCategoriesForCopy(offerToCopy, offer, sc);
+
+		return offer;
+	}
+
+	@Override
+	public void setCategoriesForCopy(Offer offerToCopy, Offer offer, ServiceContext sc){
+
+
+		List<AssetCategory> categories = AssetVocabularyHelper.getAssetEntryCategories(offerToCopy.getAssetEntry());
+		long[] categoryIds = new long[categories.size()];
+		for (int i = 0; i < categories.size(); i++) {
+			if (Validator.isNotNull(categories.get(i))) {
+				categoryIds[i] = Long.parseLong(categories.get(i).getCategoryId()+"");
+			}
+		}
+
+		try {
+			this.assetEntryLocalService.updateEntry(sc.getUserId(),
+					offer.getGroupId(), Offer.class.getName(),
+					offer.getOfferId(), categoryIds, null);
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+	}
 }

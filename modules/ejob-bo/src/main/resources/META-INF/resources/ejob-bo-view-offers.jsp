@@ -109,9 +109,19 @@
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
 
-						<!-- ACTION : Édition -->
+						<!-- ACTION : Modifier -->
 						<c:if test="${dc.hasPermission('EDIT_OFFER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editOfferURL}" />
+						</c:if>
+
+						<%-- ACTION : Dupliquer --%>
+                        <liferay-portlet:actionURL name="copyOffer" varImpl="copyOfferURL">
+                            <portlet:param name="cmd" value="copyOffer" />
+							<portlet:param name="tab" value="offers" />
+                            <portlet:param name="offerId" value="${offer.offerId}" />
+                        </liferay-portlet:actionURL>
+						<c:if test="${dc.hasPermission('EDIT_OFFER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<liferay-ui:icon message="duplicate" url="${copyOfferURL}" />
 						</c:if>
 
                         <!-- ACTION : Supprimer -->
