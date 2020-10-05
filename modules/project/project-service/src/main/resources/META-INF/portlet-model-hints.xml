@@ -62,7 +62,7 @@
 		</field>
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
-		<field name="filesIds" type="String" >
+		<field name="filesIds" type="String">
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="budgetPhaseId" type="long" />
@@ -149,7 +149,7 @@
 		<field name="assetEntryId" type="long" />
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
-		<field name="filesIds" type="String" >
+		<field name="filesIds" type="String">
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="publicationDate" type="Date" />
@@ -211,7 +211,7 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="imageId" type="long" />
-		<field name="filesIds" type="String" >
+		<field name="filesIds" type="String">
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="eventsIds" type="String" />
@@ -274,7 +274,7 @@
 		<field name="mediaChoice" type="boolean" />
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
-		<field name="filesIds" type="String" >
+		<field name="filesIds" type="String">
 			<hint name="max-length">400</hint>
 		</field>
 	</model>

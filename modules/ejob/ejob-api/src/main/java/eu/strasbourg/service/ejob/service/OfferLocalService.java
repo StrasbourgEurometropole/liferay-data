@@ -40,8 +40,9 @@ import eu.strasbourg.service.ejob.model.Offer;
 
 import java.io.Serializable;
 
-import java.util.*;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Offer. Methods of this
@@ -214,7 +215,7 @@ public interface OfferLocalService
 	/**
 	 * Retourne les offres via sa date de début de publication
 	 */
-	public List<Offer> findByPublicationStartDate(java.util.Date date);
+	public List<Offer> findByPublicationStartDate(Date date);
 
 	/**
 	 * Retourne les offres qui n'ont pas été exportées
@@ -351,7 +352,7 @@ public interface OfferLocalService
 	 */
 	public Offer updateStatus(
 			long userId, long entryId, int status, ServiceContext sc,
-			java.util.Map<String, Serializable> workflowContext)
+			Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 	/**
