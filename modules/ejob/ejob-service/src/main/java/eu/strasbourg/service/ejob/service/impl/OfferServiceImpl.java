@@ -47,7 +47,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.base.OfferServiceBaseImpl;
 import eu.strasbourg.utils.PortletHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import java.io.ByteArrayOutputStream;
@@ -104,7 +103,7 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 			document.add(img.setHorizontalAlignment(HorizontalAlignment.CENTER));
 
 			// vagues
-			String domaine = StrasbourgPropsUtil.getURL();
+			String domaine = "http://localhost:8080";
 			image = ImageDataFactory.create(domaine + "/o/strasbourg-theme/images/vagues.jpg");
 			img = new Image(image);
 			document.add(img.setHorizontalAlignment(HorizontalAlignment.CENTER));
