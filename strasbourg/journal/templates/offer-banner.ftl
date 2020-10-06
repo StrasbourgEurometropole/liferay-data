@@ -24,10 +24,13 @@
 <style>
     .seu-quicklinks{
         justify-content: center;
-        gap: 20px;
         margin-left: auto;
         margin-right: auto;
         margin-bottom: 60px;
+    }
+    
+    .seu-quicklinks .seu-quicklink {
+        margin: 0 5px 10px;
     }
 
     .seu-quicklink:first-child{
