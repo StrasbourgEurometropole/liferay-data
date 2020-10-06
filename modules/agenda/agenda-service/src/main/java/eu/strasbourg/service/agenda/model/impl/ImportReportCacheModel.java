@@ -94,8 +94,8 @@ public class ImportReportCacheModel
 		sb.append(modifiedManifestationsCount);
 		sb.append(", errorManifestationsCount=");
 		sb.append(errorManifestationsCount);
-		sb.append(", unModifiedManifestationsCount=");
-		sb.append(unModifiedManifestationsCount);
+		sb.append(", unmodifiedManifestationsCount=");
+		sb.append(unmodifiedManifestationsCount);
 		sb.append(", startDate=");
 		sb.append(startDate);
 		sb.append(", endDate=");
@@ -149,8 +149,8 @@ public class ImportReportCacheModel
 		importReportImpl.setModifiedManifestationsCount(
 			modifiedManifestationsCount);
 		importReportImpl.setErrorManifestationsCount(errorManifestationsCount);
-		importReportImpl.setUnModifiedManifestationsCount(
-			unModifiedManifestationsCount);
+		importReportImpl.setUnmodifiedManifestationsCount(
+			unmodifiedManifestationsCount);
 
 		if (startDate == Long.MIN_VALUE) {
 			importReportImpl.setStartDate(null);
@@ -196,7 +196,7 @@ public class ImportReportCacheModel
 
 		errorManifestationsCount = objectInput.readLong();
 
-		unModifiedManifestationsCount = objectInput.readLong();
+		unmodifiedManifestationsCount = objectInput.readLong();
 		startDate = objectInput.readLong();
 		endDate = objectInput.readLong();
 	}
@@ -249,7 +249,7 @@ public class ImportReportCacheModel
 
 		objectOutput.writeLong(errorManifestationsCount);
 
-		objectOutput.writeLong(unModifiedManifestationsCount);
+		objectOutput.writeLong(unmodifiedManifestationsCount);
 		objectOutput.writeLong(startDate);
 		objectOutput.writeLong(endDate);
 	}
@@ -267,7 +267,7 @@ public class ImportReportCacheModel
 	public long newManifestationsCount;
 	public long modifiedManifestationsCount;
 	public long errorManifestationsCount;
-	public long unModifiedManifestationsCount;
+	public long unmodifiedManifestationsCount;
 	public long startDate;
 	public long endDate;
 

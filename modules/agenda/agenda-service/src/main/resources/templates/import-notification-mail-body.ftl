@@ -31,6 +31,7 @@
 
 	${report.unmodifiedEventsCount} événement<#if (report.unmodifiedEventsCount > 1)>s</#if> non modifié<#if (report.unmodifiedEventsCount > 1)>s</#if>
 
+
     ${report.newManifestationsCount} manifestation<#if (report.newManifestationsCount > 1)>s</#if> créée<#if (report.newManifestationsCount > 1)>s</#if>
 	
 	<#list report.newManifestationsLines as manif>
@@ -44,4 +45,5 @@
 	</#list>
 
 	${report.unmodifiedManifestationsCount} manifestation<#if (report.unmodifiedManifestationsCount > 1)>s</#if> non modifiée<#if (report.unmodifiedManifestationsCount > 1)>s</#if>
+
 </#if>

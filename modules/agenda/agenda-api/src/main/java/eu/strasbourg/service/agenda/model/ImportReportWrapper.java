@@ -74,8 +74,8 @@ public class ImportReportWrapper
 		attributes.put(
 			"errorManifestationsCount", getErrorManifestationsCount());
 		attributes.put(
-			"unModifiedManifestationsCount",
-			getUnModifiedManifestationsCount());
+			"unmodifiedManifestationsCount",
+			getUnmodifiedManifestationsCount());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
 
@@ -166,11 +166,11 @@ public class ImportReportWrapper
 			setErrorManifestationsCount(errorManifestationsCount);
 		}
 
-		Long unModifiedManifestationsCount = (Long)attributes.get(
-			"unModifiedManifestationsCount");
+		Long unmodifiedManifestationsCount = (Long)attributes.get(
+			"unmodifiedManifestationsCount");
 
-		if (unModifiedManifestationsCount != null) {
-			setUnModifiedManifestationsCount(unModifiedManifestationsCount);
+		if (unmodifiedManifestationsCount != null) {
+			setUnmodifiedManifestationsCount(unmodifiedManifestationsCount);
 		}
 
 		Date startDate = (Date)attributes.get("startDate");
@@ -408,13 +408,13 @@ public class ImportReportWrapper
 	}
 
 	/**
-	 * Returns the un modified manifestations count of this import report.
+	 * Returns the unmodified manifestations count of this import report.
 	 *
-	 * @return the un modified manifestations count of this import report
+	 * @return the unmodified manifestations count of this import report
 	 */
 	@Override
-	public long getUnModifiedManifestationsCount() {
-		return _importReport.getUnModifiedManifestationsCount();
+	public long getUnmodifiedManifestationsCount() {
+		return _importReport.getUnmodifiedManifestationsCount();
 	}
 
 	/**
@@ -688,16 +688,16 @@ public class ImportReportWrapper
 	}
 
 	/**
-	 * Sets the un modified manifestations count of this import report.
+	 * Sets the unmodified manifestations count of this import report.
 	 *
-	 * @param unModifiedManifestationsCount the un modified manifestations count of this import report
+	 * @param unmodifiedManifestationsCount the unmodified manifestations count of this import report
 	 */
 	@Override
-	public void setUnModifiedManifestationsCount(
-		long unModifiedManifestationsCount) {
+	public void setUnmodifiedManifestationsCount(
+		long unmodifiedManifestationsCount) {
 
-		_importReport.setUnModifiedManifestationsCount(
-			unModifiedManifestationsCount);
+		_importReport.setUnmodifiedManifestationsCount(
+			unmodifiedManifestationsCount);
 	}
 
 	/**

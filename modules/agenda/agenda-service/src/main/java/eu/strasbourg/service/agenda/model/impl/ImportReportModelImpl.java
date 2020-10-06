@@ -77,7 +77,7 @@ public class ImportReportModelImpl
 		{"newManifestationsCount", Types.BIGINT},
 		{"modifiedManifestationsCount", Types.BIGINT},
 		{"errorManifestationsCount", Types.BIGINT},
-		{"unModifiedManifestationsCount", Types.BIGINT},
+		{"unmodifiedManifestationsCount", Types.BIGINT},
 		{"startDate", Types.TIMESTAMP}, {"endDate", Types.TIMESTAMP}
 	};
 
@@ -98,13 +98,13 @@ public class ImportReportModelImpl
 		TABLE_COLUMNS_MAP.put("newManifestationsCount", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("modifiedManifestationsCount", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("errorManifestationsCount", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("unModifiedManifestationsCount", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("unmodifiedManifestationsCount", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_ImportReport (uuid_ VARCHAR(75) null,reportId LONG not null primary key,provider VARCHAR(75) null,filename VARCHAR(75) null,status LONG,globalErrorCause VARCHAR(75) null,newEventsCount LONG,modifiedEventsCount LONG,errorEventsCount LONG,unmodifiedEventsCount LONG,newManifestationsCount LONG,modifiedManifestationsCount LONG,errorManifestationsCount LONG,unModifiedManifestationsCount LONG,startDate DATE null,endDate DATE null)";
+		"create table agenda_ImportReport (uuid_ VARCHAR(75) null,reportId LONG not null primary key,provider VARCHAR(75) null,filename VARCHAR(75) null,status LONG,globalErrorCause VARCHAR(75) null,newEventsCount LONG,modifiedEventsCount LONG,errorEventsCount LONG,unmodifiedEventsCount LONG,newManifestationsCount LONG,modifiedManifestationsCount LONG,errorManifestationsCount LONG,unmodifiedManifestationsCount LONG,startDate DATE null,endDate DATE null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table agenda_ImportReport";
@@ -553,26 +553,26 @@ public class ImportReportModelImpl
 
 			});
 		attributeGetterFunctions.put(
-			"unModifiedManifestationsCount",
+			"unmodifiedManifestationsCount",
 			new Function<ImportReport, Object>() {
 
 				@Override
 				public Object apply(ImportReport importReport) {
-					return importReport.getUnModifiedManifestationsCount();
+					return importReport.getUnmodifiedManifestationsCount();
 				}
 
 			});
 		attributeSetterBiConsumers.put(
-			"unModifiedManifestationsCount",
+			"unmodifiedManifestationsCount",
 			new BiConsumer<ImportReport, Object>() {
 
 				@Override
 				public void accept(
 					ImportReport importReport,
-					Object unModifiedManifestationsCount) {
+					Object unmodifiedManifestationsCount) {
 
-					importReport.setUnModifiedManifestationsCount(
-						(Long)unModifiedManifestationsCount);
+					importReport.setUnmodifiedManifestationsCount(
+						(Long)unmodifiedManifestationsCount);
 				}
 
 			});
@@ -788,15 +788,15 @@ public class ImportReportModelImpl
 	}
 
 	@Override
-	public long getUnModifiedManifestationsCount() {
-		return _unModifiedManifestationsCount;
+	public long getUnmodifiedManifestationsCount() {
+		return _unmodifiedManifestationsCount;
 	}
 
 	@Override
-	public void setUnModifiedManifestationsCount(
-		long unModifiedManifestationsCount) {
+	public void setUnmodifiedManifestationsCount(
+		long unmodifiedManifestationsCount) {
 
-		_unModifiedManifestationsCount = unModifiedManifestationsCount;
+		_unmodifiedManifestationsCount = unmodifiedManifestationsCount;
 	}
 
 	@Override
@@ -865,8 +865,8 @@ public class ImportReportModelImpl
 			getModifiedManifestationsCount());
 		importReportImpl.setErrorManifestationsCount(
 			getErrorManifestationsCount());
-		importReportImpl.setUnModifiedManifestationsCount(
-			getUnModifiedManifestationsCount());
+		importReportImpl.setUnmodifiedManifestationsCount(
+			getUnmodifiedManifestationsCount());
 		importReportImpl.setStartDate(getStartDate());
 		importReportImpl.setEndDate(getEndDate());
 
@@ -995,8 +995,8 @@ public class ImportReportModelImpl
 		importReportCacheModel.errorManifestationsCount =
 			getErrorManifestationsCount();
 
-		importReportCacheModel.unModifiedManifestationsCount =
-			getUnModifiedManifestationsCount();
+		importReportCacheModel.unmodifiedManifestationsCount =
+			getUnmodifiedManifestationsCount();
 
 		Date startDate = getStartDate();
 
@@ -1099,7 +1099,7 @@ public class ImportReportModelImpl
 	private long _newManifestationsCount;
 	private long _modifiedManifestationsCount;
 	private long _errorManifestationsCount;
-	private long _unModifiedManifestationsCount;
+	private long _unmodifiedManifestationsCount;
 	private Date _startDate;
 	private Date _endDate;
 	private long _columnBitmask;

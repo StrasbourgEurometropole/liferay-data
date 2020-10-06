@@ -248,19 +248,19 @@ public interface ImportReportModel extends BaseModel<ImportReport> {
 	public void setErrorManifestationsCount(long errorManifestationsCount);
 
 	/**
-	 * Returns the un modified manifestations count of this import report.
+	 * Returns the unmodified manifestations count of this import report.
 	 *
-	 * @return the un modified manifestations count of this import report
+	 * @return the unmodified manifestations count of this import report
 	 */
-	public long getUnModifiedManifestationsCount();
+	public long getUnmodifiedManifestationsCount();
 
 	/**
-	 * Sets the un modified manifestations count of this import report.
+	 * Sets the unmodified manifestations count of this import report.
 	 *
-	 * @param unModifiedManifestationsCount the un modified manifestations count of this import report
+	 * @param unmodifiedManifestationsCount the unmodified manifestations count of this import report
 	 */
-	public void setUnModifiedManifestationsCount(
-		long unModifiedManifestationsCount);
+	public void setUnmodifiedManifestationsCount(
+		long unmodifiedManifestationsCount);
 
 	/**
 	 * Returns the start date of this import report.

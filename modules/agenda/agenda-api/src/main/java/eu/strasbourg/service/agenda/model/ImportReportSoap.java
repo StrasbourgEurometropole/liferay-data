@@ -49,8 +49,8 @@ public class ImportReportSoap implements Serializable {
 			model.getModifiedManifestationsCount());
 		soapModel.setErrorManifestationsCount(
 			model.getErrorManifestationsCount());
-		soapModel.setUnModifiedManifestationsCount(
-			model.getUnModifiedManifestationsCount());
+		soapModel.setUnmodifiedManifestationsCount(
+			model.getUnmodifiedManifestationsCount());
 		soapModel.setStartDate(model.getStartDate());
 		soapModel.setEndDate(model.getEndDate());
 
@@ -212,14 +212,14 @@ public class ImportReportSoap implements Serializable {
 		_errorManifestationsCount = errorManifestationsCount;
 	}
 
-	public long getUnModifiedManifestationsCount() {
-		return _unModifiedManifestationsCount;
+	public long getUnmodifiedManifestationsCount() {
+		return _unmodifiedManifestationsCount;
 	}
 
-	public void setUnModifiedManifestationsCount(
-		long unModifiedManifestationsCount) {
+	public void setUnmodifiedManifestationsCount(
+		long unmodifiedManifestationsCount) {
 
-		_unModifiedManifestationsCount = unModifiedManifestationsCount;
+		_unmodifiedManifestationsCount = unmodifiedManifestationsCount;
 	}
 
 	public Date getStartDate() {
@@ -251,7 +251,7 @@ public class ImportReportSoap implements Serializable {
 	private long _newManifestationsCount;
 	private long _modifiedManifestationsCount;
 	private long _errorManifestationsCount;
-	private long _unModifiedManifestationsCount;
+	private long _unmodifiedManifestationsCount;
 	private Date _startDate;
 	private Date _endDate;
 

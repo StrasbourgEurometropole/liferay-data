@@ -249,7 +249,7 @@
 		<field name="newManifestationsCount" type="long" />
 		<field name="modifiedManifestationsCount" type="long" />
 		<field name="errorManifestationsCount" type="long" />
-		<field name="unModifiedManifestationsCount" type="long" />
+		<field name="unmodifiedManifestationsCount" type="long" />
 		<field name="startDate" type="Date" />
 		<field name="endDate" type="Date" />
 	</model>

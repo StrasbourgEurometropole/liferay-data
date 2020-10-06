@@ -42,6 +42,7 @@ public class ImportReportLineImpl extends ImportReportLineBaseImpl {
 	 * eu.strasbourg.service.agenda.model.ImportReportLine} interface instead.
 	 */
 	public ImportReportLineImpl() {
+		this.setStatus(ImportReportLineStatus.SUCCESS);
 	}
 
 	@Override

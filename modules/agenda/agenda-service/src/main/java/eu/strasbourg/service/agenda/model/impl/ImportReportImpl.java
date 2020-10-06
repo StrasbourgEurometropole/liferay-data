@@ -121,8 +121,8 @@ public class ImportReportImpl extends ImportReportBaseImpl {
 
 	@Override
 	public void incrementUnmodifiedManifestations() {
-		this.setUnModifiedManifestationsCount(
-				this.getUnModifiedManifestationsCount() + 1);
+		this.setUnmodifiedManifestationsCount(
+				this.getUnmodifiedManifestationsCount() + 1);
 	}
 
 	@Override

@@ -41,8 +41,7 @@ public class ExportCampaignsMessageListener
 		// Création du trigger "Tous les jours à 1h45"
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-//				"0 45 1 * * ?");
-		1, TimeUnit.MINUTE);
+				"0 45 1 * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);

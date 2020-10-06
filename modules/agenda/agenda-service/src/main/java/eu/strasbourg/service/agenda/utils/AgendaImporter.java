@@ -572,7 +572,7 @@ public class AgendaImporter {
 
 		String createDateSourceString = jsonEvent.getString("creation_date");
 		Date createDateSource = null;
-		if (createDateSourceString != null) {
+		if (Validator.isNotNull(createDateSourceString)) {
 			try {
 				createDateSource = dateFormat.parse(createDateSourceString);
 				if (createDateSource == null) {
@@ -590,7 +590,7 @@ public class AgendaImporter {
 
 		String modifiedDateSourceString = jsonEvent.getString("modification_date");
 		Date modifiedDateSource = null;
-		if (modifiedDateSourceString != null) {
+		if (Validator.isNotNull(modifiedDateSourceString)) {
 			try {
 				modifiedDateSource = dateFormat.parse(modifiedDateSourceString);
 				if (modifiedDateSource == null) {
@@ -856,7 +856,7 @@ public class AgendaImporter {
 				}
 			}
 
-			if(event.getModifiedDateSource().compareTo(modifiedDateSource) != 0) {
+			if(Validator.isNull(event.getModifiedDateSource()) || event.getModifiedDateSource().compareTo(modifiedDateSource) != 0) {
 				// On set les champs
 				event.setIdSource(id);
 				event.setSource(provider);

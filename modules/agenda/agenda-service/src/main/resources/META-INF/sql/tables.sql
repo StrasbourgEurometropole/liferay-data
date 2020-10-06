@@ -209,7 +209,7 @@ create table agenda_ImportReport (
 	newManifestationsCount LONG,
 	modifiedManifestationsCount LONG,
 	errorManifestationsCount LONG,
-	unModifiedManifestationsCount LONG,
+	unmodifiedManifestationsCount LONG,
 	startDate DATE null,
 	endDate DATE null
 );
