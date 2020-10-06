@@ -41,8 +41,8 @@ public class InstagramClient {
 		}
 
 
-		Object[] stringData = {token, count};
-		String apiURL = "https://graph.instagram.com/me?access_token=%s&fields=media&limit=%s";
+		Object[] stringData = {token};
+		String apiURL = "https://graph.instagram.com/me?access_token=%s&fields=media";
 		apiURL = String.format(apiURL, stringData);
 
 		List<SocialPost> posts = new ArrayList<SocialPost>();
@@ -52,7 +52,7 @@ public class InstagramClient {
 
 			JSONArray jsonMediaIdList = json.getJSONObject("media").getJSONArray("data");
 
-			for (int i = 0; i < jsonMediaIdList.length(); i++) {
+			for (int i = 0; i < count; i++) {
 				JSONObject jsonMediaId = jsonMediaIdList.getJSONObject(i);
 
 				// Récupération du média
@@ -70,32 +70,29 @@ public class InstagramClient {
 				// Image
 				// type de média
 				String type = jsonMedia.getString("media_type");
-				if(type.equals("IMAGE")) {
-					// Image
-					String imageURL = "";
-					if(type.equals("VIDEO")) {
-						imageURL = jsonMedia.getString("thumbnail_url");
-					}else {
-						imageURL = jsonMedia.getString("media_url");
-					}
-					post.setImageURL(imageURL);
-
-					// Texte
-					String caption = jsonMedia.getString("caption");
-					post.setContent(caption);
-
-					// Date
-					String formattedDate = jsonMedia.getString("timestamp");
-					LocalDateTime dateTime = LocalDateTime.parse(formattedDate, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ"));
-					Date date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
-					post.setDate(date);
-
-					// URL
-					String url = jsonMedia.getString("permalink");
-					post.setUrl(url);
-
-					posts.add(post);
+				String imageURL = "";
+				if(type.equals("VIDEO")) {
+					imageURL = jsonMedia.getString("thumbnail_url");
+				}else {
+					imageURL = jsonMedia.getString("media_url");
 				}
+				post.setImageURL(imageURL);
+
+				// Texte
+				String caption = jsonMedia.getString("caption");
+				post.setContent(caption);
+
+				// Date
+				String formattedDate = jsonMedia.getString("timestamp");
+				LocalDateTime dateTime = LocalDateTime.parse(formattedDate, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ"));
+				Date date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+				post.setDate(date);
+
+				// URL
+				String url = jsonMedia.getString("permalink");
+				post.setUrl(url);
+
+				posts.add(post);
 			}
 		} catch (JSONException | IOException e) {
 			log.error(e);

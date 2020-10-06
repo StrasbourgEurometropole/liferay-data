@@ -78,6 +78,12 @@ public interface OfferLocalService
 	public Offer addOffer(Offer offer);
 
 	/**
+	 * Duplique une offre et la retourne
+	 */
+	public Offer copyOffer(ServiceContext sc, long offerId)
+		throws PortalException;
+
+	/**
 	 * Creates a new offer with the primary key. Does not add the offer to the database.
 	 *
 	 * @param offerId the primary key for the new offer
@@ -322,6 +328,9 @@ public interface OfferLocalService
 	 * Supprime une edition
 	 */
 	public Offer removeOffer(long offerId) throws PortalException;
+
+	public void setCategoriesForCopy(
+		Offer offerToCopy, Offer offer, ServiceContext sc);
 
 	/**
 	 * Updates the offer in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

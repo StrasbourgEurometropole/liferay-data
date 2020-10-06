@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.ejob.service.impl;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -34,6 +35,8 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.ejob.exception.NoSuchOfferException;
@@ -345,5 +348,66 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 	@Override
 	public List<Offer> findOffersNotSent() {
 		return this.offerPersistence.findBySent(0);
+	}
+
+	/**
+	 * Duplique une offre et la retourne
+	 */
+	@Override
+	public Offer copyOffer(ServiceContext sc, long offerId) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+		long pk = counterLocalService.increment();
+		String uuid = PortalUUIDUtil.generate();
+
+		Offer offer = null;
+		Offer offerToCopy = this.getOffer(offerId);
+		if(Validator.isNotNull(offerToCopy)) {
+			offer = (Offer) offerToCopy.clone();
+
+			offer.setGroupId(sc.getScopeGroupId());
+			offer.setUserName(user.getFullName());
+			offer.setUserId(sc.getUserId());
+			offer.setNew(true);
+			// Champ : isExported (1 si offre interne)
+			if (Validator.isNotNull(offer.getTypePublication())) {
+				if (offer.getTypePublication().getName().equals("Interne uniquement") || offer.getTypePublication().getName().equals("Interne et externe"))
+					offer.setIsExported(1);
+				else
+					offer.setIsExported(0);
+			}
+			offer.setEmailSend(0);
+			offer.setEmailPartnerSent(0);
+			offer.setUuid(uuid);
+			offer = this.updateOffer(offer, sc);
+
+			String publicationId = AssetVocabularyHelper.getCategoryProperty(offerToCopy.getTypeRecrutement().getCategoryId(), "acro");
+			publicationId += String.format("%06d", offer.getOfferId());
+			offer.setPublicationId(publicationId);
+			offer = this.updateOffer(offer, sc);
+
+			this.setCategoriesForCopy(offerToCopy, offer, sc);
+		}
+
+		return offer;
+	}
+
+	@Override
+	public void setCategoriesForCopy(Offer offerToCopy, Offer offer, ServiceContext sc){
+
+		List<AssetCategory> categories = AssetVocabularyHelper.getAssetEntryCategories(offerToCopy.getAssetEntry());
+		long[] categoryIds = new long[categories.size()];
+		for (int i = 0; i < categories.size(); i++) {
+			if (Validator.isNotNull(categories.get(i))) {
+				categoryIds[i] = Long.parseLong(categories.get(i).getCategoryId()+"");
+			}
+		}
+
+		try {
+			this.assetEntryLocalService.updateEntry(sc.getUserId(),
+					offer.getGroupId(), Offer.class.getName(),
+					offer.getOfferId(), categoryIds, null);
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
 	}
 }
