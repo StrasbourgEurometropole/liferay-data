@@ -1,6 +1,8 @@
 package eu.strasbourg.service.ejob.scheduler;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
@@ -56,7 +58,7 @@ public class OfferMessageListener
 		// Création du trigger "Tous les jours à 1H05
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-		"0 5 1 * * ?");
+				"0 5 1 * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
@@ -72,6 +74,7 @@ public class OfferMessageListener
 
 	@Override
 	protected void doReceive(Message message) {
+		log.info("Start export TOTEM");
 		LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
 		Date now = Timestamp.valueOf(today);
 
@@ -87,6 +90,7 @@ public class OfferMessageListener
 				.filter(o -> !o.getTypeRecrutement().getName().equals("Stage") && !o.getTypeRecrutement().getName().equals("Apprentissage"))
 				.filter(o -> o.getPublicationStartDate().compareTo(now) <= 0 && o.getPublicationEndDate().after(now))
 				.collect(Collectors.toList());
+		log.info("NB d'offre à exporter : " + offersNotExported.size());
 
 		if(_offersCsvExporter.exportOffers(offersNotExported)){
 			// on change la valeur de isExported pour les offres
@@ -95,9 +99,11 @@ public class OfferMessageListener
 				_offerLocalService.updateOffer(offer);
 			}
 		}
+		log.info("End export TOTEM");
 
 
 
+		log.info("Start envoi mail aux partenaires");
 		// Envoi mail aux partenaires
 		// Recuperation des offres a envoyer
 		List<Offer> offersExterne = _offerLocalService.findOffersNotSent();
@@ -119,14 +125,17 @@ public class OfferMessageListener
 				_offerLocalService.updateOffer(offer);
 			}
 		}
+		log.info("End envoi mail aux partenaires");
 
 
 
+		log.info("Start envoi mail aux utilisateurs");
 		// Envoi mail des offres aux utilisateurs
 		// ClassNames de l'offre
 		String classNames = Offer.class.getName();
 
 		List<Alert> alerts = _alertLocalService.getAlerts(-1, -1);
+		List<Offer> offersSend = new ArrayList<>();
 		for (Alert alert : alerts) {
 			// Mots clés
 			String keywords = alert.getKeyWord();
@@ -154,22 +163,26 @@ public class OfferMessageListener
 				}
 
 				// on ne garde que les offres qui n'ont pas encore été envoyées (emailSend=0)
+				// on ne prend que les offres externes
 				// qui sont ouvertes (publicationStartDate) et qui ne sont pas finies
 				offersToSend = offersToSend.stream()
 						.filter(o -> o.getEmailSend() == 0)
+						.filter(o -> !o.getTypePublication().equals("Interne uniquement"))
 						.filter(o -> o.getPublicationStartDate().compareTo(now) <= 0 && o.getPublicationEndDate().after(now))
 						.collect(Collectors.toList());
 
 				if(offersToSend.size() > 0) {
 					if (alert.sendMail(offersToSend)) {
-						for (Offer offer : offersToSend) {
-							offer.setEmailSend(1);
-							_offerLocalService.updateOffer(offer);
-						}
+						offersSend.addAll(offersToSend);
 					}
 				}
 			}
 		}
+		for (Offer offer : offersSend) {
+			offer.setEmailSend(1);
+			_offerLocalService.updateOffer(offer);
+		}
+		log.info("End envoi mail aux utilisateurs");
 	}
 
 	@Reference(unbind = "-")
@@ -205,4 +218,6 @@ public class OfferMessageListener
 	private AlertLocalService _alertLocalService;
 	private OffersCsvExporter _offersCsvExporter;
 	private TriggerFactory _triggerFactory;
+
+	private Log log = LogFactoryUtil.getLog(this.getClass());
 }
