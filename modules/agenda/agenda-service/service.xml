@@ -337,6 +337,8 @@
 		<column name="themesIds" type="String" />
 		<column name="typesIds" type="String" />
 		<column name="publicsIds" type="String" />
+		<column name="bookingDescription" type="String" localized="true" />
+		<column name="bookingURL" type="String" />
 
 		<!-- Finder methods -->
 		<finder name="CampaignId" return-type="Collection">

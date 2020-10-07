@@ -66,7 +66,7 @@ public class CampaignEventCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(89);
+		StringBundler sb = new StringBundler(93);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -156,6 +156,10 @@ public class CampaignEventCacheModel
 		sb.append(typesIds);
 		sb.append(", publicsIds=");
 		sb.append(publicsIds);
+		sb.append(", bookingDescription=");
+		sb.append(bookingDescription);
+		sb.append(", bookingURL=");
+		sb.append(bookingURL);
 		sb.append("}");
 
 		return sb.toString();
@@ -414,6 +418,20 @@ public class CampaignEventCacheModel
 			campaignEventImpl.setPublicsIds(publicsIds);
 		}
 
+		if (bookingDescription == null) {
+			campaignEventImpl.setBookingDescription("");
+		}
+		else {
+			campaignEventImpl.setBookingDescription(bookingDescription);
+		}
+
+		if (bookingURL == null) {
+			campaignEventImpl.setBookingURL("");
+		}
+		else {
+			campaignEventImpl.setBookingURL(bookingURL);
+		}
+
 		campaignEventImpl.resetOriginalValues();
 
 		return campaignEventImpl;
@@ -476,6 +494,8 @@ public class CampaignEventCacheModel
 		themesIds = objectInput.readUTF();
 		typesIds = objectInput.readUTF();
 		publicsIds = objectInput.readUTF();
+		bookingDescription = objectInput.readUTF();
+		bookingURL = objectInput.readUTF();
 	}
 
 	@Override
@@ -715,6 +735,20 @@ public class CampaignEventCacheModel
 		else {
 			objectOutput.writeUTF(publicsIds);
 		}
+
+		if (bookingDescription == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(bookingDescription);
+		}
+
+		if (bookingURL == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(bookingURL);
+		}
 	}
 
 	public String uuid;
@@ -761,5 +795,7 @@ public class CampaignEventCacheModel
 	public String themesIds;
 	public String typesIds;
 	public String publicsIds;
+	public String bookingDescription;
+	public String bookingURL;
 
 }

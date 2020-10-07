@@ -388,7 +388,28 @@
 					</div>
 				</div>
 			</aui:fieldset>
-			
+
+			<!-- Groupe de champs : Reservation de billet -->
+			<aui:fieldset collapsed="true" collapsible="false" label="event-booking">
+
+				<!-- Description de la reservation de billet -->
+				<div class="row">
+					<div class="col-md-8">
+						<aui:input label="booking-description" name="bookingDescription" localized="true" type="textarea"/>
+					</div>
+				</div>
+
+				<!-- URL de la reservation de billet -->
+				<div class="row">
+					<div class="col-md-7">
+						<aui:input name="bookingURL" label="booking-url" >
+							<aui:validator name="url" errorMessage="url-error" />
+						</aui:input>
+					</div>
+				</div>
+
+			</aui:fieldset>
+
 			<!-- Autres informations -->
 			<aui:fieldset collapsed="true" collapsible="false" label="other-information">
 				<div class="row">

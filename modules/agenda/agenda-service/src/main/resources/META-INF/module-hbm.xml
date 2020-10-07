@@ -116,6 +116,8 @@
 		<property name="themesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="typesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicsIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="bookingDescription" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="bookingURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.CampaignEventStatusImpl" table="agenda_CampaignEventStatus">
 		<id name="statusId" type="long">

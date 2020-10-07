@@ -103,6 +103,8 @@ public class CampaignEventWrapper
 		attributes.put("themesIds", getThemesIds());
 		attributes.put("typesIds", getTypesIds());
 		attributes.put("publicsIds", getPublicsIds());
+		attributes.put("bookingDescription", getBookingDescription());
+		attributes.put("bookingURL", getBookingURL());
 
 		return attributes;
 	}
@@ -372,6 +374,19 @@ public class CampaignEventWrapper
 		if (publicsIds != null) {
 			setPublicsIds(publicsIds);
 		}
+
+		String bookingDescription = (String)attributes.get(
+			"bookingDescription");
+
+		if (bookingDescription != null) {
+			setBookingDescription(bookingDescription);
+		}
+
+		String bookingURL = (String)attributes.get("bookingURL");
+
+		if (bookingURL != null) {
+			setBookingURL(bookingURL);
+		}
 	}
 
 	@Override
@@ -389,6 +404,94 @@ public class CampaignEventWrapper
 	@Override
 	public String[] getAvailableLanguageIds() {
 		return _campaignEvent.getAvailableLanguageIds();
+	}
+
+	/**
+	 * Returns the booking description of this campaign event.
+	 *
+	 * @return the booking description of this campaign event
+	 */
+	@Override
+	public String getBookingDescription() {
+		return _campaignEvent.getBookingDescription();
+	}
+
+	/**
+	 * Returns the localized booking description of this campaign event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized booking description of this campaign event
+	 */
+	@Override
+	public String getBookingDescription(java.util.Locale locale) {
+		return _campaignEvent.getBookingDescription(locale);
+	}
+
+	/**
+	 * Returns the localized booking description of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized booking description of this campaign event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getBookingDescription(
+		java.util.Locale locale, boolean useDefault) {
+
+		return _campaignEvent.getBookingDescription(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized booking description of this campaign event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized booking description of this campaign event
+	 */
+	@Override
+	public String getBookingDescription(String languageId) {
+		return _campaignEvent.getBookingDescription(languageId);
+	}
+
+	/**
+	 * Returns the localized booking description of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized booking description of this campaign event
+	 */
+	@Override
+	public String getBookingDescription(String languageId, boolean useDefault) {
+		return _campaignEvent.getBookingDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getBookingDescriptionCurrentLanguageId() {
+		return _campaignEvent.getBookingDescriptionCurrentLanguageId();
+	}
+
+	@Override
+	public String getBookingDescriptionCurrentValue() {
+		return _campaignEvent.getBookingDescriptionCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized booking descriptions of this campaign event.
+	 *
+	 * @return the locales and localized booking descriptions of this campaign event
+	 */
+	@Override
+	public Map<java.util.Locale, String> getBookingDescriptionMap() {
+		return _campaignEvent.getBookingDescriptionMap();
+	}
+
+	/**
+	 * Returns the booking url of this campaign event.
+	 *
+	 * @return the booking url of this campaign event
+	 */
+	@Override
+	public String getBookingURL() {
+		return _campaignEvent.getBookingURL();
 	}
 
 	@Override
@@ -1546,6 +1649,87 @@ public class CampaignEventWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		_campaignEvent.sendStatusMail();
+	}
+
+	/**
+	 * Sets the booking description of this campaign event.
+	 *
+	 * @param bookingDescription the booking description of this campaign event
+	 */
+	@Override
+	public void setBookingDescription(String bookingDescription) {
+		_campaignEvent.setBookingDescription(bookingDescription);
+	}
+
+	/**
+	 * Sets the localized booking description of this campaign event in the language.
+	 *
+	 * @param bookingDescription the localized booking description of this campaign event
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setBookingDescription(
+		String bookingDescription, java.util.Locale locale) {
+
+		_campaignEvent.setBookingDescription(bookingDescription, locale);
+	}
+
+	/**
+	 * Sets the localized booking description of this campaign event in the language, and sets the default locale.
+	 *
+	 * @param bookingDescription the localized booking description of this campaign event
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setBookingDescription(
+		String bookingDescription, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		_campaignEvent.setBookingDescription(
+			bookingDescription, locale, defaultLocale);
+	}
+
+	@Override
+	public void setBookingDescriptionCurrentLanguageId(String languageId) {
+		_campaignEvent.setBookingDescriptionCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized booking descriptions of this campaign event from the map of locales and localized booking descriptions.
+	 *
+	 * @param bookingDescriptionMap the locales and localized booking descriptions of this campaign event
+	 */
+	@Override
+	public void setBookingDescriptionMap(
+		Map<java.util.Locale, String> bookingDescriptionMap) {
+
+		_campaignEvent.setBookingDescriptionMap(bookingDescriptionMap);
+	}
+
+	/**
+	 * Sets the localized booking descriptions of this campaign event from the map of locales and localized booking descriptions, and sets the default locale.
+	 *
+	 * @param bookingDescriptionMap the locales and localized booking descriptions of this campaign event
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setBookingDescriptionMap(
+		Map<java.util.Locale, String> bookingDescriptionMap,
+		java.util.Locale defaultLocale) {
+
+		_campaignEvent.setBookingDescriptionMap(
+			bookingDescriptionMap, defaultLocale);
+	}
+
+	/**
+	 * Sets the booking url of this campaign event.
+	 *
+	 * @param bookingURL the booking url of this campaign event
+	 */
+	@Override
+	public void setBookingURL(String bookingURL) {
+		_campaignEvent.setBookingURL(bookingURL);
 	}
 
 	@Override

@@ -78,6 +78,8 @@ public class CampaignEventSoap implements Serializable {
 		soapModel.setThemesIds(model.getThemesIds());
 		soapModel.setTypesIds(model.getTypesIds());
 		soapModel.setPublicsIds(model.getPublicsIds());
+		soapModel.setBookingDescription(model.getBookingDescription());
+		soapModel.setBookingURL(model.getBookingURL());
 
 		return soapModel;
 	}
@@ -483,6 +485,22 @@ public class CampaignEventSoap implements Serializable {
 		_publicsIds = publicsIds;
 	}
 
+	public String getBookingDescription() {
+		return _bookingDescription;
+	}
+
+	public void setBookingDescription(String bookingDescription) {
+		_bookingDescription = bookingDescription;
+	}
+
+	public String getBookingURL() {
+		return _bookingURL;
+	}
+
+	public void setBookingURL(String bookingURL) {
+		_bookingURL = bookingURL;
+	}
+
 	private String _uuid;
 	private long _campaignEventId;
 	private long _groupId;
@@ -527,5 +545,7 @@ public class CampaignEventSoap implements Serializable {
 	private String _themesIds;
 	private String _typesIds;
 	private String _publicsIds;
+	private String _bookingDescription;
+	private String _bookingURL;
 
 }

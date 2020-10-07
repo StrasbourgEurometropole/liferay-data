@@ -103,7 +103,8 @@ public class CampaignEventModelImpl
 		{"websiteName", Types.VARCHAR}, {"free", Types.INTEGER},
 		{"price", Types.CLOB}, {"campaignId", Types.BIGINT},
 		{"themesIds", Types.VARCHAR}, {"typesIds", Types.VARCHAR},
-		{"publicsIds", Types.VARCHAR}
+		{"publicsIds", Types.VARCHAR}, {"bookingDescription", Types.CLOB},
+		{"bookingURL", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -154,10 +155,12 @@ public class CampaignEventModelImpl
 		TABLE_COLUMNS_MAP.put("themesIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("typesIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicsIds", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("bookingDescription", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("bookingURL", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_CampaignEvent (uuid_ VARCHAR(75) null,campaignEventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,firstName VARCHAR(75) null,lastName VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,serviceId LONG,service VARCHAR(75) null,onSiteFirstName VARCHAR(75) null,onSiteLastName VARCHAR(75) null,onSitePhone VARCHAR(75) null,title STRING null,subtitle STRING null,description TEXT null,imageId LONG,webImageId LONG,imageOwner VARCHAR(75) null,manifestationsIds VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,placeCountry VARCHAR(75) null,promoter VARCHAR(75) null,publicPhone VARCHAR(75) null,publicEmail VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,campaignId LONG,themesIds VARCHAR(75) null,typesIds VARCHAR(75) null,publicsIds VARCHAR(75) null)";
+		"create table agenda_CampaignEvent (uuid_ VARCHAR(75) null,campaignEventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,firstName VARCHAR(75) null,lastName VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,serviceId LONG,service VARCHAR(75) null,onSiteFirstName VARCHAR(75) null,onSiteLastName VARCHAR(75) null,onSitePhone VARCHAR(75) null,title STRING null,subtitle STRING null,description TEXT null,imageId LONG,webImageId LONG,imageOwner VARCHAR(75) null,manifestationsIds VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,placeCountry VARCHAR(75) null,promoter VARCHAR(75) null,publicPhone VARCHAR(75) null,publicEmail VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,campaignId LONG,themesIds VARCHAR(75) null,typesIds VARCHAR(75) null,publicsIds VARCHAR(75) null,bookingDescription TEXT null,bookingURL VARCHAR(400) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table agenda_CampaignEvent";
@@ -1279,6 +1282,51 @@ public class CampaignEventModelImpl
 					CampaignEvent campaignEvent, Object publicsIds) {
 
 					campaignEvent.setPublicsIds((String)publicsIds);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"bookingDescription",
+			new Function<CampaignEvent, Object>() {
+
+				@Override
+				public Object apply(CampaignEvent campaignEvent) {
+					return campaignEvent.getBookingDescription();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"bookingDescription",
+			new BiConsumer<CampaignEvent, Object>() {
+
+				@Override
+				public void accept(
+					CampaignEvent campaignEvent, Object bookingDescription) {
+
+					campaignEvent.setBookingDescription(
+						(String)bookingDescription);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"bookingURL",
+			new Function<CampaignEvent, Object>() {
+
+				@Override
+				public Object apply(CampaignEvent campaignEvent) {
+					return campaignEvent.getBookingURL();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"bookingURL",
+			new BiConsumer<CampaignEvent, Object>() {
+
+				@Override
+				public void accept(
+					CampaignEvent campaignEvent, Object bookingURL) {
+
+					campaignEvent.setBookingURL((String)bookingURL);
 				}
 
 			});
@@ -2586,6 +2634,135 @@ public class CampaignEventModelImpl
 	}
 
 	@Override
+	public String getBookingDescription() {
+		if (_bookingDescription == null) {
+			return "";
+		}
+		else {
+			return _bookingDescription;
+		}
+	}
+
+	@Override
+	public String getBookingDescription(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getBookingDescription(languageId);
+	}
+
+	@Override
+	public String getBookingDescription(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getBookingDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getBookingDescription(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getBookingDescription(), languageId);
+	}
+
+	@Override
+	public String getBookingDescription(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getBookingDescription(), languageId, useDefault);
+	}
+
+	@Override
+	public String getBookingDescriptionCurrentLanguageId() {
+		return _bookingDescriptionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getBookingDescriptionCurrentValue() {
+		Locale locale = getLocale(_bookingDescriptionCurrentLanguageId);
+
+		return getBookingDescription(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getBookingDescriptionMap() {
+		return LocalizationUtil.getLocalizationMap(getBookingDescription());
+	}
+
+	@Override
+	public void setBookingDescription(String bookingDescription) {
+		_bookingDescription = bookingDescription;
+	}
+
+	@Override
+	public void setBookingDescription(
+		String bookingDescription, Locale locale) {
+
+		setBookingDescription(
+			bookingDescription, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setBookingDescription(
+		String bookingDescription, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(bookingDescription)) {
+			setBookingDescription(
+				LocalizationUtil.updateLocalization(
+					getBookingDescription(), "BookingDescription",
+					bookingDescription, languageId, defaultLanguageId));
+		}
+		else {
+			setBookingDescription(
+				LocalizationUtil.removeLocalization(
+					getBookingDescription(), "BookingDescription", languageId));
+		}
+	}
+
+	@Override
+	public void setBookingDescriptionCurrentLanguageId(String languageId) {
+		_bookingDescriptionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setBookingDescriptionMap(
+		Map<Locale, String> bookingDescriptionMap) {
+
+		setBookingDescriptionMap(
+			bookingDescriptionMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setBookingDescriptionMap(
+		Map<Locale, String> bookingDescriptionMap, Locale defaultLocale) {
+
+		if (bookingDescriptionMap == null) {
+			return;
+		}
+
+		setBookingDescription(
+			LocalizationUtil.updateLocalization(
+				bookingDescriptionMap, getBookingDescription(),
+				"BookingDescription", LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@Override
+	public String getBookingURL() {
+		if (_bookingURL == null) {
+			return "";
+		}
+		else {
+			return _bookingURL;
+		}
+	}
+
+	@Override
+	public void setBookingURL(String bookingURL) {
+		_bookingURL = bookingURL;
+	}
+
+	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
 			PortalUtil.getClassNameId(CampaignEvent.class.getName()));
@@ -2681,6 +2858,19 @@ public class CampaignEventModelImpl
 		Map<Locale, String> priceMap = getPriceMap();
 
 		for (Map.Entry<Locale, String> entry : priceMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> bookingDescriptionMap = getBookingDescriptionMap();
+
+		for (Map.Entry<Locale, String> entry :
+				bookingDescriptionMap.entrySet()) {
+
 			Locale locale = entry.getKey();
 			String value = entry.getValue();
 
@@ -2799,6 +2989,18 @@ public class CampaignEventModelImpl
 		else {
 			setPrice(getPrice(defaultLocale), defaultLocale, defaultLocale);
 		}
+
+		String bookingDescription = getBookingDescription(defaultLocale);
+
+		if (Validator.isNull(bookingDescription)) {
+			setBookingDescription(
+				getBookingDescription(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setBookingDescription(
+				getBookingDescription(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
 	}
 
 	@Override
@@ -2859,6 +3061,8 @@ public class CampaignEventModelImpl
 		campaignEventImpl.setThemesIds(getThemesIds());
 		campaignEventImpl.setTypesIds(getTypesIds());
 		campaignEventImpl.setPublicsIds(getPublicsIds());
+		campaignEventImpl.setBookingDescription(getBookingDescription());
+		campaignEventImpl.setBookingURL(getBookingURL());
 
 		campaignEventImpl.resetOriginalValues();
 
@@ -3237,6 +3441,24 @@ public class CampaignEventModelImpl
 			campaignEventCacheModel.publicsIds = null;
 		}
 
+		campaignEventCacheModel.bookingDescription = getBookingDescription();
+
+		String bookingDescription = campaignEventCacheModel.bookingDescription;
+
+		if ((bookingDescription != null) &&
+			(bookingDescription.length() == 0)) {
+
+			campaignEventCacheModel.bookingDescription = null;
+		}
+
+		campaignEventCacheModel.bookingURL = getBookingURL();
+
+		String bookingURL = campaignEventCacheModel.bookingURL;
+
+		if ((bookingURL != null) && (bookingURL.length() == 0)) {
+			campaignEventCacheModel.bookingURL = null;
+		}
+
 		return campaignEventCacheModel;
 	}
 
@@ -3365,6 +3587,9 @@ public class CampaignEventModelImpl
 	private String _themesIds;
 	private String _typesIds;
 	private String _publicsIds;
+	private String _bookingDescription;
+	private String _bookingDescriptionCurrentLanguageId;
+	private String _bookingURL;
 	private long _columnBitmask;
 	private CampaignEvent _escapedModel;
 

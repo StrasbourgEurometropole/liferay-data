@@ -1,20 +1,5 @@
 package eu.strasbourg.service.agenda.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -38,7 +23,6 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
@@ -58,6 +42,21 @@ import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class AgendaImporter {
 
@@ -777,6 +776,17 @@ public class AgendaImporter {
 			event.setPhone(jsonEvent.getString("phone"));
 			event.setEmail(jsonEvent.getString("mail"));
 			event.setFree(freeEntry);
+			String jsonBookingURL = jsonEvent.getString("bookingURL");
+			if(Validator.isNotNull(jsonBookingURL)){
+				for (char c : jsonBookingURL.toCharArray()) {
+					if((int) c > 5000){
+						reportLine.error(LanguageUtil.format(bundle,
+								"error-forbidden-char","bookingURL"));
+						break;
+					}
+				}
+			}
+			event.setBookingURL(jsonBookingURL);
 
 			// Lieu
 			if (Validator.isNotNull(placeSIGId)) {
@@ -879,6 +889,7 @@ public class AgendaImporter {
 				}
 			}
 			JSONObject jsonPrice = jsonEvent.getJSONObject("price");
+			JSONObject jsonBookingDescription = jsonEvent.getJSONObject("bookingDescription");
 
 			for (Locale locale : locales) {
 				event.setTitle(jsonTitle.getString(locale.toString()), locale);
@@ -910,6 +921,12 @@ public class AgendaImporter {
 					String price = jsonPrice.getString(locale.toString());
 					if (Validator.isNotNull(price)) {
 						event.setPrice(price, locale);
+					}
+				}
+				if (Validator.isNotNull(jsonBookingDescription)) {
+					String bookingDescription = jsonBookingDescription.getString(locale.toString());
+					if (Validator.isNotNull(bookingDescription)) {
+						event.setBookingDescription(bookingDescription, locale);
 					}
 				}
 
