@@ -49,7 +49,7 @@ document.getElementById("createAlert").onclick = function(e){
     }else{
         window.createPopin(Liferay.Language.get('log-in-to-create-alert'),function() {
             window.location = window.loginURL;
-        },undefined,Liferay.Language.get('create-account'), Liferay.Language.get('continu-research'));
+        },undefined,Liferay.Language.get('eu.language.ejob.sign.in'), Liferay.Language.get('continu-research'));
     }
 };
 
@@ -85,7 +85,7 @@ document.getElementById("RecordAlert").onclick = function(e){
                     case 'notConnected':
                         window.createPopin(Liferay.Language.get('log-in-to-create-alert'), function() {
                             window.location = window.loginURL;
-                        }, undefined, Liferay.Language.get('create-account'), Liferay.Language.get('continu-research'));
+                        }, undefined, Liferay.Language.get('eu.language.ejob.sign.in'), Liferay.Language.get('continu-research'));
                         break;
                     case 'alreadyExist':
                         window.createPopinOK(Liferay.Language.get('already-exist-alert'));
