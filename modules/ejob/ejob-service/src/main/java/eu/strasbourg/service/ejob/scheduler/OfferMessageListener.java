@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.SchedulerEntry;
 import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
+import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import com.liferay.portal.kernel.search.Document;
@@ -58,7 +59,8 @@ public class OfferMessageListener
 		// Création du trigger "Tous les jours à 1H05
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				"0 5 1 * * ?");
+//				"0 5 1 * * ?");
+		10, TimeUnit.MINUTE);
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
@@ -81,6 +83,13 @@ public class OfferMessageListener
 		// Export TOTEM
 		// Recuperation des offres concernées et non exportées (isExported=1)
 		List<Offer> offersNotExported = _offerLocalService.findOffersNotExported();
+		log.info("NB d'offre non exportées : " + offersNotExported.size());
+		for (Offer offer : offersNotExported) {
+			log.info(offer.toString());
+			log.info("Offe valide ? " + (offer.getStatus() == WorkflowConstants.STATUS_APPROVED? "oui": "non"));
+			log.info("Pas de stage ni apprentissage ? " + (!offer.getTypeRecrutement().getName().equals("Stage") && !offer.getTypeRecrutement().getName().equals("Apprentissage")? "oui": "non"));
+			log.info("Offe dont la date du jour est comprise  entre le début et la fin de la date de publication ? " + (offer.getPublicationStartDate().compareTo(now) <= 0 && offer.getPublicationEndDate().after(now)? "oui": "non"));
+		}
 
 		// on ne prend que les offres validées
 		// on ne prend pas les stages ni les apprentissages
@@ -91,6 +100,9 @@ public class OfferMessageListener
 				.filter(o -> o.getPublicationStartDate().compareTo(now) <= 0 && o.getPublicationEndDate().after(now))
 				.collect(Collectors.toList());
 		log.info("NB d'offre à exporter : " + offersNotExported.size());
+		for (Offer offer : offersNotExported) {
+			log.info(offer.toString());
+		}
 
 		if(_offersCsvExporter.exportOffers(offersNotExported)){
 			// on change la valeur de isExported pour les offres
