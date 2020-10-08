@@ -47,9 +47,11 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 		csv.append(LanguageUtil.get(bundle, "publication-end-date") + ";");
 		csv.append(LanguageUtil.get(bundle, "diffusion"));
 		csv.append(CharPool.NEW_LINE);
+		log.info("CSV : " + csv.toString());
 
 		// On construit notre CSV à partir de la liste des offres
 		for (Offer offer : offers) {
+			log.info("offre : " + offer.getPublicationId());
 			String url = StrasbourgPropsUtil.getEJobURLOffer() + offer.getOfferId();
 			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
 			String startDate = dateFormat.format(offer.getPublicationStartDate());
@@ -62,11 +64,13 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 			csv.append(offer.getOfferId() + ";" + url + ";" + offer.getPost(Locale.FRANCE)
 					+ ";" + description + ";" + startDate + ";" + endDate + ";" + diffusion);
 			csv.append(CharPool.NEW_LINE);
+			log.info("CSV : " + csv.toString());
 		}
 
 		String fileName = "interf_totems.csv";
 		String fullPath = System.getProperty("java.io.tmpdir") + "/"
 				+ fileName;
+		log.info("fullPath : " + fullPath);
 		File file = new File(fullPath);
 		try (PrintWriter printWriter = new PrintWriter(file)) {
 			printWriter.print(csv);
@@ -104,6 +108,7 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 			e.printStackTrace();
 			return false;
 		}
+		log.info("export effectué");
 
 		return true;
 
