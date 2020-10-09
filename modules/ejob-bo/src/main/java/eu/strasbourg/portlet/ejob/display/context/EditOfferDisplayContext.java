@@ -2,6 +2,8 @@ package eu.strasbourg.portlet.ejob.display.context;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -10,6 +12,8 @@ import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.OfferLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.StringHelper;
+import eu.strasbourg.utils.constants.RoleNames;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
@@ -254,6 +258,17 @@ public class EditOfferDisplayContext {
             return indexes;
         }
         return "";
+    }
+
+
+    public boolean isContribOnly(){
+        List<Role> roles = RoleLocalServiceUtil.getRoles(this.themeDisplay.getCompanyId());
+        Role responsableEmploi = roles.stream().filter(r -> StringHelper.compareIgnoringAccentuation(r.getName().toLowerCase(), RoleNames.RESPONSABLE_EMPLOI)).findFirst().orElse(null);
+        Role siteAdministrator = roles.stream().filter(r -> StringHelper.compareIgnoringAccentuation(r.getName().toLowerCase(), RoleNames.SITE_ADMLINISTRATOR)).findFirst().orElse(null);
+        if(themeDisplay.getPermissionChecker().isOmniadmin() || themeDisplay.getUser().getRoles().contains(responsableEmploi) || themeDisplay.getUser().getRoles().contains(siteAdministrator))
+            return false;
+        Role assistantRecrutement = roles.stream().filter(r -> StringHelper.compareIgnoringAccentuation(r.getName().toLowerCase(), RoleNames.ASSISTANT_RECRUTEMENT)).findFirst().orElse(null);
+        return themeDisplay.getUser().getRoles().contains(assistantRecrutement);
     }
 
 }

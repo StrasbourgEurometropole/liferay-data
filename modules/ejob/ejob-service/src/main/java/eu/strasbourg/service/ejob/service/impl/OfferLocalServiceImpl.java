@@ -119,9 +119,10 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 			// l'enregistrement
 			offer = this.offerLocalService.updateOffer(offer);
 			this.updateAssetEntry(offer, sc);
+			// On passe l'utilisateur qui a modifié le statut de l'offre (statusByUserId)
 			WorkflowHandlerRegistryUtil.startWorkflowInstance(
 					offer.getCompanyId(), offer.getGroupId(),
-					offer.getUserId(), Offer.class.getName(),
+					offer.getStatusByUserId(), Offer.class.getName(),
 					offer.getPrimaryKey(), offer, sc);
 		}
 
