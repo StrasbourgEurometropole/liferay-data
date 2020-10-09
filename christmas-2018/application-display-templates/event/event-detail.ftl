@@ -98,6 +98,19 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <p>${entry.getPrice(locale)}</p>
                     </#if>
                 </div>
+                <#if entry.bookingURL?has_content || entry.getBookingDescription(locale)?has_content>
+                    <div class="mns-info-more col-xs-12">
+                        <span class="mns-title-detail-actu col-sm-6"><@liferay_ui.message key="eu.booking" /></span>
+                        <#if entry.getBookingDescription(locale)?has_content>
+                            <p>${entry.getBookingDescription(locale)}</p>
+                        </#if>
+                        <#if entry.bookingURL?has_content>
+                            <div class="booking">
+                                <a href="${entry.bookingURL}" target="_blank"><@liferay_ui.message key="eu.book" /> </a>
+                            </div>
+                        </#if>
+                    </div>
+                </#if>
                 <div class="mns-info-more col-sm-6">
                     <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
                         <span class="mns-title-detail-actu"><@liferay_ui.message key="eu.services-for-disabled" /></span>
