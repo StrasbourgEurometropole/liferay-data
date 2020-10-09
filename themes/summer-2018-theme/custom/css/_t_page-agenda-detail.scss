@@ -197,6 +197,27 @@
 						margin-right: 5px;
 					}
 				}
+
+				.booking{
+					margin-top: 30px;
+					
+					a{ 
+						width: 150px;
+						padding: 14px 50px;
+						height: auto;
+						background: $c_txt;
+						border: none;
+						box-shadow: none;
+						z-index: 2;
+						text-decoration: none;
+						@include ft($f_txt, 15px, 700, $c_white, normal);
+						@include an(all,0.3);
+						&:hover{
+							background: $c_main;
+							color: $c_white;
+						}
+					}
+				}
 			}
 		}
 
