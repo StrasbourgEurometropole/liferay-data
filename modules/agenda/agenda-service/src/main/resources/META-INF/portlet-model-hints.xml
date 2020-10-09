@@ -112,6 +112,12 @@
 		<field name="themesIds" type="String" />
 		<field name="typesIds" type="String" />
 		<field name="publicsIds" type="String" />
+		<field localized="true" name="bookingDescription" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="bookingURL" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.CampaignEventStatus">
 		<field name="uuid" type="String" />
