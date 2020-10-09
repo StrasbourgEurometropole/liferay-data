@@ -1,8 +1,21 @@
 package eu.strasbourg.listener.ddmFormInstanceRecord;
 
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFileEntryService;
+import com.liferay.document.library.kernel.service.DLFileEntryServiceUtil;
+import com.liferay.document.library.kernel.service.persistence.DLFileEntryUtil;
+import com.liferay.dynamic.data.mapping.io.DDMFormValuesDeserializer;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
 import com.liferay.dynamic.data.mapping.model.DDMContent;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
+import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMContentLocalService;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceServiceUtil;
+import com.liferay.dynamic.data.mapping.service.persistence.DDMFormInstanceRecordUtil;
+import com.liferay.dynamic.data.mapping.service.persistence.DDMStructureUtil;
+import com.liferay.dynamic.data.mapping.storage.Fields;
+import com.liferay.dynamic.data.mapping.util.DDMUtil;
 import com.liferay.mail.kernel.model.MailMessage;
 import com.liferay.mail.kernel.service.MailService;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -32,10 +45,7 @@ import javax.mail.internet.InternetAddress;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author louis.politanski
@@ -50,7 +60,17 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 	private final String emailNametag = "__USER_EMAIL__";
 
 	@Override
-	public void onAfterCreate(DDMFormInstanceRecord form) throws ModelListenerException {
+	public void onAfterUpdate(DDMFormInstanceRecord form) {
+
+		// Check statut de remplissage du formulaire : 0 = rempli et valide
+		try {
+			if (form.getStatus() != 0)
+			{ return; }
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+
+
 		try {
 			// Recuperation du nom et de la valeur des champs du formulaire
 			long formContentId = form.getStorageId();
@@ -63,6 +83,7 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 				for (int i = 0; i < formFields.length(); i++) {
 					JSONObject fieldJ = formFields.getJSONObject(i);
 					String fieldName = fieldJ.getString("name");
+					if (!fieldJ.has("value")) { _log.error("No value found. Returning."); return; }
 					JSONObject fieldValue = fieldJ.getJSONObject("value");
 					Iterator<String> localeKey = fieldValue.keys();
 					if (localeKey.hasNext())
@@ -86,11 +107,12 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 			}
 			String userEmail = formEntriesM.get(emailNametag).get("value");
 			if (!Validator.isEmailAddress(userEmail)) {
-				_log.error("Invalid email address.");
+				_log.error("Invalid email address : "+userEmail);
 				return;
 			}
 
 			// Recuperation des labels et du type des champs du formulaire
+			List<String> orderedFieldNames = new ArrayList<>();
 			DDMFormInstance formInstance = form.getFormInstance();
 			String formStructureS = formInstance.getStructure().getDefinition();
 			JSONObject formStructureJ = JSONFactoryUtil.createJSONObject(formStructureS);
@@ -108,6 +130,7 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 						{
 							String labelS = labelJ.getString(localeKey.next());
 							formEntriesM.get(fieldName).put("label", labelS);
+							orderedFieldNames.add(fieldName);
 						}
 					}
 				}
@@ -125,6 +148,7 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 				switch (entryData.get("type"))
 				{
 					case "grid":
+						orderedFieldNames.removeIf(n -> n.equals(key));
 						formEntriesKeys.remove();
 						break;
 					case "select":
@@ -148,11 +172,10 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 			context.put("formName", formName);
 
 			String mailFields = "";
-			formEntriesKeys = formEntriesM.keySet().iterator();
-			while (formEntriesKeys.hasNext()) {
-				String key = formEntriesKeys.next();
-				Map<String, String> entryData = formEntriesM.get(key);
-				mailFields += "<p>"+entryData.get("label")+":<br><b>"+entryData.get("value")+"</b></p>";
+			for (String name: orderedFieldNames) {
+				Map<String, String> entryData = formEntriesM.get(name);
+
+				mailFields += "<span class=\"label\">"+entryData.get("label")+"</span><hr><strong>"+entryData.get("value")+"</strong><br><br>";
 			}
 			context.put("content", mailFields);
 
@@ -220,6 +243,7 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 		}
 		return;
 	}
+
 
 	@Reference
 	private DDMContentLocalService _ddmContentLocalService;
