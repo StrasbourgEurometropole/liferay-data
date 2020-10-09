@@ -1,17 +1,12 @@
 <?xml version="1.0"?>
-<workflow-definition
-	xmlns="urn:liferay.com:liferay-workflow_7.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:liferay.com:liferay-workflow_7.0.0 http://www.liferay.com/dtd/liferay-workflow-definition_7_0_0.xsd">
+<workflow-definition xmlns="urn:liferay.com:liferay-workflow_7.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:liferay.com:liferay-workflow_7.0.0 http://www.liferay.com/dtd/liferay-workflow-definition_7_0_0.xsd">
 	<name>Single Approver Offre</name>
 	<description>A single approver can approve a workflow content.</description>
 	<version>1</version>
 	<condition>
 		<name>determine-branch</name>
-		<metadata>
-			<![CDATA[{"xy":[219,285]}]]>
-		</metadata>
-		<script>
-			<![CDATA[
+		<metadata><![CDATA[{"xy":[219,285]}]]></metadata>
+		<script><![CDATA[
 				import com.liferay.portal.kernel.model.Group;
 				import com.liferay.portal.kernel.model.Role;
 				import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
@@ -19,29 +14,32 @@
 				import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 				import com.liferay.portal.kernel.util.GetterUtil;
 				import com.liferay.portal.kernel.workflow.WorkflowConstants;
+				import eu.strasbourg.service.ejob.service.OfferLocalServiceUtil;
+				import eu.strasbourg.service.ejob.model.Offer;
 						
 				long companyId = GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_COMPANY_ID));
 				long groupId = GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_GROUP_ID));
-				Group group = GroupLocalServiceUtil.getGroup(groupId);
 
+				long offerId = GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_ENTRY_CLASS_PK));
+				Offer offer = OfferLocalServiceUtil.fetchOffer(offerId);
+
+				Role responsableEmploi = RoleLocalServiceUtil.getRole(companyId, "Responsable emploi");
 				Role siteAdministrator = RoleLocalServiceUtil.getRole(companyId, "Site Administrator");
 				Role administrator = RoleLocalServiceUtil.getRole(companyId, "Administrator");
-				Role responsableEmploi = RoleLocalServiceUtil.getRole(companyId, "Responsable emploi");
 
 				returnValue = "review";
 
-				if(UserGroupRoleLocalServiceUtil.hasUserGroupRole( GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_USER_ID)) , groupId, responsableEmploi.getRoleId())
+				if(UserGroupRoleLocalServiceUtil.hasUserGroupRole( offer.getStatusByUserId() , groupId, responsableEmploi.getRoleId())
 				||
-				UserGroupRoleLocalServiceUtil.hasUserGroupRole( GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_USER_ID)) , groupId, siteAdministrator.getRoleId())
+				UserGroupRoleLocalServiceUtil.hasUserGroupRole( offer.getStatusByUserId() , groupId, siteAdministrator.getRoleId())
 				||
-				RoleLocalServiceUtil.hasUserRole( GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_USER_ID)) , administrator.getRoleId())) {
+				RoleLocalServiceUtil.hasUserRole(offer.getStatusByUserId() , administrator.getRoleId())) {
 					returnValue = "approve";
 				}				
 
 				return;
 				
-			]]>
-		</script>
+			]]></script>
 		<script-language>groovy</script-language>
 		<transitions>
 			<transition>
@@ -58,9 +56,7 @@
 	</condition>
 	<state>
 		<name>created</name>
-		<metadata>
-			<![CDATA[{"xy":[27,296]}]]>
-		</metadata>
+		<metadata><![CDATA[{"xy":[27,296]}]]></metadata>
 		<initial>true</initial>
 		<transitions>
 			<transition>
@@ -72,28 +68,20 @@
 	</state>
 	<state>
 		<name>approved</name>
-		<metadata>
-			<![CDATA[{"xy":[222,81]}]]>
-		</metadata>
+		<metadata><![CDATA[{"xy":[222,81]}]]></metadata>
 		<actions>
 			<action>
 				<name>approve</name>
-				<script>
-					<![CDATA[import com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil;
+				<script><![CDATA[import com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil;
 						import com.liferay.portal.kernel.workflow.WorkflowConstants;
-						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("approved"), workflowContext);]]>
-				</script>
+						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("approved"), workflowContext);]]></script>
 				<script-language>groovy</script-language>
 				<execution-type>onEntry</execution-type>
 			</action>
 			<notification>
 				<name>Approve Notification User</name>
-				<description>
-					<![CDATA[Envoi une notification d'acceptation de soumission à l'utilisateur]]>
-				</description>
-				<template>
-					<![CDATA[Votre soumission a été acceptée.]]>
-				</template>
+				<description><![CDATA[Envoi une notification d'acceptation de soumission à l'utilisateur]]></description>
+				<template><![CDATA[Votre soumission a été acceptée.]]></template>
 				<template-language>freemarker</template-language>
 				<notification-type>email</notification-type>
 				<notification-type>user-notification</notification-type>
@@ -106,31 +94,23 @@
 	</state>
 	<state>
 		<name>rejected</name>
-		<metadata>
-			<![CDATA[{"xy":[631,307]}]]>
-		</metadata>
+		<metadata><![CDATA[{"xy":[631,307]}]]></metadata>
 		<actions>
 			<action>
 				<name>reject</name>
 				<description></description>
-				<script>
-					<![CDATA[import com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil;
+				<script><![CDATA[import com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil;
 						import com.liferay.portal.kernel.workflow.WorkflowConstants;
-						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("denied"), workflowContext);]]>
-				</script>
+						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("denied"), workflowContext);]]></script>
 				<script-language>groovy</script-language>
 				<execution-type>onEntry</execution-type>
 			</action>
 			<notification>
 				<name>Reject Notification User</name>
-				<description>
-					<![CDATA[Envoi une notification de rejet de soumission à l'utilisateur]]>
-				</description>
-				<template>
-					<![CDATA[Votre soumission a été rejeté
+				<description><![CDATA[Envoi une notification de rejet de soumission à l'utilisateur]]></description>
+				<template><![CDATA[Votre soumission a été rejeté
 					<#if taskComments?has_content> et le validateur a émis le commentaire suivant : ${taskComments}</#if>.
-					Veuillez modifier l'offre et la soumettre à nouveau.]]>
-				</template>
+					Veuillez modifier l'offre et la soumettre à nouveau.]]></template>
 				<template-language>freemarker</template-language>
 				<notification-type>email</notification-type>
 				<notification-type>user-notification</notification-type>
@@ -143,18 +123,12 @@
 	</state>
 	<task>
 		<name>review</name>
-		<metadata>
-			<![CDATA[{"xy":[574,50]}]]>
-		</metadata>
+		<metadata><![CDATA[{"xy":[574,50]}]]></metadata>
 		<actions>
 			<notification>
 				<name>Assignment Notification</name>
-				<description>
-					<![CDATA[Envoi une notification d'assignement aux validateurs]]>
-				</description>
-				<template>
-					<![CDATA[Vous avez une nouvelle soumission d'offre.]]>
-				</template>
+				<description><![CDATA[Envoi une notification d'assignement aux validateurs]]></description>
+				<template><![CDATA[Vous avez une nouvelle soumission d'offre.]]></template>
 				<template-language>text</template-language>
 				<notification-type>email</notification-type>
 				<notification-type>user-notification</notification-type>
@@ -165,13 +139,9 @@
 			</notification>
 			<notification>
 				<name>Reject Notification Validators</name>
-				<description>
-					<![CDATA[Envoi une notification de rejet de soumission à l'utilisateur]]>
-				</description>
-				<template>
-					<![CDATA[La soumission a été revue
-					<#if taskComments?has_content> et le validateur a émis le commentaire suivant : ${taskComments}</#if>.]]>
-				</template>
+				<description><![CDATA[Envoi une notification de rejet de soumission à l'utilisateur]]></description>
+				<template><![CDATA[La soumission a été revue
+					<#if taskComments?has_content> et le validateur a émis le commentaire suivant : ${taskComments}</#if>.]]></template>
 				<template-language>freemarker</template-language>
 				<notification-type>email</notification-type>
 				<notification-type>user-notification</notification-type>
