@@ -17,7 +17,6 @@ import org.osgi.service.component.annotations.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -47,11 +46,9 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 		csv.append(LanguageUtil.get(bundle, "publication-end-date") + ";");
 		csv.append(LanguageUtil.get(bundle, "diffusion"));
 		csv.append(CharPool.NEW_LINE);
-		log.info("CSV : " + csv.toString());
 
 		// On construit notre CSV à partir de la liste des offres
 		for (Offer offer : offers) {
-			log.info("offre : " + offer.getPublicationId());
 			String url = StrasbourgPropsUtil.getEJobURLOffer() + offer.getOfferId();
 			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
 			String startDate = dateFormat.format(offer.getPublicationStartDate());
@@ -64,21 +61,14 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 			csv.append(offer.getOfferId() + ";" + url + ";" + offer.getPost(Locale.FRANCE)
 					+ ";" + description + ";" + startDate + ";" + endDate + ";" + diffusion);
 			csv.append(CharPool.NEW_LINE);
-			log.info("CSV : " + csv.toString());
 		}
 
 		String fileName = "interf_totems.csv";
 		String fullPath = System.getProperty("java.io.tmpdir") + "/"
 				+ fileName;
-		log.info("fullPath : " + fullPath);
 		File file = new File(fullPath);
 		try (PrintWriter printWriter = new PrintWriter(file)) {
 			printWriter.print(csv);
-		} catch (FileNotFoundException e) {
-			log.error(e);
-		}
-
-		try {
 			FTPClient ftpClient = new FTPClient();
 			ftpClient.connect(StrasbourgPropsUtil.getEJobFTPHost(), Integer.parseInt(StrasbourgPropsUtil.getEJobFTPPort()));
 			showServerReply(ftpClient);
@@ -90,14 +80,15 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 			boolean success = ftpClient.login(StrasbourgPropsUtil.getEJobFTPUser(), StrasbourgPropsUtil.getEJobFTPPassword());
 			showServerReply(ftpClient);
 			if (!success) {
-				log.error("Connexion au serveur échoué.");
+				log.error("Authentification FTP échouée.");
 				return false;
 			} else {
 				if(ftpClient.changeWorkingDirectory(StrasbourgPropsUtil.getEJobFTPUser())) {
 					ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
 					FileInputStream fileIS = new FileInputStream(fullPath);
 					ftpClient.storeFile(fileName, fileIS);
-				}else{
+					log.info("Dépôt du fichier effectué.");
+				} else {
 					log.error("Changement de répertoire échoué.");
 					return false;
 				}
@@ -105,10 +96,10 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 
 			ftpClient.logout();
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e);
 			return false;
 		}
-		log.info("export effectué");
+		log.info("Export FTP effectué.");
 
 		return true;
 
