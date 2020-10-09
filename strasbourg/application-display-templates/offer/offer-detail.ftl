@@ -104,7 +104,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </div>
 
                     <!-- Avantages -->
-                    <#if entry.avantages?? && entry.typeRecrutement.getTitle(locale)!="Stage">
+                    <#if entry.getAvantages(locale)?has_content && entry.typeRecrutement.getTitle(locale)!="Stage">
                         <div id="offerAvantages">
                             <h3><@liferay_ui.message key="eu.offer-avantages" /></h3>
                             ${entry.getAvantages(locale)}
@@ -160,7 +160,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         document.getElementById("candidater").onclick = function(e){
             // on vérifie que l'utilisateur est connecté
             if(window.publikInternalId != undefined){
-                window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLOfferApply()}?refposte=${entry.publicationId}&libposte=${entry.getPost(locale)}";
+                window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLOfferApply()}?refposte=${entry.publicationId}&libposte=${entry.getPost(locale)?js_string}";
             }else{
                 window.createPopin(Liferay.Language.get('log-in-to-apply'),function() {
                     window.location = window.loginURL;
