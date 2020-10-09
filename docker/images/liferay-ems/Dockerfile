@@ -44,9 +44,6 @@ USER liferay
 RUN mkdir -p /data/import/agenda/archives \
     && mkdir -p /data/liferay/document_library
 
-# Copie de la licence dans deploy
-COPY --chown=liferay:liferay $KEY_PATH/*.xml /opt/liferay/deploy/
-
 # Dossier dans ./dist contenant les livrables
 ARG DIST_PATH_VERSION
 

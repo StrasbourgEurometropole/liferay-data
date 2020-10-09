@@ -130,6 +130,7 @@ Le fichier `migrated-dump.sql`se trouve désormais dans le répertoire `output` 
         * `files/portal-ext.properties` pour définir les proprités Liferay et EMS.
         * `files/portal-setup-wizzard.properties` pour définir les proprités de connection à la BDD et d'administration par defaut de Liferay.
         * `files/osgi/configs` dossier dans lequel placer tous les fichiers de config osgi.
+        * `files/osgi/modules` dossier dans lequel placer tous les clefs d'activation Liferay DXP.
         * `scripts/wait-for-dependencies.sh` script lancé avant le serveur permettant d'attendre les dépendances ElasticSearch et Liferay actif pour le backup.
 
 Créer et remplir le fichier `./.env` à la racine du repertoire `docker` où :
