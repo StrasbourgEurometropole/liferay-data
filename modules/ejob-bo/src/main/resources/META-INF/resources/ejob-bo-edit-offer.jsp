@@ -351,20 +351,23 @@
 		<aui:button-row>
 
 			<aui:input type="hidden" name="workflowAction" value="" />
-
 			<%-- Test : Verification des droits d'edition et de sauvegarde --%>
 			<c:if test="${(dc.hasPermission('ADD_OFFER') and empty dc.offer or dc.hasPermission('EDIT_OFFER') and not empty dc.offer) and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<c:if test="${dc.workflowEnabled}">
-					<aui:button cssClass="btn-lg saveButton" type="submit" value="save" />
-				</c:if>
-                <c:if test="${not dc.workflowEnabled}">
-                    <aui:button cssClass="btn-lg saveButton" type="submit" name="publish" value="save" />
+                <c:if test="${dc.offer.status != 0 or !dc.isContribOnly()}">
+                    <c:if test="${dc.workflowEnabled}">
+                        <aui:button cssClass="btn-lg saveButton" type="submit" value="save" />
+                    </c:if>
+                    <c:if test="${not dc.workflowEnabled}">
+                        <aui:button cssClass="btn-lg saveButton" type="submit" name="publish" value="save" />
+                    </c:if>
                 </c:if>
 			</c:if>
 
 			<%-- Test : Verification des droits de supression --%>
 			<c:if test="${not empty dc.offer && dc.hasPermission('DELETE_OFFER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
+                <c:if test="${dc.offer.status != 0 or !dc.isContribOnly()}">
+				    <aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
+			    </c:if>
 			</c:if>
 
 			<%-- Composant : bouton de retour a la liste des entites --%>

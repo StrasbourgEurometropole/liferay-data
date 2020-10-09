@@ -111,7 +111,9 @@
 
 						<!-- ACTION : Modifier -->
 						<c:if test="${dc.hasPermission('EDIT_OFFER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="edit" url="${editOfferURL}" />
+                            <c:if test="${offer.status != 0 or !dc.isContribOnly()}">
+                                <liferay-ui:icon message="edit" url="${editOfferURL}" />
+                            </c:if>
 						</c:if>
 
 						<%-- ACTION : Dupliquer --%>
@@ -131,7 +133,9 @@
 							<portlet:param name="offerId" value="${offer.offerId}" />
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('DELETE_OFFER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deleteOfferURL}" />
+                            <c:if test="${offer.status != 0 or !dc.isContribOnly()}">
+                                <liferay-ui:icon message="delete" url="${deleteOfferURL}" />
+                            </c:if>
 						</c:if>
 
 					</liferay-ui:icon-menu>

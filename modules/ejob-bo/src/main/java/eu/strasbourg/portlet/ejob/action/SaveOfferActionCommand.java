@@ -84,9 +84,9 @@ public class SaveOfferActionCommand implements MVCActionCommand {
             // Si édition ou création d'une nouvelle entrée
             Offer offer;
             if (this.offerId == 0) {
-                offer = this.offerLocalService.createOffer(sc);
+                offer = _offerLocalService.createOffer(sc);
             } else {
-                offer = this.offerLocalService.getOffer(this.offerId);
+                offer = _offerLocalService.getOffer(this.offerId);
             }
             // Pour les catégories de l'assetentry
             List<String> categories = new ArrayList<>();
@@ -348,7 +348,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
             }
 
             // Mise à jour de l'entrée en base
-            offer = this.offerLocalService.updateOffer(offer, sc);
+            offer = _offerLocalService.updateOffer(offer, sc);
 
             if(Validator.isNull(offer.getPublicationId())){
                 // calcul de l'id de publication
@@ -359,7 +359,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                 offer.setPublicationId(publicationId);
 
                 // Mise à jour de l'entrée en base
-                offer = this.offerLocalService.updateOffer(offer, sc);
+                offer = _offerLocalService.updateOffer(offer, sc);
             }
 
             long[] categoryIds = new long[categories.size()];
@@ -513,10 +513,10 @@ public class SaveOfferActionCommand implements MVCActionCommand {
 
     @Reference(unbind = "-")
     protected void setOfferLocalService(OfferLocalService offerLocalService) {
-        this.offerLocalService = offerLocalService;
+        _offerLocalService = offerLocalService;
     }
 
-    private OfferLocalService offerLocalService;
+    private OfferLocalService _offerLocalService;
 
     @Reference(unbind = "-")
     protected void setAssetCategoryLocalService(AssetCategoryLocalService assetCategoryLocalService) {
