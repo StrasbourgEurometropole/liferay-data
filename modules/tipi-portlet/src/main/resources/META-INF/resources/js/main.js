@@ -172,7 +172,7 @@ function openBillingPage()  {
     url += '&year=' + document.tipiForm.year.value;
     url += '&refdet=' + calculateRefdet();
   } else { // En test
-    url += '&year=9999';
+    url += '&exer=9999';
     url += '&refdet=999999990000000000000';
   }
   url += '&montant=' + calculatePrice();

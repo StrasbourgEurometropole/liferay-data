@@ -95,7 +95,7 @@ jQuery(function() {
 			}
 		  	url += 'numcli=' + clientNumber;
 			if (url.indexOf('saisie=T') === -1) { // En prod
-				url += '&year=' + $('input#year').val();
+				url += '&exer=' + $('input#year').val();
 				url += '&refdet=' + calculateRefdet($('input#year').val(), appCode, $('input#ref').val());
 			} else { // En test
 				url += '&year=9999';
