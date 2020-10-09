@@ -58,7 +58,9 @@ public class OfferMessageListener
 
 		// Création du trigger "Tous les jours à 1H05
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, fiveMinutesFromNow, null, "0 5 1 * * ?");
+				listenerClass, listenerClass, fiveMinutesFromNow, null,
+//				"0 5 1 * * ?");
+		10, TimeUnit.MINUTE);
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
