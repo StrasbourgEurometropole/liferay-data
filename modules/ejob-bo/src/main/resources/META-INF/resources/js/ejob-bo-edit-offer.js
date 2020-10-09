@@ -200,7 +200,7 @@ function setFiliereConditionalValidators(event) {
                         offerGradeMax.closest(".form-group").classList.remove('has-error');
                     }
 
-                    if (offerGradeMax.selectedOptions[0].attributes["data-filiere-category-id"].value != offerGradeMin.selectedOptions[0].attributes["data-filiere-category-id"].value) {
+                    if (offerGradeMax.value != "" && offerGradeMax.value != "" && (offerGradeMax.selectedOptions[0].attributes["data-filiere-category-id"].value != offerGradeMin.selectedOptions[0].attributes["data-filiere-category-id"].value)) {
                         element.getElementsByClassName('offerGradeMinMaxError')[0].style.display = "block";
                         offerGradeMin.closest(".form-group").classList.add('has-error');
                         offerGradeMax.closest(".form-group").classList.add('has-error');

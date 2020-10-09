@@ -1,5 +1,11 @@
 package eu.strasbourg.service.office.exporter.impl;
 
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -11,8 +17,6 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.office.exporter.api.OffersCsvExporter;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
 import org.osgi.service.component.annotations.Component;
 
 import java.io.File;
@@ -69,33 +73,34 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 		File file = new File(fullPath);
 		try (PrintWriter printWriter = new PrintWriter(file)) {
 			printWriter.print(csv);
-			FTPClient ftpClient = new FTPClient();
-			ftpClient.connect(StrasbourgPropsUtil.getEJobFTPHost(), Integer.parseInt(StrasbourgPropsUtil.getEJobFTPPort()));
-			showServerReply(ftpClient);
-			int replyCode = ftpClient.getReplyCode();
-			if (!FTPReply.isPositiveCompletion(replyCode)) {
-				log.error("Accès au serveur refusé. Code de l'erreur: " + replyCode);
-				return false;
-			}
-			boolean success = ftpClient.login(StrasbourgPropsUtil.getEJobFTPUser(), StrasbourgPropsUtil.getEJobFTPPassword());
-			showServerReply(ftpClient);
-			if (!success) {
-				log.error("Authentification FTP échouée.");
+
+			JSch jsch = new JSch();
+			Session session = jsch.getSession( StrasbourgPropsUtil.getEJobFTPUser(), StrasbourgPropsUtil.getEJobFTPHost(), Integer.parseInt(StrasbourgPropsUtil.getEJobFTPPort()) );
+			session.setConfig( "PreferredAuthentications", "password" );
+			session.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword( StrasbourgPropsUtil.getEJobFTPPassword() );
+			session.connect();
+
+			if (!session.isConnected()) {
+				log.error("Connexion session échouée.");
 				return false;
 			} else {
-				if(ftpClient.changeWorkingDirectory(StrasbourgPropsUtil.getEJobFTPUser())) {
-					ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-					FileInputStream fileIS = new FileInputStream(fullPath);
-					ftpClient.storeFile(fileName, fileIS);
-					log.info("Dépôt du fichier effectué.");
-				} else {
-					log.error("Changement de répertoire échoué.");
+				Channel channel = session.openChannel( "sftp") ;
+				ChannelSftp sftp = (ChannelSftp) channel;
+				sftp.connect();
+				if (!sftp.isConnected()) {
+					log.error("Connexion SFTP échouée.");
 					return false;
+				} else {
+					sftp.cd(StrasbourgPropsUtil.getEJobFTPUser());
+						FileInputStream fileIS = new FileInputStream(fullPath);
+						sftp.put(fileIS, fileName);
+						log.info("Dépôt du fichier effectué.");
 				}
 			}
 
-			ftpClient.logout();
-		} catch (IOException e) {
+			session.disconnect();
+		} catch (IOException | JSchException | SftpException e) {
 			log.error(e);
 			return false;
 		}
@@ -103,15 +108,6 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 
 		return true;
 
-	}
-
-	private void showServerReply(FTPClient ftp) {
-		String[] replies = ftp.getReplyStrings();
-		if (replies != null && replies.length > 0) {
-			for (String aReply : replies) {
-				log.info("SERVER: " + aReply);
-			}
-		}
 	}
 
 	Log log = LogFactoryUtil.getLog(this.getClass());
