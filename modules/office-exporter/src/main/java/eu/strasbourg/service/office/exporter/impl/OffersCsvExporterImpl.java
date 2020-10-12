@@ -21,6 +21,7 @@ import org.osgi.service.component.annotations.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -73,7 +74,12 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 		File file = new File(fullPath);
 		try (PrintWriter printWriter = new PrintWriter(file)) {
 			printWriter.print(csv);
+		} catch (FileNotFoundException e) {
+			log.error(e);
+			return false;
+		}
 
+		try{
 			JSch jsch = new JSch();
 			Session session = jsch.getSession( StrasbourgPropsUtil.getEJobFTPUser(), StrasbourgPropsUtil.getEJobFTPHost(), Integer.parseInt(StrasbourgPropsUtil.getEJobFTPPort()) );
 			session.setConfig( "PreferredAuthentications", "password" );
