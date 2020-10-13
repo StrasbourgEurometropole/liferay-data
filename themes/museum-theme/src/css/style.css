@@ -1701,10 +1701,16 @@ strong {
 #page {
   position: relative;
   /* Set the position property so z-index will apply */
-  z-index: 989;
+  z-index: 20;
   /* Make sure this is higher than #mobile-menu */
   height: 100%;
   background: white;
+}
+
+/* affichage de la config du bandeau */
+.header-top .portlet:hover > .portlet-topper{
+    transform: translateY(97%);
+    z-index: 21;
 }
 
 /* line 10, ../sass/partials/_mobile-menu.scss */

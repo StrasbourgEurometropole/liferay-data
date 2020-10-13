@@ -182,3 +182,29 @@ ul, ol{
 .nav-btn {
   height: auto;
 }
+
+// affichage des menus des portlets
+.portlet:hover > .portlet-topper{
+  width: calc(100% - 35px);
+  height: auto;
+}
+.portlet-journal-content .portlet .portlet-header .visible-interaction {
+  
+  display: inline;
+  .lfr-icon-menu{
+    background-color: transparent;
+    display: inline;
+
+    > a{
+      height: 32px;
+      line-height: 32px;
+      width: 32px;
+
+      .lexicon-icon{
+        height: 32px;
+        width: 32px;
+        padding: 8px;
+      }
+    }
+  }
+}

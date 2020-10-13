@@ -48,6 +48,20 @@
 		<#if portlet_display.getPortletDecoratorId() != "barebone">
 			<h2 class="portlet-title-text">${portlet_title}</h2>
 		</#if>
+	
+		<@liferay_util["buffer"] var="portlet_header">
+			<@liferay_util["dynamic-include"] key="portlet_header_${portlet_display_root_portlet_id}" />
+		</@>
+		
+		<#if portlet_header?has_content>
+			<div class="autofit-float autofit-row portlet-header">
+				<div class="autofit-col autofit-col-end">
+					<div class="autofit-section">
+						${portlet_header}
+					</div>
+				</div>
+			</div>
+		</#if>
 
 		${portlet_display.writeContent(writer)}
 	</div>

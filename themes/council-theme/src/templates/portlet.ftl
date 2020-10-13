@@ -43,6 +43,21 @@
 	</#if>
 
 	<div class="${portlet_content_css_class}">
+	
+		<@liferay_util["buffer"] var="portlet_header">
+			<@liferay_util["dynamic-include"] key="portlet_header_${portlet_display_root_portlet_id}" />
+		</@>
+		
+		<#if portlet_header?has_content>
+			<div class="autofit-float autofit-row portlet-header">
+				<div class="autofit-col autofit-col-end">
+					<div class="autofit-section">
+						${portlet_header}
+					</div>
+				</div>
+			</div>
+		</#if>
+		
 		${portlet_display.writeContent(writer)}
 	</div>
 </section>

@@ -2068,6 +2068,43 @@ abbr[rel = 'tooltip'] {
 	display: none;
 }
 
+
+
+// affichage des menus des portlets
+.portlet:hover > .portlet-topper{
+	width: calc(100% - 35px);
+	height: auto;
+    z-index: 2;
+
+    menu{
+        z-index: 3;
+    }
+  }
+  .portlet-journal-content .portlet .portlet-header{
+	transform: translateY(-112%);
+  
+	.visible-interaction {
+	  display: inline;
+	  
+	  .lfr-icon-menu{
+		background-color: transparent;
+		display: inline;
+  
+		> a{
+		  height: 32px;
+		  line-height: 32px;
+		  width: 32px;
+  
+		  .lexicon-icon{
+			height: 32px;
+			width: 32px;
+			padding: 8px;
+		  }
+		}
+	  }
+	}
+  }
+
 @media 
 (-webkit-min-device-pixel-ratio: 2), 
 (min-resolution: 192dpi) { 

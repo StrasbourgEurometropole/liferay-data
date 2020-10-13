@@ -242,3 +242,21 @@ input#_com_liferay_login_web_portlet_LoginPortlet_captchaText,input#_com_liferay
 		line-height: initial;
 	} 
 }
+
+// affichage du menu de modification de contennu web
+.portlet-journal-content .portlet .portlet-header .visible-interaction .lfr-icon-menu{
+	background-color: transparent;
+	display: inline;
+
+	> a{
+		height: 32px;
+		line-height: 32px;
+		width: 32px;
+
+		.lexicon-icon{
+			height: 32px;
+			width: 32px;
+			padding: 8px;
+		}
+	}
+}

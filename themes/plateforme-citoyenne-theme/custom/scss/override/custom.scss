@@ -353,3 +353,36 @@
     top: 100px;
 } 
 // Fin style pour les alertes de modifications de budget participatifs
+
+
+
+// affichage des menus des portlets
+.portlet:hover > .portlet-topper{
+    width: calc(100% - 35px);
+    height: auto;
+  }
+  .portlet-journal-content.portlet-barebone .portlet .portlet-header{
+    z-index: 150;
+    transform: translateY(-112%);
+
+    .visible-interaction {
+      
+      display: inline;
+      .lfr-icon-menu{
+        background-color: transparent;
+        display: inline;
+  
+        > a{
+          height: 32px;
+          line-height: 32px;
+          width: 32px;
+  
+          .lexicon-icon{
+            height: 32px;
+            width: 32px;
+            padding: 8px;
+          }
+        }
+      }
+    }
+  }

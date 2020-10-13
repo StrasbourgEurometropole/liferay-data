@@ -359,3 +359,38 @@ input#_com_liferay_login_web_portlet_LoginPortlet_captchaText,input#_com_liferay
 .portlet-name-text{
 	font-size: 16px;
 }
+
+// affichage des menus des portlets
+.portlet:hover > .portlet-topper{
+  width: calc(100% - 35px);
+  height: auto;
+  z-index: 2;
+
+  menu{
+	  z-index: 3;
+  }
+}
+.portlet-journal-content.portlet-barebone .portlet .portlet-header{
+  transform: translateY(-112%);
+
+  .visible-interaction {
+	display: inline;
+	
+    .lfr-icon-menu{
+      background-color: transparent;
+      display: inline;
+
+      > a{
+        height: 32px;
+        line-height: 32px;
+        width: 32px;
+
+        .lexicon-icon{
+          height: 32px;
+          width: 32px;
+          padding: 8px;
+        }
+      }
+    }
+  }
+}

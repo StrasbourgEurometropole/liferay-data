@@ -7202,3 +7202,31 @@ body >  .container {
 .lfr-product-menu-panel.sidenav-menu-slider {
   z-index: 1035;
 }
+
+// affichage des menus des portlets
+.portlet-journal-content.portlet-barebone .portlet .portlet-header{
+  
+  .visible-interaction {
+	  display: inline;
+	
+    .lfr-icon-menu{
+      background-color: transparent;
+      padding: 0;
+      margin: 0;
+      display: inline;
+      color: #0b5fff;
+
+      > a{
+        height: 32px;
+        line-height: 32px;
+        width: 32px;
+
+        .lexicon-icon{
+          height: 32px;
+          width: 32px;
+          padding: 8px;
+        }
+      }
+    }
+  }
+}
