@@ -6,7 +6,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.gtfs.model.*;
 import eu.strasbourg.service.gtfs.service.*;
@@ -153,7 +152,7 @@ public class GTFSImporter {
 			this.importHistoric.addNewOperation("#1/7# Starting stops conversion");
 			
 			// Liste des arrets à mettre à jour et nouvelles entrées
-			List<Arret> arretsToUpdate = new ArrayList<Arret>();
+			List<Arret> arretsToUpdate = new ArrayList<>();
 			// Liste des arrets à potentiellement depublier
 			Map<String, Arret> arretsToUnpublish = ArretLocalServiceUtil.getAll();
 			
@@ -243,7 +242,7 @@ public class GTFSImporter {
 			this.importHistoric.addNewOperation("#2/7# Starting routes conversion");
 						
 			// Liste des lignes à mettre à jour et nouvelles entrées
-			List<Ligne> lignesToUpdate = new ArrayList<Ligne>();
+			List<Ligne> lignesToUpdate = new ArrayList<>();
 			// Liste des lignes à potentiellement supprimer
 			Map<String, Ligne> lignesToUnpublish = LigneLocalServiceUtil.getAll();
 			
@@ -347,7 +346,7 @@ public class GTFSImporter {
 			this.importHistoric.addNewOperation("#3/7# Starting direction conversion");
 			
 			// Liste des directions à mettre à jour et nouvelles entrées
-			List <Direction> directionsToSave = new ArrayList<Direction>();
+			List <Direction> directionsToSave = new ArrayList<>();
 			// Liste des lignes à supprimer
 			List <Direction> directionsToRemove = DirectionLocalServiceUtil.getAll();
 
@@ -360,7 +359,6 @@ public class GTFSImporter {
 						.getCategories();
 
 				// Récupère les catégories
-				AssetCategory selectCategory = null;
 				for (AssetCategory category : categories) {
 					switch (AssetVocabularyHelper
 						.getCategoryProperty(
@@ -419,9 +417,12 @@ public class GTFSImporter {
 
 							if (ligne != null) {
 								// créer un nouveau SC
-								ServiceContext scArret = ServiceContextFactory.getInstance(this.sc.getRequest());
+								ServiceContext scArret = new ServiceContext();
 								scArret.setScopeGroupId(this.sc.getScopeGroupId());
+								scArret.setCompanyId(this.sc.getCompanyId());
 								scArret.setUserId(this.sc.getUserId());
+								scArret.setWorkflowAction(this.sc.getWorkflowAction());
+								scArret.setModifiedDate(new Date());
 
 								// changer type d'arret
 								correspondingArret.setType(ligne.getType());
@@ -454,7 +455,7 @@ public class GTFSImporter {
 			// Supprimer les arrets non parcourus
 			this.importHistoric.addNewOperation("#4/7# Unpublish removed stop");
 			ArretLocalServiceUtil.unpublishArrets(
-					new ArrayList<Arret>(arretsToUnpublish.values()),
+					new ArrayList<>(arretsToUnpublish.values()),
 					this.importHistoric, 
 					this.sc
 			);
@@ -462,14 +463,14 @@ public class GTFSImporter {
 			// Supprimer les lignes non parcourues
 			this.importHistoric.addNewOperation("#5/7# Unpublish removed route");
 			// On supprime de la liste les lignes deja depubliees
-			List<Ligne> lignesToCheckStatus = new ArrayList<Ligne>(lignesToUnpublish.values());
+			List<Ligne> lignesToCheckStatus = new ArrayList<>(lignesToUnpublish.values());
 			for (Ligne ligne : lignesToCheckStatus) {
 				if (ligne.isDraft()) {
 					lignesToUnpublish.remove(ligne.getRouteId());
 				}
 			}
 			LigneLocalServiceUtil.unpublishLignes(
-					new ArrayList<Ligne>(lignesToUnpublish.values()), 
+					new ArrayList<>(lignesToUnpublish.values()),
 					this.importHistoric, 
 					this.sc
 			);
