@@ -825,14 +825,18 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <div class="seu-crowded-flexbox">
                             <div class="flex-left">
                                 <#assign isSwimmingPool = entry.isSwimmingPool() />
+                                <#assign isIceRink = entry.isIceRink() />
                                 <#assign isMairie = entry.isMairie() />
-                                <#if isSwimmingPool>
+                                <#assign isParking = entry.isParking() />
+                                <#if isSwimmingPool || isIceRink >
                                     <h3><@liferay_ui.message key="live-frequentation" /></h3>
                                 <#else>
                                     <#if isMairie>
                                         <h3><@liferay_ui.message key="estimated-time" /></h3>
                                     <#else>
-                                        <h3><@liferay_ui.message key="live-occupation" /></h3>
+                                        <#if isParking>
+                                            <h3><@liferay_ui.message key="live-occupation" /></h3>
+                                        </#if>
                                     </#if>
                                 </#if>
                                 <div class="crowded-date"><span class="wroded-day-month">${.now?date?string.long}</span><span> - </span><span class="crowded-time">${.now?time?string.short}</span></div>
@@ -840,19 +844,23 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <div class="flex-right">
                                 <!-- green orange red black -->
                                 <div class="crowded-amount ${occupationState.cssClass}" <#if isMairie> style="font-size: 1.5rem"</#if>>
-                                    <#if isSwimmingPool || isMairie>
+                                    <#if isSwimmingPool || isIceRink || isMairie>
                                         ${occupationState.occupationLabel}
                                     <#else>
-                                        ${occupationState.available}
+                                        <#if isParking>
+                                            ${occupationState.available}
+                                        </#if>
                                     </#if>
                                 </div>
                             </div>
                         </div>
                         <div class="crowded-caption">
-                            <#if isSwimmingPool || isMairie>
+                            <#if isSwimmingPool || isIceRink || isMairie>
                                 <@liferay_ui.message key="${occupationState.label}" />
                             <#else>
-                                <@liferay_ui.message key="eu.place.available-spots" /> ${occupationState.available}
+                                <#if isParking>
+                                    <@liferay_ui.message key="eu.place.available-spots" /> ${occupationState.available}
+                                </#if>
                             </#if>
                         </div>
                         <!-- ajout post covid : affichage capacité totale -->
@@ -862,13 +870,15 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </div>
                         </#if>
                         <div class="crowded-fyi">    
-                            <#if isSwimmingPool>
+                            <#if isSwimmingPool || isIceRink>
                                 <@liferay_ui.message key="live-occupation-explanation" />
                             <#else>
                                 <#if isMairie>
                                     <@liferay_ui.message key="estimated-time-explanation" />
                                 <#else>
-                                    <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                                    <#if isParking>
+                                        <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                                    </#if>
                                 </#if>
                             </#if>
                         </div>
