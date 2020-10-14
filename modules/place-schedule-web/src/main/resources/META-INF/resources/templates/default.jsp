@@ -88,7 +88,7 @@
 					        	${category.getTitle(locale)}
 					        </th>
 							<c:choose>
-								<c:when test="${piscine}">
+								<c:when test="${piscine or patinoire}">
 							        <th class="occupation" >
 							        	<liferay-ui:message key="attendance" />
 							        </th>
@@ -128,7 +128,7 @@
 									</liferay-portlet:renderURL>
 									<strong><a href="${detailURL}" class="linkMuseum"><liferay-ui:message key="link-detail" /></a></strong>
 								</td>
-								<c:if test="${piscine}">
+								<c:if test="${piscine or patinoire}">
 										<c:set var="occupationState" value="${place.getRealTime('1')}" />
 										<td rowspan="${place.getSubPlaces().size() + 1}" class="${occupationState.getCssClass()}" >
 											<liferay-ui:message key="${occupationState.getLabel()}" />

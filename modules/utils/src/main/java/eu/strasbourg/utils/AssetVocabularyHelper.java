@@ -490,7 +490,7 @@ public class AssetVocabularyHelper {
 
 	/**
 	 * Vérifie si la catégorie est une mairie
-	 * 
+	 *
 	 * @throws PortalException
 	 */
 	public static Boolean isMairie(AssetCategory category) throws PortalException {
@@ -501,6 +501,24 @@ public class AssetVocabularyHelper {
 		// vérification des parents
 		for (AssetCategory ancestor : category.getAncestors()) {
 			if (ancestor.getName().contains("Mairies")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Vérifie si la catégorie est une patinoire
+	 *
+	 * @throws PortalException
+	 */
+	public static Boolean isPatinoire(AssetCategory category) throws PortalException {
+		if (category.getName().contains("Patinoire")) {
+			return true;
+		}
+		// vérification des parents
+		for (AssetCategory ancestor : category.getAncestors()) {
+			if (ancestor.getName().contains("Patinoire")) {
 				return true;
 			}
 		}
