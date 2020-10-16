@@ -1,26 +1,21 @@
 package eu.strasbourg.service.place;
 
+import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.place.model.Place;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLStreamHandler;
-
-import javax.xml.namespace.QName;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.MimeHeaders;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPConnection;
-import javax.xml.soap.SOAPConnectionFactory;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
-
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import eu.strasbourg.service.place.model.Place;
 
 /**
  * @author 01i454
@@ -39,90 +34,110 @@ public class PoolStateSOAPClient {
 		return occupation;
 	}
 
-	public static long getOccupation(String poolCode) throws Exception {
-		SOAPMessage response = getResponse(poolCode);
+	/**
+	 * Renvoie la valeur d'occupation de la piscine demandée
+	 */
+	private static long getOccupation(String poolCode) throws Exception {
 
 		// Convert Response To PoolSchedule Object
 		long occupation = -1;
-
-		SOAPBody body = response.getSOAPBody();
-		NodeList bodyNodes = body.getChildNodes();
-		Node responseNode = bodyNodes.item(0);
-		Node resultNode = responseNode.getChildNodes().item(0);
-		NodeList dataNodes = resultNode.getChildNodes();
-
 		boolean exist = false;
-		for (int i = 0; i < dataNodes.getLength(); i++) {
-			Node dataNode = dataNodes.item(i);
-			String dataName = dataNode.getLocalName();
-			String data = dataNode.getTextContent();
-			switch (dataName) {
-			case "JaugeOccupation":
-				occupation = Long.parseLong(data);
-				break;
-			case "LibelleSalle":
-				exist = true;
-				break;
-			}
 
+		String outputString = getOccupationSoap(poolCode);
+
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				outputString.getBytes("UTF-8"));
+		Document doc = dBuilder.parse(input);
+
+		NodeList jaugeNode = doc.getElementsByTagName("JaugeOccupation");
+		String occupationString = jaugeNode.item(0).getTextContent();
+
+		NodeList libelleNode = doc.getElementsByTagName("LibelleSalle");
+		String libelleSalle = libelleNode.item(0).getTextContent();
+
+		if(Validator.isNotNull(occupationString)) {
+			occupation = Long.parseLong(occupationString);
+		}
+		if(Validator.isNotNull(libelleSalle)) {
+			exist = true;
 		}
 		if(!exist){
 			return -1;
 		}
 
 		return occupation;
-
 	}
 
-	private static SOAPMessage getResponse(String poolCode) throws Exception {
-		/**
-		 * Create SOAP Request
-		 */
-		MessageFactory messageFactory = MessageFactory.newInstance();
-		SOAPMessage soapRequest = messageFactory.createMessage();
-		SOAPPart soapPart = soapRequest.getSOAPPart();
 
-		// SOAP Envelope
-		SOAPEnvelope envelope = soapPart.getEnvelope();
+	/**
+	 * Appelle le service SOAP de l'occupation des piscines, récupère la réposne sous forme de XML
+	 */
+	private static String getOccupationSoap(String poolCode) throws IOException {
+		//Code to make a webservice HTTP request
+		String responseString = "";
+		String outputString = "";
+		String wsURL = "http://regal.strasbourg.eu/WSFrequentation/BCA_Webservice.asmx";
+		URL url = new URL(wsURL);
+		URLConnection connection = url.openConnection();
+		HttpURLConnection httpConn = (HttpURLConnection)connection;
+		ByteArrayOutputStream bout = new ByteArrayOutputStream();
+		String xmlInput = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:tem=\"http://tempuri.org/\">\n" +
+				"   <soap:Header/>\n" +
+				"   <soap:Body>\n" +
+				"      <tem:BCA_WS_SALLE>\n" +
+				"         <!--Optional:-->\n" +
+				"         <tem:CodeSalle>"+poolCode+"</tem:CodeSalle>\n" +
+				"      </tem:BCA_WS_SALLE>\n" +
+				"   </soap:Body>\n" +
+				"</soap:Envelope> \n";
 
-		// SOAP Body
-		SOAPBody soapBody = envelope.getBody();
+		byte[] buffer = new byte[xmlInput.length()];
+		buffer = xmlInput.getBytes();
+		bout.write(buffer);
+		byte[] b = bout.toByteArray();
+		// Set the appropriate HTTP parameters.
+		httpConn.setRequestProperty("Content-Length",
+				String.valueOf(b.length));
+		httpConn.setRequestProperty("Content-Type", "text/xml;charset=UTF-8");
+		httpConn.setRequestMethod("GET");
+		httpConn.setDoOutput(true);
+		httpConn.setDoInput(true);
+		OutputStream out = httpConn.getOutputStream();
+		//Write the content of the request to the outputstream of the HTTP Connection.
+		out.write(b);
+		out.close();
+		//Ready with sending the request.
 
-		QName roomName = new QName("http://tempuri.org/", "BCA_WS_SALLE");
-		SOAPElement roomElement = soapBody.addChildElement(roomName);
+		//Read the response.
+		InputStreamReader isr = null;
+		if (httpConn.getResponseCode() == 200) {
+			isr = new InputStreamReader(httpConn.getInputStream());
+		} else {
+			isr = new InputStreamReader(httpConn.getErrorStream());
+		}
 
-		SOAPElement roomCodeElement = roomElement.addChildElement("CodeSalle");
-		roomCodeElement.addTextNode(poolCode);
+		BufferedReader in = new BufferedReader(isr);
 
-		// Headers
-		MimeHeaders headers = soapRequest.getMimeHeaders();
-		headers.addHeader("Content-type", "text/xml");
-		headers.addHeader("SOAPAction", "http://tempuri.org/BCA_WS_SALLE");
+		//Write the SOAP message response to a String.
+		while ((responseString = in.readLine()) != null) {
+			outputString = outputString + responseString;
+		}
 
-		/**
-		 * Get SOAP Response
-		 */
-		// SOAP Connection
-		SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory
-				.newInstance();
-		SOAPConnection soapConnection = soapConnectionFactory
-				.createConnection();
-		String url = "http://regal.strasbourg.eu/WSFrequentation/BCA_Webservice.asmx";
-		URL endpoint = new URL(null, url, new URLStreamHandler() {
-			@Override
-			protected URLConnection openConnection(URL url) throws IOException {
-				URL clone_url = new URL(url.toString());
-				HttpURLConnection clone_urlconnection = (HttpURLConnection) clone_url
-						.openConnection();
-				clone_urlconnection.setConnectTimeout(5000);
-				clone_urlconnection.setReadTimeout(5000);
-				return (clone_urlconnection);
-			}
-		});
+		return outputString;
+	}
 
-		// Send SOAP Message
-		SOAPMessage soapResponse = soapConnection.call(soapRequest, endpoint);
+	/**
+	 * Renvoie la valeur du Noeud demandé dnas le document XML fourni
+	 */
+	private static String getTextContentFromXML(Document doc, String nodeTagName) {
+		String textContent = "";
 
-		return soapResponse;
+		NodeList nodeList = doc.getElementsByTagName(nodeTagName);
+		textContent = nodeList.item(0).getTextContent();
+
+		return textContent;
 	}
 }
