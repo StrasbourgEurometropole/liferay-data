@@ -208,3 +208,8 @@ ul, ol{
     }
   }
 }
+
+/* Masquage du menu du contenu web en mode non connecté liferay */
+.signed-out section .mb-2 {
+ display: none;
+}
