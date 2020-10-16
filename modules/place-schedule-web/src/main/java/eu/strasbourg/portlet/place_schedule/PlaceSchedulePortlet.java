@@ -211,7 +211,10 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			// Récupère tous les lieux publiés de la catégorie
 			List<Place> places = new ArrayList<Place>();
 			if (Validator.isNotNull(category)) {
-				List<AssetEntryAssetCategoryRel> assetEntriesAssetCategories = AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId);
+				List<AssetEntryAssetCategoryRel> assetEntriesAssetCategories = AssetEntryAssetCategoryRelLocalServiceUtil
+						.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId).stream()
+						.sorted(Comparator.comparing(AssetEntryAssetCategoryRel::getAssetEntryId))
+						.collect(Collectors.toList());;
 				for (AssetEntryAssetCategoryRel assetEntryAssetCategory : assetEntriesAssetCategories) {
 					if (Validator.isNotNull(assetEntryAssetCategory)) {
 						AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(assetEntryAssetCategory.getAssetEntryId());
