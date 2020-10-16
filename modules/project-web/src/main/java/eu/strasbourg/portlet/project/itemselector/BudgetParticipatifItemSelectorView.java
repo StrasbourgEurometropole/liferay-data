@@ -73,6 +73,11 @@ public class BudgetParticipatifItemSelectorView implements ItemSelectorView<Budg
 	}
 
 	@Override
+	public boolean isShowSearch() {
+		return true;
+	}
+
+	@Override
 	public void renderHTML(ServletRequest servletRequest,
 		ServletResponse servletResponse,
 		BudgetParticipatifItemSelectorCriterion itemSelectorCriterion,
