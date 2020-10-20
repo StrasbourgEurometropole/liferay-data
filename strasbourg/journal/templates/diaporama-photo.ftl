@@ -195,6 +195,18 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             .image-nav {
                 height: 20vh;
             }
+
+            .legend{
+                margin-left: 0;
+            }
+
+            .legend .label{  
+                width: 100%;
+            }
+
+            .slider-une-thumbnail__arrow{
+                display: none !important;
+            }
         }
     
     </style>
