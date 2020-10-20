@@ -69,7 +69,7 @@ public class MairieStateSOAPClient {
 		String wsURL = "https://webservices.strasbourg.eu/filat/eSirius/webservices/sitewaitingindicator/v1.0?wsdl";
 		URL url = new URL(wsURL);
 		URLConnection connection = url.openConnection();
-		HttpURLConnection httpConn = (HttpURLConnection)connection;
+		HttpURLConnection httpConn = (HttpURLConnection) connection;
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		String xmlInput = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:v1=\"http://www.esii.com/esirius/sitewaitingindicator/v1.0\">\n" +
 				"   <soapenv:Header/>\n" +

@@ -1,4 +1,4 @@
-package eu.strasbourg.utils.models;
+package eu.strasbourg.service.agenda.custom.beans;
 
 import java.util.Date;
 

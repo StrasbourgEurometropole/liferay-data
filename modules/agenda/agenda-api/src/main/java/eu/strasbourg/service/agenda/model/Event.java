@@ -337,8 +337,9 @@ public interface Event extends EventModel, PersistedModel {
 	 *
 	 * @return
 	 */
-	public java.util.List<eu.strasbourg.utils.models.RodrigueEventSession>
-		getSessionsFromRodrigue();
+	public java.util.List
+		<eu.strasbourg.service.agenda.custom.beans.RodrigueEventSession>
+			getSessionsFromRodrigue();
 
 	/**
 	 * Renvoi les sessions de l'evenement obtenues par le webService Rodriguesous format JSON
