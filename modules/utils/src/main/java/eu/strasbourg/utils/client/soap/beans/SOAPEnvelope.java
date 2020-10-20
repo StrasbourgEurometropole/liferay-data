@@ -29,7 +29,7 @@ public class SOAPEnvelope {
         StringBundler result = new StringBundler();
 
         for (Map.Entry<String, String> attribute : this.attributes.entrySet()) {
-            result.append(" xmlns:\"");
+            result.append(" xmlns:");
             result.append(attribute.getKey());
             result.append("=\"");
             result.append(attribute.getValue());
