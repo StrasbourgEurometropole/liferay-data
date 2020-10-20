@@ -44,7 +44,7 @@ public class SOAPEnvelope {
      */
     public String toString() {
         String result =
-                "<soap:Envelope " + this.getFormattedAttributes() +"\">\n" +
+                "<soap:Envelope " + this.getFormattedAttributes() +">\n" +
                 "   <soap:Header/>\n" +
                 "   <soap:Body>\n" +
                         this.body +
