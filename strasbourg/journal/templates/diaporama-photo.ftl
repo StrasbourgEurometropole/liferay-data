@@ -93,13 +93,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             height: 15vh ;
             width: 100%;
             background-color: rgba(255,255,255,0.6);
+            margin-left: 140px;
         }
 
         .legend .label{  
             display: flex;
             justify-content: center;
             flex-direction: column;
-            flex-grow: 1;
             padding: 0;
             text-align: center;
             line-height: 1.5em;
@@ -107,9 +107,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             font-weight: 400;
             color: #333333;
             border: none;
+            width: calc(100% - 195px);
         }
 
-        .legend .paginate{
+        .legend .label + .paginate{
             display: flex;
             justify-content: center;
             flex-direction: column;
@@ -134,32 +135,47 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
         .slider-une-thumbnail__arrow{
             position: absolute;
-            top: calc(50% - 30px);
-        }
-
-        .slider-une-thumbnail__arrow .flexbox{
-            background-color: #31455d;
-            border-color: #31455d;
-        }
-
-        .slider-une-thumbnail__arrow-icon{
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' viewBox='0 0 31.49 22.14'%3E%3Cpath d='M21.2.33A1.12,1.12,0,1,0,19.62,1.9l8,8H1.11A1.11,1.11,0,0,0,0,11.06a1.12,1.12,0,0,0,1.11,1.13H27.67l-8,8a1.14,1.14,0,0,0,0,1.59,1.11,1.11,0,0,0,1.59,0l10-10a1.09,1.09,0,0,0,0-1.57Z'/%3E%3C/svg%3E"); 
-        }
-
-        .slider-une-thumbnail__arrow:hover .flexbox{
-            background-color: #FFFFFF;
-        }
-
-        .slider-une-thumbnail__arrow:hover .slider-une-thumbnail__arrow-icon{
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 31.49 22.14'%3E%3Cpath d='M21.2.33A1.12,1.12,0,1,0,19.62,1.9l8,8H1.11A1.11,1.11,0,0,0,0,11.06a1.12,1.12,0,0,0,1.11,1.13H27.67l-8,8a1.14,1.14,0,0,0,0,1.59,1.11,1.11,0,0,0,1.59,0l10-10a1.09,1.09,0,0,0,0-1.57Z'/%3E%3C/svg%3E"); 
-        }
-
-        .slider-une-thumbnail__arrow--prev {
-            left: 15px;
+            top: calc(100% - 70px);
+            z-index: 1;
         }
 
         .slider-une-thumbnail__arrow--next {
-            right: 15px;
+            left: 70px;
+        }
+
+        .slider-une-thumbnail__arrow .flexbox{
+            background-color: #FFFFFF;
+            border: solid #31455d;
+            transition: .3s;
+            height: 60px;
+            width: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slider-une-thumbnail__arrow:hover .flexbox{
+            background-color: #31455d;
+            border-color: #FFFFFF;
+        }
+
+        .slider-une-thumbnail__arrow-icon{
+            width: 27px;
+            height: 22px;
+            transition: .3s;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 31.49 22.14'%3E%3Cpath d='M21.2.33A1.12,1.12,0,1,0,19.62,1.9l8,8H1.11A1.11,1.11,0,0,0,0,11.06a1.12,1.12,0,0,0,1.11,1.13H27.67l-8,8a1.14,1.14,0,0,0,0,1.59,1.11,1.11,0,0,0,1.59,0l10-10a1.09,1.09,0,0,0,0-1.57Z'/%3E%3C/svg%3E"); 
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .slider-une-thumbnail__arrow--prev .slider-une-thumbnail__arrow-icon{
+            transform: rotate(-180deg);
+        }
+
+        .slider-une-thumbnail__arrow:hover .slider-une-thumbnail__arrow-icon{
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' viewBox='0 0 31.49 22.14'%3E%3Cpath d='M21.2.33A1.12,1.12,0,1,0,19.62,1.9l8,8H1.11A1.11,1.11,0,0,0,0,11.06a1.12,1.12,0,0,0,1.11,1.13H27.67l-8,8a1.14,1.14,0,0,0,0,1.59,1.11,1.11,0,0,0,1.59,0l10-10a1.09,1.09,0,0,0,0-1.57Z'/%3E%3C/svg%3E"); 
         }
 
         @media only screen and (max-width: 767px){
