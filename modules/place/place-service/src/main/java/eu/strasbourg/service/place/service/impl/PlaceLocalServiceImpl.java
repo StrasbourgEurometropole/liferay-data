@@ -292,6 +292,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 							rtOccupation = poolOccupation;
 						} catch (Exception ex) {
 							log.error("Can not update real time data for 'piscine'");
+							rtOccupation = -1;
 						}
 						break;
 
@@ -317,6 +318,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 						} catch (Exception ex) {
 							//ex.printStackTrace();
 							log.error("Can not update real time data for 'mairie'");
+							rtOccupation = -1;
 						}
 						break;
 				}
