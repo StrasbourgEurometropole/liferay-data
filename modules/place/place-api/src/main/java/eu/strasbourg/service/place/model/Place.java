@@ -284,6 +284,13 @@ public interface Place extends PersistedModel, PlaceModel {
 	public boolean isMairie();
 
 	/**
+	 * Retourne true si le lieu est une patinoire
+	 *
+	 * @return
+	 */
+	public boolean isIceRink();
+
+	/**
 	 * Retourne le temps réel (en gérant automatiquement le fait que ce soit une
 	 * piscine,une mairie ou un parking)
 	 *
@@ -294,7 +301,7 @@ public interface Place extends PersistedModel, PlaceModel {
 	/**
 	 * Retourne le temps réel (couleur de fond,valeur)
 	 *
-	 * @param type (1 = piscine, 2 = parking, 3 = mairie)
+	 * @param type (1 = piscine, 2 = parking, 3 = mairie, 4 = patinoire)
 	 * @throws Exception
 	 */
 	public eu.strasbourg.utils.OccupationState getRealTime(String type);

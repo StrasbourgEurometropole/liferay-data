@@ -62,23 +62,23 @@
 						// Ev�nement d�clench� lors de la s�lection d'un fichier
 						selectedItemChange: function(event) {
 							var selectedItem = event.newVal;
-							if (!!selectedItem && !!selectedItem.value) {
+							if (!!selectedItem && !!selectedItem.id) {
 								var htmlToAppend = '<li>'
-									+ selectedItem.layoutpath + ' - <a href="#" class="remove-layout" data-entry-id="' + selectedItem.value + '">Supprimer</a>';
+									+ selectedItem.name + ' - <a href="#" class="remove-layout" data-entry-id="' + selectedItem.id + '">Supprimer</a>';
 									+ '</li>';
 								if (!multipleSelection) {
 									$('#layouts-thumbnails-${name}-${currentLocale}').empty();
 								}
 								$('#layouts-thumbnails-${name}-${currentLocale}').append(htmlToAppend);
 								if (!multipleSelection) {
-									$(fieldName).val(selectedItem.value);
+									$(fieldName).val(selectedItem.id);
 								} else {
 									var currentValue = $(fieldName).val();
 									var newValue = currentValue;
 									if (currentValue.length > 0) {
 										newValue += ',';
 									}
-									newValue += selectedItem.value;
+									newValue += selectedItem.id;
 									$(fieldName).val(newValue);
 								}							
 							}

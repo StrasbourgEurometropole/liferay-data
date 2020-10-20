@@ -1,13 +1,10 @@
 package eu.strasbourg.portlet.activity.display.context;
 
-import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.activity.model.Association;
 import eu.strasbourg.service.activity.model.Practice;
@@ -16,7 +13,9 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EditAssociationDisplayContext {
@@ -66,12 +65,9 @@ public class EditAssociationDisplayContext {
 	 * Renvoie les indexes des activités par défaut
 	 */
 	public String getDefaultIndexes(int length) {
-		String indexes = "";
-		for (int i = 1; i <= length; i++) {
-			if (Validator.isNotNull(indexes)) {
-				indexes += ",";
-			}
-			indexes += i;
+		String indexes = "0";
+		for (int i = 1; i < length; i++) {
+			indexes += "," + i;
 		}
 		return indexes;
 	}

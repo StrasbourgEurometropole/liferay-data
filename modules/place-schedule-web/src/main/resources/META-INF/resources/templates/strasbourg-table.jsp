@@ -117,7 +117,7 @@
 					        	</div>
 					        </th>
 							<c:choose>
-								<c:when test="${piscine}">
+								<c:when test="${piscine or patinoire}">
 							        <th class="occupation" >
 							        	<div><liferay-ui:message key="live-attendance" /></div>
 							        </th>
@@ -171,7 +171,7 @@
 								<td class="place-name">
 								    ${place.getAlias(locale)}
 								</td>
-								<c:if test="${piscine}">
+								<c:if test="${piscine or patinoire}">
 										<c:set var="occupationState" value="${place.getRealTime('1')}" />
 										<td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
 											<div class="crowded-amount ${occupationState.cssClass}">
@@ -333,7 +333,7 @@
 					        	</div>
 					        </th>
 							<c:choose>
-								<c:when test="${piscine}">
+								<c:when test="${piscine or patinoire}">
 							        <th class="occupation" >
 							        	<div><liferay-ui:message key="live-attendance" /></div>
 							        </th>

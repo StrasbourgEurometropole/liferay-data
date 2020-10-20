@@ -280,6 +280,7 @@
 				margin: 0;
 				@include mobile {
 					display: flex;
+					flex-direction: row-reverse;
 					justify-content: space-between;
 					float: none;
 					width: 100%;
@@ -389,6 +390,7 @@
 				font-size: 24px;
 				height: auto;
 				color: $c_txt;
+				flex-grow: 1;
 			}
 			span {
 				display: block;
@@ -841,7 +843,7 @@
 		}
 		.mns-nav .navbar-toggler {
 			margin-left: 15px;
-			margin-right: 15px;
+			margin-right: 0;
   			border: none;
 			display: block;
 			top: 24px;

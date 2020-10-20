@@ -274,8 +274,11 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
                         rtType = "3";
 						// System.out.println("Type 3");
 					} else if (typeSigId.toLowerCase().contains("cat_22")){ // Parkings
-                        rtType = "2";
+						rtType = "2";
 						// System.out.println("Type 2");
+					} else if (typeSigId.toLowerCase().contains("cat_06_04")){ // Patinoire
+						rtType = "4";
+						// System.out.println("Type 4");
 					}
 				}
 			}

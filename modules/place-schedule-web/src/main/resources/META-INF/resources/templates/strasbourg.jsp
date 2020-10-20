@@ -72,42 +72,41 @@
 						<div class="item-real-time">
 							<c:set var="occupationState" value="${place.getRealTime()}" />
 							<c:set var="isSwimmingPool" value="${place.isSwimmingPool()}" />
+							<c:set var="isIceRink" value="${place.isIceRink()}" />
 							<c:set var="isMairie" value="${place.isMairie()}" />
+							<c:set var="isParking" value="${place.isParking()}" />
 							<div class="crowded-amount ${occupationState.cssClass}" <c:if test="${isMairie}">style="font-size: 1.5rem"</c:if>>
 								<c:choose>
-									<c:when test="${isSwimmingPool}">
+									<c:when test="${isSwimmingPool or isIceRink or isMairie}">
 										${occupationState.occupationLabel}
 									</c:when>
-									<c:when test="${isMairie}">
-										${occupationState.occupationLabel}
-									</c:when>
-									<c:otherwise>
+									<c:when test="${isParking}">
 											${occupationState.available}
-									</c:otherwise>
+									</c:when>
 								</c:choose>
 							</div>
 							<div class="real-time-info">
 								<span class="real-time-title">
 									<c:choose>
-										<c:when test="${isSwimmingPool}">
+										<c:when test="${isSwimmingPool or isIceRink}">
 											<liferay-ui:message key="live-frequentation" />
 										</c:when>
 										<c:when test="${isMairie}">
 											<liferay-ui:message key="estimated-time" />
 										</c:when>
-										<c:otherwise>
+									    <c:when test="${isParking}">
 											<liferay-ui:message key="live-occupation" />
-										</c:otherwise>
+										</c:when>
 									</c:choose>
 								</span>
 								<span class="real-time-detail">
 									<c:choose>
-										<c:when test="${isSwimmingPool or isMairie}">
+										<c:when test="${isSwimmingPool or isIceRink or isMairie}">
 											<liferay-ui:message key="${occupationState.label}" />
 										</c:when>
-										<c:otherwise>
+									    <c:when test="${isParking}">
 											<liferay-ui:message key="eu.place.available-spots" /> ${occupationState.available} - <liferay-ui:message key="parking-total-capacity" /> ${occupationState.capacity}
-										</c:otherwise>
+										</c:when>
 									</c:choose>
 								</span>
 							</div>

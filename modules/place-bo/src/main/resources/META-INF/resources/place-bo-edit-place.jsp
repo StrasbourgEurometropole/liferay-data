@@ -371,7 +371,7 @@
                                 <div class="lfr-form-row lfr-form-row-inline">
                                     <div class="row-fields">
                                         <liferay-util:include page="/includes/exceptional-schedule-row.jsp" servletContext="<%=application %>">
-                                            <liferay-util:param name="index" value="1" />
+                                            <liferay-util:param name="index" value="0" />
                                         </liferay-util:include>
                                     </div>
                                 </div>
@@ -383,7 +383,7 @@
                                         <fmt:formatDate value="${scheduleException.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
                                         <fmt:formatDate value="${scheduleException.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
                                         <liferay-util:include page="/includes/exceptional-schedule-row.jsp" servletContext="<%=application %>">
-                                            <liferay-util:param name="index" value="${status.count}" />
+                                            <liferay-util:param name="index" value="${status.count - 1}" />
                                             <liferay-util:param name="startHour1" value="${scheduleException.getStartHour(0)}" />
                                             <liferay-util:param name="endHour1" value="${scheduleException.getEndHour(0)}" />
                                             <liferay-util:param name="firstComment" value="${scheduleException.firstComment}" />
@@ -407,12 +407,7 @@
                                     </div>
                                 </div>
                             </c:forEach>
-                            <c:if test="${empty dc.place.scheduleExceptions}">
-                                <aui:input type="hidden" name="shedulesExceptionsIndexes" value="1" />
-                            </c:if>
-                            <c:if test="${not empty dc.place.scheduleExceptions}">
-                                <aui:input type="hidden" name="shedulesExceptionsIndexes" value="${dc.getDefaultIndexes(fn:length(dc.place.scheduleExceptions))}" />
-                            </c:if>
+                            <aui:input type="hidden" name="shedulesExceptionsIndexes" value="${dc.getDefaultIndexes(fn:length(dc.place.scheduleExceptions))}" />
                         </div>
 
                     </aui:fieldset>

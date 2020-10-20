@@ -1,22 +1,19 @@
 package eu.strasbourg.portlet.place.display.context;
 
-import java.util.Locale;
-import java.util.Set;
-
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.Locale;
+import java.util.Set;
 
 public class EditPlaceDisplayContext {
 	public EditPlaceDisplayContext(RenderRequest request,
@@ -35,12 +32,9 @@ public class EditPlaceDisplayContext {
 	}
 
 	public String getDefaultIndexes(int length) {
-		String indexes = "";
-		for (int i = 1; i <= length; i++) {
-			if (Validator.isNotNull(indexes)) {
-				indexes += ",";
-			}
-			indexes += i;
+		String indexes = "0";
+		for (int i = 1; i < length; i++) {
+				indexes += "," + i;
 		}
 		return indexes;
 	}

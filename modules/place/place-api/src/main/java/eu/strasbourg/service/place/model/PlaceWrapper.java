@@ -2210,7 +2210,7 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	/**
 	 * Retourne le temps réel (couleur de fond,valeur)
 	 *
-	 * @param type (1 = piscine, 2 = parking, 3 = mairie)
+	 * @param type (1 = piscine, 2 = parking, 3 = mairie, 4 = patinoire)
 	 * @throws Exception
 	 */
 	@Override
@@ -3017,6 +3017,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public boolean isHasURLSchedule() {
 		return _place.isHasURLSchedule();
+	}
+
+	/**
+	 * Retourne true si le lieu est une patinoire
+	 *
+	 * @return
+	 */
+	@Override
+	public boolean isIceRink() {
+		return _place.isIceRink();
 	}
 
 	/**
