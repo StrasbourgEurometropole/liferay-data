@@ -40,6 +40,8 @@ public class RodrigueSOAPClient extends BaseSOAPClient {
             results = this.parseGetSessionListOfEventResults(docResult);
         } catch (ParseException e) {
             log.error("Error during session date parsing ", e);
+        } catch (Exception e) {
+            log.error("Error during session Soap request for event " + eventID, e);
         }
         return results;
     }
