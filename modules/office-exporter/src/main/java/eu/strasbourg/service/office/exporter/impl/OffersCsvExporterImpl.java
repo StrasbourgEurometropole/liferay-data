@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -68,7 +69,8 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 			csv.append(CharPool.NEW_LINE);
 		}
 
-		String fileName = "interf_totems.csv";
+		DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyMMdd_hhmmss");
+		String fileName = "interf_totems"+ dateFormat.format(new Date()) +".csv";
 		String fullPath = System.getProperty("java.io.tmpdir") + "/"
 				+ fileName;
 		File file = new File(fullPath);
