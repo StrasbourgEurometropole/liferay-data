@@ -44,12 +44,12 @@ public class SOAPEnvelope {
      */
     public String toString() {
         String result =
-                "<soap:Envelope " + this.getFormattedAttributes() +">\n" +
-                "   <soap:Header/>\n" +
-                "   <soap:Body>\n" +
+                "<soapenv:Envelope " + this.getFormattedAttributes() +">\n" +
+                "   <soapenv:Header/>\n" +
+                "   <soapenv:Body>\n" +
                         this.body +
-                "   </soap:Body>\n" +
-                "</soap:Envelope> \n";
+                "   </soapenv:Body>\n" +
+                "</soapenv:Envelope> \n";
 
         return result;
     }
