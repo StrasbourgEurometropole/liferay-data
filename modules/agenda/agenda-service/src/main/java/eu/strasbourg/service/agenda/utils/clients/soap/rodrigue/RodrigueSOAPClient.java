@@ -67,7 +67,8 @@ public class RodrigueSOAPClient extends BaseSOAPClient {
                 "</rod:GetSessionListOfEvent>\n";
 
         // Création de l'enveloppe
-        SOAPEnvelope soapEnvelope = new SOAPEnvelope(envelopeAttributes, enveloppeBody);
+        SOAPEnvelope soapEnvelope = new SOAPEnvelope(
+                RodrigueSOAPConstants.ATTRIBUTE_ENV_NAME, envelopeAttributes, enveloppeBody);
         this.setSoapEnvelope(soapEnvelope);
     }
 

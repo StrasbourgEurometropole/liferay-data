@@ -8,15 +8,18 @@ public class SOAPEnvelope {
 
     private Map<String, String> attributes;
     private String body;
+    private String namespacePrefix;
 
     /**
      * Constructeur d'enveloppe SOAP
      * Note : le body est au format String car chaque service SOAP construit ses paramètres comme il le souhaite,
      *      ne pouvant détecter un format régulier, cela laisse la possibilité d'y mettre ce que le service demande.
+     * @param namespacePrefix Préfixe utilisé par les balises Envelope, Header et Body
      * @param attributes Liste des attribut de l'enveloppe en clef/valeur (ex: encodingStyle / URI)
      * @param body XML au format String du body de l'enveloppe sans prendre en compte les balises du body elles-mêmes
      */
-    public SOAPEnvelope(Map<String, String> attributes, String body) {
+    public SOAPEnvelope(String namespacePrefix, Map<String, String> attributes, String body) {
+        this.namespacePrefix = namespacePrefix;
         this.attributes = attributes;
         this.body = body;
     }
@@ -43,15 +46,12 @@ public class SOAPEnvelope {
      * Retourne une l'enveloppe SOAP XML au format String
      */
     public String toString() {
-        String result =
-                "<soapenv:Envelope " + this.getFormattedAttributes() +">\n" +
-                "   <soapenv:Header/>\n" +
-                "   <soapenv:Body>\n" +
-                        this.body +
-                "   </soapenv:Body>\n" +
-                "</soapenv:Envelope> \n";
-
-        return result;
+        return "<" + this.namespacePrefix + ":Envelope " + this.getFormattedAttributes() +">\n" +
+                "   <" + this.namespacePrefix + ":Header/>\n" +
+                "   <" + this.namespacePrefix + ":Body>\n" +
+                    this.body +
+                "   </" + this.namespacePrefix + ":Body>\n" +
+                "</" + this.namespacePrefix + ":Envelope> \n";
     }
 
 }
