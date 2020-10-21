@@ -138,6 +138,19 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </div>
                         </#if>
                     </div>
+                    <#if entry.bookingURL?has_content || entry.getBookingDescription(locale)?has_content>
+                        <div class="seu-wi-text">
+                            <div class="seu-wi-title"><@liferay_ui.message key="eu.ticket-office" /></div>
+                            <div class="rte">
+                                <#if entry.getBookingDescription(locale)?has_content>
+                                    <p>${entry.getBookingDescription(locale)}</p>
+                                </#if>
+                                <#if entry.bookingURL?has_content>
+                                    <a href="${entry.bookingURL}" target="_blank"><@liferay_ui.message key="eu.book" /> </a>
+                                </#if>
+                            </div>
+                        </div>
+                    </#if>
                     <#if entry.getWebsiteName(locale)?has_content && entry.getWebsiteURL(locale)?has_content >
                         <div class="seu-wi-text">
                             <div class="seu-wi-title"><@liferay_ui.message key="eu.see-also" /></div>
