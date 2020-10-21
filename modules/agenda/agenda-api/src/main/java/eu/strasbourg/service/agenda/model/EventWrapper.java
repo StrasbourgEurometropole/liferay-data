@@ -1746,8 +1746,9 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 * @return
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.utils.models.RodrigueEventSession>
-		getSessionsFromRodrigue() {
+	public java.util.List
+		<eu.strasbourg.service.agenda.custom.beans.RodrigueEventSession>
+			getSessionsFromRodrigue() {
 
 		return _event.getSessionsFromRodrigue();
 	}

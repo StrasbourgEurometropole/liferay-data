@@ -54,6 +54,7 @@ import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
+import eu.strasbourg.service.agenda.utils.clients.soap.rodrigue.RodrigueSOAPClient;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
@@ -62,10 +63,9 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
-import eu.strasbourg.utils.RodigueSOAPClient;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
-import eu.strasbourg.utils.models.RodrigueEventSession;
+import eu.strasbourg.service.agenda.custom.beans.RodrigueEventSession;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
@@ -1134,7 +1134,9 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public List<RodrigueEventSession> getSessionsFromRodrigue() {
 		if (this.getConcertId() != null && !this.getConcertId().isEmpty()) {
-			return RodigueSOAPClient.getSessionListOfEvent(this.getConcertId());
+			RodrigueSOAPClient rodrigueSOAPClient = new RodrigueSOAPClient();
+
+			return rodrigueSOAPClient.getSessionListOfEvent(this.getConcertId());
 		} else {
 			return new ArrayList<RodrigueEventSession>();
 		}
