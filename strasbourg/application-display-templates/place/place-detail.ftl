@@ -870,7 +870,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </div>
                         </#if>
                         <div class="crowded-fyi">    
-                            <#if isSwimmingPool || isIceRink>
+                            <#if isSwimmingPool>
                                 <@liferay_ui.message key="live-occupation-explanation" />
                             <#else>
                                 <#if isMairie>
@@ -878,6 +878,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <#else>
                                     <#if isParking>
                                         <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                                    <#else>
+                                        <#if isIceRink>
+                                            La fréquentation est donnée à titre indicatif
+                                        </#if>
                                     </#if>
                                 </#if>
                             </#if>
