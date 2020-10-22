@@ -2,8 +2,10 @@ package eu.strasbourg.portlet.ejob.display.context;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -12,7 +14,6 @@ import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.OfferLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.RoleNames;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -262,13 +263,20 @@ public class EditOfferDisplayContext {
 
 
     public boolean isContribOnly(){
-        List<Role> roles = RoleLocalServiceUtil.getRoles(this.themeDisplay.getCompanyId());
-        Role responsableEmploi = roles.stream().filter(r -> StringHelper.compareIgnoringAccentuation(r.getName().toLowerCase(), RoleNames.RESPONSABLE_EMPLOI)).findFirst().orElse(null);
-        Role siteAdministrator = roles.stream().filter(r -> StringHelper.compareIgnoringAccentuation(r.getName().toLowerCase(), RoleNames.SITE_ADMLINISTRATOR)).findFirst().orElse(null);
-        if(themeDisplay.getPermissionChecker().isOmniadmin() || themeDisplay.getUser().getRoles().contains(responsableEmploi) || themeDisplay.getUser().getRoles().contains(siteAdministrator))
-            return false;
-        Role assistantRecrutement = roles.stream().filter(r -> StringHelper.compareIgnoringAccentuation(r.getName().toLowerCase(), RoleNames.ASSISTANT_RECRUTEMENT)).findFirst().orElse(null);
-        return themeDisplay.getUser().getRoles().contains(assistantRecrutement);
+        try {
+            Role  responsableEmploi = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.RESPONSABLE_EMPLOI);
+            Role siteAdministrator = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.SITE_ADMLINISTRATOR);
+            if(themeDisplay.getPermissionChecker().isOmniadmin()
+                    || UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), responsableEmploi.getRoleId())
+                    || UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), siteAdministrator.getRoleId()))
+                return false;
+
+            Role assistantRecrutement = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.ASSISTANT_RECRUTEMENT);
+            return UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), assistantRecrutement.getRoleId());
+        } catch (PortalException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }
