@@ -35,7 +35,7 @@ public class PoolStateSOAPClient {
 	}
 
 	/**
-	 * Renvoie la valeur d'occupation de la piscine demandée
+	 * Renvoie la valeur d'occupation de la piscine/patinoire demandée
 	 */
 	private static long getOccupation(String poolCode) throws Exception {
 
