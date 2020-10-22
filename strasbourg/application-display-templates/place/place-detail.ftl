@@ -880,7 +880,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                         <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
                                     <#else>
                                         <#if isIceRink>
-                                            La fréquentation est donnée à titre indicatif
+                                            <@liferay_ui.message key="live-ice-rink-occupation-explanation" />
                                         </#if>
                                     </#if>
                                 </#if>
