@@ -120,6 +120,9 @@
                                         <c:if test="${favorite.place.isSwimmingPool()}">
                                                 ${occupationState.occupation}
                                         </c:if>
+                                        <c:if test="${favorite.place.isIceRink()}">
+                                                ${occupationState.occupation}
+                                        </c:if>
                                         <c:if test="${favorite.place.isParking()}">
                                                 ${occupationState.available}
                                         </c:if>
@@ -129,8 +132,12 @@
                                     </div>
                                     <div class="favoris-teaser__crowding-label">
                                     	<liferay-ui:message key="${occupationState.label}" />
-                                    	<!-- ajout post covid : affichage capacité totale -->
+                                    	<!-- ajout post covid : affichage capacitï¿½ totale -->
                                     	<c:if test="${favorite.place.isSwimmingPool()}">
+                                    		<br>
+                                            <liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                                        </c:if>
+                                    	<c:if test="${favorite.place.isIceRink()}">
                                     		<br>
                                             <liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity}
                                         </c:if>
