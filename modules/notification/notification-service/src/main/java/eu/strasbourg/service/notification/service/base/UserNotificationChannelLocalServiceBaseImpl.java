@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
+import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -61,17 +62,17 @@ import javax.sql.DataSource;
  *
  * @author BenjaminBini
  * @see eu.strasbourg.service.notification.service.impl.UserNotificationChannelLocalServiceImpl
- * @see eu.strasbourg.service.notification.service.UserNotificationChannelLocalServiceUtil
  * @generated
  */
 @ProviderType
 public abstract class UserNotificationChannelLocalServiceBaseImpl
-	extends BaseLocalServiceImpl implements UserNotificationChannelLocalService,
-		IdentifiableOSGiService {
+	extends BaseLocalServiceImpl
+	implements UserNotificationChannelLocalService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.notification.service.UserNotificationChannelLocalServiceUtil} to access the user notification channel local service.
+	 * Never modify or reference this class directly. Use <code>UserNotificationChannelLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.notification.service.UserNotificationChannelLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -84,9 +85,11 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	@Override
 	public UserNotificationChannel addUserNotificationChannel(
 		UserNotificationChannel userNotificationChannel) {
+
 		userNotificationChannel.setNew(true);
 
-		return userNotificationChannelPersistence.update(userNotificationChannel);
+		return userNotificationChannelPersistence.update(
+			userNotificationChannel);
 	}
 
 	/**
@@ -96,9 +99,12 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 * @return the new user notification channel
 	 */
 	@Override
+	@Transactional(enabled = false)
 	public UserNotificationChannel createUserNotificationChannel(
 		UserNotificationChannelPK userNotificationChannelPK) {
-		return userNotificationChannelPersistence.create(userNotificationChannelPK);
+
+		return userNotificationChannelPersistence.create(
+			userNotificationChannelPK);
 	}
 
 	/**
@@ -111,9 +117,11 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	public UserNotificationChannel deleteUserNotificationChannel(
-		UserNotificationChannelPK userNotificationChannelPK)
+			UserNotificationChannelPK userNotificationChannelPK)
 		throws PortalException {
-		return userNotificationChannelPersistence.remove(userNotificationChannelPK);
+
+		return userNotificationChannelPersistence.remove(
+			userNotificationChannelPK);
 	}
 
 	/**
@@ -126,15 +134,17 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	@Override
 	public UserNotificationChannel deleteUserNotificationChannel(
 		UserNotificationChannel userNotificationChannel) {
-		return userNotificationChannelPersistence.remove(userNotificationChannel);
+
+		return userNotificationChannelPersistence.remove(
+			userNotificationChannel);
 	}
 
 	@Override
 	public DynamicQuery dynamicQuery() {
 		Class<?> clazz = getClass();
 
-		return DynamicQueryFactoryUtil.forClass(UserNotificationChannel.class,
-			clazz.getClassLoader());
+		return DynamicQueryFactoryUtil.forClass(
+			UserNotificationChannel.class, clazz.getClassLoader());
 	}
 
 	/**
@@ -145,14 +155,15 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 */
 	@Override
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
-		return userNotificationChannelPersistence.findWithDynamicQuery(dynamicQuery);
+		return userNotificationChannelPersistence.findWithDynamicQuery(
+			dynamicQuery);
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.notification.model.impl.UserNotificationChannelModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.notification.model.impl.UserNotificationChannelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -161,17 +172,18 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 * @return the range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end) {
-		return userNotificationChannelPersistence.findWithDynamicQuery(dynamicQuery,
-			start, end);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
+
+		return userNotificationChannelPersistence.findWithDynamicQuery(
+			dynamicQuery, start, end);
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.notification.model.impl.UserNotificationChannelModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.notification.model.impl.UserNotificationChannelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -181,10 +193,12 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 * @return the ordered range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end, OrderByComparator<T> orderByComparator) {
-		return userNotificationChannelPersistence.findWithDynamicQuery(dynamicQuery,
-			start, end, orderByComparator);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
+
+		return userNotificationChannelPersistence.findWithDynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
@@ -195,7 +209,8 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 */
 	@Override
 	public long dynamicQueryCount(DynamicQuery dynamicQuery) {
-		return userNotificationChannelPersistence.countWithDynamicQuery(dynamicQuery);
+		return userNotificationChannelPersistence.countWithDynamicQuery(
+			dynamicQuery);
 	}
 
 	/**
@@ -206,16 +221,19 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 * @return the number of rows matching the dynamic query
 	 */
 	@Override
-	public long dynamicQueryCount(DynamicQuery dynamicQuery,
-		Projection projection) {
-		return userNotificationChannelPersistence.countWithDynamicQuery(dynamicQuery,
-			projection);
+	public long dynamicQueryCount(
+		DynamicQuery dynamicQuery, Projection projection) {
+
+		return userNotificationChannelPersistence.countWithDynamicQuery(
+			dynamicQuery, projection);
 	}
 
 	@Override
 	public UserNotificationChannel fetchUserNotificationChannel(
 		UserNotificationChannelPK userNotificationChannelPK) {
-		return userNotificationChannelPersistence.fetchByPrimaryKey(userNotificationChannelPK);
+
+		return userNotificationChannelPersistence.fetchByPrimaryKey(
+			userNotificationChannelPK);
 	}
 
 	/**
@@ -227,9 +245,11 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 */
 	@Override
 	public UserNotificationChannel getUserNotificationChannel(
-		UserNotificationChannelPK userNotificationChannelPK)
+			UserNotificationChannelPK userNotificationChannelPK)
 		throws PortalException {
-		return userNotificationChannelPersistence.findByPrimaryKey(userNotificationChannelPK);
+
+		return userNotificationChannelPersistence.findByPrimaryKey(
+			userNotificationChannelPK);
 	}
 
 	/**
@@ -238,20 +258,25 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
-		return userNotificationChannelLocalService.deleteUserNotificationChannel((UserNotificationChannel)persistedModel);
+
+		return userNotificationChannelLocalService.
+			deleteUserNotificationChannel(
+				(UserNotificationChannel)persistedModel);
 	}
 
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
-		return userNotificationChannelPersistence.findByPrimaryKey(primaryKeyObj);
+
+		return userNotificationChannelPersistence.findByPrimaryKey(
+			primaryKeyObj);
 	}
 
 	/**
 	 * Returns a range of all the user notification channels.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.notification.model.impl.UserNotificationChannelModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.notification.model.impl.UserNotificationChannelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of user notification channels
@@ -261,6 +286,7 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	@Override
 	public List<UserNotificationChannel> getUserNotificationChannels(
 		int start, int end) {
+
 		return userNotificationChannelPersistence.findAll(start, end);
 	}
 
@@ -284,7 +310,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	@Override
 	public UserNotificationChannel updateUserNotificationChannel(
 		UserNotificationChannel userNotificationChannel) {
-		return userNotificationChannelPersistence.update(userNotificationChannel);
+
+		return userNotificationChannelPersistence.update(
+			userNotificationChannel);
 	}
 
 	/**
@@ -292,7 +320,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 *
 	 * @return the notification local service
 	 */
-	public eu.strasbourg.service.notification.service.NotificationLocalService getNotificationLocalService() {
+	public eu.strasbourg.service.notification.service.NotificationLocalService
+		getNotificationLocalService() {
+
 		return notificationLocalService;
 	}
 
@@ -302,7 +332,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 * @param notificationLocalService the notification local service
 	 */
 	public void setNotificationLocalService(
-		eu.strasbourg.service.notification.service.NotificationLocalService notificationLocalService) {
+		eu.strasbourg.service.notification.service.NotificationLocalService
+			notificationLocalService) {
+
 		this.notificationLocalService = notificationLocalService;
 	}
 
@@ -322,6 +354,7 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 */
 	public void setNotificationPersistence(
 		NotificationPersistence notificationPersistence) {
+
 		this.notificationPersistence = notificationPersistence;
 	}
 
@@ -330,7 +363,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 *
 	 * @return the user notification channel local service
 	 */
-	public UserNotificationChannelLocalService getUserNotificationChannelLocalService() {
+	public UserNotificationChannelLocalService
+		getUserNotificationChannelLocalService() {
+
 		return userNotificationChannelLocalService;
 	}
 
@@ -340,8 +375,11 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 * @param userNotificationChannelLocalService the user notification channel local service
 	 */
 	public void setUserNotificationChannelLocalService(
-		UserNotificationChannelLocalService userNotificationChannelLocalService) {
-		this.userNotificationChannelLocalService = userNotificationChannelLocalService;
+		UserNotificationChannelLocalService
+			userNotificationChannelLocalService) {
+
+		this.userNotificationChannelLocalService =
+			userNotificationChannelLocalService;
 	}
 
 	/**
@@ -349,7 +387,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 *
 	 * @return the user notification channel persistence
 	 */
-	public UserNotificationChannelPersistence getUserNotificationChannelPersistence() {
+	public UserNotificationChannelPersistence
+		getUserNotificationChannelPersistence() {
+
 		return userNotificationChannelPersistence;
 	}
 
@@ -360,7 +400,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 */
 	public void setUserNotificationChannelPersistence(
 		UserNotificationChannelPersistence userNotificationChannelPersistence) {
-		this.userNotificationChannelPersistence = userNotificationChannelPersistence;
+
+		this.userNotificationChannelPersistence =
+			userNotificationChannelPersistence;
 	}
 
 	/**
@@ -368,7 +410,10 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 *
 	 * @return the user notification status local service
 	 */
-	public eu.strasbourg.service.notification.service.UserNotificationStatusLocalService getUserNotificationStatusLocalService() {
+	public eu.strasbourg.service.notification.service.
+		UserNotificationStatusLocalService
+			getUserNotificationStatusLocalService() {
+
 		return userNotificationStatusLocalService;
 	}
 
@@ -378,8 +423,12 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 * @param userNotificationStatusLocalService the user notification status local service
 	 */
 	public void setUserNotificationStatusLocalService(
-		eu.strasbourg.service.notification.service.UserNotificationStatusLocalService userNotificationStatusLocalService) {
-		this.userNotificationStatusLocalService = userNotificationStatusLocalService;
+		eu.strasbourg.service.notification.service.
+			UserNotificationStatusLocalService
+				userNotificationStatusLocalService) {
+
+		this.userNotificationStatusLocalService =
+			userNotificationStatusLocalService;
 	}
 
 	/**
@@ -387,7 +436,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 *
 	 * @return the user notification status persistence
 	 */
-	public UserNotificationStatusPersistence getUserNotificationStatusPersistence() {
+	public UserNotificationStatusPersistence
+		getUserNotificationStatusPersistence() {
+
 		return userNotificationStatusPersistence;
 	}
 
@@ -398,7 +449,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 */
 	public void setUserNotificationStatusPersistence(
 		UserNotificationStatusPersistence userNotificationStatusPersistence) {
-		this.userNotificationStatusPersistence = userNotificationStatusPersistence;
+
+		this.userNotificationStatusPersistence =
+			userNotificationStatusPersistence;
 	}
 
 	/**
@@ -406,7 +459,11 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 *
 	 * @return the user notification type local service
 	 */
-	public eu.strasbourg.service.notification.service.UserNotificationTypeLocalService getUserNotificationTypeLocalService() {
+	public
+		eu.strasbourg.service.notification.service.
+			UserNotificationTypeLocalService
+				getUserNotificationTypeLocalService() {
+
 		return userNotificationTypeLocalService;
 	}
 
@@ -416,8 +473,11 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 * @param userNotificationTypeLocalService the user notification type local service
 	 */
 	public void setUserNotificationTypeLocalService(
-		eu.strasbourg.service.notification.service.UserNotificationTypeLocalService userNotificationTypeLocalService) {
-		this.userNotificationTypeLocalService = userNotificationTypeLocalService;
+		eu.strasbourg.service.notification.service.
+			UserNotificationTypeLocalService userNotificationTypeLocalService) {
+
+		this.userNotificationTypeLocalService =
+			userNotificationTypeLocalService;
 	}
 
 	/**
@@ -425,7 +485,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 *
 	 * @return the user notification type persistence
 	 */
-	public UserNotificationTypePersistence getUserNotificationTypePersistence() {
+	public UserNotificationTypePersistence
+		getUserNotificationTypePersistence() {
+
 		return userNotificationTypePersistence;
 	}
 
@@ -436,6 +498,7 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 */
 	public void setUserNotificationTypePersistence(
 		UserNotificationTypePersistence userNotificationTypePersistence) {
+
 		this.userNotificationTypePersistence = userNotificationTypePersistence;
 	}
 
@@ -444,7 +507,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -454,7 +519,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -463,7 +530,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -473,7 +542,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -493,6 +564,7 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -501,7 +573,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -511,7 +585,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -520,7 +596,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -531,6 +609,7 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -553,7 +632,8 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register("eu.strasbourg.service.notification.model.UserNotificationChannel",
+		persistedModelLocalServiceRegistry.register(
+			"eu.strasbourg.service.notification.model.UserNotificationChannel",
 			userNotificationChannelLocalService);
 	}
 
@@ -587,15 +667,16 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 */
 	protected void runSQL(String sql) {
 		try {
-			DataSource dataSource = userNotificationChannelPersistence.getDataSource();
+			DataSource dataSource =
+				userNotificationChannelPersistence.getDataSource();
 
 			DB db = DBManagerUtil.getDB();
 
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -604,34 +685,76 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.notification.service.NotificationLocalService.class)
-	protected eu.strasbourg.service.notification.service.NotificationLocalService notificationLocalService;
+	@BeanReference(
+		type = eu.strasbourg.service.notification.service.NotificationLocalService.class
+	)
+	protected
+		eu.strasbourg.service.notification.service.NotificationLocalService
+			notificationLocalService;
+
 	@BeanReference(type = NotificationPersistence.class)
 	protected NotificationPersistence notificationPersistence;
+
 	@BeanReference(type = UserNotificationChannelLocalService.class)
-	protected UserNotificationChannelLocalService userNotificationChannelLocalService;
+	protected UserNotificationChannelLocalService
+		userNotificationChannelLocalService;
+
 	@BeanReference(type = UserNotificationChannelPersistence.class)
-	protected UserNotificationChannelPersistence userNotificationChannelPersistence;
-	@BeanReference(type = eu.strasbourg.service.notification.service.UserNotificationStatusLocalService.class)
-	protected eu.strasbourg.service.notification.service.UserNotificationStatusLocalService userNotificationStatusLocalService;
+	protected UserNotificationChannelPersistence
+		userNotificationChannelPersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.notification.service.UserNotificationStatusLocalService.class
+	)
+	protected eu.strasbourg.service.notification.service.
+		UserNotificationStatusLocalService userNotificationStatusLocalService;
+
 	@BeanReference(type = UserNotificationStatusPersistence.class)
-	protected UserNotificationStatusPersistence userNotificationStatusPersistence;
-	@BeanReference(type = eu.strasbourg.service.notification.service.UserNotificationTypeLocalService.class)
-	protected eu.strasbourg.service.notification.service.UserNotificationTypeLocalService userNotificationTypeLocalService;
+	protected UserNotificationStatusPersistence
+		userNotificationStatusPersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.notification.service.UserNotificationTypeLocalService.class
+	)
+	protected
+		eu.strasbourg.service.notification.service.
+			UserNotificationTypeLocalService userNotificationTypeLocalService;
+
 	@BeanReference(type = UserNotificationTypePersistence.class)
 	protected UserNotificationTypePersistence userNotificationTypePersistence;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry;
+	protected PersistedModelLocalServiceRegistry
+		persistedModelLocalServiceRegistry;
+
 }

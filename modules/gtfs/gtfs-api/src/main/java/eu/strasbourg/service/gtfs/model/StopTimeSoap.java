@@ -30,6 +30,7 @@ import java.util.List;
  */
 @ProviderType
 public class StopTimeSoap implements Serializable {
+
 	public static StopTimeSoap toSoapModel(StopTime model) {
 		StopTimeSoap soapModel = new StopTimeSoap();
 
@@ -74,7 +75,8 @@ public class StopTimeSoap implements Serializable {
 	}
 
 	public static StopTimeSoap[] toSoapModels(List<StopTime> models) {
-		List<StopTimeSoap> soapModels = new ArrayList<StopTimeSoap>(models.size());
+		List<StopTimeSoap> soapModels = new ArrayList<StopTimeSoap>(
+			models.size());
 
 		for (StopTime model : models) {
 			soapModels.add(toSoapModel(model));
@@ -175,4 +177,5 @@ public class StopTimeSoap implements Serializable {
 	private int _stop_sequence;
 	private String _pickup_type;
 	private String _drop_off_type;
+
 }

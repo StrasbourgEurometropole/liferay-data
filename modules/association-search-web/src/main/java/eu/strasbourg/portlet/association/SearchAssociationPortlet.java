@@ -25,7 +25,11 @@ import java.util.Map;
 /**
  * @author angelique.champougny
  */
-@Component(immediate = true, configurationPid = "eu.strasbourg.portlet.association.configuration.SearchAssociationConfiguration", property = {
+@Component(
+	immediate = true,
+	configurationPid = "eu.strasbourg.portlet.association.configuration.SearchAssociationConfiguration",
+	property = {
+		"javax.portlet.version=3.0",
 		"com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.css-class-wrapper=search-association-portlet",

@@ -34,18 +34,22 @@ import eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService
 @ProviderType
 public abstract class ActivityCourseScheduleBaseImpl
 	extends ActivityCourseScheduleModelImpl implements ActivityCourseSchedule {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a activity course schedule model instance should use the {@link ActivityCourseSchedule} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a activity course schedule model instance should use the <code>ActivityCourseSchedule</code> interface instead.
 	 */
 	@Override
 	public void persist() {
 		if (this.isNew()) {
-			ActivityCourseScheduleLocalServiceUtil.addActivityCourseSchedule(this);
+			ActivityCourseScheduleLocalServiceUtil.addActivityCourseSchedule(
+				this);
 		}
 		else {
-			ActivityCourseScheduleLocalServiceUtil.updateActivityCourseSchedule(this);
+			ActivityCourseScheduleLocalServiceUtil.updateActivityCourseSchedule(
+				this);
 		}
 	}
+
 }

@@ -27,10 +27,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -44,6 +43,7 @@ import eu.strasbourg.service.gtfs.service.persistence.TripPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -62,51 +62,32 @@ import java.util.Set;
  * </p>
  *
  * @author Cedric Henry
- * @see TripPersistence
- * @see eu.strasbourg.service.gtfs.service.persistence.TripUtil
  * @generated
  */
 @ProviderType
-public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
-	implements TripPersistence {
+public class TripPersistenceImpl
+	extends BasePersistenceImpl<Trip> implements TripPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link TripUtil} to access the trip persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>TripUtil</code> to access the trip persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = TripImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			TripModelImpl.UUID_COLUMN_BITMASK |
-			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		TripImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the trips where uuid = &#63;.
@@ -123,7 +104,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Returns a range of all the trips where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -140,7 +121,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Returns an ordered range of all the trips where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -150,8 +131,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the ordered range of matching trips
 	 */
 	@Override
-	public List<Trip> findByUuid(String uuid, int start, int end,
+	public List<Trip> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Trip> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -159,7 +142,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Returns an ordered range of all the trips where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -170,32 +153,37 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the ordered range of matching trips
 	 */
 	@Override
-	public List<Trip> findByUuid(String uuid, int start, int end,
+	public List<Trip> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Trip> orderByComparator, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<Trip> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Trip>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Trip>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Trip trip : list) {
-					if (!Objects.equals(uuid, trip.getUuid())) {
+					if (!uuid.equals(trip.getUuid())) {
 						list = null;
 
 						break;
@@ -208,8 +196,8 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -219,10 +207,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -232,11 +217,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(TripModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -256,16 +240,16 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 				}
 
 				if (!pagination) {
-					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Trip>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Trip>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -294,8 +278,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @throws NoSuchTripException if a matching trip could not be found
 	 */
 	@Override
-	public Trip findByUuid_First(String uuid,
-		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+	public Trip findByUuid_First(
+			String uuid, OrderByComparator<Trip> orderByComparator)
+		throws NoSuchTripException {
+
 		Trip trip = fetchByUuid_First(uuid, orderByComparator);
 
 		if (trip != null) {
@@ -309,7 +295,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchTripException(msg.toString());
 	}
@@ -322,8 +308,9 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the first matching trip, or <code>null</code> if a matching trip could not be found
 	 */
 	@Override
-	public Trip fetchByUuid_First(String uuid,
-		OrderByComparator<Trip> orderByComparator) {
+	public Trip fetchByUuid_First(
+		String uuid, OrderByComparator<Trip> orderByComparator) {
+
 		List<Trip> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -342,8 +329,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @throws NoSuchTripException if a matching trip could not be found
 	 */
 	@Override
-	public Trip findByUuid_Last(String uuid,
-		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+	public Trip findByUuid_Last(
+			String uuid, OrderByComparator<Trip> orderByComparator)
+		throws NoSuchTripException {
+
 		Trip trip = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (trip != null) {
@@ -357,7 +346,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchTripException(msg.toString());
 	}
@@ -370,8 +359,9 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the last matching trip, or <code>null</code> if a matching trip could not be found
 	 */
 	@Override
-	public Trip fetchByUuid_Last(String uuid,
-		OrderByComparator<Trip> orderByComparator) {
+	public Trip fetchByUuid_Last(
+		String uuid, OrderByComparator<Trip> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
@@ -397,8 +387,12 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @throws NoSuchTripException if a trip with the primary key could not be found
 	 */
 	@Override
-	public Trip[] findByUuid_PrevAndNext(long id, String uuid,
-		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+	public Trip[] findByUuid_PrevAndNext(
+			long id, String uuid, OrderByComparator<Trip> orderByComparator)
+		throws NoSuchTripException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Trip trip = findByPrimaryKey(id);
 
 		Session session = null;
@@ -408,13 +402,13 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 			Trip[] array = new TripImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, trip, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, trip, uuid, orderByComparator, true);
 
 			array[1] = trip;
 
-			array[2] = getByUuid_PrevAndNext(session, trip, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, trip, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -426,13 +420,15 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		}
 	}
 
-	protected Trip getByUuid_PrevAndNext(Session session, Trip trip,
-		String uuid, OrderByComparator<Trip> orderByComparator, boolean previous) {
+	protected Trip getByUuid_PrevAndNext(
+		Session session, Trip trip, String uuid,
+		OrderByComparator<Trip> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -443,10 +439,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -456,7 +449,8 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -528,10 +522,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(trip);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(trip)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -552,8 +546,9 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (Trip trip : findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-				null)) {
+		for (Trip trip :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(trip);
 		}
 	}
@@ -566,9 +561,11 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -579,10 +576,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -623,29 +617,14 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "trip.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "trip.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(trip.uuid IS NULL OR trip.uuid = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ROUTEID = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByRouteId",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID =
-		new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByRouteId",
-			new String[] { String.class.getName() },
-			TripModelImpl.ROUTE_ID_COLUMN_BITMASK |
-			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_ROUTEID = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRouteId",
-			new String[] { String.class.getName() });
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(trip.uuid IS NULL OR trip.uuid = '')";
+
+	private FinderPath _finderPathWithPaginationFindByRouteId;
+	private FinderPath _finderPathWithoutPaginationFindByRouteId;
+	private FinderPath _finderPathCountByRouteId;
 
 	/**
 	 * Returns all the trips where route_id = &#63;.
@@ -655,15 +634,15 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 */
 	@Override
 	public List<Trip> findByRouteId(String route_id) {
-		return findByRouteId(route_id, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
+		return findByRouteId(
+			route_id, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the trips where route_id = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param route_id the route_id
@@ -680,7 +659,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Returns an ordered range of all the trips where route_id = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param route_id the route_id
@@ -690,8 +669,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the ordered range of matching trips
 	 */
 	@Override
-	public List<Trip> findByRouteId(String route_id, int start, int end,
+	public List<Trip> findByRouteId(
+		String route_id, int start, int end,
 		OrderByComparator<Trip> orderByComparator) {
+
 		return findByRouteId(route_id, start, end, orderByComparator, true);
 	}
 
@@ -699,7 +680,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Returns an ordered range of all the trips where route_id = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param route_id the route_id
@@ -710,32 +691,37 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the ordered range of matching trips
 	 */
 	@Override
-	public List<Trip> findByRouteId(String route_id, int start, int end,
+	public List<Trip> findByRouteId(
+		String route_id, int start, int end,
 		OrderByComparator<Trip> orderByComparator, boolean retrieveFromCache) {
+
+		route_id = Objects.toString(route_id, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID;
-			finderArgs = new Object[] { route_id };
+			finderPath = _finderPathWithoutPaginationFindByRouteId;
+			finderArgs = new Object[] {route_id};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ROUTEID;
-			finderArgs = new Object[] { route_id, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByRouteId;
+			finderArgs = new Object[] {route_id, start, end, orderByComparator};
 		}
 
 		List<Trip> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Trip>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Trip>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Trip trip : list) {
-					if (!Objects.equals(route_id, trip.getRoute_id())) {
+					if (!route_id.equals(trip.getRoute_id())) {
 						list = null;
 
 						break;
@@ -748,8 +734,8 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -759,10 +745,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 			boolean bindRoute_id = false;
 
-			if (route_id == null) {
-				query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_1);
-			}
-			else if (route_id.equals(StringPool.BLANK)) {
+			if (route_id.isEmpty()) {
 				query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_3);
 			}
 			else {
@@ -772,11 +755,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(TripModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -796,16 +778,16 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 				}
 
 				if (!pagination) {
-					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Trip>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Trip>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -834,8 +816,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @throws NoSuchTripException if a matching trip could not be found
 	 */
 	@Override
-	public Trip findByRouteId_First(String route_id,
-		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+	public Trip findByRouteId_First(
+			String route_id, OrderByComparator<Trip> orderByComparator)
+		throws NoSuchTripException {
+
 		Trip trip = fetchByRouteId_First(route_id, orderByComparator);
 
 		if (trip != null) {
@@ -849,7 +833,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		msg.append("route_id=");
 		msg.append(route_id);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchTripException(msg.toString());
 	}
@@ -862,8 +846,9 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the first matching trip, or <code>null</code> if a matching trip could not be found
 	 */
 	@Override
-	public Trip fetchByRouteId_First(String route_id,
-		OrderByComparator<Trip> orderByComparator) {
+	public Trip fetchByRouteId_First(
+		String route_id, OrderByComparator<Trip> orderByComparator) {
+
 		List<Trip> list = findByRouteId(route_id, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -882,8 +867,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @throws NoSuchTripException if a matching trip could not be found
 	 */
 	@Override
-	public Trip findByRouteId_Last(String route_id,
-		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+	public Trip findByRouteId_Last(
+			String route_id, OrderByComparator<Trip> orderByComparator)
+		throws NoSuchTripException {
+
 		Trip trip = fetchByRouteId_Last(route_id, orderByComparator);
 
 		if (trip != null) {
@@ -897,7 +884,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		msg.append("route_id=");
 		msg.append(route_id);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchTripException(msg.toString());
 	}
@@ -910,16 +897,17 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the last matching trip, or <code>null</code> if a matching trip could not be found
 	 */
 	@Override
-	public Trip fetchByRouteId_Last(String route_id,
-		OrderByComparator<Trip> orderByComparator) {
+	public Trip fetchByRouteId_Last(
+		String route_id, OrderByComparator<Trip> orderByComparator) {
+
 		int count = countByRouteId(route_id);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Trip> list = findByRouteId(route_id, count - 1, count,
-				orderByComparator);
+		List<Trip> list = findByRouteId(
+			route_id, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -938,8 +926,12 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @throws NoSuchTripException if a trip with the primary key could not be found
 	 */
 	@Override
-	public Trip[] findByRouteId_PrevAndNext(long id, String route_id,
-		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+	public Trip[] findByRouteId_PrevAndNext(
+			long id, String route_id, OrderByComparator<Trip> orderByComparator)
+		throws NoSuchTripException {
+
+		route_id = Objects.toString(route_id, "");
+
 		Trip trip = findByPrimaryKey(id);
 
 		Session session = null;
@@ -949,13 +941,13 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 			Trip[] array = new TripImpl[3];
 
-			array[0] = getByRouteId_PrevAndNext(session, trip, route_id,
-					orderByComparator, true);
+			array[0] = getByRouteId_PrevAndNext(
+				session, trip, route_id, orderByComparator, true);
 
 			array[1] = trip;
 
-			array[2] = getByRouteId_PrevAndNext(session, trip, route_id,
-					orderByComparator, false);
+			array[2] = getByRouteId_PrevAndNext(
+				session, trip, route_id, orderByComparator, false);
 
 			return array;
 		}
@@ -967,14 +959,15 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		}
 	}
 
-	protected Trip getByRouteId_PrevAndNext(Session session, Trip trip,
-		String route_id, OrderByComparator<Trip> orderByComparator,
-		boolean previous) {
+	protected Trip getByRouteId_PrevAndNext(
+		Session session, Trip trip, String route_id,
+		OrderByComparator<Trip> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -985,10 +978,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 		boolean bindRoute_id = false;
 
-		if (route_id == null) {
-			query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_1);
-		}
-		else if (route_id.equals(StringPool.BLANK)) {
+		if (route_id.isEmpty()) {
 			query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_3);
 		}
 		else {
@@ -998,7 +988,8 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1070,10 +1061,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(trip);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(trip)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1094,8 +1085,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 */
 	@Override
 	public void removeByRouteId(String route_id) {
-		for (Trip trip : findByRouteId(route_id, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Trip trip :
+				findByRouteId(
+					route_id, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(trip);
 		}
 	}
@@ -1108,9 +1101,11 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 */
 	@Override
 	public int countByRouteId(String route_id) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_ROUTEID;
+		route_id = Objects.toString(route_id, "");
 
-		Object[] finderArgs = new Object[] { route_id };
+		FinderPath finderPath = _finderPathCountByRouteId;
+
+		Object[] finderArgs = new Object[] {route_id};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1121,10 +1116,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 			boolean bindRoute_id = false;
 
-			if (route_id == null) {
-				query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_1);
-			}
-			else if (route_id.equals(StringPool.BLANK)) {
+			if (route_id.isEmpty()) {
 				query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_3);
 			}
 			else {
@@ -1165,30 +1157,15 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ROUTEID_ROUTE_ID_1 = "trip.route_id IS NULL";
-	private static final String _FINDER_COLUMN_ROUTEID_ROUTE_ID_2 = "trip.route_id = ?";
-	private static final String _FINDER_COLUMN_ROUTEID_ROUTE_ID_3 = "(trip.route_id IS NULL OR trip.route_id = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_SERVICEID =
-		new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByServiceId",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID =
-		new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByServiceId",
-			new String[] { String.class.getName() },
-			TripModelImpl.SERVICE_ID_COLUMN_BITMASK |
-			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_SERVICEID = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByServiceId",
-			new String[] { String.class.getName() });
+	private static final String _FINDER_COLUMN_ROUTEID_ROUTE_ID_2 =
+		"trip.route_id = ?";
+
+	private static final String _FINDER_COLUMN_ROUTEID_ROUTE_ID_3 =
+		"(trip.route_id IS NULL OR trip.route_id = '')";
+
+	private FinderPath _finderPathWithPaginationFindByServiceId;
+	private FinderPath _finderPathWithoutPaginationFindByServiceId;
+	private FinderPath _finderPathCountByServiceId;
 
 	/**
 	 * Returns all the trips where service_id = &#63;.
@@ -1198,15 +1175,15 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 */
 	@Override
 	public List<Trip> findByServiceId(String service_id) {
-		return findByServiceId(service_id, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByServiceId(
+			service_id, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the trips where service_id = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param service_id the service_id
@@ -1223,7 +1200,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Returns an ordered range of all the trips where service_id = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param service_id the service_id
@@ -1233,8 +1210,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the ordered range of matching trips
 	 */
 	@Override
-	public List<Trip> findByServiceId(String service_id, int start, int end,
+	public List<Trip> findByServiceId(
+		String service_id, int start, int end,
 		OrderByComparator<Trip> orderByComparator) {
+
 		return findByServiceId(service_id, start, end, orderByComparator, true);
 	}
 
@@ -1242,7 +1221,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Returns an ordered range of all the trips where service_id = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param service_id the service_id
@@ -1253,32 +1232,39 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the ordered range of matching trips
 	 */
 	@Override
-	public List<Trip> findByServiceId(String service_id, int start, int end,
+	public List<Trip> findByServiceId(
+		String service_id, int start, int end,
 		OrderByComparator<Trip> orderByComparator, boolean retrieveFromCache) {
+
+		service_id = Objects.toString(service_id, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID;
-			finderArgs = new Object[] { service_id };
+			finderPath = _finderPathWithoutPaginationFindByServiceId;
+			finderArgs = new Object[] {service_id};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_SERVICEID;
-			finderArgs = new Object[] { service_id, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByServiceId;
+			finderArgs = new Object[] {
+				service_id, start, end, orderByComparator
+			};
 		}
 
 		List<Trip> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Trip>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Trip>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Trip trip : list) {
-					if (!Objects.equals(service_id, trip.getService_id())) {
+					if (!service_id.equals(trip.getService_id())) {
 						list = null;
 
 						break;
@@ -1291,8 +1277,8 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1302,10 +1288,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 			boolean bindService_id = false;
 
-			if (service_id == null) {
-				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_1);
-			}
-			else if (service_id.equals(StringPool.BLANK)) {
+			if (service_id.isEmpty()) {
 				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_3);
 			}
 			else {
@@ -1315,11 +1298,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(TripModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1339,16 +1321,16 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 				}
 
 				if (!pagination) {
-					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Trip>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Trip>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1377,8 +1359,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @throws NoSuchTripException if a matching trip could not be found
 	 */
 	@Override
-	public Trip findByServiceId_First(String service_id,
-		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+	public Trip findByServiceId_First(
+			String service_id, OrderByComparator<Trip> orderByComparator)
+		throws NoSuchTripException {
+
 		Trip trip = fetchByServiceId_First(service_id, orderByComparator);
 
 		if (trip != null) {
@@ -1392,7 +1376,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		msg.append("service_id=");
 		msg.append(service_id);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchTripException(msg.toString());
 	}
@@ -1405,8 +1389,9 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the first matching trip, or <code>null</code> if a matching trip could not be found
 	 */
 	@Override
-	public Trip fetchByServiceId_First(String service_id,
-		OrderByComparator<Trip> orderByComparator) {
+	public Trip fetchByServiceId_First(
+		String service_id, OrderByComparator<Trip> orderByComparator) {
+
 		List<Trip> list = findByServiceId(service_id, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1425,8 +1410,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @throws NoSuchTripException if a matching trip could not be found
 	 */
 	@Override
-	public Trip findByServiceId_Last(String service_id,
-		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+	public Trip findByServiceId_Last(
+			String service_id, OrderByComparator<Trip> orderByComparator)
+		throws NoSuchTripException {
+
 		Trip trip = fetchByServiceId_Last(service_id, orderByComparator);
 
 		if (trip != null) {
@@ -1440,7 +1427,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		msg.append("service_id=");
 		msg.append(service_id);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchTripException(msg.toString());
 	}
@@ -1453,16 +1440,17 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the last matching trip, or <code>null</code> if a matching trip could not be found
 	 */
 	@Override
-	public Trip fetchByServiceId_Last(String service_id,
-		OrderByComparator<Trip> orderByComparator) {
+	public Trip fetchByServiceId_Last(
+		String service_id, OrderByComparator<Trip> orderByComparator) {
+
 		int count = countByServiceId(service_id);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Trip> list = findByServiceId(service_id, count - 1, count,
-				orderByComparator);
+		List<Trip> list = findByServiceId(
+			service_id, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1481,8 +1469,13 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @throws NoSuchTripException if a trip with the primary key could not be found
 	 */
 	@Override
-	public Trip[] findByServiceId_PrevAndNext(long id, String service_id,
-		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+	public Trip[] findByServiceId_PrevAndNext(
+			long id, String service_id,
+			OrderByComparator<Trip> orderByComparator)
+		throws NoSuchTripException {
+
+		service_id = Objects.toString(service_id, "");
+
 		Trip trip = findByPrimaryKey(id);
 
 		Session session = null;
@@ -1492,13 +1485,13 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 			Trip[] array = new TripImpl[3];
 
-			array[0] = getByServiceId_PrevAndNext(session, trip, service_id,
-					orderByComparator, true);
+			array[0] = getByServiceId_PrevAndNext(
+				session, trip, service_id, orderByComparator, true);
 
 			array[1] = trip;
 
-			array[2] = getByServiceId_PrevAndNext(session, trip, service_id,
-					orderByComparator, false);
+			array[2] = getByServiceId_PrevAndNext(
+				session, trip, service_id, orderByComparator, false);
 
 			return array;
 		}
@@ -1510,14 +1503,15 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		}
 	}
 
-	protected Trip getByServiceId_PrevAndNext(Session session, Trip trip,
-		String service_id, OrderByComparator<Trip> orderByComparator,
-		boolean previous) {
+	protected Trip getByServiceId_PrevAndNext(
+		Session session, Trip trip, String service_id,
+		OrderByComparator<Trip> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1528,10 +1522,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 		boolean bindService_id = false;
 
-		if (service_id == null) {
-			query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_1);
-		}
-		else if (service_id.equals(StringPool.BLANK)) {
+		if (service_id.isEmpty()) {
 			query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_3);
 		}
 		else {
@@ -1541,7 +1532,8 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1613,10 +1605,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(trip);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(trip)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1637,8 +1629,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 */
 	@Override
 	public void removeByServiceId(String service_id) {
-		for (Trip trip : findByServiceId(service_id, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Trip trip :
+				findByServiceId(
+					service_id, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(trip);
 		}
 	}
@@ -1651,9 +1645,11 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 */
 	@Override
 	public int countByServiceId(String service_id) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_SERVICEID;
+		service_id = Objects.toString(service_id, "");
 
-		Object[] finderArgs = new Object[] { service_id };
+		FinderPath finderPath = _finderPathCountByServiceId;
+
+		Object[] finderArgs = new Object[] {service_id};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1664,10 +1660,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 			boolean bindService_id = false;
 
-			if (service_id == null) {
-				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_1);
-			}
-			else if (service_id.equals(StringPool.BLANK)) {
+			if (service_id.isEmpty()) {
 				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_3);
 			}
 			else {
@@ -1708,28 +1701,15 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_SERVICEID_SERVICE_ID_1 = "trip.service_id IS NULL";
-	private static final String _FINDER_COLUMN_SERVICEID_SERVICE_ID_2 = "trip.service_id = ?";
-	private static final String _FINDER_COLUMN_SERVICEID_SERVICE_ID_3 = "(trip.service_id IS NULL OR trip.service_id = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_TRIPID = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTripId",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TRIPID =
-		new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTripId",
-			new String[] { String.class.getName() },
-			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_TRIPID = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTripId",
-			new String[] { String.class.getName() });
+	private static final String _FINDER_COLUMN_SERVICEID_SERVICE_ID_2 =
+		"trip.service_id = ?";
+
+	private static final String _FINDER_COLUMN_SERVICEID_SERVICE_ID_3 =
+		"(trip.service_id IS NULL OR trip.service_id = '')";
+
+	private FinderPath _finderPathWithPaginationFindByTripId;
+	private FinderPath _finderPathWithoutPaginationFindByTripId;
+	private FinderPath _finderPathCountByTripId;
 
 	/**
 	 * Returns all the trips where trip_id = &#63;.
@@ -1739,14 +1719,15 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 */
 	@Override
 	public List<Trip> findByTripId(String trip_id) {
-		return findByTripId(trip_id, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByTripId(
+			trip_id, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the trips where trip_id = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param trip_id the trip_id
@@ -1763,7 +1744,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Returns an ordered range of all the trips where trip_id = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param trip_id the trip_id
@@ -1773,8 +1754,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the ordered range of matching trips
 	 */
 	@Override
-	public List<Trip> findByTripId(String trip_id, int start, int end,
+	public List<Trip> findByTripId(
+		String trip_id, int start, int end,
 		OrderByComparator<Trip> orderByComparator) {
+
 		return findByTripId(trip_id, start, end, orderByComparator, true);
 	}
 
@@ -1782,7 +1765,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Returns an ordered range of all the trips where trip_id = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param trip_id the trip_id
@@ -1793,32 +1776,37 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the ordered range of matching trips
 	 */
 	@Override
-	public List<Trip> findByTripId(String trip_id, int start, int end,
+	public List<Trip> findByTripId(
+		String trip_id, int start, int end,
 		OrderByComparator<Trip> orderByComparator, boolean retrieveFromCache) {
+
+		trip_id = Objects.toString(trip_id, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TRIPID;
-			finderArgs = new Object[] { trip_id };
+			finderPath = _finderPathWithoutPaginationFindByTripId;
+			finderArgs = new Object[] {trip_id};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_TRIPID;
-			finderArgs = new Object[] { trip_id, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByTripId;
+			finderArgs = new Object[] {trip_id, start, end, orderByComparator};
 		}
 
 		List<Trip> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Trip>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Trip>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Trip trip : list) {
-					if (!Objects.equals(trip_id, trip.getTrip_id())) {
+					if (!trip_id.equals(trip.getTrip_id())) {
 						list = null;
 
 						break;
@@ -1831,8 +1819,8 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1842,10 +1830,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 			boolean bindTrip_id = false;
 
-			if (trip_id == null) {
-				query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_1);
-			}
-			else if (trip_id.equals(StringPool.BLANK)) {
+			if (trip_id.isEmpty()) {
 				query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_3);
 			}
 			else {
@@ -1855,11 +1840,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(TripModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1879,16 +1863,16 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 				}
 
 				if (!pagination) {
-					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Trip>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Trip>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1917,8 +1901,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @throws NoSuchTripException if a matching trip could not be found
 	 */
 	@Override
-	public Trip findByTripId_First(String trip_id,
-		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+	public Trip findByTripId_First(
+			String trip_id, OrderByComparator<Trip> orderByComparator)
+		throws NoSuchTripException {
+
 		Trip trip = fetchByTripId_First(trip_id, orderByComparator);
 
 		if (trip != null) {
@@ -1932,7 +1918,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		msg.append("trip_id=");
 		msg.append(trip_id);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchTripException(msg.toString());
 	}
@@ -1945,8 +1931,9 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the first matching trip, or <code>null</code> if a matching trip could not be found
 	 */
 	@Override
-	public Trip fetchByTripId_First(String trip_id,
-		OrderByComparator<Trip> orderByComparator) {
+	public Trip fetchByTripId_First(
+		String trip_id, OrderByComparator<Trip> orderByComparator) {
+
 		List<Trip> list = findByTripId(trip_id, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1965,8 +1952,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @throws NoSuchTripException if a matching trip could not be found
 	 */
 	@Override
-	public Trip findByTripId_Last(String trip_id,
-		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+	public Trip findByTripId_Last(
+			String trip_id, OrderByComparator<Trip> orderByComparator)
+		throws NoSuchTripException {
+
 		Trip trip = fetchByTripId_Last(trip_id, orderByComparator);
 
 		if (trip != null) {
@@ -1980,7 +1969,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		msg.append("trip_id=");
 		msg.append(trip_id);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchTripException(msg.toString());
 	}
@@ -1993,16 +1982,17 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the last matching trip, or <code>null</code> if a matching trip could not be found
 	 */
 	@Override
-	public Trip fetchByTripId_Last(String trip_id,
-		OrderByComparator<Trip> orderByComparator) {
+	public Trip fetchByTripId_Last(
+		String trip_id, OrderByComparator<Trip> orderByComparator) {
+
 		int count = countByTripId(trip_id);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Trip> list = findByTripId(trip_id, count - 1, count,
-				orderByComparator);
+		List<Trip> list = findByTripId(
+			trip_id, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2021,8 +2011,12 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @throws NoSuchTripException if a trip with the primary key could not be found
 	 */
 	@Override
-	public Trip[] findByTripId_PrevAndNext(long id, String trip_id,
-		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+	public Trip[] findByTripId_PrevAndNext(
+			long id, String trip_id, OrderByComparator<Trip> orderByComparator)
+		throws NoSuchTripException {
+
+		trip_id = Objects.toString(trip_id, "");
+
 		Trip trip = findByPrimaryKey(id);
 
 		Session session = null;
@@ -2032,13 +2026,13 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 			Trip[] array = new TripImpl[3];
 
-			array[0] = getByTripId_PrevAndNext(session, trip, trip_id,
-					orderByComparator, true);
+			array[0] = getByTripId_PrevAndNext(
+				session, trip, trip_id, orderByComparator, true);
 
 			array[1] = trip;
 
-			array[2] = getByTripId_PrevAndNext(session, trip, trip_id,
-					orderByComparator, false);
+			array[2] = getByTripId_PrevAndNext(
+				session, trip, trip_id, orderByComparator, false);
 
 			return array;
 		}
@@ -2050,14 +2044,15 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		}
 	}
 
-	protected Trip getByTripId_PrevAndNext(Session session, Trip trip,
-		String trip_id, OrderByComparator<Trip> orderByComparator,
-		boolean previous) {
+	protected Trip getByTripId_PrevAndNext(
+		Session session, Trip trip, String trip_id,
+		OrderByComparator<Trip> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -2068,10 +2063,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 		boolean bindTrip_id = false;
 
-		if (trip_id == null) {
-			query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_1);
-		}
-		else if (trip_id.equals(StringPool.BLANK)) {
+		if (trip_id.isEmpty()) {
 			query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_3);
 		}
 		else {
@@ -2081,7 +2073,8 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -2153,10 +2146,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(trip);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(trip)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -2177,8 +2170,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 */
 	@Override
 	public void removeByTripId(String trip_id) {
-		for (Trip trip : findByTripId(trip_id, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Trip trip :
+				findByTripId(
+					trip_id, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(trip);
 		}
 	}
@@ -2191,9 +2186,11 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 */
 	@Override
 	public int countByTripId(String trip_id) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_TRIPID;
+		trip_id = Objects.toString(trip_id, "");
 
-		Object[] finderArgs = new Object[] { trip_id };
+		FinderPath finderPath = _finderPathCountByTripId;
+
+		Object[] finderArgs = new Object[] {trip_id};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -2204,10 +2201,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 			boolean bindTrip_id = false;
 
-			if (trip_id == null) {
-				query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_1);
-			}
-			else if (trip_id.equals(StringPool.BLANK)) {
+			if (trip_id.isEmpty()) {
 				query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_3);
 			}
 			else {
@@ -2248,21 +2242,25 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TRIPID_TRIP_ID_1 = "trip.trip_id IS NULL";
-	private static final String _FINDER_COLUMN_TRIPID_TRIP_ID_2 = "trip.trip_id = ?";
-	private static final String _FINDER_COLUMN_TRIPID_TRIP_ID_3 = "(trip.trip_id IS NULL OR trip.trip_id = '')";
+	private static final String _FINDER_COLUMN_TRIPID_TRIP_ID_2 =
+		"trip.trip_id = ?";
+
+	private static final String _FINDER_COLUMN_TRIPID_TRIP_ID_3 =
+		"(trip.trip_id IS NULL OR trip.trip_id = '')";
 
 	public TripPersistenceImpl() {
 		setModelClass(Trip.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("id", "id_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
-			dbColumnNames.put("id", "id_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -2280,8 +2278,9 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 */
 	@Override
 	public void cacheResult(Trip trip) {
-		entityCache.putResult(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripImpl.class, trip.getPrimaryKey(), trip);
+		entityCache.putResult(
+			TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
+			trip.getPrimaryKey(), trip);
 
 		trip.resetOriginalValues();
 	}
@@ -2294,8 +2293,10 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	@Override
 	public void cacheResult(List<Trip> trips) {
 		for (Trip trip : trips) {
-			if (entityCache.getResult(TripModelImpl.ENTITY_CACHE_ENABLED,
-						TripImpl.class, trip.getPrimaryKey()) == null) {
+			if (entityCache.getResult(
+					TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
+					trip.getPrimaryKey()) == null) {
+
 				cacheResult(trip);
 			}
 			else {
@@ -2308,7 +2309,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Clears the cache for all trips.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -2324,13 +2325,14 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Clears the cache for the trip.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Trip trip) {
-		entityCache.removeResult(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripImpl.class, trip.getPrimaryKey());
+		entityCache.removeResult(
+			TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
+			trip.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -2342,8 +2344,9 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Trip trip : trips) {
-			entityCache.removeResult(TripModelImpl.ENTITY_CACHE_ENABLED,
-				TripImpl.class, trip.getPrimaryKey());
+			entityCache.removeResult(
+				TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
+				trip.getPrimaryKey());
 		}
 	}
 
@@ -2400,8 +2403,8 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchTripException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchTripException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(trip);
@@ -2419,15 +2422,14 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 	@Override
 	protected Trip removeImpl(Trip trip) {
-		trip = toUnwrappedModel(trip);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(trip)) {
-				trip = (Trip)session.get(TripImpl.class, trip.getPrimaryKeyObj());
+				trip = (Trip)session.get(
+					TripImpl.class, trip.getPrimaryKeyObj());
 			}
 
 			if (trip != null) {
@@ -2450,9 +2452,23 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 	@Override
 	public Trip updateImpl(Trip trip) {
-		trip = toUnwrappedModel(trip);
-
 		boolean isNew = trip.isNew();
+
+		if (!(trip instanceof TripModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(trip.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(trip);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in trip proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom Trip implementation " +
+					trip.getClass());
+		}
 
 		TripModelImpl tripModelImpl = (TripModelImpl)trip;
 
@@ -2488,133 +2504,122 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		if (!TripModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { tripModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {tripModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
-			args = new Object[] { tripModelImpl.getRoute_id() };
+			args = new Object[] {tripModelImpl.getRoute_id()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID,
-				args);
+			finderCache.removeResult(_finderPathCountByRouteId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByRouteId, args);
 
-			args = new Object[] { tripModelImpl.getService_id() };
+			args = new Object[] {tripModelImpl.getService_id()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_SERVICEID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID,
-				args);
+			finderCache.removeResult(_finderPathCountByServiceId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByServiceId, args);
 
-			args = new Object[] { tripModelImpl.getTrip_id() };
+			args = new Object[] {tripModelImpl.getTrip_id()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_TRIPID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TRIPID,
-				args);
+			finderCache.removeResult(_finderPathCountByTripId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByTripId, args);
 
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
-
 		else {
 			if ((tripModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { tripModelImpl.getOriginalUuid() };
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				Object[] args = new Object[] {tripModelImpl.getOriginalUuid()};
 
-				args = new Object[] { tripModelImpl.getUuid() };
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				args = new Object[] {tripModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 			}
 
 			if ((tripModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { tripModelImpl.getOriginalRoute_id() };
+				 _finderPathWithoutPaginationFindByRouteId.
+					 getColumnBitmask()) != 0) {
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID,
-					args);
-
-				args = new Object[] { tripModelImpl.getRoute_id() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID,
-					args);
-			}
-
-			if ((tripModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
-						tripModelImpl.getOriginalService_id()
-					};
+					tripModelImpl.getOriginalRoute_id()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_SERVICEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID,
-					args);
+				finderCache.removeResult(_finderPathCountByRouteId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByRouteId, args);
 
-				args = new Object[] { tripModelImpl.getService_id() };
+				args = new Object[] {tripModelImpl.getRoute_id()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_SERVICEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID,
-					args);
+				finderCache.removeResult(_finderPathCountByRouteId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByRouteId, args);
 			}
 
 			if ((tripModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TRIPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { tripModelImpl.getOriginalTrip_id() };
+				 _finderPathWithoutPaginationFindByServiceId.
+					 getColumnBitmask()) != 0) {
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_TRIPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TRIPID,
-					args);
+				Object[] args = new Object[] {
+					tripModelImpl.getOriginalService_id()
+				};
 
-				args = new Object[] { tripModelImpl.getTrip_id() };
+				finderCache.removeResult(_finderPathCountByServiceId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByServiceId, args);
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_TRIPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TRIPID,
-					args);
+				args = new Object[] {tripModelImpl.getService_id()};
+
+				finderCache.removeResult(_finderPathCountByServiceId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByServiceId, args);
+			}
+
+			if ((tripModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByTripId.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					tripModelImpl.getOriginalTrip_id()
+				};
+
+				finderCache.removeResult(_finderPathCountByTripId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByTripId, args);
+
+				args = new Object[] {tripModelImpl.getTrip_id()};
+
+				finderCache.removeResult(_finderPathCountByTripId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByTripId, args);
 			}
 		}
 
-		entityCache.putResult(TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripImpl.class, trip.getPrimaryKey(), trip, false);
+		entityCache.putResult(
+			TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
+			trip.getPrimaryKey(), trip, false);
 
 		trip.resetOriginalValues();
 
 		return trip;
 	}
 
-	protected Trip toUnwrappedModel(Trip trip) {
-		if (trip instanceof TripImpl) {
-			return trip;
-		}
-
-		TripImpl tripImpl = new TripImpl();
-
-		tripImpl.setNew(trip.isNew());
-		tripImpl.setPrimaryKey(trip.getPrimaryKey());
-
-		tripImpl.setUuid(trip.getUuid());
-		tripImpl.setId(trip.getId());
-		tripImpl.setRoute_id(trip.getRoute_id());
-		tripImpl.setService_id(trip.getService_id());
-		tripImpl.setTrip_id(trip.getTrip_id());
-		tripImpl.setTrip_headsign(trip.getTrip_headsign());
-		tripImpl.setDirection_id(trip.isDirection_id());
-		tripImpl.setBlock_id(trip.getBlock_id());
-
-		return tripImpl;
-	}
-
 	/**
-	 * Returns the trip with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the trip with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the trip
 	 * @return the trip
@@ -2623,6 +2628,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	@Override
 	public Trip findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchTripException {
+
 		Trip trip = fetchByPrimaryKey(primaryKey);
 
 		if (trip == null) {
@@ -2630,15 +2636,15 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchTripException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchTripException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return trip;
 	}
 
 	/**
-	 * Returns the trip with the primary key or throws a {@link NoSuchTripException} if it could not be found.
+	 * Returns the trip with the primary key or throws a <code>NoSuchTripException</code> if it could not be found.
 	 *
 	 * @param id the primary key of the trip
 	 * @return the trip
@@ -2657,8 +2663,8 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 */
 	@Override
 	public Trip fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(TripModelImpl.ENTITY_CACHE_ENABLED,
-				TripImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -2678,13 +2684,15 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 					cacheResult(trip);
 				}
 				else {
-					entityCache.putResult(TripModelImpl.ENTITY_CACHE_ENABLED,
-						TripImpl.class, primaryKey, nullModel);
+					entityCache.putResult(
+						TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
+						primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(TripModelImpl.ENTITY_CACHE_ENABLED,
-					TripImpl.class, primaryKey);
+				entityCache.removeResult(
+					TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
+					primaryKey);
 
 				throw processException(e);
 			}
@@ -2710,6 +2718,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	@Override
 	public Map<Serializable, Trip> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
@@ -2733,8 +2742,8 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(TripModelImpl.ENTITY_CACHE_ENABLED,
-					TripImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -2754,20 +2763,20 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_TRIP_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -2787,8 +2796,9 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(TripModelImpl.ENTITY_CACHE_ENABLED,
-					TripImpl.class, primaryKey, nullModel);
+				entityCache.putResult(
+					TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
+					primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -2815,7 +2825,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Returns a range of all the trips.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of trips
@@ -2831,7 +2841,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Returns an ordered range of all the trips.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of trips
@@ -2840,8 +2850,9 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the ordered range of trips
 	 */
 	@Override
-	public List<Trip> findAll(int start, int end,
-		OrderByComparator<Trip> orderByComparator) {
+	public List<Trip> findAll(
+		int start, int end, OrderByComparator<Trip> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -2849,7 +2860,7 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Returns an ordered range of all the trips.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TripModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of trips
@@ -2859,28 +2870,31 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * @return the ordered range of trips
 	 */
 	@Override
-	public List<Trip> findAll(int start, int end,
-		OrderByComparator<Trip> orderByComparator, boolean retrieveFromCache) {
+	public List<Trip> findAll(
+		int start, int end, OrderByComparator<Trip> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Trip> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Trip>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Trip>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -2888,13 +2902,13 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_TRIP);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -2914,16 +2928,16 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Trip>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Trip>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2961,8 +2975,8 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -2974,12 +2988,12 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -3005,6 +3019,113 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	 * Initializes the trip persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			TripModelImpl.UUID_COLUMN_BITMASK |
+			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByRouteId = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByRouteId",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByRouteId = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByRouteId",
+			new String[] {String.class.getName()},
+			TripModelImpl.ROUTE_ID_COLUMN_BITMASK |
+			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
+
+		_finderPathCountByRouteId = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRouteId",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByServiceId = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByServiceId",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByServiceId = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByServiceId",
+			new String[] {String.class.getName()},
+			TripModelImpl.SERVICE_ID_COLUMN_BITMASK |
+			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
+
+		_finderPathCountByServiceId = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByServiceId",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByTripId = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTripId",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByTripId = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTripId",
+			new String[] {String.class.getName()},
+			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
+
+		_finderPathCountByTripId = new FinderPath(
+			TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTripId",
+			new String[] {String.class.getName()});
 	}
 
 	public void destroy() {
@@ -3016,18 +3137,36 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
+
 	private static final String _SQL_SELECT_TRIP = "SELECT trip FROM Trip trip";
-	private static final String _SQL_SELECT_TRIP_WHERE_PKS_IN = "SELECT trip FROM Trip trip WHERE id_ IN (";
-	private static final String _SQL_SELECT_TRIP_WHERE = "SELECT trip FROM Trip trip WHERE ";
-	private static final String _SQL_COUNT_TRIP = "SELECT COUNT(trip) FROM Trip trip";
-	private static final String _SQL_COUNT_TRIP_WHERE = "SELECT COUNT(trip) FROM Trip trip WHERE ";
+
+	private static final String _SQL_SELECT_TRIP_WHERE_PKS_IN =
+		"SELECT trip FROM Trip trip WHERE id_ IN (";
+
+	private static final String _SQL_SELECT_TRIP_WHERE =
+		"SELECT trip FROM Trip trip WHERE ";
+
+	private static final String _SQL_COUNT_TRIP =
+		"SELECT COUNT(trip) FROM Trip trip";
+
+	private static final String _SQL_COUNT_TRIP_WHERE =
+		"SELECT COUNT(trip) FROM Trip trip WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "trip.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Trip exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Trip exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(TripPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid", "id"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No Trip exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No Trip exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		TripPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid", "id"});
+
 }

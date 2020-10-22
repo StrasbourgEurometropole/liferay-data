@@ -3,28 +3,23 @@ package eu.strasbourg.service.oidc.scheduler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.model.Company;
-import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
-import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
+import com.liferay.portal.kernel.scheduler.*;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
 import eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalService;
 import eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalServiceUtil;
 import eu.strasbourg.service.oidc.service.PublikUserLocalService;
-import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.osgi.service.component.annotations.*;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -33,25 +28,33 @@ import java.util.Date;
  * dépassée
  */
 @Component(immediate = true, service = PublikUsersAnonymized.class)
-public class PublikUsersAnonymized extends BaseSchedulerEntryMessageListener {
+public class PublikUsersAnonymized extends BaseMessageListener {
 
 	@Activate
 	@Modified
 	protected void activate() {
-		// Tous les jours a 4h
-		schedulerEntryImpl.setTrigger(TriggerFactoryUtil.createTrigger(
-				getEventListenerClass(), getEventListenerClass(), "0 30 3 * * ?"));
+		String listenerClass = getClass().getName();
 
-		_schedulerEngineHelper.register(this, schedulerEntryImpl,
-				DestinationNames.SCHEDULER_DISPATCH);
+		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date fiveMinutesFromNow = now.getTime();
+
+		// Création du trigger "Tous les jours à 3h30"
+		Trigger trigger = _triggerFactory.createTrigger(
+				listenerClass, listenerClass, fiveMinutesFromNow, null, "0 30 3 * * ?");
+
+		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
+				listenerClass, trigger);
+
+		_schedulerEngineHelper.register(
+				this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
 	}
 
 	@Deactivate
 	protected void deactivate() {
 		_schedulerEngineHelper.unregister(this);
 	}
-
-	private Log log = LogFactoryUtil.getLog(PublikUsersAnonymized.class);
 
 	@Override
 	protected void doReceive(Message message) throws Exception {
@@ -69,7 +72,7 @@ public class PublikUsersAnonymized extends BaseSchedulerEntryMessageListener {
 				sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 				sc.setModifiedDate(new Date());
 			} catch (PortalException e) {
-				_log.error(e);
+				log.error(e);
 			}
 
 			// Creation de l'entree d'historique d'anonymisation
@@ -91,14 +94,30 @@ public class PublikUsersAnonymized extends BaseSchedulerEntryMessageListener {
 	}
 
 	@Reference(unbind = "-")
+	protected void setAnonymisationHistoricLocalService(AnonymisationHistoricLocalService anonymisationHistoricLocalService) {
+		_anonymisationHistoricLocalService = anonymisationHistoricLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setPublikUserLocalService(PublikUserLocalService publikUserLocalService) {
+		_publikUserLocalService = publikUserLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setSchedulerEngineHelper(
+			SchedulerEngineHelper schedulerEngineHelper) {
+
+		_schedulerEngineHelper = schedulerEngineHelper;
+	}
+
+	@Reference(unbind = "-")
+	protected void setTriggerFactory(TriggerFactory triggerFactory) {
+		_triggerFactory = triggerFactory;
+	}
+
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
-
-	@Reference(unbind = "-")
 	private AnonymisationHistoricLocalService _anonymisationHistoricLocalService;
-
-	@Reference(unbind = "-")
 	private PublikUserLocalService _publikUserLocalService;
-
-	private final Log _log = LogFactoryUtil.getLog(this.getClass());
-
+	private TriggerFactory _triggerFactory;
+	private Log log = LogFactoryUtil.getLog(this.getClass());
 }

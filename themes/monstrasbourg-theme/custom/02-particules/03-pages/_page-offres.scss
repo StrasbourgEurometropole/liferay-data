@@ -1,0 +1,161 @@
+.page-offre{
+    @extend %molecule-inlines-rte;
+
+    h2{
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .candidaturePagination{
+        display: flex;
+
+        ul{
+            width: auto;
+            margin-top: 0;
+            flex-grow: 1;
+            justify-content: center;
+
+            @include RWD(tablet){
+                order: -1;
+                margin-left: -15px;
+
+                .pagin-item{
+                    display: inline-block !important;
+                }
+            }
+        }
+        
+        @include RWD(tablet){
+            flex-direction: column;
+        }
+    }
+
+    .candidatures, .alertes{
+        margin-bottom: 40px;
+    }
+
+    .candidaturesList, .alertesList{
+        width: 100%;
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        word-break: break-word;
+
+        .candidatureInfo, .alerteInfo{
+            display: flex;
+            flex-wrap: wrap;
+            @extend %text-section-title-hp;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #31455d;
+            letter-spacing: 0.03em;
+
+            @include RWD(tablet){
+                display: none;
+            }
+        }
+
+        .candidatureDetail, .alerteDetail{
+            display: flex;
+            flex-wrap: wrap;
+            padding-bottom: 10px;
+            line-height: normal;
+
+            @include RWD(tablet){
+                margin-top: 10px;
+            }
+
+            &:not(:last-child){
+                @include RWD(tablet){
+                    border-bottom: solid black 1px;
+                }
+            }
+
+            .titre, .code, .date, .statut, .filtre, .supprimer{
+                &:before{
+                    @extend %text-section-title-hp;
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                    color: #31455d;
+                    letter-spacing: 0.03em;
+                    width: 40%;
+                    position: absolute;
+                    left: 0;
+
+                    @include RWD(desktop){
+                        content: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .candidaturesList{
+        .titre, .code, .date, .statut{
+            width: 25%;
+            @include RWD(tablet){
+                width: 100%;
+                padding-left: 45%;
+                position: relative;
+                min-height: 25px;
+            }
+        }
+        .titre, .code{
+            @include RWD(mobile){
+                min-height: 40px;
+            }
+        }
+    }
+
+
+    .alertesList{
+        .titre, .supprimer{
+            width: 20%;
+            @include RWD(tablet){
+                width: 100%;
+                padding-left: 45%;
+                position: relative;
+                min-height: 25px;
+            }
+
+            a{
+                line-height: 30px;
+            }
+        }
+
+        .filtre{
+            width: 60%;   
+            @include RWD(tablet){
+                width: 100%;
+                padding-left: 45%;
+                position: relative;
+                min-height: 40px;
+            }         
+        }
+
+        .delete-alert{
+            
+            &:after{
+                content: '';
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                background-image: url( svg-bg-uri($svg-filled-close-white, $core-color) );
+                background-size: 20px;
+                background-position: center;
+                background-repeat: no-repeat;
+                position: absolute;
+            }
+            
+            &:focus{
+                outline: none;
+            }
+        
+            
+            &:hover:after, &:focus:after{
+                background-image: url( svg-bg-uri($svg-filled-close-white,  $second-color) );
+            }
+        }
+    }
+}

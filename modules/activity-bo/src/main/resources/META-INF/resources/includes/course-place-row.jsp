@@ -4,14 +4,15 @@
 	<!-- Autocomplete lieu -->
 	<div class="place-autocomplete" <c:if test="${empty coursePlace.placeSIGId and not empty coursePlace.placeName }">style="display: none;"</c:if>>
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-6 form-group">
 				<div class="place-autocomplete-input-wrapper" id="place-autocomplete-input-wrapper-${param.index}">
 					<aui:input label="Choisir un lieu" type="text" name="place${param.index}" value="" />
 				</div>
 				<span id="place-autocomplete-hidden-value">
 					<aui:input type="hidden" name="placeSIGId${param.index}" value="${coursePlace.placeSIGId}" />
 				</span>
-				<aui:input label="Lieu choisi" type="text" value="${coursePlace.getSIGPlaceAlias(locale)}" name="selectedPlace${param.index}" disabled="true" cssClass="selected-place" >
+				<aui:input label="Lieu choisi" type="text" value="${coursePlace.getSIGPlaceAlias(locale)}" name="selectedPlace${param.index}" disabled="true" cssClass="selected-place" />
+				<aui:input type="hidden" value="${coursePlace.getSIGPlaceAlias(locale)}" name="selectedPlace2${param.index}"  cssClass="selected-place2" >
 					<aui:validator name="required"
 						errorMessage="this-field-is-required">
 						function(node) {
@@ -55,13 +56,19 @@
 		</div>
 		<div class="row">
 			<div class="col-md-4">
-				<aui:select name="placeCityId${param.index}" label="eu.city">
+				<aui:select name="placeCityId${param.index}" label="eu.city"  required="true">
 					<aui:option value="" label="select-city" />
 					<c:forEach var="city" items="${dc.cities}">
 						<aui:option value="${city.categoryId}"
 							label="${city.getTitle(locale)}"
 							selected="${city.categoryId eq coursePlace.placeCityId}" />
 					</c:forEach>
+					<aui:validator name="required"
+                        errorMessage="this-field-is-required">
+                        function(node) {
+                            return jQuery(node._node).closest('.place-manual').css('display') !== 'none';
+                        }
+                    </aui:validator>
 				</aui:select>
 			</div>
 		</div>

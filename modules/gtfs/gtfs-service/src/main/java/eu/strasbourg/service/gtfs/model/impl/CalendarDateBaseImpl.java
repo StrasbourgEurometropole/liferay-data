@@ -32,12 +32,13 @@ import eu.strasbourg.service.gtfs.service.CalendarDateLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class CalendarDateBaseImpl extends CalendarDateModelImpl
-	implements CalendarDate {
+public abstract class CalendarDateBaseImpl
+	extends CalendarDateModelImpl implements CalendarDate {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a calendar date model instance should use the {@link CalendarDate} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a calendar date model instance should use the <code>CalendarDate</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class CalendarDateBaseImpl extends CalendarDateModelImpl
 			CalendarDateLocalServiceUtil.updateCalendarDate(this);
 		}
 	}
+
 }

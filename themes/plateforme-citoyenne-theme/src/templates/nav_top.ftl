@@ -43,13 +43,13 @@
                     <div class="pro-right">
                         
                         <#if request.session.getAttribute("publik_logged_in")!false>
-                            <a href="${layoutHelper.getPublikProfileURL()}" target="_blank" class="pro-btn-connexion connexion-black" title="Mon compte">
+                            <a href="${layoutHelper.getPublikProfileURL()?html}" target="_blank" class="pro-btn-connexion connexion-black" title="Mon compte">
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                     <span class="text">${request.session.getAttribute("publik_given_name")?html}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]?html}.</span>
                                 </span>    
                             </a>
-                            <a class="nav-logout connexion-black" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay.language key='eu.logout' />">
+                            <a class="nav-logout connexion-black" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))?html}" title="<@liferay.language key='eu.logout' />">
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                 </span>
@@ -95,7 +95,7 @@
                                     </a>
                                 <#else>
                                      <#assign a_css_class = item.isSelected()?then("active dropdown-toggle","dropdown-toggle") />
-                                    <a href="javascript:void(0)"  class="${a_css_class}" title="${item.getName()}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <a href="javascript:void(0)"  class="${a_css_class}" title="${item.getName()}" data-toggle="dropdown" data-flip="false" role="button" aria-haspopup="true" aria-expanded="false">
                                         ${item.getName()} <span class="caret"></span>
                                     </a>
                                 </#if>

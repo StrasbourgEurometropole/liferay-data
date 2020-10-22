@@ -20,13 +20,14 @@ import aQute.bnd.annotation.ProviderType;
  * The extended model implementation for the AgendaExportPeriod service. Represents a row in the &quot;agenda_AgendaExportPeriod&quot; database table, with each column mapped to a property of this class.
  *
  * <p>
- * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.agenda.model.AgendaExportPeriod} interface.
+ * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>eu.strasbourg.service.agenda.model.AgendaExportPeriod<code> interface.
  * </p>
  *
  * @author BenjaminBini
  */
 @ProviderType
 public class AgendaExportPeriodImpl extends AgendaExportPeriodBaseImpl {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -34,4 +35,5 @@ public class AgendaExportPeriodImpl extends AgendaExportPeriodBaseImpl {
 	 */
 	public AgendaExportPeriodImpl() {
 	}
+
 }

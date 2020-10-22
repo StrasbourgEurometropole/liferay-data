@@ -17,7 +17,6 @@ package eu.strasbourg.service.oidc.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -39,6 +38,7 @@ import java.util.Objects;
  */
 @ProviderType
 public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
+
 	public PublikUserWrapper(PublikUser publikUser) {
 		_publikUser = publikUser;
 	}
@@ -74,7 +74,7 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		attributes.put("banishDate", getBanishDate());
 		attributes.put("banishDescription", getBanishDescription());
 		attributes.put("imageURL", getImageURL());
-		attributes.put("pactDisplay", getPactDisplay());
+		attributes.put("pactDisplay", isPactDisplay());
 
 		return attributes;
 	}
@@ -190,19 +190,244 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		}
 	}
 
+	@Override
+	public Object clone() {
+		return new PublikUserWrapper((PublikUser)_publikUser.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.oidc.model.PublikUser publikUser) {
+
+		return _publikUser.compareTo(publikUser);
+	}
+
 	/**
-	* Returns the pact display of this publik user.
-	*
-	* @return the pact display of this publik user
-	*/
+	 * Returns the access token of this publik user.
+	 *
+	 * @return the access token of this publik user
+	 */
+	@Override
+	public String getAccessToken() {
+		return _publikUser.getAccessToken();
+	}
+
+	/**
+	 * Returns the banish date of this publik user.
+	 *
+	 * @return the banish date of this publik user
+	 */
+	@Override
+	public Date getBanishDate() {
+		return _publikUser.getBanishDate();
+	}
+
+	/**
+	 * Returns the banish description of this publik user.
+	 *
+	 * @return the banish description of this publik user
+	 */
+	@Override
+	public String getBanishDescription() {
+		return _publikUser.getBanishDescription();
+	}
+
+	/**
+	 * Returns the create date of this publik user.
+	 *
+	 * @return the create date of this publik user
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _publikUser.getCreateDate();
+	}
+
+	/**
+	 * Returns the display config of this publik user.
+	 *
+	 * @return the display config of this publik user
+	 */
+	@Override
+	public String getDisplayConfig() {
+		return _publikUser.getDisplayConfig();
+	}
+
+	/**
+	 * Returns the email of this publik user.
+	 *
+	 * @return the email of this publik user
+	 */
+	@Override
+	public String getEmail() {
+		return _publikUser.getEmail();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _publikUser.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the first name of this publik user.
+	 *
+	 * @return the first name of this publik user
+	 */
+	@Override
+	public String getFirstName() {
+		return _publikUser.getFirstName();
+	}
+
+	/**
+	 * Returns the image url of this publik user.
+	 *
+	 * @return the image url of this publik user
+	 */
+	@Override
+	public String getImageURL() {
+		return _publikUser.getImageURL();
+	}
+
+	/**
+	 * Retourne l'image de profil ou le substitut
+	 */
+	@Override
+	public String getImageURLOrSurrogate() {
+		return _publikUser.getImageURLOrSurrogate();
+	}
+
+	/**
+	 * Returns the last name of this publik user.
+	 *
+	 * @return the last name of this publik user
+	 */
+	@Override
+	public String getLastName() {
+		return _publikUser.getLastName();
+	}
+
+	/**
+	 * Returns the map config of this publik user.
+	 *
+	 * @return the map config of this publik user
+	 */
+	@Override
+	public String getMapConfig() {
+		return _publikUser.getMapConfig();
+	}
+
+	/**
+	 * Returns the modified date of this publik user.
+	 *
+	 * @return the modified date of this publik user
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return _publikUser.getModifiedDate();
+	}
+
+	/**
+	 * Returns the pact display of this publik user.
+	 *
+	 * @return the pact display of this publik user
+	 */
 	@Override
 	public boolean getPactDisplay() {
 		return _publikUser.getPactDisplay();
 	}
 
 	/**
-	* L'utilisateur est-il en perdiode de bannissement ?
-	*/
+	 * Returns the pact signature of this publik user.
+	 *
+	 * @return the pact signature of this publik user
+	 */
+	@Override
+	public Date getPactSignature() {
+		return _publikUser.getPactSignature();
+	}
+
+	/**
+	 * Returns the primary key of this publik user.
+	 *
+	 * @return the primary key of this publik user
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _publikUser.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _publikUser.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the publik ID of this publik user.
+	 *
+	 * @return the publik ID of this publik user
+	 */
+	@Override
+	public String getPublikId() {
+		return _publikUser.getPublikId();
+	}
+
+	/**
+	 * Returns the publik user liferay ID of this publik user.
+	 *
+	 * @return the publik user liferay ID of this publik user
+	 */
+	@Override
+	public long getPublikUserLiferayId() {
+		return _publikUser.getPublikUserLiferayId();
+	}
+
+	/**
+	 * Returns the user ID of this publik user.
+	 *
+	 * @return the user ID of this publik user
+	 */
+	@Override
+	public long getUserId() {
+		return _publikUser.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this publik user.
+	 *
+	 * @return the user name of this publik user
+	 */
+	@Override
+	public String getUserName() {
+		return _publikUser.getUserName();
+	}
+
+	/**
+	 * Returns the user uuid of this publik user.
+	 *
+	 * @return the user uuid of this publik user
+	 */
+	@Override
+	public String getUserUuid() {
+		return _publikUser.getUserUuid();
+	}
+
+	/**
+	 * Returns the uuid of this publik user.
+	 *
+	 * @return the uuid of this publik user
+	 */
+	@Override
+	public String getUuid() {
+		return _publikUser.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _publikUser.hashCode();
+	}
+
+	/**
+	 * L'utilisateur est-il en perdiode de bannissement ?
+	 */
 	@Override
 	public boolean isBanned() {
 		return _publikUser.isBanned();
@@ -224,261 +449,13 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
-	* Returns <code>true</code> if this publik user is pact display.
-	*
-	* @return <code>true</code> if this publik user is pact display; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this publik user is pact display.
+	 *
+	 * @return <code>true</code> if this publik user is pact display; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isPactDisplay() {
 		return _publikUser.isPactDisplay();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _publikUser.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.oidc.model.PublikUser> toCacheModel() {
-		return _publikUser.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.oidc.model.PublikUser toEscapedModel() {
-		return new PublikUserWrapper(_publikUser.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.oidc.model.PublikUser toUnescapedModel() {
-		return new PublikUserWrapper(_publikUser.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.oidc.model.PublikUser publikUser) {
-		return _publikUser.compareTo(publikUser);
-	}
-
-	@Override
-	public int hashCode() {
-		return _publikUser.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _publikUser.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new PublikUserWrapper((PublikUser)_publikUser.clone());
-	}
-
-	/**
-	* Returns the access token of this publik user.
-	*
-	* @return the access token of this publik user
-	*/
-	@Override
-	public java.lang.String getAccessToken() {
-		return _publikUser.getAccessToken();
-	}
-
-	/**
-	* Returns the banish description of this publik user.
-	*
-	* @return the banish description of this publik user
-	*/
-	@Override
-	public java.lang.String getBanishDescription() {
-		return _publikUser.getBanishDescription();
-	}
-
-	/**
-	* Returns the display config of this publik user.
-	*
-	* @return the display config of this publik user
-	*/
-	@Override
-	public java.lang.String getDisplayConfig() {
-		return _publikUser.getDisplayConfig();
-	}
-
-	/**
-	* Returns the email of this publik user.
-	*
-	* @return the email of this publik user
-	*/
-	@Override
-	public java.lang.String getEmail() {
-		return _publikUser.getEmail();
-	}
-
-	/**
-	* Returns the first name of this publik user.
-	*
-	* @return the first name of this publik user
-	*/
-	@Override
-	public java.lang.String getFirstName() {
-		return _publikUser.getFirstName();
-	}
-
-	/**
-	* Returns the image url of this publik user.
-	*
-	* @return the image url of this publik user
-	*/
-	@Override
-	public java.lang.String getImageURL() {
-		return _publikUser.getImageURL();
-	}
-
-	/**
-	* Retourne l'image de profil ou le substitut
-	*/
-	@Override
-	public java.lang.String getImageURLOrSurrogate() {
-		return _publikUser.getImageURLOrSurrogate();
-	}
-
-	/**
-	* Returns the last name of this publik user.
-	*
-	* @return the last name of this publik user
-	*/
-	@Override
-	public java.lang.String getLastName() {
-		return _publikUser.getLastName();
-	}
-
-	/**
-	* Returns the map config of this publik user.
-	*
-	* @return the map config of this publik user
-	*/
-	@Override
-	public java.lang.String getMapConfig() {
-		return _publikUser.getMapConfig();
-	}
-
-	/**
-	* Returns the publik ID of this publik user.
-	*
-	* @return the publik ID of this publik user
-	*/
-	@Override
-	public java.lang.String getPublikId() {
-		return _publikUser.getPublikId();
-	}
-
-	/**
-	* Returns the user name of this publik user.
-	*
-	* @return the user name of this publik user
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _publikUser.getUserName();
-	}
-
-	/**
-	* Returns the user uuid of this publik user.
-	*
-	* @return the user uuid of this publik user
-	*/
-	@Override
-	public java.lang.String getUserUuid() {
-		return _publikUser.getUserUuid();
-	}
-
-	/**
-	* Returns the uuid of this publik user.
-	*
-	* @return the uuid of this publik user
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _publikUser.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _publikUser.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _publikUser.toXmlString();
-	}
-
-	/**
-	* Returns the banish date of this publik user.
-	*
-	* @return the banish date of this publik user
-	*/
-	@Override
-	public Date getBanishDate() {
-		return _publikUser.getBanishDate();
-	}
-
-	/**
-	* Returns the create date of this publik user.
-	*
-	* @return the create date of this publik user
-	*/
-	@Override
-	public Date getCreateDate() {
-		return _publikUser.getCreateDate();
-	}
-
-	/**
-	* Returns the modified date of this publik user.
-	*
-	* @return the modified date of this publik user
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return _publikUser.getModifiedDate();
-	}
-
-	/**
-	* Returns the pact signature of this publik user.
-	*
-	* @return the pact signature of this publik user
-	*/
-	@Override
-	public Date getPactSignature() {
-		return _publikUser.getPactSignature();
-	}
-
-	/**
-	* Returns the primary key of this publik user.
-	*
-	* @return the primary key of this publik user
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _publikUser.getPrimaryKey();
-	}
-
-	/**
-	* Returns the publik user liferay ID of this publik user.
-	*
-	* @return the publik user liferay ID of this publik user
-	*/
-	@Override
-	public long getPublikUserLiferayId() {
-		return _publikUser.getPublikUserLiferayId();
-	}
-
-	/**
-	* Returns the user ID of this publik user.
-	*
-	* @return the user ID of this publik user
-	*/
-	@Override
-	public long getUserId() {
-		return _publikUser.getUserId();
 	}
 
 	@Override
@@ -487,32 +464,32 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
-	* Sets the access token of this publik user.
-	*
-	* @param accessToken the access token of this publik user
-	*/
+	 * Sets the access token of this publik user.
+	 *
+	 * @param accessToken the access token of this publik user
+	 */
 	@Override
-	public void setAccessToken(java.lang.String accessToken) {
+	public void setAccessToken(String accessToken) {
 		_publikUser.setAccessToken(accessToken);
 	}
 
 	/**
-	* Sets the banish date of this publik user.
-	*
-	* @param banishDate the banish date of this publik user
-	*/
+	 * Sets the banish date of this publik user.
+	 *
+	 * @param banishDate the banish date of this publik user
+	 */
 	@Override
 	public void setBanishDate(Date banishDate) {
 		_publikUser.setBanishDate(banishDate);
 	}
 
 	/**
-	* Sets the banish description of this publik user.
-	*
-	* @param banishDescription the banish description of this publik user
-	*/
+	 * Sets the banish description of this publik user.
+	 *
+	 * @param banishDescription the banish description of this publik user
+	 */
 	@Override
-	public void setBanishDescription(java.lang.String banishDescription) {
+	public void setBanishDescription(String banishDescription) {
 		_publikUser.setBanishDescription(banishDescription);
 	}
 
@@ -522,33 +499,40 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
-	* Sets the create date of this publik user.
-	*
-	* @param createDate the create date of this publik user
-	*/
+	 * Sets the create date of this publik user.
+	 *
+	 * @param createDate the create date of this publik user
+	 */
 	@Override
 	public void setCreateDate(Date createDate) {
 		_publikUser.setCreateDate(createDate);
 	}
 
 	/**
-	* Sets the display config of this publik user.
-	*
-	* @param displayConfig the display config of this publik user
-	*/
+	 * Sets the display config of this publik user.
+	 *
+	 * @param displayConfig the display config of this publik user
+	 */
 	@Override
-	public void setDisplayConfig(java.lang.String displayConfig) {
+	public void setDisplayConfig(String displayConfig) {
 		_publikUser.setDisplayConfig(displayConfig);
 	}
 
 	/**
-	* Sets the email of this publik user.
-	*
-	* @param email the email of this publik user
-	*/
+	 * Sets the email of this publik user.
+	 *
+	 * @param email the email of this publik user
+	 */
 	@Override
-	public void setEmail(java.lang.String email) {
+	public void setEmail(String email) {
 		_publikUser.setEmail(email);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_publikUser.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -557,61 +541,55 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_publikUser.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_publikUser.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the first name of this publik user.
-	*
-	* @param firstName the first name of this publik user
-	*/
+	 * Sets the first name of this publik user.
+	 *
+	 * @param firstName the first name of this publik user
+	 */
 	@Override
-	public void setFirstName(java.lang.String firstName) {
+	public void setFirstName(String firstName) {
 		_publikUser.setFirstName(firstName);
 	}
 
 	/**
-	* Sets the image url of this publik user.
-	*
-	* @param imageURL the image url of this publik user
-	*/
+	 * Sets the image url of this publik user.
+	 *
+	 * @param imageURL the image url of this publik user
+	 */
 	@Override
-	public void setImageURL(java.lang.String imageURL) {
+	public void setImageURL(String imageURL) {
 		_publikUser.setImageURL(imageURL);
 	}
 
 	/**
-	* Sets the last name of this publik user.
-	*
-	* @param lastName the last name of this publik user
-	*/
+	 * Sets the last name of this publik user.
+	 *
+	 * @param lastName the last name of this publik user
+	 */
 	@Override
-	public void setLastName(java.lang.String lastName) {
+	public void setLastName(String lastName) {
 		_publikUser.setLastName(lastName);
 	}
 
 	/**
-	* Sets the map config of this publik user.
-	*
-	* @param mapConfig the map config of this publik user
-	*/
+	 * Sets the map config of this publik user.
+	 *
+	 * @param mapConfig the map config of this publik user
+	 */
 	@Override
-	public void setMapConfig(java.lang.String mapConfig) {
+	public void setMapConfig(String mapConfig) {
 		_publikUser.setMapConfig(mapConfig);
 	}
 
 	/**
-	* Sets the modified date of this publik user.
-	*
-	* @param modifiedDate the modified date of this publik user
-	*/
+	 * Sets the modified date of this publik user.
+	 *
+	 * @param modifiedDate the modified date of this publik user
+	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_publikUser.setModifiedDate(modifiedDate);
@@ -623,30 +601,30 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
-	* Sets whether this publik user is pact display.
-	*
-	* @param pactDisplay the pact display of this publik user
-	*/
+	 * Sets whether this publik user is pact display.
+	 *
+	 * @param pactDisplay the pact display of this publik user
+	 */
 	@Override
 	public void setPactDisplay(boolean pactDisplay) {
 		_publikUser.setPactDisplay(pactDisplay);
 	}
 
 	/**
-	* Sets the pact signature of this publik user.
-	*
-	* @param pactSignature the pact signature of this publik user
-	*/
+	 * Sets the pact signature of this publik user.
+	 *
+	 * @param pactSignature the pact signature of this publik user
+	 */
 	@Override
 	public void setPactSignature(Date pactSignature) {
 		_publikUser.setPactSignature(pactSignature);
 	}
 
 	/**
-	* Sets the primary key of this publik user.
-	*
-	* @param primaryKey the primary key of this publik user
-	*/
+	 * Sets the primary key of this publik user.
+	 *
+	 * @param primaryKey the primary key of this publik user
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_publikUser.setPrimaryKey(primaryKey);
@@ -658,63 +636,90 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
-	* Sets the publik ID of this publik user.
-	*
-	* @param publikId the publik ID of this publik user
-	*/
+	 * Sets the publik ID of this publik user.
+	 *
+	 * @param publikId the publik ID of this publik user
+	 */
 	@Override
-	public void setPublikId(java.lang.String publikId) {
+	public void setPublikId(String publikId) {
 		_publikUser.setPublikId(publikId);
 	}
 
 	/**
-	* Sets the publik user liferay ID of this publik user.
-	*
-	* @param publikUserLiferayId the publik user liferay ID of this publik user
-	*/
+	 * Sets the publik user liferay ID of this publik user.
+	 *
+	 * @param publikUserLiferayId the publik user liferay ID of this publik user
+	 */
 	@Override
 	public void setPublikUserLiferayId(long publikUserLiferayId) {
 		_publikUser.setPublikUserLiferayId(publikUserLiferayId);
 	}
 
 	/**
-	* Sets the user ID of this publik user.
-	*
-	* @param userId the user ID of this publik user
-	*/
+	 * Sets the user ID of this publik user.
+	 *
+	 * @param userId the user ID of this publik user
+	 */
 	@Override
 	public void setUserId(long userId) {
 		_publikUser.setUserId(userId);
 	}
 
 	/**
-	* Sets the user name of this publik user.
-	*
-	* @param userName the user name of this publik user
-	*/
+	 * Sets the user name of this publik user.
+	 *
+	 * @param userName the user name of this publik user
+	 */
 	@Override
-	public void setUserName(java.lang.String userName) {
+	public void setUserName(String userName) {
 		_publikUser.setUserName(userName);
 	}
 
 	/**
-	* Sets the user uuid of this publik user.
-	*
-	* @param userUuid the user uuid of this publik user
-	*/
+	 * Sets the user uuid of this publik user.
+	 *
+	 * @param userUuid the user uuid of this publik user
+	 */
 	@Override
-	public void setUserUuid(java.lang.String userUuid) {
+	public void setUserUuid(String userUuid) {
 		_publikUser.setUserUuid(userUuid);
 	}
 
 	/**
-	* Sets the uuid of this publik user.
-	*
-	* @param uuid the uuid of this publik user
-	*/
+	 * Sets the uuid of this publik user.
+	 *
+	 * @param uuid the uuid of this publik user
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_publikUser.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.oidc.model.PublikUser> toCacheModel() {
+
+		return _publikUser.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser toEscapedModel() {
+		return new PublikUserWrapper(_publikUser.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _publikUser.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser toUnescapedModel() {
+		return new PublikUserWrapper(_publikUser.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _publikUser.toXmlString();
 	}
 
 	@Override
@@ -757,4 +762,5 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	private final PublikUser _publikUser;
+
 }

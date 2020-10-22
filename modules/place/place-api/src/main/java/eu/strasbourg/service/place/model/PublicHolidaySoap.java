@@ -30,6 +30,7 @@ import java.util.List;
  */
 @ProviderType
 public class PublicHolidaySoap implements Serializable {
+
 	public static PublicHolidaySoap toSoapModel(PublicHoliday model) {
 		PublicHolidaySoap soapModel = new PublicHolidaySoap();
 
@@ -37,7 +38,7 @@ public class PublicHolidaySoap implements Serializable {
 		soapModel.setPublicHolidayId(model.getPublicHolidayId());
 		soapModel.setName(model.getName());
 		soapModel.setDate(model.getDate());
-		soapModel.setRecurrent(model.getRecurrent());
+		soapModel.setRecurrent(model.isRecurrent());
 
 		return soapModel;
 	}
@@ -70,7 +71,8 @@ public class PublicHolidaySoap implements Serializable {
 	}
 
 	public static PublicHolidaySoap[] toSoapModels(List<PublicHoliday> models) {
-		List<PublicHolidaySoap> soapModels = new ArrayList<PublicHolidaySoap>(models.size());
+		List<PublicHolidaySoap> soapModels = new ArrayList<PublicHolidaySoap>(
+			models.size());
 
 		for (PublicHoliday model : models) {
 			soapModels.add(toSoapModel(model));
@@ -139,4 +141,5 @@ public class PublicHolidaySoap implements Serializable {
 	private String _name;
 	private Date _date;
 	private boolean _recurrent;
+
 }

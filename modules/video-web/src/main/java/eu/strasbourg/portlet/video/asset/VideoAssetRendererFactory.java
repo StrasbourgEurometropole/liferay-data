@@ -1,5 +1,9 @@
 package eu.strasbourg.portlet.video.asset;
 
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.portlet.PortletBag;
+import com.liferay.portal.kernel.portlet.PortletBagPool;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -11,6 +15,9 @@ import com.liferay.portal.kernel.exception.PortalException;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @Component(
 	immediate = true,
@@ -39,7 +46,36 @@ public class VideoAssetRendererFactory extends BaseAssetRendererFactory<Video> {
 		videoAssetRenderer.setAssetRendererType(type);
 
 		return videoAssetRenderer;
+	}
 
+	/**
+	 * Notes : surcharge de la méthode pour enlever le préfix du className "model.resource" non présent sur les modules
+	 * 			custom en 7.0
+	 */
+	@Override
+	public String getTypeName(Locale locale) {
+		String key = getClassName();
+
+		String value = LanguageUtil.get(locale, key, null);
+
+		String portletId = getPortletId();
+
+		if ((value == null) && (portletId != null)) {
+			PortletBag portletBag = PortletBagPool.get(portletId);
+
+			ResourceBundle resourceBundle = portletBag.getResourceBundle(
+					locale);
+
+			if (resourceBundle != null) {
+				value = ResourceBundleUtil.getString(resourceBundle, key);
+			}
+		}
+
+		if (value == null) {
+			value = getClassName();
+		}
+
+		return value;
 	}
 
 	@Override
@@ -47,11 +83,11 @@ public class VideoAssetRendererFactory extends BaseAssetRendererFactory<Video> {
 		return TYPE;
 	}
 	
-	
 	private VideoLocalService _videoLocalService;
 
 	@Reference(unbind = "-")
 	protected void setVideoLocalService(VideoLocalService videoLocalService) {
 		_videoLocalService = videoLocalService;
 	}
+
 }

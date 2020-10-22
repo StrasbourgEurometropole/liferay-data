@@ -29,6 +29,7 @@ import java.util.List;
  */
 @ProviderType
 public class SlotSoap implements Serializable {
+
 	public static SlotSoap toSoapModel(Slot model) {
 		SlotSoap soapModel = new SlotSoap();
 
@@ -164,4 +165,5 @@ public class SlotSoap implements Serializable {
 	private String _comment;
 	private long _periodId;
 	private long _subPlaceId;
+
 }

@@ -33,10 +33,11 @@ import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
  */
 @ProviderType
 public abstract class EventBaseImpl extends EventModelImpl implements Event {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a event model instance should use the {@link Event} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a event model instance should use the <code>Event</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class EventBaseImpl extends EventModelImpl implements Event {
 			EventLocalServiceUtil.updateEvent(this);
 		}
 	}
+
 }

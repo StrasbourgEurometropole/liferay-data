@@ -47,12 +47,26 @@
 
 		<div class="${portlet_content_css_class}">
 			<#if portlet_display.isShowBackIcon()>
-				<a class="icon-monospaced portlet-icon-back text-default" href="${portlet_back_url}" title="<@liferay.language key="return-to-full-page" />">
+				<a class="icon-monospaced list-unstyled portlet-icon-back text-default" href="${portlet_back_url}" title="<@liferay.language key="return-to-full-page" />">
 					<@liferay_ui["icon"]
 						icon="angle-left"
 						markupView="lexicon"
 					/>
 				</a>
+			</#if>
+	
+			<@liferay_util["buffer"] var="portlet_header">
+				<@liferay_util["dynamic-include"] key="portlet_header_${portlet_display_root_portlet_id}" />
+			</@>
+			
+			<#if portlet_header?has_content>
+				<div class="autofit-float autofit-row portlet-header">
+					<div class="autofit-col autofit-col-end">
+						<div class="autofit-section">
+							${portlet_header}
+						</div>
+					</div>
+				</div>
 			</#if>
 
 			<h2 class="portlet-title-text">${portlet_title}</h2>

@@ -25,19 +25,20 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * {@link InterestServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>InterestServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.interest.model.InterestSoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.interest.model.Interest}, that is translated to a
- * {@link eu.strasbourg.service.interest.model.InterestSoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.interest.model.InterestSoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.interest.model.Interest</code>, that is translated to a
+ * <code>eu.strasbourg.service.interest.model.InterestSoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -59,18 +60,18 @@ import java.rmi.RemoteException;
  *
  * @author BenjaminBini
  * @see InterestServiceHttp
- * @see eu.strasbourg.service.interest.model.InterestSoap
- * @see InterestServiceUtil
  * @generated
  */
 @ProviderType
 public class InterestServiceSoap {
+
 	/**
-	* Retourne la liste de tous les centres d'intérêt
-	*/
-	public static java.lang.String getInterests() throws RemoteException {
+	 * Retourne la liste de tous les centres d'intérêt
+	 */
+	public static String getInterests() throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = InterestServiceUtil.getInterests();
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				InterestServiceUtil.getInterests();
 
 			return returnValue.toString();
 		}
@@ -82,32 +83,35 @@ public class InterestServiceSoap {
 	}
 
 	/**
-	* Modifie les intérêts de l'utilisateur ayant l'id (publik) passé en
-	* paramètre
-	*/
-	public static java.lang.String setUserInterests(java.lang.String userId,
-		java.lang.String interestIds) throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = InterestServiceUtil.setUserInterests(userId,
-					interestIds);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	/**
-	* Retourne la liste des intérêts de l'utilisateur ayant l'id (publik) passé
-	* en paramètre
-	*/
-	public static java.lang.String getUserInterests(java.lang.String userId)
+	 * Modifie les intérêts de l'utilisateur ayant l'id (publik) passé en
+	 * paramètre
+	 */
+	public static String setUserInterests(String userId, String interestIds)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = InterestServiceUtil.getUserInterests(userId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				InterestServiceUtil.setUserInterests(userId, interestIds);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	/**
+	 * Retourne la liste des intérêts de l'utilisateur ayant l'id (publik) passé
+	 * en paramètre
+	 */
+	public static String getUserInterests(String userId)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				InterestServiceUtil.getUserInterests(userId);
 
 			return returnValue.toString();
 		}
@@ -119,4 +123,5 @@ public class InterestServiceSoap {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(InterestServiceSoap.class);
+
 }

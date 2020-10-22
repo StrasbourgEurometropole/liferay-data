@@ -32,12 +32,13 @@ import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class BudgetPhaseBaseImpl extends BudgetPhaseModelImpl
-	implements BudgetPhase {
+public abstract class BudgetPhaseBaseImpl
+	extends BudgetPhaseModelImpl implements BudgetPhase {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a budget phase model instance should use the {@link BudgetPhase} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a budget phase model instance should use the <code>BudgetPhase</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class BudgetPhaseBaseImpl extends BudgetPhaseModelImpl
 			BudgetPhaseLocalServiceUtil.updateBudgetPhase(this);
 		}
 	}
+
 }

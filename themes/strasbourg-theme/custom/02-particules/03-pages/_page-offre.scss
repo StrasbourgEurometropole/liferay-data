@@ -1,0 +1,55 @@
+.seu-page-offer .seu-offer-container{
+
+
+    .seu-gray-box{
+        background-color: #F6F6F6;
+        padding: 30px 50px; 
+        margin-bottom: 30px;
+        
+        div+div{
+            margin-top: 15px;
+        }
+
+        h3{
+            margin-bottom: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-top: 25px;
+        }
+
+        p{
+            font-weight: 600;
+        }
+    }
+    
+    .seu-btn-square.seu-filled.seu-core{
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 30px;
+        
+        a{
+            color: white;
+            text-decoration: none;
+        }
+        
+        &:hover a{
+            color: $core-color;
+        }
+    }
+
+    .seu-media-title{
+        text-transform: uppercase;
+    }
+
+    .offer-contact {
+        margin-bottom: 0;
+
+        .seu-container:before, .seu-container:after{
+            content: none;
+        }
+
+        h2 span.seu-title{
+            text-transform: uppercase;
+        }
+    }
+}

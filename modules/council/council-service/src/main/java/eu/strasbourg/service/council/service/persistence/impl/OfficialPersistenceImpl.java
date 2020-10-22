@@ -31,10 +31,9 @@ import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
@@ -49,6 +48,7 @@ import eu.strasbourg.service.council.service.persistence.OfficialPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
@@ -68,52 +68,32 @@ import java.util.Set;
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see OfficialPersistence
- * @see eu.strasbourg.service.council.service.persistence.OfficialUtil
  * @generated
  */
 @ProviderType
-public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
-	implements OfficialPersistence {
+public class OfficialPersistenceImpl
+	extends BasePersistenceImpl<Official> implements OfficialPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link OfficialUtil} to access the official persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>OfficialUtil</code> to access the official persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = OfficialImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			OfficialModelImpl.UUID_COLUMN_BITMASK |
-			OfficialModelImpl.LASTNAME_COLUMN_BITMASK |
-			OfficialModelImpl.FIRSTNAME_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		OfficialImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the officials where uuid = &#63;.
@@ -130,7 +110,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * Returns a range of all the officials where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfficialModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -147,7 +127,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * Returns an ordered range of all the officials where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfficialModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -157,8 +137,10 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the ordered range of matching officials
 	 */
 	@Override
-	public List<Official> findByUuid(String uuid, int start, int end,
+	public List<Official> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Official> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -166,7 +148,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * Returns an ordered range of all the officials where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfficialModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -177,32 +159,38 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the ordered range of matching officials
 	 */
 	@Override
-	public List<Official> findByUuid(String uuid, int start, int end,
-		OrderByComparator<Official> orderByComparator, boolean retrieveFromCache) {
+	public List<Official> findByUuid(
+		String uuid, int start, int end,
+		OrderByComparator<Official> orderByComparator,
+		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<Official> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Official>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Official>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Official official : list) {
-					if (!Objects.equals(uuid, official.getUuid())) {
+					if (!uuid.equals(official.getUuid())) {
 						list = null;
 
 						break;
@@ -215,8 +203,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -226,10 +214,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -239,11 +224,10 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(OfficialModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -263,16 +247,16 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 				}
 
 				if (!pagination) {
-					list = (List<Official>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Official>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Official>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Official>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -301,9 +285,10 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @throws NoSuchOfficialException if a matching official could not be found
 	 */
 	@Override
-	public Official findByUuid_First(String uuid,
-		OrderByComparator<Official> orderByComparator)
+	public Official findByUuid_First(
+			String uuid, OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException {
+
 		Official official = fetchByUuid_First(uuid, orderByComparator);
 
 		if (official != null) {
@@ -317,7 +302,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchOfficialException(msg.toString());
 	}
@@ -330,8 +315,9 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the first matching official, or <code>null</code> if a matching official could not be found
 	 */
 	@Override
-	public Official fetchByUuid_First(String uuid,
-		OrderByComparator<Official> orderByComparator) {
+	public Official fetchByUuid_First(
+		String uuid, OrderByComparator<Official> orderByComparator) {
+
 		List<Official> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -350,9 +336,10 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @throws NoSuchOfficialException if a matching official could not be found
 	 */
 	@Override
-	public Official findByUuid_Last(String uuid,
-		OrderByComparator<Official> orderByComparator)
+	public Official findByUuid_Last(
+			String uuid, OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException {
+
 		Official official = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (official != null) {
@@ -366,7 +353,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchOfficialException(msg.toString());
 	}
@@ -379,16 +366,17 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the last matching official, or <code>null</code> if a matching official could not be found
 	 */
 	@Override
-	public Official fetchByUuid_Last(String uuid,
-		OrderByComparator<Official> orderByComparator) {
+	public Official fetchByUuid_Last(
+		String uuid, OrderByComparator<Official> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Official> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<Official> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -407,9 +395,13 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @throws NoSuchOfficialException if a official with the primary key could not be found
 	 */
 	@Override
-	public Official[] findByUuid_PrevAndNext(long officialId, String uuid,
-		OrderByComparator<Official> orderByComparator)
+	public Official[] findByUuid_PrevAndNext(
+			long officialId, String uuid,
+			OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Official official = findByPrimaryKey(officialId);
 
 		Session session = null;
@@ -419,13 +411,13 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 			Official[] array = new OfficialImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, official, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, official, uuid, orderByComparator, true);
 
 			array[1] = official;
 
-			array[2] = getByUuid_PrevAndNext(session, official, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, official, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -437,14 +429,15 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		}
 	}
 
-	protected Official getByUuid_PrevAndNext(Session session,
-		Official official, String uuid,
+	protected Official getByUuid_PrevAndNext(
+		Session session, Official official, String uuid,
 		OrderByComparator<Official> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -455,10 +448,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -468,7 +458,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -540,10 +531,10 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(official);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(official)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -564,8 +555,9 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (Official official : findByUuid(uuid, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Official official :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(official);
 		}
 	}
@@ -578,9 +570,11 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -591,10 +585,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -635,22 +626,17 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "official.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "official.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(official.uuid IS NULL OR official.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			OfficialModelImpl.UUID_COLUMN_BITMASK |
-			OfficialModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"official.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(official.uuid IS NULL OR official.uuid = '')";
+
+	private FinderPath _finderPathFetchByUUID_G;
+	private FinderPath _finderPathCountByUUID_G;
 
 	/**
-	 * Returns the official where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchOfficialException} if it could not be found.
+	 * Returns the official where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchOfficialException</code> if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
@@ -660,6 +646,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	@Override
 	public Official findByUUID_G(String uuid, long groupId)
 		throws NoSuchOfficialException {
+
 		Official official = fetchByUUID_G(uuid, groupId);
 
 		if (official == null) {
@@ -673,7 +660,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			msg.append(", groupId=");
 			msg.append(groupId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -706,22 +693,26 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the matching official, or <code>null</code> if a matching official could not be found
 	 */
 	@Override
-	public Official fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
+	public Official fetchByUUID_G(
+		String uuid, long groupId, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
 		if (result instanceof Official) {
 			Official official = (Official)result;
 
 			if (!Objects.equals(uuid, official.getUuid()) ||
-					(groupId != official.getGroupId())) {
+				(groupId != official.getGroupId())) {
+
 				result = null;
 			}
 		}
@@ -733,10 +724,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -767,8 +755,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 				List<Official> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByUUID_G, finderArgs, list);
 				}
 				else {
 					Official official = list.get(0);
@@ -776,17 +764,10 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 					result = official;
 
 					cacheResult(official);
-
-					if ((official.getUuid() == null) ||
-							!official.getUuid().equals(uuid) ||
-							(official.getGroupId() != groupId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-							finderArgs, official);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
+				finderCache.removeResult(_finderPathFetchByUUID_G, finderArgs);
 
 				throw processException(e);
 			}
@@ -813,6 +794,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	@Override
 	public Official removeByUUID_G(String uuid, long groupId)
 		throws NoSuchOfficialException {
+
 		Official official = findByUUID_G(uuid, groupId);
 
 		return remove(official);
@@ -827,9 +809,11 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 */
 	@Override
 	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, groupId };
+		FinderPath finderPath = _finderPathCountByUUID_G;
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -840,10 +824,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -888,32 +869,18 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "official.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "official.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(official.uuid IS NULL OR official.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "official.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
-			new String[] {
-				String.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C =
-		new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() },
-			OfficialModelImpl.UUID_COLUMN_BITMASK |
-			OfficialModelImpl.COMPANYID_COLUMN_BITMASK |
-			OfficialModelImpl.LASTNAME_COLUMN_BITMASK |
-			OfficialModelImpl.FIRSTNAME_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
+		"official.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
+		"(official.uuid IS NULL OR official.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
+		"official.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByUuid_C;
+	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
+	private FinderPath _finderPathCountByUuid_C;
 
 	/**
 	 * Returns all the officials where uuid = &#63; and companyId = &#63;.
@@ -924,15 +891,15 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 */
 	@Override
 	public List<Official> findByUuid_C(String uuid, long companyId) {
-		return findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByUuid_C(
+			uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the officials where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfficialModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -942,8 +909,9 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the range of matching officials
 	 */
 	@Override
-	public List<Official> findByUuid_C(String uuid, long companyId, int start,
-		int end) {
+	public List<Official> findByUuid_C(
+		String uuid, long companyId, int start, int end) {
+
 		return findByUuid_C(uuid, companyId, start, end, null);
 	}
 
@@ -951,7 +919,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * Returns an ordered range of all the officials where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfficialModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -962,16 +930,19 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the ordered range of matching officials
 	 */
 	@Override
-	public List<Official> findByUuid_C(String uuid, long companyId, int start,
-		int end, OrderByComparator<Official> orderByComparator) {
-		return findByUuid_C(uuid, companyId, start, end, orderByComparator, true);
+	public List<Official> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Official> orderByComparator) {
+
+		return findByUuid_C(
+			uuid, companyId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the officials where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfficialModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -983,38 +954,42 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the ordered range of matching officials
 	 */
 	@Override
-	public List<Official> findByUuid_C(String uuid, long companyId, int start,
-		int end, OrderByComparator<Official> orderByComparator,
+	public List<Official> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Official> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C;
-			finderArgs = new Object[] { uuid, companyId };
+			finderPath = _finderPathWithoutPaginationFindByUuid_C;
+			finderArgs = new Object[] {uuid, companyId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C;
+			finderPath = _finderPathWithPaginationFindByUuid_C;
 			finderArgs = new Object[] {
-					uuid, companyId,
-					
-					start, end, orderByComparator
-				};
+				uuid, companyId, start, end, orderByComparator
+			};
 		}
 
 		List<Official> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Official>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Official>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Official official : list) {
-					if (!Objects.equals(uuid, official.getUuid()) ||
-							(companyId != official.getCompanyId())) {
+					if (!uuid.equals(official.getUuid()) ||
+						(companyId != official.getCompanyId())) {
+
 						list = null;
 
 						break;
@@ -1027,8 +1002,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1038,10 +1013,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1053,11 +1025,10 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(OfficialModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1079,16 +1050,16 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 				qPos.add(companyId);
 
 				if (!pagination) {
-					list = (List<Official>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Official>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Official>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Official>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1118,11 +1089,13 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @throws NoSuchOfficialException if a matching official could not be found
 	 */
 	@Override
-	public Official findByUuid_C_First(String uuid, long companyId,
-		OrderByComparator<Official> orderByComparator)
+	public Official findByUuid_C_First(
+			String uuid, long companyId,
+			OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException {
-		Official official = fetchByUuid_C_First(uuid, companyId,
-				orderByComparator);
+
+		Official official = fetchByUuid_C_First(
+			uuid, companyId, orderByComparator);
 
 		if (official != null) {
 			return official;
@@ -1138,7 +1111,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchOfficialException(msg.toString());
 	}
@@ -1152,10 +1125,12 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the first matching official, or <code>null</code> if a matching official could not be found
 	 */
 	@Override
-	public Official fetchByUuid_C_First(String uuid, long companyId,
+	public Official fetchByUuid_C_First(
+		String uuid, long companyId,
 		OrderByComparator<Official> orderByComparator) {
-		List<Official> list = findByUuid_C(uuid, companyId, 0, 1,
-				orderByComparator);
+
+		List<Official> list = findByUuid_C(
+			uuid, companyId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1174,11 +1149,13 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @throws NoSuchOfficialException if a matching official could not be found
 	 */
 	@Override
-	public Official findByUuid_C_Last(String uuid, long companyId,
-		OrderByComparator<Official> orderByComparator)
+	public Official findByUuid_C_Last(
+			String uuid, long companyId,
+			OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException {
-		Official official = fetchByUuid_C_Last(uuid, companyId,
-				orderByComparator);
+
+		Official official = fetchByUuid_C_Last(
+			uuid, companyId, orderByComparator);
 
 		if (official != null) {
 			return official;
@@ -1194,7 +1171,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchOfficialException(msg.toString());
 	}
@@ -1208,16 +1185,18 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the last matching official, or <code>null</code> if a matching official could not be found
 	 */
 	@Override
-	public Official fetchByUuid_C_Last(String uuid, long companyId,
+	public Official fetchByUuid_C_Last(
+		String uuid, long companyId,
 		OrderByComparator<Official> orderByComparator) {
+
 		int count = countByUuid_C(uuid, companyId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Official> list = findByUuid_C(uuid, companyId, count - 1, count,
-				orderByComparator);
+		List<Official> list = findByUuid_C(
+			uuid, companyId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1237,9 +1216,13 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @throws NoSuchOfficialException if a official with the primary key could not be found
 	 */
 	@Override
-	public Official[] findByUuid_C_PrevAndNext(long officialId, String uuid,
-		long companyId, OrderByComparator<Official> orderByComparator)
+	public Official[] findByUuid_C_PrevAndNext(
+			long officialId, String uuid, long companyId,
+			OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Official official = findByPrimaryKey(officialId);
 
 		Session session = null;
@@ -1249,13 +1232,13 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 			Official[] array = new OfficialImpl[3];
 
-			array[0] = getByUuid_C_PrevAndNext(session, official, uuid,
-					companyId, orderByComparator, true);
+			array[0] = getByUuid_C_PrevAndNext(
+				session, official, uuid, companyId, orderByComparator, true);
 
 			array[1] = official;
 
-			array[2] = getByUuid_C_PrevAndNext(session, official, uuid,
-					companyId, orderByComparator, false);
+			array[2] = getByUuid_C_PrevAndNext(
+				session, official, uuid, companyId, orderByComparator, false);
 
 			return array;
 		}
@@ -1267,14 +1250,15 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		}
 	}
 
-	protected Official getByUuid_C_PrevAndNext(Session session,
-		Official official, String uuid, long companyId,
+	protected Official getByUuid_C_PrevAndNext(
+		Session session, Official official, String uuid, long companyId,
 		OrderByComparator<Official> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1285,10 +1269,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 		}
 		else {
@@ -1300,7 +1281,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1374,10 +1356,10 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		qPos.add(companyId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(official);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(official)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1399,8 +1381,11 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 */
 	@Override
 	public void removeByUuid_C(String uuid, long companyId) {
-		for (Official official : findByUuid_C(uuid, companyId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (Official official :
+				findByUuid_C(
+					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(official);
 		}
 	}
@@ -1414,9 +1399,11 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 */
 	@Override
 	public int countByUuid_C(String uuid, long companyId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_C;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, companyId };
+		FinderPath finderPath = _finderPathCountByUuid_C;
+
+		Object[] finderArgs = new Object[] {uuid, companyId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1427,10 +1414,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1475,22 +1459,20 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_1 = "official.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "official.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(official.uuid IS NULL OR official.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "official.companyId = ?";
-	public static final FinderPath FINDER_PATH_FETCH_BY_EMAIL = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByEmail",
-			new String[] { String.class.getName() },
-			OfficialModelImpl.EMAIL_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_EMAIL = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEmail",
-			new String[] { String.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
+		"official.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
+		"(official.uuid IS NULL OR official.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
+		"official.companyId = ?";
+
+	private FinderPath _finderPathFetchByEmail;
+	private FinderPath _finderPathCountByEmail;
 
 	/**
-	 * Returns the official where email = &#63; or throws a {@link NoSuchOfficialException} if it could not be found.
+	 * Returns the official where email = &#63; or throws a <code>NoSuchOfficialException</code> if it could not be found.
 	 *
 	 * @param email the email
 	 * @return the matching official
@@ -1508,7 +1490,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			msg.append("email=");
 			msg.append(email);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -1540,13 +1522,15 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 */
 	@Override
 	public Official fetchByEmail(String email, boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { email };
+		email = Objects.toString(email, "");
+
+		Object[] finderArgs = new Object[] {email};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_EMAIL,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByEmail, finderArgs, this);
 		}
 
 		if (result instanceof Official) {
@@ -1564,10 +1548,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 			boolean bindEmail = false;
 
-			if (email == null) {
-				query.append(_FINDER_COLUMN_EMAIL_EMAIL_1);
-			}
-			else if (email.equals(StringPool.BLANK)) {
+			if (email.isEmpty()) {
 				query.append(_FINDER_COLUMN_EMAIL_EMAIL_3);
 			}
 			else {
@@ -1594,8 +1575,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 				List<Official> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_EMAIL,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByEmail, finderArgs, list);
 				}
 				else {
 					if (list.size() > 1) {
@@ -1604,8 +1585,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 						if (_log.isWarnEnabled()) {
 							_log.warn(
 								"OfficialPersistenceImpl.fetchByEmail(String, boolean) with parameters (" +
-								StringUtil.merge(finderArgs) +
-								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
 						}
 					}
 
@@ -1614,16 +1595,10 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 					result = official;
 
 					cacheResult(official);
-
-					if ((official.getEmail() == null) ||
-							!official.getEmail().equals(email)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_EMAIL,
-							finderArgs, official);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_EMAIL, finderArgs);
+				finderCache.removeResult(_finderPathFetchByEmail, finderArgs);
 
 				throw processException(e);
 			}
@@ -1661,9 +1636,11 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 */
 	@Override
 	public int countByEmail(String email) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_EMAIL;
+		email = Objects.toString(email, "");
 
-		Object[] finderArgs = new Object[] { email };
+		FinderPath finderPath = _finderPathCountByEmail;
+
+		Object[] finderArgs = new Object[] {email};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1674,10 +1651,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 			boolean bindEmail = false;
 
-			if (email == null) {
-				query.append(_FINDER_COLUMN_EMAIL_EMAIL_1);
-			}
-			else if (email.equals(StringPool.BLANK)) {
+			if (email.isEmpty()) {
 				query.append(_FINDER_COLUMN_EMAIL_EMAIL_3);
 			}
 			else {
@@ -1718,34 +1692,15 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_EMAIL_EMAIL_1 = "official.email IS NULL";
-	private static final String _FINDER_COLUMN_EMAIL_EMAIL_2 = "official.email = ?";
-	private static final String _FINDER_COLUMN_EMAIL_EMAIL_3 = "(official.email IS NULL OR official.email = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPIDANDISACTIVE =
-		new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupIdAndIsActive",
-			new String[] {
-				Long.class.getName(), Boolean.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDISACTIVE =
-		new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByGroupIdAndIsActive",
-			new String[] { Long.class.getName(), Boolean.class.getName() },
-			OfficialModelImpl.GROUPID_COLUMN_BITMASK |
-			OfficialModelImpl.ISACTIVE_COLUMN_BITMASK |
-			OfficialModelImpl.LASTNAME_COLUMN_BITMASK |
-			OfficialModelImpl.FIRSTNAME_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPIDANDISACTIVE = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByGroupIdAndIsActive",
-			new String[] { Long.class.getName(), Boolean.class.getName() });
+	private static final String _FINDER_COLUMN_EMAIL_EMAIL_2 =
+		"official.email = ?";
+
+	private static final String _FINDER_COLUMN_EMAIL_EMAIL_3 =
+		"(official.email IS NULL OR official.email = '')";
+
+	private FinderPath _finderPathWithPaginationFindByGroupIdAndIsActive;
+	private FinderPath _finderPathWithoutPaginationFindByGroupIdAndIsActive;
+	private FinderPath _finderPathCountByGroupIdAndIsActive;
 
 	/**
 	 * Returns all the officials where groupId = &#63; and isActive = &#63;.
@@ -1755,17 +1710,18 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the matching officials
 	 */
 	@Override
-	public List<Official> findByGroupIdAndIsActive(long groupId,
-		boolean isActive) {
-		return findByGroupIdAndIsActive(groupId, isActive, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+	public List<Official> findByGroupIdAndIsActive(
+		long groupId, boolean isActive) {
+
+		return findByGroupIdAndIsActive(
+			groupId, isActive, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the officials where groupId = &#63; and isActive = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfficialModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1775,8 +1731,9 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the range of matching officials
 	 */
 	@Override
-	public List<Official> findByGroupIdAndIsActive(long groupId,
-		boolean isActive, int start, int end) {
+	public List<Official> findByGroupIdAndIsActive(
+		long groupId, boolean isActive, int start, int end) {
+
 		return findByGroupIdAndIsActive(groupId, isActive, start, end, null);
 	}
 
@@ -1784,7 +1741,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * Returns an ordered range of all the officials where groupId = &#63; and isActive = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfficialModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1795,18 +1752,19 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the ordered range of matching officials
 	 */
 	@Override
-	public List<Official> findByGroupIdAndIsActive(long groupId,
-		boolean isActive, int start, int end,
+	public List<Official> findByGroupIdAndIsActive(
+		long groupId, boolean isActive, int start, int end,
 		OrderByComparator<Official> orderByComparator) {
-		return findByGroupIdAndIsActive(groupId, isActive, start, end,
-			orderByComparator, true);
+
+		return findByGroupIdAndIsActive(
+			groupId, isActive, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the officials where groupId = &#63; and isActive = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfficialModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1818,38 +1776,40 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the ordered range of matching officials
 	 */
 	@Override
-	public List<Official> findByGroupIdAndIsActive(long groupId,
-		boolean isActive, int start, int end,
-		OrderByComparator<Official> orderByComparator, boolean retrieveFromCache) {
+	public List<Official> findByGroupIdAndIsActive(
+		long groupId, boolean isActive, int start, int end,
+		OrderByComparator<Official> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDISACTIVE;
-			finderArgs = new Object[] { groupId, isActive };
+			finderPath = _finderPathWithoutPaginationFindByGroupIdAndIsActive;
+			finderArgs = new Object[] {groupId, isActive};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPIDANDISACTIVE;
+			finderPath = _finderPathWithPaginationFindByGroupIdAndIsActive;
 			finderArgs = new Object[] {
-					groupId, isActive,
-					
-					start, end, orderByComparator
-				};
+				groupId, isActive, start, end, orderByComparator
+			};
 		}
 
 		List<Official> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Official>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Official>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Official official : list) {
 					if ((groupId != official.getGroupId()) ||
-							(isActive != official.getIsActive())) {
+						(isActive != official.isIsActive())) {
+
 						list = null;
 
 						break;
@@ -1862,8 +1822,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1876,11 +1836,10 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			query.append(_FINDER_COLUMN_GROUPIDANDISACTIVE_ISACTIVE_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(OfficialModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1900,16 +1859,16 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 				qPos.add(isActive);
 
 				if (!pagination) {
-					list = (List<Official>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Official>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Official>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Official>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1939,11 +1898,13 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @throws NoSuchOfficialException if a matching official could not be found
 	 */
 	@Override
-	public Official findByGroupIdAndIsActive_First(long groupId,
-		boolean isActive, OrderByComparator<Official> orderByComparator)
+	public Official findByGroupIdAndIsActive_First(
+			long groupId, boolean isActive,
+			OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException {
-		Official official = fetchByGroupIdAndIsActive_First(groupId, isActive,
-				orderByComparator);
+
+		Official official = fetchByGroupIdAndIsActive_First(
+			groupId, isActive, orderByComparator);
 
 		if (official != null) {
 			return official;
@@ -1959,7 +1920,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		msg.append(", isActive=");
 		msg.append(isActive);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchOfficialException(msg.toString());
 	}
@@ -1973,10 +1934,12 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the first matching official, or <code>null</code> if a matching official could not be found
 	 */
 	@Override
-	public Official fetchByGroupIdAndIsActive_First(long groupId,
-		boolean isActive, OrderByComparator<Official> orderByComparator) {
-		List<Official> list = findByGroupIdAndIsActive(groupId, isActive, 0, 1,
-				orderByComparator);
+	public Official fetchByGroupIdAndIsActive_First(
+		long groupId, boolean isActive,
+		OrderByComparator<Official> orderByComparator) {
+
+		List<Official> list = findByGroupIdAndIsActive(
+			groupId, isActive, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1995,11 +1958,13 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @throws NoSuchOfficialException if a matching official could not be found
 	 */
 	@Override
-	public Official findByGroupIdAndIsActive_Last(long groupId,
-		boolean isActive, OrderByComparator<Official> orderByComparator)
+	public Official findByGroupIdAndIsActive_Last(
+			long groupId, boolean isActive,
+			OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException {
-		Official official = fetchByGroupIdAndIsActive_Last(groupId, isActive,
-				orderByComparator);
+
+		Official official = fetchByGroupIdAndIsActive_Last(
+			groupId, isActive, orderByComparator);
 
 		if (official != null) {
 			return official;
@@ -2015,7 +1980,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		msg.append(", isActive=");
 		msg.append(isActive);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchOfficialException(msg.toString());
 	}
@@ -2029,16 +1994,18 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the last matching official, or <code>null</code> if a matching official could not be found
 	 */
 	@Override
-	public Official fetchByGroupIdAndIsActive_Last(long groupId,
-		boolean isActive, OrderByComparator<Official> orderByComparator) {
+	public Official fetchByGroupIdAndIsActive_Last(
+		long groupId, boolean isActive,
+		OrderByComparator<Official> orderByComparator) {
+
 		int count = countByGroupIdAndIsActive(groupId, isActive);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Official> list = findByGroupIdAndIsActive(groupId, isActive,
-				count - 1, count, orderByComparator);
+		List<Official> list = findByGroupIdAndIsActive(
+			groupId, isActive, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2058,10 +2025,11 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @throws NoSuchOfficialException if a official with the primary key could not be found
 	 */
 	@Override
-	public Official[] findByGroupIdAndIsActive_PrevAndNext(long officialId,
-		long groupId, boolean isActive,
-		OrderByComparator<Official> orderByComparator)
+	public Official[] findByGroupIdAndIsActive_PrevAndNext(
+			long officialId, long groupId, boolean isActive,
+			OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException {
+
 		Official official = findByPrimaryKey(officialId);
 
 		Session session = null;
@@ -2071,13 +2039,13 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 			Official[] array = new OfficialImpl[3];
 
-			array[0] = getByGroupIdAndIsActive_PrevAndNext(session, official,
-					groupId, isActive, orderByComparator, true);
+			array[0] = getByGroupIdAndIsActive_PrevAndNext(
+				session, official, groupId, isActive, orderByComparator, true);
 
 			array[1] = official;
 
-			array[2] = getByGroupIdAndIsActive_PrevAndNext(session, official,
-					groupId, isActive, orderByComparator, false);
+			array[2] = getByGroupIdAndIsActive_PrevAndNext(
+				session, official, groupId, isActive, orderByComparator, false);
 
 			return array;
 		}
@@ -2089,14 +2057,15 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		}
 	}
 
-	protected Official getByGroupIdAndIsActive_PrevAndNext(Session session,
-		Official official, long groupId, boolean isActive,
+	protected Official getByGroupIdAndIsActive_PrevAndNext(
+		Session session, Official official, long groupId, boolean isActive,
 		OrderByComparator<Official> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -2110,7 +2079,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		query.append(_FINDER_COLUMN_GROUPIDANDISACTIVE_ISACTIVE_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -2182,10 +2152,10 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		qPos.add(isActive);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(official);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(official)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -2207,8 +2177,11 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 */
 	@Override
 	public void removeByGroupIdAndIsActive(long groupId, boolean isActive) {
-		for (Official official : findByGroupIdAndIsActive(groupId, isActive,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (Official official :
+				findByGroupIdAndIsActive(
+					groupId, isActive, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(official);
 		}
 	}
@@ -2222,9 +2195,9 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 */
 	@Override
 	public int countByGroupIdAndIsActive(long groupId, boolean isActive) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPIDANDISACTIVE;
+		FinderPath finderPath = _finderPathCountByGroupIdAndIsActive;
 
-		Object[] finderArgs = new Object[] { groupId, isActive };
+		Object[] finderArgs = new Object[] {groupId, isActive};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -2269,19 +2242,24 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPIDANDISACTIVE_GROUPID_2 = "official.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_GROUPIDANDISACTIVE_ISACTIVE_2 = "official.isActive = ?";
+	private static final String _FINDER_COLUMN_GROUPIDANDISACTIVE_GROUPID_2 =
+		"official.groupId = ? AND ";
+
+	private static final String _FINDER_COLUMN_GROUPIDANDISACTIVE_ISACTIVE_2 =
+		"official.isActive = ?";
 
 	public OfficialPersistenceImpl() {
 		setModelClass(Official.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -2299,14 +2277,17 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 */
 	@Override
 	public void cacheResult(Official official) {
-		entityCache.putResult(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialImpl.class, official.getPrimaryKey(), official);
+		entityCache.putResult(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED, OfficialImpl.class,
+			official.getPrimaryKey(), official);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-			new Object[] { official.getUuid(), official.getGroupId() }, official);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G,
+			new Object[] {official.getUuid(), official.getGroupId()}, official);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_EMAIL,
-			new Object[] { official.getEmail() }, official);
+		finderCache.putResult(
+			_finderPathFetchByEmail, new Object[] {official.getEmail()},
+			official);
 
 		official.resetOriginalValues();
 	}
@@ -2319,8 +2300,10 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	@Override
 	public void cacheResult(List<Official> officials) {
 		for (Official official : officials) {
-			if (entityCache.getResult(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-						OfficialImpl.class, official.getPrimaryKey()) == null) {
+			if (entityCache.getResult(
+					OfficialModelImpl.ENTITY_CACHE_ENABLED, OfficialImpl.class,
+					official.getPrimaryKey()) == null) {
+
 				cacheResult(official);
 			}
 			else {
@@ -2333,7 +2316,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * Clears the cache for all officials.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -2349,13 +2332,14 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * Clears the cache for the official.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Official official) {
-		entityCache.removeResult(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialImpl.class, official.getPrimaryKey());
+		entityCache.removeResult(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED, OfficialImpl.class,
+			official.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -2369,66 +2353,72 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Official official : officials) {
-			entityCache.removeResult(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-				OfficialImpl.class, official.getPrimaryKey());
+			entityCache.removeResult(
+				OfficialModelImpl.ENTITY_CACHE_ENABLED, OfficialImpl.class,
+				official.getPrimaryKey());
 
 			clearUniqueFindersCache((OfficialModelImpl)official, true);
 		}
 	}
 
-	protected void cacheUniqueFindersCache(OfficialModelImpl officialModelImpl) {
+	protected void cacheUniqueFindersCache(
+		OfficialModelImpl officialModelImpl) {
+
 		Object[] args = new Object[] {
-				officialModelImpl.getUuid(), officialModelImpl.getGroupId()
-			};
+			officialModelImpl.getUuid(), officialModelImpl.getGroupId()
+		};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-			officialModelImpl, false);
+		finderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G, args, officialModelImpl, false);
 
-		args = new Object[] { officialModelImpl.getEmail() };
+		args = new Object[] {officialModelImpl.getEmail()};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_EMAIL, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_EMAIL, args,
-			officialModelImpl, false);
+		finderCache.putResult(
+			_finderPathCountByEmail, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByEmail, args, officialModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
 		OfficialModelImpl officialModelImpl, boolean clearCurrent) {
+
 		if (clearCurrent) {
 			Object[] args = new Object[] {
-					officialModelImpl.getUuid(), officialModelImpl.getGroupId()
-				};
+				officialModelImpl.getUuid(), officialModelImpl.getGroupId()
+			};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 
 		if ((officialModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					officialModelImpl.getOriginalUuid(),
-					officialModelImpl.getOriginalGroupId()
-				};
+			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			Object[] args = new Object[] {
+				officialModelImpl.getOriginalUuid(),
+				officialModelImpl.getOriginalGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 
 		if (clearCurrent) {
-			Object[] args = new Object[] { officialModelImpl.getEmail() };
+			Object[] args = new Object[] {officialModelImpl.getEmail()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_EMAIL, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_EMAIL, args);
+			finderCache.removeResult(_finderPathCountByEmail, args);
+			finderCache.removeResult(_finderPathFetchByEmail, args);
 		}
 
 		if ((officialModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_EMAIL.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] { officialModelImpl.getOriginalEmail() };
+			 _finderPathFetchByEmail.getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_EMAIL, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_EMAIL, args);
+			Object[] args = new Object[] {officialModelImpl.getOriginalEmail()};
+
+			finderCache.removeResult(_finderPathCountByEmail, args);
+			finderCache.removeResult(_finderPathFetchByEmail, args);
 		}
 	}
 
@@ -2476,21 +2466,22 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	@Override
 	public Official remove(Serializable primaryKey)
 		throws NoSuchOfficialException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			Official official = (Official)session.get(OfficialImpl.class,
-					primaryKey);
+			Official official = (Official)session.get(
+				OfficialImpl.class, primaryKey);
 
 			if (official == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchOfficialException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchOfficialException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(official);
@@ -2508,16 +2499,14 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 	@Override
 	protected Official removeImpl(Official official) {
-		official = toUnwrappedModel(official);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(official)) {
-				official = (Official)session.get(OfficialImpl.class,
-						official.getPrimaryKeyObj());
+				official = (Official)session.get(
+					OfficialImpl.class, official.getPrimaryKeyObj());
 			}
 
 			if (official != null) {
@@ -2540,9 +2529,23 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 	@Override
 	public Official updateImpl(Official official) {
-		official = toUnwrappedModel(official);
-
 		boolean isNew = official.isNew();
+
+		if (!(official instanceof OfficialModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(official.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(official);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in official proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom Official implementation " +
+					official.getClass());
+		}
 
 		OfficialModelImpl officialModelImpl = (OfficialModelImpl)official;
 
@@ -2552,7 +2555,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			official.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
 
 		Date now = new Date();
 
@@ -2600,101 +2604,106 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		if (!OfficialModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { officialModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {officialModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
 			args = new Object[] {
+				officialModelImpl.getUuid(), officialModelImpl.getCompanyId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUuid_C, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid_C, args);
+
+			args = new Object[] {
+				officialModelImpl.getGroupId(), officialModelImpl.isIsActive()
+			};
+
+			finderCache.removeResult(
+				_finderPathCountByGroupIdAndIsActive, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByGroupIdAndIsActive, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((officialModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					officialModelImpl.getOriginalUuid()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+
+				args = new Object[] {officialModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+			}
+
+			if ((officialModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					officialModelImpl.getOriginalUuid(),
+					officialModelImpl.getOriginalCompanyId()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+
+				args = new Object[] {
 					officialModelImpl.getUuid(),
 					officialModelImpl.getCompanyId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-				args);
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+			}
 
-			args = new Object[] {
-					officialModelImpl.getGroupId(),
-					officialModelImpl.getIsActive()
+			if ((officialModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByGroupIdAndIsActive.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					officialModelImpl.getOriginalGroupId(),
+					officialModelImpl.getOriginalIsActive()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPIDANDISACTIVE,
-				args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDISACTIVE,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((officialModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { officialModelImpl.getOriginalUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-
-				args = new Object[] { officialModelImpl.getUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-			}
-
-			if ((officialModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						officialModelImpl.getOriginalUuid(),
-						officialModelImpl.getOriginalCompanyId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
+				finderCache.removeResult(
+					_finderPathCountByGroupIdAndIsActive, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupIdAndIsActive, args);
 
 				args = new Object[] {
-						officialModelImpl.getUuid(),
-						officialModelImpl.getCompanyId()
-					};
+					officialModelImpl.getGroupId(),
+					officialModelImpl.isIsActive()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-			}
-
-			if ((officialModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDISACTIVE.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						officialModelImpl.getOriginalGroupId(),
-						officialModelImpl.getOriginalIsActive()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPIDANDISACTIVE,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDISACTIVE,
-					args);
-
-				args = new Object[] {
-						officialModelImpl.getGroupId(),
-						officialModelImpl.getIsActive()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPIDANDISACTIVE,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDISACTIVE,
-					args);
+				finderCache.removeResult(
+					_finderPathCountByGroupIdAndIsActive, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupIdAndIsActive, args);
 			}
 		}
 
-		entityCache.putResult(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialImpl.class, official.getPrimaryKey(), official, false);
+		entityCache.putResult(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED, OfficialImpl.class,
+			official.getPrimaryKey(), official, false);
 
 		clearUniqueFindersCache(officialModelImpl, false);
 		cacheUniqueFindersCache(officialModelImpl);
@@ -2704,40 +2713,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		return official;
 	}
 
-	protected Official toUnwrappedModel(Official official) {
-		if (official instanceof OfficialImpl) {
-			return official;
-		}
-
-		OfficialImpl officialImpl = new OfficialImpl();
-
-		officialImpl.setNew(official.isNew());
-		officialImpl.setPrimaryKey(official.getPrimaryKey());
-
-		officialImpl.setUuid(official.getUuid());
-		officialImpl.setOfficialId(official.getOfficialId());
-		officialImpl.setGroupId(official.getGroupId());
-		officialImpl.setCompanyId(official.getCompanyId());
-		officialImpl.setUserId(official.getUserId());
-		officialImpl.setUserName(official.getUserName());
-		officialImpl.setCreateDate(official.getCreateDate());
-		officialImpl.setModifiedDate(official.getModifiedDate());
-		officialImpl.setStatus(official.getStatus());
-		officialImpl.setStatusByUserId(official.getStatusByUserId());
-		officialImpl.setStatusByUserName(official.getStatusByUserName());
-		officialImpl.setStatusDate(official.getStatusDate());
-		officialImpl.setEmail(official.getEmail());
-		officialImpl.setFirstname(official.getFirstname());
-		officialImpl.setLastname(official.getLastname());
-		officialImpl.setIsActive(official.isIsActive());
-		officialImpl.setLastActivity(official.getLastActivity());
-		officialImpl.setLastSignInDeviceInfo(official.getLastSignInDeviceInfo());
-
-		return officialImpl;
-	}
-
 	/**
-	 * Returns the official with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the official with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the official
 	 * @return the official
@@ -2746,6 +2723,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	@Override
 	public Official findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchOfficialException {
+
 		Official official = fetchByPrimaryKey(primaryKey);
 
 		if (official == null) {
@@ -2753,15 +2731,15 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchOfficialException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchOfficialException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return official;
 	}
 
 	/**
-	 * Returns the official with the primary key or throws a {@link NoSuchOfficialException} if it could not be found.
+	 * Returns the official with the primary key or throws a <code>NoSuchOfficialException</code> if it could not be found.
 	 *
 	 * @param officialId the primary key of the official
 	 * @return the official
@@ -2770,6 +2748,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	@Override
 	public Official findByPrimaryKey(long officialId)
 		throws NoSuchOfficialException {
+
 		return findByPrimaryKey((Serializable)officialId);
 	}
 
@@ -2781,8 +2760,9 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 */
 	@Override
 	public Official fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-				OfficialImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED, OfficialImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -2796,19 +2776,22 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			try {
 				session = openSession();
 
-				official = (Official)session.get(OfficialImpl.class, primaryKey);
+				official = (Official)session.get(
+					OfficialImpl.class, primaryKey);
 
 				if (official != null) {
 					cacheResult(official);
 				}
 				else {
-					entityCache.putResult(OfficialModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						OfficialModelImpl.ENTITY_CACHE_ENABLED,
 						OfficialImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-					OfficialImpl.class, primaryKey);
+				entityCache.removeResult(
+					OfficialModelImpl.ENTITY_CACHE_ENABLED, OfficialImpl.class,
+					primaryKey);
 
 				throw processException(e);
 			}
@@ -2834,6 +2817,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	@Override
 	public Map<Serializable, Official> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
@@ -2857,8 +2841,9 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-					OfficialImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				OfficialModelImpl.ENTITY_CACHE_ENABLED, OfficialImpl.class,
+				primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -2878,20 +2863,20 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_OFFICIAL_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -2911,8 +2896,9 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-					OfficialImpl.class, primaryKey, nullModel);
+				entityCache.putResult(
+					OfficialModelImpl.ENTITY_CACHE_ENABLED, OfficialImpl.class,
+					primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -2939,7 +2925,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * Returns a range of all the officials.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfficialModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of officials
@@ -2955,7 +2941,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * Returns an ordered range of all the officials.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfficialModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of officials
@@ -2964,8 +2950,9 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the ordered range of officials
 	 */
 	@Override
-	public List<Official> findAll(int start, int end,
-		OrderByComparator<Official> orderByComparator) {
+	public List<Official> findAll(
+		int start, int end, OrderByComparator<Official> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -2973,7 +2960,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * Returns an ordered range of all the officials.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfficialModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of officials
@@ -2983,28 +2970,31 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @return the ordered range of officials
 	 */
 	@Override
-	public List<Official> findAll(int start, int end,
-		OrderByComparator<Official> orderByComparator, boolean retrieveFromCache) {
+	public List<Official> findAll(
+		int start, int end, OrderByComparator<Official> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Official> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Official>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Official>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -3012,13 +3002,13 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_OFFICIAL);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -3038,16 +3028,16 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Official>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Official>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Official>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Official>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -3085,8 +3075,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -3098,12 +3088,12 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -3129,6 +3119,127 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * Initializes the official persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			OfficialModelImpl.UUID_COLUMN_BITMASK |
+			OfficialModelImpl.LASTNAME_COLUMN_BITMASK |
+			OfficialModelImpl.FIRSTNAME_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathFetchByUUID_G = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			OfficialModelImpl.UUID_COLUMN_BITMASK |
+			OfficialModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByUUID_G = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			OfficialModelImpl.UUID_COLUMN_BITMASK |
+			OfficialModelImpl.COMPANYID_COLUMN_BITMASK |
+			OfficialModelImpl.LASTNAME_COLUMN_BITMASK |
+			OfficialModelImpl.FIRSTNAME_COLUMN_BITMASK);
+
+		_finderPathCountByUuid_C = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathFetchByEmail = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByEmail",
+			new String[] {String.class.getName()},
+			OfficialModelImpl.EMAIL_COLUMN_BITMASK);
+
+		_finderPathCountByEmail = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEmail",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByGroupIdAndIsActive = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupIdAndIsActive",
+			new String[] {
+				Long.class.getName(), Boolean.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByGroupIdAndIsActive = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByGroupIdAndIsActive",
+			new String[] {Long.class.getName(), Boolean.class.getName()},
+			OfficialModelImpl.GROUPID_COLUMN_BITMASK |
+			OfficialModelImpl.ISACTIVE_COLUMN_BITMASK |
+			OfficialModelImpl.LASTNAME_COLUMN_BITMASK |
+			OfficialModelImpl.FIRSTNAME_COLUMN_BITMASK);
+
+		_finderPathCountByGroupIdAndIsActive = new FinderPath(
+			OfficialModelImpl.ENTITY_CACHE_ENABLED,
+			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByGroupIdAndIsActive",
+			new String[] {Long.class.getName(), Boolean.class.getName()});
 	}
 
 	public void destroy() {
@@ -3140,20 +3251,40 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
+
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_OFFICIAL = "SELECT official FROM Official official";
-	private static final String _SQL_SELECT_OFFICIAL_WHERE_PKS_IN = "SELECT official FROM Official official WHERE officialId IN (";
-	private static final String _SQL_SELECT_OFFICIAL_WHERE = "SELECT official FROM Official official WHERE ";
-	private static final String _SQL_COUNT_OFFICIAL = "SELECT COUNT(official) FROM Official official";
-	private static final String _SQL_COUNT_OFFICIAL_WHERE = "SELECT COUNT(official) FROM Official official WHERE ";
+
+	private static final String _SQL_SELECT_OFFICIAL =
+		"SELECT official FROM Official official";
+
+	private static final String _SQL_SELECT_OFFICIAL_WHERE_PKS_IN =
+		"SELECT official FROM Official official WHERE officialId IN (";
+
+	private static final String _SQL_SELECT_OFFICIAL_WHERE =
+		"SELECT official FROM Official official WHERE ";
+
+	private static final String _SQL_COUNT_OFFICIAL =
+		"SELECT COUNT(official) FROM Official official";
+
+	private static final String _SQL_COUNT_OFFICIAL_WHERE =
+		"SELECT COUNT(official) FROM Official official WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "official.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Official exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Official exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(OfficialPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No Official exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No Official exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		OfficialPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

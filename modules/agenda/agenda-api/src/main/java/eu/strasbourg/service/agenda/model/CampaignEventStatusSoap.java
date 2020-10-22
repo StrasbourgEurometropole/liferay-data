@@ -26,12 +26,14 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.agenda.service.http.CampaignEventStatusServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.agenda.service.http.CampaignEventStatusServiceSoap
  * @generated
  */
 @ProviderType
 public class CampaignEventStatusSoap implements Serializable {
-	public static CampaignEventStatusSoap toSoapModel(CampaignEventStatus model) {
+
+	public static CampaignEventStatusSoap toSoapModel(
+		CampaignEventStatus model) {
+
 		CampaignEventStatusSoap soapModel = new CampaignEventStatusSoap();
 
 		soapModel.setUuid(model.getUuid());
@@ -50,7 +52,9 @@ public class CampaignEventStatusSoap implements Serializable {
 
 	public static CampaignEventStatusSoap[] toSoapModels(
 		CampaignEventStatus[] models) {
-		CampaignEventStatusSoap[] soapModels = new CampaignEventStatusSoap[models.length];
+
+		CampaignEventStatusSoap[] soapModels =
+			new CampaignEventStatusSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -61,10 +65,12 @@ public class CampaignEventStatusSoap implements Serializable {
 
 	public static CampaignEventStatusSoap[][] toSoapModels(
 		CampaignEventStatus[][] models) {
+
 		CampaignEventStatusSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new CampaignEventStatusSoap[models.length][models[0].length];
+			soapModels =
+				new CampaignEventStatusSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new CampaignEventStatusSoap[0][0];
@@ -79,13 +85,16 @@ public class CampaignEventStatusSoap implements Serializable {
 
 	public static CampaignEventStatusSoap[] toSoapModels(
 		List<CampaignEventStatus> models) {
-		List<CampaignEventStatusSoap> soapModels = new ArrayList<CampaignEventStatusSoap>(models.size());
+
+		List<CampaignEventStatusSoap> soapModels =
+			new ArrayList<CampaignEventStatusSoap>(models.size());
 
 		for (CampaignEventStatus model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new CampaignEventStatusSoap[soapModels.size()]);
+		return soapModels.toArray(
+			new CampaignEventStatusSoap[soapModels.size()]);
 	}
 
 	public CampaignEventStatusSoap() {
@@ -189,4 +198,5 @@ public class CampaignEventStatusSoap implements Serializable {
 	private long _previousStatusId;
 	private long _userId;
 	private String _userName;
+
 }

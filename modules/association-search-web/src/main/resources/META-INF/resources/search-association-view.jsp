@@ -151,7 +151,7 @@
                                 displayStyleGroupId="${themeDisplay.scopeGroupId}"
                                 entries="${dc.templateEntries }"
                             >
-                                <liferay-ui:asset-display
+                                <liferay-asset:asset-display
                                     assetEntry="${entry}"
                                     assetRenderer="${entry.assetRenderer}"
                                     assetRendererFactory="${entry.assetRendererFactory}"
@@ -250,12 +250,5 @@
 </liferay-util:body-top>
 
 <liferay-util:html-bottom>
-	<script>
-		define._amd = define.amd;
-		define.amd = false;
-	</script>
 	<script	src="/o/associationsearchweb/js/search-association-main.js"></script>
-	<script>
-		define.amd = define._amd;
-	</script>
 </liferay-util:html-bottom>

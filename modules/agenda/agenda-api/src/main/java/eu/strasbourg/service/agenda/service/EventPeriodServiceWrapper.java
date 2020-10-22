@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class EventPeriodServiceWrapper implements EventPeriodService,
-	ServiceWrapper<EventPeriodService> {
+public class EventPeriodServiceWrapper
+	implements EventPeriodService, ServiceWrapper<EventPeriodService> {
+
 	public EventPeriodServiceWrapper(EventPeriodService eventPeriodService) {
 		_eventPeriodService = eventPeriodService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _eventPeriodService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class EventPeriodServiceWrapper implements EventPeriodService,
 	}
 
 	private EventPeriodService _eventPeriodService;
+
 }

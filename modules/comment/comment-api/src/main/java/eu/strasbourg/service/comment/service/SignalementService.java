@@ -32,28 +32,35 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author Romain Vergnais
  * @see SignalementServiceUtil
- * @see eu.strasbourg.service.comment.service.base.SignalementServiceBaseImpl
- * @see eu.strasbourg.service.comment.service.impl.SignalementServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=comment", "json.web.service.context.path=Signalement"}, service = SignalementService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=comment",
+		"json.web.service.context.path=Signalement"
+	},
+	service = SignalementService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface SignalementService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link SignalementServiceUtil} to access the signalement remote service. Add custom service methods to {@link eu.strasbourg.service.comment.service.impl.SignalementServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link SignalementServiceUtil} to access the signalement remote service. Add custom service methods to <code>eu.strasbourg.service.comment.service.impl.SignalementServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

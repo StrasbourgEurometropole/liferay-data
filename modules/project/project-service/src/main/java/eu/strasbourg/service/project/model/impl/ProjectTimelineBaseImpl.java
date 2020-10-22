@@ -32,12 +32,13 @@ import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class ProjectTimelineBaseImpl extends ProjectTimelineModelImpl
-	implements ProjectTimeline {
+public abstract class ProjectTimelineBaseImpl
+	extends ProjectTimelineModelImpl implements ProjectTimeline {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a project timeline model instance should use the {@link ProjectTimeline} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a project timeline model instance should use the <code>ProjectTimeline</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class ProjectTimelineBaseImpl extends ProjectTimelineModelImpl
 			ProjectTimelineLocalServiceUtil.updateProjectTimeline(this);
 		}
 	}
+
 }

@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.agenda.service.http.AgendaExportPeriodServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.agenda.service.http.AgendaExportPeriodServiceSoap
  * @generated
  */
 @ProviderType
 public class AgendaExportPeriodSoap implements Serializable {
+
 	public static AgendaExportPeriodSoap toSoapModel(AgendaExportPeriod model) {
 		AgendaExportPeriodSoap soapModel = new AgendaExportPeriodSoap();
 
@@ -45,7 +45,9 @@ public class AgendaExportPeriodSoap implements Serializable {
 
 	public static AgendaExportPeriodSoap[] toSoapModels(
 		AgendaExportPeriod[] models) {
-		AgendaExportPeriodSoap[] soapModels = new AgendaExportPeriodSoap[models.length];
+
+		AgendaExportPeriodSoap[] soapModels =
+			new AgendaExportPeriodSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -56,10 +58,12 @@ public class AgendaExportPeriodSoap implements Serializable {
 
 	public static AgendaExportPeriodSoap[][] toSoapModels(
 		AgendaExportPeriod[][] models) {
+
 		AgendaExportPeriodSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new AgendaExportPeriodSoap[models.length][models[0].length];
+			soapModels =
+				new AgendaExportPeriodSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new AgendaExportPeriodSoap[0][0];
@@ -74,13 +78,16 @@ public class AgendaExportPeriodSoap implements Serializable {
 
 	public static AgendaExportPeriodSoap[] toSoapModels(
 		List<AgendaExportPeriod> models) {
-		List<AgendaExportPeriodSoap> soapModels = new ArrayList<AgendaExportPeriodSoap>(models.size());
+
+		List<AgendaExportPeriodSoap> soapModels =
+			new ArrayList<AgendaExportPeriodSoap>(models.size());
 
 		for (AgendaExportPeriod model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new AgendaExportPeriodSoap[soapModels.size()]);
+		return soapModels.toArray(
+			new AgendaExportPeriodSoap[soapModels.size()]);
 	}
 
 	public AgendaExportPeriodSoap() {
@@ -139,4 +146,5 @@ public class AgendaExportPeriodSoap implements Serializable {
 	private Date _startDate;
 	private Date _endDate;
 	private long _agendaExportId;
+
 }

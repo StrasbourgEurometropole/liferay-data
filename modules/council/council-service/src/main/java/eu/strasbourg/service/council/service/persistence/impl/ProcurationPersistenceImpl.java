@@ -31,10 +31,9 @@ import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
@@ -49,6 +48,7 @@ import eu.strasbourg.service.council.service.persistence.ProcurationPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
@@ -68,50 +68,32 @@ import java.util.Set;
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see ProcurationPersistence
- * @see eu.strasbourg.service.council.service.persistence.ProcurationUtil
  * @generated
  */
 @ProviderType
-public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
-	implements ProcurationPersistence {
+public class ProcurationPersistenceImpl
+	extends BasePersistenceImpl<Procuration> implements ProcurationPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link ProcurationUtil} to access the procuration persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>ProcurationUtil</code> to access the procuration persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = ProcurationImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			ProcurationModelImpl.UUID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		ProcurationImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the procurations where uuid = &#63;.
@@ -128,7 +110,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * Returns a range of all the procurations where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -145,7 +127,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * Returns an ordered range of all the procurations where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -155,8 +137,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the ordered range of matching procurations
 	 */
 	@Override
-	public List<Procuration> findByUuid(String uuid, int start, int end,
+	public List<Procuration> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Procuration> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -164,7 +148,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * Returns an ordered range of all the procurations where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -175,33 +159,38 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the ordered range of matching procurations
 	 */
 	@Override
-	public List<Procuration> findByUuid(String uuid, int start, int end,
+	public List<Procuration> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Procuration> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<Procuration> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Procuration>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Procuration>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Procuration procuration : list) {
-					if (!Objects.equals(uuid, procuration.getUuid())) {
+					if (!uuid.equals(procuration.getUuid())) {
 						list = null;
 
 						break;
@@ -214,8 +203,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -225,10 +214,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -238,11 +224,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ProcurationModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -262,16 +247,16 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 				}
 
 				if (!pagination) {
-					list = (List<Procuration>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Procuration>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Procuration>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Procuration>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -300,9 +285,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @throws NoSuchProcurationException if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration findByUuid_First(String uuid,
-		OrderByComparator<Procuration> orderByComparator)
+	public Procuration findByUuid_First(
+			String uuid, OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
+
 		Procuration procuration = fetchByUuid_First(uuid, orderByComparator);
 
 		if (procuration != null) {
@@ -316,7 +302,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchProcurationException(msg.toString());
 	}
@@ -329,8 +315,9 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the first matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration fetchByUuid_First(String uuid,
-		OrderByComparator<Procuration> orderByComparator) {
+	public Procuration fetchByUuid_First(
+		String uuid, OrderByComparator<Procuration> orderByComparator) {
+
 		List<Procuration> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -349,9 +336,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @throws NoSuchProcurationException if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration findByUuid_Last(String uuid,
-		OrderByComparator<Procuration> orderByComparator)
+	public Procuration findByUuid_Last(
+			String uuid, OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
+
 		Procuration procuration = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (procuration != null) {
@@ -365,7 +353,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchProcurationException(msg.toString());
 	}
@@ -378,16 +366,17 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the last matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration fetchByUuid_Last(String uuid,
-		OrderByComparator<Procuration> orderByComparator) {
+	public Procuration fetchByUuid_Last(
+		String uuid, OrderByComparator<Procuration> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Procuration> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<Procuration> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -406,9 +395,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @throws NoSuchProcurationException if a procuration with the primary key could not be found
 	 */
 	@Override
-	public Procuration[] findByUuid_PrevAndNext(long procurationId,
-		String uuid, OrderByComparator<Procuration> orderByComparator)
+	public Procuration[] findByUuid_PrevAndNext(
+			long procurationId, String uuid,
+			OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Procuration procuration = findByPrimaryKey(procurationId);
 
 		Session session = null;
@@ -418,13 +411,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			Procuration[] array = new ProcurationImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, procuration, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, procuration, uuid, orderByComparator, true);
 
 			array[1] = procuration;
 
-			array[2] = getByUuid_PrevAndNext(session, procuration, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, procuration, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -436,14 +429,15 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		}
 	}
 
-	protected Procuration getByUuid_PrevAndNext(Session session,
-		Procuration procuration, String uuid,
+	protected Procuration getByUuid_PrevAndNext(
+		Session session, Procuration procuration, String uuid,
 		OrderByComparator<Procuration> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -454,10 +448,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -467,7 +458,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -539,10 +531,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(procuration);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(procuration)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -563,8 +555,9 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (Procuration procuration : findByUuid(uuid, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Procuration procuration :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(procuration);
 		}
 	}
@@ -577,9 +570,11 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -590,10 +585,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -634,22 +626,17 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "procuration.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "procuration.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(procuration.uuid IS NULL OR procuration.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			ProcurationModelImpl.UUID_COLUMN_BITMASK |
-			ProcurationModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"procuration.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(procuration.uuid IS NULL OR procuration.uuid = '')";
+
+	private FinderPath _finderPathFetchByUUID_G;
+	private FinderPath _finderPathCountByUUID_G;
 
 	/**
-	 * Returns the procuration where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchProcurationException} if it could not be found.
+	 * Returns the procuration where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchProcurationException</code> if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
@@ -659,6 +646,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	@Override
 	public Procuration findByUUID_G(String uuid, long groupId)
 		throws NoSuchProcurationException {
+
 		Procuration procuration = fetchByUUID_G(uuid, groupId);
 
 		if (procuration == null) {
@@ -672,7 +660,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			msg.append(", groupId=");
 			msg.append(groupId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -705,22 +693,26 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
+	public Procuration fetchByUUID_G(
+		String uuid, long groupId, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
 		if (result instanceof Procuration) {
 			Procuration procuration = (Procuration)result;
 
 			if (!Objects.equals(uuid, procuration.getUuid()) ||
-					(groupId != procuration.getGroupId())) {
+				(groupId != procuration.getGroupId())) {
+
 				result = null;
 			}
 		}
@@ -732,10 +724,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -766,8 +755,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 				List<Procuration> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByUUID_G, finderArgs, list);
 				}
 				else {
 					Procuration procuration = list.get(0);
@@ -775,17 +764,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 					result = procuration;
 
 					cacheResult(procuration);
-
-					if ((procuration.getUuid() == null) ||
-							!procuration.getUuid().equals(uuid) ||
-							(procuration.getGroupId() != groupId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-							finderArgs, procuration);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
+				finderCache.removeResult(_finderPathFetchByUUID_G, finderArgs);
 
 				throw processException(e);
 			}
@@ -812,6 +794,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	@Override
 	public Procuration removeByUUID_G(String uuid, long groupId)
 		throws NoSuchProcurationException {
+
 		Procuration procuration = findByUUID_G(uuid, groupId);
 
 		return remove(procuration);
@@ -826,9 +809,11 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, groupId };
+		FinderPath finderPath = _finderPathCountByUUID_G;
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -839,10 +824,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -887,30 +869,18 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "procuration.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "procuration.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(procuration.uuid IS NULL OR procuration.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "procuration.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
-			new String[] {
-				String.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C =
-		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() },
-			ProcurationModelImpl.UUID_COLUMN_BITMASK |
-			ProcurationModelImpl.COMPANYID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
+		"procuration.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
+		"(procuration.uuid IS NULL OR procuration.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
+		"procuration.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByUuid_C;
+	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
+	private FinderPath _finderPathCountByUuid_C;
 
 	/**
 	 * Returns all the procurations where uuid = &#63; and companyId = &#63;.
@@ -921,15 +891,15 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public List<Procuration> findByUuid_C(String uuid, long companyId) {
-		return findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByUuid_C(
+			uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the procurations where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -939,8 +909,9 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the range of matching procurations
 	 */
 	@Override
-	public List<Procuration> findByUuid_C(String uuid, long companyId,
-		int start, int end) {
+	public List<Procuration> findByUuid_C(
+		String uuid, long companyId, int start, int end) {
+
 		return findByUuid_C(uuid, companyId, start, end, null);
 	}
 
@@ -948,7 +919,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * Returns an ordered range of all the procurations where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -959,16 +930,19 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the ordered range of matching procurations
 	 */
 	@Override
-	public List<Procuration> findByUuid_C(String uuid, long companyId,
-		int start, int end, OrderByComparator<Procuration> orderByComparator) {
-		return findByUuid_C(uuid, companyId, start, end, orderByComparator, true);
+	public List<Procuration> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Procuration> orderByComparator) {
+
+		return findByUuid_C(
+			uuid, companyId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the procurations where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -980,38 +954,42 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the ordered range of matching procurations
 	 */
 	@Override
-	public List<Procuration> findByUuid_C(String uuid, long companyId,
-		int start, int end, OrderByComparator<Procuration> orderByComparator,
+	public List<Procuration> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Procuration> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C;
-			finderArgs = new Object[] { uuid, companyId };
+			finderPath = _finderPathWithoutPaginationFindByUuid_C;
+			finderArgs = new Object[] {uuid, companyId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C;
+			finderPath = _finderPathWithPaginationFindByUuid_C;
 			finderArgs = new Object[] {
-					uuid, companyId,
-					
-					start, end, orderByComparator
-				};
+				uuid, companyId, start, end, orderByComparator
+			};
 		}
 
 		List<Procuration> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Procuration>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Procuration>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Procuration procuration : list) {
-					if (!Objects.equals(uuid, procuration.getUuid()) ||
-							(companyId != procuration.getCompanyId())) {
+					if (!uuid.equals(procuration.getUuid()) ||
+						(companyId != procuration.getCompanyId())) {
+
 						list = null;
 
 						break;
@@ -1024,8 +1002,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1035,10 +1013,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1050,11 +1025,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ProcurationModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1076,16 +1050,16 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 				qPos.add(companyId);
 
 				if (!pagination) {
-					list = (List<Procuration>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Procuration>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Procuration>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Procuration>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1115,11 +1089,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @throws NoSuchProcurationException if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration findByUuid_C_First(String uuid, long companyId,
-		OrderByComparator<Procuration> orderByComparator)
+	public Procuration findByUuid_C_First(
+			String uuid, long companyId,
+			OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
-		Procuration procuration = fetchByUuid_C_First(uuid, companyId,
-				orderByComparator);
+
+		Procuration procuration = fetchByUuid_C_First(
+			uuid, companyId, orderByComparator);
 
 		if (procuration != null) {
 			return procuration;
@@ -1135,7 +1111,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchProcurationException(msg.toString());
 	}
@@ -1149,10 +1125,12 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the first matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration fetchByUuid_C_First(String uuid, long companyId,
+	public Procuration fetchByUuid_C_First(
+		String uuid, long companyId,
 		OrderByComparator<Procuration> orderByComparator) {
-		List<Procuration> list = findByUuid_C(uuid, companyId, 0, 1,
-				orderByComparator);
+
+		List<Procuration> list = findByUuid_C(
+			uuid, companyId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1171,11 +1149,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @throws NoSuchProcurationException if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration findByUuid_C_Last(String uuid, long companyId,
-		OrderByComparator<Procuration> orderByComparator)
+	public Procuration findByUuid_C_Last(
+			String uuid, long companyId,
+			OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
-		Procuration procuration = fetchByUuid_C_Last(uuid, companyId,
-				orderByComparator);
+
+		Procuration procuration = fetchByUuid_C_Last(
+			uuid, companyId, orderByComparator);
 
 		if (procuration != null) {
 			return procuration;
@@ -1191,7 +1171,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchProcurationException(msg.toString());
 	}
@@ -1205,16 +1185,18 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the last matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration fetchByUuid_C_Last(String uuid, long companyId,
+	public Procuration fetchByUuid_C_Last(
+		String uuid, long companyId,
 		OrderByComparator<Procuration> orderByComparator) {
+
 		int count = countByUuid_C(uuid, companyId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Procuration> list = findByUuid_C(uuid, companyId, count - 1,
-				count, orderByComparator);
+		List<Procuration> list = findByUuid_C(
+			uuid, companyId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1234,10 +1216,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @throws NoSuchProcurationException if a procuration with the primary key could not be found
 	 */
 	@Override
-	public Procuration[] findByUuid_C_PrevAndNext(long procurationId,
-		String uuid, long companyId,
-		OrderByComparator<Procuration> orderByComparator)
+	public Procuration[] findByUuid_C_PrevAndNext(
+			long procurationId, String uuid, long companyId,
+			OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Procuration procuration = findByPrimaryKey(procurationId);
 
 		Session session = null;
@@ -1247,13 +1232,14 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			Procuration[] array = new ProcurationImpl[3];
 
-			array[0] = getByUuid_C_PrevAndNext(session, procuration, uuid,
-					companyId, orderByComparator, true);
+			array[0] = getByUuid_C_PrevAndNext(
+				session, procuration, uuid, companyId, orderByComparator, true);
 
 			array[1] = procuration;
 
-			array[2] = getByUuid_C_PrevAndNext(session, procuration, uuid,
-					companyId, orderByComparator, false);
+			array[2] = getByUuid_C_PrevAndNext(
+				session, procuration, uuid, companyId, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -1265,14 +1251,15 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		}
 	}
 
-	protected Procuration getByUuid_C_PrevAndNext(Session session,
-		Procuration procuration, String uuid, long companyId,
+	protected Procuration getByUuid_C_PrevAndNext(
+		Session session, Procuration procuration, String uuid, long companyId,
 		OrderByComparator<Procuration> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1283,10 +1270,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 		}
 		else {
@@ -1298,7 +1282,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1372,10 +1357,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		qPos.add(companyId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(procuration);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(procuration)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1397,8 +1382,11 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public void removeByUuid_C(String uuid, long companyId) {
-		for (Procuration procuration : findByUuid_C(uuid, companyId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (Procuration procuration :
+				findByUuid_C(
+					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(procuration);
 		}
 	}
@@ -1412,9 +1400,11 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public int countByUuid_C(String uuid, long companyId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_C;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, companyId };
+		FinderPath finderPath = _finderPathCountByUuid_C;
+
+		Object[] finderArgs = new Object[] {uuid, companyId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1425,10 +1415,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1473,30 +1460,18 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_1 = "procuration.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "procuration.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(procuration.uuid IS NULL OR procuration.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "procuration.companyId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COUNCILSESSIONID =
-		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCouncilSessionId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID =
-		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByCouncilSessionId", new String[] { Long.class.getName() },
-			ProcurationModelImpl.COUNCILSESSIONID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_COUNCILSESSIONID = new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByCouncilSessionId", new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
+		"procuration.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
+		"(procuration.uuid IS NULL OR procuration.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
+		"procuration.companyId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByCouncilSessionId;
+	private FinderPath _finderPathWithoutPaginationFindByCouncilSessionId;
+	private FinderPath _finderPathCountByCouncilSessionId;
 
 	/**
 	 * Returns all the procurations where councilSessionId = &#63;.
@@ -1506,15 +1481,15 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public List<Procuration> findByCouncilSessionId(long councilSessionId) {
-		return findByCouncilSessionId(councilSessionId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByCouncilSessionId(
+			councilSessionId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the procurations where councilSessionId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param councilSessionId the council session ID
@@ -1523,8 +1498,9 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the range of matching procurations
 	 */
 	@Override
-	public List<Procuration> findByCouncilSessionId(long councilSessionId,
-		int start, int end) {
+	public List<Procuration> findByCouncilSessionId(
+		long councilSessionId, int start, int end) {
+
 		return findByCouncilSessionId(councilSessionId, start, end, null);
 	}
 
@@ -1532,7 +1508,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * Returns an ordered range of all the procurations where councilSessionId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param councilSessionId the council session ID
@@ -1542,17 +1518,19 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the ordered range of matching procurations
 	 */
 	@Override
-	public List<Procuration> findByCouncilSessionId(long councilSessionId,
-		int start, int end, OrderByComparator<Procuration> orderByComparator) {
-		return findByCouncilSessionId(councilSessionId, start, end,
-			orderByComparator, true);
+	public List<Procuration> findByCouncilSessionId(
+		long councilSessionId, int start, int end,
+		OrderByComparator<Procuration> orderByComparator) {
+
+		return findByCouncilSessionId(
+			councilSessionId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the procurations where councilSessionId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param councilSessionId the council session ID
@@ -1563,37 +1541,40 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the ordered range of matching procurations
 	 */
 	@Override
-	public List<Procuration> findByCouncilSessionId(long councilSessionId,
-		int start, int end, OrderByComparator<Procuration> orderByComparator,
+	public List<Procuration> findByCouncilSessionId(
+		long councilSessionId, int start, int end,
+		OrderByComparator<Procuration> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID;
-			finderArgs = new Object[] { councilSessionId };
+			finderPath = _finderPathWithoutPaginationFindByCouncilSessionId;
+			finderArgs = new Object[] {councilSessionId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_COUNCILSESSIONID;
+			finderPath = _finderPathWithPaginationFindByCouncilSessionId;
 			finderArgs = new Object[] {
-					councilSessionId,
-					
-					start, end, orderByComparator
-				};
+				councilSessionId, start, end, orderByComparator
+			};
 		}
 
 		List<Procuration> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Procuration>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Procuration>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Procuration procuration : list) {
-					if ((councilSessionId != procuration.getCouncilSessionId())) {
+					if ((councilSessionId !=
+							procuration.getCouncilSessionId())) {
+
 						list = null;
 
 						break;
@@ -1606,8 +1587,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1618,11 +1599,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			query.append(_FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ProcurationModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1640,16 +1620,16 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 				qPos.add(councilSessionId);
 
 				if (!pagination) {
-					list = (List<Procuration>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Procuration>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Procuration>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Procuration>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1678,11 +1658,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @throws NoSuchProcurationException if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration findByCouncilSessionId_First(long councilSessionId,
-		OrderByComparator<Procuration> orderByComparator)
+	public Procuration findByCouncilSessionId_First(
+			long councilSessionId,
+			OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
-		Procuration procuration = fetchByCouncilSessionId_First(councilSessionId,
-				orderByComparator);
+
+		Procuration procuration = fetchByCouncilSessionId_First(
+			councilSessionId, orderByComparator);
 
 		if (procuration != null) {
 			return procuration;
@@ -1695,7 +1677,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		msg.append("councilSessionId=");
 		msg.append(councilSessionId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchProcurationException(msg.toString());
 	}
@@ -1708,10 +1690,12 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the first matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration fetchByCouncilSessionId_First(long councilSessionId,
+	public Procuration fetchByCouncilSessionId_First(
+		long councilSessionId,
 		OrderByComparator<Procuration> orderByComparator) {
-		List<Procuration> list = findByCouncilSessionId(councilSessionId, 0, 1,
-				orderByComparator);
+
+		List<Procuration> list = findByCouncilSessionId(
+			councilSessionId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1729,11 +1713,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @throws NoSuchProcurationException if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration findByCouncilSessionId_Last(long councilSessionId,
-		OrderByComparator<Procuration> orderByComparator)
+	public Procuration findByCouncilSessionId_Last(
+			long councilSessionId,
+			OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
-		Procuration procuration = fetchByCouncilSessionId_Last(councilSessionId,
-				orderByComparator);
+
+		Procuration procuration = fetchByCouncilSessionId_Last(
+			councilSessionId, orderByComparator);
 
 		if (procuration != null) {
 			return procuration;
@@ -1746,7 +1732,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		msg.append("councilSessionId=");
 		msg.append(councilSessionId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchProcurationException(msg.toString());
 	}
@@ -1759,16 +1745,18 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the last matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration fetchByCouncilSessionId_Last(long councilSessionId,
+	public Procuration fetchByCouncilSessionId_Last(
+		long councilSessionId,
 		OrderByComparator<Procuration> orderByComparator) {
+
 		int count = countByCouncilSessionId(councilSessionId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Procuration> list = findByCouncilSessionId(councilSessionId,
-				count - 1, count, orderByComparator);
+		List<Procuration> list = findByCouncilSessionId(
+			councilSessionId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1788,9 +1776,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public Procuration[] findByCouncilSessionId_PrevAndNext(
-		long procurationId, long councilSessionId,
-		OrderByComparator<Procuration> orderByComparator)
+			long procurationId, long councilSessionId,
+			OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
+
 		Procuration procuration = findByPrimaryKey(procurationId);
 
 		Session session = null;
@@ -1800,13 +1789,15 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			Procuration[] array = new ProcurationImpl[3];
 
-			array[0] = getByCouncilSessionId_PrevAndNext(session, procuration,
-					councilSessionId, orderByComparator, true);
+			array[0] = getByCouncilSessionId_PrevAndNext(
+				session, procuration, councilSessionId, orderByComparator,
+				true);
 
 			array[1] = procuration;
 
-			array[2] = getByCouncilSessionId_PrevAndNext(session, procuration,
-					councilSessionId, orderByComparator, false);
+			array[2] = getByCouncilSessionId_PrevAndNext(
+				session, procuration, councilSessionId, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -1818,14 +1809,15 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		}
 	}
 
-	protected Procuration getByCouncilSessionId_PrevAndNext(Session session,
-		Procuration procuration, long councilSessionId,
+	protected Procuration getByCouncilSessionId_PrevAndNext(
+		Session session, Procuration procuration, long councilSessionId,
 		OrderByComparator<Procuration> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1837,7 +1829,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		query.append(_FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1907,10 +1900,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		qPos.add(councilSessionId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(procuration);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(procuration)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1931,8 +1924,11 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public void removeByCouncilSessionId(long councilSessionId) {
-		for (Procuration procuration : findByCouncilSessionId(
-				councilSessionId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (Procuration procuration :
+				findByCouncilSessionId(
+					councilSessionId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(procuration);
 		}
 	}
@@ -1945,9 +1941,9 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public int countByCouncilSessionId(long councilSessionId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_COUNCILSESSIONID;
+		FinderPath finderPath = _finderPathCountByCouncilSessionId;
 
-		Object[] finderArgs = new Object[] { councilSessionId };
+		Object[] finderArgs = new Object[] {councilSessionId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1988,33 +1984,15 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2 =
-		"procuration.councilSessionId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COUNCILSESSIONIDANDOFFICIALVOTERSID =
-		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByCouncilSessionIdAndOfficialVotersId",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONIDANDOFFICIALVOTERSID =
-		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByCouncilSessionIdAndOfficialVotersId",
-			new String[] { Long.class.getName(), Long.class.getName() },
-			ProcurationModelImpl.COUNCILSESSIONID_COLUMN_BITMASK |
-			ProcurationModelImpl.OFFICIALVOTERSID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSID =
-		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByCouncilSessionIdAndOfficialVotersId",
-			new String[] { Long.class.getName(), Long.class.getName() });
+	private static final String
+		_FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2 =
+			"procuration.councilSessionId = ?";
+
+	private FinderPath
+		_finderPathWithPaginationFindByCouncilSessionIdAndOfficialVotersId;
+	private FinderPath
+		_finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialVotersId;
+	private FinderPath _finderPathCountByCouncilSessionIdAndOfficialVotersId;
 
 	/**
 	 * Returns all the procurations where councilSessionId = &#63; and officialVotersId = &#63;.
@@ -2026,15 +2004,17 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	@Override
 	public List<Procuration> findByCouncilSessionIdAndOfficialVotersId(
 		long councilSessionId, long officialVotersId) {
-		return findByCouncilSessionIdAndOfficialVotersId(councilSessionId,
-			officialVotersId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+
+		return findByCouncilSessionIdAndOfficialVotersId(
+			councilSessionId, officialVotersId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the procurations where councilSessionId = &#63; and officialVotersId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param councilSessionId the council session ID
@@ -2046,15 +2026,16 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	@Override
 	public List<Procuration> findByCouncilSessionIdAndOfficialVotersId(
 		long councilSessionId, long officialVotersId, int start, int end) {
-		return findByCouncilSessionIdAndOfficialVotersId(councilSessionId,
-			officialVotersId, start, end, null);
+
+		return findByCouncilSessionIdAndOfficialVotersId(
+			councilSessionId, officialVotersId, start, end, null);
 	}
 
 	/**
 	 * Returns an ordered range of all the procurations where councilSessionId = &#63; and officialVotersId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param councilSessionId the council session ID
@@ -2068,15 +2049,17 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	public List<Procuration> findByCouncilSessionIdAndOfficialVotersId(
 		long councilSessionId, long officialVotersId, int start, int end,
 		OrderByComparator<Procuration> orderByComparator) {
-		return findByCouncilSessionIdAndOfficialVotersId(councilSessionId,
-			officialVotersId, start, end, orderByComparator, true);
+
+		return findByCouncilSessionIdAndOfficialVotersId(
+			councilSessionId, officialVotersId, start, end, orderByComparator,
+			true);
 	}
 
 	/**
 	 * Returns an ordered range of all the procurations where councilSessionId = &#63; and officialVotersId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param councilSessionId the council session ID
@@ -2092,35 +2075,41 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		long councilSessionId, long officialVotersId, int start, int end,
 		OrderByComparator<Procuration> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONIDANDOFFICIALVOTERSID;
-			finderArgs = new Object[] { councilSessionId, officialVotersId };
+			finderPath =
+				_finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialVotersId;
+			finderArgs = new Object[] {councilSessionId, officialVotersId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_COUNCILSESSIONIDANDOFFICIALVOTERSID;
+			finderPath =
+				_finderPathWithPaginationFindByCouncilSessionIdAndOfficialVotersId;
 			finderArgs = new Object[] {
-					councilSessionId, officialVotersId,
-					
-					start, end, orderByComparator
-				};
+				councilSessionId, officialVotersId, start, end,
+				orderByComparator
+			};
 		}
 
 		List<Procuration> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Procuration>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Procuration>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Procuration procuration : list) {
-					if ((councilSessionId != procuration.getCouncilSessionId()) ||
-							(officialVotersId != procuration.getOfficialVotersId())) {
+					if ((councilSessionId !=
+							procuration.getCouncilSessionId()) ||
+						(officialVotersId !=
+							procuration.getOfficialVotersId())) {
+
 						list = null;
 
 						break;
@@ -2133,8 +2122,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -2142,16 +2131,17 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			query.append(_SQL_SELECT_PROCURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_COUNCILSESSIONID_2);
+			query.append(
+				_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_COUNCILSESSIONID_2);
 
-			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_OFFICIALVOTERSID_2);
+			query.append(
+				_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_OFFICIALVOTERSID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ProcurationModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -2171,16 +2161,16 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 				qPos.add(officialVotersId);
 
 				if (!pagination) {
-					list = (List<Procuration>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Procuration>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Procuration>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Procuration>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2211,11 +2201,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public Procuration findByCouncilSessionIdAndOfficialVotersId_First(
-		long councilSessionId, long officialVotersId,
-		OrderByComparator<Procuration> orderByComparator)
+			long councilSessionId, long officialVotersId,
+			OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
-		Procuration procuration = fetchByCouncilSessionIdAndOfficialVotersId_First(councilSessionId,
-				officialVotersId, orderByComparator);
+
+		Procuration procuration =
+			fetchByCouncilSessionIdAndOfficialVotersId_First(
+				councilSessionId, officialVotersId, orderByComparator);
 
 		if (procuration != null) {
 			return procuration;
@@ -2231,7 +2223,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		msg.append(", officialVotersId=");
 		msg.append(officialVotersId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchProcurationException(msg.toString());
 	}
@@ -2248,8 +2240,9 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	public Procuration fetchByCouncilSessionIdAndOfficialVotersId_First(
 		long councilSessionId, long officialVotersId,
 		OrderByComparator<Procuration> orderByComparator) {
-		List<Procuration> list = findByCouncilSessionIdAndOfficialVotersId(councilSessionId,
-				officialVotersId, 0, 1, orderByComparator);
+
+		List<Procuration> list = findByCouncilSessionIdAndOfficialVotersId(
+			councilSessionId, officialVotersId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2269,11 +2262,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public Procuration findByCouncilSessionIdAndOfficialVotersId_Last(
-		long councilSessionId, long officialVotersId,
-		OrderByComparator<Procuration> orderByComparator)
+			long councilSessionId, long officialVotersId,
+			OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
-		Procuration procuration = fetchByCouncilSessionIdAndOfficialVotersId_Last(councilSessionId,
-				officialVotersId, orderByComparator);
+
+		Procuration procuration =
+			fetchByCouncilSessionIdAndOfficialVotersId_Last(
+				councilSessionId, officialVotersId, orderByComparator);
 
 		if (procuration != null) {
 			return procuration;
@@ -2289,7 +2284,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		msg.append(", officialVotersId=");
 		msg.append(officialVotersId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchProcurationException(msg.toString());
 	}
@@ -2306,15 +2301,17 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	public Procuration fetchByCouncilSessionIdAndOfficialVotersId_Last(
 		long councilSessionId, long officialVotersId,
 		OrderByComparator<Procuration> orderByComparator) {
-		int count = countByCouncilSessionIdAndOfficialVotersId(councilSessionId,
-				officialVotersId);
+
+		int count = countByCouncilSessionIdAndOfficialVotersId(
+			councilSessionId, officialVotersId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Procuration> list = findByCouncilSessionIdAndOfficialVotersId(councilSessionId,
-				officialVotersId, count - 1, count, orderByComparator);
+		List<Procuration> list = findByCouncilSessionIdAndOfficialVotersId(
+			councilSessionId, officialVotersId, count - 1, count,
+			orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2335,9 +2332,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public Procuration[] findByCouncilSessionIdAndOfficialVotersId_PrevAndNext(
-		long procurationId, long councilSessionId, long officialVotersId,
-		OrderByComparator<Procuration> orderByComparator)
+			long procurationId, long councilSessionId, long officialVotersId,
+			OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
+
 		Procuration procuration = findByPrimaryKey(procurationId);
 
 		Session session = null;
@@ -2347,15 +2345,15 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			Procuration[] array = new ProcurationImpl[3];
 
-			array[0] = getByCouncilSessionIdAndOfficialVotersId_PrevAndNext(session,
-					procuration, councilSessionId, officialVotersId,
-					orderByComparator, true);
+			array[0] = getByCouncilSessionIdAndOfficialVotersId_PrevAndNext(
+				session, procuration, councilSessionId, officialVotersId,
+				orderByComparator, true);
 
 			array[1] = procuration;
 
-			array[2] = getByCouncilSessionIdAndOfficialVotersId_PrevAndNext(session,
-					procuration, councilSessionId, officialVotersId,
-					orderByComparator, false);
+			array[2] = getByCouncilSessionIdAndOfficialVotersId_PrevAndNext(
+				session, procuration, councilSessionId, officialVotersId,
+				orderByComparator, false);
 
 			return array;
 		}
@@ -2369,13 +2367,14 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 	protected Procuration getByCouncilSessionIdAndOfficialVotersId_PrevAndNext(
 		Session session, Procuration procuration, long councilSessionId,
-		long officialVotersId,
-		OrderByComparator<Procuration> orderByComparator, boolean previous) {
+		long officialVotersId, OrderByComparator<Procuration> orderByComparator,
+		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -2384,12 +2383,15 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 		query.append(_SQL_SELECT_PROCURATION_WHERE);
 
-		query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_COUNCILSESSIONID_2);
+		query.append(
+			_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_COUNCILSESSIONID_2);
 
-		query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_OFFICIALVOTERSID_2);
+		query.append(
+			_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_OFFICIALVOTERSID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -2461,10 +2463,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		qPos.add(officialVotersId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(procuration);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(procuration)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -2487,9 +2489,12 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	@Override
 	public void removeByCouncilSessionIdAndOfficialVotersId(
 		long councilSessionId, long officialVotersId) {
-		for (Procuration procuration : findByCouncilSessionIdAndOfficialVotersId(
-				councilSessionId, officialVotersId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+
+		for (Procuration procuration :
+				findByCouncilSessionIdAndOfficialVotersId(
+					councilSessionId, officialVotersId, QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS, null)) {
+
 			remove(procuration);
 		}
 	}
@@ -2504,9 +2509,11 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	@Override
 	public int countByCouncilSessionIdAndOfficialVotersId(
 		long councilSessionId, long officialVotersId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSID;
 
-		Object[] finderArgs = new Object[] { councilSessionId, officialVotersId };
+		FinderPath finderPath =
+			_finderPathCountByCouncilSessionIdAndOfficialVotersId;
+
+		Object[] finderArgs = new Object[] {councilSessionId, officialVotersId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -2515,9 +2522,11 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			query.append(_SQL_COUNT_PROCURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_COUNCILSESSIONID_2);
+			query.append(
+				_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_COUNCILSESSIONID_2);
 
-			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_OFFICIALVOTERSID_2);
+			query.append(
+				_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_OFFICIALVOTERSID_2);
 
 			String sql = query.toString();
 
@@ -2551,32 +2560,21 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_COUNCILSESSIONID_2 =
-		"procuration.councilSessionId = ? AND ";
-	private static final String _FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_OFFICIALVOTERSID_2 =
-		"procuration.officialVotersId = ?";
-	public static final FinderPath FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS =
-		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_ENTITY,
-			"fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds",
-			new String[] {
-				Long.class.getName(), Long.class.getName(), Long.class.getName()
-			},
-			ProcurationModelImpl.COUNCILSESSIONID_COLUMN_BITMASK |
-			ProcurationModelImpl.OFFICIALVOTERSID_COLUMN_BITMASK |
-			ProcurationModelImpl.OFFICIALUNAVAILABLEID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS =
-		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByCouncilSessionIdAndOfficialVotersAndUnavailableIds",
-			new String[] {
-				Long.class.getName(), Long.class.getName(), Long.class.getName()
-			});
+	private static final String
+		_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_COUNCILSESSIONID_2 =
+			"procuration.councilSessionId = ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_OFFICIALVOTERSID_2 =
+			"procuration.officialVotersId = ?";
+
+	private FinderPath
+		_finderPathFetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds;
+	private FinderPath
+		_finderPathCountByCouncilSessionIdAndOfficialVotersAndUnavailableIds;
 
 	/**
-	 * Returns the procuration where councilSessionId = &#63; and officialVotersId = &#63; and officialUnavailableId = &#63; or throws a {@link NoSuchProcurationException} if it could not be found.
+	 * Returns the procuration where councilSessionId = &#63; and officialVotersId = &#63; and officialUnavailableId = &#63; or throws a <code>NoSuchProcurationException</code> if it could not be found.
 	 *
 	 * @param councilSessionId the council session ID
 	 * @param officialVotersId the official voters ID
@@ -2586,10 +2584,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public Procuration findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
-		long councilSessionId, long officialVotersId, long officialUnavailableId)
+			long councilSessionId, long officialVotersId,
+			long officialUnavailableId)
 		throws NoSuchProcurationException {
-		Procuration procuration = fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(councilSessionId,
-				officialVotersId, officialUnavailableId);
+
+		Procuration procuration =
+			fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+				councilSessionId, officialVotersId, officialUnavailableId);
 
 		if (procuration == null) {
 			StringBundler msg = new StringBundler(8);
@@ -2605,7 +2606,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			msg.append(", officialUnavailableId=");
 			msg.append(officialUnavailableId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -2626,10 +2627,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
-		long councilSessionId, long officialVotersId, long officialUnavailableId) {
-		return fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(councilSessionId,
-			officialVotersId, officialUnavailableId, true);
+	public Procuration
+		fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+			long councilSessionId, long officialVotersId,
+			long officialUnavailableId) {
+
+		return fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+			councilSessionId, officialVotersId, officialUnavailableId, true);
 	}
 
 	/**
@@ -2642,26 +2646,31 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
-		long councilSessionId, long officialVotersId,
-		long officialUnavailableId, boolean retrieveFromCache) {
+	public Procuration
+		fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+			long councilSessionId, long officialVotersId,
+			long officialUnavailableId, boolean retrieveFromCache) {
+
 		Object[] finderArgs = new Object[] {
-				councilSessionId, officialVotersId, officialUnavailableId
-			};
+			councilSessionId, officialVotersId, officialUnavailableId
+		};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds,
+				finderArgs, this);
 		}
 
 		if (result instanceof Procuration) {
 			Procuration procuration = (Procuration)result;
 
 			if ((councilSessionId != procuration.getCouncilSessionId()) ||
-					(officialVotersId != procuration.getOfficialVotersId()) ||
-					(officialUnavailableId != procuration.getOfficialUnavailableId())) {
+				(officialVotersId != procuration.getOfficialVotersId()) ||
+				(officialUnavailableId !=
+					procuration.getOfficialUnavailableId())) {
+
 				result = null;
 			}
 		}
@@ -2671,11 +2680,14 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			query.append(_SQL_SELECT_PROCURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_COUNCILSESSIONID_2);
+			query.append(
+				_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_COUNCILSESSIONID_2);
 
-			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALVOTERSID_2);
+			query.append(
+				_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALVOTERSID_2);
 
-			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALUNAVAILABLEID_2);
+			query.append(
+				_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALUNAVAILABLEID_2);
 
 			String sql = query.toString();
 
@@ -2697,7 +2709,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 				List<Procuration> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+					finderCache.putResult(
+						_finderPathFetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds,
 						finderArgs, list);
 				}
 				else {
@@ -2707,8 +2720,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 						if (_log.isWarnEnabled()) {
 							_log.warn(
 								"ProcurationPersistenceImpl.fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(long, long, long, boolean) with parameters (" +
-								StringUtil.merge(finderArgs) +
-								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
 						}
 					}
 
@@ -2717,17 +2730,11 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 					result = procuration;
 
 					cacheResult(procuration);
-
-					if ((procuration.getCouncilSessionId() != councilSessionId) ||
-							(procuration.getOfficialVotersId() != officialVotersId) ||
-							(procuration.getOfficialUnavailableId() != officialUnavailableId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
-							finderArgs, procuration);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+				finderCache.removeResult(
+					_finderPathFetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds,
 					finderArgs);
 
 				throw processException(e);
@@ -2754,11 +2761,15 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the procuration that was removed
 	 */
 	@Override
-	public Procuration removeByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
-		long councilSessionId, long officialVotersId, long officialUnavailableId)
+	public Procuration
+			removeByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+				long councilSessionId, long officialVotersId,
+				long officialUnavailableId)
 		throws NoSuchProcurationException {
-		Procuration procuration = findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(councilSessionId,
-				officialVotersId, officialUnavailableId);
+
+		Procuration procuration =
+			findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+				councilSessionId, officialVotersId, officialUnavailableId);
 
 		return remove(procuration);
 	}
@@ -2773,12 +2784,15 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public int countByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
-		long councilSessionId, long officialVotersId, long officialUnavailableId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS;
+		long councilSessionId, long officialVotersId,
+		long officialUnavailableId) {
+
+		FinderPath finderPath =
+			_finderPathCountByCouncilSessionIdAndOfficialVotersAndUnavailableIds;
 
 		Object[] finderArgs = new Object[] {
-				councilSessionId, officialVotersId, officialUnavailableId
-			};
+			councilSessionId, officialVotersId, officialUnavailableId
+		};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -2787,11 +2801,14 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			query.append(_SQL_COUNT_PROCURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_COUNCILSESSIONID_2);
+			query.append(
+				_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_COUNCILSESSIONID_2);
 
-			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALVOTERSID_2);
+			query.append(
+				_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALVOTERSID_2);
 
-			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALUNAVAILABLEID_2);
+			query.append(
+				_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALUNAVAILABLEID_2);
 
 			String sql = query.toString();
 
@@ -2827,35 +2844,23 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_COUNCILSESSIONID_2 =
-		"procuration.councilSessionId = ? AND ";
-	private static final String _FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALVOTERSID_2 =
-		"procuration.officialVotersId = ? AND ";
-	private static final String _FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALUNAVAILABLEID_2 =
-		"procuration.officialUnavailableId = ?";
-	public static final FinderPath FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION =
-		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByAbsenceForCouncilSession",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Boolean.class.getName()
-			},
-			ProcurationModelImpl.COUNCILSESSIONID_COLUMN_BITMASK |
-			ProcurationModelImpl.OFFICIALUNAVAILABLEID_COLUMN_BITMASK |
-			ProcurationModelImpl.ISABSENT_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_ABSENCEFORCOUNCILSESSION =
-		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByAbsenceForCouncilSession",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Boolean.class.getName()
-			});
+	private static final String
+		_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_COUNCILSESSIONID_2 =
+			"procuration.councilSessionId = ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALVOTERSID_2 =
+			"procuration.officialVotersId = ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALUNAVAILABLEID_2 =
+			"procuration.officialUnavailableId = ?";
+
+	private FinderPath _finderPathFetchByAbsenceForCouncilSession;
+	private FinderPath _finderPathCountByAbsenceForCouncilSession;
 
 	/**
-	 * Returns the procuration where councilSessionId = &#63; and officialUnavailableId = &#63; and isAbsent = &#63; or throws a {@link NoSuchProcurationException} if it could not be found.
+	 * Returns the procuration where councilSessionId = &#63; and officialUnavailableId = &#63; and isAbsent = &#63; or throws a <code>NoSuchProcurationException</code> if it could not be found.
 	 *
 	 * @param councilSessionId the council session ID
 	 * @param officialUnavailableId the official unavailable ID
@@ -2864,11 +2869,12 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @throws NoSuchProcurationException if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration findByAbsenceForCouncilSession(long councilSessionId,
-		long officialUnavailableId, boolean isAbsent)
+	public Procuration findByAbsenceForCouncilSession(
+			long councilSessionId, long officialUnavailableId, boolean isAbsent)
 		throws NoSuchProcurationException {
-		Procuration procuration = fetchByAbsenceForCouncilSession(councilSessionId,
-				officialUnavailableId, isAbsent);
+
+		Procuration procuration = fetchByAbsenceForCouncilSession(
+			councilSessionId, officialUnavailableId, isAbsent);
 
 		if (procuration == null) {
 			StringBundler msg = new StringBundler(8);
@@ -2884,7 +2890,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			msg.append(", isAbsent=");
 			msg.append(isAbsent);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -2905,10 +2911,11 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration fetchByAbsenceForCouncilSession(long councilSessionId,
-		long officialUnavailableId, boolean isAbsent) {
-		return fetchByAbsenceForCouncilSession(councilSessionId,
-			officialUnavailableId, isAbsent, true);
+	public Procuration fetchByAbsenceForCouncilSession(
+		long councilSessionId, long officialUnavailableId, boolean isAbsent) {
+
+		return fetchByAbsenceForCouncilSession(
+			councilSessionId, officialUnavailableId, isAbsent, true);
 	}
 
 	/**
@@ -2921,25 +2928,29 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration fetchByAbsenceForCouncilSession(long councilSessionId,
-		long officialUnavailableId, boolean isAbsent, boolean retrieveFromCache) {
+	public Procuration fetchByAbsenceForCouncilSession(
+		long councilSessionId, long officialUnavailableId, boolean isAbsent,
+		boolean retrieveFromCache) {
+
 		Object[] finderArgs = new Object[] {
-				councilSessionId, officialUnavailableId, isAbsent
-			};
+			councilSessionId, officialUnavailableId, isAbsent
+		};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByAbsenceForCouncilSession, finderArgs, this);
 		}
 
 		if (result instanceof Procuration) {
 			Procuration procuration = (Procuration)result;
 
 			if ((councilSessionId != procuration.getCouncilSessionId()) ||
-					(officialUnavailableId != procuration.getOfficialUnavailableId()) ||
-					(isAbsent != procuration.getIsAbsent())) {
+				(officialUnavailableId !=
+					procuration.getOfficialUnavailableId()) ||
+				(isAbsent != procuration.isIsAbsent())) {
+
 				result = null;
 			}
 		}
@@ -2949,9 +2960,11 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			query.append(_SQL_SELECT_PROCURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_COUNCILSESSIONID_2);
+			query.append(
+				_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_COUNCILSESSIONID_2);
 
-			query.append(_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_OFFICIALUNAVAILABLEID_2);
+			query.append(
+				_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_OFFICIALUNAVAILABLEID_2);
 
 			query.append(_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_ISABSENT_2);
 
@@ -2975,8 +2988,9 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 				List<Procuration> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByAbsenceForCouncilSession, finderArgs,
+						list);
 				}
 				else {
 					if (list.size() > 1) {
@@ -2985,8 +2999,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 						if (_log.isWarnEnabled()) {
 							_log.warn(
 								"ProcurationPersistenceImpl.fetchByAbsenceForCouncilSession(long, long, boolean, boolean) with parameters (" +
-								StringUtil.merge(finderArgs) +
-								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
 						}
 					}
 
@@ -2995,18 +3009,11 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 					result = procuration;
 
 					cacheResult(procuration);
-
-					if ((procuration.getCouncilSessionId() != councilSessionId) ||
-							(procuration.getOfficialUnavailableId() != officialUnavailableId) ||
-							(procuration.getIsAbsent() != isAbsent)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
-							finderArgs, procuration);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
-					finderArgs);
+				finderCache.removeResult(
+					_finderPathFetchByAbsenceForCouncilSession, finderArgs);
 
 				throw processException(e);
 			}
@@ -3032,11 +3039,12 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the procuration that was removed
 	 */
 	@Override
-	public Procuration removeByAbsenceForCouncilSession(long councilSessionId,
-		long officialUnavailableId, boolean isAbsent)
+	public Procuration removeByAbsenceForCouncilSession(
+			long councilSessionId, long officialUnavailableId, boolean isAbsent)
 		throws NoSuchProcurationException {
-		Procuration procuration = findByAbsenceForCouncilSession(councilSessionId,
-				officialUnavailableId, isAbsent);
+
+		Procuration procuration = findByAbsenceForCouncilSession(
+			councilSessionId, officialUnavailableId, isAbsent);
 
 		return remove(procuration);
 	}
@@ -3050,13 +3058,14 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the number of matching procurations
 	 */
 	@Override
-	public int countByAbsenceForCouncilSession(long councilSessionId,
-		long officialUnavailableId, boolean isAbsent) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_ABSENCEFORCOUNCILSESSION;
+	public int countByAbsenceForCouncilSession(
+		long councilSessionId, long officialUnavailableId, boolean isAbsent) {
+
+		FinderPath finderPath = _finderPathCountByAbsenceForCouncilSession;
 
 		Object[] finderArgs = new Object[] {
-				councilSessionId, officialUnavailableId, isAbsent
-			};
+			councilSessionId, officialUnavailableId, isAbsent
+		};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -3065,9 +3074,11 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			query.append(_SQL_COUNT_PROCURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_COUNCILSESSIONID_2);
+			query.append(
+				_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_COUNCILSESSIONID_2);
 
-			query.append(_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_OFFICIALUNAVAILABLEID_2);
+			query.append(
+				_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_OFFICIALUNAVAILABLEID_2);
 
 			query.append(_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_ISABSENT_2);
 
@@ -3105,23 +3116,30 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_COUNCILSESSIONID_2 =
-		"procuration.councilSessionId = ? AND ";
-	private static final String _FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_OFFICIALUNAVAILABLEID_2 =
-		"procuration.officialUnavailableId = ? AND ";
-	private static final String _FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_ISABSENT_2 =
-		"procuration.isAbsent = ?";
+	private static final String
+		_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_COUNCILSESSIONID_2 =
+			"procuration.councilSessionId = ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_OFFICIALUNAVAILABLEID_2 =
+			"procuration.officialUnavailableId = ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_ISABSENT_2 =
+			"procuration.isAbsent = ?";
 
 	public ProcurationPersistenceImpl() {
 		setModelClass(Procuration.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -3139,26 +3157,31 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public void cacheResult(Procuration procuration) {
-		entityCache.putResult(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationImpl.class, procuration.getPrimaryKey(), procuration);
+		entityCache.putResult(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED, ProcurationImpl.class,
+			procuration.getPrimaryKey(), procuration);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-			new Object[] { procuration.getUuid(), procuration.getGroupId() },
+		finderCache.putResult(
+			_finderPathFetchByUUID_G,
+			new Object[] {procuration.getUuid(), procuration.getGroupId()},
 			procuration);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+		finderCache.putResult(
+			_finderPathFetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds,
 			new Object[] {
 				procuration.getCouncilSessionId(),
 				procuration.getOfficialVotersId(),
 				procuration.getOfficialUnavailableId()
-			}, procuration);
+			},
+			procuration);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
+		finderCache.putResult(
+			_finderPathFetchByAbsenceForCouncilSession,
 			new Object[] {
 				procuration.getCouncilSessionId(),
-				procuration.getOfficialUnavailableId(),
-				procuration.getIsAbsent()
-			}, procuration);
+				procuration.getOfficialUnavailableId(), procuration.isIsAbsent()
+			},
+			procuration);
 
 		procuration.resetOriginalValues();
 	}
@@ -3172,8 +3195,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	public void cacheResult(List<Procuration> procurations) {
 		for (Procuration procuration : procurations) {
 			if (entityCache.getResult(
-						ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-						ProcurationImpl.class, procuration.getPrimaryKey()) == null) {
+					ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+					ProcurationImpl.class, procuration.getPrimaryKey()) ==
+						null) {
+
 				cacheResult(procuration);
 			}
 			else {
@@ -3186,7 +3211,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * Clears the cache for all procurations.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -3202,13 +3227,14 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * Clears the cache for the procuration.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Procuration procuration) {
-		entityCache.removeResult(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationImpl.class, procuration.getPrimaryKey());
+		entityCache.removeResult(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED, ProcurationImpl.class,
+			procuration.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -3222,7 +3248,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Procuration procuration : procurations) {
-			entityCache.removeResult(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			entityCache.removeResult(
+				ProcurationModelImpl.ENTITY_CACHE_ENABLED,
 				ProcurationImpl.class, procuration.getPrimaryKey());
 
 			clearUniqueFindersCache((ProcurationModelImpl)procuration, true);
@@ -3231,114 +3258,128 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 	protected void cacheUniqueFindersCache(
 		ProcurationModelImpl procurationModelImpl) {
+
 		Object[] args = new Object[] {
+			procurationModelImpl.getUuid(), procurationModelImpl.getGroupId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G, args, procurationModelImpl, false);
+
+		args = new Object[] {
+			procurationModelImpl.getCouncilSessionId(),
+			procurationModelImpl.getOfficialVotersId(),
+			procurationModelImpl.getOfficialUnavailableId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByCouncilSessionIdAndOfficialVotersAndUnavailableIds,
+			args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds,
+			args, procurationModelImpl, false);
+
+		args = new Object[] {
+			procurationModelImpl.getCouncilSessionId(),
+			procurationModelImpl.getOfficialUnavailableId(),
+			procurationModelImpl.isIsAbsent()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByAbsenceForCouncilSession, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(
+			_finderPathFetchByAbsenceForCouncilSession, args,
+			procurationModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		ProcurationModelImpl procurationModelImpl, boolean clearCurrent) {
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
 				procurationModelImpl.getUuid(),
 				procurationModelImpl.getGroupId()
 			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-			procurationModelImpl, false);
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+		}
 
-		args = new Object[] {
+		if ((procurationModelImpl.getColumnBitmask() &
+			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				procurationModelImpl.getOriginalUuid(),
+				procurationModelImpl.getOriginalGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
 				procurationModelImpl.getCouncilSessionId(),
 				procurationModelImpl.getOfficialVotersId(),
 				procurationModelImpl.getOfficialUnavailableId()
 			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
-			args, Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
-			args, procurationModelImpl, false);
+			finderCache.removeResult(
+				_finderPathCountByCouncilSessionIdAndOfficialVotersAndUnavailableIds,
+				args);
+			finderCache.removeResult(
+				_finderPathFetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds,
+				args);
+		}
 
-		args = new Object[] {
-				procurationModelImpl.getCouncilSessionId(),
-				procurationModelImpl.getOfficialUnavailableId(),
-				procurationModelImpl.getIsAbsent()
+		if ((procurationModelImpl.getColumnBitmask() &
+			 _finderPathFetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds.
+				 getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				procurationModelImpl.getOriginalCouncilSessionId(),
+				procurationModelImpl.getOriginalOfficialVotersId(),
+				procurationModelImpl.getOriginalOfficialUnavailableId()
 			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_ABSENCEFORCOUNCILSESSION,
-			args, Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
-			args, procurationModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ProcurationModelImpl procurationModelImpl, boolean clearCurrent) {
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-					procurationModelImpl.getUuid(),
-					procurationModelImpl.getGroupId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
-		}
-
-		if ((procurationModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					procurationModelImpl.getOriginalUuid(),
-					procurationModelImpl.getOriginalGroupId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-					procurationModelImpl.getCouncilSessionId(),
-					procurationModelImpl.getOfficialVotersId(),
-					procurationModelImpl.getOfficialUnavailableId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+			finderCache.removeResult(
+				_finderPathCountByCouncilSessionIdAndOfficialVotersAndUnavailableIds,
 				args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
-				args);
-		}
-
-		if ((procurationModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					procurationModelImpl.getOriginalCouncilSessionId(),
-					procurationModelImpl.getOriginalOfficialVotersId(),
-					procurationModelImpl.getOriginalOfficialUnavailableId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
-				args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+			finderCache.removeResult(
+				_finderPathFetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds,
 				args);
 		}
 
 		if (clearCurrent) {
 			Object[] args = new Object[] {
-					procurationModelImpl.getCouncilSessionId(),
-					procurationModelImpl.getOfficialUnavailableId(),
-					procurationModelImpl.getIsAbsent()
-				};
+				procurationModelImpl.getCouncilSessionId(),
+				procurationModelImpl.getOfficialUnavailableId(),
+				procurationModelImpl.isIsAbsent()
+			};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_ABSENCEFORCOUNCILSESSION,
-				args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
-				args);
+			finderCache.removeResult(
+				_finderPathCountByAbsenceForCouncilSession, args);
+			finderCache.removeResult(
+				_finderPathFetchByAbsenceForCouncilSession, args);
 		}
 
 		if ((procurationModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					procurationModelImpl.getOriginalCouncilSessionId(),
-					procurationModelImpl.getOriginalOfficialUnavailableId(),
-					procurationModelImpl.getOriginalIsAbsent()
-				};
+			 _finderPathFetchByAbsenceForCouncilSession.getColumnBitmask()) !=
+				 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_ABSENCEFORCOUNCILSESSION,
-				args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
-				args);
+			Object[] args = new Object[] {
+				procurationModelImpl.getOriginalCouncilSessionId(),
+				procurationModelImpl.getOriginalOfficialUnavailableId(),
+				procurationModelImpl.getOriginalIsAbsent()
+			};
+
+			finderCache.removeResult(
+				_finderPathCountByAbsenceForCouncilSession, args);
+			finderCache.removeResult(
+				_finderPathFetchByAbsenceForCouncilSession, args);
 		}
 	}
 
@@ -3374,6 +3415,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	@Override
 	public Procuration remove(long procurationId)
 		throws NoSuchProcurationException {
+
 		return remove((Serializable)procurationId);
 	}
 
@@ -3387,21 +3429,22 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	@Override
 	public Procuration remove(Serializable primaryKey)
 		throws NoSuchProcurationException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			Procuration procuration = (Procuration)session.get(ProcurationImpl.class,
-					primaryKey);
+			Procuration procuration = (Procuration)session.get(
+				ProcurationImpl.class, primaryKey);
 
 			if (procuration == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchProcurationException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchProcurationException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(procuration);
@@ -3419,16 +3462,14 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 	@Override
 	protected Procuration removeImpl(Procuration procuration) {
-		procuration = toUnwrappedModel(procuration);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(procuration)) {
-				procuration = (Procuration)session.get(ProcurationImpl.class,
-						procuration.getPrimaryKeyObj());
+				procuration = (Procuration)session.get(
+					ProcurationImpl.class, procuration.getPrimaryKeyObj());
 			}
 
 			if (procuration != null) {
@@ -3451,11 +3492,26 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 	@Override
 	public Procuration updateImpl(Procuration procuration) {
-		procuration = toUnwrappedModel(procuration);
-
 		boolean isNew = procuration.isNew();
 
-		ProcurationModelImpl procurationModelImpl = (ProcurationModelImpl)procuration;
+		if (!(procuration instanceof ProcurationModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(procuration.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(procuration);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in procuration proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom Procuration implementation " +
+					procuration.getClass());
+		}
+
+		ProcurationModelImpl procurationModelImpl =
+			(ProcurationModelImpl)procuration;
 
 		if (Validator.isNull(procuration.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
@@ -3463,7 +3519,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			procuration.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
 
 		Date now = new Date();
 
@@ -3481,7 +3538,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 				procuration.setModifiedDate(now);
 			}
 			else {
-				procuration.setModifiedDate(serviceContext.getModifiedDate(now));
+				procuration.setModifiedDate(
+					serviceContext.getModifiedDate(now));
 			}
 		}
 
@@ -3511,129 +3569,142 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		if (!ProcurationModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { procurationModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {procurationModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
 			args = new Object[] {
+				procurationModelImpl.getUuid(),
+				procurationModelImpl.getCompanyId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUuid_C, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid_C, args);
+
+			args = new Object[] {procurationModelImpl.getCouncilSessionId()};
+
+			finderCache.removeResult(_finderPathCountByCouncilSessionId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByCouncilSessionId, args);
+
+			args = new Object[] {
+				procurationModelImpl.getCouncilSessionId(),
+				procurationModelImpl.getOfficialVotersId()
+			};
+
+			finderCache.removeResult(
+				_finderPathCountByCouncilSessionIdAndOfficialVotersId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialVotersId,
+				args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((procurationModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					procurationModelImpl.getOriginalUuid()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+
+				args = new Object[] {procurationModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+			}
+
+			if ((procurationModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					procurationModelImpl.getOriginalUuid(),
+					procurationModelImpl.getOriginalCompanyId()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+
+				args = new Object[] {
 					procurationModelImpl.getUuid(),
 					procurationModelImpl.getCompanyId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-				args);
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+			}
 
-			args = new Object[] { procurationModelImpl.getCouncilSessionId() };
+			if ((procurationModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByCouncilSessionId.
+					 getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID,
-				args);
+				Object[] args = new Object[] {
+					procurationModelImpl.getOriginalCouncilSessionId()
+				};
 
-			args = new Object[] {
+				finderCache.removeResult(
+					_finderPathCountByCouncilSessionId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCouncilSessionId, args);
+
+				args = new Object[] {
+					procurationModelImpl.getCouncilSessionId()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByCouncilSessionId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCouncilSessionId, args);
+			}
+
+			if ((procurationModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialVotersId.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					procurationModelImpl.getOriginalCouncilSessionId(),
+					procurationModelImpl.getOriginalOfficialVotersId()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByCouncilSessionIdAndOfficialVotersId,
+					args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialVotersId,
+					args);
+
+				args = new Object[] {
 					procurationModelImpl.getCouncilSessionId(),
 					procurationModelImpl.getOfficialVotersId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSID,
-				args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONIDANDOFFICIALVOTERSID,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((procurationModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						procurationModelImpl.getOriginalUuid()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+				finderCache.removeResult(
+					_finderPathCountByCouncilSessionIdAndOfficialVotersId,
 					args);
-
-				args = new Object[] { procurationModelImpl.getUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-			}
-
-			if ((procurationModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						procurationModelImpl.getOriginalUuid(),
-						procurationModelImpl.getOriginalCompanyId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-
-				args = new Object[] {
-						procurationModelImpl.getUuid(),
-						procurationModelImpl.getCompanyId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-			}
-
-			if ((procurationModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						procurationModelImpl.getOriginalCouncilSessionId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID,
-					args);
-
-				args = new Object[] { procurationModelImpl.getCouncilSessionId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID,
-					args);
-			}
-
-			if ((procurationModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONIDANDOFFICIALVOTERSID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						procurationModelImpl.getOriginalCouncilSessionId(),
-						procurationModelImpl.getOriginalOfficialVotersId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONIDANDOFFICIALVOTERSID,
-					args);
-
-				args = new Object[] {
-						procurationModelImpl.getCouncilSessionId(),
-						procurationModelImpl.getOfficialVotersId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONIDANDOFFICIALVOTERSID,
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialVotersId,
 					args);
 			}
 		}
 
-		entityCache.putResult(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-			ProcurationImpl.class, procuration.getPrimaryKey(), procuration,
-			false);
+		entityCache.putResult(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED, ProcurationImpl.class,
+			procuration.getPrimaryKey(), procuration, false);
 
 		clearUniqueFindersCache(procurationModelImpl, false);
 		cacheUniqueFindersCache(procurationModelImpl);
@@ -3643,38 +3714,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		return procuration;
 	}
 
-	protected Procuration toUnwrappedModel(Procuration procuration) {
-		if (procuration instanceof ProcurationImpl) {
-			return procuration;
-		}
-
-		ProcurationImpl procurationImpl = new ProcurationImpl();
-
-		procurationImpl.setNew(procuration.isNew());
-		procurationImpl.setPrimaryKey(procuration.getPrimaryKey());
-
-		procurationImpl.setUuid(procuration.getUuid());
-		procurationImpl.setProcurationId(procuration.getProcurationId());
-		procurationImpl.setGroupId(procuration.getGroupId());
-		procurationImpl.setCompanyId(procuration.getCompanyId());
-		procurationImpl.setUserId(procuration.getUserId());
-		procurationImpl.setUserName(procuration.getUserName());
-		procurationImpl.setCreateDate(procuration.getCreateDate());
-		procurationImpl.setModifiedDate(procuration.getModifiedDate());
-		procurationImpl.setStatus(procuration.getStatus());
-		procurationImpl.setStatusByUserId(procuration.getStatusByUserId());
-		procurationImpl.setStatusByUserName(procuration.getStatusByUserName());
-		procurationImpl.setStatusDate(procuration.getStatusDate());
-		procurationImpl.setOfficialVotersId(procuration.getOfficialVotersId());
-		procurationImpl.setOfficialUnavailableId(procuration.getOfficialUnavailableId());
-		procurationImpl.setCouncilSessionId(procuration.getCouncilSessionId());
-		procurationImpl.setIsAbsent(procuration.isIsAbsent());
-
-		return procurationImpl;
-	}
-
 	/**
-	 * Returns the procuration with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the procuration with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the procuration
 	 * @return the procuration
@@ -3683,6 +3724,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	@Override
 	public Procuration findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchProcurationException {
+
 		Procuration procuration = fetchByPrimaryKey(primaryKey);
 
 		if (procuration == null) {
@@ -3690,15 +3732,15 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchProcurationException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchProcurationException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return procuration;
 	}
 
 	/**
-	 * Returns the procuration with the primary key or throws a {@link NoSuchProcurationException} if it could not be found.
+	 * Returns the procuration with the primary key or throws a <code>NoSuchProcurationException</code> if it could not be found.
 	 *
 	 * @param procurationId the primary key of the procuration
 	 * @return the procuration
@@ -3707,6 +3749,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	@Override
 	public Procuration findByPrimaryKey(long procurationId)
 		throws NoSuchProcurationException {
+
 		return findByPrimaryKey((Serializable)procurationId);
 	}
 
@@ -3718,8 +3761,9 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public Procuration fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-				ProcurationImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED, ProcurationImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -3733,19 +3777,21 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			try {
 				session = openSession();
 
-				procuration = (Procuration)session.get(ProcurationImpl.class,
-						primaryKey);
+				procuration = (Procuration)session.get(
+					ProcurationImpl.class, primaryKey);
 
 				if (procuration != null) {
 					cacheResult(procuration);
 				}
 				else {
-					entityCache.putResult(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						ProcurationModelImpl.ENTITY_CACHE_ENABLED,
 						ProcurationImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					ProcurationModelImpl.ENTITY_CACHE_ENABLED,
 					ProcurationImpl.class, primaryKey);
 
 				throw processException(e);
@@ -3772,11 +3818,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	@Override
 	public Map<Serializable, Procuration> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, Procuration> map = new HashMap<Serializable, Procuration>();
+		Map<Serializable, Procuration> map =
+			new HashMap<Serializable, Procuration>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -3795,8 +3843,9 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
-					ProcurationImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+				ProcurationImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -3816,20 +3865,20 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_PROCURATION_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -3849,7 +3898,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					ProcurationModelImpl.ENTITY_CACHE_ENABLED,
 					ProcurationImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -3877,7 +3927,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * Returns a range of all the procurations.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of procurations
@@ -3893,7 +3943,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * Returns an ordered range of all the procurations.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of procurations
@@ -3902,8 +3952,9 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the ordered range of procurations
 	 */
 	@Override
-	public List<Procuration> findAll(int start, int end,
-		OrderByComparator<Procuration> orderByComparator) {
+	public List<Procuration> findAll(
+		int start, int end, OrderByComparator<Procuration> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -3911,7 +3962,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * Returns an ordered range of all the procurations.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of procurations
@@ -3921,29 +3972,31 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the ordered range of procurations
 	 */
 	@Override
-	public List<Procuration> findAll(int start, int end,
-		OrderByComparator<Procuration> orderByComparator,
+	public List<Procuration> findAll(
+		int start, int end, OrderByComparator<Procuration> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Procuration> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Procuration>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Procuration>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -3951,13 +4004,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_PROCURATION);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -3977,16 +4030,16 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Procuration>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Procuration>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Procuration>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Procuration>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -4024,8 +4077,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -4037,12 +4090,12 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -4068,6 +4121,181 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * Initializes the procuration persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			ProcurationModelImpl.UUID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathFetchByUUID_G = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			ProcurationModelImpl.UUID_COLUMN_BITMASK |
+			ProcurationModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByUUID_G = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			ProcurationModelImpl.UUID_COLUMN_BITMASK |
+			ProcurationModelImpl.COMPANYID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid_C = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByCouncilSessionId = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCouncilSessionId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByCouncilSessionId = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCouncilSessionId",
+			new String[] {Long.class.getName()},
+			ProcurationModelImpl.COUNCILSESSIONID_COLUMN_BITMASK);
+
+		_finderPathCountByCouncilSessionId = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCouncilSessionId", new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindByCouncilSessionIdAndOfficialVotersId =
+			new FinderPath(
+				ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+				ProcurationModelImpl.FINDER_CACHE_ENABLED,
+				ProcurationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"findByCouncilSessionIdAndOfficialVotersId",
+				new String[] {
+					Long.class.getName(), Long.class.getName(),
+					Integer.class.getName(), Integer.class.getName(),
+					OrderByComparator.class.getName()
+				});
+
+		_finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialVotersId =
+			new FinderPath(
+				ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+				ProcurationModelImpl.FINDER_CACHE_ENABLED,
+				ProcurationImpl.class,
+				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+				"findByCouncilSessionIdAndOfficialVotersId",
+				new String[] {Long.class.getName(), Long.class.getName()},
+				ProcurationModelImpl.COUNCILSESSIONID_COLUMN_BITMASK |
+				ProcurationModelImpl.OFFICIALVOTERSID_COLUMN_BITMASK);
+
+		_finderPathCountByCouncilSessionIdAndOfficialVotersId = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCouncilSessionIdAndOfficialVotersId",
+			new String[] {Long.class.getName(), Long.class.getName()});
+
+		_finderPathFetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds =
+			new FinderPath(
+				ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+				ProcurationModelImpl.FINDER_CACHE_ENABLED,
+				ProcurationImpl.class, FINDER_CLASS_NAME_ENTITY,
+				"fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds",
+				new String[] {
+					Long.class.getName(), Long.class.getName(),
+					Long.class.getName()
+				},
+				ProcurationModelImpl.COUNCILSESSIONID_COLUMN_BITMASK |
+				ProcurationModelImpl.OFFICIALVOTERSID_COLUMN_BITMASK |
+				ProcurationModelImpl.OFFICIALUNAVAILABLEID_COLUMN_BITMASK);
+
+		_finderPathCountByCouncilSessionIdAndOfficialVotersAndUnavailableIds =
+			new FinderPath(
+				ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+				ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+				"countByCouncilSessionIdAndOfficialVotersAndUnavailableIds",
+				new String[] {
+					Long.class.getName(), Long.class.getName(),
+					Long.class.getName()
+				});
+
+		_finderPathFetchByAbsenceForCouncilSession = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByAbsenceForCouncilSession",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				Boolean.class.getName()
+			},
+			ProcurationModelImpl.COUNCILSESSIONID_COLUMN_BITMASK |
+			ProcurationModelImpl.OFFICIALUNAVAILABLEID_COLUMN_BITMASK |
+			ProcurationModelImpl.ISABSENT_COLUMN_BITMASK);
+
+		_finderPathCountByAbsenceForCouncilSession = new FinderPath(
+			ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByAbsenceForCouncilSession",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				Boolean.class.getName()
+			});
 	}
 
 	public void destroy() {
@@ -4079,20 +4307,40 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
+
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_PROCURATION = "SELECT procuration FROM Procuration procuration";
-	private static final String _SQL_SELECT_PROCURATION_WHERE_PKS_IN = "SELECT procuration FROM Procuration procuration WHERE procurationId IN (";
-	private static final String _SQL_SELECT_PROCURATION_WHERE = "SELECT procuration FROM Procuration procuration WHERE ";
-	private static final String _SQL_COUNT_PROCURATION = "SELECT COUNT(procuration) FROM Procuration procuration";
-	private static final String _SQL_COUNT_PROCURATION_WHERE = "SELECT COUNT(procuration) FROM Procuration procuration WHERE ";
+
+	private static final String _SQL_SELECT_PROCURATION =
+		"SELECT procuration FROM Procuration procuration";
+
+	private static final String _SQL_SELECT_PROCURATION_WHERE_PKS_IN =
+		"SELECT procuration FROM Procuration procuration WHERE procurationId IN (";
+
+	private static final String _SQL_SELECT_PROCURATION_WHERE =
+		"SELECT procuration FROM Procuration procuration WHERE ";
+
+	private static final String _SQL_COUNT_PROCURATION =
+		"SELECT COUNT(procuration) FROM Procuration procuration";
+
+	private static final String _SQL_COUNT_PROCURATION_WHERE =
+		"SELECT COUNT(procuration) FROM Procuration procuration WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "procuration.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Procuration exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Procuration exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(ProcurationPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No Procuration exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No Procuration exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ProcurationPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

@@ -114,17 +114,25 @@
 		}
 	}
 
-	@include mobile {
 		.order-1 {
-			order: 1;
-			text-align: left;
+			order: inherit;
+			
+			@media (max-width: 767px) {
+				order: 1;
+				text-align: left;
+
+			}
 		}
 
 		.order-2 {
-			order: 2;
-			text-align: left;
+			order: inherit; 
+			
+			@media (max-width: 767px) {
+				order: 2;
+				text-align: left;
+
+			}
 		}
-	}
 
 	span {
 		@include ft($f_txt, 20px, 400, $c_main, 26px);

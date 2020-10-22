@@ -25,39 +25,44 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see EventParticipationModel
- * @see eu.strasbourg.service.agenda.model.impl.EventParticipationImpl
- * @see eu.strasbourg.service.agenda.model.impl.EventParticipationModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.agenda.model.impl.EventParticipationImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.agenda.model.impl.EventParticipationImpl"
+)
 @ProviderType
-public interface EventParticipation extends EventParticipationModel,
-	PersistedModel {
+public interface EventParticipation
+	extends EventParticipationModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.agenda.model.impl.EventParticipationImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.agenda.model.impl.EventParticipationImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<EventParticipation, Long> EVENT_PARTICIPATION_ID_ACCESSOR =
-		new Accessor<EventParticipation, Long>() {
-			@Override
-			public Long get(EventParticipation eventParticipation) {
-				return eventParticipation.getEventParticipationId();
-			}
+	public static final Accessor<EventParticipation, Long>
+		EVENT_PARTICIPATION_ID_ACCESSOR =
+			new Accessor<EventParticipation, Long>() {
 
-			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
-			}
+				@Override
+				public Long get(EventParticipation eventParticipation) {
+					return eventParticipation.getEventParticipationId();
+				}
 
-			@Override
-			public Class<EventParticipation> getTypeClass() {
-				return EventParticipation.class;
-			}
-		};
+				@Override
+				public Class<Long> getAttributeClass() {
+					return Long.class;
+				}
+
+				@Override
+				public Class<EventParticipation> getTypeClass() {
+					return EventParticipation.class;
+				}
+
+			};
 
 	/**
-	* Retourne la version JSON d'une participation d'evenement
-	*/
+	 * Retourne la version JSON d'une participation d'evenement
+	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
 }

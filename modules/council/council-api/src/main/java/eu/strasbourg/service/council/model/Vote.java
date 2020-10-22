@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Brian Wing Shun Chan
  * @see VoteModel
- * @see eu.strasbourg.service.council.model.impl.VoteImpl
- * @see eu.strasbourg.service.council.model.impl.VoteModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.council.model.impl.VoteImpl")
 @ProviderType
-public interface Vote extends VoteModel, PersistedModel {
+public interface Vote extends PersistedModel, VoteModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.council.model.impl.VoteImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.council.model.impl.VoteImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Vote, Long> OFFICIAL_ID_ACCESSOR = new Accessor<Vote, Long>() {
+	public static final Accessor<Vote, Long> OFFICIAL_ID_ACCESSOR =
+		new Accessor<Vote, Long>() {
+
 			@Override
 			public Long get(Vote vote) {
 				return vote.getOfficialId();
@@ -52,9 +53,11 @@ public interface Vote extends VoteModel, PersistedModel {
 			public Class<Vote> getTypeClass() {
 				return Vote.class;
 			}
-		};
 
-	public static final Accessor<Vote, Long> DELIBERATION_ID_ACCESSOR = new Accessor<Vote, Long>() {
+		};
+	public static final Accessor<Vote, Long> DELIBERATION_ID_ACCESSOR =
+		new Accessor<Vote, Long>() {
+
 			@Override
 			public Long get(Vote vote) {
 				return vote.getDeliberationId();
@@ -69,25 +72,28 @@ public interface Vote extends VoteModel, PersistedModel {
 			public Class<Vote> getTypeClass() {
 				return Vote.class;
 			}
+
 		};
 
 	/**
-	* Renvoie l'élu à qui appartient le vote
-	*/
+	 * Renvoie l'élu à qui appartient le vote
+	 */
 	public eu.strasbourg.service.council.model.Official getOfficial();
 
 	/**
-	* Renvoie le nom complet de l'élu à qui appartient le vote
-	*/
-	public java.lang.String getOfficialFullName();
+	 * Renvoie le nom complet de l'élu à qui appartient le vote
+	 */
+	public String getOfficialFullName();
 
 	/**
-	* Renvoie l'élu qui a voté par procuration
-	*/
-	public eu.strasbourg.service.council.model.Official getOfficialProcuration();
+	 * Renvoie l'élu qui a voté par procuration
+	 */
+	public eu.strasbourg.service.council.model.Official
+		getOfficialProcuration();
 
 	/**
-	* Renvoie le nom complet de l'élu l'élu qui a voté par procuration
-	*/
-	public java.lang.String getgetOfficialProcurationFullName();
+	 * Renvoie le nom complet de l'élu l'élu qui a voté par procuration
+	 */
+	public String getgetOfficialProcurationFullName();
+
 }

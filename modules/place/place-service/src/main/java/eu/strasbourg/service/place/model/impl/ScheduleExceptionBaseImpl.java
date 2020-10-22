@@ -34,10 +34,11 @@ import eu.strasbourg.service.place.service.ScheduleExceptionLocalServiceUtil;
 @ProviderType
 public abstract class ScheduleExceptionBaseImpl
 	extends ScheduleExceptionModelImpl implements ScheduleException {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a schedule exception model instance should use the {@link ScheduleException} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a schedule exception model instance should use the <code>ScheduleException</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class ScheduleExceptionBaseImpl
 			ScheduleExceptionLocalServiceUtil.updateScheduleException(this);
 		}
 	}
+
 }

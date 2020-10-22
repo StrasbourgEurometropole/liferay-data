@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.gtfs.model.Route;
 
@@ -32,11 +31,11 @@ import java.io.ObjectOutput;
  * The cache model class for representing Route in entity cache.
  *
  * @author Cedric Henry
- * @see Route
  * @generated
  */
 @ProviderType
 public class RouteCacheModel implements CacheModel<Route>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -93,7 +92,7 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 		RouteImpl routeImpl = new RouteImpl();
 
 		if (uuid == null) {
-			routeImpl.setUuid(StringPool.BLANK);
+			routeImpl.setUuid("");
 		}
 		else {
 			routeImpl.setUuid(uuid);
@@ -102,28 +101,28 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 		routeImpl.setId(id);
 
 		if (route_id == null) {
-			routeImpl.setRoute_id(StringPool.BLANK);
+			routeImpl.setRoute_id("");
 		}
 		else {
 			routeImpl.setRoute_id(route_id);
 		}
 
 		if (route_short_name == null) {
-			routeImpl.setRoute_short_name(StringPool.BLANK);
+			routeImpl.setRoute_short_name("");
 		}
 		else {
 			routeImpl.setRoute_short_name(route_short_name);
 		}
 
 		if (route_long_name == null) {
-			routeImpl.setRoute_long_name(StringPool.BLANK);
+			routeImpl.setRoute_long_name("");
 		}
 		else {
 			routeImpl.setRoute_long_name(route_long_name);
 		}
 
 		if (route_desc == null) {
-			routeImpl.setRoute_desc(StringPool.BLANK);
+			routeImpl.setRoute_desc("");
 		}
 		else {
 			routeImpl.setRoute_desc(route_desc);
@@ -132,14 +131,14 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 		routeImpl.setRoute_type(route_type);
 
 		if (route_color == null) {
-			routeImpl.setRoute_color(StringPool.BLANK);
+			routeImpl.setRoute_color("");
 		}
 		else {
 			routeImpl.setRoute_color(route_color);
 		}
 
 		if (route_text_color == null) {
-			routeImpl.setRoute_text_color(StringPool.BLANK);
+			routeImpl.setRoute_text_color("");
 		}
 		else {
 			routeImpl.setRoute_text_color(route_text_color);
@@ -166,10 +165,9 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -178,28 +176,28 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 		objectOutput.writeLong(id);
 
 		if (route_id == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(route_id);
 		}
 
 		if (route_short_name == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(route_short_name);
 		}
 
 		if (route_long_name == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(route_long_name);
 		}
 
 		if (route_desc == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(route_desc);
@@ -208,14 +206,14 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 		objectOutput.writeInt(route_type);
 
 		if (route_color == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(route_color);
 		}
 
 		if (route_text_color == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(route_text_color);
@@ -231,4 +229,5 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 	public int route_type;
 	public String route_color;
 	public String route_text_color;
+
 }

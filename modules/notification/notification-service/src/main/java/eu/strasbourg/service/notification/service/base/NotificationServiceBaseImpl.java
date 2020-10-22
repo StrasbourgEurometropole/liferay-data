@@ -45,15 +45,16 @@ import javax.sql.DataSource;
  *
  * @author BenjaminBini
  * @see eu.strasbourg.service.notification.service.impl.NotificationServiceImpl
- * @see eu.strasbourg.service.notification.service.NotificationServiceUtil
  * @generated
  */
-public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
+public abstract class NotificationServiceBaseImpl
+	extends BaseServiceImpl
 	implements NotificationService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.notification.service.NotificationServiceUtil} to access the notification remote service.
+	 * Never modify or reference this class directly. Use <code>NotificationService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.notification.service.NotificationServiceUtil</code>.
 	 */
 
 	/**
@@ -61,7 +62,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the notification local service
 	 */
-	public eu.strasbourg.service.notification.service.NotificationLocalService getNotificationLocalService() {
+	public eu.strasbourg.service.notification.service.NotificationLocalService
+		getNotificationLocalService() {
+
 		return notificationLocalService;
 	}
 
@@ -71,7 +74,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 * @param notificationLocalService the notification local service
 	 */
 	public void setNotificationLocalService(
-		eu.strasbourg.service.notification.service.NotificationLocalService notificationLocalService) {
+		eu.strasbourg.service.notification.service.NotificationLocalService
+			notificationLocalService) {
+
 		this.notificationLocalService = notificationLocalService;
 	}
 
@@ -89,7 +94,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @param notificationService the notification remote service
 	 */
-	public void setNotificationService(NotificationService notificationService) {
+	public void setNotificationService(
+		NotificationService notificationService) {
+
 		this.notificationService = notificationService;
 	}
 
@@ -109,6 +116,7 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setNotificationPersistence(
 		NotificationPersistence notificationPersistence) {
+
 		this.notificationPersistence = notificationPersistence;
 	}
 
@@ -117,7 +125,10 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the user notification channel local service
 	 */
-	public eu.strasbourg.service.notification.service.UserNotificationChannelLocalService getUserNotificationChannelLocalService() {
+	public eu.strasbourg.service.notification.service.
+		UserNotificationChannelLocalService
+			getUserNotificationChannelLocalService() {
+
 		return userNotificationChannelLocalService;
 	}
 
@@ -127,8 +138,12 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 * @param userNotificationChannelLocalService the user notification channel local service
 	 */
 	public void setUserNotificationChannelLocalService(
-		eu.strasbourg.service.notification.service.UserNotificationChannelLocalService userNotificationChannelLocalService) {
-		this.userNotificationChannelLocalService = userNotificationChannelLocalService;
+		eu.strasbourg.service.notification.service.
+			UserNotificationChannelLocalService
+				userNotificationChannelLocalService) {
+
+		this.userNotificationChannelLocalService =
+			userNotificationChannelLocalService;
 	}
 
 	/**
@@ -136,7 +151,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the user notification channel persistence
 	 */
-	public UserNotificationChannelPersistence getUserNotificationChannelPersistence() {
+	public UserNotificationChannelPersistence
+		getUserNotificationChannelPersistence() {
+
 		return userNotificationChannelPersistence;
 	}
 
@@ -147,7 +164,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserNotificationChannelPersistence(
 		UserNotificationChannelPersistence userNotificationChannelPersistence) {
-		this.userNotificationChannelPersistence = userNotificationChannelPersistence;
+
+		this.userNotificationChannelPersistence =
+			userNotificationChannelPersistence;
 	}
 
 	/**
@@ -155,7 +174,10 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the user notification status local service
 	 */
-	public eu.strasbourg.service.notification.service.UserNotificationStatusLocalService getUserNotificationStatusLocalService() {
+	public eu.strasbourg.service.notification.service.
+		UserNotificationStatusLocalService
+			getUserNotificationStatusLocalService() {
+
 		return userNotificationStatusLocalService;
 	}
 
@@ -165,8 +187,12 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 * @param userNotificationStatusLocalService the user notification status local service
 	 */
 	public void setUserNotificationStatusLocalService(
-		eu.strasbourg.service.notification.service.UserNotificationStatusLocalService userNotificationStatusLocalService) {
-		this.userNotificationStatusLocalService = userNotificationStatusLocalService;
+		eu.strasbourg.service.notification.service.
+			UserNotificationStatusLocalService
+				userNotificationStatusLocalService) {
+
+		this.userNotificationStatusLocalService =
+			userNotificationStatusLocalService;
 	}
 
 	/**
@@ -174,7 +200,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the user notification status persistence
 	 */
-	public UserNotificationStatusPersistence getUserNotificationStatusPersistence() {
+	public UserNotificationStatusPersistence
+		getUserNotificationStatusPersistence() {
+
 		return userNotificationStatusPersistence;
 	}
 
@@ -185,7 +213,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserNotificationStatusPersistence(
 		UserNotificationStatusPersistence userNotificationStatusPersistence) {
-		this.userNotificationStatusPersistence = userNotificationStatusPersistence;
+
+		this.userNotificationStatusPersistence =
+			userNotificationStatusPersistence;
 	}
 
 	/**
@@ -193,7 +223,11 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the user notification type local service
 	 */
-	public eu.strasbourg.service.notification.service.UserNotificationTypeLocalService getUserNotificationTypeLocalService() {
+	public
+		eu.strasbourg.service.notification.service.
+			UserNotificationTypeLocalService
+				getUserNotificationTypeLocalService() {
+
 		return userNotificationTypeLocalService;
 	}
 
@@ -203,8 +237,11 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 * @param userNotificationTypeLocalService the user notification type local service
 	 */
 	public void setUserNotificationTypeLocalService(
-		eu.strasbourg.service.notification.service.UserNotificationTypeLocalService userNotificationTypeLocalService) {
-		this.userNotificationTypeLocalService = userNotificationTypeLocalService;
+		eu.strasbourg.service.notification.service.
+			UserNotificationTypeLocalService userNotificationTypeLocalService) {
+
+		this.userNotificationTypeLocalService =
+			userNotificationTypeLocalService;
 	}
 
 	/**
@@ -212,7 +249,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the user notification type persistence
 	 */
-	public UserNotificationTypePersistence getUserNotificationTypePersistence() {
+	public UserNotificationTypePersistence
+		getUserNotificationTypePersistence() {
+
 		return userNotificationTypePersistence;
 	}
 
@@ -223,6 +262,7 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserNotificationTypePersistence(
 		UserNotificationTypePersistence userNotificationTypePersistence) {
+
 		this.userNotificationTypePersistence = userNotificationTypePersistence;
 	}
 
@@ -231,7 +271,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -241,7 +283,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -250,7 +294,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -260,7 +306,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -269,7 +317,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the class name remote service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameService getClassNameService() {
+	public com.liferay.portal.kernel.service.ClassNameService
+		getClassNameService() {
+
 		return classNameService;
 	}
 
@@ -280,6 +330,7 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setClassNameService(
 		com.liferay.portal.kernel.service.ClassNameService classNameService) {
+
 		this.classNameService = classNameService;
 	}
 
@@ -299,6 +350,7 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -307,7 +359,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -317,7 +371,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -326,7 +382,9 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -337,6 +395,7 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -356,6 +415,7 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserService(
 		com.liferay.portal.kernel.service.UserService userService) {
+
 		this.userService = userService;
 	}
 
@@ -415,8 +475,8 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -425,38 +485,88 @@ public abstract class NotificationServiceBaseImpl extends BaseServiceImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.notification.service.NotificationLocalService.class)
-	protected eu.strasbourg.service.notification.service.NotificationLocalService notificationLocalService;
+	@BeanReference(
+		type = eu.strasbourg.service.notification.service.NotificationLocalService.class
+	)
+	protected
+		eu.strasbourg.service.notification.service.NotificationLocalService
+			notificationLocalService;
+
 	@BeanReference(type = NotificationService.class)
 	protected NotificationService notificationService;
+
 	@BeanReference(type = NotificationPersistence.class)
 	protected NotificationPersistence notificationPersistence;
-	@BeanReference(type = eu.strasbourg.service.notification.service.UserNotificationChannelLocalService.class)
-	protected eu.strasbourg.service.notification.service.UserNotificationChannelLocalService userNotificationChannelLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.notification.service.UserNotificationChannelLocalService.class
+	)
+	protected eu.strasbourg.service.notification.service.
+		UserNotificationChannelLocalService userNotificationChannelLocalService;
+
 	@BeanReference(type = UserNotificationChannelPersistence.class)
-	protected UserNotificationChannelPersistence userNotificationChannelPersistence;
-	@BeanReference(type = eu.strasbourg.service.notification.service.UserNotificationStatusLocalService.class)
-	protected eu.strasbourg.service.notification.service.UserNotificationStatusLocalService userNotificationStatusLocalService;
+	protected UserNotificationChannelPersistence
+		userNotificationChannelPersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.notification.service.UserNotificationStatusLocalService.class
+	)
+	protected eu.strasbourg.service.notification.service.
+		UserNotificationStatusLocalService userNotificationStatusLocalService;
+
 	@BeanReference(type = UserNotificationStatusPersistence.class)
-	protected UserNotificationStatusPersistence userNotificationStatusPersistence;
-	@BeanReference(type = eu.strasbourg.service.notification.service.UserNotificationTypeLocalService.class)
-	protected eu.strasbourg.service.notification.service.UserNotificationTypeLocalService userNotificationTypeLocalService;
+	protected UserNotificationStatusPersistence
+		userNotificationStatusPersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.notification.service.UserNotificationTypeLocalService.class
+	)
+	protected
+		eu.strasbourg.service.notification.service.
+			UserNotificationTypeLocalService userNotificationTypeLocalService;
+
 	@BeanReference(type = UserNotificationTypePersistence.class)
 	protected UserNotificationTypePersistence userNotificationTypePersistence;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameService.class)
-	protected com.liferay.portal.kernel.service.ClassNameService classNameService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameService
+		classNameService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserService.class)
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserService.class
+	)
 	protected com.liferay.portal.kernel.service.UserService userService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
 }

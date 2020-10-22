@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.notification.model.UserNotificationType;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationTypePK;
@@ -33,12 +32,12 @@ import java.io.ObjectOutput;
  * The cache model class for representing UserNotificationType in entity cache.
  *
  * @author BenjaminBini
- * @see UserNotificationType
  * @generated
  */
 @ProviderType
-public class UserNotificationTypeCacheModel implements CacheModel<UserNotificationType>,
-	Externalizable {
+public class UserNotificationTypeCacheModel
+	implements CacheModel<UserNotificationType>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -49,10 +48,12 @@ public class UserNotificationTypeCacheModel implements CacheModel<UserNotificati
 			return false;
 		}
 
-		UserNotificationTypeCacheModel userNotificationTypeCacheModel = (UserNotificationTypeCacheModel)obj;
+		UserNotificationTypeCacheModel userNotificationTypeCacheModel =
+			(UserNotificationTypeCacheModel)obj;
 
 		if (userNotificationTypePK.equals(
-					userNotificationTypeCacheModel.userNotificationTypePK)) {
+				userNotificationTypeCacheModel.userNotificationTypePK)) {
+
 			return true;
 		}
 
@@ -79,10 +80,11 @@ public class UserNotificationTypeCacheModel implements CacheModel<UserNotificati
 
 	@Override
 	public UserNotificationType toEntityModel() {
-		UserNotificationTypeImpl userNotificationTypeImpl = new UserNotificationTypeImpl();
+		UserNotificationTypeImpl userNotificationTypeImpl =
+			new UserNotificationTypeImpl();
 
 		if (publikUserId == null) {
-			userNotificationTypeImpl.setPublikUserId(StringPool.BLANK);
+			userNotificationTypeImpl.setPublikUserId("");
 		}
 		else {
 			userNotificationTypeImpl.setPublikUserId(publikUserId);
@@ -101,14 +103,14 @@ public class UserNotificationTypeCacheModel implements CacheModel<UserNotificati
 
 		typeId = objectInput.readLong();
 
-		userNotificationTypePK = new UserNotificationTypePK(publikUserId, typeId);
+		userNotificationTypePK = new UserNotificationTypePK(
+			publikUserId, typeId);
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (publikUserId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikUserId);
@@ -120,4 +122,5 @@ public class UserNotificationTypeCacheModel implements CacheModel<UserNotificati
 	public String publikUserId;
 	public long typeId;
 	public transient UserNotificationTypePK userNotificationTypePK;
+
 }

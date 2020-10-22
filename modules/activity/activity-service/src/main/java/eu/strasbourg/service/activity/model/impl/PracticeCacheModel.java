@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.activity.model.Practice;
 
@@ -34,11 +33,12 @@ import java.util.Date;
  * The cache model class for representing Practice in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see Practice
  * @generated
  */
 @ProviderType
-public class PracticeCacheModel implements CacheModel<Practice>, Externalizable {
+public class PracticeCacheModel
+	implements CacheModel<Practice>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -103,7 +103,7 @@ public class PracticeCacheModel implements CacheModel<Practice>, Externalizable 
 		PracticeImpl practiceImpl = new PracticeImpl();
 
 		if (uuid == null) {
-			practiceImpl.setUuid(StringPool.BLANK);
+			practiceImpl.setUuid("");
 		}
 		else {
 			practiceImpl.setUuid(uuid);
@@ -115,7 +115,7 @@ public class PracticeCacheModel implements CacheModel<Practice>, Externalizable 
 		practiceImpl.setUserId(userId);
 
 		if (userName == null) {
-			practiceImpl.setUserName(StringPool.BLANK);
+			practiceImpl.setUserName("");
 		}
 		else {
 			practiceImpl.setUserName(userName);
@@ -139,7 +139,7 @@ public class PracticeCacheModel implements CacheModel<Practice>, Externalizable 
 		practiceImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			practiceImpl.setStatusByUserName(StringPool.BLANK);
+			practiceImpl.setStatusByUserName("");
 		}
 		else {
 			practiceImpl.setStatusByUserName(statusByUserName);
@@ -184,10 +184,9 @@ public class PracticeCacheModel implements CacheModel<Practice>, Externalizable 
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -202,7 +201,7 @@ public class PracticeCacheModel implements CacheModel<Practice>, Externalizable 
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -216,7 +215,7 @@ public class PracticeCacheModel implements CacheModel<Practice>, Externalizable 
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -240,4 +239,5 @@ public class PracticeCacheModel implements CacheModel<Practice>, Externalizable 
 	public String statusByUserName;
 	public long statusDate;
 	public long associationId;
+
 }

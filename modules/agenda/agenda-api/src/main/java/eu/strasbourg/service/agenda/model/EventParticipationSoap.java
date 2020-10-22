@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.agenda.service.http.EventParticipationServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.agenda.service.http.EventParticipationServiceSoap
  * @generated
  */
 @ProviderType
 public class EventParticipationSoap implements Serializable {
+
 	public static EventParticipationSoap toSoapModel(EventParticipation model) {
 		EventParticipationSoap soapModel = new EventParticipationSoap();
 
@@ -45,7 +45,9 @@ public class EventParticipationSoap implements Serializable {
 
 	public static EventParticipationSoap[] toSoapModels(
 		EventParticipation[] models) {
-		EventParticipationSoap[] soapModels = new EventParticipationSoap[models.length];
+
+		EventParticipationSoap[] soapModels =
+			new EventParticipationSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -56,10 +58,12 @@ public class EventParticipationSoap implements Serializable {
 
 	public static EventParticipationSoap[][] toSoapModels(
 		EventParticipation[][] models) {
+
 		EventParticipationSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new EventParticipationSoap[models.length][models[0].length];
+			soapModels =
+				new EventParticipationSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new EventParticipationSoap[0][0];
@@ -74,13 +78,16 @@ public class EventParticipationSoap implements Serializable {
 
 	public static EventParticipationSoap[] toSoapModels(
 		List<EventParticipation> models) {
-		List<EventParticipationSoap> soapModels = new ArrayList<EventParticipationSoap>(models.size());
+
+		List<EventParticipationSoap> soapModels =
+			new ArrayList<EventParticipationSoap>(models.size());
 
 		for (EventParticipation model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new EventParticipationSoap[soapModels.size()]);
+		return soapModels.toArray(
+			new EventParticipationSoap[soapModels.size()]);
 	}
 
 	public EventParticipationSoap() {
@@ -139,4 +146,5 @@ public class EventParticipationSoap implements Serializable {
 	private String _publikUserId;
 	private long _eventId;
 	private long _groupId;
+
 }

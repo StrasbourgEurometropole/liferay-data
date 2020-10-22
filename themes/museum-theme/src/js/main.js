@@ -473,7 +473,7 @@
             $dates_list.height(lessHeight);
         }
 
-        $(window).load(function(){
+        $(window).on("load",function(){
             getDatesHeights();
             lessDates(lessHeight);
             attachDatesEvents(lessHeight, moreHeight);

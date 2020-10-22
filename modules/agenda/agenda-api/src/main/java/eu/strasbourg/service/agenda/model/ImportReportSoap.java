@@ -30,6 +30,7 @@ import java.util.List;
  */
 @ProviderType
 public class ImportReportSoap implements Serializable {
+
 	public static ImportReportSoap toSoapModel(ImportReport model) {
 		ImportReportSoap soapModel = new ImportReportSoap();
 
@@ -43,8 +44,10 @@ public class ImportReportSoap implements Serializable {
 		soapModel.setModifiedEventsCount(model.getModifiedEventsCount());
 		soapModel.setErrorEventsCount(model.getErrorEventsCount());
 		soapModel.setNewManifestationsCount(model.getNewManifestationsCount());
-		soapModel.setModifiedManifestationsCount(model.getModifiedManifestationsCount());
-		soapModel.setErrorManifestationsCount(model.getErrorManifestationsCount());
+		soapModel.setModifiedManifestationsCount(
+			model.getModifiedManifestationsCount());
+		soapModel.setErrorManifestationsCount(
+			model.getErrorManifestationsCount());
 		soapModel.setStartDate(model.getStartDate());
 		soapModel.setEndDate(model.getEndDate());
 
@@ -79,7 +82,8 @@ public class ImportReportSoap implements Serializable {
 	}
 
 	public static ImportReportSoap[] toSoapModels(List<ImportReport> models) {
-		List<ImportReportSoap> soapModels = new ArrayList<ImportReportSoap>(models.size());
+		List<ImportReportSoap> soapModels = new ArrayList<ImportReportSoap>(
+			models.size());
 
 		for (ImportReport model : models) {
 			soapModels.add(toSoapModel(model));
@@ -183,7 +187,9 @@ public class ImportReportSoap implements Serializable {
 		return _modifiedManifestationsCount;
 	}
 
-	public void setModifiedManifestationsCount(long modifiedManifestationsCount) {
+	public void setModifiedManifestationsCount(
+		long modifiedManifestationsCount) {
+
 		_modifiedManifestationsCount = modifiedManifestationsCount;
 	}
 
@@ -225,4 +231,5 @@ public class ImportReportSoap implements Serializable {
 	private long _errorManifestationsCount;
 	private Date _startDate;
 	private Date _endDate;
+
 }

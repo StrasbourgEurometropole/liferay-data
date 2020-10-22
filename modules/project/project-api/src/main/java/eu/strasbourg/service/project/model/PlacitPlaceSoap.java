@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.project.service.http.PlacitPlaceServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.project.service.http.PlacitPlaceServiceSoap
  * @generated
  */
 @ProviderType
 public class PlacitPlaceSoap implements Serializable {
+
 	public static PlacitPlaceSoap toSoapModel(PlacitPlace model) {
 		PlacitPlaceSoap soapModel = new PlacitPlaceSoap();
 
@@ -86,7 +86,8 @@ public class PlacitPlaceSoap implements Serializable {
 	}
 
 	public static PlacitPlaceSoap[] toSoapModels(List<PlacitPlace> models) {
-		List<PlacitPlaceSoap> soapModels = new ArrayList<PlacitPlaceSoap>(models.size());
+		List<PlacitPlaceSoap> soapModels = new ArrayList<PlacitPlaceSoap>(
+			models.size());
 
 		for (PlacitPlace model : models) {
 			soapModels.add(toSoapModel(model));
@@ -286,4 +287,5 @@ public class PlacitPlaceSoap implements Serializable {
 	private long _budgetParticipatifId;
 	private long _initiativeId;
 	private String _placeSIGId;
+
 }

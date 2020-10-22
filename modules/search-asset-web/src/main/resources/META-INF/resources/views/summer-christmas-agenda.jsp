@@ -15,7 +15,7 @@
 			<aui:input type="hidden" name="selectionIds" />
 			<liferay-ui:search-container id="entriesSearchContainer"
 				searchContainer="${dc.searchContainer}">
-				<div class="search-asset-results" id="result">
+				<div class="search-asset-results row" id="result">
 					<liferay-ui:search-container-results results="${dc.entries}" />
 			
 					<liferay-ui:search-container-row
@@ -46,7 +46,7 @@
 								    displayStyleGroupId="${themeDisplay.scopeGroupId}"
 								    entries="${dc.templateEntries }"
 								>
-									<liferay-ui:asset-display
+									<liferay-asset:asset-display
 										assetEntry="${entry}"
 										assetRenderer="${entry.assetRenderer}"
 										assetRendererFactory="${entry.assetRendererFactory}"

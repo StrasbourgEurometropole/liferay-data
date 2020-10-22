@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.council.service.http.OfficialServiceSoap}.
  *
  * @author Brian Wing Shun Chan
- * @see eu.strasbourg.service.council.service.http.OfficialServiceSoap
  * @generated
  */
 @ProviderType
 public class OfficialSoap implements Serializable {
+
 	public static OfficialSoap toSoapModel(Official model) {
 		OfficialSoap soapModel = new OfficialSoap();
 
@@ -49,7 +49,7 @@ public class OfficialSoap implements Serializable {
 		soapModel.setEmail(model.getEmail());
 		soapModel.setFirstname(model.getFirstname());
 		soapModel.setLastname(model.getLastname());
-		soapModel.setIsActive(model.getIsActive());
+		soapModel.setIsActive(model.isIsActive());
 		soapModel.setLastActivity(model.getLastActivity());
 		soapModel.setLastSignInDeviceInfo(model.getLastSignInDeviceInfo());
 
@@ -84,7 +84,8 @@ public class OfficialSoap implements Serializable {
 	}
 
 	public static OfficialSoap[] toSoapModels(List<Official> models) {
-		List<OfficialSoap> soapModels = new ArrayList<OfficialSoap>(models.size());
+		List<OfficialSoap> soapModels = new ArrayList<OfficialSoap>(
+			models.size());
 
 		for (Official model : models) {
 			soapModels.add(toSoapModel(model));
@@ -270,4 +271,5 @@ public class OfficialSoap implements Serializable {
 	private boolean _isActive;
 	private Date _lastActivity;
 	private String _lastSignInDeviceInfo;
+
 }

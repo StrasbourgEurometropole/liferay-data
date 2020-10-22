@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.comment.service.http.CommentServiceSoap}.
  *
  * @author Romain Vergnais
- * @see eu.strasbourg.service.comment.service.http.CommentServiceSoap
  * @generated
  */
 @ProviderType
 public class CommentSoap implements Serializable {
+
 	public static CommentSoap toSoapModel(Comment model) {
 		CommentSoap soapModel = new CommentSoap();
 
@@ -46,7 +46,7 @@ public class CommentSoap implements Serializable {
 		soapModel.setStatusByUserId(model.getStatusByUserId());
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
-		soapModel.setComment(model.getComment());
+		soapModel.setText(model.getText());
 		soapModel.setLevel(model.getLevel());
 		soapModel.setUserQuality(model.getUserQuality());
 		soapModel.setModifiedByUserDate(model.getModifiedByUserDate());
@@ -86,7 +86,8 @@ public class CommentSoap implements Serializable {
 	}
 
 	public static CommentSoap[] toSoapModels(List<Comment> models) {
-		List<CommentSoap> soapModels = new ArrayList<CommentSoap>(models.size());
+		List<CommentSoap> soapModels = new ArrayList<CommentSoap>(
+			models.size());
 
 		for (Comment model : models) {
 			soapModels.add(toSoapModel(model));
@@ -202,12 +203,12 @@ public class CommentSoap implements Serializable {
 		_statusDate = statusDate;
 	}
 
-	public String getComment() {
-		return _comment;
+	public String getText() {
+		return _text;
 	}
 
-	public void setComment(String comment) {
-		_comment = comment;
+	public void setText(String text) {
+		_text = text;
 	}
 
 	public int getLevel() {
@@ -278,7 +279,7 @@ public class CommentSoap implements Serializable {
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
-	private String _comment;
+	private String _text;
 	private int _level;
 	private String _userQuality;
 	private Date _modifiedByUserDate;
@@ -286,4 +287,5 @@ public class CommentSoap implements Serializable {
 	private String _publikId;
 	private long _parentCommentId;
 	private String _urlProjectCommentaire;
+
 }

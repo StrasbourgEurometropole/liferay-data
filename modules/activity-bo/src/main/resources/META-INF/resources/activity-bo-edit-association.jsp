@@ -77,6 +77,7 @@
                                     if($(parent).attr("class").indexOf("hide") == -1 && $(fieldContent).find('.icon-asterisk').length > 0
                                         && $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
                                         validated = false;
+								    	event.preventDefault();
                                         break;
                                     }
                                 }
@@ -92,7 +93,7 @@
                                 <h3><liferay-ui:message key="practice" /></h3>
 								<div class="row-fields">
 									<liferay-util:include page="/includes/practice-row.jsp" servletContext="<%=application %>">
-										<liferay-util:param name="index" value="1" />
+										<liferay-util:param name="index" value="0" />
 									</liferay-util:include>
 								</div>
 							</div>
@@ -103,19 +104,14 @@
                                 <h3><liferay-ui:message key="practice" /></h3>
 								<div class="row-fields">
 									<liferay-util:include page="/includes/practice-row.jsp" servletContext="<%=application %>">
-										<liferay-util:param name="index" value="${status.count}" />
+										<liferay-util:param name="index" value="${status.count -1}" />
 										<liferay-util:param name="practiceId" value="${practice.practiceId}" />
 										<liferay-util:param name="categoriesIds" value="${dc.getPracticeCategoriesIds(practice.practiceId)}" />
 									</liferay-util:include>
 								</div>
 							</div>
 						</c:forEach>
-						<c:if test="${empty dc.association.practices}">
-							<aui:input type="hidden" name="practiceIndexes" value="1" />
-						</c:if>
-						<c:if test="${not empty dc.association.practices}">
-							<aui:input type="hidden" name="practiceIndexes" value="${dc.getDefaultIndexes(fn:length(dc.association.practices))}" />
-						</c:if>
+                        <aui:input type="hidden" name="practiceIndexes" value="${dc.getDefaultIndexes(fn:length(dc.association.practices))}" />
 					</div>
 
 			</aui:fieldset>
@@ -149,13 +145,6 @@
 	</script>
 </liferay-util:html-top>
 <liferay-util:html-bottom>
-	<script>
-		define._amd = define.amd;
-		define.amd = false;
-	</script>
-	<script>
-		define.amd = define._amd;
-	</script>
 	<script
 		src="/o/activitybo/js/activity-bo-edit-associations.js"
 		type="text/javascript"></script>

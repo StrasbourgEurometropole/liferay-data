@@ -21,7 +21,9 @@ import eu.strasbourg.portlet.interest.display.context.ViewInterestsDisplayContex
 
 @Component(
 	immediate = true,
-	property = { "com.liferay.portlet.instanceable=false",
+	property = {
+		"javax.portlet.version=3.0",
+		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.header-portlet-css=/css/interest-bo-main.css",
 		"com.liferay.portlet.single-page-application=false",
 		"javax.portlet.init-param.template-path=/",

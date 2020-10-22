@@ -190,34 +190,58 @@
 				<c:choose>
 				    <c:when test="${empty defaultAssetCategoryIds}">
 						<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
+                        <!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
+                        <div class="has-error">
+                            <aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
+                                <aui:validator name="custom" errorMessage="requested-vocabularies-error">
+                                    function (val, fieldNode, ruleValue) {
+                                        var validated = true;
+                                        var fields = document.querySelectorAll('.categories-selectors > .field-content');
+                                        for (var i = 0; i < fields.length; i++) {
+                                            fieldContent = fields[i];
+                                            if ($(fieldContent).find('.icon-asterisk').length > 0
+                                                && $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+                                                validated = false;
+                                                event.preventDefault();
+                                                break;
+                                            }
+                                        }
+                                        return validated;
+                                    }
+                                </aui:validator>
+                            </aui:input>
+                        </div>
 				    </c:when>
 					<c:otherwise>
-						<liferay-ui:asset-categories-selector
-								className="<%= BudgetParticipatif.class.getName() %>"
-								curCategoryIds="${defaultAssetCategoryIds}"
-						/>
+					    <div class="vocabularies">
+                            <liferay-ui:asset-categories-selector
+                                    className="<%= BudgetParticipatif.class.getName() %>"
+                                    curCategoryIds="${defaultAssetCategoryIds}"
+                            />
+                            <!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
+                            <div class="has-error">
+                                <aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
+                                    <aui:validator name="custom" errorMessage="requested-vocabularies-error">
+                                        function (val, fieldNode, ruleValue) {
+                                            var validated = true;
+                                            var fields = document.querySelectorAll('.vocabularies > .field-content');
+                                            for (var i = 0; i < fields.length; i++) {
+                                                fieldContent = fields[i];
+                                                if ($(fieldContent).find('.icon-asterisk').length > 0
+                                                    && $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+                                                    validated = false;
+                                                    event.preventDefault();
+                                                    break;
+                                                }
+                                            }
+                                            return validated;
+                                        }
+                                    </aui:validator>
+                                </aui:input>
+                            </div>
+                        </div>
 					</c:otherwise>
 				</c:choose>
-				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
-				<div class="has-error">
-					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
-						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
-							function (val, fieldNode, ruleValue) {
-								var validated = true;
-								var fields = document.querySelectorAll('.categories-selectors > .field-content');
-								for (var i = 0; i < fields.length; i++) {
-									fieldContent = fields[i];
-								    if ($(fieldContent).find('.icon-asterisk').length > 0
-								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
-								    	validated = false;
-								    	break;
-								    }
-								}
-								return validated;
-							}
-						</aui:validator>
-					</aui:input>
-				</div>
 
 				<%-- Champ : Selection des etiquettes (gere par le portail dans l'onglet "Etiquettes" du BO) --%>
 				<aui:input name="tags" type="assetTags" />
@@ -321,14 +345,7 @@
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>
-	<aui:script>
-		define._amd = define.amd;
-		define.amd = false;
-	</aui:script>
 	<script	src="/o/agendabo/js/vendors/jquery.autocomplete.js"></script>
-	<script>
-		define.amd = define._amd;
-	</script>
 	<script src="/o/projectbo/js/project-bo-edit-budget-participatif.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
 

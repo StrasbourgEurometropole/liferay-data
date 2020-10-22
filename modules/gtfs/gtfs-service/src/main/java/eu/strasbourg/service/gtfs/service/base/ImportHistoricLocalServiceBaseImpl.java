@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
-
 import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
 import com.liferay.exportimport.kernel.lar.ManifestSummary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -27,7 +26,6 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -55,6 +53,7 @@ import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
+import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -91,17 +90,17 @@ import javax.sql.DataSource;
  *
  * @author Cedric Henry
  * @see eu.strasbourg.service.gtfs.service.impl.ImportHistoricLocalServiceImpl
- * @see eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil
  * @generated
  */
 @ProviderType
 public abstract class ImportHistoricLocalServiceBaseImpl
-	extends BaseLocalServiceImpl implements ImportHistoricLocalService,
-		IdentifiableOSGiService {
+	extends BaseLocalServiceImpl
+	implements ImportHistoricLocalService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil} to access the import historic local service.
+	 * Never modify or reference this class directly. Use <code>ImportHistoricLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -125,6 +124,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @return the new import historic
 	 */
 	@Override
+	@Transactional(enabled = false)
 	public ImportHistoric createImportHistoric(long importHistoricId) {
 		return importHistoricPersistence.create(importHistoricId);
 	}
@@ -140,6 +140,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	@Override
 	public ImportHistoric deleteImportHistoric(long importHistoricId)
 		throws PortalException {
+
 		return importHistoricPersistence.remove(importHistoricId);
 	}
 
@@ -159,8 +160,8 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	public DynamicQuery dynamicQuery() {
 		Class<?> clazz = getClass();
 
-		return DynamicQueryFactoryUtil.forClass(ImportHistoric.class,
-			clazz.getClassLoader());
+		return DynamicQueryFactoryUtil.forClass(
+			ImportHistoric.class, clazz.getClassLoader());
 	}
 
 	/**
@@ -178,7 +179,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.gtfs.model.impl.ImportHistoricModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.gtfs.model.impl.ImportHistoricModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -187,17 +188,18 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @return the range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end) {
-		return importHistoricPersistence.findWithDynamicQuery(dynamicQuery,
-			start, end);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
+
+		return importHistoricPersistence.findWithDynamicQuery(
+			dynamicQuery, start, end);
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.gtfs.model.impl.ImportHistoricModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.gtfs.model.impl.ImportHistoricModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -207,10 +209,12 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @return the ordered range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end, OrderByComparator<T> orderByComparator) {
-		return importHistoricPersistence.findWithDynamicQuery(dynamicQuery,
-			start, end, orderByComparator);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
+
+		return importHistoricPersistence.findWithDynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
@@ -232,10 +236,11 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @return the number of rows matching the dynamic query
 	 */
 	@Override
-	public long dynamicQueryCount(DynamicQuery dynamicQuery,
-		Projection projection) {
-		return importHistoricPersistence.countWithDynamicQuery(dynamicQuery,
-			projection);
+	public long dynamicQueryCount(
+		DynamicQuery dynamicQuery, Projection projection) {
+
+		return importHistoricPersistence.countWithDynamicQuery(
+			dynamicQuery, projection);
 	}
 
 	@Override
@@ -251,8 +256,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @return the matching import historic, or <code>null</code> if a matching import historic could not be found
 	 */
 	@Override
-	public ImportHistoric fetchImportHistoricByUuidAndGroupId(String uuid,
-		long groupId) {
+	public ImportHistoric fetchImportHistoricByUuidAndGroupId(
+		String uuid, long groupId) {
+
 		return importHistoricPersistence.fetchByUUID_G(uuid, groupId);
 	}
 
@@ -266,12 +272,14 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	@Override
 	public ImportHistoric getImportHistoric(long importHistoricId)
 		throws PortalException {
+
 		return importHistoricPersistence.findByPrimaryKey(importHistoricId);
 	}
 
 	@Override
 	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery = new DefaultActionableDynamicQuery();
+		ActionableDynamicQuery actionableDynamicQuery =
+			new DefaultActionableDynamicQuery();
 
 		actionableDynamicQuery.setBaseLocalService(importHistoricLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
@@ -283,10 +291,14 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	}
 
 	@Override
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery = new IndexableActionableDynamicQuery();
+	public IndexableActionableDynamicQuery
+		getIndexableActionableDynamicQuery() {
 
-		indexableActionableDynamicQuery.setBaseLocalService(importHistoricLocalService);
+		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+			new IndexableActionableDynamicQuery();
+
+		indexableActionableDynamicQuery.setBaseLocalService(
+			importHistoricLocalService);
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
 		indexableActionableDynamicQuery.setModelClass(ImportHistoric.class);
 
@@ -298,6 +310,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 
 	protected void initActionableDynamicQuery(
 		ActionableDynamicQuery actionableDynamicQuery) {
+
 		actionableDynamicQuery.setBaseLocalService(importHistoricLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(ImportHistoric.class);
@@ -308,42 +321,52 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	@Override
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		final PortletDataContext portletDataContext) {
-		final ExportActionableDynamicQuery exportActionableDynamicQuery = new ExportActionableDynamicQuery() {
+
+		final ExportActionableDynamicQuery exportActionableDynamicQuery =
+			new ExportActionableDynamicQuery() {
+
 				@Override
 				public long performCount() throws PortalException {
-					ManifestSummary manifestSummary = portletDataContext.getManifestSummary();
+					ManifestSummary manifestSummary =
+						portletDataContext.getManifestSummary();
 
 					StagedModelType stagedModelType = getStagedModelType();
 
 					long modelAdditionCount = super.performCount();
 
-					manifestSummary.addModelAdditionCount(stagedModelType,
-						modelAdditionCount);
+					manifestSummary.addModelAdditionCount(
+						stagedModelType, modelAdditionCount);
 
-					long modelDeletionCount = ExportImportHelperUtil.getModelDeletionCount(portletDataContext,
-							stagedModelType);
+					long modelDeletionCount =
+						ExportImportHelperUtil.getModelDeletionCount(
+							portletDataContext, stagedModelType);
 
-					manifestSummary.addModelDeletionCount(stagedModelType,
-						modelDeletionCount);
+					manifestSummary.addModelDeletionCount(
+						stagedModelType, modelDeletionCount);
 
 					return modelAdditionCount;
 				}
+
 			};
 
 		initActionableDynamicQuery(exportActionableDynamicQuery);
 
-		exportActionableDynamicQuery.setAddCriteriaMethod(new ActionableDynamicQuery.AddCriteriaMethod() {
+		exportActionableDynamicQuery.setAddCriteriaMethod(
+			new ActionableDynamicQuery.AddCriteriaMethod() {
+
 				@Override
 				public void addCriteria(DynamicQuery dynamicQuery) {
-					Criterion modifiedDateCriterion = portletDataContext.getDateRangeCriteria(
-							"modifiedDate");
+					Criterion modifiedDateCriterion =
+						portletDataContext.getDateRangeCriteria("modifiedDate");
 
-					Criterion statusDateCriterion = portletDataContext.getDateRangeCriteria(
-							"statusDate");
+					Criterion statusDateCriterion =
+						portletDataContext.getDateRangeCriteria("statusDate");
 
 					if ((modifiedDateCriterion != null) &&
-							(statusDateCriterion != null)) {
-						Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
+						(statusDateCriterion != null)) {
+
+						Disjunction disjunction =
+							RestrictionsFactoryUtil.disjunction();
 
 						disjunction.add(modifiedDateCriterion);
 						disjunction.add(statusDateCriterion);
@@ -351,33 +374,46 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 						dynamicQuery.add(disjunction);
 					}
 
-					Property workflowStatusProperty = PropertyFactoryUtil.forName(
-							"status");
+					Property workflowStatusProperty =
+						PropertyFactoryUtil.forName("status");
 
 					if (portletDataContext.isInitialPublication()) {
-						dynamicQuery.add(workflowStatusProperty.ne(
+						dynamicQuery.add(
+							workflowStatusProperty.ne(
 								WorkflowConstants.STATUS_IN_TRASH));
 					}
 					else {
-						StagedModelDataHandler<?> stagedModelDataHandler = StagedModelDataHandlerRegistryUtil.getStagedModelDataHandler(ImportHistoric.class.getName());
+						StagedModelDataHandler<?> stagedModelDataHandler =
+							StagedModelDataHandlerRegistryUtil.
+								getStagedModelDataHandler(
+									ImportHistoric.class.getName());
 
-						dynamicQuery.add(workflowStatusProperty.in(
-								stagedModelDataHandler.getExportableStatuses()));
+						dynamicQuery.add(
+							workflowStatusProperty.in(
+								stagedModelDataHandler.
+									getExportableStatuses()));
 					}
 				}
+
 			});
 
-		exportActionableDynamicQuery.setCompanyId(portletDataContext.getCompanyId());
+		exportActionableDynamicQuery.setCompanyId(
+			portletDataContext.getCompanyId());
 
-		exportActionableDynamicQuery.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<ImportHistoric>() {
+		exportActionableDynamicQuery.setPerformActionMethod(
+			new ActionableDynamicQuery.PerformActionMethod<ImportHistoric>() {
+
 				@Override
 				public void performAction(ImportHistoric importHistoric)
 					throws PortalException {
-					StagedModelDataHandlerUtil.exportStagedModel(portletDataContext,
-						importHistoric);
+
+					StagedModelDataHandlerUtil.exportStagedModel(
+						portletDataContext, importHistoric);
 				}
+
 			});
-		exportActionableDynamicQuery.setStagedModelType(new StagedModelType(
+		exportActionableDynamicQuery.setStagedModelType(
+			new StagedModelType(
 				PortalUtil.getClassNameId(ImportHistoric.class.getName())));
 
 		return exportActionableDynamicQuery;
@@ -389,12 +425,15 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
-		return importHistoricLocalService.deleteImportHistoric((ImportHistoric)persistedModel);
+
+		return importHistoricLocalService.deleteImportHistoric(
+			(ImportHistoric)persistedModel);
 	}
 
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
+
 		return importHistoricPersistence.findByPrimaryKey(primaryKeyObj);
 	}
 
@@ -408,6 +447,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	@Override
 	public List<ImportHistoric> getImportHistoricsByUuidAndCompanyId(
 		String uuid, long companyId) {
+
 		return importHistoricPersistence.findByUuid_C(uuid, companyId);
 	}
 
@@ -425,8 +465,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	public List<ImportHistoric> getImportHistoricsByUuidAndCompanyId(
 		String uuid, long companyId, int start, int end,
 		OrderByComparator<ImportHistoric> orderByComparator) {
-		return importHistoricPersistence.findByUuid_C(uuid, companyId, start,
-			end, orderByComparator);
+
+		return importHistoricPersistence.findByUuid_C(
+			uuid, companyId, start, end, orderByComparator);
 	}
 
 	/**
@@ -438,8 +479,10 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @throws PortalException if a matching import historic could not be found
 	 */
 	@Override
-	public ImportHistoric getImportHistoricByUuidAndGroupId(String uuid,
-		long groupId) throws PortalException {
+	public ImportHistoric getImportHistoricByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
+
 		return importHistoricPersistence.findByUUID_G(uuid, groupId);
 	}
 
@@ -447,7 +490,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * Returns a range of all the import historics.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.gtfs.model.impl.ImportHistoricModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.gtfs.model.impl.ImportHistoricModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of import historics
@@ -486,7 +529,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the agency local service
 	 */
-	public eu.strasbourg.service.gtfs.service.AgencyLocalService getAgencyLocalService() {
+	public eu.strasbourg.service.gtfs.service.AgencyLocalService
+		getAgencyLocalService() {
+
 		return agencyLocalService;
 	}
 
@@ -496,7 +541,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param agencyLocalService the agency local service
 	 */
 	public void setAgencyLocalService(
-		eu.strasbourg.service.gtfs.service.AgencyLocalService agencyLocalService) {
+		eu.strasbourg.service.gtfs.service.AgencyLocalService
+			agencyLocalService) {
+
 		this.agencyLocalService = agencyLocalService;
 	}
 
@@ -523,7 +570,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the alert local service
 	 */
-	public eu.strasbourg.service.gtfs.service.AlertLocalService getAlertLocalService() {
+	public eu.strasbourg.service.gtfs.service.AlertLocalService
+		getAlertLocalService() {
+
 		return alertLocalService;
 	}
 
@@ -533,7 +582,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param alertLocalService the alert local service
 	 */
 	public void setAlertLocalService(
-		eu.strasbourg.service.gtfs.service.AlertLocalService alertLocalService) {
+		eu.strasbourg.service.gtfs.service.AlertLocalService
+			alertLocalService) {
+
 		this.alertLocalService = alertLocalService;
 	}
 
@@ -560,7 +611,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the arret local service
 	 */
-	public eu.strasbourg.service.gtfs.service.ArretLocalService getArretLocalService() {
+	public eu.strasbourg.service.gtfs.service.ArretLocalService
+		getArretLocalService() {
+
 		return arretLocalService;
 	}
 
@@ -570,7 +623,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param arretLocalService the arret local service
 	 */
 	public void setArretLocalService(
-		eu.strasbourg.service.gtfs.service.ArretLocalService arretLocalService) {
+		eu.strasbourg.service.gtfs.service.ArretLocalService
+			arretLocalService) {
+
 		this.arretLocalService = arretLocalService;
 	}
 
@@ -597,7 +652,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the calendar local service
 	 */
-	public eu.strasbourg.service.gtfs.service.CalendarLocalService getCalendarLocalService() {
+	public eu.strasbourg.service.gtfs.service.CalendarLocalService
+		getCalendarLocalService() {
+
 		return calendarLocalService;
 	}
 
@@ -607,7 +664,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param calendarLocalService the calendar local service
 	 */
 	public void setCalendarLocalService(
-		eu.strasbourg.service.gtfs.service.CalendarLocalService calendarLocalService) {
+		eu.strasbourg.service.gtfs.service.CalendarLocalService
+			calendarLocalService) {
+
 		this.calendarLocalService = calendarLocalService;
 	}
 
@@ -625,7 +684,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @param calendarPersistence the calendar persistence
 	 */
-	public void setCalendarPersistence(CalendarPersistence calendarPersistence) {
+	public void setCalendarPersistence(
+		CalendarPersistence calendarPersistence) {
+
 		this.calendarPersistence = calendarPersistence;
 	}
 
@@ -634,7 +695,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the calendar date local service
 	 */
-	public eu.strasbourg.service.gtfs.service.CalendarDateLocalService getCalendarDateLocalService() {
+	public eu.strasbourg.service.gtfs.service.CalendarDateLocalService
+		getCalendarDateLocalService() {
+
 		return calendarDateLocalService;
 	}
 
@@ -644,7 +707,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param calendarDateLocalService the calendar date local service
 	 */
 	public void setCalendarDateLocalService(
-		eu.strasbourg.service.gtfs.service.CalendarDateLocalService calendarDateLocalService) {
+		eu.strasbourg.service.gtfs.service.CalendarDateLocalService
+			calendarDateLocalService) {
+
 		this.calendarDateLocalService = calendarDateLocalService;
 	}
 
@@ -664,6 +729,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 */
 	public void setCalendarDatePersistence(
 		CalendarDatePersistence calendarDatePersistence) {
+
 		this.calendarDatePersistence = calendarDatePersistence;
 	}
 
@@ -672,7 +738,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the direction local service
 	 */
-	public eu.strasbourg.service.gtfs.service.DirectionLocalService getDirectionLocalService() {
+	public eu.strasbourg.service.gtfs.service.DirectionLocalService
+		getDirectionLocalService() {
+
 		return directionLocalService;
 	}
 
@@ -682,7 +750,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param directionLocalService the direction local service
 	 */
 	public void setDirectionLocalService(
-		eu.strasbourg.service.gtfs.service.DirectionLocalService directionLocalService) {
+		eu.strasbourg.service.gtfs.service.DirectionLocalService
+			directionLocalService) {
+
 		this.directionLocalService = directionLocalService;
 	}
 
@@ -702,6 +772,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 */
 	public void setDirectionPersistence(
 		DirectionPersistence directionPersistence) {
+
 		this.directionPersistence = directionPersistence;
 	}
 
@@ -721,6 +792,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 */
 	public void setImportHistoricLocalService(
 		ImportHistoricLocalService importHistoricLocalService) {
+
 		this.importHistoricLocalService = importHistoricLocalService;
 	}
 
@@ -740,6 +812,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 */
 	public void setImportHistoricPersistence(
 		ImportHistoricPersistence importHistoricPersistence) {
+
 		this.importHistoricPersistence = importHistoricPersistence;
 	}
 
@@ -748,7 +821,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the ligne local service
 	 */
-	public eu.strasbourg.service.gtfs.service.LigneLocalService getLigneLocalService() {
+	public eu.strasbourg.service.gtfs.service.LigneLocalService
+		getLigneLocalService() {
+
 		return ligneLocalService;
 	}
 
@@ -758,7 +833,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param ligneLocalService the ligne local service
 	 */
 	public void setLigneLocalService(
-		eu.strasbourg.service.gtfs.service.LigneLocalService ligneLocalService) {
+		eu.strasbourg.service.gtfs.service.LigneLocalService
+			ligneLocalService) {
+
 		this.ligneLocalService = ligneLocalService;
 	}
 
@@ -785,7 +862,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the route local service
 	 */
-	public eu.strasbourg.service.gtfs.service.RouteLocalService getRouteLocalService() {
+	public eu.strasbourg.service.gtfs.service.RouteLocalService
+		getRouteLocalService() {
+
 		return routeLocalService;
 	}
 
@@ -795,7 +874,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param routeLocalService the route local service
 	 */
 	public void setRouteLocalService(
-		eu.strasbourg.service.gtfs.service.RouteLocalService routeLocalService) {
+		eu.strasbourg.service.gtfs.service.RouteLocalService
+			routeLocalService) {
+
 		this.routeLocalService = routeLocalService;
 	}
 
@@ -822,7 +903,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the stop local service
 	 */
-	public eu.strasbourg.service.gtfs.service.StopLocalService getStopLocalService() {
+	public eu.strasbourg.service.gtfs.service.StopLocalService
+		getStopLocalService() {
+
 		return stopLocalService;
 	}
 
@@ -833,6 +916,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 */
 	public void setStopLocalService(
 		eu.strasbourg.service.gtfs.service.StopLocalService stopLocalService) {
+
 		this.stopLocalService = stopLocalService;
 	}
 
@@ -859,7 +943,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the stop time local service
 	 */
-	public eu.strasbourg.service.gtfs.service.StopTimeLocalService getStopTimeLocalService() {
+	public eu.strasbourg.service.gtfs.service.StopTimeLocalService
+		getStopTimeLocalService() {
+
 		return stopTimeLocalService;
 	}
 
@@ -869,7 +955,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param stopTimeLocalService the stop time local service
 	 */
 	public void setStopTimeLocalService(
-		eu.strasbourg.service.gtfs.service.StopTimeLocalService stopTimeLocalService) {
+		eu.strasbourg.service.gtfs.service.StopTimeLocalService
+			stopTimeLocalService) {
+
 		this.stopTimeLocalService = stopTimeLocalService;
 	}
 
@@ -887,7 +975,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @param stopTimePersistence the stop time persistence
 	 */
-	public void setStopTimePersistence(StopTimePersistence stopTimePersistence) {
+	public void setStopTimePersistence(
+		StopTimePersistence stopTimePersistence) {
+
 		this.stopTimePersistence = stopTimePersistence;
 	}
 
@@ -896,7 +986,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the trip local service
 	 */
-	public eu.strasbourg.service.gtfs.service.TripLocalService getTripLocalService() {
+	public eu.strasbourg.service.gtfs.service.TripLocalService
+		getTripLocalService() {
+
 		return tripLocalService;
 	}
 
@@ -907,6 +999,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 */
 	public void setTripLocalService(
 		eu.strasbourg.service.gtfs.service.TripLocalService tripLocalService) {
+
 		this.tripLocalService = tripLocalService;
 	}
 
@@ -951,7 +1044,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -961,7 +1056,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -970,7 +1067,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -980,7 +1079,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -1000,6 +1101,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -1008,7 +1110,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -1018,7 +1122,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -1027,7 +1133,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -1038,6 +1146,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -1064,7 +1173,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the asset entry local service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryLocalService getAssetEntryLocalService() {
+	public com.liferay.asset.kernel.service.AssetEntryLocalService
+		getAssetEntryLocalService() {
+
 		return assetEntryLocalService;
 	}
 
@@ -1074,7 +1185,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param assetEntryLocalService the asset entry local service
 	 */
 	public void setAssetEntryLocalService(
-		com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService) {
+		com.liferay.asset.kernel.service.AssetEntryLocalService
+			assetEntryLocalService) {
+
 		this.assetEntryLocalService = assetEntryLocalService;
 	}
 
@@ -1094,6 +1207,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 */
 	public void setAssetEntryPersistence(
 		AssetEntryPersistence assetEntryPersistence) {
+
 		this.assetEntryPersistence = assetEntryPersistence;
 	}
 
@@ -1102,7 +1216,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.kernel.service.AssetLinkLocalService getAssetLinkLocalService() {
+	public com.liferay.asset.kernel.service.AssetLinkLocalService
+		getAssetLinkLocalService() {
+
 		return assetLinkLocalService;
 	}
 
@@ -1112,7 +1228,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService) {
+		com.liferay.asset.kernel.service.AssetLinkLocalService
+			assetLinkLocalService) {
+
 		this.assetLinkLocalService = assetLinkLocalService;
 	}
 
@@ -1132,6 +1250,7 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 */
 	public void setAssetLinkPersistence(
 		AssetLinkPersistence assetLinkPersistence) {
+
 		this.assetLinkPersistence = assetLinkPersistence;
 	}
 
@@ -1140,7 +1259,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @return the asset tag local service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagLocalService getAssetTagLocalService() {
+	public com.liferay.asset.kernel.service.AssetTagLocalService
+		getAssetTagLocalService() {
+
 		return assetTagLocalService;
 	}
 
@@ -1150,7 +1271,9 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 * @param assetTagLocalService the asset tag local service
 	 */
 	public void setAssetTagLocalService(
-		com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService) {
+		com.liferay.asset.kernel.service.AssetTagLocalService
+			assetTagLocalService) {
+
 		this.assetTagLocalService = assetTagLocalService;
 	}
 
@@ -1168,12 +1291,15 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 	 *
 	 * @param assetTagPersistence the asset tag persistence
 	 */
-	public void setAssetTagPersistence(AssetTagPersistence assetTagPersistence) {
+	public void setAssetTagPersistence(
+		AssetTagPersistence assetTagPersistence) {
+
 		this.assetTagPersistence = assetTagPersistence;
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register("eu.strasbourg.service.gtfs.model.ImportHistoric",
+		persistedModelLocalServiceRegistry.register(
+			"eu.strasbourg.service.gtfs.model.ImportHistoric",
 			importHistoricLocalService);
 	}
 
@@ -1214,8 +1340,8 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -1224,80 +1350,173 @@ public abstract class ImportHistoricLocalServiceBaseImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.AgencyLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.AgencyLocalService agencyLocalService;
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.AgencyLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.AgencyLocalService
+		agencyLocalService;
+
 	@BeanReference(type = AgencyPersistence.class)
 	protected AgencyPersistence agencyPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.AlertLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.AlertLocalService alertLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.AlertLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.AlertLocalService
+		alertLocalService;
+
 	@BeanReference(type = AlertPersistence.class)
 	protected AlertPersistence alertPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.ArretLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.ArretLocalService arretLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.ArretLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.ArretLocalService
+		arretLocalService;
+
 	@BeanReference(type = ArretPersistence.class)
 	protected ArretPersistence arretPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.CalendarLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.CalendarLocalService calendarLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.CalendarLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.CalendarLocalService
+		calendarLocalService;
+
 	@BeanReference(type = CalendarPersistence.class)
 	protected CalendarPersistence calendarPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.CalendarDateLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.CalendarDateLocalService calendarDateLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.CalendarDateLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.CalendarDateLocalService
+		calendarDateLocalService;
+
 	@BeanReference(type = CalendarDatePersistence.class)
 	protected CalendarDatePersistence calendarDatePersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.DirectionLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.DirectionLocalService directionLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.DirectionLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.DirectionLocalService
+		directionLocalService;
+
 	@BeanReference(type = DirectionPersistence.class)
 	protected DirectionPersistence directionPersistence;
+
 	@BeanReference(type = ImportHistoricLocalService.class)
 	protected ImportHistoricLocalService importHistoricLocalService;
+
 	@BeanReference(type = ImportHistoricPersistence.class)
 	protected ImportHistoricPersistence importHistoricPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.LigneLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.LigneLocalService ligneLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.LigneLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.LigneLocalService
+		ligneLocalService;
+
 	@BeanReference(type = LignePersistence.class)
 	protected LignePersistence lignePersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.RouteLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.RouteLocalService routeLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.RouteLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.RouteLocalService
+		routeLocalService;
+
 	@BeanReference(type = RoutePersistence.class)
 	protected RoutePersistence routePersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.StopLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.StopLocalService stopLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.StopLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.StopLocalService
+		stopLocalService;
+
 	@BeanReference(type = StopPersistence.class)
 	protected StopPersistence stopPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.StopTimeLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.StopTimeLocalService stopTimeLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.StopTimeLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.StopTimeLocalService
+		stopTimeLocalService;
+
 	@BeanReference(type = StopTimePersistence.class)
 	protected StopTimePersistence stopTimePersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.TripLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.TripLocalService tripLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.TripLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.TripLocalService
+		tripLocalService;
+
 	@BeanReference(type = TripPersistence.class)
 	protected TripPersistence tripPersistence;
+
 	@BeanReference(type = TripFinder.class)
 	protected TripFinder tripFinder;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetEntryLocalService
+		assetEntryLocalService;
+
 	@ServiceReference(type = AssetEntryPersistence.class)
 	protected AssetEntryPersistence assetEntryPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetLinkLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService
+		assetLinkLocalService;
+
 	@ServiceReference(type = AssetLinkPersistence.class)
 	protected AssetLinkPersistence assetLinkPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetTagLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetTagLocalService
+		assetTagLocalService;
+
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry;
+	protected PersistedModelLocalServiceRegistry
+		persistedModelLocalServiceRegistry;
+
 }

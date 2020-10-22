@@ -22,18 +22,22 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public interface CampaignEventFinder {
-	public java.util.List<eu.strasbourg.service.agenda.model.CampaignEvent> findByKeywordThemeAndStatus(
-		java.lang.String keyword, long themeId, int status, long userId,
-		long groupId, int start, int end);
 
-	public java.util.List<eu.strasbourg.service.agenda.model.CampaignEvent> findByKeywordThemeTypeCampaignAndStatus(
-		java.lang.String keyword, long themeId, long typeId, long campaignId,
-		int status, long userId, long groupId, int start, int end);
+	public java.util.List<eu.strasbourg.service.agenda.model.CampaignEvent>
+		findByKeywordThemeAndStatus(
+			String keyword, long themeId, int status, long userId, long groupId,
+			int start, int end);
 
-	public long findByKeywordThemeAndStatusCount(java.lang.String keyword,
-		long themeId, int status, long userId, long groupId);
+	public java.util.List<eu.strasbourg.service.agenda.model.CampaignEvent>
+		findByKeywordThemeTypeCampaignAndStatus(
+			String keyword, long themeId, long typeId, long campaignId,
+			int status, long userId, long groupId, int start, int end);
+
+	public long findByKeywordThemeAndStatusCount(
+		String keyword, long themeId, int status, long userId, long groupId);
 
 	public long findByKeywordThemeTypeCampaignAndStatusCount(
-		java.lang.String keyword, long themeId, long typeId, long campaignId,
-		int status, long userId, long groupId);
+		String keyword, long themeId, long typeId, long campaignId, int status,
+		long userId, long groupId);
+
 }

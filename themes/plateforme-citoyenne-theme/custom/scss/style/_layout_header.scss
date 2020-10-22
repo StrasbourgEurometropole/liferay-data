@@ -396,7 +396,9 @@ main {
 	// HEADER PRINCIPAL DU SITE
 	// ==========================================================================
 	.pro-header {
-		position: relative;
+		@media (min-width: 993px){
+			position: relative;
+		}
 		text-align: center;
 		// Logo du site (image)
 		.pro-logo {

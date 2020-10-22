@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.agenda.model.AgendaExport;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing AgendaExport in entity cache.
  *
  * @author BenjaminBini
- * @see AgendaExport
  * @generated
  */
 @ProviderType
-public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
-	Externalizable {
+public class AgendaExportCacheModel
+	implements CacheModel<AgendaExport>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 			return false;
 		}
 
-		AgendaExportCacheModel agendaExportCacheModel = (AgendaExportCacheModel)obj;
+		AgendaExportCacheModel agendaExportCacheModel =
+			(AgendaExportCacheModel)obj;
 
 		if (agendaExportId == agendaExportCacheModel.agendaExportId) {
 			return true;
@@ -116,7 +116,7 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		AgendaExportImpl agendaExportImpl = new AgendaExportImpl();
 
 		if (uuid == null) {
-			agendaExportImpl.setUuid(StringPool.BLANK);
+			agendaExportImpl.setUuid("");
 		}
 		else {
 			agendaExportImpl.setUuid(uuid);
@@ -128,7 +128,7 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		agendaExportImpl.setUserId(userId);
 
 		if (userName == null) {
-			agendaExportImpl.setUserName(StringPool.BLANK);
+			agendaExportImpl.setUserName("");
 		}
 		else {
 			agendaExportImpl.setUserName(userName);
@@ -159,7 +159,7 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		agendaExportImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			agendaExportImpl.setStatusByUserName(StringPool.BLANK);
+			agendaExportImpl.setStatusByUserName("");
 		}
 		else {
 			agendaExportImpl.setStatusByUserName(statusByUserName);
@@ -173,21 +173,21 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		}
 
 		if (title == null) {
-			agendaExportImpl.setTitle(StringPool.BLANK);
+			agendaExportImpl.setTitle("");
 		}
 		else {
 			agendaExportImpl.setTitle(title);
 		}
 
 		if (language == null) {
-			agendaExportImpl.setLanguage(StringPool.BLANK);
+			agendaExportImpl.setLanguage("");
 		}
 		else {
 			agendaExportImpl.setLanguage(language);
 		}
 
 		if (exportFormat == null) {
-			agendaExportImpl.setExportFormat(StringPool.BLANK);
+			agendaExportImpl.setExportFormat("");
 		}
 		else {
 			agendaExportImpl.setExportFormat(exportFormat);
@@ -196,14 +196,14 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		agendaExportImpl.setTemplateId(templateId);
 
 		if (eventCategories == null) {
-			agendaExportImpl.setEventCategories(StringPool.BLANK);
+			agendaExportImpl.setEventCategories("");
 		}
 		else {
 			agendaExportImpl.setEventCategories(eventCategories);
 		}
 
 		if (aggregations == null) {
-			agendaExportImpl.setAggregations(StringPool.BLANK);
+			agendaExportImpl.setAggregations("");
 		}
 		else {
 			agendaExportImpl.setAggregations(aggregations);
@@ -245,10 +245,9 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -263,7 +262,7 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -278,7 +277,7 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -287,21 +286,21 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (language == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(language);
 		}
 
 		if (exportFormat == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(exportFormat);
@@ -310,14 +309,14 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		objectOutput.writeLong(templateId);
 
 		if (eventCategories == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(eventCategories);
 		}
 
 		if (aggregations == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(aggregations);
@@ -343,4 +342,5 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 	public long templateId;
 	public String eventCategories;
 	public String aggregations;
+
 }

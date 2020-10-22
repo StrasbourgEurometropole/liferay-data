@@ -11,7 +11,7 @@ create table comment_Comment (
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
-	comment_ TEXT null,
+	text_ TEXT null,
 	level INTEGER,
 	userQuality VARCHAR(75) null,
 	modifiedByUserDate DATE null,

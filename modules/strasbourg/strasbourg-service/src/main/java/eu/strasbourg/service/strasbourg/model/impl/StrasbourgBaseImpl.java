@@ -32,12 +32,13 @@ import eu.strasbourg.service.strasbourg.service.StrasbourgLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class StrasbourgBaseImpl extends StrasbourgModelImpl
-	implements Strasbourg {
+public abstract class StrasbourgBaseImpl
+	extends StrasbourgModelImpl implements Strasbourg {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a strasbourg model instance should use the {@link Strasbourg} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a strasbourg model instance should use the <code>Strasbourg</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class StrasbourgBaseImpl extends StrasbourgModelImpl
 			StrasbourgLocalServiceUtil.updateStrasbourg(this);
 		}
 	}
+
 }

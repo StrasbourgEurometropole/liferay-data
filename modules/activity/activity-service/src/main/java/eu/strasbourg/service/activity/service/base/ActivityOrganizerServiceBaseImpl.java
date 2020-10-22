@@ -17,7 +17,6 @@ package eu.strasbourg.service.activity.service.base;
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -52,15 +51,16 @@ import javax.sql.DataSource;
  *
  * @author Brian Wing Shun Chan
  * @see eu.strasbourg.service.activity.service.impl.ActivityOrganizerServiceImpl
- * @see eu.strasbourg.service.activity.service.ActivityOrganizerServiceUtil
  * @generated
  */
-public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
+public abstract class ActivityOrganizerServiceBaseImpl
+	extends BaseServiceImpl
 	implements ActivityOrganizerService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.activity.service.ActivityOrganizerServiceUtil} to access the activity organizer remote service.
+	 * Never modify or reference this class directly. Use <code>ActivityOrganizerService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.activity.service.ActivityOrganizerServiceUtil</code>.
 	 */
 
 	/**
@@ -68,7 +68,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the activity local service
 	 */
-	public eu.strasbourg.service.activity.service.ActivityLocalService getActivityLocalService() {
+	public eu.strasbourg.service.activity.service.ActivityLocalService
+		getActivityLocalService() {
+
 		return activityLocalService;
 	}
 
@@ -78,7 +80,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param activityLocalService the activity local service
 	 */
 	public void setActivityLocalService(
-		eu.strasbourg.service.activity.service.ActivityLocalService activityLocalService) {
+		eu.strasbourg.service.activity.service.ActivityLocalService
+			activityLocalService) {
+
 		this.activityLocalService = activityLocalService;
 	}
 
@@ -87,7 +91,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the activity remote service
 	 */
-	public eu.strasbourg.service.activity.service.ActivityService getActivityService() {
+	public eu.strasbourg.service.activity.service.ActivityService
+		getActivityService() {
+
 		return activityService;
 	}
 
@@ -97,7 +103,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param activityService the activity remote service
 	 */
 	public void setActivityService(
-		eu.strasbourg.service.activity.service.ActivityService activityService) {
+		eu.strasbourg.service.activity.service.ActivityService
+			activityService) {
+
 		this.activityService = activityService;
 	}
 
@@ -115,7 +123,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @param activityPersistence the activity persistence
 	 */
-	public void setActivityPersistence(ActivityPersistence activityPersistence) {
+	public void setActivityPersistence(
+		ActivityPersistence activityPersistence) {
+
 		this.activityPersistence = activityPersistence;
 	}
 
@@ -124,7 +134,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the activity course local service
 	 */
-	public eu.strasbourg.service.activity.service.ActivityCourseLocalService getActivityCourseLocalService() {
+	public eu.strasbourg.service.activity.service.ActivityCourseLocalService
+		getActivityCourseLocalService() {
+
 		return activityCourseLocalService;
 	}
 
@@ -134,7 +146,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param activityCourseLocalService the activity course local service
 	 */
 	public void setActivityCourseLocalService(
-		eu.strasbourg.service.activity.service.ActivityCourseLocalService activityCourseLocalService) {
+		eu.strasbourg.service.activity.service.ActivityCourseLocalService
+			activityCourseLocalService) {
+
 		this.activityCourseLocalService = activityCourseLocalService;
 	}
 
@@ -143,7 +157,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the activity course remote service
 	 */
-	public eu.strasbourg.service.activity.service.ActivityCourseService getActivityCourseService() {
+	public eu.strasbourg.service.activity.service.ActivityCourseService
+		getActivityCourseService() {
+
 		return activityCourseService;
 	}
 
@@ -153,7 +169,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param activityCourseService the activity course remote service
 	 */
 	public void setActivityCourseService(
-		eu.strasbourg.service.activity.service.ActivityCourseService activityCourseService) {
+		eu.strasbourg.service.activity.service.ActivityCourseService
+			activityCourseService) {
+
 		this.activityCourseService = activityCourseService;
 	}
 
@@ -173,6 +191,7 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setActivityCoursePersistence(
 		ActivityCoursePersistence activityCoursePersistence) {
+
 		this.activityCoursePersistence = activityCoursePersistence;
 	}
 
@@ -181,7 +200,10 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the activity course place local service
 	 */
-	public eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalService getActivityCoursePlaceLocalService() {
+	public
+		eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalService
+			getActivityCoursePlaceLocalService() {
+
 		return activityCoursePlaceLocalService;
 	}
 
@@ -191,7 +213,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param activityCoursePlaceLocalService the activity course place local service
 	 */
 	public void setActivityCoursePlaceLocalService(
-		eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalService activityCoursePlaceLocalService) {
+		eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalService
+			activityCoursePlaceLocalService) {
+
 		this.activityCoursePlaceLocalService = activityCoursePlaceLocalService;
 	}
 
@@ -200,7 +224,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the activity course place remote service
 	 */
-	public eu.strasbourg.service.activity.service.ActivityCoursePlaceService getActivityCoursePlaceService() {
+	public eu.strasbourg.service.activity.service.ActivityCoursePlaceService
+		getActivityCoursePlaceService() {
+
 		return activityCoursePlaceService;
 	}
 
@@ -210,7 +236,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param activityCoursePlaceService the activity course place remote service
 	 */
 	public void setActivityCoursePlaceService(
-		eu.strasbourg.service.activity.service.ActivityCoursePlaceService activityCoursePlaceService) {
+		eu.strasbourg.service.activity.service.ActivityCoursePlaceService
+			activityCoursePlaceService) {
+
 		this.activityCoursePlaceService = activityCoursePlaceService;
 	}
 
@@ -230,6 +258,7 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setActivityCoursePlacePersistence(
 		ActivityCoursePlacePersistence activityCoursePlacePersistence) {
+
 		this.activityCoursePlacePersistence = activityCoursePlacePersistence;
 	}
 
@@ -238,7 +267,11 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the activity course schedule local service
 	 */
-	public eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService getActivityCourseScheduleLocalService() {
+	public
+		eu.strasbourg.service.activity.service.
+			ActivityCourseScheduleLocalService
+				getActivityCourseScheduleLocalService() {
+
 		return activityCourseScheduleLocalService;
 	}
 
@@ -248,8 +281,12 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param activityCourseScheduleLocalService the activity course schedule local service
 	 */
 	public void setActivityCourseScheduleLocalService(
-		eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService activityCourseScheduleLocalService) {
-		this.activityCourseScheduleLocalService = activityCourseScheduleLocalService;
+		eu.strasbourg.service.activity.service.
+			ActivityCourseScheduleLocalService
+				activityCourseScheduleLocalService) {
+
+		this.activityCourseScheduleLocalService =
+			activityCourseScheduleLocalService;
 	}
 
 	/**
@@ -257,7 +294,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the activity course schedule remote service
 	 */
-	public eu.strasbourg.service.activity.service.ActivityCourseScheduleService getActivityCourseScheduleService() {
+	public eu.strasbourg.service.activity.service.ActivityCourseScheduleService
+		getActivityCourseScheduleService() {
+
 		return activityCourseScheduleService;
 	}
 
@@ -267,7 +306,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param activityCourseScheduleService the activity course schedule remote service
 	 */
 	public void setActivityCourseScheduleService(
-		eu.strasbourg.service.activity.service.ActivityCourseScheduleService activityCourseScheduleService) {
+		eu.strasbourg.service.activity.service.ActivityCourseScheduleService
+			activityCourseScheduleService) {
+
 		this.activityCourseScheduleService = activityCourseScheduleService;
 	}
 
@@ -276,7 +317,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the activity course schedule persistence
 	 */
-	public ActivityCourseSchedulePersistence getActivityCourseSchedulePersistence() {
+	public ActivityCourseSchedulePersistence
+		getActivityCourseSchedulePersistence() {
+
 		return activityCourseSchedulePersistence;
 	}
 
@@ -287,7 +330,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setActivityCourseSchedulePersistence(
 		ActivityCourseSchedulePersistence activityCourseSchedulePersistence) {
-		this.activityCourseSchedulePersistence = activityCourseSchedulePersistence;
+
+		this.activityCourseSchedulePersistence =
+			activityCourseSchedulePersistence;
 	}
 
 	/**
@@ -295,7 +340,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the activity organizer local service
 	 */
-	public eu.strasbourg.service.activity.service.ActivityOrganizerLocalService getActivityOrganizerLocalService() {
+	public eu.strasbourg.service.activity.service.ActivityOrganizerLocalService
+		getActivityOrganizerLocalService() {
+
 		return activityOrganizerLocalService;
 	}
 
@@ -305,7 +352,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param activityOrganizerLocalService the activity organizer local service
 	 */
 	public void setActivityOrganizerLocalService(
-		eu.strasbourg.service.activity.service.ActivityOrganizerLocalService activityOrganizerLocalService) {
+		eu.strasbourg.service.activity.service.ActivityOrganizerLocalService
+			activityOrganizerLocalService) {
+
 		this.activityOrganizerLocalService = activityOrganizerLocalService;
 	}
 
@@ -325,6 +374,7 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setActivityOrganizerService(
 		ActivityOrganizerService activityOrganizerService) {
+
 		this.activityOrganizerService = activityOrganizerService;
 	}
 
@@ -344,6 +394,7 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setActivityOrganizerPersistence(
 		ActivityOrganizerPersistence activityOrganizerPersistence) {
+
 		this.activityOrganizerPersistence = activityOrganizerPersistence;
 	}
 
@@ -352,7 +403,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the association local service
 	 */
-	public eu.strasbourg.service.activity.service.AssociationLocalService getAssociationLocalService() {
+	public eu.strasbourg.service.activity.service.AssociationLocalService
+		getAssociationLocalService() {
+
 		return associationLocalService;
 	}
 
@@ -362,7 +415,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param associationLocalService the association local service
 	 */
 	public void setAssociationLocalService(
-		eu.strasbourg.service.activity.service.AssociationLocalService associationLocalService) {
+		eu.strasbourg.service.activity.service.AssociationLocalService
+			associationLocalService) {
+
 		this.associationLocalService = associationLocalService;
 	}
 
@@ -371,7 +426,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the association remote service
 	 */
-	public eu.strasbourg.service.activity.service.AssociationService getAssociationService() {
+	public eu.strasbourg.service.activity.service.AssociationService
+		getAssociationService() {
+
 		return associationService;
 	}
 
@@ -381,7 +438,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param associationService the association remote service
 	 */
 	public void setAssociationService(
-		eu.strasbourg.service.activity.service.AssociationService associationService) {
+		eu.strasbourg.service.activity.service.AssociationService
+			associationService) {
+
 		this.associationService = associationService;
 	}
 
@@ -401,6 +460,7 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssociationPersistence(
 		AssociationPersistence associationPersistence) {
+
 		this.associationPersistence = associationPersistence;
 	}
 
@@ -409,7 +469,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the practice local service
 	 */
-	public eu.strasbourg.service.activity.service.PracticeLocalService getPracticeLocalService() {
+	public eu.strasbourg.service.activity.service.PracticeLocalService
+		getPracticeLocalService() {
+
 		return practiceLocalService;
 	}
 
@@ -419,7 +481,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param practiceLocalService the practice local service
 	 */
 	public void setPracticeLocalService(
-		eu.strasbourg.service.activity.service.PracticeLocalService practiceLocalService) {
+		eu.strasbourg.service.activity.service.PracticeLocalService
+			practiceLocalService) {
+
 		this.practiceLocalService = practiceLocalService;
 	}
 
@@ -428,7 +492,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the practice remote service
 	 */
-	public eu.strasbourg.service.activity.service.PracticeService getPracticeService() {
+	public eu.strasbourg.service.activity.service.PracticeService
+		getPracticeService() {
+
 		return practiceService;
 	}
 
@@ -438,7 +504,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param practiceService the practice remote service
 	 */
 	public void setPracticeService(
-		eu.strasbourg.service.activity.service.PracticeService practiceService) {
+		eu.strasbourg.service.activity.service.PracticeService
+			practiceService) {
+
 		this.practiceService = practiceService;
 	}
 
@@ -456,7 +524,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @param practicePersistence the practice persistence
 	 */
-	public void setPracticePersistence(PracticePersistence practicePersistence) {
+	public void setPracticePersistence(
+		PracticePersistence practicePersistence) {
+
 		this.practicePersistence = practicePersistence;
 	}
 
@@ -465,7 +535,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -475,7 +547,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -484,7 +558,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -494,7 +570,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -503,7 +581,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the class name remote service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameService getClassNameService() {
+	public com.liferay.portal.kernel.service.ClassNameService
+		getClassNameService() {
+
 		return classNameService;
 	}
 
@@ -514,6 +594,7 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setClassNameService(
 		com.liferay.portal.kernel.service.ClassNameService classNameService) {
+
 		this.classNameService = classNameService;
 	}
 
@@ -533,6 +614,7 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -541,7 +623,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -551,7 +635,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -560,7 +646,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -571,6 +659,7 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -590,6 +679,7 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserService(
 		com.liferay.portal.kernel.service.UserService userService) {
+
 		this.userService = userService;
 	}
 
@@ -616,7 +706,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset entry local service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryLocalService getAssetEntryLocalService() {
+	public com.liferay.asset.kernel.service.AssetEntryLocalService
+		getAssetEntryLocalService() {
+
 		return assetEntryLocalService;
 	}
 
@@ -626,7 +718,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param assetEntryLocalService the asset entry local service
 	 */
 	public void setAssetEntryLocalService(
-		com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService) {
+		com.liferay.asset.kernel.service.AssetEntryLocalService
+			assetEntryLocalService) {
+
 		this.assetEntryLocalService = assetEntryLocalService;
 	}
 
@@ -635,7 +729,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset entry remote service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryService getAssetEntryService() {
+	public com.liferay.asset.kernel.service.AssetEntryService
+		getAssetEntryService() {
+
 		return assetEntryService;
 	}
 
@@ -646,6 +742,7 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetEntryService(
 		com.liferay.asset.kernel.service.AssetEntryService assetEntryService) {
+
 		this.assetEntryService = assetEntryService;
 	}
 
@@ -665,6 +762,7 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetEntryPersistence(
 		AssetEntryPersistence assetEntryPersistence) {
+
 		this.assetEntryPersistence = assetEntryPersistence;
 	}
 
@@ -673,7 +771,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.kernel.service.AssetLinkLocalService getAssetLinkLocalService() {
+	public com.liferay.asset.kernel.service.AssetLinkLocalService
+		getAssetLinkLocalService() {
+
 		return assetLinkLocalService;
 	}
 
@@ -683,7 +783,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService) {
+		com.liferay.asset.kernel.service.AssetLinkLocalService
+			assetLinkLocalService) {
+
 		this.assetLinkLocalService = assetLinkLocalService;
 	}
 
@@ -703,6 +805,7 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetLinkPersistence(
 		AssetLinkPersistence assetLinkPersistence) {
+
 		this.assetLinkPersistence = assetLinkPersistence;
 	}
 
@@ -711,7 +814,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset tag local service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagLocalService getAssetTagLocalService() {
+	public com.liferay.asset.kernel.service.AssetTagLocalService
+		getAssetTagLocalService() {
+
 		return assetTagLocalService;
 	}
 
@@ -721,7 +826,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 * @param assetTagLocalService the asset tag local service
 	 */
 	public void setAssetTagLocalService(
-		com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService) {
+		com.liferay.asset.kernel.service.AssetTagLocalService
+			assetTagLocalService) {
+
 		this.assetTagLocalService = assetTagLocalService;
 	}
 
@@ -730,7 +837,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset tag remote service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagService getAssetTagService() {
+	public com.liferay.asset.kernel.service.AssetTagService
+		getAssetTagService() {
+
 		return assetTagService;
 	}
 
@@ -741,6 +850,7 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetTagService(
 		com.liferay.asset.kernel.service.AssetTagService assetTagService) {
+
 		this.assetTagService = assetTagService;
 	}
 
@@ -758,7 +868,9 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @param assetTagPersistence the asset tag persistence
 	 */
-	public void setAssetTagPersistence(AssetTagPersistence assetTagPersistence) {
+	public void setAssetTagPersistence(
+		AssetTagPersistence assetTagPersistence) {
+
 		this.assetTagPersistence = assetTagPersistence;
 	}
 
@@ -793,15 +905,16 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	 */
 	protected void runSQL(String sql) {
 		try {
-			DataSource dataSource = activityOrganizerPersistence.getDataSource();
+			DataSource dataSource =
+				activityOrganizerPersistence.getDataSource();
 
 			DB db = DBManagerUtil.getDB();
 
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -810,78 +923,191 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.activity.service.ActivityLocalService.class)
-	protected eu.strasbourg.service.activity.service.ActivityLocalService activityLocalService;
-	@BeanReference(type = eu.strasbourg.service.activity.service.ActivityService.class)
-	protected eu.strasbourg.service.activity.service.ActivityService activityService;
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.ActivityLocalService.class
+	)
+	protected eu.strasbourg.service.activity.service.ActivityLocalService
+		activityLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.ActivityService.class
+	)
+	protected eu.strasbourg.service.activity.service.ActivityService
+		activityService;
+
 	@BeanReference(type = ActivityPersistence.class)
 	protected ActivityPersistence activityPersistence;
-	@BeanReference(type = eu.strasbourg.service.activity.service.ActivityCourseLocalService.class)
-	protected eu.strasbourg.service.activity.service.ActivityCourseLocalService activityCourseLocalService;
-	@BeanReference(type = eu.strasbourg.service.activity.service.ActivityCourseService.class)
-	protected eu.strasbourg.service.activity.service.ActivityCourseService activityCourseService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.ActivityCourseLocalService.class
+	)
+	protected eu.strasbourg.service.activity.service.ActivityCourseLocalService
+		activityCourseLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.ActivityCourseService.class
+	)
+	protected eu.strasbourg.service.activity.service.ActivityCourseService
+		activityCourseService;
+
 	@BeanReference(type = ActivityCoursePersistence.class)
 	protected ActivityCoursePersistence activityCoursePersistence;
-	@BeanReference(type = eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalService.class)
-	protected eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalService activityCoursePlaceLocalService;
-	@BeanReference(type = eu.strasbourg.service.activity.service.ActivityCoursePlaceService.class)
-	protected eu.strasbourg.service.activity.service.ActivityCoursePlaceService activityCoursePlaceService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalService.class
+	)
+	protected
+		eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalService
+			activityCoursePlaceLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.ActivityCoursePlaceService.class
+	)
+	protected eu.strasbourg.service.activity.service.ActivityCoursePlaceService
+		activityCoursePlaceService;
+
 	@BeanReference(type = ActivityCoursePlacePersistence.class)
 	protected ActivityCoursePlacePersistence activityCoursePlacePersistence;
-	@BeanReference(type = eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService.class)
-	protected eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService activityCourseScheduleLocalService;
-	@BeanReference(type = eu.strasbourg.service.activity.service.ActivityCourseScheduleService.class)
-	protected eu.strasbourg.service.activity.service.ActivityCourseScheduleService activityCourseScheduleService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService.class
+	)
+	protected
+		eu.strasbourg.service.activity.service.
+			ActivityCourseScheduleLocalService
+				activityCourseScheduleLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.ActivityCourseScheduleService.class
+	)
+	protected
+		eu.strasbourg.service.activity.service.ActivityCourseScheduleService
+			activityCourseScheduleService;
+
 	@BeanReference(type = ActivityCourseSchedulePersistence.class)
-	protected ActivityCourseSchedulePersistence activityCourseSchedulePersistence;
-	@BeanReference(type = eu.strasbourg.service.activity.service.ActivityOrganizerLocalService.class)
-	protected eu.strasbourg.service.activity.service.ActivityOrganizerLocalService activityOrganizerLocalService;
+	protected ActivityCourseSchedulePersistence
+		activityCourseSchedulePersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.ActivityOrganizerLocalService.class
+	)
+	protected
+		eu.strasbourg.service.activity.service.ActivityOrganizerLocalService
+			activityOrganizerLocalService;
+
 	@BeanReference(type = ActivityOrganizerService.class)
 	protected ActivityOrganizerService activityOrganizerService;
+
 	@BeanReference(type = ActivityOrganizerPersistence.class)
 	protected ActivityOrganizerPersistence activityOrganizerPersistence;
-	@BeanReference(type = eu.strasbourg.service.activity.service.AssociationLocalService.class)
-	protected eu.strasbourg.service.activity.service.AssociationLocalService associationLocalService;
-	@BeanReference(type = eu.strasbourg.service.activity.service.AssociationService.class)
-	protected eu.strasbourg.service.activity.service.AssociationService associationService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.AssociationLocalService.class
+	)
+	protected eu.strasbourg.service.activity.service.AssociationLocalService
+		associationLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.AssociationService.class
+	)
+	protected eu.strasbourg.service.activity.service.AssociationService
+		associationService;
+
 	@BeanReference(type = AssociationPersistence.class)
 	protected AssociationPersistence associationPersistence;
-	@BeanReference(type = eu.strasbourg.service.activity.service.PracticeLocalService.class)
-	protected eu.strasbourg.service.activity.service.PracticeLocalService practiceLocalService;
-	@BeanReference(type = eu.strasbourg.service.activity.service.PracticeService.class)
-	protected eu.strasbourg.service.activity.service.PracticeService practiceService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.PracticeLocalService.class
+	)
+	protected eu.strasbourg.service.activity.service.PracticeLocalService
+		practiceLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.PracticeService.class
+	)
+	protected eu.strasbourg.service.activity.service.PracticeService
+		practiceService;
+
 	@BeanReference(type = PracticePersistence.class)
 	protected PracticePersistence practicePersistence;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameService.class)
-	protected com.liferay.portal.kernel.service.ClassNameService classNameService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameService
+		classNameService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserService.class)
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserService.class
+	)
 	protected com.liferay.portal.kernel.service.UserService userService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryService.class)
-	protected com.liferay.asset.kernel.service.AssetEntryService assetEntryService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetEntryLocalService
+		assetEntryLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetEntryService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetEntryService
+		assetEntryService;
+
 	@ServiceReference(type = AssetEntryPersistence.class)
 	protected AssetEntryPersistence assetEntryPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetLinkLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService
+		assetLinkLocalService;
+
 	@ServiceReference(type = AssetLinkPersistence.class)
 	protected AssetLinkPersistence assetLinkPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagService.class)
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetTagLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetTagLocalService
+		assetTagLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetTagService.class
+	)
 	protected com.liferay.asset.kernel.service.AssetTagService assetTagService;
+
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
 }

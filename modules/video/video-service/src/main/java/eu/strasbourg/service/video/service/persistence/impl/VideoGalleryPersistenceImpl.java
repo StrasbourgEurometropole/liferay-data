@@ -36,10 +36,9 @@ import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -54,6 +53,7 @@ import eu.strasbourg.service.video.service.persistence.VideoPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
 
@@ -75,51 +75,33 @@ import java.util.Set;
  * </p>
  *
  * @author BenjaminBini
- * @see VideoGalleryPersistence
- * @see eu.strasbourg.service.video.service.persistence.VideoGalleryUtil
  * @generated
  */
 @ProviderType
-public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGallery>
+public class VideoGalleryPersistenceImpl
+	extends BasePersistenceImpl<VideoGallery>
 	implements VideoGalleryPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link VideoGalleryUtil} to access the video gallery persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>VideoGalleryUtil</code> to access the video gallery persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = VideoGalleryImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			VideoGalleryModelImpl.UUID_COLUMN_BITMASK |
-			VideoGalleryModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		VideoGalleryImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the video galleries where uuid = &#63;.
@@ -136,7 +118,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * Returns a range of all the video galleries where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -153,7 +135,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * Returns an ordered range of all the video galleries where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -163,8 +145,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the ordered range of matching video galleries
 	 */
 	@Override
-	public List<VideoGallery> findByUuid(String uuid, int start, int end,
+	public List<VideoGallery> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<VideoGallery> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -172,7 +156,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * Returns an ordered range of all the video galleries where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -183,33 +167,38 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the ordered range of matching video galleries
 	 */
 	@Override
-	public List<VideoGallery> findByUuid(String uuid, int start, int end,
+	public List<VideoGallery> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<VideoGallery> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<VideoGallery> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<VideoGallery>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<VideoGallery>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (VideoGallery videoGallery : list) {
-					if (!Objects.equals(uuid, videoGallery.getUuid())) {
+					if (!uuid.equals(videoGallery.getUuid())) {
 						list = null;
 
 						break;
@@ -222,8 +211,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -233,10 +222,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -246,11 +232,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(VideoGalleryModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -270,16 +255,16 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 				}
 
 				if (!pagination) {
-					list = (List<VideoGallery>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<VideoGallery>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<VideoGallery>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<VideoGallery>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -308,9 +293,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @throws NoSuchVideoGalleryException if a matching video gallery could not be found
 	 */
 	@Override
-	public VideoGallery findByUuid_First(String uuid,
-		OrderByComparator<VideoGallery> orderByComparator)
+	public VideoGallery findByUuid_First(
+			String uuid, OrderByComparator<VideoGallery> orderByComparator)
 		throws NoSuchVideoGalleryException {
+
 		VideoGallery videoGallery = fetchByUuid_First(uuid, orderByComparator);
 
 		if (videoGallery != null) {
@@ -324,7 +310,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchVideoGalleryException(msg.toString());
 	}
@@ -337,8 +323,9 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the first matching video gallery, or <code>null</code> if a matching video gallery could not be found
 	 */
 	@Override
-	public VideoGallery fetchByUuid_First(String uuid,
-		OrderByComparator<VideoGallery> orderByComparator) {
+	public VideoGallery fetchByUuid_First(
+		String uuid, OrderByComparator<VideoGallery> orderByComparator) {
+
 		List<VideoGallery> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -357,9 +344,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @throws NoSuchVideoGalleryException if a matching video gallery could not be found
 	 */
 	@Override
-	public VideoGallery findByUuid_Last(String uuid,
-		OrderByComparator<VideoGallery> orderByComparator)
+	public VideoGallery findByUuid_Last(
+			String uuid, OrderByComparator<VideoGallery> orderByComparator)
 		throws NoSuchVideoGalleryException {
+
 		VideoGallery videoGallery = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (videoGallery != null) {
@@ -373,7 +361,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchVideoGalleryException(msg.toString());
 	}
@@ -386,16 +374,17 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the last matching video gallery, or <code>null</code> if a matching video gallery could not be found
 	 */
 	@Override
-	public VideoGallery fetchByUuid_Last(String uuid,
-		OrderByComparator<VideoGallery> orderByComparator) {
+	public VideoGallery fetchByUuid_Last(
+		String uuid, OrderByComparator<VideoGallery> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<VideoGallery> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<VideoGallery> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -414,9 +403,13 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @throws NoSuchVideoGalleryException if a video gallery with the primary key could not be found
 	 */
 	@Override
-	public VideoGallery[] findByUuid_PrevAndNext(long galleryId, String uuid,
-		OrderByComparator<VideoGallery> orderByComparator)
+	public VideoGallery[] findByUuid_PrevAndNext(
+			long galleryId, String uuid,
+			OrderByComparator<VideoGallery> orderByComparator)
 		throws NoSuchVideoGalleryException {
+
+		uuid = Objects.toString(uuid, "");
+
 		VideoGallery videoGallery = findByPrimaryKey(galleryId);
 
 		Session session = null;
@@ -426,13 +419,13 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 			VideoGallery[] array = new VideoGalleryImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, videoGallery, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, videoGallery, uuid, orderByComparator, true);
 
 			array[1] = videoGallery;
 
-			array[2] = getByUuid_PrevAndNext(session, videoGallery, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, videoGallery, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -444,14 +437,15 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		}
 	}
 
-	protected VideoGallery getByUuid_PrevAndNext(Session session,
-		VideoGallery videoGallery, String uuid,
+	protected VideoGallery getByUuid_PrevAndNext(
+		Session session, VideoGallery videoGallery, String uuid,
 		OrderByComparator<VideoGallery> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -462,10 +456,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -475,7 +466,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -547,10 +539,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(videoGallery);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(videoGallery)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -571,8 +563,9 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (VideoGallery videoGallery : findByUuid(uuid, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (VideoGallery videoGallery :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(videoGallery);
 		}
 	}
@@ -585,9 +578,11 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -598,10 +593,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -642,22 +634,17 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "videoGallery.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "videoGallery.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(videoGallery.uuid IS NULL OR videoGallery.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			VideoGalleryModelImpl.UUID_COLUMN_BITMASK |
-			VideoGalleryModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"videoGallery.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(videoGallery.uuid IS NULL OR videoGallery.uuid = '')";
+
+	private FinderPath _finderPathFetchByUUID_G;
+	private FinderPath _finderPathCountByUUID_G;
 
 	/**
-	 * Returns the video gallery where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchVideoGalleryException} if it could not be found.
+	 * Returns the video gallery where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchVideoGalleryException</code> if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
@@ -667,6 +654,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	@Override
 	public VideoGallery findByUUID_G(String uuid, long groupId)
 		throws NoSuchVideoGalleryException {
+
 		VideoGallery videoGallery = fetchByUUID_G(uuid, groupId);
 
 		if (videoGallery == null) {
@@ -680,7 +668,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			msg.append(", groupId=");
 			msg.append(groupId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -713,22 +701,26 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the matching video gallery, or <code>null</code> if a matching video gallery could not be found
 	 */
 	@Override
-	public VideoGallery fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
+	public VideoGallery fetchByUUID_G(
+		String uuid, long groupId, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
 		if (result instanceof VideoGallery) {
 			VideoGallery videoGallery = (VideoGallery)result;
 
 			if (!Objects.equals(uuid, videoGallery.getUuid()) ||
-					(groupId != videoGallery.getGroupId())) {
+				(groupId != videoGallery.getGroupId())) {
+
 				result = null;
 			}
 		}
@@ -740,10 +732,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -774,8 +763,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 				List<VideoGallery> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByUUID_G, finderArgs, list);
 				}
 				else {
 					VideoGallery videoGallery = list.get(0);
@@ -783,17 +772,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 					result = videoGallery;
 
 					cacheResult(videoGallery);
-
-					if ((videoGallery.getUuid() == null) ||
-							!videoGallery.getUuid().equals(uuid) ||
-							(videoGallery.getGroupId() != groupId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-							finderArgs, videoGallery);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
+				finderCache.removeResult(_finderPathFetchByUUID_G, finderArgs);
 
 				throw processException(e);
 			}
@@ -820,6 +802,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	@Override
 	public VideoGallery removeByUUID_G(String uuid, long groupId)
 		throws NoSuchVideoGalleryException {
+
 		VideoGallery videoGallery = findByUUID_G(uuid, groupId);
 
 		return remove(videoGallery);
@@ -834,9 +817,11 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, groupId };
+		FinderPath finderPath = _finderPathCountByUUID_G;
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -847,10 +832,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -895,31 +877,18 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "videoGallery.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "videoGallery.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(videoGallery.uuid IS NULL OR videoGallery.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "videoGallery.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
-			new String[] {
-				String.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C =
-		new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() },
-			VideoGalleryModelImpl.UUID_COLUMN_BITMASK |
-			VideoGalleryModelImpl.COMPANYID_COLUMN_BITMASK |
-			VideoGalleryModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
+		"videoGallery.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
+		"(videoGallery.uuid IS NULL OR videoGallery.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
+		"videoGallery.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByUuid_C;
+	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
+	private FinderPath _finderPathCountByUuid_C;
 
 	/**
 	 * Returns all the video galleries where uuid = &#63; and companyId = &#63;.
@@ -930,15 +899,15 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public List<VideoGallery> findByUuid_C(String uuid, long companyId) {
-		return findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByUuid_C(
+			uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the video galleries where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -948,8 +917,9 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the range of matching video galleries
 	 */
 	@Override
-	public List<VideoGallery> findByUuid_C(String uuid, long companyId,
-		int start, int end) {
+	public List<VideoGallery> findByUuid_C(
+		String uuid, long companyId, int start, int end) {
+
 		return findByUuid_C(uuid, companyId, start, end, null);
 	}
 
@@ -957,7 +927,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * Returns an ordered range of all the video galleries where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -968,16 +938,19 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the ordered range of matching video galleries
 	 */
 	@Override
-	public List<VideoGallery> findByUuid_C(String uuid, long companyId,
-		int start, int end, OrderByComparator<VideoGallery> orderByComparator) {
-		return findByUuid_C(uuid, companyId, start, end, orderByComparator, true);
+	public List<VideoGallery> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<VideoGallery> orderByComparator) {
+
+		return findByUuid_C(
+			uuid, companyId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the video galleries where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -989,38 +962,42 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the ordered range of matching video galleries
 	 */
 	@Override
-	public List<VideoGallery> findByUuid_C(String uuid, long companyId,
-		int start, int end, OrderByComparator<VideoGallery> orderByComparator,
+	public List<VideoGallery> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<VideoGallery> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C;
-			finderArgs = new Object[] { uuid, companyId };
+			finderPath = _finderPathWithoutPaginationFindByUuid_C;
+			finderArgs = new Object[] {uuid, companyId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C;
+			finderPath = _finderPathWithPaginationFindByUuid_C;
 			finderArgs = new Object[] {
-					uuid, companyId,
-					
-					start, end, orderByComparator
-				};
+				uuid, companyId, start, end, orderByComparator
+			};
 		}
 
 		List<VideoGallery> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<VideoGallery>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<VideoGallery>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (VideoGallery videoGallery : list) {
-					if (!Objects.equals(uuid, videoGallery.getUuid()) ||
-							(companyId != videoGallery.getCompanyId())) {
+					if (!uuid.equals(videoGallery.getUuid()) ||
+						(companyId != videoGallery.getCompanyId())) {
+
 						list = null;
 
 						break;
@@ -1033,8 +1010,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1044,10 +1021,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1059,11 +1033,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(VideoGalleryModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1085,16 +1058,16 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 				qPos.add(companyId);
 
 				if (!pagination) {
-					list = (List<VideoGallery>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<VideoGallery>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<VideoGallery>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<VideoGallery>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1124,11 +1097,13 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @throws NoSuchVideoGalleryException if a matching video gallery could not be found
 	 */
 	@Override
-	public VideoGallery findByUuid_C_First(String uuid, long companyId,
-		OrderByComparator<VideoGallery> orderByComparator)
+	public VideoGallery findByUuid_C_First(
+			String uuid, long companyId,
+			OrderByComparator<VideoGallery> orderByComparator)
 		throws NoSuchVideoGalleryException {
-		VideoGallery videoGallery = fetchByUuid_C_First(uuid, companyId,
-				orderByComparator);
+
+		VideoGallery videoGallery = fetchByUuid_C_First(
+			uuid, companyId, orderByComparator);
 
 		if (videoGallery != null) {
 			return videoGallery;
@@ -1144,7 +1119,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchVideoGalleryException(msg.toString());
 	}
@@ -1158,10 +1133,12 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the first matching video gallery, or <code>null</code> if a matching video gallery could not be found
 	 */
 	@Override
-	public VideoGallery fetchByUuid_C_First(String uuid, long companyId,
+	public VideoGallery fetchByUuid_C_First(
+		String uuid, long companyId,
 		OrderByComparator<VideoGallery> orderByComparator) {
-		List<VideoGallery> list = findByUuid_C(uuid, companyId, 0, 1,
-				orderByComparator);
+
+		List<VideoGallery> list = findByUuid_C(
+			uuid, companyId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1180,11 +1157,13 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @throws NoSuchVideoGalleryException if a matching video gallery could not be found
 	 */
 	@Override
-	public VideoGallery findByUuid_C_Last(String uuid, long companyId,
-		OrderByComparator<VideoGallery> orderByComparator)
+	public VideoGallery findByUuid_C_Last(
+			String uuid, long companyId,
+			OrderByComparator<VideoGallery> orderByComparator)
 		throws NoSuchVideoGalleryException {
-		VideoGallery videoGallery = fetchByUuid_C_Last(uuid, companyId,
-				orderByComparator);
+
+		VideoGallery videoGallery = fetchByUuid_C_Last(
+			uuid, companyId, orderByComparator);
 
 		if (videoGallery != null) {
 			return videoGallery;
@@ -1200,7 +1179,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchVideoGalleryException(msg.toString());
 	}
@@ -1214,16 +1193,18 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the last matching video gallery, or <code>null</code> if a matching video gallery could not be found
 	 */
 	@Override
-	public VideoGallery fetchByUuid_C_Last(String uuid, long companyId,
+	public VideoGallery fetchByUuid_C_Last(
+		String uuid, long companyId,
 		OrderByComparator<VideoGallery> orderByComparator) {
+
 		int count = countByUuid_C(uuid, companyId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<VideoGallery> list = findByUuid_C(uuid, companyId, count - 1,
-				count, orderByComparator);
+		List<VideoGallery> list = findByUuid_C(
+			uuid, companyId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1243,9 +1224,13 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @throws NoSuchVideoGalleryException if a video gallery with the primary key could not be found
 	 */
 	@Override
-	public VideoGallery[] findByUuid_C_PrevAndNext(long galleryId, String uuid,
-		long companyId, OrderByComparator<VideoGallery> orderByComparator)
+	public VideoGallery[] findByUuid_C_PrevAndNext(
+			long galleryId, String uuid, long companyId,
+			OrderByComparator<VideoGallery> orderByComparator)
 		throws NoSuchVideoGalleryException {
+
+		uuid = Objects.toString(uuid, "");
+
 		VideoGallery videoGallery = findByPrimaryKey(galleryId);
 
 		Session session = null;
@@ -1255,13 +1240,15 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 			VideoGallery[] array = new VideoGalleryImpl[3];
 
-			array[0] = getByUuid_C_PrevAndNext(session, videoGallery, uuid,
-					companyId, orderByComparator, true);
+			array[0] = getByUuid_C_PrevAndNext(
+				session, videoGallery, uuid, companyId, orderByComparator,
+				true);
 
 			array[1] = videoGallery;
 
-			array[2] = getByUuid_C_PrevAndNext(session, videoGallery, uuid,
-					companyId, orderByComparator, false);
+			array[2] = getByUuid_C_PrevAndNext(
+				session, videoGallery, uuid, companyId, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -1273,14 +1260,15 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		}
 	}
 
-	protected VideoGallery getByUuid_C_PrevAndNext(Session session,
-		VideoGallery videoGallery, String uuid, long companyId,
+	protected VideoGallery getByUuid_C_PrevAndNext(
+		Session session, VideoGallery videoGallery, String uuid, long companyId,
 		OrderByComparator<VideoGallery> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1291,10 +1279,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 		}
 		else {
@@ -1306,7 +1291,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1380,10 +1366,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		qPos.add(companyId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(videoGallery);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(videoGallery)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1405,8 +1391,11 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public void removeByUuid_C(String uuid, long companyId) {
-		for (VideoGallery videoGallery : findByUuid_C(uuid, companyId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (VideoGallery videoGallery :
+				findByUuid_C(
+					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(videoGallery);
 		}
 	}
@@ -1420,9 +1409,11 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public int countByUuid_C(String uuid, long companyId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_C;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, companyId };
+		FinderPath finderPath = _finderPathCountByUuid_C;
+
+		Object[] finderArgs = new Object[] {uuid, companyId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1433,10 +1424,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1481,30 +1469,18 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_1 = "videoGallery.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "videoGallery.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(videoGallery.uuid IS NULL OR videoGallery.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "videoGallery.companyId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID = new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID =
-		new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] { Long.class.getName() },
-			VideoGalleryModelImpl.GROUPID_COLUMN_BITMASK |
-			VideoGalleryModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
+		"videoGallery.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
+		"(videoGallery.uuid IS NULL OR videoGallery.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
+		"videoGallery.companyId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByGroupId;
+	private FinderPath _finderPathWithoutPaginationFindByGroupId;
+	private FinderPath _finderPathCountByGroupId;
 
 	/**
 	 * Returns all the video galleries where groupId = &#63;.
@@ -1514,14 +1490,15 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public List<VideoGallery> findByGroupId(long groupId) {
-		return findByGroupId(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByGroupId(
+			groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the video galleries where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1538,7 +1515,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * Returns an ordered range of all the video galleries where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1548,8 +1525,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the ordered range of matching video galleries
 	 */
 	@Override
-	public List<VideoGallery> findByGroupId(long groupId, int start, int end,
+	public List<VideoGallery> findByGroupId(
+		long groupId, int start, int end,
 		OrderByComparator<VideoGallery> orderByComparator) {
+
 		return findByGroupId(groupId, start, end, orderByComparator, true);
 	}
 
@@ -1557,7 +1536,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * Returns an ordered range of all the video galleries where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1568,29 +1547,32 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the ordered range of matching video galleries
 	 */
 	@Override
-	public List<VideoGallery> findByGroupId(long groupId, int start, int end,
+	public List<VideoGallery> findByGroupId(
+		long groupId, int start, int end,
 		OrderByComparator<VideoGallery> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId };
+			finderPath = _finderPathWithoutPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId, start, end, orderByComparator};
 		}
 
 		List<VideoGallery> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<VideoGallery>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<VideoGallery>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (VideoGallery videoGallery : list) {
@@ -1607,8 +1589,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1619,11 +1601,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(VideoGalleryModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1641,16 +1622,16 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 				qPos.add(groupId);
 
 				if (!pagination) {
-					list = (List<VideoGallery>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<VideoGallery>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<VideoGallery>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<VideoGallery>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1679,11 +1660,12 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @throws NoSuchVideoGalleryException if a matching video gallery could not be found
 	 */
 	@Override
-	public VideoGallery findByGroupId_First(long groupId,
-		OrderByComparator<VideoGallery> orderByComparator)
+	public VideoGallery findByGroupId_First(
+			long groupId, OrderByComparator<VideoGallery> orderByComparator)
 		throws NoSuchVideoGalleryException {
-		VideoGallery videoGallery = fetchByGroupId_First(groupId,
-				orderByComparator);
+
+		VideoGallery videoGallery = fetchByGroupId_First(
+			groupId, orderByComparator);
 
 		if (videoGallery != null) {
 			return videoGallery;
@@ -1696,7 +1678,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchVideoGalleryException(msg.toString());
 	}
@@ -1709,9 +1691,11 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the first matching video gallery, or <code>null</code> if a matching video gallery could not be found
 	 */
 	@Override
-	public VideoGallery fetchByGroupId_First(long groupId,
-		OrderByComparator<VideoGallery> orderByComparator) {
-		List<VideoGallery> list = findByGroupId(groupId, 0, 1, orderByComparator);
+	public VideoGallery fetchByGroupId_First(
+		long groupId, OrderByComparator<VideoGallery> orderByComparator) {
+
+		List<VideoGallery> list = findByGroupId(
+			groupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1729,11 +1713,12 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @throws NoSuchVideoGalleryException if a matching video gallery could not be found
 	 */
 	@Override
-	public VideoGallery findByGroupId_Last(long groupId,
-		OrderByComparator<VideoGallery> orderByComparator)
+	public VideoGallery findByGroupId_Last(
+			long groupId, OrderByComparator<VideoGallery> orderByComparator)
 		throws NoSuchVideoGalleryException {
-		VideoGallery videoGallery = fetchByGroupId_Last(groupId,
-				orderByComparator);
+
+		VideoGallery videoGallery = fetchByGroupId_Last(
+			groupId, orderByComparator);
 
 		if (videoGallery != null) {
 			return videoGallery;
@@ -1746,7 +1731,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchVideoGalleryException(msg.toString());
 	}
@@ -1759,16 +1744,17 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the last matching video gallery, or <code>null</code> if a matching video gallery could not be found
 	 */
 	@Override
-	public VideoGallery fetchByGroupId_Last(long groupId,
-		OrderByComparator<VideoGallery> orderByComparator) {
+	public VideoGallery fetchByGroupId_Last(
+		long groupId, OrderByComparator<VideoGallery> orderByComparator) {
+
 		int count = countByGroupId(groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<VideoGallery> list = findByGroupId(groupId, count - 1, count,
-				orderByComparator);
+		List<VideoGallery> list = findByGroupId(
+			groupId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1787,9 +1773,11 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @throws NoSuchVideoGalleryException if a video gallery with the primary key could not be found
 	 */
 	@Override
-	public VideoGallery[] findByGroupId_PrevAndNext(long galleryId,
-		long groupId, OrderByComparator<VideoGallery> orderByComparator)
+	public VideoGallery[] findByGroupId_PrevAndNext(
+			long galleryId, long groupId,
+			OrderByComparator<VideoGallery> orderByComparator)
 		throws NoSuchVideoGalleryException {
+
 		VideoGallery videoGallery = findByPrimaryKey(galleryId);
 
 		Session session = null;
@@ -1799,13 +1787,13 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 			VideoGallery[] array = new VideoGalleryImpl[3];
 
-			array[0] = getByGroupId_PrevAndNext(session, videoGallery, groupId,
-					orderByComparator, true);
+			array[0] = getByGroupId_PrevAndNext(
+				session, videoGallery, groupId, orderByComparator, true);
 
 			array[1] = videoGallery;
 
-			array[2] = getByGroupId_PrevAndNext(session, videoGallery, groupId,
-					orderByComparator, false);
+			array[2] = getByGroupId_PrevAndNext(
+				session, videoGallery, groupId, orderByComparator, false);
 
 			return array;
 		}
@@ -1817,14 +1805,15 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		}
 	}
 
-	protected VideoGallery getByGroupId_PrevAndNext(Session session,
-		VideoGallery videoGallery, long groupId,
+	protected VideoGallery getByGroupId_PrevAndNext(
+		Session session, VideoGallery videoGallery, long groupId,
 		OrderByComparator<VideoGallery> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1836,7 +1825,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1906,10 +1896,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		qPos.add(groupId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(videoGallery);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(videoGallery)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1930,8 +1920,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public void removeByGroupId(long groupId) {
-		for (VideoGallery videoGallery : findByGroupId(groupId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (VideoGallery videoGallery :
+				findByGroupId(
+					groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(videoGallery);
 		}
 	}
@@ -1944,9 +1936,9 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public int countByGroupId(long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPID;
+		FinderPath finderPath = _finderPathCountByGroupId;
 
-		Object[] finderArgs = new Object[] { groupId };
+		Object[] finderArgs = new Object[] {groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1987,24 +1979,11 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "videoGallery.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLICATIONDATEANDSTATUS =
-		new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPublicationDateAndStatus",
-			new String[] {
-				Date.class.getName(), Integer.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_PUBLICATIONDATEANDSTATUS =
-		new FinderPath(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"countByPublicationDateAndStatus",
-			new String[] { Date.class.getName(), Integer.class.getName() });
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
+		"videoGallery.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByPublicationDateAndStatus;
+	private FinderPath _finderPathWithPaginationCountByPublicationDateAndStatus;
 
 	/**
 	 * Returns all the video galleries where publicationDate &lt; &#63; and status = &#63;.
@@ -2016,15 +1995,17 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	@Override
 	public List<VideoGallery> findByPublicationDateAndStatus(
 		Date publicationDate, int status) {
-		return findByPublicationDateAndStatus(publicationDate, status,
-			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+
+		return findByPublicationDateAndStatus(
+			publicationDate, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
 	}
 
 	/**
 	 * Returns a range of all the video galleries where publicationDate &lt; &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publicationDate the publication date
@@ -2036,15 +2017,16 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	@Override
 	public List<VideoGallery> findByPublicationDateAndStatus(
 		Date publicationDate, int status, int start, int end) {
-		return findByPublicationDateAndStatus(publicationDate, status, start,
-			end, null);
+
+		return findByPublicationDateAndStatus(
+			publicationDate, status, start, end, null);
 	}
 
 	/**
 	 * Returns an ordered range of all the video galleries where publicationDate &lt; &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publicationDate the publication date
@@ -2058,15 +2040,16 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	public List<VideoGallery> findByPublicationDateAndStatus(
 		Date publicationDate, int status, int start, int end,
 		OrderByComparator<VideoGallery> orderByComparator) {
-		return findByPublicationDateAndStatus(publicationDate, status, start,
-			end, orderByComparator, true);
+
+		return findByPublicationDateAndStatus(
+			publicationDate, status, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the video galleries where publicationDate &lt; &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publicationDate the publication date
@@ -2082,28 +2065,28 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		Date publicationDate, int status, int start, int end,
 		OrderByComparator<VideoGallery> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
-		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLICATIONDATEANDSTATUS;
+		finderPath = _finderPathWithPaginationFindByPublicationDateAndStatus;
 		finderArgs = new Object[] {
-				publicationDate, status,
-				
-				start, end, orderByComparator
-			};
+			_getTime(publicationDate), status, start, end, orderByComparator
+		};
 
 		List<VideoGallery> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<VideoGallery>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<VideoGallery>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (VideoGallery videoGallery : list) {
-					if ((publicationDate.getTime() <= videoGallery.getPublicationDate()
-																	  .getTime()) ||
-							(status != videoGallery.getStatus())) {
+					if ((publicationDate.getTime() <=
+							videoGallery.getPublicationDate().getTime()) ||
+						(status != videoGallery.getStatus())) {
+
 						list = null;
 
 						break;
@@ -2116,8 +2099,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -2128,22 +2111,23 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			boolean bindPublicationDate = false;
 
 			if (publicationDate == null) {
-				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
 			}
 			else {
 				bindPublicationDate = true;
 
-				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
 			}
 
 			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(VideoGalleryModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -2165,16 +2149,16 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 				qPos.add(status);
 
 				if (!pagination) {
-					list = (List<VideoGallery>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<VideoGallery>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<VideoGallery>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<VideoGallery>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2205,11 +2189,12 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public VideoGallery findByPublicationDateAndStatus_First(
-		Date publicationDate, int status,
-		OrderByComparator<VideoGallery> orderByComparator)
+			Date publicationDate, int status,
+			OrderByComparator<VideoGallery> orderByComparator)
 		throws NoSuchVideoGalleryException {
-		VideoGallery videoGallery = fetchByPublicationDateAndStatus_First(publicationDate,
-				status, orderByComparator);
+
+		VideoGallery videoGallery = fetchByPublicationDateAndStatus_First(
+			publicationDate, status, orderByComparator);
 
 		if (videoGallery != null) {
 			return videoGallery;
@@ -2225,7 +2210,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		msg.append(", status=");
 		msg.append(status);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchVideoGalleryException(msg.toString());
 	}
@@ -2242,8 +2227,9 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	public VideoGallery fetchByPublicationDateAndStatus_First(
 		Date publicationDate, int status,
 		OrderByComparator<VideoGallery> orderByComparator) {
-		List<VideoGallery> list = findByPublicationDateAndStatus(publicationDate,
-				status, 0, 1, orderByComparator);
+
+		List<VideoGallery> list = findByPublicationDateAndStatus(
+			publicationDate, status, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2263,11 +2249,12 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public VideoGallery findByPublicationDateAndStatus_Last(
-		Date publicationDate, int status,
-		OrderByComparator<VideoGallery> orderByComparator)
+			Date publicationDate, int status,
+			OrderByComparator<VideoGallery> orderByComparator)
 		throws NoSuchVideoGalleryException {
-		VideoGallery videoGallery = fetchByPublicationDateAndStatus_Last(publicationDate,
-				status, orderByComparator);
+
+		VideoGallery videoGallery = fetchByPublicationDateAndStatus_Last(
+			publicationDate, status, orderByComparator);
 
 		if (videoGallery != null) {
 			return videoGallery;
@@ -2283,7 +2270,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		msg.append(", status=");
 		msg.append(status);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchVideoGalleryException(msg.toString());
 	}
@@ -2300,14 +2287,15 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	public VideoGallery fetchByPublicationDateAndStatus_Last(
 		Date publicationDate, int status,
 		OrderByComparator<VideoGallery> orderByComparator) {
+
 		int count = countByPublicationDateAndStatus(publicationDate, status);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<VideoGallery> list = findByPublicationDateAndStatus(publicationDate,
-				status, count - 1, count, orderByComparator);
+		List<VideoGallery> list = findByPublicationDateAndStatus(
+			publicationDate, status, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2328,9 +2316,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public VideoGallery[] findByPublicationDateAndStatus_PrevAndNext(
-		long galleryId, Date publicationDate, int status,
-		OrderByComparator<VideoGallery> orderByComparator)
+			long galleryId, Date publicationDate, int status,
+			OrderByComparator<VideoGallery> orderByComparator)
 		throws NoSuchVideoGalleryException {
+
 		VideoGallery videoGallery = findByPrimaryKey(galleryId);
 
 		Session session = null;
@@ -2340,15 +2329,15 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 			VideoGallery[] array = new VideoGalleryImpl[3];
 
-			array[0] = getByPublicationDateAndStatus_PrevAndNext(session,
-					videoGallery, publicationDate, status, orderByComparator,
-					true);
+			array[0] = getByPublicationDateAndStatus_PrevAndNext(
+				session, videoGallery, publicationDate, status,
+				orderByComparator, true);
 
 			array[1] = videoGallery;
 
-			array[2] = getByPublicationDateAndStatus_PrevAndNext(session,
-					videoGallery, publicationDate, status, orderByComparator,
-					false);
+			array[2] = getByPublicationDateAndStatus_PrevAndNext(
+				session, videoGallery, publicationDate, status,
+				orderByComparator, false);
 
 			return array;
 		}
@@ -2364,11 +2353,12 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		Session session, VideoGallery videoGallery, Date publicationDate,
 		int status, OrderByComparator<VideoGallery> orderByComparator,
 		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -2380,18 +2370,21 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		boolean bindPublicationDate = false;
 
 		if (publicationDate == null) {
-			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
+			query.append(
+				_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
 		}
 		else {
 			bindPublicationDate = true;
 
-			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
+			query.append(
+				_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
 		}
 
 		query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -2465,10 +2458,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		qPos.add(status);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(videoGallery);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(videoGallery)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -2489,11 +2482,14 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @param status the status
 	 */
 	@Override
-	public void removeByPublicationDateAndStatus(Date publicationDate,
-		int status) {
-		for (VideoGallery videoGallery : findByPublicationDateAndStatus(
-				publicationDate, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-				null)) {
+	public void removeByPublicationDateAndStatus(
+		Date publicationDate, int status) {
+
+		for (VideoGallery videoGallery :
+				findByPublicationDateAndStatus(
+					publicationDate, status, QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS, null)) {
+
 			remove(videoGallery);
 		}
 	}
@@ -2506,10 +2502,13 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the number of matching video galleries
 	 */
 	@Override
-	public int countByPublicationDateAndStatus(Date publicationDate, int status) {
-		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_PUBLICATIONDATEANDSTATUS;
+	public int countByPublicationDateAndStatus(
+		Date publicationDate, int status) {
 
-		Object[] finderArgs = new Object[] { publicationDate, status };
+		FinderPath finderPath =
+			_finderPathWithPaginationCountByPublicationDateAndStatus;
+
+		Object[] finderArgs = new Object[] {_getTime(publicationDate), status};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -2521,12 +2520,14 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			boolean bindPublicationDate = false;
 
 			if (publicationDate == null) {
-				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
 			}
 			else {
 				bindPublicationDate = true;
 
-				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
 			}
 
 			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2);
@@ -2565,23 +2566,30 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1 =
-		"videoGallery.publicationDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2 =
-		"videoGallery.publicationDate < ? AND ";
-	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2 =
-		"videoGallery.status = ?";
+	private static final String
+		_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1 =
+			"videoGallery.publicationDate IS NULL AND ";
+
+	private static final String
+		_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2 =
+			"videoGallery.publicationDate < ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2 =
+			"videoGallery.status = ?";
 
 	public VideoGalleryPersistenceImpl() {
 		setModelClass(VideoGallery.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -2599,11 +2607,13 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public void cacheResult(VideoGallery videoGallery) {
-		entityCache.putResult(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryImpl.class, videoGallery.getPrimaryKey(), videoGallery);
+		entityCache.putResult(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED, VideoGalleryImpl.class,
+			videoGallery.getPrimaryKey(), videoGallery);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-			new Object[] { videoGallery.getUuid(), videoGallery.getGroupId() },
+		finderCache.putResult(
+			_finderPathFetchByUUID_G,
+			new Object[] {videoGallery.getUuid(), videoGallery.getGroupId()},
 			videoGallery);
 
 		videoGallery.resetOriginalValues();
@@ -2618,8 +2628,10 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	public void cacheResult(List<VideoGallery> videoGalleries) {
 		for (VideoGallery videoGallery : videoGalleries) {
 			if (entityCache.getResult(
-						VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-						VideoGalleryImpl.class, videoGallery.getPrimaryKey()) == null) {
+					VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+					VideoGalleryImpl.class, videoGallery.getPrimaryKey()) ==
+						null) {
+
 				cacheResult(videoGallery);
 			}
 			else {
@@ -2632,7 +2644,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * Clears the cache for all video galleries.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -2648,13 +2660,14 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * Clears the cache for the video gallery.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(VideoGallery videoGallery) {
-		entityCache.removeResult(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryImpl.class, videoGallery.getPrimaryKey());
+		entityCache.removeResult(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED, VideoGalleryImpl.class,
+			videoGallery.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -2668,7 +2681,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (VideoGallery videoGallery : videoGalleries) {
-			entityCache.removeResult(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			entityCache.removeResult(
+				VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
 				VideoGalleryImpl.class, videoGallery.getPrimaryKey());
 
 			clearUniqueFindersCache((VideoGalleryModelImpl)videoGallery, true);
@@ -2677,38 +2691,40 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 	protected void cacheUniqueFindersCache(
 		VideoGalleryModelImpl videoGalleryModelImpl) {
-		Object[] args = new Object[] {
-				videoGalleryModelImpl.getUuid(),
-				videoGalleryModelImpl.getGroupId()
-			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-			videoGalleryModelImpl, false);
+		Object[] args = new Object[] {
+			videoGalleryModelImpl.getUuid(), videoGalleryModelImpl.getGroupId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G, args, videoGalleryModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
 		VideoGalleryModelImpl videoGalleryModelImpl, boolean clearCurrent) {
+
 		if (clearCurrent) {
 			Object[] args = new Object[] {
-					videoGalleryModelImpl.getUuid(),
-					videoGalleryModelImpl.getGroupId()
-				};
+				videoGalleryModelImpl.getUuid(),
+				videoGalleryModelImpl.getGroupId()
+			};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 
 		if ((videoGalleryModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					videoGalleryModelImpl.getOriginalUuid(),
-					videoGalleryModelImpl.getOriginalGroupId()
-				};
+			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			Object[] args = new Object[] {
+				videoGalleryModelImpl.getOriginalUuid(),
+				videoGalleryModelImpl.getOriginalGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 	}
 
@@ -2744,6 +2760,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	@Override
 	public VideoGallery remove(long galleryId)
 		throws NoSuchVideoGalleryException {
+
 		return remove((Serializable)galleryId);
 	}
 
@@ -2757,21 +2774,22 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	@Override
 	public VideoGallery remove(Serializable primaryKey)
 		throws NoSuchVideoGalleryException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			VideoGallery videoGallery = (VideoGallery)session.get(VideoGalleryImpl.class,
-					primaryKey);
+			VideoGallery videoGallery = (VideoGallery)session.get(
+				VideoGalleryImpl.class, primaryKey);
 
 			if (videoGallery == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchVideoGalleryException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchVideoGalleryException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(videoGallery);
@@ -2789,9 +2807,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 	@Override
 	protected VideoGallery removeImpl(VideoGallery videoGallery) {
-		videoGallery = toUnwrappedModel(videoGallery);
-
-		videoGalleryToVideoTableMapper.deleteLeftPrimaryKeyTableMappings(videoGallery.getPrimaryKey());
+		videoGalleryToVideoTableMapper.deleteLeftPrimaryKeyTableMappings(
+			videoGallery.getPrimaryKey());
 
 		Session session = null;
 
@@ -2799,8 +2816,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			session = openSession();
 
 			if (!session.contains(videoGallery)) {
-				videoGallery = (VideoGallery)session.get(VideoGalleryImpl.class,
-						videoGallery.getPrimaryKeyObj());
+				videoGallery = (VideoGallery)session.get(
+					VideoGalleryImpl.class, videoGallery.getPrimaryKeyObj());
 			}
 
 			if (videoGallery != null) {
@@ -2823,11 +2840,27 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 	@Override
 	public VideoGallery updateImpl(VideoGallery videoGallery) {
-		videoGallery = toUnwrappedModel(videoGallery);
-
 		boolean isNew = videoGallery.isNew();
 
-		VideoGalleryModelImpl videoGalleryModelImpl = (VideoGalleryModelImpl)videoGallery;
+		if (!(videoGallery instanceof VideoGalleryModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(videoGallery.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(
+					videoGallery);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in videoGallery proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom VideoGallery implementation " +
+					videoGallery.getClass());
+		}
+
+		VideoGalleryModelImpl videoGalleryModelImpl =
+			(VideoGalleryModelImpl)videoGallery;
 
 		if (Validator.isNull(videoGallery.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
@@ -2835,7 +2868,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			videoGallery.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
 
 		Date now = new Date();
 
@@ -2853,7 +2887,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 				videoGallery.setModifiedDate(now);
 			}
 			else {
-				videoGallery.setModifiedDate(serviceContext.getModifiedDate(now));
+				videoGallery.setModifiedDate(
+					serviceContext.getModifiedDate(now));
 			}
 		}
 
@@ -2883,94 +2918,98 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		if (!VideoGalleryModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { videoGalleryModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {videoGalleryModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
 			args = new Object[] {
+				videoGalleryModelImpl.getUuid(),
+				videoGalleryModelImpl.getCompanyId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUuid_C, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid_C, args);
+
+			args = new Object[] {videoGalleryModelImpl.getGroupId()};
+
+			finderCache.removeResult(_finderPathCountByGroupId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByGroupId, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((videoGalleryModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					videoGalleryModelImpl.getOriginalUuid()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+
+				args = new Object[] {videoGalleryModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+			}
+
+			if ((videoGalleryModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					videoGalleryModelImpl.getOriginalUuid(),
+					videoGalleryModelImpl.getOriginalCompanyId()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+
+				args = new Object[] {
 					videoGalleryModelImpl.getUuid(),
 					videoGalleryModelImpl.getCompanyId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-				args);
-
-			args = new Object[] { videoGalleryModelImpl.getGroupId() };
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((videoGalleryModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						videoGalleryModelImpl.getOriginalUuid()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-
-				args = new Object[] { videoGalleryModelImpl.getUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
 			}
 
 			if ((videoGalleryModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByGroupId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						videoGalleryModelImpl.getOriginalUuid(),
-						videoGalleryModelImpl.getOriginalCompanyId()
-					};
+					videoGalleryModelImpl.getOriginalGroupId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
 
-				args = new Object[] {
-						videoGalleryModelImpl.getUuid(),
-						videoGalleryModelImpl.getCompanyId()
-					};
+				args = new Object[] {videoGalleryModelImpl.getGroupId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-			}
-
-			if ((videoGalleryModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						videoGalleryModelImpl.getOriginalGroupId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-
-				args = new Object[] { videoGalleryModelImpl.getGroupId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
 			}
 		}
 
-		entityCache.putResult(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			VideoGalleryImpl.class, videoGallery.getPrimaryKey(), videoGallery,
-			false);
+		entityCache.putResult(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED, VideoGalleryImpl.class,
+			videoGallery.getPrimaryKey(), videoGallery, false);
 
 		clearUniqueFindersCache(videoGalleryModelImpl, false);
 		cacheUniqueFindersCache(videoGalleryModelImpl);
@@ -2980,39 +3019,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		return videoGallery;
 	}
 
-	protected VideoGallery toUnwrappedModel(VideoGallery videoGallery) {
-		if (videoGallery instanceof VideoGalleryImpl) {
-			return videoGallery;
-		}
-
-		VideoGalleryImpl videoGalleryImpl = new VideoGalleryImpl();
-
-		videoGalleryImpl.setNew(videoGallery.isNew());
-		videoGalleryImpl.setPrimaryKey(videoGallery.getPrimaryKey());
-
-		videoGalleryImpl.setUuid(videoGallery.getUuid());
-		videoGalleryImpl.setGalleryId(videoGallery.getGalleryId());
-		videoGalleryImpl.setGroupId(videoGallery.getGroupId());
-		videoGalleryImpl.setCompanyId(videoGallery.getCompanyId());
-		videoGalleryImpl.setUserId(videoGallery.getUserId());
-		videoGalleryImpl.setUserName(videoGallery.getUserName());
-		videoGalleryImpl.setCreateDate(videoGallery.getCreateDate());
-		videoGalleryImpl.setModifiedDate(videoGallery.getModifiedDate());
-		videoGalleryImpl.setLastPublishDate(videoGallery.getLastPublishDate());
-		videoGalleryImpl.setStatus(videoGallery.getStatus());
-		videoGalleryImpl.setStatusByUserId(videoGallery.getStatusByUserId());
-		videoGalleryImpl.setStatusByUserName(videoGallery.getStatusByUserName());
-		videoGalleryImpl.setStatusDate(videoGallery.getStatusDate());
-		videoGalleryImpl.setTitle(videoGallery.getTitle());
-		videoGalleryImpl.setDescription(videoGallery.getDescription());
-		videoGalleryImpl.setPublicationDate(videoGallery.getPublicationDate());
-		videoGalleryImpl.setImageId(videoGallery.getImageId());
-
-		return videoGalleryImpl;
-	}
-
 	/**
-	 * Returns the video gallery with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the video gallery with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the video gallery
 	 * @return the video gallery
@@ -3021,6 +3029,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	@Override
 	public VideoGallery findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchVideoGalleryException {
+
 		VideoGallery videoGallery = fetchByPrimaryKey(primaryKey);
 
 		if (videoGallery == null) {
@@ -3028,15 +3037,15 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchVideoGalleryException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchVideoGalleryException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return videoGallery;
 	}
 
 	/**
-	 * Returns the video gallery with the primary key or throws a {@link NoSuchVideoGalleryException} if it could not be found.
+	 * Returns the video gallery with the primary key or throws a <code>NoSuchVideoGalleryException</code> if it could not be found.
 	 *
 	 * @param galleryId the primary key of the video gallery
 	 * @return the video gallery
@@ -3045,6 +3054,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	@Override
 	public VideoGallery findByPrimaryKey(long galleryId)
 		throws NoSuchVideoGalleryException {
+
 		return findByPrimaryKey((Serializable)galleryId);
 	}
 
@@ -3056,8 +3066,9 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public VideoGallery fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-				VideoGalleryImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED, VideoGalleryImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -3071,19 +3082,21 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			try {
 				session = openSession();
 
-				videoGallery = (VideoGallery)session.get(VideoGalleryImpl.class,
-						primaryKey);
+				videoGallery = (VideoGallery)session.get(
+					VideoGalleryImpl.class, primaryKey);
 
 				if (videoGallery != null) {
 					cacheResult(videoGallery);
 				}
 				else {
-					entityCache.putResult(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
 						VideoGalleryImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
 					VideoGalleryImpl.class, primaryKey);
 
 				throw processException(e);
@@ -3110,11 +3123,13 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	@Override
 	public Map<Serializable, VideoGallery> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, VideoGallery> map = new HashMap<Serializable, VideoGallery>();
+		Map<Serializable, VideoGallery> map =
+			new HashMap<Serializable, VideoGallery>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -3133,8 +3148,9 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
-					VideoGalleryImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+				VideoGalleryImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -3154,20 +3170,20 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_VIDEOGALLERY_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -3187,7 +3203,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
 					VideoGalleryImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -3215,7 +3232,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * Returns a range of all the video galleries.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of video galleries
@@ -3231,7 +3248,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * Returns an ordered range of all the video galleries.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of video galleries
@@ -3240,8 +3257,9 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the ordered range of video galleries
 	 */
 	@Override
-	public List<VideoGallery> findAll(int start, int end,
-		OrderByComparator<VideoGallery> orderByComparator) {
+	public List<VideoGallery> findAll(
+		int start, int end, OrderByComparator<VideoGallery> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -3249,7 +3267,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * Returns an ordered range of all the video galleries.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of video galleries
@@ -3259,29 +3277,31 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the ordered range of video galleries
 	 */
 	@Override
-	public List<VideoGallery> findAll(int start, int end,
-		OrderByComparator<VideoGallery> orderByComparator,
+	public List<VideoGallery> findAll(
+		int start, int end, OrderByComparator<VideoGallery> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<VideoGallery> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<VideoGallery>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<VideoGallery>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -3289,13 +3309,13 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_VIDEOGALLERY);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -3315,16 +3335,16 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<VideoGallery>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<VideoGallery>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<VideoGallery>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<VideoGallery>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -3362,8 +3382,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -3375,12 +3395,12 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -3420,7 +3440,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * Returns a range of all the videos associated with the video gallery.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param pk the primary key of the video gallery
@@ -3429,8 +3449,9 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the range of videos associated with the video gallery
 	 */
 	@Override
-	public List<eu.strasbourg.service.video.model.Video> getVideos(long pk,
-		int start, int end) {
+	public List<eu.strasbourg.service.video.model.Video> getVideos(
+		long pk, int start, int end) {
+
 		return getVideos(pk, start, end, null);
 	}
 
@@ -3438,7 +3459,7 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * Returns an ordered range of all the videos associated with the video gallery.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoGalleryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param pk the primary key of the video gallery
@@ -3448,11 +3469,13 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @return the ordered range of videos associated with the video gallery
 	 */
 	@Override
-	public List<eu.strasbourg.service.video.model.Video> getVideos(long pk,
-		int start, int end,
-		OrderByComparator<eu.strasbourg.service.video.model.Video> orderByComparator) {
-		return videoGalleryToVideoTableMapper.getRightBaseModels(pk, start,
-			end, orderByComparator);
+	public List<eu.strasbourg.service.video.model.Video> getVideos(
+		long pk, int start, int end,
+		OrderByComparator<eu.strasbourg.service.video.model.Video>
+			orderByComparator) {
+
+		return videoGalleryToVideoTableMapper.getRightBaseModels(
+			pk, start, end, orderByComparator);
 	}
 
 	/**
@@ -3507,12 +3530,12 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 		VideoGallery videoGallery = fetchByPrimaryKey(pk);
 
 		if (videoGallery == null) {
-			videoGalleryToVideoTableMapper.addTableMapping(companyProvider.getCompanyId(),
-				pk, videoPK);
+			videoGalleryToVideoTableMapper.addTableMapping(
+				companyProvider.getCompanyId(), pk, videoPK);
 		}
 		else {
-			videoGalleryToVideoTableMapper.addTableMapping(videoGallery.getCompanyId(),
-				pk, videoPK);
+			videoGalleryToVideoTableMapper.addTableMapping(
+				videoGallery.getCompanyId(), pk, videoPK);
 		}
 	}
 
@@ -3523,16 +3546,18 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @param video the video
 	 */
 	@Override
-	public void addVideo(long pk, eu.strasbourg.service.video.model.Video video) {
+	public void addVideo(
+		long pk, eu.strasbourg.service.video.model.Video video) {
+
 		VideoGallery videoGallery = fetchByPrimaryKey(pk);
 
 		if (videoGallery == null) {
-			videoGalleryToVideoTableMapper.addTableMapping(companyProvider.getCompanyId(),
-				pk, video.getPrimaryKey());
+			videoGalleryToVideoTableMapper.addTableMapping(
+				companyProvider.getCompanyId(), pk, video.getPrimaryKey());
 		}
 		else {
-			videoGalleryToVideoTableMapper.addTableMapping(videoGallery.getCompanyId(),
-				pk, video.getPrimaryKey());
+			videoGalleryToVideoTableMapper.addTableMapping(
+				videoGallery.getCompanyId(), pk, video.getPrimaryKey());
 		}
 	}
 
@@ -3555,7 +3580,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			companyId = videoGallery.getCompanyId();
 		}
 
-		videoGalleryToVideoTableMapper.addTableMappings(companyId, pk, videoPKs);
+		videoGalleryToVideoTableMapper.addTableMappings(
+			companyId, pk, videoPKs);
 	}
 
 	/**
@@ -3565,10 +3591,13 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @param videos the videos
 	 */
 	@Override
-	public void addVideos(long pk,
-		List<eu.strasbourg.service.video.model.Video> videos) {
-		addVideos(pk,
-			ListUtil.toLongArray(videos,
+	public void addVideos(
+		long pk, List<eu.strasbourg.service.video.model.Video> videos) {
+
+		addVideos(
+			pk,
+			ListUtil.toLongArray(
+				videos,
 				eu.strasbourg.service.video.model.Video.VIDEO_ID_ACCESSOR));
 	}
 
@@ -3600,10 +3629,11 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @param video the video
 	 */
 	@Override
-	public void removeVideo(long pk,
-		eu.strasbourg.service.video.model.Video video) {
-		videoGalleryToVideoTableMapper.deleteTableMapping(pk,
-			video.getPrimaryKey());
+	public void removeVideo(
+		long pk, eu.strasbourg.service.video.model.Video video) {
+
+		videoGalleryToVideoTableMapper.deleteTableMapping(
+			pk, video.getPrimaryKey());
 	}
 
 	/**
@@ -3624,10 +3654,13 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @param videos the videos
 	 */
 	@Override
-	public void removeVideos(long pk,
-		List<eu.strasbourg.service.video.model.Video> videos) {
-		removeVideos(pk,
-			ListUtil.toLongArray(videos,
+	public void removeVideos(
+		long pk, List<eu.strasbourg.service.video.model.Video> videos) {
+
+		removeVideos(
+			pk,
+			ListUtil.toLongArray(
+				videos,
 				eu.strasbourg.service.video.model.Video.VIDEO_ID_ACCESSOR));
 	}
 
@@ -3640,15 +3673,15 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	@Override
 	public void setVideos(long pk, long[] videoPKs) {
 		Set<Long> newVideoPKsSet = SetUtil.fromArray(videoPKs);
-		Set<Long> oldVideoPKsSet = SetUtil.fromArray(videoGalleryToVideoTableMapper.getRightPrimaryKeys(
-					pk));
+		Set<Long> oldVideoPKsSet = SetUtil.fromArray(
+			videoGalleryToVideoTableMapper.getRightPrimaryKeys(pk));
 
 		Set<Long> removeVideoPKsSet = new HashSet<Long>(oldVideoPKsSet);
 
 		removeVideoPKsSet.removeAll(newVideoPKsSet);
 
-		videoGalleryToVideoTableMapper.deleteTableMappings(pk,
-			ArrayUtil.toLongArray(removeVideoPKsSet));
+		videoGalleryToVideoTableMapper.deleteTableMappings(
+			pk, ArrayUtil.toLongArray(removeVideoPKsSet));
 
 		newVideoPKsSet.removeAll(oldVideoPKsSet);
 
@@ -3663,8 +3696,8 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 			companyId = videoGallery.getCompanyId();
 		}
 
-		videoGalleryToVideoTableMapper.addTableMappings(companyId, pk,
-			ArrayUtil.toLongArray(newVideoPKsSet));
+		videoGalleryToVideoTableMapper.addTableMappings(
+			companyId, pk, ArrayUtil.toLongArray(newVideoPKsSet));
 	}
 
 	/**
@@ -3674,8 +3707,9 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * @param videos the videos to be associated with the video gallery
 	 */
 	@Override
-	public void setVideos(long pk,
-		List<eu.strasbourg.service.video.model.Video> videos) {
+	public void setVideos(
+		long pk, List<eu.strasbourg.service.video.model.Video> videos) {
+
 		try {
 			long[] videoPKs = new long[videos.size()];
 
@@ -3706,8 +3740,131 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 	 * Initializes the video gallery persistence.
 	 */
 	public void afterPropertiesSet() {
-		videoGalleryToVideoTableMapper = TableMapperFactory.getTableMapper("video_VideoToVideoGallery",
-				"companyId", "galleryId", "videoId", this, videoPersistence);
+		videoGalleryToVideoTableMapper = TableMapperFactory.getTableMapper(
+			"video_VideoToVideoGallery", "companyId", "galleryId", "videoId",
+			this, videoPersistence);
+
+		_finderPathWithPaginationFindAll = new FinderPath(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			VideoGalleryModelImpl.UUID_COLUMN_BITMASK |
+			VideoGalleryModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathFetchByUUID_G = new FinderPath(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			VideoGalleryModelImpl.UUID_COLUMN_BITMASK |
+			VideoGalleryModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByUUID_G = new FinderPath(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			VideoGalleryModelImpl.UUID_COLUMN_BITMASK |
+			VideoGalleryModelImpl.COMPANYID_COLUMN_BITMASK |
+			VideoGalleryModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+
+		_finderPathCountByUuid_C = new FinderPath(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByGroupId = new FinderPath(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, VideoGalleryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] {Long.class.getName()},
+			VideoGalleryModelImpl.GROUPID_COLUMN_BITMASK |
+			VideoGalleryModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+
+		_finderPathCountByGroupId = new FinderPath(
+			VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			VideoGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
+			new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindByPublicationDateAndStatus =
+			new FinderPath(
+				VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+				VideoGalleryModelImpl.FINDER_CACHE_ENABLED,
+				VideoGalleryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"findByPublicationDateAndStatus",
+				new String[] {
+					Date.class.getName(), Integer.class.getName(),
+					Integer.class.getName(), Integer.class.getName(),
+					OrderByComparator.class.getName()
+				});
+
+		_finderPathWithPaginationCountByPublicationDateAndStatus =
+			new FinderPath(
+				VideoGalleryModelImpl.ENTITY_CACHE_ENABLED,
+				VideoGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"countByPublicationDateAndStatus",
+				new String[] {Date.class.getName(), Integer.class.getName()});
 	}
 
 	public void destroy() {
@@ -3721,23 +3878,54 @@ public class VideoGalleryPersistenceImpl extends BasePersistenceImpl<VideoGaller
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
+
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
+
 	@BeanReference(type = VideoPersistence.class)
 	protected VideoPersistence videoPersistence;
-	protected TableMapper<VideoGallery, eu.strasbourg.service.video.model.Video> videoGalleryToVideoTableMapper;
-	private static final String _SQL_SELECT_VIDEOGALLERY = "SELECT videoGallery FROM VideoGallery videoGallery";
-	private static final String _SQL_SELECT_VIDEOGALLERY_WHERE_PKS_IN = "SELECT videoGallery FROM VideoGallery videoGallery WHERE galleryId IN (";
-	private static final String _SQL_SELECT_VIDEOGALLERY_WHERE = "SELECT videoGallery FROM VideoGallery videoGallery WHERE ";
-	private static final String _SQL_COUNT_VIDEOGALLERY = "SELECT COUNT(videoGallery) FROM VideoGallery videoGallery";
-	private static final String _SQL_COUNT_VIDEOGALLERY_WHERE = "SELECT COUNT(videoGallery) FROM VideoGallery videoGallery WHERE ";
+
+	protected TableMapper<VideoGallery, eu.strasbourg.service.video.model.Video>
+		videoGalleryToVideoTableMapper;
+
+	private Long _getTime(Date date) {
+		if (date == null) {
+			return null;
+		}
+
+		return date.getTime();
+	}
+
+	private static final String _SQL_SELECT_VIDEOGALLERY =
+		"SELECT videoGallery FROM VideoGallery videoGallery";
+
+	private static final String _SQL_SELECT_VIDEOGALLERY_WHERE_PKS_IN =
+		"SELECT videoGallery FROM VideoGallery videoGallery WHERE galleryId IN (";
+
+	private static final String _SQL_SELECT_VIDEOGALLERY_WHERE =
+		"SELECT videoGallery FROM VideoGallery videoGallery WHERE ";
+
+	private static final String _SQL_COUNT_VIDEOGALLERY =
+		"SELECT COUNT(videoGallery) FROM VideoGallery videoGallery";
+
+	private static final String _SQL_COUNT_VIDEOGALLERY_WHERE =
+		"SELECT COUNT(videoGallery) FROM VideoGallery videoGallery WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "videoGallery.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No VideoGallery exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No VideoGallery exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(VideoGalleryPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No VideoGallery exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No VideoGallery exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		VideoGalleryPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

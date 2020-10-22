@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.council.model.Procuration;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing Procuration in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see Procuration
  * @generated
  */
 @ProviderType
-public class ProcurationCacheModel implements CacheModel<Procuration>,
-	Externalizable {
+public class ProcurationCacheModel
+	implements CacheModel<Procuration>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 			return false;
 		}
 
-		ProcurationCacheModel procurationCacheModel = (ProcurationCacheModel)obj;
+		ProcurationCacheModel procurationCacheModel =
+			(ProcurationCacheModel)obj;
 
 		if (procurationId == procurationCacheModel.procurationId) {
 			return true;
@@ -110,7 +110,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 		ProcurationImpl procurationImpl = new ProcurationImpl();
 
 		if (uuid == null) {
-			procurationImpl.setUuid(StringPool.BLANK);
+			procurationImpl.setUuid("");
 		}
 		else {
 			procurationImpl.setUuid(uuid);
@@ -122,7 +122,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 		procurationImpl.setUserId(userId);
 
 		if (userName == null) {
-			procurationImpl.setUserName(StringPool.BLANK);
+			procurationImpl.setUserName("");
 		}
 		else {
 			procurationImpl.setUserName(userName);
@@ -146,7 +146,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 		procurationImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			procurationImpl.setStatusByUserName(StringPool.BLANK);
+			procurationImpl.setStatusByUserName("");
 		}
 		else {
 			procurationImpl.setStatusByUserName(statusByUserName);
@@ -200,10 +200,9 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -218,7 +217,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -232,7 +231,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -265,4 +264,5 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 	public long officialUnavailableId;
 	public long councilSessionId;
 	public boolean isAbsent;
+
 }

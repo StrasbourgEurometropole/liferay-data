@@ -8,7 +8,7 @@
 var Ventcamp;
 
 (function($) {
-    $(document).on("ready", function() {
+    $(document).ready(function() {
         Ventcamp.init();
     });
 })(jQuery);

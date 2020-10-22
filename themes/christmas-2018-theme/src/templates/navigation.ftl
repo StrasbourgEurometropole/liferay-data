@@ -3,7 +3,7 @@
 <#else>
   <#assign homeURL = "" />
 </#if>
-<nav class="navbar mns-nav">
+<nav class="navbar mns-nav navbar-light">
     <div id="search-bar" class="mns-search-bar">
         <div class="container">
             <div class="row">
@@ -14,14 +14,10 @@
             </div>
         </div>
     </div>
-    <div class="container mns-navbar-wrapper">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+    <div class="container navbar-expand-md mns-navbar-wrapper">
+        <div class="sully-navbar-header">
+            <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="navbar-toggler-icon"></span>
             </button>
             <#if request.session.getAttribute("publik_logged_in")!false>
               <#assign notificationService = serviceLocator.findService("eu.strasbourg.service.notification.service.UserNotificationStatusLocalService") />
@@ -56,7 +52,7 @@
             </#if>
             <a class="navbar-brand" href="${homeURL}/">Strasbourg <span class="subtitle"><@liferay_ui.message key='christmas-capital' /></span></a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
+        <div id="navbar" class="navbar-collapse collapse" style="justify-content: flex-end;">
             <ul class="nav navbar-nav navbar-right">
                 <li class="mns-top-header mns-top-header-mobile">
                     <div>
@@ -110,9 +106,9 @@
                         <li><a href="${nav_item.getURL()}">${nav_item.getName()}</a></li>
                     </#if>
                 </#list>
-                <li>
+                <!-- <li>
                     <a href="/experientiel" class="mns-btn-yellow"><@liferay_ui.message key='prepare-your-program' /></a>
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>

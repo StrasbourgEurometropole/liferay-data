@@ -26,30 +26,32 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class ArretServiceWrapper implements ArretService,
-	ServiceWrapper<ArretService> {
+public class ArretServiceWrapper
+	implements ArretService, ServiceWrapper<ArretService> {
+
 	public ArretServiceWrapper(ArretService arretService) {
 		_arretService = arretService;
 	}
 
 	/**
-	* Recuperer les donnees temps real de la CTS pour un arret
-	*
-	* @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
-	*/
+	 * Recuperer les donnees temps real de la CTS pour un arret
+	 *
+	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getArretRealTime(
-		java.lang.String stopCode) {
+		String stopCode) {
+
 		return _arretService.getArretRealTime(stopCode);
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _arretService.getOSGiServiceIdentifier();
 	}
 
@@ -64,4 +66,5 @@ public class ArretServiceWrapper implements ArretService,
 	}
 
 	private ArretService _arretService;
+
 }

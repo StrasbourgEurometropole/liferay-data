@@ -16,38 +16,37 @@ package eu.strasbourg.service.search.log.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for SearchLog. This utility wraps
- * {@link eu.strasbourg.service.search.log.service.impl.SearchLogServiceImpl} and is the
- * primary access point for service operations in application layer code running
- * on a remote server. Methods of this service are expected to have security
- * checks based on the propagated JAAS credentials because this service can be
+ * <code>eu.strasbourg.service.search.log.service.impl.SearchLogServiceImpl</code> and is an
+ * access point for service operations in application layer code running on a
+ * remote server. Methods of this service are expected to have security checks
+ * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author BenjaminBini
  * @see SearchLogService
- * @see eu.strasbourg.service.search.log.service.base.SearchLogServiceBaseImpl
- * @see eu.strasbourg.service.search.log.service.impl.SearchLogServiceImpl
  * @generated
  */
 @ProviderType
 public class SearchLogServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.search.log.service.impl.SearchLogServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.search.log.service.impl.SearchLogServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -55,6 +54,19 @@ public class SearchLogServiceUtil {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<SearchLogService, SearchLogService> _serviceTracker =
-		ServiceTrackerFactory.open(SearchLogService.class);
+	private static ServiceTracker<SearchLogService, SearchLogService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(SearchLogService.class);
+
+		ServiceTracker<SearchLogService, SearchLogService> serviceTracker =
+			new ServiceTracker<SearchLogService, SearchLogService>(
+				bundle.getBundleContext(), SearchLogService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

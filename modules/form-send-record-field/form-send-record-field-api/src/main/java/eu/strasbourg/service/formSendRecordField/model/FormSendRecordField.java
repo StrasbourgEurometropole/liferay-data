@@ -25,74 +25,84 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Angélique Zunino
  * @see FormSendRecordFieldModel
- * @see eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldImpl
- * @see eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldImpl"
+)
 @ProviderType
-public interface FormSendRecordField extends FormSendRecordFieldModel,
-	PersistedModel {
+public interface FormSendRecordField
+	extends FormSendRecordFieldModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<FormSendRecordField, Long> FORM_SEND_RECORD_FIELD_ID_ACCESSOR =
-		new Accessor<FormSendRecordField, Long>() {
-			@Override
-			public Long get(FormSendRecordField formSendRecordField) {
-				return formSendRecordField.getFormSendRecordFieldId();
-			}
+	public static final Accessor<FormSendRecordField, Long>
+		FORM_SEND_RECORD_FIELD_ID_ACCESSOR =
+			new Accessor<FormSendRecordField, Long>() {
 
-			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
-			}
+				@Override
+				public Long get(FormSendRecordField formSendRecordField) {
+					return formSendRecordField.getFormSendRecordFieldId();
+				}
 
-			@Override
-			public Class<FormSendRecordField> getTypeClass() {
-				return FormSendRecordField.class;
-			}
-		};
+				@Override
+				public Class<Long> getAttributeClass() {
+					return Long.class;
+				}
+
+				@Override
+				public Class<FormSendRecordField> getTypeClass() {
+					return FormSendRecordField.class;
+				}
+
+			};
 
 	/**
-	* Retourne l'AssetEntry rattaché cet item
-	*/
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Retourne la liste des likes de l'entité
-	*
-	* @see eu.strasbourg.service.like.model.LikeType
-	*/
+	 * Retourne la liste des likes de l'entité
+	 *
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
 	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes();
 
 	/**
-	* Retourne le nombre de likes de l'entité
-	*
-	* @see eu.strasbourg.service.like.model.LikeType
-	*/
+	 * Retourne le nombre de likes de l'entité
+	 *
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
 	public int getNbLikes();
 
 	/**
-	* Retourne le nombre de dislikes de l'entité
-	*
-	* @see eu.strasbourg.service.like.model.LikeType
-	*/
+	 * Retourne le nombre de dislikes de l'entité
+	 *
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
 	public int getNbDislikes();
 
 	/**
-	* méthode qui renvoie la liste des signalements d'une réponse.
-	*
-	* @return la liste des signalements
-	*/
-	public java.util.List<eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement> findSignalements();
+	 * méthode qui renvoie la liste des signalements d'une réponse.
+	 *
+	 * @return la liste des signalements
+	 */
+	public java.util.List
+		<eu.strasbourg.service.formSendRecordField.model.
+			FormSendRecordFieldSignalement> findSignalements();
 
 	/**
-	* méthode qui renvoie le nombre de signalement pour un commentaire.
-	*
-	* @return le nombre de signalement en int.
-	*/
+	 * méthode qui renvoie le nombre de signalement pour un commentaire.
+	 *
+	 * @return le nombre de signalement en int.
+	 */
 	public int getCountSignalements();
+
 }

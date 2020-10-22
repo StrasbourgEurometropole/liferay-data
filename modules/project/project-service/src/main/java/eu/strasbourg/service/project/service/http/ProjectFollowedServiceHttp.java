@@ -27,10 +27,11 @@ import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link ProjectFollowedServiceUtil} service utility. The
+ * <code>ProjectFollowedServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link HttpPrincipal} parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -49,20 +50,21 @@ import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
  *
  * @author Cedric Henry
  * @see ProjectFollowedServiceSoap
- * @see HttpPrincipal
- * @see ProjectFollowedServiceUtil
  * @generated
  */
 @ProviderType
 public class ProjectFollowedServiceHttp {
+
 	public static com.liferay.portal.kernel.json.JSONObject addFollowerLink(
 		HttpPrincipal httpPrincipal, long projectId, long groupId) {
-		try {
-			MethodKey methodKey = new MethodKey(ProjectFollowedServiceUtil.class,
-					"addFollowerLink", _addFollowerLinkParameterTypes0);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					projectId, groupId);
+		try {
+			MethodKey methodKey = new MethodKey(
+				ProjectFollowedServiceUtil.class, "addFollowerLink",
+				_addFollowerLinkParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, projectId, groupId);
 
 			Object returnObj = null;
 
@@ -70,7 +72,8 @@ public class ProjectFollowedServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -84,11 +87,14 @@ public class ProjectFollowedServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject isFollower(
 		HttpPrincipal httpPrincipal, long projectId) {
-		try {
-			MethodKey methodKey = new MethodKey(ProjectFollowedServiceUtil.class,
-					"isFollower", _isFollowerParameterTypes1);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, projectId);
+		try {
+			MethodKey methodKey = new MethodKey(
+				ProjectFollowedServiceUtil.class, "isFollower",
+				_isFollowerParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, projectId);
 
 			Object returnObj = null;
 
@@ -96,7 +102,8 @@ public class ProjectFollowedServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -108,14 +115,19 @@ public class ProjectFollowedServiceHttp {
 		}
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.ProjectFollowed> findProjectFollowedByPublikUserId(
-		HttpPrincipal httpPrincipal, java.lang.String publikId) {
-		try {
-			MethodKey methodKey = new MethodKey(ProjectFollowedServiceUtil.class,
-					"findProjectFollowedByPublikUserId",
-					_findProjectFollowedByPublikUserIdParameterTypes2);
+	public static java.util.List
+		<eu.strasbourg.service.project.model.ProjectFollowed>
+			findProjectFollowedByPublikUserId(
+				HttpPrincipal httpPrincipal, String publikId) {
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, publikId);
+		try {
+			MethodKey methodKey = new MethodKey(
+				ProjectFollowedServiceUtil.class,
+				"findProjectFollowedByPublikUserId",
+				_findProjectFollowedByPublikUserIdParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, publikId);
 
 			Object returnObj = null;
 
@@ -123,10 +135,12 @@ public class ProjectFollowedServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
-			return (java.util.List<eu.strasbourg.service.project.model.ProjectFollowed>)returnObj;
+			return (java.util.List
+				<eu.strasbourg.service.project.model.ProjectFollowed>)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -135,13 +149,17 @@ public class ProjectFollowedServiceHttp {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(ProjectFollowedServiceHttp.class);
-	private static final Class<?>[] _addFollowerLinkParameterTypes0 = new Class[] {
-			long.class, long.class
-		};
+	private static Log _log = LogFactoryUtil.getLog(
+		ProjectFollowedServiceHttp.class);
+
+	private static final Class<?>[] _addFollowerLinkParameterTypes0 =
+		new Class[] {long.class, long.class};
 	private static final Class<?>[] _isFollowerParameterTypes1 = new Class[] {
-			long.class
+		long.class
+	};
+	private static final Class<?>[]
+		_findProjectFollowedByPublikUserIdParameterTypes2 = new Class[] {
+			String.class
 		};
-	private static final Class<?>[] _findProjectFollowedByPublikUserIdParameterTypes2 =
-		new Class[] { java.lang.String.class };
+
 }

@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class TipiEntryServiceWrapper implements TipiEntryService,
-	ServiceWrapper<TipiEntryService> {
+public class TipiEntryServiceWrapper
+	implements TipiEntryService, ServiceWrapper<TipiEntryService> {
+
 	public TipiEntryServiceWrapper(TipiEntryService tipiEntryService) {
 		_tipiEntryService = tipiEntryService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _tipiEntryService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class TipiEntryServiceWrapper implements TipiEntryService,
 	}
 
 	private TipiEntryService _tipiEntryService;
+
 }

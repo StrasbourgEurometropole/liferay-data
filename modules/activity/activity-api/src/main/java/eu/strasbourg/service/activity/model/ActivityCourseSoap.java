@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.activity.service.http.ActivityCourseServiceSoap}.
  *
  * @author Brian Wing Shun Chan
- * @see eu.strasbourg.service.activity.service.http.ActivityCourseServiceSoap
  * @generated
  */
 @ProviderType
 public class ActivityCourseSoap implements Serializable {
+
 	public static ActivityCourseSoap toSoapModel(ActivityCourse model) {
 		ActivityCourseSoap soapModel = new ActivityCourseSoap();
 
@@ -70,11 +70,14 @@ public class ActivityCourseSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static ActivityCourseSoap[][] toSoapModels(ActivityCourse[][] models) {
+	public static ActivityCourseSoap[][] toSoapModels(
+		ActivityCourse[][] models) {
+
 		ActivityCourseSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new ActivityCourseSoap[models.length][models[0].length];
+			soapModels =
+				new ActivityCourseSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new ActivityCourseSoap[0][0];
@@ -87,8 +90,11 @@ public class ActivityCourseSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static ActivityCourseSoap[] toSoapModels(List<ActivityCourse> models) {
-		List<ActivityCourseSoap> soapModels = new ArrayList<ActivityCourseSoap>(models.size());
+	public static ActivityCourseSoap[] toSoapModels(
+		List<ActivityCourse> models) {
+
+		List<ActivityCourseSoap> soapModels = new ArrayList<ActivityCourseSoap>(
+			models.size());
 
 		for (ActivityCourse model : models) {
 			soapModels.add(toSoapModel(model));
@@ -306,4 +312,5 @@ public class ActivityCourseSoap implements Serializable {
 	private String _imageIds;
 	private String _videosIds;
 	private String _documentsIds;
+
 }

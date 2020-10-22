@@ -25,21 +25,23 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Brian Wing Shun Chan
  * @see OfficialTypeCouncilModel
- * @see eu.strasbourg.service.council.model.impl.OfficialTypeCouncilImpl
- * @see eu.strasbourg.service.council.model.impl.OfficialTypeCouncilModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.council.model.impl.OfficialTypeCouncilImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.council.model.impl.OfficialTypeCouncilImpl"
+)
 @ProviderType
-public interface OfficialTypeCouncil extends OfficialTypeCouncilModel,
-	PersistedModel {
+public interface OfficialTypeCouncil
+	extends OfficialTypeCouncilModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.council.model.impl.OfficialTypeCouncilImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.council.model.impl.OfficialTypeCouncilImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<OfficialTypeCouncil, Long> OFFICIAL_ID_ACCESSOR =
-		new Accessor<OfficialTypeCouncil, Long>() {
+	public static final Accessor<OfficialTypeCouncil, Long>
+		OFFICIAL_ID_ACCESSOR = new Accessor<OfficialTypeCouncil, Long>() {
+
 			@Override
 			public Long get(OfficialTypeCouncil officialTypeCouncil) {
 				return officialTypeCouncil.getOfficialId();
@@ -54,9 +56,11 @@ public interface OfficialTypeCouncil extends OfficialTypeCouncilModel,
 			public Class<OfficialTypeCouncil> getTypeClass() {
 				return OfficialTypeCouncil.class;
 			}
-		};
 
-	public static final Accessor<OfficialTypeCouncil, Long> TYPE_ID_ACCESSOR = new Accessor<OfficialTypeCouncil, Long>() {
+		};
+	public static final Accessor<OfficialTypeCouncil, Long> TYPE_ID_ACCESSOR =
+		new Accessor<OfficialTypeCouncil, Long>() {
+
 			@Override
 			public Long get(OfficialTypeCouncil officialTypeCouncil) {
 				return officialTypeCouncil.getTypeId();
@@ -71,5 +75,7 @@ public interface OfficialTypeCouncil extends OfficialTypeCouncilModel,
 			public Class<OfficialTypeCouncil> getTypeClass() {
 				return OfficialTypeCouncil.class;
 			}
+
 		};
+
 }

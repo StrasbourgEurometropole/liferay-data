@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.council.model.Deliberation;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing Deliberation in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see Deliberation
  * @generated
  */
 @ProviderType
-public class DeliberationCacheModel implements CacheModel<Deliberation>,
-	Externalizable {
+public class DeliberationCacheModel
+	implements CacheModel<Deliberation>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 			return false;
 		}
 
-		DeliberationCacheModel deliberationCacheModel = (DeliberationCacheModel)obj;
+		DeliberationCacheModel deliberationCacheModel =
+			(DeliberationCacheModel)obj;
 
 		if (deliberationId == deliberationCacheModel.deliberationId) {
 			return true;
@@ -114,7 +114,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		DeliberationImpl deliberationImpl = new DeliberationImpl();
 
 		if (uuid == null) {
-			deliberationImpl.setUuid(StringPool.BLANK);
+			deliberationImpl.setUuid("");
 		}
 		else {
 			deliberationImpl.setUuid(uuid);
@@ -126,7 +126,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		deliberationImpl.setUserId(userId);
 
 		if (userName == null) {
-			deliberationImpl.setUserName(StringPool.BLANK);
+			deliberationImpl.setUserName("");
 		}
 		else {
 			deliberationImpl.setUserName(userName);
@@ -150,7 +150,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		deliberationImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			deliberationImpl.setStatusByUserName(StringPool.BLANK);
+			deliberationImpl.setStatusByUserName("");
 		}
 		else {
 			deliberationImpl.setStatusByUserName(statusByUserName);
@@ -164,7 +164,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		}
 
 		if (title == null) {
-			deliberationImpl.setTitle(StringPool.BLANK);
+			deliberationImpl.setTitle("");
 		}
 		else {
 			deliberationImpl.setTitle(title);
@@ -173,7 +173,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		deliberationImpl.setOrder(order);
 
 		if (stage == null) {
-			deliberationImpl.setStage(StringPool.BLANK);
+			deliberationImpl.setStage("");
 		}
 		else {
 			deliberationImpl.setStage(stage);
@@ -221,10 +221,9 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -239,7 +238,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -253,7 +252,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -262,7 +261,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
@@ -271,7 +270,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		objectOutput.writeInt(order);
 
 		if (stage == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(stage);
@@ -302,4 +301,5 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 	public int countOfficialsVoting;
 	public int countOfficialsActive;
 	public long councilSessionId;
+
 }

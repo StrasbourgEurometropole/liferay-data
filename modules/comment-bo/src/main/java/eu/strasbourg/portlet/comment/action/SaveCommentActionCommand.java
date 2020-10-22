@@ -66,7 +66,6 @@ public class SaveCommentActionCommand implements MVCActionCommand{
                         PortletRequest.RENDER_PHASE);
 
                 actionResponse.setRenderParameter("returnURL", returnURL.toString());
-                actionResponse.setRenderParameter("cmd","editComment");
                 actionResponse.setRenderParameter("mvcPath","/comment-bo-edit-comment.jsp");
                 return false;
             }
@@ -94,9 +93,9 @@ public class SaveCommentActionCommand implements MVCActionCommand{
             }
             boolean approved = ParamUtil.getBoolean(actionRequest,"status");
             comment.setStatus(approved ? 0 : 1);
-            String commentaire = ParamUtil.getString(actionRequest,"comment");
+            String commentaire = ParamUtil.getString(actionRequest,"text");
             _log.info("nouveau commentaire : "+commentaire);
-            comment.setComment(commentaire);
+            comment.setText(commentaire);
 
             // ---------------------------------------------------------------
             // -------------------------- BANNISSEMENT -----------------------
@@ -140,20 +139,9 @@ public class SaveCommentActionCommand implements MVCActionCommand{
      * Validation des champs obligatoires
      */
     private boolean validate(ActionRequest request) {
-        return isValid(request, "comment", "commentaire-error");
-    }
-
-    /**
-     * méthode permettant la véridication des champs.
-     * @param request la requete
-     * @param field le champ à vérifier.
-     * @param sessionError la session error.
-     * @return le boolean.
-     */
-    private boolean isValid(ActionRequest request, String field, String sessionError) {
         boolean result = true;
-        if (Validator.isNull(ParamUtil.getString(request, field))) {
-            SessionErrors.add(request, sessionError);
+        if (Validator.isNull(ParamUtil.getString(request, "text"))) {
+            SessionErrors.add(request, "commentaire-error");
             result = false;
         }
         return result;

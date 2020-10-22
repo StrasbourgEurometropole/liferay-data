@@ -1,9 +1,9 @@
 <%@page import="eu.strasbourg.utils.LayoutHelper"%>
 <%@include file="/picker-init.jsp" %>
 
-<%-- Boucle pour chaque langue - si on n'est pas en multilingue, une seule langue existe (celle par défaut) --%>
+<%-- Boucle pour chaque langue - si on n'est pas en multilingue, une seule langue existe (celle par dï¿½faut) --%>
 <c:forEach var="currentLocale" items="${availableLocales}" varStatus="status">
-	<div class="strasbourg-layout-picker picker-${name} ${currentLocale} <c:if test="${currentLocale eq defaultLocale}">active</c:if>">
+	<div class="strasbourg-layout-picker picker-${name} ${currentLocale} <c:if test="${currentLocale eq defaultLocale}">active</c:if> form-group">
 		<p>
 			<label>
 				<liferay-ui:message key="${label}" />
@@ -28,7 +28,7 @@
 		<p>
 			<aui:button name="choose-layout-${name}-${currentLocale}" id="choose-layout-${name}-${currentLocale}" value="${multiple ? 'add' : 'choose'}" />
 		</p>
-		<%-- Champ hidden contenant les données qui seront utilisées ensuite par le contrôleur --%>
+		<%-- Champ hidden contenant les donnï¿½es qui seront utilisï¿½es ensuite par le contrï¿½leur --%>
 		<div class="has-error">
 			<c:if test="${localized}">
 				<aui:input name="${name}_${currentLocale}" type="hidden" value="${locale_layoutsUuids[currentLocale]}">
@@ -49,7 +49,7 @@
 		</div>
 	</div>
 	<aui:script use="liferay-item-selector-dialog">
-	// JS gérant l'ouverture du popup de selection du fichier
+	// JS gï¿½rant l'ouverture du popup de selection du fichier
 	$('#<portlet:namespace />choose-layout-${name}-${currentLocale}').on('click',
 		function(event) {
 			var multipleSelection = ${multiple};
@@ -59,26 +59,26 @@
 				{
 					eventName: 'itemSelected${name}${currentLocale.language}',
 					on: {
-						// Evénement déclenché lors de la sélection d'un fichier
+						// Evï¿½nement dï¿½clenchï¿½ lors de la sï¿½lection d'un fichier
 						selectedItemChange: function(event) {
 							var selectedItem = event.newVal;
-							if (!!selectedItem && !!selectedItem.value) {
+							if (!!selectedItem && !!selectedItem.id) {
 								var htmlToAppend = '<li>'
-									+ selectedItem.layoutpath + ' - <a href="#" class="remove-layout" data-entry-id="' + selectedItem.value + '">Supprimer</a>';
+									+ selectedItem.name + ' - <a href="#" class="remove-layout" data-entry-id="' + selectedItem.id + '">Supprimer</a>';
 									+ '</li>';
 								if (!multipleSelection) {
 									$('#layouts-thumbnails-${name}-${currentLocale}').empty();
 								}
 								$('#layouts-thumbnails-${name}-${currentLocale}').append(htmlToAppend);
 								if (!multipleSelection) {
-									$(fieldName).val(selectedItem.value);
+									$(fieldName).val(selectedItem.id);
 								} else {
 									var currentValue = $(fieldName).val();
 									var newValue = currentValue;
 									if (currentValue.length > 0) {
 										newValue += ',';
 									}
-									newValue += selectedItem.value;
+									newValue += selectedItem.id;
 									$(fieldName).val(newValue);
 								}							
 							}
@@ -113,8 +113,8 @@
 	</aui:script>
 </c:forEach>
 <%-- 
-	Si le champ est localisé, on masque les champs par défaut et on affiche ceux qui ont la classe "active"
-	La gestion du toggle de la classe "active" est géré par le JS du module utilisateur
+	Si le champ est localisï¿½, on masque les champs par dï¿½faut et on affiche ceux qui ont la classe "active"
+	La gestion du toggle de la classe "active" est gï¿½rï¿½ par le JS du module utilisateur
 --%>
 <c:if test="${localized}">
 	<style>

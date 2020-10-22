@@ -34,10 +34,11 @@ import eu.strasbourg.service.agenda.service.CampaignEventStatusLocalServiceUtil;
 @ProviderType
 public abstract class CampaignEventStatusBaseImpl
 	extends CampaignEventStatusModelImpl implements CampaignEventStatus {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a campaign event status model instance should use the {@link CampaignEventStatus} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a campaign event status model instance should use the <code>CampaignEventStatus</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class CampaignEventStatusBaseImpl
 			CampaignEventStatusLocalServiceUtil.updateCampaignEventStatus(this);
 		}
 	}
+
 }

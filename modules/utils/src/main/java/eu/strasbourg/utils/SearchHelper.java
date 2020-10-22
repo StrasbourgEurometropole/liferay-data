@@ -3,7 +3,18 @@ package eu.strasbourg.utils;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.BooleanClauseOccur;
+import com.liferay.portal.kernel.search.BooleanQuery;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.IndexSearcherHelperUtil;
+import com.liferay.portal.kernel.search.ParseException;
+import com.liferay.portal.kernel.search.Query;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.search.SortFactoryUtil;
+import com.liferay.portal.kernel.search.WildcardQuery;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.search.generic.MatchQuery;
 import com.liferay.portal.kernel.search.generic.WildcardQueryImpl;
@@ -930,6 +941,109 @@ public class SearchHelper {
 					}
 				}
 				query.add(categoriesQuery, BooleanClauseOccur.MUST);
+			}
+
+			return query;
+		} catch (
+
+				ParseException e) {
+			_log.error(e);
+			return null;
+		}
+	}
+
+	/**
+	 * Retourne les Hits correspondant aux paramètres pour le webservice des
+	 * offres
+	 */
+	public static Hits getOfferWebServiceSearchHits(String className, long[] categoriesIds, String keywords, Locale locale) {
+		try {
+			SearchContext searchContext = new SearchContext();
+			searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
+
+			// Query
+			Query query = SearchHelper.getOfferWebServiceQuery(className, categoriesIds, keywords, locale);
+
+			// Recherche
+			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
+			_log.info("Recherche : " + hits.getSearchTime() * 1000 + "ms");
+			return hits;
+		} catch (SearchException e) {
+			_log.error(e);
+			return null;
+		}
+	}
+
+	/**
+	 * Retourne la requête pour le webservice des offres
+	 */
+	private static Query getOfferWebServiceQuery(String className, long[] categoriesIds, String keywords, Locale locale) {
+
+		try {
+			BooleanQuery query = new BooleanQueryImpl();
+
+			query.addRequiredTerm(Field.ENTRY_CLASS_NAME, className, false);
+			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
+
+			// Mots-clés
+			if (Validator.isNotNull(keywords)) {
+				BooleanQuery keywordQuery = new BooleanQueryImpl();
+
+				// Fuzzy sur titre
+				MatchQuery titleQuery = new MatchQuery(Field.TITLE + '_' + locale, keywords);
+				titleQuery.setAnalyzer("strasbourg_analyzer");
+				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
+
+				// Titre sans analyzer
+				MatchQuery titleQueryWithoutAnalyzer = new MatchQuery(Field.TITLE + "_" + locale, keywords);
+				titleQueryWithoutAnalyzer.setFuzziness(new Float(2));
+				titleQueryWithoutAnalyzer.setBoost(3);
+				keywordQuery.add(titleQueryWithoutAnalyzer, BooleanClauseOccur.SHOULD);
+
+				// Wildcard sur titre
+				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE + "_" + locale,
+						"*" + keywords + "*");
+				titleWildcardQuery.setBoost(30);
+				keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
+
+				// Description
+				MatchQuery descriptionQuery = new MatchQuery(Field.DESCRIPTION + "_" + locale, keywords);
+				keywordQuery.add(descriptionQuery, BooleanClauseOccur.SHOULD);
+
+				// Content
+				MatchQuery contentQuery = new MatchQuery(Field.CONTENT + "_" + locale, keywords);
+				keywordQuery.add(contentQuery, BooleanClauseOccur.SHOULD);
+
+				// Fuzzy sur catégorie
+				MatchQuery categoryKeywordQuery = new MatchQuery(Field.ASSET_CATEGORY_TITLES, keywords);
+				// titleQuery.setFuzziness(new Float(10));
+				keywordQuery.add(categoryKeywordQuery, BooleanClauseOccur.SHOULD);
+
+				query.add(keywordQuery, BooleanClauseOccur.MUST);
+			} else {
+				// Si on n'a pas de keyword : on ne veut que les entités de la langue en cours tout de même
+				// Pour cela on vérifie que le champ "title_{locale}" n'est pas vide
+				// On ne fait pas cela pour les fichiers car ils n'ont pas de champ titre traduit
+				BooleanQuery anyKeywordQuery = new BooleanQueryImpl();
+
+				WildcardQuery anyKeywordWildcardQuery = new WildcardQueryImpl("title_" + locale, "*");
+
+				anyKeywordQuery.addTerm(Field.ENTRY_CLASS_NAME, DLFileEntry.class.getName(), false,
+						BooleanClauseOccur.SHOULD);
+				anyKeywordQuery.add(anyKeywordWildcardQuery, BooleanClauseOccur.SHOULD);
+
+				query.add(anyKeywordQuery, BooleanClauseOccur.MUST);
+			}
+
+			// Catégories
+			if (categoriesIds != null) {
+				for (long categoryId : categoriesIds) {
+					if (Validator.isNotNull(categoryId)) {
+						BooleanQuery categoryQuery = new BooleanQueryImpl();
+						categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, categoryId);
+						query.add(categoryQuery, BooleanClauseOccur.MUST);
+					}
+				}
 			}
 
 			return query;

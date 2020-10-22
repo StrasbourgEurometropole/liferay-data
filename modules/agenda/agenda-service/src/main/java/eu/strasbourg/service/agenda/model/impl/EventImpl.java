@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
-
 import com.liferay.portal.kernel.search.BooleanClause;
 import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
@@ -39,7 +38,6 @@ import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
@@ -56,26 +54,33 @@ import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
+import eu.strasbourg.service.agenda.utils.clients.soap.rodrigue.RodrigueSOAPClient;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
-import eu.strasbourg.utils.RodigueSOAPClient;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
-import eu.strasbourg.utils.models.RodrigueEventSession;
+import eu.strasbourg.service.agenda.custom.beans.RodrigueEventSession;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -1129,7 +1134,9 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public List<RodrigueEventSession> getSessionsFromRodrigue() {
 		if (this.getConcertId() != null && !this.getConcertId().isEmpty()) {
-			return RodigueSOAPClient.getSessionListOfEvent(this.getConcertId());
+			RodrigueSOAPClient rodrigueSOAPClient = new RodrigueSOAPClient();
+
+			return rodrigueSOAPClient.getSessionListOfEvent(this.getConcertId());
 		} else {
 			return new ArrayList<RodrigueEventSession>();
 		}

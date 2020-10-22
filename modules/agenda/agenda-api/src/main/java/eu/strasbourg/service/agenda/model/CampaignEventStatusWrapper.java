@@ -17,7 +17,6 @@ package eu.strasbourg.service.agenda.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -38,8 +37,9 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class CampaignEventStatusWrapper implements CampaignEventStatus,
-	ModelWrapper<CampaignEventStatus> {
+public class CampaignEventStatusWrapper
+	implements CampaignEventStatus, ModelWrapper<CampaignEventStatus> {
+
 	public CampaignEventStatusWrapper(CampaignEventStatus campaignEventStatus) {
 		_campaignEventStatus = campaignEventStatus;
 	}
@@ -136,6 +136,170 @@ public class CampaignEventStatusWrapper implements CampaignEventStatus,
 	}
 
 	@Override
+	public Object clone() {
+		return new CampaignEventStatusWrapper(
+			(CampaignEventStatus)_campaignEventStatus.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.agenda.model.CampaignEventStatus
+			campaignEventStatus) {
+
+		return _campaignEventStatus.compareTo(campaignEventStatus);
+	}
+
+	/**
+	 * Returns the campaign event ID of this campaign event status.
+	 *
+	 * @return the campaign event ID of this campaign event status
+	 */
+	@Override
+	public long getCampaignEventId() {
+		return _campaignEventStatus.getCampaignEventId();
+	}
+
+	/**
+	 * Returns the comment of this campaign event status.
+	 *
+	 * @return the comment of this campaign event status
+	 */
+	@Override
+	public String getComment() {
+		return _campaignEventStatus.getComment();
+	}
+
+	/**
+	 * Returns the date of this campaign event status.
+	 *
+	 * @return the date of this campaign event status
+	 */
+	@Override
+	public Date getDate() {
+		return _campaignEventStatus.getDate();
+	}
+
+	/**
+	 * Returns the deletion denied of this campaign event status.
+	 *
+	 * @return the deletion denied of this campaign event status
+	 */
+	@Override
+	public Boolean getDeletionDenied() {
+		return _campaignEventStatus.getDeletionDenied();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _campaignEventStatus.getExpandoBridge();
+	}
+
+	@Override
+	public eu.strasbourg.service.agenda.model.CampaignEventStatus
+		getPreviousStatus() {
+
+		return _campaignEventStatus.getPreviousStatus();
+	}
+
+	/**
+	 * Returns the previous status ID of this campaign event status.
+	 *
+	 * @return the previous status ID of this campaign event status
+	 */
+	@Override
+	public long getPreviousStatusId() {
+		return _campaignEventStatus.getPreviousStatusId();
+	}
+
+	/**
+	 * Returns the primary key of this campaign event status.
+	 *
+	 * @return the primary key of this campaign event status
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _campaignEventStatus.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _campaignEventStatus.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the status of this campaign event status.
+	 *
+	 * @return the status of this campaign event status
+	 */
+	@Override
+	public Integer getStatus() {
+		return _campaignEventStatus.getStatus();
+	}
+
+	/**
+	 * Returns the status ID of this campaign event status.
+	 *
+	 * @return the status ID of this campaign event status
+	 */
+	@Override
+	public long getStatusId() {
+		return _campaignEventStatus.getStatusId();
+	}
+
+	/**
+	 * Retourne le label correspondant au statut
+	 */
+	@Override
+	public String getStatusLabel() {
+		return _campaignEventStatus.getStatusLabel();
+	}
+
+	/**
+	 * Returns the user ID of this campaign event status.
+	 *
+	 * @return the user ID of this campaign event status
+	 */
+	@Override
+	public long getUserId() {
+		return _campaignEventStatus.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this campaign event status.
+	 *
+	 * @return the user name of this campaign event status
+	 */
+	@Override
+	public String getUserName() {
+		return _campaignEventStatus.getUserName();
+	}
+
+	/**
+	 * Returns the user uuid of this campaign event status.
+	 *
+	 * @return the user uuid of this campaign event status
+	 */
+	@Override
+	public String getUserUuid() {
+		return _campaignEventStatus.getUserUuid();
+	}
+
+	/**
+	 * Returns the uuid of this campaign event status.
+	 *
+	 * @return the uuid of this campaign event status
+	 */
+	@Override
+	public String getUuid() {
+		return _campaignEventStatus.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _campaignEventStatus.hashCode();
+	}
+
+	@Override
 	public boolean isCachedModel() {
 		return _campaignEventStatus.isCachedModel();
 	}
@@ -151,190 +315,6 @@ public class CampaignEventStatusWrapper implements CampaignEventStatus,
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _campaignEventStatus.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.agenda.model.CampaignEventStatus> toCacheModel() {
-		return _campaignEventStatus.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.CampaignEventStatus getPreviousStatus() {
-		return _campaignEventStatus.getPreviousStatus();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.CampaignEventStatus toEscapedModel() {
-		return new CampaignEventStatusWrapper(_campaignEventStatus.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.CampaignEventStatus toUnescapedModel() {
-		return new CampaignEventStatusWrapper(_campaignEventStatus.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.agenda.model.CampaignEventStatus campaignEventStatus) {
-		return _campaignEventStatus.compareTo(campaignEventStatus);
-	}
-
-	@Override
-	public int hashCode() {
-		return _campaignEventStatus.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _campaignEventStatus.getPrimaryKeyObj();
-	}
-
-	/**
-	* Returns the deletion denied of this campaign event status.
-	*
-	* @return the deletion denied of this campaign event status
-	*/
-	@Override
-	public java.lang.Boolean getDeletionDenied() {
-		return _campaignEventStatus.getDeletionDenied();
-	}
-
-	/**
-	* Returns the status of this campaign event status.
-	*
-	* @return the status of this campaign event status
-	*/
-	@Override
-	public java.lang.Integer getStatus() {
-		return _campaignEventStatus.getStatus();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new CampaignEventStatusWrapper((CampaignEventStatus)_campaignEventStatus.clone());
-	}
-
-	/**
-	* Returns the comment of this campaign event status.
-	*
-	* @return the comment of this campaign event status
-	*/
-	@Override
-	public java.lang.String getComment() {
-		return _campaignEventStatus.getComment();
-	}
-
-	/**
-	* Retourne le label correspondant au statut
-	*/
-	@Override
-	public java.lang.String getStatusLabel() {
-		return _campaignEventStatus.getStatusLabel();
-	}
-
-	/**
-	* Returns the user name of this campaign event status.
-	*
-	* @return the user name of this campaign event status
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _campaignEventStatus.getUserName();
-	}
-
-	/**
-	* Returns the user uuid of this campaign event status.
-	*
-	* @return the user uuid of this campaign event status
-	*/
-	@Override
-	public java.lang.String getUserUuid() {
-		return _campaignEventStatus.getUserUuid();
-	}
-
-	/**
-	* Returns the uuid of this campaign event status.
-	*
-	* @return the uuid of this campaign event status
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _campaignEventStatus.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _campaignEventStatus.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _campaignEventStatus.toXmlString();
-	}
-
-	/**
-	* Returns the date of this campaign event status.
-	*
-	* @return the date of this campaign event status
-	*/
-	@Override
-	public Date getDate() {
-		return _campaignEventStatus.getDate();
-	}
-
-	/**
-	* Returns the campaign event ID of this campaign event status.
-	*
-	* @return the campaign event ID of this campaign event status
-	*/
-	@Override
-	public long getCampaignEventId() {
-		return _campaignEventStatus.getCampaignEventId();
-	}
-
-	/**
-	* Returns the previous status ID of this campaign event status.
-	*
-	* @return the previous status ID of this campaign event status
-	*/
-	@Override
-	public long getPreviousStatusId() {
-		return _campaignEventStatus.getPreviousStatusId();
-	}
-
-	/**
-	* Returns the primary key of this campaign event status.
-	*
-	* @return the primary key of this campaign event status
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _campaignEventStatus.getPrimaryKey();
-	}
-
-	/**
-	* Returns the status ID of this campaign event status.
-	*
-	* @return the status ID of this campaign event status
-	*/
-	@Override
-	public long getStatusId() {
-		return _campaignEventStatus.getStatusId();
-	}
-
-	/**
-	* Returns the user ID of this campaign event status.
-	*
-	* @return the user ID of this campaign event status
-	*/
-	@Override
-	public long getUserId() {
-		return _campaignEventStatus.getUserId();
-	}
-
-	@Override
 	public void persist() {
 		_campaignEventStatus.persist();
 	}
@@ -345,54 +325,55 @@ public class CampaignEventStatusWrapper implements CampaignEventStatus,
 	}
 
 	/**
-	* Sets the campaign event ID of this campaign event status.
-	*
-	* @param campaignEventId the campaign event ID of this campaign event status
-	*/
+	 * Sets the campaign event ID of this campaign event status.
+	 *
+	 * @param campaignEventId the campaign event ID of this campaign event status
+	 */
 	@Override
 	public void setCampaignEventId(long campaignEventId) {
 		_campaignEventStatus.setCampaignEventId(campaignEventId);
 	}
 
 	/**
-	* Sets the comment of this campaign event status.
-	*
-	* @param comment the comment of this campaign event status
-	*/
+	 * Sets the comment of this campaign event status.
+	 *
+	 * @param comment the comment of this campaign event status
+	 */
 	@Override
-	public void setComment(java.lang.String comment) {
+	public void setComment(String comment) {
 		_campaignEventStatus.setComment(comment);
 	}
 
 	/**
-	* Sets the date of this campaign event status.
-	*
-	* @param date the date of this campaign event status
-	*/
+	 * Sets the date of this campaign event status.
+	 *
+	 * @param date the date of this campaign event status
+	 */
 	@Override
 	public void setDate(Date date) {
 		_campaignEventStatus.setDate(date);
 	}
 
 	/**
-	* Sets the deletion denied of this campaign event status.
-	*
-	* @param deletionDenied the deletion denied of this campaign event status
-	*/
+	 * Sets the deletion denied of this campaign event status.
+	 *
+	 * @param deletionDenied the deletion denied of this campaign event status
+	 */
 	@Override
-	public void setDeletionDenied(java.lang.Boolean deletionDenied) {
+	public void setDeletionDenied(Boolean deletionDenied) {
 		_campaignEventStatus.setDeletionDenied(deletionDenied);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_campaignEventStatus.setExpandoBridgeAttributes(expandoBridge);
 	}
 
 	@Override
 	public void setExpandoBridgeAttributes(
 		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
 		_campaignEventStatus.setExpandoBridgeAttributes(baseModel);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_campaignEventStatus.setExpandoBridgeAttributes(expandoBridge);
 	}
 
 	@Override
@@ -406,20 +387,20 @@ public class CampaignEventStatusWrapper implements CampaignEventStatus,
 	}
 
 	/**
-	* Sets the previous status ID of this campaign event status.
-	*
-	* @param previousStatusId the previous status ID of this campaign event status
-	*/
+	 * Sets the previous status ID of this campaign event status.
+	 *
+	 * @param previousStatusId the previous status ID of this campaign event status
+	 */
 	@Override
 	public void setPreviousStatusId(long previousStatusId) {
 		_campaignEventStatus.setPreviousStatusId(previousStatusId);
 	}
 
 	/**
-	* Sets the primary key of this campaign event status.
-	*
-	* @param primaryKey the primary key of this campaign event status
-	*/
+	 * Sets the primary key of this campaign event status.
+	 *
+	 * @param primaryKey the primary key of this campaign event status
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_campaignEventStatus.setPrimaryKey(primaryKey);
@@ -431,63 +412,97 @@ public class CampaignEventStatusWrapper implements CampaignEventStatus,
 	}
 
 	/**
-	* Sets the status of this campaign event status.
-	*
-	* @param status the status of this campaign event status
-	*/
+	 * Sets the status of this campaign event status.
+	 *
+	 * @param status the status of this campaign event status
+	 */
 	@Override
-	public void setStatus(java.lang.Integer status) {
+	public void setStatus(Integer status) {
 		_campaignEventStatus.setStatus(status);
 	}
 
 	/**
-	* Sets the status ID of this campaign event status.
-	*
-	* @param statusId the status ID of this campaign event status
-	*/
+	 * Sets the status ID of this campaign event status.
+	 *
+	 * @param statusId the status ID of this campaign event status
+	 */
 	@Override
 	public void setStatusId(long statusId) {
 		_campaignEventStatus.setStatusId(statusId);
 	}
 
 	/**
-	* Sets the user ID of this campaign event status.
-	*
-	* @param userId the user ID of this campaign event status
-	*/
+	 * Sets the user ID of this campaign event status.
+	 *
+	 * @param userId the user ID of this campaign event status
+	 */
 	@Override
 	public void setUserId(long userId) {
 		_campaignEventStatus.setUserId(userId);
 	}
 
 	/**
-	* Sets the user name of this campaign event status.
-	*
-	* @param userName the user name of this campaign event status
-	*/
+	 * Sets the user name of this campaign event status.
+	 *
+	 * @param userName the user name of this campaign event status
+	 */
 	@Override
-	public void setUserName(java.lang.String userName) {
+	public void setUserName(String userName) {
 		_campaignEventStatus.setUserName(userName);
 	}
 
 	/**
-	* Sets the user uuid of this campaign event status.
-	*
-	* @param userUuid the user uuid of this campaign event status
-	*/
+	 * Sets the user uuid of this campaign event status.
+	 *
+	 * @param userUuid the user uuid of this campaign event status
+	 */
 	@Override
-	public void setUserUuid(java.lang.String userUuid) {
+	public void setUserUuid(String userUuid) {
 		_campaignEventStatus.setUserUuid(userUuid);
 	}
 
 	/**
-	* Sets the uuid of this campaign event status.
-	*
-	* @param uuid the uuid of this campaign event status
-	*/
+	 * Sets the uuid of this campaign event status.
+	 *
+	 * @param uuid the uuid of this campaign event status
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_campaignEventStatus.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.agenda.model.CampaignEventStatus>
+			toCacheModel() {
+
+		return _campaignEventStatus.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.agenda.model.CampaignEventStatus
+		toEscapedModel() {
+
+		return new CampaignEventStatusWrapper(
+			_campaignEventStatus.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _campaignEventStatus.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.agenda.model.CampaignEventStatus
+		toUnescapedModel() {
+
+		return new CampaignEventStatusWrapper(
+			_campaignEventStatus.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _campaignEventStatus.toXmlString();
 	}
 
 	@Override
@@ -500,10 +515,13 @@ public class CampaignEventStatusWrapper implements CampaignEventStatus,
 			return false;
 		}
 
-		CampaignEventStatusWrapper campaignEventStatusWrapper = (CampaignEventStatusWrapper)obj;
+		CampaignEventStatusWrapper campaignEventStatusWrapper =
+			(CampaignEventStatusWrapper)obj;
 
-		if (Objects.equals(_campaignEventStatus,
-					campaignEventStatusWrapper._campaignEventStatus)) {
+		if (Objects.equals(
+				_campaignEventStatus,
+				campaignEventStatusWrapper._campaignEventStatus)) {
+
 			return true;
 		}
 
@@ -531,4 +549,5 @@ public class CampaignEventStatusWrapper implements CampaignEventStatus,
 	}
 
 	private final CampaignEventStatus _campaignEventStatus;
+
 }

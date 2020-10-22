@@ -32,12 +32,13 @@ import eu.strasbourg.service.tipi.service.TipiEntryLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class TipiEntryBaseImpl extends TipiEntryModelImpl
-	implements TipiEntry {
+public abstract class TipiEntryBaseImpl
+	extends TipiEntryModelImpl implements TipiEntry {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a tipi entry model instance should use the {@link TipiEntry} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a tipi entry model instance should use the <code>TipiEntry</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class TipiEntryBaseImpl extends TipiEntryModelImpl
 			TipiEntryLocalServiceUtil.updateTipiEntry(this);
 		}
 	}
+
 }

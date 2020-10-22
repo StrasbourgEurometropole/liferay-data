@@ -32,28 +32,35 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author Brian Wing Shun Chan
  * @see ActivityCourseScheduleServiceUtil
- * @see eu.strasbourg.service.activity.service.base.ActivityCourseScheduleServiceBaseImpl
- * @see eu.strasbourg.service.activity.service.impl.ActivityCourseScheduleServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=activity", "json.web.service.context.path=ActivityCourseSchedule"}, service = ActivityCourseScheduleService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=activity",
+		"json.web.service.context.path=ActivityCourseSchedule"
+	},
+	service = ActivityCourseScheduleService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface ActivityCourseScheduleService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link ActivityCourseScheduleServiceUtil} to access the activity course schedule remote service. Add custom service methods to {@link eu.strasbourg.service.activity.service.impl.ActivityCourseScheduleServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link ActivityCourseScheduleServiceUtil} to access the activity course schedule remote service. Add custom service methods to <code>eu.strasbourg.service.activity.service.impl.ActivityCourseScheduleServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

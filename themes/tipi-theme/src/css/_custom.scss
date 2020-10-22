@@ -5,6 +5,46 @@
 
 /* This file allows you to override default styles in one central location for easier upgrade and maintenance. */
 
+.wrapper h1:first-child, .wrapper h2:first-child, .wrapper h3:first-child {
+    margin-top: 0.25em;
+}
+
+.autofit-float.autofit-row.portlet-header{
+	display: none;
+}
+/*
+.portlet-title-default{
+	display: none;
+}*/
+
+.autofit-col.autofit-col-expand{
+	display: none;
+}
+
+.wrapper > .header .nav-lang li a {
+    font-size: 14px;
+}
+
+.popup-help{
+	font-size: 14px;
+}
+
+.footer .footer-top {
+
+	.nav-footer li a {
+		font-size: 11.34px;
+	}
+
+	.social-network span {
+		font-size: 12.6px;
+	}
+
+	.footer-contact {
+		font-size: 12.6px;
+	}
+
+}
+
 a:hover, a:focus{
 	color: white;
 }
@@ -59,16 +99,37 @@ body{
 		clear: both;
 	}
 
-	.breadcrumbs{
+	.breadcrumb{
+		display: table;
 		padding: 0px;
-    	margin-bottom: 20px;
+		border-bottom: 4px solid white;
+		margin-bottom: 20px;
+		
+		.breadcrumb-item{
+			margin-right: 0em;
+		}
 
-		> li + li:before {
+		.breadcrumb-item + .breadcrumb-item::before {
+			margin-left: 0.2rem;
+			font-size: 14px;
+		}
+
+		> li {
 			background-image: url();
 			content: "\00a0>\00a0";
 			margin-top: -0.5em;
 			color: #333333;
 			margin-left: 2px;
+
+			> a {
+				> span {
+					font-size: 14px;
+				}
+			}
+
+			> span {
+				font-size: 14px;
+			}
 		}
 	}
 
@@ -119,4 +180,40 @@ body{
 	.footer-top .social-network ul li a.btn-tumblr {
 		background-image: url(/o/tipi-theme/images/icone/icone-tumblr.jpg);
 	}	
+}
+
+// affichage des menus des portlets
+.portlet:hover > .portlet-topper{
+  width: calc(100% - 35px);
+  height: auto;
+  z-index: 2;
+
+  menu{
+	  z-index: 3;
+  }
+}
+.portlet-journal-content .portlet .portlet-header{
+  transform: translateY(-112%);
+  display: flex;
+
+  .visible-interaction {
+	display: inline;
+	
+    .lfr-icon-menu{
+      background-color: transparent;
+      display: inline;
+
+      > a{
+        height: 32px;
+        line-height: 32px;
+        width: 32px;
+
+        .lexicon-icon{
+          height: 32px;
+          width: 32px;
+          padding: 8px;
+        }
+      }
+    }
+  }
 }

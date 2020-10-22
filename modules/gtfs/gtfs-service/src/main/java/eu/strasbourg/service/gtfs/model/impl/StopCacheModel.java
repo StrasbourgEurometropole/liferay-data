@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.gtfs.model.Stop;
 
@@ -32,11 +31,11 @@ import java.io.ObjectOutput;
  * The cache model class for representing Stop in entity cache.
  *
  * @author Cedric Henry
- * @see Stop
  * @generated
  */
 @ProviderType
 public class StopCacheModel implements CacheModel<Stop>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -93,7 +92,7 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 		StopImpl stopImpl = new StopImpl();
 
 		if (uuid == null) {
-			stopImpl.setUuid(StringPool.BLANK);
+			stopImpl.setUuid("");
 		}
 		else {
 			stopImpl.setUuid(uuid);
@@ -102,49 +101,49 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 		stopImpl.setId(id);
 
 		if (stop_id == null) {
-			stopImpl.setStop_id(StringPool.BLANK);
+			stopImpl.setStop_id("");
 		}
 		else {
 			stopImpl.setStop_id(stop_id);
 		}
 
 		if (stop_code == null) {
-			stopImpl.setStop_code(StringPool.BLANK);
+			stopImpl.setStop_code("");
 		}
 		else {
 			stopImpl.setStop_code(stop_code);
 		}
 
 		if (stop_lat == null) {
-			stopImpl.setStop_lat(StringPool.BLANK);
+			stopImpl.setStop_lat("");
 		}
 		else {
 			stopImpl.setStop_lat(stop_lat);
 		}
 
 		if (stop_lon == null) {
-			stopImpl.setStop_lon(StringPool.BLANK);
+			stopImpl.setStop_lon("");
 		}
 		else {
 			stopImpl.setStop_lon(stop_lon);
 		}
 
 		if (stop_name == null) {
-			stopImpl.setStop_name(StringPool.BLANK);
+			stopImpl.setStop_name("");
 		}
 		else {
 			stopImpl.setStop_name(stop_name);
 		}
 
 		if (stop_url == null) {
-			stopImpl.setStop_url(StringPool.BLANK);
+			stopImpl.setStop_url("");
 		}
 		else {
 			stopImpl.setStop_url(stop_url);
 		}
 
 		if (stop_desc == null) {
-			stopImpl.setStop_desc(StringPool.BLANK);
+			stopImpl.setStop_desc("");
 		}
 		else {
 			stopImpl.setStop_desc(stop_desc);
@@ -170,10 +169,9 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -182,49 +180,49 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 		objectOutput.writeLong(id);
 
 		if (stop_id == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(stop_id);
 		}
 
 		if (stop_code == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(stop_code);
 		}
 
 		if (stop_lat == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(stop_lat);
 		}
 
 		if (stop_lon == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(stop_lon);
 		}
 
 		if (stop_name == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(stop_name);
 		}
 
 		if (stop_url == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(stop_url);
 		}
 
 		if (stop_desc == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(stop_desc);
@@ -240,4 +238,5 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 	public String stop_name;
 	public String stop_url;
 	public String stop_desc;
+
 }

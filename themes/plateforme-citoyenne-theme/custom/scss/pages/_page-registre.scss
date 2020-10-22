@@ -1,318 +1,82 @@
 // Style Page Registre
 // ==========================================================================
-.pro-page-registre {
-	position: relative;
-	z-index: 10;
-	#breadcrumb {
-		padding-left: 0;
-		padding-right: 0;
-	}
-	.pro-p-150 {
-		padding-left: 150px;
-		@media screen and (max-width: 1024px) {
-			padding-left: 0;
-		}
-	}
-
-	.pro-title-question {
-		@include ft($f_hx, 1.250em, 700, $c_dark, 1.625em);
-		position: relative;
-		display: block;
-		margin: 10px 0 5px 0;
-		text-transform: none;
-		&:before {
-			content: none;
-		}
-		& + div {
-			margin-bottom: 15px;
-		}
-	}
-
-	.tab-pane {
-		margin-top: 40px;
-	}
-}
-
 .pro-wrapper-registre {
 	min-height: 800px;
-	.pro-section {
-		margin-bottom: 30px;
+
+	.pro-p-150{
+		padding-left: 150px;
 	}
 
-	form {
-		margin-bottom: 80px;
-		@include mobile {
-			margin-bottom: 40px;
-		}
-
-		h1 {
-			display: none;
-		}
-
-		.required-warning {
-			@include ft($f_txt, 1em, 400, $c_grey, 1.25em);
-			font-style: italic;
-		}
-
-		.clearfix {
-			margin-top: 15px;
-			overflow: visible;
-		}
-
-		.liferay-ddm-form-field-paragraph {
-			margin-top: 30px;
-			> label {
-				@include ft($f_hx, 1.250em, 700, $c_dark, 1.625em);
-				position: relative;
-				display: block;
-				margin: 10px 0 5px 0;
-				text-transform: none;
-				&:before {
-					content: none;
-				}
-				& + p {
-					margin-bottom: 15px;
+	//  Signalement
+	form#form-signalements {
+		margin-bottom: 0;
+	
+		.pro-form-submit {
+			background: none;
+			border: none;
+			padding: 0;
+			button {
+				margin: 0 !important;
+				right: 0 !important;
+				&:hover, &:focus {
+					background: $c_dark;
+					border-color: $c_dark;
+					border: 2px solid $c_main;
 				}
 			}
 		}
+	}
 
-		.lfr-ddm-form-field-container {
-			margin-top: 5px;
-		}
+	// Pagination
+	.pro-pagination {
 
-		.icon-asterisk {
-			display: inline-block;
-			&:after {
-				content: '*';
-				color: #ff0000;
-				position: relative;
-				margin: 0 2px;
-				top: -1px;
-			}
-		}
-
-		.control-label {
-			@include ft($f_txt, 0.875em, 400, #4c4c4c, 1.571em);
-			position: relative;
-			display: block;
-			text-align: left;
-			clear: both;
-			user-select: none;
-			margin-bottom: 5px;
-			span {
-				color: #ff0000;
-			}
-		}
-
-		input[type="text"], textarea {
-			@include ft($f_txt, 0.875em, 400, $c_dark, 20px);
-			@extend %appearance;
-			height: auto;
-			display: block;
-			padding: 9px 15px;
-			border: 1px solid #b2b2b2;
-			border-radius: 4px;
-			background: $c_white;
-			@include addTransition();
-			&:hover, &:focus {
-				border-color: $c_dark;
-				outline: none;
-				box-shadow: none;
-			}
-		}
-
-		textarea {
-			height: 130px !important;
-			resize: none;
-		}
-
-		/* STYLE FOR CHECHBOX */
-		.checkbox-default {
-			position: relative;
-			input {
-				display: block;
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				opacity: 0;
-				margin: 0;
-				&:checked {
-					& + span {
-						&:after {
-							opacity: 1;
-							transform: scale(1);
-						}
-					}
-				}
-			}
-
-			span {
-				&:before {
-					content: '';
-					position: absolute;
-					float: left;
-					margin-right: 10px;
-					transform: none;
-					text-align: left;
-					width: 20px;
-					height: 20px;
-					border: 1px solid #a6a6a6;
-					border-radius: 2px;
-					background: #fff;
-					cursor: pointer;
-					left: 0;
-					top: 0;
-				}
-				&:after {
-					content: "\e91a";
-					@include font();
-					text-shadow: 1px 1px 0 $c_white, 0px -2px 0 $c_white;
-					font-size: 16px;
-					position: absolute;
-					left: 5px;
-					top: 0;
-					transform: translateY(-50%);
-					transform: translate3d(0, -50%, 0);
-					cursor: pointer;
-					color: $c_txt;
-					transition: all .2s;
-					background: none;
-					opacity: 0;
-					transform: scale(0);
-					@include addTransitionCurve();
-				}
-			}
-		}
-
-		.checkbox-multiple-options {
-			margin: 0;
-		}
-
-		.radio, .checkbox {
-			margin: 0;
-		}
-
-		.first-label-hide {
-			margin-top: 20px;
-			margin-bottom: 5px;
-			.form-group {
-				> label {
-					display: none;
-				}
-			}
-		}
-
-		.liferay-ddm-form-field-checkbox-multiple, .liferay-ddm-form-field-radio-multiple {
-			> label {
-				display: none;
-			}
-		}
-
-		.checkbox-inline, .radio-inline {
-			@include ft($f_txt, 0.813em, 400, $c_dark, 1.571em);
-			margin: 0 40px 10px 0;
-			user-select: none;
-			padding: 0 0 0 30px;
-			&:hover {
-				text-decoration: underline;
-			}
-			@include mobile {
-				display: block;
-			}
-		}
-
-		.radio {
-
-			input {
-				display: block;
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				opacity: 0;
-				margin: 0;
-				&:checked {
-					& + span {
-						&:after {
-							background: $c_sub;
-							border-radius: 50px;
-							content: " ";
-							height: 10px;
-							left: 2px;
-							position: absolute;
-							top: 2px;
-							width: 10px;
-						}
-					}
-				}
-			}
-
-			span {
-				position: absolute;
-				left: 0;
-				top: 2px;
-				background-color: $c_white;
-				border: 1px solid $c_sub;
-				border-radius: 50px;
-				display: inline-block;
-				float: left;
-				margin-right: 7px;
-				padding: 7px;
-			}
-		}
-
-		.input-select-wrapper {
-			margin-bottom: 10px;
+		ul li:before{
+			content: none;
 		}
 
 		.selectric-wrapper {
 
-			&:hover {
-				.selectric {
-					border-color: $c_dark;
-				}
-			}
-
-			.selectric {
-				border: 1px solid #b2b2b2;
+			.selectric{
+				border: none;
 				border-radius: 4px;
 				background: none;
 				@include addTransition();
-				.label {
-					@include ft($f_txt, 0.875em, 400, $c_txt, 20px);
+
+				.label{
+					@include ft($f_hx, 0.938em, 400, $c_txt, 1.6em);
 					position: relative;
 					display: block;
 					text-align: left;
-					padding: 10px 35px 10px 15px;
 					margin: 0;
-					&:after {
-						content: "\e930";
+					padding: 0;
+
+					&:after{
+						content: '';
 						@include font();
 						position: absolute;
-						top: 50%;
-						right: 10px;
 						font-size: 20px;
 						margin-top: -10px;
+						top: auto;
+						right: 0;
 					}
 				}
+
 				.button {
 					display: none;
 				}
 			}
 
-			.selectric-items {
-				top: calc(100% + 5px);
-				border-radius: 4px;
-				border-color: #B2B2B2;
-				background: $c_white;
-				ul {
-					font-size: 1em;
+			.selectric-items{   
+				background: $c_white; 
+				top: 110%;
+				border: none;
+				
+				ul{
+					font-size: 12px;
 					margin: 0;
-					li {
-						@include ft($f_txt, 0.875em, 400, $c_txt, 1.429em);
+
+					li{   
+						@include ft($f_hx, 0.938em, 400, $c_txt, 1.6em);
 						padding: 8px 15px;
 						&:before {
 							content: none;
@@ -322,56 +86,30 @@
 						}
 						&.selected, &.highlighted {
 							background: #E5E5E5;
-						}
+						}               
 					}
 				}
-			}
-		}
-
-		.lfr-ddm-form-pagination-controls {
-			text-align: center;
-		}
-
-		button[type="submit"] {
-			@include ft($f_hx, 0.938em, 700, $c_dark, 22px);
-			@extend %appearance;
-			padding: 14px 20px;
-			text-align: center;
-			background: $c_main;
-			border-radius: 4px;
-			display: inline-block;
-			text-transform: uppercase;
-			width: 300px;
-			margin: 40px auto 0;
-			float: none !important;
-			@include addTransition();
-			@include mobile {
-				width: 100%;
-				margin: 30px auto 10px;
-			}
-			&:hover, &:focus {
-				background: $c_dark;
-				color: $c_main;
-			}
-		}
-	}
-
-	.pro-form-submit {
-		background: none;
-		border: none;
-		padding: 0;
-		button {
-			margin: 0 !important;
-			right: 0 !important;
-			&:hover, &:focus {
-				background: $c_dark;
-				border-color: $c_dark;
 			}
 		}
 	}
 }
 
-// Listing des Propositions
+// Questionnaire
+// ==========================================================================
+.pro-wrapper-numeric-form {
+	
+	.ddm-form-description:before {
+			content: '';
+			position: absolute;
+			top: 5px;
+			left: -70px;
+			height: 13px;
+			width: 72px;
+			background: $c_main;
+		}
+}
+
+// Listing des Réponses
 // ==========================================================================
 .pro-wrapper-propositions {
 	padding-bottom: 30px;
@@ -419,144 +157,168 @@
 
 	.pro-item-proposition {
 		margin-bottom: 40px;
-	}
 
-	.pro-published {
-		@include ft($f_txt, 1em, 400, $c_white, 1.2em);
-		position: relative;
-		display: block;
-		background: $c_dark;
-		padding: 10px 20px;
-		margin-bottom: 25px;
-		time {
-			span {
-				font-weight: 700;
-			}
-		}
-	}
-
-	.pro-item-response {
-		border: 1px solid rgba($c_dark, 0.2);
-		border-radius: 10px;
-		background: $c_white;
-		padding: 27px 25px;
-		margin-bottom: 40px;
-		margin-top: 25px;
-		&.pro-item-response-highlight {
-			.pro-bloc-texte {
-				> * {
-					color: #b0b0b0;
-					strong {
-						color: #b0b0b0;
-					}
-					span {
-						position: relative;
-						z-index: 10;
-						display: inline;
-						-webkit-box-decoration-break: clone;
-						background: $c_main;
-						color: $c_dark;
-						padding: 0 5px;
-					}
-				}
-			}
-		}
-
-		.pro-interactions {
-			text-align: right;
-			margin-top: 25px;
-			> * {
-				display: inline-block;
-				vertical-align: middle;
-			}
-			> span, > a {
-				position: relative;
-				@include ft($f_txt, 0.813em, 400, $c_txt, 1.462em);
-				margin: 0 12px;
-				transition: none;
-				&:hover, &:focus, &:active {
-					color: $c_grey;
-					text-decoration: underline;
-					&:before {
-						color: $c_grey;
-					}
-				}
-				&:before {
-					content: "\e913";
-					@include font();
-					float: left;
-					margin-right: 5px;
-					line-height: 1.5em;
-					position: relative;
-					top: -2px;
-				}
-				&.pro-dislike {
-					@include mobile {
-						margin-right: 0;
-					}
-					&:before {
-						transform: rotate(-180deg);
-						top: 2px;
-					}
-				}
-			}
-			> div {
-				@include mobile {
-					display: block;
-					margin-top: 10px;
-				}
-			}
-
-			.pro-action-link {
-				margin-left: 6px;
-				a {
-					@include ft($f_txt, 13px, 400, $c_txt, 20px);
-					&:hover, &:focus {
-						text-decoration: underline;
-						color: $c_txt;
-					}
-				}
-			}
-		}
-
-		.pro-footer-response {
+		.pro-published {
+			@include ft($f_txt, 1em, 400, $c_white, 1.2em);
 			position: relative;
-			padding-top: 25px;
-			margin-top: 25px;
-			&:before {
-				content: '';
-				position: absolute;
-				top: 0;
-				left: -25px;
-				right: -25px;
-				width: calc(100% + 50px);
-				height: 1px;
-				background: rgba($c_dark, 0.2);
-			}
-
-			.pro-waiting-response {
-				@include ft($f_txt, 0.813em, 400, $c_dark, 1.188em);
-				position: relative;
-				display: block;
-				text-transform: uppercase;
+			display: block;
+			background: $c_dark;
+			padding: 10px 20px;
+			margin-bottom: 25px;
+			time {
 				span {
-					margin-right: 12px;
-					font-size: 19px;
-					line-height: 19px;
-					position: relative;
-					top: 3px;
-				}
-			}
-
-			.pro-txt {
-				> * {
-					&:last-child {
-						margin: 0;
-					}
+					font-weight: 700;
 				}
 			}
 		}
 
+		.pro-title-question {
+			@include ft($f_hx, 1.250em, 700, $c_dark, 1.625em);
+			position: relative;
+			display: block;
+			margin: 10px 0 5px 0;
+			text-transform: none;
+			&:before {
+				content: none;
+			}
+			& + div {
+				margin-bottom: 15px;
+			}
+		}
+
+		.pro-item-response {
+			border: 1px solid rgba($c_dark, 0.2);
+			border-radius: 10px;
+			background: $c_white;
+			padding: 27px 25px;
+			margin-bottom: 40px;
+			margin-top: 25px;
+			&.pro-item-response-highlight {
+				.pro-bloc-texte {
+									
+					> * {
+						color: #b0b0b0;
+						strong {
+							color: #b0b0b0;
+						}
+						span {
+							position: relative;
+							z-index: 10;
+							display: inline;
+							background: $c_main;
+							color: $c_dark;
+							padding: 0 5px;
+						}
+					}
+					
+					table {
+						width: 100%;
+						
+						td{
+							border: solid #b0b0b0 1px;
+							padding: 5px;
+							text-align: center;
+						}
+					}
+				}
+			}
+	
+			.pro-interactions {
+				text-align: right;
+				margin-top: 25px;
+				> * {
+					display: inline-block;
+					vertical-align: middle;
+				}
+				> span, > a {
+					position: relative;
+					@include ft($f_txt, 0.813em, 400, $c_txt, 1.462em);
+					margin: 0 12px;
+					transition: none;
+					&:hover, &:focus, &:active {
+						color: $c_grey;
+						text-decoration: underline;
+						&:before {
+							color: $c_grey;
+						}
+					}
+					&:before {
+						content: "\e913";
+						@include font();
+						float: left;
+						margin-right: 5px;
+						line-height: 1.5em;
+						position: relative;
+						top: -2px;
+					}
+					&.pro-dislike {
+						@include mobile {
+							margin-right: 0;
+						}
+						&:before {
+							transform: rotate(-180deg);
+							top: 2px;
+						}
+					}
+				}
+				> div {
+					@include mobile {
+						display: block;
+						margin-top: 10px;
+					}
+				}
+	
+				.pro-action-link {
+					margin-left: 6px;
+					a {
+						@include ft($f_txt, 13px, 400, $c_txt, 20px);
+						&:hover, &:focus {
+							text-decoration: underline;
+							color: $c_txt;
+						}
+					}
+				}
+			}
+	
+			.pro-footer-response {
+				position: relative;
+				padding-top: 25px;
+				margin-top: 25px;
+				&:before {
+					content: '';
+					position: absolute;
+					top: 0;
+					left: -25px;
+					right: -25px;
+					width: calc(100% + 50px);
+					height: 1px;
+					background: rgba($c_dark, 0.2);
+				}
+	
+				.pro-waiting-response {
+					@include ft($f_txt, 0.813em, 400, $c_dark, 1.188em);
+					position: relative;
+					display: block;
+					text-transform: uppercase;
+					span {
+						margin-right: 12px;
+						font-size: 19px;
+						line-height: 19px;
+						position: relative;
+						top: 3px;
+					}
+				}
+	
+				.pro-txt {
+					> * {
+						&:last-child {
+							margin: 0;
+						}
+					}
+				}
+			}
+	
+		}
 	}
 
 }
@@ -583,6 +345,16 @@
 		}
 		@include tablet_portrait {
 			font-size: 1.5em;
+		}
+	}
+
+	a{
+		font-size: 1.143em;
+		color: #000;
+		text-decoration: underline;
+
+		&:hover{
+			text-decoration: none;
 		}
 	}
 

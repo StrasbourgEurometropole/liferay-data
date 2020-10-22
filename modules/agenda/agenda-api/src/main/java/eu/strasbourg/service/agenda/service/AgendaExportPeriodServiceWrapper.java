@@ -28,19 +28,21 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 @ProviderType
 public class AgendaExportPeriodServiceWrapper
 	implements AgendaExportPeriodService,
-		ServiceWrapper<AgendaExportPeriodService> {
+			   ServiceWrapper<AgendaExportPeriodService> {
+
 	public AgendaExportPeriodServiceWrapper(
 		AgendaExportPeriodService agendaExportPeriodService) {
+
 		_agendaExportPeriodService = agendaExportPeriodService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _agendaExportPeriodService.getOSGiServiceIdentifier();
 	}
 
@@ -52,8 +54,10 @@ public class AgendaExportPeriodServiceWrapper
 	@Override
 	public void setWrappedService(
 		AgendaExportPeriodService agendaExportPeriodService) {
+
 		_agendaExportPeriodService = agendaExportPeriodService;
 	}
 
 	private AgendaExportPeriodService _agendaExportPeriodService;
+
 }

@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.activity.model.ActivityCourse;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing ActivityCourse in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see ActivityCourse
  * @generated
  */
 @ProviderType
-public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
-	Externalizable {
+public class ActivityCourseCacheModel
+	implements CacheModel<ActivityCourse>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 			return false;
 		}
 
-		ActivityCourseCacheModel activityCourseCacheModel = (ActivityCourseCacheModel)obj;
+		ActivityCourseCacheModel activityCourseCacheModel =
+			(ActivityCourseCacheModel)obj;
 
 		if (activityCourseId == activityCourseCacheModel.activityCourseId) {
 			return true;
@@ -122,7 +122,7 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 		ActivityCourseImpl activityCourseImpl = new ActivityCourseImpl();
 
 		if (uuid == null) {
-			activityCourseImpl.setUuid(StringPool.BLANK);
+			activityCourseImpl.setUuid("");
 		}
 		else {
 			activityCourseImpl.setUuid(uuid);
@@ -134,7 +134,7 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 		activityCourseImpl.setUserId(userId);
 
 		if (userName == null) {
-			activityCourseImpl.setUserName(StringPool.BLANK);
+			activityCourseImpl.setUserName("");
 		}
 		else {
 			activityCourseImpl.setUserName(userName);
@@ -158,7 +158,7 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 		activityCourseImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			activityCourseImpl.setStatusByUserName(StringPool.BLANK);
+			activityCourseImpl.setStatusByUserName("");
 		}
 		else {
 			activityCourseImpl.setStatusByUserName(statusByUserName);
@@ -172,28 +172,28 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 		}
 
 		if (name == null) {
-			activityCourseImpl.setName(StringPool.BLANK);
+			activityCourseImpl.setName("");
 		}
 		else {
 			activityCourseImpl.setName(name);
 		}
 
 		if (presentation == null) {
-			activityCourseImpl.setPresentation(StringPool.BLANK);
+			activityCourseImpl.setPresentation("");
 		}
 		else {
 			activityCourseImpl.setPresentation(presentation);
 		}
 
 		if (arrangements == null) {
-			activityCourseImpl.setArrangements(StringPool.BLANK);
+			activityCourseImpl.setArrangements("");
 		}
 		else {
 			activityCourseImpl.setArrangements(arrangements);
 		}
 
 		if (price == null) {
-			activityCourseImpl.setPrice(StringPool.BLANK);
+			activityCourseImpl.setPrice("");
 		}
 		else {
 			activityCourseImpl.setPrice(price);
@@ -204,21 +204,21 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 		activityCourseImpl.setImageId(imageId);
 
 		if (imageIds == null) {
-			activityCourseImpl.setImageIds(StringPool.BLANK);
+			activityCourseImpl.setImageIds("");
 		}
 		else {
 			activityCourseImpl.setImageIds(imageIds);
 		}
 
 		if (videosIds == null) {
-			activityCourseImpl.setVideosIds(StringPool.BLANK);
+			activityCourseImpl.setVideosIds("");
 		}
 		else {
 			activityCourseImpl.setVideosIds(videosIds);
 		}
 
 		if (documentsIds == null) {
-			activityCourseImpl.setDocumentsIds(StringPool.BLANK);
+			activityCourseImpl.setDocumentsIds("");
 		}
 		else {
 			activityCourseImpl.setDocumentsIds(documentsIds);
@@ -265,10 +265,9 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -283,7 +282,7 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -297,7 +296,7 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -306,28 +305,28 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 		objectOutput.writeLong(statusDate);
 
 		if (name == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(name);
 		}
 
 		if (presentation == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(presentation);
 		}
 
 		if (arrangements == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(arrangements);
 		}
 
 		if (price == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(price);
@@ -340,21 +339,21 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 		objectOutput.writeLong(imageId);
 
 		if (imageIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(imageIds);
 		}
 
 		if (videosIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(videosIds);
 		}
 
 		if (documentsIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(documentsIds);
@@ -383,4 +382,5 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 	public String imageIds;
 	public String videosIds;
 	public String documentsIds;
+
 }

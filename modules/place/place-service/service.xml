@@ -131,7 +131,7 @@
 
 		<!-- Informations générales -->
 		<column name="title" type="String" localized="true" />
-		<column name="price" type="String" localized="true" />
+		<column name="priceDescription" type="String" localized="true" />
 		
 	</entity>
 

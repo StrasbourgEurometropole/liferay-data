@@ -1,6 +1,6 @@
 <%@ include file="/page-header-init.jsp" %>
 
-<div class="page-header <c:if test="${layout.expandoBridge.getAttribute('image')}">with-image</c:if>">
+<div class=" <c:if test="${layout.expandoBridge.getAttribute('image')}">with-image</c:if>">
 	<liferay-ddm:template-renderer
 	    className="<%= LayoutSet.class.getName() %>"
 	    contextObjects="${contextObjects}"

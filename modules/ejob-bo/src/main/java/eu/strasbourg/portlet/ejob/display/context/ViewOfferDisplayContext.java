@@ -1,0 +1,102 @@
+package eu.strasbourg.portlet.ejob.display.context;
+
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.ejob.model.Offer;
+import eu.strasbourg.service.ejob.service.OfferLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyAccessor;
+import eu.strasbourg.utils.StringHelper;
+import eu.strasbourg.utils.constants.RoleNames;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ViewOfferDisplayContext
+	extends ViewListBaseDisplayContext<Offer> {
+	private List<Offer> _offers;
+	private final RenderRequest request;
+	private final ThemeDisplay themeDisplay;
+	private AssetVocabulary filieres;
+	private AssetVocabulary niveauEtudes;
+
+	public ViewOfferDisplayContext(RenderRequest request,
+								   RenderResponse response) {
+		super(Offer.class, request, response);
+		this.request = request;
+		this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+	}
+	@SuppressWarnings("unused")
+	public List<Offer> getOffers() throws PortalException {
+		if (this._offers == null) {
+			Hits hits = getHits(this._themeDisplay.getScopeGroupId());
+
+			// Création de la liste d'objet
+			List<Offer> results = new ArrayList<Offer>();
+			if (hits != null) {
+				for (Document document : hits.getDocs()) {
+					Offer offer = OfferLocalServiceUtil.fetchOffer(
+						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+					if (offer != null) {
+						results.add(offer);
+					}
+				}
+			}
+			this._offers = results;
+		}
+		return this._offers;
+	}
+
+	/**
+	 * Wrapper autour du permission checker pour les permissions de module
+	 */
+	public boolean hasPermission(String actionId) throws PortalException {
+		return _themeDisplay.getPermissionChecker().hasPermission(
+			this._themeDisplay.getScopeGroupId(),
+			StrasbourgPortletKeys.EJOB_BO, StrasbourgPortletKeys.EJOB_BO,
+			actionId);
+	}
+
+
+	public boolean isContribOnly(){
+		List<Role> roles = RoleLocalServiceUtil.getRoles(this._themeDisplay.getCompanyId());
+		Role responsableEmploi = roles.stream().filter(r -> StringHelper.compareIgnoringAccentuation(r.getName().toLowerCase(), RoleNames.RESPONSABLE_EMPLOI)).findFirst().orElse(null);
+		Role siteAdministrator = roles.stream().filter(r -> StringHelper.compareIgnoringAccentuation(r.getName().toLowerCase(), RoleNames.SITE_ADMLINISTRATOR)).findFirst().orElse(null);
+		if(_themeDisplay.getPermissionChecker().isOmniadmin() || _themeDisplay.getUser().getRoles().contains(responsableEmploi) || _themeDisplay.getUser().getRoles().contains(siteAdministrator))
+			return false;
+		Role assistantRecrutement = roles.stream().filter(r -> StringHelper.compareIgnoringAccentuation(r.getName().toLowerCase(), RoleNames.ASSISTANT_RECRUTEMENT)).findFirst().orElse(null);
+		return _themeDisplay.getUser().getRoles().contains(assistantRecrutement);
+	}
+
+	/**
+	 * Renvoie le vocabulaire Filieres
+	 */
+	@SuppressWarnings("unused")
+	public AssetVocabulary getFilieres() {
+		long groupId = themeDisplay.getLayout().getGroupId();
+		this.filieres = AssetVocabularyAccessor.getEJobFilieres(groupId);
+		return this.filieres;
+	}
+
+	/**
+	 * Renvoie le vocabulaire Niveau d'étude
+	 */
+	@SuppressWarnings("unused")
+	public AssetVocabulary getNiveauEtudes() {
+		long groupId = themeDisplay.getLayout().getGroupId();
+		this.niveauEtudes = AssetVocabularyAccessor.getEJobNiveauEtude(groupId);
+		return this.niveauEtudes;
+	}
+
+}

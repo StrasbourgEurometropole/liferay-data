@@ -32,28 +32,35 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author Cedric Henry
  * @see BudgetPhaseServiceUtil
- * @see eu.strasbourg.service.project.service.base.BudgetPhaseServiceBaseImpl
- * @see eu.strasbourg.service.project.service.impl.BudgetPhaseServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=project", "json.web.service.context.path=BudgetPhase"}, service = BudgetPhaseService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=project",
+		"json.web.service.context.path=BudgetPhase"
+	},
+	service = BudgetPhaseService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface BudgetPhaseService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link BudgetPhaseServiceUtil} to access the budget phase remote service. Add custom service methods to {@link eu.strasbourg.service.project.service.impl.BudgetPhaseServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link BudgetPhaseServiceUtil} to access the budget phase remote service. Add custom service methods to <code>eu.strasbourg.service.project.service.impl.BudgetPhaseServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

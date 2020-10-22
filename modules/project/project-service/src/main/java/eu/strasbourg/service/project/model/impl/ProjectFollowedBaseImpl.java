@@ -32,12 +32,13 @@ import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class ProjectFollowedBaseImpl extends ProjectFollowedModelImpl
-	implements ProjectFollowed {
+public abstract class ProjectFollowedBaseImpl
+	extends ProjectFollowedModelImpl implements ProjectFollowed {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a project followed model instance should use the {@link ProjectFollowed} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a project followed model instance should use the <code>ProjectFollowed</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class ProjectFollowedBaseImpl extends ProjectFollowedModelImpl
 			ProjectFollowedLocalServiceUtil.updateProjectFollowed(this);
 		}
 	}
+
 }

@@ -1,12 +1,12 @@
 package eu.strasbourg.portlet.form_send.context;
 
-import com.liferay.dynamic.data.lists.model.DDLRecord;
-import com.liferay.dynamic.data.lists.model.DDLRecordSet;
-import com.liferay.dynamic.data.lists.service.DDLRecordLocalServiceUtil;
-import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMContent;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMContentLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -26,30 +26,30 @@ import javax.portlet.RenderResponse;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRecord>{
+public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDMFormInstanceRecord>{
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
     private final RenderRequest _request;
     private RenderResponse _response;
-    private List<DDLRecord> _allFormSends;
-    private List<DDLRecord> _formSends;
+    private List<DDMFormInstanceRecord> _allFormSends;
+    private List<DDMFormInstanceRecord> _formSends;
     private Map<String, String[]> _texteAreaFields;
 
     public ViewFormSendDisplayContext(RenderRequest request, RenderResponse response) {
-        super(DDLRecord.class, request, response);
+        super(DDMFormInstanceRecord.class, request, response);
         this._request = request;
         this._response = response;
     }
 
     // Récupère les formulaires envoyés du formulaire choisi
-    public List<DDLRecord> getAllFormSends() {
+    public List<DDMFormInstanceRecord> getAllFormSends() {
         if (this._allFormSends == null) {
-            List<DDLRecord> recordList = DDLRecordLocalServiceUtil.getDDLRecords(-1,-1);
+            List<DDMFormInstanceRecord> recordList = DDMFormInstanceRecordLocalServiceUtil.getDDMFormInstanceRecords(-1,-1);
 
             // ne garde que les formulaires envoyé du formulaire choisi
-            long recordSetId = ParamUtil.getLong(_request,"recordSetId");
-            recordList = recordList.stream().filter(r -> r.getRecordSetId() == recordSetId).collect(Collectors.toList());
+            long formInstanceId = ParamUtil.getLong(_request,"formInstanceId");
+            recordList = recordList.stream().filter(r -> r.getFormInstanceId() == formInstanceId).collect(Collectors.toList());
 
             //effectue le tri
             recordList.sort((r1, r2) -> r1.getModifiedDate().compareTo(r2.getModifiedDate()));
@@ -61,7 +61,7 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
         return this._allFormSends;
     }
 
-    public List<DDLRecord> getFormSends() {
+    public List<DDMFormInstanceRecord> getFormSends() {
 
         //TODO pour la pagination
 //        if (this._formSends == null) {
@@ -86,13 +86,13 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
     }
 
     // récupère les valeurs d'un formulaire envoyé (nom du champ, valeur du champ)
-    public List<String[]> getRecordFields(long recordDDMStorageId, Locale locale) {
+    public List<String[]> getRecordFields(long recordStorageId, Locale locale) {
         List<String[]> recordFields = new ArrayList<String[]>();
         // récupère tous les champs qui devront être affichés
         Map<String, String[]> texteFields = getTexteFields();
 
         // récupère les infos du contenu du formulaire envoyé
-        DDMContent content = DDMContentLocalServiceUtil.fetchDDMContent(recordDDMStorageId);
+        DDMContent content = DDMContentLocalServiceUtil.fetchDDMContent(recordStorageId);
         if(Validator.isNotNull(content)){
             // récupère le contenu du formulaire envoyé
             String jsonString = content.getData();
@@ -126,7 +126,7 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
     /**
      * Retourne le searchContainer
      */
-    public SearchContainer<DDLRecord> getSearchContainer() {
+    public SearchContainer<DDMFormInstanceRecord> getSearchContainer() {
         if (this._searchContainer == null && Validator.isNotNull(this.getAllFormSends())) {
             PortletURL iteratorURL = this._response.createRenderURL();
             iteratorURL.setParameter("tab", ParamUtil.getString(this._request, "tab"));
@@ -134,7 +134,7 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
             iteratorURL.setParameter("orderByType", this.getOrderByType());
             iteratorURL.setParameter("keywords", this.getKeywords());
 
-            this._searchContainer = new SearchContainer<DDLRecord>(this._request,
+            this._searchContainer = new SearchContainer<DDMFormInstanceRecord>(this._request,
                     iteratorURL, null, "no-entries-were-found");
 
             this._searchContainer.setEmptyResultsMessageCssClass(
@@ -155,12 +155,12 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
         if(this._texteAreaFields == null) {
             Map<String, String[]> texteAreaFields = new LinkedHashMap<String, String[]>();
             //récupère le formulaire
-            long recordSetId = ParamUtil.getLong(_request, "recordSetId");
-            DDLRecordSet recordSet = DDLRecordSetLocalServiceUtil.fetchDDLRecordSet(recordSetId);
-            if (Validator.isNotNull(recordSet)) {
+            long formInstanceId = ParamUtil.getLong(_request, "formInstanceId");
+            DDMFormInstance formInstance = DDMFormInstanceLocalServiceUtil.fetchFormInstance(formInstanceId);
+            if (Validator.isNotNull(formInstance)) {
                 // récupère la structure du formulaire
                 try {
-                    DDMStructure structure = recordSet.getDDMStructure();
+                    DDMStructure structure = formInstance.getStructure();
                     JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
                     if (Validator.isNotNull(structure))
                         jsonArray = JSONFactoryUtil.createJSONObject(structure.getDefinition()).getJSONArray("fields");

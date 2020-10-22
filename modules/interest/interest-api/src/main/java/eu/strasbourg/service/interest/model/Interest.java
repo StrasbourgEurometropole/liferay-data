@@ -25,19 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see InterestModel
- * @see eu.strasbourg.service.interest.model.impl.InterestImpl
- * @see eu.strasbourg.service.interest.model.impl.InterestModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.interest.model.impl.InterestImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.interest.model.impl.InterestImpl"
+)
 @ProviderType
 public interface Interest extends InterestModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.interest.model.impl.InterestImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.interest.model.impl.InterestImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Interest, Long> INTEREST_ID_ACCESSOR = new Accessor<Interest, Long>() {
+	public static final Accessor<Interest, Long> INTEREST_ID_ACCESSOR =
+		new Accessor<Interest, Long>() {
+
 			@Override
 			public Long get(Interest interest) {
 				return interest.getInterestId();
@@ -52,26 +55,29 @@ public interface Interest extends InterestModel, PersistedModel {
 			public Class<Interest> getTypeClass() {
 				return Interest.class;
 			}
+
 		};
 
 	/**
-	* Retourne l'AssetEntry rattaché cet item
-	*/
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Retourne la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+	 * Retourne la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories();
 
 	/**
-	* Retourne le type du centre d'intérêt
-	*/
+	 * Retourne le type du centre d'intérêt
+	 */
 	public com.liferay.asset.kernel.model.AssetCategory getType();
 
 	/**
-	* Retourne la version JSON du centre d'intérêt
-	*/
+	 * Retourne la version JSON du centre d'intérêt
+	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
 }

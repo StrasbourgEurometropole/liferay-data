@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Cedric Henry
  * @see StopModel
- * @see eu.strasbourg.service.gtfs.model.impl.StopImpl
- * @see eu.strasbourg.service.gtfs.model.impl.StopModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.gtfs.model.impl.StopImpl")
 @ProviderType
-public interface Stop extends StopModel, PersistedModel {
+public interface Stop extends PersistedModel, StopModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.gtfs.model.impl.StopImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.gtfs.model.impl.StopImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Stop, Long> ID_ACCESSOR = new Accessor<Stop, Long>() {
+	public static final Accessor<Stop, Long> ID_ACCESSOR =
+		new Accessor<Stop, Long>() {
+
 			@Override
 			public Long get(Stop stop) {
 				return stop.getId();
@@ -52,5 +53,7 @@ public interface Stop extends StopModel, PersistedModel {
 			public Class<Stop> getTypeClass() {
 				return Stop.class;
 			}
+
 		};
+
 }

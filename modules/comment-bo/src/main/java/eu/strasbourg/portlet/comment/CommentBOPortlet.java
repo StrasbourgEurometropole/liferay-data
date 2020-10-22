@@ -23,6 +23,7 @@ import java.io.IOException;
 @Component(
         immediate=true,
         property= {
+                "javax.portlet.version=3.0",
                 "com.liferay.portlet.instanceable=false",
                 "com.liferay.portlet.footer-portlet-javascript=/js/comment-bo-main.js",
                 "com.liferay.portlet.header-portlet-css=/css/comment-bo-main.css",
@@ -43,8 +44,7 @@ public class CommentBOPortlet extends MVCPortlet{
 
         String cmd = ParamUtil.getString(renderRequest, "cmd");
         String tab = ParamUtil.getString(renderRequest,"tab");
-
-        renderResponse.setTitle("Commentaires");
+        String mvcPath = ParamUtil.getString(renderRequest,"mvcPath");
 
         //si on est sur la page d'ajout, on affiche bien évidemment un lien de retour
         String returnURL = ParamUtil.getString(renderRequest,"returnURL");
@@ -55,7 +55,7 @@ public class CommentBOPortlet extends MVCPortlet{
         }
 
         //on set le displayContext selon la page sur laquelle on est
-        if (cmd.equals("editComment")){
+        if (cmd.equals("editComment") || mvcPath.equals("/comment-bo-edit-comment.jsp")){
             EditCommentDisplayContext dc = new EditCommentDisplayContext(renderRequest,renderResponse);
             renderRequest.setAttribute("dc",dc);
         } else if (tab.equals("reportings")){

@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class TypeServiceWrapper implements TypeService,
-	ServiceWrapper<TypeService> {
+public class TypeServiceWrapper
+	implements TypeService, ServiceWrapper<TypeService> {
+
 	public TypeServiceWrapper(TypeService typeService) {
 		_typeService = typeService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _typeService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class TypeServiceWrapper implements TypeService,
 	}
 
 	private TypeService _typeService;
+
 }

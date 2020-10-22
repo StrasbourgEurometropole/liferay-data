@@ -26,20 +26,22 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class ProjectTimelineServiceWrapper implements ProjectTimelineService,
-	ServiceWrapper<ProjectTimelineService> {
+public class ProjectTimelineServiceWrapper
+	implements ProjectTimelineService, ServiceWrapper<ProjectTimelineService> {
+
 	public ProjectTimelineServiceWrapper(
 		ProjectTimelineService projectTimelineService) {
+
 		_projectTimelineService = projectTimelineService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _projectTimelineService.getOSGiServiceIdentifier();
 	}
 
@@ -49,9 +51,12 @@ public class ProjectTimelineServiceWrapper implements ProjectTimelineService,
 	}
 
 	@Override
-	public void setWrappedService(ProjectTimelineService projectTimelineService) {
+	public void setWrappedService(
+		ProjectTimelineService projectTimelineService) {
+
 		_projectTimelineService = projectTimelineService;
 	}
 
 	private ProjectTimelineService _projectTimelineService;
+
 }

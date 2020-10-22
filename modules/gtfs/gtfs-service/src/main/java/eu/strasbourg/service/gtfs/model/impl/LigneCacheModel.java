@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.gtfs.model.Ligne;
 
@@ -34,11 +33,11 @@ import java.util.Date;
  * The cache model class for representing Ligne in entity cache.
  *
  * @author Cedric Henry
- * @see Ligne
  * @generated
  */
 @ProviderType
 public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -113,7 +112,7 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 		LigneImpl ligneImpl = new LigneImpl();
 
 		if (uuid == null) {
-			ligneImpl.setUuid(StringPool.BLANK);
+			ligneImpl.setUuid("");
 		}
 		else {
 			ligneImpl.setUuid(uuid);
@@ -125,7 +124,7 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 		ligneImpl.setUserId(userId);
 
 		if (userName == null) {
-			ligneImpl.setUserName(StringPool.BLANK);
+			ligneImpl.setUserName("");
 		}
 		else {
 			ligneImpl.setUserName(userName);
@@ -149,7 +148,7 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 		ligneImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			ligneImpl.setStatusByUserName(StringPool.BLANK);
+			ligneImpl.setStatusByUserName("");
 		}
 		else {
 			ligneImpl.setStatusByUserName(statusByUserName);
@@ -163,21 +162,21 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 		}
 
 		if (routeId == null) {
-			ligneImpl.setRouteId(StringPool.BLANK);
+			ligneImpl.setRouteId("");
 		}
 		else {
 			ligneImpl.setRouteId(routeId);
 		}
 
 		if (shortName == null) {
-			ligneImpl.setShortName(StringPool.BLANK);
+			ligneImpl.setShortName("");
 		}
 		else {
 			ligneImpl.setShortName(shortName);
 		}
 
 		if (title == null) {
-			ligneImpl.setTitle(StringPool.BLANK);
+			ligneImpl.setTitle("");
 		}
 		else {
 			ligneImpl.setTitle(title);
@@ -186,14 +185,14 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 		ligneImpl.setType(type);
 
 		if (backgroundColor == null) {
-			ligneImpl.setBackgroundColor(StringPool.BLANK);
+			ligneImpl.setBackgroundColor("");
 		}
 		else {
 			ligneImpl.setBackgroundColor(backgroundColor);
 		}
 
 		if (textColor == null) {
-			ligneImpl.setTextColor(StringPool.BLANK);
+			ligneImpl.setTextColor("");
 		}
 		else {
 			ligneImpl.setTextColor(textColor);
@@ -234,10 +233,9 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -252,7 +250,7 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -266,7 +264,7 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -275,21 +273,21 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 		objectOutput.writeLong(statusDate);
 
 		if (routeId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(routeId);
 		}
 
 		if (shortName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(shortName);
 		}
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
@@ -298,14 +296,14 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 		objectOutput.writeInt(type);
 
 		if (backgroundColor == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(backgroundColor);
 		}
 
 		if (textColor == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(textColor);
@@ -330,4 +328,5 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 	public int type;
 	public String backgroundColor;
 	public String textColor;
+
 }

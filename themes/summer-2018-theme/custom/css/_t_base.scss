@@ -11,9 +11,22 @@ body{
 	overflow-x: hidden;
 	.container{
 		@media (min-width: 1200px){
-			width: 1200px;
+			max-width: 1200px;
 		}
 	}
+
+	.navbar {
+		flex-wrap: wrap;
+		padding: 0;
+	}
+
+	.dropdown-menu {
+		max-width: initial;
+	}
+
+	.dropdown-toggle {
+		white-space: initial;
+	} 
 
 	header {
 		@include tablet_portrait{

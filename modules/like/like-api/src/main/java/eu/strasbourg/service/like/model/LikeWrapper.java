@@ -17,7 +17,6 @@ package eu.strasbourg.service.like.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -38,6 +37,7 @@ import java.util.Objects;
  */
 @ProviderType
 public class LikeWrapper implements Like, ModelWrapper<Like> {
+
 	public LikeWrapper(Like like) {
 		_like = like;
 	}
@@ -59,7 +59,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 		attributes.put("likeId", getLikeId());
 		attributes.put("publikUserId", getPublikUserId());
 		attributes.put("title", getTitle());
-		attributes.put("isDislike", getIsDislike());
+		attributes.put("isDislike", isIsDislike());
 		attributes.put("typeId", getTypeId());
 		attributes.put("entityId", getEntityId());
 		attributes.put("entityGroupId", getEntityGroupId());
@@ -112,14 +112,114 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 		}
 	}
 
+	@Override
+	public Object clone() {
+		return new LikeWrapper((Like)_like.clone());
+	}
+
+	@Override
+	public int compareTo(eu.strasbourg.service.like.model.Like like) {
+		return _like.compareTo(like);
+	}
+
 	/**
-	* Returns the is dislike of this like.
-	*
-	* @return the is dislike of this like
-	*/
+	 * Returns the entity group ID of this like.
+	 *
+	 * @return the entity group ID of this like
+	 */
+	@Override
+	public long getEntityGroupId() {
+		return _like.getEntityGroupId();
+	}
+
+	/**
+	 * Returns the entity ID of this like.
+	 *
+	 * @return the entity ID of this like
+	 */
+	@Override
+	public long getEntityId() {
+		return _like.getEntityId();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _like.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the is dislike of this like.
+	 *
+	 * @return the is dislike of this like
+	 */
 	@Override
 	public boolean getIsDislike() {
 		return _like.getIsDislike();
+	}
+
+	/**
+	 * Returns the like ID of this like.
+	 *
+	 * @return the like ID of this like
+	 */
+	@Override
+	public long getLikeId() {
+		return _like.getLikeId();
+	}
+
+	@Override
+	public eu.strasbourg.service.like.model.LikeType getLikeType() {
+		return _like.getLikeType();
+	}
+
+	/**
+	 * Returns the primary key of this like.
+	 *
+	 * @return the primary key of this like
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _like.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _like.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the publik user ID of this like.
+	 *
+	 * @return the publik user ID of this like
+	 */
+	@Override
+	public String getPublikUserId() {
+		return _like.getPublikUserId();
+	}
+
+	/**
+	 * Returns the title of this like.
+	 *
+	 * @return the title of this like
+	 */
+	@Override
+	public String getTitle() {
+		return _like.getTitle();
+	}
+
+	/**
+	 * Returns the type ID of this like.
+	 *
+	 * @return the type ID of this like
+	 */
+	@Override
+	public long getTypeId() {
+		return _like.getTypeId();
+	}
+
+	@Override
+	public int hashCode() {
+		return _like.hashCode();
 	}
 
 	@Override
@@ -133,10 +233,10 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	}
 
 	/**
-	* Returns <code>true</code> if this like is is dislike.
-	*
-	* @return <code>true</code> if this like is is dislike; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this like is is dislike.
+	 *
+	 * @return <code>true</code> if this like is is dislike; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isIsDislike() {
 		return _like.isIsDislike();
@@ -145,139 +245,6 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	@Override
 	public boolean isNew() {
 		return _like.isNew();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _like.getExpandoBridge();
-	}
-
-	/**
-	* Retourne la version JSON d'un like/dislike
-	*/
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _like.toJSON();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.like.model.Like> toCacheModel() {
-		return _like.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.like.model.Like toEscapedModel() {
-		return new LikeWrapper(_like.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.like.model.Like toUnescapedModel() {
-		return new LikeWrapper(_like.toUnescapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.like.model.LikeType getLikeType() {
-		return _like.getLikeType();
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.like.model.Like like) {
-		return _like.compareTo(like);
-	}
-
-	@Override
-	public int hashCode() {
-		return _like.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _like.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new LikeWrapper((Like)_like.clone());
-	}
-
-	/**
-	* Returns the publik user ID of this like.
-	*
-	* @return the publik user ID of this like
-	*/
-	@Override
-	public java.lang.String getPublikUserId() {
-		return _like.getPublikUserId();
-	}
-
-	/**
-	* Returns the title of this like.
-	*
-	* @return the title of this like
-	*/
-	@Override
-	public java.lang.String getTitle() {
-		return _like.getTitle();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _like.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _like.toXmlString();
-	}
-
-	/**
-	* Returns the entity group ID of this like.
-	*
-	* @return the entity group ID of this like
-	*/
-	@Override
-	public long getEntityGroupId() {
-		return _like.getEntityGroupId();
-	}
-
-	/**
-	* Returns the entity ID of this like.
-	*
-	* @return the entity ID of this like
-	*/
-	@Override
-	public long getEntityId() {
-		return _like.getEntityId();
-	}
-
-	/**
-	* Returns the like ID of this like.
-	*
-	* @return the like ID of this like
-	*/
-	@Override
-	public long getLikeId() {
-		return _like.getLikeId();
-	}
-
-	/**
-	* Returns the primary key of this like.
-	*
-	* @return the primary key of this like
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _like.getPrimaryKey();
-	}
-
-	/**
-	* Returns the type ID of this like.
-	*
-	* @return the type ID of this like
-	*/
-	@Override
-	public long getTypeId() {
-		return _like.getTypeId();
 	}
 
 	@Override
@@ -291,23 +258,30 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	}
 
 	/**
-	* Sets the entity group ID of this like.
-	*
-	* @param entityGroupId the entity group ID of this like
-	*/
+	 * Sets the entity group ID of this like.
+	 *
+	 * @param entityGroupId the entity group ID of this like
+	 */
 	@Override
 	public void setEntityGroupId(long entityGroupId) {
 		_like.setEntityGroupId(entityGroupId);
 	}
 
 	/**
-	* Sets the entity ID of this like.
-	*
-	* @param entityId the entity ID of this like
-	*/
+	 * Sets the entity ID of this like.
+	 *
+	 * @param entityId the entity ID of this like
+	 */
 	@Override
 	public void setEntityId(long entityId) {
 		_like.setEntityId(entityId);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_like.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -316,31 +290,25 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_like.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_like.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets whether this like is is dislike.
-	*
-	* @param isDislike the is dislike of this like
-	*/
+	 * Sets whether this like is is dislike.
+	 *
+	 * @param isDislike the is dislike of this like
+	 */
 	@Override
 	public void setIsDislike(boolean isDislike) {
 		_like.setIsDislike(isDislike);
 	}
 
 	/**
-	* Sets the like ID of this like.
-	*
-	* @param likeId the like ID of this like
-	*/
+	 * Sets the like ID of this like.
+	 *
+	 * @param likeId the like ID of this like
+	 */
 	@Override
 	public void setLikeId(long likeId) {
 		_like.setLikeId(likeId);
@@ -352,10 +320,10 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	}
 
 	/**
-	* Sets the primary key of this like.
-	*
-	* @param primaryKey the primary key of this like
-	*/
+	 * Sets the primary key of this like.
+	 *
+	 * @param primaryKey the primary key of this like
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_like.setPrimaryKey(primaryKey);
@@ -367,33 +335,68 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	}
 
 	/**
-	* Sets the publik user ID of this like.
-	*
-	* @param publikUserId the publik user ID of this like
-	*/
+	 * Sets the publik user ID of this like.
+	 *
+	 * @param publikUserId the publik user ID of this like
+	 */
 	@Override
-	public void setPublikUserId(java.lang.String publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		_like.setPublikUserId(publikUserId);
 	}
 
 	/**
-	* Sets the title of this like.
-	*
-	* @param title the title of this like
-	*/
+	 * Sets the title of this like.
+	 *
+	 * @param title the title of this like
+	 */
 	@Override
-	public void setTitle(java.lang.String title) {
+	public void setTitle(String title) {
 		_like.setTitle(title);
 	}
 
 	/**
-	* Sets the type ID of this like.
-	*
-	* @param typeId the type ID of this like
-	*/
+	 * Sets the type ID of this like.
+	 *
+	 * @param typeId the type ID of this like
+	 */
 	@Override
 	public void setTypeId(long typeId) {
 		_like.setTypeId(typeId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.like.model.Like> toCacheModel() {
+
+		return _like.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.like.model.Like toEscapedModel() {
+		return new LikeWrapper(_like.toEscapedModel());
+	}
+
+	/**
+	 * Retourne la version JSON d'un like/dislike
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _like.toJSON();
+	}
+
+	@Override
+	public String toString() {
+		return _like.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.like.model.Like toUnescapedModel() {
+		return new LikeWrapper(_like.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _like.toXmlString();
 	}
 
 	@Override
@@ -436,4 +439,5 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	}
 
 	private final Like _like;
+
 }

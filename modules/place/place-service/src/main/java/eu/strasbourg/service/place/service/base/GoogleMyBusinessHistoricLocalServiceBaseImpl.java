@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
-
 import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
 import com.liferay.exportimport.kernel.lar.ManifestSummary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -27,7 +26,6 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -56,6 +54,7 @@ import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
+import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -87,17 +86,17 @@ import javax.sql.DataSource;
  *
  * @author Angelique Zunino Champougny
  * @see eu.strasbourg.service.place.service.impl.GoogleMyBusinessHistoricLocalServiceImpl
- * @see eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalServiceUtil
  * @generated
  */
 @ProviderType
 public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
-	extends BaseLocalServiceImpl implements GoogleMyBusinessHistoricLocalService,
-		IdentifiableOSGiService {
+	extends BaseLocalServiceImpl
+	implements GoogleMyBusinessHistoricLocalService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalServiceUtil} to access the google my business historic local service.
+	 * Never modify or reference this class directly. Use <code>GoogleMyBusinessHistoricLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -110,9 +109,11 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	@Override
 	public GoogleMyBusinessHistoric addGoogleMyBusinessHistoric(
 		GoogleMyBusinessHistoric googleMyBusinessHistoric) {
+
 		googleMyBusinessHistoric.setNew(true);
 
-		return googleMyBusinessHistoricPersistence.update(googleMyBusinessHistoric);
+		return googleMyBusinessHistoricPersistence.update(
+			googleMyBusinessHistoric);
 	}
 
 	/**
@@ -122,9 +123,12 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @return the new google my business historic
 	 */
 	@Override
+	@Transactional(enabled = false)
 	public GoogleMyBusinessHistoric createGoogleMyBusinessHistoric(
 		long googleMyBusinessHistoricId) {
-		return googleMyBusinessHistoricPersistence.create(googleMyBusinessHistoricId);
+
+		return googleMyBusinessHistoricPersistence.create(
+			googleMyBusinessHistoricId);
 	}
 
 	/**
@@ -137,8 +141,11 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	public GoogleMyBusinessHistoric deleteGoogleMyBusinessHistoric(
-		long googleMyBusinessHistoricId) throws PortalException {
-		return googleMyBusinessHistoricPersistence.remove(googleMyBusinessHistoricId);
+			long googleMyBusinessHistoricId)
+		throws PortalException {
+
+		return googleMyBusinessHistoricPersistence.remove(
+			googleMyBusinessHistoricId);
 	}
 
 	/**
@@ -151,15 +158,17 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	@Override
 	public GoogleMyBusinessHistoric deleteGoogleMyBusinessHistoric(
 		GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-		return googleMyBusinessHistoricPersistence.remove(googleMyBusinessHistoric);
+
+		return googleMyBusinessHistoricPersistence.remove(
+			googleMyBusinessHistoric);
 	}
 
 	@Override
 	public DynamicQuery dynamicQuery() {
 		Class<?> clazz = getClass();
 
-		return DynamicQueryFactoryUtil.forClass(GoogleMyBusinessHistoric.class,
-			clazz.getClassLoader());
+		return DynamicQueryFactoryUtil.forClass(
+			GoogleMyBusinessHistoric.class, clazz.getClassLoader());
 	}
 
 	/**
@@ -170,14 +179,15 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 */
 	@Override
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
-		return googleMyBusinessHistoricPersistence.findWithDynamicQuery(dynamicQuery);
+		return googleMyBusinessHistoricPersistence.findWithDynamicQuery(
+			dynamicQuery);
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.GoogleMyBusinessHistoricModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.GoogleMyBusinessHistoricModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -186,17 +196,18 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @return the range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end) {
-		return googleMyBusinessHistoricPersistence.findWithDynamicQuery(dynamicQuery,
-			start, end);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
+
+		return googleMyBusinessHistoricPersistence.findWithDynamicQuery(
+			dynamicQuery, start, end);
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.GoogleMyBusinessHistoricModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.GoogleMyBusinessHistoricModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -206,10 +217,12 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @return the ordered range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end, OrderByComparator<T> orderByComparator) {
-		return googleMyBusinessHistoricPersistence.findWithDynamicQuery(dynamicQuery,
-			start, end, orderByComparator);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
+
+		return googleMyBusinessHistoricPersistence.findWithDynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
@@ -220,7 +233,8 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 */
 	@Override
 	public long dynamicQueryCount(DynamicQuery dynamicQuery) {
-		return googleMyBusinessHistoricPersistence.countWithDynamicQuery(dynamicQuery);
+		return googleMyBusinessHistoricPersistence.countWithDynamicQuery(
+			dynamicQuery);
 	}
 
 	/**
@@ -231,16 +245,19 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @return the number of rows matching the dynamic query
 	 */
 	@Override
-	public long dynamicQueryCount(DynamicQuery dynamicQuery,
-		Projection projection) {
-		return googleMyBusinessHistoricPersistence.countWithDynamicQuery(dynamicQuery,
-			projection);
+	public long dynamicQueryCount(
+		DynamicQuery dynamicQuery, Projection projection) {
+
+		return googleMyBusinessHistoricPersistence.countWithDynamicQuery(
+			dynamicQuery, projection);
 	}
 
 	@Override
 	public GoogleMyBusinessHistoric fetchGoogleMyBusinessHistoric(
 		long googleMyBusinessHistoricId) {
-		return googleMyBusinessHistoricPersistence.fetchByPrimaryKey(googleMyBusinessHistoricId);
+
+		return googleMyBusinessHistoricPersistence.fetchByPrimaryKey(
+			googleMyBusinessHistoricId);
 	}
 
 	/**
@@ -251,8 +268,10 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @return the matching google my business historic, or <code>null</code> if a matching google my business historic could not be found
 	 */
 	@Override
-	public GoogleMyBusinessHistoric fetchGoogleMyBusinessHistoricByUuidAndGroupId(
-		String uuid, long groupId) {
+	public GoogleMyBusinessHistoric
+		fetchGoogleMyBusinessHistoricByUuidAndGroupId(
+			String uuid, long groupId) {
+
 		return googleMyBusinessHistoricPersistence.fetchByUUID_G(uuid, groupId);
 	}
 
@@ -265,15 +284,20 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 */
 	@Override
 	public GoogleMyBusinessHistoric getGoogleMyBusinessHistoric(
-		long googleMyBusinessHistoricId) throws PortalException {
-		return googleMyBusinessHistoricPersistence.findByPrimaryKey(googleMyBusinessHistoricId);
+			long googleMyBusinessHistoricId)
+		throws PortalException {
+
+		return googleMyBusinessHistoricPersistence.findByPrimaryKey(
+			googleMyBusinessHistoricId);
 	}
 
 	@Override
 	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery = new DefaultActionableDynamicQuery();
+		ActionableDynamicQuery actionableDynamicQuery =
+			new DefaultActionableDynamicQuery();
 
-		actionableDynamicQuery.setBaseLocalService(googleMyBusinessHistoricLocalService);
+		actionableDynamicQuery.setBaseLocalService(
+			googleMyBusinessHistoricLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(GoogleMyBusinessHistoric.class);
 
@@ -284,12 +308,17 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	}
 
 	@Override
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery = new IndexableActionableDynamicQuery();
+	public IndexableActionableDynamicQuery
+		getIndexableActionableDynamicQuery() {
 
-		indexableActionableDynamicQuery.setBaseLocalService(googleMyBusinessHistoricLocalService);
+		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+			new IndexableActionableDynamicQuery();
+
+		indexableActionableDynamicQuery.setBaseLocalService(
+			googleMyBusinessHistoricLocalService);
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
-		indexableActionableDynamicQuery.setModelClass(GoogleMyBusinessHistoric.class);
+		indexableActionableDynamicQuery.setModelClass(
+			GoogleMyBusinessHistoric.class);
 
 		indexableActionableDynamicQuery.setPrimaryKeyPropertyName(
 			"googleMyBusinessHistoricId");
@@ -299,7 +328,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 
 	protected void initActionableDynamicQuery(
 		ActionableDynamicQuery actionableDynamicQuery) {
-		actionableDynamicQuery.setBaseLocalService(googleMyBusinessHistoricLocalService);
+
+		actionableDynamicQuery.setBaseLocalService(
+			googleMyBusinessHistoricLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(GoogleMyBusinessHistoric.class);
 
@@ -310,48 +341,59 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	@Override
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		final PortletDataContext portletDataContext) {
-		final ExportActionableDynamicQuery exportActionableDynamicQuery = new ExportActionableDynamicQuery() {
+
+		final ExportActionableDynamicQuery exportActionableDynamicQuery =
+			new ExportActionableDynamicQuery() {
+
 				@Override
 				public long performCount() throws PortalException {
-					ManifestSummary manifestSummary = portletDataContext.getManifestSummary();
+					ManifestSummary manifestSummary =
+						portletDataContext.getManifestSummary();
 
 					StagedModelType stagedModelType = getStagedModelType();
 
 					long modelAdditionCount = super.performCount();
 
-					manifestSummary.addModelAdditionCount(stagedModelType,
-						modelAdditionCount);
+					manifestSummary.addModelAdditionCount(
+						stagedModelType, modelAdditionCount);
 
-					long modelDeletionCount = ExportImportHelperUtil.getModelDeletionCount(portletDataContext,
-							stagedModelType);
+					long modelDeletionCount =
+						ExportImportHelperUtil.getModelDeletionCount(
+							portletDataContext, stagedModelType);
 
-					manifestSummary.addModelDeletionCount(stagedModelType,
-						modelDeletionCount);
+					manifestSummary.addModelDeletionCount(
+						stagedModelType, modelDeletionCount);
 
 					return modelAdditionCount;
 				}
+
 			};
 
 		initActionableDynamicQuery(exportActionableDynamicQuery);
 
-		exportActionableDynamicQuery.setAddCriteriaMethod(new ActionableDynamicQuery.AddCriteriaMethod() {
+		exportActionableDynamicQuery.setAddCriteriaMethod(
+			new ActionableDynamicQuery.AddCriteriaMethod() {
+
 				@Override
 				public void addCriteria(DynamicQuery dynamicQuery) {
-					Criterion modifiedDateCriterion = portletDataContext.getDateRangeCriteria(
-							"modifiedDate");
+					Criterion modifiedDateCriterion =
+						portletDataContext.getDateRangeCriteria("modifiedDate");
 
 					if (modifiedDateCriterion != null) {
-						Conjunction conjunction = RestrictionsFactoryUtil.conjunction();
+						Conjunction conjunction =
+							RestrictionsFactoryUtil.conjunction();
 
 						conjunction.add(modifiedDateCriterion);
 
-						Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
+						Disjunction disjunction =
+							RestrictionsFactoryUtil.disjunction();
 
-						disjunction.add(RestrictionsFactoryUtil.gtProperty(
+						disjunction.add(
+							RestrictionsFactoryUtil.gtProperty(
 								"modifiedDate", "lastPublishDate"));
 
-						Property lastPublishDateProperty = PropertyFactoryUtil.forName(
-								"lastPublishDate");
+						Property lastPublishDateProperty =
+							PropertyFactoryUtil.forName("lastPublishDate");
 
 						disjunction.add(lastPublishDateProperty.isNull());
 
@@ -360,12 +402,14 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 						modifiedDateCriterion = conjunction;
 					}
 
-					Criterion statusDateCriterion = portletDataContext.getDateRangeCriteria(
-							"statusDate");
+					Criterion statusDateCriterion =
+						portletDataContext.getDateRangeCriteria("statusDate");
 
 					if ((modifiedDateCriterion != null) &&
-							(statusDateCriterion != null)) {
-						Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
+						(statusDateCriterion != null)) {
+
+						Disjunction disjunction =
+							RestrictionsFactoryUtil.disjunction();
 
 						disjunction.add(modifiedDateCriterion);
 						disjunction.add(statusDateCriterion);
@@ -373,36 +417,51 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 						dynamicQuery.add(disjunction);
 					}
 
-					Property workflowStatusProperty = PropertyFactoryUtil.forName(
-							"status");
+					Property workflowStatusProperty =
+						PropertyFactoryUtil.forName("status");
 
 					if (portletDataContext.isInitialPublication()) {
-						dynamicQuery.add(workflowStatusProperty.ne(
+						dynamicQuery.add(
+							workflowStatusProperty.ne(
 								WorkflowConstants.STATUS_IN_TRASH));
 					}
 					else {
-						StagedModelDataHandler<?> stagedModelDataHandler = StagedModelDataHandlerRegistryUtil.getStagedModelDataHandler(GoogleMyBusinessHistoric.class.getName());
+						StagedModelDataHandler<?> stagedModelDataHandler =
+							StagedModelDataHandlerRegistryUtil.
+								getStagedModelDataHandler(
+									GoogleMyBusinessHistoric.class.getName());
 
-						dynamicQuery.add(workflowStatusProperty.in(
-								stagedModelDataHandler.getExportableStatuses()));
+						dynamicQuery.add(
+							workflowStatusProperty.in(
+								stagedModelDataHandler.
+									getExportableStatuses()));
 					}
 				}
+
 			});
 
-		exportActionableDynamicQuery.setCompanyId(portletDataContext.getCompanyId());
+		exportActionableDynamicQuery.setCompanyId(
+			portletDataContext.getCompanyId());
 
-		exportActionableDynamicQuery.setGroupId(portletDataContext.getScopeGroupId());
+		exportActionableDynamicQuery.setGroupId(
+			portletDataContext.getScopeGroupId());
 
-		exportActionableDynamicQuery.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<GoogleMyBusinessHistoric>() {
+		exportActionableDynamicQuery.setPerformActionMethod(
+			new ActionableDynamicQuery.PerformActionMethod
+				<GoogleMyBusinessHistoric>() {
+
 				@Override
 				public void performAction(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric)
+						GoogleMyBusinessHistoric googleMyBusinessHistoric)
 					throws PortalException {
-					StagedModelDataHandlerUtil.exportStagedModel(portletDataContext,
-						googleMyBusinessHistoric);
+
+					StagedModelDataHandlerUtil.exportStagedModel(
+						portletDataContext, googleMyBusinessHistoric);
 				}
+
 			});
-		exportActionableDynamicQuery.setStagedModelType(new StagedModelType(
+		exportActionableDynamicQuery.setStagedModelType(
+			new StagedModelType(
 				PortalUtil.getClassNameId(
 					GoogleMyBusinessHistoric.class.getName())));
 
@@ -415,13 +474,18 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
-		return googleMyBusinessHistoricLocalService.deleteGoogleMyBusinessHistoric((GoogleMyBusinessHistoric)persistedModel);
+
+		return googleMyBusinessHistoricLocalService.
+			deleteGoogleMyBusinessHistoric(
+				(GoogleMyBusinessHistoric)persistedModel);
 	}
 
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
-		return googleMyBusinessHistoricPersistence.findByPrimaryKey(primaryKeyObj);
+
+		return googleMyBusinessHistoricPersistence.findByPrimaryKey(
+			primaryKeyObj);
 	}
 
 	/**
@@ -432,9 +496,12 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @return the matching google my business historics, or an empty list if no matches were found
 	 */
 	@Override
-	public List<GoogleMyBusinessHistoric> getGoogleMyBusinessHistoricsByUuidAndCompanyId(
-		String uuid, long companyId) {
-		return googleMyBusinessHistoricPersistence.findByUuid_C(uuid, companyId);
+	public List<GoogleMyBusinessHistoric>
+		getGoogleMyBusinessHistoricsByUuidAndCompanyId(
+			String uuid, long companyId) {
+
+		return googleMyBusinessHistoricPersistence.findByUuid_C(
+			uuid, companyId);
 	}
 
 	/**
@@ -448,11 +515,13 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @return the range of matching google my business historics, or an empty list if no matches were found
 	 */
 	@Override
-	public List<GoogleMyBusinessHistoric> getGoogleMyBusinessHistoricsByUuidAndCompanyId(
-		String uuid, long companyId, int start, int end,
-		OrderByComparator<GoogleMyBusinessHistoric> orderByComparator) {
-		return googleMyBusinessHistoricPersistence.findByUuid_C(uuid,
-			companyId, start, end, orderByComparator);
+	public List<GoogleMyBusinessHistoric>
+		getGoogleMyBusinessHistoricsByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			OrderByComparator<GoogleMyBusinessHistoric> orderByComparator) {
+
+		return googleMyBusinessHistoricPersistence.findByUuid_C(
+			uuid, companyId, start, end, orderByComparator);
 	}
 
 	/**
@@ -465,7 +534,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 */
 	@Override
 	public GoogleMyBusinessHistoric getGoogleMyBusinessHistoricByUuidAndGroupId(
-		String uuid, long groupId) throws PortalException {
+			String uuid, long groupId)
+		throws PortalException {
+
 		return googleMyBusinessHistoricPersistence.findByUUID_G(uuid, groupId);
 	}
 
@@ -473,7 +544,7 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * Returns a range of all the google my business historics.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.GoogleMyBusinessHistoricModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.GoogleMyBusinessHistoricModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of google my business historics
@@ -483,6 +554,7 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	@Override
 	public List<GoogleMyBusinessHistoric> getGoogleMyBusinessHistorics(
 		int start, int end) {
+
 		return googleMyBusinessHistoricPersistence.findAll(start, end);
 	}
 
@@ -506,7 +578,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	@Override
 	public GoogleMyBusinessHistoric updateGoogleMyBusinessHistoric(
 		GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-		return googleMyBusinessHistoricPersistence.update(googleMyBusinessHistoric);
+
+		return googleMyBusinessHistoricPersistence.update(
+			googleMyBusinessHistoric);
 	}
 
 	/**
@@ -514,7 +588,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the google my business historic local service
 	 */
-	public GoogleMyBusinessHistoricLocalService getGoogleMyBusinessHistoricLocalService() {
+	public GoogleMyBusinessHistoricLocalService
+		getGoogleMyBusinessHistoricLocalService() {
+
 		return googleMyBusinessHistoricLocalService;
 	}
 
@@ -524,8 +600,11 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @param googleMyBusinessHistoricLocalService the google my business historic local service
 	 */
 	public void setGoogleMyBusinessHistoricLocalService(
-		GoogleMyBusinessHistoricLocalService googleMyBusinessHistoricLocalService) {
-		this.googleMyBusinessHistoricLocalService = googleMyBusinessHistoricLocalService;
+		GoogleMyBusinessHistoricLocalService
+			googleMyBusinessHistoricLocalService) {
+
+		this.googleMyBusinessHistoricLocalService =
+			googleMyBusinessHistoricLocalService;
 	}
 
 	/**
@@ -533,7 +612,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the google my business historic persistence
 	 */
-	public GoogleMyBusinessHistoricPersistence getGoogleMyBusinessHistoricPersistence() {
+	public GoogleMyBusinessHistoricPersistence
+		getGoogleMyBusinessHistoricPersistence() {
+
 		return googleMyBusinessHistoricPersistence;
 	}
 
@@ -543,8 +624,11 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @param googleMyBusinessHistoricPersistence the google my business historic persistence
 	 */
 	public void setGoogleMyBusinessHistoricPersistence(
-		GoogleMyBusinessHistoricPersistence googleMyBusinessHistoricPersistence) {
-		this.googleMyBusinessHistoricPersistence = googleMyBusinessHistoricPersistence;
+		GoogleMyBusinessHistoricPersistence
+			googleMyBusinessHistoricPersistence) {
+
+		this.googleMyBusinessHistoricPersistence =
+			googleMyBusinessHistoricPersistence;
 	}
 
 	/**
@@ -552,7 +636,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the period local service
 	 */
-	public eu.strasbourg.service.place.service.PeriodLocalService getPeriodLocalService() {
+	public eu.strasbourg.service.place.service.PeriodLocalService
+		getPeriodLocalService() {
+
 		return periodLocalService;
 	}
 
@@ -562,7 +648,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @param periodLocalService the period local service
 	 */
 	public void setPeriodLocalService(
-		eu.strasbourg.service.place.service.PeriodLocalService periodLocalService) {
+		eu.strasbourg.service.place.service.PeriodLocalService
+			periodLocalService) {
+
 		this.periodLocalService = periodLocalService;
 	}
 
@@ -589,7 +677,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the place local service
 	 */
-	public eu.strasbourg.service.place.service.PlaceLocalService getPlaceLocalService() {
+	public eu.strasbourg.service.place.service.PlaceLocalService
+		getPlaceLocalService() {
+
 		return placeLocalService;
 	}
 
@@ -599,7 +689,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @param placeLocalService the place local service
 	 */
 	public void setPlaceLocalService(
-		eu.strasbourg.service.place.service.PlaceLocalService placeLocalService) {
+		eu.strasbourg.service.place.service.PlaceLocalService
+			placeLocalService) {
+
 		this.placeLocalService = placeLocalService;
 	}
 
@@ -626,7 +718,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the price local service
 	 */
-	public eu.strasbourg.service.place.service.PriceLocalService getPriceLocalService() {
+	public eu.strasbourg.service.place.service.PriceLocalService
+		getPriceLocalService() {
+
 		return priceLocalService;
 	}
 
@@ -636,7 +730,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @param priceLocalService the price local service
 	 */
 	public void setPriceLocalService(
-		eu.strasbourg.service.place.service.PriceLocalService priceLocalService) {
+		eu.strasbourg.service.place.service.PriceLocalService
+			priceLocalService) {
+
 		this.priceLocalService = priceLocalService;
 	}
 
@@ -663,7 +759,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the public holiday local service
 	 */
-	public eu.strasbourg.service.place.service.PublicHolidayLocalService getPublicHolidayLocalService() {
+	public eu.strasbourg.service.place.service.PublicHolidayLocalService
+		getPublicHolidayLocalService() {
+
 		return publicHolidayLocalService;
 	}
 
@@ -673,7 +771,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @param publicHolidayLocalService the public holiday local service
 	 */
 	public void setPublicHolidayLocalService(
-		eu.strasbourg.service.place.service.PublicHolidayLocalService publicHolidayLocalService) {
+		eu.strasbourg.service.place.service.PublicHolidayLocalService
+			publicHolidayLocalService) {
+
 		this.publicHolidayLocalService = publicHolidayLocalService;
 	}
 
@@ -693,6 +793,7 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 */
 	public void setPublicHolidayPersistence(
 		PublicHolidayPersistence publicHolidayPersistence) {
+
 		this.publicHolidayPersistence = publicHolidayPersistence;
 	}
 
@@ -701,7 +802,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the schedule exception local service
 	 */
-	public eu.strasbourg.service.place.service.ScheduleExceptionLocalService getScheduleExceptionLocalService() {
+	public eu.strasbourg.service.place.service.ScheduleExceptionLocalService
+		getScheduleExceptionLocalService() {
+
 		return scheduleExceptionLocalService;
 	}
 
@@ -711,7 +814,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @param scheduleExceptionLocalService the schedule exception local service
 	 */
 	public void setScheduleExceptionLocalService(
-		eu.strasbourg.service.place.service.ScheduleExceptionLocalService scheduleExceptionLocalService) {
+		eu.strasbourg.service.place.service.ScheduleExceptionLocalService
+			scheduleExceptionLocalService) {
+
 		this.scheduleExceptionLocalService = scheduleExceptionLocalService;
 	}
 
@@ -731,6 +836,7 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 */
 	public void setScheduleExceptionPersistence(
 		ScheduleExceptionPersistence scheduleExceptionPersistence) {
+
 		this.scheduleExceptionPersistence = scheduleExceptionPersistence;
 	}
 
@@ -739,7 +845,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the slot local service
 	 */
-	public eu.strasbourg.service.place.service.SlotLocalService getSlotLocalService() {
+	public eu.strasbourg.service.place.service.SlotLocalService
+		getSlotLocalService() {
+
 		return slotLocalService;
 	}
 
@@ -750,6 +858,7 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 */
 	public void setSlotLocalService(
 		eu.strasbourg.service.place.service.SlotLocalService slotLocalService) {
+
 		this.slotLocalService = slotLocalService;
 	}
 
@@ -776,7 +885,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the sub place local service
 	 */
-	public eu.strasbourg.service.place.service.SubPlaceLocalService getSubPlaceLocalService() {
+	public eu.strasbourg.service.place.service.SubPlaceLocalService
+		getSubPlaceLocalService() {
+
 		return subPlaceLocalService;
 	}
 
@@ -786,7 +897,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @param subPlaceLocalService the sub place local service
 	 */
 	public void setSubPlaceLocalService(
-		eu.strasbourg.service.place.service.SubPlaceLocalService subPlaceLocalService) {
+		eu.strasbourg.service.place.service.SubPlaceLocalService
+			subPlaceLocalService) {
+
 		this.subPlaceLocalService = subPlaceLocalService;
 	}
 
@@ -804,7 +917,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @param subPlacePersistence the sub place persistence
 	 */
-	public void setSubPlacePersistence(SubPlacePersistence subPlacePersistence) {
+	public void setSubPlacePersistence(
+		SubPlacePersistence subPlacePersistence) {
+
 		this.subPlacePersistence = subPlacePersistence;
 	}
 
@@ -813,7 +928,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -823,7 +940,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -832,7 +951,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -842,7 +963,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -862,6 +985,7 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -870,7 +994,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -880,7 +1006,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -889,7 +1017,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -900,6 +1030,7 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -926,7 +1057,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the asset entry local service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryLocalService getAssetEntryLocalService() {
+	public com.liferay.asset.kernel.service.AssetEntryLocalService
+		getAssetEntryLocalService() {
+
 		return assetEntryLocalService;
 	}
 
@@ -936,7 +1069,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @param assetEntryLocalService the asset entry local service
 	 */
 	public void setAssetEntryLocalService(
-		com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService) {
+		com.liferay.asset.kernel.service.AssetEntryLocalService
+			assetEntryLocalService) {
+
 		this.assetEntryLocalService = assetEntryLocalService;
 	}
 
@@ -956,6 +1091,7 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 */
 	public void setAssetEntryPersistence(
 		AssetEntryPersistence assetEntryPersistence) {
+
 		this.assetEntryPersistence = assetEntryPersistence;
 	}
 
@@ -964,7 +1100,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.kernel.service.AssetLinkLocalService getAssetLinkLocalService() {
+	public com.liferay.asset.kernel.service.AssetLinkLocalService
+		getAssetLinkLocalService() {
+
 		return assetLinkLocalService;
 	}
 
@@ -974,7 +1112,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService) {
+		com.liferay.asset.kernel.service.AssetLinkLocalService
+			assetLinkLocalService) {
+
 		this.assetLinkLocalService = assetLinkLocalService;
 	}
 
@@ -994,6 +1134,7 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 */
 	public void setAssetLinkPersistence(
 		AssetLinkPersistence assetLinkPersistence) {
+
 		this.assetLinkPersistence = assetLinkPersistence;
 	}
 
@@ -1002,7 +1143,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @return the asset tag local service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagLocalService getAssetTagLocalService() {
+	public com.liferay.asset.kernel.service.AssetTagLocalService
+		getAssetTagLocalService() {
+
 		return assetTagLocalService;
 	}
 
@@ -1012,7 +1155,9 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 * @param assetTagLocalService the asset tag local service
 	 */
 	public void setAssetTagLocalService(
-		com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService) {
+		com.liferay.asset.kernel.service.AssetTagLocalService
+			assetTagLocalService) {
+
 		this.assetTagLocalService = assetTagLocalService;
 	}
 
@@ -1030,12 +1175,15 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 *
 	 * @param assetTagPersistence the asset tag persistence
 	 */
-	public void setAssetTagPersistence(AssetTagPersistence assetTagPersistence) {
+	public void setAssetTagPersistence(
+		AssetTagPersistence assetTagPersistence) {
+
 		this.assetTagPersistence = assetTagPersistence;
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register("eu.strasbourg.service.place.model.GoogleMyBusinessHistoric",
+		persistedModelLocalServiceRegistry.register(
+			"eu.strasbourg.service.place.model.GoogleMyBusinessHistoric",
 			googleMyBusinessHistoricLocalService);
 	}
 
@@ -1069,15 +1217,16 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	 */
 	protected void runSQL(String sql) {
 		try {
-			DataSource dataSource = googleMyBusinessHistoricPersistence.getDataSource();
+			DataSource dataSource =
+				googleMyBusinessHistoricPersistence.getDataSource();
 
 			DB db = DBManagerUtil.getDB();
 
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -1087,61 +1236,135 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	}
 
 	@BeanReference(type = GoogleMyBusinessHistoricLocalService.class)
-	protected GoogleMyBusinessHistoricLocalService googleMyBusinessHistoricLocalService;
+	protected GoogleMyBusinessHistoricLocalService
+		googleMyBusinessHistoricLocalService;
+
 	@BeanReference(type = GoogleMyBusinessHistoricPersistence.class)
-	protected GoogleMyBusinessHistoricPersistence googleMyBusinessHistoricPersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.PeriodLocalService.class)
-	protected eu.strasbourg.service.place.service.PeriodLocalService periodLocalService;
+	protected GoogleMyBusinessHistoricPersistence
+		googleMyBusinessHistoricPersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.PeriodLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.PeriodLocalService
+		periodLocalService;
+
 	@BeanReference(type = PeriodPersistence.class)
 	protected PeriodPersistence periodPersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.PlaceLocalService.class)
-	protected eu.strasbourg.service.place.service.PlaceLocalService placeLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.PlaceLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.PlaceLocalService
+		placeLocalService;
+
 	@BeanReference(type = PlacePersistence.class)
 	protected PlacePersistence placePersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.PriceLocalService.class)
-	protected eu.strasbourg.service.place.service.PriceLocalService priceLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.PriceLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.PriceLocalService
+		priceLocalService;
+
 	@BeanReference(type = PricePersistence.class)
 	protected PricePersistence pricePersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.PublicHolidayLocalService.class)
-	protected eu.strasbourg.service.place.service.PublicHolidayLocalService publicHolidayLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.PublicHolidayLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.PublicHolidayLocalService
+		publicHolidayLocalService;
+
 	@BeanReference(type = PublicHolidayPersistence.class)
 	protected PublicHolidayPersistence publicHolidayPersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.ScheduleExceptionLocalService.class)
-	protected eu.strasbourg.service.place.service.ScheduleExceptionLocalService scheduleExceptionLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.ScheduleExceptionLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.ScheduleExceptionLocalService
+		scheduleExceptionLocalService;
+
 	@BeanReference(type = ScheduleExceptionPersistence.class)
 	protected ScheduleExceptionPersistence scheduleExceptionPersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.SlotLocalService.class)
-	protected eu.strasbourg.service.place.service.SlotLocalService slotLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.SlotLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.SlotLocalService
+		slotLocalService;
+
 	@BeanReference(type = SlotPersistence.class)
 	protected SlotPersistence slotPersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.SubPlaceLocalService.class)
-	protected eu.strasbourg.service.place.service.SubPlaceLocalService subPlaceLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.SubPlaceLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.SubPlaceLocalService
+		subPlaceLocalService;
+
 	@BeanReference(type = SubPlacePersistence.class)
 	protected SubPlacePersistence subPlacePersistence;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetEntryLocalService
+		assetEntryLocalService;
+
 	@ServiceReference(type = AssetEntryPersistence.class)
 	protected AssetEntryPersistence assetEntryPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetLinkLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService
+		assetLinkLocalService;
+
 	@ServiceReference(type = AssetLinkPersistence.class)
 	protected AssetLinkPersistence assetLinkPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetTagLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetTagLocalService
+		assetTagLocalService;
+
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry;
+	protected PersistedModelLocalServiceRegistry
+		persistedModelLocalServiceRegistry;
+
 }

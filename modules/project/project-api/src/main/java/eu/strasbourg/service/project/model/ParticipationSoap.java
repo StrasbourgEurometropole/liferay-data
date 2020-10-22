@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.project.service.http.ParticipationServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.project.service.http.ParticipationServiceSoap
  * @generated
  */
 @ProviderType
 public class ParticipationSoap implements Serializable {
+
 	public static ParticipationSoap toSoapModel(Participation model) {
 		ParticipationSoap soapModel = new ParticipationSoap();
 
@@ -54,7 +54,7 @@ public class ParticipationSoap implements Serializable {
 		soapModel.setVideoUrl(model.getVideoUrl());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
-		soapModel.setMediaChoice(model.getMediaChoice());
+		soapModel.setMediaChoice(model.isMediaChoice());
 		soapModel.setDescriptionChapeau(model.getDescriptionChapeau());
 		soapModel.setDescriptionBody(model.getDescriptionBody());
 		soapModel.setConsultationPlacesBody(model.getConsultationPlacesBody());
@@ -95,7 +95,8 @@ public class ParticipationSoap implements Serializable {
 	}
 
 	public static ParticipationSoap[] toSoapModels(List<Participation> models) {
-		List<ParticipationSoap> soapModels = new ArrayList<ParticipationSoap>(models.size());
+		List<ParticipationSoap> soapModels = new ArrayList<ParticipationSoap>(
+			models.size());
 
 		for (Participation model : models) {
 			soapModels.add(toSoapModel(model));
@@ -380,4 +381,5 @@ public class ParticipationSoap implements Serializable {
 	private String _eventsIds;
 	private Date _publicationDate;
 	private Date _expirationDate;
+
 }

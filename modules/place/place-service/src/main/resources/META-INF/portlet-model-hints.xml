@@ -160,7 +160,7 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field localized="true" name="title" type="String" />
-		<field localized="true" name="price" type="String">
+		<field localized="true" name="priceDescription" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 	</model>

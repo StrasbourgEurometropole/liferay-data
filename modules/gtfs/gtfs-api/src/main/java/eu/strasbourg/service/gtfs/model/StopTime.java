@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Cedric Henry
  * @see StopTimeModel
- * @see eu.strasbourg.service.gtfs.model.impl.StopTimeImpl
- * @see eu.strasbourg.service.gtfs.model.impl.StopTimeModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.gtfs.model.impl.StopTimeImpl")
 @ProviderType
-public interface StopTime extends StopTimeModel, PersistedModel {
+public interface StopTime extends PersistedModel, StopTimeModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.gtfs.model.impl.StopTimeImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.gtfs.model.impl.StopTimeImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<StopTime, Long> ID_ACCESSOR = new Accessor<StopTime, Long>() {
+	public static final Accessor<StopTime, Long> ID_ACCESSOR =
+		new Accessor<StopTime, Long>() {
+
 			@Override
 			public Long get(StopTime stopTime) {
 				return stopTime.getId();
@@ -52,5 +53,7 @@ public interface StopTime extends StopTimeModel, PersistedModel {
 			public Class<StopTime> getTypeClass() {
 				return StopTime.class;
 			}
+
 		};
+
 }

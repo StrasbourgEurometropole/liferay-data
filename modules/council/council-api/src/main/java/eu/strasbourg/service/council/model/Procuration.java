@@ -25,19 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Brian Wing Shun Chan
  * @see ProcurationModel
- * @see eu.strasbourg.service.council.model.impl.ProcurationImpl
- * @see eu.strasbourg.service.council.model.impl.ProcurationModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.council.model.impl.ProcurationImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.council.model.impl.ProcurationImpl"
+)
 @ProviderType
-public interface Procuration extends ProcurationModel, PersistedModel {
+public interface Procuration extends PersistedModel, ProcurationModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.council.model.impl.ProcurationImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.council.model.impl.ProcurationImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Procuration, Long> PROCURATION_ID_ACCESSOR = new Accessor<Procuration, Long>() {
+	public static final Accessor<Procuration, Long> PROCURATION_ID_ACCESSOR =
+		new Accessor<Procuration, Long>() {
+
 			@Override
 			public Long get(Procuration procuration) {
 				return procuration.getProcurationId();
@@ -52,10 +55,12 @@ public interface Procuration extends ProcurationModel, PersistedModel {
 			public Class<Procuration> getTypeClass() {
 				return Procuration.class;
 			}
+
 		};
 
 	/**
-	* Retourne le nom complet de l'élu reçevant la procuration
-	*/
-	public java.lang.String getOfficialVotersFullName();
+	 * Retourne le nom complet de l'élu reçevant la procuration
+	 */
+	public String getOfficialVotersFullName();
+
 }

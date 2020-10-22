@@ -49,7 +49,7 @@
 		    text-transform: capitalize !important;
 		    color: black !important;
 		    display: inline-block;
-		    width: 30px !important;
+		    width: 35px !important;
 		}
 		
 		.date-selector {
@@ -84,6 +84,7 @@
 		text-transform: uppercase;
 		margin-bottom:10px;
 		width:100%;
+		word-wrap: normal;
 	}
 }
 

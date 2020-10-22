@@ -1,15 +1,15 @@
 package eu.strasbourg.service.agenda.service.persistence.impl;
 
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import aQute.bnd.component.annotations.Reference;
+import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
+import com.liferay.portal.kernel.dao.orm.QueryPos;
+import com.liferay.portal.kernel.dao.orm.SQLQuery;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.spring.extender.service.ServiceReference;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.impl.EventImpl;
 import eu.strasbourg.service.agenda.service.persistence.EventFinder;
-import com.liferay.portal.kernel.dao.orm.Session;
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
-import com.liferay.portal.kernel.dao.orm.SQLQuery;
-import com.liferay.portal.kernel.dao.orm.QueryPos;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class EventFinderImpl extends EventFinderBaseImpl implements EventFinder 
         try {
             session = openSession();
 
-            String sql = CustomSQLUtil.get(
+            String sql = customSQL.get(
                     getClass(),
                     FIND_BY_NEXT_HAPPENING);
 
@@ -51,4 +51,8 @@ public class EventFinderImpl extends EventFinderBaseImpl implements EventFinder 
     public static final String FIND_BY_NEXT_HAPPENING =
             EventFinder.class.getName() +
                     ".findByNextHappening";
+
+//    @Reference
+    @ServiceReference(type=CustomSQL.class)
+    private CustomSQL customSQL;
 }

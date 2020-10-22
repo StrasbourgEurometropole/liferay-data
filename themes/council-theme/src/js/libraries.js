@@ -17308,7 +17308,7 @@ jQuery.support.transition = (function () {
 			if (!fn) return;
 			if (self.loadedSearches.hasOwnProperty(value)) return;
 			self.loadedSearches[value] = true;
-			self.load(function(callback) {
+			self.on("load",function(callback) {
 				fn.apply(self, [value, callback]);
 			});
 		},

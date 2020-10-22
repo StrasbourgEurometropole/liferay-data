@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.search.log.model.SearchLog;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing SearchLog in entity cache.
  *
  * @author BenjaminBini
- * @see SearchLog
  * @generated
  */
 @ProviderType
-public class SearchLogCacheModel implements CacheModel<SearchLog>,
-	Externalizable {
+public class SearchLogCacheModel
+	implements CacheModel<SearchLog>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -122,7 +121,7 @@ public class SearchLogCacheModel implements CacheModel<SearchLog>,
 		searchLogImpl.setSearchLogId(searchLogId);
 
 		if (keywords == null) {
-			searchLogImpl.setKeywords(StringPool.BLANK);
+			searchLogImpl.setKeywords("");
 		}
 		else {
 			searchLogImpl.setKeywords(keywords);
@@ -134,7 +133,7 @@ public class SearchLogCacheModel implements CacheModel<SearchLog>,
 		searchLogImpl.setResult1ClassPK(result1ClassPK);
 
 		if (result1Title == null) {
-			searchLogImpl.setResult1Title(StringPool.BLANK);
+			searchLogImpl.setResult1Title("");
 		}
 		else {
 			searchLogImpl.setResult1Title(result1Title);
@@ -144,7 +143,7 @@ public class SearchLogCacheModel implements CacheModel<SearchLog>,
 		searchLogImpl.setResult2ClassPK(result2ClassPK);
 
 		if (result2Title == null) {
-			searchLogImpl.setResult2Title(StringPool.BLANK);
+			searchLogImpl.setResult2Title("");
 		}
 		else {
 			searchLogImpl.setResult2Title(result2Title);
@@ -154,7 +153,7 @@ public class SearchLogCacheModel implements CacheModel<SearchLog>,
 		searchLogImpl.setResult3ClassPK(result3ClassPK);
 
 		if (result3Title == null) {
-			searchLogImpl.setResult3Title(StringPool.BLANK);
+			searchLogImpl.setResult3Title("");
 		}
 		else {
 			searchLogImpl.setResult3Title(result3Title);
@@ -164,7 +163,7 @@ public class SearchLogCacheModel implements CacheModel<SearchLog>,
 		searchLogImpl.setUserTargetClassPK(userTargetClassPK);
 
 		if (userTargetTitle == null) {
-			searchLogImpl.setUserTargetTitle(StringPool.BLANK);
+			searchLogImpl.setUserTargetTitle("");
 		}
 		else {
 			searchLogImpl.setUserTargetTitle(userTargetTitle);
@@ -174,14 +173,14 @@ public class SearchLogCacheModel implements CacheModel<SearchLog>,
 		searchLogImpl.setLayoutId(layoutId);
 
 		if (layoutFriendlyURL == null) {
-			searchLogImpl.setLayoutFriendlyURL(StringPool.BLANK);
+			searchLogImpl.setLayoutFriendlyURL("");
 		}
 		else {
 			searchLogImpl.setLayoutFriendlyURL(layoutFriendlyURL);
 		}
 
 		if (language == null) {
-			searchLogImpl.setLanguage(StringPool.BLANK);
+			searchLogImpl.setLanguage("");
 		}
 		else {
 			searchLogImpl.setLanguage(language);
@@ -237,12 +236,11 @@ public class SearchLogCacheModel implements CacheModel<SearchLog>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		objectOutput.writeLong(searchLogId);
 
 		if (keywords == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(keywords);
@@ -257,7 +255,7 @@ public class SearchLogCacheModel implements CacheModel<SearchLog>,
 		objectOutput.writeLong(result1ClassPK);
 
 		if (result1Title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(result1Title);
@@ -268,7 +266,7 @@ public class SearchLogCacheModel implements CacheModel<SearchLog>,
 		objectOutput.writeLong(result2ClassPK);
 
 		if (result2Title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(result2Title);
@@ -279,7 +277,7 @@ public class SearchLogCacheModel implements CacheModel<SearchLog>,
 		objectOutput.writeLong(result3ClassPK);
 
 		if (result3Title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(result3Title);
@@ -290,7 +288,7 @@ public class SearchLogCacheModel implements CacheModel<SearchLog>,
 		objectOutput.writeLong(userTargetClassPK);
 
 		if (userTargetTitle == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userTargetTitle);
@@ -301,14 +299,14 @@ public class SearchLogCacheModel implements CacheModel<SearchLog>,
 		objectOutput.writeLong(layoutId);
 
 		if (layoutFriendlyURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(layoutFriendlyURL);
 		}
 
 		if (language == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(language);
@@ -338,4 +336,5 @@ public class SearchLogCacheModel implements CacheModel<SearchLog>,
 	public String layoutFriendlyURL;
 	public String language;
 	public long date;
+
 }

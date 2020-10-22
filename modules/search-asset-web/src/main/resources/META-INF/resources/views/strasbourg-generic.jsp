@@ -64,7 +64,7 @@
 									displayStyleGroupId="${themeDisplay.scopeGroupId}"
 									entries="${dc.templateEntries }"
 								>
-									<liferay-ui:asset-display
+									<liferay-asset:asset-display
 										assetEntry="${entry}"
 										assetRenderer="${entry.assetRenderer}"
 										assetRendererFactory="${entry.assetRendererFactory}"
@@ -176,3 +176,9 @@
 		</aui:form>
 	</div>
 </main>
+
+<style>
+    .btn-line:last-child {
+        margin-bottom: 60px;
+    }
+</style>

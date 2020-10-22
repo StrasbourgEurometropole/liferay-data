@@ -2468,6 +2468,19 @@ body >  .container {
   -moz-background-size: cover;
   background-size: cover;
 }
+.see .portlet-layout .portlet-header{
+  margin-bottom: 0;
+}
+.see .header-wrapper .container .col-sm-2, .see .header-wrapper .container .col-sm-10, .see #presentation .container .col-sm-6, .see #medias .container .col-sm-4 {
+  float: left;
+}
+.container:before, .container:after {
+  content: " ";
+  display: table; 
+}
+.container:after {
+  clear: both; 
+}
 .see .container,
 .see .overlay {
   position: relative;
@@ -2603,6 +2616,14 @@ body >  .container {
   margin: 0;
   padding: 15px;
 }
+.see .mb-2{
+  display: none;
+}
+@media (min-width: 1200px){
+  .see .container {
+      max-width: 1170px;
+  }
+}
 @media (max-width: 991px) {
   .see .wrapper {
     width: 90%;
@@ -2618,6 +2639,11 @@ body >  .container {
   }
   .see .fullwidth-column {
     padding: 50px 30px 35px;
+  }
+}
+@media (min-width: 768px){
+  .see .navbar-collapse.collapse {
+      display: block !important;
   }
 }
 @media (max-width: 767px) {
@@ -6070,7 +6096,7 @@ body >  .container {
 .see .header {
   line-height: 1.5625;
   position: relative;
-  z-index: 1000;
+  z-index: 988;
 }
 .see .header.header-black .header-wrapper {
   background-color: #262627;
@@ -6149,7 +6175,8 @@ body >  .container {
 .see .navigation-header .buy-btn {
   margin: 9px 0 0;
 }
-.see .navbar-toggle {
+.see .navbar-toggle,
+.see .navbar-toggler {
   z-index: 100;
   border: none;
 }
@@ -6301,10 +6328,6 @@ body >  .container {
   .see .dropdown .dropdown-menu,
   .see .dropdown.open .dropdown-menu {
     display: none;
-  }
-  .see .dropdown.open:hover .dropdown-menu,
-  .see .dropdown:hover .dropdown-menu {
-    display: block;
   }
   .see .header.header-color .navbar-collapse .buy-btn:not(:hover):not(:focus):not(:active):not(.hovered):not(.pressed),
   .see .header.header-color .navigation-link {
@@ -6981,7 +7004,7 @@ body >  .container {
   line-height: 50px;
 }
 .has-control-menu .see {
-  margin-top: 64px;
+  margin-top: 56px;
 }
 .portlet-title-text {
   display: none;
@@ -6990,13 +7013,13 @@ body >  .container {
   margin-bottom: 0;
 }
 .portlet-topper {
-  z-index: 1001;
+  z-index: 988;
 }
 .has-control-menu .header.fixed {
-  z-index: 1002;
+  z-index: 988;
 }
 .has-control-menu .header.fixed .header-wrapper {
-    top: 66px;
+    top: 56px;
 }
 .portlet-content .portlet-body > div > div.h2 {
   display: none;
@@ -7172,5 +7195,38 @@ body >  .container {
   }
   body {
     padding-top: 75px;
+  }
+}
+
+/* hack liferay */
+.lfr-product-menu-panel.sidenav-menu-slider {
+  z-index: 1035;
+}
+
+// affichage des menus des portlets
+.portlet-journal-content.portlet-barebone .portlet .portlet-header{
+  
+  .visible-interaction {
+	  display: inline;
+	
+    .lfr-icon-menu{
+      background-color: transparent;
+      padding: 0;
+      margin: 0;
+      display: inline;
+      color: #0b5fff;
+
+      > a{
+        height: 32px;
+        line-height: 32px;
+        width: 32px;
+
+        .lexicon-icon{
+          height: 32px;
+          width: 32px;
+          padding: 8px;
+        }
+      }
+    }
   }
 }

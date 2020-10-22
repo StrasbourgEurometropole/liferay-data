@@ -25,19 +25,20 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * {@link ManifestationServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>ManifestationServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.agenda.model.ManifestationSoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.agenda.model.Manifestation}, that is translated to a
- * {@link eu.strasbourg.service.agenda.model.ManifestationSoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.agenda.model.ManifestationSoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.agenda.model.Manifestation</code>, that is translated to a
+ * <code>eu.strasbourg.service.agenda.model.ManifestationSoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -59,16 +60,15 @@ import java.rmi.RemoteException;
  *
  * @author BenjaminBini
  * @see ManifestationServiceHttp
- * @see eu.strasbourg.service.agenda.model.ManifestationSoap
- * @see ManifestationServiceUtil
  * @generated
  */
 @ProviderType
 public class ManifestationServiceSoap {
-	public static java.lang.String getManifestation(long id)
-		throws RemoteException {
+
+	public static String getManifestation(long id) throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = ManifestationServiceUtil.getManifestation(id);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				ManifestationServiceUtil.getManifestation(id);
 
 			return returnValue.toString();
 		}
@@ -79,10 +79,10 @@ public class ManifestationServiceSoap {
 		}
 	}
 
-	public static java.lang.String getManifestations()
-		throws RemoteException {
+	public static String getManifestations() throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = ManifestationServiceUtil.getManifestations();
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				ManifestationServiceUtil.getManifestations();
 
 			return returnValue.toString();
 		}
@@ -93,5 +93,7 @@ public class ManifestationServiceSoap {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(ManifestationServiceSoap.class);
+	private static Log _log = LogFactoryUtil.getLog(
+		ManifestationServiceSoap.class);
+
 }

@@ -1,12 +1,12 @@
 package eu.strasbourg.portlet.form_send.context;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.dynamic.data.lists.model.DDLRecord;
-import com.liferay.dynamic.data.lists.model.DDLRecordSet;
-import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMContent;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMContentLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -23,7 +23,11 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.portlet.form_send.configuration.FormSendConfiguration;
 import eu.strasbourg.portlet.form_send.formulaire.Champ;
@@ -43,8 +47,14 @@ import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class FormSendDisplayContext {
@@ -53,21 +63,11 @@ public class FormSendDisplayContext {
     private FormSendConfiguration configuration;
     private RenderRequest request;
     private RenderResponse response;
-    private DDLRecordSet recordSet;
+    private DDMFormInstance formInstance;
     private Formulaire formulaire;
-    private List<DDLRecord> records;
-    private SearchContainer<DDLRecord> searchContainer;
+    private List<DDMFormInstanceRecord> records;
+    private SearchContainer<DDMFormInstanceRecord> searchContainer;
     private Map<String, String> newLibs;
-
-    public FormSendDisplayContext(HttpServletRequest request, HttpServletResponse response) {
-        this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-        try {
-            this.configuration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(FormSendConfiguration.class);
-        } catch (ConfigurationException e) {
-            e.printStackTrace();
-        }
-    }
 
     public FormSendDisplayContext(RenderRequest request, RenderResponse response) {
         this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -92,26 +92,26 @@ public class FormSendDisplayContext {
     }
 
     // récupère le formulaire choisi dans la config
-    public DDLRecordSet getRecordSet() {
-        if(Validator.isNull(this.recordSet)) {
-            String recordSetId = configuration.recordSetId();
-            if(Validator.isNotNull(recordSetId))
-                this.recordSet = DDLRecordSetLocalServiceUtil.fetchDDLRecordSet(Long.parseLong(recordSetId));
+    public DDMFormInstance getFormInstance() {
+        if(Validator.isNull(this.formInstance)) {
+            String formInstanceId = configuration.formInstanceId();
+            if(Validator.isNotNull(formInstanceId))
+                this.formInstance = DDMFormInstanceLocalServiceUtil.fetchFormInstance(Long.parseLong(formInstanceId));
         }
 
-        return this.recordSet;
+        return this.formInstance;
     }
 
     // récupère la structure du formulaire choisi
     public Formulaire getForm() {
-        if(Validator.isNull(this.formulaire) && Validator.isNotNull(this.getRecordSet())) {
+        if(Validator.isNull(this.formulaire) && Validator.isNotNull(this.getFormInstance())) {
             try {
-                DDMStructure structure = this.recordSet.getDDMStructure();
+                DDMStructure structure = this.formInstance.getStructure();
                 JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
                 if (Validator.isNotNull(structure))
                     jsonArray = JSONFactoryUtil.createJSONObject(structure.getDefinition()).getJSONArray("fields");
 
-                this.formulaire = new Formulaire(this.recordSet.getRecordSetId(), this.recordSet.getNameMap(), jsonArray);
+                this.formulaire = new Formulaire(this.formInstance.getFormInstanceId(), this.formInstance.getNameMap(), jsonArray);
             } catch (PortalException e) {
                 e.printStackTrace();
             }
@@ -120,10 +120,10 @@ public class FormSendDisplayContext {
         return this.formulaire;
     }
 
-    // récupère tous les formulaires envoyés au formulaire choisi
-    public List<DDLRecord> getRecords() {
-        if(Validator.isNull(this.records) && Validator.isNotNull(this.getRecordSet())) {
-            this.records = this.recordSet.getRecords();
+    // récupère les formulaires publiés envoyés au formulaire choisi
+    public List<DDMFormInstanceRecord> getRecords() {
+        if(Validator.isNull(this.records) && Validator.isNotNull(this.getFormInstance())) {
+            this.records = this.formInstance.getFormInstanceRecords();
         }
 
         if(Validator.isNull(this.configuration.defaultSort()) || this.configuration.defaultSort().equals("asc")){
@@ -132,6 +132,14 @@ public class FormSendDisplayContext {
                     .compareTo(r1.getCreateDate()))
                     .collect(Collectors.toList());
         }
+        this.records = this.records.stream().filter(r -> {
+            try {
+                return r.getStatus() == WorkflowConstants.STATUS_APPROVED;
+            } catch (PortalException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }).collect(Collectors.toList());
 
         return this.records;
     }
@@ -156,11 +164,41 @@ public class FormSendDisplayContext {
                         // name -> nom du champs
                         // value -> saisie utilisateur (n'est pas renseigné pour les paragraphes)
                         JSONObject json = JSONFactoryUtil.createJSONObject(jsonObject.toString());
-                        JSONObject jsonField = JSONFactoryUtil.createJSONObject();
-                        String[] field = {json.getString("instanceId"),json.getString("name"),""};
-                        if(!json.isNull("value"))
-                            field[2] = json.getJSONObject("value").getString(locale.toString()).replaceAll("(\r\n|\n)", "<br />");
-                        recordFields.add(field);
+                        String[] field = {json.getString("instanceId"), json.getString("name"), ""};
+                        if (!json.isNull("value")){
+                            String value = json.getJSONObject("value").getString(locale.toString());
+                            switch (getFieldType(json.getString("name"))){
+                                case "document_library":
+                                    JSONObject jsonFile = JSONFactoryUtil.createJSONObject(value);
+                                    if(jsonFile.length() > 0)
+                                        field[2] = jsonFile.getString("title");
+                                    break;
+                                case "grid":
+                                    JSONObject jsonGrid = JSONFactoryUtil.createJSONObject(value);
+                                    if(jsonGrid.length() > 0)
+                                        field[2] = jsonGrid.toString();
+                                    break;
+                                case "checkbox_multiple":
+                                case "select":
+                                    JSONArray arrayCB = JSONFactoryUtil.createJSONArray(value);
+                                    if(arrayCB.length() > 0)
+                                        field[2] = arrayCB.toString();
+                                    break;
+                                case "date":
+                                    if(Validator.isNotNull(value)) {
+                                        try {
+                                            LocalDate date = LocalDate.parse(value);
+                                            field[2] = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                                        }catch(Exception e){
+                                            field[2] = value;
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    field[2] = value.replaceAll("(\r\n|\n)", "<br />");
+                            }
+                        }
+                    recordFields.add(field);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -202,7 +240,7 @@ public class FormSendDisplayContext {
     public String getLabel(String name, Locale locale) {
         // on vérifie que le champ n'a pas un nouveau libellé
         if(Validator.isNotNull(this.getNewLibelle())){
-            String libelle = this.newLibs.get("newLib_" + configuration.recordSetId() + "_" + name);
+            String libelle = this.newLibs.get("newLib_" + configuration.formInstanceId() + "_" + name);
             if(Validator.isNotNull(libelle))
                 return libelle;
         }
@@ -265,7 +303,6 @@ public class FormSendDisplayContext {
 
     // Recuperation des informations de l'utilisateur
     public PublikUser getPublikUser() {
-
         PublikUser publikUser = null;
 
         LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
@@ -333,6 +370,43 @@ public class FormSendDisplayContext {
         return options;
     }
 
+    // récupère les colonnes de grille
+    public List<Option> getColumns(String name) {
+        List<Option> columns = new ArrayList<Option>();
+        if(Validator.isNotNull(this.getForm())) {
+            Champ champ = this.formulaire.getField(name);
+            if (Validator.isNotNull(champ))
+                columns = champ.getColumns();
+        }
+
+        return columns;
+    }
+
+    // récupère les lignes de grille
+    public List<Option> getRows(String name) {
+        List<Option> rows = new ArrayList<Option>();
+        if(Validator.isNotNull(this.getForm())) {
+            Champ champ = this.formulaire.getField(name);
+            if (Validator.isNotNull(champ))
+                rows = champ.getRows();
+        }
+
+        return rows;
+    }
+
+    // récupère les lignes de grille
+    public String getValueOfGridKey(String resultGrid, String key) {
+        String value = "";
+        try {
+            JSONObject grid = JSONFactoryUtil.createJSONObject(resultGrid);
+            value = grid.getString(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return value;
+    }
+
     /**
      * Retourne le nombre d'entrées à afficher par page
      */
@@ -348,12 +422,14 @@ public class FormSendDisplayContext {
     /**
      * Retourne le searchContainer
      */
-    public SearchContainer<DDLRecord> getSearchContainer() {
+    public SearchContainer<DDMFormInstanceRecord> getSearchContainer() {
         if (searchContainer == null && Validator.isNotNull(this.getRecords())) {
             Map<String, String[]> parameterMap = request.getParameterMap();
             PortletURL iteratorURL = this.response.createRenderURL();
             iteratorURL.setParameters(parameterMap);
-            searchContainer = new SearchContainer<DDLRecord>(request, iteratorURL, null, "no-entries-were-found");
+            iteratorURL.setParameter("delta", String.valueOf(this.getDelta()));
+            searchContainer = new SearchContainer<DDMFormInstanceRecord>(request, iteratorURL, null,
+                    "no-entries-were-found");
             searchContainer.setDelta(this.getDelta());
             searchContainer.setTotal(this.records.size());
             searchContainer.setResults(this.records);
@@ -364,7 +440,7 @@ public class FormSendDisplayContext {
     /**
      * Retourne les résultats entre les indexes start (inclu) et end (non inclu)
      */
-    public List<DDLRecord> getPaginatedResults() {
+    public List<DDMFormInstanceRecord> getPaginatedResults() {
         return ListUtil.subList(this.getRecords(), this.getSearchContainer().getStart(), this.getSearchContainer().getEnd());
     }
 
@@ -374,6 +450,17 @@ public class FormSendDisplayContext {
     public Pager getPager() {
         return new Pager(this.getSearchContainer().getTotal(), (int) this.getDelta(),
                 this.getSearchContainer().getCur());
+    }
+
+    /**
+     * Retourne l'URL sur laquelle aller pour avoir X items par page
+     */
+    public String getURLForDelta(long delta) {
+        PortletURL url = this.getSearchContainer().getIteratorURL();
+        url.setParameter("delta", String.valueOf(delta));
+        String valueToReturn = url.toString();
+        url.setParameter("delta", String.valueOf(this.getDelta()));
+        return valueToReturn;
     }
 
     /**

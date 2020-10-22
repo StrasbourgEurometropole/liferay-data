@@ -25,19 +25,20 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * {@link ArretServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>ArretServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.gtfs.model.ArretSoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.gtfs.model.Arret}, that is translated to a
- * {@link eu.strasbourg.service.gtfs.model.ArretSoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.gtfs.model.ArretSoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.gtfs.model.Arret</code>, that is translated to a
+ * <code>eu.strasbourg.service.gtfs.model.ArretSoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -59,21 +60,22 @@ import java.rmi.RemoteException;
  *
  * @author Cedric Henry
  * @see ArretServiceHttp
- * @see eu.strasbourg.service.gtfs.model.ArretSoap
- * @see ArretServiceUtil
  * @generated
  */
 @ProviderType
 public class ArretServiceSoap {
+
 	/**
-	* Recuperer les donnees temps real de la CTS pour un arret
-	*
-	* @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
-	*/
-	public static java.lang.String getArretRealTime(java.lang.String stopCode)
+	 * Recuperer les donnees temps real de la CTS pour un arret
+	 *
+	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
+	 */
+	public static String getArretRealTime(String stopCode)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = ArretServiceUtil.getArretRealTime(stopCode);
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				ArretServiceUtil.getArretRealTime(stopCode);
 
 			return returnValue.toString();
 		}
@@ -85,4 +87,5 @@ public class ArretServiceSoap {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(ArretServiceSoap.class);
+
 }

@@ -17,7 +17,6 @@ package eu.strasbourg.service.gtfs.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -38,6 +37,7 @@ import java.util.Objects;
  */
 @ProviderType
 public class StopWrapper implements Stop, ModelWrapper<Stop> {
+
 	public StopWrapper(Stop stop) {
 		_stop = stop;
 	}
@@ -127,6 +127,131 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	}
 
 	@Override
+	public Object clone() {
+		return new StopWrapper((Stop)_stop.clone());
+	}
+
+	@Override
+	public int compareTo(eu.strasbourg.service.gtfs.model.Stop stop) {
+		return _stop.compareTo(stop);
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _stop.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the ID of this stop.
+	 *
+	 * @return the ID of this stop
+	 */
+	@Override
+	public long getId() {
+		return _stop.getId();
+	}
+
+	/**
+	 * Returns the primary key of this stop.
+	 *
+	 * @return the primary key of this stop
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _stop.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _stop.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the stop_code of this stop.
+	 *
+	 * @return the stop_code of this stop
+	 */
+	@Override
+	public String getStop_code() {
+		return _stop.getStop_code();
+	}
+
+	/**
+	 * Returns the stop_desc of this stop.
+	 *
+	 * @return the stop_desc of this stop
+	 */
+	@Override
+	public String getStop_desc() {
+		return _stop.getStop_desc();
+	}
+
+	/**
+	 * Returns the stop_id of this stop.
+	 *
+	 * @return the stop_id of this stop
+	 */
+	@Override
+	public String getStop_id() {
+		return _stop.getStop_id();
+	}
+
+	/**
+	 * Returns the stop_lat of this stop.
+	 *
+	 * @return the stop_lat of this stop
+	 */
+	@Override
+	public String getStop_lat() {
+		return _stop.getStop_lat();
+	}
+
+	/**
+	 * Returns the stop_lon of this stop.
+	 *
+	 * @return the stop_lon of this stop
+	 */
+	@Override
+	public String getStop_lon() {
+		return _stop.getStop_lon();
+	}
+
+	/**
+	 * Returns the stop_name of this stop.
+	 *
+	 * @return the stop_name of this stop
+	 */
+	@Override
+	public String getStop_name() {
+		return _stop.getStop_name();
+	}
+
+	/**
+	 * Returns the stop_url of this stop.
+	 *
+	 * @return the stop_url of this stop
+	 */
+	@Override
+	public String getStop_url() {
+		return _stop.getStop_url();
+	}
+
+	/**
+	 * Returns the uuid of this stop.
+	 *
+	 * @return the uuid of this stop
+	 */
+	@Override
+	public String getUuid() {
+		return _stop.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _stop.hashCode();
+	}
+
+	@Override
 	public boolean isCachedModel() {
 		return _stop.isCachedModel();
 	}
@@ -142,156 +267,6 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _stop.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.gtfs.model.Stop> toCacheModel() {
-		return _stop.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Stop toEscapedModel() {
-		return new StopWrapper(_stop.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Stop toUnescapedModel() {
-		return new StopWrapper(_stop.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.Stop stop) {
-		return _stop.compareTo(stop);
-	}
-
-	@Override
-	public int hashCode() {
-		return _stop.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _stop.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new StopWrapper((Stop)_stop.clone());
-	}
-
-	/**
-	* Returns the stop_code of this stop.
-	*
-	* @return the stop_code of this stop
-	*/
-	@Override
-	public java.lang.String getStop_code() {
-		return _stop.getStop_code();
-	}
-
-	/**
-	* Returns the stop_desc of this stop.
-	*
-	* @return the stop_desc of this stop
-	*/
-	@Override
-	public java.lang.String getStop_desc() {
-		return _stop.getStop_desc();
-	}
-
-	/**
-	* Returns the stop_id of this stop.
-	*
-	* @return the stop_id of this stop
-	*/
-	@Override
-	public java.lang.String getStop_id() {
-		return _stop.getStop_id();
-	}
-
-	/**
-	* Returns the stop_lat of this stop.
-	*
-	* @return the stop_lat of this stop
-	*/
-	@Override
-	public java.lang.String getStop_lat() {
-		return _stop.getStop_lat();
-	}
-
-	/**
-	* Returns the stop_lon of this stop.
-	*
-	* @return the stop_lon of this stop
-	*/
-	@Override
-	public java.lang.String getStop_lon() {
-		return _stop.getStop_lon();
-	}
-
-	/**
-	* Returns the stop_name of this stop.
-	*
-	* @return the stop_name of this stop
-	*/
-	@Override
-	public java.lang.String getStop_name() {
-		return _stop.getStop_name();
-	}
-
-	/**
-	* Returns the stop_url of this stop.
-	*
-	* @return the stop_url of this stop
-	*/
-	@Override
-	public java.lang.String getStop_url() {
-		return _stop.getStop_url();
-	}
-
-	/**
-	* Returns the uuid of this stop.
-	*
-	* @return the uuid of this stop
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _stop.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _stop.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _stop.toXmlString();
-	}
-
-	/**
-	* Returns the ID of this stop.
-	*
-	* @return the ID of this stop
-	*/
-	@Override
-	public long getId() {
-		return _stop.getId();
-	}
-
-	/**
-	* Returns the primary key of this stop.
-	*
-	* @return the primary key of this stop
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _stop.getPrimaryKey();
-	}
-
-	@Override
 	public void persist() {
 		_stop.persist();
 	}
@@ -302,14 +277,15 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_stop.setExpandoBridgeAttributes(expandoBridge);
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_stop.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_stop.setExpandoBridgeAttributes(baseModel);
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_stop.setExpandoBridgeAttributes(expandoBridge);
 	}
 
 	@Override
@@ -318,10 +294,10 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	}
 
 	/**
-	* Sets the ID of this stop.
-	*
-	* @param id the ID of this stop
-	*/
+	 * Sets the ID of this stop.
+	 *
+	 * @param id the ID of this stop
+	 */
 	@Override
 	public void setId(long id) {
 		_stop.setId(id);
@@ -333,10 +309,10 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	}
 
 	/**
-	* Sets the primary key of this stop.
-	*
-	* @param primaryKey the primary key of this stop
-	*/
+	 * Sets the primary key of this stop.
+	 *
+	 * @param primaryKey the primary key of this stop
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_stop.setPrimaryKey(primaryKey);
@@ -348,83 +324,110 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	}
 
 	/**
-	* Sets the stop_code of this stop.
-	*
-	* @param stop_code the stop_code of this stop
-	*/
+	 * Sets the stop_code of this stop.
+	 *
+	 * @param stop_code the stop_code of this stop
+	 */
 	@Override
-	public void setStop_code(java.lang.String stop_code) {
+	public void setStop_code(String stop_code) {
 		_stop.setStop_code(stop_code);
 	}
 
 	/**
-	* Sets the stop_desc of this stop.
-	*
-	* @param stop_desc the stop_desc of this stop
-	*/
+	 * Sets the stop_desc of this stop.
+	 *
+	 * @param stop_desc the stop_desc of this stop
+	 */
 	@Override
-	public void setStop_desc(java.lang.String stop_desc) {
+	public void setStop_desc(String stop_desc) {
 		_stop.setStop_desc(stop_desc);
 	}
 
 	/**
-	* Sets the stop_id of this stop.
-	*
-	* @param stop_id the stop_id of this stop
-	*/
+	 * Sets the stop_id of this stop.
+	 *
+	 * @param stop_id the stop_id of this stop
+	 */
 	@Override
-	public void setStop_id(java.lang.String stop_id) {
+	public void setStop_id(String stop_id) {
 		_stop.setStop_id(stop_id);
 	}
 
 	/**
-	* Sets the stop_lat of this stop.
-	*
-	* @param stop_lat the stop_lat of this stop
-	*/
+	 * Sets the stop_lat of this stop.
+	 *
+	 * @param stop_lat the stop_lat of this stop
+	 */
 	@Override
-	public void setStop_lat(java.lang.String stop_lat) {
+	public void setStop_lat(String stop_lat) {
 		_stop.setStop_lat(stop_lat);
 	}
 
 	/**
-	* Sets the stop_lon of this stop.
-	*
-	* @param stop_lon the stop_lon of this stop
-	*/
+	 * Sets the stop_lon of this stop.
+	 *
+	 * @param stop_lon the stop_lon of this stop
+	 */
 	@Override
-	public void setStop_lon(java.lang.String stop_lon) {
+	public void setStop_lon(String stop_lon) {
 		_stop.setStop_lon(stop_lon);
 	}
 
 	/**
-	* Sets the stop_name of this stop.
-	*
-	* @param stop_name the stop_name of this stop
-	*/
+	 * Sets the stop_name of this stop.
+	 *
+	 * @param stop_name the stop_name of this stop
+	 */
 	@Override
-	public void setStop_name(java.lang.String stop_name) {
+	public void setStop_name(String stop_name) {
 		_stop.setStop_name(stop_name);
 	}
 
 	/**
-	* Sets the stop_url of this stop.
-	*
-	* @param stop_url the stop_url of this stop
-	*/
+	 * Sets the stop_url of this stop.
+	 *
+	 * @param stop_url the stop_url of this stop
+	 */
 	@Override
-	public void setStop_url(java.lang.String stop_url) {
+	public void setStop_url(String stop_url) {
 		_stop.setStop_url(stop_url);
 	}
 
 	/**
-	* Sets the uuid of this stop.
-	*
-	* @param uuid the uuid of this stop
-	*/
+	 * Sets the uuid of this stop.
+	 *
+	 * @param uuid the uuid of this stop
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_stop.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.gtfs.model.Stop> toCacheModel() {
+
+		return _stop.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.gtfs.model.Stop toEscapedModel() {
+		return new StopWrapper(_stop.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _stop.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.gtfs.model.Stop toUnescapedModel() {
+		return new StopWrapper(_stop.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _stop.toXmlString();
 	}
 
 	@Override
@@ -467,4 +470,5 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	}
 
 	private final Stop _stop;
+
 }

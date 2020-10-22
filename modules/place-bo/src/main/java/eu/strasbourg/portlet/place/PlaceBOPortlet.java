@@ -20,6 +20,7 @@ import javax.portlet.RenderResponse;
 import java.io.IOException;
 
 @Component(immediate = true, property = {
+		"javax.portlet.version=3.0",
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/place-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/place-bo-main.css",
@@ -50,31 +51,30 @@ public class PlaceBOPortlet extends MVCPortlet {
 
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
 		String tab = ParamUtil.getString(renderRequest, "tab");
-
-		renderResponse.setTitle("Places");
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 
 		// Si on est sur la page d'ajout, on affiche un lien de retour
 		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
 		boolean showBackButton = Validator.isNotNull(returnURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL.toString());
+			portletDisplay.setURLBack(returnURL);
 		}
 
 		// On set le displayContext selon la page sur laquelle on est
-		if (cmd.equals("editPlace")) {
+		if (cmd.equals("editPlace") || mvcPath.equals("/place-bo-edit-place.jsp")) {
 			EditPlaceDisplayContext dc = new EditPlaceDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editPrice")) {
+		} else if (cmd.equals("editPrice") || mvcPath.equals("/place-bo-edit-price.jsp")) {
 			EditPriceDisplayContext dc = new EditPriceDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editPublicHoliday")) {
+		} else if (cmd.equals("editPublicHoliday") || mvcPath.equals("/place-bo-edit-public-holiday.jsp")) {
 			EditPublicHolidayDisplayContext dc = new EditPublicHolidayDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editSubPlace")) {
+		} else if (cmd.equals("editSubPlace") || mvcPath.equals("/place-bo-edit-subplace.jsp")) {
 			EditSubPlaceDisplayContext dc = new EditSubPlaceDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

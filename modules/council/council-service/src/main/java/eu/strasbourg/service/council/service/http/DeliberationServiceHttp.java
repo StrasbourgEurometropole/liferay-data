@@ -27,10 +27,11 @@ import eu.strasbourg.service.council.service.DeliberationServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link DeliberationServiceUtil} service utility. The
+ * <code>DeliberationServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link HttpPrincipal} parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -49,21 +50,22 @@ import eu.strasbourg.service.council.service.DeliberationServiceUtil;
  *
  * @author Brian Wing Shun Chan
  * @see DeliberationServiceSoap
- * @see HttpPrincipal
- * @see DeliberationServiceUtil
  * @generated
  */
 @ProviderType
 public class DeliberationServiceHttp {
+
 	public static com.liferay.portal.kernel.json.JSONObject getUserFront(
 		HttpPrincipal httpPrincipal, long officialId,
-		java.lang.String officialDeviceInfo) {
-		try {
-			MethodKey methodKey = new MethodKey(DeliberationServiceUtil.class,
-					"getUserFront", _getUserFrontParameterTypes0);
+		String officialDeviceInfo) {
 
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					officialId, officialDeviceInfo);
+		try {
+			MethodKey methodKey = new MethodKey(
+				DeliberationServiceUtil.class, "getUserFront",
+				_getUserFrontParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, officialId, officialDeviceInfo);
 
 			Object returnObj = null;
 
@@ -71,7 +73,8 @@ public class DeliberationServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -83,8 +86,11 @@ public class DeliberationServiceHttp {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(DeliberationServiceHttp.class);
+	private static Log _log = LogFactoryUtil.getLog(
+		DeliberationServiceHttp.class);
+
 	private static final Class<?>[] _getUserFrontParameterTypes0 = new Class[] {
-			long.class, java.lang.String.class
-		};
+		long.class, String.class
+	};
+
 }

@@ -17,7 +17,6 @@ package eu.strasbourg.service.notification.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -37,10 +36,12 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class UserNotificationChannelWrapper implements UserNotificationChannel,
-	ModelWrapper<UserNotificationChannel> {
+public class UserNotificationChannelWrapper
+	implements UserNotificationChannel, ModelWrapper<UserNotificationChannel> {
+
 	public UserNotificationChannelWrapper(
 		UserNotificationChannel userNotificationChannel) {
+
 		_userNotificationChannel = userNotificationChannel;
 	}
 
@@ -80,6 +81,67 @@ public class UserNotificationChannelWrapper implements UserNotificationChannel,
 	}
 
 	@Override
+	public Object clone() {
+		return new UserNotificationChannelWrapper(
+			(UserNotificationChannel)_userNotificationChannel.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.notification.model.UserNotificationChannel
+			userNotificationChannel) {
+
+		return _userNotificationChannel.compareTo(userNotificationChannel);
+	}
+
+	/**
+	 * Returns the channel ID of this user notification channel.
+	 *
+	 * @return the channel ID of this user notification channel
+	 */
+	@Override
+	public long getChannelId() {
+		return _userNotificationChannel.getChannelId();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _userNotificationChannel.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the primary key of this user notification channel.
+	 *
+	 * @return the primary key of this user notification channel
+	 */
+	@Override
+	public eu.strasbourg.service.notification.service.persistence.
+		UserNotificationChannelPK getPrimaryKey() {
+
+		return _userNotificationChannel.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _userNotificationChannel.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the publik user ID of this user notification channel.
+	 *
+	 * @return the publik user ID of this user notification channel
+	 */
+	@Override
+	public String getPublikUserId() {
+		return _userNotificationChannel.getPublikUserId();
+	}
+
+	@Override
+	public int hashCode() {
+		return _userNotificationChannel.hashCode();
+	}
+
+	@Override
 	public boolean isCachedModel() {
 		return _userNotificationChannel.isCachedModel();
 	}
@@ -95,87 +157,6 @@ public class UserNotificationChannelWrapper implements UserNotificationChannel,
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _userNotificationChannel.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.notification.model.UserNotificationChannel> toCacheModel() {
-		return _userNotificationChannel.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.notification.model.UserNotificationChannel toEscapedModel() {
-		return new UserNotificationChannelWrapper(_userNotificationChannel.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.notification.model.UserNotificationChannel toUnescapedModel() {
-		return new UserNotificationChannelWrapper(_userNotificationChannel.toUnescapedModel());
-	}
-
-	/**
-	* Returns the primary key of this user notification channel.
-	*
-	* @return the primary key of this user notification channel
-	*/
-	@Override
-	public eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK getPrimaryKey() {
-		return _userNotificationChannel.getPrimaryKey();
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.notification.model.UserNotificationChannel userNotificationChannel) {
-		return _userNotificationChannel.compareTo(userNotificationChannel);
-	}
-
-	@Override
-	public int hashCode() {
-		return _userNotificationChannel.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _userNotificationChannel.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new UserNotificationChannelWrapper((UserNotificationChannel)_userNotificationChannel.clone());
-	}
-
-	/**
-	* Returns the publik user ID of this user notification channel.
-	*
-	* @return the publik user ID of this user notification channel
-	*/
-	@Override
-	public java.lang.String getPublikUserId() {
-		return _userNotificationChannel.getPublikUserId();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _userNotificationChannel.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _userNotificationChannel.toXmlString();
-	}
-
-	/**
-	* Returns the channel ID of this user notification channel.
-	*
-	* @return the channel ID of this user notification channel
-	*/
-	@Override
-	public long getChannelId() {
-		return _userNotificationChannel.getChannelId();
-	}
-
-	@Override
 	public void persist() {
 		_userNotificationChannel.persist();
 	}
@@ -186,24 +167,25 @@ public class UserNotificationChannelWrapper implements UserNotificationChannel,
 	}
 
 	/**
-	* Sets the channel ID of this user notification channel.
-	*
-	* @param channelId the channel ID of this user notification channel
-	*/
+	 * Sets the channel ID of this user notification channel.
+	 *
+	 * @param channelId the channel ID of this user notification channel
+	 */
 	@Override
 	public void setChannelId(long channelId) {
 		_userNotificationChannel.setChannelId(channelId);
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_userNotificationChannel.setExpandoBridgeAttributes(expandoBridge);
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_userNotificationChannel.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_userNotificationChannel.setExpandoBridgeAttributes(baseModel);
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_userNotificationChannel.setExpandoBridgeAttributes(expandoBridge);
 	}
 
 	@Override
@@ -217,13 +199,15 @@ public class UserNotificationChannelWrapper implements UserNotificationChannel,
 	}
 
 	/**
-	* Sets the primary key of this user notification channel.
-	*
-	* @param primaryKey the primary key of this user notification channel
-	*/
+	 * Sets the primary key of this user notification channel.
+	 *
+	 * @param primaryKey the primary key of this user notification channel
+	 */
 	@Override
 	public void setPrimaryKey(
-		eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK primaryKey) {
+		eu.strasbourg.service.notification.service.persistence.
+			UserNotificationChannelPK primaryKey) {
+
 		_userNotificationChannel.setPrimaryKey(primaryKey);
 	}
 
@@ -233,13 +217,47 @@ public class UserNotificationChannelWrapper implements UserNotificationChannel,
 	}
 
 	/**
-	* Sets the publik user ID of this user notification channel.
-	*
-	* @param publikUserId the publik user ID of this user notification channel
-	*/
+	 * Sets the publik user ID of this user notification channel.
+	 *
+	 * @param publikUserId the publik user ID of this user notification channel
+	 */
 	@Override
-	public void setPublikUserId(java.lang.String publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		_userNotificationChannel.setPublikUserId(publikUserId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.notification.model.UserNotificationChannel>
+			toCacheModel() {
+
+		return _userNotificationChannel.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.notification.model.UserNotificationChannel
+		toEscapedModel() {
+
+		return new UserNotificationChannelWrapper(
+			_userNotificationChannel.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _userNotificationChannel.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.notification.model.UserNotificationChannel
+		toUnescapedModel() {
+
+		return new UserNotificationChannelWrapper(
+			_userNotificationChannel.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _userNotificationChannel.toXmlString();
 	}
 
 	@Override
@@ -252,10 +270,13 @@ public class UserNotificationChannelWrapper implements UserNotificationChannel,
 			return false;
 		}
 
-		UserNotificationChannelWrapper userNotificationChannelWrapper = (UserNotificationChannelWrapper)obj;
+		UserNotificationChannelWrapper userNotificationChannelWrapper =
+			(UserNotificationChannelWrapper)obj;
 
-		if (Objects.equals(_userNotificationChannel,
-					userNotificationChannelWrapper._userNotificationChannel)) {
+		if (Objects.equals(
+				_userNotificationChannel,
+				userNotificationChannelWrapper._userNotificationChannel)) {
+
 			return true;
 		}
 
@@ -283,4 +304,5 @@ public class UserNotificationChannelWrapper implements UserNotificationChannel,
 	}
 
 	private final UserNotificationChannel _userNotificationChannel;
+
 }

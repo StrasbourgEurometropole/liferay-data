@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class AssociationServiceWrapper implements AssociationService,
-	ServiceWrapper<AssociationService> {
+public class AssociationServiceWrapper
+	implements AssociationService, ServiceWrapper<AssociationService> {
+
 	public AssociationServiceWrapper(AssociationService associationService) {
 		_associationService = associationService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _associationService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class AssociationServiceWrapper implements AssociationService,
 	}
 
 	private AssociationService _associationService;
+
 }

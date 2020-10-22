@@ -16,20 +16,24 @@ package eu.strasbourg.service.project.service.persistence;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.project.model.InitiativeHelp;
 
-import org.osgi.util.tracker.ServiceTracker;
+import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
- * The persistence utility for the initiative help service. This utility wraps {@link eu.strasbourg.service.project.service.persistence.impl.InitiativeHelpPersistenceImpl} and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
+ * The persistence utility for the initiative help service. This utility wraps <code>eu.strasbourg.service.project.service.persistence.impl.InitiativeHelpPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
  *
  * <p>
  * Caching information and settings can be found in <code>portal.properties</code>
@@ -37,11 +41,11 @@ import java.util.List;
  *
  * @author Cedric Henry
  * @see InitiativeHelpPersistence
- * @see eu.strasbourg.service.project.service.persistence.impl.InitiativeHelpPersistenceImpl
  * @generated
  */
 @ProviderType
 public class InitiativeHelpUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -70,10 +74,20 @@ public class InitiativeHelpUtil {
 	}
 
 	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#fetchByPrimaryKeys(Set)
+	 */
+	public static Map<Serializable, InitiativeHelp> fetchByPrimaryKeys(
+		Set<Serializable> primaryKeys) {
+
+		return getPersistence().fetchByPrimaryKeys(primaryKeys);
+	}
+
+	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery)
 	 */
 	public static List<InitiativeHelp> findWithDynamicQuery(
 		DynamicQuery dynamicQuery) {
+
 		return getPersistence().findWithDynamicQuery(dynamicQuery);
 	}
 
@@ -82,6 +96,7 @@ public class InitiativeHelpUtil {
 	 */
 	public static List<InitiativeHelp> findWithDynamicQuery(
 		DynamicQuery dynamicQuery, int start, int end) {
+
 		return getPersistence().findWithDynamicQuery(dynamicQuery, start, end);
 	}
 
@@ -91,9 +106,9 @@ public class InitiativeHelpUtil {
 	public static List<InitiativeHelp> findWithDynamicQuery(
 		DynamicQuery dynamicQuery, int start, int end,
 		OrderByComparator<InitiativeHelp> orderByComparator) {
-		return getPersistence()
-				   .findWithDynamicQuery(dynamicQuery, start, end,
-			orderByComparator);
+
+		return getPersistence().findWithDynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
@@ -106,674 +121,711 @@ public class InitiativeHelpUtil {
 	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#update(com.liferay.portal.kernel.model.BaseModel, ServiceContext)
 	 */
-	public static InitiativeHelp update(InitiativeHelp initiativeHelp,
-		ServiceContext serviceContext) {
+	public static InitiativeHelp update(
+		InitiativeHelp initiativeHelp, ServiceContext serviceContext) {
+
 		return getPersistence().update(initiativeHelp, serviceContext);
 	}
 
 	/**
-	* Returns all the initiative helps where uuid = &#63;.
-	*
-	* @param uuid the uuid
-	* @return the matching initiative helps
-	*/
-	public static List<InitiativeHelp> findByUuid(java.lang.String uuid) {
+	 * Returns all the initiative helps where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @return the matching initiative helps
+	 */
+	public static List<InitiativeHelp> findByUuid(String uuid) {
 		return getPersistence().findByUuid(uuid);
 	}
 
 	/**
-	* Returns a range of all the initiative helps where uuid = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param uuid the uuid
-	* @param start the lower bound of the range of initiative helps
-	* @param end the upper bound of the range of initiative helps (not inclusive)
-	* @return the range of matching initiative helps
-	*/
-	public static List<InitiativeHelp> findByUuid(java.lang.String uuid,
-		int start, int end) {
+	 * Returns a range of all the initiative helps where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of initiative helps
+	 * @param end the upper bound of the range of initiative helps (not inclusive)
+	 * @return the range of matching initiative helps
+	 */
+	public static List<InitiativeHelp> findByUuid(
+		String uuid, int start, int end) {
+
 		return getPersistence().findByUuid(uuid, start, end);
 	}
 
 	/**
-	* Returns an ordered range of all the initiative helps where uuid = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param uuid the uuid
-	* @param start the lower bound of the range of initiative helps
-	* @param end the upper bound of the range of initiative helps (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching initiative helps
-	*/
-	public static List<InitiativeHelp> findByUuid(java.lang.String uuid,
-		int start, int end, OrderByComparator<InitiativeHelp> orderByComparator) {
+	 * Returns an ordered range of all the initiative helps where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of initiative helps
+	 * @param end the upper bound of the range of initiative helps (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching initiative helps
+	 */
+	public static List<InitiativeHelp> findByUuid(
+		String uuid, int start, int end,
+		OrderByComparator<InitiativeHelp> orderByComparator) {
+
 		return getPersistence().findByUuid(uuid, start, end, orderByComparator);
 	}
 
 	/**
-	* Returns an ordered range of all the initiative helps where uuid = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param uuid the uuid
-	* @param start the lower bound of the range of initiative helps
-	* @param end the upper bound of the range of initiative helps (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of matching initiative helps
-	*/
-	public static List<InitiativeHelp> findByUuid(java.lang.String uuid,
-		int start, int end,
+	 * Returns an ordered range of all the initiative helps where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of initiative helps
+	 * @param end the upper bound of the range of initiative helps (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching initiative helps
+	 */
+	public static List<InitiativeHelp> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<InitiativeHelp> orderByComparator,
 		boolean retrieveFromCache) {
-		return getPersistence()
-				   .findByUuid(uuid, start, end, orderByComparator,
-			retrieveFromCache);
+
+		return getPersistence().findByUuid(
+			uuid, start, end, orderByComparator, retrieveFromCache);
 	}
 
 	/**
-	* Returns the first initiative help in the ordered set where uuid = &#63;.
-	*
-	* @param uuid the uuid
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching initiative help
-	* @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
-	*/
-	public static InitiativeHelp findByUuid_First(java.lang.String uuid,
-		OrderByComparator<InitiativeHelp> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
+	 * Returns the first initiative help in the ordered set where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching initiative help
+	 * @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
+	 */
+	public static InitiativeHelp findByUuid_First(
+			String uuid, OrderByComparator<InitiativeHelp> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
+
 		return getPersistence().findByUuid_First(uuid, orderByComparator);
 	}
 
 	/**
-	* Returns the first initiative help in the ordered set where uuid = &#63;.
-	*
-	* @param uuid the uuid
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching initiative help, or <code>null</code> if a matching initiative help could not be found
-	*/
-	public static InitiativeHelp fetchByUuid_First(java.lang.String uuid,
-		OrderByComparator<InitiativeHelp> orderByComparator) {
+	 * Returns the first initiative help in the ordered set where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	 */
+	public static InitiativeHelp fetchByUuid_First(
+		String uuid, OrderByComparator<InitiativeHelp> orderByComparator) {
+
 		return getPersistence().fetchByUuid_First(uuid, orderByComparator);
 	}
 
 	/**
-	* Returns the last initiative help in the ordered set where uuid = &#63;.
-	*
-	* @param uuid the uuid
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching initiative help
-	* @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
-	*/
-	public static InitiativeHelp findByUuid_Last(java.lang.String uuid,
-		OrderByComparator<InitiativeHelp> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
+	 * Returns the last initiative help in the ordered set where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching initiative help
+	 * @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
+	 */
+	public static InitiativeHelp findByUuid_Last(
+			String uuid, OrderByComparator<InitiativeHelp> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
+
 		return getPersistence().findByUuid_Last(uuid, orderByComparator);
 	}
 
 	/**
-	* Returns the last initiative help in the ordered set where uuid = &#63;.
-	*
-	* @param uuid the uuid
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching initiative help, or <code>null</code> if a matching initiative help could not be found
-	*/
-	public static InitiativeHelp fetchByUuid_Last(java.lang.String uuid,
-		OrderByComparator<InitiativeHelp> orderByComparator) {
+	 * Returns the last initiative help in the ordered set where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	 */
+	public static InitiativeHelp fetchByUuid_Last(
+		String uuid, OrderByComparator<InitiativeHelp> orderByComparator) {
+
 		return getPersistence().fetchByUuid_Last(uuid, orderByComparator);
 	}
 
 	/**
-	* Returns the initiative helps before and after the current initiative help in the ordered set where uuid = &#63;.
-	*
-	* @param initiativeHelpId the primary key of the current initiative help
-	* @param uuid the uuid
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the previous, current, and next initiative help
-	* @throws NoSuchInitiativeHelpException if a initiative help with the primary key could not be found
-	*/
+	 * Returns the initiative helps before and after the current initiative help in the ordered set where uuid = &#63;.
+	 *
+	 * @param initiativeHelpId the primary key of the current initiative help
+	 * @param uuid the uuid
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next initiative help
+	 * @throws NoSuchInitiativeHelpException if a initiative help with the primary key could not be found
+	 */
 	public static InitiativeHelp[] findByUuid_PrevAndNext(
-		long initiativeHelpId, java.lang.String uuid,
-		OrderByComparator<InitiativeHelp> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
-		return getPersistence()
-				   .findByUuid_PrevAndNext(initiativeHelpId, uuid,
-			orderByComparator);
+			long initiativeHelpId, String uuid,
+			OrderByComparator<InitiativeHelp> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
+
+		return getPersistence().findByUuid_PrevAndNext(
+			initiativeHelpId, uuid, orderByComparator);
 	}
 
 	/**
-	* Removes all the initiative helps where uuid = &#63; from the database.
-	*
-	* @param uuid the uuid
-	*/
-	public static void removeByUuid(java.lang.String uuid) {
+	 * Removes all the initiative helps where uuid = &#63; from the database.
+	 *
+	 * @param uuid the uuid
+	 */
+	public static void removeByUuid(String uuid) {
 		getPersistence().removeByUuid(uuid);
 	}
 
 	/**
-	* Returns the number of initiative helps where uuid = &#63;.
-	*
-	* @param uuid the uuid
-	* @return the number of matching initiative helps
-	*/
-	public static int countByUuid(java.lang.String uuid) {
+	 * Returns the number of initiative helps where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @return the number of matching initiative helps
+	 */
+	public static int countByUuid(String uuid) {
 		return getPersistence().countByUuid(uuid);
 	}
 
 	/**
-	* Returns the initiative help where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchInitiativeHelpException} if it could not be found.
-	*
-	* @param uuid the uuid
-	* @param groupId the group ID
-	* @return the matching initiative help
-	* @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
-	*/
-	public static InitiativeHelp findByUUID_G(java.lang.String uuid,
-		long groupId)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
+	 * Returns the initiative help where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchInitiativeHelpException</code> if it could not be found.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the matching initiative help
+	 * @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
+	 */
+	public static InitiativeHelp findByUUID_G(String uuid, long groupId)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
+
 		return getPersistence().findByUUID_G(uuid, groupId);
 	}
 
 	/**
-	* Returns the initiative help where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	*
-	* @param uuid the uuid
-	* @param groupId the group ID
-	* @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
-	*/
-	public static InitiativeHelp fetchByUUID_G(java.lang.String uuid,
-		long groupId) {
+	 * Returns the initiative help where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	 */
+	public static InitiativeHelp fetchByUUID_G(String uuid, long groupId) {
 		return getPersistence().fetchByUUID_G(uuid, groupId);
 	}
 
 	/**
-	* Returns the initiative help where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	*
-	* @param uuid the uuid
-	* @param groupId the group ID
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
-	*/
-	public static InitiativeHelp fetchByUUID_G(java.lang.String uuid,
-		long groupId, boolean retrieveFromCache) {
+	 * Returns the initiative help where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	 */
+	public static InitiativeHelp fetchByUUID_G(
+		String uuid, long groupId, boolean retrieveFromCache) {
+
 		return getPersistence().fetchByUUID_G(uuid, groupId, retrieveFromCache);
 	}
 
 	/**
-	* Removes the initiative help where uuid = &#63; and groupId = &#63; from the database.
-	*
-	* @param uuid the uuid
-	* @param groupId the group ID
-	* @return the initiative help that was removed
-	*/
-	public static InitiativeHelp removeByUUID_G(java.lang.String uuid,
-		long groupId)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
+	 * Removes the initiative help where uuid = &#63; and groupId = &#63; from the database.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the initiative help that was removed
+	 */
+	public static InitiativeHelp removeByUUID_G(String uuid, long groupId)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
+
 		return getPersistence().removeByUUID_G(uuid, groupId);
 	}
 
 	/**
-	* Returns the number of initiative helps where uuid = &#63; and groupId = &#63;.
-	*
-	* @param uuid the uuid
-	* @param groupId the group ID
-	* @return the number of matching initiative helps
-	*/
-	public static int countByUUID_G(java.lang.String uuid, long groupId) {
+	 * Returns the number of initiative helps where uuid = &#63; and groupId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the number of matching initiative helps
+	 */
+	public static int countByUUID_G(String uuid, long groupId) {
 		return getPersistence().countByUUID_G(uuid, groupId);
 	}
 
 	/**
-	* Returns all the initiative helps where publikUserId = &#63;.
-	*
-	* @param publikUserId the publik user ID
-	* @return the matching initiative helps
-	*/
-	public static List<InitiativeHelp> findByPublikUserId(
-		java.lang.String publikUserId) {
+	 * Returns all the initiative helps where publikUserId = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @return the matching initiative helps
+	 */
+	public static List<InitiativeHelp> findByPublikUserId(String publikUserId) {
 		return getPersistence().findByPublikUserId(publikUserId);
 	}
 
 	/**
-	* Returns a range of all the initiative helps where publikUserId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param publikUserId the publik user ID
-	* @param start the lower bound of the range of initiative helps
-	* @param end the upper bound of the range of initiative helps (not inclusive)
-	* @return the range of matching initiative helps
-	*/
+	 * Returns a range of all the initiative helps where publikUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param start the lower bound of the range of initiative helps
+	 * @param end the upper bound of the range of initiative helps (not inclusive)
+	 * @return the range of matching initiative helps
+	 */
 	public static List<InitiativeHelp> findByPublikUserId(
-		java.lang.String publikUserId, int start, int end) {
+		String publikUserId, int start, int end) {
+
 		return getPersistence().findByPublikUserId(publikUserId, start, end);
 	}
 
 	/**
-	* Returns an ordered range of all the initiative helps where publikUserId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param publikUserId the publik user ID
-	* @param start the lower bound of the range of initiative helps
-	* @param end the upper bound of the range of initiative helps (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching initiative helps
-	*/
+	 * Returns an ordered range of all the initiative helps where publikUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param start the lower bound of the range of initiative helps
+	 * @param end the upper bound of the range of initiative helps (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching initiative helps
+	 */
 	public static List<InitiativeHelp> findByPublikUserId(
-		java.lang.String publikUserId, int start, int end,
+		String publikUserId, int start, int end,
 		OrderByComparator<InitiativeHelp> orderByComparator) {
-		return getPersistence()
-				   .findByPublikUserId(publikUserId, start, end,
-			orderByComparator);
+
+		return getPersistence().findByPublikUserId(
+			publikUserId, start, end, orderByComparator);
 	}
 
 	/**
-	* Returns an ordered range of all the initiative helps where publikUserId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param publikUserId the publik user ID
-	* @param start the lower bound of the range of initiative helps
-	* @param end the upper bound of the range of initiative helps (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of matching initiative helps
-	*/
+	 * Returns an ordered range of all the initiative helps where publikUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param start the lower bound of the range of initiative helps
+	 * @param end the upper bound of the range of initiative helps (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching initiative helps
+	 */
 	public static List<InitiativeHelp> findByPublikUserId(
-		java.lang.String publikUserId, int start, int end,
+		String publikUserId, int start, int end,
 		OrderByComparator<InitiativeHelp> orderByComparator,
 		boolean retrieveFromCache) {
-		return getPersistence()
-				   .findByPublikUserId(publikUserId, start, end,
-			orderByComparator, retrieveFromCache);
+
+		return getPersistence().findByPublikUserId(
+			publikUserId, start, end, orderByComparator, retrieveFromCache);
 	}
 
 	/**
-	* Returns the first initiative help in the ordered set where publikUserId = &#63;.
-	*
-	* @param publikUserId the publik user ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching initiative help
-	* @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
-	*/
+	 * Returns the first initiative help in the ordered set where publikUserId = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching initiative help
+	 * @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
+	 */
 	public static InitiativeHelp findByPublikUserId_First(
-		java.lang.String publikUserId,
-		OrderByComparator<InitiativeHelp> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
-		return getPersistence()
-				   .findByPublikUserId_First(publikUserId, orderByComparator);
-	}
+			String publikUserId,
+			OrderByComparator<InitiativeHelp> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
 
-	/**
-	* Returns the first initiative help in the ordered set where publikUserId = &#63;.
-	*
-	* @param publikUserId the publik user ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching initiative help, or <code>null</code> if a matching initiative help could not be found
-	*/
-	public static InitiativeHelp fetchByPublikUserId_First(
-		java.lang.String publikUserId,
-		OrderByComparator<InitiativeHelp> orderByComparator) {
-		return getPersistence()
-				   .fetchByPublikUserId_First(publikUserId, orderByComparator);
-	}
-
-	/**
-	* Returns the last initiative help in the ordered set where publikUserId = &#63;.
-	*
-	* @param publikUserId the publik user ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching initiative help
-	* @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
-	*/
-	public static InitiativeHelp findByPublikUserId_Last(
-		java.lang.String publikUserId,
-		OrderByComparator<InitiativeHelp> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
-		return getPersistence()
-				   .findByPublikUserId_Last(publikUserId, orderByComparator);
-	}
-
-	/**
-	* Returns the last initiative help in the ordered set where publikUserId = &#63;.
-	*
-	* @param publikUserId the publik user ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching initiative help, or <code>null</code> if a matching initiative help could not be found
-	*/
-	public static InitiativeHelp fetchByPublikUserId_Last(
-		java.lang.String publikUserId,
-		OrderByComparator<InitiativeHelp> orderByComparator) {
-		return getPersistence()
-				   .fetchByPublikUserId_Last(publikUserId, orderByComparator);
-	}
-
-	/**
-	* Returns the initiative helps before and after the current initiative help in the ordered set where publikUserId = &#63;.
-	*
-	* @param initiativeHelpId the primary key of the current initiative help
-	* @param publikUserId the publik user ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the previous, current, and next initiative help
-	* @throws NoSuchInitiativeHelpException if a initiative help with the primary key could not be found
-	*/
-	public static InitiativeHelp[] findByPublikUserId_PrevAndNext(
-		long initiativeHelpId, java.lang.String publikUserId,
-		OrderByComparator<InitiativeHelp> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
-		return getPersistence()
-				   .findByPublikUserId_PrevAndNext(initiativeHelpId,
+		return getPersistence().findByPublikUserId_First(
 			publikUserId, orderByComparator);
 	}
 
 	/**
-	* Removes all the initiative helps where publikUserId = &#63; from the database.
-	*
-	* @param publikUserId the publik user ID
-	*/
-	public static void removeByPublikUserId(java.lang.String publikUserId) {
+	 * Returns the first initiative help in the ordered set where publikUserId = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	 */
+	public static InitiativeHelp fetchByPublikUserId_First(
+		String publikUserId,
+		OrderByComparator<InitiativeHelp> orderByComparator) {
+
+		return getPersistence().fetchByPublikUserId_First(
+			publikUserId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last initiative help in the ordered set where publikUserId = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching initiative help
+	 * @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
+	 */
+	public static InitiativeHelp findByPublikUserId_Last(
+			String publikUserId,
+			OrderByComparator<InitiativeHelp> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
+
+		return getPersistence().findByPublikUserId_Last(
+			publikUserId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last initiative help in the ordered set where publikUserId = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	 */
+	public static InitiativeHelp fetchByPublikUserId_Last(
+		String publikUserId,
+		OrderByComparator<InitiativeHelp> orderByComparator) {
+
+		return getPersistence().fetchByPublikUserId_Last(
+			publikUserId, orderByComparator);
+	}
+
+	/**
+	 * Returns the initiative helps before and after the current initiative help in the ordered set where publikUserId = &#63;.
+	 *
+	 * @param initiativeHelpId the primary key of the current initiative help
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next initiative help
+	 * @throws NoSuchInitiativeHelpException if a initiative help with the primary key could not be found
+	 */
+	public static InitiativeHelp[] findByPublikUserId_PrevAndNext(
+			long initiativeHelpId, String publikUserId,
+			OrderByComparator<InitiativeHelp> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
+
+		return getPersistence().findByPublikUserId_PrevAndNext(
+			initiativeHelpId, publikUserId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the initiative helps where publikUserId = &#63; from the database.
+	 *
+	 * @param publikUserId the publik user ID
+	 */
+	public static void removeByPublikUserId(String publikUserId) {
 		getPersistence().removeByPublikUserId(publikUserId);
 	}
 
 	/**
-	* Returns the number of initiative helps where publikUserId = &#63;.
-	*
-	* @param publikUserId the publik user ID
-	* @return the number of matching initiative helps
-	*/
-	public static int countByPublikUserId(java.lang.String publikUserId) {
+	 * Returns the number of initiative helps where publikUserId = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @return the number of matching initiative helps
+	 */
+	public static int countByPublikUserId(String publikUserId) {
 		return getPersistence().countByPublikUserId(publikUserId);
 	}
 
 	/**
-	* Returns all the initiative helps where initiativeId = &#63;.
-	*
-	* @param initiativeId the initiative ID
-	* @return the matching initiative helps
-	*/
+	 * Returns all the initiative helps where initiativeId = &#63;.
+	 *
+	 * @param initiativeId the initiative ID
+	 * @return the matching initiative helps
+	 */
 	public static List<InitiativeHelp> findByinitiativeId(long initiativeId) {
 		return getPersistence().findByinitiativeId(initiativeId);
 	}
 
 	/**
-	* Returns a range of all the initiative helps where initiativeId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param initiativeId the initiative ID
-	* @param start the lower bound of the range of initiative helps
-	* @param end the upper bound of the range of initiative helps (not inclusive)
-	* @return the range of matching initiative helps
-	*/
-	public static List<InitiativeHelp> findByinitiativeId(long initiativeId,
-		int start, int end) {
+	 * Returns a range of all the initiative helps where initiativeId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param initiativeId the initiative ID
+	 * @param start the lower bound of the range of initiative helps
+	 * @param end the upper bound of the range of initiative helps (not inclusive)
+	 * @return the range of matching initiative helps
+	 */
+	public static List<InitiativeHelp> findByinitiativeId(
+		long initiativeId, int start, int end) {
+
 		return getPersistence().findByinitiativeId(initiativeId, start, end);
 	}
 
 	/**
-	* Returns an ordered range of all the initiative helps where initiativeId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param initiativeId the initiative ID
-	* @param start the lower bound of the range of initiative helps
-	* @param end the upper bound of the range of initiative helps (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching initiative helps
-	*/
-	public static List<InitiativeHelp> findByinitiativeId(long initiativeId,
-		int start, int end, OrderByComparator<InitiativeHelp> orderByComparator) {
-		return getPersistence()
-				   .findByinitiativeId(initiativeId, start, end,
-			orderByComparator);
+	 * Returns an ordered range of all the initiative helps where initiativeId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param initiativeId the initiative ID
+	 * @param start the lower bound of the range of initiative helps
+	 * @param end the upper bound of the range of initiative helps (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching initiative helps
+	 */
+	public static List<InitiativeHelp> findByinitiativeId(
+		long initiativeId, int start, int end,
+		OrderByComparator<InitiativeHelp> orderByComparator) {
+
+		return getPersistence().findByinitiativeId(
+			initiativeId, start, end, orderByComparator);
 	}
 
 	/**
-	* Returns an ordered range of all the initiative helps where initiativeId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param initiativeId the initiative ID
-	* @param start the lower bound of the range of initiative helps
-	* @param end the upper bound of the range of initiative helps (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of matching initiative helps
-	*/
-	public static List<InitiativeHelp> findByinitiativeId(long initiativeId,
-		int start, int end,
+	 * Returns an ordered range of all the initiative helps where initiativeId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param initiativeId the initiative ID
+	 * @param start the lower bound of the range of initiative helps
+	 * @param end the upper bound of the range of initiative helps (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching initiative helps
+	 */
+	public static List<InitiativeHelp> findByinitiativeId(
+		long initiativeId, int start, int end,
 		OrderByComparator<InitiativeHelp> orderByComparator,
 		boolean retrieveFromCache) {
-		return getPersistence()
-				   .findByinitiativeId(initiativeId, start, end,
-			orderByComparator, retrieveFromCache);
+
+		return getPersistence().findByinitiativeId(
+			initiativeId, start, end, orderByComparator, retrieveFromCache);
 	}
 
 	/**
-	* Returns the first initiative help in the ordered set where initiativeId = &#63;.
-	*
-	* @param initiativeId the initiative ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching initiative help
-	* @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
-	*/
-	public static InitiativeHelp findByinitiativeId_First(long initiativeId,
-		OrderByComparator<InitiativeHelp> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
-		return getPersistence()
-				   .findByinitiativeId_First(initiativeId, orderByComparator);
-	}
+	 * Returns the first initiative help in the ordered set where initiativeId = &#63;.
+	 *
+	 * @param initiativeId the initiative ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching initiative help
+	 * @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
+	 */
+	public static InitiativeHelp findByinitiativeId_First(
+			long initiativeId,
+			OrderByComparator<InitiativeHelp> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
 
-	/**
-	* Returns the first initiative help in the ordered set where initiativeId = &#63;.
-	*
-	* @param initiativeId the initiative ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching initiative help, or <code>null</code> if a matching initiative help could not be found
-	*/
-	public static InitiativeHelp fetchByinitiativeId_First(long initiativeId,
-		OrderByComparator<InitiativeHelp> orderByComparator) {
-		return getPersistence()
-				   .fetchByinitiativeId_First(initiativeId, orderByComparator);
-	}
-
-	/**
-	* Returns the last initiative help in the ordered set where initiativeId = &#63;.
-	*
-	* @param initiativeId the initiative ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching initiative help
-	* @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
-	*/
-	public static InitiativeHelp findByinitiativeId_Last(long initiativeId,
-		OrderByComparator<InitiativeHelp> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
-		return getPersistence()
-				   .findByinitiativeId_Last(initiativeId, orderByComparator);
-	}
-
-	/**
-	* Returns the last initiative help in the ordered set where initiativeId = &#63;.
-	*
-	* @param initiativeId the initiative ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching initiative help, or <code>null</code> if a matching initiative help could not be found
-	*/
-	public static InitiativeHelp fetchByinitiativeId_Last(long initiativeId,
-		OrderByComparator<InitiativeHelp> orderByComparator) {
-		return getPersistence()
-				   .fetchByinitiativeId_Last(initiativeId, orderByComparator);
-	}
-
-	/**
-	* Returns the initiative helps before and after the current initiative help in the ordered set where initiativeId = &#63;.
-	*
-	* @param initiativeHelpId the primary key of the current initiative help
-	* @param initiativeId the initiative ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the previous, current, and next initiative help
-	* @throws NoSuchInitiativeHelpException if a initiative help with the primary key could not be found
-	*/
-	public static InitiativeHelp[] findByinitiativeId_PrevAndNext(
-		long initiativeHelpId, long initiativeId,
-		OrderByComparator<InitiativeHelp> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
-		return getPersistence()
-				   .findByinitiativeId_PrevAndNext(initiativeHelpId,
+		return getPersistence().findByinitiativeId_First(
 			initiativeId, orderByComparator);
 	}
 
 	/**
-	* Removes all the initiative helps where initiativeId = &#63; from the database.
-	*
-	* @param initiativeId the initiative ID
-	*/
+	 * Returns the first initiative help in the ordered set where initiativeId = &#63;.
+	 *
+	 * @param initiativeId the initiative ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	 */
+	public static InitiativeHelp fetchByinitiativeId_First(
+		long initiativeId,
+		OrderByComparator<InitiativeHelp> orderByComparator) {
+
+		return getPersistence().fetchByinitiativeId_First(
+			initiativeId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last initiative help in the ordered set where initiativeId = &#63;.
+	 *
+	 * @param initiativeId the initiative ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching initiative help
+	 * @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
+	 */
+	public static InitiativeHelp findByinitiativeId_Last(
+			long initiativeId,
+			OrderByComparator<InitiativeHelp> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
+
+		return getPersistence().findByinitiativeId_Last(
+			initiativeId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last initiative help in the ordered set where initiativeId = &#63;.
+	 *
+	 * @param initiativeId the initiative ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	 */
+	public static InitiativeHelp fetchByinitiativeId_Last(
+		long initiativeId,
+		OrderByComparator<InitiativeHelp> orderByComparator) {
+
+		return getPersistence().fetchByinitiativeId_Last(
+			initiativeId, orderByComparator);
+	}
+
+	/**
+	 * Returns the initiative helps before and after the current initiative help in the ordered set where initiativeId = &#63;.
+	 *
+	 * @param initiativeHelpId the primary key of the current initiative help
+	 * @param initiativeId the initiative ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next initiative help
+	 * @throws NoSuchInitiativeHelpException if a initiative help with the primary key could not be found
+	 */
+	public static InitiativeHelp[] findByinitiativeId_PrevAndNext(
+			long initiativeHelpId, long initiativeId,
+			OrderByComparator<InitiativeHelp> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
+
+		return getPersistence().findByinitiativeId_PrevAndNext(
+			initiativeHelpId, initiativeId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the initiative helps where initiativeId = &#63; from the database.
+	 *
+	 * @param initiativeId the initiative ID
+	 */
 	public static void removeByinitiativeId(long initiativeId) {
 		getPersistence().removeByinitiativeId(initiativeId);
 	}
 
 	/**
-	* Returns the number of initiative helps where initiativeId = &#63;.
-	*
-	* @param initiativeId the initiative ID
-	* @return the number of matching initiative helps
-	*/
+	 * Returns the number of initiative helps where initiativeId = &#63;.
+	 *
+	 * @param initiativeId the initiative ID
+	 * @return the number of matching initiative helps
+	 */
 	public static int countByinitiativeId(long initiativeId) {
 		return getPersistence().countByinitiativeId(initiativeId);
 	}
 
 	/**
-	* Returns the initiative help where publikUserId = &#63; and initiativeId = &#63; or throws a {@link NoSuchInitiativeHelpException} if it could not be found.
-	*
-	* @param publikUserId the publik user ID
-	* @param initiativeId the initiative ID
-	* @return the matching initiative help
-	* @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
-	*/
+	 * Returns the initiative help where publikUserId = &#63; and initiativeId = &#63; or throws a <code>NoSuchInitiativeHelpException</code> if it could not be found.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param initiativeId the initiative ID
+	 * @return the matching initiative help
+	 * @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
+	 */
 	public static InitiativeHelp findByPublikUserIdAndInitiativeId(
-		java.lang.String publikUserId, long initiativeId)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
-		return getPersistence()
-				   .findByPublikUserIdAndInitiativeId(publikUserId, initiativeId);
+			String publikUserId, long initiativeId)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
+
+		return getPersistence().findByPublikUserIdAndInitiativeId(
+			publikUserId, initiativeId);
 	}
 
 	/**
-	* Returns the initiative help where publikUserId = &#63; and initiativeId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	*
-	* @param publikUserId the publik user ID
-	* @param initiativeId the initiative ID
-	* @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
-	*/
+	 * Returns the initiative help where publikUserId = &#63; and initiativeId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param initiativeId the initiative ID
+	 * @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	 */
 	public static InitiativeHelp fetchByPublikUserIdAndInitiativeId(
-		java.lang.String publikUserId, long initiativeId) {
-		return getPersistence()
-				   .fetchByPublikUserIdAndInitiativeId(publikUserId,
-			initiativeId);
+		String publikUserId, long initiativeId) {
+
+		return getPersistence().fetchByPublikUserIdAndInitiativeId(
+			publikUserId, initiativeId);
 	}
 
 	/**
-	* Returns the initiative help where publikUserId = &#63; and initiativeId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	*
-	* @param publikUserId the publik user ID
-	* @param initiativeId the initiative ID
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
-	*/
+	 * Returns the initiative help where publikUserId = &#63; and initiativeId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param initiativeId the initiative ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	 */
 	public static InitiativeHelp fetchByPublikUserIdAndInitiativeId(
-		java.lang.String publikUserId, long initiativeId,
-		boolean retrieveFromCache) {
-		return getPersistence()
-				   .fetchByPublikUserIdAndInitiativeId(publikUserId,
-			initiativeId, retrieveFromCache);
+		String publikUserId, long initiativeId, boolean retrieveFromCache) {
+
+		return getPersistence().fetchByPublikUserIdAndInitiativeId(
+			publikUserId, initiativeId, retrieveFromCache);
 	}
 
 	/**
-	* Removes the initiative help where publikUserId = &#63; and initiativeId = &#63; from the database.
-	*
-	* @param publikUserId the publik user ID
-	* @param initiativeId the initiative ID
-	* @return the initiative help that was removed
-	*/
+	 * Removes the initiative help where publikUserId = &#63; and initiativeId = &#63; from the database.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param initiativeId the initiative ID
+	 * @return the initiative help that was removed
+	 */
 	public static InitiativeHelp removeByPublikUserIdAndInitiativeId(
-		java.lang.String publikUserId, long initiativeId)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
-		return getPersistence()
-				   .removeByPublikUserIdAndInitiativeId(publikUserId,
-			initiativeId);
+			String publikUserId, long initiativeId)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
+
+		return getPersistence().removeByPublikUserIdAndInitiativeId(
+			publikUserId, initiativeId);
 	}
 
 	/**
-	* Returns the number of initiative helps where publikUserId = &#63; and initiativeId = &#63;.
-	*
-	* @param publikUserId the publik user ID
-	* @param initiativeId the initiative ID
-	* @return the number of matching initiative helps
-	*/
+	 * Returns the number of initiative helps where publikUserId = &#63; and initiativeId = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param initiativeId the initiative ID
+	 * @return the number of matching initiative helps
+	 */
 	public static int countByPublikUserIdAndInitiativeId(
-		java.lang.String publikUserId, long initiativeId) {
-		return getPersistence()
-				   .countByPublikUserIdAndInitiativeId(publikUserId,
-			initiativeId);
+		String publikUserId, long initiativeId) {
+
+		return getPersistence().countByPublikUserIdAndInitiativeId(
+			publikUserId, initiativeId);
 	}
 
 	/**
-	* Caches the initiative help in the entity cache if it is enabled.
-	*
-	* @param initiativeHelp the initiative help
-	*/
+	 * Caches the initiative help in the entity cache if it is enabled.
+	 *
+	 * @param initiativeHelp the initiative help
+	 */
 	public static void cacheResult(InitiativeHelp initiativeHelp) {
 		getPersistence().cacheResult(initiativeHelp);
 	}
 
 	/**
-	* Caches the initiative helps in the entity cache if it is enabled.
-	*
-	* @param initiativeHelps the initiative helps
-	*/
+	 * Caches the initiative helps in the entity cache if it is enabled.
+	 *
+	 * @param initiativeHelps the initiative helps
+	 */
 	public static void cacheResult(List<InitiativeHelp> initiativeHelps) {
 		getPersistence().cacheResult(initiativeHelps);
 	}
 
 	/**
-	* Creates a new initiative help with the primary key. Does not add the initiative help to the database.
-	*
-	* @param initiativeHelpId the primary key for the new initiative help
-	* @return the new initiative help
-	*/
+	 * Creates a new initiative help with the primary key. Does not add the initiative help to the database.
+	 *
+	 * @param initiativeHelpId the primary key for the new initiative help
+	 * @return the new initiative help
+	 */
 	public static InitiativeHelp create(long initiativeHelpId) {
 		return getPersistence().create(initiativeHelpId);
 	}
 
 	/**
-	* Removes the initiative help with the primary key from the database. Also notifies the appropriate model listeners.
-	*
-	* @param initiativeHelpId the primary key of the initiative help
-	* @return the initiative help that was removed
-	* @throws NoSuchInitiativeHelpException if a initiative help with the primary key could not be found
-	*/
+	 * Removes the initiative help with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param initiativeHelpId the primary key of the initiative help
+	 * @return the initiative help that was removed
+	 * @throws NoSuchInitiativeHelpException if a initiative help with the primary key could not be found
+	 */
 	public static InitiativeHelp remove(long initiativeHelpId)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
+
 		return getPersistence().remove(initiativeHelpId);
 	}
 
@@ -782,110 +834,110 @@ public class InitiativeHelpUtil {
 	}
 
 	/**
-	* Returns the initiative help with the primary key or throws a {@link NoSuchInitiativeHelpException} if it could not be found.
-	*
-	* @param initiativeHelpId the primary key of the initiative help
-	* @return the initiative help
-	* @throws NoSuchInitiativeHelpException if a initiative help with the primary key could not be found
-	*/
+	 * Returns the initiative help with the primary key or throws a <code>NoSuchInitiativeHelpException</code> if it could not be found.
+	 *
+	 * @param initiativeHelpId the primary key of the initiative help
+	 * @return the initiative help
+	 * @throws NoSuchInitiativeHelpException if a initiative help with the primary key could not be found
+	 */
 	public static InitiativeHelp findByPrimaryKey(long initiativeHelpId)
-		throws eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException {
+		throws eu.strasbourg.service.project.exception.
+			NoSuchInitiativeHelpException {
+
 		return getPersistence().findByPrimaryKey(initiativeHelpId);
 	}
 
 	/**
-	* Returns the initiative help with the primary key or returns <code>null</code> if it could not be found.
-	*
-	* @param initiativeHelpId the primary key of the initiative help
-	* @return the initiative help, or <code>null</code> if a initiative help with the primary key could not be found
-	*/
+	 * Returns the initiative help with the primary key or returns <code>null</code> if it could not be found.
+	 *
+	 * @param initiativeHelpId the primary key of the initiative help
+	 * @return the initiative help, or <code>null</code> if a initiative help with the primary key could not be found
+	 */
 	public static InitiativeHelp fetchByPrimaryKey(long initiativeHelpId) {
 		return getPersistence().fetchByPrimaryKey(initiativeHelpId);
 	}
 
-	public static java.util.Map<java.io.Serializable, InitiativeHelp> fetchByPrimaryKeys(
-		java.util.Set<java.io.Serializable> primaryKeys) {
-		return getPersistence().fetchByPrimaryKeys(primaryKeys);
-	}
-
 	/**
-	* Returns all the initiative helps.
-	*
-	* @return the initiative helps
-	*/
+	 * Returns all the initiative helps.
+	 *
+	 * @return the initiative helps
+	 */
 	public static List<InitiativeHelp> findAll() {
 		return getPersistence().findAll();
 	}
 
 	/**
-	* Returns a range of all the initiative helps.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param start the lower bound of the range of initiative helps
-	* @param end the upper bound of the range of initiative helps (not inclusive)
-	* @return the range of initiative helps
-	*/
+	 * Returns a range of all the initiative helps.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of initiative helps
+	 * @param end the upper bound of the range of initiative helps (not inclusive)
+	 * @return the range of initiative helps
+	 */
 	public static List<InitiativeHelp> findAll(int start, int end) {
 		return getPersistence().findAll(start, end);
 	}
 
 	/**
-	* Returns an ordered range of all the initiative helps.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param start the lower bound of the range of initiative helps
-	* @param end the upper bound of the range of initiative helps (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of initiative helps
-	*/
-	public static List<InitiativeHelp> findAll(int start, int end,
+	 * Returns an ordered range of all the initiative helps.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of initiative helps
+	 * @param end the upper bound of the range of initiative helps (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of initiative helps
+	 */
+	public static List<InitiativeHelp> findAll(
+		int start, int end,
 		OrderByComparator<InitiativeHelp> orderByComparator) {
+
 		return getPersistence().findAll(start, end, orderByComparator);
 	}
 
 	/**
-	* Returns an ordered range of all the initiative helps.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param start the lower bound of the range of initiative helps
-	* @param end the upper bound of the range of initiative helps (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of initiative helps
-	*/
-	public static List<InitiativeHelp> findAll(int start, int end,
-		OrderByComparator<InitiativeHelp> orderByComparator,
+	 * Returns an ordered range of all the initiative helps.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of initiative helps
+	 * @param end the upper bound of the range of initiative helps (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of initiative helps
+	 */
+	public static List<InitiativeHelp> findAll(
+		int start, int end, OrderByComparator<InitiativeHelp> orderByComparator,
 		boolean retrieveFromCache) {
-		return getPersistence()
-				   .findAll(start, end, orderByComparator, retrieveFromCache);
+
+		return getPersistence().findAll(
+			start, end, orderByComparator, retrieveFromCache);
 	}
 
 	/**
-	* Removes all the initiative helps from the database.
-	*/
+	 * Removes all the initiative helps from the database.
+	 */
 	public static void removeAll() {
 		getPersistence().removeAll();
 	}
 
 	/**
-	* Returns the number of initiative helps.
-	*
-	* @return the number of initiative helps
-	*/
+	 * Returns the number of initiative helps.
+	 *
+	 * @return the number of initiative helps
+	 */
 	public static int countAll() {
 		return getPersistence().countAll();
 	}
 
-	public static java.util.Set<java.lang.String> getBadColumnNames() {
+	public static Set<String> getBadColumnNames() {
 		return getPersistence().getBadColumnNames();
 	}
 
@@ -893,6 +945,23 @@ public class InitiativeHelpUtil {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<InitiativeHelpPersistence, InitiativeHelpPersistence> _serviceTracker =
-		ServiceTrackerFactory.open(InitiativeHelpPersistence.class);
+	private static ServiceTracker
+		<InitiativeHelpPersistence, InitiativeHelpPersistence> _serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(
+			InitiativeHelpPersistence.class);
+
+		ServiceTracker<InitiativeHelpPersistence, InitiativeHelpPersistence>
+			serviceTracker =
+				new ServiceTracker
+					<InitiativeHelpPersistence, InitiativeHelpPersistence>(
+						bundle.getBundleContext(),
+						InitiativeHelpPersistence.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

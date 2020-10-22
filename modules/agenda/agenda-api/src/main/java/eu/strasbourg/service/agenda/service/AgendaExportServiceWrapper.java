@@ -26,30 +26,32 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class AgendaExportServiceWrapper implements AgendaExportService,
-	ServiceWrapper<AgendaExportService> {
+public class AgendaExportServiceWrapper
+	implements AgendaExportService, ServiceWrapper<AgendaExportService> {
+
 	public AgendaExportServiceWrapper(AgendaExportService agendaExportService) {
 		_agendaExportService = agendaExportService;
 	}
 
 	/**
-	* Renvoit la liste des catégories parentes d'un vocabulaire
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray getParentCategories(
-		java.lang.Long vocabularyId, java.lang.String localeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _agendaExportService.getParentCategories(vocabularyId, localeId);
+	public String getOSGiServiceIdentifier() {
+		return _agendaExportService.getOSGiServiceIdentifier();
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Renvoit la liste des catégories parentes d'un vocabulaire
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _agendaExportService.getOSGiServiceIdentifier();
+	public com.liferay.portal.kernel.json.JSONArray getParentCategories(
+			Long vocabularyId, String localeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _agendaExportService.getParentCategories(vocabularyId, localeId);
 	}
 
 	@Override
@@ -63,4 +65,5 @@ public class AgendaExportServiceWrapper implements AgendaExportService,
 	}
 
 	private AgendaExportService _agendaExportService;
+
 }

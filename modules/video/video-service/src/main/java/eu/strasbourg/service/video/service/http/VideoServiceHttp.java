@@ -27,10 +27,11 @@ import eu.strasbourg.service.video.service.VideoServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link VideoServiceUtil} service utility. The
+ * <code>VideoServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link HttpPrincipal} parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -49,17 +50,17 @@ import eu.strasbourg.service.video.service.VideoServiceUtil;
  *
  * @author BenjaminBini
  * @see VideoServiceSoap
- * @see HttpPrincipal
- * @see VideoServiceUtil
  * @generated
  */
 @ProviderType
 public class VideoServiceHttp {
+
 	public static com.liferay.portal.kernel.json.JSONObject getVideo(
 		HttpPrincipal httpPrincipal, long id) {
+
 		try {
-			MethodKey methodKey = new MethodKey(VideoServiceUtil.class,
-					"getVideo", _getVideoParameterTypes0);
+			MethodKey methodKey = new MethodKey(
+				VideoServiceUtil.class, "getVideo", _getVideoParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, id);
 
@@ -69,7 +70,8 @@ public class VideoServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -82,7 +84,9 @@ public class VideoServiceHttp {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(VideoServiceHttp.class);
+
 	private static final Class<?>[] _getVideoParameterTypes0 = new Class[] {
-			long.class
-		};
+		long.class
+	};
+
 }

@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.gtfs.model.Agency;
 
@@ -32,11 +31,11 @@ import java.io.ObjectOutput;
  * The cache model class for representing Agency in entity cache.
  *
  * @author Cedric Henry
- * @see Agency
  * @generated
  */
 @ProviderType
 public class AgencyCacheModel implements CacheModel<Agency>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -91,7 +90,7 @@ public class AgencyCacheModel implements CacheModel<Agency>, Externalizable {
 		AgencyImpl agencyImpl = new AgencyImpl();
 
 		if (uuid == null) {
-			agencyImpl.setUuid(StringPool.BLANK);
+			agencyImpl.setUuid("");
 		}
 		else {
 			agencyImpl.setUuid(uuid);
@@ -100,42 +99,42 @@ public class AgencyCacheModel implements CacheModel<Agency>, Externalizable {
 		agencyImpl.setId(id);
 
 		if (agency_name == null) {
-			agencyImpl.setAgency_name(StringPool.BLANK);
+			agencyImpl.setAgency_name("");
 		}
 		else {
 			agencyImpl.setAgency_name(agency_name);
 		}
 
 		if (agency_url == null) {
-			agencyImpl.setAgency_url(StringPool.BLANK);
+			agencyImpl.setAgency_url("");
 		}
 		else {
 			agencyImpl.setAgency_url(agency_url);
 		}
 
 		if (agency_timezone == null) {
-			agencyImpl.setAgency_timezone(StringPool.BLANK);
+			agencyImpl.setAgency_timezone("");
 		}
 		else {
 			agencyImpl.setAgency_timezone(agency_timezone);
 		}
 
 		if (agency_phone == null) {
-			agencyImpl.setAgency_phone(StringPool.BLANK);
+			agencyImpl.setAgency_phone("");
 		}
 		else {
 			agencyImpl.setAgency_phone(agency_phone);
 		}
 
 		if (agency_fare_url == null) {
-			agencyImpl.setAgency_fare_url(StringPool.BLANK);
+			agencyImpl.setAgency_fare_url("");
 		}
 		else {
 			agencyImpl.setAgency_fare_url(agency_fare_url);
 		}
 
 		if (agency_lang == null) {
-			agencyImpl.setAgency_lang(StringPool.BLANK);
+			agencyImpl.setAgency_lang("");
 		}
 		else {
 			agencyImpl.setAgency_lang(agency_lang);
@@ -160,10 +159,9 @@ public class AgencyCacheModel implements CacheModel<Agency>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -172,42 +170,42 @@ public class AgencyCacheModel implements CacheModel<Agency>, Externalizable {
 		objectOutput.writeLong(id);
 
 		if (agency_name == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(agency_name);
 		}
 
 		if (agency_url == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(agency_url);
 		}
 
 		if (agency_timezone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(agency_timezone);
 		}
 
 		if (agency_phone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(agency_phone);
 		}
 
 		if (agency_fare_url == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(agency_fare_url);
 		}
 
 		if (agency_lang == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(agency_lang);
@@ -222,4 +220,5 @@ public class AgencyCacheModel implements CacheModel<Agency>, Externalizable {
 	public String agency_phone;
 	public String agency_fare_url;
 	public String agency_lang;
+
 }

@@ -95,7 +95,9 @@ create table agenda_CampaignEvent (
 	campaignId LONG,
 	themesIds VARCHAR(75) null,
 	typesIds VARCHAR(75) null,
-	publicsIds VARCHAR(75) null
+	publicsIds VARCHAR(75) null,
+	bookingDescription TEXT null,
+	bookingURL VARCHAR(400) null
 );
 
 create table agenda_CampaignEventStatus (

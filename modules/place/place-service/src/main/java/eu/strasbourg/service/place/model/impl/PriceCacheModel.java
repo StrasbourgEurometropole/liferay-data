@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.place.model.Price;
 
@@ -34,11 +33,11 @@ import java.util.Date;
  * The cache model class for representing Price in entity cache.
  *
  * @author Angelique Zunino Champougny
- * @see Price
  * @generated
  */
 @ProviderType
 public class PriceCacheModel implements CacheModel<Price>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -81,8 +80,8 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 		sb.append(statusDate);
 		sb.append(", title=");
 		sb.append(title);
-		sb.append(", price=");
-		sb.append(price);
+		sb.append(", priceDescription=");
+		sb.append(priceDescription);
 		sb.append("}");
 
 		return sb.toString();
@@ -93,7 +92,7 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 		PriceImpl priceImpl = new PriceImpl();
 
 		if (uuid == null) {
-			priceImpl.setUuid(StringPool.BLANK);
+			priceImpl.setUuid("");
 		}
 		else {
 			priceImpl.setUuid(uuid);
@@ -104,7 +103,7 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 		priceImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			priceImpl.setStatusByUserName(StringPool.BLANK);
+			priceImpl.setStatusByUserName("");
 		}
 		else {
 			priceImpl.setStatusByUserName(statusByUserName);
@@ -118,17 +117,17 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 		}
 
 		if (title == null) {
-			priceImpl.setTitle(StringPool.BLANK);
+			priceImpl.setTitle("");
 		}
 		else {
 			priceImpl.setTitle(title);
 		}
 
-		if (price == null) {
-			priceImpl.setPrice(StringPool.BLANK);
+		if (priceDescription == null) {
+			priceImpl.setPriceDescription("");
 		}
 		else {
-			priceImpl.setPrice(price);
+			priceImpl.setPriceDescription(priceDescription);
 		}
 
 		priceImpl.resetOriginalValues();
@@ -148,14 +147,13 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
-		price = objectInput.readUTF();
+		priceDescription = objectInput.readUTF();
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -168,7 +166,7 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -177,17 +175,17 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
-		if (price == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+		if (priceDescription == null) {
+			objectOutput.writeUTF("");
 		}
 		else {
-			objectOutput.writeUTF(price);
+			objectOutput.writeUTF(priceDescription);
 		}
 	}
 
@@ -198,5 +196,6 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 	public String statusByUserName;
 	public long statusDate;
 	public String title;
-	public String price;
+	public String priceDescription;
+
 }

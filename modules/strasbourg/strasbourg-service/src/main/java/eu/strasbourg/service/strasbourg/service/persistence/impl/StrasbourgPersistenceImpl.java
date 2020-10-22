@@ -27,10 +27,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -44,6 +43,7 @@ import eu.strasbourg.service.strasbourg.service.persistence.StrasbourgPersistenc
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -62,50 +62,32 @@ import java.util.Set;
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see StrasbourgPersistence
- * @see eu.strasbourg.service.strasbourg.service.persistence.StrasbourgUtil
  * @generated
  */
 @ProviderType
-public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
-	implements StrasbourgPersistence {
+public class StrasbourgPersistenceImpl
+	extends BasePersistenceImpl<Strasbourg> implements StrasbourgPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link StrasbourgUtil} to access the strasbourg persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>StrasbourgUtil</code> to access the strasbourg persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = StrasbourgImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgModelImpl.FINDER_CACHE_ENABLED, StrasbourgImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgModelImpl.FINDER_CACHE_ENABLED, StrasbourgImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgModelImpl.FINDER_CACHE_ENABLED, StrasbourgImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgModelImpl.FINDER_CACHE_ENABLED, StrasbourgImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			StrasbourgModelImpl.UUID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		StrasbourgImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the strasbourgs where uuid = &#63;.
@@ -122,7 +104,7 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * Returns a range of all the strasbourgs where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StrasbourgModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>StrasbourgModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -139,7 +121,7 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * Returns an ordered range of all the strasbourgs where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StrasbourgModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>StrasbourgModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -149,8 +131,10 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * @return the ordered range of matching strasbourgs
 	 */
 	@Override
-	public List<Strasbourg> findByUuid(String uuid, int start, int end,
+	public List<Strasbourg> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Strasbourg> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -158,7 +142,7 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * Returns an ordered range of all the strasbourgs where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StrasbourgModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>StrasbourgModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -169,33 +153,38 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * @return the ordered range of matching strasbourgs
 	 */
 	@Override
-	public List<Strasbourg> findByUuid(String uuid, int start, int end,
+	public List<Strasbourg> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Strasbourg> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<Strasbourg> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Strasbourg>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Strasbourg>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Strasbourg strasbourg : list) {
-					if (!Objects.equals(uuid, strasbourg.getUuid())) {
+					if (!uuid.equals(strasbourg.getUuid())) {
 						list = null;
 
 						break;
@@ -208,8 +197,8 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -219,10 +208,7 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -232,11 +218,10 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(StrasbourgModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -256,16 +241,16 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 				}
 
 				if (!pagination) {
-					list = (List<Strasbourg>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Strasbourg>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Strasbourg>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Strasbourg>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -294,9 +279,10 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * @throws NoSuchStrasbourgException if a matching strasbourg could not be found
 	 */
 	@Override
-	public Strasbourg findByUuid_First(String uuid,
-		OrderByComparator<Strasbourg> orderByComparator)
+	public Strasbourg findByUuid_First(
+			String uuid, OrderByComparator<Strasbourg> orderByComparator)
 		throws NoSuchStrasbourgException {
+
 		Strasbourg strasbourg = fetchByUuid_First(uuid, orderByComparator);
 
 		if (strasbourg != null) {
@@ -310,7 +296,7 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchStrasbourgException(msg.toString());
 	}
@@ -323,8 +309,9 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * @return the first matching strasbourg, or <code>null</code> if a matching strasbourg could not be found
 	 */
 	@Override
-	public Strasbourg fetchByUuid_First(String uuid,
-		OrderByComparator<Strasbourg> orderByComparator) {
+	public Strasbourg fetchByUuid_First(
+		String uuid, OrderByComparator<Strasbourg> orderByComparator) {
+
 		List<Strasbourg> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -343,9 +330,10 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * @throws NoSuchStrasbourgException if a matching strasbourg could not be found
 	 */
 	@Override
-	public Strasbourg findByUuid_Last(String uuid,
-		OrderByComparator<Strasbourg> orderByComparator)
+	public Strasbourg findByUuid_Last(
+			String uuid, OrderByComparator<Strasbourg> orderByComparator)
 		throws NoSuchStrasbourgException {
+
 		Strasbourg strasbourg = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (strasbourg != null) {
@@ -359,7 +347,7 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchStrasbourgException(msg.toString());
 	}
@@ -372,16 +360,17 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * @return the last matching strasbourg, or <code>null</code> if a matching strasbourg could not be found
 	 */
 	@Override
-	public Strasbourg fetchByUuid_Last(String uuid,
-		OrderByComparator<Strasbourg> orderByComparator) {
+	public Strasbourg fetchByUuid_Last(
+		String uuid, OrderByComparator<Strasbourg> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Strasbourg> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<Strasbourg> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -400,9 +389,13 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * @throws NoSuchStrasbourgException if a strasbourg with the primary key could not be found
 	 */
 	@Override
-	public Strasbourg[] findByUuid_PrevAndNext(long id, String uuid,
-		OrderByComparator<Strasbourg> orderByComparator)
+	public Strasbourg[] findByUuid_PrevAndNext(
+			long id, String uuid,
+			OrderByComparator<Strasbourg> orderByComparator)
 		throws NoSuchStrasbourgException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Strasbourg strasbourg = findByPrimaryKey(id);
 
 		Session session = null;
@@ -412,13 +405,13 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 
 			Strasbourg[] array = new StrasbourgImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, strasbourg, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, strasbourg, uuid, orderByComparator, true);
 
 			array[1] = strasbourg;
 
-			array[2] = getByUuid_PrevAndNext(session, strasbourg, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, strasbourg, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -430,14 +423,15 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 		}
 	}
 
-	protected Strasbourg getByUuid_PrevAndNext(Session session,
-		Strasbourg strasbourg, String uuid,
+	protected Strasbourg getByUuid_PrevAndNext(
+		Session session, Strasbourg strasbourg, String uuid,
 		OrderByComparator<Strasbourg> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -448,10 +442,7 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -461,7 +452,8 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -533,10 +525,10 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(strasbourg);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(strasbourg)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -557,8 +549,9 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (Strasbourg strasbourg : findByUuid(uuid, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Strasbourg strasbourg :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(strasbourg);
 		}
 	}
@@ -571,9 +564,11 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -584,10 +579,7 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -628,21 +620,25 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "strasbourg.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "strasbourg.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(strasbourg.uuid IS NULL OR strasbourg.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"strasbourg.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(strasbourg.uuid IS NULL OR strasbourg.uuid = '')";
 
 	public StrasbourgPersistenceImpl() {
 		setModelClass(Strasbourg.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("id", "id_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
-			dbColumnNames.put("id", "id_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -660,8 +656,9 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 */
 	@Override
 	public void cacheResult(Strasbourg strasbourg) {
-		entityCache.putResult(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgImpl.class, strasbourg.getPrimaryKey(), strasbourg);
+		entityCache.putResult(
+			StrasbourgModelImpl.ENTITY_CACHE_ENABLED, StrasbourgImpl.class,
+			strasbourg.getPrimaryKey(), strasbourg);
 
 		strasbourg.resetOriginalValues();
 	}
@@ -675,8 +672,9 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	public void cacheResult(List<Strasbourg> strasbourgs) {
 		for (Strasbourg strasbourg : strasbourgs) {
 			if (entityCache.getResult(
-						StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-						StrasbourgImpl.class, strasbourg.getPrimaryKey()) == null) {
+					StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
+					StrasbourgImpl.class, strasbourg.getPrimaryKey()) == null) {
+
 				cacheResult(strasbourg);
 			}
 			else {
@@ -689,7 +687,7 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * Clears the cache for all strasbourgs.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -705,13 +703,14 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * Clears the cache for the strasbourg.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Strasbourg strasbourg) {
-		entityCache.removeResult(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgImpl.class, strasbourg.getPrimaryKey());
+		entityCache.removeResult(
+			StrasbourgModelImpl.ENTITY_CACHE_ENABLED, StrasbourgImpl.class,
+			strasbourg.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -723,8 +722,9 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Strasbourg strasbourg : strasbourgs) {
-			entityCache.removeResult(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-				StrasbourgImpl.class, strasbourg.getPrimaryKey());
+			entityCache.removeResult(
+				StrasbourgModelImpl.ENTITY_CACHE_ENABLED, StrasbourgImpl.class,
+				strasbourg.getPrimaryKey());
 		}
 	}
 
@@ -770,21 +770,22 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	@Override
 	public Strasbourg remove(Serializable primaryKey)
 		throws NoSuchStrasbourgException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			Strasbourg strasbourg = (Strasbourg)session.get(StrasbourgImpl.class,
-					primaryKey);
+			Strasbourg strasbourg = (Strasbourg)session.get(
+				StrasbourgImpl.class, primaryKey);
 
 			if (strasbourg == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchStrasbourgException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchStrasbourgException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(strasbourg);
@@ -802,16 +803,14 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 
 	@Override
 	protected Strasbourg removeImpl(Strasbourg strasbourg) {
-		strasbourg = toUnwrappedModel(strasbourg);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(strasbourg)) {
-				strasbourg = (Strasbourg)session.get(StrasbourgImpl.class,
-						strasbourg.getPrimaryKeyObj());
+				strasbourg = (Strasbourg)session.get(
+					StrasbourgImpl.class, strasbourg.getPrimaryKeyObj());
 			}
 
 			if (strasbourg != null) {
@@ -834,11 +833,26 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 
 	@Override
 	public Strasbourg updateImpl(Strasbourg strasbourg) {
-		strasbourg = toUnwrappedModel(strasbourg);
-
 		boolean isNew = strasbourg.isNew();
 
-		StrasbourgModelImpl strasbourgModelImpl = (StrasbourgModelImpl)strasbourg;
+		if (!(strasbourg instanceof StrasbourgModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(strasbourg.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(strasbourg);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in strasbourg proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom Strasbourg implementation " +
+					strasbourg.getClass());
+		}
+
+		StrasbourgModelImpl strasbourgModelImpl =
+			(StrasbourgModelImpl)strasbourg;
 
 		if (Validator.isNull(strasbourg.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
@@ -872,64 +886,49 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 		if (!StrasbourgModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { strasbourgModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {strasbourgModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
-
 		else {
 			if ((strasbourgModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
 				Object[] args = new Object[] {
-						strasbourgModelImpl.getOriginalUuid()
-					};
+					strasbourgModelImpl.getOriginalUuid()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 
-				args = new Object[] { strasbourgModelImpl.getUuid() };
+				args = new Object[] {strasbourgModelImpl.getUuid()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 			}
 		}
 
-		entityCache.putResult(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgImpl.class, strasbourg.getPrimaryKey(), strasbourg, false);
+		entityCache.putResult(
+			StrasbourgModelImpl.ENTITY_CACHE_ENABLED, StrasbourgImpl.class,
+			strasbourg.getPrimaryKey(), strasbourg, false);
 
 		strasbourg.resetOriginalValues();
 
 		return strasbourg;
 	}
 
-	protected Strasbourg toUnwrappedModel(Strasbourg strasbourg) {
-		if (strasbourg instanceof StrasbourgImpl) {
-			return strasbourg;
-		}
-
-		StrasbourgImpl strasbourgImpl = new StrasbourgImpl();
-
-		strasbourgImpl.setNew(strasbourg.isNew());
-		strasbourgImpl.setPrimaryKey(strasbourg.getPrimaryKey());
-
-		strasbourgImpl.setUuid(strasbourg.getUuid());
-		strasbourgImpl.setId(strasbourg.getId());
-
-		return strasbourgImpl;
-	}
-
 	/**
-	 * Returns the strasbourg with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the strasbourg with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the strasbourg
 	 * @return the strasbourg
@@ -938,6 +937,7 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	@Override
 	public Strasbourg findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchStrasbourgException {
+
 		Strasbourg strasbourg = fetchByPrimaryKey(primaryKey);
 
 		if (strasbourg == null) {
@@ -945,15 +945,15 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchStrasbourgException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchStrasbourgException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return strasbourg;
 	}
 
 	/**
-	 * Returns the strasbourg with the primary key or throws a {@link NoSuchStrasbourgException} if it could not be found.
+	 * Returns the strasbourg with the primary key or throws a <code>NoSuchStrasbourgException</code> if it could not be found.
 	 *
 	 * @param id the primary key of the strasbourg
 	 * @return the strasbourg
@@ -962,6 +962,7 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	@Override
 	public Strasbourg findByPrimaryKey(long id)
 		throws NoSuchStrasbourgException {
+
 		return findByPrimaryKey((Serializable)id);
 	}
 
@@ -973,8 +974,9 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 */
 	@Override
 	public Strasbourg fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-				StrasbourgImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			StrasbourgModelImpl.ENTITY_CACHE_ENABLED, StrasbourgImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -988,19 +990,21 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 			try {
 				session = openSession();
 
-				strasbourg = (Strasbourg)session.get(StrasbourgImpl.class,
-						primaryKey);
+				strasbourg = (Strasbourg)session.get(
+					StrasbourgImpl.class, primaryKey);
 
 				if (strasbourg != null) {
 					cacheResult(strasbourg);
 				}
 				else {
-					entityCache.putResult(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
 						StrasbourgImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
 					StrasbourgImpl.class, primaryKey);
 
 				throw processException(e);
@@ -1027,11 +1031,13 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	@Override
 	public Map<Serializable, Strasbourg> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, Strasbourg> map = new HashMap<Serializable, Strasbourg>();
+		Map<Serializable, Strasbourg> map =
+			new HashMap<Serializable, Strasbourg>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -1050,8 +1056,9 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-					StrasbourgImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				StrasbourgModelImpl.ENTITY_CACHE_ENABLED, StrasbourgImpl.class,
+				primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -1071,20 +1078,20 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_STRASBOURG_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -1104,7 +1111,8 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
 					StrasbourgImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -1132,7 +1140,7 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * Returns a range of all the strasbourgs.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StrasbourgModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>StrasbourgModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of strasbourgs
@@ -1148,7 +1156,7 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * Returns an ordered range of all the strasbourgs.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StrasbourgModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>StrasbourgModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of strasbourgs
@@ -1157,8 +1165,9 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * @return the ordered range of strasbourgs
 	 */
 	@Override
-	public List<Strasbourg> findAll(int start, int end,
-		OrderByComparator<Strasbourg> orderByComparator) {
+	public List<Strasbourg> findAll(
+		int start, int end, OrderByComparator<Strasbourg> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -1166,7 +1175,7 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * Returns an ordered range of all the strasbourgs.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StrasbourgModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>StrasbourgModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of strasbourgs
@@ -1176,29 +1185,31 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * @return the ordered range of strasbourgs
 	 */
 	@Override
-	public List<Strasbourg> findAll(int start, int end,
-		OrderByComparator<Strasbourg> orderByComparator,
+	public List<Strasbourg> findAll(
+		int start, int end, OrderByComparator<Strasbourg> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Strasbourg> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Strasbourg>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Strasbourg>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -1206,13 +1217,13 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_STRASBOURG);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -1232,16 +1243,16 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Strasbourg>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Strasbourg>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Strasbourg>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Strasbourg>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1279,8 +1290,8 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -1292,12 +1303,12 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -1323,6 +1334,44 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 	 * Initializes the strasbourg persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
+			StrasbourgModelImpl.FINDER_CACHE_ENABLED, StrasbourgImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
+			StrasbourgModelImpl.FINDER_CACHE_ENABLED, StrasbourgImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
+			StrasbourgModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
+			StrasbourgModelImpl.FINDER_CACHE_ENABLED, StrasbourgImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
+			StrasbourgModelImpl.FINDER_CACHE_ENABLED, StrasbourgImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			StrasbourgModelImpl.UUID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
+			StrasbourgModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
 	}
 
 	public void destroy() {
@@ -1334,18 +1383,37 @@ public class StrasbourgPersistenceImpl extends BasePersistenceImpl<Strasbourg>
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_STRASBOURG = "SELECT strasbourg FROM Strasbourg strasbourg";
-	private static final String _SQL_SELECT_STRASBOURG_WHERE_PKS_IN = "SELECT strasbourg FROM Strasbourg strasbourg WHERE id_ IN (";
-	private static final String _SQL_SELECT_STRASBOURG_WHERE = "SELECT strasbourg FROM Strasbourg strasbourg WHERE ";
-	private static final String _SQL_COUNT_STRASBOURG = "SELECT COUNT(strasbourg) FROM Strasbourg strasbourg";
-	private static final String _SQL_COUNT_STRASBOURG_WHERE = "SELECT COUNT(strasbourg) FROM Strasbourg strasbourg WHERE ";
+
+	private static final String _SQL_SELECT_STRASBOURG =
+		"SELECT strasbourg FROM Strasbourg strasbourg";
+
+	private static final String _SQL_SELECT_STRASBOURG_WHERE_PKS_IN =
+		"SELECT strasbourg FROM Strasbourg strasbourg WHERE id_ IN (";
+
+	private static final String _SQL_SELECT_STRASBOURG_WHERE =
+		"SELECT strasbourg FROM Strasbourg strasbourg WHERE ";
+
+	private static final String _SQL_COUNT_STRASBOURG =
+		"SELECT COUNT(strasbourg) FROM Strasbourg strasbourg";
+
+	private static final String _SQL_COUNT_STRASBOURG_WHERE =
+		"SELECT COUNT(strasbourg) FROM Strasbourg strasbourg WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "strasbourg.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Strasbourg exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Strasbourg exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(StrasbourgPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid", "id"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No Strasbourg exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No Strasbourg exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		StrasbourgPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid", "id"});
+
 }

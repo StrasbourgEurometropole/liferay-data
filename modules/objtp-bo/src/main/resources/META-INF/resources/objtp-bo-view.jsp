@@ -1,4 +1,4 @@
-<%@ include file="/objtp-bo-init.jsp" %>
+<%@ include file="/objtp-bo-init.jsp"%>
 
 <liferay-portlet:renderURL varImpl="importURL">
 </liferay-portlet:renderURL>

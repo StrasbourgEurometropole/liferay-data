@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.official.service.http.OfficialServiceSoap}.
  *
  * @author AngeliqueZUNINO
- * @see eu.strasbourg.service.official.service.http.OfficialServiceSoap
  * @generated
  */
 @ProviderType
 public class OfficialSoap implements Serializable {
+
 	public static OfficialSoap toSoapModel(Official model) {
 		OfficialSoap soapModel = new OfficialSoap();
 
@@ -52,7 +52,7 @@ public class OfficialSoap implements Serializable {
 		soapModel.setFirstName(model.getFirstName());
 		soapModel.setThematicDelegation(model.getThematicDelegation());
 		soapModel.setMissions(model.getMissions());
-		soapModel.setWasMinister(model.getWasMinister());
+		soapModel.setWasMinister(model.isWasMinister());
 		soapModel.setContact(model.getContact());
 		soapModel.setOrderDeputyMayor(model.getOrderDeputyMayor());
 		soapModel.setOrderVicePresident(model.getOrderVicePresident());
@@ -89,7 +89,8 @@ public class OfficialSoap implements Serializable {
 	}
 
 	public static OfficialSoap[] toSoapModels(List<Official> models) {
-		List<OfficialSoap> soapModels = new ArrayList<OfficialSoap>(models.size());
+		List<OfficialSoap> soapModels = new ArrayList<OfficialSoap>(
+			models.size());
 
 		for (Official model : models) {
 			soapModels.add(toSoapModel(model));
@@ -320,4 +321,5 @@ public class OfficialSoap implements Serializable {
 	private int _orderDeputyMayor;
 	private int _orderVicePresident;
 	private Long _imageId;
+
 }

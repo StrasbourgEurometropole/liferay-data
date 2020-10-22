@@ -32,12 +32,13 @@ import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class CouncilSessionBaseImpl extends CouncilSessionModelImpl
-	implements CouncilSession {
+public abstract class CouncilSessionBaseImpl
+	extends CouncilSessionModelImpl implements CouncilSession {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a council session model instance should use the {@link CouncilSession} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a council session model instance should use the <code>CouncilSession</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class CouncilSessionBaseImpl extends CouncilSessionModelImpl
 			CouncilSessionLocalServiceUtil.updateCouncilSession(this);
 		}
 	}
+
 }

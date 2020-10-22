@@ -114,7 +114,7 @@ create table place_Price (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	title STRING null,
-	price TEXT null
+	priceDescription TEXT null
 );
 
 create table place_PublicHoliday (

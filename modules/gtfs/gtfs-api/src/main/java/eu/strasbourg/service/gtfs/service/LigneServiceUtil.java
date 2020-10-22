@@ -16,58 +16,70 @@ package eu.strasbourg.service.gtfs.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for Ligne. This utility wraps
- * {@link eu.strasbourg.service.gtfs.service.impl.LigneServiceImpl} and is the
- * primary access point for service operations in application layer code running
- * on a remote server. Methods of this service are expected to have security
- * checks based on the propagated JAAS credentials because this service can be
+ * <code>eu.strasbourg.service.gtfs.service.impl.LigneServiceImpl</code> and is an
+ * access point for service operations in application layer code running on a
+ * remote server. Methods of this service are expected to have security checks
+ * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author Cedric Henry
  * @see LigneService
- * @see eu.strasbourg.service.gtfs.service.base.LigneServiceBaseImpl
- * @see eu.strasbourg.service.gtfs.service.impl.LigneServiceImpl
  * @generated
  */
 @ProviderType
 public class LigneServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.gtfs.service.impl.LigneServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.gtfs.service.impl.LigneServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 
 	/**
-	* Recuperer les couleurs des lignes
-	*/
+	 * Recuperer les couleurs des lignes
+	 */
 	public static com.liferay.portal.kernel.json.JSONArray getLigneColors() {
 		return getService().getLigneColors();
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
-		return getService().getOSGiServiceIdentifier();
+	 * Recuperer les couleurs des lignes pour freemarker
+	 */
+	public static java.util.Map<String, String[]> getLigneColorsFreemarker() {
+		return getService().getLigneColorsFreemarker();
 	}
 
 	/**
-	* Recuperer les couleurs des lignes pour freemarker
-	*/
-	public static java.util.Map<java.lang.String, java.lang.String[]> getLigneColorsFreemarker() {
-		return getService().getLigneColorsFreemarker();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
+		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static LigneService getService() {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<LigneService, LigneService> _serviceTracker = ServiceTrackerFactory.open(LigneService.class);
+	private static ServiceTracker<LigneService, LigneService> _serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(LigneService.class);
+
+		ServiceTracker<LigneService, LigneService> serviceTracker =
+			new ServiceTracker<LigneService, LigneService>(
+				bundle.getBundleContext(), LigneService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

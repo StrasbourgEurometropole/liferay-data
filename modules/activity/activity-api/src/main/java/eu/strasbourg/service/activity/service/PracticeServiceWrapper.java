@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class PracticeServiceWrapper implements PracticeService,
-	ServiceWrapper<PracticeService> {
+public class PracticeServiceWrapper
+	implements PracticeService, ServiceWrapper<PracticeService> {
+
 	public PracticeServiceWrapper(PracticeService practiceService) {
 		_practiceService = practiceService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _practiceService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class PracticeServiceWrapper implements PracticeService,
 	}
 
 	private PracticeService _practiceService;
+
 }

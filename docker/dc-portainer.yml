@@ -1,0 +1,33 @@
+version: "3.5"
+
+services:
+
+  frontend:
+    image: portainer/portainer
+    volumes:
+      - ${DATA}/portainer:/data
+    ports:
+      - "9000:9000"
+    networks:
+      - internal
+    deploy:
+        placement:
+          constraints: [node.role == manager]
+    command: -H tcp://tasks.agent:9001 --tlsskipverify
+
+  agent:
+    image: portainer/agent
+    networks:
+      - internal
+    environment:
+      AGENT_CLUSTER_ADDR: tasks.agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      mode: global
+
+
+networks:
+
+  internal:
+    driver: overlay

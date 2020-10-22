@@ -78,7 +78,7 @@ public class SignalementImpl extends SignalementBaseImpl {
         String result = "";
         try {
             Comment comment = CommentLocalServiceUtil.getComment(this.getCommentId());
-            result = comment.getComment();
+            result = comment.getText();
         } catch (PortalException e) {
             _log.error("Erreur dans la récupération du commentaire : ",e);
         }

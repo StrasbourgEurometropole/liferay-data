@@ -30,6 +30,7 @@ import java.util.List;
  */
 @ProviderType
 public class CampaignSoap implements Serializable {
+
 	public static CampaignSoap toSoapModel(Campaign model) {
 		CampaignSoap soapModel = new CampaignSoap();
 
@@ -85,7 +86,8 @@ public class CampaignSoap implements Serializable {
 	}
 
 	public static CampaignSoap[] toSoapModels(List<Campaign> models) {
-		List<CampaignSoap> soapModels = new ArrayList<CampaignSoap>(models.size());
+		List<CampaignSoap> soapModels = new ArrayList<CampaignSoap>(
+			models.size());
 
 		for (Campaign model : models) {
 			soapModels.add(toSoapModel(model));
@@ -285,4 +287,5 @@ public class CampaignSoap implements Serializable {
 	private Boolean _exportEnabled;
 	private Date _startDate;
 	private Date _endDate;
+
 }

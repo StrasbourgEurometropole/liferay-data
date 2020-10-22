@@ -25,19 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see UserInterestModel
- * @see eu.strasbourg.service.interest.model.impl.UserInterestImpl
- * @see eu.strasbourg.service.interest.model.impl.UserInterestModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.interest.model.impl.UserInterestImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.interest.model.impl.UserInterestImpl"
+)
 @ProviderType
-public interface UserInterest extends UserInterestModel, PersistedModel {
+public interface UserInterest extends PersistedModel, UserInterestModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.interest.model.impl.UserInterestImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.interest.model.impl.UserInterestImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<UserInterest, Long> INTEREST_ID_ACCESSOR = new Accessor<UserInterest, Long>() {
+	public static final Accessor<UserInterest, Long> INTEREST_ID_ACCESSOR =
+		new Accessor<UserInterest, Long>() {
+
 			@Override
 			public Long get(UserInterest userInterest) {
 				return userInterest.getInterestId();
@@ -52,9 +55,11 @@ public interface UserInterest extends UserInterestModel, PersistedModel {
 			public Class<UserInterest> getTypeClass() {
 				return UserInterest.class;
 			}
-		};
 
-	public static final Accessor<UserInterest, String> PUBLIK_USER_ID_ACCESSOR = new Accessor<UserInterest, String>() {
+		};
+	public static final Accessor<UserInterest, String> PUBLIK_USER_ID_ACCESSOR =
+		new Accessor<UserInterest, String>() {
+
 			@Override
 			public String get(UserInterest userInterest) {
 				return userInterest.getPublikUserId();
@@ -69,7 +74,9 @@ public interface UserInterest extends UserInterestModel, PersistedModel {
 			public Class<UserInterest> getTypeClass() {
 				return UserInterest.class;
 			}
+
 		};
 
 	public eu.strasbourg.service.interest.model.Interest getInterest();
+
 }

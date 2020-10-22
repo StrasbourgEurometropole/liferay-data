@@ -25,20 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Cedric Henry
  * @see InitiativeHelpModel
- * @see eu.strasbourg.service.project.model.impl.InitiativeHelpImpl
- * @see eu.strasbourg.service.project.model.impl.InitiativeHelpModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.project.model.impl.InitiativeHelpImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.project.model.impl.InitiativeHelpImpl"
+)
 @ProviderType
 public interface InitiativeHelp extends InitiativeHelpModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.project.model.impl.InitiativeHelpImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.project.model.impl.InitiativeHelpImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<InitiativeHelp, Long> INITIATIVE_HELP_ID_ACCESSOR =
-		new Accessor<InitiativeHelp, Long>() {
+	public static final Accessor<InitiativeHelp, Long>
+		INITIATIVE_HELP_ID_ACCESSOR = new Accessor<InitiativeHelp, Long>() {
+
 			@Override
 			public Long get(InitiativeHelp initiativeHelp) {
 				return initiativeHelp.getInitiativeHelpId();
@@ -53,42 +55,44 @@ public interface InitiativeHelp extends InitiativeHelpModel, PersistedModel {
 			public Class<InitiativeHelp> getTypeClass() {
 				return InitiativeHelp.class;
 			}
+
 		};
 
 	/**
-	* Retourne l'utilisateur Publik depositaire
-	*
-	* @return
-	*/
+	 * Retourne l'utilisateur Publik depositaire
+	 *
+	 * @return
+	 */
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthor();
 
 	/**
-	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
-	*/
-	public java.lang.String getAuthorLabel();
+	 * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	 */
+	public String getAuthorLabel();
 
 	/**
-	* Retourne l'URL de l'image de l'utilisateur
-	*/
-	public java.lang.String getAuthorImageURL();
+	 * Retourne l'URL de l'image de l'utilisateur
+	 */
+	public String getAuthorImageURL();
 
 	/**
-	* Retourne le message d'accompagnement sans les balises et autres fioritures
-	*
-	* @return
-	*/
-	public java.lang.String getFormatedMessage();
+	 * Retourne le message d'accompagnement sans les balises et autres fioritures
+	 *
+	 * @return
+	 */
+	public String getFormatedMessage();
 
 	/**
-	* Retourne le label des types d'aide
-	*/
-	public java.lang.String getTypesLabel();
+	 * Retourne le label des types d'aide
+	 */
+	public String getTypesLabel();
 
 	/**
-	* Retourne l'initiative de l'aide
-	*
-	* @return
-	* @throws PortalException
-	*/
+	 * Retourne l'initiative de l'aide
+	 *
+	 * @return
+	 * @throws PortalException
+	 */
 	public eu.strasbourg.service.project.model.Initiative getInitiative();
+
 }

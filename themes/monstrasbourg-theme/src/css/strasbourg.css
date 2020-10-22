@@ -4173,7 +4173,9 @@ a {
   /* line 28, custom/02-particules/01-shared/tram-destination/_quark-tram-destination.scss */
   .favoris-teaser .scroll-pane .tram-destination .tram-destination-name, #favoris .favoris-grid .scroll-pane .tram-destination .tram-destination-name, #aroundme .filtres__item .tram-destination .tram-destination-name, #aroundme .infowindow__middle .infowindow__contenu:not(:empty) .tram-destination .tram-destination-name {
     position: relative;
-    width: 100%;
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
     padding: 0 15px; }
     /* line 33, custom/02-particules/01-shared/tram-destination/_quark-tram-destination.scss */
     .favoris-teaser .scroll-pane .tram-destination .tram-destination-name p, #favoris .favoris-grid .scroll-pane .tram-destination .tram-destination-name p, #aroundme .filtres__item .tram-destination .tram-destination-name p, #aroundme .infowindow__middle .infowindow__contenu:not(:empty) .tram-destination .tram-destination-name p {
@@ -4285,7 +4287,7 @@ a {
       font-size: 1.6rem; } }
 
 /* line 71, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-#direction h1, #districts-configuration h1, #ecoles h1, #elu h1, #mairie h1, #sliders h1, #direction h3, #districts-configuration h3, #ecoles h3, #elu h3, #mairie h3, #sliders h3, .home-section h2, #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #family-space h2, #favoris h2, #mediatheque h2, #personnalisation h2, #placeit h2, #resid h2, #serial h2, #survey h2, #validation-address h2, #vote h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2 {
+#direction h1, #districts-configuration h1, #ecoles h1, #elu h1, #mairie h1, #sliders h1, #direction h3, #districts-configuration h3, #ecoles h3, #elu h3, #mairie h3, #sliders h3, .home-section h2, #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #family-space h2, #favoris h2, #mediatheque h2, #personnalisation h2, #placeit h2, #resid h2, #serial h2, #survey h2, #validation-address h2, #vote h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2, .page-offre .candidaturesList .candidatureInfo, .page-offre .candidaturesList .alerteInfo, .page-offre .alertesList .candidatureInfo, .page-offre .alertesList .alerteInfo, .page-offre .candidaturesList .candidatureDetail .titre:before, .page-offre .candidaturesList .candidatureDetail .code:before, .page-offre .candidaturesList .candidatureDetail .date:before, .page-offre .candidaturesList .candidatureDetail .statut:before, .page-offre .candidaturesList .candidatureDetail .filtre:before, .page-offre .candidaturesList .candidatureDetail .supprimer:before, .page-offre .candidaturesList .alerteDetail .titre:before, .page-offre .candidaturesList .alerteDetail .code:before, .page-offre .candidaturesList .alerteDetail .date:before, .page-offre .candidaturesList .alerteDetail .statut:before, .page-offre .candidaturesList .alerteDetail .filtre:before, .page-offre .candidaturesList .alerteDetail .supprimer:before, .page-offre .alertesList .candidatureDetail .titre:before, .page-offre .alertesList .candidatureDetail .code:before, .page-offre .alertesList .candidatureDetail .date:before, .page-offre .alertesList .candidatureDetail .statut:before, .page-offre .alertesList .candidatureDetail .filtre:before, .page-offre .alertesList .candidatureDetail .supprimer:before, .page-offre .alertesList .alerteDetail .titre:before, .page-offre .alertesList .alerteDetail .code:before, .page-offre .alertesList .alerteDetail .date:before, .page-offre .alertesList .alerteDetail .statut:before, .page-offre .alertesList .alerteDetail .filtre:before, .page-offre .alertesList .alerteDetail .supprimer:before {
   font-family: "MontSerrat", arial;
   font-weight: 700;
   font-size: 3.5rem;
@@ -4294,7 +4296,7 @@ a {
   text-transform: uppercase; }
 
 /* line 1, custom/02-particules/01-shared/typos/_quark-typo-inlines.scss */
-.mseu #nav-side #nav-notifications .notif-list .notif-text, .not-front .hat, .not-front .rte, #rub_service,
+.mseu #nav-side #nav-notifications .notif-list .notif-text, .not-front .hat, .not-front .rte, .page-offre, #rub_service,
 .mseu-main-form, .mseu .not-front {
   font-family: "OpenSans", arial;
   font-size: 1.8rem;
@@ -4303,7 +4305,7 @@ a {
   font-weight: 400; }
   @media only screen and (max-width: 767px) {
     /* line 1, custom/02-particules/01-shared/typos/_quark-typo-inlines.scss */
-    .mseu #nav-side #nav-notifications .notif-list .notif-text, .not-front .hat, .not-front .rte, #rub_service,
+    .mseu #nav-side #nav-notifications .notif-list .notif-text, .not-front .hat, .not-front .rte, .page-offre, #rub_service,
     .mseu-main-form, .mseu .not-front {
       font-size: 1.4rem; } }
 
@@ -4846,14 +4848,14 @@ a {
   text-align: center; }
 
 /* line 1, custom/02-particules/01-shared/texts/_atom-text-links.scss */
-.not-front .hat a, .not-front .rte a, #rub_service a, .mseu-main-form a {
+.not-front .hat a, .not-front .rte a, .page-offre a, #rub_service a, .mseu-main-form a {
   text-decoration: underline;
   -webkit-transition: color, 0.5s;
   transition: color, 0.5s;
   color: #31455d;
   font-weight: 600; }
   /* line 7, custom/02-particules/01-shared/texts/_atom-text-links.scss */
-  .not-front .hat a:hover, .not-front .rte a:hover, #rub_service a:hover, .mseu-main-form a:hover, .not-front .hat a:focus, .not-front .rte a:focus, #rub_service a:focus, .mseu-main-form a:focus {
+  .not-front .hat a:hover, .not-front .rte a:hover, .page-offre a:hover, #rub_service a:hover, .mseu-main-form a:hover, .not-front .hat a:focus, .not-front .rte a:focus, .page-offre a:focus, #rub_service a:focus, .mseu-main-form a:focus {
     color: #2da192;
     text-decoration: underline; }
 
@@ -9624,32 +9626,32 @@ a {
   margin-left: 40px; }
 
 /* line 4, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat strong, .not-front .rte strong, #rub_service strong, .mseu-main-form strong, .not-front .hat b, .not-front .rte b, #rub_service b, .mseu-main-form b {
+.not-front .hat strong, .not-front .rte strong, .page-offre strong, #rub_service strong, .mseu-main-form strong, .not-front .hat b, .not-front .rte b, .page-offre b, #rub_service b, .mseu-main-form b {
   font-weight: 600;
   color: #505050; }
 
 /* line 8, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat em, .not-front .rte em, #rub_service em, .mseu-main-form em {
+.not-front .hat em, .not-front .rte em, .page-offre em, #rub_service em, .mseu-main-form em {
   font-style: italic;
   color: #505050; }
 
 /* line 12, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat sup, .not-front .rte sup, #rub_service sup, .mseu-main-form sup {
+.not-front .hat sup, .not-front .rte sup, .page-offre sup, #rub_service sup, .mseu-main-form sup {
   font-size: smaller;
   line-height: normal; }
 
 /* line 17, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat sub, .not-front .rte sub, #rub_service sub, .mseu-main-form sub {
+.not-front .hat sub, .not-front .rte sub, .page-offre sub, #rub_service sub, .mseu-main-form sub {
   vertical-align: sub;
   font-size: smaller;
   line-height: normal; }
 
 /* line 25, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat a.btn-square--filled--second, .not-front .rte a.btn-square--filled--second, #rub_service a.btn-square--filled--second, .mseu-main-form a.btn-square--filled--second {
+.not-front .hat a.btn-square--filled--second, .not-front .rte a.btn-square--filled--second, .page-offre a.btn-square--filled--second, #rub_service a.btn-square--filled--second, .mseu-main-form a.btn-square--filled--second {
   text-decoration: none; }
 
 /* line 29, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat a.external:not(.wi-link-group):after, .not-front .rte a.external:not(.wi-link-group):after, #rub_service a.external:not(.wi-link-group):after, .mseu-main-form a.external:not(.wi-link-group):after {
+.not-front .hat a.external:not(.wi-link-group):after, .not-front .rte a.external:not(.wi-link-group):after, .page-offre a.external:not(.wi-link-group):after, #rub_service a.external:not(.wi-link-group):after, .mseu-main-form a.external:not(.wi-link-group):after {
   content: '';
   display: inline-block;
   width: 10px;
@@ -13754,6 +13756,168 @@ footer .footer .portlet {
   font-size: 12px;
   font-size: 1.2rem; }
 
+/* line 4, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre h2 {
+  margin-top: 50px;
+  margin-bottom: 30px; }
+
+/* line 9, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .candidaturePagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  /* line 12, custom/02-particules/03-pages/_page-offres.scss */
+  .page-offre .candidaturePagination ul {
+    width: auto;
+    margin-top: 0;
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+    @media only screen and (max-width: 1279px) {
+      /* line 12, custom/02-particules/03-pages/_page-offres.scss */
+      .page-offre .candidaturePagination ul {
+        -webkit-box-ordinal-group: 0;
+            -ms-flex-order: -1;
+                order: -1;
+        margin-left: -15px; }
+        /* line 22, custom/02-particules/03-pages/_page-offres.scss */
+        .page-offre .candidaturePagination ul .pagin-item {
+          display: inline-block !important; } }
+  @media only screen and (max-width: 1279px) {
+    /* line 9, custom/02-particules/03-pages/_page-offres.scss */
+    .page-offre .candidaturePagination {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column; } }
+
+/* line 33, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .candidatures, .page-offre .alertes {
+  margin-bottom: 40px; }
+
+/* line 37, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .candidaturesList, .page-offre .alertesList {
+  width: 100%;
+  margin-bottom: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  word-break: break-word; }
+  /* line 44, custom/02-particules/03-pages/_page-offres.scss */
+  .page-offre .candidaturesList .candidatureInfo, .page-offre .candidaturesList .alerteInfo, .page-offre .alertesList .candidatureInfo, .page-offre .alertesList .alerteInfo {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #31455d;
+    letter-spacing: 0.03em; }
+    @media only screen and (max-width: 1279px) {
+      /* line 44, custom/02-particules/03-pages/_page-offres.scss */
+      .page-offre .candidaturesList .candidatureInfo, .page-offre .candidaturesList .alerteInfo, .page-offre .alertesList .candidatureInfo, .page-offre .alertesList .alerteInfo {
+        display: none; } }
+  /* line 59, custom/02-particules/03-pages/_page-offres.scss */
+  .page-offre .candidaturesList .candidatureDetail, .page-offre .candidaturesList .alerteDetail, .page-offre .alertesList .candidatureDetail, .page-offre .alertesList .alerteDetail {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    padding-bottom: 10px;
+    line-height: normal; }
+    @media only screen and (max-width: 1279px) {
+      /* line 59, custom/02-particules/03-pages/_page-offres.scss */
+      .page-offre .candidaturesList .candidatureDetail, .page-offre .candidaturesList .alerteDetail, .page-offre .alertesList .candidatureDetail, .page-offre .alertesList .alerteDetail {
+        margin-top: 10px; } }
+    @media only screen and (max-width: 1279px) {
+      /* line 69, custom/02-particules/03-pages/_page-offres.scss */
+      .page-offre .candidaturesList .candidatureDetail:not(:last-child), .page-offre .candidaturesList .alerteDetail:not(:last-child), .page-offre .alertesList .candidatureDetail:not(:last-child), .page-offre .alertesList .alerteDetail:not(:last-child) {
+        border-bottom: solid black 1px; } }
+    /* line 76, custom/02-particules/03-pages/_page-offres.scss */
+    .page-offre .candidaturesList .candidatureDetail .titre:before, .page-offre .candidaturesList .candidatureDetail .code:before, .page-offre .candidaturesList .candidatureDetail .date:before, .page-offre .candidaturesList .candidatureDetail .statut:before, .page-offre .candidaturesList .candidatureDetail .filtre:before, .page-offre .candidaturesList .candidatureDetail .supprimer:before, .page-offre .candidaturesList .alerteDetail .titre:before, .page-offre .candidaturesList .alerteDetail .code:before, .page-offre .candidaturesList .alerteDetail .date:before, .page-offre .candidaturesList .alerteDetail .statut:before, .page-offre .candidaturesList .alerteDetail .filtre:before, .page-offre .candidaturesList .alerteDetail .supprimer:before, .page-offre .alertesList .candidatureDetail .titre:before, .page-offre .alertesList .candidatureDetail .code:before, .page-offre .alertesList .candidatureDetail .date:before, .page-offre .alertesList .candidatureDetail .statut:before, .page-offre .alertesList .candidatureDetail .filtre:before, .page-offre .alertesList .candidatureDetail .supprimer:before, .page-offre .alertesList .alerteDetail .titre:before, .page-offre .alertesList .alerteDetail .code:before, .page-offre .alertesList .alerteDetail .date:before, .page-offre .alertesList .alerteDetail .statut:before, .page-offre .alertesList .alerteDetail .filtre:before, .page-offre .alertesList .alerteDetail .supprimer:before {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #31455d;
+      letter-spacing: 0.03em;
+      width: 40%;
+      position: absolute;
+      left: 0; }
+      @media only screen and (min-width: 1280px) {
+        /* line 76, custom/02-particules/03-pages/_page-offres.scss */
+        .page-offre .candidaturesList .candidatureDetail .titre:before, .page-offre .candidaturesList .candidatureDetail .code:before, .page-offre .candidaturesList .candidatureDetail .date:before, .page-offre .candidaturesList .candidatureDetail .statut:before, .page-offre .candidaturesList .candidatureDetail .filtre:before, .page-offre .candidaturesList .candidatureDetail .supprimer:before, .page-offre .candidaturesList .alerteDetail .titre:before, .page-offre .candidaturesList .alerteDetail .code:before, .page-offre .candidaturesList .alerteDetail .date:before, .page-offre .candidaturesList .alerteDetail .statut:before, .page-offre .candidaturesList .alerteDetail .filtre:before, .page-offre .candidaturesList .alerteDetail .supprimer:before, .page-offre .alertesList .candidatureDetail .titre:before, .page-offre .alertesList .candidatureDetail .code:before, .page-offre .alertesList .candidatureDetail .date:before, .page-offre .alertesList .candidatureDetail .statut:before, .page-offre .alertesList .candidatureDetail .filtre:before, .page-offre .alertesList .candidatureDetail .supprimer:before, .page-offre .alertesList .alerteDetail .titre:before, .page-offre .alertesList .alerteDetail .code:before, .page-offre .alertesList .alerteDetail .date:before, .page-offre .alertesList .alerteDetail .statut:before, .page-offre .alertesList .alerteDetail .filtre:before, .page-offre .alertesList .alerteDetail .supprimer:before {
+          content: none; } }
+
+/* line 95, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .candidaturesList .titre, .page-offre .candidaturesList .code, .page-offre .candidaturesList .date, .page-offre .candidaturesList .statut {
+  width: 25%; }
+  @media only screen and (max-width: 1279px) {
+    /* line 95, custom/02-particules/03-pages/_page-offres.scss */
+    .page-offre .candidaturesList .titre, .page-offre .candidaturesList .code, .page-offre .candidaturesList .date, .page-offre .candidaturesList .statut {
+      width: 100%;
+      padding-left: 45%;
+      position: relative;
+      min-height: 25px; } }
+
+@media only screen and (max-width: 767px) {
+  /* line 104, custom/02-particules/03-pages/_page-offres.scss */
+  .page-offre .candidaturesList .titre, .page-offre .candidaturesList .code {
+    min-height: 40px; } }
+
+/* line 113, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .alertesList .titre, .page-offre .alertesList .supprimer {
+  width: 20%; }
+  @media only screen and (max-width: 1279px) {
+    /* line 113, custom/02-particules/03-pages/_page-offres.scss */
+    .page-offre .alertesList .titre, .page-offre .alertesList .supprimer {
+      width: 100%;
+      padding-left: 45%;
+      position: relative;
+      min-height: 25px; } }
+  /* line 122, custom/02-particules/03-pages/_page-offres.scss */
+  .page-offre .alertesList .titre a, .page-offre .alertesList .supprimer a {
+    line-height: 30px; }
+
+/* line 127, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .alertesList .filtre {
+  width: 60%; }
+  @media only screen and (max-width: 1279px) {
+    /* line 127, custom/02-particules/03-pages/_page-offres.scss */
+    .page-offre .alertesList .filtre {
+      width: 100%;
+      padding-left: 45%;
+      position: relative;
+      min-height: 40px; } }
+
+/* line 139, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .alertesList .delete-alert:after {
+  content: '';
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z' id='path825' /%3E%3Cpath style='fill:white;' d='m 158.4228,366.81829 c -8.46662,-3.02163 -13.71558,-9.81138 -14.4613,-18.70627 -0.3905,-4.65788 0.78999,-9.69401 3.11365,-13.28322 0.77942,-1.20392 18.66252,-19.41002 39.74024,-40.45801 l 38.32311,-38.26906 -38.78802,-38.89278 c -44.44835,-44.56838 -42.22829,-41.84421 -42.25791,-51.85355 -0.0152,-5.12655 0.16751,-6.10255 1.74282,-9.31098 2.23728,-4.55664 5.77296,-8.09231 10.3296,-10.32959 3.1541,-1.54864 4.23506,-1.75978 9.00956,-1.75978 4.84238,0 5.85881,0.2053 9.45785,1.91035 3.72297,1.76376 7.00737,4.87387 42.80071,40.52946 l 38.7683,38.61911 39.48516,-39.42677 39.48515,-39.42677 4.44459,-1.33462 c 10.78921,-3.23978 21.45248,1.22469 26.22528,10.97993 3.06168,6.25785 2.66106,14.8506 -0.97925,21.00337 -0.68657,1.16044 -18.56355,19.47509 -39.72661,40.69921 l -38.47829,38.5893 38.84762,38.84412 c 44.40322,44.39922 42.23067,41.74497 42.20529,51.56313 -0.0118,4.56407 -0.26401,5.96332 -1.58855,8.81333 -2.12673,4.57608 -5.15958,7.78019 -9.68937,10.23654 -3.58071,1.94169 -4.09464,2.04907 -9.807,2.04907 -10.45623,0 -7.44395,2.43706 -51.98949,-42.0618 l -38.72731,-38.68672 -38.73594,38.62911 c -43.63211,43.51177 -41.65833,41.86793 -50.72723,42.24788 -3.6442,0.15268 -5.68548,-0.0799 -8.02266,-0.91399 z' id='path847' /%3E%3C/svg%3E");
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute; }
+
+/* line 151, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .alertesList .delete-alert:focus {
+  outline: none; }
+
+/* line 156, custom/02-particules/03-pages/_page-offres.scss */
+.page-offre .alertesList .delete-alert:hover:after, .page-offre .alertesList .delete-alert:focus:after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2346cfc0' viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z' id='path825' /%3E%3Cpath style='fill:white;' d='m 158.4228,366.81829 c -8.46662,-3.02163 -13.71558,-9.81138 -14.4613,-18.70627 -0.3905,-4.65788 0.78999,-9.69401 3.11365,-13.28322 0.77942,-1.20392 18.66252,-19.41002 39.74024,-40.45801 l 38.32311,-38.26906 -38.78802,-38.89278 c -44.44835,-44.56838 -42.22829,-41.84421 -42.25791,-51.85355 -0.0152,-5.12655 0.16751,-6.10255 1.74282,-9.31098 2.23728,-4.55664 5.77296,-8.09231 10.3296,-10.32959 3.1541,-1.54864 4.23506,-1.75978 9.00956,-1.75978 4.84238,0 5.85881,0.2053 9.45785,1.91035 3.72297,1.76376 7.00737,4.87387 42.80071,40.52946 l 38.7683,38.61911 39.48516,-39.42677 39.48515,-39.42677 4.44459,-1.33462 c 10.78921,-3.23978 21.45248,1.22469 26.22528,10.97993 3.06168,6.25785 2.66106,14.8506 -0.97925,21.00337 -0.68657,1.16044 -18.56355,19.47509 -39.72661,40.69921 l -38.47829,38.5893 38.84762,38.84412 c 44.40322,44.39922 42.23067,41.74497 42.20529,51.56313 -0.0118,4.56407 -0.26401,5.96332 -1.58855,8.81333 -2.12673,4.57608 -5.15958,7.78019 -9.68937,10.23654 -3.58071,1.94169 -4.09464,2.04907 -9.807,2.04907 -10.45623,0 -7.44395,2.43706 -51.98949,-42.0618 l -38.72731,-38.68672 -38.73594,38.62911 c -43.63211,43.51177 -41.65833,41.86793 -50.72723,42.24788 -3.6442,0.15268 -5.68548,-0.0799 -8.02266,-0.91399 z' id='path847' /%3E%3C/svg%3E"); }
+
 /* line 1, custom/02-particules/02-modules/aroundme/aroundme.scss */
 #wi-aroundme.no-widget {
   width: auto;
@@ -16268,6 +16432,165 @@ body:not(.has-control-menu) .portlet > .portlet-content-editable {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px; }
 
+/** Début des correctifs du menu liferay modifié par le theme du site **/
+/* line 79, custom/02-particules/04-hacks/_liferay.scss */
+[data-qa-id='controlMenu'], .text-muted.truncate-text {
+  font-size: 14px;
+  font-family: OpenSans, arial; }
+  /* line 83, custom/02-particules/04-hacks/_liferay.scss */
+  [data-qa-id='controlMenu'] [data-qa-id='headerTitle'], .text-muted.truncate-text [data-qa-id='headerTitle'] {
+    font-size: 16px !important;
+    font-family: OpenSans, arial; }
+
+/* line 90, custom/02-particules/04-hacks/_liferay.scss */
+.lfr-product-menu-sidebar .sidebar-body, .lfr-admin-panel .sidebar-body {
+  top: 56px !important; }
+
+/* line 95, custom/02-particules/04-hacks/_liferay.scss */
+.lfr-product-menu-sidebar .sidebar-body .icon-sites .lexicon-icon-sites {
+  margin-top: -15px; }
+
+/* line 100, custom/02-particules/04-hacks/_liferay.scss */
+.lfr-product-menu-sidebar .sidebar-body .sticker-default .lexicon-icon-sites {
+  margin-top: 3px; }
+
+/* line 105, custom/02-particules/04-hacks/_liferay.scss */
+.goto-link.list-group-heading.panel-header-link {
+  font-size: 14px; }
+
+/* line 110, custom/02-particules/04-hacks/_liferay.scss */
+.lfr-add-panel {
+  font-size: 15px;
+  font-family: OpenSans, arial; }
+  /* line 114, custom/02-particules/04-hacks/_liferay.scss */
+  .lfr-add-panel .lfr-content-item {
+    margin-bottom: 8px; }
+    /* line 117, custom/02-particules/04-hacks/_liferay.scss */
+    .lfr-add-panel .lfr-content-item .taglib-icon-label {
+      font-size: 16px; }
+    /* line 121, custom/02-particules/04-hacks/_liferay.scss */
+    .lfr-add-panel .lfr-content-item .lexicon-icon {
+      height: 14px;
+      margin-top: 3px;
+      width: 14px; }
+    /* line 128, custom/02-particules/04-hacks/_liferay.scss */
+    .lfr-add-panel .lfr-content-item .list-group-item-content h1 {
+      font-size: 14px !important;
+      font-family: OpenSans, arial;
+      font-weight: 600; }
+    /* line 134, custom/02-particules/04-hacks/_liferay.scss */
+    .lfr-add-panel .lfr-content-item .list-group-item-content h2, .lfr-add-panel .lfr-content-item .list-group-item-content h3 {
+      font-size: 14px !important;
+      font-family: OpenSans, arial; }
+
+/* line 144, custom/02-particules/04-hacks/_liferay.scss */
+.login-container .field.form-control {
+  border-width: 1px 1px 1px 1px;
+  height: 30px;
+  width: 190px;
+  padding: 6px 12px;
+  margin: 1px;
+  font-size: 14px;
+  font-family: Arial, sans-serif; }
+
+/* line 154, custom/02-particules/04-hacks/_liferay.scss */
+.login-container .btn.btn-primary.btn-default {
+  height: 45px;
+  width: 100%;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  font-size: 18px; }
+
+/* line 162, custom/02-particules/04-hacks/_liferay.scss */
+.login-container .btn.btn-primary.btn-default:hover {
+  background-color: #286090;
+  border-color: #204d74; }
+
+/* line 169, custom/02-particules/04-hacks/_liferay.scss */
+.lfr-notification-container {
+  font-size: 14px;
+  font-family: OpenSans, arial; }
+
+/* line 175, custom/02-particules/04-hacks/_liferay.scss */
+.liferayalert.alert-warning {
+  background-color: #fff4ec;
+  border-color: #ff8f39;
+  color: #B95000;
+  padding-bottom: 17.5px;
+  padding-left: 16px;
+  padding-right: 40px;
+  padding-top: 17.5px; }
+  /* line 185, custom/02-particules/04-hacks/_liferay.scss */
+  .liferayalert.alert-warning .lead {
+    font-size: 14px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-weight: 600;
+    margin-right: 5px; }
+
+/* line 194, custom/02-particules/04-hacks/_liferay.scss */
+.liferayalert.alert-danger {
+  background-color: #feefef;
+  border-color: #f48989;
+  color: #DA1414;
+  padding-bottom: 17.5px;
+  padding-left: 16px;
+  padding-right: 40px;
+  padding-top: 17.5px; }
+  /* line 203, custom/02-particules/04-hacks/_liferay.scss */
+  .liferayalert.alert-danger .lead {
+    font-size: 14px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-weight: 600;
+    margin-right: 5px; }
+
+/* line 212, custom/02-particules/04-hacks/_liferay.scss */
+a[data-qa-id='app'] {
+  padding: 12px 16px !important; }
+
+/* line 217, custom/02-particules/04-hacks/_liferay.scss */
+input#_com_liferay_login_web_portlet_LoginPortlet_captchaText, input#_com_liferay_login_web_portlet_LoginPortlet_emailAddress {
+  width: 100%; }
+
+/* line 223, custom/02-particules/04-hacks/_liferay.scss */
+[data-qa-id='controlMenu'] html, [data-qa-id='controlMenu'] body, [data-qa-id='controlMenu'] div, [data-qa-id='controlMenu'] span, [data-qa-id='controlMenu'] applet, [data-qa-id='controlMenu'] object, [data-qa-id='controlMenu'] iframe, [data-qa-id='controlMenu'] h1, [data-qa-id='controlMenu'] h2, [data-qa-id='controlMenu'] h3, [data-qa-id='controlMenu'] h4, [data-qa-id='controlMenu'] h5, [data-qa-id='controlMenu'] h6, [data-qa-id='controlMenu'] p, [data-qa-id='controlMenu'] blockquote, [data-qa-id='controlMenu'] pre, [data-qa-id='controlMenu'] a, [data-qa-id='controlMenu'] abbr, [data-qa-id='controlMenu'] acronym, [data-qa-id='controlMenu'] address, [data-qa-id='controlMenu'] big, [data-qa-id='controlMenu'] cite, [data-qa-id='controlMenu'] code, [data-qa-id='controlMenu'] del, [data-qa-id='controlMenu'] dfn, [data-qa-id='controlMenu'] em, [data-qa-id='controlMenu'] img, [data-qa-id='controlMenu'] ins, [data-qa-id='controlMenu'] kbd, [data-qa-id='controlMenu'] q, [data-qa-id='controlMenu'] s, [data-qa-id='controlMenu'] samp, [data-qa-id='controlMenu'] small, [data-qa-id='controlMenu'] strike, [data-qa-id='controlMenu'] strong, [data-qa-id='controlMenu'] sub, [data-qa-id='controlMenu'] sup, [data-qa-id='controlMenu'] tt, [data-qa-id='controlMenu'] var, [data-qa-id='controlMenu'] b, [data-qa-id='controlMenu'] u, [data-qa-id='controlMenu'] i, [data-qa-id='controlMenu'] center, [data-qa-id='controlMenu'] dl, [data-qa-id='controlMenu'] dt, [data-qa-id='controlMenu'] dd, [data-qa-id='controlMenu'] ol, [data-qa-id='controlMenu'] ul, [data-qa-id='controlMenu'] li, [data-qa-id='controlMenu'] fieldset, [data-qa-id='controlMenu'] form, [data-qa-id='controlMenu'] label, [data-qa-id='controlMenu'] legend, [data-qa-id='controlMenu'] table, [data-qa-id='controlMenu'] caption, [data-qa-id='controlMenu'] tbody, [data-qa-id='controlMenu'] tfoot, [data-qa-id='controlMenu'] thead, [data-qa-id='controlMenu'] tr, [data-qa-id='controlMenu'] th, [data-qa-id='controlMenu'] td, [data-qa-id='controlMenu'] article, [data-qa-id='controlMenu'] aside, [data-qa-id='controlMenu'] canvas, [data-qa-id='controlMenu'] details, [data-qa-id='controlMenu'] embed, [data-qa-id='controlMenu'] figure, [data-qa-id='controlMenu'] figcaption, [data-qa-id='controlMenu'] footer, [data-qa-id='controlMenu'] header, [data-qa-id='controlMenu'] hgroup, [data-qa-id='controlMenu'] menu, [data-qa-id='controlMenu'] nav, [data-qa-id='controlMenu'] output, [data-qa-id='controlMenu'] ruby, [data-qa-id='controlMenu'] section, [data-qa-id='controlMenu'] summary, [data-qa-id='controlMenu'] time, [data-qa-id='controlMenu'] mark, [data-qa-id='controlMenu'] audio, [data-qa-id='controlMenu'] video, .lfr-notification-container html, .lfr-notification-container body, .lfr-notification-container div, .lfr-notification-container span, .lfr-notification-container applet, .lfr-notification-container object, .lfr-notification-container iframe, .lfr-notification-container h1, .lfr-notification-container h2, .lfr-notification-container h3, .lfr-notification-container h4, .lfr-notification-container h5, .lfr-notification-container h6, .lfr-notification-container p, .lfr-notification-container blockquote, .lfr-notification-container pre, .lfr-notification-container a, .lfr-notification-container abbr, .lfr-notification-container acronym, .lfr-notification-container address, .lfr-notification-container big, .lfr-notification-container cite, .lfr-notification-container code, .lfr-notification-container del, .lfr-notification-container dfn, .lfr-notification-container em, .lfr-notification-container img, .lfr-notification-container ins, .lfr-notification-container kbd, .lfr-notification-container q, .lfr-notification-container s, .lfr-notification-container samp, .lfr-notification-container small, .lfr-notification-container strike, .lfr-notification-container strong, .lfr-notification-container sub, .lfr-notification-container sup, .lfr-notification-container tt, .lfr-notification-container var, .lfr-notification-container b, .lfr-notification-container u, .lfr-notification-container i, .lfr-notification-container center, .lfr-notification-container dl, .lfr-notification-container dt, .lfr-notification-container dd, .lfr-notification-container ol, .lfr-notification-container ul, .lfr-notification-container li, .lfr-notification-container fieldset, .lfr-notification-container form, .lfr-notification-container label, .lfr-notification-container legend, .lfr-notification-container table, .lfr-notification-container caption, .lfr-notification-container tbody, .lfr-notification-container tfoot, .lfr-notification-container thead, .lfr-notification-container tr, .lfr-notification-container th, .lfr-notification-container td, .lfr-notification-container article, .lfr-notification-container aside, .lfr-notification-container canvas, .lfr-notification-container details, .lfr-notification-container embed, .lfr-notification-container figure, .lfr-notification-container figcaption, .lfr-notification-container footer, .lfr-notification-container header, .lfr-notification-container hgroup, .lfr-notification-container menu, .lfr-notification-container nav, .lfr-notification-container output, .lfr-notification-container ruby, .lfr-notification-container section, .lfr-notification-container summary, .lfr-notification-container time, .lfr-notification-container mark, .lfr-notification-container audio, .lfr-notification-container video, .lfr-admin-panel html, .lfr-admin-panel body, .lfr-admin-panel div, .lfr-admin-panel span, .lfr-admin-panel applet, .lfr-admin-panel object, .lfr-admin-panel iframe, .lfr-admin-panel h1, .lfr-admin-panel h2, .lfr-admin-panel h3, .lfr-admin-panel h4, .lfr-admin-panel h5, .lfr-admin-panel h6, .lfr-admin-panel p, .lfr-admin-panel blockquote, .lfr-admin-panel pre, .lfr-admin-panel a, .lfr-admin-panel abbr, .lfr-admin-panel acronym, .lfr-admin-panel address, .lfr-admin-panel big, .lfr-admin-panel cite, .lfr-admin-panel code, .lfr-admin-panel del, .lfr-admin-panel dfn, .lfr-admin-panel em, .lfr-admin-panel img, .lfr-admin-panel ins, .lfr-admin-panel kbd, .lfr-admin-panel q, .lfr-admin-panel s, .lfr-admin-panel samp, .lfr-admin-panel small, .lfr-admin-panel strike, .lfr-admin-panel strong, .lfr-admin-panel sub, .lfr-admin-panel sup, .lfr-admin-panel tt, .lfr-admin-panel var, .lfr-admin-panel b, .lfr-admin-panel u, .lfr-admin-panel i, .lfr-admin-panel center, .lfr-admin-panel dl, .lfr-admin-panel dt, .lfr-admin-panel dd, .lfr-admin-panel ol, .lfr-admin-panel ul, .lfr-admin-panel li, .lfr-admin-panel fieldset, .lfr-admin-panel form, .lfr-admin-panel label, .lfr-admin-panel legend, .lfr-admin-panel table, .lfr-admin-panel caption, .lfr-admin-panel tbody, .lfr-admin-panel tfoot, .lfr-admin-panel thead, .lfr-admin-panel tr, .lfr-admin-panel th, .lfr-admin-panel td, .lfr-admin-panel article, .lfr-admin-panel aside, .lfr-admin-panel canvas, .lfr-admin-panel details, .lfr-admin-panel embed, .lfr-admin-panel figure, .lfr-admin-panel figcaption, .lfr-admin-panel footer, .lfr-admin-panel header, .lfr-admin-panel hgroup, .lfr-admin-panel menu, .lfr-admin-panel nav, .lfr-admin-panel output, .lfr-admin-panel ruby, .lfr-admin-panel section, .lfr-admin-panel summary, .lfr-admin-panel time, .lfr-admin-panel mark, .lfr-admin-panel audio, .lfr-admin-panel video, .lfr-product-menu-sidebar html, .lfr-product-menu-sidebar body, .lfr-product-menu-sidebar div, .lfr-product-menu-sidebar span, .lfr-product-menu-sidebar applet, .lfr-product-menu-sidebar object, .lfr-product-menu-sidebar iframe, .lfr-product-menu-sidebar h1, .lfr-product-menu-sidebar h2, .lfr-product-menu-sidebar h3, .lfr-product-menu-sidebar h4, .lfr-product-menu-sidebar h5, .lfr-product-menu-sidebar h6, .lfr-product-menu-sidebar p, .lfr-product-menu-sidebar blockquote, .lfr-product-menu-sidebar pre, .lfr-product-menu-sidebar a, .lfr-product-menu-sidebar abbr, .lfr-product-menu-sidebar acronym, .lfr-product-menu-sidebar address, .lfr-product-menu-sidebar big, .lfr-product-menu-sidebar cite, .lfr-product-menu-sidebar code, .lfr-product-menu-sidebar del, .lfr-product-menu-sidebar dfn, .lfr-product-menu-sidebar em, .lfr-product-menu-sidebar img, .lfr-product-menu-sidebar ins, .lfr-product-menu-sidebar kbd, .lfr-product-menu-sidebar q, .lfr-product-menu-sidebar s, .lfr-product-menu-sidebar samp, .lfr-product-menu-sidebar small, .lfr-product-menu-sidebar strike, .lfr-product-menu-sidebar strong, .lfr-product-menu-sidebar sub, .lfr-product-menu-sidebar sup, .lfr-product-menu-sidebar tt, .lfr-product-menu-sidebar var, .lfr-product-menu-sidebar b, .lfr-product-menu-sidebar u, .lfr-product-menu-sidebar i, .lfr-product-menu-sidebar center, .lfr-product-menu-sidebar dl, .lfr-product-menu-sidebar dt, .lfr-product-menu-sidebar dd, .lfr-product-menu-sidebar ol, .lfr-product-menu-sidebar ul, .lfr-product-menu-sidebar li, .lfr-product-menu-sidebar fieldset, .lfr-product-menu-sidebar form, .lfr-product-menu-sidebar label, .lfr-product-menu-sidebar legend, .lfr-product-menu-sidebar table, .lfr-product-menu-sidebar caption, .lfr-product-menu-sidebar tbody, .lfr-product-menu-sidebar tfoot, .lfr-product-menu-sidebar thead, .lfr-product-menu-sidebar tr, .lfr-product-menu-sidebar th, .lfr-product-menu-sidebar td, .lfr-product-menu-sidebar article, .lfr-product-menu-sidebar aside, .lfr-product-menu-sidebar canvas, .lfr-product-menu-sidebar details, .lfr-product-menu-sidebar embed, .lfr-product-menu-sidebar figure, .lfr-product-menu-sidebar figcaption, .lfr-product-menu-sidebar footer, .lfr-product-menu-sidebar header, .lfr-product-menu-sidebar hgroup, .lfr-product-menu-sidebar menu, .lfr-product-menu-sidebar nav, .lfr-product-menu-sidebar output, .lfr-product-menu-sidebar ruby, .lfr-product-menu-sidebar section, .lfr-product-menu-sidebar summary, .lfr-product-menu-sidebar time, .lfr-product-menu-sidebar mark, .lfr-product-menu-sidebar audio, .lfr-product-menu-sidebar video {
+  line-height: initial; }
+
+/* line 229, custom/02-particules/04-hacks/_liferay.scss */
+.dropdown-menu.dropdown-menu-right li, .dropdown-menu.dropdown-menu-left-side li {
+  font-size: 16px;
+  margin: 10px; }
+
+/* line 234, custom/02-particules/04-hacks/_liferay.scss */
+.portlet-name-text {
+  font-size: 16px; }
+
+/* line 241, custom/02-particules/04-hacks/_liferay.scss */
+.portlet:hover > .portlet-topper {
+  width: calc(100% - 35px);
+  height: auto; }
+
+/* line 245, custom/02-particules/04-hacks/_liferay.scss */
+.portlet-journal-content .portlet .portlet-header {
+  -webkit-transform: translateY(-112%);
+          transform: translateY(-112%); }
+  /* line 248, custom/02-particules/04-hacks/_liferay.scss */
+  .portlet-journal-content .portlet .portlet-header .visible-interaction {
+    display: inline; }
+    /* line 251, custom/02-particules/04-hacks/_liferay.scss */
+    .portlet-journal-content .portlet .portlet-header .visible-interaction .lfr-icon-menu {
+      background-color: transparent;
+      display: inline; }
+      /* line 255, custom/02-particules/04-hacks/_liferay.scss */
+      .portlet-journal-content .portlet .portlet-header .visible-interaction .lfr-icon-menu > a {
+        height: 32px;
+        line-height: 32px;
+        width: 32px; }
+        /* line 260, custom/02-particules/04-hacks/_liferay.scss */
+        .portlet-journal-content .portlet .portlet-header .visible-interaction .lfr-icon-menu > a .lexicon-icon {
+          height: 32px;
+          width: 32px;
+          padding: 8px; }
+
 /* line 2, custom/02-particules/04-hacks/_android.scss */
 .mseu.android.tablet header .nav-top .menu-triggerBox .menu-panel .menu-rwd-content {
   height: calc(100% - 140px); }
@@ -16453,6 +16776,165 @@ body:not(.has-control-menu) .portlet > .portlet-content-editable {
   border-color: transparent;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px; }
+
+/** Début des correctifs du menu liferay modifié par le theme du site **/
+/* line 79, custom/02-particules/04-hacks/_liferay.scss */
+[data-qa-id='controlMenu'], .text-muted.truncate-text {
+  font-size: 14px;
+  font-family: OpenSans, arial; }
+  /* line 83, custom/02-particules/04-hacks/_liferay.scss */
+  [data-qa-id='controlMenu'] [data-qa-id='headerTitle'], .text-muted.truncate-text [data-qa-id='headerTitle'] {
+    font-size: 16px !important;
+    font-family: OpenSans, arial; }
+
+/* line 90, custom/02-particules/04-hacks/_liferay.scss */
+.lfr-product-menu-sidebar .sidebar-body, .lfr-admin-panel .sidebar-body {
+  top: 56px !important; }
+
+/* line 95, custom/02-particules/04-hacks/_liferay.scss */
+.lfr-product-menu-sidebar .sidebar-body .icon-sites .lexicon-icon-sites {
+  margin-top: -15px; }
+
+/* line 100, custom/02-particules/04-hacks/_liferay.scss */
+.lfr-product-menu-sidebar .sidebar-body .sticker-default .lexicon-icon-sites {
+  margin-top: 3px; }
+
+/* line 105, custom/02-particules/04-hacks/_liferay.scss */
+.goto-link.list-group-heading.panel-header-link {
+  font-size: 14px; }
+
+/* line 110, custom/02-particules/04-hacks/_liferay.scss */
+.lfr-add-panel {
+  font-size: 15px;
+  font-family: OpenSans, arial; }
+  /* line 114, custom/02-particules/04-hacks/_liferay.scss */
+  .lfr-add-panel .lfr-content-item {
+    margin-bottom: 8px; }
+    /* line 117, custom/02-particules/04-hacks/_liferay.scss */
+    .lfr-add-panel .lfr-content-item .taglib-icon-label {
+      font-size: 16px; }
+    /* line 121, custom/02-particules/04-hacks/_liferay.scss */
+    .lfr-add-panel .lfr-content-item .lexicon-icon {
+      height: 14px;
+      margin-top: 3px;
+      width: 14px; }
+    /* line 128, custom/02-particules/04-hacks/_liferay.scss */
+    .lfr-add-panel .lfr-content-item .list-group-item-content h1 {
+      font-size: 14px !important;
+      font-family: OpenSans, arial;
+      font-weight: 600; }
+    /* line 134, custom/02-particules/04-hacks/_liferay.scss */
+    .lfr-add-panel .lfr-content-item .list-group-item-content h2, .lfr-add-panel .lfr-content-item .list-group-item-content h3 {
+      font-size: 14px !important;
+      font-family: OpenSans, arial; }
+
+/* line 144, custom/02-particules/04-hacks/_liferay.scss */
+.login-container .field.form-control {
+  border-width: 1px 1px 1px 1px;
+  height: 30px;
+  width: 190px;
+  padding: 6px 12px;
+  margin: 1px;
+  font-size: 14px;
+  font-family: Arial, sans-serif; }
+
+/* line 154, custom/02-particules/04-hacks/_liferay.scss */
+.login-container .btn.btn-primary.btn-default {
+  height: 45px;
+  width: 100%;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  font-size: 18px; }
+
+/* line 162, custom/02-particules/04-hacks/_liferay.scss */
+.login-container .btn.btn-primary.btn-default:hover {
+  background-color: #286090;
+  border-color: #204d74; }
+
+/* line 169, custom/02-particules/04-hacks/_liferay.scss */
+.lfr-notification-container {
+  font-size: 14px;
+  font-family: OpenSans, arial; }
+
+/* line 175, custom/02-particules/04-hacks/_liferay.scss */
+.liferayalert.alert-warning {
+  background-color: #fff4ec;
+  border-color: #ff8f39;
+  color: #B95000;
+  padding-bottom: 17.5px;
+  padding-left: 16px;
+  padding-right: 40px;
+  padding-top: 17.5px; }
+  /* line 185, custom/02-particules/04-hacks/_liferay.scss */
+  .liferayalert.alert-warning .lead {
+    font-size: 14px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-weight: 600;
+    margin-right: 5px; }
+
+/* line 194, custom/02-particules/04-hacks/_liferay.scss */
+.liferayalert.alert-danger {
+  background-color: #feefef;
+  border-color: #f48989;
+  color: #DA1414;
+  padding-bottom: 17.5px;
+  padding-left: 16px;
+  padding-right: 40px;
+  padding-top: 17.5px; }
+  /* line 203, custom/02-particules/04-hacks/_liferay.scss */
+  .liferayalert.alert-danger .lead {
+    font-size: 14px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-weight: 600;
+    margin-right: 5px; }
+
+/* line 212, custom/02-particules/04-hacks/_liferay.scss */
+a[data-qa-id='app'] {
+  padding: 12px 16px !important; }
+
+/* line 217, custom/02-particules/04-hacks/_liferay.scss */
+input#_com_liferay_login_web_portlet_LoginPortlet_captchaText, input#_com_liferay_login_web_portlet_LoginPortlet_emailAddress {
+  width: 100%; }
+
+/* line 223, custom/02-particules/04-hacks/_liferay.scss */
+[data-qa-id='controlMenu'] html, [data-qa-id='controlMenu'] body, [data-qa-id='controlMenu'] div, [data-qa-id='controlMenu'] span, [data-qa-id='controlMenu'] applet, [data-qa-id='controlMenu'] object, [data-qa-id='controlMenu'] iframe, [data-qa-id='controlMenu'] h1, [data-qa-id='controlMenu'] h2, [data-qa-id='controlMenu'] h3, [data-qa-id='controlMenu'] h4, [data-qa-id='controlMenu'] h5, [data-qa-id='controlMenu'] h6, [data-qa-id='controlMenu'] p, [data-qa-id='controlMenu'] blockquote, [data-qa-id='controlMenu'] pre, [data-qa-id='controlMenu'] a, [data-qa-id='controlMenu'] abbr, [data-qa-id='controlMenu'] acronym, [data-qa-id='controlMenu'] address, [data-qa-id='controlMenu'] big, [data-qa-id='controlMenu'] cite, [data-qa-id='controlMenu'] code, [data-qa-id='controlMenu'] del, [data-qa-id='controlMenu'] dfn, [data-qa-id='controlMenu'] em, [data-qa-id='controlMenu'] img, [data-qa-id='controlMenu'] ins, [data-qa-id='controlMenu'] kbd, [data-qa-id='controlMenu'] q, [data-qa-id='controlMenu'] s, [data-qa-id='controlMenu'] samp, [data-qa-id='controlMenu'] small, [data-qa-id='controlMenu'] strike, [data-qa-id='controlMenu'] strong, [data-qa-id='controlMenu'] sub, [data-qa-id='controlMenu'] sup, [data-qa-id='controlMenu'] tt, [data-qa-id='controlMenu'] var, [data-qa-id='controlMenu'] b, [data-qa-id='controlMenu'] u, [data-qa-id='controlMenu'] i, [data-qa-id='controlMenu'] center, [data-qa-id='controlMenu'] dl, [data-qa-id='controlMenu'] dt, [data-qa-id='controlMenu'] dd, [data-qa-id='controlMenu'] ol, [data-qa-id='controlMenu'] ul, [data-qa-id='controlMenu'] li, [data-qa-id='controlMenu'] fieldset, [data-qa-id='controlMenu'] form, [data-qa-id='controlMenu'] label, [data-qa-id='controlMenu'] legend, [data-qa-id='controlMenu'] table, [data-qa-id='controlMenu'] caption, [data-qa-id='controlMenu'] tbody, [data-qa-id='controlMenu'] tfoot, [data-qa-id='controlMenu'] thead, [data-qa-id='controlMenu'] tr, [data-qa-id='controlMenu'] th, [data-qa-id='controlMenu'] td, [data-qa-id='controlMenu'] article, [data-qa-id='controlMenu'] aside, [data-qa-id='controlMenu'] canvas, [data-qa-id='controlMenu'] details, [data-qa-id='controlMenu'] embed, [data-qa-id='controlMenu'] figure, [data-qa-id='controlMenu'] figcaption, [data-qa-id='controlMenu'] footer, [data-qa-id='controlMenu'] header, [data-qa-id='controlMenu'] hgroup, [data-qa-id='controlMenu'] menu, [data-qa-id='controlMenu'] nav, [data-qa-id='controlMenu'] output, [data-qa-id='controlMenu'] ruby, [data-qa-id='controlMenu'] section, [data-qa-id='controlMenu'] summary, [data-qa-id='controlMenu'] time, [data-qa-id='controlMenu'] mark, [data-qa-id='controlMenu'] audio, [data-qa-id='controlMenu'] video, .lfr-notification-container html, .lfr-notification-container body, .lfr-notification-container div, .lfr-notification-container span, .lfr-notification-container applet, .lfr-notification-container object, .lfr-notification-container iframe, .lfr-notification-container h1, .lfr-notification-container h2, .lfr-notification-container h3, .lfr-notification-container h4, .lfr-notification-container h5, .lfr-notification-container h6, .lfr-notification-container p, .lfr-notification-container blockquote, .lfr-notification-container pre, .lfr-notification-container a, .lfr-notification-container abbr, .lfr-notification-container acronym, .lfr-notification-container address, .lfr-notification-container big, .lfr-notification-container cite, .lfr-notification-container code, .lfr-notification-container del, .lfr-notification-container dfn, .lfr-notification-container em, .lfr-notification-container img, .lfr-notification-container ins, .lfr-notification-container kbd, .lfr-notification-container q, .lfr-notification-container s, .lfr-notification-container samp, .lfr-notification-container small, .lfr-notification-container strike, .lfr-notification-container strong, .lfr-notification-container sub, .lfr-notification-container sup, .lfr-notification-container tt, .lfr-notification-container var, .lfr-notification-container b, .lfr-notification-container u, .lfr-notification-container i, .lfr-notification-container center, .lfr-notification-container dl, .lfr-notification-container dt, .lfr-notification-container dd, .lfr-notification-container ol, .lfr-notification-container ul, .lfr-notification-container li, .lfr-notification-container fieldset, .lfr-notification-container form, .lfr-notification-container label, .lfr-notification-container legend, .lfr-notification-container table, .lfr-notification-container caption, .lfr-notification-container tbody, .lfr-notification-container tfoot, .lfr-notification-container thead, .lfr-notification-container tr, .lfr-notification-container th, .lfr-notification-container td, .lfr-notification-container article, .lfr-notification-container aside, .lfr-notification-container canvas, .lfr-notification-container details, .lfr-notification-container embed, .lfr-notification-container figure, .lfr-notification-container figcaption, .lfr-notification-container footer, .lfr-notification-container header, .lfr-notification-container hgroup, .lfr-notification-container menu, .lfr-notification-container nav, .lfr-notification-container output, .lfr-notification-container ruby, .lfr-notification-container section, .lfr-notification-container summary, .lfr-notification-container time, .lfr-notification-container mark, .lfr-notification-container audio, .lfr-notification-container video, .lfr-admin-panel html, .lfr-admin-panel body, .lfr-admin-panel div, .lfr-admin-panel span, .lfr-admin-panel applet, .lfr-admin-panel object, .lfr-admin-panel iframe, .lfr-admin-panel h1, .lfr-admin-panel h2, .lfr-admin-panel h3, .lfr-admin-panel h4, .lfr-admin-panel h5, .lfr-admin-panel h6, .lfr-admin-panel p, .lfr-admin-panel blockquote, .lfr-admin-panel pre, .lfr-admin-panel a, .lfr-admin-panel abbr, .lfr-admin-panel acronym, .lfr-admin-panel address, .lfr-admin-panel big, .lfr-admin-panel cite, .lfr-admin-panel code, .lfr-admin-panel del, .lfr-admin-panel dfn, .lfr-admin-panel em, .lfr-admin-panel img, .lfr-admin-panel ins, .lfr-admin-panel kbd, .lfr-admin-panel q, .lfr-admin-panel s, .lfr-admin-panel samp, .lfr-admin-panel small, .lfr-admin-panel strike, .lfr-admin-panel strong, .lfr-admin-panel sub, .lfr-admin-panel sup, .lfr-admin-panel tt, .lfr-admin-panel var, .lfr-admin-panel b, .lfr-admin-panel u, .lfr-admin-panel i, .lfr-admin-panel center, .lfr-admin-panel dl, .lfr-admin-panel dt, .lfr-admin-panel dd, .lfr-admin-panel ol, .lfr-admin-panel ul, .lfr-admin-panel li, .lfr-admin-panel fieldset, .lfr-admin-panel form, .lfr-admin-panel label, .lfr-admin-panel legend, .lfr-admin-panel table, .lfr-admin-panel caption, .lfr-admin-panel tbody, .lfr-admin-panel tfoot, .lfr-admin-panel thead, .lfr-admin-panel tr, .lfr-admin-panel th, .lfr-admin-panel td, .lfr-admin-panel article, .lfr-admin-panel aside, .lfr-admin-panel canvas, .lfr-admin-panel details, .lfr-admin-panel embed, .lfr-admin-panel figure, .lfr-admin-panel figcaption, .lfr-admin-panel footer, .lfr-admin-panel header, .lfr-admin-panel hgroup, .lfr-admin-panel menu, .lfr-admin-panel nav, .lfr-admin-panel output, .lfr-admin-panel ruby, .lfr-admin-panel section, .lfr-admin-panel summary, .lfr-admin-panel time, .lfr-admin-panel mark, .lfr-admin-panel audio, .lfr-admin-panel video, .lfr-product-menu-sidebar html, .lfr-product-menu-sidebar body, .lfr-product-menu-sidebar div, .lfr-product-menu-sidebar span, .lfr-product-menu-sidebar applet, .lfr-product-menu-sidebar object, .lfr-product-menu-sidebar iframe, .lfr-product-menu-sidebar h1, .lfr-product-menu-sidebar h2, .lfr-product-menu-sidebar h3, .lfr-product-menu-sidebar h4, .lfr-product-menu-sidebar h5, .lfr-product-menu-sidebar h6, .lfr-product-menu-sidebar p, .lfr-product-menu-sidebar blockquote, .lfr-product-menu-sidebar pre, .lfr-product-menu-sidebar a, .lfr-product-menu-sidebar abbr, .lfr-product-menu-sidebar acronym, .lfr-product-menu-sidebar address, .lfr-product-menu-sidebar big, .lfr-product-menu-sidebar cite, .lfr-product-menu-sidebar code, .lfr-product-menu-sidebar del, .lfr-product-menu-sidebar dfn, .lfr-product-menu-sidebar em, .lfr-product-menu-sidebar img, .lfr-product-menu-sidebar ins, .lfr-product-menu-sidebar kbd, .lfr-product-menu-sidebar q, .lfr-product-menu-sidebar s, .lfr-product-menu-sidebar samp, .lfr-product-menu-sidebar small, .lfr-product-menu-sidebar strike, .lfr-product-menu-sidebar strong, .lfr-product-menu-sidebar sub, .lfr-product-menu-sidebar sup, .lfr-product-menu-sidebar tt, .lfr-product-menu-sidebar var, .lfr-product-menu-sidebar b, .lfr-product-menu-sidebar u, .lfr-product-menu-sidebar i, .lfr-product-menu-sidebar center, .lfr-product-menu-sidebar dl, .lfr-product-menu-sidebar dt, .lfr-product-menu-sidebar dd, .lfr-product-menu-sidebar ol, .lfr-product-menu-sidebar ul, .lfr-product-menu-sidebar li, .lfr-product-menu-sidebar fieldset, .lfr-product-menu-sidebar form, .lfr-product-menu-sidebar label, .lfr-product-menu-sidebar legend, .lfr-product-menu-sidebar table, .lfr-product-menu-sidebar caption, .lfr-product-menu-sidebar tbody, .lfr-product-menu-sidebar tfoot, .lfr-product-menu-sidebar thead, .lfr-product-menu-sidebar tr, .lfr-product-menu-sidebar th, .lfr-product-menu-sidebar td, .lfr-product-menu-sidebar article, .lfr-product-menu-sidebar aside, .lfr-product-menu-sidebar canvas, .lfr-product-menu-sidebar details, .lfr-product-menu-sidebar embed, .lfr-product-menu-sidebar figure, .lfr-product-menu-sidebar figcaption, .lfr-product-menu-sidebar footer, .lfr-product-menu-sidebar header, .lfr-product-menu-sidebar hgroup, .lfr-product-menu-sidebar menu, .lfr-product-menu-sidebar nav, .lfr-product-menu-sidebar output, .lfr-product-menu-sidebar ruby, .lfr-product-menu-sidebar section, .lfr-product-menu-sidebar summary, .lfr-product-menu-sidebar time, .lfr-product-menu-sidebar mark, .lfr-product-menu-sidebar audio, .lfr-product-menu-sidebar video {
+  line-height: initial; }
+
+/* line 229, custom/02-particules/04-hacks/_liferay.scss */
+.dropdown-menu.dropdown-menu-right li, .dropdown-menu.dropdown-menu-left-side li {
+  font-size: 16px;
+  margin: 10px; }
+
+/* line 234, custom/02-particules/04-hacks/_liferay.scss */
+.portlet-name-text {
+  font-size: 16px; }
+
+/* line 241, custom/02-particules/04-hacks/_liferay.scss */
+.portlet:hover > .portlet-topper {
+  width: calc(100% - 35px);
+  height: auto; }
+
+/* line 245, custom/02-particules/04-hacks/_liferay.scss */
+.portlet-journal-content .portlet .portlet-header {
+  -webkit-transform: translateY(-112%);
+          transform: translateY(-112%); }
+  /* line 248, custom/02-particules/04-hacks/_liferay.scss */
+  .portlet-journal-content .portlet .portlet-header .visible-interaction {
+    display: inline; }
+    /* line 251, custom/02-particules/04-hacks/_liferay.scss */
+    .portlet-journal-content .portlet .portlet-header .visible-interaction .lfr-icon-menu {
+      background-color: transparent;
+      display: inline; }
+      /* line 255, custom/02-particules/04-hacks/_liferay.scss */
+      .portlet-journal-content .portlet .portlet-header .visible-interaction .lfr-icon-menu > a {
+        height: 32px;
+        line-height: 32px;
+        width: 32px; }
+        /* line 260, custom/02-particules/04-hacks/_liferay.scss */
+        .portlet-journal-content .portlet .portlet-header .visible-interaction .lfr-icon-menu > a .lexicon-icon {
+          height: 32px;
+          width: 32px;
+          padding: 8px; }
 
 /* line 1, custom/03-strasbourg/atoms/_atom-btn-square.scss */
 .btn-square.filled.core, .btn-square--filled--core, #aroundme .infowindow__url a, .seu-btn-square.seu-filled.seu-core, .seu-btn-square--filled--core, .btn-square.filled.second, .btn-square--filled--second, .seu-btn-square.seu-filled.seu-second, .seu-btn-square--filled--second, .btn-square.bordered.white, .btn-square--bordered--white, .seu-btn-square.seu-bordered.seu-white, .seu-btn-square--bordered--white, .btn-square.bordered.core, .btn-square--bordered--core, .seu-btn-square.seu-bordered.seu-core, .seu-btn-square--bordered--core, .btn-square.bordered.grey, .btn-square--bordered--grey, .seu-btn-square.seu-bordered.seu-grey, .seu-btn-square--bordered--grey {

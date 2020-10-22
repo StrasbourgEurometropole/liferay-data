@@ -1,15 +1,5 @@
 package eu.strasbourg.service.official.search;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -24,10 +14,17 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(immediate = true, service = Indexer.class)
 public class OfficialIndexer extends BaseIndexer<Official> {
@@ -72,10 +69,16 @@ public class OfficialIndexer extends BaseIndexer<Official> {
 		Locale[] locales = new Locale[] { Locale.FRANCE, Locale.GERMANY,
 				Locale.US };
 		Map<Locale, String> localizedTitle = new HashMap<Locale, String>();
+		Map<Locale, String> thematicDelegationMap = new HashMap<Locale, String>();
+		Map<Locale, String> missionMap = new HashMap<Locale, String>();
 		for (Locale locale : locales) {
 			localizedTitle.put(locale, title);
+			thematicDelegationMap.put(locale, official.getThematicDelegation(locale));
+			missionMap.put(locale, official.getMissions(locale));
 		}
 		document.addLocalizedKeyword(Field.TITLE, localizedTitle);
+		document.addLocalizedText(Field.DESCRIPTION, thematicDelegationMap);
+		document.addLocalizedText(Field.CONTENT, missionMap);
 
 		document.addNumber(Field.STATUS, official.getStatus());
 

@@ -20,6 +20,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.template.*;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
@@ -27,13 +28,12 @@ import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The extended model implementation for the GoogleMyBusinessHistoric service. Represents a row in the &quot;place_GoogleMyBusinessHistoric&quot; database table, with each column mapped to a property of this class.
@@ -115,20 +115,42 @@ public class GoogleMyBusinessHistoricImpl
 		context.put("googleMyBusinessHistoric", this);
 		context.put("environment", environment);
 
-		Configuration configuration = new Configuration(Configuration.getVersion());
-		configuration.setClassForTemplateLoading(this.getClass(),"/templates/");
-		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
+		TemplateResource templateResourceSubject;
+		TemplateResource templateResourceBody;
+		Template subjectTemplate;
+		Template bodyTemplate;
+		String mailSubject;
+		String mailBody;
+		StringWriter out;
+
 
 		try {
+			// Chargement du template contenant le sujet du mail
+			templateResourceSubject = new URLTemplateResource("0",
+					Objects.requireNonNull(this.getClass().getClassLoader()
+							.getResource("/templates/google-mybusiness-mail-subject.ftl")));
+			subjectTemplate = TemplateManagerUtil.getTemplate(
+					TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
+
+			// Traitement du template sujet
+			out = new StringWriter();
+			subjectTemplate.putAll(context);
+			subjectTemplate.processTemplate(out);
+			mailSubject = out.toString();
+
+			//Chargement du template contenant le corps du mail
+			templateResourceBody = new URLTemplateResource("0",
+					Objects.requireNonNull(this.getClass().getClassLoader()
+							.getResource("/templates/google-mybusiness-mail-body.ftl")));
+			bodyTemplate = TemplateManagerUtil.getTemplate(
+					TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+			// Traitement du template corps
+			out = new StringWriter();
+			bodyTemplate.putAll(context);
+			bodyTemplate.processTemplate(out);
+			mailBody = out.toString();
 			// Recuperation des patrons
-			Template subjectTemplate = configuration.getTemplate("google-mybusiness-mail-subject.ftl");
-			Template bodyTemplate = configuration.getTemplate("google-mybusiness-mail-body.ftl");
-
-			StringWriter subjectWriter = new StringWriter();
-			StringWriter bodyWriter = new StringWriter();
-
-			subjectTemplate.process(context, subjectWriter);
-			bodyTemplate.process(context, bodyWriter);
 
 			// Properties de l'adresse d'envoie
 			String adminEmailFromAddress = PrefsPropsUtil.getString(
@@ -139,8 +161,7 @@ public class GoogleMyBusinessHistoricImpl
 			MailHelper.sendMailWithHTML(
 					adminEmailFromAddress,
 					mailAddresses,
-					subjectWriter.toString(),
-					bodyWriter.toString());
+					mailSubject, mailBody);
 		} catch (Exception e) {
 			log.error(e);
 		}

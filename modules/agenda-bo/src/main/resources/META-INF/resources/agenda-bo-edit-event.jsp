@@ -22,6 +22,7 @@
 	<liferay-ui:error key="image-error" message="image-error" />
 	<liferay-ui:error key="image-load-error" message="image-load-error" />
 	<liferay-ui:error key="image-copyright-error" message="image-copyright-error" />
+	<liferay-ui:error key="place-selected-error" message="place-selected-error" />
 	<liferay-ui:error key="place-name-error" message="place-name-error" />
 	<liferay-ui:error key="place-city-error" message="place-city-error" />
 	<liferay-ui:error key="period-date-error" message="period-date-error" />
@@ -54,7 +55,8 @@
 							function (val, fieldNode, ruleValue) {
 								var validate = $('#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_description_fr_FR').val().length > 0;
 								if (!validate) {
-									$("#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_descriptionContainer").get(0).scrollIntoView();
+									$("#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_descriptionEditorContainer").get(0).scrollIntoView();
+		                            event.preventDefault();
 								}
 								return validate;
 							}
@@ -69,10 +71,14 @@
 			</aui:fieldset>
 			
 			<aui:fieldset collapsed="true" collapsible="true"
-				label="eu.dates-and-times">				
+				label="eu.dates-and-times">
+
+				<div class="no-event-period" style="display: none; margin-top: 0">
+                    <liferay-ui:message key="no-event-period" />
+                </div>
 				
 				<div class="event-periods-title">
-					<p class="control-label"><liferay-ui:message key="event-period-creation" /></p>
+					<p class="control-label"><liferay-ui:message key="event-period-creation" /><span class="icon-asterisk text-warning"></span></p>
 				</div>
 				
 				<div class="add-dates-section">
@@ -146,22 +152,22 @@
 			
 			<aui:fieldset collapsed="true" collapsible="true" label="place">
 			
-				<label><input type="radio" value="sig" name="placeType" 
+				<label><input type="radio" value="sig" name="<portlet:namespace />placeType"
 					<c:if test="${not empty dc.event.placeSIGId or empty dc.event.placeName }">checked</c:if>> Lieu SIG</label><br>
-				<label><input type="radio" value="manual" name="placeType"
+				<label><input type="radio" value="manual" name="<portlet:namespace />placeType"
 					<c:if test="${empty dc.event.placeSIGId and not empty dc.event.placeName }">checked</c:if>> Saisie manuelle</label><br><br>
 					
-				 <div class="sig" <c:if test="${empty dc.event.placeSIGId and not empty dc.event.placeName}">style="display: none;"</c:if>>
-					<div class="place-autocomplete">
+				<div class="sig" <c:if test="${empty dc.event.placeSIGId and not empty dc.event.placeName}">style="display: none;"</c:if>>
+					<div class="place-autocomplete  form-group">
 						<div class="place-autocomplete-input-wrapper">
 							<aui:input label="Choisir un lieu" type="text" name="place" value="" />
 						</div>
 						<span id="place-autocomplete-hidden-value">
 							<aui:input type="hidden" name="placeSIGId" value="${dc.event.placeSIGId}" />
 						</span>
-						<aui:input label="Lieu choisi" type="text" value="${not empty dc.event.placeSIGId ? dc.event.getPlaceAlias(locale) : ''}" name="selectedPlace" disabled="true" cssClass="selected-place" >
-							<aui:validator name="required"
-								errorMessage="this-field-is-required" />
+						<aui:input label="choosen-place" type="text" value="${not empty dc.event.placeSIGId ? dc.event.getPlaceAlias(locale) : ''}" name="selectedPlace" disabled="true" cssClass="selected-place" />
+						<aui:input type="hidden" value="${not empty dc.event.placeSIGId ? dc.event.getPlaceAlias(locale) : ''}" name="selectedPlace2" cssClass="selected-place2" >
+                            <aui:validator name="required" errorMessage="this-field-is-required" />
 						</aui:input>
 					</div>
 				</div>
@@ -253,6 +259,7 @@
 								    if ($(fieldContent).find('.icon-asterisk').length > 0
 								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
 								    	validated = false;
+								    	event.preventDefault();
 								    	break;
 								    }
 								}
@@ -311,10 +318,6 @@
 	</script>
 </liferay-util:html-top>
 <liferay-util:html-bottom>
-	<script>
-		define._amd = define.amd;
-		define.amd = false;
-	</script>
 	<script src="/o/agendabo/js/vendors/moment.min.js"
 		type="text/javascript"></script>
 	<script
@@ -323,9 +326,6 @@
 	<script
 		src="/o/agendabo/js/vendors/jquery.autocomplete.js"
 		type="text/javascript"></script>
-	<script>
-		define.amd = define._amd;
-	</script>
 	<script
 		src="/o/agendabo/js/agenda-bo-edit-event.js"
 		type="text/javascript"></script>

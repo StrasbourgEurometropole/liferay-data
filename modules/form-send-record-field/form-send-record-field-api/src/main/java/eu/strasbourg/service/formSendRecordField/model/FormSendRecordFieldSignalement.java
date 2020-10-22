@@ -25,53 +25,61 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Angélique Zunino
  * @see FormSendRecordFieldSignalementModel
- * @see eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldSignalementImpl
- * @see eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldSignalementModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldSignalementImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldSignalementImpl"
+)
 @ProviderType
 public interface FormSendRecordFieldSignalement
 	extends FormSendRecordFieldSignalementModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldSignalementImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldSignalementImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<FormSendRecordFieldSignalement, Long> SIGNALEMENT_ID_ACCESSOR =
-		new Accessor<FormSendRecordFieldSignalement, Long>() {
-			@Override
-			public Long get(
-				FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
-				return formSendRecordFieldSignalement.getSignalementId();
-			}
+	public static final Accessor<FormSendRecordFieldSignalement, Long>
+		SIGNALEMENT_ID_ACCESSOR =
+			new Accessor<FormSendRecordFieldSignalement, Long>() {
 
-			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
-			}
+				@Override
+				public Long get(
+					FormSendRecordFieldSignalement
+						formSendRecordFieldSignalement) {
 
-			@Override
-			public Class<FormSendRecordFieldSignalement> getTypeClass() {
-				return FormSendRecordFieldSignalement.class;
-			}
-		};
+					return formSendRecordFieldSignalement.getSignalementId();
+				}
+
+				@Override
+				public Class<Long> getAttributeClass() {
+					return Long.class;
+				}
+
+				@Override
+				public Class<FormSendRecordFieldSignalement> getTypeClass() {
+					return FormSendRecordFieldSignalement.class;
+				}
+
+			};
 
 	/**
-	* Retourne l'utilisateur auteur du signalement
-	*/
+	 * Retourne l'utilisateur auteur du signalement
+	 */
 	public eu.strasbourg.service.oidc.model.PublikUser getSignalementAuthor();
 
 	/**
-	* Retourne le nom de l'auteur du signalement
-	*/
-	public java.lang.String getSignalementAuthorLabel();
+	 * Retourne le nom de l'auteur du signalement
+	 */
+	public String getSignalementAuthorLabel();
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategoriesByAssetEntry();
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategoriesByAssetEntry();
 
-	public java.lang.String getCategorieName();
+	public String getCategorieName();
+
 }

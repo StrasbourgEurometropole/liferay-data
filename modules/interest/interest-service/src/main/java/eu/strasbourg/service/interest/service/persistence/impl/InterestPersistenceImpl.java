@@ -31,10 +31,9 @@ import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -48,6 +47,7 @@ import eu.strasbourg.service.interest.service.persistence.InterestPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
@@ -67,51 +67,32 @@ import java.util.Set;
  * </p>
  *
  * @author BenjaminBini
- * @see InterestPersistence
- * @see eu.strasbourg.service.interest.service.persistence.InterestUtil
  * @generated
  */
 @ProviderType
-public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
-	implements InterestPersistence {
+public class InterestPersistenceImpl
+	extends BasePersistenceImpl<Interest> implements InterestPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link InterestUtil} to access the interest persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>InterestUtil</code> to access the interest persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = InterestImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			InterestModelImpl.UUID_COLUMN_BITMASK |
-			InterestModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		InterestImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the interests where uuid = &#63;.
@@ -128,7 +109,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * Returns a range of all the interests where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InterestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InterestModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -145,7 +126,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * Returns an ordered range of all the interests where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InterestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InterestModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -155,8 +136,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the ordered range of matching interests
 	 */
 	@Override
-	public List<Interest> findByUuid(String uuid, int start, int end,
+	public List<Interest> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Interest> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -164,7 +147,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * Returns an ordered range of all the interests where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InterestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InterestModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -175,32 +158,38 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the ordered range of matching interests
 	 */
 	@Override
-	public List<Interest> findByUuid(String uuid, int start, int end,
-		OrderByComparator<Interest> orderByComparator, boolean retrieveFromCache) {
+	public List<Interest> findByUuid(
+		String uuid, int start, int end,
+		OrderByComparator<Interest> orderByComparator,
+		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<Interest> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Interest>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Interest>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Interest interest : list) {
-					if (!Objects.equals(uuid, interest.getUuid())) {
+					if (!uuid.equals(interest.getUuid())) {
 						list = null;
 
 						break;
@@ -213,8 +202,8 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -224,10 +213,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -237,11 +223,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(InterestModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -261,16 +246,16 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 				}
 
 				if (!pagination) {
-					list = (List<Interest>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Interest>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Interest>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Interest>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -299,9 +284,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @throws NoSuchInterestException if a matching interest could not be found
 	 */
 	@Override
-	public Interest findByUuid_First(String uuid,
-		OrderByComparator<Interest> orderByComparator)
+	public Interest findByUuid_First(
+			String uuid, OrderByComparator<Interest> orderByComparator)
 		throws NoSuchInterestException {
+
 		Interest interest = fetchByUuid_First(uuid, orderByComparator);
 
 		if (interest != null) {
@@ -315,7 +301,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInterestException(msg.toString());
 	}
@@ -328,8 +314,9 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the first matching interest, or <code>null</code> if a matching interest could not be found
 	 */
 	@Override
-	public Interest fetchByUuid_First(String uuid,
-		OrderByComparator<Interest> orderByComparator) {
+	public Interest fetchByUuid_First(
+		String uuid, OrderByComparator<Interest> orderByComparator) {
+
 		List<Interest> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -348,9 +335,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @throws NoSuchInterestException if a matching interest could not be found
 	 */
 	@Override
-	public Interest findByUuid_Last(String uuid,
-		OrderByComparator<Interest> orderByComparator)
+	public Interest findByUuid_Last(
+			String uuid, OrderByComparator<Interest> orderByComparator)
 		throws NoSuchInterestException {
+
 		Interest interest = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (interest != null) {
@@ -364,7 +352,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInterestException(msg.toString());
 	}
@@ -377,16 +365,17 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the last matching interest, or <code>null</code> if a matching interest could not be found
 	 */
 	@Override
-	public Interest fetchByUuid_Last(String uuid,
-		OrderByComparator<Interest> orderByComparator) {
+	public Interest fetchByUuid_Last(
+		String uuid, OrderByComparator<Interest> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Interest> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<Interest> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -405,9 +394,13 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @throws NoSuchInterestException if a interest with the primary key could not be found
 	 */
 	@Override
-	public Interest[] findByUuid_PrevAndNext(long interestId, String uuid,
-		OrderByComparator<Interest> orderByComparator)
+	public Interest[] findByUuid_PrevAndNext(
+			long interestId, String uuid,
+			OrderByComparator<Interest> orderByComparator)
 		throws NoSuchInterestException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Interest interest = findByPrimaryKey(interestId);
 
 		Session session = null;
@@ -417,13 +410,13 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 			Interest[] array = new InterestImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, interest, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, interest, uuid, orderByComparator, true);
 
 			array[1] = interest;
 
-			array[2] = getByUuid_PrevAndNext(session, interest, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, interest, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -435,14 +428,15 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		}
 	}
 
-	protected Interest getByUuid_PrevAndNext(Session session,
-		Interest interest, String uuid,
+	protected Interest getByUuid_PrevAndNext(
+		Session session, Interest interest, String uuid,
 		OrderByComparator<Interest> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -453,10 +447,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -466,7 +457,8 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -538,10 +530,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(interest);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(interest)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -562,8 +554,9 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (Interest interest : findByUuid(uuid, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Interest interest :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(interest);
 		}
 	}
@@ -576,9 +569,11 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -589,10 +584,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -633,22 +625,17 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "interest.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "interest.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(interest.uuid IS NULL OR interest.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			InterestModelImpl.UUID_COLUMN_BITMASK |
-			InterestModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"interest.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(interest.uuid IS NULL OR interest.uuid = '')";
+
+	private FinderPath _finderPathFetchByUUID_G;
+	private FinderPath _finderPathCountByUUID_G;
 
 	/**
-	 * Returns the interest where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchInterestException} if it could not be found.
+	 * Returns the interest where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchInterestException</code> if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
@@ -658,6 +645,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	@Override
 	public Interest findByUUID_G(String uuid, long groupId)
 		throws NoSuchInterestException {
+
 		Interest interest = fetchByUUID_G(uuid, groupId);
 
 		if (interest == null) {
@@ -671,7 +659,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 			msg.append(", groupId=");
 			msg.append(groupId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -704,22 +692,26 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the matching interest, or <code>null</code> if a matching interest could not be found
 	 */
 	@Override
-	public Interest fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
+	public Interest fetchByUUID_G(
+		String uuid, long groupId, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
 		if (result instanceof Interest) {
 			Interest interest = (Interest)result;
 
 			if (!Objects.equals(uuid, interest.getUuid()) ||
-					(groupId != interest.getGroupId())) {
+				(groupId != interest.getGroupId())) {
+
 				result = null;
 			}
 		}
@@ -731,10 +723,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -765,8 +754,8 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 				List<Interest> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByUUID_G, finderArgs, list);
 				}
 				else {
 					Interest interest = list.get(0);
@@ -774,17 +763,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 					result = interest;
 
 					cacheResult(interest);
-
-					if ((interest.getUuid() == null) ||
-							!interest.getUuid().equals(uuid) ||
-							(interest.getGroupId() != groupId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-							finderArgs, interest);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
+				finderCache.removeResult(_finderPathFetchByUUID_G, finderArgs);
 
 				throw processException(e);
 			}
@@ -811,6 +793,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	@Override
 	public Interest removeByUUID_G(String uuid, long groupId)
 		throws NoSuchInterestException {
+
 		Interest interest = findByUUID_G(uuid, groupId);
 
 		return remove(interest);
@@ -825,9 +808,11 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 */
 	@Override
 	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, groupId };
+		FinderPath finderPath = _finderPathCountByUUID_G;
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -838,10 +823,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -886,31 +868,18 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "interest.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "interest.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(interest.uuid IS NULL OR interest.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "interest.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
-			new String[] {
-				String.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C =
-		new FinderPath(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() },
-			InterestModelImpl.UUID_COLUMN_BITMASK |
-			InterestModelImpl.COMPANYID_COLUMN_BITMASK |
-			InterestModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
+		"interest.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
+		"(interest.uuid IS NULL OR interest.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
+		"interest.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByUuid_C;
+	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
+	private FinderPath _finderPathCountByUuid_C;
 
 	/**
 	 * Returns all the interests where uuid = &#63; and companyId = &#63;.
@@ -921,15 +890,15 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 */
 	@Override
 	public List<Interest> findByUuid_C(String uuid, long companyId) {
-		return findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByUuid_C(
+			uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the interests where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InterestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InterestModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -939,8 +908,9 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the range of matching interests
 	 */
 	@Override
-	public List<Interest> findByUuid_C(String uuid, long companyId, int start,
-		int end) {
+	public List<Interest> findByUuid_C(
+		String uuid, long companyId, int start, int end) {
+
 		return findByUuid_C(uuid, companyId, start, end, null);
 	}
 
@@ -948,7 +918,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * Returns an ordered range of all the interests where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InterestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InterestModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -959,16 +929,19 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the ordered range of matching interests
 	 */
 	@Override
-	public List<Interest> findByUuid_C(String uuid, long companyId, int start,
-		int end, OrderByComparator<Interest> orderByComparator) {
-		return findByUuid_C(uuid, companyId, start, end, orderByComparator, true);
+	public List<Interest> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Interest> orderByComparator) {
+
+		return findByUuid_C(
+			uuid, companyId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the interests where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InterestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InterestModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -980,38 +953,42 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the ordered range of matching interests
 	 */
 	@Override
-	public List<Interest> findByUuid_C(String uuid, long companyId, int start,
-		int end, OrderByComparator<Interest> orderByComparator,
+	public List<Interest> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Interest> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C;
-			finderArgs = new Object[] { uuid, companyId };
+			finderPath = _finderPathWithoutPaginationFindByUuid_C;
+			finderArgs = new Object[] {uuid, companyId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C;
+			finderPath = _finderPathWithPaginationFindByUuid_C;
 			finderArgs = new Object[] {
-					uuid, companyId,
-					
-					start, end, orderByComparator
-				};
+				uuid, companyId, start, end, orderByComparator
+			};
 		}
 
 		List<Interest> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Interest>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Interest>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Interest interest : list) {
-					if (!Objects.equals(uuid, interest.getUuid()) ||
-							(companyId != interest.getCompanyId())) {
+					if (!uuid.equals(interest.getUuid()) ||
+						(companyId != interest.getCompanyId())) {
+
 						list = null;
 
 						break;
@@ -1024,8 +1001,8 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1035,10 +1012,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1050,11 +1024,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(InterestModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1076,16 +1049,16 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 				qPos.add(companyId);
 
 				if (!pagination) {
-					list = (List<Interest>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Interest>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Interest>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Interest>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1115,11 +1088,13 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @throws NoSuchInterestException if a matching interest could not be found
 	 */
 	@Override
-	public Interest findByUuid_C_First(String uuid, long companyId,
-		OrderByComparator<Interest> orderByComparator)
+	public Interest findByUuid_C_First(
+			String uuid, long companyId,
+			OrderByComparator<Interest> orderByComparator)
 		throws NoSuchInterestException {
-		Interest interest = fetchByUuid_C_First(uuid, companyId,
-				orderByComparator);
+
+		Interest interest = fetchByUuid_C_First(
+			uuid, companyId, orderByComparator);
 
 		if (interest != null) {
 			return interest;
@@ -1135,7 +1110,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInterestException(msg.toString());
 	}
@@ -1149,10 +1124,12 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the first matching interest, or <code>null</code> if a matching interest could not be found
 	 */
 	@Override
-	public Interest fetchByUuid_C_First(String uuid, long companyId,
+	public Interest fetchByUuid_C_First(
+		String uuid, long companyId,
 		OrderByComparator<Interest> orderByComparator) {
-		List<Interest> list = findByUuid_C(uuid, companyId, 0, 1,
-				orderByComparator);
+
+		List<Interest> list = findByUuid_C(
+			uuid, companyId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1171,11 +1148,13 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @throws NoSuchInterestException if a matching interest could not be found
 	 */
 	@Override
-	public Interest findByUuid_C_Last(String uuid, long companyId,
-		OrderByComparator<Interest> orderByComparator)
+	public Interest findByUuid_C_Last(
+			String uuid, long companyId,
+			OrderByComparator<Interest> orderByComparator)
 		throws NoSuchInterestException {
-		Interest interest = fetchByUuid_C_Last(uuid, companyId,
-				orderByComparator);
+
+		Interest interest = fetchByUuid_C_Last(
+			uuid, companyId, orderByComparator);
 
 		if (interest != null) {
 			return interest;
@@ -1191,7 +1170,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInterestException(msg.toString());
 	}
@@ -1205,16 +1184,18 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the last matching interest, or <code>null</code> if a matching interest could not be found
 	 */
 	@Override
-	public Interest fetchByUuid_C_Last(String uuid, long companyId,
+	public Interest fetchByUuid_C_Last(
+		String uuid, long companyId,
 		OrderByComparator<Interest> orderByComparator) {
+
 		int count = countByUuid_C(uuid, companyId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Interest> list = findByUuid_C(uuid, companyId, count - 1, count,
-				orderByComparator);
+		List<Interest> list = findByUuid_C(
+			uuid, companyId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1234,9 +1215,13 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @throws NoSuchInterestException if a interest with the primary key could not be found
 	 */
 	@Override
-	public Interest[] findByUuid_C_PrevAndNext(long interestId, String uuid,
-		long companyId, OrderByComparator<Interest> orderByComparator)
+	public Interest[] findByUuid_C_PrevAndNext(
+			long interestId, String uuid, long companyId,
+			OrderByComparator<Interest> orderByComparator)
 		throws NoSuchInterestException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Interest interest = findByPrimaryKey(interestId);
 
 		Session session = null;
@@ -1246,13 +1231,13 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 			Interest[] array = new InterestImpl[3];
 
-			array[0] = getByUuid_C_PrevAndNext(session, interest, uuid,
-					companyId, orderByComparator, true);
+			array[0] = getByUuid_C_PrevAndNext(
+				session, interest, uuid, companyId, orderByComparator, true);
 
 			array[1] = interest;
 
-			array[2] = getByUuid_C_PrevAndNext(session, interest, uuid,
-					companyId, orderByComparator, false);
+			array[2] = getByUuid_C_PrevAndNext(
+				session, interest, uuid, companyId, orderByComparator, false);
 
 			return array;
 		}
@@ -1264,14 +1249,15 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		}
 	}
 
-	protected Interest getByUuid_C_PrevAndNext(Session session,
-		Interest interest, String uuid, long companyId,
+	protected Interest getByUuid_C_PrevAndNext(
+		Session session, Interest interest, String uuid, long companyId,
 		OrderByComparator<Interest> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1282,10 +1268,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 		}
 		else {
@@ -1297,7 +1280,8 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1371,10 +1355,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		qPos.add(companyId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(interest);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(interest)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1396,8 +1380,11 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 */
 	@Override
 	public void removeByUuid_C(String uuid, long companyId) {
-		for (Interest interest : findByUuid_C(uuid, companyId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (Interest interest :
+				findByUuid_C(
+					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(interest);
 		}
 	}
@@ -1411,9 +1398,11 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 */
 	@Override
 	public int countByUuid_C(String uuid, long companyId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_C;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, companyId };
+		FinderPath finderPath = _finderPathCountByUuid_C;
+
+		Object[] finderArgs = new Object[] {uuid, companyId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1424,10 +1413,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1472,30 +1458,18 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_1 = "interest.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "interest.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(interest.uuid IS NULL OR interest.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "interest.companyId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID = new FinderPath(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID =
-		new FinderPath(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] { Long.class.getName() },
-			InterestModelImpl.GROUPID_COLUMN_BITMASK |
-			InterestModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
+		"interest.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
+		"(interest.uuid IS NULL OR interest.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
+		"interest.companyId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByGroupId;
+	private FinderPath _finderPathWithoutPaginationFindByGroupId;
+	private FinderPath _finderPathCountByGroupId;
 
 	/**
 	 * Returns all the interests where groupId = &#63;.
@@ -1505,14 +1479,15 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 */
 	@Override
 	public List<Interest> findByGroupId(long groupId) {
-		return findByGroupId(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByGroupId(
+			groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the interests where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InterestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InterestModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1529,7 +1504,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * Returns an ordered range of all the interests where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InterestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InterestModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1539,8 +1514,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the ordered range of matching interests
 	 */
 	@Override
-	public List<Interest> findByGroupId(long groupId, int start, int end,
+	public List<Interest> findByGroupId(
+		long groupId, int start, int end,
 		OrderByComparator<Interest> orderByComparator) {
+
 		return findByGroupId(groupId, start, end, orderByComparator, true);
 	}
 
@@ -1548,7 +1525,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * Returns an ordered range of all the interests where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InterestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InterestModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1559,28 +1536,32 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the ordered range of matching interests
 	 */
 	@Override
-	public List<Interest> findByGroupId(long groupId, int start, int end,
-		OrderByComparator<Interest> orderByComparator, boolean retrieveFromCache) {
+	public List<Interest> findByGroupId(
+		long groupId, int start, int end,
+		OrderByComparator<Interest> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId };
+			finderPath = _finderPathWithoutPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId, start, end, orderByComparator};
 		}
 
 		List<Interest> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Interest>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Interest>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Interest interest : list) {
@@ -1597,8 +1578,8 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1609,11 +1590,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(InterestModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1631,16 +1611,16 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 				qPos.add(groupId);
 
 				if (!pagination) {
-					list = (List<Interest>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Interest>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Interest>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Interest>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1669,9 +1649,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @throws NoSuchInterestException if a matching interest could not be found
 	 */
 	@Override
-	public Interest findByGroupId_First(long groupId,
-		OrderByComparator<Interest> orderByComparator)
+	public Interest findByGroupId_First(
+			long groupId, OrderByComparator<Interest> orderByComparator)
 		throws NoSuchInterestException {
+
 		Interest interest = fetchByGroupId_First(groupId, orderByComparator);
 
 		if (interest != null) {
@@ -1685,7 +1666,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInterestException(msg.toString());
 	}
@@ -1698,8 +1679,9 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the first matching interest, or <code>null</code> if a matching interest could not be found
 	 */
 	@Override
-	public Interest fetchByGroupId_First(long groupId,
-		OrderByComparator<Interest> orderByComparator) {
+	public Interest fetchByGroupId_First(
+		long groupId, OrderByComparator<Interest> orderByComparator) {
+
 		List<Interest> list = findByGroupId(groupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1718,9 +1700,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @throws NoSuchInterestException if a matching interest could not be found
 	 */
 	@Override
-	public Interest findByGroupId_Last(long groupId,
-		OrderByComparator<Interest> orderByComparator)
+	public Interest findByGroupId_Last(
+			long groupId, OrderByComparator<Interest> orderByComparator)
 		throws NoSuchInterestException {
+
 		Interest interest = fetchByGroupId_Last(groupId, orderByComparator);
 
 		if (interest != null) {
@@ -1734,7 +1717,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInterestException(msg.toString());
 	}
@@ -1747,16 +1730,17 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the last matching interest, or <code>null</code> if a matching interest could not be found
 	 */
 	@Override
-	public Interest fetchByGroupId_Last(long groupId,
-		OrderByComparator<Interest> orderByComparator) {
+	public Interest fetchByGroupId_Last(
+		long groupId, OrderByComparator<Interest> orderByComparator) {
+
 		int count = countByGroupId(groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Interest> list = findByGroupId(groupId, count - 1, count,
-				orderByComparator);
+		List<Interest> list = findByGroupId(
+			groupId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1775,9 +1759,11 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @throws NoSuchInterestException if a interest with the primary key could not be found
 	 */
 	@Override
-	public Interest[] findByGroupId_PrevAndNext(long interestId, long groupId,
-		OrderByComparator<Interest> orderByComparator)
+	public Interest[] findByGroupId_PrevAndNext(
+			long interestId, long groupId,
+			OrderByComparator<Interest> orderByComparator)
 		throws NoSuchInterestException {
+
 		Interest interest = findByPrimaryKey(interestId);
 
 		Session session = null;
@@ -1787,13 +1773,13 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 			Interest[] array = new InterestImpl[3];
 
-			array[0] = getByGroupId_PrevAndNext(session, interest, groupId,
-					orderByComparator, true);
+			array[0] = getByGroupId_PrevAndNext(
+				session, interest, groupId, orderByComparator, true);
 
 			array[1] = interest;
 
-			array[2] = getByGroupId_PrevAndNext(session, interest, groupId,
-					orderByComparator, false);
+			array[2] = getByGroupId_PrevAndNext(
+				session, interest, groupId, orderByComparator, false);
 
 			return array;
 		}
@@ -1805,14 +1791,15 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		}
 	}
 
-	protected Interest getByGroupId_PrevAndNext(Session session,
-		Interest interest, long groupId,
+	protected Interest getByGroupId_PrevAndNext(
+		Session session, Interest interest, long groupId,
 		OrderByComparator<Interest> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1824,7 +1811,8 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1894,10 +1882,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		qPos.add(groupId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(interest);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(interest)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1918,8 +1906,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 */
 	@Override
 	public void removeByGroupId(long groupId) {
-		for (Interest interest : findByGroupId(groupId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Interest interest :
+				findByGroupId(
+					groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(interest);
 		}
 	}
@@ -1932,9 +1922,9 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 */
 	@Override
 	public int countByGroupId(long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPID;
+		FinderPath finderPath = _finderPathCountByGroupId;
 
-		Object[] finderArgs = new Object[] { groupId };
+		Object[] finderArgs = new Object[] {groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1975,18 +1965,21 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "interest.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
+		"interest.groupId = ?";
 
 	public InterestPersistenceImpl() {
 		setModelClass(Interest.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -2004,11 +1997,13 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 */
 	@Override
 	public void cacheResult(Interest interest) {
-		entityCache.putResult(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestImpl.class, interest.getPrimaryKey(), interest);
+		entityCache.putResult(
+			InterestModelImpl.ENTITY_CACHE_ENABLED, InterestImpl.class,
+			interest.getPrimaryKey(), interest);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-			new Object[] { interest.getUuid(), interest.getGroupId() }, interest);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G,
+			new Object[] {interest.getUuid(), interest.getGroupId()}, interest);
 
 		interest.resetOriginalValues();
 	}
@@ -2021,8 +2016,10 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	@Override
 	public void cacheResult(List<Interest> interests) {
 		for (Interest interest : interests) {
-			if (entityCache.getResult(InterestModelImpl.ENTITY_CACHE_ENABLED,
-						InterestImpl.class, interest.getPrimaryKey()) == null) {
+			if (entityCache.getResult(
+					InterestModelImpl.ENTITY_CACHE_ENABLED, InterestImpl.class,
+					interest.getPrimaryKey()) == null) {
+
 				cacheResult(interest);
 			}
 			else {
@@ -2035,7 +2032,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * Clears the cache for all interests.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -2051,13 +2048,14 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * Clears the cache for the interest.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Interest interest) {
-		entityCache.removeResult(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestImpl.class, interest.getPrimaryKey());
+		entityCache.removeResult(
+			InterestModelImpl.ENTITY_CACHE_ENABLED, InterestImpl.class,
+			interest.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -2071,44 +2069,49 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Interest interest : interests) {
-			entityCache.removeResult(InterestModelImpl.ENTITY_CACHE_ENABLED,
-				InterestImpl.class, interest.getPrimaryKey());
+			entityCache.removeResult(
+				InterestModelImpl.ENTITY_CACHE_ENABLED, InterestImpl.class,
+				interest.getPrimaryKey());
 
 			clearUniqueFindersCache((InterestModelImpl)interest, true);
 		}
 	}
 
-	protected void cacheUniqueFindersCache(InterestModelImpl interestModelImpl) {
-		Object[] args = new Object[] {
-				interestModelImpl.getUuid(), interestModelImpl.getGroupId()
-			};
+	protected void cacheUniqueFindersCache(
+		InterestModelImpl interestModelImpl) {
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-			interestModelImpl, false);
+		Object[] args = new Object[] {
+			interestModelImpl.getUuid(), interestModelImpl.getGroupId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G, args, interestModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
 		InterestModelImpl interestModelImpl, boolean clearCurrent) {
+
 		if (clearCurrent) {
 			Object[] args = new Object[] {
-					interestModelImpl.getUuid(), interestModelImpl.getGroupId()
-				};
+				interestModelImpl.getUuid(), interestModelImpl.getGroupId()
+			};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 
 		if ((interestModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					interestModelImpl.getOriginalUuid(),
-					interestModelImpl.getOriginalGroupId()
-				};
+			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			Object[] args = new Object[] {
+				interestModelImpl.getOriginalUuid(),
+				interestModelImpl.getOriginalGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 	}
 
@@ -2156,21 +2159,22 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	@Override
 	public Interest remove(Serializable primaryKey)
 		throws NoSuchInterestException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			Interest interest = (Interest)session.get(InterestImpl.class,
-					primaryKey);
+			Interest interest = (Interest)session.get(
+				InterestImpl.class, primaryKey);
 
 			if (interest == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchInterestException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchInterestException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(interest);
@@ -2188,16 +2192,14 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 	@Override
 	protected Interest removeImpl(Interest interest) {
-		interest = toUnwrappedModel(interest);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(interest)) {
-				interest = (Interest)session.get(InterestImpl.class,
-						interest.getPrimaryKeyObj());
+				interest = (Interest)session.get(
+					InterestImpl.class, interest.getPrimaryKeyObj());
 			}
 
 			if (interest != null) {
@@ -2220,9 +2222,23 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 	@Override
 	public Interest updateImpl(Interest interest) {
-		interest = toUnwrappedModel(interest);
-
 		boolean isNew = interest.isNew();
+
+		if (!(interest instanceof InterestModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(interest.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(interest);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in interest proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom Interest implementation " +
+					interest.getClass());
+		}
 
 		InterestModelImpl interestModelImpl = (InterestModelImpl)interest;
 
@@ -2232,7 +2248,8 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 			interest.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
 
 		Date now = new Date();
 
@@ -2280,91 +2297,97 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		if (!InterestModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { interestModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {interestModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
 			args = new Object[] {
+				interestModelImpl.getUuid(), interestModelImpl.getCompanyId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUuid_C, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid_C, args);
+
+			args = new Object[] {interestModelImpl.getGroupId()};
+
+			finderCache.removeResult(_finderPathCountByGroupId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByGroupId, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((interestModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					interestModelImpl.getOriginalUuid()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+
+				args = new Object[] {interestModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+			}
+
+			if ((interestModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					interestModelImpl.getOriginalUuid(),
+					interestModelImpl.getOriginalCompanyId()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+
+				args = new Object[] {
 					interestModelImpl.getUuid(),
 					interestModelImpl.getCompanyId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-				args);
-
-			args = new Object[] { interestModelImpl.getGroupId() };
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((interestModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { interestModelImpl.getOriginalUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-
-				args = new Object[] { interestModelImpl.getUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
 			}
 
 			if ((interestModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByGroupId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						interestModelImpl.getOriginalUuid(),
-						interestModelImpl.getOriginalCompanyId()
-					};
+					interestModelImpl.getOriginalGroupId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
 
-				args = new Object[] {
-						interestModelImpl.getUuid(),
-						interestModelImpl.getCompanyId()
-					};
+				args = new Object[] {interestModelImpl.getGroupId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-			}
-
-			if ((interestModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						interestModelImpl.getOriginalGroupId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-
-				args = new Object[] { interestModelImpl.getGroupId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
 			}
 		}
 
-		entityCache.putResult(InterestModelImpl.ENTITY_CACHE_ENABLED,
-			InterestImpl.class, interest.getPrimaryKey(), interest, false);
+		entityCache.putResult(
+			InterestModelImpl.ENTITY_CACHE_ENABLED, InterestImpl.class,
+			interest.getPrimaryKey(), interest, false);
 
 		clearUniqueFindersCache(interestModelImpl, false);
 		cacheUniqueFindersCache(interestModelImpl);
@@ -2374,38 +2397,8 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		return interest;
 	}
 
-	protected Interest toUnwrappedModel(Interest interest) {
-		if (interest instanceof InterestImpl) {
-			return interest;
-		}
-
-		InterestImpl interestImpl = new InterestImpl();
-
-		interestImpl.setNew(interest.isNew());
-		interestImpl.setPrimaryKey(interest.getPrimaryKey());
-
-		interestImpl.setUuid(interest.getUuid());
-		interestImpl.setInterestId(interest.getInterestId());
-		interestImpl.setGroupId(interest.getGroupId());
-		interestImpl.setCompanyId(interest.getCompanyId());
-		interestImpl.setUserId(interest.getUserId());
-		interestImpl.setUserName(interest.getUserName());
-		interestImpl.setCreateDate(interest.getCreateDate());
-		interestImpl.setModifiedDate(interest.getModifiedDate());
-		interestImpl.setLastPublishDate(interest.getLastPublishDate());
-		interestImpl.setStatus(interest.getStatus());
-		interestImpl.setStatusByUserId(interest.getStatusByUserId());
-		interestImpl.setStatusByUserName(interest.getStatusByUserName());
-		interestImpl.setStatusDate(interest.getStatusDate());
-		interestImpl.setTitle(interest.getTitle());
-		interestImpl.setDescription(interest.getDescription());
-		interestImpl.setTypeId(interest.getTypeId());
-
-		return interestImpl;
-	}
-
 	/**
-	 * Returns the interest with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the interest with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the interest
 	 * @return the interest
@@ -2414,6 +2407,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	@Override
 	public Interest findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchInterestException {
+
 		Interest interest = fetchByPrimaryKey(primaryKey);
 
 		if (interest == null) {
@@ -2421,15 +2415,15 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchInterestException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchInterestException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return interest;
 	}
 
 	/**
-	 * Returns the interest with the primary key or throws a {@link NoSuchInterestException} if it could not be found.
+	 * Returns the interest with the primary key or throws a <code>NoSuchInterestException</code> if it could not be found.
 	 *
 	 * @param interestId the primary key of the interest
 	 * @return the interest
@@ -2438,6 +2432,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	@Override
 	public Interest findByPrimaryKey(long interestId)
 		throws NoSuchInterestException {
+
 		return findByPrimaryKey((Serializable)interestId);
 	}
 
@@ -2449,8 +2444,9 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 */
 	@Override
 	public Interest fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(InterestModelImpl.ENTITY_CACHE_ENABLED,
-				InterestImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			InterestModelImpl.ENTITY_CACHE_ENABLED, InterestImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -2464,19 +2460,22 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 			try {
 				session = openSession();
 
-				interest = (Interest)session.get(InterestImpl.class, primaryKey);
+				interest = (Interest)session.get(
+					InterestImpl.class, primaryKey);
 
 				if (interest != null) {
 					cacheResult(interest);
 				}
 				else {
-					entityCache.putResult(InterestModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						InterestModelImpl.ENTITY_CACHE_ENABLED,
 						InterestImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(InterestModelImpl.ENTITY_CACHE_ENABLED,
-					InterestImpl.class, primaryKey);
+				entityCache.removeResult(
+					InterestModelImpl.ENTITY_CACHE_ENABLED, InterestImpl.class,
+					primaryKey);
 
 				throw processException(e);
 			}
@@ -2502,6 +2501,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	@Override
 	public Map<Serializable, Interest> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
@@ -2525,8 +2525,9 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(InterestModelImpl.ENTITY_CACHE_ENABLED,
-					InterestImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				InterestModelImpl.ENTITY_CACHE_ENABLED, InterestImpl.class,
+				primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -2546,20 +2547,20 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_INTEREST_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -2579,8 +2580,9 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(InterestModelImpl.ENTITY_CACHE_ENABLED,
-					InterestImpl.class, primaryKey, nullModel);
+				entityCache.putResult(
+					InterestModelImpl.ENTITY_CACHE_ENABLED, InterestImpl.class,
+					primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -2607,7 +2609,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * Returns a range of all the interests.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InterestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InterestModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of interests
@@ -2623,7 +2625,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * Returns an ordered range of all the interests.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InterestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InterestModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of interests
@@ -2632,8 +2634,9 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the ordered range of interests
 	 */
 	@Override
-	public List<Interest> findAll(int start, int end,
-		OrderByComparator<Interest> orderByComparator) {
+	public List<Interest> findAll(
+		int start, int end, OrderByComparator<Interest> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -2641,7 +2644,7 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * Returns an ordered range of all the interests.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InterestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InterestModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of interests
@@ -2651,28 +2654,31 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * @return the ordered range of interests
 	 */
 	@Override
-	public List<Interest> findAll(int start, int end,
-		OrderByComparator<Interest> orderByComparator, boolean retrieveFromCache) {
+	public List<Interest> findAll(
+		int start, int end, OrderByComparator<Interest> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Interest> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Interest>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Interest>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -2680,13 +2686,13 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_INTEREST);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -2706,16 +2712,16 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Interest>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Interest>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Interest>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Interest>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2753,8 +2759,8 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -2766,12 +2772,12 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -2797,6 +2803,107 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 	 * Initializes the interest persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			InterestModelImpl.ENTITY_CACHE_ENABLED,
+			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			InterestModelImpl.ENTITY_CACHE_ENABLED,
+			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			InterestModelImpl.ENTITY_CACHE_ENABLED,
+			InterestModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			InterestModelImpl.ENTITY_CACHE_ENABLED,
+			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			InterestModelImpl.ENTITY_CACHE_ENABLED,
+			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			InterestModelImpl.UUID_COLUMN_BITMASK |
+			InterestModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			InterestModelImpl.ENTITY_CACHE_ENABLED,
+			InterestModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathFetchByUUID_G = new FinderPath(
+			InterestModelImpl.ENTITY_CACHE_ENABLED,
+			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			InterestModelImpl.UUID_COLUMN_BITMASK |
+			InterestModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByUUID_G = new FinderPath(
+			InterestModelImpl.ENTITY_CACHE_ENABLED,
+			InterestModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+			InterestModelImpl.ENTITY_CACHE_ENABLED,
+			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+			InterestModelImpl.ENTITY_CACHE_ENABLED,
+			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			InterestModelImpl.UUID_COLUMN_BITMASK |
+			InterestModelImpl.COMPANYID_COLUMN_BITMASK |
+			InterestModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+
+		_finderPathCountByUuid_C = new FinderPath(
+			InterestModelImpl.ENTITY_CACHE_ENABLED,
+			InterestModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByGroupId = new FinderPath(
+			InterestModelImpl.ENTITY_CACHE_ENABLED,
+			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+			InterestModelImpl.ENTITY_CACHE_ENABLED,
+			InterestModelImpl.FINDER_CACHE_ENABLED, InterestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] {Long.class.getName()},
+			InterestModelImpl.GROUPID_COLUMN_BITMASK |
+			InterestModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+
+		_finderPathCountByGroupId = new FinderPath(
+			InterestModelImpl.ENTITY_CACHE_ENABLED,
+			InterestModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
+			new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -2808,20 +2915,40 @@ public class InterestPersistenceImpl extends BasePersistenceImpl<Interest>
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
+
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_INTEREST = "SELECT interest FROM Interest interest";
-	private static final String _SQL_SELECT_INTEREST_WHERE_PKS_IN = "SELECT interest FROM Interest interest WHERE interestId IN (";
-	private static final String _SQL_SELECT_INTEREST_WHERE = "SELECT interest FROM Interest interest WHERE ";
-	private static final String _SQL_COUNT_INTEREST = "SELECT COUNT(interest) FROM Interest interest";
-	private static final String _SQL_COUNT_INTEREST_WHERE = "SELECT COUNT(interest) FROM Interest interest WHERE ";
+
+	private static final String _SQL_SELECT_INTEREST =
+		"SELECT interest FROM Interest interest";
+
+	private static final String _SQL_SELECT_INTEREST_WHERE_PKS_IN =
+		"SELECT interest FROM Interest interest WHERE interestId IN (";
+
+	private static final String _SQL_SELECT_INTEREST_WHERE =
+		"SELECT interest FROM Interest interest WHERE ";
+
+	private static final String _SQL_COUNT_INTEREST =
+		"SELECT COUNT(interest) FROM Interest interest";
+
+	private static final String _SQL_COUNT_INTEREST_WHERE =
+		"SELECT COUNT(interest) FROM Interest interest WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "interest.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Interest exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Interest exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(InterestPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No Interest exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No Interest exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		InterestPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

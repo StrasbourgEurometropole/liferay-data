@@ -13,11 +13,21 @@
 
 <div class="container-fluid-1280 main-content-body">
 	<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" value="back-to-list" />
+	<liferay-ui:error key="last-name-error" message="last-name-error" />
+	<liferay-ui:error key="first-name-error" message="first-name-error" />
+	<liferay-ui:error key="phone-error" message="phone-error" />
+	<liferay-ui:error key="email-error" message="email-error" />
 	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="description-error" message="description-error" />
+	<liferay-ui:error key="autor-error" message="autor-error" />
+	<liferay-ui:error key="place-selected-error" message="place-selected-error" />
+	<liferay-ui:error key="place-name-error" message="place-name-error" />
+	<liferay-ui:error key="place-city-error" message="place-city-error" />
 	<liferay-ui:error key="periods-error" message="periods-error" />
+	<liferay-ui:error key="campaign-period-error" message="campaign-period-error" />
+	<liferay-ui:error key="campaign-error" message="campaign-error" />
 	<liferay-ui:error key="types-error" message="types-error" />
 	<liferay-ui:error key="themes-error" message="themes-error" />
-	<liferay-ui:error key="campaign-period-error" message="campaign-period-error" />
 	<aui:form action="${saveURL}" method="post" name="fm" enctype="multipart/form-data" onSubmit="validatePeriods(event);" >
 		<aui:model-context bean="${dc.campaignEvent}"
 			model="<%=CampaignEvent.class %>" />
@@ -29,7 +39,7 @@
 			<aui:fieldset collapsed="false" collapsible="false" label="private-contact-information">
 				<div clas="row">
 					<!-- Nom, prÃ©nom, mail, tÃ©lÃ©phone -->
-					<div class="col-md-6">
+					<div class="col-md-6" style="float: left">
 						<aui:input name="lastName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.lastName : themeDisplay.user.lastName}"/>
 						<aui:input name="firstName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.firstName: themeDisplay.user.firstName}" />
 						<aui:input name="phone" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.phone : themeDisplay.user.phones[0].number}" />
@@ -62,7 +72,7 @@
 						</aui:fieldset>
 					</div>
 					
-					<div class="col-md-5 col-md-offset-1">
+					<div class="col-md-5 col-md-offset-1" style="float: right">
 						<aui:fieldset collapsed="false" collapsible="false" label="on-site-person">
 							<!-- Personne sur place -->
 							<aui:input name="onSiteFirstName" />
@@ -73,7 +83,7 @@
 				</div>
 			</aui:fieldset>
 			
-			<!-- Informations sur l'Ã©vÃ©nement -->
+			<!-- Informations sur l'évènement -->
 			<aui:fieldset collapsed="true" collapsible="false" label="event-information">
 				<!-- Titre, sous-titre, description -->
 				<div class="row">
@@ -83,8 +93,8 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-8">
-						<aui:input name="description" label="eu.campaign.description" localized="true" type="textarea" helpMessage="description-help" />
+					<div class="col-md-8 form-group">
+						<aui:input name="description" label="eu.campaign.description" localized="true" type="textarea" />
 						<!-- Hack pour ajouter une validation sur la description -->
 						<div class="has-error">
 							<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
@@ -92,7 +102,8 @@
 									function (val, fieldNode, ruleValue) {
 										var validate = $('#<portlet:namespace />description_fr_FR').val().length > 0;
 										if (!validate) {
-											$("#<portlet:namespace />descriptionContainer").get(0).scrollIntoView();
+											$("#<portlet:namespace />description_desc").get(0).scrollIntoView();
+											event.preventDefault();
 										}
 										return validate;
 									}
@@ -143,7 +154,11 @@
 							<aui:validator name="required"
 								errorMessage="this-field-is-required">
 								function() {
-									return $('[name$=_image]').val().length > 0;
+                                   if($('#<portlet:namespace />image').val().length > 0){
+                                        return true;
+                                   }else{
+                                        return false;
+                                   }
 								}	
 							</aui:validator>
 						</aui:input>
@@ -171,7 +186,7 @@
 			<aui:fieldset collapsed="true" collapsible="false" label="place">	
 				
 				<!-- Autocomplete lieu -->
-				<div class="place-autocomplete" <c:if test="${empty dc.campaignEvent.placeSIGId and not empty dc.campaignEvent.placeName }">style="display: none;"</c:if>>
+				<div class="place-autocomplete  form-group" <c:if test="${empty dc.campaignEvent.placeSIGId and not empty dc.campaignEvent.placeName }">style="display: none;"</c:if>>
 					<div class="row">
 						<div class="col-md-6">
 							<div class="place-autocomplete-input-wrapper choices" data-type="select-text">
@@ -179,7 +194,11 @@
                                     <aui:validator name="required"
                                         errorMessage="this-field-is-required">
                                         function() {
-                                            return (jQuery('.place-autocomplete').css('display') !== 'none' && jQuery('.selected-place').css('display') == 'none');
+                                            if($('.place-autocomplete').css('display') !== 'none' && $('.selected-place').css('display') == 'none'){
+                                                return true;
+                                            }else{
+                                                return false;
+                                            }
                                         }
                                     </aui:validator>
 							    </aui:input>
@@ -214,7 +233,11 @@
 								<aui:validator name="required"
 									errorMessage="this-field-is-required">
 									function() {
-										return jQuery('.place-manual').css('display') !== 'none';
+										if($('.place-manual').css('display') !== 'none'){
+										    return true;
+                                        }else{
+                                            return false;
+                                        }
 									}	
 								</aui:validator>
 							</aui:input>
@@ -258,7 +281,7 @@
 			
 			<!-- Informations de contact public -->
 			<aui:fieldset collapsed="true" collapsible="false" label="public-contact-information">
-				<!-- Organisateur, tÃ©lÃ©phone, mail, adresse du site internet -->
+				<!-- Organisateur, téléphone, mail, adresse du site internet -->
 				<div class="row">
 					<div class="col-md-4">
 						<aui:input name="promoter" />
@@ -315,6 +338,10 @@
 				<div class="event-periods-title">
 					<p class="control-label"><liferay-ui:message key="event-periods" /></p>
 				</div>
+
+				<div class="event-no-period" style="display: none">
+                    <liferay-ui:message key="event-no-period" />
+                </div>
 				<div id="date-fields">
 					<div class="lfr-form-row lfr-form-row-inline">
 						<div class="row-fields">
@@ -361,7 +388,28 @@
 					</div>
 				</div>
 			</aui:fieldset>
-			
+
+			<!-- Groupe de champs : Reservation de billet -->
+			<aui:fieldset collapsed="true" collapsible="false" label="event-booking">
+
+				<!-- Description de la reservation de billet -->
+				<div class="row">
+					<div class="col-md-8">
+						<aui:input label="booking-description" name="bookingDescription" localized="true" type="textarea"/>
+					</div>
+				</div>
+
+				<!-- URL de la reservation de billet -->
+				<div class="row">
+					<div class="col-md-7">
+						<aui:input name="bookingURL" label="booking-url" >
+							<aui:validator name="url" errorMessage="url-error" />
+						</aui:input>
+					</div>
+				</div>
+
+			</aui:fieldset>
+
 			<!-- Autres informations -->
 			<aui:fieldset collapsed="true" collapsible="false" label="other-information">
 				<div class="row">
@@ -383,8 +431,11 @@
 				<div class="row">
 					<!-- Types -->
 					<div class="col-md-7 form-group">
-						<label><liferay-ui:message key="types" /> <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></label>
-						<select name="<portlet:namespace />typesIds" label="types" multiple placeholder="<liferay-ui:message key="select-types" />">
+						<label><liferay-ui:message key="types" />
+						    <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span>
+						</label>
+						<select name="<portlet:namespace />typesIds" id="<portlet:namespace />typesIds" label="types" multiple
+						    placeholder="<liferay-ui:message key="select-types" />">
 							<c:forEach items="${dc.types}" var="category">
 								<c:if test="${category.rootCategory}">
 									<c:set var="category" value="${category}" scope="request"/>
@@ -395,13 +446,31 @@
 								</c:if>
 							</c:forEach>
 						</select>
+						<!-- Hack pour ajouter une validation sur les types  -->
+						<div class="has-error">
+							<aui:input type="hidden" name="typesValidatorInputHelper" value="placeholder">
+								<aui:validator name="custom" errorMessage="this-field-is-required">
+									function (val, fieldNode, ruleValue) {
+										var validate = $('#<portlet:namespace />typesIds').val().length > 0;
+										if (!validate) {
+											$("#<portlet:namespace />typesIds").get(0).scrollIntoView();
+											event.preventDefault();
+										}
+										return validate;
+									}
+								</aui:validator>
+							</aui:input>
+						</div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-7 form-group">
-						<!-- ThÃ¨mes -->
-						<label><liferay-ui:message key="themes" /> <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></label>
-						<select name="<portlet:namespace />themesIds" label="themes" multiple placeholder="<liferay-ui:message key="select-themes" />">
+						<!-- Thèmes -->
+						<label><liferay-ui:message key="themes" />
+						    <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span>
+                        </label>
+						<select name="<portlet:namespace />themesIds" id="<portlet:namespace />themesIds" label="themes" multiple
+						    placeholder="<liferay-ui:message key="select-themes" />">
 							<c:forEach items="${dc.themes}" var="category">
 								<c:if test="${category.rootCategory}">
 									<c:set var="category" value="${category}" scope="request"/>
@@ -412,6 +481,21 @@
 								</c:if>
 							</c:forEach>
 						</select>
+						<!-- Hack pour ajouter une validation sur les thèmes  -->
+						<div class="has-error">
+							<aui:input type="hidden" name="themesValidatorInputHelper" value="placeholder">
+								<aui:validator name="custom" errorMessage="this-field-is-required">
+									function (val, fieldNode, ruleValue) {
+										var validate = $('#<portlet:namespace />themesIds').val().length > 0;
+										if (!validate) {
+											$("#<portlet:namespace />themesIds").get(0).scrollIntoView();
+											event.preventDefault();
+										}
+										return validate;
+									}
+								</aui:validator>
+							</aui:input>
+						</div>
 					</div>
 				</div>
 				<div class="row">
@@ -488,8 +572,6 @@
 </liferay-portlet:actionURL>
 <liferay-util:html-bottom>
 	<aui:script>
-		define._amd = define.amd;
-		define.amd = false;
 		var namespace = '<portlet:namespace />';
 		var placeAutocompleteURL = '${placeAutocompleteURL}';
 		var getPeriodRowJSPURL = '${periodRowURL}';
@@ -514,13 +596,10 @@
 	<script src="/o/agendabo/js/vendors/moment.min.js"></script>
 	<script src="/o/agendabo/js/vendors/daterangepicker.js"></script>
 	<script	src="/o/agendabo/js/vendors/jquery.autocomplete.js"></script>
-	<script>
-		define.amd = define._amd;
-	</script>
 	<script src="/o/agendacampaignweb/js/campaign-edit.js"></script>
 </liferay-util:html-bottom>
 <!-- Ajout du champ obligatoire conditionnel sur le select de la ville -->
-<!-- (obligÃ© de passer par du JS car pas de aui:validator sur aui:select -->
+<!-- (obligé de passer par du JS car pas de aui:validator sur aui:select -->
 
 <aui:script use="liferay-form">
 	var form = Liferay.Form.get('<portlet:namespace />fm');

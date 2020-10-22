@@ -1,3 +1,11 @@
+html{
+    font-size: 10px;
+}
+
+body{
+    font-size: 14px;
+}
+
 .portlet {
   margin-bottom: 0;
 }
@@ -11,14 +19,14 @@
 }
 
 .has-control-menu #mns-header {
-  margin-top: 65px;
+  margin-top: 56px;
   @include mobile {
       margin-top: 45px;
     }
 }
 
 .has-control-menu #mns-header .mns-nav.mns-nav-scroll {
-  margin-top: 65px;
+  margin-top: 56px;
   @include mobile {
       margin-top: 45px;
     }
@@ -28,7 +36,7 @@ h2.portlet-title-text {
   display: none;
 }
 
- .page-header {
+.page-header {
   border-bottom: none;
   padding-bottom: 0;
   margin: 0;
@@ -82,13 +90,29 @@ h2.portlet-title-text {
 
 .taglib-page-iterator {
     position: relative;
-    border-top: 1px solid #d8dae4;
-    border-bottom: 1px solid #d8dae4;
     padding: 10px 0;
     margin-bottom: 30px;
-  .lfr-pagination-buttons {
-    line-height: 46px;
-  }
+    .lfr-icon-menu-text{
+      color: #333;
+      font-size: 14px;
+    }
+    .lfr-icon-menu-arrow{
+      color: #333;
+    }
+    .lfr-pagination-buttons {
+      line-height: 46px;
+    }
+    small.search-results {
+      font-size : 85%;
+    }
+   .lfr-icon-menu-arrow.caret {
+        font-size: 14px;
+   }
+}
+
+// Taille des options des listes déroulantes de liferay
+.lfr-icon-item.taglib-icon {
+  font-size: 14px;
 }
 
 .mns-triple-actu-bloc .mns-bloc-actu img{
@@ -113,4 +137,79 @@ h2.portlet-title-text {
 
 ul, ol{
     list-style-position: inside;
+}
+
+/** Début des correctifs du menu liferay modifié par le theme du site **/
+// "Aller au site" avec la bonne size
+.goto-link.list-group-heading.panel-header-link{
+	font-size: 14px;
+}
+
+// Menu de droite
+.lfr-add-panel{
+	font-size: 15px;
+	font-family: OpenSans, arial;
+
+	.lfr-content-item{  
+		margin-bottom: 8px;
+
+		.taglib-icon-label {
+		font-size: 16px;
+		}
+
+		.lexicon-icon {
+		height: 14px;
+		margin-top: 3px;
+		width: 14px;
+		}
+
+		.list-group-item-content{      
+		h1{
+		font-size: 14px !important;
+		font-family: OpenSans, arial;
+		font-weight: 600;
+		}
+
+		h2,h3{
+		font-size: 14px !important;
+		font-family: OpenSans, arial;
+		}
+		}
+	}
+} 
+
+// menu une fois connecté
+.nav-btn {
+  height: auto;
+}
+
+// affichage des menus des portlets
+.portlet:hover > .portlet-topper{
+  width: calc(100% - 35px);
+  height: auto;
+}
+.portlet-journal-content .portlet .portlet-header .visible-interaction {
+  
+  display: inline;
+  .lfr-icon-menu{
+    background-color: transparent;
+    display: inline;
+
+    > a{
+      height: 32px;
+      line-height: 32px;
+      width: 32px;
+
+      .lexicon-icon{
+        height: 32px;
+        width: 32px;
+        padding: 8px;
+      }
+    }
+  }
+}
+
+/* Masquage du menu du contenu web en mode non connecté liferay */
+.signed-out section .mb-2 {
+ display: none;
 }

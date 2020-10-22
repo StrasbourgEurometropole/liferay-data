@@ -27,10 +27,11 @@ import eu.strasbourg.service.interest.service.InterestServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link InterestServiceUtil} service utility. The
+ * <code>InterestServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link HttpPrincipal} parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -49,17 +50,18 @@ import eu.strasbourg.service.interest.service.InterestServiceUtil;
  *
  * @author BenjaminBini
  * @see InterestServiceSoap
- * @see HttpPrincipal
- * @see InterestServiceUtil
  * @generated
  */
 @ProviderType
 public class InterestServiceHttp {
+
 	public static com.liferay.portal.kernel.json.JSONObject getInterests(
 		HttpPrincipal httpPrincipal) {
+
 		try {
-			MethodKey methodKey = new MethodKey(InterestServiceUtil.class,
-					"getInterests", _getInterestsParameterTypes0);
+			MethodKey methodKey = new MethodKey(
+				InterestServiceUtil.class, "getInterests",
+				_getInterestsParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -69,7 +71,8 @@ public class InterestServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -82,14 +85,15 @@ public class InterestServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject setUserInterests(
-		HttpPrincipal httpPrincipal, java.lang.String userId,
-		java.lang.String interestIds) {
-		try {
-			MethodKey methodKey = new MethodKey(InterestServiceUtil.class,
-					"setUserInterests", _setUserInterestsParameterTypes1);
+		HttpPrincipal httpPrincipal, String userId, String interestIds) {
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
-					interestIds);
+		try {
+			MethodKey methodKey = new MethodKey(
+				InterestServiceUtil.class, "setUserInterests",
+				_setUserInterestsParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, userId, interestIds);
 
 			Object returnObj = null;
 
@@ -97,7 +101,8 @@ public class InterestServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -110,10 +115,12 @@ public class InterestServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getUserInterests(
-		HttpPrincipal httpPrincipal, java.lang.String userId) {
+		HttpPrincipal httpPrincipal, String userId) {
+
 		try {
-			MethodKey methodKey = new MethodKey(InterestServiceUtil.class,
-					"getUserInterests", _getUserInterestsParameterTypes2);
+			MethodKey methodKey = new MethodKey(
+				InterestServiceUtil.class, "getUserInterests",
+				_getUserInterestsParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, userId);
 
@@ -123,7 +130,8 @@ public class InterestServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -136,11 +144,13 @@ public class InterestServiceHttp {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(InterestServiceHttp.class);
-	private static final Class<?>[] _getInterestsParameterTypes0 = new Class[] {  };
-	private static final Class<?>[] _setUserInterestsParameterTypes1 = new Class[] {
-			java.lang.String.class, java.lang.String.class
-		};
-	private static final Class<?>[] _getUserInterestsParameterTypes2 = new Class[] {
-			java.lang.String.class
-		};
+
+	private static final Class<?>[] _getInterestsParameterTypes0 = new Class[] {
+		
+	};
+	private static final Class<?>[] _setUserInterestsParameterTypes1 =
+		new Class[] {String.class, String.class};
+	private static final Class<?>[] _getUserInterestsParameterTypes2 =
+		new Class[] {String.class};
+
 }

@@ -25,54 +25,62 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Brian Wing Shun Chan
  * @see ActivityOrganizerModel
- * @see eu.strasbourg.service.activity.model.impl.ActivityOrganizerImpl
- * @see eu.strasbourg.service.activity.model.impl.ActivityOrganizerModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.activity.model.impl.ActivityOrganizerImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.activity.model.impl.ActivityOrganizerImpl"
+)
 @ProviderType
-public interface ActivityOrganizer extends ActivityOrganizerModel, PersistedModel {
+public interface ActivityOrganizer
+	extends ActivityOrganizerModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.activity.model.impl.ActivityOrganizerImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.activity.model.impl.ActivityOrganizerImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<ActivityOrganizer, Long> ACTIVITY_ORGANIZER_ID_ACCESSOR =
-		new Accessor<ActivityOrganizer, Long>() {
-			@Override
-			public Long get(ActivityOrganizer activityOrganizer) {
-				return activityOrganizer.getActivityOrganizerId();
-			}
+	public static final Accessor<ActivityOrganizer, Long>
+		ACTIVITY_ORGANIZER_ID_ACCESSOR =
+			new Accessor<ActivityOrganizer, Long>() {
 
-			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
-			}
+				@Override
+				public Long get(ActivityOrganizer activityOrganizer) {
+					return activityOrganizer.getActivityOrganizerId();
+				}
 
-			@Override
-			public Class<ActivityOrganizer> getTypeClass() {
-				return ActivityOrganizer.class;
-			}
-		};
+				@Override
+				public Class<Long> getAttributeClass() {
+					return Long.class;
+				}
 
-	/**
-	* Retourne la version live de cette entité
-	*/
-	public eu.strasbourg.service.activity.model.ActivityOrganizer getLiveVersion();
+				@Override
+				public Class<ActivityOrganizer> getTypeClass() {
+					return ActivityOrganizer.class;
+				}
+
+			};
 
 	/**
-	* Retourne l'AssetEntry rattaché à cette entité
-	*/
+	 * Retourne la version live de cette entité
+	 */
+	public eu.strasbourg.service.activity.model.ActivityOrganizer
+		getLiveVersion();
+
+	/**
+	 * Retourne l'AssetEntry rattaché à cette entité
+	 */
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cette entité (via
-	* l'assetEntry)
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+	 * Renvoie la liste des AssetCategory rattachées à cette entité (via
+	 * l'assetEntry)
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories();
 
 	/**
-	* Retourne l'URL de l'image
-	*/
-	public java.lang.String getImageURL();
+	 * Retourne l'URL de l'image
+	 */
+	public String getImageURL();
+
 }

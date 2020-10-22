@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.edition.model.Edition;
 
@@ -34,11 +33,11 @@ import java.util.Date;
  * The cache model class for representing Edition in entity cache.
  *
  * @author BenjaminBini
- * @see Edition
  * @generated
  */
 @ProviderType
 public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -139,7 +138,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		EditionImpl editionImpl = new EditionImpl();
 
 		if (uuid == null) {
-			editionImpl.setUuid(StringPool.BLANK);
+			editionImpl.setUuid("");
 		}
 		else {
 			editionImpl.setUuid(uuid);
@@ -151,7 +150,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		editionImpl.setUserId(userId);
 
 		if (userName == null) {
-			editionImpl.setUserName(StringPool.BLANK);
+			editionImpl.setUserName("");
 		}
 		else {
 			editionImpl.setUserName(userName);
@@ -182,7 +181,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		editionImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			editionImpl.setStatusByUserName(StringPool.BLANK);
+			editionImpl.setStatusByUserName("");
 		}
 		else {
 			editionImpl.setStatusByUserName(statusByUserName);
@@ -196,63 +195,63 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		}
 
 		if (title == null) {
-			editionImpl.setTitle(StringPool.BLANK);
+			editionImpl.setTitle("");
 		}
 		else {
 			editionImpl.setTitle(title);
 		}
 
 		if (subtitle == null) {
-			editionImpl.setSubtitle(StringPool.BLANK);
+			editionImpl.setSubtitle("");
 		}
 		else {
 			editionImpl.setSubtitle(subtitle);
 		}
 
 		if (description == null) {
-			editionImpl.setDescription(StringPool.BLANK);
+			editionImpl.setDescription("");
 		}
 		else {
 			editionImpl.setDescription(description);
 		}
 
 		if (URL == null) {
-			editionImpl.setURL(StringPool.BLANK);
+			editionImpl.setURL("");
 		}
 		else {
 			editionImpl.setURL(URL);
 		}
 
 		if (author == null) {
-			editionImpl.setAuthor(StringPool.BLANK);
+			editionImpl.setAuthor("");
 		}
 		else {
 			editionImpl.setAuthor(author);
 		}
 
 		if (editor == null) {
-			editionImpl.setEditor(StringPool.BLANK);
+			editionImpl.setEditor("");
 		}
 		else {
 			editionImpl.setEditor(editor);
 		}
 
 		if (distribution == null) {
-			editionImpl.setDistribution(StringPool.BLANK);
+			editionImpl.setDistribution("");
 		}
 		else {
 			editionImpl.setDistribution(distribution);
 		}
 
 		if (ISBN == null) {
-			editionImpl.setISBN(StringPool.BLANK);
+			editionImpl.setISBN("");
 		}
 		else {
 			editionImpl.setISBN(ISBN);
 		}
 
 		if (price == null) {
-			editionImpl.setPrice(StringPool.BLANK);
+			editionImpl.setPrice("");
 		}
 		else {
 			editionImpl.setPrice(price);
@@ -262,28 +261,28 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		editionImpl.setInStock(inStock);
 
 		if (diffusionDateYear == null) {
-			editionImpl.setDiffusionDateYear(StringPool.BLANK);
+			editionImpl.setDiffusionDateYear("");
 		}
 		else {
 			editionImpl.setDiffusionDateYear(diffusionDateYear);
 		}
 
 		if (diffusionDateMonth == null) {
-			editionImpl.setDiffusionDateMonth(StringPool.BLANK);
+			editionImpl.setDiffusionDateMonth("");
 		}
 		else {
 			editionImpl.setDiffusionDateMonth(diffusionDateMonth);
 		}
 
 		if (pageNumber == null) {
-			editionImpl.setPageNumber(StringPool.BLANK);
+			editionImpl.setPageNumber("");
 		}
 		else {
 			editionImpl.setPageNumber(pageNumber);
 		}
 
 		if (pictureNumber == null) {
-			editionImpl.setPictureNumber(StringPool.BLANK);
+			editionImpl.setPictureNumber("");
 		}
 		else {
 			editionImpl.setPictureNumber(pictureNumber);
@@ -299,7 +298,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		editionImpl.setImageId(imageId);
 
 		if (fileId == null) {
-			editionImpl.setFileId(StringPool.BLANK);
+			editionImpl.setFileId("");
 		}
 		else {
 			editionImpl.setFileId(fileId);
@@ -355,10 +354,9 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -373,7 +371,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -388,7 +386,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -397,63 +395,63 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (subtitle == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(subtitle);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
 		}
 
 		if (URL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(URL);
 		}
 
 		if (author == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(author);
 		}
 
 		if (editor == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(editor);
 		}
 
 		if (distribution == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(distribution);
 		}
 
 		if (ISBN == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(ISBN);
 		}
 
 		if (price == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(price);
@@ -464,28 +462,28 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		objectOutput.writeBoolean(inStock);
 
 		if (diffusionDateYear == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(diffusionDateYear);
 		}
 
 		if (diffusionDateMonth == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(diffusionDateMonth);
 		}
 
 		if (pageNumber == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(pageNumber);
 		}
 
 		if (pictureNumber == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(pictureNumber);
@@ -496,7 +494,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		objectOutput.writeLong(imageId);
 
 		if (fileId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(fileId);
@@ -519,11 +517,15 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 	public String title;
 	public String subtitle;
 	public String description;
+
 	public String URL;
+
 	public String author;
 	public String editor;
 	public String distribution;
+
 	public String ISBN;
+
 	public String price;
 	public boolean availableForExchange;
 	public boolean inStock;
@@ -534,4 +536,5 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 	public long publicationDate;
 	public long imageId;
 	public String fileId;
+
 }

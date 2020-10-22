@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.gtfs.model.Arret;
 
@@ -34,11 +33,11 @@ import java.util.Date;
  * The cache model class for representing Arret in entity cache.
  *
  * @author Cedric Henry
- * @see Arret
  * @generated
  */
 @ProviderType
 public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -113,7 +112,7 @@ public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
 		ArretImpl arretImpl = new ArretImpl();
 
 		if (uuid == null) {
-			arretImpl.setUuid(StringPool.BLANK);
+			arretImpl.setUuid("");
 		}
 		else {
 			arretImpl.setUuid(uuid);
@@ -125,7 +124,7 @@ public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
 		arretImpl.setUserId(userId);
 
 		if (userName == null) {
-			arretImpl.setUserName(StringPool.BLANK);
+			arretImpl.setUserName("");
 		}
 		else {
 			arretImpl.setUserName(userName);
@@ -149,7 +148,7 @@ public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
 		arretImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			arretImpl.setStatusByUserName(StringPool.BLANK);
+			arretImpl.setStatusByUserName("");
 		}
 		else {
 			arretImpl.setStatusByUserName(statusByUserName);
@@ -163,35 +162,35 @@ public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
 		}
 
 		if (stopId == null) {
-			arretImpl.setStopId(StringPool.BLANK);
+			arretImpl.setStopId("");
 		}
 		else {
 			arretImpl.setStopId(stopId);
 		}
 
 		if (title == null) {
-			arretImpl.setTitle(StringPool.BLANK);
+			arretImpl.setTitle("");
 		}
 		else {
 			arretImpl.setTitle(title);
 		}
 
 		if (code == null) {
-			arretImpl.setCode(StringPool.BLANK);
+			arretImpl.setCode("");
 		}
 		else {
 			arretImpl.setCode(code);
 		}
 
 		if (latitude == null) {
-			arretImpl.setLatitude(StringPool.BLANK);
+			arretImpl.setLatitude("");
 		}
 		else {
 			arretImpl.setLatitude(latitude);
 		}
 
 		if (longitude == null) {
-			arretImpl.setLongitude(StringPool.BLANK);
+			arretImpl.setLongitude("");
 		}
 		else {
 			arretImpl.setLongitude(longitude);
@@ -234,10 +233,9 @@ public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -252,7 +250,7 @@ public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -266,7 +264,7 @@ public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -275,35 +273,35 @@ public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
 		objectOutput.writeLong(statusDate);
 
 		if (stopId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(stopId);
 		}
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (code == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(code);
 		}
 
 		if (latitude == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(latitude);
 		}
 
 		if (longitude == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(longitude);
@@ -330,4 +328,5 @@ public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
 	public String latitude;
 	public String longitude;
 	public int type;
+
 }

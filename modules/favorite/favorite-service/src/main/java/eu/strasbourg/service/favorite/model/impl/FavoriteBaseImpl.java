@@ -32,12 +32,13 @@ import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class FavoriteBaseImpl extends FavoriteModelImpl
-	implements Favorite {
+public abstract class FavoriteBaseImpl
+	extends FavoriteModelImpl implements Favorite {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a favorite model instance should use the {@link Favorite} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a favorite model instance should use the <code>Favorite</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class FavoriteBaseImpl extends FavoriteModelImpl
 			FavoriteLocalServiceUtil.updateFavorite(this);
 		}
 	}
+
 }

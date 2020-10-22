@@ -27,8 +27,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
@@ -39,6 +39,8 @@ import eu.strasbourg.service.agenda.model.impl.EventParticipationModelImpl;
 import eu.strasbourg.service.agenda.service.persistence.EventParticipationPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -57,56 +59,33 @@ import java.util.Set;
  * </p>
  *
  * @author BenjaminBini
- * @see EventParticipationPersistence
- * @see eu.strasbourg.service.agenda.service.persistence.EventParticipationUtil
  * @generated
  */
 @ProviderType
-public class EventParticipationPersistenceImpl extends BasePersistenceImpl<EventParticipation>
+public class EventParticipationPersistenceImpl
+	extends BasePersistenceImpl<EventParticipation>
 	implements EventParticipationPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link EventParticipationUtil} to access the event participation persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>EventParticipationUtil</code> to access the event participation persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = EventParticipationImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
-			EventParticipationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
-			EventParticipationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKUSERID =
-		new FinderPath(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
-			EventParticipationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID =
-		new FinderPath(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
-			EventParticipationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
-			new String[] { String.class.getName() },
-			EventParticipationModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKUSERID = new FinderPath(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		EventParticipationImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByPublikUserId;
+	private FinderPath _finderPathWithoutPaginationFindByPublikUserId;
+	private FinderPath _finderPathCountByPublikUserId;
 
 	/**
 	 * Returns all the event participations where publikUserId = &#63;.
@@ -116,15 +95,15 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 */
 	@Override
 	public List<EventParticipation> findByPublikUserId(String publikUserId) {
-		return findByPublikUserId(publikUserId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByPublikUserId(
+			publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the event participations where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventParticipationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -133,8 +112,9 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @return the range of matching event participations
 	 */
 	@Override
-	public List<EventParticipation> findByPublikUserId(String publikUserId,
-		int start, int end) {
+	public List<EventParticipation> findByPublikUserId(
+		String publikUserId, int start, int end) {
+
 		return findByPublikUserId(publikUserId, start, end, null);
 	}
 
@@ -142,7 +122,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * Returns an ordered range of all the event participations where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventParticipationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -152,18 +132,19 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @return the ordered range of matching event participations
 	 */
 	@Override
-	public List<EventParticipation> findByPublikUserId(String publikUserId,
-		int start, int end,
+	public List<EventParticipation> findByPublikUserId(
+		String publikUserId, int start, int end,
 		OrderByComparator<EventParticipation> orderByComparator) {
-		return findByPublikUserId(publikUserId, start, end, orderByComparator,
-			true);
+
+		return findByPublikUserId(
+			publikUserId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the event participations where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventParticipationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -174,39 +155,42 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @return the ordered range of matching event participations
 	 */
 	@Override
-	public List<EventParticipation> findByPublikUserId(String publikUserId,
-		int start, int end,
+	public List<EventParticipation> findByPublikUserId(
+		String publikUserId, int start, int end,
 		OrderByComparator<EventParticipation> orderByComparator,
 		boolean retrieveFromCache) {
+
+		publikUserId = Objects.toString(publikUserId, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID;
-			finderArgs = new Object[] { publikUserId };
+			finderPath = _finderPathWithoutPaginationFindByPublikUserId;
+			finderArgs = new Object[] {publikUserId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKUSERID;
+			finderPath = _finderPathWithPaginationFindByPublikUserId;
 			finderArgs = new Object[] {
-					publikUserId,
-					
-					start, end, orderByComparator
-				};
+				publikUserId, start, end, orderByComparator
+			};
 		}
 
 		List<EventParticipation> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<EventParticipation>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<EventParticipation>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (EventParticipation eventParticipation : list) {
-					if (!Objects.equals(publikUserId,
-								eventParticipation.getPublikUserId())) {
+					if (!publikUserId.equals(
+							eventParticipation.getPublikUserId())) {
+
 						list = null;
 
 						break;
@@ -219,8 +203,8 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -230,10 +214,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 
 			boolean bindPublikUserId = false;
 
-			if (publikUserId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
-			}
-			else if (publikUserId.equals(StringPool.BLANK)) {
+			if (publikUserId.isEmpty()) {
 				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 			}
 			else {
@@ -243,11 +224,10 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(EventParticipationModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -267,16 +247,16 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 				}
 
 				if (!pagination) {
-					list = (List<EventParticipation>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<EventParticipation>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<EventParticipation>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<EventParticipation>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -305,11 +285,13 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @throws NoSuchEventParticipationException if a matching event participation could not be found
 	 */
 	@Override
-	public EventParticipation findByPublikUserId_First(String publikUserId,
-		OrderByComparator<EventParticipation> orderByComparator)
+	public EventParticipation findByPublikUserId_First(
+			String publikUserId,
+			OrderByComparator<EventParticipation> orderByComparator)
 		throws NoSuchEventParticipationException {
-		EventParticipation eventParticipation = fetchByPublikUserId_First(publikUserId,
-				orderByComparator);
+
+		EventParticipation eventParticipation = fetchByPublikUserId_First(
+			publikUserId, orderByComparator);
 
 		if (eventParticipation != null) {
 			return eventParticipation;
@@ -322,7 +304,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		msg.append("publikUserId=");
 		msg.append(publikUserId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEventParticipationException(msg.toString());
 	}
@@ -335,10 +317,12 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @return the first matching event participation, or <code>null</code> if a matching event participation could not be found
 	 */
 	@Override
-	public EventParticipation fetchByPublikUserId_First(String publikUserId,
+	public EventParticipation fetchByPublikUserId_First(
+		String publikUserId,
 		OrderByComparator<EventParticipation> orderByComparator) {
-		List<EventParticipation> list = findByPublikUserId(publikUserId, 0, 1,
-				orderByComparator);
+
+		List<EventParticipation> list = findByPublikUserId(
+			publikUserId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -356,11 +340,13 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @throws NoSuchEventParticipationException if a matching event participation could not be found
 	 */
 	@Override
-	public EventParticipation findByPublikUserId_Last(String publikUserId,
-		OrderByComparator<EventParticipation> orderByComparator)
+	public EventParticipation findByPublikUserId_Last(
+			String publikUserId,
+			OrderByComparator<EventParticipation> orderByComparator)
 		throws NoSuchEventParticipationException {
-		EventParticipation eventParticipation = fetchByPublikUserId_Last(publikUserId,
-				orderByComparator);
+
+		EventParticipation eventParticipation = fetchByPublikUserId_Last(
+			publikUserId, orderByComparator);
 
 		if (eventParticipation != null) {
 			return eventParticipation;
@@ -373,7 +359,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		msg.append("publikUserId=");
 		msg.append(publikUserId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEventParticipationException(msg.toString());
 	}
@@ -386,16 +372,18 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @return the last matching event participation, or <code>null</code> if a matching event participation could not be found
 	 */
 	@Override
-	public EventParticipation fetchByPublikUserId_Last(String publikUserId,
+	public EventParticipation fetchByPublikUserId_Last(
+		String publikUserId,
 		OrderByComparator<EventParticipation> orderByComparator) {
+
 		int count = countByPublikUserId(publikUserId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<EventParticipation> list = findByPublikUserId(publikUserId,
-				count - 1, count, orderByComparator);
+		List<EventParticipation> list = findByPublikUserId(
+			publikUserId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -415,10 +403,14 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 */
 	@Override
 	public EventParticipation[] findByPublikUserId_PrevAndNext(
-		long eventParticipationId, String publikUserId,
-		OrderByComparator<EventParticipation> orderByComparator)
+			long eventParticipationId, String publikUserId,
+			OrderByComparator<EventParticipation> orderByComparator)
 		throws NoSuchEventParticipationException {
-		EventParticipation eventParticipation = findByPrimaryKey(eventParticipationId);
+
+		publikUserId = Objects.toString(publikUserId, "");
+
+		EventParticipation eventParticipation = findByPrimaryKey(
+			eventParticipationId);
 
 		Session session = null;
 
@@ -427,13 +419,15 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 
 			EventParticipation[] array = new EventParticipationImpl[3];
 
-			array[0] = getByPublikUserId_PrevAndNext(session,
-					eventParticipation, publikUserId, orderByComparator, true);
+			array[0] = getByPublikUserId_PrevAndNext(
+				session, eventParticipation, publikUserId, orderByComparator,
+				true);
 
 			array[1] = eventParticipation;
 
-			array[2] = getByPublikUserId_PrevAndNext(session,
-					eventParticipation, publikUserId, orderByComparator, false);
+			array[2] = getByPublikUserId_PrevAndNext(
+				session, eventParticipation, publikUserId, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -450,11 +444,12 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		String publikUserId,
 		OrderByComparator<EventParticipation> orderByComparator,
 		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -465,10 +460,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 
 		boolean bindPublikUserId = false;
 
-		if (publikUserId == null) {
-			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
-		}
-		else if (publikUserId.equals(StringPool.BLANK)) {
+		if (publikUserId.isEmpty()) {
 			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 		}
 		else {
@@ -478,7 +470,8 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -550,10 +543,11 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(eventParticipation);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						eventParticipation)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -574,8 +568,10 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 */
 	@Override
 	public void removeByPublikUserId(String publikUserId) {
-		for (EventParticipation eventParticipation : findByPublikUserId(
-				publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (EventParticipation eventParticipation :
+				findByPublikUserId(
+					publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(eventParticipation);
 		}
 	}
@@ -588,9 +584,11 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 */
 	@Override
 	public int countByPublikUserId(String publikUserId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKUSERID;
+		publikUserId = Objects.toString(publikUserId, "");
 
-		Object[] finderArgs = new Object[] { publikUserId };
+		FinderPath finderPath = _finderPathCountByPublikUserId;
+
+		Object[] finderArgs = new Object[] {publikUserId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -601,10 +599,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 
 			boolean bindPublikUserId = false;
 
-			if (publikUserId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
-			}
-			else if (publikUserId.equals(StringPool.BLANK)) {
+			if (publikUserId.isEmpty()) {
 				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 			}
 			else {
@@ -645,30 +640,15 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1 = "eventParticipation.publikUserId IS NULL";
-	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2 = "eventParticipation.publikUserId = ?";
-	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3 = "(eventParticipation.publikUserId IS NULL OR eventParticipation.publikUserId = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_EVENTID = new FinderPath(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
-			EventParticipationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEventId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EVENTID =
-		new FinderPath(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
-			EventParticipationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByEventId",
-			new String[] { Long.class.getName() },
-			EventParticipationModelImpl.EVENTID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_EVENTID = new FinderPath(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEventId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2 =
+		"eventParticipation.publikUserId = ?";
+
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3 =
+		"(eventParticipation.publikUserId IS NULL OR eventParticipation.publikUserId = '')";
+
+	private FinderPath _finderPathWithPaginationFindByEventId;
+	private FinderPath _finderPathWithoutPaginationFindByEventId;
+	private FinderPath _finderPathCountByEventId;
 
 	/**
 	 * Returns all the event participations where eventId = &#63;.
@@ -678,14 +658,15 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 */
 	@Override
 	public List<EventParticipation> findByEventId(long eventId) {
-		return findByEventId(eventId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByEventId(
+			eventId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the event participations where eventId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventParticipationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param eventId the event ID
@@ -694,8 +675,9 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @return the range of matching event participations
 	 */
 	@Override
-	public List<EventParticipation> findByEventId(long eventId, int start,
-		int end) {
+	public List<EventParticipation> findByEventId(
+		long eventId, int start, int end) {
+
 		return findByEventId(eventId, start, end, null);
 	}
 
@@ -703,7 +685,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * Returns an ordered range of all the event participations where eventId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventParticipationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param eventId the event ID
@@ -713,8 +695,10 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @return the ordered range of matching event participations
 	 */
 	@Override
-	public List<EventParticipation> findByEventId(long eventId, int start,
-		int end, OrderByComparator<EventParticipation> orderByComparator) {
+	public List<EventParticipation> findByEventId(
+		long eventId, int start, int end,
+		OrderByComparator<EventParticipation> orderByComparator) {
+
 		return findByEventId(eventId, start, end, orderByComparator, true);
 	}
 
@@ -722,7 +706,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * Returns an ordered range of all the event participations where eventId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventParticipationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param eventId the event ID
@@ -733,29 +717,32 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @return the ordered range of matching event participations
 	 */
 	@Override
-	public List<EventParticipation> findByEventId(long eventId, int start,
-		int end, OrderByComparator<EventParticipation> orderByComparator,
+	public List<EventParticipation> findByEventId(
+		long eventId, int start, int end,
+		OrderByComparator<EventParticipation> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EVENTID;
-			finderArgs = new Object[] { eventId };
+			finderPath = _finderPathWithoutPaginationFindByEventId;
+			finderArgs = new Object[] {eventId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_EVENTID;
-			finderArgs = new Object[] { eventId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByEventId;
+			finderArgs = new Object[] {eventId, start, end, orderByComparator};
 		}
 
 		List<EventParticipation> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<EventParticipation>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<EventParticipation>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (EventParticipation eventParticipation : list) {
@@ -772,8 +759,8 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -784,11 +771,10 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 			query.append(_FINDER_COLUMN_EVENTID_EVENTID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(EventParticipationModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -806,16 +792,16 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 				qPos.add(eventId);
 
 				if (!pagination) {
-					list = (List<EventParticipation>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<EventParticipation>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<EventParticipation>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<EventParticipation>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -844,11 +830,13 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @throws NoSuchEventParticipationException if a matching event participation could not be found
 	 */
 	@Override
-	public EventParticipation findByEventId_First(long eventId,
-		OrderByComparator<EventParticipation> orderByComparator)
+	public EventParticipation findByEventId_First(
+			long eventId,
+			OrderByComparator<EventParticipation> orderByComparator)
 		throws NoSuchEventParticipationException {
-		EventParticipation eventParticipation = fetchByEventId_First(eventId,
-				orderByComparator);
+
+		EventParticipation eventParticipation = fetchByEventId_First(
+			eventId, orderByComparator);
 
 		if (eventParticipation != null) {
 			return eventParticipation;
@@ -861,7 +849,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		msg.append("eventId=");
 		msg.append(eventId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEventParticipationException(msg.toString());
 	}
@@ -874,10 +862,11 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @return the first matching event participation, or <code>null</code> if a matching event participation could not be found
 	 */
 	@Override
-	public EventParticipation fetchByEventId_First(long eventId,
-		OrderByComparator<EventParticipation> orderByComparator) {
-		List<EventParticipation> list = findByEventId(eventId, 0, 1,
-				orderByComparator);
+	public EventParticipation fetchByEventId_First(
+		long eventId, OrderByComparator<EventParticipation> orderByComparator) {
+
+		List<EventParticipation> list = findByEventId(
+			eventId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -895,11 +884,13 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @throws NoSuchEventParticipationException if a matching event participation could not be found
 	 */
 	@Override
-	public EventParticipation findByEventId_Last(long eventId,
-		OrderByComparator<EventParticipation> orderByComparator)
+	public EventParticipation findByEventId_Last(
+			long eventId,
+			OrderByComparator<EventParticipation> orderByComparator)
 		throws NoSuchEventParticipationException {
-		EventParticipation eventParticipation = fetchByEventId_Last(eventId,
-				orderByComparator);
+
+		EventParticipation eventParticipation = fetchByEventId_Last(
+			eventId, orderByComparator);
 
 		if (eventParticipation != null) {
 			return eventParticipation;
@@ -912,7 +903,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		msg.append("eventId=");
 		msg.append(eventId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEventParticipationException(msg.toString());
 	}
@@ -925,16 +916,17 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @return the last matching event participation, or <code>null</code> if a matching event participation could not be found
 	 */
 	@Override
-	public EventParticipation fetchByEventId_Last(long eventId,
-		OrderByComparator<EventParticipation> orderByComparator) {
+	public EventParticipation fetchByEventId_Last(
+		long eventId, OrderByComparator<EventParticipation> orderByComparator) {
+
 		int count = countByEventId(eventId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<EventParticipation> list = findByEventId(eventId, count - 1,
-				count, orderByComparator);
+		List<EventParticipation> list = findByEventId(
+			eventId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -954,10 +946,12 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 */
 	@Override
 	public EventParticipation[] findByEventId_PrevAndNext(
-		long eventParticipationId, long eventId,
-		OrderByComparator<EventParticipation> orderByComparator)
+			long eventParticipationId, long eventId,
+			OrderByComparator<EventParticipation> orderByComparator)
 		throws NoSuchEventParticipationException {
-		EventParticipation eventParticipation = findByPrimaryKey(eventParticipationId);
+
+		EventParticipation eventParticipation = findByPrimaryKey(
+			eventParticipationId);
 
 		Session session = null;
 
@@ -966,13 +960,13 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 
 			EventParticipation[] array = new EventParticipationImpl[3];
 
-			array[0] = getByEventId_PrevAndNext(session, eventParticipation,
-					eventId, orderByComparator, true);
+			array[0] = getByEventId_PrevAndNext(
+				session, eventParticipation, eventId, orderByComparator, true);
 
 			array[1] = eventParticipation;
 
-			array[2] = getByEventId_PrevAndNext(session, eventParticipation,
-					eventId, orderByComparator, false);
+			array[2] = getByEventId_PrevAndNext(
+				session, eventParticipation, eventId, orderByComparator, false);
 
 			return array;
 		}
@@ -984,15 +978,16 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		}
 	}
 
-	protected EventParticipation getByEventId_PrevAndNext(Session session,
-		EventParticipation eventParticipation, long eventId,
+	protected EventParticipation getByEventId_PrevAndNext(
+		Session session, EventParticipation eventParticipation, long eventId,
 		OrderByComparator<EventParticipation> orderByComparator,
 		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1004,7 +999,8 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		query.append(_FINDER_COLUMN_EVENTID_EVENTID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1074,10 +1070,11 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		qPos.add(eventId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(eventParticipation);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						eventParticipation)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1098,8 +1095,10 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 */
 	@Override
 	public void removeByEventId(long eventId) {
-		for (EventParticipation eventParticipation : findByEventId(eventId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (EventParticipation eventParticipation :
+				findByEventId(
+					eventId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(eventParticipation);
 		}
 	}
@@ -1112,9 +1111,9 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 */
 	@Override
 	public int countByEventId(long eventId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_EVENTID;
+		FinderPath finderPath = _finderPathCountByEventId;
 
-		Object[] finderArgs = new Object[] { eventId };
+		Object[] finderArgs = new Object[] {eventId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1155,22 +1154,14 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_EVENTID_EVENTID_2 = "eventParticipation.eventId = ?";
-	public static final FinderPath FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDEVENTID = new FinderPath(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
-			EventParticipationImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByPublikUserIdAndEventId",
-			new String[] { String.class.getName(), Long.class.getName() },
-			EventParticipationModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
-			EventParticipationModelImpl.EVENTID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDEVENTID = new FinderPath(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByPublikUserIdAndEventId",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_EVENTID_EVENTID_2 =
+		"eventParticipation.eventId = ?";
+
+	private FinderPath _finderPathFetchByPublikUserIdAndEventId;
+	private FinderPath _finderPathCountByPublikUserIdAndEventId;
 
 	/**
-	 * Returns the event participation where publikUserId = &#63; and eventId = &#63; or throws a {@link NoSuchEventParticipationException} if it could not be found.
+	 * Returns the event participation where publikUserId = &#63; and eventId = &#63; or throws a <code>NoSuchEventParticipationException</code> if it could not be found.
 	 *
 	 * @param publikUserId the publik user ID
 	 * @param eventId the event ID
@@ -1179,10 +1170,11 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 */
 	@Override
 	public EventParticipation findByPublikUserIdAndEventId(
-		String publikUserId, long eventId)
+			String publikUserId, long eventId)
 		throws NoSuchEventParticipationException {
-		EventParticipation eventParticipation = fetchByPublikUserIdAndEventId(publikUserId,
-				eventId);
+
+		EventParticipation eventParticipation = fetchByPublikUserIdAndEventId(
+			publikUserId, eventId);
 
 		if (eventParticipation == null) {
 			StringBundler msg = new StringBundler(6);
@@ -1195,7 +1187,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 			msg.append(", eventId=");
 			msg.append(eventId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -1217,6 +1209,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	@Override
 	public EventParticipation fetchByPublikUserIdAndEventId(
 		String publikUserId, long eventId) {
+
 		return fetchByPublikUserIdAndEventId(publikUserId, eventId, true);
 	}
 
@@ -1231,21 +1224,25 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	@Override
 	public EventParticipation fetchByPublikUserIdAndEventId(
 		String publikUserId, long eventId, boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { publikUserId, eventId };
+
+		publikUserId = Objects.toString(publikUserId, "");
+
+		Object[] finderArgs = new Object[] {publikUserId, eventId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDEVENTID,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByPublikUserIdAndEventId, finderArgs, this);
 		}
 
 		if (result instanceof EventParticipation) {
 			EventParticipation eventParticipation = (EventParticipation)result;
 
-			if (!Objects.equals(publikUserId,
-						eventParticipation.getPublikUserId()) ||
-					(eventId != eventParticipation.getEventId())) {
+			if (!Objects.equals(
+					publikUserId, eventParticipation.getPublikUserId()) ||
+				(eventId != eventParticipation.getEventId())) {
+
 				result = null;
 			}
 		}
@@ -1257,16 +1254,15 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 
 			boolean bindPublikUserId = false;
 
-			if (publikUserId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_1);
-			}
-			else if (publikUserId.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_3);
+			if (publikUserId.isEmpty()) {
+				query.append(
+					_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_2);
+				query.append(
+					_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_2);
 			}
 
 			query.append(_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_EVENTID_2);
@@ -1291,8 +1287,9 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 				List<EventParticipation> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDEVENTID,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByPublikUserIdAndEventId, finderArgs,
+						list);
 				}
 				else {
 					if (list.size() > 1) {
@@ -1301,8 +1298,8 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 						if (_log.isWarnEnabled()) {
 							_log.warn(
 								"EventParticipationPersistenceImpl.fetchByPublikUserIdAndEventId(String, long, boolean) with parameters (" +
-								StringUtil.merge(finderArgs) +
-								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
 						}
 					}
 
@@ -1311,19 +1308,11 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 					result = eventParticipation;
 
 					cacheResult(eventParticipation);
-
-					if ((eventParticipation.getPublikUserId() == null) ||
-							!eventParticipation.getPublikUserId()
-												   .equals(publikUserId) ||
-							(eventParticipation.getEventId() != eventId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDEVENTID,
-							finderArgs, eventParticipation);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDEVENTID,
-					finderArgs);
+				finderCache.removeResult(
+					_finderPathFetchByPublikUserIdAndEventId, finderArgs);
 
 				throw processException(e);
 			}
@@ -1349,10 +1338,11 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 */
 	@Override
 	public EventParticipation removeByPublikUserIdAndEventId(
-		String publikUserId, long eventId)
+			String publikUserId, long eventId)
 		throws NoSuchEventParticipationException {
-		EventParticipation eventParticipation = findByPublikUserIdAndEventId(publikUserId,
-				eventId);
+
+		EventParticipation eventParticipation = findByPublikUserIdAndEventId(
+			publikUserId, eventId);
 
 		return remove(eventParticipation);
 	}
@@ -1365,10 +1355,14 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @return the number of matching event participations
 	 */
 	@Override
-	public int countByPublikUserIdAndEventId(String publikUserId, long eventId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDEVENTID;
+	public int countByPublikUserIdAndEventId(
+		String publikUserId, long eventId) {
 
-		Object[] finderArgs = new Object[] { publikUserId, eventId };
+		publikUserId = Objects.toString(publikUserId, "");
+
+		FinderPath finderPath = _finderPathCountByPublikUserIdAndEventId;
+
+		Object[] finderArgs = new Object[] {publikUserId, eventId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1379,16 +1373,15 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 
 			boolean bindPublikUserId = false;
 
-			if (publikUserId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_1);
-			}
-			else if (publikUserId.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_3);
+			if (publikUserId.isEmpty()) {
+				query.append(
+					_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_2);
+				query.append(
+					_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_2);
 			}
 
 			query.append(_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_EVENTID_2);
@@ -1427,13 +1420,17 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_1 =
-		"eventParticipation.publikUserId IS NULL AND ";
-	private static final String _FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_2 =
-		"eventParticipation.publikUserId = ? AND ";
-	private static final String _FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_3 =
-		"(eventParticipation.publikUserId IS NULL OR eventParticipation.publikUserId = '') AND ";
-	private static final String _FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_EVENTID_2 = "eventParticipation.eventId = ?";
+	private static final String
+		_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_2 =
+			"eventParticipation.publikUserId = ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_PUBLIKUSERID_3 =
+			"(eventParticipation.publikUserId IS NULL OR eventParticipation.publikUserId = '') AND ";
+
+	private static final String
+		_FINDER_COLUMN_PUBLIKUSERIDANDEVENTID_EVENTID_2 =
+			"eventParticipation.eventId = ?";
 
 	public EventParticipationPersistenceImpl() {
 		setModelClass(EventParticipation.class);
@@ -1446,15 +1443,18 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 */
 	@Override
 	public void cacheResult(EventParticipation eventParticipation) {
-		entityCache.putResult(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
 			EventParticipationImpl.class, eventParticipation.getPrimaryKey(),
 			eventParticipation);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDEVENTID,
+		finderCache.putResult(
+			_finderPathFetchByPublikUserIdAndEventId,
 			new Object[] {
 				eventParticipation.getPublikUserId(),
 				eventParticipation.getEventId()
-			}, eventParticipation);
+			},
+			eventParticipation);
 
 		eventParticipation.resetOriginalValues();
 	}
@@ -1468,9 +1468,10 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	public void cacheResult(List<EventParticipation> eventParticipations) {
 		for (EventParticipation eventParticipation : eventParticipations) {
 			if (entityCache.getResult(
-						EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-						EventParticipationImpl.class,
-						eventParticipation.getPrimaryKey()) == null) {
+					EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+					EventParticipationImpl.class,
+					eventParticipation.getPrimaryKey()) == null) {
+
 				cacheResult(eventParticipation);
 			}
 			else {
@@ -1483,7 +1484,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * Clears the cache for all event participations.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1499,19 +1500,20 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * Clears the cache for the event participation.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(EventParticipation eventParticipation) {
-		entityCache.removeResult(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.removeResult(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
 			EventParticipationImpl.class, eventParticipation.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((EventParticipationModelImpl)eventParticipation,
-			true);
+		clearUniqueFindersCache(
+			(EventParticipationModelImpl)eventParticipation, true);
 	}
 
 	@Override
@@ -1520,53 +1522,61 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (EventParticipation eventParticipation : eventParticipations) {
-			entityCache.removeResult(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-				EventParticipationImpl.class, eventParticipation.getPrimaryKey());
+			entityCache.removeResult(
+				EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+				EventParticipationImpl.class,
+				eventParticipation.getPrimaryKey());
 
-			clearUniqueFindersCache((EventParticipationModelImpl)eventParticipation,
-				true);
+			clearUniqueFindersCache(
+				(EventParticipationModelImpl)eventParticipation, true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
 		EventParticipationModelImpl eventParticipationModelImpl) {
-		Object[] args = new Object[] {
-				eventParticipationModelImpl.getPublikUserId(),
-				eventParticipationModelImpl.getEventId()
-			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDEVENTID,
-			args, Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDEVENTID,
-			args, eventParticipationModelImpl, false);
+		Object[] args = new Object[] {
+			eventParticipationModelImpl.getPublikUserId(),
+			eventParticipationModelImpl.getEventId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByPublikUserIdAndEventId, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(
+			_finderPathFetchByPublikUserIdAndEventId, args,
+			eventParticipationModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
 		EventParticipationModelImpl eventParticipationModelImpl,
 		boolean clearCurrent) {
+
 		if (clearCurrent) {
 			Object[] args = new Object[] {
-					eventParticipationModelImpl.getPublikUserId(),
-					eventParticipationModelImpl.getEventId()
-				};
+				eventParticipationModelImpl.getPublikUserId(),
+				eventParticipationModelImpl.getEventId()
+			};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDEVENTID,
-				args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDEVENTID,
-				args);
+			finderCache.removeResult(
+				_finderPathCountByPublikUserIdAndEventId, args);
+			finderCache.removeResult(
+				_finderPathFetchByPublikUserIdAndEventId, args);
 		}
 
 		if ((eventParticipationModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDEVENTID.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					eventParticipationModelImpl.getOriginalPublikUserId(),
-					eventParticipationModelImpl.getOriginalEventId()
-				};
+			 _finderPathFetchByPublikUserIdAndEventId.getColumnBitmask()) !=
+				 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDEVENTID,
-				args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDEVENTID,
-				args);
+			Object[] args = new Object[] {
+				eventParticipationModelImpl.getOriginalPublikUserId(),
+				eventParticipationModelImpl.getOriginalEventId()
+			};
+
+			finderCache.removeResult(
+				_finderPathCountByPublikUserIdAndEventId, args);
+			finderCache.removeResult(
+				_finderPathFetchByPublikUserIdAndEventId, args);
 		}
 	}
 
@@ -1596,6 +1606,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	@Override
 	public EventParticipation remove(long eventParticipationId)
 		throws NoSuchEventParticipationException {
+
 		return remove((Serializable)eventParticipationId);
 	}
 
@@ -1609,21 +1620,23 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	@Override
 	public EventParticipation remove(Serializable primaryKey)
 		throws NoSuchEventParticipationException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			EventParticipation eventParticipation = (EventParticipation)session.get(EventParticipationImpl.class,
-					primaryKey);
+			EventParticipation eventParticipation =
+				(EventParticipation)session.get(
+					EventParticipationImpl.class, primaryKey);
 
 			if (eventParticipation == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchEventParticipationException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchEventParticipationException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(eventParticipation);
@@ -1642,7 +1655,6 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	@Override
 	protected EventParticipation removeImpl(
 		EventParticipation eventParticipation) {
-		eventParticipation = toUnwrappedModel(eventParticipation);
 
 		Session session = null;
 
@@ -1650,8 +1662,9 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 			session = openSession();
 
 			if (!session.contains(eventParticipation)) {
-				eventParticipation = (EventParticipation)session.get(EventParticipationImpl.class,
-						eventParticipation.getPrimaryKeyObj());
+				eventParticipation = (EventParticipation)session.get(
+					EventParticipationImpl.class,
+					eventParticipation.getPrimaryKeyObj());
 			}
 
 			if (eventParticipation != null) {
@@ -1673,12 +1686,30 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	}
 
 	@Override
-	public EventParticipation updateImpl(EventParticipation eventParticipation) {
-		eventParticipation = toUnwrappedModel(eventParticipation);
+	public EventParticipation updateImpl(
+		EventParticipation eventParticipation) {
 
 		boolean isNew = eventParticipation.isNew();
 
-		EventParticipationModelImpl eventParticipationModelImpl = (EventParticipationModelImpl)eventParticipation;
+		if (!(eventParticipation instanceof EventParticipationModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(eventParticipation.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(
+					eventParticipation);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in eventParticipation proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom EventParticipation implementation " +
+					eventParticipation.getClass());
+		}
+
+		EventParticipationModelImpl eventParticipationModelImpl =
+			(EventParticipationModelImpl)eventParticipation;
 
 		Session session = null;
 
@@ -1691,7 +1722,8 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 				eventParticipation.setNew(false);
 			}
 			else {
-				eventParticipation = (EventParticipation)session.merge(eventParticipation);
+				eventParticipation = (EventParticipation)session.merge(
+					eventParticipation);
 			}
 		}
 		catch (Exception e) {
@@ -1706,66 +1738,69 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		if (!EventParticipationModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
+		else if (isNew) {
 			Object[] args = new Object[] {
+				eventParticipationModelImpl.getPublikUserId()
+			};
+
+			finderCache.removeResult(_finderPathCountByPublikUserId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByPublikUserId, args);
+
+			args = new Object[] {eventParticipationModelImpl.getEventId()};
+
+			finderCache.removeResult(_finderPathCountByEventId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByEventId, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((eventParticipationModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByPublikUserId.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					eventParticipationModelImpl.getOriginalPublikUserId()
+				};
+
+				finderCache.removeResult(_finderPathCountByPublikUserId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPublikUserId, args);
+
+				args = new Object[] {
 					eventParticipationModelImpl.getPublikUserId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID,
-				args);
-
-			args = new Object[] { eventParticipationModelImpl.getEventId() };
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_EVENTID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EVENTID,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((eventParticipationModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						eventParticipationModelImpl.getOriginalPublikUserId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID,
-					args);
-
-				args = new Object[] {
-						eventParticipationModelImpl.getPublikUserId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID,
-					args);
+				finderCache.removeResult(_finderPathCountByPublikUserId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPublikUserId, args);
 			}
 
 			if ((eventParticipationModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EVENTID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByEventId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						eventParticipationModelImpl.getOriginalEventId()
-					};
+					eventParticipationModelImpl.getOriginalEventId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_EVENTID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EVENTID,
-					args);
+				finderCache.removeResult(_finderPathCountByEventId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByEventId, args);
 
-				args = new Object[] { eventParticipationModelImpl.getEventId() };
+				args = new Object[] {eventParticipationModelImpl.getEventId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_EVENTID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EVENTID,
-					args);
+				finderCache.removeResult(_finderPathCountByEventId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByEventId, args);
 			}
 		}
 
-		entityCache.putResult(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
 			EventParticipationImpl.class, eventParticipation.getPrimaryKey(),
 			eventParticipation, false);
 
@@ -1777,28 +1812,8 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		return eventParticipation;
 	}
 
-	protected EventParticipation toUnwrappedModel(
-		EventParticipation eventParticipation) {
-		if (eventParticipation instanceof EventParticipationImpl) {
-			return eventParticipation;
-		}
-
-		EventParticipationImpl eventParticipationImpl = new EventParticipationImpl();
-
-		eventParticipationImpl.setNew(eventParticipation.isNew());
-		eventParticipationImpl.setPrimaryKey(eventParticipation.getPrimaryKey());
-
-		eventParticipationImpl.setEventParticipationId(eventParticipation.getEventParticipationId());
-		eventParticipationImpl.setCreateDate(eventParticipation.getCreateDate());
-		eventParticipationImpl.setPublikUserId(eventParticipation.getPublikUserId());
-		eventParticipationImpl.setEventId(eventParticipation.getEventId());
-		eventParticipationImpl.setGroupId(eventParticipation.getGroupId());
-
-		return eventParticipationImpl;
-	}
-
 	/**
-	 * Returns the event participation with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the event participation with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the event participation
 	 * @return the event participation
@@ -1807,6 +1822,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	@Override
 	public EventParticipation findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchEventParticipationException {
+
 		EventParticipation eventParticipation = fetchByPrimaryKey(primaryKey);
 
 		if (eventParticipation == null) {
@@ -1814,15 +1830,15 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchEventParticipationException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchEventParticipationException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return eventParticipation;
 	}
 
 	/**
-	 * Returns the event participation with the primary key or throws a {@link NoSuchEventParticipationException} if it could not be found.
+	 * Returns the event participation with the primary key or throws a <code>NoSuchEventParticipationException</code> if it could not be found.
 	 *
 	 * @param eventParticipationId the primary key of the event participation
 	 * @return the event participation
@@ -1831,6 +1847,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	@Override
 	public EventParticipation findByPrimaryKey(long eventParticipationId)
 		throws NoSuchEventParticipationException {
+
 		return findByPrimaryKey((Serializable)eventParticipationId);
 	}
 
@@ -1842,14 +1859,16 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 */
 	@Override
 	public EventParticipation fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-				EventParticipationImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+			EventParticipationImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
 		}
 
-		EventParticipation eventParticipation = (EventParticipation)serializable;
+		EventParticipation eventParticipation =
+			(EventParticipation)serializable;
 
 		if (eventParticipation == null) {
 			Session session = null;
@@ -1857,19 +1876,21 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 			try {
 				session = openSession();
 
-				eventParticipation = (EventParticipation)session.get(EventParticipationImpl.class,
-						primaryKey);
+				eventParticipation = (EventParticipation)session.get(
+					EventParticipationImpl.class, primaryKey);
 
 				if (eventParticipation != null) {
 					cacheResult(eventParticipation);
 				}
 				else {
-					entityCache.putResult(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
 						EventParticipationImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
 					EventParticipationImpl.class, primaryKey);
 
 				throw processException(e);
@@ -1896,18 +1917,21 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	@Override
 	public Map<Serializable, EventParticipation> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, EventParticipation> map = new HashMap<Serializable, EventParticipation>();
+		Map<Serializable, EventParticipation> map =
+			new HashMap<Serializable, EventParticipation>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
 
 			Serializable primaryKey = iterator.next();
 
-			EventParticipation eventParticipation = fetchByPrimaryKey(primaryKey);
+			EventParticipation eventParticipation = fetchByPrimaryKey(
+				primaryKey);
 
 			if (eventParticipation != null) {
 				map.put(primaryKey, eventParticipation);
@@ -1919,8 +1943,9 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-					EventParticipationImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+				EventParticipationImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -1940,20 +1965,20 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_EVENTPARTICIPATION_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -1964,17 +1989,21 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 
 			Query q = session.createQuery(sql);
 
-			for (EventParticipation eventParticipation : (List<EventParticipation>)q.list()) {
-				map.put(eventParticipation.getPrimaryKeyObj(),
-					eventParticipation);
+			for (EventParticipation eventParticipation :
+					(List<EventParticipation>)q.list()) {
+
+				map.put(
+					eventParticipation.getPrimaryKeyObj(), eventParticipation);
 
 				cacheResult(eventParticipation);
 
-				uncachedPrimaryKeys.remove(eventParticipation.getPrimaryKeyObj());
+				uncachedPrimaryKeys.remove(
+					eventParticipation.getPrimaryKeyObj());
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
 					EventParticipationImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -2002,7 +2031,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * Returns a range of all the event participations.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventParticipationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of event participations
@@ -2018,7 +2047,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * Returns an ordered range of all the event participations.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventParticipationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of event participations
@@ -2027,8 +2056,10 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @return the ordered range of event participations
 	 */
 	@Override
-	public List<EventParticipation> findAll(int start, int end,
+	public List<EventParticipation> findAll(
+		int start, int end,
 		OrderByComparator<EventParticipation> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -2036,7 +2067,7 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * Returns an ordered range of all the event participations.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventParticipationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of event participations
@@ -2046,29 +2077,32 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * @return the ordered range of event participations
 	 */
 	@Override
-	public List<EventParticipation> findAll(int start, int end,
+	public List<EventParticipation> findAll(
+		int start, int end,
 		OrderByComparator<EventParticipation> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<EventParticipation> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<EventParticipation>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<EventParticipation>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -2076,13 +2110,13 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_EVENTPARTICIPATION);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -2102,16 +2136,16 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<EventParticipation>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<EventParticipation>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<EventParticipation>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<EventParticipation>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2149,8 +2183,8 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -2162,12 +2196,12 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -2188,6 +2222,88 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 	 * Initializes the event participation persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
+			EventParticipationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
+			EventParticipationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+			EventParticipationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
+			EventParticipationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
+			EventParticipationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
+			new String[] {String.class.getName()},
+			EventParticipationModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+
+		_finderPathCountByPublikUserId = new FinderPath(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+			EventParticipationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByEventId = new FinderPath(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
+			EventParticipationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEventId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByEventId = new FinderPath(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
+			EventParticipationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByEventId",
+			new String[] {Long.class.getName()},
+			EventParticipationModelImpl.EVENTID_COLUMN_BITMASK);
+
+		_finderPathCountByEventId = new FinderPath(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+			EventParticipationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEventId",
+			new String[] {Long.class.getName()});
+
+		_finderPathFetchByPublikUserIdAndEventId = new FinderPath(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
+			EventParticipationImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByPublikUserIdAndEventId",
+			new String[] {String.class.getName(), Long.class.getName()},
+			EventParticipationModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
+			EventParticipationModelImpl.EVENTID_COLUMN_BITMASK);
+
+		_finderPathCountByPublikUserIdAndEventId = new FinderPath(
+			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
+			EventParticipationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByPublikUserIdAndEventId",
+			new String[] {String.class.getName(), Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -2199,15 +2315,34 @@ public class EventParticipationPersistenceImpl extends BasePersistenceImpl<Event
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_EVENTPARTICIPATION = "SELECT eventParticipation FROM EventParticipation eventParticipation";
-	private static final String _SQL_SELECT_EVENTPARTICIPATION_WHERE_PKS_IN = "SELECT eventParticipation FROM EventParticipation eventParticipation WHERE eventParticipationId IN (";
-	private static final String _SQL_SELECT_EVENTPARTICIPATION_WHERE = "SELECT eventParticipation FROM EventParticipation eventParticipation WHERE ";
-	private static final String _SQL_COUNT_EVENTPARTICIPATION = "SELECT COUNT(eventParticipation) FROM EventParticipation eventParticipation";
-	private static final String _SQL_COUNT_EVENTPARTICIPATION_WHERE = "SELECT COUNT(eventParticipation) FROM EventParticipation eventParticipation WHERE ";
+
+	private static final String _SQL_SELECT_EVENTPARTICIPATION =
+		"SELECT eventParticipation FROM EventParticipation eventParticipation";
+
+	private static final String _SQL_SELECT_EVENTPARTICIPATION_WHERE_PKS_IN =
+		"SELECT eventParticipation FROM EventParticipation eventParticipation WHERE eventParticipationId IN (";
+
+	private static final String _SQL_SELECT_EVENTPARTICIPATION_WHERE =
+		"SELECT eventParticipation FROM EventParticipation eventParticipation WHERE ";
+
+	private static final String _SQL_COUNT_EVENTPARTICIPATION =
+		"SELECT COUNT(eventParticipation) FROM EventParticipation eventParticipation";
+
+	private static final String _SQL_COUNT_EVENTPARTICIPATION_WHERE =
+		"SELECT COUNT(eventParticipation) FROM EventParticipation eventParticipation WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "eventParticipation.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No EventParticipation exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No EventParticipation exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(EventParticipationPersistenceImpl.class);
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No EventParticipation exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No EventParticipation exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		EventParticipationPersistenceImpl.class);
+
 }

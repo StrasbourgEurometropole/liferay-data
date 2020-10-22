@@ -274,8 +274,11 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
                         rtType = "3";
 						// System.out.println("Type 3");
 					} else if (typeSigId.toLowerCase().contains("cat_22")){ // Parkings
-                        rtType = "2";
+						rtType = "2";
 						// System.out.println("Type 2");
+					} else if (typeSigId.toLowerCase().contains("cat_06_04")){ // Patinoire
+						rtType = "4";
+						// System.out.println("Type 4");
 					}
 				}
 			}
@@ -289,6 +292,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 							rtOccupation = poolOccupation;
 						} catch (Exception ex) {
 							log.error("Can not update real time data for 'piscine'");
+							rtOccupation = -1;
 						}
 						break;
 
@@ -314,6 +318,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 						} catch (Exception ex) {
 							//ex.printStackTrace();
 							log.error("Can not update real time data for 'mairie'");
+							rtOccupation = -1;
 						}
 						break;
 				}

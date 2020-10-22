@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.council.service.http.TypeServiceSoap}.
  *
  * @author Brian Wing Shun Chan
- * @see eu.strasbourg.service.council.service.http.TypeServiceSoap
  * @generated
  */
 @ProviderType
 public class TypeSoap implements Serializable {
+
 	public static TypeSoap toSoapModel(Type model) {
 		TypeSoap soapModel = new TypeSoap();
 
@@ -236,4 +236,5 @@ public class TypeSoap implements Serializable {
 	private String _title;
 	private String _titleLong;
 	private long _roleId;
+
 }

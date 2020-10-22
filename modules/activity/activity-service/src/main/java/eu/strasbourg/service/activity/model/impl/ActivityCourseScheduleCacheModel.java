@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing ActivityCourseSchedule in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see ActivityCourseSchedule
  * @generated
  */
 @ProviderType
-public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCourseSchedule>,
-	Externalizable {
+public class ActivityCourseScheduleCacheModel
+	implements CacheModel<ActivityCourseSchedule>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,9 +49,12 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 			return false;
 		}
 
-		ActivityCourseScheduleCacheModel activityCourseScheduleCacheModel = (ActivityCourseScheduleCacheModel)obj;
+		ActivityCourseScheduleCacheModel activityCourseScheduleCacheModel =
+			(ActivityCourseScheduleCacheModel)obj;
 
-		if (activityCourseScheduleId == activityCourseScheduleCacheModel.activityCourseScheduleId) {
+		if (activityCourseScheduleId ==
+				activityCourseScheduleCacheModel.activityCourseScheduleId) {
+
 			return true;
 		}
 
@@ -115,22 +117,24 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 
 	@Override
 	public ActivityCourseSchedule toEntityModel() {
-		ActivityCourseScheduleImpl activityCourseScheduleImpl = new ActivityCourseScheduleImpl();
+		ActivityCourseScheduleImpl activityCourseScheduleImpl =
+			new ActivityCourseScheduleImpl();
 
 		if (uuid == null) {
-			activityCourseScheduleImpl.setUuid(StringPool.BLANK);
+			activityCourseScheduleImpl.setUuid("");
 		}
 		else {
 			activityCourseScheduleImpl.setUuid(uuid);
 		}
 
-		activityCourseScheduleImpl.setActivityCourseScheduleId(activityCourseScheduleId);
+		activityCourseScheduleImpl.setActivityCourseScheduleId(
+			activityCourseScheduleId);
 		activityCourseScheduleImpl.setGroupId(groupId);
 		activityCourseScheduleImpl.setCompanyId(companyId);
 		activityCourseScheduleImpl.setUserId(userId);
 
 		if (userName == null) {
-			activityCourseScheduleImpl.setUserName(StringPool.BLANK);
+			activityCourseScheduleImpl.setUserName("");
 		}
 		else {
 			activityCourseScheduleImpl.setUserName(userName);
@@ -150,17 +154,18 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 			activityCourseScheduleImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
-		activityCourseScheduleImpl.setActivityCoursePlaceId(activityCoursePlaceId);
+		activityCourseScheduleImpl.setActivityCoursePlaceId(
+			activityCoursePlaceId);
 
 		if (startTime == null) {
-			activityCourseScheduleImpl.setStartTime(StringPool.BLANK);
+			activityCourseScheduleImpl.setStartTime("");
 		}
 		else {
 			activityCourseScheduleImpl.setStartTime(startTime);
 		}
 
 		if (endTime == null) {
-			activityCourseScheduleImpl.setEndTime(StringPool.BLANK);
+			activityCourseScheduleImpl.setEndTime("");
 		}
 		else {
 			activityCourseScheduleImpl.setEndTime(endTime);
@@ -175,14 +180,14 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 		activityCourseScheduleImpl.setSunday(sunday);
 
 		if (comments == null) {
-			activityCourseScheduleImpl.setComments(StringPool.BLANK);
+			activityCourseScheduleImpl.setComments("");
 		}
 		else {
 			activityCourseScheduleImpl.setComments(comments);
 		}
 
 		if (periodsIds == null) {
-			activityCourseScheduleImpl.setPeriodsIds(StringPool.BLANK);
+			activityCourseScheduleImpl.setPeriodsIds("");
 		}
 		else {
 			activityCourseScheduleImpl.setPeriodsIds(periodsIds);
@@ -230,10 +235,9 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -248,7 +252,7 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -260,14 +264,14 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 		objectOutput.writeLong(activityCoursePlaceId);
 
 		if (startTime == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(startTime);
 		}
 
 		if (endTime == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(endTime);
@@ -288,14 +292,14 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 		objectOutput.writeBoolean(sunday);
 
 		if (comments == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(comments);
 		}
 
 		if (periodsIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(periodsIds);
@@ -322,4 +326,5 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 	public boolean sunday;
 	public String comments;
 	public String periodsIds;
+
 }

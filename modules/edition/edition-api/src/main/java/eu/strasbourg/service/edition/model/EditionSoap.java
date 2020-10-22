@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.edition.service.http.EditionServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.edition.service.http.EditionServiceSoap
  * @generated
  */
 @ProviderType
 public class EditionSoap implements Serializable {
+
 	public static EditionSoap toSoapModel(Edition model) {
 		EditionSoap soapModel = new EditionSoap();
 
@@ -56,8 +56,8 @@ public class EditionSoap implements Serializable {
 		soapModel.setDistribution(model.getDistribution());
 		soapModel.setISBN(model.getISBN());
 		soapModel.setPrice(model.getPrice());
-		soapModel.setAvailableForExchange(model.getAvailableForExchange());
-		soapModel.setInStock(model.getInStock());
+		soapModel.setAvailableForExchange(model.isAvailableForExchange());
+		soapModel.setInStock(model.isInStock());
 		soapModel.setDiffusionDateYear(model.getDiffusionDateYear());
 		soapModel.setDiffusionDateMonth(model.getDiffusionDateMonth());
 		soapModel.setPageNumber(model.getPageNumber());
@@ -97,7 +97,8 @@ public class EditionSoap implements Serializable {
 	}
 
 	public static EditionSoap[] toSoapModels(List<Edition> models) {
-		List<EditionSoap> soapModels = new ArrayList<EditionSoap>(models.size());
+		List<EditionSoap> soapModels = new ArrayList<EditionSoap>(
+			models.size());
 
 		for (Edition model : models) {
 			soapModels.add(toSoapModel(model));
@@ -389,11 +390,15 @@ public class EditionSoap implements Serializable {
 	private String _title;
 	private String _subtitle;
 	private String _description;
+
 	private String _URL;
+
 	private String _author;
 	private String _editor;
 	private String _distribution;
+
 	private String _ISBN;
+
 	private String _price;
 	private boolean _availableForExchange;
 	private boolean _inStock;
@@ -404,4 +409,5 @@ public class EditionSoap implements Serializable {
 	private Date _publicationDate;
 	private Long _imageId;
 	private String _fileId;
+
 }

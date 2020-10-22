@@ -36,40 +36,47 @@ import java.util.Map;
  *
  * @author Cedric Henry
  * @see LigneServiceUtil
- * @see eu.strasbourg.service.gtfs.service.base.LigneServiceBaseImpl
- * @see eu.strasbourg.service.gtfs.service.impl.LigneServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=gtfs", "json.web.service.context.path=Ligne"}, service = LigneService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=gtfs",
+		"json.web.service.context.path=Ligne"
+	},
+	service = LigneService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface LigneService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link LigneServiceUtil} to access the ligne remote service. Add custom service methods to {@link eu.strasbourg.service.gtfs.service.impl.LigneServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link LigneServiceUtil} to access the ligne remote service. Add custom service methods to <code>eu.strasbourg.service.gtfs.service.impl.LigneServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Recuperer les couleurs des lignes
-	*/
+	 * Recuperer les couleurs des lignes
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getLigneColors();
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Recuperer les couleurs des lignes pour freemarker
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Map<String, String[]> getLigneColorsFreemarker();
 
 	/**
-	* Recuperer les couleurs des lignes pour freemarker
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Map<java.lang.String, java.lang.String[]> getLigneColorsFreemarker();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

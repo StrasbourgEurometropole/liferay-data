@@ -245,7 +245,7 @@ public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTex
 						os.write(ligne.getBytes());
 						os.write(System.getProperty("line.separator").getBytes());
 						for (Comment comment : comments) {
-							ligne = comment.getCreateDate() + " - " + comment.getComment() + " - "
+							ligne = comment.getCreateDate() + " - " + comment.getText() + " - "
 									+ comment.getAssetEntryTitle();
 							os.write(ligne.getBytes());
 							os.write(System.getProperty("line.separator").getBytes());

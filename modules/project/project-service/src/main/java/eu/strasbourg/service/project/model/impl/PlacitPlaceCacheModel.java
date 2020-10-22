@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.project.model.PlacitPlace;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing PlacitPlace in entity cache.
  *
  * @author Cedric Henry
- * @see PlacitPlace
  * @generated
  */
 @ProviderType
-public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
-	Externalizable {
+public class PlacitPlaceCacheModel
+	implements CacheModel<PlacitPlace>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 			return false;
 		}
 
-		PlacitPlaceCacheModel placitPlaceCacheModel = (PlacitPlaceCacheModel)obj;
+		PlacitPlaceCacheModel placitPlaceCacheModel =
+			(PlacitPlaceCacheModel)obj;
 
 		if (placitPlaceId == placitPlaceCacheModel.placitPlaceId) {
 			return true;
@@ -118,7 +118,7 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 		PlacitPlaceImpl placitPlaceImpl = new PlacitPlaceImpl();
 
 		if (uuid == null) {
-			placitPlaceImpl.setUuid(StringPool.BLANK);
+			placitPlaceImpl.setUuid("");
 		}
 		else {
 			placitPlaceImpl.setUuid(uuid);
@@ -130,7 +130,7 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 		placitPlaceImpl.setUserId(userId);
 
 		if (userName == null) {
-			placitPlaceImpl.setUserName(StringPool.BLANK);
+			placitPlaceImpl.setUserName("");
 		}
 		else {
 			placitPlaceImpl.setUserName(userName);
@@ -151,28 +151,28 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 		}
 
 		if (placeName == null) {
-			placitPlaceImpl.setPlaceName(StringPool.BLANK);
+			placitPlaceImpl.setPlaceName("");
 		}
 		else {
 			placitPlaceImpl.setPlaceName(placeName);
 		}
 
 		if (placeStreetNumber == null) {
-			placitPlaceImpl.setPlaceStreetNumber(StringPool.BLANK);
+			placitPlaceImpl.setPlaceStreetNumber("");
 		}
 		else {
 			placitPlaceImpl.setPlaceStreetNumber(placeStreetNumber);
 		}
 
 		if (placeStreetName == null) {
-			placitPlaceImpl.setPlaceStreetName(StringPool.BLANK);
+			placitPlaceImpl.setPlaceStreetName("");
 		}
 		else {
 			placitPlaceImpl.setPlaceStreetName(placeStreetName);
 		}
 
 		if (placeZipCode == null) {
-			placitPlaceImpl.setPlaceZipCode(StringPool.BLANK);
+			placitPlaceImpl.setPlaceZipCode("");
 		}
 		else {
 			placitPlaceImpl.setPlaceZipCode(placeZipCode);
@@ -187,7 +187,7 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 		placitPlaceImpl.setInitiativeId(initiativeId);
 
 		if (placeSIGId == null) {
-			placitPlaceImpl.setPlaceSIGId(StringPool.BLANK);
+			placitPlaceImpl.setPlaceSIGId("");
 		}
 		else {
 			placitPlaceImpl.setPlaceSIGId(placeSIGId);
@@ -234,10 +234,9 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -252,7 +251,7 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -262,28 +261,28 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 		objectOutput.writeLong(modifiedDate);
 
 		if (placeName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeName);
 		}
 
 		if (placeStreetNumber == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeStreetNumber);
 		}
 
 		if (placeStreetName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeStreetName);
 		}
 
 		if (placeZipCode == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeZipCode);
@@ -304,7 +303,7 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 		objectOutput.writeLong(initiativeId);
 
 		if (placeSIGId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeSIGId);
@@ -331,4 +330,5 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 	public long budgetParticipatifId;
 	public long initiativeId;
 	public String placeSIGId;
+
 }

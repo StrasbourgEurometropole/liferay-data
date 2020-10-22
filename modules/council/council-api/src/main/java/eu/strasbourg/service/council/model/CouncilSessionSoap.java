@@ -30,6 +30,7 @@ import java.util.List;
  */
 @ProviderType
 public class CouncilSessionSoap implements Serializable {
+
 	public static CouncilSessionSoap toSoapModel(CouncilSession model) {
 		CouncilSessionSoap soapModel = new CouncilSessionSoap();
 
@@ -63,11 +64,14 @@ public class CouncilSessionSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static CouncilSessionSoap[][] toSoapModels(CouncilSession[][] models) {
+	public static CouncilSessionSoap[][] toSoapModels(
+		CouncilSession[][] models) {
+
 		CouncilSessionSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new CouncilSessionSoap[models.length][models[0].length];
+			soapModels =
+				new CouncilSessionSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new CouncilSessionSoap[0][0];
@@ -80,8 +84,11 @@ public class CouncilSessionSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static CouncilSessionSoap[] toSoapModels(List<CouncilSession> models) {
-		List<CouncilSessionSoap> soapModels = new ArrayList<CouncilSessionSoap>(models.size());
+	public static CouncilSessionSoap[] toSoapModels(
+		List<CouncilSession> models) {
+
+		List<CouncilSessionSoap> soapModels = new ArrayList<CouncilSessionSoap>(
+			models.size());
 
 		for (CouncilSession model : models) {
 			soapModels.add(toSoapModel(model));
@@ -245,4 +252,5 @@ public class CouncilSessionSoap implements Serializable {
 	private Date _date;
 	private long _officialLeaderId;
 	private long _typeId;
+
 }

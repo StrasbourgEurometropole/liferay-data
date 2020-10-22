@@ -1,11 +1,5 @@
 package eu.strasbourg.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.portlet.PortletRequest;
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -19,9 +13,16 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+
+import javax.portlet.PortletRequest;
+import javax.servlet.http.HttpServletRequest;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class PortletHelper {
 
@@ -202,7 +203,7 @@ public class PortletHelper {
 				if (Validator.isNull(userConfigString)) {
 					userConfigString = "{\"hiddenPortlets\":[], \"shownPortlets\":[]}";
 				}
-				
+
 				JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
 				JSONArray hiddenPortletsJsonArray;
 				if (json.has("hiddenPortlets")) {
@@ -333,5 +334,70 @@ public class PortletHelper {
                 e.printStackTrace();
             }
         }
+	}
+
+	public static boolean isUserAuthorizedToConsultInternOffer(String typePublication) {
+		if (Validator.isNotNull(typePublication) && typePublication.equals("Interne uniquement")){
+			// récupération de l'adresse IP de l'utilisateur
+			HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
+			String ipUtil = request.getRemoteAddr();
+			for (String header : IP_HEADER_CANDIDATES) {
+				String ip = request.getHeader(header);
+				if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+					ipUtil = ip;
+				}
+			}
+
+			// récupération de la liste d'ip autorisée
+			String ipsAutorizedString = StrasbourgPropsUtil.getEJobIP();
+			List<String> ipsAutorized = Arrays.asList(ipsAutorizedString.split(","));
+			if (Validator.isNull(ipsAutorized) || !ipsAutorized.contains(ipUtil)) {
+				for (String ip : ipsAutorized) {
+					if(ip.contains("-")){
+						// teste si l'ip utilisateur est comprise dans le range d'ips
+						String[] ipRange = ip.split("-");
+						try {
+							long ipFrom = ipToLong(InetAddress.getByName(ipRange[0].trim()));
+							long ipTo = ipToLong(InetAddress.getByName(ipRange[1].trim()));
+							long ipToTest = ipToLong(InetAddress.getByName(ipUtil));
+							if(ipToTest >= ipFrom && ipToTest <= ipTo)
+								return true;
+						} catch (UnknownHostException e) {
+							e.printStackTrace();
+						}
+					}else{
+						if(ip.trim().equals(ipUtil))
+							return true;
+					}
+				}
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+	private static final String[] IP_HEADER_CANDIDATES = {
+			"X-Forwarded-For",
+			"Proxy-Client-IP",
+			"WL-Proxy-Client-IP",
+			"HTTP_X_FORWARDED_FOR",
+			"HTTP_X_FORWARDED",
+			"HTTP_X_CLUSTER_CLIENT_IP",
+			"HTTP_CLIENT_IP",
+			"HTTP_FORWARDED_FOR",
+			"HTTP_FORWARDED",
+			"HTTP_VIA",
+			"REMOTE_ADDR" };
+
+
+	private static long ipToLong(InetAddress ip) {
+		byte[] octets = ip.getAddress();
+		long result = 0;
+		for (byte octet : octets) {
+			result <<= 8;
+			result |= octet & 0xff;
+		}
+		return result;
 	}
 }

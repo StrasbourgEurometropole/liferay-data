@@ -541,22 +541,6 @@ a.pro-btn-tel {
 			float: left;
 			border: none;
 			position: relative;
-			&.active {
-				&:before {
-					content: '';
-					position: absolute;
-					top: 0;
-					left: 0;
-					right: 0;
-					width: 100%;
-					height: 5px;
-					background: $c_main;
-				}
-				> a {
-					background: none;
-					color: $c_txt;
-				}
-			}
 			> a {
 				@include ft($f_hx, 1em, 400, rgba($c_txt, 0.5), 4.667em);
 				text-align: center;
@@ -575,6 +559,21 @@ a.pro-btn-tel {
 				}
 				@media screen and (max-width: 320px){
 					font-size: 0.6em;
+				}
+				&.active {
+					background: none;
+					color: $c_txt;
+
+					&:before {
+						content: '';
+						position: absolute;
+						top: 0;
+						left: 0;
+						right: 0;
+						width: 100%;
+						height: 5px;
+						background: $c_main;
+					}
 				}
 			}
 		}

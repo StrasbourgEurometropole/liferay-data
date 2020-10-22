@@ -1,11 +1,9 @@
 package eu.strasbourg.utils.api;
 
-import javax.portlet.PortletRequest;
-import javax.servlet.http.HttpServletRequest;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 
-import aQute.bnd.annotation.ProviderType;
+import javax.portlet.PortletRequest;
 
 /**
  * Classe de service qui peut être utilisée dans les templates L'implémentation
@@ -24,4 +22,5 @@ public interface PortletHelperService {
 	public void showPortlet(String portletId);
 	public void hidePortlet(String portletId);
 	public void togglePortlet(String portletId, boolean show);
+	public boolean isUserAuthorizedToConsultInternOffer(String typePublication);
 }

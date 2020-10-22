@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.council.service.http.DeliberationServiceSoap}.
  *
  * @author Brian Wing Shun Chan
- * @see eu.strasbourg.service.council.service.http.DeliberationServiceSoap
  * @generated
  */
 @ProviderType
 public class DeliberationSoap implements Serializable {
+
 	public static DeliberationSoap toSoapModel(Deliberation model) {
 		DeliberationSoap soapModel = new DeliberationSoap();
 
@@ -84,7 +84,8 @@ public class DeliberationSoap implements Serializable {
 	}
 
 	public static DeliberationSoap[] toSoapModels(List<Deliberation> models) {
-		List<DeliberationSoap> soapModels = new ArrayList<DeliberationSoap>(models.size());
+		List<DeliberationSoap> soapModels = new ArrayList<DeliberationSoap>(
+			models.size());
 
 		for (Deliberation model : models) {
 			soapModels.add(toSoapModel(model));
@@ -266,4 +267,5 @@ public class DeliberationSoap implements Serializable {
 	private int _countOfficialsVoting;
 	private int _countOfficialsActive;
 	private long _councilSessionId;
+
 }

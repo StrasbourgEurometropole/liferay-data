@@ -26,36 +26,37 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class LigneServiceWrapper implements LigneService,
-	ServiceWrapper<LigneService> {
+public class LigneServiceWrapper
+	implements LigneService, ServiceWrapper<LigneService> {
+
 	public LigneServiceWrapper(LigneService ligneService) {
 		_ligneService = ligneService;
 	}
 
 	/**
-	* Recuperer les couleurs des lignes
-	*/
+	 * Recuperer les couleurs des lignes
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getLigneColors() {
 		return _ligneService.getLigneColors();
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Recuperer les couleurs des lignes pour freemarker
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _ligneService.getOSGiServiceIdentifier();
+	public java.util.Map<String, String[]> getLigneColorsFreemarker() {
+		return _ligneService.getLigneColorsFreemarker();
 	}
 
 	/**
-	* Recuperer les couleurs des lignes pour freemarker
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.util.Map<java.lang.String, java.lang.String[]> getLigneColorsFreemarker() {
-		return _ligneService.getLigneColorsFreemarker();
+	public String getOSGiServiceIdentifier() {
+		return _ligneService.getOSGiServiceIdentifier();
 	}
 
 	@Override
@@ -69,4 +70,5 @@ public class LigneServiceWrapper implements LigneService,
 	}
 
 	private LigneService _ligneService;
+
 }

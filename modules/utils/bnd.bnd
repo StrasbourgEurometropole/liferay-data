@@ -7,5 +7,8 @@ Export-Package: \
 	eu.strasbourg.utils.exception,\
 	eu.strasbourg.utils.parser,\
 	eu.strasbourg.utils.display.context,\
-	eu.strasbourg.utils.group
+	eu.strasbourg.utils.group, \
+	eu.strasbourg.utils.client.soap, \
+	eu.strasbourg.utils.client.soap.beans, \
+	eu.strasbourg.utils.client.soap.tools
 -dsannotations: *

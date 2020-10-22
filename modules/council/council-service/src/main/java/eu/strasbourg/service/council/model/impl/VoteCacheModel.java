@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.service.persistence.VotePK;
@@ -35,11 +34,11 @@ import java.util.Date;
  * The cache model class for representing Vote in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see Vote
  * @generated
  */
 @ProviderType
 public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -94,7 +93,7 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 		VoteImpl voteImpl = new VoteImpl();
 
 		if (uuid == null) {
-			voteImpl.setUuid(StringPool.BLANK);
+			voteImpl.setUuid("");
 		}
 		else {
 			voteImpl.setUuid(uuid);
@@ -113,7 +112,7 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 		}
 
 		if (result == null) {
-			voteImpl.setResult(StringPool.BLANK);
+			voteImpl.setResult("");
 		}
 		else {
 			voteImpl.setResult(result);
@@ -146,10 +145,9 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -165,7 +163,7 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 		objectOutput.writeLong(createDate);
 
 		if (result == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(result);
@@ -183,4 +181,5 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 	public String result;
 	public long officialProcurationId;
 	public transient VotePK votePK;
+
 }

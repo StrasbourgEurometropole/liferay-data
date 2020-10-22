@@ -25,19 +25,20 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * {@link OfficialServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>OfficialServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.council.model.OfficialSoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.council.model.Official}, that is translated to a
- * {@link eu.strasbourg.service.council.model.OfficialSoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.council.model.OfficialSoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.council.model.Official</code>, that is translated to a
+ * <code>eu.strasbourg.service.council.model.OfficialSoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -59,27 +60,28 @@ import java.rmi.RemoteException;
  *
  * @author Brian Wing Shun Chan
  * @see OfficialServiceHttp
- * @see eu.strasbourg.service.council.model.OfficialSoap
- * @see OfficialServiceUtil
  * @generated
  */
 @ProviderType
 public class OfficialServiceSoap {
+
 	/**
-	* Recherche d'élu pour l'autocompletion
-	*
-	* @param fullName Nom, prénom ou les deux de l'élu à trouver
-	* @param type Type de l'élu recherché (peut être vide)
-	* @param removedOfficialId ID de l'élu à retirer de la liste des résultats (0 si non-utilisé)
-	* @param groupId Site sur lequel cherchés
-	* @return Liste des élus au format JSON
-	*/
-	public static java.lang.String getOfficialByFullNameAndType(
-		java.lang.String fullName, java.lang.String type,
-		long removedOfficialId, long groupId) throws RemoteException {
+	 * Recherche d'élu pour l'autocompletion
+	 *
+	 * @param fullName Nom, prénom ou les deux de l'élu à trouver
+	 * @param type Type de l'élu recherché (peut être vide)
+	 * @param removedOfficialId ID de l'élu à retirer de la liste des résultats (0 si non-utilisé)
+	 * @param groupId Site sur lequel cherchés
+	 * @return Liste des élus au format JSON
+	 */
+	public static String getOfficialByFullNameAndType(
+			String fullName, String type, long removedOfficialId, long groupId)
+		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = OfficialServiceUtil.getOfficialByFullNameAndType(fullName,
-					type, removedOfficialId, groupId);
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				OfficialServiceUtil.getOfficialByFullNameAndType(
+					fullName, type, removedOfficialId, groupId);
 
 			return returnValue.toString();
 		}
@@ -91,17 +93,20 @@ public class OfficialServiceSoap {
 	}
 
 	/**
-	* Recherche des électeurs pour une session données groupés par statut de connexion et nom complet
-	*
-	* @param councilSessionId
-	* @param groupId ID du site
-	* @return Tableaux des statuts possibles contenant la liste des électeurs assimilables auxdits statuts
-	*/
-	public static java.lang.String getOfficialByConnexionStatus(
-		long councilSessionId, long groupId) throws RemoteException {
+	 * Recherche des électeurs pour une session données groupés par statut de connexion et nom complet
+	 *
+	 * @param councilSessionId
+	 * @param groupId ID du site
+	 * @return Tableaux des statuts possibles contenant la liste des électeurs assimilables auxdits statuts
+	 */
+	public static String getOfficialByConnexionStatus(
+			long councilSessionId, long groupId)
+		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = OfficialServiceUtil.getOfficialByConnexionStatus(councilSessionId,
-					groupId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				OfficialServiceUtil.getOfficialByConnexionStatus(
+					councilSessionId, groupId);
 
 			return returnValue.toString();
 		}
@@ -113,4 +118,5 @@ public class OfficialServiceSoap {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(OfficialServiceSoap.class);
+
 }

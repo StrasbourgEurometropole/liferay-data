@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.link.model.Link;
 
@@ -34,11 +33,11 @@ import java.util.Date;
  * The cache model class for representing Link in entity cache.
  *
  * @author BenjaminBini
- * @see Link
  * @generated
  */
 @ProviderType
 public class LinkCacheModel implements CacheModel<Link>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -109,7 +108,7 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 		LinkImpl linkImpl = new LinkImpl();
 
 		if (uuid == null) {
-			linkImpl.setUuid(StringPool.BLANK);
+			linkImpl.setUuid("");
 		}
 		else {
 			linkImpl.setUuid(uuid);
@@ -121,7 +120,7 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 		linkImpl.setUserId(userId);
 
 		if (userName == null) {
-			linkImpl.setUserName(StringPool.BLANK);
+			linkImpl.setUserName("");
 		}
 		else {
 			linkImpl.setUserName(userName);
@@ -152,7 +151,7 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 		linkImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			linkImpl.setStatusByUserName(StringPool.BLANK);
+			linkImpl.setStatusByUserName("");
 		}
 		else {
 			linkImpl.setStatusByUserName(statusByUserName);
@@ -166,21 +165,21 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 		}
 
 		if (title == null) {
-			linkImpl.setTitle(StringPool.BLANK);
+			linkImpl.setTitle("");
 		}
 		else {
 			linkImpl.setTitle(title);
 		}
 
 		if (URL == null) {
-			linkImpl.setURL(StringPool.BLANK);
+			linkImpl.setURL("");
 		}
 		else {
 			linkImpl.setURL(URL);
 		}
 
 		if (hoverText == null) {
-			linkImpl.setHoverText(StringPool.BLANK);
+			linkImpl.setHoverText("");
 		}
 		else {
 			linkImpl.setHoverText(hoverText);
@@ -218,10 +217,9 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -236,7 +234,7 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -251,7 +249,7 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -260,21 +258,21 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (URL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(URL);
 		}
 
 		if (hoverText == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(hoverText);
@@ -295,6 +293,9 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 	public String statusByUserName;
 	public long statusDate;
 	public String title;
+
 	public String URL;
+
 	public String hoverText;
+
 }

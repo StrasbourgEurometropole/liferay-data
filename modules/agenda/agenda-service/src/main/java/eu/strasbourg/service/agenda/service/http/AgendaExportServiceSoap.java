@@ -25,19 +25,20 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * {@link AgendaExportServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>AgendaExportServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.agenda.model.AgendaExportSoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.agenda.model.AgendaExport}, that is translated to a
- * {@link eu.strasbourg.service.agenda.model.AgendaExportSoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.agenda.model.AgendaExportSoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.agenda.model.AgendaExport</code>, that is translated to a
+ * <code>eu.strasbourg.service.agenda.model.AgendaExportSoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -59,21 +60,21 @@ import java.rmi.RemoteException;
  *
  * @author BenjaminBini
  * @see AgendaExportServiceHttp
- * @see eu.strasbourg.service.agenda.model.AgendaExportSoap
- * @see AgendaExportServiceUtil
  * @generated
  */
 @ProviderType
 public class AgendaExportServiceSoap {
+
 	/**
-	* Renvoit la liste des catégories parentes d'un vocabulaire
-	*/
-	public static java.lang.String getParentCategories(
-		java.lang.Long vocabularyId, java.lang.String localeId)
+	 * Renvoit la liste des catégories parentes d'un vocabulaire
+	 */
+	public static String getParentCategories(Long vocabularyId, String localeId)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = AgendaExportServiceUtil.getParentCategories(vocabularyId,
-					localeId);
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				AgendaExportServiceUtil.getParentCategories(
+					vocabularyId, localeId);
 
 			return returnValue.toString();
 		}
@@ -84,5 +85,7 @@ public class AgendaExportServiceSoap {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(AgendaExportServiceSoap.class);
+	private static Log _log = LogFactoryUtil.getLog(
+		AgendaExportServiceSoap.class);
+
 }

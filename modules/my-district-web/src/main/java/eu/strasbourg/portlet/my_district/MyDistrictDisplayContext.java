@@ -1,15 +1,13 @@
 package eu.strasbourg.portlet.my_district;
 
+import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
-import com.liferay.portal.kernel.dao.orm.Criterion;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -29,6 +27,7 @@ import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.SearchHelper;
@@ -171,8 +170,19 @@ public class MyDistrictDisplayContext {
     public Official getOfficial() {
         Official official = null;
         if (Validator.isNotNull(district)) {
-            List<AssetEntry> assetEntries = AssetEntryLocalServiceUtil
-                    .getAssetCategoryAssetEntries(district.getCategoryId());
+            List<AssetEntryAssetCategoryRel> entriesRel = AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(district.getCategoryId());
+
+            //transforme les AssetEntriesAssetCategories en AssetEntries
+            List<AssetEntry> assetEntries = new ArrayList<AssetEntry>();
+            for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
+                if (Validator.isNotNull(entryRel)) {
+                    try {
+                        assetEntries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
+                    } catch (PortalException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
             // ne garde que les élus
             assetEntries.removeIf(e -> !(e.getClassName().equals(Official.class.getName())));
             // ne garde que s'il est publié
@@ -204,8 +214,19 @@ public class MyDistrictDisplayContext {
     public Place getTownHall() {
         Place townHall = null;
         if (Validator.isNotNull(district)) {
-            List<AssetEntry> assetEntries = AssetEntryLocalServiceUtil
-                    .getAssetCategoryAssetEntries(district.getCategoryId());
+            List<AssetEntryAssetCategoryRel> entriesRel = AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(district.getCategoryId());
+
+            //transforme les AssetEntriesAssetCategories en AssetEntries
+            List<AssetEntry> assetEntries = new ArrayList<AssetEntry>();
+            for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
+                if (Validator.isNotNull(entryRel)) {
+                    try {
+                        assetEntries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
+                    } catch (PortalException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
             // ne garde que les lieux
             assetEntries.removeIf(e -> !(e.getClassName().equals(Place.class.getName())));
             // ne garde que les mairies
@@ -247,8 +268,19 @@ public class MyDistrictDisplayContext {
     public Place getTerritoryDirection() {
         Place territoryDirection = null;
         if (Validator.isNotNull(district)) {
-            List<AssetEntry> assetEntries = AssetEntryLocalServiceUtil
-                    .getAssetCategoryAssetEntries(district.getCategoryId());
+            List<AssetEntryAssetCategoryRel> entriesRel = AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(district.getCategoryId());
+
+            //transforme les AssetEntriesAssetCategories en AssetEntries
+            List<AssetEntry> assetEntries = new ArrayList<AssetEntry>();
+            for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
+                if (Validator.isNotNull(entryRel)) {
+                    try {
+                        assetEntries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
+                    } catch (PortalException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
             // ne garde que les lieux
             assetEntries.removeIf(e -> !(e.getClassName().equals(Place.class.getName())));
             // ne garde que les direction de territoire
@@ -366,7 +398,8 @@ public class MyDistrictDisplayContext {
     }
 
     public String getJournalArticleImage(JournalArticle article, Locale locale) {
-        return getJournalArticleFieldValue(article, "thumbnail", locale);
+        String documentStructure = getJournalArticleFieldValue(article, "thumbnail", locale);
+        return AssetPublisherTemplateHelper.getDocumentUrl(documentStructure);
     }
 
     public String getJSONEncodedString(String source) {
@@ -384,8 +417,21 @@ public class MyDistrictDisplayContext {
     // récupération des évènements
     public List<AssetEntry> getEvents() {
         if (events == null) {
-            List<AssetEntry> entries = new ArrayList<AssetEntry>();
-            entries.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(district.getCategoryId()));
+            List<AssetEntryAssetCategoryRel> entriesRel = new ArrayList<AssetEntryAssetCategoryRel>();
+            entriesRel.addAll(AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(district.getCategoryId()));
+
+            //transforme les AssetEntriesAssetCategories en AssetEntries
+            List<AssetEntry> entries = new ArrayList<>();
+            for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
+                if (Validator.isNotNull(entryRel)) {
+                    try {
+                        entries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
+                    } catch (PortalException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
             List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
             List<Event> listEvent = EventLocalServiceUtil.findByNextHappening();
             listEvent = listEvent.stream().filter(e -> classPks.contains(e.getEventId())).collect(Collectors.toList());

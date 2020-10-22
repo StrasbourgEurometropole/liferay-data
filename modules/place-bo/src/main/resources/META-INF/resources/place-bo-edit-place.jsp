@@ -22,6 +22,8 @@
 </liferay-portlet:renderURL>
 
 <div class="container-fluid-1280 main-content-body">
+	<liferay-ui:error key="alias-error" message="alias-error" />
+
 	<aui:form action="${savePlaceURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
@@ -34,63 +36,66 @@
 			<!-- Informations géographique -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="geographic-information">
-				
-					<div class="col-md-6">
-						
-						<aui:input name="SIGid2" type="hidden" value="${dc.place.SIGid}" />
-						
-						<aui:input name="SIGid" disabled="true" />
-						
-						<aui:input name="name2" type="hidden" value="${dc.place.name}" />
-					
-						<aui:input name="name" disabled="true" />
-						
-						<aui:input name="addressStreet2" type="hidden" value="${dc.place.addressStreet}" />
-						
-						<aui:input name="addressStreet" disabled="true" />
-						
-						<aui:input name="addressComplement2" type="hidden" value="${dc.place.addressComplement}" />
-						
-						<aui:input name="addressComplement" disabled="true" />
-						
-						<aui:input name="addressDistribution2" type="hidden" value="${dc.place.addressDistribution}" />
-						
-						<aui:input name="addressDistribution" disabled="true" />
-						
-						<aui:input name="addressZipCode2" type="hidden" value="${dc.place.addressZipCode}" />
-						
-						<aui:input name="addressZipCode" disabled="true" />
-						
-						<aui:input name="addressCountry2" type="hidden" value="${dc.place.addressCountry}" />
-						
-						<aui:input name="addressCountry" disabled="true" />
 
-					</div>
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <aui:input name="SIGid2" type="hidden" value="${dc.place.SIGid}" />
+
+                            <aui:input name="SIGid" disabled="true" />
+
+                            <aui:input name="name2" type="hidden" value="${dc.place.name}" />
+
+                            <aui:input name="name" disabled="true" />
+
+                            <aui:input name="addressStreet2" type="hidden" value="${dc.place.addressStreet}" />
+
+                            <aui:input name="addressStreet" disabled="true" />
+
+                            <aui:input name="addressComplement2" type="hidden" value="${dc.place.addressComplement}" />
+
+                            <aui:input name="addressComplement" disabled="true" />
+
+                            <aui:input name="addressDistribution2" type="hidden" value="${dc.place.addressDistribution}" />
+
+                            <aui:input name="addressDistribution" disabled="true" />
+
+                            <aui:input name="addressZipCode2" type="hidden" value="${dc.place.addressZipCode}" />
+
+                            <aui:input name="addressZipCode" disabled="true" />
+
+                            <aui:input name="addressCountry2" type="hidden" value="${dc.place.addressCountry}" />
+
+                            <aui:input name="addressCountry" disabled="true" />
+
+                        </div>
 					
-					<div class="col-md-6">
-					
-						<label><liferay-ui:message key="mercator-coordinates" /></label><br>
-						
-						<aui:input name="mercatorX2" type="hidden" value="${dc.place.mercatorX}" />
-						
-						<aui:input name="mercatorX" disabled="true" />
-						
-						<aui:input name="mercatorY2" type="hidden" value="${dc.place.mercatorY}" />
-						
-						<aui:input name="mercatorY" disabled="true" />
-						
-						<label><liferay-ui:message key="rgf93" /></label><br>
-						
-						<aui:input name="RGF93X2" type="hidden" value="${dc.place.RGF93X}" />
-						
-						<aui:input name="RGF93X" disabled="true" />
-						
-						<aui:input name="RGF93Y2" type="hidden" value="${dc.place.RGF93Y}" />
-						
-						<aui:input name="RGF93Y" disabled="true" />
-						
-					</div>
-				
+                        <div class="col-md-6">
+
+                            <label><liferay-ui:message key="mercator-coordinates" /></label><br>
+
+                            <aui:input name="mercatorX2" type="hidden" value="${dc.place.mercatorX}" />
+
+                            <aui:input name="mercatorX" disabled="true" />
+
+                            <aui:input name="mercatorY2" type="hidden" value="${dc.place.mercatorY}" />
+
+                            <aui:input name="mercatorY" disabled="true" />
+
+                            <label><liferay-ui:message key="rgf93" /></label><br>
+
+                            <aui:input name="RGF93X2" type="hidden" value="${dc.place.RGF93X}" />
+
+                            <aui:input name="RGF93X" disabled="true" />
+
+                            <aui:input name="RGF93Y2" type="hidden" value="${dc.place.RGF93Y}" />
+
+                            <aui:input name="RGF93Y" disabled="true" />
+
+                        </div>
+
+                    </div>
+
 			</aui:fieldset>
 			
 			<!-- Categorisation -->
@@ -110,6 +115,7 @@
 								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
                                         $('html,body').animate({scrollTop: $("#categorization").offset().top - 100}, 'slow');
 								    	validated = false;
+		                                event.preventDefault();
 								    	break;
 								    }
 								}
@@ -365,7 +371,7 @@
                                 <div class="lfr-form-row lfr-form-row-inline">
                                     <div class="row-fields">
                                         <liferay-util:include page="/includes/exceptional-schedule-row.jsp" servletContext="<%=application %>">
-                                            <liferay-util:param name="index" value="1" />
+                                            <liferay-util:param name="index" value="0" />
                                         </liferay-util:include>
                                     </div>
                                 </div>
@@ -377,7 +383,7 @@
                                         <fmt:formatDate value="${scheduleException.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
                                         <fmt:formatDate value="${scheduleException.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
                                         <liferay-util:include page="/includes/exceptional-schedule-row.jsp" servletContext="<%=application %>">
-                                            <liferay-util:param name="index" value="${status.count}" />
+                                            <liferay-util:param name="index" value="${status.count - 1}" />
                                             <liferay-util:param name="startHour1" value="${scheduleException.getStartHour(0)}" />
                                             <liferay-util:param name="endHour1" value="${scheduleException.getEndHour(0)}" />
                                             <liferay-util:param name="firstComment" value="${scheduleException.firstComment}" />
@@ -401,12 +407,7 @@
                                     </div>
                                 </div>
                             </c:forEach>
-                            <c:if test="${empty dc.place.scheduleExceptions}">
-                                <aui:input type="hidden" name="shedulesExceptionsIndexes" value="1" />
-                            </c:if>
-                            <c:if test="${not empty dc.place.scheduleExceptions}">
-                                <aui:input type="hidden" name="shedulesExceptionsIndexes" value="${dc.getDefaultIndexes(fn:length(dc.place.scheduleExceptions))}" />
-                            </c:if>
+                            <aui:input type="hidden" name="shedulesExceptionsIndexes" value="${dc.getDefaultIndexes(fn:length(dc.place.scheduleExceptions))}" />
                         </div>
 
                     </aui:fieldset>

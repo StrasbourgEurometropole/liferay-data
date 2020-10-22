@@ -25,19 +25,20 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * {@link ObjectCategoryServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>ObjectCategoryServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.objtp.model.ObjectCategorySoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.objtp.model.ObjectCategory}, that is translated to a
- * {@link eu.strasbourg.service.objtp.model.ObjectCategorySoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.objtp.model.ObjectCategorySoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.objtp.model.ObjectCategory</code>, that is translated to a
+ * <code>eu.strasbourg.service.objtp.model.ObjectCategorySoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -59,16 +60,15 @@ import java.rmi.RemoteException;
  *
  * @author JeremyZwickert
  * @see ObjectCategoryServiceHttp
- * @see eu.strasbourg.service.objtp.model.ObjectCategorySoap
- * @see ObjectCategoryServiceUtil
  * @generated
  */
 @ProviderType
 public class ObjectCategoryServiceSoap {
-	public static java.lang.String getObjectCategories()
-		throws RemoteException {
+
+	public static String getObjectCategories() throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = ObjectCategoryServiceUtil.getObjectCategories();
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				ObjectCategoryServiceUtil.getObjectCategories();
 
 			return returnValue.toString();
 		}
@@ -79,5 +79,7 @@ public class ObjectCategoryServiceSoap {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(ObjectCategoryServiceSoap.class);
+	private static Log _log = LogFactoryUtil.getLog(
+		ObjectCategoryServiceSoap.class);
+
 }

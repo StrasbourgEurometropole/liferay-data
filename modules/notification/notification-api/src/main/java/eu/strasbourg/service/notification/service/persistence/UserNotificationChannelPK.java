@@ -18,7 +18,6 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import java.io.Serializable;
 
@@ -27,8 +26,9 @@ import java.io.Serializable;
  * @generated
  */
 @ProviderType
-public class UserNotificationChannelPK implements Comparable<UserNotificationChannelPK>,
-	Serializable {
+public class UserNotificationChannelPK
+	implements Comparable<UserNotificationChannelPK>, Serializable {
+
 	public String publikUserId;
 	public long channelId;
 
@@ -99,8 +99,9 @@ public class UserNotificationChannelPK implements Comparable<UserNotificationCha
 
 		UserNotificationChannelPK pk = (UserNotificationChannelPK)obj;
 
-		if ((publikUserId.equals(pk.publikUserId)) &&
-				(channelId == pk.channelId)) {
+		if (publikUserId.equals(pk.publikUserId) &&
+			(channelId == pk.channelId)) {
+
 			return true;
 		}
 		else {
@@ -120,22 +121,20 @@ public class UserNotificationChannelPK implements Comparable<UserNotificationCha
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(10);
+		StringBundler sb = new StringBundler(6);
 
-		sb.append(StringPool.OPEN_CURLY_BRACE);
+		sb.append("{");
 
-		sb.append("publikUserId");
-		sb.append(StringPool.EQUAL);
+		sb.append("publikUserId=");
+
 		sb.append(publikUserId);
+		sb.append(", channelId=");
 
-		sb.append(StringPool.COMMA);
-		sb.append(StringPool.SPACE);
-		sb.append("channelId");
-		sb.append(StringPool.EQUAL);
 		sb.append(channelId);
 
-		sb.append(StringPool.CLOSE_CURLY_BRACE);
+		sb.append("}");
 
 		return sb.toString();
 	}
+
 }

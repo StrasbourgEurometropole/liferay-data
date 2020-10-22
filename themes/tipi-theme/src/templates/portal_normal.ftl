@@ -89,7 +89,7 @@
 			<section class="ariane">
 	            <div class="center">
 	                <div class="fil-ariane">
-						<div class="breadcrumbs-bar">
+	                	<div class="breadcrumbs-bar">
 							<@liferay.breadcrumbs />
 						</div>
 	                </div>

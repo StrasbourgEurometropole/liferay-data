@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.gtfs.model.Alert;
 
@@ -34,11 +33,11 @@ import java.util.Date;
  * The cache model class for representing Alert in entity cache.
  *
  * @author Cedric Henry
- * @see Alert
  * @generated
  */
 @ProviderType
 public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -95,7 +94,7 @@ public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 		AlertImpl alertImpl = new AlertImpl();
 
 		if (uuid == null) {
-			alertImpl.setUuid(StringPool.BLANK);
+			alertImpl.setUuid("");
 		}
 		else {
 			alertImpl.setUuid(uuid);
@@ -121,14 +120,14 @@ public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 		}
 
 		if (ligneAndDirection == null) {
-			alertImpl.setLigneAndDirection(StringPool.BLANK);
+			alertImpl.setLigneAndDirection("");
 		}
 		else {
 			alertImpl.setLigneAndDirection(ligneAndDirection);
 		}
 
 		if (perturbation == null) {
-			alertImpl.setPerturbation(StringPool.BLANK);
+			alertImpl.setPerturbation("");
 		}
 		else {
 			alertImpl.setPerturbation(perturbation);
@@ -157,10 +156,9 @@ public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -177,14 +175,14 @@ public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 		objectOutput.writeLong(endDate);
 
 		if (ligneAndDirection == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(ligneAndDirection);
 		}
 
 		if (perturbation == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(perturbation);
@@ -200,4 +198,5 @@ public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 	public long endDate;
 	public String ligneAndDirection;
 	public String perturbation;
+
 }

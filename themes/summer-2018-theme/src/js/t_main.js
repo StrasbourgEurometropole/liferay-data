@@ -6704,7 +6704,6 @@ $(window).on('scroll', function (e) {
 	/* For the Agenda's page */ 
 	$('.mns-affiner-m').click(function(){
 		$('.mns-z-filtres-search').slideToggle('500');
-		$('.mns-z-filtres-search').addClass('row');
 		//$(this).parent().parent().toggleClass('hide-button');
 	});
 

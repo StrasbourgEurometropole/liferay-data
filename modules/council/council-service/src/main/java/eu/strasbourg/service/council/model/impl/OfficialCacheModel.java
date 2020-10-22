@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.council.model.Official;
 
@@ -34,11 +33,12 @@ import java.util.Date;
  * The cache model class for representing Official in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see Official
  * @generated
  */
 @ProviderType
-public class OfficialCacheModel implements CacheModel<Official>, Externalizable {
+public class OfficialCacheModel
+	implements CacheModel<Official>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -113,7 +113,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		OfficialImpl officialImpl = new OfficialImpl();
 
 		if (uuid == null) {
-			officialImpl.setUuid(StringPool.BLANK);
+			officialImpl.setUuid("");
 		}
 		else {
 			officialImpl.setUuid(uuid);
@@ -125,7 +125,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		officialImpl.setUserId(userId);
 
 		if (userName == null) {
-			officialImpl.setUserName(StringPool.BLANK);
+			officialImpl.setUserName("");
 		}
 		else {
 			officialImpl.setUserName(userName);
@@ -149,7 +149,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		officialImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			officialImpl.setStatusByUserName(StringPool.BLANK);
+			officialImpl.setStatusByUserName("");
 		}
 		else {
 			officialImpl.setStatusByUserName(statusByUserName);
@@ -163,21 +163,21 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		}
 
 		if (email == null) {
-			officialImpl.setEmail(StringPool.BLANK);
+			officialImpl.setEmail("");
 		}
 		else {
 			officialImpl.setEmail(email);
 		}
 
 		if (firstname == null) {
-			officialImpl.setFirstname(StringPool.BLANK);
+			officialImpl.setFirstname("");
 		}
 		else {
 			officialImpl.setFirstname(firstname);
 		}
 
 		if (lastname == null) {
-			officialImpl.setLastname(StringPool.BLANK);
+			officialImpl.setLastname("");
 		}
 		else {
 			officialImpl.setLastname(lastname);
@@ -193,7 +193,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		}
 
 		if (lastSignInDeviceInfo == null) {
-			officialImpl.setLastSignInDeviceInfo(StringPool.BLANK);
+			officialImpl.setLastSignInDeviceInfo("");
 		}
 		else {
 			officialImpl.setLastSignInDeviceInfo(lastSignInDeviceInfo);
@@ -234,10 +234,9 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -252,7 +251,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -266,7 +265,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -275,21 +274,21 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		objectOutput.writeLong(statusDate);
 
 		if (email == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(email);
 		}
 
 		if (firstname == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(firstname);
 		}
 
 		if (lastname == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(lastname);
@@ -299,7 +298,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		objectOutput.writeLong(lastActivity);
 
 		if (lastSignInDeviceInfo == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(lastSignInDeviceInfo);
@@ -324,4 +323,5 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 	public boolean isActive;
 	public long lastActivity;
 	public String lastSignInDeviceInfo;
+
 }

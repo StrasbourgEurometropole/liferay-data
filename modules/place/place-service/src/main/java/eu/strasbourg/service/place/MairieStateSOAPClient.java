@@ -1,11 +1,18 @@
 package eu.strasbourg.service.place;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPBody;
@@ -16,94 +23,110 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class MairieStateSOAPClient {
 
 	public static long getWaitingTime(String codeMairie) throws Exception {
-		SOAPMessage response = getResponse(codeMairie);
 
 		// Convert Response To PoolSchedule Object
 		long waitingTime = -1;
 
-		SOAPBody body = response.getSOAPBody();
-		NodeList bodyNodes = body.getChildNodes();
-		Node responseNode = bodyNodes.item(0);
-		Node resultNode = responseNode.getChildNodes().item(0);
-		NodeList dataNodes = resultNode.getChildNodes().item(0).getChildNodes();
+		String outputString = getWaitingSoap(codeMairie);
 
-		for (int i = 0; i < dataNodes.getLength(); i++) {
-			Node dataNode = dataNodes.item(i);
-			String dataName = dataNode.getLocalName();
-			switch (dataName) {
-			case "realAvgWaitingTime":
-				String data = dataNode.getTextContent();
-				if (data.equals("-")) {
-					waitingTime = 0;
-				} else {
-					try {
-						waitingTime = Long.parseLong(data.split(":")[1]);
-						waitingTime += Long.parseLong(data.split(":")[0]) * 60;
-					} catch (Exception ex) {
-					}
-				}
-				break;
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				outputString.getBytes("UTF-8"));
+		Document doc = dBuilder.parse(input);
+
+		NodeList waitingNodeList = doc.getElementsByTagName("ns3:realAvgWaitingTime");
+		String waitingString = waitingNodeList.item(0).getTextContent();
+
+		if (waitingString.equals("-")) {
+			waitingTime = 0;
+		} else {
+			try {
+				waitingTime = Long.parseLong(waitingString.split(":")[1]);
+				waitingTime += Long.parseLong(waitingString.split(":")[0]) * 60;
+			} catch (Exception ex) {
 			}
-
 		}
 
 		return waitingTime;
 	}
 
-	private static SOAPMessage getResponse(String codeMairie) throws Exception {
-		/**
-		 * Create SOAP Request
-		 */
-		MessageFactory messageFactory = MessageFactory.newInstance();
-		SOAPMessage soapRequest = messageFactory.createMessage();
-		SOAPPart soapPart = soapRequest.getSOAPPart();
-		String namespace = "v1";
-		String namespaceURI = "http://www.esii.com/esirius/sitewaitingindicator/v1.0";
+	/**
+	 * Appelle le service SOAP de l'occupation des piscines, récupère la réposne sous forme de XML
+	 */
+	private static String getWaitingSoap(String codeMairie) throws IOException {
+		//Code to make a webservice HTTP request
+		String responseString = "";
+		String outputString = "";
+		String wsURL = "https://webservices.strasbourg.eu/filat/eSirius/webservices/sitewaitingindicator/v1.0?wsdl";
+		URL url = new URL(wsURL);
+		URLConnection connection = url.openConnection();
+		HttpURLConnection httpConn = (HttpURLConnection) connection;
+		ByteArrayOutputStream bout = new ByteArrayOutputStream();
+		String xmlInput = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:v1=\"http://www.esii.com/esirius/sitewaitingindicator/v1.0\">\n" +
+				"   <soapenv:Header/>\n" +
+				"   <soapenv:Body>\n" +
+				"      <v1:getSitesIndicatorsBySites>\n" +
+				"         <v1:siteCodeArray>\n" +
+				"            <!--Zero or more repetitions:-->\n" +
+				"            <v1:string>"+codeMairie+"</v1:string>\n" +
+				"         </v1:siteCodeArray>\n" +
+				"      </v1:getSitesIndicatorsBySites>\n" +
+				"   </soapenv:Body>\n" +
+				"</soapenv:Envelope> ";
 
-		// SOAP Envelope
-		SOAPEnvelope envelope = soapPart.getEnvelope();
-		envelope.addNamespaceDeclaration(namespace, namespaceURI);
+		byte[] buffer = new byte[xmlInput.length()];
+		buffer = xmlInput.getBytes();
+		bout.write(buffer);
+		byte[] b = bout.toByteArray();
+		// Set the appropriate HTTP parameters.
+		httpConn.setRequestProperty("Content-Length",
+				String.valueOf(b.length));
+		httpConn.setRequestProperty("Content-Type", "text/xml;charset=UTF-8");
+		httpConn.setRequestMethod("GET");
+		httpConn.setDoOutput(true);
+		httpConn.setDoInput(true);
+		OutputStream out = httpConn.getOutputStream();
+		//Write the content of the request to the outputstream of the HTTP Connection.
+		out.write(b);
+		out.close();
+		//Ready with sending the request.
 
-		// SOAP Body
-		SOAPBody soapBody = envelope.getBody();
+		//Read the response.
+		InputStreamReader isr = null;
+		if (httpConn.getResponseCode() == 200) {
+			isr = new InputStreamReader(httpConn.getInputStream());
+		} else {
+			isr = new InputStreamReader(httpConn.getErrorStream());
+		}
 
-		SOAPElement methodElement = soapBody.addChildElement("getSitesIndicatorsBySites", namespace);
-		SOAPElement paramElement = methodElement.addChildElement("siteCodeArray", namespace);
-		SOAPElement paramValueElement = paramElement.addChildElement("string", namespace);
-		paramValueElement.addTextNode(codeMairie);
+		BufferedReader in = new BufferedReader(isr);
 
-		// Headers
-		MimeHeaders headers = soapRequest.getMimeHeaders();
-		headers.addHeader("Content-type", "text/xml");
-		headers.addHeader("SOAPAction", "");
+		//Write the SOAP message response to a String.
+		while ((responseString = in.readLine()) != null) {
+			outputString = outputString + responseString;
+		}
 
-		/**
-		 * Get SOAP Response
-		 */
-		// SOAP Connection
-		SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
-		SOAPConnection soapConnection = soapConnectionFactory.createConnection();
-		String url = "https://webservices.strasbourg.eu/filat/eSirius/webservices/sitewaitingindicator/v1.0?wsdl";
-		URL endpoint = new URL(null, url, new URLStreamHandler() {
-			@Override
-			protected URLConnection openConnection(URL url) throws IOException {
-				URL clone_url = new URL(url.toString());
-				HttpURLConnection clone_urlconnection = (HttpURLConnection) clone_url.openConnection();
-				clone_urlconnection.setConnectTimeout(5000);
-				clone_urlconnection.setReadTimeout(5000);
-				return (clone_urlconnection);
-			}
-		});
+		return outputString;
+	}
 
-		// Send SOAP Message
-		SOAPMessage soapResponse = soapConnection.call(soapRequest, endpoint);
+	/**
+	 * Renvoie la valeur du Noeud demandé dnas le document XML fourni
+	 */
+	private String getTextContentFromXML(Document doc, String nodeTagName) {
+		String textContent = "";
 
-		return soapResponse;
+		NodeList nodeList = doc.getElementsByTagName(nodeTagName);
+		textContent = nodeList.item(0).getTextContent();
+
+		return textContent;
 	}
 }

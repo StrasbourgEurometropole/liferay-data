@@ -32,12 +32,13 @@ import eu.strasbourg.service.activity.service.ActivityLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class ActivityBaseImpl extends ActivityModelImpl
-	implements Activity {
+public abstract class ActivityBaseImpl
+	extends ActivityModelImpl implements Activity {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a activity model instance should use the {@link Activity} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a activity model instance should use the <code>Activity</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class ActivityBaseImpl extends ActivityModelImpl
 			ActivityLocalServiceUtil.updateActivity(this);
 		}
 	}
+
 }

@@ -22,6 +22,9 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public interface BudgetParticipatifFinder {
-	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> findByStatusAndActivePhaseAndGroupId(
-		int status, long groupId);
+
+	public java.util.List
+		<eu.strasbourg.service.project.model.BudgetParticipatif>
+			findByStatusAndActivePhaseAndGroupId(int status, long groupId);
+
 }

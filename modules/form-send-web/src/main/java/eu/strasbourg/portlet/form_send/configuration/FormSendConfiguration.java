@@ -19,8 +19,8 @@ public interface FormSendConfiguration {
     @Meta.AD(name = "message", deflt = "", required = false)
     public String message();
 
-    @Meta.AD(name = "recordSetId", deflt = "", required = false)
-    public String recordSetId();
+    @Meta.AD(name = "formInstanceId", deflt = "", required = false)
+    public String formInstanceId();
 
     @Meta.AD(name = "fieldsSelected", required = false)
     public String fieldsSelected();

@@ -184,6 +184,10 @@ public class StrasbourgPropsUtil {
 	public static String getPublikProfileURL(){
 		return PropsUtil.get("eu.strasbourg.publik.url.profile");
 	}
+
+	public static String getPublikProceduresURL(){
+		return PropsUtil.get("eu.strasbourg.publik.url.procedures");
+	}
 	
 	public static String getObjtpURL(){
 		return PropsUtil.get("eu.strasbourg.objtp.url");
@@ -267,6 +271,16 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.participer.name");
 	}
 
+	public static boolean getParticiperAntivirusActivation() {
+		boolean result = true;
+		try {
+			String propertiesContent = PropsUtil.get("eu.strasbourg.participer.antivirus.activation");
+			if (propertiesContent.equals("false"))
+				result = false;
+		} catch (Exception ignored) {}
+		return result;
+	}
+
 	public static String getDemarcheSuiviURL(){
 		return PropsUtil.get("eu.strasbourg.demarches.suivi.url");
 	}
@@ -295,4 +309,25 @@ public class StrasbourgPropsUtil {
 
 	public static String getGMBEmail() {return PropsUtil.get("eu.strasbourg.google.synchronized.report.mail");}
 
+	public static String getEJobURLOfferApply() {
+		return PropsUtil.get("eu.strasbourg.ejob.publik.url.offer.apply");
+	}
+
+	public static String getEJobURLApply() {
+		return PropsUtil.get("eu.strasbourg.ejob.publik.url.apply");
+	}
+
+	public static String getEJobURLOffer() {return PropsUtil.get("eu.strasbourg.ejob.url.offer");}
+
+	public static String getEJobFTPHost() {return PropsUtil.get("eu.strasbourg.ejob.ftp.host");}
+
+	public static String getEJobFTPPort() {return PropsUtil.get("eu.strasbourg.ejob.ftp.port");}
+
+	public static String getEJobFTPUser() {return PropsUtil.get("eu.strasbourg.ejob.ftp.user");}
+
+	public static String getEJobFTPPassword() {return PropsUtil.get("eu.strasbourg.ejob.ftp.password");}
+
+	public static String getEJobIP() {return PropsUtil.get("eu.strasbourg.ejob.ip");}
+
+	public static String getURLPorteDocument() {return PropsUtil.get("eu.strasbourg.url.porte.document");}
 }

@@ -33,10 +33,11 @@ import eu.strasbourg.service.gtfs.service.TripLocalServiceUtil;
  */
 @ProviderType
 public abstract class TripBaseImpl extends TripModelImpl implements Trip {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a trip model instance should use the {@link Trip} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a trip model instance should use the <code>Trip</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class TripBaseImpl extends TripModelImpl implements Trip {
 			TripLocalServiceUtil.updateTrip(this);
 		}
 	}
+
 }

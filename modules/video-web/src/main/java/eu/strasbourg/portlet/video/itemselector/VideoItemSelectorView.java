@@ -22,15 +22,12 @@ import com.liferay.item.selector.ItemSelectorView;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.kernel.util.comparator.GroupTypeComparator;
-import com.liferay.portlet.PortletURLImpl;
 
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
@@ -41,7 +38,7 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 	private ServletContext _servletContext;
 
 	private static final List<ItemSelectorReturnType> _supportedItemSelectorReturnTypes = Collections
-			.unmodifiableList(ListUtil.fromArray(new ItemSelectorReturnType[] { new URLItemSelectorReturnType() }));
+			.unmodifiableList(ListUtil.fromArray(new URLItemSelectorReturnType()));
 
 	public ServletContext getServletContext() {
 		return _servletContext;
@@ -68,11 +65,6 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 	}
 
 	@Override
-	public boolean isShowSearch() {
-		return true;
-	}
-
-	@Override
 	public boolean isVisible(ThemeDisplay themeDisplay) {
 		return true;
 	}
@@ -85,6 +77,7 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		ThemeDisplay themeDisplay = (ThemeDisplay) servletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
 		boolean multiple = GetterUtil.getBoolean(servletRequest.getParameter("multiple"), false);
+		// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
 		portletURL.setParameter("multiple", String.valueOf(multiple));
 
 		int delta = GetterUtil.getInteger(servletRequest.getParameter(SearchContainer.DEFAULT_DELTA_PARAM),
@@ -99,6 +92,7 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		if (filterGroupId == 0) {
 			filterGroupId = themeDisplay.getScopeGroupId();
 		}
+		// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
 		portletURL.setParameter("filterGroupId", String.valueOf(filterGroupId));
 
 		List<Video> videos = VideoLocalServiceUtil.findByKeyword(keywords, filterGroupId, (delta * cur) - delta,
@@ -130,15 +124,17 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 	private List<ManagementBarFilterItem> getGroupFilterItems(PortletURL portletURL, long currentCompanyId,
 			long filterGroupId) {
 		List<Group> groups = GroupLocalServiceUtil.getCompanyGroups(currentCompanyId, -1, -1);
-		List<ManagementBarFilterItem> items = new ArrayList<ManagementBarFilterItem>();
+		List<ManagementBarFilterItem> items = new ArrayList<>();
 		for (Group group : groups) {
 			boolean isActive = group.getGroupId() == filterGroupId;
+			// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
 			portletURL.setParameter("filterGroupId", String.valueOf(group.getGroupId()));
 			if (Validator.isNotNull(group.getName(Locale.FRANCE)) && group.getType() == 1) {
 				ManagementBarFilterItem item = new ManagementBarFilterItem(isActive, group.getName(Locale.FRANCE),
 						portletURL.toString());
 				items.add(item);
 			}
+			// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
 			portletURL.setParameter("filterGroupId", String.valueOf(filterGroupId));
 		}
 		return items;

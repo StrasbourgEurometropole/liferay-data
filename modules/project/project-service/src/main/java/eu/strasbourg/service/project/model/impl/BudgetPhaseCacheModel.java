@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.project.model.BudgetPhase;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing BudgetPhase in entity cache.
  *
  * @author Cedric Henry
- * @see BudgetPhase
  * @generated
  */
 @ProviderType
-public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
-	Externalizable {
+public class BudgetPhaseCacheModel
+	implements CacheModel<BudgetPhase>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 			return false;
 		}
 
-		BudgetPhaseCacheModel budgetPhaseCacheModel = (BudgetPhaseCacheModel)obj;
+		BudgetPhaseCacheModel budgetPhaseCacheModel =
+			(BudgetPhaseCacheModel)obj;
 
 		if (budgetPhaseId == budgetPhaseCacheModel.budgetPhaseId) {
 			return true;
@@ -118,7 +118,7 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 		BudgetPhaseImpl budgetPhaseImpl = new BudgetPhaseImpl();
 
 		if (uuid == null) {
-			budgetPhaseImpl.setUuid(StringPool.BLANK);
+			budgetPhaseImpl.setUuid("");
 		}
 		else {
 			budgetPhaseImpl.setUuid(uuid);
@@ -130,7 +130,7 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 		budgetPhaseImpl.setUserId(userId);
 
 		if (userName == null) {
-			budgetPhaseImpl.setUserName(StringPool.BLANK);
+			budgetPhaseImpl.setUserName("");
 		}
 		else {
 			budgetPhaseImpl.setUserName(userName);
@@ -154,7 +154,7 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 		budgetPhaseImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			budgetPhaseImpl.setStatusByUserName(StringPool.BLANK);
+			budgetPhaseImpl.setStatusByUserName("");
 		}
 		else {
 			budgetPhaseImpl.setStatusByUserName(statusByUserName);
@@ -168,14 +168,14 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 		}
 
 		if (title == null) {
-			budgetPhaseImpl.setTitle(StringPool.BLANK);
+			budgetPhaseImpl.setTitle("");
 		}
 		else {
 			budgetPhaseImpl.setTitle(title);
 		}
 
 		if (description == null) {
-			budgetPhaseImpl.setDescription(StringPool.BLANK);
+			budgetPhaseImpl.setDescription("");
 		}
 		else {
 			budgetPhaseImpl.setDescription(description);
@@ -250,10 +250,9 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -268,7 +267,7 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -282,7 +281,7 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -291,14 +290,14 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
@@ -333,4 +332,5 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 	public long endDate;
 	public long beginVoteDate;
 	public long endVoteDate;
+
 }

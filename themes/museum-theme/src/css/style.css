@@ -1559,7 +1559,7 @@ strong {
   color: white;
 }
 /* line 10, ../sass/partials/_breadcrumb.scss */
-.breadcrumb-wrapper ul {
+.breadcrumb-wrapper ol {
   line-height: 18px;
 }
 /* line 13, ../sass/partials/_breadcrumb.scss */
@@ -1582,6 +1582,8 @@ strong {
 /* line 25, ../sass/partials/_breadcrumb.scss */
 .breadcrumb-wrapper .breadcrumb > li + li:before {
   content: "-";
+
+  background-image: none;
 }
 /* line 29, ../sass/partials/_breadcrumb.scss */
 .breadcrumb-wrapper .breadcrumb li:last-child:before {
@@ -1593,7 +1595,7 @@ strong {
     padding: 11px 20px 8px 20px;
   }
   /* line 39, ../sass/partials/_breadcrumb.scss */
-  .breadcrumb-wrapper ul {
+  .breadcrumb-wrapper ol {
     line-height: 13px;
   }
 }
@@ -1657,7 +1659,7 @@ strong {
 /* line 36, ../sass/partials/_museum-menu.scss */
 .museum-header.sticky {
   position: fixed;
-  top: 34px;
+  top: 32px;
   z-index: 20;
 }
 @media (min-width: 1280px) {
@@ -1703,6 +1705,12 @@ strong {
   /* Make sure this is higher than #mobile-menu */
   height: 100%;
   background: white;
+}
+
+/* affichage de la config du bandeau */
+.header-top .portlet:hover > .portlet-topper{
+    transform: translateY(97%);
+    z-index: 21;
 }
 
 /* line 10, ../sass/partials/_mobile-menu.scss */

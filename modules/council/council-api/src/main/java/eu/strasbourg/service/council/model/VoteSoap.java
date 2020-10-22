@@ -32,6 +32,7 @@ import java.util.List;
  */
 @ProviderType
 public class VoteSoap implements Serializable {
+
 	public static VoteSoap toSoapModel(Vote model) {
 		VoteSoap soapModel = new VoteSoap();
 
@@ -168,4 +169,5 @@ public class VoteSoap implements Serializable {
 	private Date _createDate;
 	private String _result;
 	private long _officialProcurationId;
+
 }

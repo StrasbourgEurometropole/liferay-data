@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class CommentServiceWrapper implements CommentService,
-	ServiceWrapper<CommentService> {
+public class CommentServiceWrapper
+	implements CommentService, ServiceWrapper<CommentService> {
+
 	public CommentServiceWrapper(CommentService commentService) {
 		_commentService = commentService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _commentService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class CommentServiceWrapper implements CommentService,
 	}
 
 	private CommentService _commentService;
+
 }

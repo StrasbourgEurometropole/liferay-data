@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.project.model.InitiativeHelp;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing InitiativeHelp in entity cache.
  *
  * @author Cedric Henry
- * @see InitiativeHelp
  * @generated
  */
 @ProviderType
-public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
-	Externalizable {
+public class InitiativeHelpCacheModel
+	implements CacheModel<InitiativeHelp>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 			return false;
 		}
 
-		InitiativeHelpCacheModel initiativeHelpCacheModel = (InitiativeHelpCacheModel)obj;
+		InitiativeHelpCacheModel initiativeHelpCacheModel =
+			(InitiativeHelpCacheModel)obj;
 
 		if (initiativeHelpId == initiativeHelpCacheModel.initiativeHelpId) {
 			return true;
@@ -96,7 +96,7 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 		InitiativeHelpImpl initiativeHelpImpl = new InitiativeHelpImpl();
 
 		if (uuid == null) {
-			initiativeHelpImpl.setUuid(StringPool.BLANK);
+			initiativeHelpImpl.setUuid("");
 		}
 		else {
 			initiativeHelpImpl.setUuid(uuid);
@@ -112,7 +112,7 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 		}
 
 		if (publikUserId == null) {
-			initiativeHelpImpl.setPublikUserId(StringPool.BLANK);
+			initiativeHelpImpl.setPublikUserId("");
 		}
 		else {
 			initiativeHelpImpl.setPublikUserId(publikUserId);
@@ -121,7 +121,7 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 		initiativeHelpImpl.setInitiativeId(initiativeId);
 
 		if (helpTypes == null) {
-			initiativeHelpImpl.setHelpTypes(StringPool.BLANK);
+			initiativeHelpImpl.setHelpTypes("");
 		}
 		else {
 			initiativeHelpImpl.setHelpTypes(helpTypes);
@@ -130,7 +130,7 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 		initiativeHelpImpl.setGroupId(groupId);
 
 		if (message == null) {
-			initiativeHelpImpl.setMessage(StringPool.BLANK);
+			initiativeHelpImpl.setMessage("");
 		}
 		else {
 			initiativeHelpImpl.setMessage(message);
@@ -161,10 +161,9 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -174,7 +173,7 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 		objectOutput.writeLong(createDate);
 
 		if (publikUserId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikUserId);
@@ -183,7 +182,7 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 		objectOutput.writeLong(initiativeId);
 
 		if (helpTypes == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(helpTypes);
@@ -192,7 +191,7 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 		objectOutput.writeLong(groupId);
 
 		if (message == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(message);
@@ -210,4 +209,5 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 	public long groupId;
 	public String message;
 	public boolean helpDisplay;
+
 }

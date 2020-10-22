@@ -18,14 +18,13 @@ package eu.strasbourg.portlet.gtfs.action;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.service.gtfs.model.Alert;
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.service.AlertLocalService;
@@ -34,9 +33,9 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
+import javax.portlet.*;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -55,9 +54,30 @@ public class SaveArretActionCommand implements MVCActionCommand {
 			ThemeDisplay td = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			sc.setScopeGroupId(td.getCompanyGroupId());
 
+			// Validation
+			boolean isValid = validate(request);
+			if (!isValid) {
+				// Si pas valide : on reste sur la page d'édition
+				PortalUtil.copyRequestParameters(request, response);
+
+				ThemeDisplay themeDisplay = (ThemeDisplay) request
+						.getAttribute(WebKeys.THEME_DISPLAY);
+				String portletName = (String) request
+						.getAttribute(WebKeys.PORTLET_ID);
+				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+						portletName, themeDisplay.getPlid(),
+						PortletRequest.RENDER_PHASE);
+				returnURL.setParameter("tab", request.getParameter("tab"));
+
+				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("mvcPath",
+						"/gtfs-bo-edit-arret.jsp");
+				return false;
+			}
+
 			long arretId = ParamUtil.getLong(request, "arretId");
 			Arret arret = _arretLocalService.getArret(arretId);
-			if(Validator.isNotNull(arret)){
+			if(Validator.isNotNull(arret)) {
 
 				// ---------------------------------------------------------------
 				// ---------------------------- ALERTE ---------------------------
@@ -70,22 +90,29 @@ public class SaveArretActionCommand implements MVCActionCommand {
 				}
 
 				// Ajout des alertes liées à l'arrêt
-				for (int alertsIndex = 1 ; alertsIndex <= 2; alertsIndex++)
-					if (Validator.isNotNull(
-							ParamUtil.getString(request, "startDateAlert" + alertsIndex))
-							&& Validator.isNotNull(
-							ParamUtil.getString(request, "endDateAlert" + alertsIndex))
-							&& Validator.isNotNull(
-							ParamUtil.getString(request, "alertLigneAndDirection" + alertsIndex))
-							&& Validator.isNotNull(
-							ParamUtil.getString(request, "alertPerturbation" + alertsIndex))) {
+				for (int alertsIndex = 1; alertsIndex <= 2; alertsIndex++) {
+
+					String startDateString = ParamUtil.getString(request,
+							"startDateAlert" + alertsIndex);
+					String endDateString = ParamUtil.getString(request,
+							"endDateAlert" + alertsIndex);
+					String alertLigneAndDirectionString = ParamUtil.getString(request,
+							"alertLigneAndDirection" + alertsIndex);
+					String alertPerturbationString = ParamUtil.getString(request,
+							"alertPerturbation" + alertsIndex + "Editor");
+
+					if (Validator.isNotNull(startDateString)|| Validator.isNotNull(endDateString)
+							|| Validator.isNotNull(alertLigneAndDirectionString)
+							|| Validator.isNotNull(alertPerturbationString)) {
 
 						Date startDate = ParamUtil.getDate(request, "startDateAlert" + alertsIndex,
 								new SimpleDateFormat("yyyy-MM-dd"));
 						Date endDate = ParamUtil.getDate(request, "endDateAlert" + alertsIndex,
 								new SimpleDateFormat("yyyy-MM-dd"));
+
 						Map<Locale, String> alertLigneAndDirection = LocalizationUtil.getLocalizationMap(request,
 								"alertLigneAndDirection" + alertsIndex);
+
 						Map<Locale, String> alertPerturbation = LocalizationUtil.getLocalizationMap(request,
 								"alertPerturbation" + alertsIndex);
 
@@ -101,12 +128,76 @@ public class SaveArretActionCommand implements MVCActionCommand {
 				}
 
 				this._arretLocalService.updateArret(arret, sc);
-
-			} catch (PortalException e) {
-				_log.error(e);
 			}
 
+		} catch (PortalException e) {
+			_log.error(e);
+		}
+
 		return true;
+	}
+
+	/**
+	 * Validation des champs obligatoires
+	 */
+	private boolean validate(ActionRequest request) {
+		boolean isValid = true;
+
+		// Alertes
+		for (int alertsIndex = 1 ; alertsIndex <= 2; alertsIndex++){
+
+			String startDateString = ParamUtil.getString(request,
+					"startDateAlert" + alertsIndex);
+			String endDateString = ParamUtil.getString(request,
+					"endDateAlert" + alertsIndex);
+			String alertLigneAndDirection = ParamUtil.getString(request,
+					"alertLigneAndDirection" + alertsIndex);
+			String alertPerturbation = ParamUtil.getString(request,
+					"alertPerturbation" + alertsIndex + "Editor");
+
+			if (Validator.isNotNull(startDateString)|| Validator.isNotNull(endDateString)
+					|| Validator.isNotNull(alertLigneAndDirection)
+					|| Validator.isNotNull(alertPerturbation)) {
+
+				if (Validator.isNotNull(startDateString) && Validator.isNotNull(startDateString)) {
+					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					try {
+						Date startDate = dateFormat.parse(startDateString);
+						Date endDate = dateFormat.parse(startDateString);
+						if (endDate.before(startDate)) {
+							SessionErrors.add(request, "period-date-error");
+							isValid = false;
+						}
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				}else{
+					if (Validator.isNull(startDateString)) {
+						SessionErrors.add(request, "start-date-error");
+						isValid = false;
+					}
+
+					if (Validator.isNull(endDateString)) {
+						SessionErrors.add(request, "end-date-error");
+						isValid = false;
+					}
+				}
+
+
+
+				if (Validator.isNull(alertLigneAndDirection)) {
+					SessionErrors.add(request, "ligne-error");
+					isValid = false;
+				}
+
+				if (Validator.isNull(alertPerturbation)) {
+					SessionErrors.add(request, "perturbation-error");
+					isValid = false;
+				}
+			}
+		}
+
+		return isValid;
 	}
 
 	private ArretLocalService _arretLocalService;

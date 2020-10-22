@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Cedric Henry
  * @see RouteModel
- * @see eu.strasbourg.service.gtfs.model.impl.RouteImpl
- * @see eu.strasbourg.service.gtfs.model.impl.RouteModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.gtfs.model.impl.RouteImpl")
 @ProviderType
-public interface Route extends RouteModel, PersistedModel {
+public interface Route extends PersistedModel, RouteModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.gtfs.model.impl.RouteImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.gtfs.model.impl.RouteImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Route, Long> ID_ACCESSOR = new Accessor<Route, Long>() {
+	public static final Accessor<Route, Long> ID_ACCESSOR =
+		new Accessor<Route, Long>() {
+
 			@Override
 			public Long get(Route route) {
 				return route.getId();
@@ -52,5 +53,7 @@ public interface Route extends RouteModel, PersistedModel {
 			public Class<Route> getTypeClass() {
 				return Route.class;
 			}
+
 		};
+
 }

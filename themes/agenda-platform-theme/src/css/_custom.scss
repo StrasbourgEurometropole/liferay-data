@@ -2,11 +2,38 @@
 
 body {
 	background-color: $bg-color;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.container-fluid-1280 .row {
-	margin-left: 15px;
-	margin-right: 15px;
+h2{
+	font-weight: 500;
+}
+
+.container-fluid{
+	max-width: 1280px;
+
+	.row {
+		display: block;
+		margin-left: 15px;
+		margin-right: 15px;
+	}
+}
+	
+p {
+	margin: 0 0 10px;
+}
+
+.btn{
+	line-height: 20px;
+	font-weight: 500;
+}
+
+.panel-title{
+	font-weight: 500;
+}
+
+.button-holder{
+	display: block;
 }
 
 #wrapper {
@@ -31,7 +58,7 @@ body {
 		}
 	}
 
-	.navbar-toggle {
+	.navbar-toggler {
 		margin: 12px 0 12px 6px;
 	}
 

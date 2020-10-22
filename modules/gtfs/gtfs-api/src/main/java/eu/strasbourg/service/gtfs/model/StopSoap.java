@@ -29,6 +29,7 @@ import java.util.List;
  */
 @ProviderType
 public class StopSoap implements Serializable {
+
 	public static StopSoap toSoapModel(Stop model) {
 		StopSoap soapModel = new StopSoap();
 
@@ -174,4 +175,5 @@ public class StopSoap implements Serializable {
 	private String _stop_name;
 	private String _stop_url;
 	private String _stop_desc;
+
 }

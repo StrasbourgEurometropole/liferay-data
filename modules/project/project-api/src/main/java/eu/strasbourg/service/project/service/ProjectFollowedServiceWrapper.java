@@ -26,44 +26,51 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class ProjectFollowedServiceWrapper implements ProjectFollowedService,
-	ServiceWrapper<ProjectFollowedService> {
+public class ProjectFollowedServiceWrapper
+	implements ProjectFollowedService, ServiceWrapper<ProjectFollowedService> {
+
 	public ProjectFollowedServiceWrapper(
 		ProjectFollowedService projectFollowedService) {
+
 		_projectFollowedService = projectFollowedService;
 	}
 
 	/**
-	* Ajoute un projet à un utilisateur
-	*/
+	 * Ajoute un projet à un utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject addFollowerLink(
 		long projectId, long groupId) {
+
 		return _projectFollowedService.addFollowerLink(projectId, groupId);
 	}
 
-	/**
-	* Verifie si l'utilisateur courant suit le projet
-	*/
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject isFollower(long projectId) {
-		return _projectFollowedService.isFollower(projectId);
+	public java.util.List<eu.strasbourg.service.project.model.ProjectFollowed>
+		findProjectFollowedByPublikUserId(String publikId) {
+
+		return _projectFollowedService.findProjectFollowedByPublikUserId(
+			publikId);
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _projectFollowedService.getOSGiServiceIdentifier();
 	}
 
+	/**
+	 * Verifie si l'utilisateur courant suit le projet
+	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.ProjectFollowed> findProjectFollowedByPublikUserId(
-		java.lang.String publikId) {
-		return _projectFollowedService.findProjectFollowedByPublikUserId(publikId);
+	public com.liferay.portal.kernel.json.JSONObject isFollower(
+		long projectId) {
+
+		return _projectFollowedService.isFollower(projectId);
 	}
 
 	@Override
@@ -72,9 +79,12 @@ public class ProjectFollowedServiceWrapper implements ProjectFollowedService,
 	}
 
 	@Override
-	public void setWrappedService(ProjectFollowedService projectFollowedService) {
+	public void setWrappedService(
+		ProjectFollowedService projectFollowedService) {
+
 		_projectFollowedService = projectFollowedService;
 	}
 
 	private ProjectFollowedService _projectFollowedService;
+
 }

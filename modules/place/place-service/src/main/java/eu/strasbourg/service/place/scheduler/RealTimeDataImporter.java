@@ -2,15 +2,17 @@ package eu.strasbourg.service.place.scheduler;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
-import com.liferay.portal.kernel.scheduler.TimeUnit;
-import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
+import com.liferay.portal.kernel.scheduler.*;
 import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import org.osgi.service.component.annotations.*;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Passe au statut "APPROVED" tous les événements et les manifestations dont la
@@ -18,14 +20,28 @@ import org.osgi.service.component.annotations.*;
  * dépassée
  */
 @Component(immediate = true, service = RealTimeDataImporter.class)
-public class RealTimeDataImporter extends BaseSchedulerEntryMessageListener {
+public class RealTimeDataImporter extends BaseMessageListener {
 
 	@Activate
 	@Modified
 	protected void activate() {
-		schedulerEntryImpl.setTrigger(
-				TriggerFactoryUtil.createTrigger(getEventListenerClass(), getEventListenerClass(), 2, TimeUnit.MINUTE));
-		_schedulerEngineHelper.register(this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);
+		String listenerClass = getClass().getName();
+
+		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date fiveMinutesFromNow = now.getTime();
+
+		// Création du trigger "Toutes les 2 minutes"
+		Trigger trigger = _triggerFactory.createTrigger(
+				listenerClass, listenerClass, fiveMinutesFromNow, null,
+				2, TimeUnit.MINUTE);
+
+		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
+				listenerClass, trigger);
+
+		_schedulerEngineHelper.register(
+				this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
 	}
 
 	@Deactivate
@@ -33,11 +49,9 @@ public class RealTimeDataImporter extends BaseSchedulerEntryMessageListener {
 		_schedulerEngineHelper.unregister(this);
 	}
 
-	private Log log = LogFactoryUtil.getLog(RealTimeDataImporter.class);
-
 	@Override
 	protected void doReceive(Message message) throws Exception {
-	    PlaceLocalServiceUtil.updateRealTime();
+	    _placeLocalService.updateRealTime();
 	}
 
 	@Reference(unbind = "-")
@@ -46,8 +60,19 @@ public class RealTimeDataImporter extends BaseSchedulerEntryMessageListener {
 	}
 
 	@Reference(unbind = "-")
-	private volatile SchedulerEngineHelper _schedulerEngineHelper;
+	protected void setSchedulerEngineHelper(
+			SchedulerEngineHelper schedulerEngineHelper) {
 
+		_schedulerEngineHelper = schedulerEngineHelper;
+	}
+
+	@Reference(unbind = "-")
+	protected void setTriggerFactory(TriggerFactory triggerFactory) {
+		_triggerFactory = triggerFactory;
+	}
+
+	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 	private PlaceLocalService _placeLocalService;
+	private TriggerFactory _triggerFactory;
 
 }

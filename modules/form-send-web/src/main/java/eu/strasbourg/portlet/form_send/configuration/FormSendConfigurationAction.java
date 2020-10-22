@@ -1,8 +1,8 @@
 package eu.strasbourg.portlet.form_send.configuration;
 
-import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalService;
-import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
@@ -15,13 +15,10 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.form_send.context.FormSendDisplayContext;
 import eu.strasbourg.portlet.form_send.formulaire.Formulaire;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
-
-import com.liferay.dynamic.data.lists.model.DDLRecordSet;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -29,9 +26,7 @@ import javax.portlet.PortletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component(
@@ -71,8 +66,8 @@ public class FormSendConfigurationAction
             setPreference(request, "message", message);
 
             // Formulaire sélectionnés
-            String recordSetId = ParamUtil.getString(request, "recordSetId");
-            setPreference(request, "recordSetId", recordSetId);
+            String formInstanceId = ParamUtil.getString(request, "formInstanceId");
+            setPreference(request, "formInstanceId", formInstanceId);
 
             // Champs selectionnés
             String fieldsSelectedString = "";
@@ -126,8 +121,6 @@ public class FormSendConfigurationAction
                     .getPortletDisplay().getPortletInstanceConfiguration(
                             FormSendConfiguration.class);
 
-            FormSendDisplayContext dc = new FormSendDisplayContext(request, response);
-
             // Titre
             String title;
             String titleParam = ParamUtil.getString(request,
@@ -149,7 +142,7 @@ public class FormSendConfigurationAction
                 if(Validator.isNotNull(configuration.nbEntries())) {
                     nbEntries = configuration.nbEntries();
                 }else{
-                    nbEntries = "" + dc.getDelta();
+                    nbEntries = "5";
                 }
             }
             request.setAttribute("nbEntries", nbEntries);
@@ -167,29 +160,29 @@ public class FormSendConfigurationAction
 
             // Formulaires disponibles
             List<Formulaire> formulaireList = new ArrayList<Formulaire>();
-            List<DDLRecordSet> formulaires = DDLRecordSetLocalServiceUtil.getDDLRecordSets(-1, -1);
+            List<DDMFormInstance> formulaires = DDMFormInstanceLocalServiceUtil.getDDMFormInstances(-1, -1);
             formulaires = formulaires.stream().filter(f->f.getGroupId() == themeDisplay.getScopeGroupId()).collect(Collectors.toList());
-            for (DDLRecordSet formulaire : formulaires) {
-                DDMStructure structure = formulaire.getDDMStructure();
+            for (DDMFormInstance formulaire : formulaires) {
+                DDMStructure structure = formulaire.getStructure();
                 JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
                 if(Validator.isNotNull(structure)){
                     jsonArray = JSONFactoryUtil.createJSONObject(structure.getDefinition()).getJSONArray("fields");
                 }
-                Formulaire form = new Formulaire(formulaire.getRecordSetId(), formulaire.getNameMap(), jsonArray);
+                Formulaire form = new Formulaire(formulaire.getFormInstanceId(), formulaire.getNameMap(), jsonArray);
                 formulaireList.add(form);
             }
             request.setAttribute("formulaireList", formulaireList);
 
             // Formulaire sélectionnés
-            long[] recordSetId = ParamUtil.getLongValues(request,
-                    "recordSetId");
-            String recordSetIdString;
-            if (recordSetId.length > 0) {
-                recordSetIdString = StringUtil.merge(recordSetId);
+            long[] formInstanceId = ParamUtil.getLongValues(request,
+                    "formInstanceId");
+            String formInstanceIdString;
+            if (formInstanceId.length > 0) {
+                formInstanceIdString = StringUtil.merge(formInstanceId);
             } else {
-                recordSetIdString = configuration.recordSetId();
+                formInstanceIdString = configuration.formInstanceId();
             }
-            request.setAttribute("recordSetId", recordSetIdString);
+            request.setAttribute("formInstanceId", formInstanceIdString);
 
             // Champs selectionnés
             String[] fieldsSelected = ParamUtil.getStringValues(request, "fieldsSelected");

@@ -75,7 +75,7 @@ public class CommentsXlsxExporterImpl implements CommentsXlsxExporter {
             		title,
                     dateCreate,
                     comment.getLevel(),
-                    unescapeHtml4(comment.getComment())
+                    unescapeHtml4(comment.getText())
                     };
             
             commentData = ArrayUtil.append(commentData, commentRow);

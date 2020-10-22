@@ -32,28 +32,35 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author Brian Wing Shun Chan
  * @see AssociationServiceUtil
- * @see eu.strasbourg.service.activity.service.base.AssociationServiceBaseImpl
- * @see eu.strasbourg.service.activity.service.impl.AssociationServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=activity", "json.web.service.context.path=Association"}, service = AssociationService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=activity",
+		"json.web.service.context.path=Association"
+	},
+	service = AssociationService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface AssociationService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link AssociationServiceUtil} to access the association remote service. Add custom service methods to {@link eu.strasbourg.service.activity.service.impl.AssociationServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link AssociationServiceUtil} to access the association remote service. Add custom service methods to <code>eu.strasbourg.service.activity.service.impl.AssociationServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

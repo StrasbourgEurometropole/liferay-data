@@ -30,6 +30,7 @@ import java.util.List;
  */
 @ProviderType
 public class PublikUserSoap implements Serializable {
+
 	public static PublikUserSoap toSoapModel(PublikUser model) {
 		PublikUserSoap soapModel = new PublikUserSoap();
 
@@ -50,7 +51,7 @@ public class PublikUserSoap implements Serializable {
 		soapModel.setBanishDate(model.getBanishDate());
 		soapModel.setBanishDescription(model.getBanishDescription());
 		soapModel.setImageURL(model.getImageURL());
-		soapModel.setPactDisplay(model.getPactDisplay());
+		soapModel.setPactDisplay(model.isPactDisplay());
 
 		return soapModel;
 	}
@@ -83,7 +84,8 @@ public class PublikUserSoap implements Serializable {
 	}
 
 	public static PublikUserSoap[] toSoapModels(List<PublikUser> models) {
-		List<PublikUserSoap> soapModels = new ArrayList<PublikUserSoap>(models.size());
+		List<PublikUserSoap> soapModels = new ArrayList<PublikUserSoap>(
+			models.size());
 
 		for (PublikUser model : models) {
 			soapModels.add(toSoapModel(model));
@@ -269,4 +271,5 @@ public class PublikUserSoap implements Serializable {
 	private String _banishDescription;
 	private String _imageURL;
 	private boolean _pactDisplay;
+
 }

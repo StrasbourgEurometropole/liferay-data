@@ -20,6 +20,15 @@
 
 <div id="<portlet:namespace />productsImageSelectorWrapper" class="container-fluid-1280 main-content-body">
 
+    <%-- Ajout du champ de recherche suite à sa disparition après migration en 7.2 --%>
+    <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
+        <aui:nav-bar-search>
+            <aui:form action="" name="keyword">
+                <liferay-ui:input-search markupView="lexicon" />
+            </aui:form>
+        </aui:nav-bar-search>
+    </aui:nav-bar>
+
 	<liferay-ui:search-container
 		emptyResultsMessage="no-entries-were-found"
 		iteratorURL="${portletURL}"
@@ -35,7 +44,7 @@
 			modelVar="association" cssClass="association-row" keyProperty="associationId" rowIdProperty="associationId"
 		>
 			<liferay-ui:search-container-column-text cssClass="content-column"
-				name="title" truncate="true"
+				name="name" truncate="true"
 				value="${association.nameCurrentValue}" />
 
 			<fmt:formatDate value="${association.createDate}"

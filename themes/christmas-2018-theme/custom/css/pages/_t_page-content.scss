@@ -8,6 +8,11 @@
 
 .mns-wrapper-duo-content {
 	margin: 30px auto;
+
+.row{
+	flex-wrap: inherit;
+}
+
 	@include mobile {
 		margin-bottom: 50px;
 	}
@@ -22,17 +27,26 @@
 			margin-bottom: 20px;
 		}
 
-		@include mobile {
-			.order-1 {
+		.order-1 {
+			order: inherit;
+			
+			@media (max-width: 767px) {
 				order: 1;
 				text-align: left;
-			}
 
-			.order-2 {
-				order: 2;
-				text-align: left;
 			}
 		}
+
+		.order-2 {
+			order: inherit; 
+			
+			@media (max-width: 767px) {
+				order: 2;
+				text-align: left;
+
+			}
+		}
+
 
 		figure{
 			@include mobile{

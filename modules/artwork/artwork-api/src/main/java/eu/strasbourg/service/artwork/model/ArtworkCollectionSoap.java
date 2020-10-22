@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.artwork.service.http.ArtworkCollectionServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.artwork.service.http.ArtworkCollectionServiceSoap
  * @generated
  */
 @ProviderType
 public class ArtworkCollectionSoap implements Serializable {
+
 	public static ArtworkCollectionSoap toSoapModel(ArtworkCollection model) {
 		ArtworkCollectionSoap soapModel = new ArtworkCollectionSoap();
 
@@ -57,7 +57,9 @@ public class ArtworkCollectionSoap implements Serializable {
 
 	public static ArtworkCollectionSoap[] toSoapModels(
 		ArtworkCollection[] models) {
-		ArtworkCollectionSoap[] soapModels = new ArtworkCollectionSoap[models.length];
+
+		ArtworkCollectionSoap[] soapModels =
+			new ArtworkCollectionSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -68,10 +70,12 @@ public class ArtworkCollectionSoap implements Serializable {
 
 	public static ArtworkCollectionSoap[][] toSoapModels(
 		ArtworkCollection[][] models) {
+
 		ArtworkCollectionSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new ArtworkCollectionSoap[models.length][models[0].length];
+			soapModels =
+				new ArtworkCollectionSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new ArtworkCollectionSoap[0][0];
@@ -86,7 +90,9 @@ public class ArtworkCollectionSoap implements Serializable {
 
 	public static ArtworkCollectionSoap[] toSoapModels(
 		List<ArtworkCollection> models) {
-		List<ArtworkCollectionSoap> soapModels = new ArrayList<ArtworkCollectionSoap>(models.size());
+
+		List<ArtworkCollectionSoap> soapModels =
+			new ArrayList<ArtworkCollectionSoap>(models.size());
 
 		for (ArtworkCollection model : models) {
 			soapModels.add(toSoapModel(model));
@@ -259,4 +265,5 @@ public class ArtworkCollectionSoap implements Serializable {
 	private String _description;
 	private String _contributors;
 	private Long _imageId;
+
 }

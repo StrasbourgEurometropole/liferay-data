@@ -33,10 +33,11 @@ import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
  */
 @ProviderType
 public abstract class ArretBaseImpl extends ArretModelImpl implements Arret {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a arret model instance should use the {@link Arret} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a arret model instance should use the <code>Arret</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class ArretBaseImpl extends ArretModelImpl implements Arret {
 			ArretLocalServiceUtil.updateArret(this);
 		}
 	}
+
 }

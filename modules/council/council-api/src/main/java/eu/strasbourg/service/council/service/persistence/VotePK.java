@@ -18,7 +18,6 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import java.io.Serializable;
 
@@ -28,6 +27,7 @@ import java.io.Serializable;
  */
 @ProviderType
 public class VotePK implements Comparable<VotePK>, Serializable {
+
 	public long officialId;
 	public long deliberationId;
 
@@ -107,7 +107,8 @@ public class VotePK implements Comparable<VotePK>, Serializable {
 		VotePK pk = (VotePK)obj;
 
 		if ((officialId == pk.officialId) &&
-				(deliberationId == pk.deliberationId)) {
+			(deliberationId == pk.deliberationId)) {
+
 			return true;
 		}
 		else {
@@ -127,22 +128,20 @@ public class VotePK implements Comparable<VotePK>, Serializable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(10);
+		StringBundler sb = new StringBundler(6);
 
-		sb.append(StringPool.OPEN_CURLY_BRACE);
+		sb.append("{");
 
-		sb.append("officialId");
-		sb.append(StringPool.EQUAL);
+		sb.append("officialId=");
+
 		sb.append(officialId);
+		sb.append(", deliberationId=");
 
-		sb.append(StringPool.COMMA);
-		sb.append(StringPool.SPACE);
-		sb.append("deliberationId");
-		sb.append(StringPool.EQUAL);
 		sb.append(deliberationId);
 
-		sb.append(StringPool.CLOSE_CURLY_BRACE);
+		sb.append("}");
 
 		return sb.toString();
 	}
+
 }

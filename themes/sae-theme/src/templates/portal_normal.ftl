@@ -138,14 +138,12 @@
          <#if !isHome>
           <div style="display: none">
         </#if>
-        <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
         <@liferay_portlet["runtime"]
           defaultPreferences="${freeMarkerPortletPreferences}"
           portletProviderAction=portletProviderAction.VIEW
           portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
           instanceId="header-sae"
           settingsScope="group" />
-        ${freeMarkerPortletPreferences.reset()}
         <#if !isHome>
           </div>
 	        <script>
@@ -168,14 +166,12 @@
         </div>
         <#if isHome>
           <!-- Contenu web header-title-sae -->
-          <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
           <@liferay_portlet["runtime"]
             defaultPreferences="${freeMarkerPortletPreferences}"
             portletProviderAction=portletProviderAction.VIEW
             portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
             instanceId="header-title-sae"
             settingsScope="group" />
-          ${freeMarkerPortletPreferences.reset()}
         </#if>
       
         <#if !isHome>
@@ -247,14 +243,12 @@
 
       <!-- FOOTER -->
       <footer class="footer">
-        <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
         <@liferay_portlet["runtime"]
           defaultPreferences="${freeMarkerPortletPreferences}"
           portletProviderAction=portletProviderAction.VIEW
           portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
           instanceId="footer"
           settingsScope="group" />
-        ${freeMarkerPortletPreferences.reset()}
         <!-- <div class="closure">
             <div class="center">
                 <a href="${websiteUrl}" title="Strasbourg.eu (<@liferay_ui.message key='new-window' />)" target="_blank">Strasbourg.eu</a>
@@ -264,10 +258,6 @@
       <!-- END FOOTER -->
 
     </main>
-    <script>
-      define._amd = define.amd;
-      define.amd = false;
-    </script>
     <script type="text/javascript" src="${javascript_folder}/bootstrapValidator.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="${javascript_folder}/owl.carousel.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="${javascript_folder}/parallax.min.js" charset="utf-8"></script>
@@ -278,9 +268,6 @@
     <script type="text/javascript" src="${javascript_folder}/environment.js" charset="utf-8"></script>
     <script type="text/javascript" src="${javascript_folder}/social-share.js" charset="utf-8"></script>
     <script type="text/javascript" src="${javascript_folder}/based.js" charset="utf-8"></script>
-    <script>
-      define.amd = define._amd;
-    </script>
 
     <script type="text/javascript">
         window.onload = function(){

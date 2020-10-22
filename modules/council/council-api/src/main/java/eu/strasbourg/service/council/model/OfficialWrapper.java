@@ -17,9 +17,7 @@ package eu.strasbourg.service.council.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -41,6 +39,7 @@ import java.util.Objects;
  */
 @ProviderType
 public class OfficialWrapper implements Official, ModelWrapper<Official> {
+
 	public OfficialWrapper(Official official) {
 		_official = official;
 	}
@@ -74,7 +73,7 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		attributes.put("email", getEmail());
 		attributes.put("firstname", getFirstname());
 		attributes.put("lastname", getLastname());
-		attributes.put("isActive", getIsActive());
+		attributes.put("isActive", isIsActive());
 		attributes.put("lastActivity", getLastActivity());
 		attributes.put("lastSignInDeviceInfo", getLastSignInDeviceInfo());
 
@@ -186,28 +185,299 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		}
 
 		String lastSignInDeviceInfo = (String)attributes.get(
-				"lastSignInDeviceInfo");
+			"lastSignInDeviceInfo");
 
 		if (lastSignInDeviceInfo != null) {
 			setLastSignInDeviceInfo(lastSignInDeviceInfo);
 		}
 	}
 
+	@Override
+	public Object clone() {
+		return new OfficialWrapper((Official)_official.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.council.model.Official official) {
+
+		return _official.compareTo(official);
+	}
+
 	/**
-	* Returns the is active of this official.
-	*
-	* @return the is active of this official
-	*/
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _official.getAssetEntry();
+	}
+
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories() {
+
+		return _official.getCategories();
+	}
+
+	/**
+	 * Returns the company ID of this official.
+	 *
+	 * @return the company ID of this official
+	 */
+	@Override
+	public long getCompanyId() {
+		return _official.getCompanyId();
+	}
+
+	/**
+	 * Renvoie les types de conseil rattachés à cet élu
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.Type>
+		getCouncilTypes() {
+
+		return _official.getCouncilTypes();
+	}
+
+	/**
+	 * Renvoie un strind 'id types de conseil rattachés à cet élu
+	 */
+	@Override
+	public String getCouncilTypesIds() {
+		return _official.getCouncilTypesIds();
+	}
+
+	/**
+	 * Returns the create date of this official.
+	 *
+	 * @return the create date of this official
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _official.getCreateDate();
+	}
+
+	/**
+	 * Returns the email of this official.
+	 *
+	 * @return the email of this official
+	 */
+	@Override
+	public String getEmail() {
+		return _official.getEmail();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _official.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the firstname of this official.
+	 *
+	 * @return the firstname of this official
+	 */
+	@Override
+	public String getFirstname() {
+		return _official.getFirstname();
+	}
+
+	/**
+	 * Renvoie le nom de complet au format "Prénom NOM"
+	 */
+	@Override
+	public String getFullName() {
+		return _official.getFullName();
+	}
+
+	/**
+	 * Returns the group ID of this official.
+	 *
+	 * @return the group ID of this official
+	 */
+	@Override
+	public long getGroupId() {
+		return _official.getGroupId();
+	}
+
+	/**
+	 * Returns the is active of this official.
+	 *
+	 * @return the is active of this official
+	 */
 	@Override
 	public boolean getIsActive() {
 		return _official.getIsActive();
 	}
 
 	/**
-	* Returns <code>true</code> if this official is approved.
-	*
-	* @return <code>true</code> if this official is approved; <code>false</code> otherwise
-	*/
+	 * Returns the last activity of this official.
+	 *
+	 * @return the last activity of this official
+	 */
+	@Override
+	public Date getLastActivity() {
+		return _official.getLastActivity();
+	}
+
+	/**
+	 * Returns the lastname of this official.
+	 *
+	 * @return the lastname of this official
+	 */
+	@Override
+	public String getLastname() {
+		return _official.getLastname();
+	}
+
+	/**
+	 * Returns the last sign in device info of this official.
+	 *
+	 * @return the last sign in device info of this official
+	 */
+	@Override
+	public String getLastSignInDeviceInfo() {
+		return _official.getLastSignInDeviceInfo();
+	}
+
+	/**
+	 * Returns the modified date of this official.
+	 *
+	 * @return the modified date of this official
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return _official.getModifiedDate();
+	}
+
+	/**
+	 * Returns the official ID of this official.
+	 *
+	 * @return the official ID of this official
+	 */
+	@Override
+	public long getOfficialId() {
+		return _official.getOfficialId();
+	}
+
+	/**
+	 * Returns the primary key of this official.
+	 *
+	 * @return the primary key of this official
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _official.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _official.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the status of this official.
+	 *
+	 * @return the status of this official
+	 */
+	@Override
+	public int getStatus() {
+		return _official.getStatus();
+	}
+
+	/**
+	 * Returns the status by user ID of this official.
+	 *
+	 * @return the status by user ID of this official
+	 */
+	@Override
+	public long getStatusByUserId() {
+		return _official.getStatusByUserId();
+	}
+
+	/**
+	 * Returns the status by user name of this official.
+	 *
+	 * @return the status by user name of this official
+	 */
+	@Override
+	public String getStatusByUserName() {
+		return _official.getStatusByUserName();
+	}
+
+	/**
+	 * Returns the status by user uuid of this official.
+	 *
+	 * @return the status by user uuid of this official
+	 */
+	@Override
+	public String getStatusByUserUuid() {
+		return _official.getStatusByUserUuid();
+	}
+
+	/**
+	 * Returns the status date of this official.
+	 *
+	 * @return the status date of this official
+	 */
+	@Override
+	public Date getStatusDate() {
+		return _official.getStatusDate();
+	}
+
+	/**
+	 * Returns the user ID of this official.
+	 *
+	 * @return the user ID of this official
+	 */
+	@Override
+	public long getUserId() {
+		return _official.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this official.
+	 *
+	 * @return the user name of this official
+	 */
+	@Override
+	public String getUserName() {
+		return _official.getUserName();
+	}
+
+	/**
+	 * Returns the user uuid of this official.
+	 *
+	 * @return the user uuid of this official
+	 */
+	@Override
+	public String getUserUuid() {
+		return _official.getUserUuid();
+	}
+
+	/**
+	 * Returns the uuid of this official.
+	 *
+	 * @return the uuid of this official
+	 */
+	@Override
+	public String getUuid() {
+		return _official.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _official.hashCode();
+	}
+
+	/**
+	 * Returns <code>true</code> if this official is approved.
+	 *
+	 * @return <code>true</code> if this official is approved; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isApproved() {
 		return _official.isApproved();
@@ -219,30 +489,30 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
-	* Renvoie le statut de connection de l'utilisateur
-	*
-	* @return True si la dernière connection date de moins de 15sec
-	*/
+	 * Renvoie le statut de connection de l'utilisateur
+	 *
+	 * @return True si la dernière connection date de moins de 15sec
+	 */
 	@Override
 	public boolean isConnected() {
 		return _official.isConnected();
 	}
 
 	/**
-	* Returns <code>true</code> if this official is denied.
-	*
-	* @return <code>true</code> if this official is denied; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this official is denied.
+	 *
+	 * @return <code>true</code> if this official is denied; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDenied() {
 		return _official.isDenied();
 	}
 
 	/**
-	* Returns <code>true</code> if this official is a draft.
-	*
-	* @return <code>true</code> if this official is a draft; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this official is a draft.
+	 *
+	 * @return <code>true</code> if this official is a draft; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDraft() {
 		return _official.isDraft();
@@ -254,40 +524,40 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
-	* Returns <code>true</code> if this official is expired.
-	*
-	* @return <code>true</code> if this official is expired; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this official is expired.
+	 *
+	 * @return <code>true</code> if this official is expired; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isExpired() {
 		return _official.isExpired();
 	}
 
 	/**
-	* Returns <code>true</code> if this official is inactive.
-	*
-	* @return <code>true</code> if this official is inactive; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this official is inactive.
+	 *
+	 * @return <code>true</code> if this official is inactive; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isInactive() {
 		return _official.isInactive();
 	}
 
 	/**
-	* Returns <code>true</code> if this official is incomplete.
-	*
-	* @return <code>true</code> if this official is incomplete; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this official is incomplete.
+	 *
+	 * @return <code>true</code> if this official is incomplete; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isIncomplete() {
 		return _official.isIncomplete();
 	}
 
 	/**
-	* Returns <code>true</code> if this official is is active.
-	*
-	* @return <code>true</code> if this official is is active; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this official is is active.
+	 *
+	 * @return <code>true</code> if this official is is active; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isIsActive() {
 		return _official.isIsActive();
@@ -299,329 +569,31 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
-	* Renvoie si l'electeur est noté absent pour la session données
-	*/
+	 * Renvoie si l'electeur est noté absent pour la session données
+	 */
 	@Override
 	public boolean isNotedAbsent(long councilSessionId) {
 		return _official.isNotedAbsent(councilSessionId);
 	}
 
 	/**
-	* Returns <code>true</code> if this official is pending.
-	*
-	* @return <code>true</code> if this official is pending; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this official is pending.
+	 *
+	 * @return <code>true</code> if this official is pending; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isPending() {
 		return _official.isPending();
 	}
 
 	/**
-	* Returns <code>true</code> if this official is scheduled.
-	*
-	* @return <code>true</code> if this official is scheduled; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this official is scheduled.
+	 *
+	 * @return <code>true</code> if this official is scheduled; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isScheduled() {
 		return _official.isScheduled();
-	}
-
-	/**
-	* Retourne l'AssetEntry rattaché cet item
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _official.getAssetEntry();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _official.getExpandoBridge();
-	}
-
-	/**
-	* Renvoie l'élu au format JSON
-	*/
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _official.toJSON();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.council.model.Official> toCacheModel() {
-		return _official.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.Official toEscapedModel() {
-		return new OfficialWrapper(_official.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.Official toUnescapedModel() {
-		return new OfficialWrapper(_official.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.council.model.Official official) {
-		return _official.compareTo(official);
-	}
-
-	/**
-	* Returns the status of this official.
-	*
-	* @return the status of this official
-	*/
-	@Override
-	public int getStatus() {
-		return _official.getStatus();
-	}
-
-	@Override
-	public int hashCode() {
-		return _official.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _official.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new OfficialWrapper((Official)_official.clone());
-	}
-
-	/**
-	* Renvoie un strind 'id types de conseil rattachés à cet élu
-	*/
-	@Override
-	public java.lang.String getCouncilTypesIds() {
-		return _official.getCouncilTypesIds();
-	}
-
-	/**
-	* Returns the email of this official.
-	*
-	* @return the email of this official
-	*/
-	@Override
-	public java.lang.String getEmail() {
-		return _official.getEmail();
-	}
-
-	/**
-	* Returns the firstname of this official.
-	*
-	* @return the firstname of this official
-	*/
-	@Override
-	public java.lang.String getFirstname() {
-		return _official.getFirstname();
-	}
-
-	/**
-	* Renvoie le nom de complet au format "Prénom NOM"
-	*/
-	@Override
-	public java.lang.String getFullName() {
-		return _official.getFullName();
-	}
-
-	/**
-	* Returns the last sign in device info of this official.
-	*
-	* @return the last sign in device info of this official
-	*/
-	@Override
-	public java.lang.String getLastSignInDeviceInfo() {
-		return _official.getLastSignInDeviceInfo();
-	}
-
-	/**
-	* Returns the lastname of this official.
-	*
-	* @return the lastname of this official
-	*/
-	@Override
-	public java.lang.String getLastname() {
-		return _official.getLastname();
-	}
-
-	/**
-	* Returns the status by user name of this official.
-	*
-	* @return the status by user name of this official
-	*/
-	@Override
-	public java.lang.String getStatusByUserName() {
-		return _official.getStatusByUserName();
-	}
-
-	/**
-	* Returns the status by user uuid of this official.
-	*
-	* @return the status by user uuid of this official
-	*/
-	@Override
-	public java.lang.String getStatusByUserUuid() {
-		return _official.getStatusByUserUuid();
-	}
-
-	/**
-	* Returns the user name of this official.
-	*
-	* @return the user name of this official
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _official.getUserName();
-	}
-
-	/**
-	* Returns the user uuid of this official.
-	*
-	* @return the user uuid of this official
-	*/
-	@Override
-	public java.lang.String getUserUuid() {
-		return _official.getUserUuid();
-	}
-
-	/**
-	* Returns the uuid of this official.
-	*
-	* @return the uuid of this official
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _official.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _official.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _official.toXmlString();
-	}
-
-	/**
-	* Returns the create date of this official.
-	*
-	* @return the create date of this official
-	*/
-	@Override
-	public Date getCreateDate() {
-		return _official.getCreateDate();
-	}
-
-	/**
-	* Returns the last activity of this official.
-	*
-	* @return the last activity of this official
-	*/
-	@Override
-	public Date getLastActivity() {
-		return _official.getLastActivity();
-	}
-
-	/**
-	* Returns the modified date of this official.
-	*
-	* @return the modified date of this official
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return _official.getModifiedDate();
-	}
-
-	/**
-	* Returns the status date of this official.
-	*
-	* @return the status date of this official
-	*/
-	@Override
-	public Date getStatusDate() {
-		return _official.getStatusDate();
-	}
-
-	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
-	*/
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
-		return _official.getCategories();
-	}
-
-	/**
-	* Renvoie les types de conseil rattachés à cet élu
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.council.model.Type> getCouncilTypes() {
-		return _official.getCouncilTypes();
-	}
-
-	/**
-	* Returns the company ID of this official.
-	*
-	* @return the company ID of this official
-	*/
-	@Override
-	public long getCompanyId() {
-		return _official.getCompanyId();
-	}
-
-	/**
-	* Returns the group ID of this official.
-	*
-	* @return the group ID of this official
-	*/
-	@Override
-	public long getGroupId() {
-		return _official.getGroupId();
-	}
-
-	/**
-	* Returns the official ID of this official.
-	*
-	* @return the official ID of this official
-	*/
-	@Override
-	public long getOfficialId() {
-		return _official.getOfficialId();
-	}
-
-	/**
-	* Returns the primary key of this official.
-	*
-	* @return the primary key of this official
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _official.getPrimaryKey();
-	}
-
-	/**
-	* Returns the status by user ID of this official.
-	*
-	* @return the status by user ID of this official
-	*/
-	@Override
-	public long getStatusByUserId() {
-		return _official.getStatusByUserId();
-	}
-
-	/**
-	* Returns the user ID of this official.
-	*
-	* @return the user ID of this official
-	*/
-	@Override
-	public long getUserId() {
-		return _official.getUserId();
 	}
 
 	@Override
@@ -635,33 +607,40 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
-	* Sets the company ID of this official.
-	*
-	* @param companyId the company ID of this official
-	*/
+	 * Sets the company ID of this official.
+	 *
+	 * @param companyId the company ID of this official
+	 */
 	@Override
 	public void setCompanyId(long companyId) {
 		_official.setCompanyId(companyId);
 	}
 
 	/**
-	* Sets the create date of this official.
-	*
-	* @param createDate the create date of this official
-	*/
+	 * Sets the create date of this official.
+	 *
+	 * @param createDate the create date of this official
+	 */
 	@Override
 	public void setCreateDate(Date createDate) {
 		_official.setCreateDate(createDate);
 	}
 
 	/**
-	* Sets the email of this official.
-	*
-	* @param email the email of this official
-	*/
+	 * Sets the email of this official.
+	 *
+	 * @param email the email of this official
+	 */
 	@Override
-	public void setEmail(java.lang.String email) {
+	public void setEmail(String email) {
 		_official.setEmail(email);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_official.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -670,81 +649,75 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_official.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_official.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the firstname of this official.
-	*
-	* @param firstname the firstname of this official
-	*/
+	 * Sets the firstname of this official.
+	 *
+	 * @param firstname the firstname of this official
+	 */
 	@Override
-	public void setFirstname(java.lang.String firstname) {
+	public void setFirstname(String firstname) {
 		_official.setFirstname(firstname);
 	}
 
 	/**
-	* Sets the group ID of this official.
-	*
-	* @param groupId the group ID of this official
-	*/
+	 * Sets the group ID of this official.
+	 *
+	 * @param groupId the group ID of this official
+	 */
 	@Override
 	public void setGroupId(long groupId) {
 		_official.setGroupId(groupId);
 	}
 
 	/**
-	* Sets whether this official is is active.
-	*
-	* @param isActive the is active of this official
-	*/
+	 * Sets whether this official is is active.
+	 *
+	 * @param isActive the is active of this official
+	 */
 	@Override
 	public void setIsActive(boolean isActive) {
 		_official.setIsActive(isActive);
 	}
 
 	/**
-	* Sets the last activity of this official.
-	*
-	* @param lastActivity the last activity of this official
-	*/
+	 * Sets the last activity of this official.
+	 *
+	 * @param lastActivity the last activity of this official
+	 */
 	@Override
 	public void setLastActivity(Date lastActivity) {
 		_official.setLastActivity(lastActivity);
 	}
 
 	/**
-	* Sets the last sign in device info of this official.
-	*
-	* @param lastSignInDeviceInfo the last sign in device info of this official
-	*/
+	 * Sets the lastname of this official.
+	 *
+	 * @param lastname the lastname of this official
+	 */
 	@Override
-	public void setLastSignInDeviceInfo(java.lang.String lastSignInDeviceInfo) {
-		_official.setLastSignInDeviceInfo(lastSignInDeviceInfo);
-	}
-
-	/**
-	* Sets the lastname of this official.
-	*
-	* @param lastname the lastname of this official
-	*/
-	@Override
-	public void setLastname(java.lang.String lastname) {
+	public void setLastname(String lastname) {
 		_official.setLastname(lastname);
 	}
 
 	/**
-	* Sets the modified date of this official.
-	*
-	* @param modifiedDate the modified date of this official
-	*/
+	 * Sets the last sign in device info of this official.
+	 *
+	 * @param lastSignInDeviceInfo the last sign in device info of this official
+	 */
+	@Override
+	public void setLastSignInDeviceInfo(String lastSignInDeviceInfo) {
+		_official.setLastSignInDeviceInfo(lastSignInDeviceInfo);
+	}
+
+	/**
+	 * Sets the modified date of this official.
+	 *
+	 * @param modifiedDate the modified date of this official
+	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_official.setModifiedDate(modifiedDate);
@@ -756,20 +729,20 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
-	* Sets the official ID of this official.
-	*
-	* @param officialId the official ID of this official
-	*/
+	 * Sets the official ID of this official.
+	 *
+	 * @param officialId the official ID of this official
+	 */
 	@Override
 	public void setOfficialId(long officialId) {
 		_official.setOfficialId(officialId);
 	}
 
 	/**
-	* Sets the primary key of this official.
-	*
-	* @param primaryKey the primary key of this official
-	*/
+	 * Sets the primary key of this official.
+	 *
+	 * @param primaryKey the primary key of this official
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_official.setPrimaryKey(primaryKey);
@@ -781,93 +754,128 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
-	* Sets the status of this official.
-	*
-	* @param status the status of this official
-	*/
+	 * Sets the status of this official.
+	 *
+	 * @param status the status of this official
+	 */
 	@Override
 	public void setStatus(int status) {
 		_official.setStatus(status);
 	}
 
 	/**
-	* Sets the status by user ID of this official.
-	*
-	* @param statusByUserId the status by user ID of this official
-	*/
+	 * Sets the status by user ID of this official.
+	 *
+	 * @param statusByUserId the status by user ID of this official
+	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
 		_official.setStatusByUserId(statusByUserId);
 	}
 
 	/**
-	* Sets the status by user name of this official.
-	*
-	* @param statusByUserName the status by user name of this official
-	*/
+	 * Sets the status by user name of this official.
+	 *
+	 * @param statusByUserName the status by user name of this official
+	 */
 	@Override
-	public void setStatusByUserName(java.lang.String statusByUserName) {
+	public void setStatusByUserName(String statusByUserName) {
 		_official.setStatusByUserName(statusByUserName);
 	}
 
 	/**
-	* Sets the status by user uuid of this official.
-	*
-	* @param statusByUserUuid the status by user uuid of this official
-	*/
+	 * Sets the status by user uuid of this official.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this official
+	 */
 	@Override
-	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+	public void setStatusByUserUuid(String statusByUserUuid) {
 		_official.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
-	* Sets the status date of this official.
-	*
-	* @param statusDate the status date of this official
-	*/
+	 * Sets the status date of this official.
+	 *
+	 * @param statusDate the status date of this official
+	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_official.setStatusDate(statusDate);
 	}
 
 	/**
-	* Sets the user ID of this official.
-	*
-	* @param userId the user ID of this official
-	*/
+	 * Sets the user ID of this official.
+	 *
+	 * @param userId the user ID of this official
+	 */
 	@Override
 	public void setUserId(long userId) {
 		_official.setUserId(userId);
 	}
 
 	/**
-	* Sets the user name of this official.
-	*
-	* @param userName the user name of this official
-	*/
+	 * Sets the user name of this official.
+	 *
+	 * @param userName the user name of this official
+	 */
 	@Override
-	public void setUserName(java.lang.String userName) {
+	public void setUserName(String userName) {
 		_official.setUserName(userName);
 	}
 
 	/**
-	* Sets the user uuid of this official.
-	*
-	* @param userUuid the user uuid of this official
-	*/
+	 * Sets the user uuid of this official.
+	 *
+	 * @param userUuid the user uuid of this official
+	 */
 	@Override
-	public void setUserUuid(java.lang.String userUuid) {
+	public void setUserUuid(String userUuid) {
 		_official.setUserUuid(userUuid);
 	}
 
 	/**
-	* Sets the uuid of this official.
-	*
-	* @param uuid the uuid of this official
-	*/
+	 * Sets the uuid of this official.
+	 *
+	 * @param uuid the uuid of this official
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_official.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.council.model.Official> toCacheModel() {
+
+		return _official.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.council.model.Official toEscapedModel() {
+		return new OfficialWrapper(_official.toEscapedModel());
+	}
+
+	/**
+	 * Renvoie l'élu au format JSON
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _official.toJSON();
+	}
+
+	@Override
+	public String toString() {
+		return _official.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.council.model.Official toUnescapedModel() {
+		return new OfficialWrapper(_official.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _official.toXmlString();
 	}
 
 	@Override
@@ -915,4 +923,5 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	private final Official _official;
+
 }

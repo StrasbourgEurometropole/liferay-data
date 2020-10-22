@@ -33,10 +33,11 @@ import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
  */
 @ProviderType
 public abstract class LigneBaseImpl extends LigneModelImpl implements Ligne {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a ligne model instance should use the {@link Ligne} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a ligne model instance should use the <code>Ligne</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class LigneBaseImpl extends LigneModelImpl implements Ligne {
 			LigneLocalServiceUtil.updateLigne(this);
 		}
 	}
+
 }

@@ -24,7 +24,9 @@ import eu.strasbourg.portlet.edition.display.context.ViewGalleriesDisplayContext
 
 @Component(
 	immediate = true,
-	property = { "com.liferay.portlet.instanceable=false",
+	property = {
+		"javax.portlet.version=3.0",
+		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/edition-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/edition-bo-main.css",
 		"com.liferay.portlet.single-page-application=false",
@@ -45,6 +47,7 @@ public class EditionBOPortlet extends MVCPortlet {
 
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
 		String tab = ParamUtil.getString(renderRequest, "tab");
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 
 		renderResponse.setTitle("Editions");
 
@@ -59,11 +62,11 @@ public class EditionBOPortlet extends MVCPortlet {
 
 		// If we are on the Edition edition page, we add the corresponding
 		// display context
-		if (cmd.equals("editEdition")) {
+		if (cmd.equals("editEdition") || mvcPath.equals("/edition-bo-edit-edition.jsp")) {
 			EditEditionDisplayContext dc = new EditEditionDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editGallery")) {
+		} else if (cmd.equals("editGallery") || mvcPath.equals("/edition-bo-edit-gallery.jsp")) {
 			EditGalleryDisplayContext dc = new EditGalleryDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

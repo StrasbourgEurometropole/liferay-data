@@ -35,17 +35,18 @@ header.main-header {
 }
 
 // Couleurs
-.btn-primary {
-  background-color: #97bf0c;
-  border-color: #97bf0c;
+.btn-primary.btn-default {
+  background-color: #97bf0c!important;
+  border-color: #97bf0c!important;
   &:hover, &:active, &:focus, &:hover:active {
-    background-color: #98d90d;
-    border-color: #98d90d;
+    background-color: #98d90d!important;
+    border-color: #98d90d!important;
   }
 }
 
-.btn-link {
+.btn-link.btn-default.btn-cancel {
   color: #97bf0c;
+	font-weight: 500;
   &:hover, &:active, &:focus, &:hover:active {
     color: #98d90d;
   }
@@ -69,7 +70,7 @@ header.main-header {
     margin-bottom: 0;
   }
   .footer-content {
-    @extend .container-fluid-1280;
+    @extend .container-fluid;
   }
   a {
     color: #b3b3b3 !important;

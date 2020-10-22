@@ -30,12 +30,16 @@ import java.util.List;
  */
 @ProviderType
 public class GoogleMyBusinessHistoricSoap implements Serializable {
+
 	public static GoogleMyBusinessHistoricSoap toSoapModel(
 		GoogleMyBusinessHistoric model) {
-		GoogleMyBusinessHistoricSoap soapModel = new GoogleMyBusinessHistoricSoap();
+
+		GoogleMyBusinessHistoricSoap soapModel =
+			new GoogleMyBusinessHistoricSoap();
 
 		soapModel.setUuid(model.getUuid());
-		soapModel.setGoogleMyBusinessHistoricId(model.getGoogleMyBusinessHistoricId());
+		soapModel.setGoogleMyBusinessHistoricId(
+			model.getGoogleMyBusinessHistoricId());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setUserId(model.getUserId());
@@ -59,7 +63,9 @@ public class GoogleMyBusinessHistoricSoap implements Serializable {
 
 	public static GoogleMyBusinessHistoricSoap[] toSoapModels(
 		GoogleMyBusinessHistoric[] models) {
-		GoogleMyBusinessHistoricSoap[] soapModels = new GoogleMyBusinessHistoricSoap[models.length];
+
+		GoogleMyBusinessHistoricSoap[] soapModels =
+			new GoogleMyBusinessHistoricSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -70,10 +76,13 @@ public class GoogleMyBusinessHistoricSoap implements Serializable {
 
 	public static GoogleMyBusinessHistoricSoap[][] toSoapModels(
 		GoogleMyBusinessHistoric[][] models) {
+
 		GoogleMyBusinessHistoricSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new GoogleMyBusinessHistoricSoap[models.length][models[0].length];
+			soapModels =
+				new GoogleMyBusinessHistoricSoap
+					[models.length][models[0].length];
 		}
 		else {
 			soapModels = new GoogleMyBusinessHistoricSoap[0][0];
@@ -88,13 +97,16 @@ public class GoogleMyBusinessHistoricSoap implements Serializable {
 
 	public static GoogleMyBusinessHistoricSoap[] toSoapModels(
 		List<GoogleMyBusinessHistoric> models) {
-		List<GoogleMyBusinessHistoricSoap> soapModels = new ArrayList<GoogleMyBusinessHistoricSoap>(models.size());
+
+		List<GoogleMyBusinessHistoricSoap> soapModels =
+			new ArrayList<GoogleMyBusinessHistoricSoap>(models.size());
 
 		for (GoogleMyBusinessHistoric model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new GoogleMyBusinessHistoricSoap[soapModels.size()]);
+		return soapModels.toArray(
+			new GoogleMyBusinessHistoricSoap[soapModels.size()]);
 	}
 
 	public GoogleMyBusinessHistoricSoap() {
@@ -279,4 +291,5 @@ public class GoogleMyBusinessHistoricSoap implements Serializable {
 	private String _errorStackTrace;
 	private Date _startDate;
 	private Date _finishDate;
+
 }

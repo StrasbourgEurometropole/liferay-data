@@ -62,7 +62,9 @@
 		</field>
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
-		<field name="filesIds" type="String" />
+		<field name="filesIds" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="budgetPhaseId" type="long" />
 		<field name="parentId" type="long" />
 	</model>
@@ -147,7 +149,9 @@
 		<field name="assetEntryId" type="long" />
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
-		<field name="filesIds" type="String" />
+		<field name="filesIds" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="publicationDate" type="Date" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.InitiativeHelp">
@@ -207,7 +211,9 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="imageId" type="long" />
-		<field name="filesIds" type="String" />
+		<field name="filesIds" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="eventsIds" type="String" />
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
@@ -268,7 +274,9 @@
 		<field name="mediaChoice" type="boolean" />
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
-		<field name="filesIds" type="String" />
+		<field name="filesIds" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 	</model>
 	<model name="eu.strasbourg.service.project.model.PlacitPlace">
 		<field name="uuid" type="String" />

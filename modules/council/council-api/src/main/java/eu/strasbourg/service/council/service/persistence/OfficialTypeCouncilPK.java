@@ -18,7 +18,6 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import java.io.Serializable;
 
@@ -27,8 +26,9 @@ import java.io.Serializable;
  * @generated
  */
 @ProviderType
-public class OfficialTypeCouncilPK implements Comparable<OfficialTypeCouncilPK>,
-	Serializable {
+public class OfficialTypeCouncilPK
+	implements Comparable<OfficialTypeCouncilPK>, Serializable {
+
 	public long officialId;
 	public long typeId;
 
@@ -127,22 +127,20 @@ public class OfficialTypeCouncilPK implements Comparable<OfficialTypeCouncilPK>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(10);
+		StringBundler sb = new StringBundler(6);
 
-		sb.append(StringPool.OPEN_CURLY_BRACE);
+		sb.append("{");
 
-		sb.append("officialId");
-		sb.append(StringPool.EQUAL);
+		sb.append("officialId=");
+
 		sb.append(officialId);
+		sb.append(", typeId=");
 
-		sb.append(StringPool.COMMA);
-		sb.append(StringPool.SPACE);
-		sb.append("typeId");
-		sb.append(StringPool.EQUAL);
 		sb.append(typeId);
 
-		sb.append(StringPool.CLOSE_CURLY_BRACE);
+		sb.append("}");
 
 		return sb.toString();
 	}
+
 }

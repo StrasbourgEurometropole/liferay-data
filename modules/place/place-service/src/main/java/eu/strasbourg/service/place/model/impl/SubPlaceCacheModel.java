@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.place.model.SubPlace;
 
@@ -34,11 +33,12 @@ import java.util.Date;
  * The cache model class for representing SubPlace in entity cache.
  *
  * @author Angelique Zunino Champougny
- * @see SubPlace
  * @generated
  */
 @ProviderType
-public class SubPlaceCacheModel implements CacheModel<SubPlace>, Externalizable {
+public class SubPlaceCacheModel
+	implements CacheModel<SubPlace>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -95,7 +95,7 @@ public class SubPlaceCacheModel implements CacheModel<SubPlace>, Externalizable 
 		SubPlaceImpl subPlaceImpl = new SubPlaceImpl();
 
 		if (uuid == null) {
-			subPlaceImpl.setUuid(StringPool.BLANK);
+			subPlaceImpl.setUuid("");
 		}
 		else {
 			subPlaceImpl.setUuid(uuid);
@@ -106,7 +106,7 @@ public class SubPlaceCacheModel implements CacheModel<SubPlace>, Externalizable 
 		subPlaceImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			subPlaceImpl.setStatusByUserName(StringPool.BLANK);
+			subPlaceImpl.setStatusByUserName("");
 		}
 		else {
 			subPlaceImpl.setStatusByUserName(statusByUserName);
@@ -120,14 +120,14 @@ public class SubPlaceCacheModel implements CacheModel<SubPlace>, Externalizable 
 		}
 
 		if (name == null) {
-			subPlaceImpl.setName(StringPool.BLANK);
+			subPlaceImpl.setName("");
 		}
 		else {
 			subPlaceImpl.setName(name);
 		}
 
 		if (description == null) {
-			subPlaceImpl.setDescription(StringPool.BLANK);
+			subPlaceImpl.setDescription("");
 		}
 		else {
 			subPlaceImpl.setDescription(description);
@@ -158,10 +158,9 @@ public class SubPlaceCacheModel implements CacheModel<SubPlace>, Externalizable 
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -174,7 +173,7 @@ public class SubPlaceCacheModel implements CacheModel<SubPlace>, Externalizable 
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -183,14 +182,14 @@ public class SubPlaceCacheModel implements CacheModel<SubPlace>, Externalizable 
 		objectOutput.writeLong(statusDate);
 
 		if (name == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(name);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
@@ -208,4 +207,5 @@ public class SubPlaceCacheModel implements CacheModel<SubPlace>, Externalizable 
 	public String name;
 	public String description;
 	public long placeId;
+
 }

@@ -25,19 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Cedric Henry
  * @see BudgetPhaseModel
- * @see eu.strasbourg.service.project.model.impl.BudgetPhaseImpl
- * @see eu.strasbourg.service.project.model.impl.BudgetPhaseModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.project.model.impl.BudgetPhaseImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.project.model.impl.BudgetPhaseImpl"
+)
 @ProviderType
 public interface BudgetPhase extends BudgetPhaseModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.project.model.impl.BudgetPhaseImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.project.model.impl.BudgetPhaseImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<BudgetPhase, Long> BUDGET_PHASE_ID_ACCESSOR = new Accessor<BudgetPhase, Long>() {
+	public static final Accessor<BudgetPhase, Long> BUDGET_PHASE_ID_ACCESSOR =
+		new Accessor<BudgetPhase, Long>() {
+
 			@Override
 			public Long get(BudgetPhase budgetPhase) {
 				return budgetPhase.getBudgetPhaseId();
@@ -52,44 +55,47 @@ public interface BudgetPhase extends BudgetPhaseModel, PersistedModel {
 			public Class<BudgetPhase> getTypeClass() {
 				return BudgetPhase.class;
 			}
+
 		};
 
 	/**
-	* Retourne l'AssetEntry rattaché cet item
-	*/
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories();
 
 	/**
-	* Retourne la categorie "Phase du budget participatif" de la phase
-	*/
+	 * Retourne la categorie "Phase du budget participatif" de la phase
+	 */
 	public com.liferay.asset.kernel.model.AssetCategory getPhaseCategory();
 
 	/**
-	* Renvoie si la phase est en période de dépot
-	*/
+	 * Renvoie si la phase est en période de dépot
+	 */
 	public boolean isInDepositPeriod();
 
 	/**
-	* Renvoie si la phase est en période de vote
-	*/
+	 * Renvoie si la phase est en période de vote
+	 */
 	public boolean isInVotingPeriod();
 
 	/**
-	* Genere le label de haut de page affichant le temps restant avant de passer a la prochaine
-	* peridode de la phase en cours
-	*/
-	public java.lang.String getLivePeriodLabel();
+	 * Genere le label de haut de page affichant le temps restant avant de passer a la prochaine
+	 * peridode de la phase en cours
+	 */
+	public String getLivePeriodLabel();
 
 	/**
-	* La l'etat de la phase
-	*
-	* @return
-	*/
+	 * La l'etat de la phase
+	 *
+	 * @return
+	 */
 	public eu.strasbourg.service.project.constants.PhaseState getPhaseState();
+
 }

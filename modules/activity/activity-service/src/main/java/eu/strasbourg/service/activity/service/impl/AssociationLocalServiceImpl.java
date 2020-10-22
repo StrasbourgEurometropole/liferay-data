@@ -23,11 +23,11 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
-import com.liferay.portal.kernel.search.SearchException;
-import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -303,7 +303,7 @@ public class AssociationLocalServiceImpl extends AssociationLocalServiceBaseImpl
 
 		if (keyword.length() > 0) {
 			dynamicQuery.add(
-					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+					RestrictionsFactoryUtil.like("name", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
 			dynamicQuery
@@ -324,7 +324,7 @@ public class AssociationLocalServiceImpl extends AssociationLocalServiceBaseImpl
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
 			dynamicQuery.add(
-					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+					RestrictionsFactoryUtil.like("name", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
 			dynamicQuery

@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Cedric Henry
  * @see AlertModel
- * @see eu.strasbourg.service.gtfs.model.impl.AlertImpl
- * @see eu.strasbourg.service.gtfs.model.impl.AlertModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.gtfs.model.impl.AlertImpl")
 @ProviderType
 public interface Alert extends AlertModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.gtfs.model.impl.AlertImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.gtfs.model.impl.AlertImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Alert, Long> ALERT_ID_ACCESSOR = new Accessor<Alert, Long>() {
+	public static final Accessor<Alert, Long> ALERT_ID_ACCESSOR =
+		new Accessor<Alert, Long>() {
+
 			@Override
 			public Long get(Alert alert) {
 				return alert.getAlertId();
@@ -52,5 +53,7 @@ public interface Alert extends AlertModel, PersistedModel {
 			public Class<Alert> getTypeClass() {
 				return Alert.class;
 			}
+
 		};
+
 }

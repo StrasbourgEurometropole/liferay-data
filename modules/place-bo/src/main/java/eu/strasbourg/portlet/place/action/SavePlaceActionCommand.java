@@ -22,10 +22,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
+import javax.portlet.*;
 
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.*;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -36,12 +37,6 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
@@ -67,6 +62,25 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
 			ThemeDisplay td = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			sc.setScopeGroupId(td.getCompanyGroupId());
+
+			// Validation
+			boolean isValid = validate(request);
+			if (!isValid) {
+				// Si pas valide : on reste sur la page d'édition
+				PortalUtil.copyRequestParameters(request, response);
+
+				String portletName = (String) request
+						.getAttribute(WebKeys.PORTLET_ID);
+				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+						portletName, td.getPlid(),
+						PortletRequest.RENDER_PHASE);
+				returnURL.setParameter("tab", request.getParameter("tab"));
+
+				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("mvcPath",
+						"/place-bo-edit-place.jsp");
+				return false;
+			}
 
 			long placeId = ParamUtil.getLong(request, "placeId");
 			Place place;
@@ -477,6 +491,21 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Validation des champs obligatoires
+	 */
+	private boolean validate(ActionRequest request) {
+		boolean isValid = true;
+
+		// Alias
+		if (Validator.isNull(ParamUtil.getString(request, "alias"))) {
+			SessionErrors.add(request, "alias-error");
+			isValid = false;
+		}
+
+		return isValid;
 	}
 
 	private PlaceLocalService _placeLocalService;

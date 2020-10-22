@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.tipi.model.TipiEntry;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing TipiEntry in entity cache.
  *
  * @author Angelique Zunino Champougny
- * @see TipiEntry
  * @generated
  */
 @ProviderType
-public class TipiEntryCacheModel implements CacheModel<TipiEntry>,
-	Externalizable {
+public class TipiEntryCacheModel
+	implements CacheModel<TipiEntry>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -94,7 +93,7 @@ public class TipiEntryCacheModel implements CacheModel<TipiEntry>,
 		TipiEntryImpl tipiEntryImpl = new TipiEntryImpl();
 
 		if (uuid == null) {
-			tipiEntryImpl.setUuid(StringPool.BLANK);
+			tipiEntryImpl.setUuid("");
 		}
 		else {
 			tipiEntryImpl.setUuid(uuid);
@@ -115,7 +114,7 @@ public class TipiEntryCacheModel implements CacheModel<TipiEntry>,
 		tipiEntryImpl.setCanceledCount(canceledCount);
 
 		if (type == null) {
-			tipiEntryImpl.setType(StringPool.BLANK);
+			tipiEntryImpl.setType("");
 		}
 		else {
 			tipiEntryImpl.setType(type);
@@ -144,10 +143,9 @@ public class TipiEntryCacheModel implements CacheModel<TipiEntry>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -165,7 +163,7 @@ public class TipiEntryCacheModel implements CacheModel<TipiEntry>,
 		objectOutput.writeInt(canceledCount);
 
 		if (type == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(type);
@@ -180,4 +178,5 @@ public class TipiEntryCacheModel implements CacheModel<TipiEntry>,
 	public int refusedCount;
 	public int canceledCount;
 	public String type;
+
 }

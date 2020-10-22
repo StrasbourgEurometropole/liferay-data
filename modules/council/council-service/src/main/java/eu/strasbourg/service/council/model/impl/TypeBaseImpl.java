@@ -33,10 +33,11 @@ import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
  */
 @ProviderType
 public abstract class TypeBaseImpl extends TypeModelImpl implements Type {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a type model instance should use the {@link Type} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a type model instance should use the <code>Type</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class TypeBaseImpl extends TypeModelImpl implements Type {
 			TypeLocalServiceUtil.updateType(this);
 		}
 	}
+
 }

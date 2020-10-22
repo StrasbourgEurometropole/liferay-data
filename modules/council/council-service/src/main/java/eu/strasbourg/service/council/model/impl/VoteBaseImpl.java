@@ -33,10 +33,11 @@ import eu.strasbourg.service.council.service.VoteLocalServiceUtil;
  */
 @ProviderType
 public abstract class VoteBaseImpl extends VoteModelImpl implements Vote {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a vote model instance should use the {@link Vote} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a vote model instance should use the <code>Vote</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class VoteBaseImpl extends VoteModelImpl implements Vote {
 			VoteLocalServiceUtil.updateVote(this);
 		}
 	}
+
 }

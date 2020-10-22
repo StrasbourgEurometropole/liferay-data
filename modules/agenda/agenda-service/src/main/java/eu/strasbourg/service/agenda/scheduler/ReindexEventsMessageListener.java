@@ -1,5 +1,10 @@
 package eu.strasbourg.service.agenda.scheduler;
 
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
+import com.liferay.portal.kernel.scheduler.*;
+import eu.strasbourg.service.agenda.service.EventLocalService;
+import eu.strasbourg.service.agenda.service.ManifestationLocalService;
+import eu.strasbourg.service.place.service.PlaceLocalService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -8,12 +13,8 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
-import com.liferay.portal.kernel.scheduler.TimeUnit;
-import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -21,23 +22,36 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Manifestation;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Réindexe les événements et les manifestations. Utile car on souhaite que
  * seules les dates futures de l'événement soient indexées.
  */
-@Component(immediate = true, service = CheckEventMessageListener.class)
-public class ReindexEventsMessageListener
-	extends BaseSchedulerEntryMessageListener {
+@Component(immediate = true, service = ReindexEventsMessageListener.class)
+public class ReindexEventsMessageListener extends BaseMessageListener {
 
 	@Activate
 	@Modified
 	protected void activate() {
-		schedulerEntryImpl.setTrigger(
-			TriggerFactoryUtil.createTrigger(getEventListenerClass(),
-				getEventListenerClass(), 2, TimeUnit.HOUR));
+		String listenerClass = getClass().getName();
 
-		_schedulerEngineHelper.register(this, schedulerEntryImpl,
-			DestinationNames.SCHEDULER_DISPATCH);
+		// Maintenant + 2 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date fiveMinutesFromNow = now.getTime();
+
+		// Création du trigger "Toutes les 2 heures"
+		Trigger trigger = _triggerFactory.createTrigger(
+				listenerClass, listenerClass, fiveMinutesFromNow, null,
+				2, TimeUnit.HOUR);
+
+		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
+				listenerClass, trigger);
+
+		_schedulerEngineHelper.register(
+				this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
 	}
 
 	@Deactivate
@@ -64,16 +78,45 @@ public class ReindexEventsMessageListener
 			.getIndexer(Manifestation.class);
 		if (manifestationIndexer != null) {
 			try {
-				this._log.info("Finish reindexing events and manifestations");
+				manifestationIndexer.reindex(companyIdStringArray);
 			} catch (Exception ex) {
 				this._log.warn("Fail to reindex events");
 			}
-			manifestationIndexer.reindex(companyIdStringArray);
 		}
+		this._log.info("Finish reindexing events and manifestations");
 	}
 
 	@Reference(unbind = "-")
-	private volatile SchedulerEngineHelper _schedulerEngineHelper;
+	protected void setEventLocalService(EventLocalService eventLocalService) {
+		_eventLocalService = eventLocalService;
+	}
 
+	@Reference(unbind = "-")
+	protected void setManifestationLocalService(ManifestationLocalService manifestationLocalService) {
+		_manifestationLocalService = manifestationLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setPlaceLocalService(PlaceLocalService placeLocalService) {
+		_placeLocalService = placeLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setSchedulerEngineHelper(
+			SchedulerEngineHelper schedulerEngineHelper) {
+
+		_schedulerEngineHelper = schedulerEngineHelper;
+	}
+
+	@Reference(unbind = "-")
+	protected void setTriggerFactory(TriggerFactory triggerFactory) {
+		_triggerFactory = triggerFactory;
+	}
+
+	private volatile SchedulerEngineHelper _schedulerEngineHelper;
+	private EventLocalService _eventLocalService;
+	private ManifestationLocalService _manifestationLocalService;
+	private PlaceLocalService _placeLocalService;
+	private TriggerFactory _triggerFactory;
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

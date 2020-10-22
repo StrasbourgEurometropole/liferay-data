@@ -29,10 +29,9 @@ import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
@@ -48,6 +47,7 @@ import eu.strasbourg.service.council.service.persistence.VotePersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -64,50 +64,32 @@ import java.util.Set;
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see VotePersistence
- * @see eu.strasbourg.service.council.service.persistence.VoteUtil
  * @generated
  */
 @ProviderType
-public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
-	implements VotePersistence {
+public class VotePersistenceImpl
+	extends BasePersistenceImpl<Vote> implements VotePersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link VoteUtil} to access the vote persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>VoteUtil</code> to access the vote persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = VoteImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			VoteModelImpl.UUID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		VoteImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the votes where uuid = &#63;.
@@ -124,7 +106,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * Returns a range of all the votes where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VoteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -141,7 +123,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * Returns an ordered range of all the votes where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VoteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -151,8 +133,10 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the ordered range of matching votes
 	 */
 	@Override
-	public List<Vote> findByUuid(String uuid, int start, int end,
+	public List<Vote> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Vote> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -160,7 +144,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * Returns an ordered range of all the votes where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VoteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -171,32 +155,37 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the ordered range of matching votes
 	 */
 	@Override
-	public List<Vote> findByUuid(String uuid, int start, int end,
+	public List<Vote> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Vote> orderByComparator, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<Vote> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Vote>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Vote>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Vote vote : list) {
-					if (!Objects.equals(uuid, vote.getUuid())) {
+					if (!uuid.equals(vote.getUuid())) {
 						list = null;
 
 						break;
@@ -209,8 +198,8 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -220,10 +209,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -233,11 +219,10 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(VoteModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -257,16 +242,16 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 				}
 
 				if (!pagination) {
-					list = (List<Vote>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Vote>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Vote>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Vote>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -295,8 +280,10 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @throws NoSuchVoteException if a matching vote could not be found
 	 */
 	@Override
-	public Vote findByUuid_First(String uuid,
-		OrderByComparator<Vote> orderByComparator) throws NoSuchVoteException {
+	public Vote findByUuid_First(
+			String uuid, OrderByComparator<Vote> orderByComparator)
+		throws NoSuchVoteException {
+
 		Vote vote = fetchByUuid_First(uuid, orderByComparator);
 
 		if (vote != null) {
@@ -310,7 +297,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchVoteException(msg.toString());
 	}
@@ -323,8 +310,9 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the first matching vote, or <code>null</code> if a matching vote could not be found
 	 */
 	@Override
-	public Vote fetchByUuid_First(String uuid,
-		OrderByComparator<Vote> orderByComparator) {
+	public Vote fetchByUuid_First(
+		String uuid, OrderByComparator<Vote> orderByComparator) {
+
 		List<Vote> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -343,8 +331,10 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @throws NoSuchVoteException if a matching vote could not be found
 	 */
 	@Override
-	public Vote findByUuid_Last(String uuid,
-		OrderByComparator<Vote> orderByComparator) throws NoSuchVoteException {
+	public Vote findByUuid_Last(
+			String uuid, OrderByComparator<Vote> orderByComparator)
+		throws NoSuchVoteException {
+
 		Vote vote = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (vote != null) {
@@ -358,7 +348,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchVoteException(msg.toString());
 	}
@@ -371,8 +361,9 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the last matching vote, or <code>null</code> if a matching vote could not be found
 	 */
 	@Override
-	public Vote fetchByUuid_Last(String uuid,
-		OrderByComparator<Vote> orderByComparator) {
+	public Vote fetchByUuid_Last(
+		String uuid, OrderByComparator<Vote> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
@@ -398,8 +389,13 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
 	@Override
-	public Vote[] findByUuid_PrevAndNext(VotePK votePK, String uuid,
-		OrderByComparator<Vote> orderByComparator) throws NoSuchVoteException {
+	public Vote[] findByUuid_PrevAndNext(
+			VotePK votePK, String uuid,
+			OrderByComparator<Vote> orderByComparator)
+		throws NoSuchVoteException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Vote vote = findByPrimaryKey(votePK);
 
 		Session session = null;
@@ -409,13 +405,13 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 			Vote[] array = new VoteImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, vote, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, vote, uuid, orderByComparator, true);
 
 			array[1] = vote;
 
-			array[2] = getByUuid_PrevAndNext(session, vote, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, vote, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -427,13 +423,15 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		}
 	}
 
-	protected Vote getByUuid_PrevAndNext(Session session, Vote vote,
-		String uuid, OrderByComparator<Vote> orderByComparator, boolean previous) {
+	protected Vote getByUuid_PrevAndNext(
+		Session session, Vote vote, String uuid,
+		OrderByComparator<Vote> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -444,10 +442,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -457,7 +452,8 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -529,10 +525,10 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(vote);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(vote)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -553,8 +549,9 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (Vote vote : findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-				null)) {
+		for (Vote vote :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(vote);
 		}
 	}
@@ -567,9 +564,11 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -580,10 +579,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -624,22 +620,16 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "vote.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "vote.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(vote.uuid IS NULL OR vote.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			VoteModelImpl.UUID_COLUMN_BITMASK |
-			VoteModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(vote.uuid IS NULL OR vote.uuid = '')";
+
+	private FinderPath _finderPathFetchByUUID_G;
+	private FinderPath _finderPathCountByUUID_G;
 
 	/**
-	 * Returns the vote where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchVoteException} if it could not be found.
+	 * Returns the vote where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchVoteException</code> if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
@@ -649,6 +639,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	@Override
 	public Vote findByUUID_G(String uuid, long groupId)
 		throws NoSuchVoteException {
+
 		Vote vote = fetchByUUID_G(uuid, groupId);
 
 		if (vote == null) {
@@ -662,7 +653,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 			msg.append(", groupId=");
 			msg.append(groupId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -695,22 +686,26 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the matching vote, or <code>null</code> if a matching vote could not be found
 	 */
 	@Override
-	public Vote fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
+	public Vote fetchByUUID_G(
+		String uuid, long groupId, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
 		if (result instanceof Vote) {
 			Vote vote = (Vote)result;
 
 			if (!Objects.equals(uuid, vote.getUuid()) ||
-					(groupId != vote.getGroupId())) {
+				(groupId != vote.getGroupId())) {
+
 				result = null;
 			}
 		}
@@ -722,10 +717,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -756,8 +748,8 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 				List<Vote> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByUUID_G, finderArgs, list);
 				}
 				else {
 					Vote vote = list.get(0);
@@ -765,17 +757,10 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 					result = vote;
 
 					cacheResult(vote);
-
-					if ((vote.getUuid() == null) ||
-							!vote.getUuid().equals(uuid) ||
-							(vote.getGroupId() != groupId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-							finderArgs, vote);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
+				finderCache.removeResult(_finderPathFetchByUUID_G, finderArgs);
 
 				throw processException(e);
 			}
@@ -802,6 +787,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	@Override
 	public Vote removeByUUID_G(String uuid, long groupId)
 		throws NoSuchVoteException {
+
 		Vote vote = findByUUID_G(uuid, groupId);
 
 		return remove(vote);
@@ -816,9 +802,11 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 */
 	@Override
 	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, groupId };
+		FinderPath finderPath = _finderPathCountByUUID_G;
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -829,10 +817,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -877,30 +862,18 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "vote.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "vote.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(vote.uuid IS NULL OR vote.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "vote.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
-			new String[] {
-				String.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C =
-		new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() },
-			VoteModelImpl.UUID_COLUMN_BITMASK |
-			VoteModelImpl.COMPANYID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
+		"vote.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
+		"(vote.uuid IS NULL OR vote.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
+		"vote.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByUuid_C;
+	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
+	private FinderPath _finderPathCountByUuid_C;
 
 	/**
 	 * Returns all the votes where uuid = &#63; and companyId = &#63;.
@@ -911,15 +884,15 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 */
 	@Override
 	public List<Vote> findByUuid_C(String uuid, long companyId) {
-		return findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByUuid_C(
+			uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the votes where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VoteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -929,8 +902,9 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the range of matching votes
 	 */
 	@Override
-	public List<Vote> findByUuid_C(String uuid, long companyId, int start,
-		int end) {
+	public List<Vote> findByUuid_C(
+		String uuid, long companyId, int start, int end) {
+
 		return findByUuid_C(uuid, companyId, start, end, null);
 	}
 
@@ -938,7 +912,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * Returns an ordered range of all the votes where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VoteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -949,16 +923,19 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the ordered range of matching votes
 	 */
 	@Override
-	public List<Vote> findByUuid_C(String uuid, long companyId, int start,
-		int end, OrderByComparator<Vote> orderByComparator) {
-		return findByUuid_C(uuid, companyId, start, end, orderByComparator, true);
+	public List<Vote> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Vote> orderByComparator) {
+
+		return findByUuid_C(
+			uuid, companyId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the votes where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VoteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -970,38 +947,41 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the ordered range of matching votes
 	 */
 	@Override
-	public List<Vote> findByUuid_C(String uuid, long companyId, int start,
-		int end, OrderByComparator<Vote> orderByComparator,
-		boolean retrieveFromCache) {
+	public List<Vote> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Vote> orderByComparator, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C;
-			finderArgs = new Object[] { uuid, companyId };
+			finderPath = _finderPathWithoutPaginationFindByUuid_C;
+			finderArgs = new Object[] {uuid, companyId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C;
+			finderPath = _finderPathWithPaginationFindByUuid_C;
 			finderArgs = new Object[] {
-					uuid, companyId,
-					
-					start, end, orderByComparator
-				};
+				uuid, companyId, start, end, orderByComparator
+			};
 		}
 
 		List<Vote> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Vote>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Vote>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Vote vote : list) {
-					if (!Objects.equals(uuid, vote.getUuid()) ||
-							(companyId != vote.getCompanyId())) {
+					if (!uuid.equals(vote.getUuid()) ||
+						(companyId != vote.getCompanyId())) {
+
 						list = null;
 
 						break;
@@ -1014,8 +994,8 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1025,10 +1005,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1040,11 +1017,10 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(VoteModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1066,16 +1042,16 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 				qPos.add(companyId);
 
 				if (!pagination) {
-					list = (List<Vote>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Vote>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Vote>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Vote>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1105,8 +1081,11 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @throws NoSuchVoteException if a matching vote could not be found
 	 */
 	@Override
-	public Vote findByUuid_C_First(String uuid, long companyId,
-		OrderByComparator<Vote> orderByComparator) throws NoSuchVoteException {
+	public Vote findByUuid_C_First(
+			String uuid, long companyId,
+			OrderByComparator<Vote> orderByComparator)
+		throws NoSuchVoteException {
+
 		Vote vote = fetchByUuid_C_First(uuid, companyId, orderByComparator);
 
 		if (vote != null) {
@@ -1123,7 +1102,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchVoteException(msg.toString());
 	}
@@ -1137,9 +1116,12 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the first matching vote, or <code>null</code> if a matching vote could not be found
 	 */
 	@Override
-	public Vote fetchByUuid_C_First(String uuid, long companyId,
+	public Vote fetchByUuid_C_First(
+		String uuid, long companyId,
 		OrderByComparator<Vote> orderByComparator) {
-		List<Vote> list = findByUuid_C(uuid, companyId, 0, 1, orderByComparator);
+
+		List<Vote> list = findByUuid_C(
+			uuid, companyId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1158,8 +1140,11 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @throws NoSuchVoteException if a matching vote could not be found
 	 */
 	@Override
-	public Vote findByUuid_C_Last(String uuid, long companyId,
-		OrderByComparator<Vote> orderByComparator) throws NoSuchVoteException {
+	public Vote findByUuid_C_Last(
+			String uuid, long companyId,
+			OrderByComparator<Vote> orderByComparator)
+		throws NoSuchVoteException {
+
 		Vote vote = fetchByUuid_C_Last(uuid, companyId, orderByComparator);
 
 		if (vote != null) {
@@ -1176,7 +1161,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchVoteException(msg.toString());
 	}
@@ -1190,16 +1175,18 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the last matching vote, or <code>null</code> if a matching vote could not be found
 	 */
 	@Override
-	public Vote fetchByUuid_C_Last(String uuid, long companyId,
+	public Vote fetchByUuid_C_Last(
+		String uuid, long companyId,
 		OrderByComparator<Vote> orderByComparator) {
+
 		int count = countByUuid_C(uuid, companyId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Vote> list = findByUuid_C(uuid, companyId, count - 1, count,
-				orderByComparator);
+		List<Vote> list = findByUuid_C(
+			uuid, companyId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1219,9 +1206,13 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
 	@Override
-	public Vote[] findByUuid_C_PrevAndNext(VotePK votePK, String uuid,
-		long companyId, OrderByComparator<Vote> orderByComparator)
+	public Vote[] findByUuid_C_PrevAndNext(
+			VotePK votePK, String uuid, long companyId,
+			OrderByComparator<Vote> orderByComparator)
 		throws NoSuchVoteException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Vote vote = findByPrimaryKey(votePK);
 
 		Session session = null;
@@ -1231,13 +1222,13 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 			Vote[] array = new VoteImpl[3];
 
-			array[0] = getByUuid_C_PrevAndNext(session, vote, uuid, companyId,
-					orderByComparator, true);
+			array[0] = getByUuid_C_PrevAndNext(
+				session, vote, uuid, companyId, orderByComparator, true);
 
 			array[1] = vote;
 
-			array[2] = getByUuid_C_PrevAndNext(session, vote, uuid, companyId,
-					orderByComparator, false);
+			array[2] = getByUuid_C_PrevAndNext(
+				session, vote, uuid, companyId, orderByComparator, false);
 
 			return array;
 		}
@@ -1249,14 +1240,15 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		}
 	}
 
-	protected Vote getByUuid_C_PrevAndNext(Session session, Vote vote,
-		String uuid, long companyId, OrderByComparator<Vote> orderByComparator,
-		boolean previous) {
+	protected Vote getByUuid_C_PrevAndNext(
+		Session session, Vote vote, String uuid, long companyId,
+		OrderByComparator<Vote> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1267,10 +1259,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 		}
 		else {
@@ -1282,7 +1271,8 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1356,10 +1346,10 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		qPos.add(companyId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(vote);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(vote)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1381,8 +1371,11 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 */
 	@Override
 	public void removeByUuid_C(String uuid, long companyId) {
-		for (Vote vote : findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Vote vote :
+				findByUuid_C(
+					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(vote);
 		}
 	}
@@ -1396,9 +1389,11 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 */
 	@Override
 	public int countByUuid_C(String uuid, long companyId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_C;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, companyId };
+		FinderPath finderPath = _finderPathCountByUuid_C;
+
+		Object[] finderArgs = new Object[] {uuid, companyId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1409,10 +1404,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1457,30 +1449,18 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_1 = "vote.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "vote.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(vote.uuid IS NULL OR vote.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "vote.companyId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_DELIBERATIONID =
-		new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByDeliberationId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DELIBERATIONID =
-		new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByDeliberationId",
-			new String[] { Long.class.getName() },
-			VoteModelImpl.DELIBERATIONID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_DELIBERATIONID = new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDeliberationId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
+		"vote.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
+		"(vote.uuid IS NULL OR vote.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
+		"vote.companyId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByDeliberationId;
+	private FinderPath _finderPathWithoutPaginationFindByDeliberationId;
+	private FinderPath _finderPathCountByDeliberationId;
 
 	/**
 	 * Returns all the votes where deliberationId = &#63;.
@@ -1490,15 +1470,15 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 */
 	@Override
 	public List<Vote> findByDeliberationId(long deliberationId) {
-		return findByDeliberationId(deliberationId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByDeliberationId(
+			deliberationId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the votes where deliberationId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VoteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param deliberationId the deliberation ID
@@ -1507,8 +1487,9 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the range of matching votes
 	 */
 	@Override
-	public List<Vote> findByDeliberationId(long deliberationId, int start,
-		int end) {
+	public List<Vote> findByDeliberationId(
+		long deliberationId, int start, int end) {
+
 		return findByDeliberationId(deliberationId, start, end, null);
 	}
 
@@ -1516,7 +1497,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * Returns an ordered range of all the votes where deliberationId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VoteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param deliberationId the deliberation ID
@@ -1526,17 +1507,19 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the ordered range of matching votes
 	 */
 	@Override
-	public List<Vote> findByDeliberationId(long deliberationId, int start,
-		int end, OrderByComparator<Vote> orderByComparator) {
-		return findByDeliberationId(deliberationId, start, end,
-			orderByComparator, true);
+	public List<Vote> findByDeliberationId(
+		long deliberationId, int start, int end,
+		OrderByComparator<Vote> orderByComparator) {
+
+		return findByDeliberationId(
+			deliberationId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the votes where deliberationId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VoteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param deliberationId the deliberation ID
@@ -1547,33 +1530,33 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the ordered range of matching votes
 	 */
 	@Override
-	public List<Vote> findByDeliberationId(long deliberationId, int start,
-		int end, OrderByComparator<Vote> orderByComparator,
-		boolean retrieveFromCache) {
+	public List<Vote> findByDeliberationId(
+		long deliberationId, int start, int end,
+		OrderByComparator<Vote> orderByComparator, boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DELIBERATIONID;
-			finderArgs = new Object[] { deliberationId };
+			finderPath = _finderPathWithoutPaginationFindByDeliberationId;
+			finderArgs = new Object[] {deliberationId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_DELIBERATIONID;
+			finderPath = _finderPathWithPaginationFindByDeliberationId;
 			finderArgs = new Object[] {
-					deliberationId,
-					
-					start, end, orderByComparator
-				};
+				deliberationId, start, end, orderByComparator
+			};
 		}
 
 		List<Vote> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Vote>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Vote>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Vote vote : list) {
@@ -1590,8 +1573,8 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1602,11 +1585,10 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 			query.append(_FINDER_COLUMN_DELIBERATIONID_DELIBERATIONID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(VoteModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1624,16 +1606,16 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 				qPos.add(deliberationId);
 
 				if (!pagination) {
-					list = (List<Vote>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Vote>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Vote>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Vote>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1662,10 +1644,12 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @throws NoSuchVoteException if a matching vote could not be found
 	 */
 	@Override
-	public Vote findByDeliberationId_First(long deliberationId,
-		OrderByComparator<Vote> orderByComparator) throws NoSuchVoteException {
-		Vote vote = fetchByDeliberationId_First(deliberationId,
-				orderByComparator);
+	public Vote findByDeliberationId_First(
+			long deliberationId, OrderByComparator<Vote> orderByComparator)
+		throws NoSuchVoteException {
+
+		Vote vote = fetchByDeliberationId_First(
+			deliberationId, orderByComparator);
 
 		if (vote != null) {
 			return vote;
@@ -1678,7 +1662,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		msg.append("deliberationId=");
 		msg.append(deliberationId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchVoteException(msg.toString());
 	}
@@ -1691,10 +1675,11 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the first matching vote, or <code>null</code> if a matching vote could not be found
 	 */
 	@Override
-	public Vote fetchByDeliberationId_First(long deliberationId,
-		OrderByComparator<Vote> orderByComparator) {
-		List<Vote> list = findByDeliberationId(deliberationId, 0, 1,
-				orderByComparator);
+	public Vote fetchByDeliberationId_First(
+		long deliberationId, OrderByComparator<Vote> orderByComparator) {
+
+		List<Vote> list = findByDeliberationId(
+			deliberationId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1712,9 +1697,12 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @throws NoSuchVoteException if a matching vote could not be found
 	 */
 	@Override
-	public Vote findByDeliberationId_Last(long deliberationId,
-		OrderByComparator<Vote> orderByComparator) throws NoSuchVoteException {
-		Vote vote = fetchByDeliberationId_Last(deliberationId, orderByComparator);
+	public Vote findByDeliberationId_Last(
+			long deliberationId, OrderByComparator<Vote> orderByComparator)
+		throws NoSuchVoteException {
+
+		Vote vote = fetchByDeliberationId_Last(
+			deliberationId, orderByComparator);
 
 		if (vote != null) {
 			return vote;
@@ -1727,7 +1715,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		msg.append("deliberationId=");
 		msg.append(deliberationId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchVoteException(msg.toString());
 	}
@@ -1740,16 +1728,17 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the last matching vote, or <code>null</code> if a matching vote could not be found
 	 */
 	@Override
-	public Vote fetchByDeliberationId_Last(long deliberationId,
-		OrderByComparator<Vote> orderByComparator) {
+	public Vote fetchByDeliberationId_Last(
+		long deliberationId, OrderByComparator<Vote> orderByComparator) {
+
 		int count = countByDeliberationId(deliberationId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Vote> list = findByDeliberationId(deliberationId, count - 1,
-				count, orderByComparator);
+		List<Vote> list = findByDeliberationId(
+			deliberationId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1768,9 +1757,11 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
 	@Override
-	public Vote[] findByDeliberationId_PrevAndNext(VotePK votePK,
-		long deliberationId, OrderByComparator<Vote> orderByComparator)
+	public Vote[] findByDeliberationId_PrevAndNext(
+			VotePK votePK, long deliberationId,
+			OrderByComparator<Vote> orderByComparator)
 		throws NoSuchVoteException {
+
 		Vote vote = findByPrimaryKey(votePK);
 
 		Session session = null;
@@ -1780,13 +1771,13 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 			Vote[] array = new VoteImpl[3];
 
-			array[0] = getByDeliberationId_PrevAndNext(session, vote,
-					deliberationId, orderByComparator, true);
+			array[0] = getByDeliberationId_PrevAndNext(
+				session, vote, deliberationId, orderByComparator, true);
 
 			array[1] = vote;
 
-			array[2] = getByDeliberationId_PrevAndNext(session, vote,
-					deliberationId, orderByComparator, false);
+			array[2] = getByDeliberationId_PrevAndNext(
+				session, vote, deliberationId, orderByComparator, false);
 
 			return array;
 		}
@@ -1798,14 +1789,15 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		}
 	}
 
-	protected Vote getByDeliberationId_PrevAndNext(Session session, Vote vote,
-		long deliberationId, OrderByComparator<Vote> orderByComparator,
-		boolean previous) {
+	protected Vote getByDeliberationId_PrevAndNext(
+		Session session, Vote vote, long deliberationId,
+		OrderByComparator<Vote> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1817,7 +1809,8 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		query.append(_FINDER_COLUMN_DELIBERATIONID_DELIBERATIONID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1887,10 +1880,10 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		qPos.add(deliberationId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(vote);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(vote)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1911,8 +1904,11 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 */
 	@Override
 	public void removeByDeliberationId(long deliberationId) {
-		for (Vote vote : findByDeliberationId(deliberationId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (Vote vote :
+				findByDeliberationId(
+					deliberationId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(vote);
 		}
 	}
@@ -1925,9 +1921,9 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 */
 	@Override
 	public int countByDeliberationId(long deliberationId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_DELIBERATIONID;
+		FinderPath finderPath = _finderPathCountByDeliberationId;
 
-		Object[] finderArgs = new Object[] { deliberationId };
+		Object[] finderArgs = new Object[] {deliberationId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1968,23 +1964,14 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_DELIBERATIONID_DELIBERATIONID_2 = "vote.id.deliberationId = ?";
-	public static final FinderPath FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID =
-		new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByDeliberationIdAndOfficialId",
-			new String[] { Long.class.getName(), Long.class.getName() },
-			VoteModelImpl.DELIBERATIONID_COLUMN_BITMASK |
-			VoteModelImpl.OFFICIALID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_DELIBERATIONIDANDOFFICIALID =
-		new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByDeliberationIdAndOfficialId",
-			new String[] { Long.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_DELIBERATIONID_DELIBERATIONID_2 =
+		"vote.id.deliberationId = ?";
+
+	private FinderPath _finderPathFetchByDeliberationIdAndOfficialId;
+	private FinderPath _finderPathCountByDeliberationIdAndOfficialId;
 
 	/**
-	 * Returns the vote where deliberationId = &#63; and officialId = &#63; or throws a {@link NoSuchVoteException} if it could not be found.
+	 * Returns the vote where deliberationId = &#63; and officialId = &#63; or throws a <code>NoSuchVoteException</code> if it could not be found.
 	 *
 	 * @param deliberationId the deliberation ID
 	 * @param officialId the official ID
@@ -1992,10 +1979,12 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @throws NoSuchVoteException if a matching vote could not be found
 	 */
 	@Override
-	public Vote findByDeliberationIdAndOfficialId(long deliberationId,
-		long officialId) throws NoSuchVoteException {
-		Vote vote = fetchByDeliberationIdAndOfficialId(deliberationId,
-				officialId);
+	public Vote findByDeliberationIdAndOfficialId(
+			long deliberationId, long officialId)
+		throws NoSuchVoteException {
+
+		Vote vote = fetchByDeliberationIdAndOfficialId(
+			deliberationId, officialId);
 
 		if (vote == null) {
 			StringBundler msg = new StringBundler(6);
@@ -2008,7 +1997,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 			msg.append(", officialId=");
 			msg.append(officialId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -2028,10 +2017,11 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the matching vote, or <code>null</code> if a matching vote could not be found
 	 */
 	@Override
-	public Vote fetchByDeliberationIdAndOfficialId(long deliberationId,
-		long officialId) {
-		return fetchByDeliberationIdAndOfficialId(deliberationId, officialId,
-			true);
+	public Vote fetchByDeliberationIdAndOfficialId(
+		long deliberationId, long officialId) {
+
+		return fetchByDeliberationIdAndOfficialId(
+			deliberationId, officialId, true);
 	}
 
 	/**
@@ -2043,22 +2033,25 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the matching vote, or <code>null</code> if a matching vote could not be found
 	 */
 	@Override
-	public Vote fetchByDeliberationIdAndOfficialId(long deliberationId,
-		long officialId, boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { deliberationId, officialId };
+	public Vote fetchByDeliberationIdAndOfficialId(
+		long deliberationId, long officialId, boolean retrieveFromCache) {
+
+		Object[] finderArgs = new Object[] {deliberationId, officialId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByDeliberationIdAndOfficialId, finderArgs,
+				this);
 		}
 
 		if (result instanceof Vote) {
 			Vote vote = (Vote)result;
 
 			if ((deliberationId != vote.getDeliberationId()) ||
-					(officialId != vote.getOfficialId())) {
+				(officialId != vote.getOfficialId())) {
+
 				result = null;
 			}
 		}
@@ -2068,9 +2061,11 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 			query.append(_SQL_SELECT_VOTE_WHERE);
 
-			query.append(_FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_DELIBERATIONID_2);
+			query.append(
+				_FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_DELIBERATIONID_2);
 
-			query.append(_FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_OFFICIALID_2);
+			query.append(
+				_FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_OFFICIALID_2);
 
 			String sql = query.toString();
 
@@ -2090,7 +2085,8 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 				List<Vote> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
+					finderCache.putResult(
+						_finderPathFetchByDeliberationIdAndOfficialId,
 						finderArgs, list);
 				}
 				else {
@@ -2100,8 +2096,8 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 						if (_log.isWarnEnabled()) {
 							_log.warn(
 								"VotePersistenceImpl.fetchByDeliberationIdAndOfficialId(long, long, boolean) with parameters (" +
-								StringUtil.merge(finderArgs) +
-								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
 						}
 					}
 
@@ -2110,17 +2106,11 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 					result = vote;
 
 					cacheResult(vote);
-
-					if ((vote.getDeliberationId() != deliberationId) ||
-							(vote.getOfficialId() != officialId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
-							finderArgs, vote);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
-					finderArgs);
+				finderCache.removeResult(
+					_finderPathFetchByDeliberationIdAndOfficialId, finderArgs);
 
 				throw processException(e);
 			}
@@ -2145,9 +2135,12 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the vote that was removed
 	 */
 	@Override
-	public Vote removeByDeliberationIdAndOfficialId(long deliberationId,
-		long officialId) throws NoSuchVoteException {
-		Vote vote = findByDeliberationIdAndOfficialId(deliberationId, officialId);
+	public Vote removeByDeliberationIdAndOfficialId(
+			long deliberationId, long officialId)
+		throws NoSuchVoteException {
+
+		Vote vote = findByDeliberationIdAndOfficialId(
+			deliberationId, officialId);
 
 		return remove(vote);
 	}
@@ -2160,11 +2153,12 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the number of matching votes
 	 */
 	@Override
-	public int countByDeliberationIdAndOfficialId(long deliberationId,
-		long officialId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_DELIBERATIONIDANDOFFICIALID;
+	public int countByDeliberationIdAndOfficialId(
+		long deliberationId, long officialId) {
 
-		Object[] finderArgs = new Object[] { deliberationId, officialId };
+		FinderPath finderPath = _finderPathCountByDeliberationIdAndOfficialId;
+
+		Object[] finderArgs = new Object[] {deliberationId, officialId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -2173,9 +2167,11 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 			query.append(_SQL_COUNT_VOTE_WHERE);
 
-			query.append(_FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_DELIBERATIONID_2);
+			query.append(
+				_FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_DELIBERATIONID_2);
 
-			query.append(_FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_OFFICIALID_2);
+			query.append(
+				_FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_OFFICIALID_2);
 
 			String sql = query.toString();
 
@@ -2209,21 +2205,26 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_DELIBERATIONID_2 =
-		"vote.id.deliberationId = ? AND ";
-	private static final String _FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_OFFICIALID_2 =
-		"vote.id.officialId = ?";
+	private static final String
+		_FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_DELIBERATIONID_2 =
+			"vote.id.deliberationId = ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_OFFICIALID_2 =
+			"vote.id.officialId = ?";
 
 	public VotePersistenceImpl() {
 		setModelClass(Vote.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -2241,14 +2242,17 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 */
 	@Override
 	public void cacheResult(Vote vote) {
-		entityCache.putResult(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteImpl.class, vote.getPrimaryKey(), vote);
+		entityCache.putResult(
+			VoteModelImpl.ENTITY_CACHE_ENABLED, VoteImpl.class,
+			vote.getPrimaryKey(), vote);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-			new Object[] { vote.getUuid(), vote.getGroupId() }, vote);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G,
+			new Object[] {vote.getUuid(), vote.getGroupId()}, vote);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
-			new Object[] { vote.getDeliberationId(), vote.getOfficialId() },
+		finderCache.putResult(
+			_finderPathFetchByDeliberationIdAndOfficialId,
+			new Object[] {vote.getDeliberationId(), vote.getOfficialId()},
 			vote);
 
 		vote.resetOriginalValues();
@@ -2262,8 +2266,10 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	@Override
 	public void cacheResult(List<Vote> votes) {
 		for (Vote vote : votes) {
-			if (entityCache.getResult(VoteModelImpl.ENTITY_CACHE_ENABLED,
-						VoteImpl.class, vote.getPrimaryKey()) == null) {
+			if (entityCache.getResult(
+					VoteModelImpl.ENTITY_CACHE_ENABLED, VoteImpl.class,
+					vote.getPrimaryKey()) == null) {
+
 				cacheResult(vote);
 			}
 			else {
@@ -2276,7 +2282,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * Clears the cache for all votes.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -2292,13 +2298,14 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * Clears the cache for the vote.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Vote vote) {
-		entityCache.removeResult(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteImpl.class, vote.getPrimaryKey());
+		entityCache.removeResult(
+			VoteModelImpl.ENTITY_CACHE_ENABLED, VoteImpl.class,
+			vote.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -2312,8 +2319,9 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Vote vote : votes) {
-			entityCache.removeResult(VoteModelImpl.ENTITY_CACHE_ENABLED,
-				VoteImpl.class, vote.getPrimaryKey());
+			entityCache.removeResult(
+				VoteModelImpl.ENTITY_CACHE_ENABLED, VoteImpl.class,
+				vote.getPrimaryKey());
 
 			clearUniqueFindersCache((VoteModelImpl)vote, true);
 		}
@@ -2321,69 +2329,74 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 	protected void cacheUniqueFindersCache(VoteModelImpl voteModelImpl) {
 		Object[] args = new Object[] {
+			voteModelImpl.getUuid(), voteModelImpl.getGroupId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G, args, voteModelImpl, false);
+
+		args = new Object[] {
+			voteModelImpl.getDeliberationId(), voteModelImpl.getOfficialId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByDeliberationIdAndOfficialId, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByDeliberationIdAndOfficialId, args, voteModelImpl,
+			false);
+	}
+
+	protected void clearUniqueFindersCache(
+		VoteModelImpl voteModelImpl, boolean clearCurrent) {
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
 				voteModelImpl.getUuid(), voteModelImpl.getGroupId()
 			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args, voteModelImpl,
-			false);
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+		}
 
-		args = new Object[] {
+		if ((voteModelImpl.getColumnBitmask() &
+			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				voteModelImpl.getOriginalUuid(),
+				voteModelImpl.getOriginalGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
 				voteModelImpl.getDeliberationId(), voteModelImpl.getOfficialId()
 			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_DELIBERATIONIDANDOFFICIALID,
-			args, Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
-			args, voteModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(VoteModelImpl voteModelImpl,
-		boolean clearCurrent) {
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-					voteModelImpl.getUuid(), voteModelImpl.getGroupId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			finderCache.removeResult(
+				_finderPathCountByDeliberationIdAndOfficialId, args);
+			finderCache.removeResult(
+				_finderPathFetchByDeliberationIdAndOfficialId, args);
 		}
 
 		if ((voteModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
+			 _finderPathFetchByDeliberationIdAndOfficialId.
+				 getColumnBitmask()) != 0) {
+
 			Object[] args = new Object[] {
-					voteModelImpl.getOriginalUuid(),
-					voteModelImpl.getOriginalGroupId()
-				};
+				voteModelImpl.getOriginalDeliberationId(),
+				voteModelImpl.getOriginalOfficialId()
+			};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-					voteModelImpl.getDeliberationId(),
-					voteModelImpl.getOfficialId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_DELIBERATIONIDANDOFFICIALID,
-				args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
-				args);
-		}
-
-		if ((voteModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					voteModelImpl.getOriginalDeliberationId(),
-					voteModelImpl.getOriginalOfficialId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_DELIBERATIONIDANDOFFICIALID,
-				args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
-				args);
+			finderCache.removeResult(
+				_finderPathCountByDeliberationIdAndOfficialId, args);
+			finderCache.removeResult(
+				_finderPathFetchByDeliberationIdAndOfficialId, args);
 		}
 	}
 
@@ -2442,8 +2455,8 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchVoteException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchVoteException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(vote);
@@ -2461,15 +2474,14 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 	@Override
 	protected Vote removeImpl(Vote vote) {
-		vote = toUnwrappedModel(vote);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(vote)) {
-				vote = (Vote)session.get(VoteImpl.class, vote.getPrimaryKeyObj());
+				vote = (Vote)session.get(
+					VoteImpl.class, vote.getPrimaryKeyObj());
 			}
 
 			if (vote != null) {
@@ -2492,9 +2504,23 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 	@Override
 	public Vote updateImpl(Vote vote) {
-		vote = toUnwrappedModel(vote);
-
 		boolean isNew = vote.isNew();
+
+		if (!(vote instanceof VoteModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(vote.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(vote);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in vote proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom Vote implementation " +
+					vote.getClass());
+		}
 
 		VoteModelImpl voteModelImpl = (VoteModelImpl)vote;
 
@@ -2530,91 +2556,96 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		if (!VoteModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { voteModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {voteModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
 			args = new Object[] {
+				voteModelImpl.getUuid(), voteModelImpl.getCompanyId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUuid_C, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid_C, args);
+
+			args = new Object[] {voteModelImpl.getDeliberationId()};
+
+			finderCache.removeResult(_finderPathCountByDeliberationId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByDeliberationId, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((voteModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {voteModelImpl.getOriginalUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+
+				args = new Object[] {voteModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+			}
+
+			if ((voteModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					voteModelImpl.getOriginalUuid(),
+					voteModelImpl.getOriginalCompanyId()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+
+				args = new Object[] {
 					voteModelImpl.getUuid(), voteModelImpl.getCompanyId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-				args);
-
-			args = new Object[] { voteModelImpl.getDeliberationId() };
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_DELIBERATIONID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DELIBERATIONID,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((voteModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { voteModelImpl.getOriginalUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-
-				args = new Object[] { voteModelImpl.getUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
 			}
 
 			if ((voteModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByDeliberationId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						voteModelImpl.getOriginalUuid(),
-						voteModelImpl.getOriginalCompanyId()
-					};
+					voteModelImpl.getOriginalDeliberationId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
+				finderCache.removeResult(
+					_finderPathCountByDeliberationId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByDeliberationId, args);
 
-				args = new Object[] {
-						voteModelImpl.getUuid(), voteModelImpl.getCompanyId()
-					};
+				args = new Object[] {voteModelImpl.getDeliberationId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-			}
-
-			if ((voteModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DELIBERATIONID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						voteModelImpl.getOriginalDeliberationId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_DELIBERATIONID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DELIBERATIONID,
-					args);
-
-				args = new Object[] { voteModelImpl.getDeliberationId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_DELIBERATIONID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DELIBERATIONID,
-					args);
+				finderCache.removeResult(
+					_finderPathCountByDeliberationId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByDeliberationId, args);
 			}
 		}
 
-		entityCache.putResult(VoteModelImpl.ENTITY_CACHE_ENABLED,
-			VoteImpl.class, vote.getPrimaryKey(), vote, false);
+		entityCache.putResult(
+			VoteModelImpl.ENTITY_CACHE_ENABLED, VoteImpl.class,
+			vote.getPrimaryKey(), vote, false);
 
 		clearUniqueFindersCache(voteModelImpl, false);
 		cacheUniqueFindersCache(voteModelImpl);
@@ -2624,30 +2655,8 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		return vote;
 	}
 
-	protected Vote toUnwrappedModel(Vote vote) {
-		if (vote instanceof VoteImpl) {
-			return vote;
-		}
-
-		VoteImpl voteImpl = new VoteImpl();
-
-		voteImpl.setNew(vote.isNew());
-		voteImpl.setPrimaryKey(vote.getPrimaryKey());
-
-		voteImpl.setUuid(vote.getUuid());
-		voteImpl.setOfficialId(vote.getOfficialId());
-		voteImpl.setDeliberationId(vote.getDeliberationId());
-		voteImpl.setGroupId(vote.getGroupId());
-		voteImpl.setCompanyId(vote.getCompanyId());
-		voteImpl.setCreateDate(vote.getCreateDate());
-		voteImpl.setResult(vote.getResult());
-		voteImpl.setOfficialProcurationId(vote.getOfficialProcurationId());
-
-		return voteImpl;
-	}
-
 	/**
-	 * Returns the vote with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the vote with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the vote
 	 * @return the vote
@@ -2656,6 +2665,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	@Override
 	public Vote findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchVoteException {
+
 		Vote vote = fetchByPrimaryKey(primaryKey);
 
 		if (vote == null) {
@@ -2663,15 +2673,15 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchVoteException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchVoteException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return vote;
 	}
 
 	/**
-	 * Returns the vote with the primary key or throws a {@link NoSuchVoteException} if it could not be found.
+	 * Returns the vote with the primary key or throws a <code>NoSuchVoteException</code> if it could not be found.
 	 *
 	 * @param votePK the primary key of the vote
 	 * @return the vote
@@ -2690,8 +2700,8 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 */
 	@Override
 	public Vote fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(VoteModelImpl.ENTITY_CACHE_ENABLED,
-				VoteImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			VoteModelImpl.ENTITY_CACHE_ENABLED, VoteImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -2711,13 +2721,15 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 					cacheResult(vote);
 				}
 				else {
-					entityCache.putResult(VoteModelImpl.ENTITY_CACHE_ENABLED,
-						VoteImpl.class, primaryKey, nullModel);
+					entityCache.putResult(
+						VoteModelImpl.ENTITY_CACHE_ENABLED, VoteImpl.class,
+						primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(VoteModelImpl.ENTITY_CACHE_ENABLED,
-					VoteImpl.class, primaryKey);
+				entityCache.removeResult(
+					VoteModelImpl.ENTITY_CACHE_ENABLED, VoteImpl.class,
+					primaryKey);
 
 				throw processException(e);
 			}
@@ -2743,6 +2755,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	@Override
 	public Map<Serializable, Vote> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
@@ -2774,7 +2787,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * Returns a range of all the votes.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VoteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of votes
@@ -2790,7 +2803,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * Returns an ordered range of all the votes.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VoteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of votes
@@ -2799,8 +2812,9 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the ordered range of votes
 	 */
 	@Override
-	public List<Vote> findAll(int start, int end,
-		OrderByComparator<Vote> orderByComparator) {
+	public List<Vote> findAll(
+		int start, int end, OrderByComparator<Vote> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -2808,7 +2822,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * Returns an ordered range of all the votes.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VoteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of votes
@@ -2818,28 +2832,31 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @return the ordered range of votes
 	 */
 	@Override
-	public List<Vote> findAll(int start, int end,
-		OrderByComparator<Vote> orderByComparator, boolean retrieveFromCache) {
+	public List<Vote> findAll(
+		int start, int end, OrderByComparator<Vote> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Vote> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Vote>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Vote>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -2847,13 +2864,13 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_VOTE);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -2873,16 +2890,16 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Vote>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Vote>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Vote>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Vote>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2920,8 +2937,8 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -2933,12 +2950,12 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -2956,6 +2973,11 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	}
 
 	@Override
+	public Set<String> getCompoundPKColumnNames() {
+		return _compoundPKColumnNames;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return VoteModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2964,6 +2986,119 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * Initializes the vote persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			VoteModelImpl.UUID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathFetchByUUID_G = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			VoteModelImpl.UUID_COLUMN_BITMASK |
+			VoteModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByUUID_G = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			VoteModelImpl.UUID_COLUMN_BITMASK |
+			VoteModelImpl.COMPANYID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid_C = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByDeliberationId = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByDeliberationId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByDeliberationId = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByDeliberationId",
+			new String[] {Long.class.getName()},
+			VoteModelImpl.DELIBERATIONID_COLUMN_BITMASK);
+
+		_finderPathCountByDeliberationId = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDeliberationId",
+			new String[] {Long.class.getName()});
+
+		_finderPathFetchByDeliberationIdAndOfficialId = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByDeliberationIdAndOfficialId",
+			new String[] {Long.class.getName(), Long.class.getName()},
+			VoteModelImpl.DELIBERATIONID_COLUMN_BITMASK |
+			VoteModelImpl.OFFICIALID_COLUMN_BITMASK);
+
+		_finderPathCountByDeliberationIdAndOfficialId = new FinderPath(
+			VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByDeliberationIdAndOfficialId",
+			new String[] {Long.class.getName(), Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -2975,19 +3110,38 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
+
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
+
 	private static final String _SQL_SELECT_VOTE = "SELECT vote FROM Vote vote";
-	private static final String _SQL_SELECT_VOTE_WHERE = "SELECT vote FROM Vote vote WHERE ";
-	private static final String _SQL_COUNT_VOTE = "SELECT COUNT(vote) FROM Vote vote";
-	private static final String _SQL_COUNT_VOTE_WHERE = "SELECT COUNT(vote) FROM Vote vote WHERE ";
+
+	private static final String _SQL_SELECT_VOTE_WHERE =
+		"SELECT vote FROM Vote vote WHERE ";
+
+	private static final String _SQL_COUNT_VOTE =
+		"SELECT COUNT(vote) FROM Vote vote";
+
+	private static final String _SQL_COUNT_VOTE_WHERE =
+		"SELECT COUNT(vote) FROM Vote vote WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "vote.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Vote exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Vote exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(VotePersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No Vote exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No Vote exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		VotePersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+	private static final Set<String> _compoundPKColumnNames = SetUtil.fromArray(
+		new String[] {"officialId", "deliberationId"});
+
 }

@@ -46,41 +46,204 @@ import java.util.List;
  *
  * @author BenjaminBini
  * @see EventPeriodLocalServiceUtil
- * @see eu.strasbourg.service.agenda.service.base.EventPeriodLocalServiceBaseImpl
- * @see eu.strasbourg.service.agenda.service.impl.EventPeriodLocalServiceImpl
  * @generated
  */
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
-public interface EventPeriodLocalService extends BaseLocalService,
-	PersistedModelLocalService {
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
+public interface EventPeriodLocalService
+	extends BaseLocalService, PersistedModelLocalService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link EventPeriodLocalServiceUtil} to access the event period local service. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.EventPeriodLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link EventPeriodLocalServiceUtil} to access the event period local service. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.EventPeriodLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Vérifie qu'une liste de période ne contient pas de périodes qui se
-	* chevauchent
-	*/
+	 * Adds the event period to the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param eventPeriod the event period
+	 * @return the event period that was added
+	 */
+	@Indexable(type = IndexableType.REINDEX)
+	public EventPeriod addEventPeriod(EventPeriod eventPeriod);
+
+	/**
+	 * Vérifie qu'une liste de période ne contient pas de périodes qui se
+	 * chevauchent
+	 */
 	public boolean checkForOverlappingPeriods(List<EventPeriod> periods);
+
+	/**
+	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
+	 */
+	public EventPeriod createEventPeriod() throws PortalException;
+
+	/**
+	 * Creates a new event period with the primary key. Does not add the event period to the database.
+	 *
+	 * @param eventPeriodId the primary key for the new event period
+	 * @return the new event period
+	 */
+	@Transactional(enabled = false)
+	public EventPeriod createEventPeriod(long eventPeriodId);
+
+	/**
+	 * Deletes the event period from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param eventPeriod the event period
+	 * @return the event period that was removed
+	 */
+	@Indexable(type = IndexableType.DELETE)
+	public EventPeriod deleteEventPeriod(EventPeriod eventPeriod);
+
+	/**
+	 * Deletes the event period with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param eventPeriodId the primary key of the event period
+	 * @return the event period that was removed
+	 * @throws PortalException if a event period with the primary key could not be found
+	 */
+	@Indexable(type = IndexableType.DELETE)
+	public EventPeriod deleteEventPeriod(long eventPeriodId)
+		throws PortalException;
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public DynamicQuery dynamicQuery();
+
+	/**
+	 * Performs a dynamic query on the database and returns the matching rows.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @return the matching rows
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery);
+
+	/**
+	 * Performs a dynamic query on the database and returns a range of the matching rows.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
+	 * @return the range of matching rows
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end);
+
+	/**
+	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching rows
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator);
+
+	/**
+	 * Returns the number of rows matching the dynamic query.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @return the number of rows matching the dynamic query
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long dynamicQueryCount(DynamicQuery dynamicQuery);
+
+	/**
+	 * Returns the number of rows matching the dynamic query.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param projection the projection to apply to the query
+	 * @return the number of rows matching the dynamic query
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long dynamicQueryCount(
+		DynamicQuery dynamicQuery, Projection projection);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public EventPeriod fetchEventPeriod(long eventPeriodId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
-	public DynamicQuery dynamicQuery();
+	/**
+	 * Retourne les périodes d'un événement de campagne
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<EventPeriod> getByCampaignEventId(long campaignEventId);
+
+	/**
+	 * Retourne les périodes d'un événement
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<EventPeriod> getByEventId(long eventId);
+
+	/**
+	 * Returns the event period with the primary key.
+	 *
+	 * @param eventPeriodId the primary key of the event period
+	 * @return the event period
+	 * @throws PortalException if a event period with the primary key could not be found
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public EventPeriod getEventPeriod(long eventPeriodId)
+		throws PortalException;
+
+	/**
+	 * Returns a range of all the event periods.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of event periods
+	 * @param end the upper bound of the range of event periods (not inclusive)
+	 * @return the range of event periods
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<EventPeriod> getEventPeriods(int start, int end);
+
+	/**
+	 * Returns the number of event periods.
+	 *
+	 * @return the number of event periods
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getEventPeriodsCount();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 
 	/**
-	* @throws PortalException
-	*/
-	@Override
-	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
-		throws PortalException;
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -88,165 +251,12 @@ public interface EventPeriodLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
-	* Adds the event period to the database. Also notifies the appropriate model listeners.
-	*
-	* @param eventPeriod the event period
-	* @return the event period that was added
-	*/
-	@Indexable(type = IndexableType.REINDEX)
-	public EventPeriod addEventPeriod(EventPeriod eventPeriod);
-
-	/**
-	* Crée une édition vide avec une PK, non ajouté à la base de donnée
-	*/
-	public EventPeriod createEventPeriod() throws PortalException;
-
-	/**
-	* Creates a new event period with the primary key. Does not add the event period to the database.
-	*
-	* @param eventPeriodId the primary key for the new event period
-	* @return the new event period
-	*/
-	public EventPeriod createEventPeriod(long eventPeriodId);
-
-	/**
-	* Deletes the event period from the database. Also notifies the appropriate model listeners.
-	*
-	* @param eventPeriod the event period
-	* @return the event period that was removed
-	*/
-	@Indexable(type = IndexableType.DELETE)
-	public EventPeriod deleteEventPeriod(EventPeriod eventPeriod);
-
-	/**
-	* Deletes the event period with the primary key from the database. Also notifies the appropriate model listeners.
-	*
-	* @param eventPeriodId the primary key of the event period
-	* @return the event period that was removed
-	* @throws PortalException if a event period with the primary key could not be found
-	*/
-	@Indexable(type = IndexableType.DELETE)
-	public EventPeriod deleteEventPeriod(long eventPeriodId)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public EventPeriod fetchEventPeriod(long eventPeriodId);
-
-	/**
-	* Returns the event period with the primary key.
-	*
-	* @param eventPeriodId the primary key of the event period
-	* @return the event period
-	* @throws PortalException if a event period with the primary key could not be found
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public EventPeriod getEventPeriod(long eventPeriodId)
-		throws PortalException;
-
-	/**
-	* Updates the event period in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
-	*
-	* @param eventPeriod the event period
-	* @return the event period that was updated
-	*/
+	 * Updates the event period in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	 *
+	 * @param eventPeriod the event period
+	 * @return the event period that was updated
+	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public EventPeriod updateEventPeriod(EventPeriod eventPeriod);
 
-	/**
-	* Returns the number of event periods.
-	*
-	* @return the number of event periods
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getEventPeriodsCount();
-
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
-
-	/**
-	* Performs a dynamic query on the database and returns the matching rows.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the matching rows
-	*/
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery);
-
-	/**
-	* Performs a dynamic query on the database and returns a range of the matching rows.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.agenda.model.impl.EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param dynamicQuery the dynamic query
-	* @param start the lower bound of the range of model instances
-	* @param end the upper bound of the range of model instances (not inclusive)
-	* @return the range of matching rows
-	*/
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end);
-
-	/**
-	* Performs a dynamic query on the database and returns an ordered range of the matching rows.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.agenda.model.impl.EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param dynamicQuery the dynamic query
-	* @param start the lower bound of the range of model instances
-	* @param end the upper bound of the range of model instances (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching rows
-	*/
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end, OrderByComparator<T> orderByComparator);
-
-	/**
-	* Retourne les périodes d'un événement de campagne
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<EventPeriod> getByCampaignEventId(long campaignEventId);
-
-	/**
-	* Retourne les périodes d'un événement
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<EventPeriod> getByEventId(long eventId);
-
-	/**
-	* Returns a range of all the event periods.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.agenda.model.impl.EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param start the lower bound of the range of event periods
-	* @param end the upper bound of the range of event periods (not inclusive)
-	* @return the range of event periods
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<EventPeriod> getEventPeriods(int start, int end);
-
-	/**
-	* Returns the number of rows matching the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the number of rows matching the dynamic query
-	*/
-	public long dynamicQueryCount(DynamicQuery dynamicQuery);
-
-	/**
-	* Returns the number of rows matching the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @param projection the projection to apply to the query
-	* @return the number of rows matching the dynamic query
-	*/
-	public long dynamicQueryCount(DynamicQuery dynamicQuery,
-		Projection projection);
 }

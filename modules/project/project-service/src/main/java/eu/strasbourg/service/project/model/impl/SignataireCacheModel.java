@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.project.model.Signataire;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing Signataire in entity cache.
  *
  * @author Cedric Henry
- * @see Signataire
  * @generated
  */
 @ProviderType
-public class SignataireCacheModel implements CacheModel<Signataire>,
-	Externalizable {
+public class SignataireCacheModel
+	implements CacheModel<Signataire>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -126,7 +125,7 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		SignataireImpl signataireImpl = new SignataireImpl();
 
 		if (uuid == null) {
-			signataireImpl.setUuid(StringPool.BLANK);
+			signataireImpl.setUuid("");
 		}
 		else {
 			signataireImpl.setUuid(uuid);
@@ -138,7 +137,7 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		signataireImpl.setUserId(userId);
 
 		if (userName == null) {
-			signataireImpl.setUserName(StringPool.BLANK);
+			signataireImpl.setUserName("");
 		}
 		else {
 			signataireImpl.setUserName(userName);
@@ -162,7 +161,7 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		signataireImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			signataireImpl.setStatusByUserName(StringPool.BLANK);
+			signataireImpl.setStatusByUserName("");
 		}
 		else {
 			signataireImpl.setStatusByUserName(statusByUserName);
@@ -176,14 +175,14 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		}
 
 		if (signataireName == null) {
-			signataireImpl.setSignataireName(StringPool.BLANK);
+			signataireImpl.setSignataireName("");
 		}
 		else {
 			signataireImpl.setSignataireName(signataireName);
 		}
 
 		if (signataireFirstname == null) {
-			signataireImpl.setSignataireFirstname(StringPool.BLANK);
+			signataireImpl.setSignataireFirstname("");
 		}
 		else {
 			signataireImpl.setSignataireFirstname(signataireFirstname);
@@ -197,14 +196,14 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		}
 
 		if (address == null) {
-			signataireImpl.setAddress(StringPool.BLANK);
+			signataireImpl.setAddress("");
 		}
 		else {
 			signataireImpl.setAddress(address);
 		}
 
 		if (mail == null) {
-			signataireImpl.setMail(StringPool.BLANK);
+			signataireImpl.setMail("");
 		}
 		else {
 			signataireImpl.setMail(mail);
@@ -213,21 +212,21 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		signataireImpl.setPostalCode(postalCode);
 
 		if (mobilePhone == null) {
-			signataireImpl.setMobilePhone(StringPool.BLANK);
+			signataireImpl.setMobilePhone("");
 		}
 		else {
 			signataireImpl.setMobilePhone(mobilePhone);
 		}
 
 		if (phone == null) {
-			signataireImpl.setPhone(StringPool.BLANK);
+			signataireImpl.setPhone("");
 		}
 		else {
 			signataireImpl.setPhone(phone);
 		}
 
 		if (city == null) {
-			signataireImpl.setCity(StringPool.BLANK);
+			signataireImpl.setCity("");
 		}
 		else {
 			signataireImpl.setCity(city);
@@ -241,7 +240,7 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		}
 
 		if (publikUserId == null) {
-			signataireImpl.setPublikUserId(StringPool.BLANK);
+			signataireImpl.setPublikUserId("");
 		}
 		else {
 			signataireImpl.setPublikUserId(publikUserId);
@@ -291,10 +290,9 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -309,7 +307,7 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -323,7 +321,7 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -332,14 +330,14 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		objectOutput.writeLong(statusDate);
 
 		if (signataireName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(signataireName);
 		}
 
 		if (signataireFirstname == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(signataireFirstname);
@@ -348,14 +346,14 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		objectOutput.writeLong(birthday);
 
 		if (address == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(address);
 		}
 
 		if (mail == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(mail);
@@ -364,21 +362,21 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		objectOutput.writeLong(postalCode);
 
 		if (mobilePhone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(mobilePhone);
 		}
 
 		if (phone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(phone);
 		}
 
 		if (city == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(city);
@@ -387,7 +385,7 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		objectOutput.writeLong(signatureDate);
 
 		if (publikUserId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikUserId);
@@ -420,4 +418,5 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 	public long signatureDate;
 	public String publikUserId;
 	public long petitionId;
+
 }

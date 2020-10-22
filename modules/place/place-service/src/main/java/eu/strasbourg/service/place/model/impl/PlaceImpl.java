@@ -1,25 +1,7 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import java.text.DateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -31,12 +13,11 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-import com.liferay.portal.kernel.util.*;
-
-import aQute.bnd.annotation.ProviderType;
-import eu.strasbourg.service.agenda.model.Event;
-import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
-import eu.strasbourg.service.place.MairieStateSOAPClient;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceSchedule;
@@ -59,6 +40,25 @@ import eu.strasbourg.utils.OccupationState;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.models.Pair;
+
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Place service. Represents a row in
@@ -497,24 +497,29 @@ public class PlaceImpl extends PlaceBaseImpl {
     /**
      * Retourne une list d'évènements lié à ce lieu
      */
+    /**
     @Override
     public List<Event> getEvents() {
         List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
         return events;
     }
+    */
 
     /**
      * Retourne une list d'évènements lié à ce lieu
      */
+    /**
     @Override
     public List<Event> getPublishedEvents() {
         List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
         return events.stream().filter(e -> e.isApproved()).collect(Collectors.toList());
     }
+    */
 
     /**
      * Retourne une list d'évènements lié à ce lieu
      */
+    /**
     @Override
     public List<Event> getCurrentAndFuturePublishedEvents() {
         final Calendar cal = Calendar.getInstance();
@@ -523,6 +528,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
         return events.stream().filter(e -> e.isApproved() && e.getStartDateFirstCurrentAndFuturePeriod().compareTo(yesterday) > 0).collect(Collectors.toList());
     }
+    */
 
     /**
      * Retourne true si l'événement est accessible pour au moins un type de
@@ -672,6 +678,16 @@ public class PlaceImpl extends PlaceBaseImpl {
     }
 
     /**
+     * Retourne true si le lieu est une patinoire
+     *
+     * @return
+     */
+    @Override
+    public boolean isIceRink() {
+        return this.getRTType().equals("4");
+    }
+
+    /**
      * Retourne le temps réel (en gérant automatiquement le fait que ce soit une
      * piscine,une mairie ou un parking)
      *
@@ -689,7 +705,7 @@ public class PlaceImpl extends PlaceBaseImpl {
     /**
      * Retourne le temps réel (couleur de fond,valeur)
      *
-     * @param type (1 = piscine, 2 = parking, 3 = mairie)
+     * @param type (1 = piscine, 2 = parking, 3 = mairie, 4 = patinoire)
      * @throws Exception
      */
     @Override
@@ -714,6 +730,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         long occupation = 0;
         switch (type) {
             case "1":
+            case "4":
                 // récupération de la période en cours
                 Period periodEnCours = null;
                 for (Period period : this.getPeriods()) {
@@ -1179,8 +1196,8 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
 
         // Tarifs
-        if (Validator.isNotNull(this.getPrice()) && Validator.isNotNull(this.getPrice().getPrice())) {
-            jsonPlace.put("price", JSONHelper.getJSONFromI18nMap(this.getPrice().getPriceMap()));
+        if (Validator.isNotNull(this.getPrice()) && Validator.isNotNull(this.getPrice().getPriceDescription())) {
+            jsonPlace.put("price", JSONHelper.getJSONFromI18nMap(this.getPrice().getPriceDescriptionMap()));
         }
 
         // Mail
@@ -1382,8 +1399,8 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
 
         // Tarifs
-        if (Validator.isNotNull(this.getPrice()) && Validator.isNotNull(this.getPrice().getPrice())) {
-            properties.put("price", JSONHelper.getJSONFromI18nMap(this.getPrice().getPriceMap()));
+        if (Validator.isNotNull(this.getPrice()) && Validator.isNotNull(this.getPrice().getPriceDescription())) {
+            properties.put("price", JSONHelper.getJSONFromI18nMap(this.getPrice().getPriceDescriptionMap()));
         }
 
         // Mail
@@ -1536,7 +1553,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("accessHandicap", accessForDisabled);
 
         jsonPlace.put("urlSiteInternet", this.getSiteURL(Locale.FRANCE));
-        jsonPlace.put("tarifs", this.getPrice() != null ? this.getPrice().getPrice(Locale.FRANCE) : "");
+        jsonPlace.put("tarifs", this.getPrice() != null ? this.getPrice().getPriceDescription(Locale.FRANCE) : "");
         jsonPlace.put("adresse", this.getAddressStreet() + " " + this.getAddressComplement() + "<br />"
                 + this.getAddressZipCode() + " " + this.getCity(Locale.FRANCE) + "<br />" + this.getAddressCountry());
         jsonPlace.put("rue", this.getAddressStreet());
@@ -1804,7 +1821,7 @@ public class PlaceImpl extends PlaceBaseImpl {
             String frequentation = "";
             String label = "";
             String color = occupation.getCssClass();
-            if (this.isSwimmingPool()) {
+            if (this.isSwimmingPool() ||this.isIceRink()) {
                 title = "frequentation-real";
                 frequentation = occupation.getOccupationLabel();
                 label = occupation.getLabel();
@@ -1812,7 +1829,7 @@ public class PlaceImpl extends PlaceBaseImpl {
                 title = "time-real";
                 frequentation = occupation.getOccupationLabel();
                 label = occupation.getLabel();
-            } else {
+            } else if(this.isParking()){
                 title = "occupation-real";
                 frequentation = occupation.getAvailable();
                 label = "available-spots";

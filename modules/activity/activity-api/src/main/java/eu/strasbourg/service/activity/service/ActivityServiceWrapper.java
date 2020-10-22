@@ -26,26 +26,28 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class ActivityServiceWrapper implements ActivityService,
-	ServiceWrapper<ActivityService> {
+public class ActivityServiceWrapper
+	implements ActivityService, ServiceWrapper<ActivityService> {
+
 	public ActivityServiceWrapper(ActivityService activityService) {
 		_activityService = activityService;
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getActivities(
-		long groupId, java.lang.String name, java.lang.String language)
+			long groupId, String name, String language)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _activityService.getActivities(groupId, name, language);
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _activityService.getOSGiServiceIdentifier();
 	}
 
@@ -60,4 +62,5 @@ public class ActivityServiceWrapper implements ActivityService,
 	}
 
 	private ActivityService _activityService;
+
 }

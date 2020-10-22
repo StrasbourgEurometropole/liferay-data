@@ -18,7 +18,6 @@ import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
-import com.liferay.portal.kernel.util.ReflectionUtil;
 
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.service.persistence.EditionPersistence;
@@ -34,16 +33,19 @@ import java.util.Set;
  * @generated
  */
 public class EditionFinderBaseImpl extends BasePersistenceImpl<Edition> {
+
 	public EditionFinderBaseImpl() {
 		setModelClass(Edition.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -79,5 +81,8 @@ public class EditionFinderBaseImpl extends BasePersistenceImpl<Edition> {
 
 	@BeanReference(type = EditionPersistence.class)
 	protected EditionPersistence editionPersistence;
-	private static final Log _log = LogFactoryUtil.getLog(EditionFinderBaseImpl.class);
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		EditionFinderBaseImpl.class);
+
 }

@@ -32,12 +32,13 @@ import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class DeliberationBaseImpl extends DeliberationModelImpl
-	implements Deliberation {
+public abstract class DeliberationBaseImpl
+	extends DeliberationModelImpl implements Deliberation {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a deliberation model instance should use the {@link Deliberation} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a deliberation model instance should use the <code>Deliberation</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class DeliberationBaseImpl extends DeliberationModelImpl
 			DeliberationLocalServiceUtil.updateDeliberation(this);
 		}
 	}
+
 }

@@ -39,31 +39,38 @@ import java.util.*;
  *
  * @author Brian Wing Shun Chan
  * @see DeliberationServiceUtil
- * @see eu.strasbourg.service.council.service.base.DeliberationServiceBaseImpl
- * @see eu.strasbourg.service.council.service.impl.DeliberationServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=council", "json.web.service.context.path=Deliberation"}, service = DeliberationService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=council",
+		"json.web.service.context.path=Deliberation"
+	},
+	service = DeliberationService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface DeliberationService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link DeliberationServiceUtil} to access the deliberation remote service. Add custom service methods to {@link eu.strasbourg.service.council.service.impl.DeliberationServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link DeliberationServiceUtil} to access the deliberation remote service. Add custom service methods to <code>eu.strasbourg.service.council.service.impl.DeliberationServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getUserFront(long officialId,
-		java.lang.String officialDeviceInfo);
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getUserFront(long officialId, String officialDeviceInfo);
+
 }

@@ -12,6 +12,7 @@ import eu.strasbourg.service.social.SocialPost;
 import eu.strasbourg.service.social.SocialService;
 import eu.strasbourg.service.social.instagram.DailymotionThumbnailRatio;
 import eu.strasbourg.service.social.twitter.Tweet;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -24,12 +25,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component(immediate = true, configurationPid = "eu.strasbourg.portlet.social.configuration.SocialWallConfiguration", property = {
-		"com.liferay.portlet.display-category=Strasbourg", "com.liferay.portlet.instanceable=true",
-		"com.liferay.portlet.requires-namespaced-parameters=false",
-		"com.liferay.portlet.css-class-wrapper=social-wall-portlet", "javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/social-view.jsp", "javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+@Component(immediate = true,
+		configurationPid = "eu.strasbourg.portlet.social.configuration.SocialWallConfiguration",
+		property = {
+			"com.liferay.portlet.display-category=Strasbourg",
+			"com.liferay.portlet.instanceable=true",
+			"com.liferay.portlet.requires-namespaced-parameters=false",
+			"com.liferay.portlet.css-class-wrapper=social-wall-portlet",
+			"javax.portlet.init-param.template-path=/",
+			"javax.portlet.init-param.view-template=/social-view.jsp",
+			"javax.portlet.init-param.config-template=/configuration/social-configuration.jsp",
+			"javax.portlet.name=" + StrasbourgPortletKeys.SOCIAL_WALL_WEB,
+			"javax.portlet.resource-bundle=content.Language",
+			"javax.portlet.security-role-ref=power-user,user" },
+		service = Portlet.class)
 public class SocialWallPortlet extends MVCPortlet {
 
 	private Log log = LogFactoryUtil.getLog(this.getClass());

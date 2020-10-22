@@ -179,78 +179,76 @@
 	width:100%
 }
 
-//Controls
-.owl-controls{
-	//Prev, Next
-	.owl-nav{
-		position:absolute;
-		top:50%;
-		margin-top:-15px;
-		left:0;
-		width: 1200px;
-		z-index:0;
-		margin-left: -52.5px;
-		div{
-			width:40px;
-			height:40px;
-			background-color:#fff;
-			font-size: 0;
-			position: relative;
-			@include box-shadow($left:0px, $top:3px, $blur:7px, $color:rgba(0,0,0,0.35));
+//Prev, Next
+.owl-nav{
+	position:absolute;
+	top:50%;
+	margin-top:-15px;
+	left:0;
+	width: 1200px;
+	z-index:0;
+	margin-left: -52.5px;
+	.owl-prev,.owl-next{
+		width:40px;
+		height:40px;
+		background-color:#fff;
+		font-size: 0;
+		position: relative;
+		@include box-shadow($left:0px, $top:3px, $blur:7px, $color:rgba(0,0,0,0.35));
+		@include transition(all 0.3s ease 0s);
+		&:before, &:after{
+			content:'';
+			position:absolute;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+			background-repeat:no-repeat;
+			background-position:center center;
 			@include transition(all 0.3s ease 0s);
-			&:before, &:after{
-				content:'';
-				position:absolute;
-				top:0;
-				left:0;
-				right:0;
-				bottom:0;
-				background-repeat:no-repeat;
-				background-position:center center;
-				@include transition(all 0.3s ease 0s);
-			}
+		}
+		&:after{
+			opacity: 0;
+		}
+		&:before{
+			opacity: 1;
+		}
+		&:hover, &:active, &:focus{
+			@include box-shadow($left:0px, $top:3px, $blur:7px, $color:rgba(0,0,0,0.55));
+			outline: none;
 			&:after{
-				opacity: 0;
-			}
-			&:before{
 				opacity: 1;
 			}
-			&:hover, &:active, &:focus{
-				@include box-shadow($left:0px, $top:3px, $blur:7px, $color:rgba(0,0,0,0.55));
-				&:after{
-					opacity: 1;
-				}
-				&:before{
-					opacity: 0;
-				}
+			&:before{
+				opacity: 0;
 			}
 		}
-		@include RWD(tablet){
-			width: calc(100% + 100px);
-			margin-left: -50px;
-		}
-		@include RWD(mobile){
-			z-index: 1;		
-		}
 	}
-	//Précédent
-	.owl-prev{
-		float:left;
-		&:before{
-			background-image:url(../images/pictos/arrow-left.png);
-		}
-		&:after{
-			background-image:url(../images/pictos/arrow-hover-left.png);
-		}
+	@include RWD(tablet){
+		width: calc(100% + 100px);
+		margin-left: -50px;
 	}
-	//Suivant
-	.owl-next{
-		float:right;
-		&:before{
-			background-image:url(../images/pictos/arrow-right.png);
-		}
-		&:after{
-			background-image:url(../images/pictos/arrow-hover-right.png);
-		}
+	@include RWD(mobile){
+		z-index: 1;		
+	}
+}
+//Précédent
+.owl-prev{
+	float:left;
+	&:before{
+		background-image:url(../images/pictos/arrow-left.png);
+	}
+	&:after{
+		background-image:url(../images/pictos/arrow-hover-left.png);
+	}
+}
+//Suivant
+.owl-next{
+	float:right;
+	&:before{
+		background-image:url(../images/pictos/arrow-right.png);
+	}
+	&:after{
+		background-image:url(../images/pictos/arrow-hover-right.png);
 	}
 }

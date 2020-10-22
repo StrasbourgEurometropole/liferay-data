@@ -30,23 +30,18 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 
 	@Override
-	public String getJspPath(HttpServletRequest request) {
-		return "/configuration/social-configuration.jsp";
-	}
-
-	@Override
 	public void processAction(PortletConfig portletConfig,
 		ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
 		String twitterAccount = ParamUtil.getString(actionRequest, "twitterAccount");
 		setPreference(actionRequest, "twitterAccount", twitterAccount);
-		
-		String instagramToken = ParamUtil.getString(actionRequest, "instagramToken");
-		setPreference(actionRequest, "instagramToken", instagramToken);
 
 		String instagramCreateDate = ParamUtil.getString(actionRequest, "instagramCreateDate");
 		setPreference(actionRequest, "instagramCreateDate", instagramCreateDate);
+
+		String instagramToken = ParamUtil.getString(actionRequest, "instagramToken");
+		setPreference(actionRequest, "instagramToken", instagramToken);
 
 		String dailymotionAccountId = ParamUtil.getString(actionRequest, "dailymotionAccountId");
 		setPreference(actionRequest, "dailymotionAccountId", dailymotionAccountId);

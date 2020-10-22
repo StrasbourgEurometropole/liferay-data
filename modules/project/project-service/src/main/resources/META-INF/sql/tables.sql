@@ -35,7 +35,7 @@ create table project_BudgetParticipatif (
 	crushComment TEXT null,
 	publikId VARCHAR(75) null,
 	imageId LONG,
-	filesIds VARCHAR(75) null,
+	filesIds VARCHAR(400) null,
 	budgetPhaseId LONG,
 	parentId LONG
 );
@@ -111,7 +111,7 @@ create table project_Initiative (
 	assetEntryId LONG,
 	publikId VARCHAR(75) null,
 	imageId LONG,
-	filesIds VARCHAR(75) null,
+	filesIds VARCHAR(400) null,
 	publicationDate DATE null
 );
 
@@ -153,7 +153,7 @@ create table project_Participation (
 	descriptionBody TEXT null,
 	consultationPlacesBody TEXT null,
 	imageId LONG,
-	filesIds VARCHAR(75) null,
+	filesIds VARCHAR(400) null,
 	eventsIds VARCHAR(75) null,
 	publicationDate DATE null,
 	expirationDate DATE null
@@ -197,7 +197,7 @@ create table project_Petition (
 	mediaChoice BOOLEAN,
 	publikId VARCHAR(75) null,
 	imageId LONG,
-	filesIds VARCHAR(75) null
+	filesIds VARCHAR(400) null
 );
 
 create table project_PlacitPlace (

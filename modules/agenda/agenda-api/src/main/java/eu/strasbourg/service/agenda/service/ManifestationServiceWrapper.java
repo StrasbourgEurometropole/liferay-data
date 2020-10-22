@@ -26,32 +26,36 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class ManifestationServiceWrapper implements ManifestationService,
-	ServiceWrapper<ManifestationService> {
+public class ManifestationServiceWrapper
+	implements ManifestationService, ServiceWrapper<ManifestationService> {
+
 	public ManifestationServiceWrapper(
 		ManifestationService manifestationService) {
-		_manifestationService = manifestationService;
-	}
 
-	@Override
-	public com.liferay.portal.kernel.json.JSONArray getManifestations()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _manifestationService.getManifestations();
+		_manifestationService = manifestationService;
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getManifestation(long id)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _manifestationService.getManifestation(id);
 	}
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public com.liferay.portal.kernel.json.JSONArray getManifestations()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _manifestationService.getManifestations();
+	}
+
+	/**
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	@Override
+	public String getOSGiServiceIdentifier() {
 		return _manifestationService.getOSGiServiceIdentifier();
 	}
 
@@ -66,4 +70,5 @@ public class ManifestationServiceWrapper implements ManifestationService,
 	}
 
 	private ManifestationService _manifestationService;
+
 }

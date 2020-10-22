@@ -17,9 +17,7 @@ package eu.strasbourg.service.council.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -40,8 +38,9 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class DeliberationWrapper implements Deliberation,
-	ModelWrapper<Deliberation> {
+public class DeliberationWrapper
+	implements Deliberation, ModelWrapper<Deliberation> {
+
 	public DeliberationWrapper(Deliberation deliberation) {
 		_deliberation = deliberation;
 	}
@@ -175,14 +174,14 @@ public class DeliberationWrapper implements Deliberation,
 		}
 
 		Integer countOfficialsVoting = (Integer)attributes.get(
-				"countOfficialsVoting");
+			"countOfficialsVoting");
 
 		if (countOfficialsVoting != null) {
 			setCountOfficialsVoting(countOfficialsVoting);
 		}
 
 		Integer countOfficialsActive = (Integer)attributes.get(
-				"countOfficialsActive");
+			"countOfficialsActive");
 
 		if (countOfficialsActive != null) {
 			setCountOfficialsActive(countOfficialsActive);
@@ -196,6 +195,268 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	@Override
+	public Object clone() {
+		return new DeliberationWrapper((Deliberation)_deliberation.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.council.model.Deliberation deliberation) {
+
+		return _deliberation.compareTo(deliberation);
+	}
+
+	/**
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _deliberation.getAssetEntry();
+	}
+
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories() {
+
+		return _deliberation.getCategories();
+	}
+
+	/**
+	 * Returns the company ID of this deliberation.
+	 *
+	 * @return the company ID of this deliberation
+	 */
+	@Override
+	public long getCompanyId() {
+		return _deliberation.getCompanyId();
+	}
+
+	@Override
+	public eu.strasbourg.service.council.model.CouncilSession
+		getCouncilSession() {
+
+		return _deliberation.getCouncilSession();
+	}
+
+	/**
+	 * Returns the council session ID of this deliberation.
+	 *
+	 * @return the council session ID of this deliberation
+	 */
+	@Override
+	public long getCouncilSessionId() {
+		return _deliberation.getCouncilSessionId();
+	}
+
+	/**
+	 * Returns the count officials active of this deliberation.
+	 *
+	 * @return the count officials active of this deliberation
+	 */
+	@Override
+	public int getCountOfficialsActive() {
+		return _deliberation.getCountOfficialsActive();
+	}
+
+	/**
+	 * Returns the count officials voting of this deliberation.
+	 *
+	 * @return the count officials voting of this deliberation
+	 */
+	@Override
+	public int getCountOfficialsVoting() {
+		return _deliberation.getCountOfficialsVoting();
+	}
+
+	/**
+	 * Returns the create date of this deliberation.
+	 *
+	 * @return the create date of this deliberation
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _deliberation.getCreateDate();
+	}
+
+	/**
+	 * Returns the deliberation ID of this deliberation.
+	 *
+	 * @return the deliberation ID of this deliberation
+	 */
+	@Override
+	public long getDeliberationId() {
+		return _deliberation.getDeliberationId();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _deliberation.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the group ID of this deliberation.
+	 *
+	 * @return the group ID of this deliberation
+	 */
+	@Override
+	public long getGroupId() {
+		return _deliberation.getGroupId();
+	}
+
+	/**
+	 * Returns the modified date of this deliberation.
+	 *
+	 * @return the modified date of this deliberation
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return _deliberation.getModifiedDate();
+	}
+
+	/**
+	 * Returns the order of this deliberation.
+	 *
+	 * @return the order of this deliberation
+	 */
+	@Override
+	public int getOrder() {
+		return _deliberation.getOrder();
+	}
+
+	/**
+	 * Returns the primary key of this deliberation.
+	 *
+	 * @return the primary key of this deliberation
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _deliberation.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _deliberation.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the stage of this deliberation.
+	 *
+	 * @return the stage of this deliberation
+	 */
+	@Override
+	public String getStage() {
+		return _deliberation.getStage();
+	}
+
+	/**
+	 * Returns the status of this deliberation.
+	 *
+	 * @return the status of this deliberation
+	 */
+	@Override
+	public int getStatus() {
+		return _deliberation.getStatus();
+	}
+
+	/**
+	 * Returns the status by user ID of this deliberation.
+	 *
+	 * @return the status by user ID of this deliberation
+	 */
+	@Override
+	public long getStatusByUserId() {
+		return _deliberation.getStatusByUserId();
+	}
+
+	/**
+	 * Returns the status by user name of this deliberation.
+	 *
+	 * @return the status by user name of this deliberation
+	 */
+	@Override
+	public String getStatusByUserName() {
+		return _deliberation.getStatusByUserName();
+	}
+
+	/**
+	 * Returns the status by user uuid of this deliberation.
+	 *
+	 * @return the status by user uuid of this deliberation
+	 */
+	@Override
+	public String getStatusByUserUuid() {
+		return _deliberation.getStatusByUserUuid();
+	}
+
+	/**
+	 * Returns the status date of this deliberation.
+	 *
+	 * @return the status date of this deliberation
+	 */
+	@Override
+	public Date getStatusDate() {
+		return _deliberation.getStatusDate();
+	}
+
+	/**
+	 * Returns the title of this deliberation.
+	 *
+	 * @return the title of this deliberation
+	 */
+	@Override
+	public String getTitle() {
+		return _deliberation.getTitle();
+	}
+
+	/**
+	 * Returns the user ID of this deliberation.
+	 *
+	 * @return the user ID of this deliberation
+	 */
+	@Override
+	public long getUserId() {
+		return _deliberation.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this deliberation.
+	 *
+	 * @return the user name of this deliberation
+	 */
+	@Override
+	public String getUserName() {
+		return _deliberation.getUserName();
+	}
+
+	/**
+	 * Returns the user uuid of this deliberation.
+	 *
+	 * @return the user uuid of this deliberation
+	 */
+	@Override
+	public String getUserUuid() {
+		return _deliberation.getUserUuid();
+	}
+
+	/**
+	 * Returns the uuid of this deliberation.
+	 *
+	 * @return the uuid of this deliberation
+	 */
+	@Override
+	public String getUuid() {
+		return _deliberation.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _deliberation.hashCode();
+	}
+
+	@Override
 	public boolean isAdopte() {
 		return _deliberation.isAdopte();
 	}
@@ -206,10 +467,10 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
-	* Returns <code>true</code> if this deliberation is approved.
-	*
-	* @return <code>true</code> if this deliberation is approved; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this deliberation is approved.
+	 *
+	 * @return <code>true</code> if this deliberation is approved; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isApproved() {
 		return _deliberation.isApproved();
@@ -231,20 +492,20 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
-	* Returns <code>true</code> if this deliberation is denied.
-	*
-	* @return <code>true</code> if this deliberation is denied; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this deliberation is denied.
+	 *
+	 * @return <code>true</code> if this deliberation is denied; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDenied() {
 		return _deliberation.isDenied();
 	}
 
 	/**
-	* Returns <code>true</code> if this deliberation is a draft.
-	*
-	* @return <code>true</code> if this deliberation is a draft; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this deliberation is a draft.
+	 *
+	 * @return <code>true</code> if this deliberation is a draft; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDraft() {
 		return _deliberation.isDraft();
@@ -256,30 +517,30 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
-	* Returns <code>true</code> if this deliberation is expired.
-	*
-	* @return <code>true</code> if this deliberation is expired; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this deliberation is expired.
+	 *
+	 * @return <code>true</code> if this deliberation is expired; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isExpired() {
 		return _deliberation.isExpired();
 	}
 
 	/**
-	* Returns <code>true</code> if this deliberation is inactive.
-	*
-	* @return <code>true</code> if this deliberation is inactive; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this deliberation is inactive.
+	 *
+	 * @return <code>true</code> if this deliberation is inactive; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isInactive() {
 		return _deliberation.isInactive();
 	}
 
 	/**
-	* Returns <code>true</code> if this deliberation is incomplete.
-	*
-	* @return <code>true</code> if this deliberation is incomplete; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this deliberation is incomplete.
+	 *
+	 * @return <code>true</code> if this deliberation is incomplete; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isIncomplete() {
 		return _deliberation.isIncomplete();
@@ -291,10 +552,10 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
-	* Returns <code>true</code> if this deliberation is pending.
-	*
-	* @return <code>true</code> if this deliberation is pending; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this deliberation is pending.
+	 *
+	 * @return <code>true</code> if this deliberation is pending; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isPending() {
 		return _deliberation.isPending();
@@ -311,10 +572,10 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
-	* Returns <code>true</code> if this deliberation is scheduled.
-	*
-	* @return <code>true</code> if this deliberation is scheduled; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this deliberation is scheduled.
+	 *
+	 * @return <code>true</code> if this deliberation is scheduled; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isScheduled() {
 		return _deliberation.isScheduled();
@@ -323,288 +584,6 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public boolean isVoteOuvert() {
 		return _deliberation.isVoteOuvert();
-	}
-
-	/**
-	* Retourne l'AssetEntry rattaché cet item
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _deliberation.getAssetEntry();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _deliberation.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.council.model.Deliberation> toCacheModel() {
-		return _deliberation.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.CouncilSession getCouncilSession() {
-		return _deliberation.getCouncilSession();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.Deliberation toEscapedModel() {
-		return new DeliberationWrapper(_deliberation.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.Deliberation toUnescapedModel() {
-		return new DeliberationWrapper(_deliberation.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.council.model.Deliberation deliberation) {
-		return _deliberation.compareTo(deliberation);
-	}
-
-	/**
-	* Returns the count officials active of this deliberation.
-	*
-	* @return the count officials active of this deliberation
-	*/
-	@Override
-	public int getCountOfficialsActive() {
-		return _deliberation.getCountOfficialsActive();
-	}
-
-	/**
-	* Returns the count officials voting of this deliberation.
-	*
-	* @return the count officials voting of this deliberation
-	*/
-	@Override
-	public int getCountOfficialsVoting() {
-		return _deliberation.getCountOfficialsVoting();
-	}
-
-	/**
-	* Returns the order of this deliberation.
-	*
-	* @return the order of this deliberation
-	*/
-	@Override
-	public int getOrder() {
-		return _deliberation.getOrder();
-	}
-
-	/**
-	* Returns the status of this deliberation.
-	*
-	* @return the status of this deliberation
-	*/
-	@Override
-	public int getStatus() {
-		return _deliberation.getStatus();
-	}
-
-	@Override
-	public int hashCode() {
-		return _deliberation.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _deliberation.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new DeliberationWrapper((Deliberation)_deliberation.clone());
-	}
-
-	/**
-	* Returns the stage of this deliberation.
-	*
-	* @return the stage of this deliberation
-	*/
-	@Override
-	public java.lang.String getStage() {
-		return _deliberation.getStage();
-	}
-
-	/**
-	* Returns the status by user name of this deliberation.
-	*
-	* @return the status by user name of this deliberation
-	*/
-	@Override
-	public java.lang.String getStatusByUserName() {
-		return _deliberation.getStatusByUserName();
-	}
-
-	/**
-	* Returns the status by user uuid of this deliberation.
-	*
-	* @return the status by user uuid of this deliberation
-	*/
-	@Override
-	public java.lang.String getStatusByUserUuid() {
-		return _deliberation.getStatusByUserUuid();
-	}
-
-	/**
-	* Returns the title of this deliberation.
-	*
-	* @return the title of this deliberation
-	*/
-	@Override
-	public java.lang.String getTitle() {
-		return _deliberation.getTitle();
-	}
-
-	/**
-	* Returns the user name of this deliberation.
-	*
-	* @return the user name of this deliberation
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _deliberation.getUserName();
-	}
-
-	/**
-	* Returns the user uuid of this deliberation.
-	*
-	* @return the user uuid of this deliberation
-	*/
-	@Override
-	public java.lang.String getUserUuid() {
-		return _deliberation.getUserUuid();
-	}
-
-	/**
-	* Returns the uuid of this deliberation.
-	*
-	* @return the uuid of this deliberation
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _deliberation.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _deliberation.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _deliberation.toXmlString();
-	}
-
-	/**
-	* Returns the create date of this deliberation.
-	*
-	* @return the create date of this deliberation
-	*/
-	@Override
-	public Date getCreateDate() {
-		return _deliberation.getCreateDate();
-	}
-
-	/**
-	* Returns the modified date of this deliberation.
-	*
-	* @return the modified date of this deliberation
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return _deliberation.getModifiedDate();
-	}
-
-	/**
-	* Returns the status date of this deliberation.
-	*
-	* @return the status date of this deliberation
-	*/
-	@Override
-	public Date getStatusDate() {
-		return _deliberation.getStatusDate();
-	}
-
-	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
-	*/
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
-		return _deliberation.getCategories();
-	}
-
-	/**
-	* Returns the company ID of this deliberation.
-	*
-	* @return the company ID of this deliberation
-	*/
-	@Override
-	public long getCompanyId() {
-		return _deliberation.getCompanyId();
-	}
-
-	/**
-	* Returns the council session ID of this deliberation.
-	*
-	* @return the council session ID of this deliberation
-	*/
-	@Override
-	public long getCouncilSessionId() {
-		return _deliberation.getCouncilSessionId();
-	}
-
-	/**
-	* Returns the deliberation ID of this deliberation.
-	*
-	* @return the deliberation ID of this deliberation
-	*/
-	@Override
-	public long getDeliberationId() {
-		return _deliberation.getDeliberationId();
-	}
-
-	/**
-	* Returns the group ID of this deliberation.
-	*
-	* @return the group ID of this deliberation
-	*/
-	@Override
-	public long getGroupId() {
-		return _deliberation.getGroupId();
-	}
-
-	/**
-	* Returns the primary key of this deliberation.
-	*
-	* @return the primary key of this deliberation
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _deliberation.getPrimaryKey();
-	}
-
-	/**
-	* Returns the status by user ID of this deliberation.
-	*
-	* @return the status by user ID of this deliberation
-	*/
-	@Override
-	public long getStatusByUserId() {
-		return _deliberation.getStatusByUserId();
-	}
-
-	/**
-	* Returns the user ID of this deliberation.
-	*
-	* @return the user ID of this deliberation
-	*/
-	@Override
-	public long getUserId() {
-		return _deliberation.getUserId();
 	}
 
 	@Override
@@ -618,63 +597,70 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
-	* Sets the company ID of this deliberation.
-	*
-	* @param companyId the company ID of this deliberation
-	*/
+	 * Sets the company ID of this deliberation.
+	 *
+	 * @param companyId the company ID of this deliberation
+	 */
 	@Override
 	public void setCompanyId(long companyId) {
 		_deliberation.setCompanyId(companyId);
 	}
 
 	/**
-	* Sets the council session ID of this deliberation.
-	*
-	* @param councilSessionId the council session ID of this deliberation
-	*/
+	 * Sets the council session ID of this deliberation.
+	 *
+	 * @param councilSessionId the council session ID of this deliberation
+	 */
 	@Override
 	public void setCouncilSessionId(long councilSessionId) {
 		_deliberation.setCouncilSessionId(councilSessionId);
 	}
 
 	/**
-	* Sets the count officials active of this deliberation.
-	*
-	* @param countOfficialsActive the count officials active of this deliberation
-	*/
+	 * Sets the count officials active of this deliberation.
+	 *
+	 * @param countOfficialsActive the count officials active of this deliberation
+	 */
 	@Override
 	public void setCountOfficialsActive(int countOfficialsActive) {
 		_deliberation.setCountOfficialsActive(countOfficialsActive);
 	}
 
 	/**
-	* Sets the count officials voting of this deliberation.
-	*
-	* @param countOfficialsVoting the count officials voting of this deliberation
-	*/
+	 * Sets the count officials voting of this deliberation.
+	 *
+	 * @param countOfficialsVoting the count officials voting of this deliberation
+	 */
 	@Override
 	public void setCountOfficialsVoting(int countOfficialsVoting) {
 		_deliberation.setCountOfficialsVoting(countOfficialsVoting);
 	}
 
 	/**
-	* Sets the create date of this deliberation.
-	*
-	* @param createDate the create date of this deliberation
-	*/
+	 * Sets the create date of this deliberation.
+	 *
+	 * @param createDate the create date of this deliberation
+	 */
 	@Override
 	public void setCreateDate(Date createDate) {
 		_deliberation.setCreateDate(createDate);
 	}
 
 	/**
-	* Sets the deliberation ID of this deliberation.
-	*
-	* @param deliberationId the deliberation ID of this deliberation
-	*/
+	 * Sets the deliberation ID of this deliberation.
+	 *
+	 * @param deliberationId the deliberation ID of this deliberation
+	 */
 	@Override
 	public void setDeliberationId(long deliberationId) {
 		_deliberation.setDeliberationId(deliberationId);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_deliberation.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -683,31 +669,25 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_deliberation.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_deliberation.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the group ID of this deliberation.
-	*
-	* @param groupId the group ID of this deliberation
-	*/
+	 * Sets the group ID of this deliberation.
+	 *
+	 * @param groupId the group ID of this deliberation
+	 */
 	@Override
 	public void setGroupId(long groupId) {
 		_deliberation.setGroupId(groupId);
 	}
 
 	/**
-	* Sets the modified date of this deliberation.
-	*
-	* @param modifiedDate the modified date of this deliberation
-	*/
+	 * Sets the modified date of this deliberation.
+	 *
+	 * @param modifiedDate the modified date of this deliberation
+	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_deliberation.setModifiedDate(modifiedDate);
@@ -719,20 +699,20 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
-	* Sets the order of this deliberation.
-	*
-	* @param order the order of this deliberation
-	*/
+	 * Sets the order of this deliberation.
+	 *
+	 * @param order the order of this deliberation
+	 */
 	@Override
 	public void setOrder(int order) {
 		_deliberation.setOrder(order);
 	}
 
 	/**
-	* Sets the primary key of this deliberation.
-	*
-	* @param primaryKey the primary key of this deliberation
-	*/
+	 * Sets the primary key of this deliberation.
+	 *
+	 * @param primaryKey the primary key of this deliberation
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_deliberation.setPrimaryKey(primaryKey);
@@ -744,113 +724,140 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
-	* Sets the stage of this deliberation.
-	*
-	* @param stage the stage of this deliberation
-	*/
+	 * Sets the stage of this deliberation.
+	 *
+	 * @param stage the stage of this deliberation
+	 */
 	@Override
-	public void setStage(java.lang.String stage) {
+	public void setStage(String stage) {
 		_deliberation.setStage(stage);
 	}
 
 	/**
-	* Sets the status of this deliberation.
-	*
-	* @param status the status of this deliberation
-	*/
+	 * Sets the status of this deliberation.
+	 *
+	 * @param status the status of this deliberation
+	 */
 	@Override
 	public void setStatus(int status) {
 		_deliberation.setStatus(status);
 	}
 
 	/**
-	* Sets the status by user ID of this deliberation.
-	*
-	* @param statusByUserId the status by user ID of this deliberation
-	*/
+	 * Sets the status by user ID of this deliberation.
+	 *
+	 * @param statusByUserId the status by user ID of this deliberation
+	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
 		_deliberation.setStatusByUserId(statusByUserId);
 	}
 
 	/**
-	* Sets the status by user name of this deliberation.
-	*
-	* @param statusByUserName the status by user name of this deliberation
-	*/
+	 * Sets the status by user name of this deliberation.
+	 *
+	 * @param statusByUserName the status by user name of this deliberation
+	 */
 	@Override
-	public void setStatusByUserName(java.lang.String statusByUserName) {
+	public void setStatusByUserName(String statusByUserName) {
 		_deliberation.setStatusByUserName(statusByUserName);
 	}
 
 	/**
-	* Sets the status by user uuid of this deliberation.
-	*
-	* @param statusByUserUuid the status by user uuid of this deliberation
-	*/
+	 * Sets the status by user uuid of this deliberation.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this deliberation
+	 */
 	@Override
-	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+	public void setStatusByUserUuid(String statusByUserUuid) {
 		_deliberation.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
-	* Sets the status date of this deliberation.
-	*
-	* @param statusDate the status date of this deliberation
-	*/
+	 * Sets the status date of this deliberation.
+	 *
+	 * @param statusDate the status date of this deliberation
+	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_deliberation.setStatusDate(statusDate);
 	}
 
 	/**
-	* Sets the title of this deliberation.
-	*
-	* @param title the title of this deliberation
-	*/
+	 * Sets the title of this deliberation.
+	 *
+	 * @param title the title of this deliberation
+	 */
 	@Override
-	public void setTitle(java.lang.String title) {
+	public void setTitle(String title) {
 		_deliberation.setTitle(title);
 	}
 
 	/**
-	* Sets the user ID of this deliberation.
-	*
-	* @param userId the user ID of this deliberation
-	*/
+	 * Sets the user ID of this deliberation.
+	 *
+	 * @param userId the user ID of this deliberation
+	 */
 	@Override
 	public void setUserId(long userId) {
 		_deliberation.setUserId(userId);
 	}
 
 	/**
-	* Sets the user name of this deliberation.
-	*
-	* @param userName the user name of this deliberation
-	*/
+	 * Sets the user name of this deliberation.
+	 *
+	 * @param userName the user name of this deliberation
+	 */
 	@Override
-	public void setUserName(java.lang.String userName) {
+	public void setUserName(String userName) {
 		_deliberation.setUserName(userName);
 	}
 
 	/**
-	* Sets the user uuid of this deliberation.
-	*
-	* @param userUuid the user uuid of this deliberation
-	*/
+	 * Sets the user uuid of this deliberation.
+	 *
+	 * @param userUuid the user uuid of this deliberation
+	 */
 	@Override
-	public void setUserUuid(java.lang.String userUuid) {
+	public void setUserUuid(String userUuid) {
 		_deliberation.setUserUuid(userUuid);
 	}
 
 	/**
-	* Sets the uuid of this deliberation.
-	*
-	* @param uuid the uuid of this deliberation
-	*/
+	 * Sets the uuid of this deliberation.
+	 *
+	 * @param uuid the uuid of this deliberation
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_deliberation.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.council.model.Deliberation> toCacheModel() {
+
+		return _deliberation.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.council.model.Deliberation toEscapedModel() {
+		return new DeliberationWrapper(_deliberation.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _deliberation.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.council.model.Deliberation toUnescapedModel() {
+		return new DeliberationWrapper(_deliberation.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _deliberation.toXmlString();
 	}
 
 	@Override
@@ -898,4 +905,5 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	private final Deliberation _deliberation;
+
 }

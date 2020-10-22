@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
-
 import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
 import com.liferay.exportimport.kernel.lar.ManifestSummary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -27,7 +26,6 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -56,6 +54,7 @@ import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
+import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -92,17 +91,17 @@ import javax.sql.DataSource;
  *
  * @author BenjaminBini
  * @see eu.strasbourg.service.agenda.service.impl.AgendaExportLocalServiceImpl
- * @see eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil
  * @generated
  */
 @ProviderType
 public abstract class AgendaExportLocalServiceBaseImpl
-	extends BaseLocalServiceImpl implements AgendaExportLocalService,
-		IdentifiableOSGiService {
+	extends BaseLocalServiceImpl
+	implements AgendaExportLocalService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil} to access the agenda export local service.
+	 * Never modify or reference this class directly. Use <code>AgendaExportLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -126,6 +125,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @return the new agenda export
 	 */
 	@Override
+	@Transactional(enabled = false)
 	public AgendaExport createAgendaExport(long agendaExportId) {
 		return agendaExportPersistence.create(agendaExportId);
 	}
@@ -141,6 +141,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	@Override
 	public AgendaExport deleteAgendaExport(long agendaExportId)
 		throws PortalException {
+
 		return agendaExportPersistence.remove(agendaExportId);
 	}
 
@@ -160,8 +161,8 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	public DynamicQuery dynamicQuery() {
 		Class<?> clazz = getClass();
 
-		return DynamicQueryFactoryUtil.forClass(AgendaExport.class,
-			clazz.getClassLoader());
+		return DynamicQueryFactoryUtil.forClass(
+			AgendaExport.class, clazz.getClassLoader());
 	}
 
 	/**
@@ -179,7 +180,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.agenda.model.impl.AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -188,17 +189,18 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @return the range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end) {
-		return agendaExportPersistence.findWithDynamicQuery(dynamicQuery,
-			start, end);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
+
+		return agendaExportPersistence.findWithDynamicQuery(
+			dynamicQuery, start, end);
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.agenda.model.impl.AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -208,10 +210,12 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @return the ordered range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end, OrderByComparator<T> orderByComparator) {
-		return agendaExportPersistence.findWithDynamicQuery(dynamicQuery,
-			start, end, orderByComparator);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
+
+		return agendaExportPersistence.findWithDynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
@@ -233,10 +237,11 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @return the number of rows matching the dynamic query
 	 */
 	@Override
-	public long dynamicQueryCount(DynamicQuery dynamicQuery,
-		Projection projection) {
-		return agendaExportPersistence.countWithDynamicQuery(dynamicQuery,
-			projection);
+	public long dynamicQueryCount(
+		DynamicQuery dynamicQuery, Projection projection) {
+
+		return agendaExportPersistence.countWithDynamicQuery(
+			dynamicQuery, projection);
 	}
 
 	@Override
@@ -252,8 +257,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @return the matching agenda export, or <code>null</code> if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport fetchAgendaExportByUuidAndGroupId(String uuid,
-		long groupId) {
+	public AgendaExport fetchAgendaExportByUuidAndGroupId(
+		String uuid, long groupId) {
+
 		return agendaExportPersistence.fetchByUUID_G(uuid, groupId);
 	}
 
@@ -267,12 +273,14 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	@Override
 	public AgendaExport getAgendaExport(long agendaExportId)
 		throws PortalException {
+
 		return agendaExportPersistence.findByPrimaryKey(agendaExportId);
 	}
 
 	@Override
 	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery = new DefaultActionableDynamicQuery();
+		ActionableDynamicQuery actionableDynamicQuery =
+			new DefaultActionableDynamicQuery();
 
 		actionableDynamicQuery.setBaseLocalService(agendaExportLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
@@ -284,10 +292,14 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	}
 
 	@Override
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery = new IndexableActionableDynamicQuery();
+	public IndexableActionableDynamicQuery
+		getIndexableActionableDynamicQuery() {
 
-		indexableActionableDynamicQuery.setBaseLocalService(agendaExportLocalService);
+		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+			new IndexableActionableDynamicQuery();
+
+		indexableActionableDynamicQuery.setBaseLocalService(
+			agendaExportLocalService);
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
 		indexableActionableDynamicQuery.setModelClass(AgendaExport.class);
 
@@ -299,6 +311,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 
 	protected void initActionableDynamicQuery(
 		ActionableDynamicQuery actionableDynamicQuery) {
+
 		actionableDynamicQuery.setBaseLocalService(agendaExportLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(AgendaExport.class);
@@ -309,48 +322,59 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	@Override
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		final PortletDataContext portletDataContext) {
-		final ExportActionableDynamicQuery exportActionableDynamicQuery = new ExportActionableDynamicQuery() {
+
+		final ExportActionableDynamicQuery exportActionableDynamicQuery =
+			new ExportActionableDynamicQuery() {
+
 				@Override
 				public long performCount() throws PortalException {
-					ManifestSummary manifestSummary = portletDataContext.getManifestSummary();
+					ManifestSummary manifestSummary =
+						portletDataContext.getManifestSummary();
 
 					StagedModelType stagedModelType = getStagedModelType();
 
 					long modelAdditionCount = super.performCount();
 
-					manifestSummary.addModelAdditionCount(stagedModelType,
-						modelAdditionCount);
+					manifestSummary.addModelAdditionCount(
+						stagedModelType, modelAdditionCount);
 
-					long modelDeletionCount = ExportImportHelperUtil.getModelDeletionCount(portletDataContext,
-							stagedModelType);
+					long modelDeletionCount =
+						ExportImportHelperUtil.getModelDeletionCount(
+							portletDataContext, stagedModelType);
 
-					manifestSummary.addModelDeletionCount(stagedModelType,
-						modelDeletionCount);
+					manifestSummary.addModelDeletionCount(
+						stagedModelType, modelDeletionCount);
 
 					return modelAdditionCount;
 				}
+
 			};
 
 		initActionableDynamicQuery(exportActionableDynamicQuery);
 
-		exportActionableDynamicQuery.setAddCriteriaMethod(new ActionableDynamicQuery.AddCriteriaMethod() {
+		exportActionableDynamicQuery.setAddCriteriaMethod(
+			new ActionableDynamicQuery.AddCriteriaMethod() {
+
 				@Override
 				public void addCriteria(DynamicQuery dynamicQuery) {
-					Criterion modifiedDateCriterion = portletDataContext.getDateRangeCriteria(
-							"modifiedDate");
+					Criterion modifiedDateCriterion =
+						portletDataContext.getDateRangeCriteria("modifiedDate");
 
 					if (modifiedDateCriterion != null) {
-						Conjunction conjunction = RestrictionsFactoryUtil.conjunction();
+						Conjunction conjunction =
+							RestrictionsFactoryUtil.conjunction();
 
 						conjunction.add(modifiedDateCriterion);
 
-						Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
+						Disjunction disjunction =
+							RestrictionsFactoryUtil.disjunction();
 
-						disjunction.add(RestrictionsFactoryUtil.gtProperty(
+						disjunction.add(
+							RestrictionsFactoryUtil.gtProperty(
 								"modifiedDate", "lastPublishDate"));
 
-						Property lastPublishDateProperty = PropertyFactoryUtil.forName(
-								"lastPublishDate");
+						Property lastPublishDateProperty =
+							PropertyFactoryUtil.forName("lastPublishDate");
 
 						disjunction.add(lastPublishDateProperty.isNull());
 
@@ -359,12 +383,14 @@ public abstract class AgendaExportLocalServiceBaseImpl
 						modifiedDateCriterion = conjunction;
 					}
 
-					Criterion statusDateCriterion = portletDataContext.getDateRangeCriteria(
-							"statusDate");
+					Criterion statusDateCriterion =
+						portletDataContext.getDateRangeCriteria("statusDate");
 
 					if ((modifiedDateCriterion != null) &&
-							(statusDateCriterion != null)) {
-						Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
+						(statusDateCriterion != null)) {
+
+						Disjunction disjunction =
+							RestrictionsFactoryUtil.disjunction();
 
 						disjunction.add(modifiedDateCriterion);
 						disjunction.add(statusDateCriterion);
@@ -372,35 +398,49 @@ public abstract class AgendaExportLocalServiceBaseImpl
 						dynamicQuery.add(disjunction);
 					}
 
-					Property workflowStatusProperty = PropertyFactoryUtil.forName(
-							"status");
+					Property workflowStatusProperty =
+						PropertyFactoryUtil.forName("status");
 
 					if (portletDataContext.isInitialPublication()) {
-						dynamicQuery.add(workflowStatusProperty.ne(
+						dynamicQuery.add(
+							workflowStatusProperty.ne(
 								WorkflowConstants.STATUS_IN_TRASH));
 					}
 					else {
-						StagedModelDataHandler<?> stagedModelDataHandler = StagedModelDataHandlerRegistryUtil.getStagedModelDataHandler(AgendaExport.class.getName());
+						StagedModelDataHandler<?> stagedModelDataHandler =
+							StagedModelDataHandlerRegistryUtil.
+								getStagedModelDataHandler(
+									AgendaExport.class.getName());
 
-						dynamicQuery.add(workflowStatusProperty.in(
-								stagedModelDataHandler.getExportableStatuses()));
+						dynamicQuery.add(
+							workflowStatusProperty.in(
+								stagedModelDataHandler.
+									getExportableStatuses()));
 					}
 				}
+
 			});
 
-		exportActionableDynamicQuery.setCompanyId(portletDataContext.getCompanyId());
+		exportActionableDynamicQuery.setCompanyId(
+			portletDataContext.getCompanyId());
 
-		exportActionableDynamicQuery.setGroupId(portletDataContext.getScopeGroupId());
+		exportActionableDynamicQuery.setGroupId(
+			portletDataContext.getScopeGroupId());
 
-		exportActionableDynamicQuery.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<AgendaExport>() {
+		exportActionableDynamicQuery.setPerformActionMethod(
+			new ActionableDynamicQuery.PerformActionMethod<AgendaExport>() {
+
 				@Override
 				public void performAction(AgendaExport agendaExport)
 					throws PortalException {
-					StagedModelDataHandlerUtil.exportStagedModel(portletDataContext,
-						agendaExport);
+
+					StagedModelDataHandlerUtil.exportStagedModel(
+						portletDataContext, agendaExport);
 				}
+
 			});
-		exportActionableDynamicQuery.setStagedModelType(new StagedModelType(
+		exportActionableDynamicQuery.setStagedModelType(
+			new StagedModelType(
 				PortalUtil.getClassNameId(AgendaExport.class.getName())));
 
 		return exportActionableDynamicQuery;
@@ -412,12 +452,15 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
-		return agendaExportLocalService.deleteAgendaExport((AgendaExport)persistedModel);
+
+		return agendaExportLocalService.deleteAgendaExport(
+			(AgendaExport)persistedModel);
 	}
 
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
+
 		return agendaExportPersistence.findByPrimaryKey(primaryKeyObj);
 	}
 
@@ -429,8 +472,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @return the matching agenda exports, or an empty list if no matches were found
 	 */
 	@Override
-	public List<AgendaExport> getAgendaExportsByUuidAndCompanyId(String uuid,
-		long companyId) {
+	public List<AgendaExport> getAgendaExportsByUuidAndCompanyId(
+		String uuid, long companyId) {
+
 		return agendaExportPersistence.findByUuid_C(uuid, companyId);
 	}
 
@@ -445,11 +489,12 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @return the range of matching agenda exports, or an empty list if no matches were found
 	 */
 	@Override
-	public List<AgendaExport> getAgendaExportsByUuidAndCompanyId(String uuid,
-		long companyId, int start, int end,
+	public List<AgendaExport> getAgendaExportsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
 		OrderByComparator<AgendaExport> orderByComparator) {
-		return agendaExportPersistence.findByUuid_C(uuid, companyId, start,
-			end, orderByComparator);
+
+		return agendaExportPersistence.findByUuid_C(
+			uuid, companyId, start, end, orderByComparator);
 	}
 
 	/**
@@ -461,8 +506,10 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @throws PortalException if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport getAgendaExportByUuidAndGroupId(String uuid,
-		long groupId) throws PortalException {
+	public AgendaExport getAgendaExportByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
+
 		return agendaExportPersistence.findByUUID_G(uuid, groupId);
 	}
 
@@ -470,7 +517,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * Returns a range of all the agenda exports.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.agenda.model.impl.AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of agenda exports
@@ -520,6 +567,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 */
 	public void setAgendaExportLocalService(
 		AgendaExportLocalService agendaExportLocalService) {
+
 		this.agendaExportLocalService = agendaExportLocalService;
 	}
 
@@ -539,6 +587,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 */
 	public void setAgendaExportPersistence(
 		AgendaExportPersistence agendaExportPersistence) {
+
 		this.agendaExportPersistence = agendaExportPersistence;
 	}
 
@@ -547,7 +596,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the agenda export period local service
 	 */
-	public eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService getAgendaExportPeriodLocalService() {
+	public eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService
+		getAgendaExportPeriodLocalService() {
+
 		return agendaExportPeriodLocalService;
 	}
 
@@ -557,7 +608,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param agendaExportPeriodLocalService the agenda export period local service
 	 */
 	public void setAgendaExportPeriodLocalService(
-		eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService agendaExportPeriodLocalService) {
+		eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService
+			agendaExportPeriodLocalService) {
+
 		this.agendaExportPeriodLocalService = agendaExportPeriodLocalService;
 	}
 
@@ -577,6 +630,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 */
 	public void setAgendaExportPeriodPersistence(
 		AgendaExportPeriodPersistence agendaExportPeriodPersistence) {
+
 		this.agendaExportPeriodPersistence = agendaExportPeriodPersistence;
 	}
 
@@ -585,7 +639,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the campaign local service
 	 */
-	public eu.strasbourg.service.agenda.service.CampaignLocalService getCampaignLocalService() {
+	public eu.strasbourg.service.agenda.service.CampaignLocalService
+		getCampaignLocalService() {
+
 		return campaignLocalService;
 	}
 
@@ -595,7 +651,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param campaignLocalService the campaign local service
 	 */
 	public void setCampaignLocalService(
-		eu.strasbourg.service.agenda.service.CampaignLocalService campaignLocalService) {
+		eu.strasbourg.service.agenda.service.CampaignLocalService
+			campaignLocalService) {
+
 		this.campaignLocalService = campaignLocalService;
 	}
 
@@ -613,7 +671,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @param campaignPersistence the campaign persistence
 	 */
-	public void setCampaignPersistence(CampaignPersistence campaignPersistence) {
+	public void setCampaignPersistence(
+		CampaignPersistence campaignPersistence) {
+
 		this.campaignPersistence = campaignPersistence;
 	}
 
@@ -622,7 +682,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the campaign event local service
 	 */
-	public eu.strasbourg.service.agenda.service.CampaignEventLocalService getCampaignEventLocalService() {
+	public eu.strasbourg.service.agenda.service.CampaignEventLocalService
+		getCampaignEventLocalService() {
+
 		return campaignEventLocalService;
 	}
 
@@ -632,7 +694,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param campaignEventLocalService the campaign event local service
 	 */
 	public void setCampaignEventLocalService(
-		eu.strasbourg.service.agenda.service.CampaignEventLocalService campaignEventLocalService) {
+		eu.strasbourg.service.agenda.service.CampaignEventLocalService
+			campaignEventLocalService) {
+
 		this.campaignEventLocalService = campaignEventLocalService;
 	}
 
@@ -652,6 +716,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 */
 	public void setCampaignEventPersistence(
 		CampaignEventPersistence campaignEventPersistence) {
+
 		this.campaignEventPersistence = campaignEventPersistence;
 	}
 
@@ -669,7 +734,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @param campaignEventFinder the campaign event finder
 	 */
-	public void setCampaignEventFinder(CampaignEventFinder campaignEventFinder) {
+	public void setCampaignEventFinder(
+		CampaignEventFinder campaignEventFinder) {
+
 		this.campaignEventFinder = campaignEventFinder;
 	}
 
@@ -678,7 +745,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the campaign event status local service
 	 */
-	public eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService getCampaignEventStatusLocalService() {
+	public eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService
+		getCampaignEventStatusLocalService() {
+
 		return campaignEventStatusLocalService;
 	}
 
@@ -688,7 +757,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param campaignEventStatusLocalService the campaign event status local service
 	 */
 	public void setCampaignEventStatusLocalService(
-		eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService campaignEventStatusLocalService) {
+		eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService
+			campaignEventStatusLocalService) {
+
 		this.campaignEventStatusLocalService = campaignEventStatusLocalService;
 	}
 
@@ -708,6 +779,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 */
 	public void setCampaignEventStatusPersistence(
 		CampaignEventStatusPersistence campaignEventStatusPersistence) {
+
 		this.campaignEventStatusPersistence = campaignEventStatusPersistence;
 	}
 
@@ -716,7 +788,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the event local service
 	 */
-	public eu.strasbourg.service.agenda.service.EventLocalService getEventLocalService() {
+	public eu.strasbourg.service.agenda.service.EventLocalService
+		getEventLocalService() {
+
 		return eventLocalService;
 	}
 
@@ -726,7 +800,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param eventLocalService the event local service
 	 */
 	public void setEventLocalService(
-		eu.strasbourg.service.agenda.service.EventLocalService eventLocalService) {
+		eu.strasbourg.service.agenda.service.EventLocalService
+			eventLocalService) {
+
 		this.eventLocalService = eventLocalService;
 	}
 
@@ -771,7 +847,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the event participation local service
 	 */
-	public eu.strasbourg.service.agenda.service.EventParticipationLocalService getEventParticipationLocalService() {
+	public eu.strasbourg.service.agenda.service.EventParticipationLocalService
+		getEventParticipationLocalService() {
+
 		return eventParticipationLocalService;
 	}
 
@@ -781,7 +859,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param eventParticipationLocalService the event participation local service
 	 */
 	public void setEventParticipationLocalService(
-		eu.strasbourg.service.agenda.service.EventParticipationLocalService eventParticipationLocalService) {
+		eu.strasbourg.service.agenda.service.EventParticipationLocalService
+			eventParticipationLocalService) {
+
 		this.eventParticipationLocalService = eventParticipationLocalService;
 	}
 
@@ -801,6 +881,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 */
 	public void setEventParticipationPersistence(
 		EventParticipationPersistence eventParticipationPersistence) {
+
 		this.eventParticipationPersistence = eventParticipationPersistence;
 	}
 
@@ -809,7 +890,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the event period local service
 	 */
-	public eu.strasbourg.service.agenda.service.EventPeriodLocalService getEventPeriodLocalService() {
+	public eu.strasbourg.service.agenda.service.EventPeriodLocalService
+		getEventPeriodLocalService() {
+
 		return eventPeriodLocalService;
 	}
 
@@ -819,7 +902,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param eventPeriodLocalService the event period local service
 	 */
 	public void setEventPeriodLocalService(
-		eu.strasbourg.service.agenda.service.EventPeriodLocalService eventPeriodLocalService) {
+		eu.strasbourg.service.agenda.service.EventPeriodLocalService
+			eventPeriodLocalService) {
+
 		this.eventPeriodLocalService = eventPeriodLocalService;
 	}
 
@@ -839,6 +924,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 */
 	public void setEventPeriodPersistence(
 		EventPeriodPersistence eventPeriodPersistence) {
+
 		this.eventPeriodPersistence = eventPeriodPersistence;
 	}
 
@@ -847,7 +933,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the import report local service
 	 */
-	public eu.strasbourg.service.agenda.service.ImportReportLocalService getImportReportLocalService() {
+	public eu.strasbourg.service.agenda.service.ImportReportLocalService
+		getImportReportLocalService() {
+
 		return importReportLocalService;
 	}
 
@@ -857,7 +945,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param importReportLocalService the import report local service
 	 */
 	public void setImportReportLocalService(
-		eu.strasbourg.service.agenda.service.ImportReportLocalService importReportLocalService) {
+		eu.strasbourg.service.agenda.service.ImportReportLocalService
+			importReportLocalService) {
+
 		this.importReportLocalService = importReportLocalService;
 	}
 
@@ -877,6 +967,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 */
 	public void setImportReportPersistence(
 		ImportReportPersistence importReportPersistence) {
+
 		this.importReportPersistence = importReportPersistence;
 	}
 
@@ -885,7 +976,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the import report line local service
 	 */
-	public eu.strasbourg.service.agenda.service.ImportReportLineLocalService getImportReportLineLocalService() {
+	public eu.strasbourg.service.agenda.service.ImportReportLineLocalService
+		getImportReportLineLocalService() {
+
 		return importReportLineLocalService;
 	}
 
@@ -895,7 +988,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param importReportLineLocalService the import report line local service
 	 */
 	public void setImportReportLineLocalService(
-		eu.strasbourg.service.agenda.service.ImportReportLineLocalService importReportLineLocalService) {
+		eu.strasbourg.service.agenda.service.ImportReportLineLocalService
+			importReportLineLocalService) {
+
 		this.importReportLineLocalService = importReportLineLocalService;
 	}
 
@@ -915,6 +1010,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 */
 	public void setImportReportLinePersistence(
 		ImportReportLinePersistence importReportLinePersistence) {
+
 		this.importReportLinePersistence = importReportLinePersistence;
 	}
 
@@ -923,7 +1019,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the manifestation local service
 	 */
-	public eu.strasbourg.service.agenda.service.ManifestationLocalService getManifestationLocalService() {
+	public eu.strasbourg.service.agenda.service.ManifestationLocalService
+		getManifestationLocalService() {
+
 		return manifestationLocalService;
 	}
 
@@ -933,7 +1031,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param manifestationLocalService the manifestation local service
 	 */
 	public void setManifestationLocalService(
-		eu.strasbourg.service.agenda.service.ManifestationLocalService manifestationLocalService) {
+		eu.strasbourg.service.agenda.service.ManifestationLocalService
+			manifestationLocalService) {
+
 		this.manifestationLocalService = manifestationLocalService;
 	}
 
@@ -953,6 +1053,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 */
 	public void setManifestationPersistence(
 		ManifestationPersistence manifestationPersistence) {
+
 		this.manifestationPersistence = manifestationPersistence;
 	}
 
@@ -961,7 +1062,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -971,7 +1074,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -980,7 +1085,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -990,7 +1097,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -1010,6 +1119,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -1018,7 +1128,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -1028,7 +1140,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -1037,7 +1151,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -1048,6 +1164,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -1074,7 +1191,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the asset entry local service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryLocalService getAssetEntryLocalService() {
+	public com.liferay.asset.kernel.service.AssetEntryLocalService
+		getAssetEntryLocalService() {
+
 		return assetEntryLocalService;
 	}
 
@@ -1084,7 +1203,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param assetEntryLocalService the asset entry local service
 	 */
 	public void setAssetEntryLocalService(
-		com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService) {
+		com.liferay.asset.kernel.service.AssetEntryLocalService
+			assetEntryLocalService) {
+
 		this.assetEntryLocalService = assetEntryLocalService;
 	}
 
@@ -1104,6 +1225,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 */
 	public void setAssetEntryPersistence(
 		AssetEntryPersistence assetEntryPersistence) {
+
 		this.assetEntryPersistence = assetEntryPersistence;
 	}
 
@@ -1112,7 +1234,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.kernel.service.AssetLinkLocalService getAssetLinkLocalService() {
+	public com.liferay.asset.kernel.service.AssetLinkLocalService
+		getAssetLinkLocalService() {
+
 		return assetLinkLocalService;
 	}
 
@@ -1122,7 +1246,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService) {
+		com.liferay.asset.kernel.service.AssetLinkLocalService
+			assetLinkLocalService) {
+
 		this.assetLinkLocalService = assetLinkLocalService;
 	}
 
@@ -1142,6 +1268,7 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 */
 	public void setAssetLinkPersistence(
 		AssetLinkPersistence assetLinkPersistence) {
+
 		this.assetLinkPersistence = assetLinkPersistence;
 	}
 
@@ -1150,7 +1277,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @return the asset tag local service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagLocalService getAssetTagLocalService() {
+	public com.liferay.asset.kernel.service.AssetTagLocalService
+		getAssetTagLocalService() {
+
 		return assetTagLocalService;
 	}
 
@@ -1160,7 +1289,9 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 * @param assetTagLocalService the asset tag local service
 	 */
 	public void setAssetTagLocalService(
-		com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService) {
+		com.liferay.asset.kernel.service.AssetTagLocalService
+			assetTagLocalService) {
+
 		this.assetTagLocalService = assetTagLocalService;
 	}
 
@@ -1178,12 +1309,15 @@ public abstract class AgendaExportLocalServiceBaseImpl
 	 *
 	 * @param assetTagPersistence the asset tag persistence
 	 */
-	public void setAssetTagPersistence(AssetTagPersistence assetTagPersistence) {
+	public void setAssetTagPersistence(
+		AssetTagPersistence assetTagPersistence) {
+
 		this.assetTagPersistence = assetTagPersistence;
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register("eu.strasbourg.service.agenda.model.AgendaExport",
+		persistedModelLocalServiceRegistry.register(
+			"eu.strasbourg.service.agenda.model.AgendaExport",
 			agendaExportLocalService);
 	}
 
@@ -1224,8 +1358,8 @@ public abstract class AgendaExportLocalServiceBaseImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -1236,76 +1370,168 @@ public abstract class AgendaExportLocalServiceBaseImpl
 
 	@BeanReference(type = AgendaExportLocalService.class)
 	protected AgendaExportLocalService agendaExportLocalService;
+
 	@BeanReference(type = AgendaExportPersistence.class)
 	protected AgendaExportPersistence agendaExportPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService.class)
-	protected eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService agendaExportPeriodLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService.class
+	)
+	protected
+		eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService
+			agendaExportPeriodLocalService;
+
 	@BeanReference(type = AgendaExportPeriodPersistence.class)
 	protected AgendaExportPeriodPersistence agendaExportPeriodPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignLocalService.class)
-	protected eu.strasbourg.service.agenda.service.CampaignLocalService campaignLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.CampaignLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.CampaignLocalService
+		campaignLocalService;
+
 	@BeanReference(type = CampaignPersistence.class)
 	protected CampaignPersistence campaignPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignEventLocalService.class)
-	protected eu.strasbourg.service.agenda.service.CampaignEventLocalService campaignEventLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.CampaignEventLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.CampaignEventLocalService
+		campaignEventLocalService;
+
 	@BeanReference(type = CampaignEventPersistence.class)
 	protected CampaignEventPersistence campaignEventPersistence;
+
 	@BeanReference(type = CampaignEventFinder.class)
 	protected CampaignEventFinder campaignEventFinder;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService.class)
-	protected eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService campaignEventStatusLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService.class
+	)
+	protected
+		eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService
+			campaignEventStatusLocalService;
+
 	@BeanReference(type = CampaignEventStatusPersistence.class)
 	protected CampaignEventStatusPersistence campaignEventStatusPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.EventLocalService.class)
-	protected eu.strasbourg.service.agenda.service.EventLocalService eventLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.EventLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.EventLocalService
+		eventLocalService;
+
 	@BeanReference(type = EventPersistence.class)
 	protected EventPersistence eventPersistence;
+
 	@BeanReference(type = EventFinder.class)
 	protected EventFinder eventFinder;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.EventParticipationLocalService.class)
-	protected eu.strasbourg.service.agenda.service.EventParticipationLocalService eventParticipationLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.EventParticipationLocalService.class
+	)
+	protected
+		eu.strasbourg.service.agenda.service.EventParticipationLocalService
+			eventParticipationLocalService;
+
 	@BeanReference(type = EventParticipationPersistence.class)
 	protected EventParticipationPersistence eventParticipationPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.EventPeriodLocalService.class)
-	protected eu.strasbourg.service.agenda.service.EventPeriodLocalService eventPeriodLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.EventPeriodLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.EventPeriodLocalService
+		eventPeriodLocalService;
+
 	@BeanReference(type = EventPeriodPersistence.class)
 	protected EventPeriodPersistence eventPeriodPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.ImportReportLocalService.class)
-	protected eu.strasbourg.service.agenda.service.ImportReportLocalService importReportLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.ImportReportLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.ImportReportLocalService
+		importReportLocalService;
+
 	@BeanReference(type = ImportReportPersistence.class)
 	protected ImportReportPersistence importReportPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.ImportReportLineLocalService.class)
-	protected eu.strasbourg.service.agenda.service.ImportReportLineLocalService importReportLineLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.ImportReportLineLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.ImportReportLineLocalService
+		importReportLineLocalService;
+
 	@BeanReference(type = ImportReportLinePersistence.class)
 	protected ImportReportLinePersistence importReportLinePersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.ManifestationLocalService.class)
-	protected eu.strasbourg.service.agenda.service.ManifestationLocalService manifestationLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.ManifestationLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.ManifestationLocalService
+		manifestationLocalService;
+
 	@BeanReference(type = ManifestationPersistence.class)
 	protected ManifestationPersistence manifestationPersistence;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetEntryLocalService
+		assetEntryLocalService;
+
 	@ServiceReference(type = AssetEntryPersistence.class)
 	protected AssetEntryPersistence assetEntryPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetLinkLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService
+		assetLinkLocalService;
+
 	@ServiceReference(type = AssetLinkPersistence.class)
 	protected AssetLinkPersistence assetLinkPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetTagLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetTagLocalService
+		assetTagLocalService;
+
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry;
+	protected PersistedModelLocalServiceRegistry
+		persistedModelLocalServiceRegistry;
+
 }

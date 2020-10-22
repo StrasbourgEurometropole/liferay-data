@@ -29,6 +29,7 @@ import java.util.List;
  */
 @ProviderType
 public class RouteSoap implements Serializable {
+
 	public static RouteSoap toSoapModel(Route model) {
 		RouteSoap soapModel = new RouteSoap();
 
@@ -174,4 +175,5 @@ public class RouteSoap implements Serializable {
 	private int _route_type;
 	private String _route_color;
 	private String _route_text_color;
+
 }

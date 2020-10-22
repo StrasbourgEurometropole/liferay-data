@@ -11,11 +11,11 @@
 }
 
 .has-control-menu #mns-global {
-  margin-top: 65px;
+  margin-top: 56px;
 }
 
 .has-control-menu #mns-global .mns-nav.mns-nav-scroll {
-  margin-top: 65px;
+  margin-top: 56px;
 }
 
 #mns-global h2.portlet-title-text {
@@ -39,4 +39,34 @@
 #mns-global .mns-wrapper-duo-content .col-md-6 img {
   width: auto !important;
   height: auto !important;
+}
+
+// affichage des menus des portlets
+.portlet:hover > .portlet-topper{
+  width: calc(100% - 35px);
+  height: auto;
+}
+.portlet-journal-content .portlet .portlet-header{
+  
+  transform: translateY(-112%);
+  .visible-interaction {
+    
+    display: inline;
+    .lfr-icon-menu{
+      background-color: transparent;
+      display: inline;
+
+      > a{
+        height: 32px;
+        line-height: 32px;
+        width: 32px;
+
+        .lexicon-icon{
+          height: 32px;
+          width: 32px;
+          padding: 8px;
+        }
+      }
+    }
+  }
 }

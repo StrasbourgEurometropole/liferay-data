@@ -119,7 +119,7 @@
 
             <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="Contenu">
                 <%-- Champ : Commentaire --%>
-                <aui:input name="comment"/>
+                <aui:input name="text" label="comment"/>
             </aui:fieldset>
 
 			<%-- Groupe de champs : Bannissement --%>

@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
+import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -72,17 +73,17 @@ import javax.sql.DataSource;
  *
  * @author BenjaminBini
  * @see eu.strasbourg.service.agenda.service.impl.EventParticipationLocalServiceImpl
- * @see eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil
  * @generated
  */
 @ProviderType
 public abstract class EventParticipationLocalServiceBaseImpl
-	extends BaseLocalServiceImpl implements EventParticipationLocalService,
-		IdentifiableOSGiService {
+	extends BaseLocalServiceImpl
+	implements EventParticipationLocalService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil} to access the event participation local service.
+	 * Never modify or reference this class directly. Use <code>EventParticipationLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -95,6 +96,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	@Override
 	public EventParticipation addEventParticipation(
 		EventParticipation eventParticipation) {
+
 		eventParticipation.setNew(true);
 
 		return eventParticipationPersistence.update(eventParticipation);
@@ -107,8 +109,10 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @return the new event participation
 	 */
 	@Override
+	@Transactional(enabled = false)
 	public EventParticipation createEventParticipation(
 		long eventParticipationId) {
+
 		return eventParticipationPersistence.create(eventParticipationId);
 	}
 
@@ -122,7 +126,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	public EventParticipation deleteEventParticipation(
-		long eventParticipationId) throws PortalException {
+			long eventParticipationId)
+		throws PortalException {
+
 		return eventParticipationPersistence.remove(eventParticipationId);
 	}
 
@@ -136,6 +142,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	@Override
 	public EventParticipation deleteEventParticipation(
 		EventParticipation eventParticipation) {
+
 		return eventParticipationPersistence.remove(eventParticipation);
 	}
 
@@ -143,8 +150,8 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	public DynamicQuery dynamicQuery() {
 		Class<?> clazz = getClass();
 
-		return DynamicQueryFactoryUtil.forClass(EventParticipation.class,
-			clazz.getClassLoader());
+		return DynamicQueryFactoryUtil.forClass(
+			EventParticipation.class, clazz.getClassLoader());
 	}
 
 	/**
@@ -162,7 +169,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.agenda.model.impl.EventParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.EventParticipationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -171,17 +178,18 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @return the range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end) {
-		return eventParticipationPersistence.findWithDynamicQuery(dynamicQuery,
-			start, end);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
+
+		return eventParticipationPersistence.findWithDynamicQuery(
+			dynamicQuery, start, end);
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.agenda.model.impl.EventParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.EventParticipationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -191,10 +199,12 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @return the ordered range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end, OrderByComparator<T> orderByComparator) {
-		return eventParticipationPersistence.findWithDynamicQuery(dynamicQuery,
-			start, end, orderByComparator);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
+
+		return eventParticipationPersistence.findWithDynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
@@ -205,7 +215,8 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 */
 	@Override
 	public long dynamicQueryCount(DynamicQuery dynamicQuery) {
-		return eventParticipationPersistence.countWithDynamicQuery(dynamicQuery);
+		return eventParticipationPersistence.countWithDynamicQuery(
+			dynamicQuery);
 	}
 
 	/**
@@ -216,15 +227,19 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @return the number of rows matching the dynamic query
 	 */
 	@Override
-	public long dynamicQueryCount(DynamicQuery dynamicQuery,
-		Projection projection) {
-		return eventParticipationPersistence.countWithDynamicQuery(dynamicQuery,
-			projection);
+	public long dynamicQueryCount(
+		DynamicQuery dynamicQuery, Projection projection) {
+
+		return eventParticipationPersistence.countWithDynamicQuery(
+			dynamicQuery, projection);
 	}
 
 	@Override
-	public EventParticipation fetchEventParticipation(long eventParticipationId) {
-		return eventParticipationPersistence.fetchByPrimaryKey(eventParticipationId);
+	public EventParticipation fetchEventParticipation(
+		long eventParticipationId) {
+
+		return eventParticipationPersistence.fetchByPrimaryKey(
+			eventParticipationId);
 	}
 
 	/**
@@ -237,27 +252,36 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	@Override
 	public EventParticipation getEventParticipation(long eventParticipationId)
 		throws PortalException {
-		return eventParticipationPersistence.findByPrimaryKey(eventParticipationId);
+
+		return eventParticipationPersistence.findByPrimaryKey(
+			eventParticipationId);
 	}
 
 	@Override
 	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery = new DefaultActionableDynamicQuery();
+		ActionableDynamicQuery actionableDynamicQuery =
+			new DefaultActionableDynamicQuery();
 
-		actionableDynamicQuery.setBaseLocalService(eventParticipationLocalService);
+		actionableDynamicQuery.setBaseLocalService(
+			eventParticipationLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(EventParticipation.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("eventParticipationId");
+		actionableDynamicQuery.setPrimaryKeyPropertyName(
+			"eventParticipationId");
 
 		return actionableDynamicQuery;
 	}
 
 	@Override
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery = new IndexableActionableDynamicQuery();
+	public IndexableActionableDynamicQuery
+		getIndexableActionableDynamicQuery() {
 
-		indexableActionableDynamicQuery.setBaseLocalService(eventParticipationLocalService);
+		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+			new IndexableActionableDynamicQuery();
+
+		indexableActionableDynamicQuery.setBaseLocalService(
+			eventParticipationLocalService);
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
 		indexableActionableDynamicQuery.setModelClass(EventParticipation.class);
 
@@ -269,11 +293,14 @@ public abstract class EventParticipationLocalServiceBaseImpl
 
 	protected void initActionableDynamicQuery(
 		ActionableDynamicQuery actionableDynamicQuery) {
-		actionableDynamicQuery.setBaseLocalService(eventParticipationLocalService);
+
+		actionableDynamicQuery.setBaseLocalService(
+			eventParticipationLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(EventParticipation.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("eventParticipationId");
+		actionableDynamicQuery.setPrimaryKeyPropertyName(
+			"eventParticipationId");
 	}
 
 	/**
@@ -282,12 +309,15 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
-		return eventParticipationLocalService.deleteEventParticipation((EventParticipation)persistedModel);
+
+		return eventParticipationLocalService.deleteEventParticipation(
+			(EventParticipation)persistedModel);
 	}
 
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
+
 		return eventParticipationPersistence.findByPrimaryKey(primaryKeyObj);
 	}
 
@@ -295,7 +325,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * Returns a range of all the event participations.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.agenda.model.impl.EventParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.EventParticipationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of event participations
@@ -327,6 +357,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	@Override
 	public EventParticipation updateEventParticipation(
 		EventParticipation eventParticipation) {
+
 		return eventParticipationPersistence.update(eventParticipation);
 	}
 
@@ -335,7 +366,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @return the agenda export local service
 	 */
-	public eu.strasbourg.service.agenda.service.AgendaExportLocalService getAgendaExportLocalService() {
+	public eu.strasbourg.service.agenda.service.AgendaExportLocalService
+		getAgendaExportLocalService() {
+
 		return agendaExportLocalService;
 	}
 
@@ -345,7 +378,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @param agendaExportLocalService the agenda export local service
 	 */
 	public void setAgendaExportLocalService(
-		eu.strasbourg.service.agenda.service.AgendaExportLocalService agendaExportLocalService) {
+		eu.strasbourg.service.agenda.service.AgendaExportLocalService
+			agendaExportLocalService) {
+
 		this.agendaExportLocalService = agendaExportLocalService;
 	}
 
@@ -365,6 +400,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 */
 	public void setAgendaExportPersistence(
 		AgendaExportPersistence agendaExportPersistence) {
+
 		this.agendaExportPersistence = agendaExportPersistence;
 	}
 
@@ -373,7 +409,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @return the agenda export period local service
 	 */
-	public eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService getAgendaExportPeriodLocalService() {
+	public eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService
+		getAgendaExportPeriodLocalService() {
+
 		return agendaExportPeriodLocalService;
 	}
 
@@ -383,7 +421,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @param agendaExportPeriodLocalService the agenda export period local service
 	 */
 	public void setAgendaExportPeriodLocalService(
-		eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService agendaExportPeriodLocalService) {
+		eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService
+			agendaExportPeriodLocalService) {
+
 		this.agendaExportPeriodLocalService = agendaExportPeriodLocalService;
 	}
 
@@ -403,6 +443,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 */
 	public void setAgendaExportPeriodPersistence(
 		AgendaExportPeriodPersistence agendaExportPeriodPersistence) {
+
 		this.agendaExportPeriodPersistence = agendaExportPeriodPersistence;
 	}
 
@@ -411,7 +452,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @return the campaign local service
 	 */
-	public eu.strasbourg.service.agenda.service.CampaignLocalService getCampaignLocalService() {
+	public eu.strasbourg.service.agenda.service.CampaignLocalService
+		getCampaignLocalService() {
+
 		return campaignLocalService;
 	}
 
@@ -421,7 +464,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @param campaignLocalService the campaign local service
 	 */
 	public void setCampaignLocalService(
-		eu.strasbourg.service.agenda.service.CampaignLocalService campaignLocalService) {
+		eu.strasbourg.service.agenda.service.CampaignLocalService
+			campaignLocalService) {
+
 		this.campaignLocalService = campaignLocalService;
 	}
 
@@ -439,7 +484,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @param campaignPersistence the campaign persistence
 	 */
-	public void setCampaignPersistence(CampaignPersistence campaignPersistence) {
+	public void setCampaignPersistence(
+		CampaignPersistence campaignPersistence) {
+
 		this.campaignPersistence = campaignPersistence;
 	}
 
@@ -448,7 +495,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @return the campaign event local service
 	 */
-	public eu.strasbourg.service.agenda.service.CampaignEventLocalService getCampaignEventLocalService() {
+	public eu.strasbourg.service.agenda.service.CampaignEventLocalService
+		getCampaignEventLocalService() {
+
 		return campaignEventLocalService;
 	}
 
@@ -458,7 +507,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @param campaignEventLocalService the campaign event local service
 	 */
 	public void setCampaignEventLocalService(
-		eu.strasbourg.service.agenda.service.CampaignEventLocalService campaignEventLocalService) {
+		eu.strasbourg.service.agenda.service.CampaignEventLocalService
+			campaignEventLocalService) {
+
 		this.campaignEventLocalService = campaignEventLocalService;
 	}
 
@@ -478,6 +529,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 */
 	public void setCampaignEventPersistence(
 		CampaignEventPersistence campaignEventPersistence) {
+
 		this.campaignEventPersistence = campaignEventPersistence;
 	}
 
@@ -495,7 +547,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @param campaignEventFinder the campaign event finder
 	 */
-	public void setCampaignEventFinder(CampaignEventFinder campaignEventFinder) {
+	public void setCampaignEventFinder(
+		CampaignEventFinder campaignEventFinder) {
+
 		this.campaignEventFinder = campaignEventFinder;
 	}
 
@@ -504,7 +558,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @return the campaign event status local service
 	 */
-	public eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService getCampaignEventStatusLocalService() {
+	public eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService
+		getCampaignEventStatusLocalService() {
+
 		return campaignEventStatusLocalService;
 	}
 
@@ -514,7 +570,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @param campaignEventStatusLocalService the campaign event status local service
 	 */
 	public void setCampaignEventStatusLocalService(
-		eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService campaignEventStatusLocalService) {
+		eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService
+			campaignEventStatusLocalService) {
+
 		this.campaignEventStatusLocalService = campaignEventStatusLocalService;
 	}
 
@@ -534,6 +592,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 */
 	public void setCampaignEventStatusPersistence(
 		CampaignEventStatusPersistence campaignEventStatusPersistence) {
+
 		this.campaignEventStatusPersistence = campaignEventStatusPersistence;
 	}
 
@@ -542,7 +601,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @return the event local service
 	 */
-	public eu.strasbourg.service.agenda.service.EventLocalService getEventLocalService() {
+	public eu.strasbourg.service.agenda.service.EventLocalService
+		getEventLocalService() {
+
 		return eventLocalService;
 	}
 
@@ -552,7 +613,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @param eventLocalService the event local service
 	 */
 	public void setEventLocalService(
-		eu.strasbourg.service.agenda.service.EventLocalService eventLocalService) {
+		eu.strasbourg.service.agenda.service.EventLocalService
+			eventLocalService) {
+
 		this.eventLocalService = eventLocalService;
 	}
 
@@ -608,6 +671,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 */
 	public void setEventParticipationLocalService(
 		EventParticipationLocalService eventParticipationLocalService) {
+
 		this.eventParticipationLocalService = eventParticipationLocalService;
 	}
 
@@ -627,6 +691,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 */
 	public void setEventParticipationPersistence(
 		EventParticipationPersistence eventParticipationPersistence) {
+
 		this.eventParticipationPersistence = eventParticipationPersistence;
 	}
 
@@ -635,7 +700,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @return the event period local service
 	 */
-	public eu.strasbourg.service.agenda.service.EventPeriodLocalService getEventPeriodLocalService() {
+	public eu.strasbourg.service.agenda.service.EventPeriodLocalService
+		getEventPeriodLocalService() {
+
 		return eventPeriodLocalService;
 	}
 
@@ -645,7 +712,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @param eventPeriodLocalService the event period local service
 	 */
 	public void setEventPeriodLocalService(
-		eu.strasbourg.service.agenda.service.EventPeriodLocalService eventPeriodLocalService) {
+		eu.strasbourg.service.agenda.service.EventPeriodLocalService
+			eventPeriodLocalService) {
+
 		this.eventPeriodLocalService = eventPeriodLocalService;
 	}
 
@@ -665,6 +734,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 */
 	public void setEventPeriodPersistence(
 		EventPeriodPersistence eventPeriodPersistence) {
+
 		this.eventPeriodPersistence = eventPeriodPersistence;
 	}
 
@@ -673,7 +743,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @return the import report local service
 	 */
-	public eu.strasbourg.service.agenda.service.ImportReportLocalService getImportReportLocalService() {
+	public eu.strasbourg.service.agenda.service.ImportReportLocalService
+		getImportReportLocalService() {
+
 		return importReportLocalService;
 	}
 
@@ -683,7 +755,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @param importReportLocalService the import report local service
 	 */
 	public void setImportReportLocalService(
-		eu.strasbourg.service.agenda.service.ImportReportLocalService importReportLocalService) {
+		eu.strasbourg.service.agenda.service.ImportReportLocalService
+			importReportLocalService) {
+
 		this.importReportLocalService = importReportLocalService;
 	}
 
@@ -703,6 +777,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 */
 	public void setImportReportPersistence(
 		ImportReportPersistence importReportPersistence) {
+
 		this.importReportPersistence = importReportPersistence;
 	}
 
@@ -711,7 +786,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @return the import report line local service
 	 */
-	public eu.strasbourg.service.agenda.service.ImportReportLineLocalService getImportReportLineLocalService() {
+	public eu.strasbourg.service.agenda.service.ImportReportLineLocalService
+		getImportReportLineLocalService() {
+
 		return importReportLineLocalService;
 	}
 
@@ -721,7 +798,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @param importReportLineLocalService the import report line local service
 	 */
 	public void setImportReportLineLocalService(
-		eu.strasbourg.service.agenda.service.ImportReportLineLocalService importReportLineLocalService) {
+		eu.strasbourg.service.agenda.service.ImportReportLineLocalService
+			importReportLineLocalService) {
+
 		this.importReportLineLocalService = importReportLineLocalService;
 	}
 
@@ -741,6 +820,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 */
 	public void setImportReportLinePersistence(
 		ImportReportLinePersistence importReportLinePersistence) {
+
 		this.importReportLinePersistence = importReportLinePersistence;
 	}
 
@@ -749,7 +829,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @return the manifestation local service
 	 */
-	public eu.strasbourg.service.agenda.service.ManifestationLocalService getManifestationLocalService() {
+	public eu.strasbourg.service.agenda.service.ManifestationLocalService
+		getManifestationLocalService() {
+
 		return manifestationLocalService;
 	}
 
@@ -759,7 +841,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @param manifestationLocalService the manifestation local service
 	 */
 	public void setManifestationLocalService(
-		eu.strasbourg.service.agenda.service.ManifestationLocalService manifestationLocalService) {
+		eu.strasbourg.service.agenda.service.ManifestationLocalService
+			manifestationLocalService) {
+
 		this.manifestationLocalService = manifestationLocalService;
 	}
 
@@ -779,6 +863,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 */
 	public void setManifestationPersistence(
 		ManifestationPersistence manifestationPersistence) {
+
 		this.manifestationPersistence = manifestationPersistence;
 	}
 
@@ -787,7 +872,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -797,7 +884,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -806,7 +895,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -816,7 +907,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -836,6 +929,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -844,7 +938,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -854,7 +950,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -863,7 +961,9 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -874,6 +974,7 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -896,7 +997,8 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register("eu.strasbourg.service.agenda.model.EventParticipation",
+		persistedModelLocalServiceRegistry.register(
+			"eu.strasbourg.service.agenda.model.EventParticipation",
 			eventParticipationLocalService);
 	}
 
@@ -930,15 +1032,16 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	 */
 	protected void runSQL(String sql) {
 		try {
-			DataSource dataSource = eventParticipationPersistence.getDataSource();
+			DataSource dataSource =
+				eventParticipationPersistence.getDataSource();
 
 			DB db = DBManagerUtil.getDB();
 
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -947,66 +1050,142 @@ public abstract class EventParticipationLocalServiceBaseImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.agenda.service.AgendaExportLocalService.class)
-	protected eu.strasbourg.service.agenda.service.AgendaExportLocalService agendaExportLocalService;
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.AgendaExportLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.AgendaExportLocalService
+		agendaExportLocalService;
+
 	@BeanReference(type = AgendaExportPersistence.class)
 	protected AgendaExportPersistence agendaExportPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService.class)
-	protected eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService agendaExportPeriodLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService.class
+	)
+	protected
+		eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService
+			agendaExportPeriodLocalService;
+
 	@BeanReference(type = AgendaExportPeriodPersistence.class)
 	protected AgendaExportPeriodPersistence agendaExportPeriodPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignLocalService.class)
-	protected eu.strasbourg.service.agenda.service.CampaignLocalService campaignLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.CampaignLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.CampaignLocalService
+		campaignLocalService;
+
 	@BeanReference(type = CampaignPersistence.class)
 	protected CampaignPersistence campaignPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignEventLocalService.class)
-	protected eu.strasbourg.service.agenda.service.CampaignEventLocalService campaignEventLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.CampaignEventLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.CampaignEventLocalService
+		campaignEventLocalService;
+
 	@BeanReference(type = CampaignEventPersistence.class)
 	protected CampaignEventPersistence campaignEventPersistence;
+
 	@BeanReference(type = CampaignEventFinder.class)
 	protected CampaignEventFinder campaignEventFinder;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService.class)
-	protected eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService campaignEventStatusLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService.class
+	)
+	protected
+		eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService
+			campaignEventStatusLocalService;
+
 	@BeanReference(type = CampaignEventStatusPersistence.class)
 	protected CampaignEventStatusPersistence campaignEventStatusPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.EventLocalService.class)
-	protected eu.strasbourg.service.agenda.service.EventLocalService eventLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.EventLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.EventLocalService
+		eventLocalService;
+
 	@BeanReference(type = EventPersistence.class)
 	protected EventPersistence eventPersistence;
+
 	@BeanReference(type = EventFinder.class)
 	protected EventFinder eventFinder;
+
 	@BeanReference(type = EventParticipationLocalService.class)
 	protected EventParticipationLocalService eventParticipationLocalService;
+
 	@BeanReference(type = EventParticipationPersistence.class)
 	protected EventParticipationPersistence eventParticipationPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.EventPeriodLocalService.class)
-	protected eu.strasbourg.service.agenda.service.EventPeriodLocalService eventPeriodLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.EventPeriodLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.EventPeriodLocalService
+		eventPeriodLocalService;
+
 	@BeanReference(type = EventPeriodPersistence.class)
 	protected EventPeriodPersistence eventPeriodPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.ImportReportLocalService.class)
-	protected eu.strasbourg.service.agenda.service.ImportReportLocalService importReportLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.ImportReportLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.ImportReportLocalService
+		importReportLocalService;
+
 	@BeanReference(type = ImportReportPersistence.class)
 	protected ImportReportPersistence importReportPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.ImportReportLineLocalService.class)
-	protected eu.strasbourg.service.agenda.service.ImportReportLineLocalService importReportLineLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.ImportReportLineLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.ImportReportLineLocalService
+		importReportLineLocalService;
+
 	@BeanReference(type = ImportReportLinePersistence.class)
 	protected ImportReportLinePersistence importReportLinePersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.ManifestationLocalService.class)
-	protected eu.strasbourg.service.agenda.service.ManifestationLocalService manifestationLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.ManifestationLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.ManifestationLocalService
+		manifestationLocalService;
+
 	@BeanReference(type = ManifestationPersistence.class)
 	protected ManifestationPersistence manifestationPersistence;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry;
+	protected PersistedModelLocalServiceRegistry
+		persistedModelLocalServiceRegistry;
+
 }

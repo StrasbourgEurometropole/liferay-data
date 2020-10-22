@@ -169,10 +169,10 @@ function openBillingPage()  {
   url = window.tipiURL;
   url += 'numcli=' + document.tipiForm.clientNumber.value;
   if (url.indexOf('saisie=T') === -1) { // En prod
-    url += '&year=' + document.tipiForm.year.value;
+    url += '&exer=' + document.tipiForm.year.value;
     url += '&refdet=' + calculateRefdet();
   } else { // En test
-    url += '&year=9999';
+    url += '&exer=9999';
     url += '&refdet=999999990000000000000';
   }
   url += '&montant=' + calculatePrice();

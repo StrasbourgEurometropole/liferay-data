@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.video.service.http.VideoGalleryServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.video.service.http.VideoGalleryServiceSoap
  * @generated
  */
 @ProviderType
 public class VideoGallerySoap implements Serializable {
+
 	public static VideoGallerySoap toSoapModel(VideoGallery model) {
 		VideoGallerySoap soapModel = new VideoGallerySoap();
 
@@ -83,7 +83,8 @@ public class VideoGallerySoap implements Serializable {
 	}
 
 	public static VideoGallerySoap[] toSoapModels(List<VideoGallery> models) {
-		List<VideoGallerySoap> soapModels = new ArrayList<VideoGallerySoap>(models.size());
+		List<VideoGallerySoap> soapModels = new ArrayList<VideoGallerySoap>(
+			models.size());
 
 		for (VideoGallery model : models) {
 			soapModels.add(toSoapModel(model));
@@ -256,4 +257,5 @@ public class VideoGallerySoap implements Serializable {
 	private String _description;
 	private Date _publicationDate;
 	private Long _imageId;
+
 }

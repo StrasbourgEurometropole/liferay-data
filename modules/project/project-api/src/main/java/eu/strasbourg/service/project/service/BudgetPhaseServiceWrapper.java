@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class BudgetPhaseServiceWrapper implements BudgetPhaseService,
-	ServiceWrapper<BudgetPhaseService> {
+public class BudgetPhaseServiceWrapper
+	implements BudgetPhaseService, ServiceWrapper<BudgetPhaseService> {
+
 	public BudgetPhaseServiceWrapper(BudgetPhaseService budgetPhaseService) {
 		_budgetPhaseService = budgetPhaseService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _budgetPhaseService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class BudgetPhaseServiceWrapper implements BudgetPhaseService,
 	}
 
 	private BudgetPhaseService _budgetPhaseService;
+
 }

@@ -31,8 +31,10 @@ import java.util.List;
  */
 @ProviderType
 public class UserNotificationTypeSoap implements Serializable {
+
 	public static UserNotificationTypeSoap toSoapModel(
 		UserNotificationType model) {
+
 		UserNotificationTypeSoap soapModel = new UserNotificationTypeSoap();
 
 		soapModel.setPublikUserId(model.getPublikUserId());
@@ -43,7 +45,9 @@ public class UserNotificationTypeSoap implements Serializable {
 
 	public static UserNotificationTypeSoap[] toSoapModels(
 		UserNotificationType[] models) {
-		UserNotificationTypeSoap[] soapModels = new UserNotificationTypeSoap[models.length];
+
+		UserNotificationTypeSoap[] soapModels =
+			new UserNotificationTypeSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -54,10 +58,12 @@ public class UserNotificationTypeSoap implements Serializable {
 
 	public static UserNotificationTypeSoap[][] toSoapModels(
 		UserNotificationType[][] models) {
+
 		UserNotificationTypeSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new UserNotificationTypeSoap[models.length][models[0].length];
+			soapModels =
+				new UserNotificationTypeSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new UserNotificationTypeSoap[0][0];
@@ -72,13 +78,16 @@ public class UserNotificationTypeSoap implements Serializable {
 
 	public static UserNotificationTypeSoap[] toSoapModels(
 		List<UserNotificationType> models) {
-		List<UserNotificationTypeSoap> soapModels = new ArrayList<UserNotificationTypeSoap>(models.size());
+
+		List<UserNotificationTypeSoap> soapModels =
+			new ArrayList<UserNotificationTypeSoap>(models.size());
 
 		for (UserNotificationType model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new UserNotificationTypeSoap[soapModels.size()]);
+		return soapModels.toArray(
+			new UserNotificationTypeSoap[soapModels.size()]);
 	}
 
 	public UserNotificationTypeSoap() {
@@ -111,4 +120,5 @@ public class UserNotificationTypeSoap implements Serializable {
 
 	private String _publikUserId;
 	private long _typeId;
+
 }

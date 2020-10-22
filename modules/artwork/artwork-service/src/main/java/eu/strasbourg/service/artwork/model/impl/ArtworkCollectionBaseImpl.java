@@ -34,10 +34,11 @@ import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
 @ProviderType
 public abstract class ArtworkCollectionBaseImpl
 	extends ArtworkCollectionModelImpl implements ArtworkCollection {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a artwork collection model instance should use the {@link ArtworkCollection} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a artwork collection model instance should use the <code>ArtworkCollection</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class ArtworkCollectionBaseImpl
 			ArtworkCollectionLocalServiceUtil.updateArtworkCollection(this);
 		}
 	}
+
 }

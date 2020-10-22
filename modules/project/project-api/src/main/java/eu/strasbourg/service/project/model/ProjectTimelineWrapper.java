@@ -17,7 +17,6 @@ package eu.strasbourg.service.project.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -38,8 +37,9 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class ProjectTimelineWrapper implements ProjectTimeline,
-	ModelWrapper<ProjectTimeline> {
+public class ProjectTimelineWrapper
+	implements ProjectTimeline, ModelWrapper<ProjectTimeline> {
+
 	public ProjectTimelineWrapper(ProjectTimeline projectTimeline) {
 		_projectTimeline = projectTimeline;
 	}
@@ -121,11 +121,150 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 			setProjectId(projectId);
 		}
 
-		Long budgetParticipatifId = (Long)attributes.get("budgetParticipatifId");
+		Long budgetParticipatifId = (Long)attributes.get(
+			"budgetParticipatifId");
 
 		if (budgetParticipatifId != null) {
 			setBudgetParticipatifId(budgetParticipatifId);
 		}
+	}
+
+	@Override
+	public Object clone() {
+		return new ProjectTimelineWrapper(
+			(ProjectTimeline)_projectTimeline.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.project.model.ProjectTimeline projectTimeline) {
+
+		return _projectTimeline.compareTo(projectTimeline);
+	}
+
+	/**
+	 * Returns the budget participatif ID of this project timeline.
+	 *
+	 * @return the budget participatif ID of this project timeline
+	 */
+	@Override
+	public long getBudgetParticipatifId() {
+		return _projectTimeline.getBudgetParticipatifId();
+	}
+
+	/**
+	 * Returns the date of this project timeline.
+	 *
+	 * @return the date of this project timeline
+	 */
+	@Override
+	public Date getDate() {
+		return _projectTimeline.getDate();
+	}
+
+	/**
+	 * Returns the date format of this project timeline.
+	 *
+	 * @return the date format of this project timeline
+	 */
+	@Override
+	public String getDateFormat() {
+		return _projectTimeline.getDateFormat();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _projectTimeline.getExpandoBridge();
+	}
+
+	/**
+	 * Retourne l'equivalent en Freeemarker du format de date de la timeline
+	 *
+	 * @return Le format de date en freemarker, JJ/MM/AAAA dans le cas d'une timeline sans format encore defini
+	 */
+	@Override
+	public String getFreeMarkerFormatDate() {
+		return _projectTimeline.getFreeMarkerFormatDate();
+	}
+
+	/**
+	 * Returns the link of this project timeline.
+	 *
+	 * @return the link of this project timeline
+	 */
+	@Override
+	public String getLink() {
+		return _projectTimeline.getLink();
+	}
+
+	/**
+	 * Returns the primary key of this project timeline.
+	 *
+	 * @return the primary key of this project timeline
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _projectTimeline.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _projectTimeline.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the project ID of this project timeline.
+	 *
+	 * @return the project ID of this project timeline
+	 */
+	@Override
+	public long getProjectId() {
+		return _projectTimeline.getProjectId();
+	}
+
+	/**
+	 * Returns the project timeline ID of this project timeline.
+	 *
+	 * @return the project timeline ID of this project timeline
+	 */
+	@Override
+	public long getProjectTimelineId() {
+		return _projectTimeline.getProjectTimelineId();
+	}
+
+	/**
+	 * Returns the spacing of this project timeline.
+	 *
+	 * @return the spacing of this project timeline
+	 */
+	@Override
+	public int getSpacing() {
+		return _projectTimeline.getSpacing();
+	}
+
+	/**
+	 * Returns the start day of this project timeline.
+	 *
+	 * @return the start day of this project timeline
+	 */
+	@Override
+	public int getStartDay() {
+		return _projectTimeline.getStartDay();
+	}
+
+	/**
+	 * Returns the title of this project timeline.
+	 *
+	 * @return the title of this project timeline
+	 */
+	@Override
+	public String getTitle() {
+		return _projectTimeline.getTitle();
+	}
+
+	@Override
+	public int hashCode() {
+		return _projectTimeline.hashCode();
 	}
 
 	@Override
@@ -144,184 +283,15 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _projectTimeline.getExpandoBridge();
-	}
-
-	/**
-	* Retourne la version JSON de l'entité
-	*/
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _projectTimeline.toJSON();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.ProjectTimeline> toCacheModel() {
-		return _projectTimeline.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.ProjectTimeline toEscapedModel() {
-		return new ProjectTimelineWrapper(_projectTimeline.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.ProjectTimeline toUnescapedModel() {
-		return new ProjectTimelineWrapper(_projectTimeline.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.ProjectTimeline projectTimeline) {
-		return _projectTimeline.compareTo(projectTimeline);
-	}
-
-	/**
-	* Returns the spacing of this project timeline.
-	*
-	* @return the spacing of this project timeline
-	*/
-	@Override
-	public int getSpacing() {
-		return _projectTimeline.getSpacing();
-	}
-
-	/**
-	* Returns the start day of this project timeline.
-	*
-	* @return the start day of this project timeline
-	*/
-	@Override
-	public int getStartDay() {
-		return _projectTimeline.getStartDay();
-	}
-
-	@Override
-	public int hashCode() {
-		return _projectTimeline.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _projectTimeline.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new ProjectTimelineWrapper((ProjectTimeline)_projectTimeline.clone());
-	}
-
-	/**
-	* Returns the date format of this project timeline.
-	*
-	* @return the date format of this project timeline
-	*/
-	@Override
-	public java.lang.String getDateFormat() {
-		return _projectTimeline.getDateFormat();
-	}
-
-	/**
-	* Retourne l'equivalent en Freeemarker du format de date de la timeline
-	*
-	* @return Le format de date en freemarker, JJ/MM/AAAA dans le cas d'une timeline sans format encore defini
-	*/
-	@Override
-	public java.lang.String getFreeMarkerFormatDate() {
-		return _projectTimeline.getFreeMarkerFormatDate();
-	}
-
-	/**
-	* Returns the link of this project timeline.
-	*
-	* @return the link of this project timeline
-	*/
-	@Override
-	public java.lang.String getLink() {
-		return _projectTimeline.getLink();
-	}
-
-	/**
-	* Returns the title of this project timeline.
-	*
-	* @return the title of this project timeline
-	*/
-	@Override
-	public java.lang.String getTitle() {
-		return _projectTimeline.getTitle();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _projectTimeline.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _projectTimeline.toXmlString();
-	}
-
-	/**
-	* Returns the date of this project timeline.
-	*
-	* @return the date of this project timeline
-	*/
-	@Override
-	public Date getDate() {
-		return _projectTimeline.getDate();
-	}
-
-	/**
-	* Returns the budget participatif ID of this project timeline.
-	*
-	* @return the budget participatif ID of this project timeline
-	*/
-	@Override
-	public long getBudgetParticipatifId() {
-		return _projectTimeline.getBudgetParticipatifId();
-	}
-
-	/**
-	* Returns the primary key of this project timeline.
-	*
-	* @return the primary key of this project timeline
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _projectTimeline.getPrimaryKey();
-	}
-
-	/**
-	* Returns the project ID of this project timeline.
-	*
-	* @return the project ID of this project timeline
-	*/
-	@Override
-	public long getProjectId() {
-		return _projectTimeline.getProjectId();
-	}
-
-	/**
-	* Returns the project timeline ID of this project timeline.
-	*
-	* @return the project timeline ID of this project timeline
-	*/
-	@Override
-	public long getProjectTimelineId() {
-		return _projectTimeline.getProjectTimelineId();
-	}
-
-	@Override
 	public void persist() {
 		_projectTimeline.persist();
 	}
 
 	/**
-	* Sets the budget participatif ID of this project timeline.
-	*
-	* @param budgetParticipatifId the budget participatif ID of this project timeline
-	*/
+	 * Sets the budget participatif ID of this project timeline.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID of this project timeline
+	 */
 	@Override
 	public void setBudgetParticipatifId(long budgetParticipatifId) {
 		_projectTimeline.setBudgetParticipatifId(budgetParticipatifId);
@@ -333,23 +303,30 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	}
 
 	/**
-	* Sets the date of this project timeline.
-	*
-	* @param date the date of this project timeline
-	*/
+	 * Sets the date of this project timeline.
+	 *
+	 * @param date the date of this project timeline
+	 */
 	@Override
 	public void setDate(Date date) {
 		_projectTimeline.setDate(date);
 	}
 
 	/**
-	* Sets the date format of this project timeline.
-	*
-	* @param dateFormat the date format of this project timeline
-	*/
+	 * Sets the date format of this project timeline.
+	 *
+	 * @param dateFormat the date format of this project timeline
+	 */
 	@Override
-	public void setDateFormat(java.lang.String dateFormat) {
+	public void setDateFormat(String dateFormat) {
 		_projectTimeline.setDateFormat(dateFormat);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_projectTimeline.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -358,23 +335,17 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_projectTimeline.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_projectTimeline.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the link of this project timeline.
-	*
-	* @param link the link of this project timeline
-	*/
+	 * Sets the link of this project timeline.
+	 *
+	 * @param link the link of this project timeline
+	 */
 	@Override
-	public void setLink(java.lang.String link) {
+	public void setLink(String link) {
 		_projectTimeline.setLink(link);
 	}
 
@@ -384,10 +355,10 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	}
 
 	/**
-	* Sets the primary key of this project timeline.
-	*
-	* @param primaryKey the primary key of this project timeline
-	*/
+	 * Sets the primary key of this project timeline.
+	 *
+	 * @param primaryKey the primary key of this project timeline
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_projectTimeline.setPrimaryKey(primaryKey);
@@ -399,53 +370,92 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	}
 
 	/**
-	* Sets the project ID of this project timeline.
-	*
-	* @param projectId the project ID of this project timeline
-	*/
+	 * Sets the project ID of this project timeline.
+	 *
+	 * @param projectId the project ID of this project timeline
+	 */
 	@Override
 	public void setProjectId(long projectId) {
 		_projectTimeline.setProjectId(projectId);
 	}
 
 	/**
-	* Sets the project timeline ID of this project timeline.
-	*
-	* @param projectTimelineId the project timeline ID of this project timeline
-	*/
+	 * Sets the project timeline ID of this project timeline.
+	 *
+	 * @param projectTimelineId the project timeline ID of this project timeline
+	 */
 	@Override
 	public void setProjectTimelineId(long projectTimelineId) {
 		_projectTimeline.setProjectTimelineId(projectTimelineId);
 	}
 
 	/**
-	* Sets the spacing of this project timeline.
-	*
-	* @param spacing the spacing of this project timeline
-	*/
+	 * Sets the spacing of this project timeline.
+	 *
+	 * @param spacing the spacing of this project timeline
+	 */
 	@Override
 	public void setSpacing(int spacing) {
 		_projectTimeline.setSpacing(spacing);
 	}
 
 	/**
-	* Sets the start day of this project timeline.
-	*
-	* @param startDay the start day of this project timeline
-	*/
+	 * Sets the start day of this project timeline.
+	 *
+	 * @param startDay the start day of this project timeline
+	 */
 	@Override
 	public void setStartDay(int startDay) {
 		_projectTimeline.setStartDay(startDay);
 	}
 
 	/**
-	* Sets the title of this project timeline.
-	*
-	* @param title the title of this project timeline
-	*/
+	 * Sets the title of this project timeline.
+	 *
+	 * @param title the title of this project timeline
+	 */
 	@Override
-	public void setTitle(java.lang.String title) {
+	public void setTitle(String title) {
 		_projectTimeline.setTitle(title);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.project.model.ProjectTimeline> toCacheModel() {
+
+		return _projectTimeline.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.project.model.ProjectTimeline
+		toEscapedModel() {
+
+		return new ProjectTimelineWrapper(_projectTimeline.toEscapedModel());
+	}
+
+	/**
+	 * Retourne la version JSON de l'entité
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _projectTimeline.toJSON();
+	}
+
+	@Override
+	public String toString() {
+		return _projectTimeline.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.project.model.ProjectTimeline
+		toUnescapedModel() {
+
+		return new ProjectTimelineWrapper(_projectTimeline.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _projectTimeline.toXmlString();
 	}
 
 	@Override
@@ -458,10 +468,12 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 			return false;
 		}
 
-		ProjectTimelineWrapper projectTimelineWrapper = (ProjectTimelineWrapper)obj;
+		ProjectTimelineWrapper projectTimelineWrapper =
+			(ProjectTimelineWrapper)obj;
 
-		if (Objects.equals(_projectTimeline,
-					projectTimelineWrapper._projectTimeline)) {
+		if (Objects.equals(
+				_projectTimeline, projectTimelineWrapper._projectTimeline)) {
+
 			return true;
 		}
 
@@ -489,4 +501,5 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	}
 
 	private final ProjectTimeline _projectTimeline;
+
 }

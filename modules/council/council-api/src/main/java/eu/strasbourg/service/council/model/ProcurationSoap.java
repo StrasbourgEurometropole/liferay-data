@@ -30,6 +30,7 @@ import java.util.List;
  */
 @ProviderType
 public class ProcurationSoap implements Serializable {
+
 	public static ProcurationSoap toSoapModel(Procuration model) {
 		ProcurationSoap soapModel = new ProcurationSoap();
 
@@ -48,7 +49,7 @@ public class ProcurationSoap implements Serializable {
 		soapModel.setOfficialVotersId(model.getOfficialVotersId());
 		soapModel.setOfficialUnavailableId(model.getOfficialUnavailableId());
 		soapModel.setCouncilSessionId(model.getCouncilSessionId());
-		soapModel.setIsAbsent(model.getIsAbsent());
+		soapModel.setIsAbsent(model.isIsAbsent());
 
 		return soapModel;
 	}
@@ -81,7 +82,8 @@ public class ProcurationSoap implements Serializable {
 	}
 
 	public static ProcurationSoap[] toSoapModels(List<Procuration> models) {
-		List<ProcurationSoap> soapModels = new ArrayList<ProcurationSoap>(models.size());
+		List<ProcurationSoap> soapModels = new ArrayList<ProcurationSoap>(
+			models.size());
 
 		for (Procuration model : models) {
 			soapModels.add(toSoapModel(model));
@@ -249,4 +251,5 @@ public class ProcurationSoap implements Serializable {
 	private long _officialUnavailableId;
 	private long _councilSessionId;
 	private boolean _isAbsent;
+
 }

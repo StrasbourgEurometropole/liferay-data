@@ -25,20 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Angelique Zunino Champougny
  * @see PublicHolidayModel
- * @see eu.strasbourg.service.place.model.impl.PublicHolidayImpl
- * @see eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.place.model.impl.PublicHolidayImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.place.model.impl.PublicHolidayImpl"
+)
 @ProviderType
-public interface PublicHoliday extends PublicHolidayModel, PersistedModel {
+public interface PublicHoliday extends PersistedModel, PublicHolidayModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.place.model.impl.PublicHolidayImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.place.model.impl.PublicHolidayImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<PublicHoliday, Long> PUBLIC_HOLIDAY_ID_ACCESSOR =
-		new Accessor<PublicHoliday, Long>() {
+	public static final Accessor<PublicHoliday, Long>
+		PUBLIC_HOLIDAY_ID_ACCESSOR = new Accessor<PublicHoliday, Long>() {
+
 			@Override
 			public Long get(PublicHoliday publicHoliday) {
 				return publicHoliday.getPublicHolidayId();
@@ -53,5 +55,7 @@ public interface PublicHoliday extends PublicHolidayModel, PersistedModel {
 			public Class<PublicHoliday> getTypeClass() {
 				return PublicHoliday.class;
 			}
+
 		};
+
 }

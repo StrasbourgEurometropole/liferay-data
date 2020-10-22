@@ -18,11 +18,11 @@ import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.video.model.Video;
 
 public enum FavoriteType {
-	PLACE(1, "PLACE", Place.class), 
-	EVENT(2, "EVENT", Event.class), 
-	VIDEO(3, "VIDEO", Video.class), 
-	EDITION(4, "EDITION", Edition.class), 
-	IMAGE(5, "IMAGE", DLFileEntry.class), 
+	PLACE(1, "PLACE", Place.class),
+	EVENT(2, "EVENT", Event.class),
+	VIDEO(3, "VIDEO", Video.class),
+	EDITION(4, "EDITION", Edition.class),
+	IMAGE(5, "IMAGE", DLFileEntry.class),
 	NEWS(6, "NEWS", JournalArticle.class),
 	ARTICLE(7, "ARTICLE", JournalArticle.class), 
 	PROCEDURE(8, "PROCEDURE", String.class),

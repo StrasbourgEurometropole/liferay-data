@@ -5,10 +5,6 @@
 
 <liferay-portlet:renderURL portletConfiguration="true"
 	var="configurationRenderURL" />
-	
-<liferay-portlet:resourceURL portletConfiguration="true" portletName="eu_strasbourg_portlet_legacy_place_LegacyPlaceViewerPortlet"
-	var="placeAutocompleteURL">
-</liferay-portlet:resourceURL>
 
 <aui:form action="${configurationActionURL}" method="post" name="fm">
     <aui:input name="cmd" type="hidden"

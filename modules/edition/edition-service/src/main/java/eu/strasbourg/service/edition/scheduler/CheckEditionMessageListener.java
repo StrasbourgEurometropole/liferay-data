@@ -1,5 +1,7 @@
 package eu.strasbourg.service.edition.scheduler;
 
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
+import com.liferay.portal.kernel.scheduler.*;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -9,26 +11,37 @@ import org.osgi.service.component.annotations.Reference;
 import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
-import com.liferay.portal.kernel.scheduler.TimeUnit;
-import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 
 import eu.strasbourg.service.edition.service.EditionGalleryLocalService;
 import eu.strasbourg.service.edition.service.EditionLocalService;
 
+import java.util.Calendar;
+import java.util.Date;
+
 @Component(immediate = true, service = CheckEditionMessageListener.class)
 public class CheckEditionMessageListener
-	extends BaseSchedulerEntryMessageListener {
+	extends BaseMessageListener {
 
 	@Activate
 	@Modified
 	protected void activate() {
-		schedulerEntryImpl.setTrigger(
-			TriggerFactoryUtil.createTrigger(getEventListenerClass(),
-				getEventListenerClass(), 15, TimeUnit.MINUTE));
+		String listenerClass = getClass().getName();
 
-		_schedulerEngineHelper.register(this, schedulerEntryImpl,
-			DestinationNames.SCHEDULER_DISPATCH);
+		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date fiveMinutesFromNow = now.getTime();
+
+		// Création du trigger "Toutes les 15 minutes"
+		Trigger trigger = _triggerFactory.createTrigger(
+				listenerClass, listenerClass, fiveMinutesFromNow, null,
+				15, TimeUnit.MINUTE);
+
+		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
+				listenerClass, trigger);
+
+		_schedulerEngineHelper.register(
+				this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
 	}
 
 	@Deactivate
@@ -53,9 +66,19 @@ public class CheckEditionMessageListener
 	}
 
 	@Reference(unbind = "-")
-	private volatile SchedulerEngineHelper _schedulerEngineHelper;
+	protected void setSchedulerEngineHelper(
+			SchedulerEngineHelper schedulerEngineHelper) {
 
+		_schedulerEngineHelper = schedulerEngineHelper;
+	}
+
+	@Reference(unbind = "-")
+	protected void setTriggerFactory(TriggerFactory triggerFactory) {
+		_triggerFactory = triggerFactory;
+	}
+
+	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 	private EditionLocalService _editionLocalService;
 	private EditionGalleryLocalService _editionGalleryLocalService;
-
+	private TriggerFactory _triggerFactory;
 }

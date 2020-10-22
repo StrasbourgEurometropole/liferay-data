@@ -32,12 +32,13 @@ import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class ProcurationBaseImpl extends ProcurationModelImpl
-	implements Procuration {
+public abstract class ProcurationBaseImpl
+	extends ProcurationModelImpl implements Procuration {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a procuration model instance should use the {@link Procuration} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a procuration model instance should use the <code>Procuration</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class ProcurationBaseImpl extends ProcurationModelImpl
 			ProcurationLocalServiceUtil.updateProcuration(this);
 		}
 	}
+
 }

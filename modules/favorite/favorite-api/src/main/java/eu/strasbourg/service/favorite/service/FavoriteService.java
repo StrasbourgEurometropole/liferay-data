@@ -34,63 +34,71 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author BenjaminBini
  * @see FavoriteServiceUtil
- * @see eu.strasbourg.service.favorite.service.base.FavoriteServiceBaseImpl
- * @see eu.strasbourg.service.favorite.service.impl.FavoriteServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=favorite", "json.web.service.context.path=Favorite"}, service = FavoriteService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=favorite",
+		"json.web.service.context.path=Favorite"
+	},
+	service = FavoriteService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface FavoriteService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link FavoriteServiceUtil} to access the favorite remote service. Add custom service methods to {@link eu.strasbourg.service.favorite.service.impl.FavoriteServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link FavoriteServiceUtil} to access the favorite remote service. Add custom service methods to <code>eu.strasbourg.service.favorite.service.impl.FavoriteServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Ajoute un favoris à un utilisateur
-	*/
-	public JSONObject addFavorite(java.lang.String title, java.lang.String url,
-		long typeId, java.lang.String userId, long entityId);
+	 * Ajoute un favoris à un utilisateur
+	 */
+	public JSONObject addFavorite(
+		String title, String url, long typeId, String userId, long entityId);
 
 	/**
-	* Ajoute un favori à un utilisateur
-	*/
-	public JSONObject addFavoriteLink(java.lang.String title,
-		java.lang.String url, long typeId, long entityId, long entityGroupId);
+	 * Ajoute un favori à un utilisateur
+	 */
+	public JSONObject addFavoriteLink(
+		String title, String url, long typeId, long entityId,
+		long entityGroupId);
 
 	/**
-	* Supprime un favoris d'un utilisateur
-	*/
-	public JSONObject deleteFavorite(java.lang.String userId, long favoriteId);
+	 * Supprime un favoris d'un utilisateur
+	 */
+	public JSONObject deleteFavorite(String userId, long favoriteId);
 
 	/**
-	* Supprime un favoris d'un utilisateur
-	*/
-	public JSONObject deleteFavoriteLink(java.lang.String title,
-		java.lang.String url, long typeId, long entityId);
+	 * Supprime un favoris d'un utilisateur
+	 */
+	public JSONObject deleteFavoriteLink(
+		String title, String url, long typeId, long entityId);
 
 	/**
-	* Retourne la liste des types de favoris
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
+	/**
+	 * Retourne la liste des types de favoris
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getTypes();
 
 	/**
-	* Retourne les favoris d'un utilisateur
-	*/
+	 * Retourne les favoris d'un utilisateur
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getUserFavorites(java.lang.String userId);
+	public JSONObject getUserFavorites(String userId);
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
 }

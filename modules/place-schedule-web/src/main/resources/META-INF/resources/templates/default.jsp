@@ -26,8 +26,8 @@
 			<liferay-ui:message key="no-places-x" arguments="${category.getTitle(locale)}" />
 		</c:when>
 		<c:otherwise>				
-			<div class="row row-spacing">
-				<form action="${changeDataURL}" method="post" name="fm">
+			<div class=" row-spacing">
+				<form class="row" action="${changeDataURL}" method="post" name="fm">
 				
 					<div class="col-md-3" >
 						<fmt:formatDate value="${jourChoisi}" pattern="yyyy-MM-dd" type="date" var="formattedDate"/>
@@ -36,7 +36,7 @@
 								yearParam="year" yearValue="${selectedYear}" />
 					</div>
 					
-					<div class="col-md-6" >
+					<div class="col-md-7" >
 						<aui:select class="form-control" name="placeId" label="select-place"  inlineField="true" inlineLabel="left" style="margin-left: 10px;" >
 					        <aui:option value="" >
 			        			${category.getTitle(locale).toUpperCase()}
@@ -72,11 +72,11 @@
 			
 			<aui:button-row>
 				<div class="left" >
-					<aui:button cssClass="btn-lg" type="button" href="${previousURL}" value="<liferay-ui:message key='previous' />" />
+					<aui:button cssClass="btn-lg" type="button" href="${previousURL}" value="previous" />
 				</div>
 				
 				<div class="right" >
-					<aui:button cssClass="btn-lg" type="button" href="${nextURL}" value="<liferay-ui:message key='next' />" />
+					<aui:button cssClass="btn-lg" type="button" href="${nextURL}" value="next" />
 				</div>
 			</aui:button-row>
 				
@@ -88,7 +88,7 @@
 					        	${category.getTitle(locale)}
 					        </th>
 							<c:choose>
-								<c:when test="${piscine}">
+								<c:when test="${piscine or patinoire}">
 							        <th class="occupation" >
 							        	<liferay-ui:message key="attendance" />
 							        </th>
@@ -128,7 +128,7 @@
 									</liferay-portlet:renderURL>
 									<strong><a href="${detailURL}" class="linkMuseum"><liferay-ui:message key="link-detail" /></a></strong>
 								</td>
-								<c:if test="${piscine}">
+								<c:if test="${piscine or patinoire}">
 										<c:set var="occupationState" value="${place.getRealTime('1')}" />
 										<td rowspan="${place.getSubPlaces().size() + 1}" class="${occupationState.getCssClass()}" >
 											<liferay-ui:message key="${occupationState.getLabel()}" />

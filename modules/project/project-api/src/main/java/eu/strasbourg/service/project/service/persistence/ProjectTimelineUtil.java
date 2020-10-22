@@ -16,20 +16,24 @@ package eu.strasbourg.service.project.service.persistence;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.project.model.ProjectTimeline;
 
-import org.osgi.util.tracker.ServiceTracker;
+import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
- * The persistence utility for the project timeline service. This utility wraps {@link eu.strasbourg.service.project.service.persistence.impl.ProjectTimelinePersistenceImpl} and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
+ * The persistence utility for the project timeline service. This utility wraps <code>eu.strasbourg.service.project.service.persistence.impl.ProjectTimelinePersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
  *
  * <p>
  * Caching information and settings can be found in <code>portal.properties</code>
@@ -37,11 +41,11 @@ import java.util.List;
  *
  * @author Cedric Henry
  * @see ProjectTimelinePersistence
- * @see eu.strasbourg.service.project.service.persistence.impl.ProjectTimelinePersistenceImpl
  * @generated
  */
 @ProviderType
 public class ProjectTimelineUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -70,10 +74,20 @@ public class ProjectTimelineUtil {
 	}
 
 	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#fetchByPrimaryKeys(Set)
+	 */
+	public static Map<Serializable, ProjectTimeline> fetchByPrimaryKeys(
+		Set<Serializable> primaryKeys) {
+
+		return getPersistence().fetchByPrimaryKeys(primaryKeys);
+	}
+
+	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery)
 	 */
 	public static List<ProjectTimeline> findWithDynamicQuery(
 		DynamicQuery dynamicQuery) {
+
 		return getPersistence().findWithDynamicQuery(dynamicQuery);
 	}
 
@@ -82,6 +96,7 @@ public class ProjectTimelineUtil {
 	 */
 	public static List<ProjectTimeline> findWithDynamicQuery(
 		DynamicQuery dynamicQuery, int start, int end) {
+
 		return getPersistence().findWithDynamicQuery(dynamicQuery, start, end);
 	}
 
@@ -91,9 +106,9 @@ public class ProjectTimelineUtil {
 	public static List<ProjectTimeline> findWithDynamicQuery(
 		DynamicQuery dynamicQuery, int start, int end,
 		OrderByComparator<ProjectTimeline> orderByComparator) {
-		return getPersistence()
-				   .findWithDynamicQuery(dynamicQuery, start, end,
-			orderByComparator);
+
+		return getPersistence().findWithDynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
@@ -106,384 +121,407 @@ public class ProjectTimelineUtil {
 	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#update(com.liferay.portal.kernel.model.BaseModel, ServiceContext)
 	 */
-	public static ProjectTimeline update(ProjectTimeline projectTimeline,
-		ServiceContext serviceContext) {
+	public static ProjectTimeline update(
+		ProjectTimeline projectTimeline, ServiceContext serviceContext) {
+
 		return getPersistence().update(projectTimeline, serviceContext);
 	}
 
 	/**
-	* Returns all the project timelines where projectId = &#63;.
-	*
-	* @param projectId the project ID
-	* @return the matching project timelines
-	*/
+	 * Returns all the project timelines where projectId = &#63;.
+	 *
+	 * @param projectId the project ID
+	 * @return the matching project timelines
+	 */
 	public static List<ProjectTimeline> findByProjectId(long projectId) {
 		return getPersistence().findByProjectId(projectId);
 	}
 
 	/**
-	* Returns a range of all the project timelines where projectId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param projectId the project ID
-	* @param start the lower bound of the range of project timelines
-	* @param end the upper bound of the range of project timelines (not inclusive)
-	* @return the range of matching project timelines
-	*/
-	public static List<ProjectTimeline> findByProjectId(long projectId,
-		int start, int end) {
+	 * Returns a range of all the project timelines where projectId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectTimelineModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param projectId the project ID
+	 * @param start the lower bound of the range of project timelines
+	 * @param end the upper bound of the range of project timelines (not inclusive)
+	 * @return the range of matching project timelines
+	 */
+	public static List<ProjectTimeline> findByProjectId(
+		long projectId, int start, int end) {
+
 		return getPersistence().findByProjectId(projectId, start, end);
 	}
 
 	/**
-	* Returns an ordered range of all the project timelines where projectId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param projectId the project ID
-	* @param start the lower bound of the range of project timelines
-	* @param end the upper bound of the range of project timelines (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching project timelines
-	*/
-	public static List<ProjectTimeline> findByProjectId(long projectId,
-		int start, int end, OrderByComparator<ProjectTimeline> orderByComparator) {
-		return getPersistence()
-				   .findByProjectId(projectId, start, end, orderByComparator);
+	 * Returns an ordered range of all the project timelines where projectId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectTimelineModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param projectId the project ID
+	 * @param start the lower bound of the range of project timelines
+	 * @param end the upper bound of the range of project timelines (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching project timelines
+	 */
+	public static List<ProjectTimeline> findByProjectId(
+		long projectId, int start, int end,
+		OrderByComparator<ProjectTimeline> orderByComparator) {
+
+		return getPersistence().findByProjectId(
+			projectId, start, end, orderByComparator);
 	}
 
 	/**
-	* Returns an ordered range of all the project timelines where projectId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param projectId the project ID
-	* @param start the lower bound of the range of project timelines
-	* @param end the upper bound of the range of project timelines (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of matching project timelines
-	*/
-	public static List<ProjectTimeline> findByProjectId(long projectId,
-		int start, int end,
+	 * Returns an ordered range of all the project timelines where projectId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectTimelineModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param projectId the project ID
+	 * @param start the lower bound of the range of project timelines
+	 * @param end the upper bound of the range of project timelines (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching project timelines
+	 */
+	public static List<ProjectTimeline> findByProjectId(
+		long projectId, int start, int end,
 		OrderByComparator<ProjectTimeline> orderByComparator,
 		boolean retrieveFromCache) {
-		return getPersistence()
-				   .findByProjectId(projectId, start, end, orderByComparator,
-			retrieveFromCache);
+
+		return getPersistence().findByProjectId(
+			projectId, start, end, orderByComparator, retrieveFromCache);
 	}
 
 	/**
-	* Returns the first project timeline in the ordered set where projectId = &#63;.
-	*
-	* @param projectId the project ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching project timeline
-	* @throws NoSuchProjectTimelineException if a matching project timeline could not be found
-	*/
-	public static ProjectTimeline findByProjectId_First(long projectId,
-		OrderByComparator<ProjectTimeline> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchProjectTimelineException {
-		return getPersistence()
-				   .findByProjectId_First(projectId, orderByComparator);
+	 * Returns the first project timeline in the ordered set where projectId = &#63;.
+	 *
+	 * @param projectId the project ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching project timeline
+	 * @throws NoSuchProjectTimelineException if a matching project timeline could not be found
+	 */
+	public static ProjectTimeline findByProjectId_First(
+			long projectId,
+			OrderByComparator<ProjectTimeline> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchProjectTimelineException {
+
+		return getPersistence().findByProjectId_First(
+			projectId, orderByComparator);
 	}
 
 	/**
-	* Returns the first project timeline in the ordered set where projectId = &#63;.
-	*
-	* @param projectId the project ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching project timeline, or <code>null</code> if a matching project timeline could not be found
-	*/
-	public static ProjectTimeline fetchByProjectId_First(long projectId,
-		OrderByComparator<ProjectTimeline> orderByComparator) {
-		return getPersistence()
-				   .fetchByProjectId_First(projectId, orderByComparator);
+	 * Returns the first project timeline in the ordered set where projectId = &#63;.
+	 *
+	 * @param projectId the project ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching project timeline, or <code>null</code> if a matching project timeline could not be found
+	 */
+	public static ProjectTimeline fetchByProjectId_First(
+		long projectId, OrderByComparator<ProjectTimeline> orderByComparator) {
+
+		return getPersistence().fetchByProjectId_First(
+			projectId, orderByComparator);
 	}
 
 	/**
-	* Returns the last project timeline in the ordered set where projectId = &#63;.
-	*
-	* @param projectId the project ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching project timeline
-	* @throws NoSuchProjectTimelineException if a matching project timeline could not be found
-	*/
-	public static ProjectTimeline findByProjectId_Last(long projectId,
-		OrderByComparator<ProjectTimeline> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchProjectTimelineException {
-		return getPersistence()
-				   .findByProjectId_Last(projectId, orderByComparator);
+	 * Returns the last project timeline in the ordered set where projectId = &#63;.
+	 *
+	 * @param projectId the project ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching project timeline
+	 * @throws NoSuchProjectTimelineException if a matching project timeline could not be found
+	 */
+	public static ProjectTimeline findByProjectId_Last(
+			long projectId,
+			OrderByComparator<ProjectTimeline> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchProjectTimelineException {
+
+		return getPersistence().findByProjectId_Last(
+			projectId, orderByComparator);
 	}
 
 	/**
-	* Returns the last project timeline in the ordered set where projectId = &#63;.
-	*
-	* @param projectId the project ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching project timeline, or <code>null</code> if a matching project timeline could not be found
-	*/
-	public static ProjectTimeline fetchByProjectId_Last(long projectId,
-		OrderByComparator<ProjectTimeline> orderByComparator) {
-		return getPersistence()
-				   .fetchByProjectId_Last(projectId, orderByComparator);
+	 * Returns the last project timeline in the ordered set where projectId = &#63;.
+	 *
+	 * @param projectId the project ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching project timeline, or <code>null</code> if a matching project timeline could not be found
+	 */
+	public static ProjectTimeline fetchByProjectId_Last(
+		long projectId, OrderByComparator<ProjectTimeline> orderByComparator) {
+
+		return getPersistence().fetchByProjectId_Last(
+			projectId, orderByComparator);
 	}
 
 	/**
-	* Returns the project timelines before and after the current project timeline in the ordered set where projectId = &#63;.
-	*
-	* @param projectTimelineId the primary key of the current project timeline
-	* @param projectId the project ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the previous, current, and next project timeline
-	* @throws NoSuchProjectTimelineException if a project timeline with the primary key could not be found
-	*/
+	 * Returns the project timelines before and after the current project timeline in the ordered set where projectId = &#63;.
+	 *
+	 * @param projectTimelineId the primary key of the current project timeline
+	 * @param projectId the project ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next project timeline
+	 * @throws NoSuchProjectTimelineException if a project timeline with the primary key could not be found
+	 */
 	public static ProjectTimeline[] findByProjectId_PrevAndNext(
-		long projectTimelineId, long projectId,
-		OrderByComparator<ProjectTimeline> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchProjectTimelineException {
-		return getPersistence()
-				   .findByProjectId_PrevAndNext(projectTimelineId, projectId,
-			orderByComparator);
+			long projectTimelineId, long projectId,
+			OrderByComparator<ProjectTimeline> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchProjectTimelineException {
+
+		return getPersistence().findByProjectId_PrevAndNext(
+			projectTimelineId, projectId, orderByComparator);
 	}
 
 	/**
-	* Removes all the project timelines where projectId = &#63; from the database.
-	*
-	* @param projectId the project ID
-	*/
+	 * Removes all the project timelines where projectId = &#63; from the database.
+	 *
+	 * @param projectId the project ID
+	 */
 	public static void removeByProjectId(long projectId) {
 		getPersistence().removeByProjectId(projectId);
 	}
 
 	/**
-	* Returns the number of project timelines where projectId = &#63;.
-	*
-	* @param projectId the project ID
-	* @return the number of matching project timelines
-	*/
+	 * Returns the number of project timelines where projectId = &#63;.
+	 *
+	 * @param projectId the project ID
+	 * @return the number of matching project timelines
+	 */
 	public static int countByProjectId(long projectId) {
 		return getPersistence().countByProjectId(projectId);
 	}
 
 	/**
-	* Returns all the project timelines where budgetParticipatifId = &#63;.
-	*
-	* @param budgetParticipatifId the budget participatif ID
-	* @return the matching project timelines
-	*/
+	 * Returns all the project timelines where budgetParticipatifId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @return the matching project timelines
+	 */
 	public static List<ProjectTimeline> findByBudgetParticipatifId(
 		long budgetParticipatifId) {
-		return getPersistence().findByBudgetParticipatifId(budgetParticipatifId);
+
+		return getPersistence().findByBudgetParticipatifId(
+			budgetParticipatifId);
 	}
 
 	/**
-	* Returns a range of all the project timelines where budgetParticipatifId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param budgetParticipatifId the budget participatif ID
-	* @param start the lower bound of the range of project timelines
-	* @param end the upper bound of the range of project timelines (not inclusive)
-	* @return the range of matching project timelines
-	*/
+	 * Returns a range of all the project timelines where budgetParticipatifId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectTimelineModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param start the lower bound of the range of project timelines
+	 * @param end the upper bound of the range of project timelines (not inclusive)
+	 * @return the range of matching project timelines
+	 */
 	public static List<ProjectTimeline> findByBudgetParticipatifId(
 		long budgetParticipatifId, int start, int end) {
-		return getPersistence()
-				   .findByBudgetParticipatifId(budgetParticipatifId, start, end);
+
+		return getPersistence().findByBudgetParticipatifId(
+			budgetParticipatifId, start, end);
 	}
 
 	/**
-	* Returns an ordered range of all the project timelines where budgetParticipatifId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param budgetParticipatifId the budget participatif ID
-	* @param start the lower bound of the range of project timelines
-	* @param end the upper bound of the range of project timelines (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching project timelines
-	*/
+	 * Returns an ordered range of all the project timelines where budgetParticipatifId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectTimelineModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param start the lower bound of the range of project timelines
+	 * @param end the upper bound of the range of project timelines (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching project timelines
+	 */
 	public static List<ProjectTimeline> findByBudgetParticipatifId(
 		long budgetParticipatifId, int start, int end,
 		OrderByComparator<ProjectTimeline> orderByComparator) {
-		return getPersistence()
-				   .findByBudgetParticipatifId(budgetParticipatifId, start,
-			end, orderByComparator);
+
+		return getPersistence().findByBudgetParticipatifId(
+			budgetParticipatifId, start, end, orderByComparator);
 	}
 
 	/**
-	* Returns an ordered range of all the project timelines where budgetParticipatifId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param budgetParticipatifId the budget participatif ID
-	* @param start the lower bound of the range of project timelines
-	* @param end the upper bound of the range of project timelines (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of matching project timelines
-	*/
+	 * Returns an ordered range of all the project timelines where budgetParticipatifId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectTimelineModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param start the lower bound of the range of project timelines
+	 * @param end the upper bound of the range of project timelines (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching project timelines
+	 */
 	public static List<ProjectTimeline> findByBudgetParticipatifId(
 		long budgetParticipatifId, int start, int end,
 		OrderByComparator<ProjectTimeline> orderByComparator,
 		boolean retrieveFromCache) {
-		return getPersistence()
-				   .findByBudgetParticipatifId(budgetParticipatifId, start,
-			end, orderByComparator, retrieveFromCache);
+
+		return getPersistence().findByBudgetParticipatifId(
+			budgetParticipatifId, start, end, orderByComparator,
+			retrieveFromCache);
 	}
 
 	/**
-	* Returns the first project timeline in the ordered set where budgetParticipatifId = &#63;.
-	*
-	* @param budgetParticipatifId the budget participatif ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching project timeline
-	* @throws NoSuchProjectTimelineException if a matching project timeline could not be found
-	*/
+	 * Returns the first project timeline in the ordered set where budgetParticipatifId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching project timeline
+	 * @throws NoSuchProjectTimelineException if a matching project timeline could not be found
+	 */
 	public static ProjectTimeline findByBudgetParticipatifId_First(
-		long budgetParticipatifId,
-		OrderByComparator<ProjectTimeline> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchProjectTimelineException {
-		return getPersistence()
-				   .findByBudgetParticipatifId_First(budgetParticipatifId,
-			orderByComparator);
-	}
+			long budgetParticipatifId,
+			OrderByComparator<ProjectTimeline> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchProjectTimelineException {
 
-	/**
-	* Returns the first project timeline in the ordered set where budgetParticipatifId = &#63;.
-	*
-	* @param budgetParticipatifId the budget participatif ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching project timeline, or <code>null</code> if a matching project timeline could not be found
-	*/
-	public static ProjectTimeline fetchByBudgetParticipatifId_First(
-		long budgetParticipatifId,
-		OrderByComparator<ProjectTimeline> orderByComparator) {
-		return getPersistence()
-				   .fetchByBudgetParticipatifId_First(budgetParticipatifId,
-			orderByComparator);
-	}
-
-	/**
-	* Returns the last project timeline in the ordered set where budgetParticipatifId = &#63;.
-	*
-	* @param budgetParticipatifId the budget participatif ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching project timeline
-	* @throws NoSuchProjectTimelineException if a matching project timeline could not be found
-	*/
-	public static ProjectTimeline findByBudgetParticipatifId_Last(
-		long budgetParticipatifId,
-		OrderByComparator<ProjectTimeline> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchProjectTimelineException {
-		return getPersistence()
-				   .findByBudgetParticipatifId_Last(budgetParticipatifId,
-			orderByComparator);
-	}
-
-	/**
-	* Returns the last project timeline in the ordered set where budgetParticipatifId = &#63;.
-	*
-	* @param budgetParticipatifId the budget participatif ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching project timeline, or <code>null</code> if a matching project timeline could not be found
-	*/
-	public static ProjectTimeline fetchByBudgetParticipatifId_Last(
-		long budgetParticipatifId,
-		OrderByComparator<ProjectTimeline> orderByComparator) {
-		return getPersistence()
-				   .fetchByBudgetParticipatifId_Last(budgetParticipatifId,
-			orderByComparator);
-	}
-
-	/**
-	* Returns the project timelines before and after the current project timeline in the ordered set where budgetParticipatifId = &#63;.
-	*
-	* @param projectTimelineId the primary key of the current project timeline
-	* @param budgetParticipatifId the budget participatif ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the previous, current, and next project timeline
-	* @throws NoSuchProjectTimelineException if a project timeline with the primary key could not be found
-	*/
-	public static ProjectTimeline[] findByBudgetParticipatifId_PrevAndNext(
-		long projectTimelineId, long budgetParticipatifId,
-		OrderByComparator<ProjectTimeline> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchProjectTimelineException {
-		return getPersistence()
-				   .findByBudgetParticipatifId_PrevAndNext(projectTimelineId,
+		return getPersistence().findByBudgetParticipatifId_First(
 			budgetParticipatifId, orderByComparator);
 	}
 
 	/**
-	* Removes all the project timelines where budgetParticipatifId = &#63; from the database.
-	*
-	* @param budgetParticipatifId the budget participatif ID
-	*/
+	 * Returns the first project timeline in the ordered set where budgetParticipatifId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching project timeline, or <code>null</code> if a matching project timeline could not be found
+	 */
+	public static ProjectTimeline fetchByBudgetParticipatifId_First(
+		long budgetParticipatifId,
+		OrderByComparator<ProjectTimeline> orderByComparator) {
+
+		return getPersistence().fetchByBudgetParticipatifId_First(
+			budgetParticipatifId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last project timeline in the ordered set where budgetParticipatifId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching project timeline
+	 * @throws NoSuchProjectTimelineException if a matching project timeline could not be found
+	 */
+	public static ProjectTimeline findByBudgetParticipatifId_Last(
+			long budgetParticipatifId,
+			OrderByComparator<ProjectTimeline> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchProjectTimelineException {
+
+		return getPersistence().findByBudgetParticipatifId_Last(
+			budgetParticipatifId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last project timeline in the ordered set where budgetParticipatifId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching project timeline, or <code>null</code> if a matching project timeline could not be found
+	 */
+	public static ProjectTimeline fetchByBudgetParticipatifId_Last(
+		long budgetParticipatifId,
+		OrderByComparator<ProjectTimeline> orderByComparator) {
+
+		return getPersistence().fetchByBudgetParticipatifId_Last(
+			budgetParticipatifId, orderByComparator);
+	}
+
+	/**
+	 * Returns the project timelines before and after the current project timeline in the ordered set where budgetParticipatifId = &#63;.
+	 *
+	 * @param projectTimelineId the primary key of the current project timeline
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next project timeline
+	 * @throws NoSuchProjectTimelineException if a project timeline with the primary key could not be found
+	 */
+	public static ProjectTimeline[] findByBudgetParticipatifId_PrevAndNext(
+			long projectTimelineId, long budgetParticipatifId,
+			OrderByComparator<ProjectTimeline> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchProjectTimelineException {
+
+		return getPersistence().findByBudgetParticipatifId_PrevAndNext(
+			projectTimelineId, budgetParticipatifId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the project timelines where budgetParticipatifId = &#63; from the database.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 */
 	public static void removeByBudgetParticipatifId(long budgetParticipatifId) {
 		getPersistence().removeByBudgetParticipatifId(budgetParticipatifId);
 	}
 
 	/**
-	* Returns the number of project timelines where budgetParticipatifId = &#63;.
-	*
-	* @param budgetParticipatifId the budget participatif ID
-	* @return the number of matching project timelines
-	*/
+	 * Returns the number of project timelines where budgetParticipatifId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @return the number of matching project timelines
+	 */
 	public static int countByBudgetParticipatifId(long budgetParticipatifId) {
-		return getPersistence().countByBudgetParticipatifId(budgetParticipatifId);
+		return getPersistence().countByBudgetParticipatifId(
+			budgetParticipatifId);
 	}
 
 	/**
-	* Caches the project timeline in the entity cache if it is enabled.
-	*
-	* @param projectTimeline the project timeline
-	*/
+	 * Caches the project timeline in the entity cache if it is enabled.
+	 *
+	 * @param projectTimeline the project timeline
+	 */
 	public static void cacheResult(ProjectTimeline projectTimeline) {
 		getPersistence().cacheResult(projectTimeline);
 	}
 
 	/**
-	* Caches the project timelines in the entity cache if it is enabled.
-	*
-	* @param projectTimelines the project timelines
-	*/
+	 * Caches the project timelines in the entity cache if it is enabled.
+	 *
+	 * @param projectTimelines the project timelines
+	 */
 	public static void cacheResult(List<ProjectTimeline> projectTimelines) {
 		getPersistence().cacheResult(projectTimelines);
 	}
 
 	/**
-	* Creates a new project timeline with the primary key. Does not add the project timeline to the database.
-	*
-	* @param projectTimelineId the primary key for the new project timeline
-	* @return the new project timeline
-	*/
+	 * Creates a new project timeline with the primary key. Does not add the project timeline to the database.
+	 *
+	 * @param projectTimelineId the primary key for the new project timeline
+	 * @return the new project timeline
+	 */
 	public static ProjectTimeline create(long projectTimelineId) {
 		return getPersistence().create(projectTimelineId);
 	}
 
 	/**
-	* Removes the project timeline with the primary key from the database. Also notifies the appropriate model listeners.
-	*
-	* @param projectTimelineId the primary key of the project timeline
-	* @return the project timeline that was removed
-	* @throws NoSuchProjectTimelineException if a project timeline with the primary key could not be found
-	*/
+	 * Removes the project timeline with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param projectTimelineId the primary key of the project timeline
+	 * @return the project timeline that was removed
+	 * @throws NoSuchProjectTimelineException if a project timeline with the primary key could not be found
+	 */
 	public static ProjectTimeline remove(long projectTimelineId)
-		throws eu.strasbourg.service.project.exception.NoSuchProjectTimelineException {
+		throws eu.strasbourg.service.project.exception.
+			NoSuchProjectTimelineException {
+
 		return getPersistence().remove(projectTimelineId);
 	}
 
@@ -492,110 +530,111 @@ public class ProjectTimelineUtil {
 	}
 
 	/**
-	* Returns the project timeline with the primary key or throws a {@link NoSuchProjectTimelineException} if it could not be found.
-	*
-	* @param projectTimelineId the primary key of the project timeline
-	* @return the project timeline
-	* @throws NoSuchProjectTimelineException if a project timeline with the primary key could not be found
-	*/
+	 * Returns the project timeline with the primary key or throws a <code>NoSuchProjectTimelineException</code> if it could not be found.
+	 *
+	 * @param projectTimelineId the primary key of the project timeline
+	 * @return the project timeline
+	 * @throws NoSuchProjectTimelineException if a project timeline with the primary key could not be found
+	 */
 	public static ProjectTimeline findByPrimaryKey(long projectTimelineId)
-		throws eu.strasbourg.service.project.exception.NoSuchProjectTimelineException {
+		throws eu.strasbourg.service.project.exception.
+			NoSuchProjectTimelineException {
+
 		return getPersistence().findByPrimaryKey(projectTimelineId);
 	}
 
 	/**
-	* Returns the project timeline with the primary key or returns <code>null</code> if it could not be found.
-	*
-	* @param projectTimelineId the primary key of the project timeline
-	* @return the project timeline, or <code>null</code> if a project timeline with the primary key could not be found
-	*/
+	 * Returns the project timeline with the primary key or returns <code>null</code> if it could not be found.
+	 *
+	 * @param projectTimelineId the primary key of the project timeline
+	 * @return the project timeline, or <code>null</code> if a project timeline with the primary key could not be found
+	 */
 	public static ProjectTimeline fetchByPrimaryKey(long projectTimelineId) {
 		return getPersistence().fetchByPrimaryKey(projectTimelineId);
 	}
 
-	public static java.util.Map<java.io.Serializable, ProjectTimeline> fetchByPrimaryKeys(
-		java.util.Set<java.io.Serializable> primaryKeys) {
-		return getPersistence().fetchByPrimaryKeys(primaryKeys);
-	}
-
 	/**
-	* Returns all the project timelines.
-	*
-	* @return the project timelines
-	*/
+	 * Returns all the project timelines.
+	 *
+	 * @return the project timelines
+	 */
 	public static List<ProjectTimeline> findAll() {
 		return getPersistence().findAll();
 	}
 
 	/**
-	* Returns a range of all the project timelines.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param start the lower bound of the range of project timelines
-	* @param end the upper bound of the range of project timelines (not inclusive)
-	* @return the range of project timelines
-	*/
+	 * Returns a range of all the project timelines.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectTimelineModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of project timelines
+	 * @param end the upper bound of the range of project timelines (not inclusive)
+	 * @return the range of project timelines
+	 */
 	public static List<ProjectTimeline> findAll(int start, int end) {
 		return getPersistence().findAll(start, end);
 	}
 
 	/**
-	* Returns an ordered range of all the project timelines.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param start the lower bound of the range of project timelines
-	* @param end the upper bound of the range of project timelines (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of project timelines
-	*/
-	public static List<ProjectTimeline> findAll(int start, int end,
+	 * Returns an ordered range of all the project timelines.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectTimelineModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of project timelines
+	 * @param end the upper bound of the range of project timelines (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of project timelines
+	 */
+	public static List<ProjectTimeline> findAll(
+		int start, int end,
 		OrderByComparator<ProjectTimeline> orderByComparator) {
+
 		return getPersistence().findAll(start, end, orderByComparator);
 	}
 
 	/**
-	* Returns an ordered range of all the project timelines.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param start the lower bound of the range of project timelines
-	* @param end the upper bound of the range of project timelines (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of project timelines
-	*/
-	public static List<ProjectTimeline> findAll(int start, int end,
+	 * Returns an ordered range of all the project timelines.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectTimelineModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of project timelines
+	 * @param end the upper bound of the range of project timelines (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of project timelines
+	 */
+	public static List<ProjectTimeline> findAll(
+		int start, int end,
 		OrderByComparator<ProjectTimeline> orderByComparator,
 		boolean retrieveFromCache) {
-		return getPersistence()
-				   .findAll(start, end, orderByComparator, retrieveFromCache);
+
+		return getPersistence().findAll(
+			start, end, orderByComparator, retrieveFromCache);
 	}
 
 	/**
-	* Removes all the project timelines from the database.
-	*/
+	 * Removes all the project timelines from the database.
+	 */
 	public static void removeAll() {
 		getPersistence().removeAll();
 	}
 
 	/**
-	* Returns the number of project timelines.
-	*
-	* @return the number of project timelines
-	*/
+	 * Returns the number of project timelines.
+	 *
+	 * @return the number of project timelines
+	 */
 	public static int countAll() {
 		return getPersistence().countAll();
 	}
 
-	public static java.util.Set<java.lang.String> getBadColumnNames() {
+	public static Set<String> getBadColumnNames() {
 		return getPersistence().getBadColumnNames();
 	}
 
@@ -603,6 +642,24 @@ public class ProjectTimelineUtil {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<ProjectTimelinePersistence, ProjectTimelinePersistence> _serviceTracker =
-		ServiceTrackerFactory.open(ProjectTimelinePersistence.class);
+	private static ServiceTracker
+		<ProjectTimelinePersistence, ProjectTimelinePersistence>
+			_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(
+			ProjectTimelinePersistence.class);
+
+		ServiceTracker<ProjectTimelinePersistence, ProjectTimelinePersistence>
+			serviceTracker =
+				new ServiceTracker
+					<ProjectTimelinePersistence, ProjectTimelinePersistence>(
+						bundle.getBundleContext(),
+						ProjectTimelinePersistence.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

@@ -1,0 +1,4 @@
+Bundle-Name: ejob-web
+Bundle-SymbolicName: ejob.web
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.ejob.itemselector

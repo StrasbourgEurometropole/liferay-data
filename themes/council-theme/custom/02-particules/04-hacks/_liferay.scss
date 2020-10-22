@@ -91,3 +91,172 @@ form.update-reminder-query  {
 .has-control-menu .portlet-content-editable {
   min-height: 50px;
 }
+
+/** Début des correctifs du menu liferay modifié par le theme du site **/
+// Change la font-size pour le menu de gauche et la barre du haut
+[data-qa-id = 'controlMenu'],.text-muted.truncate-text{
+	font-size: 14px;
+	font-family: OpenSans, arial;
+
+	[data-qa-id = 'headerTitle'] {
+		font-size: 16px !important;
+		font-family: OpenSans, arial;
+	}
+}
+
+// Logo Liferay était coupé dans le menu de gauche
+.lfr-product-menu-sidebar .sidebar-body, .lfr-admin-panel .sidebar-body{
+	top: 56px !important;
+}
+
+// Replace icone des contenus dans menu de droite
+.lfr-product-menu-sidebar .sidebar-body .icon-sites .lexicon-icon-sites {
+	margin-top: -15px;
+}
+
+// Replace icone lorsqu'il n'y a pas de logo pour le site choisi dans le menu de gauche
+.lfr-product-menu-sidebar .sidebar-body .sticker-default .lexicon-icon-sites {
+	margin-top: 3px;
+}
+
+// "Aller au site" avec la bonne size
+.goto-link.list-group-heading.panel-header-link{
+	font-size: 14px;
+}
+
+// Menu de droite
+.lfr-add-panel{
+	font-size: 15px;
+	font-family: OpenSans, arial;
+
+	.lfr-content-item{  
+		margin-bottom: 8px;
+
+		.taglib-icon-label {
+		font-size: 16px;
+		}
+
+		.lexicon-icon {
+		height: 14px;
+		margin-top: 3px;
+		width: 14px;
+		}
+
+		.list-group-item-content{      
+		h1{
+		font-size: 14px !important;
+		font-family: OpenSans, arial;
+		font-weight: 600;
+		}
+
+		h2,h3{
+		font-size: 14px !important;
+		font-family: OpenSans, arial;
+		}
+		}
+	}
+} 
+	
+// Formulaire de connexion
+.login-container{
+	.field.form-control {
+		border-width: 1px 1px 1px 1px;
+		height: 30px;
+		width: 190px;
+		padding: 6px 12px;
+		margin: 1px;
+		font-size: 14px;
+		font-family: Arial, sans-serif;
+	}
+
+	.btn.btn-primary.btn-default {
+		height: 45px;
+		width: 100%;
+		background-color: rgb(51, 122, 183);
+		border-color: rgb(46, 109, 164);
+		font-size: 18px;
+	}
+
+	.btn.btn-primary.btn-default:hover {
+		background-color: rgb(40, 96, 144);
+		border-color: rgb(32, 77, 116);
+	}
+}
+
+// Message de notification
+.lfr-notification-container{
+	font-size: 14px;
+	font-family: OpenSans, arial;
+}
+
+// Notification alerte
+.liferayalert.alert-warning {
+	background-color: #fff4ec;
+	border-color: #ff8f39;
+	color: #B95000;
+	padding-bottom:17.5px;
+	padding-left:16px;
+	padding-right:40px;
+	padding-top:17.5px;
+
+
+	.lead{
+		font-size: 14px;
+		font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+		font-weight: 600;
+		margin-right: 5px;
+	}
+}
+
+// Notification danger
+.liferayalert.alert-danger {
+	background-color: #feefef;
+	border-color: #f48989;
+	color: #DA1414;
+	padding-bottom:17.5px;
+	padding-left:16px;
+	padding-right:40px;
+	padding-top:17.5px;
+
+	.lead{
+		font-size: 14px;
+		font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+		font-weight: 600;
+		margin-right: 5px;
+	}
+}
+
+// Contenu sous menu dans le menu de gauche 
+a[data-qa-id = 'app'] {
+	padding: 12px 16px !important;
+}
+
+// Formulaire mot de passe oublié taille des inputs
+input#_com_liferay_login_web_portlet_LoginPortlet_captchaText,input#_com_liferay_login_web_portlet_LoginPortlet_emailAddress{
+	width: 100%;
+}
+
+// Regle qui passait pour toutes ces classes le line-height en inherit
+[data-qa-id = 'controlMenu'],.lfr-notification-container,.lfr-admin-panel,.lfr-product-menu-sidebar {
+	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video{
+		line-height: initial;
+	} 
+}
+
+// affichage du menu de modification de contennu web
+.portlet-journal-content .portlet .portlet-header .visible-interaction .lfr-icon-menu{
+	background-color: transparent;
+	display: inline;
+
+	> a{
+		height: 32px;
+		line-height: 32px;
+		width: 32px;
+
+		.lexicon-icon{
+			height: 32px;
+			width: 32px;
+			padding: 8px;
+		}
+	}
+}

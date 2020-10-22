@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.place.service.http.PlaceServiceSoap}.
  *
  * @author Angelique Zunino Champougny
- * @see eu.strasbourg.service.place.service.http.PlaceServiceSoap
  * @generated
  */
 @ProviderType
 public class PlaceSoap implements Serializable {
+
 	public static PlaceSoap toSoapModel(Place model) {
 		PlaceSoap soapModel = new PlaceSoap();
 
@@ -63,12 +63,12 @@ public class PlaceSoap implements Serializable {
 		soapModel.setPresentation(model.getPresentation());
 		soapModel.setServiceAndActivities(model.getServiceAndActivities());
 		soapModel.setCharacteristics(model.getCharacteristics());
-		soapModel.setSubjectToPublicHoliday(model.getSubjectToPublicHoliday());
+		soapModel.setSubjectToPublicHoliday(model.isSubjectToPublicHoliday());
 		soapModel.setExceptionalSchedule(model.getExceptionalSchedule());
-		soapModel.setDisplayEvents(model.getDisplayEvents());
+		soapModel.setDisplayEvents(model.isDisplayEvents());
 		soapModel.setAdditionalInformation(model.getAdditionalInformation());
 		soapModel.setContenuTooltipCarto(model.getContenuTooltipCarto());
-		soapModel.setHasURLSchedule(model.getHasURLSchedule());
+		soapModel.setHasURLSchedule(model.isHasURLSchedule());
 		soapModel.setScheduleLinkName(model.getScheduleLinkName());
 		soapModel.setScheduleLinkURL(model.getScheduleLinkURL());
 		soapModel.setPhone(model.getPhone());
@@ -732,8 +732,11 @@ public class PlaceSoap implements Serializable {
 	private String _addressCountry;
 	private String _mercatorX;
 	private String _mercatorY;
+
 	private String _RGF93X;
+
 	private String _RGF93Y;
+
 	private String _locationId;
 	private String _alias;
 	private String _presentation;
@@ -778,4 +781,5 @@ public class PlaceSoap implements Serializable {
 	private String _videosIds;
 	private long _priceId;
 	private String _documentsIds;
+
 }

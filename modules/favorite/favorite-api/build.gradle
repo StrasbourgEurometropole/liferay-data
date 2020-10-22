@@ -1,12 +1,18 @@
 dependencies {
-	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "3.1.0"
-	compileOnly group: "com.liferay", name: "com.liferay.osgi.util", version: "3.0.0"
-	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.0.0"
-	compileOnly group: "org.osgi", name: "org.osgi.core", version: "6.0.0"
-	compileOnly project(":modules:place:place-api")
-	compileOnly project(":modules:agenda:agenda-api")
-	compileOnly project(":modules:edition:edition-api")
-	compileOnly project(":modules:video:video-api")
-	compileOnly project(":modules:activity:activity-api")
-	compileOnly project(":modules:gtfs:gtfs-api")
+	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "4.3.0"
+
+	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	compileOnly group: "com.liferay", name: "com.liferay.osgi.util"
+	compileOnly group: "com.liferay", name: "com.liferay.petra.string"
+
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+
+	compileOnly group: "org.osgi", name: "org.osgi.core"
+
+	compile project(":modules:place:place-api")
+	compile project(":modules:agenda:agenda-api")
+	compile project(":modules:edition:edition-api")
+	compile project(":modules:video:video-api")
+	compile project(":modules:activity:activity-api")
+	compile project(":modules:gtfs:gtfs-api")
 }

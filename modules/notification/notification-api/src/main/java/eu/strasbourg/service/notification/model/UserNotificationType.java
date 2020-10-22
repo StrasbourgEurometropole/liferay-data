@@ -25,21 +25,23 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see UserNotificationTypeModel
- * @see eu.strasbourg.service.notification.model.impl.UserNotificationTypeImpl
- * @see eu.strasbourg.service.notification.model.impl.UserNotificationTypeModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.notification.model.impl.UserNotificationTypeImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.notification.model.impl.UserNotificationTypeImpl"
+)
 @ProviderType
-public interface UserNotificationType extends UserNotificationTypeModel,
-	PersistedModel {
+public interface UserNotificationType
+	extends PersistedModel, UserNotificationTypeModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.notification.model.impl.UserNotificationTypeImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.notification.model.impl.UserNotificationTypeImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<UserNotificationType, String> PUBLIK_USER_ID_ACCESSOR =
-		new Accessor<UserNotificationType, String>() {
+	public static final Accessor<UserNotificationType, String>
+		PUBLIK_USER_ID_ACCESSOR = new Accessor<UserNotificationType, String>() {
+
 			@Override
 			public String get(UserNotificationType userNotificationType) {
 				return userNotificationType.getPublikUserId();
@@ -54,9 +56,11 @@ public interface UserNotificationType extends UserNotificationTypeModel,
 			public Class<UserNotificationType> getTypeClass() {
 				return UserNotificationType.class;
 			}
-		};
 
-	public static final Accessor<UserNotificationType, Long> TYPE_ID_ACCESSOR = new Accessor<UserNotificationType, Long>() {
+		};
+	public static final Accessor<UserNotificationType, Long> TYPE_ID_ACCESSOR =
+		new Accessor<UserNotificationType, Long>() {
+
 			@Override
 			public Long get(UserNotificationType userNotificationType) {
 				return userNotificationType.getTypeId();
@@ -71,5 +75,7 @@ public interface UserNotificationType extends UserNotificationTypeModel,
 			public Class<UserNotificationType> getTypeClass() {
 				return UserNotificationType.class;
 			}
+
 		};
+
 }

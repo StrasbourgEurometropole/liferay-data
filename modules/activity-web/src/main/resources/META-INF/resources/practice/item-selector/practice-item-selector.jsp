@@ -20,6 +20,15 @@
 
 <div id="<portlet:namespace />productsImageSelectorWrapper" class="container-fluid-1280 main-content-body">
 
+    <%-- Ajout du champ de recherche suite à sa disparition après migration en 7.2 --%>
+    <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
+        <aui:nav-bar-search>
+            <aui:form action="" name="keyword">
+                <liferay-ui:input-search markupView="lexicon" />
+            </aui:form>
+        </aui:nav-bar-search>
+    </aui:nav-bar>
+
 	<liferay-ui:search-container
 		emptyResultsMessage="no-entries-were-found"
 		iteratorURL="${portletURL}"
@@ -35,8 +44,13 @@
 			modelVar="practice" cssClass="practice-row" keyProperty="practiceId" rowIdProperty="practiceId"
 		>
 			<liferay-ui:search-container-column-text cssClass="content-column"
-				name="title" truncate="true"
-				value="Activité de ${practice.association.nameCurrentValue}" />
+				name="association" truncate="true"
+				value="${practice.association.nameCurrentValue}" />
+
+
+			<liferay-ui:search-container-column-text cssClass="content-column"
+				name="practice" truncate="true"
+				value="${practice.practice.titleCurrentValue}" />
 
 			<fmt:formatDate value="${practice.createDate}"
 				var="formattedPublicationDate" type="date" pattern="dd/MM/yyyy" />

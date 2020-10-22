@@ -14,12 +14,9 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
-
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -34,24 +31,20 @@ import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
-import eu.strasbourg.service.project.model.Participation;
-import eu.strasbourg.service.project.model.Petition;
-import eu.strasbourg.service.project.model.PlacitPlace;
-import eu.strasbourg.service.project.model.Project;
-import eu.strasbourg.service.project.model.ProjectFollowed;
-import eu.strasbourg.service.project.model.ProjectTimeline;
-import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
-import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
-import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
-import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
-import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
+import eu.strasbourg.service.project.model.*;
+import eu.strasbourg.service.project.service.*;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+
 /**
  * The extended model implementation for the Project service. Represents a row in the &quot;project_Project&quot; database table, with each column mapped to a property of this class.
- *
+ *getParticipations
  * <p>
  * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.project.model.Project} interface.
  * </p>
@@ -284,12 +277,25 @@ public class ProjectImpl extends ProjectBaseImpl {
 		List<AssetEntry> assetResults = new ArrayList<AssetEntry>();
 		List<Participation> participationResults = new ArrayList<Participation>();
 
-		if(getProjectCategory() != null)
-			assetResults = AssetEntryLocalServiceUtil
-					.getAssetCategoryAssetEntries(getProjectCategory()
-							.getCategoryId()).stream()
+		if(getProjectCategory() != null) {
+			List<AssetEntryAssetCategoryRel> entriesRel = AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(getProjectCategory()
+					.getCategoryId());
+
+			//transforme les AssetEntriesAssetCategories en AssetEntries
+			for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
+				if (Validator.isNotNull(entryRel)) {
+					try {
+						assetResults.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
+					} catch (PortalException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+			assetResults = assetResults.stream()
 					.filter(cat -> cat.getClassName().equals(Participation.class.getName()) && cat.isVisible())
 					.collect(Collectors.toList());
+		}
 
 		for (AssetEntry assetEntry : assetResults) {
 			participationResults.add(ParticipationLocalServiceUtil.fetchParticipation(assetEntry.getClassPK()));
@@ -303,12 +309,25 @@ public class ProjectImpl extends ProjectBaseImpl {
 		List<AssetEntry> assetResults = new ArrayList<>();
 		List<Petition> petitionsResults = new ArrayList<>();
 
-		if(getProjectCategory() != null)
-			assetResults = AssetEntryLocalServiceUtil
-					.getAssetCategoryAssetEntries(getProjectCategory()
-							.getCategoryId()).stream()
+		if(getProjectCategory() != null) {
+			List<AssetEntryAssetCategoryRel> entriesRel = AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(getProjectCategory()
+					.getCategoryId());
+
+			//transforme les AssetEntriesAssetCategories en AssetEntries
+			for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
+				if (Validator.isNotNull(entryRel)) {
+					try {
+						assetResults.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
+					} catch (PortalException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+			assetResults.stream()
 					.filter(cat -> cat.getClassName().equals(Petition.class.getName()) && cat.isVisible())
 					.collect(Collectors.toList());
+		}
 
 		for (AssetEntry assetEntry : assetResults) {
             petitionsResults.add(PetitionLocalServiceUtil.fetchPetition(assetEntry.getClassPK()));
@@ -325,16 +344,29 @@ public class ProjectImpl extends ProjectBaseImpl {
 		List<AssetEntry> assetResults = new ArrayList<AssetEntry>();
 		List<Event> eventResults = new ArrayList<Event>();
 		
-		if(getProjectCategory() != null)
-			assetResults = AssetEntryLocalServiceUtil
-			.getAssetCategoryAssetEntries(getProjectCategory()
-			.getCategoryId()).stream()
-			.filter(cat -> cat.getClassName().equals(Event.class.getName()) && cat.isVisible())
-			.collect(Collectors.toList());
-		
-			for (AssetEntry assetEntry : assetResults) {
-				eventResults.add(EventLocalServiceUtil.fetchEvent(assetEntry.getClassPK()));
+		if(getProjectCategory() != null) {
+			List<AssetEntryAssetCategoryRel> entriesRel = AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(getProjectCategory()
+					.getCategoryId());
+
+			//transforme les AssetEntriesAssetCategories en AssetEntries
+			for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
+				if (Validator.isNotNull(entryRel)) {
+					try {
+						assetResults.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
+					} catch (PortalException e) {
+						e.printStackTrace();
+					}
+				}
 			}
+
+			assetResults.stream()
+					.filter(cat -> cat.getClassName().equals(Event.class.getName()) && cat.isVisible())
+					.collect(Collectors.toList());
+		}
+		
+		for (AssetEntry assetEntry : assetResults) {
+			eventResults.add(EventLocalServiceUtil.fetchEvent(assetEntry.getClassPK()));
+		}
 
 		return eventResults;
 	}
@@ -459,5 +491,4 @@ public class ProjectImpl extends ProjectBaseImpl {
 
 		return jsonProject;
 	}
-
 }

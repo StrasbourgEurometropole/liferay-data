@@ -26,50 +26,54 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class OfficialServiceWrapper implements OfficialService,
-	ServiceWrapper<OfficialService> {
+public class OfficialServiceWrapper
+	implements OfficialService, ServiceWrapper<OfficialService> {
+
 	public OfficialServiceWrapper(OfficialService officialService) {
 		_officialService = officialService;
 	}
 
 	/**
-	* Recherche d'élu pour l'autocompletion
-	*
-	* @param fullName Nom, prénom ou les deux de l'élu à trouver
-	* @param type Type de l'élu recherché (peut être vide)
-	* @param removedOfficialId ID de l'élu à retirer de la liste des résultats (0 si non-utilisé)
-	* @param groupId Site sur lequel cherchés
-	* @return Liste des élus au format JSON
-	*/
+	 * Recherche des électeurs pour une session données groupés par statut de connexion et nom complet
+	 *
+	 * @param councilSessionId
+	 * @param groupId ID du site
+	 * @return Tableaux des statuts possibles contenant la liste des électeurs assimilables auxdits statuts
+	 */
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray getOfficialByFullNameAndType(
-		java.lang.String fullName, java.lang.String type,
-		long removedOfficialId, long groupId) {
-		return _officialService.getOfficialByFullNameAndType(fullName, type,
-			removedOfficialId, groupId);
+	public com.liferay.portal.kernel.json.JSONObject
+		getOfficialByConnexionStatus(long councilSessionId, long groupId) {
+
+		return _officialService.getOfficialByConnexionStatus(
+			councilSessionId, groupId);
 	}
 
 	/**
-	* Recherche des électeurs pour une session données groupés par statut de connexion et nom complet
-	*
-	* @param councilSessionId
-	* @param groupId ID du site
-	* @return Tableaux des statuts possibles contenant la liste des électeurs assimilables auxdits statuts
-	*/
+	 * Recherche d'élu pour l'autocompletion
+	 *
+	 * @param fullName Nom, prénom ou les deux de l'élu à trouver
+	 * @param type Type de l'élu recherché (peut être vide)
+	 * @param removedOfficialId ID de l'élu à retirer de la liste des résultats (0 si non-utilisé)
+	 * @param groupId Site sur lequel cherchés
+	 * @return Liste des élus au format JSON
+	 */
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getOfficialByConnexionStatus(
-		long councilSessionId, long groupId) {
-		return _officialService.getOfficialByConnexionStatus(councilSessionId,
-			groupId);
+	public com.liferay.portal.kernel.json.JSONArray
+		getOfficialByFullNameAndType(
+			String fullName, String type, long removedOfficialId,
+			long groupId) {
+
+		return _officialService.getOfficialByFullNameAndType(
+			fullName, type, removedOfficialId, groupId);
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _officialService.getOSGiServiceIdentifier();
 	}
 
@@ -84,4 +88,5 @@ public class OfficialServiceWrapper implements OfficialService,
 	}
 
 	private OfficialService _officialService;
+
 }

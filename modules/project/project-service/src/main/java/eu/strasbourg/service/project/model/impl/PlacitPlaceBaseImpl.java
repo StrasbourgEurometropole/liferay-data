@@ -32,12 +32,13 @@ import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class PlacitPlaceBaseImpl extends PlacitPlaceModelImpl
-	implements PlacitPlace {
+public abstract class PlacitPlaceBaseImpl
+	extends PlacitPlaceModelImpl implements PlacitPlace {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a placit place model instance should use the {@link PlacitPlace} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a placit place model instance should use the <code>PlacitPlace</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class PlacitPlaceBaseImpl extends PlacitPlaceModelImpl
 			PlacitPlaceLocalServiceUtil.updatePlacitPlace(this);
 		}
 	}
+
 }

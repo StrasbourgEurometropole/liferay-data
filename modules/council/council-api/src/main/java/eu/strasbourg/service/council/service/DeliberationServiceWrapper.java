@@ -26,26 +26,29 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class DeliberationServiceWrapper implements DeliberationService,
-	ServiceWrapper<DeliberationService> {
+public class DeliberationServiceWrapper
+	implements DeliberationService, ServiceWrapper<DeliberationService> {
+
 	public DeliberationServiceWrapper(DeliberationService deliberationService) {
 		_deliberationService = deliberationService;
 	}
 
+	/**
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getUserFront(
-		long officialId, java.lang.String officialDeviceInfo) {
-		return _deliberationService.getUserFront(officialId, officialDeviceInfo);
+	public String getOSGiServiceIdentifier() {
+		return _deliberationService.getOSGiServiceIdentifier();
 	}
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _deliberationService.getOSGiServiceIdentifier();
+	public com.liferay.portal.kernel.json.JSONObject getUserFront(
+		long officialId, String officialDeviceInfo) {
+
+		return _deliberationService.getUserFront(
+			officialId, officialDeviceInfo);
 	}
 
 	@Override
@@ -59,4 +62,5 @@ public class DeliberationServiceWrapper implements DeliberationService,
 	}
 
 	private DeliberationService _deliberationService;
+
 }

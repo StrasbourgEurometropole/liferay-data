@@ -30,12 +30,15 @@ import java.util.List;
  */
 @ProviderType
 public class AnonymisationHistoricSoap implements Serializable {
+
 	public static AnonymisationHistoricSoap toSoapModel(
 		AnonymisationHistoric model) {
+
 		AnonymisationHistoricSoap soapModel = new AnonymisationHistoricSoap();
 
 		soapModel.setUuid(model.getUuid());
-		soapModel.setAnonymisationHistoricId(model.getAnonymisationHistoricId());
+		soapModel.setAnonymisationHistoricId(
+			model.getAnonymisationHistoricId());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setUserId(model.getUserId());
@@ -59,7 +62,9 @@ public class AnonymisationHistoricSoap implements Serializable {
 
 	public static AnonymisationHistoricSoap[] toSoapModels(
 		AnonymisationHistoric[] models) {
-		AnonymisationHistoricSoap[] soapModels = new AnonymisationHistoricSoap[models.length];
+
+		AnonymisationHistoricSoap[] soapModels =
+			new AnonymisationHistoricSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -70,10 +75,12 @@ public class AnonymisationHistoricSoap implements Serializable {
 
 	public static AnonymisationHistoricSoap[][] toSoapModels(
 		AnonymisationHistoric[][] models) {
+
 		AnonymisationHistoricSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new AnonymisationHistoricSoap[models.length][models[0].length];
+			soapModels =
+				new AnonymisationHistoricSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new AnonymisationHistoricSoap[0][0];
@@ -88,13 +95,16 @@ public class AnonymisationHistoricSoap implements Serializable {
 
 	public static AnonymisationHistoricSoap[] toSoapModels(
 		List<AnonymisationHistoric> models) {
-		List<AnonymisationHistoricSoap> soapModels = new ArrayList<AnonymisationHistoricSoap>(models.size());
+
+		List<AnonymisationHistoricSoap> soapModels =
+			new ArrayList<AnonymisationHistoricSoap>(models.size());
 
 		for (AnonymisationHistoric model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new AnonymisationHistoricSoap[soapModels.size()]);
+		return soapModels.toArray(
+			new AnonymisationHistoricSoap[soapModels.size()]);
 	}
 
 	public AnonymisationHistoricSoap() {
@@ -279,4 +289,5 @@ public class AnonymisationHistoricSoap implements Serializable {
 	private String _errorStackTrace;
 	private Date _startDate;
 	private Date _finishDate;
+
 }

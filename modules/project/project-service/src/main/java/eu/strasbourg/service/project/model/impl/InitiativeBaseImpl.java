@@ -32,12 +32,13 @@ import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class InitiativeBaseImpl extends InitiativeModelImpl
-	implements Initiative {
+public abstract class InitiativeBaseImpl
+	extends InitiativeModelImpl implements Initiative {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a initiative model instance should use the {@link Initiative} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a initiative model instance should use the <code>Initiative</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class InitiativeBaseImpl extends InitiativeModelImpl
 			InitiativeLocalServiceUtil.updateInitiative(this);
 		}
 	}
+
 }

@@ -17,7 +17,6 @@ package eu.strasbourg.service.favorite.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -39,6 +38,7 @@ import java.util.Objects;
  */
 @ProviderType
 public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
+
 	public FavoriteWrapper(Favorite favorite) {
 		_favorite = favorite;
 	}
@@ -121,8 +121,135 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	}
 
 	@Override
+	public Object clone() {
+		return new FavoriteWrapper((Favorite)_favorite.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.favorite.model.Favorite favorite) {
+
+		return _favorite.compareTo(favorite);
+	}
+
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _favorite.getAssetEntry();
+	}
+
+	/**
+	 * Returns the entity group ID of this favorite.
+	 *
+	 * @return the entity group ID of this favorite
+	 */
+	@Override
+	public long getEntityGroupId() {
+		return _favorite.getEntityGroupId();
+	}
+
+	/**
+	 * Returns the entity ID of this favorite.
+	 *
+	 * @return the entity ID of this favorite
+	 */
+	@Override
+	public long getEntityId() {
+		return _favorite.getEntityId();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _favorite.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the favorite ID of this favorite.
+	 *
+	 * @return the favorite ID of this favorite
+	 */
+	@Override
+	public long getFavoriteId() {
+		return _favorite.getFavoriteId();
+	}
+
+	@Override
+	public eu.strasbourg.service.favorite.model.FavoriteType getFavoriteType() {
+		return _favorite.getFavoriteType();
+	}
+
+	/**
+	 * Returns the on dashboard date of this favorite.
+	 *
+	 * @return the on dashboard date of this favorite
+	 */
+	@Override
+	public Date getOnDashboardDate() {
+		return _favorite.getOnDashboardDate();
+	}
+
+	/**
+	 * Returns the primary key of this favorite.
+	 *
+	 * @return the primary key of this favorite
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _favorite.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _favorite.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the publik user ID of this favorite.
+	 *
+	 * @return the publik user ID of this favorite
+	 */
+	@Override
+	public String getPublikUserId() {
+		return _favorite.getPublikUserId();
+	}
+
+	/**
+	 * Returns the title of this favorite.
+	 *
+	 * @return the title of this favorite
+	 */
+	@Override
+	public String getTitle() {
+		return _favorite.getTitle();
+	}
+
+	/**
+	 * Returns the type ID of this favorite.
+	 *
+	 * @return the type ID of this favorite
+	 */
+	@Override
+	public long getTypeId() {
+		return _favorite.getTypeId();
+	}
+
+	/**
+	 * Returns the url of this favorite.
+	 *
+	 * @return the url of this favorite
+	 */
+	@Override
+	public String getUrl() {
+		return _favorite.getUrl();
+	}
+
+	@Override
 	public boolean hasAssetEntry() {
 		return _favorite.hasAssetEntry();
+	}
+
+	@Override
+	public int hashCode() {
+		return _favorite.hashCode();
 	}
 
 	@Override
@@ -146,164 +273,6 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	}
 
 	@Override
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _favorite.getAssetEntry();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _favorite.getExpandoBridge();
-	}
-
-	/**
-	* Retourne la version JSON d'un favoris
-	*/
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _favorite.toJSON();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.favorite.model.Favorite> toCacheModel() {
-		return _favorite.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.favorite.model.Favorite toEscapedModel() {
-		return new FavoriteWrapper(_favorite.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.favorite.model.Favorite toUnescapedModel() {
-		return new FavoriteWrapper(_favorite.toUnescapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.favorite.model.FavoriteType getFavoriteType() {
-		return _favorite.getFavoriteType();
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.favorite.model.Favorite favorite) {
-		return _favorite.compareTo(favorite);
-	}
-
-	@Override
-	public int hashCode() {
-		return _favorite.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _favorite.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new FavoriteWrapper((Favorite)_favorite.clone());
-	}
-
-	/**
-	* Returns the publik user ID of this favorite.
-	*
-	* @return the publik user ID of this favorite
-	*/
-	@Override
-	public java.lang.String getPublikUserId() {
-		return _favorite.getPublikUserId();
-	}
-
-	/**
-	* Returns the title of this favorite.
-	*
-	* @return the title of this favorite
-	*/
-	@Override
-	public java.lang.String getTitle() {
-		return _favorite.getTitle();
-	}
-
-	/**
-	* Returns the url of this favorite.
-	*
-	* @return the url of this favorite
-	*/
-	@Override
-	public java.lang.String getUrl() {
-		return _favorite.getUrl();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _favorite.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _favorite.toXmlString();
-	}
-
-	/**
-	* Returns the on dashboard date of this favorite.
-	*
-	* @return the on dashboard date of this favorite
-	*/
-	@Override
-	public Date getOnDashboardDate() {
-		return _favorite.getOnDashboardDate();
-	}
-
-	/**
-	* Returns the entity group ID of this favorite.
-	*
-	* @return the entity group ID of this favorite
-	*/
-	@Override
-	public long getEntityGroupId() {
-		return _favorite.getEntityGroupId();
-	}
-
-	/**
-	* Returns the entity ID of this favorite.
-	*
-	* @return the entity ID of this favorite
-	*/
-	@Override
-	public long getEntityId() {
-		return _favorite.getEntityId();
-	}
-
-	/**
-	* Returns the favorite ID of this favorite.
-	*
-	* @return the favorite ID of this favorite
-	*/
-	@Override
-	public long getFavoriteId() {
-		return _favorite.getFavoriteId();
-	}
-
-	/**
-	* Returns the primary key of this favorite.
-	*
-	* @return the primary key of this favorite
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _favorite.getPrimaryKey();
-	}
-
-	/**
-	* Returns the type ID of this favorite.
-	*
-	* @return the type ID of this favorite
-	*/
-	@Override
-	public long getTypeId() {
-		return _favorite.getTypeId();
-	}
-
-	@Override
 	public void persist() {
 		_favorite.persist();
 	}
@@ -314,23 +283,30 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	}
 
 	/**
-	* Sets the entity group ID of this favorite.
-	*
-	* @param entityGroupId the entity group ID of this favorite
-	*/
+	 * Sets the entity group ID of this favorite.
+	 *
+	 * @param entityGroupId the entity group ID of this favorite
+	 */
 	@Override
 	public void setEntityGroupId(long entityGroupId) {
 		_favorite.setEntityGroupId(entityGroupId);
 	}
 
 	/**
-	* Sets the entity ID of this favorite.
-	*
-	* @param entityId the entity ID of this favorite
-	*/
+	 * Sets the entity ID of this favorite.
+	 *
+	 * @param entityId the entity ID of this favorite
+	 */
 	@Override
 	public void setEntityId(long entityId) {
 		_favorite.setEntityId(entityId);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_favorite.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -339,21 +315,15 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_favorite.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_favorite.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the favorite ID of this favorite.
-	*
-	* @param favoriteId the favorite ID of this favorite
-	*/
+	 * Sets the favorite ID of this favorite.
+	 *
+	 * @param favoriteId the favorite ID of this favorite
+	 */
 	@Override
 	public void setFavoriteId(long favoriteId) {
 		_favorite.setFavoriteId(favoriteId);
@@ -365,20 +335,20 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	}
 
 	/**
-	* Sets the on dashboard date of this favorite.
-	*
-	* @param onDashboardDate the on dashboard date of this favorite
-	*/
+	 * Sets the on dashboard date of this favorite.
+	 *
+	 * @param onDashboardDate the on dashboard date of this favorite
+	 */
 	@Override
 	public void setOnDashboardDate(Date onDashboardDate) {
 		_favorite.setOnDashboardDate(onDashboardDate);
 	}
 
 	/**
-	* Sets the primary key of this favorite.
-	*
-	* @param primaryKey the primary key of this favorite
-	*/
+	 * Sets the primary key of this favorite.
+	 *
+	 * @param primaryKey the primary key of this favorite
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_favorite.setPrimaryKey(primaryKey);
@@ -390,43 +360,78 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	}
 
 	/**
-	* Sets the publik user ID of this favorite.
-	*
-	* @param publikUserId the publik user ID of this favorite
-	*/
+	 * Sets the publik user ID of this favorite.
+	 *
+	 * @param publikUserId the publik user ID of this favorite
+	 */
 	@Override
-	public void setPublikUserId(java.lang.String publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		_favorite.setPublikUserId(publikUserId);
 	}
 
 	/**
-	* Sets the title of this favorite.
-	*
-	* @param title the title of this favorite
-	*/
+	 * Sets the title of this favorite.
+	 *
+	 * @param title the title of this favorite
+	 */
 	@Override
-	public void setTitle(java.lang.String title) {
+	public void setTitle(String title) {
 		_favorite.setTitle(title);
 	}
 
 	/**
-	* Sets the type ID of this favorite.
-	*
-	* @param typeId the type ID of this favorite
-	*/
+	 * Sets the type ID of this favorite.
+	 *
+	 * @param typeId the type ID of this favorite
+	 */
 	@Override
 	public void setTypeId(long typeId) {
 		_favorite.setTypeId(typeId);
 	}
 
 	/**
-	* Sets the url of this favorite.
-	*
-	* @param url the url of this favorite
-	*/
+	 * Sets the url of this favorite.
+	 *
+	 * @param url the url of this favorite
+	 */
 	@Override
-	public void setUrl(java.lang.String url) {
+	public void setUrl(String url) {
 		_favorite.setUrl(url);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.favorite.model.Favorite> toCacheModel() {
+
+		return _favorite.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.favorite.model.Favorite toEscapedModel() {
+		return new FavoriteWrapper(_favorite.toEscapedModel());
+	}
+
+	/**
+	 * Retourne la version JSON d'un favoris
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _favorite.toJSON();
+	}
+
+	@Override
+	public String toString() {
+		return _favorite.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.favorite.model.Favorite toUnescapedModel() {
+		return new FavoriteWrapper(_favorite.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _favorite.toXmlString();
 	}
 
 	@Override
@@ -469,4 +474,5 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	}
 
 	private final Favorite _favorite;
+
 }

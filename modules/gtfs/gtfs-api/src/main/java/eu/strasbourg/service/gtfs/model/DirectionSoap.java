@@ -29,6 +29,7 @@ import java.util.List;
  */
 @ProviderType
 public class DirectionSoap implements Serializable {
+
 	public static DirectionSoap toSoapModel(Direction model) {
 		DirectionSoap soapModel = new DirectionSoap();
 
@@ -72,7 +73,8 @@ public class DirectionSoap implements Serializable {
 	}
 
 	public static DirectionSoap[] toSoapModels(List<Direction> models) {
-		List<DirectionSoap> soapModels = new ArrayList<DirectionSoap>(models.size());
+		List<DirectionSoap> soapModels = new ArrayList<DirectionSoap>(
+			models.size());
 
 		for (Direction model : models) {
 			soapModels.add(toSoapModel(model));
@@ -164,4 +166,5 @@ public class DirectionSoap implements Serializable {
 	private String _stopId;
 	private String _routeId;
 	private String _destinationName;
+
 }

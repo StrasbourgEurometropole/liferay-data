@@ -273,7 +273,7 @@
 	    
 	}); // End onReady
 	
-	$(window).load(function(){
+	$(window).on("load", function(){
 		$('html.no-js').removeClass('no-js');
 	}); //End onLoad
 	

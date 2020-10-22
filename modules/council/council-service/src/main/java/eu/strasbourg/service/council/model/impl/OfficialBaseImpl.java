@@ -32,12 +32,13 @@ import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class OfficialBaseImpl extends OfficialModelImpl
-	implements Official {
+public abstract class OfficialBaseImpl
+	extends OfficialModelImpl implements Official {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a official model instance should use the {@link Official} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a official model instance should use the <code>Official</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class OfficialBaseImpl extends OfficialModelImpl
 			OfficialLocalServiceUtil.updateOfficial(this);
 		}
 	}
+
 }

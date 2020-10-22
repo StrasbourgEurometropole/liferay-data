@@ -25,20 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Brian Wing Shun Chan
  * @see CouncilSessionModel
- * @see eu.strasbourg.service.council.model.impl.CouncilSessionImpl
- * @see eu.strasbourg.service.council.model.impl.CouncilSessionModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.council.model.impl.CouncilSessionImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.council.model.impl.CouncilSessionImpl"
+)
 @ProviderType
 public interface CouncilSession extends CouncilSessionModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.council.model.impl.CouncilSessionImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.council.model.impl.CouncilSessionImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<CouncilSession, Long> COUNCIL_SESSION_ID_ACCESSOR =
-		new Accessor<CouncilSession, Long>() {
+	public static final Accessor<CouncilSession, Long>
+		COUNCIL_SESSION_ID_ACCESSOR = new Accessor<CouncilSession, Long>() {
+
 			@Override
 			public Long get(CouncilSession councilSession) {
 				return councilSession.getCouncilSessionId();
@@ -53,35 +55,39 @@ public interface CouncilSession extends CouncilSessionModel, PersistedModel {
 			public Class<CouncilSession> getTypeClass() {
 				return CouncilSession.class;
 			}
+
 		};
 
 	/**
-	* Retourne l'AssetEntry rattaché cet item
-	*/
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories();
 
 	/**
-	* Renvoie la liste des procurations rattachées à cette sessions
-	*/
-	public java.util.List<eu.strasbourg.service.council.model.Procuration> getProcurations();
+	 * Renvoie la liste des procurations rattachées à cette sessions
+	 */
+	public java.util.List<eu.strasbourg.service.council.model.Procuration>
+		getProcurations();
 
 	/**
-	* Renvoie l'élu président du conseil rattachées à cette sessions
-	*/
+	 * Renvoie l'élu président du conseil rattachées à cette sessions
+	 */
 	public eu.strasbourg.service.council.model.Official getOfficialLeader();
 
 	/**
-	* Renvoie le type de conseil rattachées à cette sessions
-	*/
+	 * Renvoie le type de conseil rattachées à cette sessions
+	 */
 	public eu.strasbourg.service.council.model.Type getTypeCouncil();
 
 	/**
-	* Renvoie le nom complet de l'élu président du conseil
-	*/
-	public java.lang.String getOfficialLeaderFullName();
+	 * Renvoie le nom complet de l'élu président du conseil
+	 */
+	public String getOfficialLeaderFullName();
+
 }

@@ -32,12 +32,13 @@ import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class PetitionBaseImpl extends PetitionModelImpl
-	implements Petition {
+public abstract class PetitionBaseImpl
+	extends PetitionModelImpl implements Petition {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a petition model instance should use the {@link Petition} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a petition model instance should use the <code>Petition</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class PetitionBaseImpl extends PetitionModelImpl
 			PetitionLocalServiceUtil.updatePetition(this);
 		}
 	}
+
 }

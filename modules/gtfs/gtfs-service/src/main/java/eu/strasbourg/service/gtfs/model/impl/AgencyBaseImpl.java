@@ -33,10 +33,11 @@ import eu.strasbourg.service.gtfs.service.AgencyLocalServiceUtil;
  */
 @ProviderType
 public abstract class AgencyBaseImpl extends AgencyModelImpl implements Agency {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a agency model instance should use the {@link Agency} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a agency model instance should use the <code>Agency</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class AgencyBaseImpl extends AgencyModelImpl implements Agency {
 			AgencyLocalServiceUtil.updateAgency(this);
 		}
 	}
+
 }

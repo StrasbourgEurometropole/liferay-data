@@ -27,10 +27,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
@@ -45,6 +44,7 @@ import eu.strasbourg.service.project.service.persistence.InitiativeHelpPersisten
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -63,54 +63,33 @@ import java.util.Set;
  * </p>
  *
  * @author Cedric Henry
- * @see InitiativeHelpPersistence
- * @see eu.strasbourg.service.project.service.persistence.InitiativeHelpUtil
  * @generated
  */
 @ProviderType
-public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<InitiativeHelp>
+public class InitiativeHelpPersistenceImpl
+	extends BasePersistenceImpl<InitiativeHelp>
 	implements InitiativeHelpPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link InitiativeHelpUtil} to access the initiative help persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>InitiativeHelpUtil</code> to access the initiative help persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = InitiativeHelpImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			InitiativeHelpModelImpl.UUID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		InitiativeHelpImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the initiative helps where uuid = &#63;.
@@ -127,7 +106,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * Returns a range of all the initiative helps where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -144,7 +123,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * Returns an ordered range of all the initiative helps where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -154,8 +133,10 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the ordered range of matching initiative helps
 	 */
 	@Override
-	public List<InitiativeHelp> findByUuid(String uuid, int start, int end,
+	public List<InitiativeHelp> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<InitiativeHelp> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -163,7 +144,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * Returns an ordered range of all the initiative helps where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -174,33 +155,38 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the ordered range of matching initiative helps
 	 */
 	@Override
-	public List<InitiativeHelp> findByUuid(String uuid, int start, int end,
+	public List<InitiativeHelp> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<InitiativeHelp> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<InitiativeHelp> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<InitiativeHelp>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<InitiativeHelp>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (InitiativeHelp initiativeHelp : list) {
-					if (!Objects.equals(uuid, initiativeHelp.getUuid())) {
+					if (!uuid.equals(initiativeHelp.getUuid())) {
 						list = null;
 
 						break;
@@ -213,8 +199,8 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -224,10 +210,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -237,11 +220,10 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(InitiativeHelpModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -261,16 +243,16 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 				}
 
 				if (!pagination) {
-					list = (List<InitiativeHelp>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<InitiativeHelp>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<InitiativeHelp>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<InitiativeHelp>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -299,11 +281,12 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
 	 */
 	@Override
-	public InitiativeHelp findByUuid_First(String uuid,
-		OrderByComparator<InitiativeHelp> orderByComparator)
+	public InitiativeHelp findByUuid_First(
+			String uuid, OrderByComparator<InitiativeHelp> orderByComparator)
 		throws NoSuchInitiativeHelpException {
-		InitiativeHelp initiativeHelp = fetchByUuid_First(uuid,
-				orderByComparator);
+
+		InitiativeHelp initiativeHelp = fetchByUuid_First(
+			uuid, orderByComparator);
 
 		if (initiativeHelp != null) {
 			return initiativeHelp;
@@ -316,7 +299,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeHelpException(msg.toString());
 	}
@@ -329,8 +312,9 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the first matching initiative help, or <code>null</code> if a matching initiative help could not be found
 	 */
 	@Override
-	public InitiativeHelp fetchByUuid_First(String uuid,
-		OrderByComparator<InitiativeHelp> orderByComparator) {
+	public InitiativeHelp fetchByUuid_First(
+		String uuid, OrderByComparator<InitiativeHelp> orderByComparator) {
+
 		List<InitiativeHelp> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -349,10 +333,12 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
 	 */
 	@Override
-	public InitiativeHelp findByUuid_Last(String uuid,
-		OrderByComparator<InitiativeHelp> orderByComparator)
+	public InitiativeHelp findByUuid_Last(
+			String uuid, OrderByComparator<InitiativeHelp> orderByComparator)
 		throws NoSuchInitiativeHelpException {
-		InitiativeHelp initiativeHelp = fetchByUuid_Last(uuid, orderByComparator);
+
+		InitiativeHelp initiativeHelp = fetchByUuid_Last(
+			uuid, orderByComparator);
 
 		if (initiativeHelp != null) {
 			return initiativeHelp;
@@ -365,7 +351,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeHelpException(msg.toString());
 	}
@@ -378,16 +364,17 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the last matching initiative help, or <code>null</code> if a matching initiative help could not be found
 	 */
 	@Override
-	public InitiativeHelp fetchByUuid_Last(String uuid,
-		OrderByComparator<InitiativeHelp> orderByComparator) {
+	public InitiativeHelp fetchByUuid_Last(
+		String uuid, OrderByComparator<InitiativeHelp> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<InitiativeHelp> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<InitiativeHelp> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -406,9 +393,13 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @throws NoSuchInitiativeHelpException if a initiative help with the primary key could not be found
 	 */
 	@Override
-	public InitiativeHelp[] findByUuid_PrevAndNext(long initiativeHelpId,
-		String uuid, OrderByComparator<InitiativeHelp> orderByComparator)
+	public InitiativeHelp[] findByUuid_PrevAndNext(
+			long initiativeHelpId, String uuid,
+			OrderByComparator<InitiativeHelp> orderByComparator)
 		throws NoSuchInitiativeHelpException {
+
+		uuid = Objects.toString(uuid, "");
+
 		InitiativeHelp initiativeHelp = findByPrimaryKey(initiativeHelpId);
 
 		Session session = null;
@@ -418,13 +409,13 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 			InitiativeHelp[] array = new InitiativeHelpImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, initiativeHelp, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, initiativeHelp, uuid, orderByComparator, true);
 
 			array[1] = initiativeHelp;
 
-			array[2] = getByUuid_PrevAndNext(session, initiativeHelp, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, initiativeHelp, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -436,14 +427,15 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		}
 	}
 
-	protected InitiativeHelp getByUuid_PrevAndNext(Session session,
-		InitiativeHelp initiativeHelp, String uuid,
+	protected InitiativeHelp getByUuid_PrevAndNext(
+		Session session, InitiativeHelp initiativeHelp, String uuid,
 		OrderByComparator<InitiativeHelp> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -454,10 +446,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -467,7 +456,8 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -539,10 +529,11 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(initiativeHelp);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						initiativeHelp)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -563,8 +554,9 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (InitiativeHelp initiativeHelp : findByUuid(uuid,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (InitiativeHelp initiativeHelp :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(initiativeHelp);
 		}
 	}
@@ -577,9 +569,11 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -590,10 +584,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -634,23 +625,17 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "initiativeHelp.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "initiativeHelp.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(initiativeHelp.uuid IS NULL OR initiativeHelp.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			InitiativeHelpModelImpl.UUID_COLUMN_BITMASK |
-			InitiativeHelpModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"initiativeHelp.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(initiativeHelp.uuid IS NULL OR initiativeHelp.uuid = '')";
+
+	private FinderPath _finderPathFetchByUUID_G;
+	private FinderPath _finderPathCountByUUID_G;
 
 	/**
-	 * Returns the initiative help where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchInitiativeHelpException} if it could not be found.
+	 * Returns the initiative help where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchInitiativeHelpException</code> if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
@@ -660,6 +645,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	@Override
 	public InitiativeHelp findByUUID_G(String uuid, long groupId)
 		throws NoSuchInitiativeHelpException {
+
 		InitiativeHelp initiativeHelp = fetchByUUID_G(uuid, groupId);
 
 		if (initiativeHelp == null) {
@@ -673,7 +659,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 			msg.append(", groupId=");
 			msg.append(groupId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -706,22 +692,26 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
 	 */
 	@Override
-	public InitiativeHelp fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
+	public InitiativeHelp fetchByUUID_G(
+		String uuid, long groupId, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
 		if (result instanceof InitiativeHelp) {
 			InitiativeHelp initiativeHelp = (InitiativeHelp)result;
 
 			if (!Objects.equals(uuid, initiativeHelp.getUuid()) ||
-					(groupId != initiativeHelp.getGroupId())) {
+				(groupId != initiativeHelp.getGroupId())) {
+
 				result = null;
 			}
 		}
@@ -733,10 +723,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -767,8 +754,8 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 				List<InitiativeHelp> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByUUID_G, finderArgs, list);
 				}
 				else {
 					InitiativeHelp initiativeHelp = list.get(0);
@@ -776,17 +763,10 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 					result = initiativeHelp;
 
 					cacheResult(initiativeHelp);
-
-					if ((initiativeHelp.getUuid() == null) ||
-							!initiativeHelp.getUuid().equals(uuid) ||
-							(initiativeHelp.getGroupId() != groupId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-							finderArgs, initiativeHelp);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
+				finderCache.removeResult(_finderPathFetchByUUID_G, finderArgs);
 
 				throw processException(e);
 			}
@@ -813,6 +793,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	@Override
 	public InitiativeHelp removeByUUID_G(String uuid, long groupId)
 		throws NoSuchInitiativeHelpException {
+
 		InitiativeHelp initiativeHelp = findByUUID_G(uuid, groupId);
 
 		return remove(initiativeHelp);
@@ -827,9 +808,11 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, groupId };
+		FinderPath finderPath = _finderPathCountByUUID_G;
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -840,10 +823,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -888,32 +868,18 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "initiativeHelp.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "initiativeHelp.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(initiativeHelp.uuid IS NULL OR initiativeHelp.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "initiativeHelp.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKUSERID =
-		new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPublikUserId",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID =
-		new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
-			new String[] { String.class.getName() },
-			InitiativeHelpModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKUSERID = new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] { String.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
+		"initiativeHelp.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
+		"(initiativeHelp.uuid IS NULL OR initiativeHelp.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
+		"initiativeHelp.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByPublikUserId;
+	private FinderPath _finderPathWithoutPaginationFindByPublikUserId;
+	private FinderPath _finderPathCountByPublikUserId;
 
 	/**
 	 * Returns all the initiative helps where publikUserId = &#63;.
@@ -923,15 +889,15 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public List<InitiativeHelp> findByPublikUserId(String publikUserId) {
-		return findByPublikUserId(publikUserId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByPublikUserId(
+			publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the initiative helps where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -940,8 +906,9 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the range of matching initiative helps
 	 */
 	@Override
-	public List<InitiativeHelp> findByPublikUserId(String publikUserId,
-		int start, int end) {
+	public List<InitiativeHelp> findByPublikUserId(
+		String publikUserId, int start, int end) {
+
 		return findByPublikUserId(publikUserId, start, end, null);
 	}
 
@@ -949,7 +916,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * Returns an ordered range of all the initiative helps where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -959,17 +926,19 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the ordered range of matching initiative helps
 	 */
 	@Override
-	public List<InitiativeHelp> findByPublikUserId(String publikUserId,
-		int start, int end, OrderByComparator<InitiativeHelp> orderByComparator) {
-		return findByPublikUserId(publikUserId, start, end, orderByComparator,
-			true);
+	public List<InitiativeHelp> findByPublikUserId(
+		String publikUserId, int start, int end,
+		OrderByComparator<InitiativeHelp> orderByComparator) {
+
+		return findByPublikUserId(
+			publikUserId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the initiative helps where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -980,39 +949,42 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the ordered range of matching initiative helps
 	 */
 	@Override
-	public List<InitiativeHelp> findByPublikUserId(String publikUserId,
-		int start, int end,
+	public List<InitiativeHelp> findByPublikUserId(
+		String publikUserId, int start, int end,
 		OrderByComparator<InitiativeHelp> orderByComparator,
 		boolean retrieveFromCache) {
+
+		publikUserId = Objects.toString(publikUserId, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID;
-			finderArgs = new Object[] { publikUserId };
+			finderPath = _finderPathWithoutPaginationFindByPublikUserId;
+			finderArgs = new Object[] {publikUserId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKUSERID;
+			finderPath = _finderPathWithPaginationFindByPublikUserId;
 			finderArgs = new Object[] {
-					publikUserId,
-					
-					start, end, orderByComparator
-				};
+				publikUserId, start, end, orderByComparator
+			};
 		}
 
 		List<InitiativeHelp> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<InitiativeHelp>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<InitiativeHelp>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (InitiativeHelp initiativeHelp : list) {
-					if (!Objects.equals(publikUserId,
-								initiativeHelp.getPublikUserId())) {
+					if (!publikUserId.equals(
+							initiativeHelp.getPublikUserId())) {
+
 						list = null;
 
 						break;
@@ -1025,8 +997,8 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1036,10 +1008,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 			boolean bindPublikUserId = false;
 
-			if (publikUserId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
-			}
-			else if (publikUserId.equals(StringPool.BLANK)) {
+			if (publikUserId.isEmpty()) {
 				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 			}
 			else {
@@ -1049,11 +1018,10 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(InitiativeHelpModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1073,16 +1041,16 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 				}
 
 				if (!pagination) {
-					list = (List<InitiativeHelp>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<InitiativeHelp>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<InitiativeHelp>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<InitiativeHelp>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1111,11 +1079,13 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
 	 */
 	@Override
-	public InitiativeHelp findByPublikUserId_First(String publikUserId,
-		OrderByComparator<InitiativeHelp> orderByComparator)
+	public InitiativeHelp findByPublikUserId_First(
+			String publikUserId,
+			OrderByComparator<InitiativeHelp> orderByComparator)
 		throws NoSuchInitiativeHelpException {
-		InitiativeHelp initiativeHelp = fetchByPublikUserId_First(publikUserId,
-				orderByComparator);
+
+		InitiativeHelp initiativeHelp = fetchByPublikUserId_First(
+			publikUserId, orderByComparator);
 
 		if (initiativeHelp != null) {
 			return initiativeHelp;
@@ -1128,7 +1098,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		msg.append("publikUserId=");
 		msg.append(publikUserId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeHelpException(msg.toString());
 	}
@@ -1141,10 +1111,12 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the first matching initiative help, or <code>null</code> if a matching initiative help could not be found
 	 */
 	@Override
-	public InitiativeHelp fetchByPublikUserId_First(String publikUserId,
+	public InitiativeHelp fetchByPublikUserId_First(
+		String publikUserId,
 		OrderByComparator<InitiativeHelp> orderByComparator) {
-		List<InitiativeHelp> list = findByPublikUserId(publikUserId, 0, 1,
-				orderByComparator);
+
+		List<InitiativeHelp> list = findByPublikUserId(
+			publikUserId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1162,11 +1134,13 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
 	 */
 	@Override
-	public InitiativeHelp findByPublikUserId_Last(String publikUserId,
-		OrderByComparator<InitiativeHelp> orderByComparator)
+	public InitiativeHelp findByPublikUserId_Last(
+			String publikUserId,
+			OrderByComparator<InitiativeHelp> orderByComparator)
 		throws NoSuchInitiativeHelpException {
-		InitiativeHelp initiativeHelp = fetchByPublikUserId_Last(publikUserId,
-				orderByComparator);
+
+		InitiativeHelp initiativeHelp = fetchByPublikUserId_Last(
+			publikUserId, orderByComparator);
 
 		if (initiativeHelp != null) {
 			return initiativeHelp;
@@ -1179,7 +1153,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		msg.append("publikUserId=");
 		msg.append(publikUserId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeHelpException(msg.toString());
 	}
@@ -1192,16 +1166,18 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the last matching initiative help, or <code>null</code> if a matching initiative help could not be found
 	 */
 	@Override
-	public InitiativeHelp fetchByPublikUserId_Last(String publikUserId,
+	public InitiativeHelp fetchByPublikUserId_Last(
+		String publikUserId,
 		OrderByComparator<InitiativeHelp> orderByComparator) {
+
 		int count = countByPublikUserId(publikUserId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<InitiativeHelp> list = findByPublikUserId(publikUserId, count - 1,
-				count, orderByComparator);
+		List<InitiativeHelp> list = findByPublikUserId(
+			publikUserId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1221,9 +1197,12 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public InitiativeHelp[] findByPublikUserId_PrevAndNext(
-		long initiativeHelpId, String publikUserId,
-		OrderByComparator<InitiativeHelp> orderByComparator)
+			long initiativeHelpId, String publikUserId,
+			OrderByComparator<InitiativeHelp> orderByComparator)
 		throws NoSuchInitiativeHelpException {
+
+		publikUserId = Objects.toString(publikUserId, "");
+
 		InitiativeHelp initiativeHelp = findByPrimaryKey(initiativeHelpId);
 
 		Session session = null;
@@ -1233,13 +1212,14 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 			InitiativeHelp[] array = new InitiativeHelpImpl[3];
 
-			array[0] = getByPublikUserId_PrevAndNext(session, initiativeHelp,
-					publikUserId, orderByComparator, true);
+			array[0] = getByPublikUserId_PrevAndNext(
+				session, initiativeHelp, publikUserId, orderByComparator, true);
 
 			array[1] = initiativeHelp;
 
-			array[2] = getByPublikUserId_PrevAndNext(session, initiativeHelp,
-					publikUserId, orderByComparator, false);
+			array[2] = getByPublikUserId_PrevAndNext(
+				session, initiativeHelp, publikUserId, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -1251,14 +1231,15 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		}
 	}
 
-	protected InitiativeHelp getByPublikUserId_PrevAndNext(Session session,
-		InitiativeHelp initiativeHelp, String publikUserId,
+	protected InitiativeHelp getByPublikUserId_PrevAndNext(
+		Session session, InitiativeHelp initiativeHelp, String publikUserId,
 		OrderByComparator<InitiativeHelp> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1269,10 +1250,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 		boolean bindPublikUserId = false;
 
-		if (publikUserId == null) {
-			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
-		}
-		else if (publikUserId.equals(StringPool.BLANK)) {
+		if (publikUserId.isEmpty()) {
 			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 		}
 		else {
@@ -1282,7 +1260,8 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1354,10 +1333,11 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(initiativeHelp);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						initiativeHelp)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1378,8 +1358,10 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public void removeByPublikUserId(String publikUserId) {
-		for (InitiativeHelp initiativeHelp : findByPublikUserId(publikUserId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (InitiativeHelp initiativeHelp :
+				findByPublikUserId(
+					publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(initiativeHelp);
 		}
 	}
@@ -1392,9 +1374,11 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public int countByPublikUserId(String publikUserId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKUSERID;
+		publikUserId = Objects.toString(publikUserId, "");
 
-		Object[] finderArgs = new Object[] { publikUserId };
+		FinderPath finderPath = _finderPathCountByPublikUserId;
+
+		Object[] finderArgs = new Object[] {publikUserId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1405,10 +1389,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 			boolean bindPublikUserId = false;
 
-			if (publikUserId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
-			}
-			else if (publikUserId.equals(StringPool.BLANK)) {
+			if (publikUserId.isEmpty()) {
 				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 			}
 			else {
@@ -1449,31 +1430,15 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1 = "initiativeHelp.publikUserId IS NULL";
-	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2 = "initiativeHelp.publikUserId = ?";
-	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3 = "(initiativeHelp.publikUserId IS NULL OR initiativeHelp.publikUserId = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_INITIATIVEID =
-		new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByinitiativeId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INITIATIVEID =
-		new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByinitiativeId",
-			new String[] { Long.class.getName() },
-			InitiativeHelpModelImpl.INITIATIVEID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_INITIATIVEID = new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByinitiativeId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2 =
+		"initiativeHelp.publikUserId = ?";
+
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3 =
+		"(initiativeHelp.publikUserId IS NULL OR initiativeHelp.publikUserId = '')";
+
+	private FinderPath _finderPathWithPaginationFindByinitiativeId;
+	private FinderPath _finderPathWithoutPaginationFindByinitiativeId;
+	private FinderPath _finderPathCountByinitiativeId;
 
 	/**
 	 * Returns all the initiative helps where initiativeId = &#63;.
@@ -1483,15 +1448,15 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public List<InitiativeHelp> findByinitiativeId(long initiativeId) {
-		return findByinitiativeId(initiativeId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByinitiativeId(
+			initiativeId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the initiative helps where initiativeId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param initiativeId the initiative ID
@@ -1500,8 +1465,9 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the range of matching initiative helps
 	 */
 	@Override
-	public List<InitiativeHelp> findByinitiativeId(long initiativeId,
-		int start, int end) {
+	public List<InitiativeHelp> findByinitiativeId(
+		long initiativeId, int start, int end) {
+
 		return findByinitiativeId(initiativeId, start, end, null);
 	}
 
@@ -1509,7 +1475,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * Returns an ordered range of all the initiative helps where initiativeId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param initiativeId the initiative ID
@@ -1519,17 +1485,19 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the ordered range of matching initiative helps
 	 */
 	@Override
-	public List<InitiativeHelp> findByinitiativeId(long initiativeId,
-		int start, int end, OrderByComparator<InitiativeHelp> orderByComparator) {
-		return findByinitiativeId(initiativeId, start, end, orderByComparator,
-			true);
+	public List<InitiativeHelp> findByinitiativeId(
+		long initiativeId, int start, int end,
+		OrderByComparator<InitiativeHelp> orderByComparator) {
+
+		return findByinitiativeId(
+			initiativeId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the initiative helps where initiativeId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param initiativeId the initiative ID
@@ -1540,34 +1508,34 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the ordered range of matching initiative helps
 	 */
 	@Override
-	public List<InitiativeHelp> findByinitiativeId(long initiativeId,
-		int start, int end,
+	public List<InitiativeHelp> findByinitiativeId(
+		long initiativeId, int start, int end,
 		OrderByComparator<InitiativeHelp> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INITIATIVEID;
-			finderArgs = new Object[] { initiativeId };
+			finderPath = _finderPathWithoutPaginationFindByinitiativeId;
+			finderArgs = new Object[] {initiativeId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_INITIATIVEID;
+			finderPath = _finderPathWithPaginationFindByinitiativeId;
 			finderArgs = new Object[] {
-					initiativeId,
-					
-					start, end, orderByComparator
-				};
+				initiativeId, start, end, orderByComparator
+			};
 		}
 
 		List<InitiativeHelp> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<InitiativeHelp>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<InitiativeHelp>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (InitiativeHelp initiativeHelp : list) {
@@ -1584,8 +1552,8 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1596,11 +1564,10 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 			query.append(_FINDER_COLUMN_INITIATIVEID_INITIATIVEID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(InitiativeHelpModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1618,16 +1585,16 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 				qPos.add(initiativeId);
 
 				if (!pagination) {
-					list = (List<InitiativeHelp>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<InitiativeHelp>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<InitiativeHelp>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<InitiativeHelp>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1656,11 +1623,13 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
 	 */
 	@Override
-	public InitiativeHelp findByinitiativeId_First(long initiativeId,
-		OrderByComparator<InitiativeHelp> orderByComparator)
+	public InitiativeHelp findByinitiativeId_First(
+			long initiativeId,
+			OrderByComparator<InitiativeHelp> orderByComparator)
 		throws NoSuchInitiativeHelpException {
-		InitiativeHelp initiativeHelp = fetchByinitiativeId_First(initiativeId,
-				orderByComparator);
+
+		InitiativeHelp initiativeHelp = fetchByinitiativeId_First(
+			initiativeId, orderByComparator);
 
 		if (initiativeHelp != null) {
 			return initiativeHelp;
@@ -1673,7 +1642,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		msg.append("initiativeId=");
 		msg.append(initiativeId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeHelpException(msg.toString());
 	}
@@ -1686,10 +1655,12 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the first matching initiative help, or <code>null</code> if a matching initiative help could not be found
 	 */
 	@Override
-	public InitiativeHelp fetchByinitiativeId_First(long initiativeId,
+	public InitiativeHelp fetchByinitiativeId_First(
+		long initiativeId,
 		OrderByComparator<InitiativeHelp> orderByComparator) {
-		List<InitiativeHelp> list = findByinitiativeId(initiativeId, 0, 1,
-				orderByComparator);
+
+		List<InitiativeHelp> list = findByinitiativeId(
+			initiativeId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1707,11 +1678,13 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
 	 */
 	@Override
-	public InitiativeHelp findByinitiativeId_Last(long initiativeId,
-		OrderByComparator<InitiativeHelp> orderByComparator)
+	public InitiativeHelp findByinitiativeId_Last(
+			long initiativeId,
+			OrderByComparator<InitiativeHelp> orderByComparator)
 		throws NoSuchInitiativeHelpException {
-		InitiativeHelp initiativeHelp = fetchByinitiativeId_Last(initiativeId,
-				orderByComparator);
+
+		InitiativeHelp initiativeHelp = fetchByinitiativeId_Last(
+			initiativeId, orderByComparator);
 
 		if (initiativeHelp != null) {
 			return initiativeHelp;
@@ -1724,7 +1697,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		msg.append("initiativeId=");
 		msg.append(initiativeId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeHelpException(msg.toString());
 	}
@@ -1737,16 +1710,18 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the last matching initiative help, or <code>null</code> if a matching initiative help could not be found
 	 */
 	@Override
-	public InitiativeHelp fetchByinitiativeId_Last(long initiativeId,
+	public InitiativeHelp fetchByinitiativeId_Last(
+		long initiativeId,
 		OrderByComparator<InitiativeHelp> orderByComparator) {
+
 		int count = countByinitiativeId(initiativeId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<InitiativeHelp> list = findByinitiativeId(initiativeId, count - 1,
-				count, orderByComparator);
+		List<InitiativeHelp> list = findByinitiativeId(
+			initiativeId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1766,9 +1741,10 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public InitiativeHelp[] findByinitiativeId_PrevAndNext(
-		long initiativeHelpId, long initiativeId,
-		OrderByComparator<InitiativeHelp> orderByComparator)
+			long initiativeHelpId, long initiativeId,
+			OrderByComparator<InitiativeHelp> orderByComparator)
 		throws NoSuchInitiativeHelpException {
+
 		InitiativeHelp initiativeHelp = findByPrimaryKey(initiativeHelpId);
 
 		Session session = null;
@@ -1778,13 +1754,14 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 			InitiativeHelp[] array = new InitiativeHelpImpl[3];
 
-			array[0] = getByinitiativeId_PrevAndNext(session, initiativeHelp,
-					initiativeId, orderByComparator, true);
+			array[0] = getByinitiativeId_PrevAndNext(
+				session, initiativeHelp, initiativeId, orderByComparator, true);
 
 			array[1] = initiativeHelp;
 
-			array[2] = getByinitiativeId_PrevAndNext(session, initiativeHelp,
-					initiativeId, orderByComparator, false);
+			array[2] = getByinitiativeId_PrevAndNext(
+				session, initiativeHelp, initiativeId, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -1796,14 +1773,15 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		}
 	}
 
-	protected InitiativeHelp getByinitiativeId_PrevAndNext(Session session,
-		InitiativeHelp initiativeHelp, long initiativeId,
+	protected InitiativeHelp getByinitiativeId_PrevAndNext(
+		Session session, InitiativeHelp initiativeHelp, long initiativeId,
 		OrderByComparator<InitiativeHelp> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1815,7 +1793,8 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		query.append(_FINDER_COLUMN_INITIATIVEID_INITIATIVEID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1885,10 +1864,11 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		qPos.add(initiativeId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(initiativeHelp);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						initiativeHelp)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1909,8 +1889,10 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public void removeByinitiativeId(long initiativeId) {
-		for (InitiativeHelp initiativeHelp : findByinitiativeId(initiativeId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (InitiativeHelp initiativeHelp :
+				findByinitiativeId(
+					initiativeId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(initiativeHelp);
 		}
 	}
@@ -1923,9 +1905,9 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public int countByinitiativeId(long initiativeId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_INITIATIVEID;
+		FinderPath finderPath = _finderPathCountByinitiativeId;
 
-		Object[] finderArgs = new Object[] { initiativeId };
+		Object[] finderArgs = new Object[] {initiativeId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1966,24 +1948,14 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_INITIATIVEID_INITIATIVEID_2 = "initiativeHelp.initiativeId = ?";
-	public static final FinderPath FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDINITIATIVEID =
-		new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByPublikUserIdAndInitiativeId",
-			new String[] { String.class.getName(), Long.class.getName() },
-			InitiativeHelpModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
-			InitiativeHelpModelImpl.INITIATIVEID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDINITIATIVEID =
-		new FinderPath(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByPublikUserIdAndInitiativeId",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_INITIATIVEID_INITIATIVEID_2 =
+		"initiativeHelp.initiativeId = ?";
+
+	private FinderPath _finderPathFetchByPublikUserIdAndInitiativeId;
+	private FinderPath _finderPathCountByPublikUserIdAndInitiativeId;
 
 	/**
-	 * Returns the initiative help where publikUserId = &#63; and initiativeId = &#63; or throws a {@link NoSuchInitiativeHelpException} if it could not be found.
+	 * Returns the initiative help where publikUserId = &#63; and initiativeId = &#63; or throws a <code>NoSuchInitiativeHelpException</code> if it could not be found.
 	 *
 	 * @param publikUserId the publik user ID
 	 * @param initiativeId the initiative ID
@@ -1992,10 +1964,11 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public InitiativeHelp findByPublikUserIdAndInitiativeId(
-		String publikUserId, long initiativeId)
+			String publikUserId, long initiativeId)
 		throws NoSuchInitiativeHelpException {
-		InitiativeHelp initiativeHelp = fetchByPublikUserIdAndInitiativeId(publikUserId,
-				initiativeId);
+
+		InitiativeHelp initiativeHelp = fetchByPublikUserIdAndInitiativeId(
+			publikUserId, initiativeId);
 
 		if (initiativeHelp == null) {
 			StringBundler msg = new StringBundler(6);
@@ -2008,7 +1981,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 			msg.append(", initiativeId=");
 			msg.append(initiativeId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -2030,8 +2003,9 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	@Override
 	public InitiativeHelp fetchByPublikUserIdAndInitiativeId(
 		String publikUserId, long initiativeId) {
-		return fetchByPublikUserIdAndInitiativeId(publikUserId, initiativeId,
-			true);
+
+		return fetchByPublikUserIdAndInitiativeId(
+			publikUserId, initiativeId, true);
 	}
 
 	/**
@@ -2045,20 +2019,26 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	@Override
 	public InitiativeHelp fetchByPublikUserIdAndInitiativeId(
 		String publikUserId, long initiativeId, boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { publikUserId, initiativeId };
+
+		publikUserId = Objects.toString(publikUserId, "");
+
+		Object[] finderArgs = new Object[] {publikUserId, initiativeId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDINITIATIVEID,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByPublikUserIdAndInitiativeId, finderArgs,
+				this);
 		}
 
 		if (result instanceof InitiativeHelp) {
 			InitiativeHelp initiativeHelp = (InitiativeHelp)result;
 
-			if (!Objects.equals(publikUserId, initiativeHelp.getPublikUserId()) ||
-					(initiativeId != initiativeHelp.getInitiativeId())) {
+			if (!Objects.equals(
+					publikUserId, initiativeHelp.getPublikUserId()) ||
+				(initiativeId != initiativeHelp.getInitiativeId())) {
+
 				result = null;
 			}
 		}
@@ -2070,19 +2050,19 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 			boolean bindPublikUserId = false;
 
-			if (publikUserId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_1);
-			}
-			else if (publikUserId.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_3);
+			if (publikUserId.isEmpty()) {
+				query.append(
+					_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_2);
+				query.append(
+					_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_2);
 			}
 
-			query.append(_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_INITIATIVEID_2);
+			query.append(
+				_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_INITIATIVEID_2);
 
 			String sql = query.toString();
 
@@ -2104,7 +2084,8 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 				List<InitiativeHelp> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDINITIATIVEID,
+					finderCache.putResult(
+						_finderPathFetchByPublikUserIdAndInitiativeId,
 						finderArgs, list);
 				}
 				else {
@@ -2114,8 +2095,8 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 						if (_log.isWarnEnabled()) {
 							_log.warn(
 								"InitiativeHelpPersistenceImpl.fetchByPublikUserIdAndInitiativeId(String, long, boolean) with parameters (" +
-								StringUtil.merge(finderArgs) +
-								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
 						}
 					}
 
@@ -2124,19 +2105,11 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 					result = initiativeHelp;
 
 					cacheResult(initiativeHelp);
-
-					if ((initiativeHelp.getPublikUserId() == null) ||
-							!initiativeHelp.getPublikUserId()
-											   .equals(publikUserId) ||
-							(initiativeHelp.getInitiativeId() != initiativeId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDINITIATIVEID,
-							finderArgs, initiativeHelp);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDINITIATIVEID,
-					finderArgs);
+				finderCache.removeResult(
+					_finderPathFetchByPublikUserIdAndInitiativeId, finderArgs);
 
 				throw processException(e);
 			}
@@ -2162,10 +2135,11 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public InitiativeHelp removeByPublikUserIdAndInitiativeId(
-		String publikUserId, long initiativeId)
+			String publikUserId, long initiativeId)
 		throws NoSuchInitiativeHelpException {
-		InitiativeHelp initiativeHelp = findByPublikUserIdAndInitiativeId(publikUserId,
-				initiativeId);
+
+		InitiativeHelp initiativeHelp = findByPublikUserIdAndInitiativeId(
+			publikUserId, initiativeId);
 
 		return remove(initiativeHelp);
 	}
@@ -2178,11 +2152,14 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the number of matching initiative helps
 	 */
 	@Override
-	public int countByPublikUserIdAndInitiativeId(String publikUserId,
-		long initiativeId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDINITIATIVEID;
+	public int countByPublikUserIdAndInitiativeId(
+		String publikUserId, long initiativeId) {
 
-		Object[] finderArgs = new Object[] { publikUserId, initiativeId };
+		publikUserId = Objects.toString(publikUserId, "");
+
+		FinderPath finderPath = _finderPathCountByPublikUserIdAndInitiativeId;
+
+		Object[] finderArgs = new Object[] {publikUserId, initiativeId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -2193,19 +2170,19 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 			boolean bindPublikUserId = false;
 
-			if (publikUserId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_1);
-			}
-			else if (publikUserId.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_3);
+			if (publikUserId.isEmpty()) {
+				query.append(
+					_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_2);
+				query.append(
+					_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_2);
 			}
 
-			query.append(_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_INITIATIVEID_2);
+			query.append(
+				_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_INITIATIVEID_2);
 
 			String sql = query.toString();
 
@@ -2241,25 +2218,30 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_1 =
-		"initiativeHelp.publikUserId IS NULL AND ";
-	private static final String _FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_2 =
-		"initiativeHelp.publikUserId = ? AND ";
-	private static final String _FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_3 =
-		"(initiativeHelp.publikUserId IS NULL OR initiativeHelp.publikUserId = '') AND ";
-	private static final String _FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_INITIATIVEID_2 =
-		"initiativeHelp.initiativeId = ?";
+	private static final String
+		_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_2 =
+			"initiativeHelp.publikUserId = ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_PUBLIKUSERID_3 =
+			"(initiativeHelp.publikUserId IS NULL OR initiativeHelp.publikUserId = '') AND ";
+
+	private static final String
+		_FINDER_COLUMN_PUBLIKUSERIDANDINITIATIVEID_INITIATIVEID_2 =
+			"initiativeHelp.initiativeId = ?";
 
 	public InitiativeHelpPersistenceImpl() {
 		setModelClass(InitiativeHelp.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -2277,19 +2259,25 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public void cacheResult(InitiativeHelp initiativeHelp) {
-		entityCache.putResult(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
 			InitiativeHelpImpl.class, initiativeHelp.getPrimaryKey(),
 			initiativeHelp);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-			new Object[] { initiativeHelp.getUuid(), initiativeHelp.getGroupId() },
+		finderCache.putResult(
+			_finderPathFetchByUUID_G,
+			new Object[] {
+				initiativeHelp.getUuid(), initiativeHelp.getGroupId()
+			},
 			initiativeHelp);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDINITIATIVEID,
+		finderCache.putResult(
+			_finderPathFetchByPublikUserIdAndInitiativeId,
 			new Object[] {
 				initiativeHelp.getPublikUserId(),
 				initiativeHelp.getInitiativeId()
-			}, initiativeHelp);
+			},
+			initiativeHelp);
 
 		initiativeHelp.resetOriginalValues();
 	}
@@ -2303,8 +2291,10 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	public void cacheResult(List<InitiativeHelp> initiativeHelps) {
 		for (InitiativeHelp initiativeHelp : initiativeHelps) {
 			if (entityCache.getResult(
-						InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-						InitiativeHelpImpl.class, initiativeHelp.getPrimaryKey()) == null) {
+					InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+					InitiativeHelpImpl.class, initiativeHelp.getPrimaryKey()) ==
+						null) {
+
 				cacheResult(initiativeHelp);
 			}
 			else {
@@ -2317,7 +2307,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * Clears the cache for all initiative helps.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -2333,12 +2323,13 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * Clears the cache for the initiative help.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(InitiativeHelp initiativeHelp) {
-		entityCache.removeResult(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.removeResult(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
 			InitiativeHelpImpl.class, initiativeHelp.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
@@ -2353,83 +2344,91 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (InitiativeHelp initiativeHelp : initiativeHelps) {
-			entityCache.removeResult(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			entityCache.removeResult(
+				InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
 				InitiativeHelpImpl.class, initiativeHelp.getPrimaryKey());
 
-			clearUniqueFindersCache((InitiativeHelpModelImpl)initiativeHelp,
-				true);
+			clearUniqueFindersCache(
+				(InitiativeHelpModelImpl)initiativeHelp, true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
 		InitiativeHelpModelImpl initiativeHelpModelImpl) {
-		Object[] args = new Object[] {
-				initiativeHelpModelImpl.getUuid(),
-				initiativeHelpModelImpl.getGroupId()
-			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-			initiativeHelpModelImpl, false);
+		Object[] args = new Object[] {
+			initiativeHelpModelImpl.getUuid(),
+			initiativeHelpModelImpl.getGroupId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G, args, initiativeHelpModelImpl, false);
 
 		args = new Object[] {
-				initiativeHelpModelImpl.getPublikUserId(),
-				initiativeHelpModelImpl.getInitiativeId()
-			};
+			initiativeHelpModelImpl.getPublikUserId(),
+			initiativeHelpModelImpl.getInitiativeId()
+		};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDINITIATIVEID,
-			args, Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDINITIATIVEID,
-			args, initiativeHelpModelImpl, false);
+		finderCache.putResult(
+			_finderPathCountByPublikUserIdAndInitiativeId, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByPublikUserIdAndInitiativeId, args,
+			initiativeHelpModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
 		InitiativeHelpModelImpl initiativeHelpModelImpl, boolean clearCurrent) {
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-					initiativeHelpModelImpl.getUuid(),
-					initiativeHelpModelImpl.getGroupId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
-		}
-
-		if ((initiativeHelpModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					initiativeHelpModelImpl.getOriginalUuid(),
-					initiativeHelpModelImpl.getOriginalGroupId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
-		}
 
 		if (clearCurrent) {
 			Object[] args = new Object[] {
-					initiativeHelpModelImpl.getPublikUserId(),
-					initiativeHelpModelImpl.getInitiativeId()
-				};
+				initiativeHelpModelImpl.getUuid(),
+				initiativeHelpModelImpl.getGroupId()
+			};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDINITIATIVEID,
-				args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDINITIATIVEID,
-				args);
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 
 		if ((initiativeHelpModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDINITIATIVEID.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					initiativeHelpModelImpl.getOriginalPublikUserId(),
-					initiativeHelpModelImpl.getOriginalInitiativeId()
-				};
+			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDINITIATIVEID,
-				args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDINITIATIVEID,
-				args);
+			Object[] args = new Object[] {
+				initiativeHelpModelImpl.getOriginalUuid(),
+				initiativeHelpModelImpl.getOriginalGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+				initiativeHelpModelImpl.getPublikUserId(),
+				initiativeHelpModelImpl.getInitiativeId()
+			};
+
+			finderCache.removeResult(
+				_finderPathCountByPublikUserIdAndInitiativeId, args);
+			finderCache.removeResult(
+				_finderPathFetchByPublikUserIdAndInitiativeId, args);
+		}
+
+		if ((initiativeHelpModelImpl.getColumnBitmask() &
+			 _finderPathFetchByPublikUserIdAndInitiativeId.
+				 getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				initiativeHelpModelImpl.getOriginalPublikUserId(),
+				initiativeHelpModelImpl.getOriginalInitiativeId()
+			};
+
+			finderCache.removeResult(
+				_finderPathCountByPublikUserIdAndInitiativeId, args);
+			finderCache.removeResult(
+				_finderPathFetchByPublikUserIdAndInitiativeId, args);
 		}
 	}
 
@@ -2463,6 +2462,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	@Override
 	public InitiativeHelp remove(long initiativeHelpId)
 		throws NoSuchInitiativeHelpException {
+
 		return remove((Serializable)initiativeHelpId);
 	}
 
@@ -2476,21 +2476,22 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	@Override
 	public InitiativeHelp remove(Serializable primaryKey)
 		throws NoSuchInitiativeHelpException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			InitiativeHelp initiativeHelp = (InitiativeHelp)session.get(InitiativeHelpImpl.class,
-					primaryKey);
+			InitiativeHelp initiativeHelp = (InitiativeHelp)session.get(
+				InitiativeHelpImpl.class, primaryKey);
 
 			if (initiativeHelp == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchInitiativeHelpException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchInitiativeHelpException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(initiativeHelp);
@@ -2508,16 +2509,15 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 	@Override
 	protected InitiativeHelp removeImpl(InitiativeHelp initiativeHelp) {
-		initiativeHelp = toUnwrappedModel(initiativeHelp);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(initiativeHelp)) {
-				initiativeHelp = (InitiativeHelp)session.get(InitiativeHelpImpl.class,
-						initiativeHelp.getPrimaryKeyObj());
+				initiativeHelp = (InitiativeHelp)session.get(
+					InitiativeHelpImpl.class,
+					initiativeHelp.getPrimaryKeyObj());
 			}
 
 			if (initiativeHelp != null) {
@@ -2540,11 +2540,27 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 	@Override
 	public InitiativeHelp updateImpl(InitiativeHelp initiativeHelp) {
-		initiativeHelp = toUnwrappedModel(initiativeHelp);
-
 		boolean isNew = initiativeHelp.isNew();
 
-		InitiativeHelpModelImpl initiativeHelpModelImpl = (InitiativeHelpModelImpl)initiativeHelp;
+		if (!(initiativeHelp instanceof InitiativeHelpModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(initiativeHelp.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(
+					initiativeHelp);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in initiativeHelp proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom InitiativeHelp implementation " +
+					initiativeHelp.getClass());
+		}
+
+		InitiativeHelpModelImpl initiativeHelpModelImpl =
+			(InitiativeHelpModelImpl)initiativeHelp;
 
 		if (Validator.isNull(initiativeHelp.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
@@ -2578,85 +2594,90 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		if (!InitiativeHelpModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { initiativeHelpModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {initiativeHelpModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
-			args = new Object[] { initiativeHelpModelImpl.getPublikUserId() };
+			args = new Object[] {initiativeHelpModelImpl.getPublikUserId()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID,
-				args);
+			finderCache.removeResult(_finderPathCountByPublikUserId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByPublikUserId, args);
 
-			args = new Object[] { initiativeHelpModelImpl.getInitiativeId() };
+			args = new Object[] {initiativeHelpModelImpl.getInitiativeId()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_INITIATIVEID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INITIATIVEID,
-				args);
+			finderCache.removeResult(_finderPathCountByinitiativeId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByinitiativeId, args);
 
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
-
 		else {
 			if ((initiativeHelpModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
 				Object[] args = new Object[] {
-						initiativeHelpModelImpl.getOriginalUuid()
-					};
+					initiativeHelpModelImpl.getOriginalUuid()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 
-				args = new Object[] { initiativeHelpModelImpl.getUuid() };
+				args = new Object[] {initiativeHelpModelImpl.getUuid()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 			}
 
 			if ((initiativeHelpModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByPublikUserId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						initiativeHelpModelImpl.getOriginalPublikUserId()
-					};
+					initiativeHelpModelImpl.getOriginalPublikUserId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID,
-					args);
+				finderCache.removeResult(_finderPathCountByPublikUserId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPublikUserId, args);
 
-				args = new Object[] { initiativeHelpModelImpl.getPublikUserId() };
+				args = new Object[] {initiativeHelpModelImpl.getPublikUserId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID,
-					args);
+				finderCache.removeResult(_finderPathCountByPublikUserId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPublikUserId, args);
 			}
 
 			if ((initiativeHelpModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INITIATIVEID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByinitiativeId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						initiativeHelpModelImpl.getOriginalInitiativeId()
-					};
+					initiativeHelpModelImpl.getOriginalInitiativeId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_INITIATIVEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INITIATIVEID,
-					args);
+				finderCache.removeResult(_finderPathCountByinitiativeId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByinitiativeId, args);
 
-				args = new Object[] { initiativeHelpModelImpl.getInitiativeId() };
+				args = new Object[] {initiativeHelpModelImpl.getInitiativeId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_INITIATIVEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INITIATIVEID,
-					args);
+				finderCache.removeResult(_finderPathCountByinitiativeId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByinitiativeId, args);
 			}
 		}
 
-		entityCache.putResult(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
 			InitiativeHelpImpl.class, initiativeHelp.getPrimaryKey(),
 			initiativeHelp, false);
 
@@ -2668,31 +2689,8 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		return initiativeHelp;
 	}
 
-	protected InitiativeHelp toUnwrappedModel(InitiativeHelp initiativeHelp) {
-		if (initiativeHelp instanceof InitiativeHelpImpl) {
-			return initiativeHelp;
-		}
-
-		InitiativeHelpImpl initiativeHelpImpl = new InitiativeHelpImpl();
-
-		initiativeHelpImpl.setNew(initiativeHelp.isNew());
-		initiativeHelpImpl.setPrimaryKey(initiativeHelp.getPrimaryKey());
-
-		initiativeHelpImpl.setUuid(initiativeHelp.getUuid());
-		initiativeHelpImpl.setInitiativeHelpId(initiativeHelp.getInitiativeHelpId());
-		initiativeHelpImpl.setCreateDate(initiativeHelp.getCreateDate());
-		initiativeHelpImpl.setPublikUserId(initiativeHelp.getPublikUserId());
-		initiativeHelpImpl.setInitiativeId(initiativeHelp.getInitiativeId());
-		initiativeHelpImpl.setHelpTypes(initiativeHelp.getHelpTypes());
-		initiativeHelpImpl.setGroupId(initiativeHelp.getGroupId());
-		initiativeHelpImpl.setMessage(initiativeHelp.getMessage());
-		initiativeHelpImpl.setHelpDisplay(initiativeHelp.isHelpDisplay());
-
-		return initiativeHelpImpl;
-	}
-
 	/**
-	 * Returns the initiative help with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the initiative help with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the initiative help
 	 * @return the initiative help
@@ -2701,6 +2699,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	@Override
 	public InitiativeHelp findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchInitiativeHelpException {
+
 		InitiativeHelp initiativeHelp = fetchByPrimaryKey(primaryKey);
 
 		if (initiativeHelp == null) {
@@ -2708,15 +2707,15 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchInitiativeHelpException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchInitiativeHelpException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return initiativeHelp;
 	}
 
 	/**
-	 * Returns the initiative help with the primary key or throws a {@link NoSuchInitiativeHelpException} if it could not be found.
+	 * Returns the initiative help with the primary key or throws a <code>NoSuchInitiativeHelpException</code> if it could not be found.
 	 *
 	 * @param initiativeHelpId the primary key of the initiative help
 	 * @return the initiative help
@@ -2725,6 +2724,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	@Override
 	public InitiativeHelp findByPrimaryKey(long initiativeHelpId)
 		throws NoSuchInitiativeHelpException {
+
 		return findByPrimaryKey((Serializable)initiativeHelpId);
 	}
 
@@ -2736,8 +2736,9 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public InitiativeHelp fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-				InitiativeHelpImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -2751,19 +2752,21 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 			try {
 				session = openSession();
 
-				initiativeHelp = (InitiativeHelp)session.get(InitiativeHelpImpl.class,
-						primaryKey);
+				initiativeHelp = (InitiativeHelp)session.get(
+					InitiativeHelpImpl.class, primaryKey);
 
 				if (initiativeHelp != null) {
 					cacheResult(initiativeHelp);
 				}
 				else {
-					entityCache.putResult(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
 						InitiativeHelpImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
 					InitiativeHelpImpl.class, primaryKey);
 
 				throw processException(e);
@@ -2790,11 +2793,13 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	@Override
 	public Map<Serializable, InitiativeHelp> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, InitiativeHelp> map = new HashMap<Serializable, InitiativeHelp>();
+		Map<Serializable, InitiativeHelp> map =
+			new HashMap<Serializable, InitiativeHelp>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -2813,8 +2818,9 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-					InitiativeHelpImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+				InitiativeHelpImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -2834,20 +2840,20 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_INITIATIVEHELP_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -2858,7 +2864,9 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 			Query q = session.createQuery(sql);
 
-			for (InitiativeHelp initiativeHelp : (List<InitiativeHelp>)q.list()) {
+			for (InitiativeHelp initiativeHelp :
+					(List<InitiativeHelp>)q.list()) {
+
 				map.put(initiativeHelp.getPrimaryKeyObj(), initiativeHelp);
 
 				cacheResult(initiativeHelp);
@@ -2867,7 +2875,8 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
 					InitiativeHelpImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -2895,7 +2904,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * Returns a range of all the initiative helps.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of initiative helps
@@ -2911,7 +2920,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * Returns an ordered range of all the initiative helps.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of initiative helps
@@ -2920,8 +2929,10 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the ordered range of initiative helps
 	 */
 	@Override
-	public List<InitiativeHelp> findAll(int start, int end,
+	public List<InitiativeHelp> findAll(
+		int start, int end,
 		OrderByComparator<InitiativeHelp> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -2929,7 +2940,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * Returns an ordered range of all the initiative helps.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeHelpModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of initiative helps
@@ -2939,29 +2950,31 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * @return the ordered range of initiative helps
 	 */
 	@Override
-	public List<InitiativeHelp> findAll(int start, int end,
-		OrderByComparator<InitiativeHelp> orderByComparator,
+	public List<InitiativeHelp> findAll(
+		int start, int end, OrderByComparator<InitiativeHelp> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<InitiativeHelp> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<InitiativeHelp>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<InitiativeHelp>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -2969,13 +2982,13 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_INITIATIVEHELP);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -2995,16 +3008,16 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<InitiativeHelp>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<InitiativeHelp>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<InitiativeHelp>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<InitiativeHelp>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -3042,8 +3055,8 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -3055,12 +3068,12 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -3086,6 +3099,122 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 	 * Initializes the initiative help persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
+			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
+			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
+			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
+			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid", new String[] {String.class.getName()},
+			InitiativeHelpModelImpl.UUID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathFetchByUUID_G = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
+			InitiativeHelpImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			InitiativeHelpModelImpl.UUID_COLUMN_BITMASK |
+			InitiativeHelpModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByUUID_G = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
+			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByPublikUserId",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
+			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByPublikUserId", new String[] {String.class.getName()},
+			InitiativeHelpModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+
+		_finderPathCountByPublikUserId = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByinitiativeId = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
+			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByinitiativeId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByinitiativeId = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
+			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByinitiativeId", new String[] {Long.class.getName()},
+			InitiativeHelpModelImpl.INITIATIVEID_COLUMN_BITMASK);
+
+		_finderPathCountByinitiativeId = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByinitiativeId",
+			new String[] {Long.class.getName()});
+
+		_finderPathFetchByPublikUserIdAndInitiativeId = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
+			InitiativeHelpImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByPublikUserIdAndInitiativeId",
+			new String[] {String.class.getName(), Long.class.getName()},
+			InitiativeHelpModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
+			InitiativeHelpModelImpl.INITIATIVEID_COLUMN_BITMASK);
+
+		_finderPathCountByPublikUserIdAndInitiativeId = new FinderPath(
+			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByPublikUserIdAndInitiativeId",
+			new String[] {String.class.getName(), Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -3097,18 +3226,37 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_INITIATIVEHELP = "SELECT initiativeHelp FROM InitiativeHelp initiativeHelp";
-	private static final String _SQL_SELECT_INITIATIVEHELP_WHERE_PKS_IN = "SELECT initiativeHelp FROM InitiativeHelp initiativeHelp WHERE initiativeHelpId IN (";
-	private static final String _SQL_SELECT_INITIATIVEHELP_WHERE = "SELECT initiativeHelp FROM InitiativeHelp initiativeHelp WHERE ";
-	private static final String _SQL_COUNT_INITIATIVEHELP = "SELECT COUNT(initiativeHelp) FROM InitiativeHelp initiativeHelp";
-	private static final String _SQL_COUNT_INITIATIVEHELP_WHERE = "SELECT COUNT(initiativeHelp) FROM InitiativeHelp initiativeHelp WHERE ";
+
+	private static final String _SQL_SELECT_INITIATIVEHELP =
+		"SELECT initiativeHelp FROM InitiativeHelp initiativeHelp";
+
+	private static final String _SQL_SELECT_INITIATIVEHELP_WHERE_PKS_IN =
+		"SELECT initiativeHelp FROM InitiativeHelp initiativeHelp WHERE initiativeHelpId IN (";
+
+	private static final String _SQL_SELECT_INITIATIVEHELP_WHERE =
+		"SELECT initiativeHelp FROM InitiativeHelp initiativeHelp WHERE ";
+
+	private static final String _SQL_COUNT_INITIATIVEHELP =
+		"SELECT COUNT(initiativeHelp) FROM InitiativeHelp initiativeHelp";
+
+	private static final String _SQL_COUNT_INITIATIVEHELP_WHERE =
+		"SELECT COUNT(initiativeHelp) FROM InitiativeHelp initiativeHelp WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "initiativeHelp.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No InitiativeHelp exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No InitiativeHelp exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(InitiativeHelpPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No InitiativeHelp exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No InitiativeHelp exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		InitiativeHelpPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

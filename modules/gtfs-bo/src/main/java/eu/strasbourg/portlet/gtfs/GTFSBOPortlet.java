@@ -68,7 +68,7 @@ public class GTFSBOPortlet extends MVCPortlet {
 			EditImportHistoricDisplayContext dc = new EditImportHistoricDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "import-historics";
-		} else if (cmd.equals("editArret")) {
+		} else if (cmd.equals("editArret") || mvcPath.equals("/gtfs-bo-edit-arret.jsp")) {
 			EditArretDisplayContext dc = new EditArretDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
