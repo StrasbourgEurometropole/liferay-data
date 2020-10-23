@@ -5,7 +5,7 @@
 <!-- Entete de la recherche globale -->
 <header class="ops-small-header">
     <figure class="fit-cover">
-        <img src="/o/searchassetweb/images/ops-general-bandeau.jpg" width="1600" height="450" alt="Photo de couverture"/>
+        <img src="/o/searchassetv2web/images/ops-general-bandeau.jpg" width="1600" height="450" alt="Photo de couverture"/>
     </figure>
     <div class="ops-content-wrapper ops-caption ops-aligncenter">
         <h1>
@@ -202,7 +202,7 @@
 </div> --%>
 
 <liferay-util:html-bottom>
-	<script src="/o/searchassetweb/js/ops-general.js"></script>
+	<script src="/o/searchassetv2web/js/ops-general.js"></script>
 </liferay-util:html-bottom>
 
 <style>

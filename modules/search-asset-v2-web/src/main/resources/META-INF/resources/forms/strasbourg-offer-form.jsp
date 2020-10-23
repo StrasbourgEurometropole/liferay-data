@@ -92,5 +92,5 @@
 </div>
 
 <liferay-util:html-bottom>
-	<script src="/o/searchassetweb/js/strasbourg-offer.js"></script>
+	<script src="/o/searchassetv2web/js/strasbourg-offer.js"></script>
 </liferay-util:html-bottom>

@@ -149,5 +149,5 @@
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>
-	<script src="/o/searchassetweb/js/placit-budgetParticipatif.js"></script>
+	<script src="/o/searchassetv2web/js/placit-budgetParticipatif.js"></script>
 </liferay-util:html-bottom>

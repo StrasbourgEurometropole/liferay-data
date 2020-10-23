@@ -76,7 +76,7 @@ public class ExportPDF {
 			document.setFont(font).setFontSize(12f);
 
 			// image d'entête
-			ImageData image = ImageDataFactory.create(domaine + "/o/searchassetweb/images/bandeau.jpg");
+			ImageData image = ImageDataFactory.create(domaine + "/o/searchassetv2web/images/bandeau.jpg");
 			Image img = new Image(image);
 			float newWidth = 520;
 			float newHeight = (img.getImageHeight() / img.getImageWidth()) * newWidth;

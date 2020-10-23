@@ -153,7 +153,7 @@
 	var idSIGPlace = '${dc.idSIGPlace}' ;
 </aui:script>
 	
-	<script src="/o/searchassetweb/js/strasbourg-agenda.js"></script>
+	<script src="/o/searchassetv2web/js/strasbourg-agenda.js"></script>
 </liferay-util:html-bottom>
 
 	

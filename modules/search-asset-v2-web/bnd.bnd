@@ -1,6 +1,6 @@
 Bundle-SymbolicName: search-asset-v2-web
 Bundle-Version: 1.0.0
-Web-ContextPath: /searchassetweb
+Web-ContextPath: /searchassetv2web
 Bundle-ClassPath: \
   .,\
  lib/kernel.jar, lib/layout.jar, lib/io.jar, lib/forms.jar, lib/pdfa.jar, lib/svg.jar, \

@@ -147,5 +147,5 @@
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>
-	<script src="/o/searchassetweb/js/placit-initiative.js"></script>
+	<script src="/o/searchassetv2web/js/placit-initiative.js"></script>
 </liferay-util:html-bottom>
