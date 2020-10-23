@@ -10,6 +10,7 @@ import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.OfferLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
@@ -44,6 +45,11 @@ public class EditOfferDisplayContext {
             if (offerId > 0) {
                 this.offer = OfferLocalServiceUtil.fetchOffer(offerId);
             }
+        }
+        String isDuplication = ParamUtil.getString(this.request, "isDuplication");
+        if (isDuplication.equals("true")) {
+            offer.setNew(true);
+            offer.setStatus(WorkflowConstants.STATUS_DRAFT);
         }
         return offer;
     }

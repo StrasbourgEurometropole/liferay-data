@@ -54,16 +54,6 @@ public class OfferLocalServiceUtil {
 	}
 
 	/**
-	 * Duplique une offre et la retourne
-	 */
-	public static eu.strasbourg.service.ejob.model.Offer copyOffer(
-			com.liferay.portal.kernel.service.ServiceContext sc, long offerId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return getService().copyOffer(sc, offerId);
-	}
-
-	/**
 	 * Creates a new offer with the primary key. Does not add the offer to the database.
 	 *
 	 * @param offerId the primary key for the new offer
@@ -413,14 +403,6 @@ public class OfferLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().removeOffer(offerId);
-	}
-
-	public static void setCategoriesForCopy(
-		eu.strasbourg.service.ejob.model.Offer offerToCopy,
-		eu.strasbourg.service.ejob.model.Offer offer,
-		com.liferay.portal.kernel.service.ServiceContext sc) {
-
-		getService().setCategoriesForCopy(offerToCopy, offer, sc);
 	}
 
 	/**

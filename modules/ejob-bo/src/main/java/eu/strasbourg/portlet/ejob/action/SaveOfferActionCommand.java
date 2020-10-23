@@ -83,7 +83,8 @@ public class SaveOfferActionCommand implements MVCActionCommand {
 
             // Si édition ou création d'une nouvelle entrée
             Offer offer;
-            if (this.offerId == 0) {
+            boolean isDuplication = ParamUtil.getBoolean(request, "new");
+            if (this.offerId == 0 || isDuplication) {
                 offer = _offerLocalService.createOffer(sc);
             } else {
                 offer = _offerLocalService.getOffer(this.offerId);
