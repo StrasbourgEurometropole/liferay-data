@@ -1,3 +1,4 @@
+#!/bin/bash
 echo -e "\n\n \e[35m1# Récupération des variables d'environnements\e[0m"
 cat .env
 export $(cat .env)
