@@ -62,19 +62,19 @@
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.comment.model.Signalement" modelVar="signalement"
-				keyProperty="signalementId" rowIdProperty="signalementId">
+				keyProperty="signalementId" rowIdProperty="signalementId" escapedModel="true">
 
 				<%-- Colonne : Signaleur --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="signal-author" truncate="true" orderable="true" value="${signalement.getSignalementAuthorLabel()}" />
+					name="signal-author" truncate="true" orderable="true" value="${fn:escapeXml(signalement.getSignalementAuthorLabel())}" />
 					
 				<%-- Colonne : Signale --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="comment-author" truncate="true" orderable="true" value="${signalement.getCommentAuthorLabel()}" />
+					name="comment-author" truncate="true" orderable="true" value="${fn:escapeXml(signalement.getCommentAuthorLabel())}" />
 
 				<%-- Colonne : debut du commentaire --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="comment" truncate="true" value="${signalement.getCommentContent()}" />
+					name="comment" truncate="true" value="${fn:escapeXml(signalement.getCommentContent())}" />
 
 				<%-- Colonne : Date de modification--%>
 				<fmt:formatDate value="${signalement.createDate}"
