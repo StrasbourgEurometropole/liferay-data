@@ -29,7 +29,10 @@
 		- ${event.entityExternalId} - ${event.entityName}
 	</#list>
 
-	${report.newManifestationsCount} manifestation<#if (report.newManifestationsCount > 1)>s</#if> créée<#if (report.newManifestationsCount > 1)>s</#if>
+	${report.unmodifiedEventsCount} événement<#if (report.unmodifiedEventsCount > 1)>s</#if> non modifié<#if (report.unmodifiedEventsCount > 1)>s</#if>
+
+
+    ${report.newManifestationsCount} manifestation<#if (report.newManifestationsCount > 1)>s</#if> créée<#if (report.newManifestationsCount > 1)>s</#if>
 	
 	<#list report.newManifestationsLines as manif>
 		- ${manif.entityExternalId} - ${manif.entityName}
@@ -40,4 +43,7 @@
 	<#list report.modifiedManifestationsLines as manif>
 		- ${manif.entityExternalId} - ${manif.entityName}
 	</#list>
+
+	${report.unmodifiedManifestationsCount} manifestation<#if (report.unmodifiedManifestationsCount > 1)>s</#if> non modifiée<#if (report.unmodifiedManifestationsCount > 1)>s</#if>
+
 </#if>

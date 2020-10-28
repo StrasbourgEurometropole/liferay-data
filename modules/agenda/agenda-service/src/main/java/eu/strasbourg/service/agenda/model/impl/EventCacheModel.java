@@ -64,7 +64,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(109);
+		StringBundler sb = new StringBundler(113);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -172,6 +172,10 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(firstStartDate);
 		sb.append(", lastEndDate=");
 		sb.append(lastEndDate);
+		sb.append(", createDateSource=");
+		sb.append(createDateSource);
+		sb.append(", modifiedDateSource=");
+		sb.append(modifiedDateSource);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append("}");
@@ -475,6 +479,20 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			eventImpl.setLastEndDate(new Date(lastEndDate));
 		}
 
+		if (createDateSource == Long.MIN_VALUE) {
+			eventImpl.setCreateDateSource(null);
+		}
+		else {
+			eventImpl.setCreateDateSource(new Date(createDateSource));
+		}
+
+		if (modifiedDateSource == Long.MIN_VALUE) {
+			eventImpl.setModifiedDateSource(null);
+		}
+		else {
+			eventImpl.setModifiedDateSource(new Date(modifiedDateSource));
+		}
+
 		eventImpl.setImageId(imageId);
 
 		eventImpl.resetOriginalValues();
@@ -551,6 +569,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		program = objectInput.readUTF();
 		firstStartDate = objectInput.readLong();
 		lastEndDate = objectInput.readLong();
+		createDateSource = objectInput.readLong();
+		modifiedDateSource = objectInput.readLong();
 
 		imageId = objectInput.readLong();
 	}
@@ -819,6 +839,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 		objectOutput.writeLong(firstStartDate);
 		objectOutput.writeLong(lastEndDate);
+		objectOutput.writeLong(createDateSource);
+		objectOutput.writeLong(modifiedDateSource);
 
 		objectOutput.writeLong(imageId);
 	}
@@ -876,6 +898,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public String program;
 	public long firstStartDate;
 	public long lastEndDate;
+	public long createDateSource;
+	public long modifiedDateSource;
 	public long imageId;
 
 }
