@@ -120,7 +120,7 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
 				}
 				// Elimination de la transparence du PNG
 				BufferedImage newImg = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
-				newImg.createGraphics().drawImage((Image) image, 0, 0, Color.BLACK, null);
+				newImg.createGraphics().drawImage((Image) image, 0, 0, Color.WHITE, null);
 				image = newImg;
 				// Compression
 				float compressionQuality = 0.88f;
