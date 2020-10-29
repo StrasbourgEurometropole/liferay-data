@@ -14,6 +14,9 @@ public interface SearchAssetConfiguration {
 	@Meta.AD(name = "templatesKeys", required = false)
 	public String templatesKeys();
 
+	@Meta.AD(name = "assetTypes", required = false)
+	public String[] assetTypes();
+
 	@Meta.AD(name = "assetClassNamesIds", required = false)
 	public String assetClassNamesIds();
 

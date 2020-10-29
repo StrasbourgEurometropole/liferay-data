@@ -29,11 +29,10 @@ import com.liferay.portal.kernel.util.WebKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletConfig;
+import javax.portlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -299,6 +298,12 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}
 
+
+	@Override
+	public void render(RenderRequest renderRequest,
+					   RenderResponse renderResponse)
+			throws IOException, PortletException {}
+
 	/**
 	 * Send to the JSP the needed data
 	 */
@@ -306,8 +311,14 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 	public void include(PortletConfig portletConfig, HttpServletRequest request,
 		HttpServletResponse response) throws Exception {
 		try {
+
+			SearchAssetConfigurationDisplayContext dc = new SearchAssetConfigurationDisplayContext(request);
+			request.setAttribute("dc", dc);
+
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
+
+
 
 			SearchAssetConfiguration configuration = themeDisplay
 				.getPortletDisplay().getPortletInstanceConfiguration(

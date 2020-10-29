@@ -18,9 +18,19 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Calendar" %>
 
+<%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
+
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-portlet:renderURL varImpl="assetTypeRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    <portlet:param name="mvcPath" value="/includes/asset-type-row.jsp" />
+</liferay-portlet:renderURL>
+
+<liferay-portlet:renderURL varImpl="prefilterRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    <portlet:param name="mvcPath" value="/includes/prefilter-row.jsp" />
+</liferay-portlet:renderURL>
 
 <jsp:useBean id="vocabularyHelper" class="eu.strasbourg.utils.AssetVocabularyHelper" />
 <jsp:useBean id="vocabularyAccessor" class="eu.strasbourg.utils.AssetVocabularyAccessor" />

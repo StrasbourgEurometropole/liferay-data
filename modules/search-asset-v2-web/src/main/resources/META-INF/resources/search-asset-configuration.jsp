@@ -1,13 +1,11 @@
 <%@ include file="/search-asset-init.jsp"%>
-<%@page
-	import="com.liferay.portal.kernel.security.permission.ResourceActionsUtil"%>
+<%@page import="com.liferay.portal.kernel.security.permission.ResourceActionsUtil"%>
 <%@page import="com.liferay.asset.kernel.model.AssetRendererFactory"%>
 
 <liferay-portlet:actionURL portletConfiguration="true"
 	varImpl="configurationActionURL" />
-
 <liferay-ui:error key="wrong-friendly-url" message="wrong-friendly-url" />
-<aui:form action="${configurationActionURL}" method="post" name="fm" >
+<aui:form action="${configurationActionURL}" method="post" name="fm" onSubmit="submitForm(event)">
 
     <aui:input name="cmd" type="hidden" value="update" />
 
@@ -19,97 +17,14 @@
                 <aui:fieldset collapsed="false" collapsible="true"
                     label="asset-type">
                     <liferay-ui:message key="asset-types-explanations" />
-                    <div class="asset-types">
-                        <aui:input type="hidden" name="assetClassNamesCount"
-                            value="${fn:length(availableAssetRendererFactories)}" />
-                        <c:set var="i" value="${0}" />
-                        <c:forEach var="assetRendererFactory" varStatus="assetStatus"
-                            items="${availableAssetRendererFactories}">
-                            <c:set var="classNameIsChecked"
-                                value="${fn:contains(assetClassNamesIds, assetRendererFactory.classNameId)}" />
-                            <div class="asset-type-configuration">
-                                <%
-                                    AssetRendererFactory assetRendererFactory = (AssetRendererFactory) pageContext
-                                                        .getAttribute("assetRendererFactory");
-                                %>
-                                <aui:input type="checkbox"
-                                    name="assetClassNameId_${assetStatus.index}"
-                                    label="<%= ResourceActionsUtil.getModelResource(locale, assetRendererFactory.getClassName()) %>"
-                                    checked="${classNameIsChecked}"
-                                    value="${assetRendererFactory.classNameId}" inlineField="true" />
-
-                                <aui:select name="templateKey_${assetStatus.index}"
-                                    inlineField="true">
-                                    <aui:option value="0"><liferay-ui:message key="select-a-template" /></aui:option>
-                                    <c:forEach var="template"
-                                        items="${templatesList[assetStatus.index]}">
-                                        <aui:option value="${template.templateKey}"
-                                            selected="${fn:contains(templatesKeys, template.templateKey)}">${template.getName(locale)}</aui:option>
-                                    </c:forEach>
-                                </aui:select>
-
-
-                                <aui:input type="text"
-                                    placeholder="detail-friendly-url"
-                                    name="layoutFriendlyURL_${assetStatus.index}" inlineField="true"
-                                    value="${classNameIsChecked ? layoutsFriendlyURLs[i] : ''}" />
-
-                                <c:if test="${classNameIsChecked}">
-                                    <c:set var="i" value="${i + 1}" />
-                                </c:if>
-                            </div>
-                        </c:forEach>
-                        <div class="asset-type-configuration">
-                            <aui:input type="checkbox"
-                                name="searchJournalArticle"
-                                value="${searchJournalArticle}"
-                                label="web-content"
-                                inlineField="true" />
-                            <aui:select name="journalArticleTemplateKey"
-                                inlineField="true">
-                                <aui:option value="0"><liferay-ui:message key="select-a-template" /></aui:option>
-                                <c:forEach var="template"
-                                    items="${assetEntryTemplatesList}">
-                                    <aui:option value="${template.templateKey}"
-                                        selected="${journalArticleTemplateKey eq template.templateKey}">
-                                        ${template.getName(locale)}
-                                    </aui:option>
-                                </c:forEach>
-                            </aui:select>
-                        </div>
-                        <div class="asset-type-configuration">
-                            <aui:input type="checkbox"
-                                       name="searchDocument"
-                                       value="${searchDocument}"
-                                       label="file"
-                                       inlineField="true" />
-                            <aui:select name="documentTemplateKey"
-                                        inlineField="true">
-                                <aui:option value="0"><liferay-ui:message key="select-a-template" /></aui:option>
-                                <c:forEach var="template"
-                                           items="${documentTemplatesList}">
-                                    <aui:option value="${template.templateKey}"
-                                                selected="${documentTemplateKey eq template.templateKey}">
-                                        ${template.getName(locale)}
-                                    </aui:option>
-                                </c:forEach>
-                            </aui:select>
-                        </div>
-                        <div class="asset-type-configuration">
-                            <aui:input type="checkbox"
-                                       name="searchDemarche"
-                                       value="${searchDemarche}"
-                                       label="procedure"
-                                       inlineField="true" />
-                        </div>
+                    <div class="asset-types-content">
                     </div>
-                    <div>
-
-                    </div>
+                    <aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addAssetType(); return false;"/>
                 </aui:fieldset>
 
                 <!-- Portee -->
                 <aui:fieldset collapsed="true" collapsible="true" label="scope">
+
                     <liferay-ui:message key="scope-explanations" />
                     <aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" inlineField="true" />
                 </aui:fieldset>
@@ -339,6 +254,18 @@
     </aui:button-row>
 </aui:form>
 
+<liferay-util:html-top>
+    <script>
+        var getassetTypeRowJSPURL = '${assetTypeRowURL}';
+        var getprefilterRowJSPURL = '${prefilterRowURL}';
+    </script>
+</liferay-util:html-top>
+<liferay-util:html-bottom>
+    <script
+            src="/o/searchassetv2web/js/searchassetv2web-config.js"
+            type="text/javascript"></script>
+</liferay-util:html-bottom>
+
 <style>
 .asset-types .asset-type-configuration .input-select-wrapper label,
 	.asset-types .input-text-wrapper label, .vocabulary-configuration .input-select-wrapper label
@@ -380,3 +307,5 @@ p.date {
 	width: 100px;
 }
 </style>
+
+
