@@ -22,32 +22,6 @@
                     <aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addAssetType(); return false;"/>
                 </aui:fieldset>
 
-                <!-- Portee -->
-                <aui:fieldset collapsed="true" collapsible="true" label="scope">
-
-                    <liferay-ui:message key="scope-explanations" />
-                    <aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" inlineField="true" />
-                </aui:fieldset>
-
-                <!-- Prefiltre -->
-                <aui:fieldset collapsed="true" collapsible="true" label="prefilter">
-                    <liferay-ui:message key="prefilter-explanations" />
-                    <label><liferay-ui:message key="categories" /></label>
-                    <p>
-                        <liferay-ui:asset-categories-selector
-                            hiddenInput="prefilterCategoriesIds"
-                            curCategoryIds="${prefilterCategoriesIds}" />
-                    </p>
-                    <br>
-                    <p>
-                        <liferay-ui:message key="prefilter-tag-explanations" />
-                        <label><liferay-ui:message key="tags" /></label>
-                        <liferay-ui:asset-tags-selector
-                            hiddenInput="prefilterTagsNames"
-                            curTags="${prefilterTagsNames}" />
-                    </p>
-                </aui:fieldset>
-
                 <!-- Criteres de recherche -->
                 <aui:fieldset collapsed="true" collapsible="true"
                     label="search-criterias">
