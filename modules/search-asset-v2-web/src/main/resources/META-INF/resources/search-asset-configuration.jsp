@@ -76,21 +76,16 @@
                 </aui:fieldset>
 
                 <!-- Boosts -->
-                <aui:fieldset collapsed="true" collapsible="true" label="boosts">
-                    <liferay-ui:message key="boost-explanations" />
+                <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.boosts">
+                    <liferay-ui:message key="eu.search.asset.web.configuration.boost.explanations" />
                     <p>
                         <label><liferay-ui:message key="tags" /></label>
-                        <liferay-ui:asset-tags-selector
-                            hiddenInput="boostTagsNames"
-                            curTags="${boostTagsNames}" />
+                        <liferay-ui:asset-tags-selector hiddenInput="boostTagsNames" curTags="${boostTagsNames}" />
                     </p>
                 </aui:fieldset>
 
-                <!-- Affichage par defaut -->
-                <aui:fieldset collapsed="true" collapsible="true" label="default-display">
-                    <liferay-ui:message key="default-display-explanations" />
-                    <!-- Ne pas afficher de resultats avant que l'utilisateur n'ait fait de recherche -->
-                    <aui:input type="checkbox" name="hideResultsBeforeSearch" value="${hideResultsBeforeSearch}" label="hide-results-before-search" />
+                <!-- Filtres -->
+                <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.filters">
 
                     <!-- Tri par defaut -->
                     <aui:select name="defaultSortField">
@@ -114,7 +109,13 @@
                         </aui:option>
                     </aui:select>
 
+                    <!-- Filtre par date par defaut -->
+                    <aui:input type="number" name="defaultDateRange" min="-1000" max="+1000" cssClass="date-range" value="${defaultDateRange}" label="default-date-range" inlineField="true"/>
 
+                </aui:fieldset>
+
+                <!-- Tris -->
+                <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.sorting">
 
                     <!-- Type de tri par defaut -->
                     <aui:select name="defaultSortType">
@@ -126,16 +127,17 @@
                         </aui:option>
                     </aui:select>
 
-                    <!-- Filtre par date par defaut -->
-                    <aui:input type="number" name="defaultDateRange" min="-1000" max="+1000" cssClass="date-range" value="${defaultDateRange}" label="default-date-range" inlineField="true"/>
                 </aui:fieldset>
 
                 <!-- Affichage -->
-                <aui:fieldset collapsed="true" collapsible="true"
-                    label="display">
+                <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.display">
+
+                    <liferay-ui:message key="eu.search.asset.web.configuration.default.display.explanations" />
+                    <!-- Ne pas afficher de resultats avant que l'utilisateur n'ait fait de recherche -->
+                    <aui:input type="checkbox" name="hideResultsBeforeSearch" value="${hideResultsBeforeSearch}" label="eu.search.asset.web.configuration.hide.results.before.search" />
 
                     <!-- Nombre de resultats par page -->
-                    <aui:input type="number" name="delta" value="${delta}" />
+                    <aui:input type="number" name="delta" label="eu.search.asset.web.configuration.delta" value="${delta}" />
 
                     <!-- Formulaire de recherche -->
                     <aui:select name="searchForm">
@@ -204,6 +206,11 @@
                         </aui:option>
                     </aui:select>
 
+                </aui:fieldset>
+
+                <!-- Export -->
+                <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.export">
+
                     <!-- Bouton exporter -->
                     <aui:input type="checkbox" name="displayExport" value="${displayExport}"
                         label="display-export" inlineField="true" />
@@ -217,6 +224,7 @@
                             <liferay-ui:message key="ems" />
                         </aui:option>
                     </aui:select>
+
                 </aui:fieldset>
 
             </aui:fieldset-group>
