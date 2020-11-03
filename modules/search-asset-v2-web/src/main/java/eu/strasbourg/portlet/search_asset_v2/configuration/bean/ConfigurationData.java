@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.search_asset_v2.configuration.bean;
 import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfiguration;
 
 import javax.portlet.ActionRequest;
+import java.util.List;
 
 public class ConfigurationData {
 
@@ -10,8 +11,8 @@ public class ConfigurationData {
     private ActionRequest request;
     private SearchAssetConfiguration configuration;
 
-    /** Donnée */
-    
+    /** Données */
+    private List<ConfigurationAssetData> assetTypeDataList;
 
     public ConfigurationData(ActionRequest request) {
         this.request = request;
@@ -36,5 +37,7 @@ public class ConfigurationData {
         // TODO Validation des données issues de la requête
         return result;
     }
+
+
 
 }

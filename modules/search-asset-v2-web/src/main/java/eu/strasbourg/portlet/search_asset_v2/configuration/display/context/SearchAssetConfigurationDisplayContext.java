@@ -1,9 +1,10 @@
-package eu.strasbourg.portlet.search_asset_v2.configuration;
+package eu.strasbourg.portlet.search_asset_v2.configuration.display.context;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfiguration;
 import eu.strasbourg.service.project.model.ProjectTimeline;
 
 import javax.servlet.http.HttpServletRequest;

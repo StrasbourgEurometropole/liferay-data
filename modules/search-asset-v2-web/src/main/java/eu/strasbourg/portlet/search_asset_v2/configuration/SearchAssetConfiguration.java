@@ -5,12 +5,15 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 
 @ExtendedObjectClassDefinition(
 	category = "Strasbourg",
-	scope = ExtendedObjectClassDefinition.Scope.PORTLET_INSTANCE)
+	scope = ExtendedObjectClassDefinition.Scope.PORTLET_INSTANCE
+)
 @Meta.OCD(
 	id = "eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfiguration",
 	localization = "content/Language",
-	name = "portlet.search_asset_v2.configuration.name")
+	name = "portlet.search_asset_v2.configuration.name"
+)
 public interface SearchAssetConfiguration {
+
 	@Meta.AD(name = "templatesKeys", required = false)
 	public String templatesKeys();
 
@@ -88,4 +91,5 @@ public interface SearchAssetConfiguration {
 
 	@Meta.AD(name = "searchDemarche", required = false)
 	public boolean searchDemarche();
+
 }
