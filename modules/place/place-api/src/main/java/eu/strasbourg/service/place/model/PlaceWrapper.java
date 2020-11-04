@@ -1263,6 +1263,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		return _place.getCreateDate();
 	}
 
+	/**
+	 * Renvoie le JSON de l'entite au format CSMap
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getCSMapJSON() {
+		return _place.getCSMapJSON();
+	}
+
 	@Override
 	public String getDefaultLanguageId() {
 		return _place.getDefaultLanguageId();

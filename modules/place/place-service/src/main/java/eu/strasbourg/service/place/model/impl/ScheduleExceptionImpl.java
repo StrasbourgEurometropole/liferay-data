@@ -14,20 +14,20 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import java.text.DateFormat;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.models.Pair;
+
+import java.text.DateFormat;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * The extended model implementation for the ScheduleException service.
@@ -84,6 +84,37 @@ public class ScheduleExceptionImpl extends ScheduleExceptionBaseImpl {
 			scheduleExceptionJSON.put("schedule", exceptionOpenings);
 		}
 		
+
+		return scheduleExceptionJSON;
+	}
+
+	/**
+	 * Retourne la version CSMap JSON des exceptions
+	 */
+	@Override
+	public JSONObject toCSMapJSON() {
+		JSONObject scheduleExceptionJSON = JSONFactoryUtil.createJSONObject();
+
+		DateFormat dateFormat = DateFormatFactoryUtil
+				.getSimpleDateFormat("yyyy-MM-dd");
+		if (Validator.isNotNull(this.getStartDate())) {
+			scheduleExceptionJSON.put("startDate",
+					dateFormat.format(this.getStartDate()));
+		}
+		if (Validator.isNotNull(this.getEndDate())) {
+			scheduleExceptionJSON.put("endDate",
+					dateFormat.format(this.getEndDate()));
+		}
+		scheduleExceptionJSON.put("closed", this.getClosed());
+		JSONObject descriptions = JSONFactoryUtil.createJSONObject();
+		descriptions.put("fr_FR", this.getComment(Locale.FRANCE));
+		if (Validator.isNotNull(this.getComment(Locale.US))) {
+			descriptions.put("en_US", this.getComment(Locale.US));
+		}
+		if (Validator.isNotNull(this.getComment(Locale.GERMANY))) {
+			descriptions.put("de_DE", this.getComment(Locale.GERMANY));
+		}
+		scheduleExceptionJSON.put("description", descriptions);
 
 		return scheduleExceptionJSON;
 	}

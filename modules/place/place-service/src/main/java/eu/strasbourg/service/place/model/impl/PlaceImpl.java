@@ -1854,4 +1854,106 @@ public class PlaceImpl extends PlaceBaseImpl {
 
         return feature;
     }
+
+    /**
+     * Renvoie le JSON de l'entite au format CSMap
+     */
+    @Override
+    public JSONObject getCSMapJSON() {
+        JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
+
+        jsonPlace.put("idSurfs", this.getSIGid());
+        if(Validator.isNotNull(this.getTypes())){
+            JSONArray jsonSigs = JSONFactoryUtil.createJSONArray();
+            for (AssetCategory categ : this.getTypes()) {
+                if(Validator.isNotNull(categ)) {
+                    String sig = AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(), "SIG");
+                    if(Validator.isNotNull(sig))
+                        jsonSigs.put(sig);
+                }
+            }
+            jsonPlace.put("types", jsonSigs);
+        }
+        JSONObject names = JSONFactoryUtil.createJSONObject();
+        names.put("fr_FR", this.getAlias(Locale.FRANCE));
+        if (Validator.isNotNull(this.getAlias(Locale.US))) {
+            names.put("en_US", this.getAlias(Locale.US));
+        }
+        if (Validator.isNotNull(this.getAlias(Locale.GERMANY))) {
+            names.put("de_DE", this.getAlias(Locale.GERMANY));
+        }
+        jsonPlace.put("name", names);
+        if (Validator.isNotNull(this.getAddressStreet())) {
+            jsonPlace.put("street", this.getAddressStreet());
+        }
+        if (Validator.isNotNull(this.getAddressZipCode())) {
+            jsonPlace.put("zipCode", this.getAddressZipCode());
+        }
+        if (Validator.isNotNull(this.getCity(Locale.FRANCE))) {
+            jsonPlace.put("city", this.getCity(Locale.FRANCE));
+        }
+        if (Validator.isNotNull(this.getMail())) {
+            jsonPlace.put("mail", this.getMail());
+        }
+        if (Validator.isNotNull(this.getPhone())) {
+            jsonPlace.put("phone", this.getPhone());
+        }
+        if (Validator.isNotNull(this.getImageURL())) {
+            String imageURL = this.getImageURL();
+            imageURL = StrasbourgPropsUtil.getURL() + imageURL;
+            jsonPlace.put("imageURL", imageURL);
+        }
+        JSONObject descriptions = JSONFactoryUtil.createJSONObject();
+        if (Validator.isNotNull(this.getPresentation(Locale.FRANCE))) {
+            descriptions.put("fr_FR", this.getPresentation(Locale.FRANCE));
+        }
+        if (Validator.isNotNull(this.getPresentation(Locale.US))) {
+            descriptions.put("en_US", this.getPresentation(Locale.US));
+        }
+        if (Validator.isNotNull(this.getPresentation(Locale.GERMANY))) {
+            descriptions.put("de_DE", this.getPresentation(Locale.GERMANY));
+        }
+        if(descriptions.length() > 0)
+            jsonPlace.put("description", descriptions);
+        JSONArray scheduleExceptionsJSON = JSONFactoryUtil.createJSONArray();
+        for (ScheduleException scheduleException : this.getScheduleExceptions()) {
+            scheduleExceptionsJSON.put(scheduleException.toCSMapJSON());
+        }
+        if (Validator.isNotNull(this.getExceptionalSchedule())) {
+            JSONObject scheduleExceptionJSON = JSONFactoryUtil.createJSONObject();
+            JSONObject comments = JSONFactoryUtil.createJSONObject();
+            comments.put("fr_FR", this.getExceptionalSchedule(Locale.FRANCE));
+            if (Validator.isNotNull(this.getExceptionalSchedule(Locale.US))) {
+                comments.put("en_US", this.getExceptionalSchedule(Locale.US));
+            }
+            if (Validator.isNotNull(this.getExceptionalSchedule(Locale.GERMANY))) {
+                comments.put("de_DE", this.getExceptionalSchedule(Locale.GERMANY));
+            }
+            scheduleExceptionJSON.put("description", comments);
+            scheduleExceptionsJSON.put(scheduleExceptionsJSON);
+        }
+        if (scheduleExceptionsJSON.length() > 0) {
+            jsonPlace.put("exceptions", scheduleExceptionsJSON);
+        }
+        jsonPlace.put("accessForDeficient", this.getAccessForDeficient());
+        jsonPlace.put("accessForElder", this.getAccessForElder());
+        jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
+        jsonPlace.put("accessForBlind", this.getAccessForBlind());
+        jsonPlace.put("accessForWheelchair", this.getAccessForWheelchair());
+        if (Validator.isNotNull(this.getMercatorX())) {
+            jsonPlace.put("mercatorX", this.getMercatorX());
+        }
+        if (Validator.isNotNull(this.getMercatorY())) {
+            jsonPlace.put("mercatorY", this.getMercatorY());
+        }
+        if (Validator.isNotNull(this.getRGF93X())) {
+            jsonPlace.put("RGF93X", this.getRGF93X());
+        }
+        if (Validator.isNotNull(this.getRGF93Y())) {
+            jsonPlace.put("RGF93Y", this.getRGF93Y());
+        }
+        jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId());
+
+        return jsonPlace;
+    }
 }

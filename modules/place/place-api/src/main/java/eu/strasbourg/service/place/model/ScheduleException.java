@@ -65,6 +65,11 @@ public interface ScheduleException
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
 
 	/**
+	 * Retourne la version CSMap JSON des exceptions
+	 */
+	public com.liferay.portal.kernel.json.JSONObject toCSMapJSON();
+
+	/**
 	 * Retourne la liste des horaires d'ouvertures d'une exception
 	 */
 	public java.util.List
