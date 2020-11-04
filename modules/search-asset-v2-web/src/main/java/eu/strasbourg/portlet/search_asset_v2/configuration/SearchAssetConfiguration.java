@@ -14,11 +14,9 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 )
 public interface SearchAssetConfiguration {
 
+	// TODO clean
 	@Meta.AD(name = "templatesKeys", required = false)
 	public String templatesKeys();
-
-	@Meta.AD(name = "assetTypes", required = false)
-	public String[] assetTypes();
 
 	@Meta.AD(name = "assetClassNamesIds", required = false)
 	public String assetClassNamesIds();
@@ -38,17 +36,11 @@ public interface SearchAssetConfiguration {
 	@Meta.AD(name = "vocabulariesIds", required = false)
 	public String vocabulariesIds();
 
-	@Meta.AD(name = "vocabulariesControlTypes", required = false)
-	public String vocabulariesControlTypes();
-
 	@Meta.AD(name = "prefilterCategoriesIds", required = false)
 	public String prefilterCategoriesIds();
 
 	@Meta.AD(name = "prefilterTagsNames", required = false)
 	public String prefilterTagsNames();
-	
-	@Meta.AD(name = "boostTagsNames", required = false)
-	public String boostTagsNames();
 	
 	@Meta.AD(name = "defaultSortField", required = false, deflt = "modified_sortable")
 	public String defaultSortField();
@@ -74,22 +66,63 @@ public interface SearchAssetConfiguration {
 	@Meta.AD(name = "displayDateSorting", required = false, deflt = "false")
 	public boolean displayDateSorting();
 
-	@Meta.AD(name = "hideResultsBeforeSearch", required = false)
-	public boolean hideResultsBeforeSearch();
-	
-	@Meta.AD(name = "delta", required = false)
-	public long delta();
-	
-	@Meta.AD(name = "searchForm", required = false)
-	public String searchForm();
-	
-	@Meta.AD(name = "displayExport", required = false)
-	public boolean displayExport();
-	
-	@Meta.AD(name = "exportType", required = false)
-	public String exportType();
-
 	@Meta.AD(name = "searchDemarche", required = false)
 	public boolean searchDemarche();
+	// TODO end clean
+
+	// Search asset v2
+	/**
+	 * JSON des types d'asset
+	 */
+	@Meta.AD(name = "assetTypes", required = false)
+	public String assetTypes();
+
+	/**
+	 * JSON des vocabulaires accessibles en filtre par le visiteur
+	 */
+	@Meta.AD(name = "vocabulariesControlTypes", required = false)
+	public String vocabulariesControlTypes();
+
+	@Meta.AD(name = "displayDateField", required = false, deflt = "false")
+	public boolean displayDateField();
+
+	@Meta.AD(name = "displaySorting", required = false, deflt = "false")
+	public boolean displaySorting();
+
+	@Meta.AD(name = "boostTagsNames", required = false)
+	public String boostTagsNames();
+
+	@Meta.AD(name = "filterField", required = false, deflt = "modified_sortable")
+	public String filterField();
+
+	@Meta.AD(name = "defaultFilterDateRange", required = false, deflt = "31")
+	public long defaultFilerDateRange();
+
+	@Meta.AD(name = "firstSortingField", required = false, deflt = "modified_sortable")
+	public String firstSortingField();
+
+	@Meta.AD(name = "firstSortingType", required = false, deflt = "desc")
+	public String firstSortingType();
+
+	@Meta.AD(name = "secondSortingField", required = false, deflt = "title")
+	public String secondSortingField();
+
+	@Meta.AD(name = "secondSortingType", required = false, deflt = "asc")
+	public String secondSortingType();
+
+	@Meta.AD(name = "hideResultsBeforeSearch", required = false)
+	public boolean hideResultsBeforeSearch();
+
+	@Meta.AD(name = "delta", required = false, deflt = "20")
+	public long delta();
+
+	@Meta.AD(name = "searchForm", required = false)
+	public String searchForm();
+
+	@Meta.AD(name = "displayExport", required = false)
+	public boolean displayExport();
+
+	@Meta.AD(name = "exportType", required = false)
+	public String exportType();
 
 }

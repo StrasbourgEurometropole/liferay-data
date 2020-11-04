@@ -38,6 +38,8 @@ public class ConfigurationData {
         return result;
     }
 
-
+    public int countAssetTypes() {
+        return this.assetTypeDataList.size();
+    }
 
 }

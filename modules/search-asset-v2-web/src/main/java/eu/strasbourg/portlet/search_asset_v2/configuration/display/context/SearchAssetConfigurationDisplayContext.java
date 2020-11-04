@@ -5,33 +5,35 @@ import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfiguration;
+import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationData;
 import eu.strasbourg.service.project.model.ProjectTimeline;
 
+import javax.security.auth.login.Configuration;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class SearchAssetConfigurationDisplayContext {
 
-    private SearchAssetConfiguration _configuration;
-    private final ThemeDisplay _themeDisplay;
+    private SearchAssetConfiguration configuration;
+    private final ThemeDisplay themeDisplay;
+    private ConfigurationData configurationData;
 
-    public SearchAssetConfigurationDisplayContext(HttpServletRequest request) {
-        this._themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-
-
+    public SearchAssetConfigurationDisplayContext(HttpServletRequest request) throws ConfigurationException {
+        this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        this.configurationData = new ConfigurationData(this.getConfiguration());
     }
 
     public SearchAssetConfiguration getConfiguration() throws ConfigurationException {
-        if (this._configuration == null) {
-            this._configuration = this._themeDisplay.getPortletDisplay().getPortletInstanceConfiguration(
+        if (this.configuration == null) {
+            this.configuration = this.themeDisplay.getPortletDisplay().getPortletInstanceConfiguration(
                     SearchAssetConfiguration.class);
         }
-        return this._configuration;
+        return this.configuration;
     }
 
     public String getDefaultAssetTypeIndexes() throws PortalException {
         if (this.getConfiguration() != null) {
-            String[] assetTypes = this._configuration.assetTypes();
+            String[] assetTypes = new String[this.configurationData.countAssetTypes()];
             String indexes = "0";
             for (int i = 1; i <= assetTypes.length; i++) {
                 indexes += "," + i;
