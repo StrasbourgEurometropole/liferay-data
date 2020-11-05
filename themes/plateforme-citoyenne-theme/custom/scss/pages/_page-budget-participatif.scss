@@ -163,7 +163,7 @@
 				@include ft($f_txt, 1em, 400, $c_txt, 1.625em);
 				margin-bottom: 10px;
 				a {
-					color: #797000;
+					color: #154;
 					text-decoration: underline;
 					&:hover, &:focus {
 						color: $c_txt;
@@ -171,7 +171,7 @@
 				}
 			}
 			a {
-				color: #797000;
+				color: #154;
 				text-decoration: underline;
 				&:hover, &:focus {
 					color: $c_txt;
