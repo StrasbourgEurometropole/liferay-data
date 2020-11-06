@@ -44,13 +44,13 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 		StringBundler csv = new StringBundler(); // StringBuilder du CSV
 
 		// Le début est le même pour les deux modes
-		csv.append(LanguageUtil.get(bundle, "csv.offer-id") + ";");
-		csv.append(LanguageUtil.get(bundle, "csv.offer-url") + ";");
+		csv.append(LanguageUtil.get(bundle, "offer-id") + ";");
+		csv.append(LanguageUtil.get(bundle, "offer-url") + ";");
 		csv.append(LanguageUtil.get(bundle, "title") + ";");
 		csv.append(LanguageUtil.get(bundle, "description") + ";");
-		csv.append(LanguageUtil.get(bundle, "csv.publication-start-date") + ";");
-		csv.append(LanguageUtil.get(bundle, "csv.publication-end-date") + ";");
-		csv.append(LanguageUtil.get(bundle, "csv.diffusion"));
+		csv.append(LanguageUtil.get(bundle, "publication-start-date") + ";");
+		csv.append(LanguageUtil.get(bundle, "publication-end-date") + ";");
+		csv.append(LanguageUtil.get(bundle, "diffusion"));
 		csv.append(CharPool.NEW_LINE);
 
 		// On construit notre CSV à partir de la liste des offres
@@ -62,7 +62,7 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 			String description = "Du " + startDate + " au " + endDate;
 			String diffusion = "";
 			if(Validator.isNotNull(offer.getTypePublication()))
-				diffusion = LanguageUtil.get(bundle, "csv.publicated") + offer.getTypePublication().getTitle(Locale.FRANCE).toLowerCase();
+				diffusion = "Publié en " + offer.getTypePublication().getTitle(Locale.FRANCE).toLowerCase();
 
 			csv.append(offer.getOfferId() + ";" + url + ";" + offer.getPost(Locale.FRANCE)
 					+ ";" + description + ";" + startDate + ";" + endDate + ";" + diffusion);
