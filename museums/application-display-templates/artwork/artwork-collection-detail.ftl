@@ -46,7 +46,7 @@
     <#list entry.getPublishedArtworks() as artwork>
       
       <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
-      <#assign entryURL = assetPublisherTemplateHelperService.createRenderUrlMusee("oeuvre",artwork.getSources()[0].getTitle(locale)) />
+      <#assign entryURL = assetPublisherTemplateHelperService.createRenderUrlMusee("oeuvre",entry.getSources()[0].getTitle(locale)) />
       <#assign detailURL = homeURL + entryURL + "/-/entity/id/" + artwork.artworkId />
       <div class="entity-detail-child artwork-collection-artwork ${artwork.getSourceCSSClass()}">
         <div class="entity-detail-child-image">
