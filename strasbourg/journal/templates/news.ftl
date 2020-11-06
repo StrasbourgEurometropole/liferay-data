@@ -33,9 +33,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <div class="filler"></div>
         <p class="seu-published">
             <@liferay_ui.message key="eu.published-on" /> 
-            ${dateHelperService.displayShortDate(dateHelperService.convertStringToDate(.vars['reserved-article-display-date'].getData(), "EEE, dd MMM yyyy hh:mm:ss Z"), locale)} 
+            ${dateHelperService.displayShortDate(.vars['reserved-article-display-date'].getData()?datetime("EEE, dd MMM yyyy hh:mm:ss Z"), locale)} 
             - <@liferay_ui.message key="eu.modified-on" /> 
-            ${dateHelperService.displayShortDate(dateHelperService.convertStringToDate(.vars['reserved-article-modified-date'].getData(), "EEE, dd MMM yyyy hh:mm:ss Z"), locale)} 
+            ${dateHelperService.displayShortDate(.vars['reserved-article-modified-date'].getData()?datetime("EEE, dd MMM yyyy hh:mm:ss Z"), locale)} 
         </p>
         <a href="#" class="add-favorites"
             data-type="6" 
