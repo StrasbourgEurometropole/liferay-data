@@ -95,7 +95,7 @@
                 <a href="${homeURL}actualite" class="a-btn-main h-inverted icon-right core-inverted">
                     <span class="flexbox">
                         <i class="mag mag-arrow-right"></i>
-                        <span class="btn-text">Recherche d'actus</span>
+                        <span class="btn-text">><@liferay_ui.message key="eu.news.all-news" /></span>
                     </span>
                 </a>
             </div>
