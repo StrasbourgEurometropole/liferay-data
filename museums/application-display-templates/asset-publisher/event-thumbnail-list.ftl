@@ -9,7 +9,7 @@
   <div class="search-asset-results">
     <#list entries as curEntry>
       <#assign entry = curEntry.getAssetRenderer().getEvent() />
-      <#assign detailURL = homeURL + "detail-edition/-/entity/id/" + entry.eventId />
+      <#assign detailURL = homeURL + "evenement-des-musees-de-strasbourg/-/entity/id/" + entry.eventId />
 
       <!-- Event : ${entry.getTitle(locale)} -->
       <div class="entity-thumbnail event-tumbnail">

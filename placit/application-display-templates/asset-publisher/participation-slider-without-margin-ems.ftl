@@ -1,4 +1,4 @@
-<!-- SLIDER DE PARTICIPATIONS AVEC MARGE -->
+<!-- SLIDER DE PARTICIPATIONS SANS MARGE -->
 
 <#if entries?size != 0 >
 
@@ -7,7 +7,7 @@
 
     <!-- Recuperation du créateur de la participation -->
     <#assign UserLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserLocalService")/>
-
+    
     <!-- Recuperation de l'URL de "base" du site -->
     <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
         <#assign homeURL = "/web${layout.group.friendlyURL}/" />
@@ -18,17 +18,17 @@
     <section id="pro-link-participation" class="pro-bloc-slider pro-slider-participation">
         <div class="container">
             
-            <div class="col-lg-10 col-lg-offset-1">
-                <h2>Participer Strasbourg (${entries?size})</h2>
-                <a href="${themeDisplay.getPortalURL()}${homeURL}participations" class="pro-btn" title="Lien vers la page Toutes les participations">Voir Toutes les participations</a>
+            <div>
+                <h2>Concertations eurometropole (${entries?size})</h2>
+                <a href="${themeDisplay.getPortalURL()}${homeURL}participations" class="pro-btn" title="Lien vers la page Toutes les participations">Tout voir</a>
             </div>
 
-            <div class="col-lg-10 col-lg-offset-1">
+            <div>
                 <div class="owl-carousel owl-opacify owl-theme owl-cards">
 
                     <!-- Parcours des entites de l'asset publisher -->
                     <#list entries as curEntry>
-                        
+
                         <!-- Recuperation de l'entite -->
                         <#assign entry = curEntry.getAssetRenderer().getParticipation() />
 
@@ -36,7 +36,7 @@
                         <#assign participationStatus = entry.getParticipationStatus() />
 						
 						<#assign user = UserLocalService.getUser(entry.userId) />
-
+						
                         <!-- Adaptation du message a afficher dans le 'span-pro-time' -->
                         <#if participationStatus == "soon_arrived">
                             <#assign proDuree = "Début dans " + entry.getTodayPublicationDifferenceDays() + " jour(s)"  />
@@ -74,8 +74,8 @@
                                         Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span>
                                     </span>
                                 </div>
-                                
-                                <#if participationStatus == "soon_arrived"> 
+                                <!-- Selection du type de template selon le status de la participation -->
+                                <#if participationStatus == "soon_arrived">
                                     <div class="pro-footer-participation pro-participation-soon">
                                         <div class="pro-avis">
                                             <span class="pro-like">${entry.nbLikes}</span>
@@ -122,7 +122,7 @@
     </section>
     <style>
         .pro-bloc-slider.pro-slider-participation {
-            margin-top: 0px;
+                 margin-top: 0px;
         }
     </style>
 
