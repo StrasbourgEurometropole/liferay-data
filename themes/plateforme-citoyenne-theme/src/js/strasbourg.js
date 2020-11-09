@@ -26337,7 +26337,7 @@ th_maps.addThemes('default', [
                 "visibility": "on"
             },
             {
-                "hue": "#ffed00"
+                "hue": "#2ad1a8"
             }
         ]
     },

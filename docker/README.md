@@ -135,8 +135,10 @@ Le fichier `migrated-dump.sql`se trouve désormais dans le répertoire `output` 
 
 Créer et remplir le fichier `./.env` à la racine du repertoire `docker` où :
  * `LFR_TAG_VERSION` est la version de l'image Liferay
+ * `CUR_ENV` est l'environnement courrant (RECETTE / PREPROD / PROD)
  * `DATA_PATH_LIFERAY` est le chemin vers le repertoire de persistance liferay (monté en NFS)
  * `DATA_PATH_ES` est le chemin vers le repertoire de persistance elasticsearch (non monté en NFS)
+ * `DB_BACKUPS_PATH` est le chemin vers le répertoire où seront placés les backups de base de données lors des livraisons
  * `LCS_LIFERAY_ACTIVE_HOSTNAME` est le hostname utilisé par le conteneur Liferay actif (pour enregistrer la licence)
  * `LCS_LIFERAY_BACKUP_HOSTNAME` est le hostname utilisé par le conteneur Liferay backup (pour enregistrer la licence)
  * `REGISTRY_ADDRESS` est l'adresse du registry Docker dans Nexus
@@ -149,8 +151,10 @@ Créer et remplir le fichier `./.env` à la racine du repertoire `docker` où :
 
 ```properties
 LFR_TAG_VERSION=
+CUR_ENV=
 DATA_PATH_LIFERAY=
 DATA_PATH_ES=
+DB_BACKUPS_PATH=
 LCS_LIFERAY_ACTIVE_HOSTNAME=
 LCS_LIFERAY_BACKUP_HOSTNAME=
 REGISTRY_ADDRESS=
@@ -164,21 +168,30 @@ TRAIL_MAIL_ADDRESS=
 
 ## Exécution
 
-Pour lancer la totalité des services, lancer le script de lancement :
+Pour préparer les services, lancer le premier script :
 
 ```shell
-$ sh startup.sh
+$ sh 1_prepare-delivery.sh
 ```
 
 **Notes**
-Etapes du script de lancement :
+Etapes du script de préparation :
 1. Export des variables d'environnement contenues dans le fichier `.env`
 2. Build de l'image `elasticsearch-ems`. L'image ne sera pas recrée si elle existait déjà dans le même état (même build id), toutefois s'il y a la moindre modification des fichiers la composant, elle sera rebuildée.
 3. Push de l'image `elasticsearch-ems` sur le registry `REGISTRY_ADDRESS` indiqué dans le fichier `.env` permettant ainsi à tous les noeuds de récupérer la même version de l'image.
 4. Création de l'image `liferay-ems` ayant pour tag `LFR_TAG_VERSION` indiqué dans le fichier `.env`. Ce tag servira aussi à récupérer les ressources EMS (modules, layouts, thèmes) présentes dans le dossier "./images/liferay-ems/dist/`LFR_TAG_VERSION`". Les mêmes principes que l'image `elasticsearch-ems`sont appliqués.
 5. Push de l'image `liferay-ems` sur les mêmes principes que l'image `elasticsearch-ems`.
-6. Lancement de la ttalité des services contenus dans le fichier `docker-compose.yml`.
-7. Visualisation des services lancés.
+
+Pour lancer les services, lancer le troisième script :
+
+```shell
+$ sh 3_startup-services.sh
+```
+
+**Notes**
+Etapes du script de lancement :
+1. Lancement de la ttalité des services contenus dans le fichier `docker-compose.yml`.
+2. Visualisation des services lancés.
 
 Suivre les logs d'un service via la commande suivante en remplaçant `SERVICE_ID` par celui récupéré avec `docker service ls` (dernière commande lancée par le script `startup.sh`) :
 
@@ -196,28 +209,22 @@ $ docker service logs SERVICE_ID -f
 
 3. Placer tous les binaires devant être déployés ainsi que la clef Liferay DXP de l'environnement dans le dossier précédemment créé.
 
-4. Effectuer un dump de la base
+4. Lancer le script de préparation de la livraison :
 
     ```shell
-    $ sudo mysqldump --opt liferay_ems > liferay_ems_$(date +%Y%m%d-%H%M).sql
+    $ sh 1_prepare-delivery.sh
     ```
 
-5. Lancer la commande suivante à la racine pour arrêter les services conteneurisés :
+5. Lancer le script d'arrêt des services et du backup de base de données :
 
     ```shell
-    $ docker stack rm ems-stack
+    $ sh 2_shutdown-services-and-backups.sh
     ```
 
-6. Attendre que l'ensemble des services soit bien arrêtés en vérifiant la non-existance du réseau Docker swarm `backend-network` utilisé par les conteneurs Liferay (ou attendre entre 20 et 30 secs) :
+7. Lancer le script de démarrage des services :
 
     ```shell
-    $ docker network ls
-    ```
-
-7. Lancer les services :
-
-    ```shell
-    $ sh startup.sh
+    $ sh 3_startup-services.sh
     ```
 
 8. Vérifier le bon déroulement de la livraison sur le noeud principal via la commande suivante en remplaçant `SERVICE_ID` par celui récupéré avec `docker service ls` (dernière commande lancée par le script `startup.sh`):
