@@ -1,10 +1,12 @@
 <%@ include file="/search-asset-init.jsp"%>
+
 <%@page import="com.liferay.portal.kernel.security.permission.ResourceActionsUtil"%>
 <%@page import="com.liferay.asset.kernel.model.AssetRendererFactory"%>
 
-<liferay-portlet:actionURL portletConfiguration="true"
-	varImpl="configurationActionURL" />
+<liferay-portlet:actionURL portletConfiguration="true" varImpl="configurationActionURL" />
+
 <liferay-ui:error key="wrong-friendly-url" message="wrong-friendly-url" />
+
 <aui:form action="${configurationActionURL}" method="post" name="fm" onSubmit="submitForm(event)">
 
     <aui:input name="cmd" type="hidden" value="update" />
@@ -13,9 +15,10 @@
         <div class="container-fluid-1280">
 
             <aui:fieldset-group markupView="lexicon">
-                <!-- Type d'asset -->
-                <aui:fieldset collapsed="false" collapsible="true"
-                    label="asset-type">
+
+                <!-- GROUPE : Type d'asset -->
+                <aui:fieldset collapsed="false" collapsible="true"label="asset-type">
+
                     <liferay-ui:message key="asset-types-explanations" />
                     <div id="asset-types-content">
                         <div class="lfr-form-row">
@@ -51,18 +54,17 @@
                             </aui:fieldset>
                         </div>
                     </div>
+
                 </aui:fieldset>
 
-                <!-- Criteres de recherche -->
-                <aui:fieldset collapsed="true" collapsible="true"
-                    label="search-criterias">
+                <!-- GROUPE : Criteres de recherche -->
+                <aui:fieldset collapsed="true" collapsible="true"label="search-criterias">
+
                     <liferay-ui:message key="vocabularies-explanations" />
-                    <aui:input type="hidden" name="vocabulariesCount"
-                        value="${fn:length(vocabularies)}" />
+                    <aui:input type="hidden" name="vocabulariesCount" value="${fn:length(vocabularies)}" />
 
                     <c:set var="i" value="${0}" />
-                    <c:forEach var="vocabulary" items="${vocabularies}"
-                        varStatus="vocStatus">
+                    <c:forEach var="vocabulary" items="${vocabularies}"  varStatus="vocStatus">
 
                         <c:set var="vocabularyIsChecked"
                             value="${fn:contains(vocabulariesIds, vocabulary.vocabularyId)}" />
@@ -93,29 +95,32 @@
                         </c:if>
                     </c:forEach>
 
-                    <!-- Filtre par date -->
+                    <!-- Affichage du filtre par date -->
                     <div>
                         <liferay-ui:message key="date-explanations" />
                         <aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" inlineField="true" />
                     </div>
 
-                    <!-- Tri par date -->
+                    <!-- Affichage du selecteur de tri -->
                     <div>
                         <liferay-ui:message key="date-sorting-explanations" />
                         <aui:input type="checkbox" name="displayDateSorting" value="${displayDateSorting}" label="date-sorting-field" inlineField="true" />
                     </div>
+
                 </aui:fieldset>
 
-                <!-- Boosts -->
+                <!-- GROUPE : Boosts -->
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.boosts">
+
                     <liferay-ui:message key="eu.search.asset.web.configuration.boost.explanations" />
                     <p>
                         <label><liferay-ui:message key="tags" /></label>
                         <liferay-ui:asset-tags-selector hiddenInput="boostTagsNames" curTags="${boostTagsNames}" />
                     </p>
+
                 </aui:fieldset>
 
-                <!-- Filtres -->
+                <!-- GROUPE : Filtres -->
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.filters">
 
                     <!-- Tri par defaut -->
@@ -145,7 +150,7 @@
 
                 </aui:fieldset>
 
-                <!-- Tris -->
+                <!-- GROUPE : Tris -->
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.sorting">
 
                     <!-- Type de tri par defaut -->
@@ -160,7 +165,22 @@
 
                 </aui:fieldset>
 
-                <!-- Affichage -->
+                <!-- GROUPE : Groupement -->
+                <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.group">
+
+                    <!-- Champ sur lequel effectuer le groupement -->
+                    <aui:select name="groupBy" label="eu.search.asset.web.configuration.group.by">
+                        <aui:option value="none">
+                            <liferay-ui:message key="eu.search.asset.web.configuration.none" />
+                        </aui:option>
+                        <aui:option value="contentType">
+                            <liferay-ui:message key="eu.search.asset.web.configuration.content.type" />
+                        </aui:option>
+                    </aui:select>
+
+                </aui:fieldset>
+
+                <!-- GROUPE : Affichage -->
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.display">
 
                     <liferay-ui:message key="eu.search.asset.web.configuration.default.display.explanations" />
@@ -239,7 +259,7 @@
 
                 </aui:fieldset>
 
-                <!-- Export -->
+                <!-- GROUPE : Export -->
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.export">
 
                     <!-- Bouton exporter -->
