@@ -64,6 +64,7 @@
                     <liferay-ui:message key="vocabularies-explanations" />
                     <aui:input type="hidden" name="vocabulariesCount" value="${fn:length(vocabularies)}" />
 
+                    <!-- CHAMP : Vocabulaires proposés à l'utilisateur pour la recherche -->
                     <c:set var="i" value="${0}" />
                     <c:forEach var="vocabulary" items="${vocabularies}"  varStatus="vocStatus">
 
@@ -96,13 +97,13 @@
                         </c:if>
                     </c:forEach>
 
-                    <!-- Affichage du filtre par date -->
+                    <!-- CHAMP : Affichage du filtre par date -->
                     <div>
                         <liferay-ui:message key="date-explanations" />
                         <aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" inlineField="true" />
                     </div>
 
-                    <!-- Affichage du selecteur de tri -->
+                    <!-- CHAMP : Affichage du selecteur de tri -->
                     <div>
                         <liferay-ui:message key="date-sorting-explanations" />
                         <aui:input type="checkbox" name="displayDateSorting" value="${displayDateSorting}" label="date-sorting-field" inlineField="true" />
@@ -124,7 +125,7 @@
                 <!-- GROUPE : Filtres -->
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.filters">
 
-                    <!-- Tri par defaut -->
+                    <!-- CHAMP : Colonne sur laqualle filtrer par défaut -->
                     <aui:select name="defaultSortField">
                         <aui:option value="modified_sortable" selected="${defaultSortField eq 'modified_sortable'}">
                             <liferay-ui:message key="modification-date" />
@@ -146,7 +147,7 @@
                         </aui:option>
                     </aui:select>
 
-                    <!-- Filtre par date par defaut -->
+                    <!-- CHAMP : Filtre par date par defaut -->
                     <aui:input type="number" name="defaultDateRange" min="-1000" max="+1000" cssClass="date-range" value="${defaultDateRange}" label="default-date-range" inlineField="true"/>
 
                 </aui:fieldset>
@@ -157,6 +158,7 @@
                     <aui:row id="ordering">
                     	<aui:col width="<%= 50 %>">
 
+                            <!-- CHAMP : Tri colonne 1 -->
                     		<aui:select label="order-by" name="orderByColumn1" value="" wrapperCssClass="field-inline w80">
                     			<aui:option label="title" value="title"/>
                     			<aui:option label="create-date" value="createDate" />
@@ -166,6 +168,7 @@
                     			<aui:option label="priority" value="priority" />
                     		</aui:select>
 
+                            <!-- CHAMP : Tri type 1 -->
                     		<%
                     		String orderByType1 = "DESC";
                     		%>
@@ -195,6 +198,7 @@
 
                     	<aui:col width="<%= 50 %>">
 
+                            <!-- CHAMP : Tri colonne 2 -->
                     		<aui:select label="and-then-by" name="orderByColumn2" wrapperCssClass="field-inline w80">
                     			<aui:option label="title" value="title"/>
                                 <aui:option label="create-date" value="createDate" />
@@ -204,6 +208,7 @@
                                 <aui:option label="priority" value="priority" />
                     		</aui:select>
 
+                            <!-- CHAMP : Tri type 2 -->
                     		<%
                     		String orderByType2 = "DESC";
                     		%>
@@ -259,7 +264,7 @@
                 <!-- GROUPE : Groupement -->
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.group">
 
-                    <!-- Champ sur lequel effectuer le groupement -->
+                    <!-- CHAMP : Champ sur lequel effectuer le groupement -->
                     <aui:select name="groupBy" label="eu.search.asset.web.configuration.group.by">
                         <aui:option value="none">
                             <liferay-ui:message key="eu.search.asset.web.configuration.none" />
@@ -274,14 +279,13 @@
                 <!-- GROUPE : Affichage -->
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.display">
 
-                    <liferay-ui:message key="eu.search.asset.web.configuration.default.display.explanations" />
-                    <!-- Ne pas afficher de resultats avant que l'utilisateur n'ait fait de recherche -->
+                    <!-- CHAMP : Ne pas afficher de resultats avant que l'utilisateur n'ait fait de recherche -->
                     <aui:input type="checkbox" name="hideResultsBeforeSearch" value="${hideResultsBeforeSearch}" label="eu.search.asset.web.configuration.hide.results.before.search" />
 
-                    <!-- Nombre de resultats par page -->
+                    <!-- CHAMP : Nombre de resultats par page -->
                     <aui:input type="number" name="delta" label="eu.search.asset.web.configuration.delta" value="${delta}" />
 
-                    <!-- Formulaire de recherche -->
+                    <!-- CHAMP : Formulaire de recherche -->
                     <aui:select name="searchForm">
                         <aui:option value="museum" selected="${searchForm eq 'museum'}">
                             <liferay-ui:message key="museum" />
@@ -353,11 +357,11 @@
                 <!-- GROUPE : Export -->
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.export">
 
-                    <!-- Bouton exporter -->
+                    <!-- CHAMP : Bouton exporter -->
                     <aui:input type="checkbox" name="displayExport" value="${displayExport}"
                         label="display-export" inlineField="true" />
 
-                    <!-- Type d'export -->
+                    <!-- CHAMP : Type d'export -->
                     <aui:select name="exportType" showEmptyOption="true">
                         <aui:option value="city" selected="${exportType eq 'city'}">
                             <liferay-ui:message key="city" />
@@ -376,6 +380,7 @@
     <aui:button-row>
         <aui:button type="submit"></aui:button>
     </aui:button-row>
+
 </aui:form>
 
 <liferay-util:html-top>
@@ -384,69 +389,20 @@
         var getprefilterRowJSPURL = '${prefilterRowURL}';
     </script>
 </liferay-util:html-top>
+
 <liferay-util:html-bottom>
-    <script
-            src="/o/searchassetv2web/js/searchassetv2web-config.js"
-            type="text/javascript">
-    </script>
-    <!-- Include Choices CSS -->
-    <link rel="stylesheet" href="/o/searchassetv2web/css/vendors/choices.min.css">
-    <!-- Include Choices JavaScript -->
-    <script src="/o/searchassetv2web/js/vendors/choices.min.js"></script>
+    <link href="/o/searchassetv2web/css/search-asset-configuration.css" rel="stylesheet"></script>
+    <link href="/o/searchassetv2web/css/vendors/choices.min.css" rel="stylesheet">
+    <script src="/o/searchassetv2web/js/searchassetv2web-config.js" type="text/javascript"></script>
+    <script src="/o/searchassetv2web/js/vendors/choices.min.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
 
 <aui:script use="liferay-auto-fields">
     new Liferay.AutoFields({
-    contentBox: '#asset-types-content',
-    fieldIndexes: '<portlet:namespace />fieldIndexes',
-    on : {
-        'clone' : updateFieldSets()
-    }
-    }
-    ).render();
-
+        contentBox: '#asset-types-content',
+        fieldIndexes: '<portlet:namespace />fieldIndexes',
+        on : {
+            'clone' : updateFieldSets()
+        }
+    }).render();
 </aui:script>
-
-<style>
-.asset-types .asset-type-configuration .input-select-wrapper label,
-	.asset-types .input-text-wrapper label, .vocabulary-configuration .input-select-wrapper label
-	{
-	display: none;
-	float: right;
-}
-
-.asset-types .input-select-wrapper, .vocabulary-configuration .input-select-wrapper
-	{
-	width: 250px;
-}
-
-.asset-types .input-text-wrapper {
-	margin-bottom: 10px;
-	margin-left: 50px;
-	width: 250px;
-}
-
-.asset-types .asset-type-configuration select, .vocabulary-configuration select
-	{
-	margin-left: 20px;
-	min-width: 150px;
-	margin-bottom: -5px;
-}
-
-.asset-types .input-checkbox-wrapper, .vocabulary-configuration .input-checkbox-wrapper
-	{
-	width: 250px;
-}
-p {
-	max-width: 800px;
-}
-p.date {
-	margin-top: 20px;
-}
-
-.date-range {
-	width: 100px;
-}
-</style>
-
-
