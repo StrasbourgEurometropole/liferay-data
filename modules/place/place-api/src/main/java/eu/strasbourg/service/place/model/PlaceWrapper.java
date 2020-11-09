@@ -2327,6 +2327,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	 * Renvoie le JSON des horaires sur 7 jours au format CSMap
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getScheduleCSMapJSON() {
+		return _place.getScheduleCSMapJSON();
+	}
+
+	/**
 	 * Retourne les ScheduleExceptions du lieu
 	 */
 	@Override

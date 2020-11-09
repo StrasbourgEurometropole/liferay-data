@@ -1921,16 +1921,16 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
         if (Validator.isNotNull(this.getExceptionalSchedule())) {
             JSONObject scheduleExceptionJSON = JSONFactoryUtil.createJSONObject();
-            JSONObject comments = JSONFactoryUtil.createJSONObject();
-            comments.put("fr_FR", this.getExceptionalSchedule(Locale.FRANCE));
+            JSONObject exceptionalScheduleJSON = JSONFactoryUtil.createJSONObject();
+            exceptionalScheduleJSON.put("fr_FR", this.getExceptionalSchedule(Locale.FRANCE));
             if (Validator.isNotNull(this.getExceptionalSchedule(Locale.US))) {
-                comments.put("en_US", this.getExceptionalSchedule(Locale.US));
+                exceptionalScheduleJSON.put("en_US", this.getExceptionalSchedule(Locale.US));
             }
             if (Validator.isNotNull(this.getExceptionalSchedule(Locale.GERMANY))) {
-                comments.put("de_DE", this.getExceptionalSchedule(Locale.GERMANY));
+                exceptionalScheduleJSON.put("de_DE", this.getExceptionalSchedule(Locale.GERMANY));
             }
-            scheduleExceptionJSON.put("description", comments);
-            scheduleExceptionsJSON.put(scheduleExceptionsJSON);
+            scheduleExceptionJSON.put("description", exceptionalScheduleJSON);
+            scheduleExceptionsJSON.put(scheduleExceptionJSON);
         }
         if (scheduleExceptionsJSON.length() > 0) {
             jsonPlace.put("exceptions", scheduleExceptionsJSON);
@@ -1955,5 +1955,43 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId());
 
         return jsonPlace;
+    }
+
+    /**
+     * Renvoie le JSON des horaires sur 7 jours au format CSMap
+     */
+    @Override
+    public JSONObject getScheduleCSMapJSON() {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+        // si les horaires du lieux sont un lien, le JSON sera vide
+        if(!this.getHasURLSchedule()){
+            // on récupère une map de clé jour et de valeur une liste de détail d'horaire d'ouvetrure (n'ayant qu'un enregistrement) pour les 7 prochains jours
+            Map<String, List<PlaceSchedule>> schedules = this.getPlaceSchedule(new Date(), 7, Locale.FRANCE);
+            JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
+            // on parcours les 7 prochains jours
+            for (Map.Entry schedule : schedules.entrySet()) {
+                JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
+                scheduleJSON.put("date",schedule.getKey());
+                // on récupère le détail des horaires du lieu pour ce jour
+                PlaceSchedule detail = ((List<PlaceSchedule>)schedule.getValue()).get(0);
+                scheduleJSON.put("isClosed", detail.isClosed());
+                scheduleJSON.put("alwaysOpen",detail.isAlwaysOpen());
+                if(detail.getOpeningTimes() != null) {
+                    JSONArray hoursJSON = JSONFactoryUtil.createJSONArray();
+                    // on parcours la liste des horaires d'ouverture de ce lieu pour ce jour
+                    for (Pair<LocalTime, LocalTime> openingTime : detail.getOpeningTimes()) {
+                        JSONObject hourJSON = JSONFactoryUtil.createJSONObject();
+                        hourJSON.put("startHour", openingTime.getFirst());
+                        hourJSON.put("endHour", openingTime.getSecond());
+                        hoursJSON.put(hourJSON);
+                    }
+                    scheduleJSON.put("hours", hoursJSON);
+                }
+                schedulesJSON.put(scheduleJSON);
+            }
+            json.put("schedules", schedulesJSON);
+        }
+
+        return json;
     }
 }

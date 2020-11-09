@@ -404,4 +404,9 @@ public interface Place extends PersistedModel, PlaceModel {
 	 */
 	public com.liferay.portal.kernel.json.JSONObject getCSMapJSON();
 
+	/**
+	 * Renvoie le JSON des horaires sur 7 jours au format CSMap
+	 */
+	public com.liferay.portal.kernel.json.JSONObject getScheduleCSMapJSON();
+
 }
