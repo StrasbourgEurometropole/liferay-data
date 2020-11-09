@@ -1,14 +1,13 @@
 package eu.strasbourg.utils;
 
-import java.io.File;
-import java.util.Locale;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-
 import eu.strasbourg.utils.api.FileEntryHelperService;
+import org.osgi.service.component.annotations.Component;
+
+import java.io.File;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Implémentation du service FileEntryHelperService N'est qu'une couche
@@ -66,6 +65,11 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 	@Override
 	public String scanFile(File file) {
 		return FileEntryHelper.scanFile(file);
+	}
+
+	@Override
+	public Map<String, DLFileEntry> getPictoForVocabulary(String nomRepertoireVocabulaire, String nomRepertoire)    {
+		return FileEntryHelper.getPictoForVocabulary(nomRepertoireVocabulaire, nomRepertoire);
 	}
 
 }
