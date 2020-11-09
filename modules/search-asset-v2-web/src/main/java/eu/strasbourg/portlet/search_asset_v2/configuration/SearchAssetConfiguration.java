@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.search_asset_v2.configuration;
 
 import aQute.bnd.annotation.metatype.Meta;
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
+import com.liferay.portal.kernel.util.StringUtil;
 
 @ExtendedObjectClassDefinition(
 	category = "Strasbourg",

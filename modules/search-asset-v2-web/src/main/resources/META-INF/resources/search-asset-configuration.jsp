@@ -2,6 +2,7 @@
 
 <%@page import="com.liferay.portal.kernel.security.permission.ResourceActionsUtil"%>
 <%@page import="com.liferay.asset.kernel.model.AssetRendererFactory"%>
+<%@page import="com.liferay.portal.kernel.util.StringUtil"%>
 
 <liferay-portlet:actionURL portletConfiguration="true" varImpl="configurationActionURL" />
 
@@ -153,15 +154,105 @@
                 <!-- GROUPE : Tris -->
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.sorting">
 
-                    <!-- Type de tri par defaut -->
-                    <aui:select name="defaultSortType">
-                        <aui:option value="asc" selected="${defaultSortType eq 'asc'}">
-                            <liferay-ui:message key="asc" />
-                        </aui:option>
-                        <aui:option value="desc" selected="${defaultSortType eq 'desc'}">
-                            <liferay-ui:message key="desc" />
-                        </aui:option>
-                    </aui:select>
+                    <aui:row id="ordering">
+                    	<aui:col width="<%= 50 %>">
+
+                    		<aui:select label="order-by" name="orderByColumn1" value="" wrapperCssClass="field-inline w80">
+                    			<aui:option label="title" value="title"/>
+                    			<aui:option label="create-date" value="createDate" />
+                    			<aui:option label="modified-date" value="modifiedDate" />
+                    			<aui:option label="publish-date" value="publishDate" />
+                    			<aui:option label="expiration-date" value="expirationDate" />
+                    			<aui:option label="priority" value="priority" />
+                    		</aui:select>
+
+                    		<%
+                    		String orderByType1 = "DESC";
+                    		%>
+
+                    		<aui:field-wrapper cssClass="field-label-inline order-by-type-container">
+                    			<liferay-ui:icon
+                    				cssClass='<%= StringUtil.equalsIgnoreCase(orderByType1, "DESC") ? "hide icon order-arrow-up-active" : "icon order-arrow-up-active" %>'
+                    				icon="order-arrow"
+                    				linkCssClass="btn btn-outline-borderless btn-outline-secondary"
+                    				markupView="lexicon"
+                    				message="descending"
+                    				url="javascript:;"
+                    			/>
+
+                    			<liferay-ui:icon
+                    				cssClass='<%= StringUtil.equalsIgnoreCase(orderByType1, "ASC") ? "hide icon order-arrow-down-active" : "icon order-arrow-down-active" %>'
+                    				icon="order-arrow"
+                    				linkCssClass="btn btn-outline-borderless btn-outline-secondary"
+                    				markupView="lexicon"
+                    				message="ascending"
+                    				url="javascript:;"
+                    			/>
+
+                    			<aui:input cssClass="order-by-type-field" name="orderByType1" type="hidden" value="" />
+                    		</aui:field-wrapper>
+                    	</aui:col>
+
+                    	<aui:col width="<%= 50 %>">
+
+                    		<aui:select label="and-then-by" name="orderByColumn2" wrapperCssClass="field-inline w80">
+                    			<aui:option label="title" value="title"/>
+                                <aui:option label="create-date" value="createDate" />
+                                <aui:option label="modified-date" value="modifiedDate" />
+                                <aui:option label="publish-date" value="publishDate" />
+                                <aui:option label="expiration-date" value="expirationDate" />
+                                <aui:option label="priority" value="priority" />
+                    		</aui:select>
+
+                    		<%
+                    		String orderByType2 = "DESC";
+                    		%>
+
+                    		<aui:field-wrapper cssClass="field-label-inline order-by-type-container">
+                    			<liferay-ui:icon
+                    				cssClass='<%= StringUtil.equalsIgnoreCase(orderByType2, "DESC") ? "hide icon order-arrow-up-active" : "icon order-arrow-up-active" %>'
+                    				icon="order-arrow"
+                    				linkCssClass="btn btn-outline-borderless btn-outline-secondary"
+                    				markupView="lexicon"
+                    				message="descending"
+                    				url="javascript:;"
+                    			/>
+
+                    			<liferay-ui:icon
+                    				cssClass='<%= StringUtil.equalsIgnoreCase(orderByType2, "ASC") ? "hide icon order-arrow-down-active" : "icon order-arrow-down-active" %>'
+                    				icon="order-arrow"
+                    				linkCssClass="btn btn-outline-borderless btn-outline-secondary"
+                    				markupView="lexicon"
+                    				message="ascending"
+                    				url="javascript:;"
+                    			/>
+
+                    			<aui:input cssClass="order-by-type-field" name="orderByType2" type="hidden" value="" />
+                    		</aui:field-wrapper>
+                    	</aui:col>
+                    </aui:row>
+
+                    <aui:script use="aui-base">
+                    	A.one('#<portlet:namespace />ordering').delegate(
+                    	    'click',
+                    		function(event) {
+                    			var currentTarget = event.currentTarget;
+
+                    			var orderByTypeContainer = currentTarget.ancestor(
+                    				'.order-by-type-container'
+                    			);
+
+                    			orderByTypeContainer.all('.icon').toggleClass('hide');
+
+                    			var orderByTypeField = orderByTypeContainer.one('.order-by-type-field');
+
+                    			var newVal = orderByTypeField.val() === 'ASC' ? 'DESC' : 'ASC';
+
+                    			orderByTypeField.val(newVal);
+                    		},
+                    		'.icon'
+                    	);
+                    </aui:script>
 
                 </aui:fieldset>
 
