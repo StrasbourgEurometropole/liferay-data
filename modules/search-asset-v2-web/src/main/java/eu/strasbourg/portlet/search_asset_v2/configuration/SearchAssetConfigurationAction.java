@@ -42,8 +42,10 @@ import java.util.List;
 	configurationPolicy = ConfigurationPolicy.OPTIONAL,
 	immediate = true,
 	property = {
-		"javax.portlet.name=eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet" },
-	service = ConfigurationAction.class)
+		"javax.portlet.name=eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet"
+	},
+	service = ConfigurationAction.class
+)
 public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 
 	/**
