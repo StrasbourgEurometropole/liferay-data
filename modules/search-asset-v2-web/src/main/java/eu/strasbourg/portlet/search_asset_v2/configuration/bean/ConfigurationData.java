@@ -1,8 +1,15 @@
 package eu.strasbourg.portlet.search_asset_v2.configuration.bean;
 
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset_v2.configuration.constants.ConfigurationConstants;
+import eu.strasbourg.utils.JSONHelper;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.portlet.ActionRequest;
@@ -34,6 +41,9 @@ public class ConfigurationData {
     private boolean displayExport;
     private String exportType;
 
+    /** Logs */
+    private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
+
     public ConfigurationData(ActionRequest request) {
         this.request = request;
         this.initDataFromRequest();
@@ -47,35 +57,30 @@ public class ConfigurationData {
     private void initDataFromRequest() {
         // Asset types autofield
         String assetTypesIndexes = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_ASSET_TYPES_INDEXES);
-
-        String className, templateKey, friendlyURL, assetPrefiltersIndexes, operator, type;
-        boolean contains;
-        Long[] scopeGroupIDs, categoryOrTagIdList;
-        List<ConfigurationAssetPrefilterData> assetPrefilterDataList;
         this.assetTypeDataList = new ArrayList<>();
-
         for (String assetTypeIndex : assetTypesIndexes.split(",")) {
-            className = ParamUtil.getString(this.request,
+            String className = ParamUtil.getString(this.request,
                     ConfigurationConstants.PARAM_CLASSNAME + "_" + assetTypeIndex);
-            templateKey = ParamUtil.getString(this.request,
+            String templateKey = ParamUtil.getString(this.request,
                     ConfigurationConstants.PARAM_TEMPLATE_KEY + "_" + assetTypeIndex);
-            friendlyURL = ParamUtil.getString(this.request,
+            String friendlyURL = ParamUtil.getString(this.request,
                     ConfigurationConstants.PARAM_FRIENDLY_URL + "_" + assetTypeIndex);
-            scopeGroupIDs = ArrayUtils.toObject(ParamUtil.getLongValues(this.request,
+            Long[] scopeGroupIDs = ArrayUtils.toObject(ParamUtil.getLongValues(this.request,
                     ConfigurationConstants.PARAM_SCOPE_GROUP_IDS + "_" + assetTypeIndex));
 
             // Asset prefilter repeatable field
-            assetPrefiltersIndexes = ParamUtil.getString(this.request,
+            String assetPrefiltersIndexes = ParamUtil.getString(this.request,
                     ConfigurationConstants.PARAM_ASSET_PREFILTERS_INDEXES + "_" + assetTypeIndex);
-            assetPrefilterDataList = new ArrayList<>();
+            List<ConfigurationAssetPrefilterData> assetPrefilterDataList = new ArrayList<>();
 
             for (String assetPrefiltersIndex : assetPrefiltersIndexes.split(",")) {
-                contains = ParamUtil.getBoolean(this.request,
+                boolean contains = ParamUtil.getBoolean(this.request,
                         ConfigurationConstants.PARAM_CONTAINS + "_" + assetTypeIndex + "_" + assetPrefiltersIndex);
-                operator =  ParamUtil.getString(this.request,
+                String operator =  ParamUtil.getString(this.request,
                         ConfigurationConstants.PARAM_OPERATOR + "_" + assetTypeIndex + "_" + assetPrefiltersIndex);
-                type = ParamUtil.getString(this.request,
+                String type = ParamUtil.getString(this.request,
                         ConfigurationConstants.PARAM_TYPE + "_" + assetTypeIndex + "_" + assetPrefiltersIndex);
+                Long[] categoryOrTagIdList;
                 if (type.equals(ConfigurationConstants.TYPE_TAG))
                     categoryOrTagIdList = ArrayUtils.toObject(ParamUtil.getLongValues(this.request,
                             ConfigurationConstants.PARAM_TAGS_IDS + "_" + assetTypeIndex + "_" + assetPrefiltersIndex));
@@ -88,11 +93,6 @@ public class ConfigurationData {
                             contains, operator, type, Arrays.asList(categoryOrTagIdList)
                         )
                 );
-
-                // clear
-                contains = false;
-                operator = type = null;
-                categoryOrTagIdList = null;
             }
 
             this.assetTypeDataList.add(
@@ -100,10 +100,6 @@ public class ConfigurationData {
                             className, templateKey, friendlyURL, Arrays.asList(scopeGroupIDs), assetPrefilterDataList
                     )
             );
-
-            // clear
-            className = templateKey = assetPrefiltersIndexes = null;
-            scopeGroupIDs = null;
         }
 
         this.displayDateField = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_DISPLAY_DATE_FIELD);
@@ -124,7 +120,51 @@ public class ConfigurationData {
     }
 
     private void initDataFromConfiguration() {
-        // TODO Récupération des données des portlet preferences de la configuration
+        this.assetTypeDataList = new ArrayList<>();
+        List<ConfigurationAssetPrefilterData> assetPrefilterDataList;
+        try {
+            JSONObject json = JSONFactoryUtil.createJSONObject(this.configuration.assetTypes());
+            JSONArray jsonAssetsTypes = json.getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES);
+            JSONObject jsonAssetType;
+            for (int i = 0 ; i < jsonAssetsTypes.length() ; i++) {
+                jsonAssetType = jsonAssetsTypes.getJSONObject(i);
+
+                String className = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_CLASSNAME);
+                String templateKey = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_TEMPLATE_KEY);
+                String friendlyURL = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_FRIENDLY_URL);
+                Long[] scopeGroupIDs = ArrayUtils.toObject(JSONHelper.convertJSONArraytoLongArray(
+                        jsonAssetType.getJSONArray(ConfigurationConstants.JSON_ASSET_SCOPE_GROUP_IDS)));
+
+                assetPrefilterDataList = new ArrayList<>();
+                // TODO remplir les prefiltres
+
+                this.assetTypeDataList.add(
+                        new ConfigurationAssetData(
+                                className, templateKey, friendlyURL, Arrays.asList(scopeGroupIDs), assetPrefilterDataList
+                        )
+                );
+
+            }
+
+        } catch (JSONException e) {
+            this.log.error(e);
+        }
+
+        this.displayDateField = this.configuration.displayDateField();
+        this.displaySorting = this.configuration.displaySorting();
+        this.boostTagsNames = this.configuration.boostTagsNames();
+        this.filterField = this.configuration.filterField();
+        this.defaultFilerDateRange = this.configuration.defaultFilerDateRange();
+        this.firstSortingField = this.configuration.firstSortingField();
+        this.firstSortingType = this.configuration.firstSortingType();
+        this.secondSortingField = this.configuration.secondSortingField();
+        this.secondSortingType = this.configuration.secondSortingType();
+        this.groupBy = this.configuration.groupBy();
+        this.hideResultsBeforeSearch = this.configuration.hideResultsBeforeSearch();
+        this.delta = this.configuration.delta();
+        this.searchForm = this.configuration.searchForm();
+        this.displayExport = this.configuration.displayExport();
+        this.exportType = this.configuration.exportType();
     }
 
     public boolean validate() {

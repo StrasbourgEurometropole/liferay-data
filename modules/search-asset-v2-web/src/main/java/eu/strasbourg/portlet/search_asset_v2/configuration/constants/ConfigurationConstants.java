@@ -31,8 +31,9 @@ public class ConfigurationConstants {
     public static final String PARAM_EXPORT_TYPE = "exportType";
 
     /** JSON */
+    public static final String JSON_ASSETS_TYPES = "assetsTypes";
     // Configuration Asset Data
-    public static final String JSON_ASSET_CLASSNAME = "contains";
+    public static final String JSON_ASSET_CLASSNAME = "classname";
     public static final String JSON_ASSET_TEMPLATE_KEY = "templateKey";
     public static final String JSON_ASSET_FRIENDLY_URL = "friendlyURL";
     public static final String JSON_ASSET_SCOPE_GROUP_IDS = "scopeGroupIds";
