@@ -89,4 +89,8 @@ public class SearchAssetConfigurationDisplayContext {
         }
         return availableAssetTemplates;
     }
+
+    public ConfigurationData getConfigurationData() {
+        return this.configurationData;
+    }
 }

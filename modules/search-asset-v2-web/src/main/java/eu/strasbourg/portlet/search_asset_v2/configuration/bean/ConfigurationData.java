@@ -13,8 +13,13 @@ import eu.strasbourg.utils.JSONHelper;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.portlet.ActionRequest;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class ConfigurationData {
@@ -177,4 +182,18 @@ public class ConfigurationData {
         return this.assetTypeDataList.size();
     }
 
+    public List<ConfigurationAssetData> getAssetTypeDataList() {
+        return this.assetTypeDataList;
+    }
+
+    public JSONObject getAssetTypesJSON() {
+
+        JSONArray assetTypeArray = JSONFactoryUtil.createJSONArray();
+        for (ConfigurationAssetData assetType : this.assetTypeDataList) {
+            assetTypeArray.put(assetType.toJSON());
+        }
+        JSONObject result = JSONFactoryUtil.createJSONObject();
+        result.put(ConfigurationConstants.JSON_ASSETS_TYPES, assetTypeArray);
+        return result;
+    }
 }

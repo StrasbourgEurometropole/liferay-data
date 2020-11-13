@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationData;
 import eu.strasbourg.portlet.search_asset_v2.configuration.display.context.SearchAssetConfigurationDisplayContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -59,7 +60,7 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			.getAttribute(WebKeys.THEME_DISPLAY);
 		String cmd = ParamUtil.getString(actionRequest, "cmd");
 		if (cmd.equals("update")) {
-
+			// TODO Clean up
 			// ClassNamesIds et templates Ids associés
 			StringBuilder assetClassNamesIdsString = new StringBuilder();
 			StringBuilder templatesKeysString = new StringBuilder();
@@ -297,6 +298,13 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			String exportType = ParamUtil.getString(actionRequest, "exportType",
 				"");
 			setPreference(actionRequest, "exportType", exportType);
+			// TODO End clean
+
+			// Search asset v2
+			ConfigurationData configData = new ConfigurationData(actionRequest);
+			String assetTypes = configData.getAssetTypesJSON().toJSONString();
+			setPreference(actionRequest, "assetTypes", assetTypes);
+			// TODO Add additional config fields save
 		}
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}

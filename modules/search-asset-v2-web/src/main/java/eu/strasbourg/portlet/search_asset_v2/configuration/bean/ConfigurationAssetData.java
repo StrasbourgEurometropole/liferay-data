@@ -41,4 +41,23 @@ public class ConfigurationAssetData {
         return result;
     }
 
+    public String getClassName() {
+        return this.className;
+    }
+
+    public String getTemplateKey() {
+        return this.templateKey;
+    }
+
+    public String getFriendlyURL() {
+        return this.friendlyURL;
+    }
+
+    public List<Long> getScopeGroupIDs() {
+        return this.scopeGroupIDs;
+    }
+
+    public List<ConfigurationAssetPrefilterData> getAssetPrefilterDataList() {
+        return this.assetPrefilterDataList;
+    }
 }
