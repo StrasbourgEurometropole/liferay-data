@@ -18,48 +18,91 @@
             <aui:fieldset-group markupView="lexicon">
 
                 <!-- GROUPE : Type d'asset -->
-                <aui:fieldset collapsed="false" collapsible="true"label="asset-type">
+                <aui:fieldset collapsed="false" collapsible="true" label="asset-type">
 
                     <liferay-ui:message key="asset-types-explanations" />
                     <div id="asset-types-content">
-                        <div class="lfr-form-row">
-                            <aui:fieldset id="contentType_1" name="contentType_1" collapsed="false" collapsible="true" label="some-content">
-                                <aui:select id="contentTypeSelect_1" name="contentTypeSelect_1" label="" onChange="">
-                                    <c:forEach var="assetClassName" varStatus="assetStatus"
-                                               items="${dc.availableAssetTypeNames}">
-                                        <aui:option value="${assetClassName}">
-                                            <liferay-ui:message key="${assetClassName}"/>
+                        <c:if test="${empty dc.configurationData.assetTypeDataList}">
+                            <div class="lfr-form-row">
+                                <aui:fieldset id="assetType_1" name="assetType_1" collapsed="false" collapsible="true" label="some-content">
+                                    <aui:select id="classname_1" name="classname_1" label="">
+                                        <aui:option value="${false}" selected="true">
+                                            <liferay-ui:message key="select-asset-type"/>
                                         </aui:option>
-                                    </c:forEach>
-                                </aui:select>
-                                <aui:fieldset id="contentTemplate_1" name="contentTemplate_1" collapsed="false" collapsible="true" label="template-and-url">
-                                    <aui:select id="contentTemplateSelect_1" name="contentTemplateSelect_1" inlineField="true">
-                                        <aui:option value="default" selected="true">
-                                            Selectionnez une template
-                                        </aui:option>
+                                        <c:forEach var="assetClassName" varStatus="assetStatus"
+                                                   items="${dc.availableAssetTypeNames}">
+                                            <aui:option value="${assetClassName}">
+                                                <liferay-ui:message key="${assetClassName}"/>
+                                            </aui:option>
+                                        </c:forEach>
                                     </aui:select>
-                                    <aui:input name="friendlyUrl" type="text" placeholder="detail-friendly-url" inlineField="true"/>
-                                </aui:fieldset>
-                                <aui:fieldset collapsed="false" collapsible="true" label="scope">
-                                    <liferay-ui:message key="scope-explanations" />
-                                    <label><liferay-ui:message key="global-scope" /></label>
-                                    <liferay-ui:asset-tags-selector
-                                            hiddenInput="prefilterTagsNames"
-                                            curTags="${prefilterTagsNames}" />
-                                </aui:fieldset>
-                                <aui:fieldset collapsed="false" collapsible="true" label="prefilter">
-                                    <div class="lfr-form-row lfr-form-row-inline">
+                                    <aui:fieldset id="assetTemplate_1" name="assetTemplate_1" collapsed="false" collapsible="true" label="template-and-url">
+                                        <aui:select id="templateKey_1" name="templateKey_1" label="" inlineField="true">
+                                            <aui:option value="${false}" selected="true">
+                                                <liferay-ui:message key="select-a-template"/>
+                                            </aui:option>
+                                        </aui:select>
+                                        <aui:input id="friendlyUrl_1" name="friendlyUrl_1" label="" type="text" placeholder="detail-friendly-url" inlineField="true"/>
+                                    </aui:fieldset>
+                                    <aui:fieldset collapsed="false" collapsible="true" label="scope">
+                                        <liferay-ui:message key="scope-explanations" />
+                                        <label><liferay-ui:message key="global-scope" /></label>
+                                        <liferay-ui:asset-tags-selector
+                                                hiddenInput="prefilterTagsNames"
+                                                curTags="${prefilterTagsNames}" />
+                                    </aui:fieldset>
+                                    <aui:fieldset collapsed="false" collapsible="true" label="prefilter">
+                                        <div>
 
-                                    </div>
+                                        </div>
+                                    </aui:fieldset>
                                 </aui:fieldset>
-                            </aui:fieldset>
-                        </div>
+                            </div>
+                        </c:if>
+
+                        <c:forEach items="${dc.configurationData.assetTypeDataList}" var="assetTypeData" varStatus="status">
+                            <div class="lfr-form-row">
+                                <aui:fieldset id="assetType_${status.index}" name="assetType_${status.index}" collapsed="false" collapsible="true" label="some-content">
+                                    <aui:select id="classname_${status.index}" name="classname_${status.index}" label="">
+                                        <aui:option value="${false}" selected="true">
+                                            <liferay-ui:message key="select-asset-type"/>
+                                        </aui:option>
+                                        <c:forEach var="assetClassName" varStatus="assetStatus"
+                                                   items="${dc.availableAssetTypeNames}">
+                                            <aui:option value="${assetClassName}">
+                                                <liferay-ui:message key="${assetClassName}"/>
+                                            </aui:option>
+                                        </c:forEach>
+                                    </aui:select>
+                                    <aui:fieldset id="assetTemplate_${status.index}" name="assetTemplate_${status.index}" collapsed="false" collapsible="true" label="template-and-url">
+                                        <aui:select id="templateKey_${status.index}" name="templateKey_${status.index}" label="" inlineField="true">
+                                            <aui:option value="${false}" selected="true">
+                                                <liferay-ui:message key="select-a-template"/>
+                                            </aui:option>
+                                        </aui:select>
+                                        <aui:input id="friendlyUrl_${status.index}" name="friendlyUrl_${status.index}" label="" type="text" placeholder="detail-friendly-url" inlineField="true"/>
+                                    </aui:fieldset>
+                                    <aui:fieldset id="assetTemplate_${status.index}" name="assetTemplate_${status.index}" collapsed="false" collapsible="true" label="scope">
+                                        <liferay-ui:message key="scope-explanations" />
+                                        <liferay-ui:asset-tags-selector
+                                                hiddenInput="prefilterTagsNames"
+                                                curTags="${prefilterTagsNames}" />
+                                    </aui:fieldset>
+                                    <aui:fieldset collapsed="false" collapsible="true" label="prefilter">
+                                        <div>
+
+                                        </div>
+                                    </aui:fieldset>
+                                </aui:fieldset>
+                            </div>
+                        </c:forEach>
+                        <aui:input type="hidden" name="assetTypesIndexes" value="${dc.getDefaultAssetTypeIndexes()}" />
                     </div>
 
                 </aui:fieldset>
 
                 <!-- GROUPE : Criteres de recherche -->
-                <aui:fieldset collapsed="true" collapsible="true"label="search-criterias">
+                <aui:fieldset collapsed="true" collapsible="true" label="search-criterias">
 
                     <liferay-ui:message key="vocabularies-explanations" />
                     <aui:input type="hidden" name="vocabulariesCount" value="${fn:length(vocabularies)}" />
@@ -383,13 +426,6 @@
 
 </aui:form>
 
-<liferay-util:html-top>
-    <script>
-        var getassetTypeRowJSPURL = '${assetTypeRowURL}';
-        var getprefilterRowJSPURL = '${prefilterRowURL}';
-    </script>
-</liferay-util:html-top>
-
 <liferay-util:html-bottom>
     <link href="/o/searchassetv2web/css/search-asset-configuration.css" rel="stylesheet"></script>
     <link href="/o/searchassetv2web/css/vendors/choices.min.css" rel="stylesheet">
@@ -400,9 +436,6 @@
 <aui:script use="liferay-auto-fields">
     new Liferay.AutoFields({
         contentBox: '#asset-types-content',
-        fieldIndexes: '<portlet:namespace />fieldIndexes',
-        on : {
-            'clone' : updateFieldSets()
-        }
+        fieldIndexes: '<portlet:namespace />assetTypesIndexes'
     }).render();
 </aui:script>

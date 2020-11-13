@@ -301,19 +301,15 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			// TODO End clean
 
 			// Search asset v2
+			/*
 			ConfigurationData configData = new ConfigurationData(actionRequest);
 			String assetTypes = configData.getAssetTypesJSON().toJSONString();
 			setPreference(actionRequest, "assetTypes", assetTypes);
+			*/
 			// TODO Add additional config fields save
 		}
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}
-
-
-	@Override
-	public void render(RenderRequest renderRequest,
-					   RenderResponse renderResponse)
-			throws IOException, PortletException {}
 
 	/**
 	 * Send to the JSP the needed data
