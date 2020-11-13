@@ -146,7 +146,7 @@ public class ConfigurationData {
 
             }
 
-        } catch (JSONException e) {
+        } catch (NullPointerException | JSONException e) {
             this.log.error(e);
         }
 
