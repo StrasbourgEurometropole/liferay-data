@@ -70,8 +70,10 @@ public class AlertServiceImpl extends AlertServiceBaseImpl {
 					return error("alreadyExist");
 
 				// Création de l'objet
+				// Limite la taille du nom à la taille du champ en base
+				String resizedName = name.length() > 75 ? name.substring(0, 74) : name;
 				Alert alert = this.alertLocalService.createAlert(sc);
-				alert.setName(name);
+				alert.setName(resizedName);
 				alert.setKeyWord(keyword);
 				alert.setPublikUserId(id);
 				alert.setLanguage(languageId);
