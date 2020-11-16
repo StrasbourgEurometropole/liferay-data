@@ -1,6 +1,12 @@
+create index IX_31797044 on place_Cache (uuid_[$COLUMN_LENGTH:75$]);
+
+create index IX_A2123D3C on place_CacheJson (uuid_[$COLUMN_LENGTH:75$]);
+
 create index IX_6AE2BDA8 on place_GoogleMyBusinessHistoric (groupId);
 create index IX_596C76B6 on place_GoogleMyBusinessHistoric (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_51EF32B8 on place_GoogleMyBusinessHistoric (uuid_[$COLUMN_LENGTH:75$], groupId);
+
+create index IX_B161B857 on place_Historic (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_20653473 on place_Period (placeId);
 create index IX_FF05E735 on place_Period (uuid_[$COLUMN_LENGTH:75$]);

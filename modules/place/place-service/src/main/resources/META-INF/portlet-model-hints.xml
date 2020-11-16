@@ -1,6 +1,19 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="eu.strasbourg.service.place.model.CacheJson">
+		<field name="uuid" type="String" />
+		<field name="sigId" type="String" />
+		<field name="jsonLieu" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="jsonHoraire" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="createPlace" type="Date" />
+		<field name="modifiedPlace" type="Date" />
+		<field name="isActive" type="boolean" />
+	</model>
 	<model name="eu.strasbourg.service.place.model.GoogleMyBusinessHistoric">
 		<field name="uuid" type="String" />
 		<field name="googleMyBusinessHistoricId" type="long" />
@@ -27,6 +40,12 @@
 		</field>
 		<field name="startDate" type="Date" />
 		<field name="finishDate" type="Date" />
+	</model>
+	<model name="eu.strasbourg.service.place.model.Historic">
+		<field name="uuid" type="String" />
+		<field name="sigId" type="String" />
+		<field name="name" type="String" />
+		<field name="suppressionDate" type="Date" />
 	</model>
 	<model name="eu.strasbourg.service.place.model.Period">
 		<field name="uuid" type="String" />
