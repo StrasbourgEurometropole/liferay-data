@@ -1863,17 +1863,15 @@ public class PlaceImpl extends PlaceBaseImpl {
         JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
 
         jsonPlace.put("idSurfs", this.getSIGid());
-        if(Validator.isNotNull(this.getTypes())){
-            JSONArray jsonSigs = JSONFactoryUtil.createJSONArray();
-            for (AssetCategory categ : this.getTypes()) {
-                if(Validator.isNotNull(categ)) {
-                    String sig = AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(), "SIG");
-                    if(Validator.isNotNull(sig))
-                        jsonSigs.put(sig);
-                }
+        JSONArray jsonSigs = JSONFactoryUtil.createJSONArray();
+        for (AssetCategory categ : this.getTypes()) {
+            if(Validator.isNotNull(categ)) {
+                String sig = AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(), "SIG");
+                if(Validator.isNotNull(sig))
+                    jsonSigs.put(sig);
             }
-            jsonPlace.put("types", jsonSigs);
         }
+        jsonPlace.put("types", jsonSigs);
         JSONObject names = JSONFactoryUtil.createJSONObject();
         names.put("fr_FR", this.getAlias(Locale.FRANCE));
         if (Validator.isNotNull(this.getAlias(Locale.US))) {
@@ -1892,16 +1890,17 @@ public class PlaceImpl extends PlaceBaseImpl {
         if (Validator.isNotNull(this.getCity(Locale.FRANCE))) {
             jsonPlace.put("city", this.getCity(Locale.FRANCE));
         }
-        if (Validator.isNotNull(this.getMail())) {
-            jsonPlace.put("mail", this.getMail());
-        }
         if (Validator.isNotNull(this.getPhone())) {
             jsonPlace.put("phone", this.getPhone());
         }
-        if (Validator.isNotNull(this.getImageURL())) {
-            String imageURL = this.getImageURL();
-            imageURL = StrasbourgPropsUtil.getURL() + imageURL;
-            jsonPlace.put("imageURL", imageURL);
+        JSONArray jsonImagesURLs = JSONFactoryUtil.createJSONArray();
+        for (String imageUrl : this.getImagesURLs()) {
+            if(Validator.isNotNull(imageUrl)) {
+                jsonImagesURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
+            }
+        }
+        if (jsonImagesURLs.length() > 0) {
+            jsonPlace.put("imageURL", jsonImagesURLs);
         }
         JSONObject descriptions = JSONFactoryUtil.createJSONObject();
         if (Validator.isNotNull(this.getPresentation(Locale.FRANCE))) {
@@ -1946,12 +1945,6 @@ public class PlaceImpl extends PlaceBaseImpl {
         if (Validator.isNotNull(this.getMercatorY())) {
             jsonPlace.put("mercatorY", this.getMercatorY());
         }
-        if (Validator.isNotNull(this.getRGF93X())) {
-            jsonPlace.put("RGF93X", this.getRGF93X());
-        }
-        if (Validator.isNotNull(this.getRGF93Y())) {
-            jsonPlace.put("RGF93Y", this.getRGF93Y());
-        }
         jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId());
 
         return jsonPlace;
@@ -1963,33 +1956,37 @@ public class PlaceImpl extends PlaceBaseImpl {
     @Override
     public JSONObject getScheduleCSMapJSON() {
         JSONObject json = JSONFactoryUtil.createJSONObject();
-        // si les horaires du lieux sont un lien, le JSON sera vide
-        if(!this.getHasURLSchedule()){
-            // on récupère une map de clé jour et de valeur une liste de détail d'horaire d'ouvetrure (n'ayant qu'un enregistrement) pour les 7 prochains jours
-            Map<String, List<PlaceSchedule>> schedules = this.getPlaceSchedule(new Date(), 7, Locale.FRANCE);
-            JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
-            // on parcours les 7 prochains jours
-            for (Map.Entry schedule : schedules.entrySet()) {
-                JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
-                scheduleJSON.put("date",schedule.getKey());
-                // on récupère le détail des horaires du lieu pour ce jour
-                PlaceSchedule detail = ((List<PlaceSchedule>)schedule.getValue()).get(0);
-                scheduleJSON.put("isClosed", detail.isClosed());
-                scheduleJSON.put("alwaysOpen",detail.isAlwaysOpen());
-                if(detail.getOpeningTimes() != null) {
-                    JSONArray hoursJSON = JSONFactoryUtil.createJSONArray();
-                    // on parcours la liste des horaires d'ouverture de ce lieu pour ce jour
-                    for (Pair<LocalTime, LocalTime> openingTime : detail.getOpeningTimes()) {
-                        JSONObject hourJSON = JSONFactoryUtil.createJSONObject();
-                        hourJSON.put("startHour", openingTime.getFirst());
-                        hourJSON.put("endHour", openingTime.getSecond());
-                        hoursJSON.put(hourJSON);
+        if(!this.getPeriods().isEmpty()) {
+            // si les horaires du lieux sont un lien, le JSON sera vide
+            if (!this.getHasURLSchedule()) {
+                // on récupère une map de clé jour et de valeur une liste de détail d'horaire d'ouvetrure (n'ayant qu'un enregistrement) pour les 7 prochains jours
+                Map<String, List<PlaceSchedule>> schedules = this.getPlaceSchedule(new Date(), 7, Locale.FRANCE);
+                JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
+                // on parcours les 7 prochains jours
+                for (Map.Entry schedule : schedules.entrySet()) {
+                    JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
+                    scheduleJSON.put("date", schedule.getKey());
+                    // on récupère le détail des horaires du lieu pour ce jour
+                    if (((List<PlaceSchedule>) schedule.getValue()).size() > 0) {
+                        PlaceSchedule detail = ((List<PlaceSchedule>) schedule.getValue()).get(0);
+                        scheduleJSON.put("isClosed", detail.isClosed());
+                        scheduleJSON.put("alwaysOpen", detail.isAlwaysOpen());
+                        if (detail.getOpeningTimes() != null) {
+                            JSONArray hoursJSON = JSONFactoryUtil.createJSONArray();
+                            // on parcours la liste des horaires d'ouverture de ce lieu pour ce jour
+                            for (Pair<LocalTime, LocalTime> openingTime : detail.getOpeningTimes()) {
+                                JSONObject hourJSON = JSONFactoryUtil.createJSONObject();
+                                hourJSON.put("startHour", openingTime.getFirst());
+                                hourJSON.put("endHour", openingTime.getSecond());
+                                hoursJSON.put(hourJSON);
+                            }
+                            scheduleJSON.put("hours", hoursJSON);
+                        }
                     }
-                    scheduleJSON.put("hours", hoursJSON);
+                    schedulesJSON.put(scheduleJSON);
                 }
-                schedulesJSON.put(scheduleJSON);
+                json.put("schedules", schedulesJSON);
             }
-            json.put("schedules", schedulesJSON);
         }
 
         return json;
