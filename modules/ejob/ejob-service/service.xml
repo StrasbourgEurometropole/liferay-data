@@ -30,7 +30,6 @@
 		<column name="postNumber" type="String" />
 		<column name="jobCreationDescription" type="String" localized="true" />
 		<column name="startDate" type="Date" />
-		<column name="motif" type="String" localized="true" />
 		<column name="permanentDescription" type="String" localized="true" />
 		<column name="duration" type="String" localized="true" />
 		<column name="post" type="String" localized="true" />

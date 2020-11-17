@@ -43,7 +43,6 @@
 		<property name="postNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="jobCreationDescription" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="startDate" type="org.hibernate.type.TimestampType" />
-		<property name="motif" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="permanentDescription" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="duration" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="post" type="com.liferay.portal.dao.orm.hibernate.StringType" />

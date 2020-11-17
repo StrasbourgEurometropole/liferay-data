@@ -74,7 +74,6 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 		attributes.put("postNumber", getPostNumber());
 		attributes.put("jobCreationDescription", getJobCreationDescription());
 		attributes.put("startDate", getStartDate());
-		attributes.put("motif", getMotif());
 		attributes.put("permanentDescription", getPermanentDescription());
 		attributes.put("duration", getDuration());
 		attributes.put("post", getPost());
@@ -195,12 +194,6 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 
 		if (startDate != null) {
 			setStartDate(startDate);
-		}
-
-		String motif = (String)attributes.get("motif");
-
-		if (motif != null) {
-			setMotif(motif);
 		}
 
 		String permanentDescription = (String)attributes.get(
@@ -1058,79 +1051,11 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
-	 * Returns the motif of this offer.
-	 *
-	 * @return the motif of this offer
+	 * Retourne le motif
 	 */
 	@Override
-	public String getMotif() {
+	public com.liferay.asset.kernel.model.AssetCategory getMotif() {
 		return _offer.getMotif();
-	}
-
-	/**
-	 * Returns the localized motif of this offer in the language. Uses the default language if no localization exists for the requested language.
-	 *
-	 * @param locale the locale of the language
-	 * @return the localized motif of this offer
-	 */
-	@Override
-	public String getMotif(java.util.Locale locale) {
-		return _offer.getMotif(locale);
-	}
-
-	/**
-	 * Returns the localized motif of this offer in the language, optionally using the default language if no localization exists for the requested language.
-	 *
-	 * @param locale the local of the language
-	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized motif of this offer. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	 */
-	@Override
-	public String getMotif(java.util.Locale locale, boolean useDefault) {
-		return _offer.getMotif(locale, useDefault);
-	}
-
-	/**
-	 * Returns the localized motif of this offer in the language. Uses the default language if no localization exists for the requested language.
-	 *
-	 * @param languageId the ID of the language
-	 * @return the localized motif of this offer
-	 */
-	@Override
-	public String getMotif(String languageId) {
-		return _offer.getMotif(languageId);
-	}
-
-	/**
-	 * Returns the localized motif of this offer in the language, optionally using the default language if no localization exists for the requested language.
-	 *
-	 * @param languageId the ID of the language
-	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized motif of this offer
-	 */
-	@Override
-	public String getMotif(String languageId, boolean useDefault) {
-		return _offer.getMotif(languageId, useDefault);
-	}
-
-	@Override
-	public String getMotifCurrentLanguageId() {
-		return _offer.getMotifCurrentLanguageId();
-	}
-
-	@Override
-	public String getMotifCurrentValue() {
-		return _offer.getMotifCurrentValue();
-	}
-
-	/**
-	 * Returns a map of the locales and localized motifs of this offer.
-	 *
-	 * @return the locales and localized motifs of this offer
-	 */
-	@Override
-	public Map<java.util.Locale, String> getMotifMap() {
-		return _offer.getMotifMap();
 	}
 
 	/**
@@ -2322,70 +2247,6 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_offer.setModifiedDate(modifiedDate);
-	}
-
-	/**
-	 * Sets the motif of this offer.
-	 *
-	 * @param motif the motif of this offer
-	 */
-	@Override
-	public void setMotif(String motif) {
-		_offer.setMotif(motif);
-	}
-
-	/**
-	 * Sets the localized motif of this offer in the language.
-	 *
-	 * @param motif the localized motif of this offer
-	 * @param locale the locale of the language
-	 */
-	@Override
-	public void setMotif(String motif, java.util.Locale locale) {
-		_offer.setMotif(motif, locale);
-	}
-
-	/**
-	 * Sets the localized motif of this offer in the language, and sets the default locale.
-	 *
-	 * @param motif the localized motif of this offer
-	 * @param locale the locale of the language
-	 * @param defaultLocale the default locale
-	 */
-	@Override
-	public void setMotif(
-		String motif, java.util.Locale locale, java.util.Locale defaultLocale) {
-
-		_offer.setMotif(motif, locale, defaultLocale);
-	}
-
-	@Override
-	public void setMotifCurrentLanguageId(String languageId) {
-		_offer.setMotifCurrentLanguageId(languageId);
-	}
-
-	/**
-	 * Sets the localized motifs of this offer from the map of locales and localized motifs.
-	 *
-	 * @param motifMap the locales and localized motifs of this offer
-	 */
-	@Override
-	public void setMotifMap(Map<java.util.Locale, String> motifMap) {
-		_offer.setMotifMap(motifMap);
-	}
-
-	/**
-	 * Sets the localized motifs of this offer from the map of locales and localized motifs, and sets the default locale.
-	 *
-	 * @param motifMap the locales and localized motifs of this offer
-	 * @param defaultLocale the default locale
-	 */
-	@Override
-	public void setMotifMap(
-		Map<java.util.Locale, String> motifMap,
-		java.util.Locale defaultLocale) {
-
-		_offer.setMotifMap(motifMap, defaultLocale);
 	}
 
 	@Override

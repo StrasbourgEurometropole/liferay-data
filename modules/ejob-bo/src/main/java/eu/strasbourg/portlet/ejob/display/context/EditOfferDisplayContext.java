@@ -110,6 +110,20 @@ public class EditOfferDisplayContext {
     }
 
     /**
+     * Renvoie les motifs
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getMotifs() {
+        List<AssetCategory> motifs = new ArrayList<>();
+        AssetVocabulary motifVoca = AssetVocabularyAccessor.getEJobMotif(this.groupId);
+        for (AssetCategory typePublication: motifVoca.getCategories()) {
+            motifs.add(typePublication);
+        }
+
+        return motifs;
+    }
+
+    /**
      * Renvoie les categories A, B ou C
      */
     @SuppressWarnings("unused")

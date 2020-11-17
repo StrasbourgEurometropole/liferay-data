@@ -147,6 +147,19 @@ public class OfferImpl extends OfferBaseImpl {
 	}
 
 	/**
+	 * Retourne le motif
+	 */
+	@Override
+	public AssetCategory getMotif() {
+		List<AssetCategory> list = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.EJOB_MOTIF);
+		if(!list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	/**
 	 * Renvoie la liste des AssetCategory rattachées à cet item (via
 	 * l'assetEntry)
 	 */
@@ -375,7 +388,7 @@ public class OfferImpl extends OfferBaseImpl {
 		if(Validator.isNotNull(this.getStartDate()))
 			dateString = sdf.format(this.getStartDate());
 		jsonOffer.put("startDate", dateString);
-		jsonOffer.put("motif", this.getMotif(Locale.getDefault()));
+		jsonOffer.put("motif", this.getMotif()!=null?this.getMotif().getTitle(Locale.getDefault()):"");
 		jsonOffer.put("permanentDescription", this.getPermanentDescription(Locale.getDefault()));
 		jsonOffer.put("duration", this.getDuration(Locale.getDefault()));
 		jsonOffer.put("post", this.getPost(Locale.getDefault()));

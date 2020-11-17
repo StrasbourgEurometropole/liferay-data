@@ -64,7 +64,7 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(73);
+		StringBundler sb = new StringBundler(71);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -98,8 +98,6 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		sb.append(jobCreationDescription);
 		sb.append(", startDate=");
 		sb.append(startDate);
-		sb.append(", motif=");
-		sb.append(motif);
 		sb.append(", permanentDescription=");
 		sb.append(permanentDescription);
 		sb.append(", duration=");
@@ -223,13 +221,6 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		}
 		else {
 			offerImpl.setStartDate(new Date(startDate));
-		}
-
-		if (motif == null) {
-			offerImpl.setMotif("");
-		}
-		else {
-			offerImpl.setMotif(motif);
 		}
 
 		if (permanentDescription == null) {
@@ -367,7 +358,6 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		postNumber = objectInput.readUTF();
 		jobCreationDescription = objectInput.readUTF();
 		startDate = objectInput.readLong();
-		motif = objectInput.readUTF();
 		permanentDescription = objectInput.readUTF();
 		duration = objectInput.readUTF();
 		post = objectInput.readUTF();
@@ -456,13 +446,6 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		}
 
 		objectOutput.writeLong(startDate);
-
-		if (motif == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(motif);
-		}
 
 		if (permanentDescription == null) {
 			objectOutput.writeUTF("");
@@ -572,7 +555,6 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 	public String postNumber;
 	public String jobCreationDescription;
 	public long startDate;
-	public String motif;
 	public String permanentDescription;
 	public String duration;
 	public String post;

@@ -38,9 +38,6 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="startDate" type="Date" />
-		<field localized="true" name="motif" type="String">
-			<hint name="max-length">400</hint>
-		</field>
 		<field localized="true" name="permanentDescription" type="String">
 			<hint name="max-length">400</hint>
 		</field>

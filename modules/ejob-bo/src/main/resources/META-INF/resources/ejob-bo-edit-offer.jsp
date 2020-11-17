@@ -102,7 +102,12 @@
                       </aui:input>
 
                 <%-- Champ : Motif  --%>
-                     <aui:input name="motif" required="false" />
+                <aui:select cssClass="toCustomSelect" id="ejobMotif" name="ejobMotif" label="ejobMotif" required="false">
+                    <aui:option selected="${empty dc.offer}"><liferay-ui:message key="choose-motif" /></aui:option>
+                    <c:forEach items="${dc.motifs}" var="motif">
+                        <aui:option value="${motif.categoryId}" selected="${dc.offer.motif.categoryId == motif.categoryId}">${motif.name}</aui:option>
+                    </c:forEach>
+                </aui:select>
 
                 <%-- Champ : Si contrat permanent
                 Ajout champ texte pré saisie « fonctionnaire ou à défaut contractuel »--%>

@@ -232,9 +232,11 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                 }
 
                 // Champ : motif
-                Map<Locale, String> motif = LocalizationUtil
-                        .getLocalizationMap(request, "motif");
-                offer.setMotifMap(motif);
+                long motifCategoryID = ParamUtil.getLong(request, "ejobMotif");
+                if (Validator.isNotNull(AssetCategoryLocalServiceUtil
+                        .fetchAssetCategory(motifCategoryID))) {
+                    categories.add(""+motifCategoryID);
+                }
 
                 if(this.typeRecrutementString.equals("Permanent")) {
                     // Champ : permanentDescription
@@ -319,9 +321,6 @@ public class SaveOfferActionCommand implements MVCActionCommand {
 
                 // Champ : startDate
                 offer.setStartDate(null);
-
-                // Champ : motif
-                offer.setMotifMap(new HashMap<>());
 
                 // Champ : permanentDescription
                 offer.setPermanentDescriptionMap(new HashMap<>());

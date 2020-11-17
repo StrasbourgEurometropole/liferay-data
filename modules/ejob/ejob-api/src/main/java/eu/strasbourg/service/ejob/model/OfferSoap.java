@@ -50,7 +50,6 @@ public class OfferSoap implements Serializable {
 		soapModel.setPostNumber(model.getPostNumber());
 		soapModel.setJobCreationDescription(model.getJobCreationDescription());
 		soapModel.setStartDate(model.getStartDate());
-		soapModel.setMotif(model.getMotif());
 		soapModel.setPermanentDescription(model.getPermanentDescription());
 		soapModel.setDuration(model.getDuration());
 		soapModel.setPost(model.getPost());
@@ -250,14 +249,6 @@ public class OfferSoap implements Serializable {
 		_startDate = startDate;
 	}
 
-	public String getMotif() {
-		return _motif;
-	}
-
-	public void setMotif(String motif) {
-		_motif = motif;
-	}
-
 	public String getPermanentDescription() {
 		return _permanentDescription;
 	}
@@ -434,7 +425,6 @@ public class OfferSoap implements Serializable {
 	private String _postNumber;
 	private String _jobCreationDescription;
 	private Date _startDate;
-	private String _motif;
 	private String _permanentDescription;
 	private String _duration;
 	private String _post;
