@@ -81,7 +81,7 @@
 			<notification>
 				<name>Approve Notification User</name>
 				<description><![CDATA[Envoi une notification d'acceptation de soumission à l'utilisateur]]></description>
-				<template><![CDATA[Votre soumission a été acceptée.]]></template>
+				<template><![CDATA[Votre soumission d'offre d'emploi a été acceptée.]]></template>
 				<template-language>freemarker</template-language>
 				<notification-type>email</notification-type>
 				<notification-type>user-notification</notification-type>
@@ -108,7 +108,7 @@
 			<notification>
 				<name>Reject Notification User</name>
 				<description><![CDATA[Envoi une notification de rejet de soumission à l'utilisateur]]></description>
-				<template><![CDATA[Votre soumission a été rejeté
+				<template><![CDATA[Votre soumission d'offre d'emploi a été rejetée
 					<#if taskComments?has_content> et le validateur a émis le commentaire suivant : ${taskComments}</#if>.
 					Veuillez modifier l'offre et la soumettre à nouveau.]]></template>
 				<template-language>freemarker</template-language>
@@ -128,7 +128,7 @@
 			<notification>
 				<name>Assignment Notification</name>
 				<description><![CDATA[Envoi une notification d'assignement aux validateurs]]></description>
-				<template><![CDATA[Vous avez une nouvelle soumission d'offre.]]></template>
+				<template><![CDATA[Vous avez une nouvelle soumission d'offre d'emploi.]]></template>
 				<template-language>text</template-language>
 				<notification-type>email</notification-type>
 				<notification-type>user-notification</notification-type>
@@ -140,7 +140,7 @@
 			<notification>
 				<name>Reject Notification Validators</name>
 				<description><![CDATA[Envoi une notification de rejet de soumission à l'utilisateur]]></description>
-				<template><![CDATA[La soumission a été revue
+				<template><![CDATA[La soumission d'emploi a été revue
 					<#if taskComments?has_content> et le validateur a émis le commentaire suivant : ${taskComments}</#if>.]]></template>
 				<template-language>freemarker</template-language>
 				<notification-type>email</notification-type>
