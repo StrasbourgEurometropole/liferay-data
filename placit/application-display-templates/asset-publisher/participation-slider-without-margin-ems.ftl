@@ -19,8 +19,8 @@
         <div class="container">
             
             <div>
-                <h2>Concertations eurometropole (${entries?size})</h2>
-                <a href="${themeDisplay.getPortalURL()}${homeURL}participations" class="pro-btn" title="Lien vers la page Toutes les participations">Tout voir</a>
+                <h2>Participer eurometropole (${entries?size})</h2>
+                <a href="${themeDisplay.getPortalURL()}${homeURL}participations-eurometropole" class="pro-btn" title="Lien vers la page Toutes les participations">Tout voir</a>
             </div>
 
             <div>
