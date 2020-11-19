@@ -15,34 +15,35 @@
  */
 package eu.strasbourg.portlet.entity_detail.action;
 
-import java.io.StringWriter;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-
-import com.liferay.portal.kernel.template.*;
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.template.Template;
+import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateManagerUtil;
+import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.URLTemplateResource;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import java.io.StringWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @Component(
 		immediate = true,
@@ -162,7 +163,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 					// Chargement du template contenant le sujet du mail
 					templateResourceSubject = new URLTemplateResource("0",
 							Objects.requireNonNull(this.getClass().getClassLoader()
-									.getResource("/templates/contact-mail-copy-subject.ft")));
+									.getResource("/templates/contact-mail-copy-subject.ftl")));
 					subjectTemplate = TemplateManagerUtil.getTemplate(
 							TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
 
