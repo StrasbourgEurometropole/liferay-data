@@ -1,7 +1,6 @@
 package eu.strasbourg.serviceOverride.DLFileEntry;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
-import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceWrapper;
 
@@ -64,7 +63,6 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
 		DLFileEntry entry = DLFileEntryLocalServiceUtil.fetchFileEntry(groupId, folderId, title);
 		if (entry == null && mimeType.equals("image/jpeg")) {
 			try {
-				if (imageInFile) _log.info("Filetest");
 				_log.info("Image JPEG detectee");
 				// Lecture de l'image
 				RenderedImage image;
