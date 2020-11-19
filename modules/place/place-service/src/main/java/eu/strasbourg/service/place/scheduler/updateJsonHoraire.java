@@ -8,6 +8,7 @@ import com.liferay.portal.kernel.scheduler.SchedulerEntry;
 import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalService;
 import org.osgi.service.component.annotations.Activate;
@@ -57,7 +58,9 @@ public class updateJsonHoraire extends BaseMessageListener {
 	@Override
 	protected void doReceive(Message message) throws Exception {
 		// récupère tous les lieux ayant des périodes
-		List<Place> places = _placeLocalService.getPlaces(-1,-1).stream().filter(p -> !p.getPeriods().isEmpty()).collect(Collectors.toList());
+		List<Place> places = _placeLocalService.getPlaces(-1,-1).stream()
+				.filter(p -> !p.getPeriods().isEmpty() && p.getStatus() == WorkflowConstants.STATUS_APPROVED)
+				.collect(Collectors.toList());
 		for (Place place : places) {
 			_placeLocalService.updateJsonHoraire(place);
 		}

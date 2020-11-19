@@ -258,6 +258,14 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 
 		this.reindex(place, false);
 
+		//Mise à jour pour CSMap
+		CacheJson cacheJson = this.cacheJsonLocalService.fetchCacheJson(place.getSIGid());
+		if(Validator.isNotNull(cacheJson)){
+			cacheJson.setModifiedPlace(place.getModifiedDate());
+			cacheJson.setIsActive((place.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
+			this.cacheJsonLocalService.updateCacheJson(cacheJson);
+		}
+
 		return place;
 	}
 
@@ -569,17 +577,10 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 			throws PortalException {
 		//Mise à jour pour CSMap
 		CacheJson cacheJson = this.cacheJsonLocalService.fetchCacheJson(place.getSIGid());
-		if(Validator.isNull(cacheJson)){
-			cacheJson = this.cacheJsonLocalService.createCacheJson(place.getSIGid());
-			cacheJson.setCreatePlace(place.getCreateDate());
-			cacheJson.setIsActive((place.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
-
-			// si il a été supprimé, on enlève la ligne dans historic
-			if(Validator.isNotNull(this.historicLocalService.fetchHistoric(place.getSIGid())))
-				this.historicLocalService.deleteHistoric(place.getSIGid());
+		if(Validator.isNotNull(cacheJson)){
+			cacheJson.setJsonHoraire(place.getScheduleCSMapJSON().toString());
+			this.cacheJsonLocalService.updateCacheJson(cacheJson);
 		}
-		cacheJson.setJsonHoraire(place.getScheduleCSMapJSON().toString());
-		this.cacheJsonLocalService.updateCacheJson(cacheJson);
 
 		return place;
 	}

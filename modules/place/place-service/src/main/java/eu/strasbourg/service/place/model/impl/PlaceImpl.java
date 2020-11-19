@@ -376,6 +376,22 @@ public class PlaceImpl extends PlaceBaseImpl {
     }
 
     /**
+     * Retourne la liste des URL publiques des images additionnelles avec la version et le timastamp
+     */
+    @Override
+    public List<String> getImageURLsWithTimeStamp () {
+        List<String> URLs = new ArrayList<String>();
+        for (String imageIdStr : this.getImageIds().split(",")) {
+            Long imageId = GetterUtil.getLong(imageIdStr);
+            if (Validator.isNotNull(imageId)) {
+                String imageURL = FileEntryHelper.getFileEntryURLWithTimeStamp(imageId);
+                URLs.add(imageURL);
+            }
+        }
+        return URLs;
+    }
+
+    /**
      * Retourne une map d'URL et de titre des images additionnelles et des
      * vidéos
      *
@@ -1894,7 +1910,7 @@ public class PlaceImpl extends PlaceBaseImpl {
             jsonPlace.put("phone", this.getPhone());
         }
         JSONArray jsonImagesURLs = JSONFactoryUtil.createJSONArray();
-        for (String imageUrl : this.getImagesURLs()) {
+        for (String imageUrl : this.getImageURLsWithTimeStamp()) {
             if(Validator.isNotNull(imageUrl)) {
                 jsonImagesURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
             }

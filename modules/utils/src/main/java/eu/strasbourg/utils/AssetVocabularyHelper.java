@@ -609,7 +609,7 @@ public class AssetVocabularyHelper {
 			}
 			jsonCategory.put("name", nameJSON);
 			JSONObject jsonPicto = JSONFactoryUtil.createJSONObject();
-			jsonPicto.put("pictoURL", urlPicto);
+			jsonPicto.put("pictoURL", StrasbourgPropsUtil.getURL() + urlPicto);
 			jsonPicto.put("maj", maj);
 			jsonCategory.put("picto", jsonPicto);
 		}

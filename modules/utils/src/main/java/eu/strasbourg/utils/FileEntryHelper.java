@@ -67,6 +67,18 @@ public class FileEntryHelper {
 		}
 	}
 
+	public static String getFileEntryURLWithTimeStamp(long fileEntryId) {
+		String url = "";
+		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
+		if (fileEntry != null) {
+			FileEntryHelper.getImageCopyright(fileEntry.getFileEntryId(), null);
+			if (fileEntry != null) {
+				url = "/documents/" + fileEntry.getGroupId() + "/" + fileEntry.getFolderId() + "/0/" + fileEntry.getUuid() + "?version=" + fileEntry.getVersion() + "&t=" + fileEntry.getModifiedDate().getTime();
+			}
+		}
+		return url;
+	}
+
 	public static String getFileEntryURL(DLFileEntry fileEntry) {
 		String url = "";
 		FileEntryHelper.getImageCopyright(fileEntry.getFileEntryId(), null);

@@ -23,6 +23,7 @@ import eu.strasbourg.service.place.model.Historic;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
@@ -190,6 +191,149 @@ public interface HistoricPersistence extends BasePersistence<Historic> {
 	 * @return the number of matching historics
 	 */
 	public int countByUuid(String uuid);
+
+	/**
+	 * Returns all the historics where suppressionDate &ge; &#63;.
+	 *
+	 * @param suppressionDate the suppression date
+	 * @return the matching historics
+	 */
+	public java.util.List<Historic> findBySuppressionDate(Date suppressionDate);
+
+	/**
+	 * Returns a range of all the historics where suppressionDate &ge; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>HistoricModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param suppressionDate the suppression date
+	 * @param start the lower bound of the range of historics
+	 * @param end the upper bound of the range of historics (not inclusive)
+	 * @return the range of matching historics
+	 */
+	public java.util.List<Historic> findBySuppressionDate(
+		Date suppressionDate, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the historics where suppressionDate &ge; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>HistoricModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param suppressionDate the suppression date
+	 * @param start the lower bound of the range of historics
+	 * @param end the upper bound of the range of historics (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching historics
+	 */
+	public java.util.List<Historic> findBySuppressionDate(
+		Date suppressionDate, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Historic>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the historics where suppressionDate &ge; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>HistoricModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param suppressionDate the suppression date
+	 * @param start the lower bound of the range of historics
+	 * @param end the upper bound of the range of historics (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching historics
+	 */
+	public java.util.List<Historic> findBySuppressionDate(
+		Date suppressionDate, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Historic>
+			orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	 * Returns the first historic in the ordered set where suppressionDate &ge; &#63;.
+	 *
+	 * @param suppressionDate the suppression date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching historic
+	 * @throws NoSuchHistoricException if a matching historic could not be found
+	 */
+	public Historic findBySuppressionDate_First(
+			Date suppressionDate,
+			com.liferay.portal.kernel.util.OrderByComparator<Historic>
+				orderByComparator)
+		throws NoSuchHistoricException;
+
+	/**
+	 * Returns the first historic in the ordered set where suppressionDate &ge; &#63;.
+	 *
+	 * @param suppressionDate the suppression date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching historic, or <code>null</code> if a matching historic could not be found
+	 */
+	public Historic fetchBySuppressionDate_First(
+		Date suppressionDate,
+		com.liferay.portal.kernel.util.OrderByComparator<Historic>
+			orderByComparator);
+
+	/**
+	 * Returns the last historic in the ordered set where suppressionDate &ge; &#63;.
+	 *
+	 * @param suppressionDate the suppression date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching historic
+	 * @throws NoSuchHistoricException if a matching historic could not be found
+	 */
+	public Historic findBySuppressionDate_Last(
+			Date suppressionDate,
+			com.liferay.portal.kernel.util.OrderByComparator<Historic>
+				orderByComparator)
+		throws NoSuchHistoricException;
+
+	/**
+	 * Returns the last historic in the ordered set where suppressionDate &ge; &#63;.
+	 *
+	 * @param suppressionDate the suppression date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching historic, or <code>null</code> if a matching historic could not be found
+	 */
+	public Historic fetchBySuppressionDate_Last(
+		Date suppressionDate,
+		com.liferay.portal.kernel.util.OrderByComparator<Historic>
+			orderByComparator);
+
+	/**
+	 * Returns the historics before and after the current historic in the ordered set where suppressionDate &ge; &#63;.
+	 *
+	 * @param sigId the primary key of the current historic
+	 * @param suppressionDate the suppression date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next historic
+	 * @throws NoSuchHistoricException if a historic with the primary key could not be found
+	 */
+	public Historic[] findBySuppressionDate_PrevAndNext(
+			String sigId, Date suppressionDate,
+			com.liferay.portal.kernel.util.OrderByComparator<Historic>
+				orderByComparator)
+		throws NoSuchHistoricException;
+
+	/**
+	 * Removes all the historics where suppressionDate &ge; &#63; from the database.
+	 *
+	 * @param suppressionDate the suppression date
+	 */
+	public void removeBySuppressionDate(Date suppressionDate);
+
+	/**
+	 * Returns the number of historics where suppressionDate &ge; &#63;.
+	 *
+	 * @param suppressionDate the suppression date
+	 * @return the number of matching historics
+	 */
+	public int countBySuppressionDate(Date suppressionDate);
 
 	/**
 	 * Caches the historic in the entity cache if it is enabled.

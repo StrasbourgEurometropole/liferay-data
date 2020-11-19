@@ -110,9 +110,11 @@ public class HistoricModelImpl
 			"value.object.column.bitmask.enabled.eu.strasbourg.service.place.model.Historic"),
 		true);
 
-	public static final long UUID_COLUMN_BITMASK = 1L;
+	public static final long SUPPRESSIONDATE_COLUMN_BITMASK = 1L;
 
-	public static final long SIGID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
+
+	public static final long SIGID_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.place.service.util.PropsUtil.get(
@@ -391,7 +393,17 @@ public class HistoricModelImpl
 
 	@Override
 	public void setSuppressionDate(Date suppressionDate) {
+		_columnBitmask |= SUPPRESSIONDATE_COLUMN_BITMASK;
+
+		if (_originalSuppressionDate == null) {
+			_originalSuppressionDate = _suppressionDate;
+		}
+
 		_suppressionDate = suppressionDate;
+	}
+
+	public Date getOriginalSuppressionDate() {
+		return _originalSuppressionDate;
 	}
 
 	public long getColumnBitmask() {
@@ -471,6 +483,9 @@ public class HistoricModelImpl
 		HistoricModelImpl historicModelImpl = this;
 
 		historicModelImpl._originalUuid = historicModelImpl._uuid;
+
+		historicModelImpl._originalSuppressionDate =
+			historicModelImpl._suppressionDate;
 
 		historicModelImpl._columnBitmask = 0;
 	}
@@ -586,6 +601,7 @@ public class HistoricModelImpl
 	private String _sigId;
 	private String _name;
 	private Date _suppressionDate;
+	private Date _originalSuppressionDate;
 	private long _columnBitmask;
 	private Historic _escapedModel;
 

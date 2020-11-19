@@ -34,6 +34,7 @@ import eu.strasbourg.service.place.model.CacheJson;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -172,6 +173,25 @@ public interface CacheJsonLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CacheJson fetchCacheJson(String sigId);
+
+	/**
+	 * Retourne les caches d'un lieu créé après une date et actif
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CacheJson> getByCreatedDateAndIsActive(Date date);
+
+	/**
+	 * Retourne les caches d'un lieu modifié après une date, créé avant cette date et actif
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CacheJson> getByCreatedDateAndModifiedDateAndIsActive(
+		Date date);
+
+	/**
+	 * Retourne les caches d'un lieu modifié après une date et inactif
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CacheJson> getByModifiedDateAndIsNotActive(Date date);
 
 	/**
 	 * Returns the cache json with the primary key.

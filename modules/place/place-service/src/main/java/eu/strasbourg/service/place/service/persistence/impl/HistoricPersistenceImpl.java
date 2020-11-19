@@ -45,7 +45,10 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Timestamp;
+
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -625,6 +628,546 @@ public class HistoricPersistenceImpl
 
 	private static final String _FINDER_COLUMN_UUID_UUID_3 =
 		"(historic.uuid IS NULL OR historic.uuid = '')";
+
+	private FinderPath _finderPathWithPaginationFindBySuppressionDate;
+	private FinderPath _finderPathWithPaginationCountBySuppressionDate;
+
+	/**
+	 * Returns all the historics where suppressionDate &ge; &#63;.
+	 *
+	 * @param suppressionDate the suppression date
+	 * @return the matching historics
+	 */
+	@Override
+	public List<Historic> findBySuppressionDate(Date suppressionDate) {
+		return findBySuppressionDate(
+			suppressionDate, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the historics where suppressionDate &ge; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>HistoricModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param suppressionDate the suppression date
+	 * @param start the lower bound of the range of historics
+	 * @param end the upper bound of the range of historics (not inclusive)
+	 * @return the range of matching historics
+	 */
+	@Override
+	public List<Historic> findBySuppressionDate(
+		Date suppressionDate, int start, int end) {
+
+		return findBySuppressionDate(suppressionDate, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the historics where suppressionDate &ge; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>HistoricModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param suppressionDate the suppression date
+	 * @param start the lower bound of the range of historics
+	 * @param end the upper bound of the range of historics (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching historics
+	 */
+	@Override
+	public List<Historic> findBySuppressionDate(
+		Date suppressionDate, int start, int end,
+		OrderByComparator<Historic> orderByComparator) {
+
+		return findBySuppressionDate(
+			suppressionDate, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the historics where suppressionDate &ge; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>HistoricModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param suppressionDate the suppression date
+	 * @param start the lower bound of the range of historics
+	 * @param end the upper bound of the range of historics (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching historics
+	 */
+	@Override
+	public List<Historic> findBySuppressionDate(
+		Date suppressionDate, int start, int end,
+		OrderByComparator<Historic> orderByComparator,
+		boolean retrieveFromCache) {
+
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		finderPath = _finderPathWithPaginationFindBySuppressionDate;
+		finderArgs = new Object[] {
+			_getTime(suppressionDate), start, end, orderByComparator
+		};
+
+		List<Historic> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Historic>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Historic historic : list) {
+					if ((suppressionDate.getTime() >
+							historic.getSuppressionDate().getTime())) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_HISTORIC_WHERE);
+
+			boolean bindSuppressionDate = false;
+
+			if (suppressionDate == null) {
+				query.append(_FINDER_COLUMN_SUPPRESSIONDATE_SUPPRESSIONDATE_1);
+			}
+			else {
+				bindSuppressionDate = true;
+
+				query.append(_FINDER_COLUMN_SUPPRESSIONDATE_SUPPRESSIONDATE_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(HistoricModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindSuppressionDate) {
+					qPos.add(new Timestamp(suppressionDate.getTime()));
+				}
+
+				if (!pagination) {
+					list = (List<Historic>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Historic>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first historic in the ordered set where suppressionDate &ge; &#63;.
+	 *
+	 * @param suppressionDate the suppression date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching historic
+	 * @throws NoSuchHistoricException if a matching historic could not be found
+	 */
+	@Override
+	public Historic findBySuppressionDate_First(
+			Date suppressionDate, OrderByComparator<Historic> orderByComparator)
+		throws NoSuchHistoricException {
+
+		Historic historic = fetchBySuppressionDate_First(
+			suppressionDate, orderByComparator);
+
+		if (historic != null) {
+			return historic;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("suppressionDate=");
+		msg.append(suppressionDate);
+
+		msg.append("}");
+
+		throw new NoSuchHistoricException(msg.toString());
+	}
+
+	/**
+	 * Returns the first historic in the ordered set where suppressionDate &ge; &#63;.
+	 *
+	 * @param suppressionDate the suppression date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching historic, or <code>null</code> if a matching historic could not be found
+	 */
+	@Override
+	public Historic fetchBySuppressionDate_First(
+		Date suppressionDate, OrderByComparator<Historic> orderByComparator) {
+
+		List<Historic> list = findBySuppressionDate(
+			suppressionDate, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last historic in the ordered set where suppressionDate &ge; &#63;.
+	 *
+	 * @param suppressionDate the suppression date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching historic
+	 * @throws NoSuchHistoricException if a matching historic could not be found
+	 */
+	@Override
+	public Historic findBySuppressionDate_Last(
+			Date suppressionDate, OrderByComparator<Historic> orderByComparator)
+		throws NoSuchHistoricException {
+
+		Historic historic = fetchBySuppressionDate_Last(
+			suppressionDate, orderByComparator);
+
+		if (historic != null) {
+			return historic;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("suppressionDate=");
+		msg.append(suppressionDate);
+
+		msg.append("}");
+
+		throw new NoSuchHistoricException(msg.toString());
+	}
+
+	/**
+	 * Returns the last historic in the ordered set where suppressionDate &ge; &#63;.
+	 *
+	 * @param suppressionDate the suppression date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching historic, or <code>null</code> if a matching historic could not be found
+	 */
+	@Override
+	public Historic fetchBySuppressionDate_Last(
+		Date suppressionDate, OrderByComparator<Historic> orderByComparator) {
+
+		int count = countBySuppressionDate(suppressionDate);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Historic> list = findBySuppressionDate(
+			suppressionDate, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the historics before and after the current historic in the ordered set where suppressionDate &ge; &#63;.
+	 *
+	 * @param sigId the primary key of the current historic
+	 * @param suppressionDate the suppression date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next historic
+	 * @throws NoSuchHistoricException if a historic with the primary key could not be found
+	 */
+	@Override
+	public Historic[] findBySuppressionDate_PrevAndNext(
+			String sigId, Date suppressionDate,
+			OrderByComparator<Historic> orderByComparator)
+		throws NoSuchHistoricException {
+
+		Historic historic = findByPrimaryKey(sigId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Historic[] array = new HistoricImpl[3];
+
+			array[0] = getBySuppressionDate_PrevAndNext(
+				session, historic, suppressionDate, orderByComparator, true);
+
+			array[1] = historic;
+
+			array[2] = getBySuppressionDate_PrevAndNext(
+				session, historic, suppressionDate, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Historic getBySuppressionDate_PrevAndNext(
+		Session session, Historic historic, Date suppressionDate,
+		OrderByComparator<Historic> orderByComparator, boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_HISTORIC_WHERE);
+
+		boolean bindSuppressionDate = false;
+
+		if (suppressionDate == null) {
+			query.append(_FINDER_COLUMN_SUPPRESSIONDATE_SUPPRESSIONDATE_1);
+		}
+		else {
+			bindSuppressionDate = true;
+
+			query.append(_FINDER_COLUMN_SUPPRESSIONDATE_SUPPRESSIONDATE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(HistoricModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindSuppressionDate) {
+			qPos.add(new Timestamp(suppressionDate.getTime()));
+		}
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(historic)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Historic> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the historics where suppressionDate &ge; &#63; from the database.
+	 *
+	 * @param suppressionDate the suppression date
+	 */
+	@Override
+	public void removeBySuppressionDate(Date suppressionDate) {
+		for (Historic historic :
+				findBySuppressionDate(
+					suppressionDate, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
+			remove(historic);
+		}
+	}
+
+	/**
+	 * Returns the number of historics where suppressionDate &ge; &#63;.
+	 *
+	 * @param suppressionDate the suppression date
+	 * @return the number of matching historics
+	 */
+	@Override
+	public int countBySuppressionDate(Date suppressionDate) {
+		FinderPath finderPath = _finderPathWithPaginationCountBySuppressionDate;
+
+		Object[] finderArgs = new Object[] {_getTime(suppressionDate)};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_HISTORIC_WHERE);
+
+			boolean bindSuppressionDate = false;
+
+			if (suppressionDate == null) {
+				query.append(_FINDER_COLUMN_SUPPRESSIONDATE_SUPPRESSIONDATE_1);
+			}
+			else {
+				bindSuppressionDate = true;
+
+				query.append(_FINDER_COLUMN_SUPPRESSIONDATE_SUPPRESSIONDATE_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindSuppressionDate) {
+					qPos.add(new Timestamp(suppressionDate.getTime()));
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String
+		_FINDER_COLUMN_SUPPRESSIONDATE_SUPPRESSIONDATE_1 =
+			"historic.suppressionDate IS NULL";
+
+	private static final String
+		_FINDER_COLUMN_SUPPRESSIONDATE_SUPPRESSIONDATE_2 =
+			"historic.suppressionDate >= ?";
 
 	public HistoricPersistenceImpl() {
 		setModelClass(Historic.class);
@@ -1375,6 +1918,21 @@ public class HistoricPersistenceImpl
 			HistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindBySuppressionDate = new FinderPath(
+			HistoricModelImpl.ENTITY_CACHE_ENABLED,
+			HistoricModelImpl.FINDER_CACHE_ENABLED, HistoricImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySuppressionDate",
+			new String[] {
+				Date.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithPaginationCountBySuppressionDate = new FinderPath(
+			HistoricModelImpl.ENTITY_CACHE_ENABLED,
+			HistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countBySuppressionDate",
+			new String[] {Date.class.getName()});
 	}
 
 	public void destroy() {
@@ -1389,6 +1947,14 @@ public class HistoricPersistenceImpl
 
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
+
+	private Long _getTime(Date date) {
+		if (date == null) {
+			return null;
+		}
+
+		return date.getTime();
+	}
 
 	private static final String _SQL_SELECT_HISTORIC =
 		"SELECT historic FROM Historic historic";

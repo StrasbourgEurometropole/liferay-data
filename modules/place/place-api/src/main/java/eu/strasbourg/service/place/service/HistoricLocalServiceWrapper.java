@@ -198,6 +198,16 @@ public class HistoricLocalServiceWrapper
 	}
 
 	/**
+	 * Retourne les caches d'un lieu créé après une date et actif
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Historic>
+		getBySuppressionDate(java.util.Date date) {
+
+		return _historicLocalService.getBySuppressionDate(date);
+	}
+
+	/**
 	 * Returns the historic with the primary key.
 	 *
 	 * @param sigId the primary key of the historic

@@ -186,6 +186,11 @@ public interface Place extends PersistedModel, PlaceModel {
 	public java.util.List<String> getImagesURLs();
 
 	/**
+	 * Retourne la liste des URL publiques des images additionnelles avec la version et le timastamp
+	 */
+	public java.util.List<String> getImageURLsWithTimeStamp();
+
+	/**
 	 * Retourne une map d'URL et de titre des images additionnelles et des
 	 * vidéos
 	 *

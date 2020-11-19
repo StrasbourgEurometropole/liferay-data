@@ -198,6 +198,37 @@ public class CacheJsonLocalServiceWrapper
 	}
 
 	/**
+	 * Retourne les caches d'un lieu créé après une date et actif
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.CacheJson>
+		getByCreatedDateAndIsActive(java.util.Date date) {
+
+		return _cacheJsonLocalService.getByCreatedDateAndIsActive(date);
+	}
+
+	/**
+	 * Retourne les caches d'un lieu modifié après une date, créé avant cette date et actif
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.CacheJson>
+		getByCreatedDateAndModifiedDateAndIsActive(java.util.Date date) {
+
+		return _cacheJsonLocalService.
+			getByCreatedDateAndModifiedDateAndIsActive(date);
+	}
+
+	/**
+	 * Retourne les caches d'un lieu modifié après une date et inactif
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.CacheJson>
+		getByModifiedDateAndIsNotActive(java.util.Date date) {
+
+		return _cacheJsonLocalService.getByModifiedDateAndIsNotActive(date);
+	}
+
+	/**
 	 * Returns the cache json with the primary key.
 	 *
 	 * @param sigId the primary key of the cache json

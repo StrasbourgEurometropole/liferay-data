@@ -14,7 +14,11 @@
 
 package eu.strasbourg.service.place.service.impl;
 
+import eu.strasbourg.service.place.model.Historic;
 import eu.strasbourg.service.place.service.base.HistoricLocalServiceBaseImpl;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * The implementation of the historic local service.
@@ -36,4 +40,12 @@ public class HistoricLocalServiceImpl extends HistoricLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Use <code>eu.strasbourg.service.place.service.HistoricLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.place.service.HistoricLocalServiceUtil</code>.
 	 */
+
+	/**
+	 * Retourne les caches d'un lieu créé après une date et actif
+	 */
+	@Override
+	public List<Historic> getBySuppressionDate(Date date) {
+		return this.historicPersistence.findBySuppressionDate(date);
+	}
 }

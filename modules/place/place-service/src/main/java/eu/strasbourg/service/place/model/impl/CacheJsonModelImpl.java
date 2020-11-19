@@ -115,9 +115,15 @@ public class CacheJsonModelImpl
 			"value.object.column.bitmask.enabled.eu.strasbourg.service.place.model.CacheJson"),
 		true);
 
-	public static final long UUID_COLUMN_BITMASK = 1L;
+	public static final long CREATEPLACE_COLUMN_BITMASK = 1L;
 
-	public static final long SIGID_COLUMN_BITMASK = 2L;
+	public static final long ISACTIVE_COLUMN_BITMASK = 2L;
+
+	public static final long MODIFIEDPLACE_COLUMN_BITMASK = 4L;
+
+	public static final long SIGID_COLUMN_BITMASK = 8L;
+
+	public static final long UUID_COLUMN_BITMASK = 16L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.place.service.util.PropsUtil.get(
@@ -431,7 +437,17 @@ public class CacheJsonModelImpl
 
 	@Override
 	public void setSigId(String sigId) {
+		_columnBitmask |= SIGID_COLUMN_BITMASK;
+
+		if (_originalSigId == null) {
+			_originalSigId = _sigId;
+		}
+
 		_sigId = sigId;
+	}
+
+	public String getOriginalSigId() {
+		return GetterUtil.getString(_originalSigId);
 	}
 
 	@Override
@@ -471,7 +487,17 @@ public class CacheJsonModelImpl
 
 	@Override
 	public void setCreatePlace(Date createPlace) {
+		_columnBitmask |= CREATEPLACE_COLUMN_BITMASK;
+
+		if (_originalCreatePlace == null) {
+			_originalCreatePlace = _createPlace;
+		}
+
 		_createPlace = createPlace;
+	}
+
+	public Date getOriginalCreatePlace() {
+		return _originalCreatePlace;
 	}
 
 	@Override
@@ -481,7 +507,17 @@ public class CacheJsonModelImpl
 
 	@Override
 	public void setModifiedPlace(Date modifiedPlace) {
+		_columnBitmask |= MODIFIEDPLACE_COLUMN_BITMASK;
+
+		if (_originalModifiedPlace == null) {
+			_originalModifiedPlace = _modifiedPlace;
+		}
+
 		_modifiedPlace = modifiedPlace;
+	}
+
+	public Date getOriginalModifiedPlace() {
+		return _originalModifiedPlace;
 	}
 
 	@Override
@@ -496,7 +532,19 @@ public class CacheJsonModelImpl
 
 	@Override
 	public void setIsActive(boolean isActive) {
+		_columnBitmask |= ISACTIVE_COLUMN_BITMASK;
+
+		if (!_setOriginalIsActive) {
+			_setOriginalIsActive = true;
+
+			_originalIsActive = _isActive;
+		}
+
 		_isActive = isActive;
+	}
+
+	public boolean getOriginalIsActive() {
+		return _originalIsActive;
 	}
 
 	public long getColumnBitmask() {
@@ -579,6 +627,18 @@ public class CacheJsonModelImpl
 		CacheJsonModelImpl cacheJsonModelImpl = this;
 
 		cacheJsonModelImpl._originalUuid = cacheJsonModelImpl._uuid;
+
+		cacheJsonModelImpl._originalSigId = cacheJsonModelImpl._sigId;
+
+		cacheJsonModelImpl._originalCreatePlace =
+			cacheJsonModelImpl._createPlace;
+
+		cacheJsonModelImpl._originalModifiedPlace =
+			cacheJsonModelImpl._modifiedPlace;
+
+		cacheJsonModelImpl._originalIsActive = cacheJsonModelImpl._isActive;
+
+		cacheJsonModelImpl._setOriginalIsActive = false;
 
 		cacheJsonModelImpl._columnBitmask = 0;
 	}
@@ -711,11 +771,16 @@ public class CacheJsonModelImpl
 	private String _uuid;
 	private String _originalUuid;
 	private String _sigId;
+	private String _originalSigId;
 	private String _jsonLieu;
 	private String _jsonHoraire;
 	private Date _createPlace;
+	private Date _originalCreatePlace;
 	private Date _modifiedPlace;
+	private Date _originalModifiedPlace;
 	private boolean _isActive;
+	private boolean _originalIsActive;
+	private boolean _setOriginalIsActive;
 	private long _columnBitmask;
 	private CacheJson _escapedModel;
 

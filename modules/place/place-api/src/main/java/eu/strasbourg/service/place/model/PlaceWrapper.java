@@ -1710,6 +1710,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	 * Retourne la liste des URL publiques des images additionnelles avec la version et le timastamp
+	 */
+	@Override
+	public java.util.List<String> getImageURLsWithTimeStamp() {
+		return _place.getImageURLsWithTimeStamp();
+	}
+
+	/**
 	 * Returns the image width of this place.
 	 *
 	 * @return the image width of this place
