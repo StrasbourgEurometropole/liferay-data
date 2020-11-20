@@ -1,15 +1,5 @@
 package eu.strasbourg.utils.editor;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.portlet.PortletURL;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.item.selector.ItemSelector;
 import com.liferay.item.selector.ItemSelectorCriterion;
 import com.liferay.item.selector.ItemSelectorReturnType;
@@ -27,8 +17,15 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.portlet.PortletURL;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Component(
 	property = { "editor.name=ckeditor",
@@ -45,7 +42,8 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 		"javax.portlet.name=" + StrasbourgPortletKeys.INTEREST_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.NOTIFICATION_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_SEARCH_WEB,
-		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_SCHEDULE_WEB },
+		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_SCHEDULE_WEB,
+		"javax.portlet.name=" + StrasbourgPortletKeys.EJOB_BO },
 	service = EditorConfigContributor.class)
 public class GlobalBOEditorConfigContributor
 	extends BaseEditorConfigContributor {
