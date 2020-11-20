@@ -232,7 +232,7 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 				_log.error(e);
 			}
 			if (success) {
-				_log.error("Mail sent to:"+userEmail);
+				_log.debug("Mail sent to:"+userEmail);
 			}
 			else {
 				_log.error("Error sending mail to:"+userEmail);
