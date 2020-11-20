@@ -3,7 +3,9 @@
 <model-hints>
 	<model name="eu.strasbourg.service.search.log.model.SearchLog">
 		<field name="searchLogId" type="long" />
-		<field name="keywords" type="String" />
+		<field name="keywords" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="searchTime" type="long" />
 		<field name="resultCount" type="long" />
 		<field name="result1ClassId" type="long" />
