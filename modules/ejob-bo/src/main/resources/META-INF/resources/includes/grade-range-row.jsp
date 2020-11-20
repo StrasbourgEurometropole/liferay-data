@@ -33,7 +33,10 @@
         <c:forEach items="${dc.grades}" var="gradeWithCategories">
             <c:set value="${gradeWithCategories.get(0)}" var="grade" />
             <c:set value="${gradeWithCategories.get(1)}" var="categories" />
-            <aui:option data-filiere-category-id="${grade.parentCategoryId}" data-filiere-id="${grade.parentCategory.parentCategoryId}" data-categories="${categories}" value="${grade.categoryId}" selected="${gradeRange[2].categoryId == grade.categoryId}">${grade.name}</aui:option>
+            <c:set value="${grade.parentCategory}" var="gradGroup" />
+            <aui:option data-filiere-category-id="${grade.parentCategoryId}" data-filiere-id="${gradGroup.parentCategoryId}" data-categories="${categories}" value="${grade.categoryId}" selected="${gradeRange[2].categoryId == grade.categoryId}">
+                ${grade.name} (${gradGroup.name})
+            </aui:option>
         </c:forEach>
     </aui:select>
 	<div class="offerGradeMinError" style="display: none">
@@ -46,7 +49,10 @@
         <c:forEach items="${dc.grades}" var="gradeWithCategories">
             <c:set value="${gradeWithCategories.get(0)}" var="grade" />
             <c:set value="${gradeWithCategories.get(1)}" var="categories" />
-            <aui:option data-filiere-category-id="${grade.parentCategoryId}" data-filiere-id="${grade.parentCategory.parentCategoryId}" data-categories="${categories}" value="${grade.categoryId}" selected="${gradeRange[3].categoryId == grade.categoryId}">${grade.name}</aui:option>
+            <c:set value="${grade.parentCategory}" var="gradGroup" />
+            <aui:option data-filiere-category-id="${grade.parentCategoryId}" data-filiere-id="${gradGroup.parentCategoryId}" data-categories="${categories}" value="${grade.categoryId}" selected="${gradeRange[3].categoryId == grade.categoryId}">
+                ${grade.name} (${gradGroup.name})
+            </aui:option>
         </c:forEach>
     </aui:select>
 	<div class="offerGradeMaxError" style="display: none">

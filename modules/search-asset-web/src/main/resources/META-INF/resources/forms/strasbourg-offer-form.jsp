@@ -76,7 +76,7 @@
                 </label>
             </div>
             <div class="content">
-                <input type="text" id="alertName" name="<portlet:namespace />alertName">
+                <input type="text" id="alertName" maxlength="75" name="<portlet:namespace />alertName">
             </div>
         </div>
     </div>

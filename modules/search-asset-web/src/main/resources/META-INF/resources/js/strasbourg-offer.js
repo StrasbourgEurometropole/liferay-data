@@ -90,6 +90,9 @@ document.getElementById("RecordAlert").onclick = function(e){
                     case 'alreadyExist':
                         window.createPopinOK(Liferay.Language.get('already-exist-alert'));
                         break;
+                    case 'alertNeedsName':
+                        window.createPopinOK(Liferay.Language.get('eu.language.ejob.alert.needs.name'));
+                        break;
                     default:
                         console.log(obj['error']);
                         window.createPopinOK(Liferay.Language.get('error-occured'));

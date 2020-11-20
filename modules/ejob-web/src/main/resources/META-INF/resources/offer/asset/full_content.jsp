@@ -33,9 +33,9 @@
 </c:if>
 
 <%-- Champ : Motif  --%>
-<c:if test="${not empty entry.getMotif()}" >
+<c:if test="${not empty entry.motif()}" >
     <h3><liferay-ui:message key="eu.offer-motif" /></h3>
-    <p>${entry.getMotif(locale)}</p>
+    <p>${entry.motif.getTitle(locale)}</p>
 </c:if>
 
 <%-- Champ : Si contrat permanent

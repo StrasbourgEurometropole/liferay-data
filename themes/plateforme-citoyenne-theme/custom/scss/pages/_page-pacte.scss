@@ -144,10 +144,10 @@
 				@include ft($f_hx, 1.125em, 700, $c_txt, 1.444em);
 			}
 			p {
-				@include ft($f_txt, 1em, 400, #797000, 1.625em);
+				@include ft($f_txt, 1em, 400, #154, 1.625em);
 				margin-bottom: 10px;
 				a{
-					color: #797000;
+					color: #154;
 					text-decoration: underline;
 					&:hover, &:focus{
 						color: $c_txt;
@@ -155,7 +155,7 @@
 				}
 			}
 			a{
-				color: #797000;
+				color: #154;
 				text-decoration: underline;
 				&:hover, &:focus{
 					color: $c_txt;
@@ -168,7 +168,7 @@
 				list-style-type: none;
 				@include clearfix();
 				li {
-					@include ft($f_txt, $s_p, 400, #797000, 1.600em);
+					@include ft($f_txt, $s_p, 400, #154, 1.600em);
 					padding-left: 22px;
 					&:before {
 						content: "";
@@ -177,7 +177,7 @@
 						top: 11px;
 						width: 13px;
 						height: 4px;
-						background: #797000;
+						background: #154;
 					}
 					a {
 						color: $c_txt;
@@ -196,7 +196,7 @@
 				list-style-type: decimal;
 				@include clearfix();
 				li {
-					@include ft($f_txt, $s_p, 400, #797000, 22px);
+					@include ft($f_txt, $s_p, 400, #154, 22px);
 					margin-left: 15px;
 					a {
 						color: $c_txt;

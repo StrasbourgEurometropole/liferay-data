@@ -84,11 +84,11 @@
 <!-- Recherche par quartiers -->
 <div class="pro-group">
     <div class="pro-header">
-        <h4><liferay-ui:message key="eu.districts" /></h4>
+        <h4><liferay-ui:message key="eu.search.asset.web.platit.participation.territories" /></h4>
         <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
     <fieldset id="districts_fieldset" class="pro-checkbox">
-        <legend aria-hidden="true" class="hide">Choix par nom de quartier</legend>
+        <legend aria-hidden="true" class="hide">Choix par nom de territoire</legend>
         
         <c:set var="districtVocabulary" value="${vocabularyAccessor.getTerritories()}" />
 		<c:forEach
