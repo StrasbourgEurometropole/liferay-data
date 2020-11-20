@@ -488,7 +488,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                     if (Validator.isNotNull(index)){
                         // catégorie, filière, grades
                         if (Validator.isNull(ParamUtil.getLong(request, "ejobCategory" + index)) || Validator.isNull(ParamUtil.getLong(request, "ejobFiliere" + index))
-                                ||Validator.isNull(ParamUtil.getLong(request, "ejobGradeMin" + index)) || Validator.isNull(ParamUtil.getLong(request, "ejobGradeMax" + index))) {
+                                ||Validator.isNull(ParamUtil.getLong(request, "ejobGradeMin" + index))) {
                             SessionErrors.add(request, "grade-range-error");
                             isValid = false;
                             break;
