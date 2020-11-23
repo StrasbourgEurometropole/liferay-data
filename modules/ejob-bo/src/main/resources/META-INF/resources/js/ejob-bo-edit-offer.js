@@ -40,22 +40,9 @@ function initialiseService(){
     });
 }
 var blockFullTime = document.getElementById("blockFullTime");
-// gestion de l'affichage de la description en fonction du temps du contrat
 var fullTime = document.querySelectorAll('input[name=' + namespace + 'isFullTime]');
 var fullTimeDescription = document.querySelectorAll('[for=' + namespace + 'fullTimeDescription]')[0];
-if(fullTime[1].checked)
-    fullTimeDescription.parentNode.style.display="none";
-function changeHandlerFullTime(event) {
-    if(fullTime[0].checked)
-        fullTimeDescription.parentNode.style.display="block";
-    else{
-        document.getElementById(namespace + "fullTimeDescription").value = "";
-        fullTimeDescription.parentNode.style.display="none";
-    }
-}
-Array.prototype.forEach.call(fullTime, function(element) {
-   element.addEventListener('change', changeHandlerFullTime);
-});
+
 var gradeRangeFields = document.getElementById("grade-range-fields");
 Array.prototype.forEach.call(gradeRangeFields.getElementsByClassName("lfr-form-row"), function(element) {
     if(element.querySelectorAll('[id^=' + namespace + 'ejobCategory]')[0].value != ""){
@@ -85,7 +72,6 @@ function initialise(){
         // réinitialise en temps complet par défaut
         fullTime[0].checked = "true";
         document.getElementById(namespace + "fullTimeDescription").value = "";
-        changeHandlerFullTime();
         blockFullTime.style.display="none";
         if(gradeRangeAutoFields != null)
             gradeRangeAutoFields.reset();

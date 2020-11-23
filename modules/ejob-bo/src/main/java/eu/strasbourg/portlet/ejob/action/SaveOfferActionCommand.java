@@ -253,15 +253,10 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                         "isFullTime");
                 offer.setIsFullTime(isFullTime);
 
-                if(isFullTime) {
-                    // Champ : fullTimeDescription
-                    Map<Locale, String> fullTimeDescription = LocalizationUtil
-                            .getLocalizationMap(request, "fullTimeDescription");
-                    offer.setFullTimeDescriptionMap(fullTimeDescription);
-                }else {
-                    // Champ : fullTimeDescription
-                    offer.setFullTimeDescriptionMap(new HashMap<>());
-                }
+                // Champ : fullTimeDescription
+                Map<Locale, String> fullTimeDescription = LocalizationUtil
+                        .getLocalizationMap(request, "fullTimeDescription");
+                offer.setFullTimeDescriptionMap(fullTimeDescription);
 
                 if(!this.typeRecrutementString.equals("Vacataire")) {
                     // Champs : ejobCategorie, ejobFiliere, ejobCategorie label, ejobGrade minimun et ejobGrade maximum
