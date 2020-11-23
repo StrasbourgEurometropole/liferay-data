@@ -177,8 +177,9 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 					for (List<AssetCategory> gradeRange : gradeRanges) {
 						if(Validator.isNotNull(grades))
 							grades += ", ";
-						grades += gradeRange.get(2).getTitle(locale) +
-							" " + LanguageUtil.get(locale, "eu.to") + " " +
+						grades += gradeRange.get(2).getTitle(locale);
+						if (Validator.isNotNull(gradeRange.get(3)))
+							grades += " " + LanguageUtil.get(locale, "eu.to") + " " +
 							gradeRange.get(3).getTitle(locale);
 					}
 					paragraph.add(grades);
