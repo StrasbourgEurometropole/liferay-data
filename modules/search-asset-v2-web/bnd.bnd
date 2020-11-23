@@ -4,6 +4,7 @@ Web-ContextPath: /searchassetv2web
 Bundle-ClassPath: \
   .,\
  lib/kernel.jar, lib/layout.jar, lib/io.jar, lib/forms.jar, lib/pdfa.jar, lib/svg.jar, \
+    lib/commons-lang3.jar,\
     lib/bcpkix-jdk15on.jar, lib/bcprov-jdk15on.jar, lib/html2pdf.jar, lib/styled-xml-parser.jar
 
 
@@ -13,6 +14,7 @@ Bundle-ClassPath: \
  lib/io.jar=io-7.1.3.jar,\
  lib/forms.jar=forms-7.1.3.jar,\
  lib/pdfa.jar=pdfa-7.1.3.jar,\
+ lib/commons-lang3.jar=commons-lang3-3.9.jar,\
  lib/bcpkix-jdk15on.jar=bcpkix-jdk15on-1.49.jar,\
  lib/bcprov-jdk15on.jar=bcprov-jdk15on-1.49.jar,\
  lib/html2pdf.jar=html2pdf-2.1.0.jar,\
