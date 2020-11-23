@@ -63,7 +63,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <h3><@liferay_ui.message key="eu.offer-grade" /></h3>
                                 <p>
                                     <#list gradeRanges as gradeRange>
-                                        ${gradeRange[2].getTitle(locale)} <@liferay_ui.message key="eu.to" /> ${gradeRange[3].getTitle(locale)}<#sep>, </#sep>
+                                        ${gradeRange[2].getTitle(locale)}
+                                        <#if gradeRange[3]??>
+                                            <@liferay_ui.message key="eu.to" /> ${gradeRange[3].getTitle(locale)}<#sep>, </#sep>
+                                        </#if>
                                     </#list>
                                 </p>
                             </div>
