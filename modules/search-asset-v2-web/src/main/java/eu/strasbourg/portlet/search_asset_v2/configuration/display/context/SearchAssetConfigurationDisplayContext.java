@@ -93,4 +93,6 @@ public class SearchAssetConfigurationDisplayContext {
     public ConfigurationData getConfigurationData() {
         return this.configurationData;
     }
+
+
 }

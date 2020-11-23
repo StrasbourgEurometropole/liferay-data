@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationData;
+import eu.strasbourg.portlet.search_asset_v2.configuration.constants.ConfigurationConstants;
 import eu.strasbourg.portlet.search_asset_v2.configuration.display.context.SearchAssetConfigurationDisplayContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -127,6 +128,7 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 					assetClassNames += assetClassName.getValue();
 				}
 			}
+
 			setPreference(actionRequest, "assetClassNames", assetClassNames);
 
 			// Recherche des JournalArticle
@@ -307,6 +309,8 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			setPreference(actionRequest, "assetTypes", assetTypes);
 			*/
 			// TODO Add additional config fields save
+			String indexes = ParamUtil.getString(actionRequest,ConfigurationConstants.PARAM_ASSET_TYPES_INDEXES);
+			_log.debug(indexes);
 		}
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}
