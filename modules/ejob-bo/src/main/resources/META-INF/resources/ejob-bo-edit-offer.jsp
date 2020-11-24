@@ -52,6 +52,7 @@
 
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="offerId" type="hidden" />
+			<aui:input name="new" type="hidden" />
 
 			<%-- Groupe de champs : Generalites --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=false%>">

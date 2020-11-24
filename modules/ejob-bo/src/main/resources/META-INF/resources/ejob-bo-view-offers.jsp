@@ -117,14 +117,16 @@
 						</c:if>
 
 						<%-- ACTION : Dupliquer --%>
-                        <liferay-portlet:actionURL name="copyOffer" varImpl="copyOfferURL">
-                            <portlet:param name="cmd" value="copyOffer" />
-							<portlet:param name="tab" value="offers" />
+                        <liferay-portlet:renderURL varImpl="copyEditOfferURL">
+                            <portlet:param name="cmd" value="editOffer" />
                             <portlet:param name="offerId" value="${offer.offerId}" />
-                        </liferay-portlet:actionURL>
+                            <portlet:param name="isDuplication" value="true" />
+                            <portlet:param name="returnURL" value="${offersURL}" />
+                            <portlet:param name="mvcPath" value="/ejob-bo-edit-offer.jsp" />
+                        </liferay-portlet:renderURL>
 						<c:if test="${dc.hasPermission('EDIT_OFFER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="duplicate" url="${copyOfferURL}" />
-						</c:if>
+                            <liferay-ui:icon message="duplicate" url="${copyEditOfferURL}" />
+                        </c:if>
 
                         <!-- ACTION : Supprimer -->
 						<liferay-portlet:actionURL name="deleteOffer" var="deleteOfferURL">

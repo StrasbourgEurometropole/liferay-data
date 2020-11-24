@@ -321,6 +321,16 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 							rtOccupation = -1;
 						}
 						break;
+
+					case "4":
+						try {
+							long iceRinkOccupation = PoolStateSOAPClient.getOccupation(place);
+							rtOccupation = iceRinkOccupation;
+						} catch (Exception ex) {
+							log.error("Can not update real time data for 'patinoire'");
+							rtOccupation = -1;
+						}
+						break;
 				}
 			}
 
