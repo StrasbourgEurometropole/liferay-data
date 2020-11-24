@@ -136,7 +136,6 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 
 				if (!offer.getOfferCategories().isEmpty() && !offer.getTypeRecrutement().getTitle(locale).equals("Stage")) {
 					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-filiere-categorie") + " : ").setFont(fontBold).setFontSize(12f));
-					paragraph.add("\n");
 					String categories = "";
 					for (AssetCategory category : offer.getOfferCategories()) {
 						if(Validator.isNotNull(categories))
