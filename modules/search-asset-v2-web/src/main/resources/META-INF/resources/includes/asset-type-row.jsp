@@ -1,29 +1,45 @@
 <%@ include file="/search-asset-init.jsp"%>
 
-<aui:fieldset collapsed="false" collapsible="true" label="some-content">
-    <aui:select name="contentTypeSelect" label="">
-        <aui:option value="event" selected="true">
-            Evenement
+<!-- Type d'asset -->
+<aui:fieldset collapsed="false" collapsible="true" label="some-content" id="assetType${param.index}">
+
+    <aui:input name="numAssetType${param.index}" value="${param.index}" type="hidden" />
+
+    <aui:select id="classname_${param.index}" name="classname_${param.index}" label="" onChange="updateTemplates(${param.index})">
+        <aui:option value="${false}" selected="true">
+            <liferay-ui:message key="select-asset-type"/>
         </aui:option>
+        <c:forEach var="assetClassName" varStatus="assetStatus"
+                   items="${assetTypeNames}">
+            <aui:option value="${assetClassName}">
+                <liferay-ui:message key="${assetClassName}"/>
+            </aui:option>
+        </c:forEach>
     </aui:select>
+
+    <!-- Template et URL -->
     <aui:fieldset collapsed="false" collapsible="true" label="template-and-url">
-        <aui:select name="templateSelect" inlineField="true">
-            <aui:option value="default" selected="true">
-                Selectionnez une template
+        <aui:select id="templateKey_${param.index}" name="templateKey_${param.index}" label="" inlineField="true">
+            <aui:option value="${false}" selected="true">
+                <liferay-ui:message key="select-a-template"/>
             </aui:option>
         </aui:select>
-        <aui:input name="friendlyUrl" type="text" placeholder="detail-friendly-url" inlineField="true"/>
+        <aui:input id="friendlyUrl_${param.index}" name="friendlyUrl_${param.index}" label="" type="text" placeholder="detail-friendly-url" inlineField="true"/>
     </aui:fieldset>
+
+    <!-- Portée -->
     <aui:fieldset collapsed="false" collapsible="true" label="scope">
         <liferay-ui:message key="scope-explanations" />
-        <label><liferay-ui:message key="global-scope" /></label>
-        <liferay-ui:asset-tags-selector
-                hiddenInput="prefilterTagsNames"
-                curTags="${prefilterTagsNames}" />
+        <select class="form-control" name="<portlet:namespace />scopeIds_${param.index}"
+                id="<portlet:namespace />scopeIds_${param.index}"
+                placeholder="<liferay-ui:message key="select-scopes" />" multiple>
+        </select>
     </aui:fieldset>
-    <aui:fieldset collapsed="false" collapsible="true" label="prefilter">
-        <div class="lfr-form-row lfr-form-row-inline">
 
+    <!-- Préfiltre -->
+    <aui:fieldset collapsed="false" collapsible="true" label="prefilter">
+        <div>
         </div>
+        <aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addPrefilter(${param.index});"/>
     </aui:fieldset>
 </aui:fieldset>

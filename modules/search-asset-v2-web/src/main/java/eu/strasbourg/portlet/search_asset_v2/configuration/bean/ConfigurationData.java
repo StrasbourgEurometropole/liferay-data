@@ -7,19 +7,15 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset_v2.configuration.constants.ConfigurationConstants;
 import eu.strasbourg.utils.JSONHelper;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.portlet.ActionRequest;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class ConfigurationData {
@@ -131,24 +127,26 @@ public class ConfigurationData {
             JSONObject json = JSONFactoryUtil.createJSONObject(this.configuration.assetTypes());
             JSONArray jsonAssetsTypes = json.getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES);
             JSONObject jsonAssetType;
-            for (int i = 0 ; i < jsonAssetsTypes.length() ; i++) {
-                jsonAssetType = jsonAssetsTypes.getJSONObject(i);
+            if(Validator.isNotNull(jsonAssetsTypes)) {
+                for (int i = 0; i < jsonAssetsTypes.length(); i++) {
+                    jsonAssetType = jsonAssetsTypes.getJSONObject(i);
 
-                String className = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_CLASSNAME);
-                String templateKey = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_TEMPLATE_KEY);
-                String friendlyURL = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_FRIENDLY_URL);
-                Long[] scopeGroupIDs = ArrayUtils.toObject(JSONHelper.convertJSONArraytoLongArray(
-                        jsonAssetType.getJSONArray(ConfigurationConstants.JSON_ASSET_SCOPE_GROUP_IDS)));
+                    String className = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_CLASSNAME);
+                    String templateKey = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_TEMPLATE_KEY);
+                    String friendlyURL = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_FRIENDLY_URL);
+                    Long[] scopeGroupIDs = ArrayUtils.toObject(JSONHelper.convertJSONArraytoLongArray(
+                            jsonAssetType.getJSONArray(ConfigurationConstants.JSON_ASSET_SCOPE_GROUP_IDS)));
 
-                assetPrefilterDataList = new ArrayList<>();
-                // TODO remplir les prefiltres
+                    assetPrefilterDataList = new ArrayList<>();
+                    // TODO remplir les prefiltres
 
-                this.assetTypeDataList.add(
-                        new ConfigurationAssetData(
-                                className, templateKey, friendlyURL, Arrays.asList(scopeGroupIDs), assetPrefilterDataList
-                        )
-                );
+                    this.assetTypeDataList.add(
+                            new ConfigurationAssetData(
+                                    className, templateKey, friendlyURL, Arrays.asList(scopeGroupIDs), assetPrefilterDataList
+                            )
+                    );
 
+                }
             }
 
         } catch (NullPointerException | JSONException e) {

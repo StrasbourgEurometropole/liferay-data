@@ -2,23 +2,18 @@ const namespace = "_com_liferay_portlet_configuration_web_portlet_PortletConfigu
 const namespaceAUI = "#" + namespace;
 
 $( document ).ready(function() {
-    // Selecteur choices portees
-    // TODO Recuperation portees dispos
-    $("select[id^='scopeIds']").each(function() {
-        new Choices("#"+$(this).attr("id"), {
-            removeItemButton: true
-        });
+    $("select[id^='" + namespace + "scopeIds']").each(function() {
+        initialiseScope($(this));
     });
+
     // Correction problemes champs repetables
-    setTimeout(function (){
+    /*setTimeout(function (){
         $("button.add-row").on("click", updateHandlers);
-    }, 1500);
+    }, 1500);*/
 });
 
-// jQuery(function() {});
-
 // Correction des event handlers et correction du probleme de duplication des fieldsets
-function updateHandlers() {
+/*function updateHandlers() {
     setTimeout(function () {
         // Detacher tous les event handlers puis les reattacher (pour inclure le nouveaux)
         $("button.add-row").off("click", updateHandlers);
@@ -32,20 +27,53 @@ function updateHandlers() {
         });
         // Correction du Choices duplique
     }, 100);
-}
+}*/
 
 // WIP Mettre a jour les templates lors de la selection
-function updateTemplates(e, templates) {
-    console.log(e.id);
-    if (this.value != false) {
-        // Recuperation index
-        const className = "classname_";
-        const index = parseInt(this.id.slice(namespace.length + className.length));
-        // Mettre a jour les templates
-    }
+function updateTemplates(index) {
+    // Changement du label du contenu
+    $($("#assetType" + index + ' .legend')[0]).text(Liferay.Language.get($(namespaceAUI + "classname_" + index).val()));
+    // MaJ des templates
+    templates = assetTemplates[$(namespaceAUI + "classname_" + index).val()];
+    options = "<option>Veuillez sélectionner un template</option>";
+    $.each(templates, function(i, template) {
+        options += "<option value=' " + template.id + " '>" + template.value + "</option>";
+    });
+    $(namespaceAUI + "templateKey_" + index).html(options);
+}
+
+function addAssetType() {
+	var nbAssetType = $(namespaceAUI + 'nbAssetType').val();
+	var lastAssetType = 0;
+	if (nbAssetType > 0) {
+		lastAssetType = parseInt($('input[name*=numAssetType]')[nbAssetType - 1].id
+				.split(namespace + 'numAssetType')[1]) + 1;
+	}
+
+	$.ajax({
+		url : getAssetTypeRowJSPURL + '&' + namespace + 'index=' + lastAssetType,
+		success : function(html) {
+			$('#asset-types-content').append(html);
+		}
+	});
+
+	// on ajuste le nb d'assetType
+	$(namespaceAUI + 'nbAssetType').val(parseInt(nbAssetType) + 1);
 }
 
 // TODO Insertion Html cf maquette pour regle de prefiltrage
 function addPrefilter(index) {
 
+}
+
+function initialiseScope(elt){
+    // Selecteur choices portees
+    choix = new Choices("#"+elt.attr("id"), {
+        removeItemButton: true,
+        loadingText: 'Chargement...',
+        noResultsText: 'Auncun résultats',
+        noChoicesText: 'Pas de choix',
+        itemSelectText: 'Cliquer pour sélectionner',
+        choices: scopesJson
+    });
 }
