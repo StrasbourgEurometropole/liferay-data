@@ -6,6 +6,10 @@ $( document ).ready(function() {
         initialiseScope($(this));
     });
 
+    $("select[id^='" + namespace + "prefilterIds']").each(function (){
+        initializePrefilter($(this));
+    })
+
     // Correction problemes champs repetables
     /*setTimeout(function (){
         $("button.add-row").on("click", updateHandlers);
@@ -71,9 +75,53 @@ function initialiseScope(elt){
     choix = new Choices("#"+elt.attr("id"), {
         removeItemButton: true,
         loadingText: 'Chargement...',
-        noResultsText: 'Auncun résultats',
+        noResultsText: 'Auncun résultat',
         noChoicesText: 'Pas de choix',
         itemSelectText: 'Cliquer pour sélectionner',
         choices: scopesJson
     });
+}
+
+// Creation choices prefiltre
+function initializePrefilter(elt){
+    new Choices("#"+elt.attr("id"), {
+        removeItemButton: true,
+        loadingText: 'Chargement...',
+        noResultsText: 'Auncun résultat',
+        noChoicesText: 'Pas de choix',
+        itemSelectText: 'Cliquer pour sélectionner',
+        choices: tagsJson
+    });
+}
+
+// Mise a jour choices prefiltre
+function updatePrefilterChoices(elt){
+    // Get indexes
+    let idIndexes = elt.id.slice(namespace.length);
+    idIndexes = idIndexes.slice(idIndexes.indexOf('_'));
+    let assetIndex = parseInt(idIndexes);
+    if ($(elt).val() == "tags") {
+        new Choices(namespaceAUI+"prefilterChoices"+idIndexes, {
+            removeItemButton: true,
+            loadingText: 'Chargement...',
+            noResultsText: 'Auncun résultat',
+            noChoicesText: 'Pas de choix',
+            itemSelectText: 'Cliquer pour sélectionner',
+            choices: tagsJson
+        });
+    }
+    else {
+        $(namespaceAUI+"prefilterChoices"+idIndexes).each(function (){
+            let classname = $("select[id^='classname_" + assetIndex +"']").val();
+            let tempJson = categoriesJson[classname];
+            new Choices(namespaceAUI+"prefilterChoices"+idIndexes, {
+                removeItemButton: true,
+                loadingText: 'Chargement...',
+                noResultsText: 'Auncun résultat',
+                noChoicesText: 'Pas de choix',
+                itemSelectText: 'Cliquer pour sélectionner',
+                choices: tempJson
+            });
+        })
+    }
 }

@@ -38,8 +38,7 @@
 
     <!-- Préfiltre -->
     <aui:fieldset collapsed="false" collapsible="true" label="prefilter">
-        <div>
-        </div>
+        <div id="prefilter-rules_${param.index}"></div>
         <aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addPrefilter(${param.index});"/>
     </aui:fieldset>
 </aui:fieldset>
