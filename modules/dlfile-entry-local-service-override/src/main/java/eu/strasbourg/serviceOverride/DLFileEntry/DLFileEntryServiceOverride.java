@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
 import com.liferay.portal.kernel.image.ImageToolUtil;
 
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.osgi.service.component.annotations.Component;
 
 import java.awt.*;
@@ -50,6 +51,14 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
 									long fileEntryTypeId, Map<String,DDMFormValues> ddmFormValuesMap,
 									File file, InputStream is, long size, ServiceContext serviceContext)
 									throws PortalException {
+
+		// Verification de la cle de config de Portal-ext
+		String enabledKey = StrasbourgPropsUtil.getDocLibResizeAndCompressEnabled();
+		if (enabledKey == null || !(enabledKey.equals("true")))
+		{
+			return super.addFileEntry(userId, groupId, repositoryId, folderId, sourceFileName, mimeType, title, description,
+					changeLog, fileEntryTypeId, ddmFormValuesMap, file, is, size, serviceContext);
+		}
 
 		// On verifie ou se trouve le document d'entree
 		InputStream copiedIs = null;

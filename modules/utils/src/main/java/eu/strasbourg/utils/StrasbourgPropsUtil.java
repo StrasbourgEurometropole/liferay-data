@@ -328,4 +328,6 @@ public class StrasbourgPropsUtil {
 	public static String getEJobFTPUser() {return PropsUtil.get("eu.strasbourg.ejob.ftp.user");}
 
 	public static String getEJobFTPPassword() {return PropsUtil.get("eu.strasbourg.ejob.ftp.password");}
+
+	public static String getDocLibResizeAndCompressEnabled() {return PropsUtil.get("eu.strasbourg.dlfileentry.service.wrapper.resizeandcompress.enable");}
 }
