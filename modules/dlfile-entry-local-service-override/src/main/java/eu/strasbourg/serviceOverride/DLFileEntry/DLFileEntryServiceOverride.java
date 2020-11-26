@@ -52,9 +52,25 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
 									throws PortalException {
 
 		// On verifie ou se trouve le document d'entree
+		InputStream copiedIs = null;
 		boolean imageInFile;
 		if (file != null) { imageInFile = true; }
-		else if (is != null) { imageInFile = false; }
+		else if (is != null) {
+			imageInFile = false;
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			byte[] buf = new byte[1024];
+			int n = 0;
+			while (true) {
+				try {
+					if (!((n = is.read(buf)) >= 0)) break;
+				} catch (IOException e) {
+					_log.error(e);
+				}
+				baos.write(buf, 0, n);
+			}
+			is = new ByteArrayInputStream(baos.toByteArray());
+			copiedIs = new ByteArrayInputStream(baos.toByteArray());
+		}
 		else {
 			return super.addFileEntry(userId, groupId, repositoryId, folderId, sourceFileName, mimeType, title, description,
 					changeLog, fileEntryTypeId, ddmFormValuesMap, file, is, size, serviceContext);
@@ -66,7 +82,7 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
 				_log.info("Image JPEG detectee");
 				// Lecture de l'image
 				RenderedImage image;
-				image = readImage(imageInFile, is, file);
+				image = readImage(imageInFile, copiedIs, file);
 				// Calcul ratio de compression
 				int height = image.getHeight();
 				int width = image.getWidth();
@@ -107,7 +123,7 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
 			try {
 				// Lecture de l'image
 				RenderedImage image;
-				image = readImage(imageInFile, is, file);
+				image = readImage(imageInFile, copiedIs, file);
 				int height = image.getHeight();
 				int width = image.getWidth();
 				// Scaling
