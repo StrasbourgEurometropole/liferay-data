@@ -23,24 +23,26 @@
                     <liferay-ui:message key="asset-types-explanations" />
 
                     <div id="asset-types-content">
-                        <aui:input type="hidden" name="assetTypesIndexes" />
                         <c:set var="assetTypeList" value="${dc.configurationData.assetTypeDataList}"/>
 		                <c:set var="assetTypeNames" value="${dc.availableAssetTypeNames}" scope="request"/>
 
+                        <aui:input name="nbAssetType" type="hidden" value="${assetTypeList.isEmpty() ? '1' : assetTypeList.size()}" />
+
                         <c:if test="${empty assetTypeList}">
+                            <c:set var="assetTypeData" value=""/>
                             <liferay-util:include page="/includes/asset-type-row.jsp" servletContext="<%=application %>">
                                     <liferay-util:param name="index" value="0" />
                             </liferay-util:include>
                         </c:if>
 
                         <c:forEach items="${assetTypeList}" var="assetTypeData" varStatus="status">
+                            <c:set var="assetTypeData" value="${assetTypeData}"/>
                             <liferay-util:include page="/includes/asset-type-row.jsp" servletContext="<%=application %>">
                                     <liferay-util:param name="index" value="${status.index}" />
                             </liferay-util:include>
                         </c:forEach>
-
-                        <aui:input name="nbAssetType" type="hidden" value="${assetTypeList.size()}" />
                     </div>
+
                     <aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addAssetType();"/>
 
                 </aui:fieldset>
@@ -370,21 +372,21 @@
 
 </aui:form>
 
-<liferay-portlet:renderURL varImpl="assetTypeRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
-	<portlet:param name="mvcPath" value="/includes/asset-type-row.jsp" />
-</liferay-portlet:renderURL>
-
 <liferay-util:html-top>
    	<script>
-	        var getAssetTypeRowJSPURL = '${assetTypeRowURL}';
+	        var assetTypeNames = '${dc.availableAssetTypeNamesString}';
 	        var assetTemplates = ${dc.availableAssetTemplates};
          	var scopesJson = ${dc.availableScopes};
+         	var tagsJson = ${dc.availableTags};
+         	var categoriesJson = ${dc.availableCategories};
    	</script>
 </liferay-util:html-top>
 
 
 <liferay-util:html-bottom>
     <script src="/o/searchassetv2web/js/vendors/choices.min.js"></script>
+    <script src="/o/searchassetv2web/js/bloc-asset-type-configuration.js"></script>
+    <script src="/o/searchassetv2web/js/bloc-prefilter-configuration.js"></script>
     <script src="/o/searchassetv2web/js/searchassetv2web-config.js"></script>
     <link href="/o/searchassetv2web/css/search-asset-configuration.css" rel="stylesheet"></script>
     <link href="/o/searchassetv2web/css/vendors/choices.min.css" rel="stylesheet">

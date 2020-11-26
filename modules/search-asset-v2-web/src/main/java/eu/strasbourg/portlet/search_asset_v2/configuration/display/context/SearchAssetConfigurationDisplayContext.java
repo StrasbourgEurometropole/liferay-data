@@ -5,7 +5,6 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
@@ -18,6 +17,7 @@ import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationAssetData;
@@ -73,6 +73,17 @@ public class SearchAssetConfigurationDisplayContext {
             availableAssetTypeNames.add(assetRendererFactory.getClassName());
         }
         return availableAssetTypeNames;
+    }
+
+    // Retourne la liste des types de contenus disponibles
+    public String getAvailableAssetTypeNamesString() {
+        String assetTypeNames = "";
+        for (String assetTypeName : getAvailableAssetTypeNames()) {
+            if(Validator.isNotNull(assetTypeNames))
+                assetTypeNames +=",";
+            assetTypeNames += assetTypeName;
+        }
+        return assetTypeNames;
     }
 
     // Retourne la liste des sites disponibles
