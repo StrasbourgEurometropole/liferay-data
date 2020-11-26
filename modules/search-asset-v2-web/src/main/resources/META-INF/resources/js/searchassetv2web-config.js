@@ -105,7 +105,7 @@ function updatePrefilterChoices(elt){
     }
     else {
         indexeType = indexeGlobal.split('_')[0];
-        let classname = $("select[id^='classname_" + indexeType +"']").val();
+        let classname = $(namespaceAUI + "classname_" + indexeType).val();
         let tempJson = categoriesJson[classname];
         choice.setChoices(tempJson, "value", "label", true);
     }
