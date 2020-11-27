@@ -97,7 +97,7 @@ public interface SearchAssetConfiguration {
 	public String filterField();
 
 	@Meta.AD(name = "defaultFilterDateRange", required = false, deflt = "31")
-	public long defaultFilerDateRange();
+	public long defaultFilterDateRange();
 
 	@Meta.AD(name = "firstSortingField", required = false, deflt = "modified_sortable")
 	public String firstSortingField();

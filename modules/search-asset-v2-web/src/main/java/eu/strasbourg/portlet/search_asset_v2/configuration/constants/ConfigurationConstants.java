@@ -3,17 +3,25 @@ package eu.strasbourg.portlet.search_asset_v2.configuration.constants;
 public class ConfigurationConstants {
 
     /** Form param */
+    // Old
+    public static final String PARAM_SCOPE_GROUP_IDS = "scopeGroupIds";
+    public static final String PARAM_CONTAINS = "contains";
+    public static final String PARAM_OPERATOR = "operator";
+
     public static final String PARAM_ASSET_TYPES_INDEXES = "assetTypesIndexes";
     public static final String PARAM_CLASSNAME = "classname";
     public static final String PARAM_TEMPLATE_KEY = "templateKey";
     public static final String PARAM_FRIENDLY_URL = "friendlyURL";
-    public static final String PARAM_SCOPE_GROUP_IDS = "scopeGroupIds";
     public static final String PARAM_ASSET_PREFILTERS_INDEXES = "assetPrefiltersIndexes";
-    public static final String PARAM_CONTAINS = "contains";
-    public static final String PARAM_OPERATOR = "operator";
+    public static final String PARAM_SCOPE_IDS = "scopeIds";
+    public static final String PARAM_INCLUDE_EXCLUDE = "includeOrExclude";
+    public static final String PARAM_ALL_ANY = "allOrAny";
     public static final String PARAM_TYPE = "type";
     public static final String PARAM_TAGS_IDS = "tagsIds";
     public static final String PARAM_CATEGORIES_IDS = "categoriesIds";
+    public static final String PARAM_VOCABULARIES_COUNT = "vocabulariesCount";
+    public static final String PARAM_VOCABULARIES_IDS = "vocabularyId";
+    public static final String PARAM_VOCABULARIES_CONTROL_TYPE_IDS = "vocabularyControlType";
     public static final String PARAM_DISPLAY_DATE_FIELD = "displayDateField";
     public static final String PARAM_DISPLAY_SORTING = "displaySorting";
     public static final String PARAM_BOOST_TAGS_NAMES = "boostTagsNames";
@@ -31,7 +39,7 @@ public class ConfigurationConstants {
     public static final String PARAM_EXPORT_TYPE = "exportType";
 
     /** JSON */
-    public static final String JSON_ASSETS_TYPES = "assetsTypes";
+    public static final String JSON_ASSETS_TYPES = "assetTypes";
     // Configuration Asset Data
     public static final String JSON_ASSET_CLASSNAME = "classname";
     public static final String JSON_ASSET_TEMPLATE_KEY = "templateKey";
@@ -46,5 +54,9 @@ public class ConfigurationConstants {
 
     public static final String TYPE_TAG = "tag";
     public static final String TYPE_CATEGORY = "category";
+    // Configuration Vocabularies Data
+    public static final String JSON_VOCABULARIES_CONTROL_TYPES = "vocabulariesControlTypes";
+    public static final String JSON_VOCABULARY_ID = "vocabularyId";
+    public static final String JSON_VOCABULARY_CONTROL_TYPE = "vocabularyControlType";
 
 }
