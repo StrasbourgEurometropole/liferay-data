@@ -16,8 +16,11 @@ package eu.strasbourg.service.strasbourg.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFileEntryType;
 import com.liferay.document.library.kernel.model.DLFolder;
@@ -37,6 +40,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
@@ -527,6 +531,84 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		}else{
 			return error("file inexistant");
 		}
+	}
+
+	@Override
+	public JSONArray getTagsByGroupIds(long[] groupIds) {
+		JSONArray tagsJson = JSONFactoryUtil.createJSONArray();
+
+		// récupère les groups
+		for (long groupId : groupIds) {
+			// récupère le groupe du tag
+			Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+
+			JSONObject groupJson = JSONFactoryUtil.createJSONObject();
+			groupJson.put("label", "<font style='color: #00bcd4;'><strong>" + group.getNameCurrentValue() + "</strong></font>");
+			JSONArray choicesJson = JSONFactoryUtil.createJSONArray();
+
+			// récupère les tags du group
+			List<AssetTag> tags = AssetTagLocalServiceUtil.getGroupTags(groupId);
+			for (AssetTag tag : tags) {
+				JSONObject tagJson = JSONFactoryUtil.createJSONObject();
+				tagJson.put("value", tag.getTagId());
+				tagJson.put("label", "<strong>" + tag.getName() + "</strong><i> (" + group.getNameCurrentValue() + ")</i>");
+				JSONObject customPropertiesJson = JSONFactoryUtil.createJSONObject();
+				customPropertiesJson.put("random", group.getNameCurrentValue() + " " + tag.getName());
+				tagJson.put("customProperties", customPropertiesJson);
+				choicesJson.put(tagJson);
+			}
+			groupJson.put("choices", choicesJson);
+			tagsJson.put(groupJson);
+		}
+		return tagsJson;
+	}
+
+	@Override
+	public JSONArray getCategoriesByClassNameAndGroupIds(long[] groupIds,
+														 String classname) {
+		JSONArray categoriesJson = JSONFactoryUtil.createJSONArray();
+
+		if(Validator.isNotNull(classname) && groupIds.length>0) {
+
+			// récupère les vocabulaires d'un className et des groupIds
+			List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getGroupsVocabularies(groupIds, classname);
+			for (AssetVocabulary vocabulary : vocabularies) {
+				// récupère le groupe de la catégorie
+				Group group = GroupLocalServiceUtil.fetchGroup(vocabulary.getGroupId());
+
+				JSONObject vocabularyJson = JSONFactoryUtil.createJSONObject();
+				vocabularyJson.put("label", "<font style='color: #00bcd4;'><strong>" + vocabulary.getName() + "</strong> (" + group.getNameCurrentValue() + ")</font>");
+				// récupère les catégories d'un vocabulaire
+				JSONArray choicesJson = JSONFactoryUtil.createJSONArray();
+				List<AssetCategory> categories = vocabulary.getCategories();
+				for (AssetCategory category : categories) {
+					JSONObject categoryJson = JSONFactoryUtil.createJSONObject();
+					categoryJson.put("value", category.getCategoryId());
+					String label = "";
+					// récupères les ancêtres s'il y en a
+					String ancestors = "";
+					try {
+						List<AssetCategory> ancestorList = category.getAncestors();
+						for (AssetCategory ancestor : ancestorList) {
+							label += " - ";
+							ancestors = ancestor.getName() + (ancestors.length() > 0 ? " > " : "") + ancestors;
+						}
+					} catch (PortalException e) {
+						log.error(e);
+					}
+					label += "<strong>" + category.getName() + "</strong>";
+					label += "<i> (" + group.getNameCurrentValue() + " : " + vocabulary.getName() + (ancestors.length() > 0 ? " > " : "") + ancestors + ")</i>";
+					categoryJson.put("label", label);
+					JSONObject customPropertiesJson = JSONFactoryUtil.createJSONObject();
+					customPropertiesJson.put("random", group.getNameCurrentValue() + " " + vocabulary.getName() + " " + ancestors.replaceAll(" > ", " ") + (ancestors.length() > 0 ? " " : "") + category.getName());
+					categoryJson.put("customProperties", customPropertiesJson);
+					choicesJson.put(categoryJson);
+				}
+				vocabularyJson.put("choices", choicesJson);
+				categoriesJson.put(vocabularyJson);
+			}
+		}
+		return categoriesJson;
 	}
 
 	private boolean isAuthorized() {

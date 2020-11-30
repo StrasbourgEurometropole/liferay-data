@@ -743,6 +743,68 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getTagsByGroupIds(
+		HttpPrincipal httpPrincipal, long[] groupIds) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				StrasbourgServiceUtil.class, "getTagsByGroupIds",
+				_getTagsByGroupIdsParameterTypes25);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, groupIds);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray
+		getCategoriesByClassNameAndGroupIds(
+			HttpPrincipal httpPrincipal, long[] groupIds, String classname) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				StrasbourgServiceUtil.class,
+				"getCategoriesByClassNameAndGroupIds",
+				_getCategoriesByClassNameAndGroupIdsParameterTypes26);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, groupIds, classname);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		StrasbourgServiceHttp.class);
 
@@ -802,5 +864,11 @@ public class StrasbourgServiceHttp {
 		String.class, String.class, String.class, String.class, String.class,
 		String.class
 	};
+	private static final Class<?>[] _getTagsByGroupIdsParameterTypes25 =
+		new Class[] {long[].class};
+	private static final Class<?>[]
+		_getCategoriesByClassNameAndGroupIdsParameterTypes26 = new Class[] {
+			long[].class, String.class
+		};
 
 }

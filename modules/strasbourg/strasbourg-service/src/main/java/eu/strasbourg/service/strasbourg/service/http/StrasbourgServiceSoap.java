@@ -444,6 +444,40 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static String getTagsByGroupIds(long[] groupIds)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getTagsByGroupIds(groupIds);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static String getCategoriesByClassNameAndGroupIds(
+			long[] groupIds, String classname)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getCategoriesByClassNameAndGroupIds(
+					groupIds, classname);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		StrasbourgServiceSoap.class);
 
