@@ -89,13 +89,13 @@
                     <!-- CHAMP : Affichage du filtre par date -->
                     <div>
                         <liferay-ui:message key="date-explanations" />
-                        <aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" inlineField="true" />
+                        <aui:input type="checkbox" name="displayDateField" value="${displayDateField}" label="date-field" inlineField="true" />
                     </div>
 
                     <!-- CHAMP : Affichage du selecteur de tri -->
                     <div>
                         <liferay-ui:message key="date-sorting-explanations" />
-                        <aui:input type="checkbox" name="displayDateSorting" value="${displayDateSorting}" label="date-sorting-field" inlineField="true" />
+                        <aui:input type="checkbox" name="displaySorting" value="${displaySorting}" label="date-sorting-field" inlineField="true" />
                     </div>
 
                 </aui:fieldset>
@@ -115,29 +115,29 @@
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.filters">
 
                     <!-- CHAMP : Colonne sur laqualle filtrer par défaut -->
-                    <aui:select name="defaultSortField">
-                        <aui:option value="modified_sortable" selected="${defaultSortField eq 'modified_sortable'}">
+                    <aui:select name="filterField">
+                        <aui:option value="modified_sortable" selected="${filterField eq 'modified_sortable'}">
                             <liferay-ui:message key="modification-date" />
                         </aui:option>
-                        <aui:option value="publishDate_sortable" selected="${defaultSortField eq 'publishDate_sortable'}">
+                        <aui:option value="publishDate_sortable" selected="${filterField eq 'publishDate_sortable'}">
                             <liferay-ui:message key="publication-date" />
                         </aui:option>
-                        <aui:option value="dates_Number_sortable" selected="${defaultSortField eq 'dates_Number_sortable'}">
+                        <aui:option value="dates_Number_sortable" selected="${filterField eq 'dates_Number_sortable'}">
                             <liferay-ui:message key="entity-date" />
                         </aui:option>
-                        <aui:option value="order_city_Number_sortable" selected="${defaultSortField eq 'order_city_Number_sortable'}">
+                        <aui:option value="order_city_Number_sortable" selected="${filterField eq 'order_city_Number_sortable'}">
                             <liferay-ui:message key="city-order-property" />
                         </aui:option>
-                        <aui:option value="order_ems_Number_sortable" selected="${defaultSortField eq 'order_ems_Number_sortable'}">
+                        <aui:option value="order_ems_Number_sortable" selected="${filterField eq 'order_ems_Number_sortable'}">
                             <liferay-ui:message key="ems-order-property" />
                         </aui:option>
-                        <aui:option value="priority_sortable" selected="${defaultSortField eq 'priority_sortable'}">
+                        <aui:option value="priority_sortable" selected="${filterField eq 'priority_sortable'}">
                             <liferay-ui:message key="order-priority" />
                         </aui:option>
                     </aui:select>
 
                     <!-- CHAMP : Filtre par date par defaut -->
-                    <aui:input type="number" name="defaultDateRange" min="-1000" max="+1000" cssClass="date-range" value="${defaultDateRange}" label="default-date-range" inlineField="true"/>
+                    <aui:input type="number" name="defaultFilterDateRange" min="-1000" max="+1000" cssClass="date-range" value="${defaultFilterDateRange}" label="default-date-range" inlineField="true"/>
 
                 </aui:fieldset>
 
@@ -148,7 +148,7 @@
                     	<aui:col width="<%= 50 %>">
 
                             <!-- CHAMP : Tri colonne 1 -->
-                    		<aui:select label="order-by" name="orderByColumn1" value="" wrapperCssClass="field-inline w80">
+                    		<aui:select label="order-by" name="firstSortingField" value="" wrapperCssClass="field-inline w80">
                     			<aui:option label="title" value="title"/>
                     			<aui:option label="create-date" value="createDate" />
                     			<aui:option label="modified-date" value="modifiedDate" />
@@ -159,12 +159,12 @@
 
                             <!-- CHAMP : Tri type 1 -->
                     		<%
-                    		String orderByType1 = "DESC";
+                    		String firstSortingType = "DESC";
                     		%>
 
                     		<aui:field-wrapper cssClass="field-label-inline order-by-type-container">
                     			<liferay-ui:icon
-                    				cssClass='<%= StringUtil.equalsIgnoreCase(orderByType1, "DESC") ? "hide icon order-arrow-up-active" : "icon order-arrow-up-active" %>'
+                    				cssClass='<%= StringUtil.equalsIgnoreCase(firstSortingType, "DESC") ? "hide icon order-arrow-up-active" : "icon order-arrow-up-active" %>'
                     				icon="order-arrow"
                     				linkCssClass="btn btn-outline-borderless btn-outline-secondary"
                     				markupView="lexicon"
@@ -173,7 +173,7 @@
                     			/>
 
                     			<liferay-ui:icon
-                    				cssClass='<%= StringUtil.equalsIgnoreCase(orderByType1, "ASC") ? "hide icon order-arrow-down-active" : "icon order-arrow-down-active" %>'
+                    				cssClass='<%= StringUtil.equalsIgnoreCase(firstSortingType, "ASC") ? "hide icon order-arrow-down-active" : "icon order-arrow-down-active" %>'
                     				icon="order-arrow"
                     				linkCssClass="btn btn-outline-borderless btn-outline-secondary"
                     				markupView="lexicon"
@@ -181,14 +181,14 @@
                     				url="javascript:;"
                     			/>
 
-                    			<aui:input cssClass="order-by-type-field" name="orderByType1" type="hidden" value="" />
+                    			<aui:input cssClass="order-by-type-field" name="firstSortingType" type="hidden" value="" />
                     		</aui:field-wrapper>
                     	</aui:col>
 
                     	<aui:col width="<%= 50 %>">
 
                             <!-- CHAMP : Tri colonne 2 -->
-                    		<aui:select label="and-then-by" name="orderByColumn2" wrapperCssClass="field-inline w80">
+                    		<aui:select label="and-then-by" name="secondSortingField" wrapperCssClass="field-inline w80">
                     			<aui:option label="title" value="title"/>
                                 <aui:option label="create-date" value="createDate" />
                                 <aui:option label="modified-date" value="modifiedDate" />
@@ -199,12 +199,12 @@
 
                             <!-- CHAMP : Tri type 2 -->
                     		<%
-                    		String orderByType2 = "DESC";
+                    		String secondSortingType = "DESC";
                     		%>
 
                     		<aui:field-wrapper cssClass="field-label-inline order-by-type-container">
                     			<liferay-ui:icon
-                    				cssClass='<%= StringUtil.equalsIgnoreCase(orderByType2, "DESC") ? "hide icon order-arrow-up-active" : "icon order-arrow-up-active" %>'
+                    				cssClass='<%= StringUtil.equalsIgnoreCase(secondSortingType, "DESC") ? "hide icon order-arrow-up-active" : "icon order-arrow-up-active" %>'
                     				icon="order-arrow"
                     				linkCssClass="btn btn-outline-borderless btn-outline-secondary"
                     				markupView="lexicon"
@@ -213,7 +213,7 @@
                     			/>
 
                     			<liferay-ui:icon
-                    				cssClass='<%= StringUtil.equalsIgnoreCase(orderByType2, "ASC") ? "hide icon order-arrow-down-active" : "icon order-arrow-down-active" %>'
+                    				cssClass='<%= StringUtil.equalsIgnoreCase(secondSortingType, "ASC") ? "hide icon order-arrow-down-active" : "icon order-arrow-down-active" %>'
                     				icon="order-arrow"
                     				linkCssClass="btn btn-outline-borderless btn-outline-secondary"
                     				markupView="lexicon"
@@ -221,7 +221,7 @@
                     				url="javascript:;"
                     			/>
 
-                    			<aui:input cssClass="order-by-type-field" name="orderByType2" type="hidden" value="" />
+                    			<aui:input cssClass="order-by-type-field" name="secondSortingType" type="hidden" value="" />
                     		</aui:field-wrapper>
                     	</aui:col>
                     </aui:row>

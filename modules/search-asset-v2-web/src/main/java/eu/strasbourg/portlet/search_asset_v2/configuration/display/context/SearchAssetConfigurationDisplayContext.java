@@ -61,6 +61,7 @@ public class SearchAssetConfigurationDisplayContext {
         return assetData;
     }
 
+    // TODO Ajouter cas particuliers : JournalArticle (Contenu web), Documents (Fichiers) , Démarches (procédures)
     // Retourne la liste des types de contenus disponibles
     public List<String> getAvailableAssetTypeNames() {
         List<String> availableAssetTypeNames = new ArrayList<>();
