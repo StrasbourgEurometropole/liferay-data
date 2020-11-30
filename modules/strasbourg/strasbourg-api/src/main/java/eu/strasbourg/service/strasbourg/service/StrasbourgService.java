@@ -85,6 +85,10 @@ public interface StrasbourgService extends BaseService {
 	public String getArticleHTMLContent(long groupId, String articleId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getCategoriesByClassNameAndGroupIds(
+		long[] groupIds, String classname);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getCoordinateForAddress(String address);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -141,6 +145,9 @@ public interface StrasbourgService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getPracticeCategories(
 		long parentCategoryId, String localeId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getTagsByGroupIds(long[] groupIds);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getTraffic();

@@ -76,6 +76,13 @@ public class StrasbourgServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
+		getCategoriesByClassNameAndGroupIds(long[] groupIds, String classname) {
+
+		return getService().getCategoriesByClassNameAndGroupIds(
+			groupIds, classname);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray
 		getCoordinateForAddress(String address) {
 
 		return getService().getCoordinateForAddress(address);
@@ -170,6 +177,12 @@ public class StrasbourgServiceUtil {
 		getPracticeCategories(long parentCategoryId, String localeId) {
 
 		return getService().getPracticeCategories(parentCategoryId, localeId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getTagsByGroupIds(
+		long[] groupIds) {
+
+		return getService().getTagsByGroupIds(groupIds);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getTraffic() {

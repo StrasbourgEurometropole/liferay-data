@@ -1,11 +1,7 @@
 package eu.strasbourg.portlet.search_asset_v2.configuration.display.context;
 
 import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
-import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
-import com.liferay.asset.kernel.model.AssetTag;
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -22,7 +18,6 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationAssetData;
 import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationData;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -105,42 +100,6 @@ public class SearchAssetConfigurationDisplayContext {
             jsonGroups.put(jsonGroup);
         }
         return jsonGroups;
-    }
-
-    // Retourne la liste des etiquettes disponibles
-    public JSONArray getAvailableTags() {
-        JSONArray availableTags = JSONFactoryUtil.createJSONArray();
-        List<AssetTag> tags = AssetTagLocalServiceUtil.getAssetTags(0, AssetTagLocalServiceUtil.getAssetTagsCount());
-        for (AssetTag tag : tags) {
-            JSONObject jsonTag = JSONFactoryUtil.createJSONObject();
-            jsonTag.put("value", tag.getName());
-            jsonTag.put("label", tag.getName());
-            availableTags.put(jsonTag);
-        }
-        return availableTags;
-    }
-
-    // Retourne la liste des categories disponibles rangees par type de contenu
-    // TODO Verifier qu'il n'y a pas de categories dupliquees dans differents vocabulaires
-    public JSONObject getAvailableCategories() {
-        JSONObject availableCategories = JSONFactoryUtil.createJSONObject();
-        for (AssetRendererFactory assetRendererFactory : this.availableAssetRendererFactories) {
-            long assetClassNameId = assetRendererFactory.getClassNameId();
-            List<AssetVocabulary> vocabularies = AssetVocabularyHelper
-                    .getVocabulariesForAssetType(themeDisplay.getSiteGroupId(), assetClassNameId);
-            JSONArray categoriesJson = JSONFactoryUtil.createJSONArray();
-            for (AssetVocabulary vocabulary : vocabularies) {
-                List<AssetCategory> categories = vocabulary.getCategories();
-                for (AssetCategory category : categories) {
-                    JSONObject categoryJson = JSONFactoryUtil.createJSONObject();
-                    categoryJson.put("value", category.getCategoryId());
-                    categoryJson.put("label", category.getName());
-                    categoriesJson.put(categoryJson);
-                }
-            }
-            availableCategories.put(assetRendererFactory.getClassName(), categoriesJson);
-        }
-        return availableCategories;
     }
 
     // Retourne la liste des templates disponibles rangees par type de contenu

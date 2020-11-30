@@ -25,7 +25,7 @@ var blocAssetType = "" +
 		        "<div class='panel-body'>" +
 		            "<input class='field form-control' id='" + namespace + "numAssetType%%INDEX%%' name='" + namespace + "numAssetType%%INDEX%%' type='hidden' value='%%INDEX%%'>" +
                     "<div class='form-group input-select-wrapper'>" +
-	                    "<select class='form-control' id='" + namespace + "classname_%%INDEX%%' name='" + namespace + "classname_%%INDEX%%' onchange='updateTemplates(%%INDEX%%)' title='classname_%%INDEX%%'>" +
+	                    "<select class='form-control' id='" + namespace + "classname_%%INDEX%%' name='" + namespace + "classname_%%INDEX%%' onchange='reinitializeBloc(%%INDEX%%)' title='classname_%%INDEX%%'>" +
                             "<option class='' selected='' value='false'>" + Liferay.Language.get('select-asset-type') + "</option>";
                             $.each(assetTypeNames.split(','), function(i, assetTypeName) {
                                 blocAssetType += "<option class='' value='" + assetTypeName + "'>" + Liferay.Language.get(assetTypeName) + "</option>";
@@ -88,7 +88,7 @@ blocAssetType += "" +
 	                    "<div aria-labelledby='scope%%INDEX%%Header' class='panel-collapse collapse show' id='scope%%INDEX%%Content' role='presentation' style=''>" +
 		                    "<div class='panel-body'>" +
                                 Liferay.Language.get('scope-explanations') +
-                                "<select class='form-control' name='" + namespace + "scopeIds_%%INDEX%%' id='" + namespace + "scopeIds_%%INDEX%%' multiple>" +
+                                "<select class='form-control' name='" + namespace + "scopeIds_%%INDEX%%' id='" + namespace + "scopeIds_%%INDEX%%' multiple onchange='reinitializePrefilter(%%INDEX%%)'>" +
                                     "<option placeholder>" + Liferay.Language.get('select-scopes') +"</option>" +
                                 "</select>" +
 		                    "</div>" +

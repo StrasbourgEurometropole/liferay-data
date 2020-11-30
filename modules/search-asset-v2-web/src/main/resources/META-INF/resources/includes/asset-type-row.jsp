@@ -6,7 +6,7 @@
 
         <aui:input name="numAssetType${param.index}" value="${param.index}" type="hidden" />
 
-        <aui:select id="classname_${param.index}" name="classname_${param.index}" label="" onChange="updateTemplates(${param.index})">
+        <aui:select id="classname_${param.index}" name="classname_${param.index}" label="" onChange="reinitializeBloc(${param.index})">
             <aui:option value="${false}" selected="true">
                 <liferay-ui:message key="select-asset-type"/>
             </aui:option>
@@ -32,7 +32,7 @@
         <aui:fieldset collapsed="false" collapsible="true" label="scope" id="scope${param.index}">
             <liferay-ui:message key="scope-explanations" />
             <select class="form-control" name="<portlet:namespace />scopeIds_${param.index}"
-                    id="<portlet:namespace />scopeIds_${param.index}"multiple>
+                    id="<portlet:namespace />scopeIds_${param.index}"multiple onChange="reinitializePrefilter(${param.index})">
                 <option placeholder><liferay-ui:message key="select-scopes" /></option>
             </select>
         </aui:fieldset>

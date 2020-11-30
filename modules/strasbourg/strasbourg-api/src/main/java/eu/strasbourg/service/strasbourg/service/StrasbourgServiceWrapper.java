@@ -72,6 +72,14 @@ public class StrasbourgServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray
+		getCategoriesByClassNameAndGroupIds(long[] groupIds, String classname) {
+
+		return _strasbourgService.getCategoriesByClassNameAndGroupIds(
+			groupIds, classname);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONArray getCoordinateForAddress(
 		String address) {
 
@@ -183,6 +191,13 @@ public class StrasbourgServiceWrapper
 
 		return _strasbourgService.getPracticeCategories(
 			parentCategoryId, localeId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getTagsByGroupIds(
+		long[] groupIds) {
+
+		return _strasbourgService.getTagsByGroupIds(groupIds);
 	}
 
 	@Override

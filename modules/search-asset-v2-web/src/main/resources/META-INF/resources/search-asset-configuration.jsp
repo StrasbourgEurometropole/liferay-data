@@ -377,8 +377,6 @@
 	        var assetTypeNames = '${dc.availableAssetTypeNamesString}';
 	        var assetTemplates = ${dc.availableAssetTemplates};
          	var scopesJson = ${dc.availableScopes};
-         	var tagsJson = ${dc.availableTags};
-         	var categoriesJson = ${dc.availableCategories};
    	</script>
 </liferay-util:html-top>
 
