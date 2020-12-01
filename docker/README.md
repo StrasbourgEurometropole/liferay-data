@@ -135,7 +135,7 @@ Le fichier `migrated-dump.sql`se trouve désormais dans le répertoire `output` 
 
 Créer et remplir le fichier `./.env` à la racine du repertoire `docker` où :
  * `LFR_TAG_VERSION` est la version de l'image Liferay
- * `CUR_ENV` est l'environnement courrant (RECETTE / PREPROD / PROD)
+ * `CUR_ENV` est l'environnement courant (RECETTE / PREPROD / PROD)
  * `DATA_PATH_LIFERAY` est le chemin vers le repertoire de persistance liferay (monté en NFS)
  * `DATA_PATH_ES` est le chemin vers le repertoire de persistance elasticsearch (non monté en NFS)
  * `DB_BACKUPS_PATH` est le chemin vers le répertoire où seront placés les backups de base de données lors des livraisons
@@ -177,7 +177,7 @@ $ sh 1_prepare-delivery.sh
 **Notes**
 Etapes du script de préparation :
 1. Export des variables d'environnement contenues dans le fichier `.env`
-2. Build de l'image `elasticsearch-ems`. L'image ne sera pas recrée si elle existait déjà dans le même état (même build id), toutefois s'il y a la moindre modification des fichiers la composant, elle sera rebuildée.
+2. Build de l'image `elasticsearch-ems`. L'image ne sera pas recrée si elle existe déjà dans le même état (même build id), toutefois s'il y a la moindre modification des fichiers la composant, elle sera rebuildée.
 3. Push de l'image `elasticsearch-ems` sur le registry `REGISTRY_ADDRESS` indiqué dans le fichier `.env` permettant ainsi à tous les noeuds de récupérer la même version de l'image.
 4. Création de l'image `liferay-ems` ayant pour tag `LFR_TAG_VERSION` indiqué dans le fichier `.env`. Ce tag servira aussi à récupérer les ressources EMS (modules, layouts, thèmes) présentes dans le dossier "./images/liferay-ems/dist/`LFR_TAG_VERSION`". Les mêmes principes que l'image `elasticsearch-ems`sont appliqués.
 5. Push de l'image `liferay-ems` sur les mêmes principes que l'image `elasticsearch-ems`.
@@ -190,7 +190,7 @@ $ sh 3_startup-services.sh
 
 **Notes**
 Etapes du script de lancement :
-1. Lancement de la ttalité des services contenus dans le fichier `docker-compose.yml`.
+1. Lancement de la totalité des services contenus dans le fichier `docker-compose.yml`.
 2. Visualisation des services lancés.
 
 Suivre les logs d'un service via la commande suivante en remplaçant `SERVICE_ID` par celui récupéré avec `docker service ls` (dernière commande lancée par le script `startup.sh`) :
