@@ -86,7 +86,7 @@ public interface StrasbourgService extends BaseService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getCategoriesByClassNameAndGroupIds(
-		long[] groupIds, String classname);
+		long[] groupIds, String className);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getCoordinateForAddress(String address);
@@ -147,10 +147,19 @@ public interface StrasbourgService extends BaseService {
 		long parentCategoryId, String localeId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getStructuresByGroupIds(long[] groupIds);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getTagsByGroupIds(long[] groupIds);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getTemplatesByClassPk(long classPK);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getTraffic();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getVocabulariesByGroupIds(long[] groupIds);
 
 	public void hidePortlet(String portletId);
 

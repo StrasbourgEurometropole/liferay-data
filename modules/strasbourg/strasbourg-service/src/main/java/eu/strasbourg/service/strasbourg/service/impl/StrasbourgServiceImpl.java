@@ -30,6 +30,11 @@ import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.model.DDMStructure;
+import com.liferay.dynamic.data.mapping.model.DDMTemplate;
+import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
+import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalArticleDisplay;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -44,6 +49,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -534,6 +540,44 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	}
 
 	@Override
+	public JSONArray getStructuresByGroupIds(long[] groupIds) {
+		JSONArray structuresJson = JSONFactoryUtil.createJSONArray();
+
+		if(groupIds.length > 0) {
+			// récupère le classNameId des contenu web
+			long classNameId = ClassNameLocalServiceUtil.getClassNameId(JournalArticle.class.getName());
+
+			// récupère les structures du group
+			List<DDMStructure> structures = DDMStructureLocalServiceUtil.getStructures(groupIds, classNameId);
+			for (DDMStructure structure : structures) {
+				Group group = GroupLocalServiceUtil.fetchGroup(structure.getGroupId());
+				JSONObject structureJson = JSONFactoryUtil.createJSONObject();
+				structureJson.put("id", structure.getStructureId());
+				structureJson.put("value", structure.getNameCurrentValue() + " (" + group.getNameCurrentValue() + ")");
+				structuresJson.put(structureJson);
+			}
+		}
+		return structuresJson;
+	}
+
+	@Override
+	public JSONArray getTemplatesByClassPk(long classPK) {
+		JSONArray templatessJson = JSONFactoryUtil.createJSONArray();
+
+		if(Validator.isNotNull(classPK)) {
+			// récupère les templates du group
+			List<DDMTemplate> templates = DDMTemplateLocalServiceUtil.getTemplates(classPK);
+			for (DDMTemplate template : templates) {
+				JSONObject templateJson = JSONFactoryUtil.createJSONObject();
+				templateJson.put("id", template.getTemplateId());
+				templateJson.put("value", template.getNameCurrentValue());
+				templatessJson.put(templateJson);
+			}
+		}
+		return templatessJson;
+	}
+
+	@Override
 	public JSONArray getTagsByGroupIds(long[] groupIds) {
 		JSONArray tagsJson = JSONFactoryUtil.createJSONArray();
 
@@ -565,13 +609,13 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 
 	@Override
 	public JSONArray getCategoriesByClassNameAndGroupIds(long[] groupIds,
-														 String classname) {
+														 String className) {
 		JSONArray categoriesJson = JSONFactoryUtil.createJSONArray();
 
-		if(Validator.isNotNull(classname) && groupIds.length>0) {
+		if(Validator.isNotNull(className) && groupIds.length>0) {
 
 			// récupère les vocabulaires d'un className et des groupIds
-			List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getGroupsVocabularies(groupIds, classname);
+			List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getGroupsVocabularies(groupIds, className);
 			for (AssetVocabulary vocabulary : vocabularies) {
 				// récupère le groupe de la catégorie
 				Group group = GroupLocalServiceUtil.fetchGroup(vocabulary.getGroupId());
@@ -609,6 +653,37 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 			}
 		}
 		return categoriesJson;
+	}
+
+	@Override
+	public JSONArray getVocabulariesByGroupIds(long[] groupIds) {
+		JSONArray vocabulariesJson = JSONFactoryUtil.createJSONArray();
+
+		// récupère les groups
+		for (long groupId : groupIds) {
+			// récupère le groupe du tag
+			Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+
+			JSONObject groupJson = JSONFactoryUtil.createJSONObject();
+			groupJson.put("label", "<font style='color: #00bcd4;'><strong>" + group.getNameCurrentValue() + "</strong></font>");
+			JSONArray choicesJson = JSONFactoryUtil.createJSONArray();
+
+			// récupère les tags du group
+			try {
+				List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getGroupVocabularies(groupId);
+				for (AssetVocabulary vocabulary : vocabularies) {
+					JSONObject vocabularyJson = JSONFactoryUtil.createJSONObject();
+					vocabularyJson.put("value", vocabulary.getVocabularyId());
+					vocabularyJson.put("label", "<strong>" + vocabulary.getTitleCurrentValue() + "</strong><i> (" + group.getNameCurrentValue() + ")</i>");
+					choicesJson.put(vocabularyJson);
+				}
+				groupJson.put("choices", choicesJson);
+				vocabulariesJson.put(groupJson);
+			} catch (PortalException e) {
+				e.printStackTrace();
+			}
+		}
+		return vocabulariesJson;
 	}
 
 	private boolean isAuthorized() {

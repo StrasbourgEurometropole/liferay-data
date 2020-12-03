@@ -51,40 +51,12 @@
                 <aui:fieldset collapsed="true" collapsible="true" label="search-criterias">
 
                     <liferay-ui:message key="vocabularies-explanations" />
-                    <aui:input type="hidden" name="vocabulariesCount" value="${fn:length(vocabularies)}" />
+                    <aui:input type="hidden" name="nbCriteresRecherche" value="0" />
 
-                    <!-- CHAMP : Vocabulaires proposés à l'utilisateur pour la recherche -->
-                    <c:set var="i" value="${0}" />
-                    <c:forEach var="vocabulary" items="${vocabularies}"  varStatus="vocStatus">
+                    <div  id="critereRecherche-content">
+                    </div>
 
-                        <c:set var="vocabularyIsChecked"
-                            value="${fn:contains(vocabulariesIds, vocabulary.vocabularyId)}" />
-
-                        <div class="vocabulary-configuration">
-                            <c:set var="vocabularyLabel" value="${vocabulary.name}" />
-                            <c:if test="${vocabulary.groupId eq themeDisplay.companyGroupId}">
-                                <c:set var="vocabularyLabel" value="${vocabularyLabel.concat(' (global)')}" />
-                            </c:if>
-                            <aui:input type="checkbox" name="vocabularyId_${vocStatus.index}"
-                                label="${vocabularyLabel}" value="${vocabulary.vocabularyId}"
-                                checked="${fn:contains(vocabulariesIds, vocabulary.vocabularyId)}"
-                                inlineField="true" />
-
-                            <aui:select name="vocabularyControlType_${vocStatus.index}"
-                                inlineField="true">
-                                <aui:option value="list"
-                                    selected="${vocabularyIsChecked ? vocabulariesControlTypes[i] eq 'list' : 'false'}">Liste d&eacute;roulante</aui:option>
-                                <aui:option value="radio"
-                                    selected="${vocabularyIsChecked ? vocabulariesControlTypes[i] eq 'radio' : 'false'}">Boutons radios</aui:option>
-                                <aui:option value="check"
-                                    selected="${vocabularyIsChecked ? vocabulariesControlTypes[i] eq 'check' : 'false'}">Checkboxes</aui:option>
-                            </aui:select>
-                        </div>
-
-                        <c:if test="${vocabularyIsChecked}">
-                            <c:set var="i" value="${i + 1}" />
-                        </c:if>
-                    </c:forEach>
+                    <aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addCritereRecherche();"/>
 
                     <!-- CHAMP : Affichage du filtre par date -->
                     <div>
@@ -143,6 +115,11 @@
 
                 <!-- GROUPE : Tris -->
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.sorting">
+
+                    <!-- CHAMP : Tri aléatoire -->
+                    <div>
+                        <aui:input type="checkbox" name="randomSort" value="${randomSort}" label="random-sort" />
+                    </div>
 
                     <aui:row id="ordering">
                     	<aui:col width="<%= 50 %>">
@@ -377,6 +354,7 @@
 	        var assetTypeNames = '${dc.availableAssetTypeNamesString}';
 	        var assetTemplates = ${dc.availableAssetTemplates};
          	var scopesJson = ${dc.availableScopes};
+         	var vocabulariesControlTypes = ${dc.configurationData.vocabulariesControlTypesJSON};
    	</script>
 </liferay-util:html-top>
 
@@ -385,6 +363,7 @@
     <script src="/o/searchassetv2web/js/vendors/choices.min.js"></script>
     <script src="/o/searchassetv2web/js/bloc-asset-type-configuration.js"></script>
     <script src="/o/searchassetv2web/js/bloc-prefilter-configuration.js"></script>
+    <script src="/o/searchassetv2web/js/bloc-critere-recherche-configuration.js"></script>
     <script src="/o/searchassetv2web/js/searchassetv2web-config.js"></script>
     <link href="/o/searchassetv2web/css/search-asset-configuration.css" rel="stylesheet"></script>
     <link href="/o/searchassetv2web/css/vendors/choices.min.css" rel="stylesheet">

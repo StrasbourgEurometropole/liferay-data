@@ -444,6 +444,38 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static String getStructuresByGroupIds(long[] groupIds)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getStructuresByGroupIds(groupIds);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static String getTemplatesByClassPk(long classPK)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getTemplatesByClassPk(classPK);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static String getTagsByGroupIds(long[] groupIds)
 		throws RemoteException {
 
@@ -461,13 +493,29 @@ public class StrasbourgServiceSoap {
 	}
 
 	public static String getCategoriesByClassNameAndGroupIds(
-			long[] groupIds, String classname)
+			long[] groupIds, String className)
 		throws RemoteException {
 
 		try {
 			com.liferay.portal.kernel.json.JSONArray returnValue =
 				StrasbourgServiceUtil.getCategoriesByClassNameAndGroupIds(
-					groupIds, classname);
+					groupIds, className);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static String getVocabulariesByGroupIds(long[] groupIds)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getVocabulariesByGroupIds(groupIds);
 
 			return returnValue.toString();
 		}

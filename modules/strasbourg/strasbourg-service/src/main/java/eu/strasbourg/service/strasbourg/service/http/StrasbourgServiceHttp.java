@@ -743,13 +743,72 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray
+		getStructuresByGroupIds(HttpPrincipal httpPrincipal, long[] groupIds) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				StrasbourgServiceUtil.class, "getStructuresByGroupIds",
+				_getStructuresByGroupIdsParameterTypes25);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, groupIds);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray
+		getTemplatesByClassPk(HttpPrincipal httpPrincipal, long classPK) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				StrasbourgServiceUtil.class, "getTemplatesByClassPk",
+				_getTemplatesByClassPkParameterTypes26);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, classPK);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static com.liferay.portal.kernel.json.JSONArray getTagsByGroupIds(
 		HttpPrincipal httpPrincipal, long[] groupIds) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getTagsByGroupIds",
-				_getTagsByGroupIdsParameterTypes25);
+				_getTagsByGroupIdsParameterTypes27);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds);
@@ -775,16 +834,47 @@ public class StrasbourgServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONArray
 		getCategoriesByClassNameAndGroupIds(
-			HttpPrincipal httpPrincipal, long[] groupIds, String classname) {
+			HttpPrincipal httpPrincipal, long[] groupIds, String className) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class,
 				"getCategoriesByClassNameAndGroupIds",
-				_getCategoriesByClassNameAndGroupIdsParameterTypes26);
+				_getCategoriesByClassNameAndGroupIdsParameterTypes28);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, groupIds, classname);
+				methodKey, groupIds, className);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray
+		getVocabulariesByGroupIds(
+			HttpPrincipal httpPrincipal, long[] groupIds) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				StrasbourgServiceUtil.class, "getVocabulariesByGroupIds",
+				_getVocabulariesByGroupIdsParameterTypes29);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, groupIds);
 
 			Object returnObj = null;
 
@@ -864,11 +954,17 @@ public class StrasbourgServiceHttp {
 		String.class, String.class, String.class, String.class, String.class,
 		String.class
 	};
-	private static final Class<?>[] _getTagsByGroupIdsParameterTypes25 =
+	private static final Class<?>[] _getStructuresByGroupIdsParameterTypes25 =
+		new Class[] {long[].class};
+	private static final Class<?>[] _getTemplatesByClassPkParameterTypes26 =
+		new Class[] {long.class};
+	private static final Class<?>[] _getTagsByGroupIdsParameterTypes27 =
 		new Class[] {long[].class};
 	private static final Class<?>[]
-		_getCategoriesByClassNameAndGroupIdsParameterTypes26 = new Class[] {
+		_getCategoriesByClassNameAndGroupIdsParameterTypes28 = new Class[] {
 			long[].class, String.class
 		};
+	private static final Class<?>[] _getVocabulariesByGroupIdsParameterTypes29 =
+		new Class[] {long[].class};
 
 }

@@ -73,10 +73,10 @@ public class StrasbourgServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray
-		getCategoriesByClassNameAndGroupIds(long[] groupIds, String classname) {
+		getCategoriesByClassNameAndGroupIds(long[] groupIds, String className) {
 
 		return _strasbourgService.getCategoriesByClassNameAndGroupIds(
-			groupIds, classname);
+			groupIds, className);
 	}
 
 	@Override
@@ -194,6 +194,13 @@ public class StrasbourgServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray getStructuresByGroupIds(
+		long[] groupIds) {
+
+		return _strasbourgService.getStructuresByGroupIds(groupIds);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONArray getTagsByGroupIds(
 		long[] groupIds) {
 
@@ -201,8 +208,22 @@ public class StrasbourgServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray getTemplatesByClassPk(
+		long classPK) {
+
+		return _strasbourgService.getTemplatesByClassPk(classPK);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getTraffic() {
 		return _strasbourgService.getTraffic();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getVocabulariesByGroupIds(
+		long[] groupIds) {
+
+		return _strasbourgService.getVocabulariesByGroupIds(groupIds);
 	}
 
 	@Override

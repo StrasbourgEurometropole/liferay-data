@@ -10,6 +10,8 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
+import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -61,13 +63,15 @@ public class SearchAssetConfigurationDisplayContext {
         return assetData;
     }
 
-    // TODO Ajouter cas particuliers : JournalArticle (Contenu web), Documents (Fichiers) , Démarches (procédures)
     // Retourne la liste des types de contenus disponibles
     public List<String> getAvailableAssetTypeNames() {
         List<String> availableAssetTypeNames = new ArrayList<>();
         for (AssetRendererFactory assetRendererFactory : this.availableAssetRendererFactories) {
             availableAssetTypeNames.add(assetRendererFactory.getClassName());
         }
+        availableAssetTypeNames.add("searchJournalArticle");
+        availableAssetTypeNames.add("searchDocument");
+        availableAssetTypeNames.add("searchDemarche");
         return availableAssetTypeNames;
     }
 
@@ -120,6 +124,21 @@ public class SearchAssetConfigurationDisplayContext {
             }
             availableAssetTemplates.put(className, templatesJson);
         }
+
+        // ajoute les templates de fichiers
+        long documentClassNameId = ClassNameLocalServiceUtil
+                .getClassNameId(FileEntry.class);
+        List<DDMTemplate> documentTemplates = DDMTemplateLocalServiceUtil
+                .getTemplates(themeDisplay.getScopeGroupId(),
+                        documentClassNameId);
+        JSONArray templatesJson = JSONFactoryUtil.createJSONArray();
+        for (DDMTemplate template: documentTemplates) {
+            JSONObject templateJson = JSONFactoryUtil.createJSONObject();
+            templateJson.put("id", template.getTemplateId());
+            templateJson.put("value", template.getName(Locale.FRANCE));
+            templatesJson.put(templateJson);
+        }
+        availableAssetTemplates.put("searchDocument",templatesJson);
         return availableAssetTemplates;
     }
 

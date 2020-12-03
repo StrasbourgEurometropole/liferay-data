@@ -76,10 +76,10 @@ public class StrasbourgServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
-		getCategoriesByClassNameAndGroupIds(long[] groupIds, String classname) {
+		getCategoriesByClassNameAndGroupIds(long[] groupIds, String className) {
 
 		return getService().getCategoriesByClassNameAndGroupIds(
-			groupIds, classname);
+			groupIds, className);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
@@ -179,14 +179,32 @@ public class StrasbourgServiceUtil {
 		return getService().getPracticeCategories(parentCategoryId, localeId);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray
+		getStructuresByGroupIds(long[] groupIds) {
+
+		return getService().getStructuresByGroupIds(groupIds);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONArray getTagsByGroupIds(
 		long[] groupIds) {
 
 		return getService().getTagsByGroupIds(groupIds);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray
+		getTemplatesByClassPk(long classPK) {
+
+		return getService().getTemplatesByClassPk(classPK);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getTraffic() {
 		return getService().getTraffic();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray
+		getVocabulariesByGroupIds(long[] groupIds) {
+
+		return getService().getVocabulariesByGroupIds(groupIds);
 	}
 
 	public static void hidePortlet(String portletId) {

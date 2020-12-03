@@ -18,6 +18,24 @@
             </c:forEach>
         </aui:select>
 
+        <!-- Portée -->
+        <aui:fieldset collapsed="false" collapsible="true" label="scope" id="scope${param.index}">
+            <liferay-ui:message key="scope-explanations" />
+            <select class="form-control" name="<portlet:namespace />scopeIds_${param.index}"
+                    id="<portlet:namespace />scopeIds_${param.index}" multiple onChange="reinitializePrefiltersStructureAndVocabularies(${param.index})">
+                <option placeholder><liferay-ui:message key="select-scopes" /></option>
+            </select>
+        </aui:fieldset>
+
+        <!-- Structure -->
+        <aui:fieldset collapsed="false" collapsible="true" label="structure" id="structure${param.index}" style="display: none;">
+            <aui:select id="structure_${param.index}" name="structure_${param.index}" label="" inlineField="true" onChange="reinitializeTemplate(${param.index})">
+                <aui:option value="${false}" selected="true">
+                    <liferay-ui:message key="select-a-structure"/>
+                </aui:option>
+            </aui:select>
+        </aui:fieldset>
+
         <!-- Template et URL -->
         <aui:fieldset collapsed="false" collapsible="true" label="template-and-url" id="template-and-url${param.index}">
             <aui:select id="templateKey_${param.index}" name="templateKey_${param.index}" label="" inlineField="true">
@@ -26,15 +44,6 @@
                 </aui:option>
             </aui:select>
             <aui:input id="friendlyUrl_${param.index}" name="friendlyUrl_${param.index}" label="" type="text" placeholder="detail-friendly-url" inlineField="true"/>
-        </aui:fieldset>
-
-        <!-- Portée -->
-        <aui:fieldset collapsed="false" collapsible="true" label="scope" id="scope${param.index}">
-            <liferay-ui:message key="scope-explanations" />
-            <select class="form-control" name="<portlet:namespace />scopeIds_${param.index}"
-                    id="<portlet:namespace />scopeIds_${param.index}"multiple onChange="reinitializePrefilter(${param.index})">
-                <option placeholder><liferay-ui:message key="select-scopes" /></option>
-            </select>
         </aui:fieldset>
 
         <!-- Préfiltre -->
