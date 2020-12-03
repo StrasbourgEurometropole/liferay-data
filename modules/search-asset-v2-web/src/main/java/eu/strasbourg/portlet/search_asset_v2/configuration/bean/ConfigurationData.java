@@ -67,7 +67,7 @@ public class ConfigurationData {
             String friendlyURL = ParamUtil.getString(this.request,
                     ConfigurationConstants.PARAM_FRIENDLY_URL + "_" + assetTypeIndex);
             Long[] scopeGroupIDs = ArrayUtils.toObject(ParamUtil.getLongValues(this.request,
-                    ConfigurationConstants.PARAM_SCOPE_GROUP_IDS + "_" + assetTypeIndex));
+                    ConfigurationConstants.PARAM_SCOPE_IDS + "_" + assetTypeIndex));
 
             // Asset prefilter repeatable field
             String assetPrefiltersIndexes = ParamUtil.getString(this.request,
@@ -76,19 +76,14 @@ public class ConfigurationData {
 
             for (String assetPrefiltersIndex : assetPrefiltersIndexes.split(",")) {
                 boolean contains = ParamUtil.getBoolean(this.request,
-                        ConfigurationConstants.PARAM_CONTAINS + "_" + assetTypeIndex + "_" + assetPrefiltersIndex);
+                        ConfigurationConstants.PARAM_INCLUDE_EXCLUDE + "_" + assetTypeIndex + "_" + assetPrefiltersIndex);
                 String operator =  ParamUtil.getString(this.request,
-                        ConfigurationConstants.PARAM_OPERATOR + "_" + assetTypeIndex + "_" + assetPrefiltersIndex);
+                        ConfigurationConstants.PARAM_ALL_ANY + "_" + assetTypeIndex + "_" + assetPrefiltersIndex);
                 String type = ParamUtil.getString(this.request,
-                        ConfigurationConstants.PARAM_TYPE + "_" + assetTypeIndex + "_" + assetPrefiltersIndex);
+                        ConfigurationConstants.PARAM_CATEGORIES_OR_TAGS + "_" + assetTypeIndex + "_" + assetPrefiltersIndex);
                 Long[] categoryOrTagIdList;
-                if (type.equals(ConfigurationConstants.TYPE_TAG))
-                    categoryOrTagIdList = ArrayUtils.toObject(ParamUtil.getLongValues(this.request,
-                            ConfigurationConstants.PARAM_TAGS_IDS + "_" + assetTypeIndex + "_" + assetPrefiltersIndex));
-                else
-                    categoryOrTagIdList = ArrayUtils.toObject(ParamUtil.getLongValues(this.request,
-                            ConfigurationConstants.PARAM_CATEGORIES_IDS + "_" + assetTypeIndex + "_" + assetPrefiltersIndex));
-
+                categoryOrTagIdList = ArrayUtils.toObject(ParamUtil.getLongValues(this.request,
+                            ConfigurationConstants.PARAM_PREFILTER_SELECTION + "_" + assetTypeIndex + "_" + assetPrefiltersIndex));
                 assetPrefilterDataList.add(
                         new ConfigurationAssetPrefilterData(
                             contains, operator, type, Arrays.asList(categoryOrTagIdList)
@@ -150,7 +145,7 @@ public class ConfigurationData {
                     String templateKey = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_TEMPLATE_KEY);
                     String friendlyURL = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_FRIENDLY_URL);
                     Long[] scopeGroupIDs = ArrayUtils.toObject(JSONHelper.convertJSONArraytoLongArray(
-                            jsonAssetType.getJSONArray(ConfigurationConstants.JSON_ASSET_SCOPE_GROUP_IDS)));
+                            jsonAssetType.getJSONArray(ConfigurationConstants.JSON_ASSET_SCOPE_IDS)));
 
                     assetPrefilterDataList = new ArrayList<>();
                     // TODO remplir les prefiltres

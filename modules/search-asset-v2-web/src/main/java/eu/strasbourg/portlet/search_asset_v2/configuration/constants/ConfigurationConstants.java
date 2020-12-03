@@ -1,13 +1,6 @@
 package eu.strasbourg.portlet.search_asset_v2.configuration.constants;
 
 public class ConfigurationConstants {
-
-    /** Form param */
-    // Old
-    public static final String PARAM_SCOPE_GROUP_IDS = "scopeGroupIds";
-    public static final String PARAM_CONTAINS = "contains";
-    public static final String PARAM_OPERATOR = "operator";
-
     public static final String PARAM_ASSET_TYPES_INDEXES = "assetTypesIndexes";
     public static final String PARAM_CLASSNAME = "classname";
     public static final String PARAM_TEMPLATE_KEY = "templateKey";
@@ -16,9 +9,9 @@ public class ConfigurationConstants {
     public static final String PARAM_SCOPE_IDS = "scopeIds";
     public static final String PARAM_INCLUDE_EXCLUDE = "includeOrExclude";
     public static final String PARAM_ALL_ANY = "allOrAny";
-    public static final String PARAM_TYPE = "type";
-    public static final String PARAM_TAGS_IDS = "tagsIds";
-    public static final String PARAM_CATEGORIES_IDS = "categoriesIds";
+    public static final String PARAM_CATEGORIES_OR_TAGS = "categoriesOrTags";
+    public static final String PARAM_PREFILTER_SELECTION = "prefilterChoices";
+
     public static final String PARAM_VOCABULARIES_COUNT = "vocabulariesCount";
     public static final String PARAM_VOCABULARIES_IDS = "vocabularyId";
     public static final String PARAM_VOCABULARIES_CONTROL_TYPE_IDS = "vocabularyControlType";
@@ -44,16 +37,16 @@ public class ConfigurationConstants {
     public static final String JSON_ASSET_CLASSNAME = "classname";
     public static final String JSON_ASSET_TEMPLATE_KEY = "templateKey";
     public static final String JSON_ASSET_FRIENDLY_URL = "friendlyURL";
-    public static final String JSON_ASSET_SCOPE_GROUP_IDS = "scopeGroupIds";
+    public static final String JSON_ASSET_SCOPE_IDS = "scopeIds";
     public static final String JSON_ASSET_PREFILTERS = "prefilters";
     // Configuration Asset Prefilter Data
-    public static final String JSON_ASSET_PREFILTER_CONTAINS = "contains";
-    public static final String JSON_ASSET_PREFILTER_OPERATOR = "operator";
-    public static final String JSON_ASSET_PREFILTER_TYPE = "type";
+    public static final String JSON_ASSET_PREFILTER_INCLUDE_EXCLUDE = "contains";
+    public static final String JSON_ASSET_PREFILTER_ALL_ANY = "operator";
+    public static final String JSON_ASSET_PREFILTER_CATEGORIES_OR_TAGS = "type";
     public static final String JSON_ASSET_PREFILTER_SELECTION = "selection";
 
-    public static final String TYPE_TAG = "tag";
-    public static final String TYPE_CATEGORY = "category";
+    public static final String TYPE_TAG = "tags";
+    public static final String TYPE_CATEGORY = "categories";
     // Configuration Vocabularies Data
     public static final String JSON_VOCABULARIES_CONTROL_TYPES = "vocabulariesControlTypes";
     public static final String JSON_VOCABULARY_ID = "vocabularyId";

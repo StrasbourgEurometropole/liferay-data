@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class ConfigurationAssetPrefilterData {
 
-    private boolean contains;
+    private boolean includeOrExclude;
     private String operator;
     private String type;
     private List<Long> categoryOrTagIdList;
@@ -20,9 +20,9 @@ public class ConfigurationAssetPrefilterData {
     /**
      * @param operator "and" / "or"
      */
-    public ConfigurationAssetPrefilterData(Boolean contains, String operator, String type,
+    public ConfigurationAssetPrefilterData(Boolean includeOrExclude, String operator, String type,
                                            List<Long> categoryOrTagIdList) {
-        this.contains = contains;
+        this.includeOrExclude = includeOrExclude;
         this.operator = operator;
         this.type = type;
         this.categoryOrTagIdList = categoryOrTagIdList;
@@ -30,16 +30,16 @@ public class ConfigurationAssetPrefilterData {
 
     public JSONObject toJSON() {
         JSONObject result = JSONFactoryUtil.createJSONObject();
-        result.put(ConfigurationConstants.JSON_ASSET_PREFILTER_CONTAINS, this.contains);
-        result.put(ConfigurationConstants.JSON_ASSET_PREFILTER_OPERATOR, this.operator);
-        result.put(ConfigurationConstants.JSON_ASSET_PREFILTER_TYPE, this.type);
+        result.put(ConfigurationConstants.JSON_ASSET_PREFILTER_INCLUDE_EXCLUDE, this.includeOrExclude);
+        result.put(ConfigurationConstants.JSON_ASSET_PREFILTER_ALL_ANY, this.operator);
+        result.put(ConfigurationConstants.JSON_ASSET_PREFILTER_CATEGORIES_OR_TAGS, this.type);
         JSONArray jsonCategoryOrTagIdList = JSONFactoryUtil.createJSONArray(this.categoryOrTagIdList);
         result.put(ConfigurationConstants.JSON_ASSET_PREFILTER_SELECTION, jsonCategoryOrTagIdList);
         return result;
     }
 
-    public boolean isContains() {
-        return contains;
+    public boolean isIncludeOrExclude() {
+        return includeOrExclude;
     }
 
     public String getOperator() {

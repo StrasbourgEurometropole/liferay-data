@@ -33,7 +33,7 @@ public class ConfigurationAssetData {
         result.put(ConfigurationConstants.JSON_ASSET_TEMPLATE_KEY, this.templateKey);
         result.put(ConfigurationConstants.JSON_ASSET_FRIENDLY_URL, this.friendlyURL);
         JSONArray jsonSelection = JSONFactoryUtil.createJSONArray(this.scopeGroupIDs);
-        result.put(ConfigurationConstants.JSON_ASSET_SCOPE_GROUP_IDS, jsonSelection);
+        result.put(ConfigurationConstants.JSON_ASSET_SCOPE_IDS, jsonSelection);
         JSONArray jsonPrefilters = JSONFactoryUtil.createJSONArray();
         for (ConfigurationAssetPrefilterData prefilter : this.assetPrefilterDataList)
             jsonPrefilters.put(prefilter.toJSON());
