@@ -21,7 +21,7 @@ Bundle-ClassPath: \
  lib/poi-ooxml.jar=poi-ooxml-3.17.jar,\
  lib/curvesapi.jar=curvesapi-1.04.jar,\
  lib/poi-ooxml-schemas.jar=poi-ooxml-schemas-3.17.jar,\
- lib/xmlbeans.jar=xmlbeans-2.6.0.jar,\
+ lib/xmlbeans.jar=xmlbeans-3.1.0.jar,\
  lib/xmlbeans.jar=commons-net-3.5.jar,\
  lib/jsch.jar=jsch-0.1.54.jar,\
 
