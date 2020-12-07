@@ -2,7 +2,6 @@ package eu.strasbourg.portlet.search_asset_v2.configuration;
 
 import aQute.bnd.annotation.metatype.Meta;
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
-import com.liferay.portal.kernel.util.StringUtil;
 
 @ExtendedObjectClassDefinition(
 	category = "Strasbourg",
@@ -27,10 +26,10 @@ public interface SearchAssetConfiguration {
 
 	@Meta.AD(name = "layoutsFriendlyURLs", required = false)
 	public String layoutsFriendlyURLs();
-	
+
 	@Meta.AD(name = "searchJournalArticle", required = false)
 	public boolean searchJournalArticle();
-	
+
 	@Meta.AD(name = "journalArticleTemplateKey", required = false)
 	public String journalArticleTemplateKey();
 
@@ -42,28 +41,28 @@ public interface SearchAssetConfiguration {
 
 	@Meta.AD(name = "prefilterTagsNames", required = false)
 	public String prefilterTagsNames();
-	
+
 	@Meta.AD(name = "defaultSortField", required = false, deflt = "modified_sortable")
 	public String defaultSortField();
 
 	@Meta.AD(name = "defaultSortType", required = false, deflt = "desc")
 	public String defaultSortType();
-	
+
 	@Meta.AD(name = "defaultDateRange", required = false, deflt = "31")
 	public long defaultDateRange();
-	
+
 	@Meta.AD(name = "searchDocument", required = false)
 	public boolean searchDocument();
-	
+
 	@Meta.AD(name = "documentTemplateKey", required = false)
 	public String documentTemplateKey();
-	
+
 	@Meta.AD(name = "globalScope", required = false)
 	public boolean globalScope();
-	
+
 	@Meta.AD(name = "dateField", required = false)
 	public boolean dateField();
-	
+
 	@Meta.AD(name = "displayDateSorting", required = false, deflt = "false")
 	public boolean displayDateSorting();
 
@@ -98,6 +97,9 @@ public interface SearchAssetConfiguration {
 
 	@Meta.AD(name = "defaultFilterDateRange", required = false, deflt = "31")
 	public long defaultFilterDateRange();
+
+	@Meta.AD(name = "randomSort", required = false, deflt = "false")
+	public boolean randomSort();
 
 	@Meta.AD(name = "firstSortingField", required = false, deflt = "modified_sortable")
 	public String firstSortingField();

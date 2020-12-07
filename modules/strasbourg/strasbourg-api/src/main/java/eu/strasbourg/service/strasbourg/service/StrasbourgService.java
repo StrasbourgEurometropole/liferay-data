@@ -150,6 +150,10 @@ public interface StrasbourgService extends BaseService {
 	public JSONArray getStructuresByGroupIds(long[] groupIds);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getTagsAndCategoriesByGroupIdsAndClassName(
+		long[] groupIds, String className);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getTagsByGroupIds(long[] groupIds);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

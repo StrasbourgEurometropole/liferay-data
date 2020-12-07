@@ -578,6 +578,15 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	}
 
 	@Override
+	public JSONObject getTagsAndCategoriesByGroupIdsAndClassName(long[] groupIds,
+																String className) {
+		JSONObject json = JSONFactoryUtil.createJSONObject();
+		json.put("tags", getTagsByGroupIds(groupIds));
+		json.put("categories", getCategoriesByClassNameAndGroupIds(groupIds, className));
+		return json;
+	}
+
+	@Override
 	public JSONArray getTagsByGroupIds(long[] groupIds) {
 		JSONArray tagsJson = JSONFactoryUtil.createJSONArray();
 

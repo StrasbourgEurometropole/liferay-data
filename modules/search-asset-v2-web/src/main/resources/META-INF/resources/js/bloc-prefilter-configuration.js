@@ -1,13 +1,12 @@
 var blocPrefilter = "" +
-"<div style='margin: 20px 0;'></div>" +
 "<div id='prefilter%%INDEXTYPE%%_%%INDEXPREFILTRE%%'>" +
     "<input class='field form-control' id='" + namespace + "numPrefiltre%%INDEXTYPE%%_%%INDEXPREFILTRE%%' name='" + namespace + "numPrefiltre%%INDEXTYPE%%_%%INDEXPREFILTRE%%' type='hidden' value='%%INDEXPREFILTRE%%'>" +
     "<div class='form-group form-group-inline input-select-wrapper'>" +
         "<select class='form-control' id='" + namespace + "includeOrExclude_%%INDEXTYPE%%_%%INDEXPREFILTRE%%' name='" + namespace + "includeOrExclude_%%INDEXTYPE%%_%%INDEXPREFILTRE%%' title='include-or-exclude_%%INDEXTYPE%%_%%INDEXPREFILTRE%%'>" +
-            "<option class='' selected='' value='contains'>" +
+            "<option class='' selected='' value='true'>" +
                 Liferay.Language.get('eu.search.asset.web.configuration.contains') +
             "</option>" +
-            "<option class='' value='notContains'>" +
+            "<option class='' value='false'>" +
                 Liferay.Language.get('eu.search.asset.web.configuration.notContains') +
             "</option>" +
         "</select>" +
@@ -24,7 +23,7 @@ var blocPrefilter = "" +
     "</div>     " +
     "<span class='form-group form-group-inline'>parmi</span>     " +
     "<div class='form-group form-group-inline input-select-wrapper'>" +
-        "<select class='form-control' id='" + namespace + "categoriesOrTags_%%INDEXTYPE%%_%%INDEXPREFILTRE%%' name='" + namespace + "categoriesOrTags_%%INDEXTYPE%%_%%INDEXPREFILTRE%%' onchange='updatePrefilterChoices(this)' title='categories-or-tags_%%INDEXTYPE%%_%%INDEXPREFILTRE%%'>" +
+        "<select class='form-control' id='" + namespace + "categoriesOrTags_%%INDEXTYPE%%_%%INDEXPREFILTRE%%' name='" + namespace + "categoriesOrTags_%%INDEXTYPE%%_%%INDEXPREFILTRE%%' onchange='updatePrefilter(this)' title='categories-or-tags_%%INDEXTYPE%%_%%INDEXPREFILTRE%%'>" +
             "<option class='' value='categories'>" +
                 Liferay.Language.get('eu.search.asset.web.configuration.categories') +
             "</option>" +
@@ -34,7 +33,8 @@ var blocPrefilter = "" +
         "</select>" +
     "</div>     " +
     "<button class='form-group btn btn-icon icon icon-trash icon-2x btn-default' id='" + namespace + "meht' onclick='deletePrefilter(%%INDEXTYPE%%,%%INDEXPREFILTRE%%);' type='button'></button>" +
-    "<select class='form-control' name='" + namespace + "prefilterChoices_%%INDEXTYPE%%_%%INDEXPREFILTRE%%' id='" + namespace + "prefilterChoices_%%INDEXTYPE%%_%%INDEXPREFILTRE%%' multiple=''>" +
+    "<select class='form-control' name='" + namespace + "prefilterIds_%%INDEXTYPE%%_%%INDEXPREFILTRE%%' id='" + namespace + "prefilterIds_%%INDEXTYPE%%_%%INDEXPREFILTRE%%' multiple=''>" +
         "<option placeholder>" + Liferay.Language.get('select-prefilters') +"</option>" +
     "</select>" +
-"</div>";
+"</div>" +
+"<div style='margin: 20px 0;'></div>";

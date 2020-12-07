@@ -185,6 +185,14 @@ public class StrasbourgServiceUtil {
 		return getService().getStructuresByGroupIds(groupIds);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject
+		getTagsAndCategoriesByGroupIdsAndClassName(
+			long[] groupIds, String className) {
+
+		return getService().getTagsAndCategoriesByGroupIdsAndClassName(
+			groupIds, className);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONArray getTagsByGroupIds(
 		long[] groupIds) {
 

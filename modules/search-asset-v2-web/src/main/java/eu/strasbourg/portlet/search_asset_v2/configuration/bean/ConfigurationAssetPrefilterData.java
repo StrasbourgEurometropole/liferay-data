@@ -54,4 +54,12 @@ public class ConfigurationAssetPrefilterData {
         return categoryOrTagIdList;
     }
 
+    public JSONArray getCategoryOrTagIdsJSON() {
+        JSONArray CategoryOrTagIdsjson = JSONFactoryUtil.createJSONArray();
+        for (Long categoryOrTagId : this.getCategoryOrTagIdList()) {
+            CategoryOrTagIdsjson.put(""+categoryOrTagId);
+        }
+        return CategoryOrTagIdsjson;
+    }
+
 }

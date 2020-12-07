@@ -476,6 +476,25 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static String getTagsAndCategoriesByGroupIdsAndClassName(
+			long[] groupIds, String className)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.
+					getTagsAndCategoriesByGroupIdsAndClassName(
+						groupIds, className);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static String getTagsByGroupIds(long[] groupIds)
 		throws RemoteException {
 

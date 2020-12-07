@@ -31,6 +31,7 @@ public class ConfigurationData {
     private String boostTagsNames;
     private String filterField;
     private long defaultFilterDateRange;
+    private boolean randomSort;
     private String firstSortingField;
     private String firstSortingType;
     private String secondSortingField;
@@ -56,103 +57,146 @@ public class ConfigurationData {
     }
 
     private void initDataFromRequest() {
-        // Asset types autofield
-        String assetTypesIndexes = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_ASSET_TYPES_INDEXES);
-        this.assetTypeDataList = new ArrayList<>();
-        for (String assetTypeIndex : assetTypesIndexes.split(",")) {
-            String className = ParamUtil.getString(this.request,
-                    ConfigurationConstants.PARAM_CLASSNAME + "_" + assetTypeIndex);
-            String templateKey = ParamUtil.getString(this.request,
-                    ConfigurationConstants.PARAM_TEMPLATE_KEY + "_" + assetTypeIndex);
-            String friendlyURL = ParamUtil.getString(this.request,
-                    ConfigurationConstants.PARAM_FRIENDLY_URL + "_" + assetTypeIndex);
-            Long[] scopeGroupIDs = ArrayUtils.toObject(ParamUtil.getLongValues(this.request,
-                    ConfigurationConstants.PARAM_SCOPE_IDS + "_" + assetTypeIndex));
+        // Asset types
+        String assetTypeIndexes = ParamUtil.getString(request, ConfigurationConstants.PARAM_ASSET_TYPES_INDEXES);
+        if (Validator.isNotNull(assetTypeIndexes)) {
+            this.assetTypeDataList = new ArrayList<>();
+            for (String assetTypeIndex : assetTypeIndexes.split(",")) {
+                List<ConfigurationAssetPrefilterData> assetPrefilterDataList = new ArrayList<>();
+                if (Validator.isNotNull(assetTypeIndex)) {
+                    String className = ParamUtil.getString(this.request,
+                            ConfigurationConstants.PARAM_CLASSNAME + "_" + assetTypeIndex);
+                    Long[] scopeGroupIDs = ArrayUtils.toObject(ParamUtil.getLongValues(this.request,
+                            ConfigurationConstants.PARAM_SCOPE_IDS + "_" + assetTypeIndex));
+                    long structureID = ParamUtil.getLong(this.request,
+                            ConfigurationConstants.PARAM_STRUCTURE_ID + "_" + assetTypeIndex);
+                    String templateKey = ParamUtil.getString(this.request,
+                            ConfigurationConstants.PARAM_TEMPLATE_KEY + "_" + assetTypeIndex);
+                    String friendlyURL = ParamUtil.getString(this.request,
+                            ConfigurationConstants.PARAM_FRIENDLY_URL + "_" + assetTypeIndex);
+                    // Prefilters
+                    String prefilterIndexes = ParamUtil.getString(request, ConfigurationConstants.PARAM_PREFILTERS_INDEXES + assetTypeIndex);
+                    if (Validator.isNotNull(prefilterIndexes)) {
+                        for (String prefilterIndex : prefilterIndexes.split(",")) {
+                            if (Validator.isNotNull(prefilterIndex)) {
+                                boolean contains = ParamUtil.getBoolean(this.request,
+                                        ConfigurationConstants.PARAM_INCLUDE_EXCLUDE + "_" + prefilterIndex);
+                                String operator =  ParamUtil.getString(this.request,
+                                        ConfigurationConstants.PARAM_ALL_ANY + "_" + prefilterIndex);
+                                String categoryOrTagIdList = ParamUtil.getString(this.request,
+                                        ConfigurationConstants.PARAM_CATEGORIES_OR_TAGS + "_" + prefilterIndex);
+                                Long[] prefilterIDs = ArrayUtils.toObject(ParamUtil.getLongValues(this.request,
+                                        ConfigurationConstants.PARAM_PREFILTER_SELECTION + "_" + prefilterIndex));
+                                assetPrefilterDataList.add(
+                                        new ConfigurationAssetPrefilterData(
+                                                contains, operator, categoryOrTagIdList, Arrays.asList(prefilterIDs)
+                                        )
+                                );
+                            }
+                        }
+                    }
 
-            // Asset prefilter repeatable field
-            String assetPrefiltersIndexes = ParamUtil.getString(this.request,
-                    ConfigurationConstants.PARAM_ASSET_PREFILTERS_INDEXES + "_" + assetTypeIndex);
-            List<ConfigurationAssetPrefilterData> assetPrefilterDataList = new ArrayList<>();
-
-            for (String assetPrefiltersIndex : assetPrefiltersIndexes.split(",")) {
-                boolean contains = ParamUtil.getBoolean(this.request,
-                        ConfigurationConstants.PARAM_INCLUDE_EXCLUDE + "_" + assetTypeIndex + "_" + assetPrefiltersIndex);
-                String operator =  ParamUtil.getString(this.request,
-                        ConfigurationConstants.PARAM_ALL_ANY + "_" + assetTypeIndex + "_" + assetPrefiltersIndex);
-                String type = ParamUtil.getString(this.request,
-                        ConfigurationConstants.PARAM_CATEGORIES_OR_TAGS + "_" + assetTypeIndex + "_" + assetPrefiltersIndex);
-                Long[] categoryOrTagIdList;
-                categoryOrTagIdList = ArrayUtils.toObject(ParamUtil.getLongValues(this.request,
-                            ConfigurationConstants.PARAM_PREFILTER_SELECTION + "_" + assetTypeIndex + "_" + assetPrefiltersIndex));
-                assetPrefilterDataList.add(
-                        new ConfigurationAssetPrefilterData(
-                            contains, operator, type, Arrays.asList(categoryOrTagIdList)
-                        )
-                );
+                    this.assetTypeDataList.add(
+                            new ConfigurationAssetData(
+                                    className, Arrays.asList(scopeGroupIDs), structureID, templateKey, friendlyURL,
+                                    assetPrefilterDataList
+                            )
+                    );
+                }
             }
-
-            this.assetTypeDataList.add(
-                    new ConfigurationAssetData(
-                            className, templateKey, friendlyURL, Arrays.asList(scopeGroupIDs), assetPrefilterDataList
-                    )
-            );
         }
-        // Vocabularies
-        this.vocabulariesControlTypes = new HashMap<>();
-        long vocabulariesCount = ParamUtil.getLong(this.request, ConfigurationConstants.PARAM_VOCABULARIES_COUNT);
-        for (long i = 0; i < vocabulariesCount; i++) {
-            String vocabularyIdString = ParamUtil.getString(this.request,
-                    ConfigurationConstants.PARAM_VOCABULARIES_IDS+ "_" + i);
-            boolean vocabularySelected = Validator.isNotNull(
-                    vocabularyIdString) && !vocabularyIdString.equals("false");
-            if (vocabularySelected) {
-                // Mode d'affichage du vocabulaire
-                String vocabularyControlType = ParamUtil
-                        .getString(this.request, ConfigurationConstants.PARAM_VOCABULARIES_CONTROL_TYPE_IDS+ "_" + i);
-                vocabulariesControlTypes.put(vocabularyIdString, vocabularyControlType);
+
+        // Critères de recherche
+        String vocabularyIndexes = ParamUtil.getString(request, ConfigurationConstants.PARAM_CRITERE_RECHERCHE_INDEXES);
+        if (Validator.isNotNull(vocabularyIndexes)) {
+            this.vocabulariesControlTypes = new HashMap<>();
+            for (String vocabularyIndexe : vocabularyIndexes.split(",")) {
+                if (Validator.isNotNull(vocabularyIndexe)) {
+                    String vocabularyIdString = ParamUtil.getString(this.request,
+                            ConfigurationConstants.PARAM_VOCABULARIES_IDS+ "_" + vocabularyIndexe);
+                    boolean vocabularySelected = Validator.isNotNull(
+                            vocabularyIdString) && !vocabularyIdString.equals("false");
+                    if (vocabularySelected) {
+                        // Mode d'affichage du vocabulaire
+                        String vocabularyControlType = ParamUtil
+                                .getString(this.request, ConfigurationConstants.PARAM_VOCABULARIES_CONTROL_TYPE_IDS+ "_" + vocabularyIndexe);
+                        vocabulariesControlTypes.put(vocabularyIdString, vocabularyControlType);
+                    }
+                }
             }
         }
         this.displayDateField = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_DISPLAY_DATE_FIELD);
         this.displaySorting = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_DISPLAY_SORTING);
+
+        // Boost
         this.boostTagsNames = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_BOOST_TAGS_NAMES);
+
+        // Filtres
         this.filterField = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_FILTER_FIELD);
         this.defaultFilterDateRange = ParamUtil.getLong(this.request, ConfigurationConstants.PARAM_DEFAULT_FILTER_DATE_RANGE);
+
+        // Tris
+        this.randomSort = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_RANDOM_SORT);
         this.firstSortingField = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_FIRST_SORTING_FIELD);
         this.firstSortingType = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_FIRST_SORTING_TYPE);
         this.secondSortingField = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_SECOND_SORTING_FIELD);
         this.secondSortingType = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_SECOND_SORTING_TYPE);
+
+        // Groupement
         this.groupBy = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_GROUP_BY);
+
+        // Affichage
         this.hideResultsBeforeSearch = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_HIDE_RESULTS_BEFORE_SEARCH);
         this.delta = ParamUtil.getLong(this.request, ConfigurationConstants.PARAM_DELTA);
         this.searchForm = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_SEARCH_FORM, "museum");
+
+        // Export
         this.displayExport = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_DISPLAY_EXPORT);
         this.exportType = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_EXPORT_TYPE, "");
 
     }
 
     private void initDataFromConfiguration() {
+        // Asset types
         this.assetTypeDataList = new ArrayList<>();
         List<ConfigurationAssetPrefilterData> assetPrefilterDataList;
         try {
             JSONObject json = JSONFactoryUtil.createJSONObject(this.configuration.assetTypes());
             JSONArray jsonAssetsTypes = json.getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES);
-            JSONObject jsonAssetType;
             if(Validator.isNotNull(jsonAssetsTypes)) {
                 for (int i = 0; i < jsonAssetsTypes.length(); i++) {
-                    jsonAssetType = jsonAssetsTypes.getJSONObject(i);
+                    JSONObject jsonAssetType = jsonAssetsTypes.getJSONObject(i);
 
                     String className = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_CLASSNAME);
-                    String templateKey = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_TEMPLATE_KEY);
-                    String friendlyURL = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_FRIENDLY_URL);
                     Long[] scopeGroupIDs = ArrayUtils.toObject(JSONHelper.convertJSONArraytoLongArray(
                             jsonAssetType.getJSONArray(ConfigurationConstants.JSON_ASSET_SCOPE_IDS)));
+                    long structureID = jsonAssetType.getLong(ConfigurationConstants.JSON_ASSET_STRUCTURE_ID);
+                    String templateKey = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_TEMPLATE_KEY);
+                    String friendlyURL = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_FRIENDLY_URL);
 
                     assetPrefilterDataList = new ArrayList<>();
-                    // TODO remplir les prefiltres
+                    JSONArray jsonPrefilters = jsonAssetType.getJSONArray(ConfigurationConstants.JSON_ASSET_PREFILTERS);
+                    if(Validator.isNotNull(jsonPrefilters)) {
+                        for (int j = 0; j < jsonPrefilters.length(); j++) {
+                            JSONObject jsonPrefilter = jsonPrefilters.getJSONObject(j);
+
+                            boolean contains = jsonPrefilter.getBoolean(ConfigurationConstants.JSON_ASSET_PREFILTER_INCLUDE_EXCLUDE);
+                            String operator =  jsonPrefilter.getString(ConfigurationConstants.JSON_ASSET_PREFILTER_ALL_ANY);
+                            String categoryOrTagIdList = jsonPrefilter.getString(ConfigurationConstants.JSON_ASSET_PREFILTER_CATEGORIES_OR_TAGS);
+                            Long[] prefilterIDs = ArrayUtils.toObject(JSONHelper.convertJSONArraytoLongArray(
+                                    jsonPrefilter.getJSONArray( ConfigurationConstants.JSON_ASSET_PREFILTER_SELECTION)));
+                            assetPrefilterDataList.add(
+                                    new ConfigurationAssetPrefilterData(
+                                            contains, operator, categoryOrTagIdList, Arrays.asList(prefilterIDs)
+                                    )
+                            );
+                        }
+                    }
 
                     this.assetTypeDataList.add(
                             new ConfigurationAssetData(
-                                    className, templateKey, friendlyURL, Arrays.asList(scopeGroupIDs), assetPrefilterDataList
+                                    className, Arrays.asList(scopeGroupIDs), structureID, templateKey, friendlyURL,
+                                    assetPrefilterDataList
                             )
                     );
 
@@ -163,6 +207,7 @@ public class ConfigurationData {
             this.log.error(e);
         }
 
+        // Critères de recherche
         this.vocabulariesControlTypes = new HashMap<>();
         try {
             JSONObject json = JSONFactoryUtil.createJSONObject(this.configuration.vocabulariesControlTypes());
@@ -170,8 +215,10 @@ public class ConfigurationData {
             if (Validator.isNotNull(jsonVocabulariesControlTypes)) {
                 for (int i = 0; i < jsonVocabulariesControlTypes.length(); i++) {
                     JSONObject jsonVocabularyControlType = jsonVocabulariesControlTypes.getJSONObject(i);
+
                     String vocabularyId = jsonVocabularyControlType.getString(ConfigurationConstants.JSON_VOCABULARY_ID);
                     String vocabularyControlType = jsonVocabularyControlType.getString(ConfigurationConstants.JSON_VOCABULARY_CONTROL_TYPE);
+
                     this.vocabulariesControlTypes.put(vocabularyId, vocabularyControlType);
                 }
             }
@@ -179,70 +226,85 @@ public class ConfigurationData {
         catch (JSONException e) {
             this.log.error(e);
         }
-
         this.displayDateField = this.configuration.displayDateField();
         this.displaySorting = this.configuration.displaySorting();
+
+        // Boost
         this.boostTagsNames = this.configuration.boostTagsNames();
+
+        // Filtres
         this.filterField = this.configuration.filterField();
         this.defaultFilterDateRange = this.configuration.defaultFilterDateRange();
+
+        // Tris
+        this.randomSort = this.configuration.randomSort();
         this.firstSortingField = this.configuration.firstSortingField();
         this.firstSortingType = this.configuration.firstSortingType();
         this.secondSortingField = this.configuration.secondSortingField();
         this.secondSortingType = this.configuration.secondSortingType();
+
+        // Groupement
         this.groupBy = this.configuration.groupBy();
+
+        // Affichage
         this.hideResultsBeforeSearch = this.configuration.hideResultsBeforeSearch();
         this.delta = this.configuration.delta();
         this.searchForm = this.configuration.searchForm();
+
+        // Export
         this.displayExport = this.configuration.displayExport();
         this.exportType = this.configuration.exportType();
     }
 
     public void saveConfiguration(SearchAssetConfigurationAction configAction) {
-        // Sauvegarde dans la configuration
-        // -- TYPE DE CONTENUS --
-        String assetTypesJSON = this.getAssetTypesJSON().toJSONString();
-        configAction.setPreference(this.request, ConfigurationConstants.JSON_ASSETS_TYPES,
-                assetTypesJSON);
-        // -- CRITERES DE RECHERCHE --
-        // Vocabulaires pour afficher la recherche
-        String vocabulariesControlTypesJSON = this.getVocabulariesControlTypesJSON().toJSONString();
-        configAction.setPreference(this.request, ConfigurationConstants.JSON_VOCABULARIES_CONTROL_TYPES,
-                vocabulariesControlTypesJSON);
-        // Afficher le filtre de recherche par date
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_DISPLAY_DATE_FIELD,
-                String.valueOf(displayDateField));
-        // Affichage tri utilisateur
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_DISPLAY_SORTING,
-                String.valueOf(displaySorting));
-        // -- MISE EN AVANT --
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_BOOST_TAGS_NAMES, boostTagsNames);
-        // -- FILTRES --
-        // Champ sur lequel le tri est effectué
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_FILTER_FIELD, filterField);
-        // Filtre par date par défaut
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_DEFAULT_FILTER_DATE_RANGE,
-                String.valueOf(defaultFilterDateRange));
-        // -- TRIS --
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_FIRST_SORTING_FIELD, firstSortingField);
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_FIRST_SORTING_TYPE, firstSortingType);
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_SECOND_SORTING_FIELD, secondSortingField);
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_SECOND_SORTING_TYPE, secondSortingType);
-        // -- GROUPEMENT --
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_GROUP_BY, groupBy);
-        // -- AFFICHAGE --
-        // Ne pas afficher de résultat avant une recherche utilisateur
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_HIDE_RESULTS_BEFORE_SEARCH,
-                String.valueOf(hideResultsBeforeSearch));
-        // Nombre d'items par page (Delta)
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_DELTA, String.valueOf(delta));
-        // Formulaire à afficher
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_SEARCH_FORM, searchForm);
-        // -- EXPORT --
-        // Affichage bouton export
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_DISPLAY_EXPORT,
-                String.valueOf(displayExport));
-        // Type d'export
-        configAction.setPreference(this.request, ConfigurationConstants.PARAM_EXPORT_TYPE, exportType);
+        if(validate()) {
+            // Sauvegarde dans la configuration
+
+            // -- TYPE DE CONTENUS --
+            String assetTypesJSON = this.getAssetTypesJSON().toJSONString();
+            configAction.setPreference(this.request, ConfigurationConstants.JSON_ASSETS_TYPES,
+                    assetTypesJSON);
+
+            // -- CRITERES DE RECHERCHE --
+            String vocabulariesControlTypesJSON = this.getVocabulariesControlTypesJSON().toJSONString();
+            configAction.setPreference(this.request, ConfigurationConstants.JSON_VOCABULARIES_CONTROL_TYPES,
+                    vocabulariesControlTypesJSON);
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_DISPLAY_DATE_FIELD,
+                    String.valueOf(displayDateField));
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_DISPLAY_SORTING,
+                    String.valueOf(displaySorting));
+
+            // -- MISE EN AVANT --
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_BOOST_TAGS_NAMES, boostTagsNames);
+
+            // -- FILTRES --
+            // Champ sur lequel le tri est effectué
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_FILTER_FIELD, filterField);
+            // Filtre par date par défaut
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_DEFAULT_FILTER_DATE_RANGE,
+                    String.valueOf(defaultFilterDateRange));
+
+            // -- TRIS --
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_RANDOM_SORT, String.valueOf(randomSort));
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_FIRST_SORTING_FIELD, firstSortingField);
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_FIRST_SORTING_TYPE, firstSortingType);
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_SECOND_SORTING_FIELD, secondSortingField);
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_SECOND_SORTING_TYPE, secondSortingType);
+
+            // -- GROUPEMENT --
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_GROUP_BY, groupBy);
+
+            // -- AFFICHAGE --
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_HIDE_RESULTS_BEFORE_SEARCH,
+                    String.valueOf(hideResultsBeforeSearch));
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_DELTA, String.valueOf(delta));
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_SEARCH_FORM, searchForm);
+
+            // -- EXPORT --
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_DISPLAY_EXPORT,
+                    String.valueOf(displayExport));
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_EXPORT_TYPE, exportType);
+        }
     }
 
     public boolean validate() {
@@ -268,6 +330,10 @@ public class ConfigurationData {
         JSONObject result = JSONFactoryUtil.createJSONObject();
         result.put(ConfigurationConstants.JSON_ASSETS_TYPES, assetTypeArray);
         return result;
+    }
+
+    public HashMap<String, String> getVocabulariesControlTypesMap() {
+        return this.vocabulariesControlTypes;
     }
 
     public JSONObject getVocabulariesControlTypesJSON() {

@@ -27,16 +27,16 @@
 		                <c:set var="assetTypeNames" value="${dc.availableAssetTypeNames}" scope="request"/>
 
                         <aui:input name="nbAssetType" type="hidden" value="${assetTypeList.isEmpty() ? '1' : assetTypeList.size()}" />
+                        <aui:input name="assetTypeIndexes" type="hidden" />
 
                         <c:if test="${empty assetTypeList}">
-                            <c:set var="assetTypeData" value=""/>
                             <liferay-util:include page="/includes/asset-type-row.jsp" servletContext="<%=application %>">
                                     <liferay-util:param name="index" value="0" />
                             </liferay-util:include>
                         </c:if>
 
                         <c:forEach items="${assetTypeList}" var="assetTypeData" varStatus="status">
-                            <c:set var="assetTypeData" value="${assetTypeData}"/>
+                            <c:set var="assetTypeData" value="${assetTypeData}" scope="request"/>
                             <liferay-util:include page="/includes/asset-type-row.jsp" servletContext="<%=application %>">
                                     <liferay-util:param name="index" value="${status.index}" />
                             </liferay-util:include>
@@ -51,12 +51,21 @@
                 <aui:fieldset collapsed="true" collapsible="true" label="search-criterias">
 
                     <liferay-ui:message key="vocabularies-explanations" />
-                    <aui:input type="hidden" name="nbCriteresRecherche" value="0" />
 
-                    <div  id="critereRecherche-content">
+                    <div  id="vocabularies-content">
+                        <c:set var="vocabularyControlTypesMap" value="${dc.configurationData.vocabulariesControlTypesMap}"/>
+                        <aui:input type="hidden" name="nbVocabularies" value="${vocabularyControlTypesMap.isEmpty() ? '0' : vocabularyControlTypesMap.size()}" />
+                        <aui:input name="vocabularyIndexes" type="hidden" />
+
+                        <c:forEach items="${vocabularyControlTypesMap}" var="vocabularyControlType" varStatus="status">
+                            <c:set var="vocabularyControlType" value="${vocabularyControlType}" scope="request"/>
+                            <liferay-util:include page="/includes/vocabulary-row.jsp" servletContext="<%=application %>">
+                                    <liferay-util:param name="index" value="${status.index}" />
+                            </liferay-util:include>
+                        </c:forEach>
                     </div>
 
-                    <aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addCritereRecherche();"/>
+                    <aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addVocabulary();"/>
 
                     <!-- CHAMP : Affichage du filtre par date -->
                     <div>
@@ -354,7 +363,6 @@
 	        var assetTypeNames = '${dc.availableAssetTypeNamesString}';
 	        var assetTemplates = ${dc.availableAssetTemplates};
          	var scopesJson = ${dc.availableScopes};
-         	var vocabulariesControlTypes = ${dc.configurationData.vocabulariesControlTypesJSON};
    	</script>
 </liferay-util:html-top>
 

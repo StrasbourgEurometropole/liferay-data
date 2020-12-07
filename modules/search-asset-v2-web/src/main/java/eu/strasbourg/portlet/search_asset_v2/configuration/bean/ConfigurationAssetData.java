@@ -13,27 +13,30 @@ import java.util.List;
 public class ConfigurationAssetData {
 
     private String className;
+    private List<Long> scopeGroupIDs;
+    private Long structureID;
     private String templateKey;
     private String friendlyURL;
-    private List<Long> scopeGroupIDs;
     private List<ConfigurationAssetPrefilterData> assetPrefilterDataList;
 
-    public ConfigurationAssetData(String className, String templateKey, String friendlyURL, List<Long> scopeGroupIDs,
-                                  List<ConfigurationAssetPrefilterData> assetPrefilterDataList) {
+    public ConfigurationAssetData(String className, List<Long> scopeGroupIDs, Long structureID, String templateKey,
+                                  String friendlyURL, List<ConfigurationAssetPrefilterData> assetPrefilterDataList) {
         this.className = className;
+        this.scopeGroupIDs = scopeGroupIDs;
+        this.structureID = structureID;
         this.templateKey = templateKey;
         this.friendlyURL = friendlyURL;
-        this.scopeGroupIDs = scopeGroupIDs;
         this.assetPrefilterDataList = assetPrefilterDataList;
     }
 
     public JSONObject toJSON() {
         JSONObject result = JSONFactoryUtil.createJSONObject();
         result.put(ConfigurationConstants.JSON_ASSET_CLASSNAME, this.className);
-        result.put(ConfigurationConstants.JSON_ASSET_TEMPLATE_KEY, this.templateKey);
-        result.put(ConfigurationConstants.JSON_ASSET_FRIENDLY_URL, this.friendlyURL);
         JSONArray jsonSelection = JSONFactoryUtil.createJSONArray(this.scopeGroupIDs);
         result.put(ConfigurationConstants.JSON_ASSET_SCOPE_IDS, jsonSelection);
+        result.put(ConfigurationConstants.JSON_ASSET_STRUCTURE_ID, this.structureID);
+        result.put(ConfigurationConstants.JSON_ASSET_TEMPLATE_KEY, this.templateKey);
+        result.put(ConfigurationConstants.JSON_ASSET_FRIENDLY_URL, this.friendlyURL);
         JSONArray jsonPrefilters = JSONFactoryUtil.createJSONArray();
         for (ConfigurationAssetPrefilterData prefilter : this.assetPrefilterDataList)
             jsonPrefilters.put(prefilter.toJSON());
@@ -45,16 +48,28 @@ public class ConfigurationAssetData {
         return this.className;
     }
 
+    public List<Long> getScopeGroupIDs() {
+        return this.scopeGroupIDs;
+    }
+
+    public JSONArray getScopeGroupIDsJSON() {
+        JSONArray ScopeGroupIdsjson = JSONFactoryUtil.createJSONArray();
+        for (Long scopeGroupId : this.scopeGroupIDs) {
+            ScopeGroupIdsjson.put(""+scopeGroupId);
+        }
+        return ScopeGroupIdsjson;
+    }
+
+    public Long getStructureID() {
+        return this.structureID;
+    }
+
     public String getTemplateKey() {
         return this.templateKey;
     }
 
     public String getFriendlyURL() {
         return this.friendlyURL;
-    }
-
-    public List<Long> getScopeGroupIDs() {
-        return this.scopeGroupIDs;
     }
 
     public List<ConfigurationAssetPrefilterData> getAssetPrefilterDataList() {

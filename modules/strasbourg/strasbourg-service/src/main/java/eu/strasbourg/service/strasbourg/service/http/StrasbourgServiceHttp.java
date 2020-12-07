@@ -802,13 +802,45 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject
+		getTagsAndCategoriesByGroupIdsAndClassName(
+			HttpPrincipal httpPrincipal, long[] groupIds, String className) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				StrasbourgServiceUtil.class,
+				"getTagsAndCategoriesByGroupIdsAndClassName",
+				_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes27);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, groupIds, className);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static com.liferay.portal.kernel.json.JSONArray getTagsByGroupIds(
 		HttpPrincipal httpPrincipal, long[] groupIds) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getTagsByGroupIds",
-				_getTagsByGroupIdsParameterTypes27);
+				_getTagsByGroupIdsParameterTypes28);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds);
@@ -840,7 +872,7 @@ public class StrasbourgServiceHttp {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class,
 				"getCategoriesByClassNameAndGroupIds",
-				_getCategoriesByClassNameAndGroupIdsParameterTypes28);
+				_getCategoriesByClassNameAndGroupIdsParameterTypes29);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds, className);
@@ -871,7 +903,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getVocabulariesByGroupIds",
-				_getVocabulariesByGroupIdsParameterTypes29);
+				_getVocabulariesByGroupIdsParameterTypes30);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds);
@@ -958,13 +990,16 @@ public class StrasbourgServiceHttp {
 		new Class[] {long[].class};
 	private static final Class<?>[] _getTemplatesByClassPkParameterTypes26 =
 		new Class[] {long.class};
-	private static final Class<?>[] _getTagsByGroupIdsParameterTypes27 =
+	private static final Class<?>[]
+		_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes27 =
+			new Class[] {long[].class, String.class};
+	private static final Class<?>[] _getTagsByGroupIdsParameterTypes28 =
 		new Class[] {long[].class};
 	private static final Class<?>[]
-		_getCategoriesByClassNameAndGroupIdsParameterTypes28 = new Class[] {
+		_getCategoriesByClassNameAndGroupIdsParameterTypes29 = new Class[] {
 			long[].class, String.class
 		};
-	private static final Class<?>[] _getVocabulariesByGroupIdsParameterTypes29 =
+	private static final Class<?>[] _getVocabulariesByGroupIdsParameterTypes30 =
 		new Class[] {long[].class};
 
 }

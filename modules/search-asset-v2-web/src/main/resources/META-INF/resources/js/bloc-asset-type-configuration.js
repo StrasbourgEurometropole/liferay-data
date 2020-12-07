@@ -25,7 +25,7 @@ var blocAssetType = "" +
 		        "<div class='panel-body'>" +
 		            "<input class='field form-control' id='" + namespace + "numAssetType%%INDEX%%' name='" + namespace + "numAssetType%%INDEX%%' type='hidden' value='%%INDEX%%'>" +
                     "<div class='form-group input-select-wrapper'>" +
-	                    "<select class='form-control' id='" + namespace + "classname_%%INDEX%%' name='" + namespace + "classname_%%INDEX%%' onchange='reinitializeBloc(%%INDEX%%)' title='classname_%%INDEX%%'>" +
+	                    "<select class='form-control' id='" + namespace + "classname_%%INDEX%%' name='" + namespace + "classname_%%INDEX%%' onchange='updateBloc(%%INDEX%%)' title='classname_%%INDEX%%'>" +
                             "<option class='' selected='' value='false'>" + Liferay.Language.get('select-asset-type') + "</option>";
                             $.each(assetTypeNames.split(','), function(i, assetTypeName) {
                                 blocAssetType += "<option class='' value='" + assetTypeName + "'>" + Liferay.Language.get(assetTypeName) + "</option>";
@@ -56,7 +56,7 @@ blocAssetType += "" +
 	                    "<div aria-labelledby='scope%%INDEX%%Header' class='panel-collapse collapse show' id='scope%%INDEX%%Content' role='presentation' style=''>" +
 		                    "<div class='panel-body'>" +
                                 Liferay.Language.get('scope-explanations') +
-                                "<select class='form-control' name='" + namespace + "scopeIds_%%INDEX%%' id='" + namespace + "scopeIds_%%INDEX%%' multiple onchange='reinitializePrefiltersStructureAndVocabularies(%%INDEX%%)'>" +
+                                "<select class='form-control' name='" + namespace + "scopeIds_%%INDEX%%' id='" + namespace + "scopeIds_%%INDEX%%' multiple onchange='updatePrefiltersStructureAndVocabularies(%%INDEX%%)'>" +
                                     "<option placeholder>" + Liferay.Language.get('select-scopes') +"</option>" +
                                 "</select>" +
 		                    "</div>" +
@@ -84,8 +84,8 @@ blocAssetType += "" +
                         "<div aria-labelledby='structure%%INDEX%%Header' class='in panel-collapse collapse ' id='structure%%INDEX%%Content' role='presentation'>" +
                             "<div class='panel-body'>" +
                                 "<div class='form-group form-group-inline input-select-wrapper'>" +
-                                    "<select class='form-control' id='" + namespace + "structure_%%INDEX%%' name='" + namespace + "structure_%%INDEX%%' title='structure_%%INDEX%%'  onChange='reinitializeTemplate(%%INDEX%%)'>" +
-                                        "<option class='' selected='' value='false'>" + Liferay.Language.get('select-a-structure') + "</option>" +
+                                    "<select class='form-control' id='" + namespace + "structure_%%INDEX%%' name='" + namespace + "structure_%%INDEX%%' title='structure_%%INDEX%%'  onChange='updateTemplate(%%INDEX%%)'>" +
+                                        "<option>" + Liferay.Language.get('select-a-structure') + "</option>" +
                                     "</select>" +
                                 "</div>" +
                             "</div>" +
@@ -145,44 +145,8 @@ blocAssetType += "" +
 	                    "<div aria-labelledby='prefilter%%INDEX%%Header' class='panel-collapse collapse' id='prefilter%%INDEX%%Content' role='presentation' style=''>" +
 		                    "<div class='panel-body'>" +
 		                        "<div id='prefilters-content%%INDEX%%'>" +
-                                    "<input class='field form-control' id='" + namespace + "nbPrefiltre%%INDEX%%' name='" + namespace + "nbPrefiltre%%INDEX%%' type='hidden' value='1'>" +
-                                    "<div id='prefilter%%INDEX%%_0'>" +
-                                        "<input class='field form-control' id='" + namespace + "numPrefiltre%%INDEX%%_0' name='" + namespace + "numPrefiltre%%INDEX%%_0' type='hidden' value='0'>" +
-                                        "<div class='form-group form-group-inline input-select-wrapper'>" +
-                                            "<select class='form-control' id='" + namespace + "includeOrExclude_%%INDEX%%_0' name='" + namespace + "includeOrExclude_%%INDEX%%_0' title='include-or-exclude_%%INDEX%%_0'>" +
-                                                "<option class='' selected='' value='contains'>" +
-                                                    Liferay.Language.get('eu.search.asset.web.configuration.contains') +
-                                                "</option>" +
-                                                "<option class='' value='notContains'>" +
-                                                    Liferay.Language.get('eu.search.asset.web.configuration.notContains') +
-                                                "</option>" +
-                                            "</select>" +
-                                        "</div>     " +
-                                        "<div class='form-group form-group-inline input-select-wrapper'>" +
-                                            "<select class='form-control' id='" + namespace + "allOrAny_%%INDEX%%_0' name='" + namespace + "allOrAny_%%INDEX%%_0' title='all-or-any_%%INDEX%%_0'>" +
-                                                "<option class='' selected='' value='all'>" +
-                                                    Liferay.Language.get('eu.search.asset.web.configuration.all') +
-                                                "</option>" +
-                                                "<option class='' value='any'>" +
-                                                    Liferay.Language.get('eu.search.asset.web.configuration.any') +
-                                                "</option>" +
-                                            "</select>" +
-                                        "</div>     " +
-                                        "<span class='form-group form-group-inline'>parmi</span>     " +
-                                        "<div class='form-group form-group-inline input-select-wrapper'>" +
-                                            "<select class='form-control' id='" + namespace + "categoriesOrTags_%%INDEX%%_0' name='" + namespace + "%%INDEX%%_0' onchange='updatePrefilterChoices(this)' title='categories-or-tags_%%INDEX%%_0'>" +
-                                                "<option class='' value='categories'>" +
-                                                    Liferay.Language.get('eu.search.asset.web.configuration.categories') +
-                                                "</option>" +
-                                                "<option class='' selected='' value='tags'>" +
-                                                    Liferay.Language.get('eu.search.asset.web.configuration.tags') +
-                                                "</option>" +
-                                            "</select>" +
-                                        "</div>" +
-                                        "<select class='form-control' name='" + namespace + "prefilterChoices_%%INDEX%%_0' id='" + namespace + "prefilterChoices_%%INDEX%%_0' multiple=''>" +
-                                            "<option placeholder>" + Liferay.Language.get('select-prefilters') +"</option>" +
-                                        "</select>" +
-                                    "</div>" +
+                                    "<input class='field form-control' id='" + namespace + "nbPrefiltre%%INDEX%%' name='" + namespace + "nbPrefiltre%%INDEX%%' type='hidden' value='0'>" +
+                                    "<input class='field form-control' id='" + namespace + "prefilterIndexes%%INDEX%%' name='" + namespace + "prefilterIndexes%%INDEX%%' type='hidden'>" +
                                 "</div>" +
                                 "<button class='btn btn-icon icon icon-plus icon-2x btn-default' id='" + namespace + "famg' onclick='addPrefilter(%%INDEX%%);' type='button'></button>" +
 		                    "</div>" +

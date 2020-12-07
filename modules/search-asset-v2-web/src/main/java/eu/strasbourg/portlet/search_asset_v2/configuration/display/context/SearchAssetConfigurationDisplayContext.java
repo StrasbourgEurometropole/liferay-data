@@ -18,7 +18,6 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfiguration;
-import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationAssetData;
 import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationData;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,9 +31,7 @@ public class SearchAssetConfigurationDisplayContext {
     private SearchAssetConfiguration configuration;
     private final ThemeDisplay themeDisplay;
     private ConfigurationData configurationData;
-
     private List<AssetRendererFactory<?>> availableAssetRendererFactories;
-
 
     public SearchAssetConfigurationDisplayContext(HttpServletRequest request) throws ConfigurationException {
         this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -56,14 +53,7 @@ public class SearchAssetConfigurationDisplayContext {
         return this.configuration;
     }
 
-    public List<ConfigurationAssetData> getConfigurationAssetData() throws PortalException {
-        List<ConfigurationAssetData> assetData = new ArrayList<ConfigurationAssetData>();
-        if (this.getConfiguration() != null) {
-        }
-        return assetData;
-    }
-
-    // Retourne la liste des types de contenus disponibles
+    // Retourne une liste des className des types de contenus disponibles
     public List<String> getAvailableAssetTypeNames() {
         List<String> availableAssetTypeNames = new ArrayList<>();
         for (AssetRendererFactory assetRendererFactory : this.availableAssetRendererFactories) {
@@ -75,7 +65,7 @@ public class SearchAssetConfigurationDisplayContext {
         return availableAssetTypeNames;
     }
 
-    // Retourne la liste des types de contenus disponibles
+    // Retourne un String des types de contenus disponibles
     public String getAvailableAssetTypeNamesString() {
         String assetTypeNames = "";
         for (String assetTypeName : getAvailableAssetTypeNames()) {
@@ -86,7 +76,7 @@ public class SearchAssetConfigurationDisplayContext {
         return assetTypeNames;
     }
 
-    // Retourne la liste des sites disponibles
+    // Retourne un json des sites disponibles
     public JSONArray getAvailableScopes() {
         JSONArray jsonGroups = JSONFactoryUtil.createJSONArray();
         JSONObject jsonGroupGlobal = JSONFactoryUtil.createJSONObject();
@@ -107,7 +97,7 @@ public class SearchAssetConfigurationDisplayContext {
         return jsonGroups;
     }
 
-    // Retourne la liste des templates disponibles rangees par type de contenu
+    // Retourne un json des templates disponibles ranges par type de contenu
     public JSONObject getAvailableAssetTemplates() {
         JSONObject availableAssetTemplates = JSONFactoryUtil.createJSONObject();
         for (AssetRendererFactory assetRendererFactory : this.availableAssetRendererFactories) {

@@ -201,6 +201,15 @@ public class StrasbourgServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject
+		getTagsAndCategoriesByGroupIdsAndClassName(
+			long[] groupIds, String className) {
+
+		return _strasbourgService.getTagsAndCategoriesByGroupIdsAndClassName(
+			groupIds, className);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONArray getTagsByGroupIds(
 		long[] groupIds) {
 
