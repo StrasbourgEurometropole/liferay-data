@@ -686,7 +686,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <#if entry.mail?has_content>
                     <div class="seu-wi--collapsing <#if renderRequest.getAttribute("fromContactForm")?has_content && renderRequest.getAttribute("fromContactForm")>seu-first-opened</#if>">
                         <button class="seu-toggle-collapse">
-                            <h2 class="contact"><span><@liferay_ui.message key="contact" /></span></h2>
+                            <h2 class="contact"><span><@liferay_ui.message key="eu.contact" /></span></h2>
                         </button>
                         <div class="seu-collapsing-box white-box">
                             <div class="rte">
