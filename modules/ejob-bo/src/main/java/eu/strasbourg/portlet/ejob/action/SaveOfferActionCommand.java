@@ -254,15 +254,10 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                         "isFullTime");
                 offer.setIsFullTime(isFullTime);
 
-                if(isFullTime) {
-                    // Champ : fullTimeDescription
-                    Map<Locale, String> fullTimeDescription = LocalizationUtil
-                            .getLocalizationMap(request, "fullTimeDescription");
-                    offer.setFullTimeDescriptionMap(fullTimeDescription);
-                }else {
-                    // Champ : fullTimeDescription
-                    offer.setFullTimeDescriptionMap(new HashMap<>());
-                }
+                // Champ : fullTimeDescription
+                Map<Locale, String> fullTimeDescription = LocalizationUtil
+                        .getLocalizationMap(request, "fullTimeDescription");
+                offer.setFullTimeDescriptionMap(fullTimeDescription);
 
                 if(!this.typeRecrutementString.equals("Vacataire")) {
                     // Champs : ejobCategorie, ejobFiliere, ejobCategorie label, ejobGrade minimun et ejobGrade maximum
@@ -489,7 +484,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                     if (Validator.isNotNull(index)){
                         // catégorie, filière, grades
                         if (Validator.isNull(ParamUtil.getLong(request, "ejobCategory" + index)) || Validator.isNull(ParamUtil.getLong(request, "ejobFiliere" + index))
-                                ||Validator.isNull(ParamUtil.getLong(request, "ejobGradeMin" + index)) || Validator.isNull(ParamUtil.getLong(request, "ejobGradeMax" + index))) {
+                                ||Validator.isNull(ParamUtil.getLong(request, "ejobGradeMin" + index))) {
                             SessionErrors.add(request, "grade-range-error");
                             isValid = false;
                             break;

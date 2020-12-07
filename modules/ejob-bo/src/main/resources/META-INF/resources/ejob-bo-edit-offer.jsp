@@ -144,7 +144,7 @@
                         <aui:input type="radio" value="0" name="isFullTime" class="no-full-time" label="ejob-partial-time"
                             checked="${not empty dc.offer and !dc.offer.isFullTime}" />
 
-                        <%-- Champ : Si temps complet   --%>
+                        <%-- Champ : Durée du temps de travail   --%>
                              <aui:input name="fullTimeDescription" id="fullTimeDescription" required="false" />
                     </div>
 

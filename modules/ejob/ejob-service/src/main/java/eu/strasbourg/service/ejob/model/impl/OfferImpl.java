@@ -202,10 +202,27 @@ public class OfferImpl extends OfferBaseImpl {
 	public List<List> getGradeRanges() {
 		List<List> gradeRangesList = new ArrayList<>();
 		Map<Long, List> gradeRangesMap = new HashMap<>();
+		// Parcours des grades
 		for (AssetCategory grade : this.getGrades()) {
+			// Récupération de la catégorie de filière (groupe de grade)
 			AssetCategory categoryFiliere = grade.getParentCategory();
-			List gradeRange = gradeRangesMap.remove(categoryFiliere.getCategoryId());
-			if (Validator.isNotNull(gradeRange)) {
+			// Récupération de la liste correspondant au groupe de grade du grade courrant (vide à la première itération)
+			List gradeRange = gradeRangesMap.get(categoryFiliere.getCategoryId());
+			if (Validator.isNull(gradeRange)) {
+				// Si null, aucun élément de ce groupe n'a été ajouté pour le moment dans la map, on l'ajoute
+				String categoryString = AssetVocabularyHelper.getCategoryProperty(categoryFiliere.getCategoryId(), "linked-category");
+				Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId() , "/strasbourg.eu");
+				AssetCategory category = AssetVocabularyHelper.getCategory(categoryString, group.getGroupId());
+				gradeRange = new ArrayList();
+				gradeRange.add(0, category);
+				gradeRange.add(1, grade.getParentCategory().getParentCategory());
+				gradeRange.add(2, grade);
+				gradeRange.add(3, null);
+				gradeRangesMap.put(categoryFiliere.getCategoryId(), gradeRange);
+				gradeRangesList.add(gradeRange);
+			} else {
+				// Si non null, on a déjà un grade de ce groupe, on édite donc la liste pour rajouter le deuxième
+				// grade et par la même occasion on les trie par ordre
 				AssetCategory firstGrade = (AssetCategory) gradeRange.get(2);
 				int orderFirstGrade = 0;
 				int orderLastGrade = 0;
@@ -219,17 +236,6 @@ public class OfferImpl extends OfferBaseImpl {
 					gradeRange.set(2, grade);
 				else
 					gradeRange.set(3, grade);
-				gradeRangesList.add(gradeRange);
-			} else {
-				String categoryString = AssetVocabularyHelper.getCategoryProperty(categoryFiliere.getCategoryId(), "linked-category");
-				Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId() , "/strasbourg.eu");
-				AssetCategory category = AssetVocabularyHelper.getCategory(categoryString, group.getGroupId());
-				gradeRange = new ArrayList();
-				gradeRange.add(category);
-				gradeRange.add(grade.getParentCategory().getParentCategory());
-				gradeRange.add(grade);
-				gradeRange.add(grade);
-				gradeRangesMap.put(categoryFiliere.getCategoryId(), gradeRange);
 			}
 		}
 

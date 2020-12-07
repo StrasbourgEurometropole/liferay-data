@@ -5,7 +5,7 @@
 	<namespace>council</namespace>
 	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
 
-	<entity local-service="true" remote-service="true" cache-enabled="true" name="Type" uuid="true">
+	<entity local-service="true" remote-service="true" cache-enabled="false" name="Type" uuid="true">
 
 		<!-- PK fields -->
 		<column name="typeId" primary="true" type="long" />
@@ -51,7 +51,7 @@
 
 	</entity>
 
-	<entity local-service="true" remote-service="true" cache-enabled="true" name="Official" uuid="true">
+	<entity local-service="true" remote-service="true" cache-enabled="false" name="Official" uuid="true">
 
 		<!-- PK fields -->
 		<column name="officialId" primary="true" type="long" />
@@ -102,7 +102,7 @@
 
 	</entity>
 
-	<entity local-service="true" remote-service="false" cache-enabled="true" name="OfficialTypeCouncil" uuid="true">
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="OfficialTypeCouncil" uuid="true">
 
 		<!-- PK fields -->
 		<column name="officialId" primary="true" type="long" />
@@ -135,7 +135,7 @@
 
 	</entity>
 
-	<entity local-service="true" remote-service="false" cache-enabled="true" name="CouncilSession" uuid="true">
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="CouncilSession" uuid="true">
 
 		<!-- PK fields -->
 		<column name="councilSessionId" primary="true" type="long" />
@@ -187,7 +187,7 @@
 
 	</entity>
 
-	<entity local-service="true" remote-service="true" cache-enabled="true" name="Deliberation" uuid="true">
+	<entity local-service="true" remote-service="true" cache-enabled="false" name="Deliberation" uuid="true">
 
 		<!-- PK fields -->
 		<column name="deliberationId" primary="true" type="long" />
@@ -235,7 +235,7 @@
 
 	</entity>
 
-	<entity local-service="true" remote-service="false" cache-enabled="true" name="Procuration" uuid="true">
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="Procuration" uuid="true">
 
 		<!-- PK fields -->
 		<column name="procurationId" primary="true" type="long" />
@@ -288,7 +288,7 @@
 
 	</entity>
 
-	<entity local-service="true" remote-service="false" cache-enabled="true" name="Vote" uuid="true">
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="Vote" uuid="true">
 
 		<!-- PK fields -->
 		<column name="officialId" primary="true" type="long" />

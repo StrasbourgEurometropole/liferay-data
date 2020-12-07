@@ -35,7 +35,7 @@
             <c:set value="${gradeWithCategories.get(1)}" var="categories" />
             <c:set value="${grade.parentCategory}" var="gradGroup" />
             <aui:option data-filiere-category-id="${grade.parentCategoryId}" data-filiere-id="${gradGroup.parentCategoryId}" data-categories="${categories}" value="${grade.categoryId}" selected="${gradeRange[2].categoryId == grade.categoryId}">
-                ${grade.name} (${gradGroup.name})
+                ${grade.name} (${gradGroup.name.replaceFirst("^[A-Z]_", "")})
             </aui:option>
         </c:forEach>
     </aui:select>
@@ -44,14 +44,14 @@
 	</div>
 
 <%-- Champ : Choix du grade maximum  --%>
-    <aui:select cssClass="toCustomSelect" id="ejobGradeMax${param.index}" name="ejobGradeMax${param.index}" label="ejobGradeMax" required="true" wrapperCssClass="unvisible">
-        <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-grade" /></aui:option>
+    <aui:select cssClass="toCustomSelect" id="ejobGradeMax${param.index}" name="ejobGradeMax${param.index}" label="ejobGradeMax" required="false" wrapperCssClass="unvisible">
+        <aui:option selected="${empty dc.offer}"><liferay-ui:message key="choose-grade" /></aui:option>
         <c:forEach items="${dc.grades}" var="gradeWithCategories">
             <c:set value="${gradeWithCategories.get(0)}" var="grade" />
             <c:set value="${gradeWithCategories.get(1)}" var="categories" />
             <c:set value="${grade.parentCategory}" var="gradGroup" />
             <aui:option data-filiere-category-id="${grade.parentCategoryId}" data-filiere-id="${gradGroup.parentCategoryId}" data-categories="${categories}" value="${grade.categoryId}" selected="${gradeRange[3].categoryId == grade.categoryId}">
-                ${grade.name} (${gradGroup.name})
+                ${grade.name} (${gradGroup.name.replaceFirst("^[A-Z]_", "")})
             </aui:option>
         </c:forEach>
     </aui:select>

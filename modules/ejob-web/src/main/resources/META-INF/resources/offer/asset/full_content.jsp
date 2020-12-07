@@ -33,7 +33,7 @@
 </c:if>
 
 <%-- Champ : Motif  --%>
-<c:if test="${not empty entry.motif()}" >
+<c:if test="${not empty entry.motif}" >
     <h3><liferay-ui:message key="eu.offer-motif" /></h3>
     <p>${entry.motif.getTitle(locale)}</p>
 </c:if>

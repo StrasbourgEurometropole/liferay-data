@@ -35,6 +35,8 @@ RUN keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alia
         -file /tmp/certificates/apiDailymotion.cer -storepass changeit -noprompt \
     && keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias apiYoutube \
         -file /tmp/certificates/apiYoutube.cer -storepass changeit -noprompt \
+    && keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias ZscalerIntermediateRootCA \
+        -file /tmp/certificates/ZscalerIntermediateRootCA.cer -storepass changeit -noprompt \
     && rm -rf /tmp/certificates
 
 # Repositionnement sur l'utilisateur liferay
