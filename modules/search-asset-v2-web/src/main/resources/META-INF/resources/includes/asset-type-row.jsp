@@ -7,7 +7,7 @@
 
         <aui:input name="numAssetType${param.index}" value="${param.index}" type="hidden" />
 
-        <aui:select id="classname_${param.index}" name="classname_${param.index}" label="" onChange="updateBloc(${param.index})">
+        <aui:select id="classname_${param.index}" name="classname_${param.index}" label="" onChange="updateBloc(${param.index})" inlineField="true" >
             <aui:option>
                 <liferay-ui:message key="select-asset-type"/>
             </aui:option>
@@ -18,6 +18,9 @@
                 </aui:option>
             </c:forEach>
         </aui:select>
+        <c:if test="${param.index gt 0}">
+            <aui:button cssClass="form-group btn-icon icon icon-trash icon-2x" type="button" onClick="deleteAssetType(${param.index});"/>
+        </c:if>
 
         <!-- Portée -->
         <aui:fieldset collapsed="false" collapsible="true" label="scope" id="scope${param.index}">

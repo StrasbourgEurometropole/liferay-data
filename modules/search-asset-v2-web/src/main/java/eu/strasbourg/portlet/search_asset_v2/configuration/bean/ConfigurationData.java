@@ -348,4 +348,68 @@ public class ConfigurationData {
         result.put(ConfigurationConstants.JSON_VOCABULARIES_CONTROL_TYPES, vocabularyControlTypes);
         return result;
     }
+
+    public boolean isDisplayDateField() {
+        return displayDateField;
+    }
+
+    public boolean isDisplaySorting() {
+        return displaySorting;
+    }
+
+    public String getBoostTagsNames() {
+        return boostTagsNames;
+    }
+
+    public String getFilterField() {
+        return filterField;
+    }
+
+    public long getDefaultFilterDateRange() {
+        return defaultFilterDateRange;
+    }
+
+    public boolean isRandomSort() {
+        return randomSort;
+    }
+
+    public String getFirstSortingField() {
+        return firstSortingField;
+    }
+
+    public String getFirstSortingType() {
+        return firstSortingType;
+    }
+
+    public String getSecondSortingField() {
+        return secondSortingField;
+    }
+
+    public String getSecondSortingType() {
+        return secondSortingType;
+    }
+
+    public String getGroupBy() {
+        return groupBy;
+    }
+
+    public boolean isHideResultsBeforeSearch() {
+        return hideResultsBeforeSearch;
+    }
+
+    public long getDelta() {
+        return delta;
+    }
+
+    public String getSearchForm() {
+        return searchForm;
+    }
+
+    public boolean isDisplayExport() {
+        return displayExport;
+    }
+
+    public String getExportType() {
+        return exportType;
+    }
 }

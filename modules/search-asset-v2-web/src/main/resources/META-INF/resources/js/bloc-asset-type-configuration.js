@@ -24,7 +24,7 @@ var blocAssetType = "" +
 	        "<div aria-labelledby='assetType%%INDEX%%Header' class='panel-collapse collapse show' id='assetType%%INDEX%%Content' role='presentation' style=''>" +
 		        "<div class='panel-body'>" +
 		            "<input class='field form-control' id='" + namespace + "numAssetType%%INDEX%%' name='" + namespace + "numAssetType%%INDEX%%' type='hidden' value='%%INDEX%%'>" +
-                    "<div class='form-group input-select-wrapper'>" +
+                    "<div class='form-group form-group-inline input-select-wrapper'>" +
 	                    "<select class='form-control' id='" + namespace + "classname_%%INDEX%%' name='" + namespace + "classname_%%INDEX%%' onchange='updateBloc(%%INDEX%%)' title='classname_%%INDEX%%'>" +
                             "<option class='' selected='' value='false'>" + Liferay.Language.get('select-asset-type') + "</option>";
                             $.each(assetTypeNames.split(','), function(i, assetTypeName) {
@@ -33,7 +33,7 @@ var blocAssetType = "" +
 blocAssetType += "" +
 	                    "</select>" +
                     "</div>" +
-		            "<button class='btn btn-icon icon icon-trash icon-2x btn-default' id='" + namespace + "epfa' onclick='deleteAssetType(%%INDEX%%);' type='button'></button>" +
+		            "<button class='form-group btn btn-icon icon icon-trash icon-2x btn-default' id='" + namespace + "epfa' onclick='deleteAssetType(%%INDEX%%);' type='button'></button>" +
                     "<!-- Portée -->" +
                     "<fieldset aria-labelledby='scope%%INDEX%%Title' class='panel panel-default ' id='scope%%INDEX%%' role='group'>" +
 		                "<div class='panel-heading' id='scope%%INDEX%%Header' role='presentation'>" +
