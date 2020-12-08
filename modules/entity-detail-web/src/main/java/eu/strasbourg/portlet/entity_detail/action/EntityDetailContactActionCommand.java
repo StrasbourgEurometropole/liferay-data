@@ -168,6 +168,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 							TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
 
 					// Traitement du template sujet
+					out = new StringWriter();
 					subjectTemplate.putAll(context);
 					subjectTemplate.processTemplate(out);
 					mailSubject = out.toString();
