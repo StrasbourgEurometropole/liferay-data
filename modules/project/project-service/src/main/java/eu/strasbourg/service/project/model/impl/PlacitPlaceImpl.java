@@ -21,10 +21,14 @@ import java.util.Locale;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 
 import aQute.bnd.annotation.ProviderType;
@@ -52,6 +56,8 @@ import eu.strasbourg.utils.FileEntryHelper;
 public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 
 	private static final long serialVersionUID = 2939226261046827826L;
+
+	private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 	
 	private AdictService adictService;
 	
@@ -190,7 +196,14 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 		if (place != null) {
 			return place.getCity(locale);
 		} else {
-			return this.getPlaceStreetNumber() + " " + this.getPlaceStreetName();
+			String cityName = "";
+			try {
+				cityName = AssetCategoryLocalServiceUtil.getCategory(this.getPlaceCityId()).getTitle(locale);
+			} catch (PortalException e) {
+				this.log.info("Placit place " + this.getPlacitPlaceId() + " is linked to a city category " +
+						this.getPlaceCityId() + " which doesn't exist anymore/");
+			}
+			return cityName;
 		}
 	}
 	
