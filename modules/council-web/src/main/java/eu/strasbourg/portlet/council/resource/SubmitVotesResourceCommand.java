@@ -72,7 +72,7 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
             String paramOfficialProcurationVote_2 = ParamUtil.getString(request, PARAM_OFFICIAL_PROCURATION_VOTE_2);
 
             // Verification du business de la requête
-            if (!validate(request).equals("")) {
+            if (validate(request).equals("")) {
                 ServiceContext sc = ServiceContextFactory.getInstance(request);
 
                 try {
@@ -106,6 +106,8 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
 
                 } catch (ConstraintViolationException e) {
                     message = "";
+                    this.log.error(e);
+                } catch (InterruptedException e) {
                     this.log.error(e);
                 }
             }
