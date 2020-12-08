@@ -107,8 +107,6 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
                 } catch (ConstraintViolationException e) {
                     message = "";
                     this.log.error(e);
-                } catch (InterruptedException e) {
-                    this.log.error(e);
                 }
             }
 
