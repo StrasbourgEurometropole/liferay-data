@@ -171,11 +171,15 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
         // Vérification de l'existance de la délibération
         Deliberation deliberation = this.deliberationLocalService.fetchDeliberation(paramDeliberationId);
         if (deliberation ==  null) {
+            this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
+                    "pour une deliberation " + paramDeliberationId + " qui n'existe pas");
             return LanguageUtil.get(this.bundle, "deliberation-not-exist-error");
         }
 
         // Vérification du statut de la délibération
         if (!deliberation.isVoteOuvert()) {
+            this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
+                    "pour la deliberation " + paramDeliberationId + " qui n'est pas ouverte");
             return LanguageUtil.get(bundle, "deliberation-not-open-for-vote-error");
         }
 
@@ -183,6 +187,8 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
         if (Validator.isNull(paramOfficialVote)
                 && Validator.isNull(paramOfficialProcurationVote_1)
                 && Validator.isNull(paramOfficialProcurationVote_2)) {
+            this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
+                    "pour la deliberation " + paramDeliberationId + " sans fournir de vote");
             return LanguageUtil.get(this.bundle, "vote-empty-error");
         }
 
@@ -190,6 +196,8 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
         Vote vote = this.voteLocalService.findByDeliberationIdandOfficialId(
                 paramDeliberationId, paramOfficialId);
         if (vote != null) {
+            this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
+                    " plusieurs fois pour la deliberation " + paramDeliberationId);
             return LanguageUtil.get(this.bundle, "vote-already-register");
         }
 
@@ -197,6 +205,8 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
         Procuration absenceProcuration = this.procurationLocalService.findAbsenceForCouncilSession(
                 paramSessionId, paramOfficialId);
         if (absenceProcuration != null) {
+            this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
+                    " pour la deliberation " + paramDeliberationId + "alors qu'il est defini absent");
             return LanguageUtil.get(this.bundle, "defined.as.absent.error");
         }
 
@@ -206,6 +216,9 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
             procuration = this.procurationLocalService.findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
                     paramSessionId, paramOfficialId, paramOfficialProcurationId_1);
             if (procuration == null) {
+                this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
+                        "par procuration pour le votant " + paramOfficialProcurationId_1 + " pour la deliberation " +
+                        paramDeliberationId + "alors qu'il ne possede pas/plus cette procuration");
                 return LanguageUtil.get(bundle, "procuration-voted-not-found-error");
             }
         }
@@ -213,6 +226,9 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
            procuration = this.procurationLocalService.findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
                     paramSessionId, paramOfficialId, paramOfficialProcurationId_2);
             if (procuration == null) {
+                this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
+                        "par procuration pour le votant " + paramOfficialProcurationId_2 + " pour la deliberation " +
+                        paramDeliberationId + "alors qu'il ne possede pas/plus cette procuration");
                 return LanguageUtil.get(bundle, "procuration-voted-not-found-error");
             }
         }
