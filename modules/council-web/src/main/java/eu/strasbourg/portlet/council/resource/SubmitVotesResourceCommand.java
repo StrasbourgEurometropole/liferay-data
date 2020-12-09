@@ -60,6 +60,9 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
     public boolean serveResource(ResourceRequest request, ResourceResponse response) {
         boolean result = false;
         String message = "";
+        Vote officialVote = null;
+        Vote officialProcurationVote1 = null;
+        Vote officialProcurationVote2 = null;
         try {
 
             // Récupération des paramètres
@@ -71,6 +74,18 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
             long paramOfficialProcurationId_2 = ParamUtil.getLong(request, PARAM_OFFICIAL_PROCURATION_ID_2);
             String paramOfficialProcurationVote_2 = ParamUtil.getString(request, PARAM_OFFICIAL_PROCURATION_VOTE_2);
 
+            this.log.info(
+                "Informations de vote avant enregistrement : [ " +
+                        "id deliberation : " + paramDeliberationId + ", " +
+                        "id official : " + paramOfficialId + ", " +
+                        "vote official : " + paramOfficialVote +
+                        (paramOfficialProcurationId_1 != 0 ? ", id official procuration 1 : " + paramOfficialProcurationId_1 : "") +
+                        (!paramOfficialProcurationVote_1.equals("") ? ", vote official procuration 1 : " + paramOfficialProcurationVote_1 : "") +
+                        (paramOfficialProcurationId_2 != 0 ? ", id official procuration 2 : " + paramOfficialProcurationId_2 : "") +
+                        (!paramOfficialProcurationVote_2.equals("") ? ", vote official procuration 2 : " + paramOfficialProcurationVote_2 : "") +
+                        " ]"
+            );
+
             // Verification du business de la requête
             if (validate(request).equals("")) {
                 ServiceContext sc = ServiceContextFactory.getInstance(request);
@@ -78,28 +93,28 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
                 try {
                     // Si exite, enregistrement du vote de l'élu
                     if (Validator.isNotNull(paramOfficialVote)) {
-                        Vote officialVote = this.voteLocalService.createVote(
+                        officialVote = this.voteLocalService.createVote(
                                 paramOfficialId, paramDeliberationId, sc);
                         officialVote.setResult(paramOfficialVote);
-                        this.voteLocalService.updateVote(officialVote, sc);
+                        officialVote = this.voteLocalService.updateVote(officialVote, sc);
                     }
 
                     // Si exite, enregistrement de la 1ere procuration
                     if (paramOfficialProcurationId_1 > 0 && Validator.isNotNull(paramOfficialProcurationVote_1)) {
-                        Vote officialProcurationVote1 = this.voteLocalService.createVote(
+                        officialProcurationVote1 = this.voteLocalService.createVote(
                                 paramOfficialProcurationId_1, paramDeliberationId, sc);
                         officialProcurationVote1.setResult(paramOfficialProcurationVote_1);
                         officialProcurationVote1.setOfficialProcurationId(paramOfficialId);
-                        this.voteLocalService.updateVote(officialProcurationVote1, sc);
+                        officialProcurationVote1 = this.voteLocalService.updateVote(officialProcurationVote1, sc);
                     }
 
                     // Si exite, enregistrement de la 2ème procuration
                     if (paramOfficialProcurationId_2 > 0 && Validator.isNotNull(paramOfficialProcurationVote_2)) {
-                        Vote officialProcurationVote2 = this.voteLocalService.createVote(
+                        officialProcurationVote2 = this.voteLocalService.createVote(
                                 paramOfficialProcurationId_2, paramDeliberationId, sc);
                         officialProcurationVote2.setResult(paramOfficialProcurationVote_2);
                         officialProcurationVote2.setOfficialProcurationId(paramOfficialId);
-                        this.voteLocalService.updateVote(officialProcurationVote2, sc);
+                        officialProcurationVote2 = this.voteLocalService.updateVote(officialProcurationVote2, sc);
                     }
 
                     result = true;
@@ -109,6 +124,18 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
                     this.log.error(e);
                 }
             }
+
+            this.log.info(
+                "Informations de vote enregistees : [ " +
+                        (officialVote != null ? "id deliberation : " + officialVote.getDeliberationId() : "") +
+                        (officialVote != null ? ", id official : " + officialVote.getOfficialId() : "") +
+                        (officialVote != null ? ", vote official : " + officialVote.getResult() : "") +
+                        (officialProcurationVote1 != null ? ", id official procuration 1 : " + officialProcurationVote1.getOfficialId() : "") +
+                        (officialProcurationVote1 != null ? ", vote official procuration 1 : " + officialProcurationVote1.getResult() : "") +
+                        (officialProcurationVote2 != null ? ", id official procuration 2 : " + officialProcurationVote2.getOfficialId() : "") +
+                        (officialProcurationVote2 != null ? ", vote official procuration 2 : " + officialProcurationVote2.getResult() : "") +
+                        " ]"
+            );
 
             // Complétion du JSON de retour
             JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
