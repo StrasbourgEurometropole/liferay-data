@@ -48,8 +48,8 @@
 			    		<c:set var="legend" value="${title} : ${numeroLabel} ${object.number} ${dateLabel} ${formattedDate}"/>		    		
 				        <div class="objtp-detail-item">
 				        	<div class="objtp-image-container">
-					        	<a href="${object.imageUrl}" title="${legend}">
-					            	<img class="objtp-picture" src="${object.imageUrl}" title="${legend}"></img>
+					        	<a href="${object.imageUrl}?imagePreview=1" title="${legend}">
+					            	<img class="objtp-picture" src="${object.imageUrl}?imagePreview=1" title="${legend}"></img>
 					            </a>
 				            </div>
 				            <div class="objtp-info">
