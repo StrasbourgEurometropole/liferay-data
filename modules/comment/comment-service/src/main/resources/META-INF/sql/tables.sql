@@ -11,14 +11,14 @@ create table comment_Comment (
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
-	text_ TEXT null,
+	text_ VARCHAR(75) null,
 	level INTEGER,
 	userQuality VARCHAR(75) null,
 	modifiedByUserDate DATE null,
 	assetEntryId LONG,
 	publikId VARCHAR(75) null,
 	parentCommentId LONG,
-	urlProjectCommentaire STRING null
+	urlProjectCommentaire VARCHAR(75) null
 );
 
 create table comment_Signalement (
