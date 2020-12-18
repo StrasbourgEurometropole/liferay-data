@@ -25,7 +25,16 @@
 	        <div class="content">
 	            <select class="vocabularies-offer" id="vocabulary_${vocStatus.index}" multiple="multiple" name="<portlet:namespace />vocabulary_${vocStatus.index}">
 	                <option value="" disabled></option>
-	                <c:forEach items="${dc.getDropdownRootCategories(vocabulary)}" var="category">
+	                <c:choose>
+                       <c:when test="${dc.compare(vocabulary.name, '(E-Job) Type de recrutement')}">
+                           <c:set var = "categories" scope = "session" value = "${dc.getSortedCategories(vocabulary)}"/>
+                       </c:when>
+                       <c:otherwise>
+                           <c:set var = "categories" scope = "session" value = "${dc.getDropdownRootCategories(vocabulary)}"/>
+                       </c:otherwise>
+                    </c:choose>
+
+                    <c:forEach items="${categories}" var="category">
                         <c:choose>
                             <c:when test="${dc.compare(vocabulary.name, '(E-Job) Filieres')}">
                                 <aui:option value="${category.categoryId}"
@@ -76,7 +85,7 @@
                 </label>
             </div>
             <div class="content">
-                <input type="text" id="alertName" name="<portlet:namespace />alertName">
+                <input type="text" id="alertName" maxlength="75" name="<portlet:namespace />alertName">
             </div>
         </div>
     </div>
