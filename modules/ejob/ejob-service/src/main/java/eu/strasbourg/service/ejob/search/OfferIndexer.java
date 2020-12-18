@@ -101,7 +101,7 @@ public class OfferIndexer extends BaseIndexer<Offer> {
 		document.addDateSortable("dates",
 				dates.toArray(new Date[dates.size()]));
 		document.addDateSortable("startDate", offer.getPublicationStartDate());
-		document.addDateSortable("endDate", offer.getPublicationEndDate());
+		document.addDateSortable("endDate", offer.getLimitDate());
 		return document;
 	}
 
