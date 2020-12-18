@@ -460,22 +460,6 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static String getTemplatesByClassPk(long classPK)
-		throws RemoteException {
-
-		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue =
-				StrasbourgServiceUtil.getTemplatesByClassPk(classPK);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
 	public static String getTagsAndCategoriesByGroupIdsAndClassName(
 			long[] groupIds, String className)
 		throws RemoteException {

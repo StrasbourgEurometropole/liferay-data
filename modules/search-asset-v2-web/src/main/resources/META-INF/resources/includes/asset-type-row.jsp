@@ -27,7 +27,7 @@
             <liferay-ui:message key="scope-explanations" />
             <aui:input name="scopeSelectedIds${param.index}" value="${not empty assetTypeData  ? assetTypeData.scopeGroupIDsJSON : ''}" type="hidden" />
             <select class="form-control" name="<portlet:namespace />scopeIds_${param.index}"
-                    id="<portlet:namespace />scopeIds_${param.index}" multiple onChange="updatePrefiltersStructureAndVocabularies(${param.index})">
+                    id="<portlet:namespace />scopeIds_${param.index}" multiple onChange="updatePrefiltersStructureVocabulariesAndGroupBy(${param.index})">
                 <option placeholder><liferay-ui:message key="select-scopes" /></option>
             </select>
         </aui:fieldset>
@@ -35,7 +35,7 @@
         <!-- Structure -->
         <aui:fieldset collapsed="false" collapsible="true" label="structure" id="structure${param.index}">
             <aui:input name="structureSelectedId${param.index}" value="${not empty assetTypeData  ? assetTypeData.structureID : ''}" type="hidden" />
-            <aui:select id="structure_${param.index}" name="structure_${param.index}" label="" inlineField="true" onChange="updateTemplate(${param.index})"></aui:select>
+            <aui:select id="structure_${param.index}" name="structure_${param.index}" label="" inlineField="true"></aui:select>
         </aui:fieldset>
 
         <!-- Template et URL -->

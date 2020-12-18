@@ -3,6 +3,7 @@ var scopesChoicesJson = JSON.parse('{}');
 var prefiltersChoicesJson = JSON.parse('{}');
 var allGroupIds = [];
 var vocabulariesChoicesJson = JSON.parse('{}');
+var groupByChoices = JSON.parse('{}');
 
 $( document ).ready(function() {
     // initialise les types d'asset
@@ -19,6 +20,9 @@ $( document ).ready(function() {
     $("select[id^='" + namespace + "vocabularyIds_']").each(function() {
         initializeVocabulary($(this));
     });
+
+    // initialise le selecteur de groupement
+    initializeGroupBy($(namespaceAUI + "groupBy"));
 });
 
 // Initialise le bloc de type de contenu
@@ -66,36 +70,16 @@ function initializeBloc(index) {
         $("#template-and-url" + index).hide();
     else{
         $("#template-and-url" + index).show();
-        // si c'est un contenu web on affiche les templates de la structure sinon on affiche les templates du type d'asset
-        if(structureId != ""){
-            Liferay.Service('/strasbourg.strasbourg/get-templates-by-class-pk',
-                {
-                    classPK: structureId
-                },
-                function(jsonTemplates) {
-                    templateId = '';
-                    templateSelected = $(namespaceAUI + 'templateSelectedId' + index);
-                    if(templateSelected != undefined)
-                        templateId = $(templateSelected).val();
-                    optionsTemplate = "<option>" + Liferay.Language.get('select-a-template') + "</option>";
-                    $.each(jsonTemplates, function(i, jsonTemplate) {
-                        optionsTemplate += "<option value='" + jsonTemplate.id + "' " + (jsonTemplate.id==templateId?"selected":"") + ">" + jsonTemplate.value + "</option>";
-                    });
-                    $(namespaceAUI + "templateKey_" + index).html(optionsTemplate);
-                }
-            );
-        }else{
-            templateId = '';
-            templateSelected = $(namespaceAUI + 'templateSelectedId' + index);
-            if(templateSelected != undefined)
-                templateId = $(templateSelected).val();
-            templates = assetTemplates[$(namespaceAUI + "classname_" + index).val()];
-            optionsTemplate = "<option>" + Liferay.Language.get('select-a-template') + "</option>";
-            $.each(templates, function(i, template) {
-                optionsTemplate += "<option value='" + template.id + "' " + (template.id==templateId?"selected":"") + ">" + template.value + "</option>";
-            });
-            $(namespaceAUI + "templateKey_" + index).html(optionsTemplate);
-        }
+        templateId = '';
+        templateSelected = $(namespaceAUI + 'templateSelectedId' + index);
+        if(templateSelected != undefined)
+            templateId = $(templateSelected).val();
+        templates = assetTemplates[$(namespaceAUI + "classname_" + index).val()];
+        optionsTemplate = "<option>" + Liferay.Language.get('select-a-template') + "</option>";
+        $.each(templates, function(i, template) {
+            optionsTemplate += "<option value='" + template.id + "' " + (template.id==templateId?"selected":"") + ">" + template.value + "</option>";
+        });
+        $(namespaceAUI + "templateKey_" + index).html(optionsTemplate);
 
         // on cache la friendlyURL si c'est un contenu web ou un fichier
         if($(namespaceAUI + "classname_" + index).val() == "searchJournalArticle" || $(namespaceAUI + "classname_" + index).val() == "searchDocument")
@@ -235,6 +219,27 @@ function initializeVocabulary(elt){
     );
 }
 
+// Creation du choices du sélecteur de groupBy
+function initializeGroupBy(elt){
+    Liferay.Service('/strasbourg.strasbourg/get-vocabularies-by-group-ids',
+        {
+            groupIds: allGroupIds
+        },
+        function(json) {
+            choice = initializeChoices(elt);
+            choice.setChoices([{label: '', choices: [
+                  { value: '0', label: Liferay.Language.get("eu.search.asset.web.configuration.none")},
+                  { value: '-1', label: Liferay.Language.get("eu.search.asset.web.configuration.content.type")}
+            ]}], "value", "label", true);
+            choice.setChoices(json, "value", "label", false);
+            groupBySelected = $(namespaceAUI + 'groupBySelectedId');
+            if(groupBySelected.length > 0 && $(groupBySelected).val().length > 0)
+                choice.setChoiceByValue($(groupBySelected).val());
+            groupByChoices = choice;
+        }
+    );
+}
+
 
 // Mise a jour du bloc de type de contenu lors de la selection d'un type de contenu
 function updateBloc(index) {
@@ -261,7 +266,7 @@ function updateBloc(index) {
 
     // MaJ des templates
     optionsTemplate = "<option>" + Liferay.Language.get('select-a-template') + "</option>";
-    if($(namespaceAUI + "classname_" + index).val() != "searchDemarche" && $(namespaceAUI + "classname_" + index).val() != "searchJournalArticle"){
+    if($(namespaceAUI + "classname_" + index).val() != "searchDemarche"){
         templates = assetTemplates[$(namespaceAUI + "classname_" + index).val()];
         $.each(templates, function(i, template) {
             optionsTemplate += "<option value='" + template.id + "'>" + template.value + "</option>";
@@ -302,10 +307,13 @@ function updateBloc(index) {
     else{
         $("#prefilter" + index).show();
     }
+
+    // MaJ des critères de recherche et du regroupement
+    updateVocabularyAndGroupBy();
 }
 
-// Mise a jour des préfiltres, des structures et vocabulaire s'il y a lieu lors de la selection d'un groupe
-function updatePrefiltersStructureAndVocabularies(index) {
+// Mise a jour des préfiltres, des structures, des critères de recherche et du regroupement s'il y a lieu lors de la selection d'un groupe
+function updatePrefiltersStructureVocabulariesAndGroupBy(index) {
     groupIds = $(namespaceAUI + "scopeIds_" + index).val();
     classname = $(namespaceAUI + "classname_" + index).val();
 
@@ -362,30 +370,8 @@ function updatePrefiltersStructureAndVocabularies(index) {
         }
     );
 
-    // MaJ des critères de recherche
-    updateVocabulary();
-}
-
-// Mise a jour des templates lors de la selection d'une structure
-function updateTemplate(index) {
-    structureId = $(namespaceAUI + "structure_" + index).val();
-    if(structureId != ""){
-        Liferay.Service('/strasbourg.strasbourg/get-templates-by-class-pk',
-            {
-                classPK: structureId
-            },
-            function(jsonTemplates) {
-                optionsTemplate = "<option>" + Liferay.Language.get('select-a-template') + "</option>";
-                $.each(jsonTemplates, function(i, jsonTemplate) {
-                    optionsTemplate += "<option value='" + jsonTemplate.id + "'>" + jsonTemplate.value + "</option>";
-                });
-                $(namespaceAUI + "templateKey_" + index).html(optionsTemplate);
-            }
-        );
-    }else{
-        optionsTemplate = "<option>" + Liferay.Language.get('select-a-template') + "</option>";
-        $(namespaceAUI + "templateKey_" + index).html(optionsTemplate);
-    }
+    // MaJ des critères de recherche et du regroupement
+    updateVocabularyAndGroupBy();
 }
 
 // Mise a jour des préfiltres lors de la sélection du type de préfiltre (étiquette ou catégorie)
@@ -428,8 +414,8 @@ function deleteAssetType(index) {
 
 	$('#assetType' + index).closest('.card-horizontal').remove();
 
-    // MaJ des critères de recherche
-    updateVocabulary();
+    // MaJ des critères de recherche et du regroupement
+    updateVocabularyAndGroupBy();
 
 	// on ajuste le nb d'assetType
 	$(namespaceAUI + 'nbAssetType').val(parseInt(nbAssetType) - 1);
@@ -487,7 +473,7 @@ function setPrefilterIndexes(indexAssetType) {
 
 // Récupère les indexes des critères de recherche
 function setVocabularyValidators() {
-    var vocabularys = $('#vocabularies-content div[id*=vocabulary]');
+    var vocabularys = $('#vocabularies-content div[id^=vocabulary]');
     var vocabularyIndexes = "";
     vocabularys.each(function() {
         var index = $(this).find('input[id*=' + namespace + 'numVocabulary]').val();
@@ -526,17 +512,17 @@ function getGroups(){
     });
 }
 
-// Mise a jour des critères de recherche lors de la suppression d'un type ou d'un groupe
-function updateVocabulary() {
+// Mise a jour des critères de recherche et du regroupement lors de la suppression d'un groupe ou de la modification ou suppression d'un type
+function updateVocabularyAndGroupBy() {
     // Récupération des groupes
     getGroups();
 
-    // MaJ des vocabulaires
     Liferay.Service('/strasbourg.strasbourg/get-vocabularies-by-group-ids',
         {
             groupIds: allGroupIds
         },
         function(jsonVocabularies) {
+            // MaJ des vocabulaires
             $("select[id^='" + namespace + "vocabularyIds_']").each(function (){
                 indexVocabulary = this.id.slice(namespace.length + 'vocabularyIds_'.length);
                 choice = vocabulariesChoicesJson[indexVocabulary];
@@ -551,6 +537,22 @@ function updateVocabulary() {
                     deleteVocabulary(indexVocabulary);
                 }
             });
+
+            // MaJ du regroupement
+            itemId = groupByChoices.getValue(true);
+            groupByChoices.removeActiveItems();
+            groupByChoices.setChoices([{label: '', choices: [
+                  { value: '0', label: Liferay.Language.get("eu.search.asset.web.configuration.none")},
+                  { value: '-1', label: Liferay.Language.get("eu.search.asset.web.configuration.content.type")}
+            ]}], "value", "label", true);
+            groupByChoices.setChoices(jsonVocabularies, "value", "label", false);
+            if(itemId != undefined && itemId != "")
+                groupByChoices.setChoiceByValue(itemId);
+
+            // si le vocabulaire n'existe plus, on sélectionne 'Ne pas grouper'
+            if($(namespaceAUI + "groupBy").val() == "" || $(namespaceAUI + "groupBy").val() == null){
+                groupByChoices.setChoiceByValue("0");
+            }
         }
     );
 }

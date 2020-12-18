@@ -773,35 +773,6 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray
-		getTemplatesByClassPk(HttpPrincipal httpPrincipal, long classPK) {
-
-		try {
-			MethodKey methodKey = new MethodKey(
-				StrasbourgServiceUtil.class, "getTemplatesByClassPk",
-				_getTemplatesByClassPkParameterTypes26);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey, classPK);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(
-					e);
-			}
-
-			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
 	public static com.liferay.portal.kernel.json.JSONObject
 		getTagsAndCategoriesByGroupIdsAndClassName(
 			HttpPrincipal httpPrincipal, long[] groupIds, String className) {
@@ -810,7 +781,7 @@ public class StrasbourgServiceHttp {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class,
 				"getTagsAndCategoriesByGroupIdsAndClassName",
-				_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes27);
+				_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes26);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds, className);
@@ -840,7 +811,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getTagsByGroupIds",
-				_getTagsByGroupIdsParameterTypes28);
+				_getTagsByGroupIdsParameterTypes27);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds);
@@ -988,12 +959,10 @@ public class StrasbourgServiceHttp {
 	};
 	private static final Class<?>[] _getStructuresByGroupIdsParameterTypes25 =
 		new Class[] {long[].class};
-	private static final Class<?>[] _getTemplatesByClassPkParameterTypes26 =
-		new Class[] {long.class};
 	private static final Class<?>[]
-		_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes27 =
+		_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes26 =
 			new Class[] {long[].class, String.class};
-	private static final Class<?>[] _getTagsByGroupIdsParameterTypes28 =
+	private static final Class<?>[] _getTagsByGroupIdsParameterTypes27 =
 		new Class[] {long[].class};
 	private static final Class<?>[]
 		_getCategoriesByClassNameAndGroupIdsParameterTypes29 = new Class[] {

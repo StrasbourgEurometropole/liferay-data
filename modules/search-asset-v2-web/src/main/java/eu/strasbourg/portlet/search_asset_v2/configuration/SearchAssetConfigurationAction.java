@@ -5,9 +5,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationData;
 import eu.strasbourg.portlet.search_asset_v2.configuration.display.context.SearchAssetConfigurationDisplayContext;
 import org.osgi.service.component.annotations.Component;
@@ -37,8 +35,6 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 	public void processAction(PortletConfig portletConfig,
 		ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
-		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest
-			.getAttribute(WebKeys.THEME_DISPLAY);
 		String cmd = ParamUtil.getString(actionRequest, "cmd");
 		if (cmd.equals("update")) {
 			ConfigurationData configData = new ConfigurationData(actionRequest);

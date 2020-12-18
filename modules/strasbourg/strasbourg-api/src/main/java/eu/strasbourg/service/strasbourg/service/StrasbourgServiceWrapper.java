@@ -217,13 +217,6 @@ public class StrasbourgServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray getTemplatesByClassPk(
-		long classPK) {
-
-		return _strasbourgService.getTemplatesByClassPk(classPK);
-	}
-
-	@Override
 	public com.liferay.portal.kernel.json.JSONObject getTraffic() {
 		return _strasbourgService.getTraffic();
 	}

@@ -56,7 +56,7 @@ blocAssetType += "" +
 	                    "<div aria-labelledby='scope%%INDEX%%Header' class='panel-collapse collapse show' id='scope%%INDEX%%Content' role='presentation' style=''>" +
 		                    "<div class='panel-body'>" +
                                 Liferay.Language.get('scope-explanations') +
-                                "<select class='form-control' name='" + namespace + "scopeIds_%%INDEX%%' id='" + namespace + "scopeIds_%%INDEX%%' multiple onchange='updatePrefiltersStructureAndVocabularies(%%INDEX%%)'>" +
+                                "<select class='form-control' name='" + namespace + "scopeIds_%%INDEX%%' id='" + namespace + "scopeIds_%%INDEX%%' multiple onchange='updatePrefiltersStructureVocabulariesAndGroupBy(%%INDEX%%)'>" +
                                     "<option placeholder>" + Liferay.Language.get('select-scopes') +"</option>" +
                                 "</select>" +
 		                    "</div>" +
@@ -84,7 +84,7 @@ blocAssetType += "" +
                         "<div aria-labelledby='structure%%INDEX%%Header' class='in panel-collapse collapse ' id='structure%%INDEX%%Content' role='presentation'>" +
                             "<div class='panel-body'>" +
                                 "<div class='form-group form-group-inline input-select-wrapper'>" +
-                                    "<select class='form-control' id='" + namespace + "structure_%%INDEX%%' name='" + namespace + "structure_%%INDEX%%' title='structure_%%INDEX%%'  onChange='updateTemplate(%%INDEX%%)'>" +
+                                    "<select class='form-control' id='" + namespace + "structure_%%INDEX%%' name='" + namespace + "structure_%%INDEX%%' title='structure_%%INDEX%%'>" +
                                         "<option>" + Liferay.Language.get('select-a-structure') + "</option>" +
                                     "</select>" +
                                 "</div>" +

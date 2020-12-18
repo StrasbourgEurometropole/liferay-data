@@ -105,19 +105,19 @@
 	</c:if>
 	
 	<!-- Tri -->
-	<c:if test="${dc.configuration.displayDateSorting()}">
+	<c:if test="${dc.displayDateSorting}">
 		<div class="order-selection">
 			<legend>
 				<liferay-ui:message key="search-asset-sort" />
 			</legend>
 			<div class="order-selection-control open">
 				<aui:select name="sortFieldAndType" label="" showEmptyOption="true">
-					<c:if test="${not empty dc.keywords or not empty dc.configuration.boostTagsNames()}">
+					<c:if test="${not empty dc.keywords or not empty dc.boostTagsNames}">
 						<aui:option value="score,desc" label="score-desc" />
 					</c:if>
-					<aui:option value="${dc.configuration.defaultSortField()},asc"
+					<aui:option value="${dc.defaultSortField},asc"
 						label="dates-asc" />
-					<aui:option value="${dc.configuration.defaultSortField()},desc"
+					<aui:option value="${dc.defaultSortField},desc"
 						label="dates-desc" />
 				</aui:select>
 				<aui:input type="hidden" name="sortingChanged" value="false" />

@@ -1,6 +1,9 @@
 package eu.strasbourg.utils;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.journal.model.JournalArticle;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
@@ -26,8 +29,10 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class SearchHelper {
 
@@ -1050,6 +1055,321 @@ public class SearchHelper {
 		} catch (
 
 				ParseException e) {
+			_log.error(e);
+			return null;
+		}
+	}
+
+	/**
+	 * Retourne les Hits correspondant aux paramètres pour les moteurs de
+	 * recherche d'assets V2
+	 *
+	 * @param searchContext
+	 * @param assetTypes
+	 *            Le JSON des assetTypes
+	 * @param isDisplayField
+	 *            Si la recherche se fait par rapport à des dates
+	 * @param filterField
+	 *            Champs au format date sur lequel le filtre se fait
+	 * @param sortingFieldsAndTypes
+	 *            Map contenant les champs et les types des tri
+	 * @param keywords
+	 *            Mots clés de recherche
+	 * @param fromDate
+	 *            Date de début, sous le format "yyyyMMdd000000"
+	 * @param toDate
+	 *            Date de fin, sous le format "yyyyMMdd000000"
+	 * @param categoriesIds
+	 *            Liste de tableaux d'ids de catégories (provenant de la
+	 *            recherche utilisateur) - un OU est effectué entre chaque id de
+	 *            chaque tableau, et UN entre chaque liste
+	 * @param idSIGPlace
+	 * 			  L'id SIG du lieu
+	 * @param locale
+	 *            Locale
+	 * @param start
+	 *            Pagination : début
+	 * @param end
+	 *            Pagination : fin
+	 *
+	 * @return Les hits renvoyés par le moteur de recherche
+	 */
+	public static Hits getGlobalSearchHitsV2(SearchContext searchContext, JSONArray assetTypes, Boolean isDisplayField,
+											 String filterField, Map<String, String> sortingFieldsAndTypes,
+											 String keywords, LocalDate fromDate, LocalDate toDate,
+											 List<Long[]> categoriesIds, String idSIGPlace, Locale locale, int start, int end) {
+		try {
+			// Pagination
+			searchContext.setStart(start);
+			searchContext.setEnd(end);
+
+			// Query
+			Query query = getGlobalSearchV2Query(assetTypes, isDisplayField, filterField, keywords, fromDate, toDate, categoriesIds, idSIGPlace, locale);
+
+			// Ordre
+			Sort[] sorts = new Sort[sortingFieldsAndTypes.size()];
+			Iterator iterator = sortingFieldsAndTypes.entrySet().iterator();
+			int i = 0;
+			while (iterator.hasNext()) {
+				Map.Entry entry = (Map.Entry) iterator.next();
+				sorts[i] = SortFactoryUtil.create((String) entry.getKey(), entry.getValue().equals("DESC"));
+				i++;
+			}
+			searchContext.setSorts(sorts);
+
+			//DEBUG ONLY. Pour voir la requete envoyee a elastic search
+			//String queryS = IndexSearcherHelperUtil.getQueryString(searchContext, query);
+			//_log.error(queryS);
+
+			// Recherche
+			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
+			_log.info("Recherche front-end : " + hits.getSearchTime() * 1000 + "ms");
+			return hits;
+		} catch (SearchException e) {
+			_log.error(e);
+			return null;
+		}
+	}
+
+	/**
+	 * Retourne la requête à exécuter correspondant aux paramètres pour le searchAssetV2
+	 */
+	private static Query getGlobalSearchV2Query(JSONArray assetTypes, Boolean isDisplayField, String filterField, String keywords, LocalDate fromDate,
+											  LocalDate toDate, List<Long[]> categoriesIds, String placeSigId, Locale locale) {
+		try {
+			// Construction de la requète
+			BooleanQuery superQuery = new BooleanQueryImpl();
+			BooleanQuery query = new BooleanQueryImpl();
+
+			//Asset type
+			BooleanQuery assetTypesQuery = new BooleanQueryImpl();
+			for (Object assetTypeObject : assetTypes) {
+				JSONObject assetType = (JSONObject) assetTypeObject;
+				BooleanQuery assetTypeQuery = new BooleanQueryImpl();
+				if (Validator.isNotNull(assetType)) {
+					// ClassNames
+					if (Validator.isNotNull(assetType.getString("classname"))) {
+						// Cas où on a un journalArticle (on vérifie que c'est la
+						// dernière version)
+						if (assetType.getString("classname").contains("searchJournalArticle")) {
+							BooleanQuery journalArticleQuery = new BooleanQueryImpl();
+							journalArticleQuery.addTerm(Field.ENTRY_CLASS_NAME, JournalArticle.class.getName(), false, BooleanClauseOccur.MUST);
+							journalArticleQuery.addRequiredTerm("head", true);
+							assetTypeQuery.add(journalArticleQuery, BooleanClauseOccur.MUST);
+							// ajout de la structure du contenu web
+							if (Validator.isNotNull(assetType.getLong("structureId"))) {
+								BooleanQuery structureQuery = new BooleanQueryImpl();
+								structureQuery.addRequiredTerm(Field.CLASS_TYPE_ID, assetType.getString("structureId"));
+								assetTypeQuery.add(structureQuery, BooleanClauseOccur.MUST);
+							}
+
+						}
+						else {
+							// Si on veut les procédures/démarches, on rajoute la condition à la requête
+							if (assetType.getString("classname").equals("searchDemarche")) {
+								BooleanQuery procedureQuery = new BooleanQueryImpl();
+								procedureQuery.addRequiredTerm("type", "procedure");
+								procedureQuery.addRequiredTerm("title", keywords);
+								superQuery.add(procedureQuery, BooleanClauseOccur.SHOULD);
+							}else{
+								// Cas général
+								BooleanQuery classNameQuery = new BooleanQueryImpl();
+								// classNameQuery.addRequiredTerm(Field.ENTRY_CLASS_NAME, className);
+								// classNameQuery.addTerm(Field.ENTRY_CLASS_NAME, className, false, BooleanClauseOccur.MUST);
+								classNameQuery.addExactTerm(Field.ENTRY_CLASS_NAME, assetType.getString("classname"));
+								assetTypeQuery.add(classNameQuery, BooleanClauseOccur.MUST);
+							}
+						}
+					}
+
+					// Groups
+					if (assetType.getJSONArray("scopeIds").length() > 0) {
+						BooleanQuery groupsQuery = new BooleanQueryImpl();
+						for (Object groupObject : assetType.getJSONArray("scopeIds")) {
+							Long groupId = (Long) groupObject;
+							BooleanQuery groupQuery = new BooleanQueryImpl();
+							groupQuery.addRequiredTerm(Field.GROUP_ID, groupId);
+							groupsQuery.add(groupQuery, BooleanClauseOccur.SHOULD);
+						}
+						assetTypeQuery.add(groupsQuery, BooleanClauseOccur.MUST);
+					}
+
+					// Préfiltres
+					if (assetType.getJSONArray("prefilters").length() > 0) {
+						BooleanQuery prefiltersQuery = new BooleanQueryImpl();
+						for (Object prefilterObject : assetType.getJSONArray("prefilters")) {
+							JSONObject prefilter = (JSONObject) prefilterObject;
+							if (prefilter.getString("type").equals("tags")) {
+								BooleanQuery tagsQuery = new BooleanQueryImpl();
+								for (Object tagObject : prefilter.getJSONArray("selection")) {
+									Long tagId = (Long) tagObject;
+									BooleanQuery tagQuery = new BooleanQueryImpl();
+									tagQuery.addRequiredTerm(Field.ASSET_TAG_IDS, String.valueOf(tagId));
+									if (prefilter.getString("operator").equals("all")) {
+										tagsQuery.add(tagQuery, BooleanClauseOccur.MUST);
+									} else {
+										tagsQuery.add(tagQuery, BooleanClauseOccur.SHOULD);
+									}
+								}
+								// si true alors contient
+								if (prefilter.getBoolean("contains")) {
+									prefiltersQuery.add(tagsQuery, BooleanClauseOccur.MUST);
+								} else {
+									prefiltersQuery.add(tagsQuery, BooleanClauseOccur.MUST_NOT);
+								}
+							} else {
+								BooleanQuery categoriesQuery = new BooleanQueryImpl();
+								for (Object categoryObject : prefilter.getJSONArray("selection")) {
+									Long categoryId = (Long) categoryObject;
+									BooleanQuery categoryQuery = new BooleanQueryImpl();
+									categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
+									if (prefilter.getString("operator").equals("all")) {
+										categoriesQuery.add(categoryQuery, BooleanClauseOccur.MUST);
+									} else {
+										categoriesQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
+									}
+								}
+								// si true alors contient
+								if (prefilter.getBoolean("contains")) {
+									prefiltersQuery.add(categoriesQuery, BooleanClauseOccur.MUST);
+								} else {
+									prefiltersQuery.add(categoriesQuery, BooleanClauseOccur.MUST_NOT);
+								}
+							}
+						}
+						assetTypeQuery.add(prefiltersQuery, BooleanClauseOccur.MUST);
+					}
+				}
+				assetTypesQuery.add(assetTypeQuery, BooleanClauseOccur.SHOULD);
+			}
+			query.add(assetTypesQuery, BooleanClauseOccur.MUST);
+
+			// Statut et visibilité
+			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
+			query.addRequiredTerm("visible", true);
+
+			// Date de publication
+			BooleanQuery publicationDateQuery = new BooleanQueryImpl();
+			publicationDateQuery.addRangeTerm(Field.PUBLISH_DATE + "_sortable", 0,
+					Timestamp.valueOf(LocalDateTime.now()).toInstant().toEpochMilli());
+			query.add(publicationDateQuery, BooleanClauseOccur.MUST);
+
+			// Mots-clés
+			if (Validator.isNotNull(keywords)) {
+				BooleanQuery keywordQuery = new BooleanQueryImpl();
+
+				// Fuzzy sur titre
+				MatchQuery titleQuery = new MatchQuery(Field.TITLE + '_' + locale, keywords);
+				titleQuery.setAnalyzer("strasbourg_analyzer");
+				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
+
+				// Titre sans analyzer
+				MatchQuery titleQueryWithoutAnalyzer = new MatchQuery(Field.TITLE + "_" + locale, keywords);
+				titleQueryWithoutAnalyzer.setFuzziness(new Float(2));
+				titleQueryWithoutAnalyzer.setBoost(3);
+				keywordQuery.add(titleQueryWithoutAnalyzer, BooleanClauseOccur.SHOULD);
+
+				// Wildcard sur titre
+				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE + "_" + locale,
+						"*" + keywords + "*");
+				titleWildcardQuery.setBoost(30);
+				keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
+
+				// Description
+				MatchQuery descriptionQuery = new MatchQuery(Field.DESCRIPTION + "_" + locale, keywords);
+				keywordQuery.add(descriptionQuery, BooleanClauseOccur.SHOULD);
+
+				// Pour les fichiers on recherche dans le champ "title" sans la
+				// locale car il est indexé uniquement comme cela
+				BooleanQuery fileQuery = new BooleanQueryImpl();
+				MatchQuery fileTitleQuery = new MatchQuery(Field.TITLE, keywords);
+				// fileTitleQuery.setFuzziness(new Float(10));
+				fileQuery.add(fileTitleQuery, BooleanClauseOccur.MUST);
+				fileQuery.addTerm(Field.ENTRY_CLASS_NAME, DLFileEntry.class.getName(), false, BooleanClauseOccur.MUST);
+				keywordQuery.add(fileQuery, BooleanClauseOccur.SHOULD);
+
+				// Fuzzy sur content (tous les champs indexables des structures
+				// de CW et de D&M sont dans ce champ)
+				MatchQuery contentQuery = new MatchQuery(Field.CONTENT + "_" + locale, keywords);
+				// contentQuery.setFuzziness(new Float(1));
+				keywordQuery.add(contentQuery, BooleanClauseOccur.SHOULD);
+
+				// Fuzzy sur catégorie
+				MatchQuery categoryKeywordQuery = new MatchQuery(Field.ASSET_CATEGORY_TITLES, keywords);
+				// titleQuery.setFuzziness(new Float(10));
+				keywordQuery.add(categoryKeywordQuery, BooleanClauseOccur.SHOULD);
+
+				// Fuzzy sur tags
+				MatchQuery tagKeywordQuery = new MatchQuery(Field.ASSET_TAG_NAMES, keywords);
+				// titleQuery.setFuzziness(new Float(10));
+				keywordQuery.add(tagKeywordQuery, BooleanClauseOccur.SHOULD);
+
+				query.add(keywordQuery, BooleanClauseOccur.MUST);
+			} else {
+				// Si on n'a pas de keyword : on ne veut que les entités de la
+				// langue en cours tout de même
+				// Pour cela on vérifie que le champ "title_{locale}" n'est pas
+				// vide On ne fait pas cela pour les fichiers car ils n'ont pas
+				// de champ titre traduit
+				BooleanQuery anyKeywordQuery = new BooleanQueryImpl();
+
+				WildcardQuery anyKeywordWildcardQuery = new WildcardQueryImpl("title_" + locale, "*");
+
+				anyKeywordQuery.addTerm(Field.ENTRY_CLASS_NAME, DLFileEntry.class.getName(), false,
+						BooleanClauseOccur.SHOULD);
+				anyKeywordQuery.add(anyKeywordWildcardQuery, BooleanClauseOccur.SHOULD);
+
+				query.add(anyKeywordQuery, BooleanClauseOccur.MUST);
+			}
+
+			// Catégories
+			// On fait un "ou" entre les catégories d'un même vocabulaire et un
+			// "et" entre les différents vocabulaires
+			for (Long[] categoriesIdsGroupByVocabulary : categoriesIds) {
+				BooleanQuery vocabularyQuery = new BooleanQueryImpl();
+				for (long categoryId : categoriesIdsGroupByVocabulary) {
+					BooleanQuery categoryQuery = new BooleanQueryImpl();
+					categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
+					vocabularyQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
+				}
+				query.add(vocabularyQuery, BooleanClauseOccur.MUST);
+			}
+
+			// Dates
+			if (isDisplayField) {
+				if (filterField.equals("dates_Number_sortable")) {
+					BooleanQuery datesQuery = new BooleanQueryImpl();
+
+					String fromDateString = String.format("%04d", fromDate.getYear())
+							+ String.format("%02d", fromDate.getMonth().getValue())
+							+ String.format("%02d", fromDate.getDayOfMonth()) + "000000";
+					String toDateString = String.format("%04d", toDate.getYear())
+							+ String.format("%02d", toDate.getMonth().getValue())
+							+ String.format("%02d", toDate.getDayOfMonth()) + "000000";
+
+					datesQuery.addRangeTerm("dates", fromDateString, toDateString);
+					query.add(datesQuery, BooleanClauseOccur.MUST);
+				} else {
+					BooleanQuery datesQuery = new BooleanQueryImpl();
+					long fromDateEpoch = fromDate.atStartOfDay().toEpochSecond(ZoneOffset.UTC) * 1000;
+					long toDateEpoch = toDate.plusDays(1).atStartOfDay().toEpochSecond(ZoneOffset.UTC) * 1000;
+					datesQuery.addRangeTerm(filterField, fromDateEpoch, toDateEpoch);
+					query.add(datesQuery, BooleanClauseOccur.MUST);
+				}
+
+			}
+
+			// Si le id SIG du lieu est renseigné on rajoute la condition à la requête
+			if(Validator.isNotNull(placeSigId)) {
+				BooleanQuery placeQuery = new BooleanQueryImpl();
+				placeQuery.addRequiredTerm("idSIGPlace", placeSigId);
+				query.add(placeQuery, BooleanClauseOccur.MUST);
+			}
+
+			superQuery.add(query, BooleanClauseOccur.SHOULD);
+
+			return superQuery;
+		} catch (ParseException e) {
 			_log.error(e);
 			return null;
 		}

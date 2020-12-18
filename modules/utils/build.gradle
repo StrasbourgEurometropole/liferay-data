@@ -8,6 +8,7 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.item.selector.api"
 	compileOnly group: "com.liferay", name: "com.liferay.item.selector.criteria.api"
 	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+	compileOnly group: 'com.liferay', name: 'com.liferay.portal.search.api'
 
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl"

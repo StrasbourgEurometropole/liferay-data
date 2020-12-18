@@ -96,24 +96,9 @@
 
                     <!-- CHAMP : Colonne sur laqualle filtrer par défaut -->
                     <aui:select name="filterField">
-                        <aui:option value="modified_sortable" selected="${dc.configurationData.filterField eq 'modified_sortable'}">
-                            <liferay-ui:message key="modification-date" />
-                        </aui:option>
-                        <aui:option value="publishDate_sortable" selected="${dc.configurationData.filterField eq 'publishDate_sortable'}">
-                            <liferay-ui:message key="publication-date" />
-                        </aui:option>
-                        <aui:option value="dates_Number_sortable" selected="${dc.configurationData.filterField eq 'dates_Number_sortable'}">
-                            <liferay-ui:message key="entity-date" />
-                        </aui:option>
-                        <aui:option value="order_city_Number_sortable" selected="${dc.configurationData.filterField eq 'order_city_Number_sortable'}">
-                            <liferay-ui:message key="city-order-property" />
-                        </aui:option>
-                        <aui:option value="order_ems_Number_sortable" selected="${dc.configurationData.filterField eq 'order_ems_Number_sortable'}">
-                            <liferay-ui:message key="ems-order-property" />
-                        </aui:option>
-                        <aui:option value="priority_sortable" selected="${dc.configurationData.filterField eq 'priority_sortable'}">
-                            <liferay-ui:message key="order-priority" />
-                        </aui:option>
+                        <aui:option label="modification-date" value="modified_sortable" selected="${dc.configurationData.filterField eq 'modified_sortable'}"/>
+                        <aui:option label="publication-date" value="publishDate_sortable" selected="${dc.configurationData.filterField eq 'publishDate_sortable'}"/>
+                        <aui:option label="entity-date" value="dates_Number_sortable" selected="${dc.configurationData.filterField eq 'dates_Number_sortable'}"/>
                     </aui:select>
 
                     <!-- CHAMP : Filtre par date par defaut -->
@@ -134,12 +119,17 @@
 
                             <!-- CHAMP : Tri colonne 1 -->
                     		<aui:select label="order-by" name="firstSortingField" value="" wrapperCssClass="field-inline w80">
-                    			<aui:option label="title" value="title" selected="${dc.configurationData.firstSortingField eq 'title'}"/>
+                    			<aui:option label="title" value="localized_title_fr_FR_sortable" selected="${dc.configurationData.firstSortingField eq 'localized_title_fr_FR_sortable'}"/>
                     			<aui:option label="create-date" value="createDate" selected="${dc.configurationData.firstSortingField eq 'createDate'}" />
-                    			<aui:option label="modified-date" value="modifiedDate" selected="${dc.configurationData.firstSortingField eq 'modifiedDate'}" />
-                    			<aui:option label="publish-date" value="publishDate" selected="${dc.configurationData.firstSortingField eq 'publishDate'}" />
+                    			<aui:option label="modified-date" value="modified_sortable" selected="${dc.configurationData.firstSortingField eq 'modified_sortable'}" />
+                    			<aui:option label="publish-date" value="publishDate_sortable" selected="${dc.configurationData.firstSortingField eq 'publishDate_sortable'}" />
                     			<aui:option label="expiration-date" value="expirationDate" selected="${dc.configurationData.firstSortingField eq 'expirationDate'}" />
-                    			<aui:option label="priority" value="priority" selected="${dc.configurationData.firstSortingField eq 'priority'}" />
+                                <aui:option label="entity-date" value="dates_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'dates_Number_sortable'}"/>
+                                <aui:option label="start-date" value="startDate_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'startDate_Number_sortable'}"/>
+                                <aui:option label="end-date" value="endDate_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'endDate_Number_sortable'}"/>
+                                <aui:option label="city-order-property" value="order_city_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'order_city_Number_sortable'}" />
+                                <aui:option label="ems-order-property" value="order_ems_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'order_ems_Number_sortable'}"/>
+                                <aui:option label="order-priority" value="priority_sortable" selected="${dc.configurationData.firstSortingField eq 'priority_sortable'}"/>
                     		</aui:select>
 
                             <!-- CHAMP : Tri type 1 -->
@@ -170,12 +160,17 @@
 
                             <!-- CHAMP : Tri colonne 2 -->
                     		<aui:select label="and-then-by" name="secondSortingField" wrapperCssClass="field-inline w80">
-                    			<aui:option label="title" value="title" selected="${dc.configurationData.secondSortingField eq 'title'}"/>
+                    			<aui:option label="title" value="localized_title_fr_FR_sortable" selected="${dc.configurationData.secondSortingField eq 'localized_title_fr_FR_sortable'}"/>
                     			<aui:option label="create-date" value="createDate" selected="${dc.configurationData.secondSortingField eq 'createDate'}" />
-                    			<aui:option label="modified-date" value="modifiedDate" selected="${dc.configurationData.secondSortingField eq 'modifiedDate'}" />
-                    			<aui:option label="publish-date" value="publishDate" selected="${dc.configurationData.secondSortingField eq 'publishDate'}" />
+                    			<aui:option label="modified-date" value="modified_sortable" selected="${dc.configurationData.secondSortingField eq 'modified_sortable'}" />
+                    			<aui:option label="publish-date" value="publishDate_sortable" selected="${dc.configurationData.secondSortingField eq 'publishDate_sortable'}" />
                     			<aui:option label="expiration-date" value="expirationDate" selected="${dc.configurationData.secondSortingField eq 'expirationDate'}" />
-                    			<aui:option label="priority" value="priority" selected="${dc.configurationData.secondSortingField eq 'priority'}" />
+                                <aui:option label="entity-date" value="dates_Number_sortable" selected="${dc.configurationData.secondSortingField eq 'dates_Number_sortable'}"/>
+                                <aui:option label="start-date" value="startDate_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'startDate_Number_sortable'}"/>
+                                <aui:option label="end-date" value="endDate_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'endDate_Number_sortable'}"/>
+                                <aui:option label="city-order-property" value="order_city_Number_sortable" selected="${dc.configurationData.secondSortingField eq 'order_city_Number_sortable'}" />
+                                <aui:option label="ems-order-property" value="order_ems_Number_sortable" selected="${dc.configurationData.secondSortingField eq 'order_ems_Number_sortable'}"/>
+                                <aui:option label="order-priority" value="priority_sortable" selected="${dc.configurationData.secondSortingField eq 'priority_sortable'}"/>
                     		</aui:select>
 
                             <!-- CHAMP : Tri type 2 -->
@@ -231,14 +226,8 @@
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.group">
 
                     <!-- CHAMP : Champ sur lequel effectuer le groupement -->
-                    <aui:select name="groupBy" label="eu.search.asset.web.configuration.group.by">
-                        <aui:option value="none" selected="${dc.configurationData.groupBy eq 'none'}">
-                            <liferay-ui:message key="eu.search.asset.web.configuration.none" />
-                        </aui:option>
-                        <aui:option value="contentType" selected="${dc.configurationData.groupBy eq 'contentType'}">
-                            <liferay-ui:message key="eu.search.asset.web.configuration.content.type" />
-                        </aui:option>
-                    </aui:select>
+                    <aui:input name="groupBySelectedId" value="${dc.configurationData.groupBy}" type="hidden" />
+                    <select class="form-control" name="<portlet:namespace />groupBy" id="<portlet:namespace />groupBy"></select>
 
                 </aui:fieldset>
 

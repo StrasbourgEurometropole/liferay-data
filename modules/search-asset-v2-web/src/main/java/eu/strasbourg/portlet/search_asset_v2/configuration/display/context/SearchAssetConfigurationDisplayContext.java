@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.search_asset_v2.configuration.display.context;
 
 import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
@@ -97,7 +98,7 @@ public class SearchAssetConfigurationDisplayContext {
         return jsonGroups;
     }
 
-    // Retourne un json des templates disponibles ranges par type de contenu
+    // Retourne un json des templatesKey disponibles ranges par type de contenu
     public JSONObject getAvailableAssetTemplates() {
         JSONObject availableAssetTemplates = JSONFactoryUtil.createJSONObject();
         for (AssetRendererFactory assetRendererFactory : this.availableAssetRendererFactories) {
@@ -108,12 +109,28 @@ public class SearchAssetConfigurationDisplayContext {
             JSONArray templatesJson = JSONFactoryUtil.createJSONArray();
             for (DDMTemplate template: templates) {
                 JSONObject templateJson = JSONFactoryUtil.createJSONObject();
-                templateJson.put("id", template.getTemplateId());
+                templateJson.put("id", template.getTemplateKey());
                 templateJson.put("value", template.getName(Locale.FRANCE));
                 templatesJson.put(templateJson);
             }
             availableAssetTemplates.put(className, templatesJson);
         }
+
+
+        // ajoute les templates de contenus web
+        long assetEntryClassNameId = ClassNameLocalServiceUtil
+                .getClassNameId(AssetEntry.class);
+        List<DDMTemplate> assetEntryTemplates = DDMTemplateLocalServiceUtil
+                .getTemplates(themeDisplay.getScopeGroupId(),
+                        assetEntryClassNameId);
+        JSONArray templatesJson = JSONFactoryUtil.createJSONArray();
+        for (DDMTemplate template: assetEntryTemplates) {
+            JSONObject templateJson = JSONFactoryUtil.createJSONObject();
+            templateJson.put("id", template.getTemplateKey());
+            templateJson.put("value", template.getName(Locale.FRANCE));
+            templatesJson.put(templateJson);
+        }
+        availableAssetTemplates.put("searchJournalArticle",templatesJson);
 
         // ajoute les templates de fichiers
         long documentClassNameId = ClassNameLocalServiceUtil
@@ -121,10 +138,10 @@ public class SearchAssetConfigurationDisplayContext {
         List<DDMTemplate> documentTemplates = DDMTemplateLocalServiceUtil
                 .getTemplates(themeDisplay.getScopeGroupId(),
                         documentClassNameId);
-        JSONArray templatesJson = JSONFactoryUtil.createJSONArray();
+        templatesJson = JSONFactoryUtil.createJSONArray();
         for (DDMTemplate template: documentTemplates) {
             JSONObject templateJson = JSONFactoryUtil.createJSONObject();
-            templateJson.put("id", template.getTemplateId());
+            templateJson.put("id", template.getTemplateKey());
             templateJson.put("value", template.getName(Locale.FRANCE));
             templatesJson.put(templateJson);
         }

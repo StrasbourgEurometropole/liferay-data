@@ -199,12 +199,6 @@ public class StrasbourgServiceUtil {
 		return getService().getTagsByGroupIds(groupIds);
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray
-		getTemplatesByClassPk(long classPK) {
-
-		return getService().getTemplatesByClassPk(classPK);
-	}
-
 	public static com.liferay.portal.kernel.json.JSONObject getTraffic() {
 		return getService().getTraffic();
 	}

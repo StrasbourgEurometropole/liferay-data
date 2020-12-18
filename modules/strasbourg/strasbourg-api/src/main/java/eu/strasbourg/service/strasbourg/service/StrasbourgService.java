@@ -157,9 +157,6 @@ public interface StrasbourgService extends BaseService {
 	public JSONArray getTagsByGroupIds(long[] groupIds);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getTemplatesByClassPk(long classPK);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getTraffic();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

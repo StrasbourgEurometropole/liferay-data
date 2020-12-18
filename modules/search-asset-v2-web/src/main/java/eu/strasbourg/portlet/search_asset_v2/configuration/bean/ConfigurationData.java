@@ -25,7 +25,7 @@ public class ConfigurationData {
 
     /** Données */
     private List<ConfigurationAssetData> assetTypeDataList;
-    private HashMap<String, String> vocabulariesControlTypes;
+    private LinkedHashMap<String, String> vocabulariesControlTypes;
     private boolean displayDateField;
     private boolean displaySorting;
     private String boostTagsNames;
@@ -36,7 +36,7 @@ public class ConfigurationData {
     private String firstSortingType;
     private String secondSortingField;
     private String secondSortingType;
-    private String groupBy;
+    private long groupBy;
     private boolean hideResultsBeforeSearch;
     private long delta;
     private String searchForm;
@@ -109,7 +109,7 @@ public class ConfigurationData {
         // Critères de recherche
         String vocabularyIndexes = ParamUtil.getString(request, ConfigurationConstants.PARAM_CRITERE_RECHERCHE_INDEXES);
         if (Validator.isNotNull(vocabularyIndexes)) {
-            this.vocabulariesControlTypes = new HashMap<>();
+            this.vocabulariesControlTypes = new LinkedHashMap<>();
             for (String vocabularyIndexe : vocabularyIndexes.split(",")) {
                 if (Validator.isNotNull(vocabularyIndexe)) {
                     String vocabularyIdString = ParamUtil.getString(this.request,
@@ -143,7 +143,7 @@ public class ConfigurationData {
         this.secondSortingType = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_SECOND_SORTING_TYPE);
 
         // Groupement
-        this.groupBy = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_GROUP_BY);
+        this.groupBy = ParamUtil.getLong(this.request, ConfigurationConstants.PARAM_GROUP_BY);
 
         // Affichage
         this.hideResultsBeforeSearch = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_HIDE_RESULTS_BEFORE_SEARCH);
@@ -208,7 +208,7 @@ public class ConfigurationData {
         }
 
         // Critères de recherche
-        this.vocabulariesControlTypes = new HashMap<>();
+        this.vocabulariesControlTypes = new LinkedHashMap<>();
         try {
             JSONObject json = JSONFactoryUtil.createJSONObject(this.configuration.vocabulariesControlTypes());
             JSONArray jsonVocabulariesControlTypes = json.getJSONArray(ConfigurationConstants.JSON_VOCABULARIES_CONTROL_TYPES);
@@ -292,7 +292,7 @@ public class ConfigurationData {
             configAction.setPreference(this.request, ConfigurationConstants.PARAM_SECOND_SORTING_TYPE, secondSortingType);
 
             // -- GROUPEMENT --
-            configAction.setPreference(this.request, ConfigurationConstants.PARAM_GROUP_BY, groupBy);
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_GROUP_BY, String.valueOf(groupBy));
 
             // -- AFFICHAGE --
             configAction.setPreference(this.request, ConfigurationConstants.PARAM_HIDE_RESULTS_BEFORE_SEARCH,
@@ -337,14 +337,16 @@ public class ConfigurationData {
     }
 
     public JSONObject getVocabulariesControlTypesJSON() {
-        JSONArray vocabularyControlTypes = JSONFactoryUtil.createJSONArray();
-        for (Map.Entry<String, String> entry : this.vocabulariesControlTypes.entrySet()) {
-            JSONObject vocabularyControlType = JSONFactoryUtil.createJSONObject();
-            vocabularyControlType.put(ConfigurationConstants.JSON_VOCABULARY_CONTROL_TYPE, entry.getValue());
-            vocabularyControlType.put(ConfigurationConstants.JSON_VOCABULARY_ID, entry.getKey());
-            vocabularyControlTypes.put(vocabularyControlType);
-        }
         JSONObject result = JSONFactoryUtil.createJSONObject();
+        JSONArray vocabularyControlTypes = JSONFactoryUtil.createJSONArray();
+        if(this.vocabulariesControlTypes != null) {
+            for (Map.Entry<String, String> entry : this.vocabulariesControlTypes.entrySet()) {
+                JSONObject vocabularyControlType = JSONFactoryUtil.createJSONObject();
+                vocabularyControlType.put(ConfigurationConstants.JSON_VOCABULARY_CONTROL_TYPE, entry.getValue());
+                vocabularyControlType.put(ConfigurationConstants.JSON_VOCABULARY_ID, entry.getKey());
+                vocabularyControlTypes.put(vocabularyControlType);
+            }
+        }
         result.put(ConfigurationConstants.JSON_VOCABULARIES_CONTROL_TYPES, vocabularyControlTypes);
         return result;
     }
@@ -389,7 +391,7 @@ public class ConfigurationData {
         return secondSortingType;
     }
 
-    public String getGroupBy() {
+    public long getGroupBy() {
         return groupBy;
     }
 

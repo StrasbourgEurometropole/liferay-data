@@ -31,9 +31,7 @@ import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
-import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalArticleDisplay;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
@@ -82,6 +80,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -561,23 +560,6 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	}
 
 	@Override
-	public JSONArray getTemplatesByClassPk(long classPK) {
-		JSONArray templatessJson = JSONFactoryUtil.createJSONArray();
-
-		if(Validator.isNotNull(classPK)) {
-			// récupère les templates du group
-			List<DDMTemplate> templates = DDMTemplateLocalServiceUtil.getTemplates(classPK);
-			for (DDMTemplate template : templates) {
-				JSONObject templateJson = JSONFactoryUtil.createJSONObject();
-				templateJson.put("id", template.getTemplateId());
-				templateJson.put("value", template.getNameCurrentValue());
-				templatessJson.put(templateJson);
-			}
-		}
-		return templatessJson;
-	}
-
-	@Override
 	public JSONObject getTagsAndCategoriesByGroupIdsAndClassName(long[] groupIds,
 																String className) {
 		JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -589,31 +571,51 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	@Override
 	public JSONArray getTagsByGroupIds(long[] groupIds) {
 		JSONArray tagsJson = JSONFactoryUtil.createJSONArray();
+		Boolean hasGlobalScope = false;
+		long companyId = PortalUtil.getDefaultCompanyId();
+		long globalScopeId = -1;
+		try {
+			globalScopeId = CompanyLocalServiceUtil.getCompany(companyId).getGroupId();
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
 
 		// récupère les groups
 		for (long groupId : groupIds) {
-			// récupère le groupe du tag
-			Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+			if(groupId == globalScopeId)
+				hasGlobalScope = true;
 
-			JSONObject groupJson = JSONFactoryUtil.createJSONObject();
-			groupJson.put("label", "<font style='color: #00bcd4;'><strong>" + group.getNameCurrentValue() + "</strong></font>");
-			JSONArray choicesJson = JSONFactoryUtil.createJSONArray();
+			tagsJson.put(getTagsByGroupId(groupId));
+		}
 
-			// récupère les tags du group
-			List<AssetTag> tags = AssetTagLocalServiceUtil.getGroupTags(groupId);
-			for (AssetTag tag : tags) {
-				JSONObject tagJson = JSONFactoryUtil.createJSONObject();
-				tagJson.put("value", tag.getTagId());
-				tagJson.put("label", "<strong>" + tag.getName() + "</strong><i> (" + group.getNameCurrentValue() + ")</i>");
-				JSONObject customPropertiesJson = JSONFactoryUtil.createJSONObject();
-				customPropertiesJson.put("random", group.getNameCurrentValue() + " " + tag.getName());
-				tagJson.put("customProperties", customPropertiesJson);
-				choicesJson.put(tagJson);
-			}
-			groupJson.put("choices", choicesJson);
-			tagsJson.put(groupJson);
+		// on ajoute le group global s'il n'y est pas déjà
+		if(!hasGlobalScope){
+			tagsJson.put(getTagsByGroupId(globalScopeId));
 		}
 		return tagsJson;
+	}
+
+	private JSONObject getTagsByGroupId(long groupId) {
+		// récupère le groupe
+		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+
+		JSONObject groupJson = JSONFactoryUtil.createJSONObject();
+		groupJson.put("label", "<font style='color: #00bcd4;'><strong>" + group.getNameCurrentValue() + "</strong></font>");
+		JSONArray choicesJson = JSONFactoryUtil.createJSONArray();
+
+		// récupère les tags du group
+		List<AssetTag> tags = AssetTagLocalServiceUtil.getGroupTags(groupId);
+		for (AssetTag tag : tags) {
+			JSONObject tagJson = JSONFactoryUtil.createJSONObject();
+			tagJson.put("value", tag.getTagId());
+			tagJson.put("label", "<strong>" + tag.getName() + "</strong><i> (" + group.getNameCurrentValue() + ")</i>");
+			JSONObject customPropertiesJson = JSONFactoryUtil.createJSONObject();
+			customPropertiesJson.put("random", group.getNameCurrentValue() + " " + tag.getName());
+			tagJson.put("customProperties", customPropertiesJson);
+			choicesJson.put(tagJson);
+		}
+		groupJson.put("choices", choicesJson);
+		return groupJson;
 	}
 
 	@Override
@@ -621,7 +623,18 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 														 String className) {
 		JSONArray categoriesJson = JSONFactoryUtil.createJSONArray();
 
-		if(Validator.isNotNull(className) && groupIds.length>0) {
+		// on ajoute le groupe global aux groupes
+		long companyId = PortalUtil.getDefaultCompanyId();
+		try {
+			long globalScopeId = CompanyLocalServiceUtil.getCompany(companyId).getGroupId();
+			groupIds = Arrays.copyOf(groupIds, groupIds.length + 1);
+			System.arraycopy(new long[] {globalScopeId}, 0, groupIds, groupIds.length - 1, 1);
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+
+		if(Validator.isNotNull(className)) {
+			if(className.equals("searchJournalArticle")) className = JournalArticle.class.getName();
 
 			// récupère les vocabulaires d'un className et des groupIds
 			List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getGroupsVocabularies(groupIds, className);
@@ -667,32 +680,53 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	@Override
 	public JSONArray getVocabulariesByGroupIds(long[] groupIds) {
 		JSONArray vocabulariesJson = JSONFactoryUtil.createJSONArray();
+		Boolean hasGlobalScope = false;
+		long companyId = PortalUtil.getDefaultCompanyId();
+		long globalScopeId = -1;
+		try {
+			globalScopeId = CompanyLocalServiceUtil.getCompany(companyId).getGroupId();
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
 
 		// récupère les groups
 		for (long groupId : groupIds) {
-			// récupère le groupe du tag
-			Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+			if(groupId == globalScopeId)
+				hasGlobalScope = true;
 
-			JSONObject groupJson = JSONFactoryUtil.createJSONObject();
-			groupJson.put("label", "<font style='color: #00bcd4;'><strong>" + group.getNameCurrentValue() + "</strong></font>");
-			JSONArray choicesJson = JSONFactoryUtil.createJSONArray();
+			vocabulariesJson.put(getVocabulariesByGroupId(groupId));
+		}
 
-			// récupère les tags du group
-			try {
-				List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getGroupVocabularies(groupId);
-				for (AssetVocabulary vocabulary : vocabularies) {
-					JSONObject vocabularyJson = JSONFactoryUtil.createJSONObject();
-					vocabularyJson.put("value", vocabulary.getVocabularyId());
-					vocabularyJson.put("label", "<strong>" + vocabulary.getTitleCurrentValue() + "</strong><i> (" + group.getNameCurrentValue() + ")</i>");
-					choicesJson.put(vocabularyJson);
-				}
-				groupJson.put("choices", choicesJson);
-				vocabulariesJson.put(groupJson);
-			} catch (PortalException e) {
-				e.printStackTrace();
-			}
+		// on ajoute le group global s'il n'y est pas déjà
+		if(!hasGlobalScope){
+			vocabulariesJson.put(getVocabulariesByGroupId(globalScopeId));
 		}
 		return vocabulariesJson;
+	}
+
+	private JSONObject getVocabulariesByGroupId(long groupId) {
+		// récupère le groupe
+		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+
+		JSONObject groupJson = JSONFactoryUtil.createJSONObject();
+		groupJson.put("label", "<font style='color: #00bcd4;'><strong>" + group.getNameCurrentValue() + "</strong></font>");
+		JSONArray choicesJson = JSONFactoryUtil.createJSONArray();
+
+		// récupère les vocabulaires du group
+		try {
+			List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getGroupVocabularies(groupId);
+			for (AssetVocabulary vocabulary : vocabularies) {
+				JSONObject vocabularyJson = JSONFactoryUtil.createJSONObject();
+				vocabularyJson.put("value", vocabulary.getVocabularyId());
+				vocabularyJson.put("label", "<strong>" + vocabulary.getTitleCurrentValue() + "</strong><i> (" + group.getNameCurrentValue() + ")</i>");
+				choicesJson.put(vocabularyJson);
+			}
+			groupJson.put("choices", choicesJson);
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+
+		return groupJson;
 	}
 
 	private boolean isAuthorized() {

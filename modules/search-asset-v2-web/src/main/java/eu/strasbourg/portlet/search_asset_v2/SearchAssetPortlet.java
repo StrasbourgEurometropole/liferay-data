@@ -2,10 +2,7 @@ package eu.strasbourg.portlet.search_asset_v2;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
-import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -14,6 +11,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.search.Document;
@@ -30,12 +28,12 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import eu.strasbourg.portlet.search_asset_v2.action.ExportPDF;
 import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfiguration;
+import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationAssetData;
 import eu.strasbourg.portlet.search_asset_v2.constants.SearchAssetPortletKeys;
 import eu.strasbourg.portlet.search_asset_v2.context.SearchAssetDisplayContext;
 import eu.strasbourg.service.agenda.model.Event;
@@ -63,7 +61,6 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.LayoutHelper;
 import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -83,7 +80,6 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -124,18 +120,17 @@ public class SearchAssetPortlet extends MVCPortlet {
 	public void render(RenderRequest renderRequest,
 					   RenderResponse renderResponse) {
 		try {
+			// On set le DisplayContext
+			this._dc = new SearchAssetDisplayContext(
+					renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", getDisplayContext());
+
+			this._configuration = this._dc.getConfiguration();
+
+
 			ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 			long groupId = themeDisplay.getLayout().getGroupId();
-			this._configuration = themeDisplay
-					.getPortletDisplay().getPortletInstanceConfiguration(
-							SearchAssetConfiguration.class);
-			List<String> classNameList = getClassNames();
 			String userPublikId = getPublikID(renderRequest);
-
-			// On set le DisplayContext
-			SearchAssetDisplayContext dc = new SearchAssetDisplayContext(
-					renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
 
 			// Boolean pour dire qu'on vient du portlet de recherche et non d'un
 			// asset publisher (pour être utilisé dans les ADT si besoin
@@ -145,15 +140,13 @@ public class SearchAssetPortlet extends MVCPortlet {
 			// correspondre à chaque type d'asset une page de détail
 			int i = 0;
 			Map<String, Long> className_layoutId = new HashMap<>();
-			for (String className : this._configuration.assetClassNames()
-					.split(",")) {
-				String layoutFriendlyURL = this._configuration.layoutsFriendlyURLs()
-						.split(",")[i];
+			List<ConfigurationAssetData> assetTypes = getDisplayContext().getConfigurationData().getAssetTypeDataList();
+			for (ConfigurationAssetData assetType : assetTypes) {
 				Layout layout = LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
 						themeDisplay.getScopeGroupId(), false,
-						layoutFriendlyURL);
+						assetType.getFriendlyURL());
 				if (layout != null) {
-					className_layoutId.put(className, layout.getPlid());
+					className_layoutId.put(assetType.getClassName(), layout.getPlid());
 				}
 				i++;
 			}
@@ -167,10 +160,10 @@ public class SearchAssetPortlet extends MVCPortlet {
 			}
 			renderRequest.setAttribute("homeURL", homeURL);
 
-			if(Validator.isNotNull(classNameList) && classNameList.size() > 0) {
-				String className = classNameList.get(0);
+			if(Validator.isNotNull(assetTypes) && assetTypes.size() > 0) {
+				String className = assetTypes.get(0).getClassName();
 
-				if (className.equals(PARTICIPATION)) {
+				/*if (className.equals(PARTICIPATION)) {
 					List<Participation> participationListMostCommented = _participationLocalService.getMostCommented(groupId);
 					List<Participation> participationListLessCommented = _participationLocalService.getLessCommented(themeDisplay.getScopeGroupId());
 
@@ -218,7 +211,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 					renderRequest.setAttribute("initiativesMostLiked", initiativesMostLiked);
 					renderRequest.setAttribute("initiativesMostCommented", initiativesMostCommented);
 					renderRequest.setAttribute("initiativesMostHelped", initiativesMostHelped);
-				}
+				}*/
 			}
 
 			renderRequest.setAttribute("isUserloggedIn", false);
@@ -273,6 +266,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 			this._configuration = this._themeDisplay
 					.getPortletDisplay().getPortletInstanceConfiguration(
 							SearchAssetConfiguration.class);
+
 			this._request = resourceRequest;
 			this._response = resourceResponse;
 
@@ -582,7 +576,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 	/**
 	 * Effectue concrètement la recherche
 	 */
-	private List<AssetEntry> searchEntries() {
+	private List<AssetEntry> searchEntries() throws ConfigurationException {
 		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(this._request);
 
 		SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
@@ -590,45 +584,59 @@ public class SearchAssetPortlet extends MVCPortlet {
 		// Mots clés
 		String keywords = this._keywords;
 
+		/*******************/
+		/* Type de contenu */
+		/*******************/
 		// ClassNames de la configuration
-		String[] classNames = ArrayUtil.toStringArray(getClassNames());
+		String[] classNames = ArrayUtil.toStringArray(getDisplayContext().getClassNames());
 
 		// Inclusion ou non du scope global
-		boolean globalScope = this._configuration.globalScope();
+		boolean globalScope = true;
+		//boolean globalScope = this._configuration.globalScope();
 		long globalGroupId = this._themeDisplay.getCompanyGroupId();
 
 		// Group ID courant
 		long groupId = this._themeDisplay.getScopeGroupId();
 
-		// Catégories sélectionnées par l'utilisateur
-		List<Long[]> categoriesIds = this.getFilterCategoriesIds();
-
 		// Préfiltre catégories
-		String prefilterCategoriesIdsString = this._configuration.prefilterCategoriesIds();
 		List<Long[]> prefilterCategoriesIds = new ArrayList<>();
+		/*String prefilterCategoriesIdsString = this._configuration.prefilterCategoriesIds();
 		for (String prefilterCategoriesIdsGroupByVocabulary : prefilterCategoriesIdsString.split(";")) {
 			Long[] prefilterCategoriesIdsForVocabulary = ArrayUtil
 					.toLongArray(StringUtil.split(prefilterCategoriesIdsGroupByVocabulary, ",", 0));
 			prefilterCategoriesIds.add(prefilterCategoriesIdsForVocabulary);
-		}
+		}*/
 
 		// Préfiltre tags
-		String prefilterTagsNamesString = this._configuration.prefilterTagsNames();
-		String[] prefilterTagsNames = StringUtil.split(prefilterTagsNamesString);
+		String[] prefilterTagsNames = null;
+		/*String prefilterTagsNamesString = this._configuration.prefilterTagsNames();
+		String[] prefilterTagsNames = StringUtil.split(prefilterTagsNamesString);*/
 
-		// Champ date
-		boolean dateField = this._startDay != -1 && this._configuration.dateField();
-		String dateFieldName = this._configuration.defaultSortField();
+		/**********************************/
+		/* Critères de recherche et Filres*/
+		/**********************************/
+		// affiche le filtre par date
+		boolean dateField = this._startDay != -1 && this._configuration.displayDateField();
+
+		// Filtre
+		String dateFieldName = this._configuration.filterField();
 		LocalDate fromDate = null;
 		LocalDate toDate = null;
 		if (dateField) {
-			fromDate = LocalDate.of(this.getFromYear(), this.getFromMonthValue(), this.getFromDay());
-			toDate = LocalDate.of(this.getToYear(), this.getToMonthValue(), this.getToDay());
+			fromDate = LocalDate.of(getFromYear(), getFromMonthValue(), getFromDay());
+			toDate = LocalDate.of(getToYear(), getToMonthValue(), getToDay());
 		}
 
+		/********/
+		/* Tris */
+		/********/
 		// Ordre
-		String sortField = this.getSortField();
-		boolean isSortDesc = "desc".equals(this.getSortType());
+		String sortField = getSortField();
+		boolean isSortDesc = getSortType().contains("desc");
+
+		// Catégories sélectionnées par l'utilisateur
+		List<Long[]> categoriesIds = this.getFilterCategoriesIds();
+
 
 		// Permet de remonter la hiérarchie des Request
 		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
@@ -639,7 +647,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 		// Recherche
 		this._hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, globalScope,
 				keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
-				prefilterTagsNames, idSIGPlace, this._themeDisplay.getLocale(), -1,
+				prefilterTagsNames, idSIGPlace, false, this._themeDisplay.getLocale(), -1,
 				-1, sortField, isSortDesc);
 
 		List<AssetEntry> results = new ArrayList<>();
@@ -668,24 +676,8 @@ public class SearchAssetPortlet extends MVCPortlet {
 		return results;
 	}
 
-	/**
-	 * Retourne la liste des class names sur lesquelles on recherche
-	 */
-	public List<String> getClassNames() {
-		List<String> classNames = new ArrayList<String>();
-		for (String className : this._configuration.assetClassNames().split(",")) {
-			if (Validator.isNotNull(className)) {
-				classNames.add(className);
-			}
-		}
-		if (this._configuration.searchJournalArticle()) {
-			classNames.add("com.liferay.journal.model.JournalArticle");
-		}
-		if (this._configuration.searchDocument()) {
-			classNames.add(DLFileEntry.class.getName());
-		}
-
-		return classNames;
+	public SearchAssetDisplayContext getDisplayContext() {
+		return this._dc;
 	}
 
 	/**
@@ -792,8 +784,8 @@ public class SearchAssetPortlet extends MVCPortlet {
 		if (fromParam > 0) {
 			return fromParam;
 		} else {
-			if (this._configuration.defaultDateRange() < 0) {
-				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getDayOfMonth();
+			if (this._configuration.defaultFilterDateRange() < 0) {
+				return LocalDate.now().plusDays(this._configuration.defaultFilterDateRange()).getDayOfMonth();
 			} else {
 				return LocalDate.now().getDayOfMonth();
 			}
@@ -818,8 +810,8 @@ public class SearchAssetPortlet extends MVCPortlet {
 	public int getFromMonthValue() {
 		String fromMonthString = this._startMonth;
 		if (Validator.isNull(fromMonthString)) {
-			if (this._configuration.defaultDateRange() < 0) {
-				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getMonthValue();
+			if (this._configuration.defaultFilterDateRange() < 0) {
+				return LocalDate.now().plusDays(this._configuration.defaultFilterDateRange()).getMonthValue();
 			} else {
 				return LocalDate.now().getMonthValue();
 			}
@@ -837,8 +829,8 @@ public class SearchAssetPortlet extends MVCPortlet {
 		if (fromParam > 0) {
 			return fromParam;
 		} else {
-			if (this._configuration.defaultDateRange() < 0) {
-				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getYear();
+			if (this._configuration.defaultFilterDateRange() < 0) {
+				return LocalDate.now().plusDays(this._configuration.defaultFilterDateRange()).getYear();
 			} else {
 				return LocalDate.now().getYear();
 			}
@@ -856,8 +848,8 @@ public class SearchAssetPortlet extends MVCPortlet {
 		if (toParam > 0) {
 			return toParam;
 		} else {
-			if (this._configuration.defaultDateRange() > 0) {
-				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getDayOfMonth();
+			if (this._configuration.defaultFilterDateRange() > 0) {
+				return LocalDate.now().plusDays(this._configuration.defaultFilterDateRange()).getDayOfMonth();
 			} else {
 				return LocalDate.now().getDayOfMonth();
 			}
@@ -879,8 +871,8 @@ public class SearchAssetPortlet extends MVCPortlet {
 	public int getToMonthValue() {
 		String toMonthString = this._endMonth;
 		if (Validator.isNull(toMonthString)) {
-			if (this._configuration.defaultDateRange() > 0) {
-				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getMonthValue();
+			if (this._configuration.defaultFilterDateRange() > 0) {
+				return LocalDate.now().plusDays(this._configuration.defaultFilterDateRange()).getMonthValue();
 			} else {
 				return LocalDate.now().getMonthValue();
 			}
@@ -898,8 +890,8 @@ public class SearchAssetPortlet extends MVCPortlet {
 		if (toParam > 0) {
 			return toParam;
 		} else {
-			if (this._configuration.defaultDateRange() > 0) {
-				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getYear();
+			if (this._configuration.defaultFilterDateRange() > 0) {
+				return LocalDate.now().plusDays(this._configuration.defaultFilterDateRange()).getYear();
 			} else {
 				return LocalDate.now().getYear();
 			}
@@ -913,8 +905,11 @@ public class SearchAssetPortlet extends MVCPortlet {
 		String sortFieldFromParam = this._sortFieldAndType;
 		if (Validator.isNull(sortFieldFromParam)) {
 			if (Validator.isNull(this._keywords)) {
-				return Validator.isNotNull(this._configuration.defaultSortField())
-						? this._configuration.defaultSortField() : "modified_sortable";
+				String firstSortingField =  Validator.isNotNull(this._configuration.firstSortingField())
+						? this._configuration.firstSortingField() : "modified_sortable";
+				String secondSortingField =  Validator.isNotNull(this._configuration.secondSortingField())
+						? this._configuration.secondSortingField() : "modified_sortable";
+				return firstSortingField + "," + secondSortingField;
 			} else {
 				return "score";
 			}
@@ -941,8 +936,11 @@ public class SearchAssetPortlet extends MVCPortlet {
 		} else {
 			String sortTypeFromParam = this._sortFieldAndType;
 			if (Validator.isNull(sortTypeFromParam)) {
-				return Validator.isNotNull(this._configuration.defaultSortType())
-						? this._configuration.defaultSortType() : "desc";
+				String firstSortingType =  Validator.isNotNull(this._configuration.firstSortingType())
+						? this._configuration.firstSortingType() : "desc";
+				String secondSortingType =  Validator.isNotNull(this._configuration.secondSortingType())
+						? this._configuration.secondSortingType() : "desc";
+				return firstSortingType + "," + secondSortingType;
 			} else {
 				return sortTypeFromParam.split(",")[1];
 			}
@@ -954,6 +952,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 	private ThemeDisplay _themeDisplay;
 	private ResourceRequest _request;
 	private ResourceResponse _response;
+	private SearchAssetDisplayContext _dc;
 	private SearchAssetConfiguration _configuration;
 
 	private String _keywords;
