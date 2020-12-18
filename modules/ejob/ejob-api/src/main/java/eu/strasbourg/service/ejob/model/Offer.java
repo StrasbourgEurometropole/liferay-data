@@ -79,6 +79,11 @@ public interface Offer extends OfferModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetCategory getService();
 
 	/**
+	 * Retourne le motif
+	 */
+	public com.liferay.asset.kernel.model.AssetCategory getMotif();
+
+	/**
 	 * Renvoie la liste des AssetCategory rattachées à cet item (via
 	 * l'assetEntry)
 	 */

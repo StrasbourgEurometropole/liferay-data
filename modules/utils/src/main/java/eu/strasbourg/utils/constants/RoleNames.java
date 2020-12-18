@@ -1,7 +1,7 @@
 package eu.strasbourg.utils.constants;
 
 public class RoleNames {
-    public static final String SITE_ADMLINISTRATOR = "ste sdministrator";
+    public static final String SITE_ADMLINISTRATOR = "site administrator";
 
 
     public static final String ASSISTANT_RECRUTEMENT = "assistant recrutement";

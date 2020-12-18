@@ -21,18 +21,14 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
-		<field name="text" type="String">
-			<hint-collection name="EDITOR" />
-		</field>
+		<field name="text" type="String" />
 		<field name="level" type="int" />
 		<field name="userQuality" type="String" />
 		<field name="modifiedByUserDate" type="Date" />
 		<field name="assetEntryId" type="long" />
 		<field name="publikId" type="String" />
 		<field name="parentCommentId" type="long" />
-		<field name="urlProjectCommentaire" type="String">
-			<hint-collection name="URL" />
-		</field>
+		<field name="urlProjectCommentaire" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.comment.model.Signalement">
 		<field name="uuid" type="String" />

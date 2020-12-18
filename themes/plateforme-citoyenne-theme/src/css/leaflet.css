@@ -274,7 +274,7 @@
 	}
 .leaflet-bar a,
 .leaflet-bar a:hover {
-	background-color: #ffed00;
+	background-color: #2ad1a8;
 	width: 26px;
 	height: 26px;
 	line-height: 26px;
@@ -291,7 +291,7 @@
 	}
 .leaflet-bar a:hover {
 	background-color: #000000;
-	color: #ffed00;
+	color: #2ad1a8;
 	}
 .leaflet-bar a:first-child {
 	border-top-left-radius: 4px;

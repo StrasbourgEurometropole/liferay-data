@@ -127,12 +127,12 @@ public class CouncilSessionModelImpl
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		eu.strasbourg.service.council.service.util.ServiceProps.get(
 			"value.object.entity.cache.enabled.eu.strasbourg.service.council.model.CouncilSession"),
-		true);
+		false);
 
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
 		eu.strasbourg.service.council.service.util.ServiceProps.get(
 			"value.object.finder.cache.enabled.eu.strasbourg.service.council.model.CouncilSession"),
-		true);
+		false);
 
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
 		eu.strasbourg.service.council.service.util.ServiceProps.get(

@@ -52,6 +52,7 @@
 
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="offerId" type="hidden" />
+			<aui:input name="new" type="hidden" />
 
 			<%-- Groupe de champs : Generalites --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=false%>">
@@ -102,7 +103,12 @@
                       </aui:input>
 
                 <%-- Champ : Motif  --%>
-                     <aui:input name="motif" required="false" />
+                <aui:select cssClass="toCustomSelect" id="ejobMotif" name="ejobMotif" label="ejobMotif" required="false">
+                    <aui:option selected="${empty dc.offer}"><liferay-ui:message key="choose-motif" /></aui:option>
+                    <c:forEach items="${dc.motifs}" var="motif">
+                        <aui:option value="${motif.categoryId}" selected="${dc.offer.motif.categoryId == motif.categoryId}">${motif.name}</aui:option>
+                    </c:forEach>
+                </aui:select>
 
                 <%-- Champ : Si contrat permanent
                 Ajout champ texte pré saisie « fonctionnaire ou à défaut contractuel »--%>
@@ -138,7 +144,7 @@
                         <aui:input type="radio" value="0" name="isFullTime" class="no-full-time" label="ejob-partial-time"
                             checked="${not empty dc.offer and !dc.offer.isFullTime}" />
 
-                        <%-- Champ : Si temps complet   --%>
+                        <%-- Champ : Durée du temps de travail   --%>
                              <aui:input name="fullTimeDescription" id="fullTimeDescription" required="false" />
                     </div>
 

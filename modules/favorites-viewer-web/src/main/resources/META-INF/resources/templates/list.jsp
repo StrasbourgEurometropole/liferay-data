@@ -155,6 +155,9 @@
                                                 <c:if test="${favorite.place.isSwimmingPool()}">
                                                         ${occupationState.occupation}
                                                 </c:if>
+                                                <c:if test="${favorite.place.isIceRink()}">
+                                                        ${occupationState.occupation}
+                                                </c:if>
                                                 <c:if test="${favorite.place.isParking()}">
                                                         ${occupationState.available}
                                                 </c:if>
@@ -166,6 +169,10 @@
                                             	<liferay-ui:message key="${occupationState.label}" />
                                             	<c:if test="${favorite.place.isSwimmingPool()}">
                                             		<br> 
+                                                    <liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                                            	</c:if>
+                                            	<c:if test="${favorite.place.isIceRink()}">
+                                            		<br>
                                                     <liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity}
                                             	</c:if>
                                            	</div>

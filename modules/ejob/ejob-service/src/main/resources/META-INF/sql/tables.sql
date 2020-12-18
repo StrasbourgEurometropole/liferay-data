@@ -34,7 +34,6 @@ create table ejob_Offer (
 	postNumber VARCHAR(75) null,
 	jobCreationDescription STRING null,
 	startDate DATE null,
-	motif STRING null,
 	permanentDescription STRING null,
 	duration STRING null,
 	post STRING null,

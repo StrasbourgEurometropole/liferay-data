@@ -1,6 +1,6 @@
 create table search_SearchLog (
 	searchLogId LONG not null primary key,
-	keywords VARCHAR(75) null,
+	keywords VARCHAR(400) null,
 	searchTime LONG,
 	resultCount LONG,
 	result1ClassId LONG,

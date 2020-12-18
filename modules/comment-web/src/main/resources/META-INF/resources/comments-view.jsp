@@ -251,7 +251,7 @@
 										</c:choose>
 									></textarea>
 									<label for="inQualityOf"><liferay-ui:message key="comment-your-quality" /></label>
-									<input type="text" id="inQualityOf"
+									<input type="text" id="inQualityOf" maxlength="150"
 										name="<portlet:namespace />inQualityOf"
 										placeholder="<liferay-ui:message key='comment-write-your-quality-here'/>"
 									/>

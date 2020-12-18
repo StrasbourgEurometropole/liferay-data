@@ -93,14 +93,14 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
 		{"publicationId", Types.VARCHAR}, {"postNumber", Types.VARCHAR},
 		{"jobCreationDescription", Types.VARCHAR},
-		{"startDate", Types.TIMESTAMP}, {"motif", Types.VARCHAR},
-		{"permanentDescription", Types.VARCHAR}, {"duration", Types.VARCHAR},
-		{"post", Types.VARCHAR}, {"isFullTime", Types.BOOLEAN},
-		{"fullTimeDescription", Types.VARCHAR}, {"introduction", Types.CLOB},
-		{"activities", Types.CLOB}, {"profil", Types.CLOB},
-		{"conditions", Types.CLOB}, {"avantages", Types.CLOB},
-		{"limitDate", Types.TIMESTAMP}, {"contact", Types.VARCHAR},
-		{"emails", Types.VARCHAR}, {"shareLinkedin", Types.BOOLEAN},
+		{"startDate", Types.TIMESTAMP}, {"permanentDescription", Types.VARCHAR},
+		{"duration", Types.VARCHAR}, {"post", Types.VARCHAR},
+		{"isFullTime", Types.BOOLEAN}, {"fullTimeDescription", Types.VARCHAR},
+		{"introduction", Types.CLOB}, {"activities", Types.CLOB},
+		{"profil", Types.CLOB}, {"conditions", Types.CLOB},
+		{"avantages", Types.CLOB}, {"limitDate", Types.TIMESTAMP},
+		{"contact", Types.VARCHAR}, {"emails", Types.VARCHAR},
+		{"shareLinkedin", Types.BOOLEAN},
 		{"publicationStartDate", Types.TIMESTAMP},
 		{"publicationEndDate", Types.TIMESTAMP}, {"isExported", Types.INTEGER},
 		{"emailSend", Types.INTEGER}, {"emailPartnerSent", Types.INTEGER}
@@ -126,7 +126,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		TABLE_COLUMNS_MAP.put("postNumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("jobCreationDescription", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("motif", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("permanentDescription", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("duration", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("post", Types.VARCHAR);
@@ -149,7 +148,7 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table ejob_Offer (uuid_ VARCHAR(75) null,offerId LONG not null primary key IDENTITY,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,publicationId VARCHAR(75) null,postNumber VARCHAR(75) null,jobCreationDescription STRING null,startDate DATE null,motif STRING null,permanentDescription STRING null,duration STRING null,post STRING null,isFullTime BOOLEAN,fullTimeDescription STRING null,introduction TEXT null,activities TEXT null,profil TEXT null,conditions TEXT null,avantages TEXT null,limitDate DATE null,contact VARCHAR(75) null,emails VARCHAR(75) null,shareLinkedin BOOLEAN,publicationStartDate DATE null,publicationEndDate DATE null,isExported INTEGER,emailSend INTEGER,emailPartnerSent INTEGER)";
+		"create table ejob_Offer (uuid_ VARCHAR(75) null,offerId LONG not null primary key IDENTITY,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,publicationId VARCHAR(75) null,postNumber VARCHAR(75) null,jobCreationDescription STRING null,startDate DATE null,permanentDescription STRING null,duration STRING null,post STRING null,isFullTime BOOLEAN,fullTimeDescription STRING null,introduction TEXT null,activities TEXT null,profil TEXT null,conditions TEXT null,avantages TEXT null,limitDate DATE null,contact VARCHAR(75) null,emails VARCHAR(75) null,shareLinkedin BOOLEAN,publicationStartDate DATE null,publicationEndDate DATE null,isExported INTEGER,emailSend INTEGER,emailPartnerSent INTEGER)";
 
 	public static final String TABLE_SQL_DROP = "drop table ejob_Offer";
 
@@ -224,7 +223,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		model.setPostNumber(soapModel.getPostNumber());
 		model.setJobCreationDescription(soapModel.getJobCreationDescription());
 		model.setStartDate(soapModel.getStartDate());
-		model.setMotif(soapModel.getMotif());
 		model.setPermanentDescription(soapModel.getPermanentDescription());
 		model.setDuration(soapModel.getDuration());
 		model.setPost(soapModel.getPost());
@@ -709,26 +707,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 				@Override
 				public void accept(Offer offer, Object startDate) {
 					offer.setStartDate((Date)startDate);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"motif",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getMotif();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"motif",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object motif) {
-					offer.setMotif((String)motif);
 				}
 
 			});
@@ -1508,111 +1486,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	@Override
 	public void setStartDate(Date startDate) {
 		_startDate = startDate;
-	}
-
-	@JSON
-	@Override
-	public String getMotif() {
-		if (_motif == null) {
-			return "";
-		}
-		else {
-			return _motif;
-		}
-	}
-
-	@Override
-	public String getMotif(Locale locale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getMotif(languageId);
-	}
-
-	@Override
-	public String getMotif(Locale locale, boolean useDefault) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getMotif(languageId, useDefault);
-	}
-
-	@Override
-	public String getMotif(String languageId) {
-		return LocalizationUtil.getLocalization(getMotif(), languageId);
-	}
-
-	@Override
-	public String getMotif(String languageId, boolean useDefault) {
-		return LocalizationUtil.getLocalization(
-			getMotif(), languageId, useDefault);
-	}
-
-	@Override
-	public String getMotifCurrentLanguageId() {
-		return _motifCurrentLanguageId;
-	}
-
-	@JSON
-	@Override
-	public String getMotifCurrentValue() {
-		Locale locale = getLocale(_motifCurrentLanguageId);
-
-		return getMotif(locale);
-	}
-
-	@Override
-	public Map<Locale, String> getMotifMap() {
-		return LocalizationUtil.getLocalizationMap(getMotif());
-	}
-
-	@Override
-	public void setMotif(String motif) {
-		_motif = motif;
-	}
-
-	@Override
-	public void setMotif(String motif, Locale locale) {
-		setMotif(motif, locale, LocaleUtil.getSiteDefault());
-	}
-
-	@Override
-	public void setMotif(String motif, Locale locale, Locale defaultLocale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
-
-		if (Validator.isNotNull(motif)) {
-			setMotif(
-				LocalizationUtil.updateLocalization(
-					getMotif(), "Motif", motif, languageId, defaultLanguageId));
-		}
-		else {
-			setMotif(
-				LocalizationUtil.removeLocalization(
-					getMotif(), "Motif", languageId));
-		}
-	}
-
-	@Override
-	public void setMotifCurrentLanguageId(String languageId) {
-		_motifCurrentLanguageId = languageId;
-	}
-
-	@Override
-	public void setMotifMap(Map<Locale, String> motifMap) {
-		setMotifMap(motifMap, LocaleUtil.getSiteDefault());
-	}
-
-	@Override
-	public void setMotifMap(
-		Map<Locale, String> motifMap, Locale defaultLocale) {
-
-		if (motifMap == null) {
-			return;
-		}
-
-		setMotif(
-			LocalizationUtil.updateLocalization(
-				motifMap, getMotif(), "Motif",
-				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -2888,17 +2761,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 			}
 		}
 
-		Map<Locale, String> motifMap = getMotifMap();
-
-		for (Map.Entry<Locale, String> entry : motifMap.entrySet()) {
-			Locale locale = entry.getKey();
-			String value = entry.getValue();
-
-			if (Validator.isNotNull(value)) {
-				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
-			}
-		}
-
 		Map<Locale, String> permanentDescriptionMap =
 			getPermanentDescriptionMap();
 
@@ -3059,15 +2921,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 				defaultLocale);
 		}
 
-		String motif = getMotif(defaultLocale);
-
-		if (Validator.isNull(motif)) {
-			setMotif(getMotif(modelDefaultLanguageId), defaultLocale);
-		}
-		else {
-			setMotif(getMotif(defaultLocale), defaultLocale, defaultLocale);
-		}
-
 		String permanentDescription = getPermanentDescription(defaultLocale);
 
 		if (Validator.isNull(permanentDescription)) {
@@ -3192,7 +3045,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		offerImpl.setPostNumber(getPostNumber());
 		offerImpl.setJobCreationDescription(getJobCreationDescription());
 		offerImpl.setStartDate(getStartDate());
-		offerImpl.setMotif(getMotif());
 		offerImpl.setPermanentDescription(getPermanentDescription());
 		offerImpl.setDuration(getDuration());
 		offerImpl.setPost(getPost());
@@ -3403,14 +3255,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		}
 		else {
 			offerCacheModel.startDate = Long.MIN_VALUE;
-		}
-
-		offerCacheModel.motif = getMotif();
-
-		String motif = offerCacheModel.motif;
-
-		if ((motif != null) && (motif.length() == 0)) {
-			offerCacheModel.motif = null;
 		}
 
 		offerCacheModel.permanentDescription = getPermanentDescription();
@@ -3634,8 +3478,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	private String _jobCreationDescription;
 	private String _jobCreationDescriptionCurrentLanguageId;
 	private Date _startDate;
-	private String _motif;
-	private String _motifCurrentLanguageId;
 	private String _permanentDescription;
 	private String _permanentDescriptionCurrentLanguageId;
 	private String _duration;
