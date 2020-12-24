@@ -44,7 +44,7 @@
 	                <a href="${homeURL}-/${curEntry.getAssetRenderer().getArticle().urlTitle}" class="pro-bloc-actu" title="Lien vers la page de détail de l'article">
 	                    <div class="img">
 	                        <figure role="group">
-	                            <img src='${imageURL}' alt="Image agenda" width="360" height="174" class="fit-cover"/>
+	                            <img src='${imageURL}?imagePreview=1' loading="lazy" alt="Image agenda" width="360" height="174" class="fit-cover"/>
 	                        </figure>
 	                        <span>
 	                        	<#list territoires as t>
