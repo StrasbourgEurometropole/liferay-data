@@ -848,7 +848,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                 return Validator.isNotNull(configuration.defaultSortField())
                         ? configuration.defaultSortField() : "modified_sortable";
             } else {
-                return "score";
+                return "_score";
             }
         } else {
             return sortFieldAndType.split(",")[0];
@@ -868,8 +868,9 @@ public class SearchAssetPortlet extends MVCPortlet {
      * Retourne le type de classement des résultats (croissant ou décroissant)
      */
     public String getSortType(SearchAssetConfiguration configuration, String sortFieldAndType, String keywords) {
-        if (this.getSortField(configuration, sortFieldAndType, keywords).equals("score")) {
-            return "desc";
+        if (this.getSortField(configuration, sortFieldAndType, keywords).equals("_score")) {
+            // Avec la FP9, on veut reverse = false, parce que Reverse donne ASC, mais que pour _score
+            return "descmaispasceluila";
         } else {
             if (Validator.isNull(sortFieldAndType)) {
                 return Validator.isNotNull(configuration.defaultSortType())
