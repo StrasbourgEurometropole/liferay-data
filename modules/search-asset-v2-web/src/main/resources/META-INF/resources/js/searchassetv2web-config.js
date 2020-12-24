@@ -331,12 +331,6 @@ function updatePrefiltersStructureVocabulariesAndGroupBy(index) {
                     optionsStructure += "<option value='" + jsonStructure.id + "' " + (jsonStructure.id==structureId?"selected":"") + ">" + jsonStructure.value + "</option>";
                 });
                 $(namespaceAUI + "structure_" + index).html(optionsStructure);
-
-                // si la structure n'est plus disponible, on vide le template
-                if($(namespaceAUI + "structure_" + index).val() == ""){
-                    optionsTemplate = "<option>" + Liferay.Language.get('select-a-template') + "</option>";
-                    $(namespaceAUI + "templateKey_" + index).html(optionsTemplate);
-                }
             }
         );
     }

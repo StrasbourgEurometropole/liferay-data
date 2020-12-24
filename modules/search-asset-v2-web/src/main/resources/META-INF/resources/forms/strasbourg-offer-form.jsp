@@ -3,7 +3,7 @@
 
 <div class="seu-filter-line row">
 
-	<div class="widget widget-big">
+	<div class="widget widget-big order-6">
         <div class="title">
             <label for="name">
                 <liferay-ui:message key="keywords" />
@@ -14,8 +14,7 @@
                 placeholder="<liferay-ui:message key="please-enter-keyword" />" value="${dc.keywords}">
         </div>
     </div>
-	<c:forEach items="${dc.vocabularies}" var="vocabulary"
-		varStatus="vocStatus">
+	<c:forEach items="${dc.vocabularies}" var="vocabulary" varStatus="vocStatus">
 	    <div class="widget">
 	        <div class="title">
 	            <label for="vocabulary_${vocStatus.index}">

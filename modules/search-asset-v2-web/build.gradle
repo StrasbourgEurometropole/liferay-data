@@ -15,6 +15,7 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.dynamic.data.mapping.api"
 	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
 	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	compileOnly group: 'com.liferay', name: 'com.liferay.portal.search.api'
 
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl"
