@@ -6,8 +6,12 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfigurationAction;
 import eu.strasbourg.portlet.search_asset_v2.configuration.constants.ConfigurationConstants;
@@ -257,7 +261,7 @@ public class ConfigurationData {
     }
 
     public void saveConfiguration(SearchAssetConfigurationAction configAction) {
-        if(validate()) {
+        if(validate(this.request)) {
             // Sauvegarde dans la configuration
 
             // -- TYPE DE CONTENUS --
@@ -307,9 +311,26 @@ public class ConfigurationData {
         }
     }
 
-    public boolean validate() {
+    public boolean validate(ActionRequest request) {
         boolean result = true;
-        // TODO Validation des données issues de la requête
+        ThemeDisplay themeDisplay = (ThemeDisplay) request
+                .getAttribute(WebKeys.THEME_DISPLAY);
+        JSONObject assetTypesJSON = this.getAssetTypesJSON();
+        JSONArray assetTypesARRAY = assetTypesJSON.getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES);
+        if (assetTypesARRAY.length() > 0) {
+            for (Object assetType : assetTypesARRAY) {
+                JSONObject assetTypeJSON = (JSONObject) assetType;
+                String friendlyURL = assetTypeJSON.getString(ConfigurationConstants.JSON_ASSET_FRIENDLY_URL);
+                // Si la friendlyURL ne correspond pas à un layout, on
+                // renvoie une erreur
+                if (LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
+                        themeDisplay.getScopeGroupId(), false,
+                        friendlyURL) == null) {
+                    SessionErrors.add(request, "wrong-friendly-url");
+                    result = false;
+                }
+            }
+        }
         return result;
     }
 

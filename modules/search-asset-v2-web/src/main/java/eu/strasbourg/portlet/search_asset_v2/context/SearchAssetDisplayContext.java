@@ -12,9 +12,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
-import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -28,6 +26,8 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.search.hits.SearchHit;
+import com.liferay.portal.search.hits.SearchHits;
 import com.liferay.portlet.asset.model.impl.AssetEntryImpl;
 import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationAssetData;
@@ -39,6 +39,7 @@ import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.StringHelper;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -49,6 +50,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -124,38 +126,62 @@ public class SearchAssetDisplayContext {
 	 * Retourne le champ sur lequel on classe les résultats
 	 */
 	public Map<String, String> getSortFieldsAndTypes() throws ConfigurationException {
-		Map fieldsAndTypes = new HashMap<>();
+		Map fieldsAndTypes = new LinkedHashMap();
 		String sortFieldAndTypeFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
 		if (Validator.isNull(sortFieldAndTypeFromParam)) {
 			if (Validator.isNull(this.getKeywords())) {
 				if(getConfigurationData().getGroupBy() == -1){
 					// ajout du tri par type d'asset
 					String assetTypeSort = Field.ENTRY_CLASS_NAME;
-					fieldsAndTypes.put(assetTypeSort, "desc");
+					fieldsAndTypes.put(assetTypeSort, "DESC");
 				}
 				if(!getConfigurationData().isRandomSort()) {
 					String firstSortingField = Validator.isNotNull(getConfigurationData().getFirstSortingField())
 							? getConfigurationData().getFirstSortingField() : "modified_sortable";
 					String firstSortingType = Validator.isNotNull(getConfigurationData().getFirstSortingType())
-							? getConfigurationData().getFirstSortingType() : "desc";
+							? getConfigurationData().getFirstSortingType() : "DESC";
 					fieldsAndTypes.put(firstSortingField, firstSortingType);
 					String secondSortingField = Validator.isNotNull(getConfigurationData().getSecondSortingField())
 							? getConfigurationData().getSecondSortingField() : "modified_sortable";
 					if (!firstSortingField.equals(secondSortingField)) {
 						String secondSortingType = Validator.isNotNull(getConfigurationData().getSecondSortingType())
-								? getConfigurationData().getSecondSortingType() : "desc";
+								? getConfigurationData().getSecondSortingType() : "DESC";
 						fieldsAndTypes.put(secondSortingField, secondSortingType);
 					}
-				}else{
-					fieldsAndTypes.put("tot0", "titi");
 				}
-			} else {
-				fieldsAndTypes.put("score", "desc");
 			}
 		}else{
 			fieldsAndTypes.put(sortFieldAndTypeFromParam.split(",")[0], sortFieldAndTypeFromParam.split(",")[1]);
 		}
 		return fieldsAndTypes;
+	}
+
+
+	/**
+	 * Retourne le seed sur leuqel on mélange les résultats
+	 */
+	public int getSeed() throws ConfigurationException {
+		int seed = 0;
+		String sortFieldAndTypeFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
+		if (Validator.isNull(sortFieldAndTypeFromParam)) {
+			if (Validator.isNull(this.getKeywords())) {
+				if(getConfigurationData().getGroupBy() == 0 && getConfigurationData().isRandomSort()) {
+					seed = 564986113;
+				}
+			}
+		}
+		return seed;
+	}
+
+
+	/**
+	 * Retourne le vocabulaireId sur leuqel on regroupe les résultats
+	 */
+	public long[] getGroupBy() throws ConfigurationException {
+		if (getConfigurationData().getGroupBy() > 0) {
+			return new long[]{getConfigurationData().getGroupBy()};
+		}
+		return new long[]{};
 	}
 
 	/**
@@ -452,41 +478,39 @@ public class SearchAssetDisplayContext {
 
 
 		// Recherche
-		this._hits = SearchHelper.getGlobalSearchHitsV2(searchContext, getConfigurationData().getAssetTypesJSON().getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES),
-				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(),
-				this.getSortFieldsAndTypes(), keywords, fromDate,
+		this._searchHits = SearchHelper.getGlobalSearchHitsV2(searchContext, getConfigurationData().getAssetTypesJSON().getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES),
+				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
+				this.getSortFieldsAndTypes(), this.getGroupBy(), keywords, fromDate,
 				toDate, categoriesIds, idSIGPlace, this._themeDisplay.getLocale(), getSearchContainer().getStart(), getSearchContainer().getEnd());
 
 		List<AssetEntry> results = new ArrayList<>();
-		if (this._hits != null) {
+		if (this._searchHits != null) {
 			int i = 0;
-			for (float s : this._hits.getScores()) {
-				_log.info(GetterUtil.getString(this._hits.getDocs()[i].get(Field.TITLE)) + " : " + s);
+			for (SearchHit searchHit : this._searchHits.getSearchHits()) {
+				com.liferay.portal.search.document.Document document = searchHit.getDocument();
 				i++;
-				if (i > 10)
-					break;
-			}
+				if (i <= 10)
+					_log.info(document.getString("localized_title_fr_FR_sortable") + " : " + searchHit.getScore());
 
-			for (Document document : this._hits.getDocs()) {
-				AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
-						GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+				AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(document.getString(Field.ENTRY_CLASS_NAME),
+						document.getLong(Field.ENTRY_CLASS_PK));
 				if (entry != null) {
 					results.add(entry);
 				} else {
 					// recherche de démarches (procédures)
 					// les demarches n'ayant pas d'asset entry, il faut le créer pour pouvoir l'envoyer à searchContainer
-					if (Validator.isNotNull(document.getField("type")) && document.getField("type").getValue().equals("procedure")) {
+					Map<String, com.liferay.portal.search.document.Field> fields = document.getFields();
+					if (Validator.isNotNull(fields.get("type")) && fields.get("type").getValue().equals("procedure")) {
 						AssetEntry procedureEntry = new AssetEntryImpl();
-						procedureEntry.setTitle(document.getField("title").getValue());
-						procedureEntry.setUrl(document.getField("url").getValue());
-						procedureEntry.setDescription(document.getField("description").getValue());
+						procedureEntry.setTitle(String.valueOf(fields.get("title").getValue()));
+						procedureEntry.setUrl(String.valueOf(fields.get("url").getValue()));
+						procedureEntry.setDescription(String.valueOf(fields.get("description").getValue()));
 						procedureEntry.setClassName("Procedure");
 						results.add(procedureEntry);
 					}
 				}
 			}
-			this.getSearchContainer().setTotal(this._hits.getLength());
+			this.getSearchContainer().setTotal((int) this._searchHits.getTotalHits());
 		}
 
 		this._entries = results;
@@ -505,7 +529,7 @@ public class SearchAssetDisplayContext {
 		AssetEntry result1 = this.getEntries().size() > 0 ? this.getEntries().get(0) : null;
 		AssetEntry result2 = this.getEntries().size() > 1 ? this.getEntries().get(1) : null;
 		AssetEntry result3 = this.getEntries().size() > 2 ? this.getEntries().get(2) : null;
-		long searchTime = (long) (this._hits.getSearchTime() * 1000);
+		long searchTime = (long) (this._searchHits.getSearchTime() * 1000);
 		SearchLog searchLog = SearchLogLocalServiceUtil.addSearchLog(sc, this.getKeywords(),
 				this.getSearchContainer().getTotal(), result1, result2, result3, null, searchTime);
 		this.getSearchContainer().getIteratorURL().setParameter("searchLogId",
@@ -756,17 +780,19 @@ public class SearchAssetDisplayContext {
 		List<Long[]> categoriesIds = this.getFilterCategoriesIds();
 
 		// Recherche
-		Hits hits = SearchHelper.getGlobalSearchHitsV2(searchContext, getConfigurationData().getAssetTypesJSON().getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES),
-				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(),
-				getSortFieldsAndTypes(), keywords, fromDate, toDate, categoriesIds,
+		SearchHits searchHits = SearchHelper.getGlobalSearchHitsV2(searchContext, getConfigurationData().getAssetTypesJSON().getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES),
+				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
+				getSortFieldsAndTypes(), this.getGroupBy(), keywords, fromDate, toDate, categoriesIds,
 				null, this._themeDisplay.getLocale(), -1, -1);
 
 		StringBuilder ids = new StringBuilder();
-		if (hits != null) {
-			for (Document document : hits.getDocs()) {
+		if (searchHits != null) {
+			for (SearchHit  searchHit : searchHits.getSearchHits()) {
+				com.liferay.portal.search.document.Document document = searchHit.getDocument();
+
 				AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
-						GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+						document.getString(Field.ENTRY_CLASS_NAME),
+						document.getLong(Field.ENTRY_CLASS_PK));
 				if (entry != null) {
 					if (ids.length() >= 0) {
 						ids.append(",");
@@ -811,6 +837,20 @@ public class SearchAssetDisplayContext {
 		return idSIGPlace;
 	}
 
+	/**
+	 * Compare des string en faisant abstraction des accents
+	 */
+	 public static boolean compare(String s1, String s2){
+	 	return StringHelper.compareIgnoringAccentuation(s1,s2);
+	 }
+
+	/**
+	 * Retourne le nombre de résultats de la recherche
+	 */
+	 public int getTotal() throws PortalException {
+	 	return this.getSearchContainer().getTotal();
+	 }
+
 	private static Log _log = LogFactoryUtil.getLog(SearchAssetDisplayContext.class);
 
 	private final RenderRequest _request;
@@ -830,7 +870,7 @@ public class SearchAssetDisplayContext {
 	private String _filterCategoriesIdString;
 	private String[] _filterClassNames;
 	private Map<String, String> _templatesMap;
-	private Hits _hits;
+	private SearchHits _searchHits;
 	private boolean _displayExport;
 	private int _entriesCount;
 

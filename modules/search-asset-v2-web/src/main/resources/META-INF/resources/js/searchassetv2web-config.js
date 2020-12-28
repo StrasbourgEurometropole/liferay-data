@@ -293,7 +293,7 @@ function updateBloc(index) {
         if(indexPrefilter > 0)
             deletePrefilter(index, indexPrefilter);
         else{
-            $(namespaceAUI + "includeOrExclude_" + index + "_" + indexPrefilter).val("contains");
+            $(namespaceAUI + "includeOrExclude_" + index + "_" + indexPrefilter).val("true");
             $(namespaceAUI + "allOrAny_" + index + "_" + indexPrefilter).val("all");
             $(namespaceAUI + "categoriesOrTags_" + index + "_" + indexPrefilter).val("tags");
             prefilters = prefiltersChoicesJson[index + "_" + indexPrefilter];
