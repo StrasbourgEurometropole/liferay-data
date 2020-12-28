@@ -56,17 +56,17 @@
 	
 	
 	<!-- Tri -->
-	<c:if test="${dc.configuration.displayDateSorting()}">
+	<c:if test="${dc.displayDateSorting}">
 		<div class="field"> 
 			<label for="order">Ordre</label> 
 			<div class="order-selection-control open">
 				<aui:select name="sortFieldAndType" label="" showEmptyOption="false">
-					<c:if test="${not empty dc.keywords or not empty dc.configuration.boostTagsNames()}">
-						<aui:option value="score,desc" label="score-desc" />
+					<c:if test="${not empty dc.keywords or not empty dc.boostTagsNames}">
+						<aui:option value="score,DESC" label="score-desc" />
 					</c:if>
-					<aui:option value="${dc.configuration.defaultSortField()},asc"
+					<aui:option value="${dc.defaultSortField},ASC"
 						label="eu.videos-theme.dates-desc" />
-					<aui:option value="${dc.configuration.defaultSortField()},desc"
+					<aui:option value="${dc.defaultSortField},DESC"
 						label="eu.videos-theme.dates-asc" />
 				</aui:select>
 				<aui:input type="hidden" name="sortingChanged" value="false" />

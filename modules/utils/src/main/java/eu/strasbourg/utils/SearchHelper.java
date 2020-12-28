@@ -1120,10 +1120,11 @@ public class SearchHelper {
 	public static SearchHits  getGlobalSearchHitsV2(SearchContext searchContext, JSONArray assetTypes, Boolean isDisplayField,
 											 String filterField, int seed, Map<String, String> sortingFieldsAndTypes,
 											 long[] groupBy, String keywords, LocalDate fromDate, LocalDate toDate,
-											 List<Long[]> categoriesIds, String idSIGPlace, Locale locale, int start, int end) {
+											 List<Long[]> categoriesIds, String idSIGPlace, List<String> classNamesSelected, Locale locale, int start, int end) {
 
 		// Query
-		com.liferay.portal.search.query.Query query = getGlobalSearchV2Query(assetTypes, isDisplayField, filterField, seed, keywords, fromDate, toDate, categoriesIds, idSIGPlace, locale);
+		com.liferay.portal.search.query.Query query = getGlobalSearchV2Query(assetTypes, isDisplayField, filterField,
+				seed, keywords, fromDate, toDate, categoriesIds, idSIGPlace, classNamesSelected, locale);
 
 		SearchRequestBuilder searchRequestBuilder = getSearchRequestBuilderFactoryService().builder();
 		searchRequestBuilder.emptySearchEnabled(true);
@@ -1136,6 +1137,8 @@ public class SearchHelper {
 				sc.setEnd(end);
 			}
 		);
+		searchRequestBuilder.from(start);
+		searchRequestBuilder.size(end - start);
 
 		// Ordre
 		if(Validator.isNull(seed) || seed == 0) {
@@ -1163,111 +1166,123 @@ public class SearchHelper {
 	/**
 	 * Retourne la requête à exécuter correspondant aux paramètres pour le searchAssetV2
 	 */
-	private static com.liferay.portal.search.query.Query getGlobalSearchV2Query(JSONArray assetTypes, Boolean isDisplayField, String filterField,
+	private static com.liferay.portal.search.query.Query getGlobalSearchV2Query(JSONArray assetTypes,
+																				Boolean isDisplayField, String filterField,
 																				int seed, String keywords, LocalDate fromDate,
-																				LocalDate toDate, List<Long[]> categoriesIds, String placeSigId, Locale locale) {
+																				LocalDate toDate, List<Long[]> categoriesIds,
+																				String placeSigId, List<String> filterClassNames, Locale locale) {
 		// Construction de la requète
 		com.liferay.portal.search.query.BooleanQuery superQuery = getQueriesService().booleanQuery();
 		com.liferay.portal.search.query.BooleanQuery query = getQueriesService().booleanQuery();
 
 		//Asset type
 		com.liferay.portal.search.query.BooleanQuery assetTypesQuery = getQueriesService().booleanQuery();
-		for (Object assetTypeObject : assetTypes) {
-			JSONObject assetType = (JSONObject) assetTypeObject;
-			com.liferay.portal.search.query.BooleanQuery assetTypeQuery = getQueriesService().booleanQuery();
-			if (Validator.isNotNull(assetType)) {
-				// ClassNames
-				if (Validator.isNotNull(assetType.getString("classname"))) {
-					// Cas d'un journalArticle
-					if (assetType.getString("classname").equals("searchJournalArticle")) {
-						TermQuery journalArticleClassNameQuery = getQueriesService().term(Field.ENTRY_CLASS_NAME, JournalArticle.class.getName());
-						// on vérifie que c'est la dernière version
-						TermQuery journalArticleHeadQuery = getQueriesService().term("head", true);
-						assetTypeQuery.addMustQueryClauses(journalArticleClassNameQuery, journalArticleHeadQuery);
-						// ajout de la structure du contenu web
-						if (Validator.isNotNull(assetType.getLong("structureId"))) {
-							TermQuery structureQuery = getQueriesService().term(Field.CLASS_TYPE_ID, assetType.getString("structureId"));
-							assetTypeQuery.addMustQueryClauses(structureQuery);
-						}
+		if(filterClassNames.size() > 0) {
+			for (Object assetTypeObject : assetTypes) {
+				JSONObject assetType = (JSONObject) assetTypeObject;
+				if (Validator.isNotNull(assetType)) {
+					if (Validator.isNotNull(assetType.getString("classname"))) {
+						// on vérifie si le className est sélectionné par l'utilisateur
+						if (filterClassNames.contains(assetType.getString("classname"))) {
+							com.liferay.portal.search.query.BooleanQuery assetTypeQuery = getQueriesService().booleanQuery();
+							// ClassNames
+							if (assetType.getString("classname").equals("searchJournalArticle")) {
+								// Cas d'un journalArticle
+								TermQuery journalArticleClassNameQuery = getQueriesService().term(Field.ENTRY_CLASS_NAME, JournalArticle.class.getName());
+								// on vérifie que c'est la dernière version
+								TermQuery journalArticleHeadQuery = getQueriesService().term("head", true);
+								assetTypeQuery.addMustQueryClauses(journalArticleClassNameQuery, journalArticleHeadQuery);
+								// ajout de la structure du contenu web
+								if (Validator.isNotNull(assetType.getLong("structureId"))) {
+									TermQuery structureQuery = getQueriesService().term(Field.CLASS_TYPE_ID, assetType.getString("structureId"));
+									assetTypeQuery.addMustQueryClauses(structureQuery);
+								}
 
-					}
-					else {
-						// Si on veut les fichiers
-						if (assetType.getString("classname").equals("searchDocument")) {
-							TermQuery classNameQuery = getQueriesService().term(Field.ENTRY_CLASS_NAME, DLFileEntry.class.getName());
-							assetTypeQuery.addMustQueryClauses(classNameQuery);
-						}else{
-							// Si on veut les procédures/démarches, on rajoute la condition à la requête principale
-							if (assetType.getString("classname").equals("searchDemarche")) {
-								com.liferay.portal.search.query.BooleanQuery procedureQuery = getQueriesService().booleanQuery();
-								TermQuery typeQuery = getQueriesService().term("type", "procedure");
-								TermQuery titleQuery = getQueriesService().term("title", keywords);
-								procedureQuery.addShouldQueryClauses(typeQuery,titleQuery);
-								superQuery.addShouldQueryClauses(procedureQuery);
-							}else{
-								// Cas général
-								TermQuery classNameQuery = getQueriesService().term(Field.ENTRY_CLASS_NAME, assetType.getString("classname"));
-								assetTypeQuery.addMustQueryClauses(classNameQuery);
-							}
-						}
-					}
-				}
-
-				// Groups
-				if (assetType.getJSONArray("scopeIds").length() > 0) {
-					com.liferay.portal.search.query.BooleanQuery groupsQuery = getQueriesService().booleanQuery();
-					for (Object groupObject : assetType.getJSONArray("scopeIds")) {
-						Long groupId = (Long) groupObject;
-						TermQuery groupQuery = getQueriesService().term(Field.GROUP_ID, groupId);
-						groupsQuery.addShouldQueryClauses(groupQuery);
-					}
-					assetTypeQuery.addMustQueryClauses(groupsQuery);
-				}
-
-				// Préfiltres
-				if (assetType.getJSONArray("prefilters").length() > 0) {
-					com.liferay.portal.search.query.BooleanQuery prefiltersQuery = getQueriesService().booleanQuery();
-					for (Object prefilterObject : assetType.getJSONArray("prefilters")) {
-						JSONObject prefilter = (JSONObject) prefilterObject;
-						if (prefilter.getString("type").equals("tags")) {
-							com.liferay.portal.search.query.BooleanQuery tagsQuery = getQueriesService().booleanQuery();
-							for (Object tagObject : prefilter.getJSONArray("selection")) {
-								Long tagId = (Long) tagObject;
-								TermQuery tagQuery = getQueriesService().term(Field.ASSET_TAG_IDS, String.valueOf(tagId));
-								if (prefilter.getString("operator").equals("all")) {
-									tagsQuery.addMustQueryClauses(tagQuery);
+							} else {
+								if (assetType.getString("classname").equals("searchDocument")) {
+									// Cas d'un fichier
+									TermQuery classNameQuery = getQueriesService().term(Field.ENTRY_CLASS_NAME, DLFileEntry.class.getName());
+									assetTypeQuery.addMustQueryClauses(classNameQuery);
 								} else {
-									tagsQuery.addShouldQueryClauses(tagQuery);
+									if (assetType.getString("classname").equals("searchDemarche")) {
+										// Cas d'une procédures/démarches
+										com.liferay.portal.search.query.BooleanQuery procedureQuery = getQueriesService().booleanQuery();
+										TermQuery typeQuery = getQueriesService().term("type", "procedure");
+										TermQuery titleQuery = getQueriesService().term("title", keywords);
+										procedureQuery.addShouldQueryClauses(typeQuery, titleQuery);
+										// On rajoute la condition à la requête principale
+										superQuery.addShouldQueryClauses(procedureQuery);
+									} else {
+										// Cas général
+										TermQuery classNameQuery = getQueriesService().term(Field.ENTRY_CLASS_NAME, assetType.getString("classname"));
+										assetTypeQuery.addMustQueryClauses(classNameQuery);
+									}
 								}
 							}
-							// si true alors contient
-							if (prefilter.getBoolean("contains")) {
-								prefiltersQuery.addMustQueryClauses(tagsQuery);
-							} else {
-								prefiltersQuery.addMustNotQueryClauses(tagsQuery);
-							}
-						} else {
-							com.liferay.portal.search.query.BooleanQuery categoriesQuery = getQueriesService().booleanQuery();
-							for (Object categoryObject : prefilter.getJSONArray("selection")) {
-								Long categoryId = (Long) categoryObject;
-								TermQuery categoryQuery = getQueriesService().term(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
-								if (prefilter.getString("operator").equals("all")) {
-									categoriesQuery.addMustQueryClauses(categoryQuery);
-								} else {
-									categoriesQuery.addShouldQueryClauses(categoryQuery);
+
+							// Groups
+							if (assetType.getJSONArray("scopeIds").length() > 0) {
+								com.liferay.portal.search.query.BooleanQuery groupsQuery = getQueriesService().booleanQuery();
+								for (Object groupObject : assetType.getJSONArray("scopeIds")) {
+									Long groupId = (Long) groupObject;
+									TermQuery groupQuery = getQueriesService().term(Field.GROUP_ID, groupId);
+									groupsQuery.addShouldQueryClauses(groupQuery);
 								}
+								assetTypeQuery.addMustQueryClauses(groupsQuery);
 							}
-							// si true alors contient
-							if (prefilter.getBoolean("contains")) {
-								prefiltersQuery.addMustQueryClauses(categoriesQuery);
-							} else {
-								prefiltersQuery.addMustNotQueryClauses(categoriesQuery);
+
+							// Préfiltres
+							if (assetType.getJSONArray("prefilters").length() > 0) {
+								com.liferay.portal.search.query.BooleanQuery prefiltersQuery = getQueriesService().booleanQuery();
+								for (Object prefilterObject : assetType.getJSONArray("prefilters")) {
+									JSONObject prefilter = (JSONObject) prefilterObject;
+									if (prefilter.getString("type").equals("tags")) {
+										com.liferay.portal.search.query.BooleanQuery tagsQuery = getQueriesService().booleanQuery();
+										for (Object tagObject : prefilter.getJSONArray("selection")) {
+											Long tagId = (Long) tagObject;
+											TermQuery tagQuery = getQueriesService().term(Field.ASSET_TAG_IDS, String.valueOf(tagId));
+											if (prefilter.getString("operator").equals("all")) {
+												tagsQuery.addMustQueryClauses(tagQuery);
+											} else {
+												tagsQuery.addShouldQueryClauses(tagQuery);
+											}
+										}
+										// si true alors contient
+										if (prefilter.getBoolean("contains")) {
+											prefiltersQuery.addMustQueryClauses(tagsQuery);
+										} else {
+											prefiltersQuery.addMustNotQueryClauses(tagsQuery);
+										}
+									} else {
+										com.liferay.portal.search.query.BooleanQuery categoriesQuery = getQueriesService().booleanQuery();
+										for (Object categoryObject : prefilter.getJSONArray("selection")) {
+											Long categoryId = (Long) categoryObject;
+											TermQuery categoryQuery = getQueriesService().term(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
+											if (prefilter.getString("operator").equals("all")) {
+												categoriesQuery.addMustQueryClauses(categoryQuery);
+											} else {
+												categoriesQuery.addShouldQueryClauses(categoryQuery);
+											}
+										}
+										// si true alors contient
+										if (prefilter.getBoolean("contains")) {
+											prefiltersQuery.addMustQueryClauses(categoriesQuery);
+										} else {
+											prefiltersQuery.addMustNotQueryClauses(categoriesQuery);
+										}
+									}
+								}
+								assetTypeQuery.addMustQueryClauses(prefiltersQuery);
 							}
+							assetTypesQuery.addShouldQueryClauses(assetTypeQuery);
 						}
 					}
-					assetTypeQuery.addMustQueryClauses(prefiltersQuery);
 				}
 			}
+		}else{
+			com.liferay.portal.search.query.BooleanQuery assetTypeQuery = getQueriesService().booleanQuery();
+			TermQuery classNameQuery = getQueriesService().term(Field.ENTRY_CLASS_NAME, "");
+			assetTypeQuery.addMustQueryClauses(classNameQuery);
 			assetTypesQuery.addShouldQueryClauses(assetTypeQuery);
 		}
 		query.addMustQueryClauses(assetTypesQuery);

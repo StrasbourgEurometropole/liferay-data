@@ -323,11 +323,13 @@ public class ConfigurationData {
                 String friendlyURL = assetTypeJSON.getString(ConfigurationConstants.JSON_ASSET_FRIENDLY_URL);
                 // Si la friendlyURL ne correspond pas à un layout, on
                 // renvoie une erreur
-                if (LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
-                        themeDisplay.getScopeGroupId(), false,
-                        friendlyURL) == null) {
-                    SessionErrors.add(request, "wrong-friendly-url");
-                    result = false;
+                if(Validator.isNotNull(friendlyURL)) {
+                    if (LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
+                            themeDisplay.getScopeGroupId(), false,
+                            friendlyURL) == null) {
+                        SessionErrors.add(request, "wrong-friendly-url");
+                        result = false;
+                    }
                 }
             }
         }

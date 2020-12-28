@@ -46,12 +46,15 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceURL;
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -93,7 +96,7 @@ public class SearchAssetDisplayContext {
 		iteratorURL.setParameter("paginate", String.valueOf(true));
 		iteratorURL.setParameter("vocabulariesCount", String.valueOf(i));
 
-		iteratorURL.setParameter("className", this.getFilterClassNames());
+		iteratorURL.setParameter("className", ArrayUtil.toStringArray(this.getFilterClassNames()));
 
 		iteratorURL.setParameter("keywords", String.valueOf(this.getKeywords()));
 
@@ -151,7 +154,9 @@ public class SearchAssetDisplayContext {
 				}
 			}
 		}else{
-			fieldsAndTypes.put(sortFieldAndTypeFromParam.split(",")[0], sortFieldAndTypeFromParam.split(",")[1]);
+			String[] sort = sortFieldAndTypeFromParam.split(",");
+			if(!sort[0].equals("score"))
+				fieldsAndTypes.put(sort[0], sort[1]);
 		}
 		return fieldsAndTypes;
 	}
@@ -226,16 +231,23 @@ public class SearchAssetDisplayContext {
 	 * Renvoie la liste des types d'entités sur lesquels on souhaite rechercher
 	 * les entries
 	 */
-	private String[] getFilterClassNames() throws ConfigurationException {
-		if (_filterClassNames == null) {
-			this._filterClassNames = ParamUtil.getStringValues(this._request, "className");
+	private List<String> getFilterClassNames() throws ConfigurationException {
+		_filterClassNames = new ArrayList<>();
+		String[] classNames = ParamUtil.getStringValues(this._request, "className");
+		for (String className : classNames) {
+			if(!className.equals("false")){
+				_filterClassNames.add(className);
+			}
 		}
-		// Si la liste est vide, on renvoie la liste complète paramétrée via la
-		// configuration (on ne recherche pas sur rien !)
-		if (this._filterClassNames.length == 0) {
-			this._filterClassNames = ArrayUtil.toStringArray(this.getClassNames());
+
+		if(classNames.length == 0) {
+			// Si la liste est vide, on renvoie la liste complète paramétrée via la
+			// configuration (on ne recherche pas sur rien !)
+			if (_filterClassNames.size() == 0) {
+				_filterClassNames = this.getClassNames();
+			}
 		}
-		return this._filterClassNames;
+		return _filterClassNames;
 	}
 
 	/**
@@ -481,7 +493,8 @@ public class SearchAssetDisplayContext {
 		this._searchHits = SearchHelper.getGlobalSearchHitsV2(searchContext, getConfigurationData().getAssetTypesJSON().getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES),
 				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
 				this.getSortFieldsAndTypes(), this.getGroupBy(), keywords, fromDate,
-				toDate, categoriesIds, idSIGPlace, this._themeDisplay.getLocale(), getSearchContainer().getStart(), getSearchContainer().getEnd());
+				toDate, categoriesIds, idSIGPlace, this.getFilterClassNames(), this._themeDisplay.getLocale(),
+				getSearchContainer().getStart(), getSearchContainer().getEnd());
 
 		List<AssetEntry> results = new ArrayList<>();
 		if (this._searchHits != null) {
@@ -783,7 +796,7 @@ public class SearchAssetDisplayContext {
 		SearchHits searchHits = SearchHelper.getGlobalSearchHitsV2(searchContext, getConfigurationData().getAssetTypesJSON().getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES),
 				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
 				getSortFieldsAndTypes(), this.getGroupBy(), keywords, fromDate, toDate, categoriesIds,
-				null, this._themeDisplay.getLocale(), -1, -1);
+				null, this.getFilterClassNames(), this._themeDisplay.getLocale(), -1, -1);
 
 		StringBuilder ids = new StringBuilder();
 		if (searchHits != null) {
@@ -851,6 +864,76 @@ public class SearchAssetDisplayContext {
 	 	return this.getSearchContainer().getTotal();
 	 }
 
+	/**
+	 * Retourne la liste des types de contrôles pour les vocabulaires
+	 */
+	public String[] getVocabulariesControlTypes() throws ConfigurationException {
+		HashMap<String, String> vocabularyIdsMap = getConfigurationData().getVocabulariesControlTypesMap();
+		if (Validator.isNotNull(vocabularyIdsMap)) {
+			StringBuilder vocabulariesControlTypesString = new StringBuilder();
+			vocabularyIdsMap.forEach((key, value) -> {
+				if (vocabulariesControlTypesString.length() > 0)
+					vocabulariesControlTypesString.append(",");
+				vocabulariesControlTypesString.append(value);
+			});
+			return vocabulariesControlTypesString.toString().split(",");
+		}
+		return null;
+	}
+
+	/**
+	 * Retourne true si le tri des résultats est autorisé
+	 */
+	public boolean getDisplayDateSorting() throws ConfigurationException {
+		return getConfigurationData().isDisplaySorting();
+	}
+
+	/**
+	 * Retourne l'étiquette de mise en avant
+	 * @return String
+	 */
+	public String getBoostTagsNames() throws ConfigurationException {
+		return getConfigurationData().getBoostTagsNames();
+	}
+
+	/**
+	 * Retourne le champs principal sur lequel est effectué le tri
+	 * @return String
+	 */
+	public String getDefaultSortField() throws ConfigurationException {
+		return getConfigurationData().getFirstSortingField();
+	}
+
+	/**
+	 * Retourne true si les résultats doivent être masqués lors de l'affichage
+	 * du formulaire (avant qu'une recherche soit lancée par l'utilisateur)
+	 */
+	public boolean getHideResultsBeforeSearch() throws ConfigurationException {
+		return getConfigurationData().isHideResultsBeforeSearch();
+	}
+
+	/**
+	 * Retourne le libelle du mois en fonction de son numéro
+	 */
+	public String getMonthYearTitle(int iterationLoop, Locale locale) {
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.MONTH, iterationLoop);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MMMMM - yyyy", locale);
+
+		return  StringUtil.upperCaseFirstLetter(dateFormat.format(c.getTime()));
+	}
+
+	/**
+	 * Retourne le nombre de mois entre le premier jour du mois en cours et le premier jour de la recherche en cours
+	 */
+	public int getFromMonthLoopValue() throws ConfigurationException {
+		LocalDate firstDayOfCurrentMonth =  LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1);
+		LocalDate searchMonth = LocalDate.of(getFromYear(), getFromMonthValue(), 1);
+		Period p = Period.between(firstDayOfCurrentMonth, searchMonth);
+
+		return p.getMonths() + p.getYears() * 12;
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(SearchAssetDisplayContext.class);
 
 	private final RenderRequest _request;
@@ -868,10 +951,9 @@ public class SearchAssetDisplayContext {
 	private String _keywords;
 	private List<Long[]> _filterCategoriesIds;
 	private String _filterCategoriesIdString;
-	private String[] _filterClassNames;
+	private List<String> _filterClassNames;
 	private Map<String, String> _templatesMap;
 	private SearchHits _searchHits;
-	private boolean _displayExport;
 	private int _entriesCount;
 
 }
