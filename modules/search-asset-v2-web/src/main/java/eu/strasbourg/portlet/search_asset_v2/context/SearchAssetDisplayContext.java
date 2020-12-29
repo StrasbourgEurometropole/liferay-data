@@ -124,13 +124,12 @@ public class SearchAssetDisplayContext {
 		}
 	}
 
-
 	/**
-	 * Retourne le champ sur lequel on classe les résultats
+	 * Retourne le(s) champ(s) sur le(s)quel on classe les résultats
 	 */
 	public Map<String, String> getSortFieldsAndTypes() throws ConfigurationException {
-		Map fieldsAndTypes = new LinkedHashMap();
 		String sortFieldAndTypeFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
+		Map fieldsAndTypes = new LinkedHashMap();
 		if (Validator.isNull(sortFieldAndTypeFromParam)) {
 			if (Validator.isNull(this.getKeywords())) {
 				if(getConfigurationData().getGroupBy() == -1){
@@ -161,23 +160,19 @@ public class SearchAssetDisplayContext {
 		return fieldsAndTypes;
 	}
 
-
 	/**
 	 * Retourne le seed sur leuqel on mélange les résultats
 	 */
 	public int getSeed() throws ConfigurationException {
-		int seed = 0;
 		String sortFieldAndTypeFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
-		if (Validator.isNull(sortFieldAndTypeFromParam)) {
-			if (Validator.isNull(this.getKeywords())) {
-				if(getConfigurationData().getGroupBy() == 0 && getConfigurationData().isRandomSort()) {
-					seed = 564986113;
-				}
+		int seed = 0;
+		if (Validator.isNull(sortFieldAndTypeFromParam) && Validator.isNull(this.getKeywords())) {
+			if(getConfigurationData().getGroupBy() == 0 && getConfigurationData().isRandomSort()) {
+				seed = 564986113;
 			}
 		}
 		return seed;
 	}
-
 
 	/**
 	 * Retourne le vocabulaireId sur leuqel on regroupe les résultats
@@ -392,7 +387,7 @@ public class SearchAssetDisplayContext {
 				return LocalDate.now().getMonthValue();
 			}
 		} else {
-			return ParamUtil.getInteger(this._request, "toMonth") + 1;
+			return Integer.parseInt(toMonthString) + 1;
 		}
 	}
 
@@ -484,7 +479,6 @@ public class SearchAssetDisplayContext {
 
 		// Permet de remonter la hiérarchie des Request
 		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
-
 		// Lieu (pour la recherche agenda)
 		String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
 
@@ -932,6 +926,18 @@ public class SearchAssetDisplayContext {
 		Period p = Period.between(firstDayOfCurrentMonth, searchMonth);
 
 		return p.getMonths() + p.getYears() * 12;
+	}
+
+	/**
+	 * Retourne l'URL de la page d'accueil
+	 */
+	public String getHomeURL() {
+		if (this._themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname() != null
+				|| this._themeDisplay.getScopeGroup().isStagingGroup()) {
+			return "/web" + this._themeDisplay.getScopeGroup().getFriendlyURL() + "/";
+		} else {
+			return "/";
+		}
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(SearchAssetDisplayContext.class);

@@ -1147,7 +1147,7 @@ public class SearchHelper {
 			int i = 0;
 			while (iterator.hasNext()) {
 				Map.Entry entry = (Map.Entry) iterator.next();
-				FieldSort fieldSort = getSortsService().field((String)entry.getKey(), SortOrder.valueOf(String.valueOf(entry.getValue())));
+				FieldSort fieldSort = getSortsService().field((String)entry.getKey(), SortOrder.valueOf(String.valueOf(entry.getValue()).toUpperCase()));
 				sorts[i] = fieldSort;
 				i++;
 			}

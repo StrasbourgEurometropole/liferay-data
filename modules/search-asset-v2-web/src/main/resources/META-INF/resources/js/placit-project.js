@@ -7,7 +7,7 @@ var entityType = {
 }
 
 var sortField = "localized_title_fr_FR_sortable";
-var sortType = "asc";
+var sortType = "ASC";
 
 
 $(document).ready(function(){
@@ -44,11 +44,11 @@ function getSelectedEntries() {
 			method : 'post',
 			dataType: 'json',
 			data : {
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedKeyWords : selectedKeyWords,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedStatut : selectedStatut,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedDistricts : selectedDistricts,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedThematics : selectedThematics,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_sortFieldAndType : sortField + ',' + sortType,
+				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedKeyWords : selectedKeyWords,
+				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedStatut : selectedStatut,
+				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedDistricts : selectedDistricts,
+				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedThematics : selectedThematics,
+				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_sortFieldAndType : sortField + ',' + sortType,
 			},
 			on: {
                 success: function(e) {
@@ -84,7 +84,7 @@ $("fieldset[id='thematics_fieldset'] input").change(function() {
 function sortVideo(type) {
     sortType = type;
     // change l'affichage du tri
-    if(type == "asc"){
+    if(type == "ASC"){
         $('#sortType').text("Tri A-Z");
     }else{
         $('#sortType').text("Tri Z-A");
