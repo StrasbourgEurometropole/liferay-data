@@ -98,7 +98,9 @@ public class ManifestationModelImpl
 		{"externalImageCopyright", Types.VARCHAR},
 		{"startDate", Types.TIMESTAMP}, {"endDate", Types.TIMESTAMP},
 		{"source", Types.VARCHAR}, {"idSource", Types.VARCHAR},
-		{"publicationDate", Types.TIMESTAMP}
+		{"publicationDate", Types.TIMESTAMP},
+		{"createDateSource", Types.TIMESTAMP},
+		{"modifiedDateSource", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -128,10 +130,12 @@ public class ManifestationModelImpl
 		TABLE_COLUMNS_MAP.put("source", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("idSource", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("createDateSource", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDateSource", Types.TIMESTAMP);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_Manifestation (uuid_ VARCHAR(75) null,manifestationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,imageId LONG,title STRING null,description TEXT null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,startDate DATE null,endDate DATE null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null)";
+		"create table agenda_Manifestation (uuid_ VARCHAR(75) null,manifestationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,imageId LONG,title STRING null,description TEXT null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,startDate DATE null,endDate DATE null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,createDateSource DATE null,modifiedDateSource DATE null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table agenda_Manifestation";
@@ -219,6 +223,8 @@ public class ManifestationModelImpl
 		model.setSource(soapModel.getSource());
 		model.setIdSource(soapModel.getIdSource());
 		model.setPublicationDate(soapModel.getPublicationDate());
+		model.setCreateDateSource(soapModel.getCreateDateSource());
+		model.setModifiedDateSource(soapModel.getModifiedDateSource());
 
 		return model;
 	}
@@ -891,6 +897,51 @@ public class ManifestationModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"createDateSource",
+			new Function<Manifestation, Object>() {
+
+				@Override
+				public Object apply(Manifestation manifestation) {
+					return manifestation.getCreateDateSource();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"createDateSource",
+			new BiConsumer<Manifestation, Object>() {
+
+				@Override
+				public void accept(
+					Manifestation manifestation, Object createDateSource) {
+
+					manifestation.setCreateDateSource((Date)createDateSource);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDateSource",
+			new Function<Manifestation, Object>() {
+
+				@Override
+				public Object apply(Manifestation manifestation) {
+					return manifestation.getModifiedDateSource();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"modifiedDateSource",
+			new BiConsumer<Manifestation, Object>() {
+
+				@Override
+				public void accept(
+					Manifestation manifestation, Object modifiedDateSource) {
+
+					manifestation.setModifiedDateSource(
+						(Date)modifiedDateSource);
+				}
+
+			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -1521,6 +1572,28 @@ public class ManifestationModelImpl
 		return _originalPublicationDate;
 	}
 
+	@JSON
+	@Override
+	public Date getCreateDateSource() {
+		return _createDateSource;
+	}
+
+	@Override
+	public void setCreateDateSource(Date createDateSource) {
+		_createDateSource = createDateSource;
+	}
+
+	@JSON
+	@Override
+	public Date getModifiedDateSource() {
+		return _modifiedDateSource;
+	}
+
+	@Override
+	public void setModifiedDateSource(Date modifiedDateSource) {
+		_modifiedDateSource = modifiedDateSource;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
@@ -1750,6 +1823,8 @@ public class ManifestationModelImpl
 		manifestationImpl.setSource(getSource());
 		manifestationImpl.setIdSource(getIdSource());
 		manifestationImpl.setPublicationDate(getPublicationDate());
+		manifestationImpl.setCreateDateSource(getCreateDateSource());
+		manifestationImpl.setModifiedDateSource(getModifiedDateSource());
 
 		manifestationImpl.resetOriginalValues();
 
@@ -2005,6 +2080,26 @@ public class ManifestationModelImpl
 			manifestationCacheModel.publicationDate = Long.MIN_VALUE;
 		}
 
+		Date createDateSource = getCreateDateSource();
+
+		if (createDateSource != null) {
+			manifestationCacheModel.createDateSource =
+				createDateSource.getTime();
+		}
+		else {
+			manifestationCacheModel.createDateSource = Long.MIN_VALUE;
+		}
+
+		Date modifiedDateSource = getModifiedDateSource();
+
+		if (modifiedDateSource != null) {
+			manifestationCacheModel.modifiedDateSource =
+				modifiedDateSource.getTime();
+		}
+		else {
+			manifestationCacheModel.modifiedDateSource = Long.MIN_VALUE;
+		}
+
 		return manifestationCacheModel;
 	}
 
@@ -2113,6 +2208,8 @@ public class ManifestationModelImpl
 	private String _originalIdSource;
 	private Date _publicationDate;
 	private Date _originalPublicationDate;
+	private Date _createDateSource;
+	private Date _modifiedDateSource;
 	private long _columnBitmask;
 	private Manifestation _escapedModel;
 

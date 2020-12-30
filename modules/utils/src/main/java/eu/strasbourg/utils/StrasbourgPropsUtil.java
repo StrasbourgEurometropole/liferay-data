@@ -330,4 +330,6 @@ public class StrasbourgPropsUtil {
 	public static String getEJobIP() {return PropsUtil.get("eu.strasbourg.ejob.ip");}
 
 	public static String getURLPorteDocument() {return PropsUtil.get("eu.strasbourg.url.porte.document");}
+	
+	public static String getDocLibResizeAndCompressEnabled() {return PropsUtil.get("eu.strasbourg.dlfileentry.service.wrapper.resizeandcompress.enable");}
 }

@@ -536,7 +536,7 @@ public class SearchAssetDisplayContext {
 					return Validator.isNotNull(this._configuration.defaultSortField())
 						? this._configuration.defaultSortField() : "modified_sortable";
 			} else {
-				return "score";
+				return "_score";
 			}
 		} else {
 			return sortFieldFromParam.split(",")[0];
@@ -547,8 +547,9 @@ public class SearchAssetDisplayContext {
 	 * Retourne le type de classement des résultats (croissant ou décroissant)
 	 */
 	public String getSortType() {
-		if (this.getSortField() == "score") {
-			return "desc";
+		if (this.getSortField() == "_score") {
+			// Avec la FP9, on veut reverse = false, parce que Reverse donne ASC, mais que pour _score
+			return "descmaispasceluila";
 		} else {
 			String sortTypeFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
 			if (Validator.isNull(sortTypeFromParam)) {

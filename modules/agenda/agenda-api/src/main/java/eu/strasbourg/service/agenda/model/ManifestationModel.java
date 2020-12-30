@@ -627,6 +627,34 @@ public interface ManifestationModel
 	public void setPublicationDate(Date publicationDate);
 
 	/**
+	 * Returns the create date source of this manifestation.
+	 *
+	 * @return the create date source of this manifestation
+	 */
+	public Date getCreateDateSource();
+
+	/**
+	 * Sets the create date source of this manifestation.
+	 *
+	 * @param createDateSource the create date source of this manifestation
+	 */
+	public void setCreateDateSource(Date createDateSource);
+
+	/**
+	 * Returns the modified date source of this manifestation.
+	 *
+	 * @return the modified date source of this manifestation
+	 */
+	public Date getModifiedDateSource();
+
+	/**
+	 * Sets the modified date source of this manifestation.
+	 *
+	 * @param modifiedDateSource the modified date source of this manifestation
+	 */
+	public void setModifiedDateSource(Date modifiedDateSource);
+
+	/**
 	 * Returns <code>true</code> if this manifestation is approved.
 	 *
 	 * @return <code>true</code> if this manifestation is approved; <code>false</code> otherwise

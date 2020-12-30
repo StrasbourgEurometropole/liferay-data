@@ -182,11 +182,11 @@ public class GraveyardDisplayContext {
 		request.setAttribute("name", HtmlUtil.escape(name));
 		request.setAttribute("firstname", HtmlUtil.escape(firstName));
 		request.setAttribute("birthdateunknown", birthDateUnknows);
-		request.setAttribute("birthdate", ParamUtil.getString(request, "birthdate"));
+		request.setAttribute("birthdate", HtmlUtil.escape(ParamUtil.getString(request, "birthdate")));
 		request.setAttribute("birthdatestart", birthDateStartString);
 		request.setAttribute("birthdateend", birthDateEndString);
 		request.setAttribute("deathdateunknown", deathDateUnknows);
-		request.setAttribute("deathdate", ParamUtil.getString(request, "deathdate"));
+		request.setAttribute("deathdate", HtmlUtil.escape(ParamUtil.getString(request, "deathdate")));
 		request.setAttribute("deathdatestart", deathDateStartString);
 		request.setAttribute("deathdateend", deathDateEndString);
 		request.setAttribute("deathplace", HtmlUtil.escape(deathPlace));

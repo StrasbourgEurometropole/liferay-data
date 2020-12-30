@@ -1,0 +1,8 @@
+
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+	compileOnly group: "com.liferay", name: "com.liferay.document.library.api"
+
+	compile project (":modules:utils")
+}

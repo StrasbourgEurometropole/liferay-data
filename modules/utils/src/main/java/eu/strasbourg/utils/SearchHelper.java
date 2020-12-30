@@ -59,11 +59,11 @@ public class SearchHelper {
 			// Si il y a une recherche par mot clé on trie par pertinence
 			if (Validator.isNotNull(keywords)) {
 				sortField = "_score";
-				isSortDesc = true;
+				isSortDesc = false;
 			}
 			Sort sort = SortFactoryUtil.create(sortField, isSortDesc);
-			searchContext.setSorts(sort);
 
+			searchContext.setSorts(sort);
 			// Recherche
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
 			_log.info("Recherche : " + hits.getSearchTime() * 1000 + "ms");

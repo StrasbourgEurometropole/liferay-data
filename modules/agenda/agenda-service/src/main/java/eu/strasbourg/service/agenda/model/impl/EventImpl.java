@@ -738,6 +738,15 @@ public class EventImpl extends EventBaseImpl {
 		jsonEvent.put("id", this.getEventId());
 		jsonEvent.put("externalId", this.getIdSource());
 
+		// date de création de la source (YYYY-MM-DD HH:MM:SS)
+		DateFormat dateTimeFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		jsonEvent.put("creation_date",
+				dateTimeFormat.format(this.getCreateDate().toString()));
+
+		// date de modification de la source (YYYY-MM-DD HH:MM:SS)
+		jsonEvent.put("modification_date",
+				dateTimeFormat.format(this.getModifiedDate()));
+
 		jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
 
 		if (Validator.isNotNull(this.getSubtitle())) {
