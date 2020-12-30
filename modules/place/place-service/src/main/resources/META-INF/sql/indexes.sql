@@ -1,8 +1,5 @@
-create index IX_31797044 on place_Cache (uuid_[$COLUMN_LENGTH:75$]);
-
 create index IX_7FD0DC67 on place_CacheJson (createPlace, isActive);
 create index IX_A479C42F on place_CacheJson (createPlace, modifiedPlace, isActive);
-create index IX_364F2BA9 on place_CacheJson (modifiedPlace, createPlace, isActive);
 create index IX_F4D484BA on place_CacheJson (modifiedPlace, isActive);
 create index IX_A2123D3C on place_CacheJson (uuid_[$COLUMN_LENGTH:75$]);
 
