@@ -100,7 +100,7 @@ public class NotificationIndexer extends BaseIndexer<Notification> {
 
 					}
 				});
-		indexableActionableDynamicQuery.setCompanyId(companyId);
+//		indexableActionableDynamicQuery.setCompanyId(companyId);
 		indexableActionableDynamicQuery.setPerformActionMethod(
 				new ActionableDynamicQuery.PerformActionMethod<Notification>() {
 
