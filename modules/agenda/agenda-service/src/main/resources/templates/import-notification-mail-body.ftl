@@ -3,7 +3,7 @@
 	
 	${report.globalErrorCause}
 <#else>
-	L'import du fichier "${report.filename!"no_filename"}" du prestataire "${report.provider!"no_provider"}" a été réalisé avec succès le ${report.endDate?date} à ${report.endDate?time}.
+	L'import du fichier "${report.filename!"no_filename"}" du prestataire "${report.provider!"no_provider"}" a été réalisé avec succès le ${report.endDate?date?string["dd MMM yyyy"]} à ${report.endDate?time?string["HH:mm"]}.
 	
 	${report.errorEventsCount} événement<#if (report.errorEventsCount > 1)>s</#if> en erreur
 	
