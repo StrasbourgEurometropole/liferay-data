@@ -1,0 +1,4 @@
+Bundle-Name: csmap-webservices
+Bundle-SymbolicName: eu.strasbourg.service.csmapwebservices
+Bundle-Version: 1.0.0
+Liferay-Configuration-Path: /configuration

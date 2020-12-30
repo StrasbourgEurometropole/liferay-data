@@ -422,6 +422,16 @@ public class PlaceLocalServiceUtil {
 	}
 
 	/**
+	 * Met à jour le jsonHoraire d'un lieu
+	 */
+	public static eu.strasbourg.service.place.model.Place updateJsonHoraire(
+			eu.strasbourg.service.place.model.Place place)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().updateJsonHoraire(place);
+	}
+
+	/**
 	 * Updates the place in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
 	 * @param place the place

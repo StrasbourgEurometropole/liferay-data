@@ -1,3 +1,22 @@
+create table place_Cache (
+	uuid_ VARCHAR(75) null,
+	sigId VARCHAR(75) not null primary key,
+	jsonLieu VARCHAR(400) null,
+	jsonHoraire VARCHAR(400) null,
+	createDate DATE null,
+	modifiedDate DATE null
+);
+
+create table place_CacheJson (
+	uuid_ VARCHAR(75) null,
+	sigId VARCHAR(75) not null primary key,
+	jsonLieu TEXT null,
+	jsonHoraire TEXT null,
+	createPlace DATE null,
+	modifiedPlace DATE null,
+	isActive BOOLEAN
+);
+
 create table place_GoogleMyBusinessHistoric (
 	uuid_ VARCHAR(75) null,
 	googleMyBusinessHistoricId LONG not null primary key,
@@ -18,6 +37,13 @@ create table place_GoogleMyBusinessHistoric (
 	errorStackTrace TEXT null,
 	startDate DATE null,
 	finishDate DATE null
+);
+
+create table place_Historic (
+	uuid_ VARCHAR(75) null,
+	sigId VARCHAR(75) not null primary key,
+	name VARCHAR(75) null,
+	suppressionDate DATE null
 );
 
 create table place_Period (

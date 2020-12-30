@@ -376,6 +376,22 @@ public class PlaceImpl extends PlaceBaseImpl {
     }
 
     /**
+     * Retourne la liste des URL publiques des images additionnelles avec la version et le timastamp
+     */
+    @Override
+    public List<String> getImageURLsWithTimeStamp () {
+        List<String> URLs = new ArrayList<String>();
+        for (String imageIdStr : this.getImageIds().split(",")) {
+            Long imageId = GetterUtil.getLong(imageIdStr);
+            if (Validator.isNotNull(imageId)) {
+                String imageURL = FileEntryHelper.getFileEntryURLWithTimeStamp(imageId);
+                URLs.add(imageURL);
+            }
+        }
+        return URLs;
+    }
+
+    /**
      * Retourne une map d'URL et de titre des images additionnelles et des
      * vidéos
      *
@@ -1853,5 +1869,142 @@ public class PlaceImpl extends PlaceBaseImpl {
         feature.put("geometry", geometry);
 
         return feature;
+    }
+
+    /**
+     * Renvoie le JSON de l'entite au format CSMap
+     */
+    @Override
+    public JSONObject getCSMapJSON() {
+        JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
+
+        jsonPlace.put("idSurfs", this.getSIGid());
+        JSONArray jsonSigs = JSONFactoryUtil.createJSONArray();
+        for (AssetCategory categ : this.getTypes()) {
+            if(Validator.isNotNull(categ)) {
+                String sig = AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(), "SIG");
+                if(Validator.isNotNull(sig))
+                    jsonSigs.put(sig);
+            }
+        }
+        jsonPlace.put("types", jsonSigs);
+        JSONObject names = JSONFactoryUtil.createJSONObject();
+        names.put("fr_FR", this.getAlias(Locale.FRANCE));
+        if (Validator.isNotNull(this.getAlias(Locale.US))) {
+            names.put("en_US", this.getAlias(Locale.US));
+        }
+        if (Validator.isNotNull(this.getAlias(Locale.GERMANY))) {
+            names.put("de_DE", this.getAlias(Locale.GERMANY));
+        }
+        jsonPlace.put("name", names);
+        if (Validator.isNotNull(this.getAddressStreet())) {
+            jsonPlace.put("street", this.getAddressStreet());
+        }
+        if (Validator.isNotNull(this.getAddressZipCode())) {
+            jsonPlace.put("zipCode", this.getAddressZipCode());
+        }
+        if (Validator.isNotNull(this.getCity(Locale.FRANCE))) {
+            jsonPlace.put("city", this.getCity(Locale.FRANCE));
+        }
+        if (Validator.isNotNull(this.getPhone())) {
+            jsonPlace.put("phone", this.getPhone());
+        }
+        JSONArray jsonImagesURLs = JSONFactoryUtil.createJSONArray();
+        for (String imageUrl : this.getImageURLsWithTimeStamp()) {
+            if(Validator.isNotNull(imageUrl)) {
+                jsonImagesURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
+            }
+        }
+        if (jsonImagesURLs.length() > 0) {
+            jsonPlace.put("imageURL", jsonImagesURLs);
+        }
+        JSONObject descriptions = JSONFactoryUtil.createJSONObject();
+        if (Validator.isNotNull(this.getPresentation(Locale.FRANCE))) {
+            descriptions.put("fr_FR", this.getPresentation(Locale.FRANCE));
+        }
+        if (Validator.isNotNull(this.getPresentation(Locale.US))) {
+            descriptions.put("en_US", this.getPresentation(Locale.US));
+        }
+        if (Validator.isNotNull(this.getPresentation(Locale.GERMANY))) {
+            descriptions.put("de_DE", this.getPresentation(Locale.GERMANY));
+        }
+        if(descriptions.length() > 0)
+            jsonPlace.put("description", descriptions);
+        JSONArray scheduleExceptionsJSON = JSONFactoryUtil.createJSONArray();
+        for (ScheduleException scheduleException : this.getScheduleExceptions()) {
+            scheduleExceptionsJSON.put(scheduleException.toCSMapJSON());
+        }
+        if (Validator.isNotNull(this.getExceptionalSchedule())) {
+            JSONObject scheduleExceptionJSON = JSONFactoryUtil.createJSONObject();
+            JSONObject exceptionalScheduleJSON = JSONFactoryUtil.createJSONObject();
+            exceptionalScheduleJSON.put("fr_FR", this.getExceptionalSchedule(Locale.FRANCE));
+            if (Validator.isNotNull(this.getExceptionalSchedule(Locale.US))) {
+                exceptionalScheduleJSON.put("en_US", this.getExceptionalSchedule(Locale.US));
+            }
+            if (Validator.isNotNull(this.getExceptionalSchedule(Locale.GERMANY))) {
+                exceptionalScheduleJSON.put("de_DE", this.getExceptionalSchedule(Locale.GERMANY));
+            }
+            scheduleExceptionJSON.put("description", exceptionalScheduleJSON);
+            scheduleExceptionsJSON.put(scheduleExceptionJSON);
+        }
+        if (scheduleExceptionsJSON.length() > 0) {
+            jsonPlace.put("exceptions", scheduleExceptionsJSON);
+        }
+        jsonPlace.put("accessForDeficient", this.getAccessForDeficient());
+        jsonPlace.put("accessForElder", this.getAccessForElder());
+        jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
+        jsonPlace.put("accessForBlind", this.getAccessForBlind());
+        jsonPlace.put("accessForWheelchair", this.getAccessForWheelchair());
+        if (Validator.isNotNull(this.getMercatorX())) {
+            jsonPlace.put("mercatorX", this.getMercatorX());
+        }
+        if (Validator.isNotNull(this.getMercatorY())) {
+            jsonPlace.put("mercatorY", this.getMercatorY());
+        }
+        jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId());
+
+        return jsonPlace;
+    }
+
+    /**
+     * Renvoie le JSON des horaires sur 7 jours au format CSMap
+     */
+    @Override
+    public JSONObject getScheduleCSMapJSON() {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+        if(!this.getPeriods().isEmpty()) {
+            // si les horaires du lieux sont un lien, le JSON sera vide
+            if (!this.getHasURLSchedule()) {
+                // on récupère une map de clé jour et de valeur une liste de détail d'horaire d'ouvetrure (n'ayant qu'un enregistrement) pour les 7 prochains jours
+                Map<String, List<PlaceSchedule>> schedules = this.getPlaceSchedule(new Date(), 7, Locale.FRANCE);
+                JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
+                // on parcours les 7 prochains jours
+                for (Map.Entry schedule : schedules.entrySet()) {
+                    JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
+                    scheduleJSON.put("date", schedule.getKey());
+                    // on récupère le détail des horaires du lieu pour ce jour
+                    if (((List<PlaceSchedule>) schedule.getValue()).size() > 0) {
+                        PlaceSchedule detail = ((List<PlaceSchedule>) schedule.getValue()).get(0);
+                        scheduleJSON.put("isClosed", detail.isClosed());
+                        scheduleJSON.put("alwaysOpen", detail.isAlwaysOpen());
+                        if (detail.getOpeningTimes() != null) {
+                            JSONArray hoursJSON = JSONFactoryUtil.createJSONArray();
+                            // on parcours la liste des horaires d'ouverture de ce lieu pour ce jour
+                            for (Pair<LocalTime, LocalTime> openingTime : detail.getOpeningTimes()) {
+                                JSONObject hourJSON = JSONFactoryUtil.createJSONObject();
+                                hourJSON.put("startHour", openingTime.getFirst());
+                                hourJSON.put("endHour", openingTime.getSecond());
+                                hoursJSON.put(hourJSON);
+                            }
+                            scheduleJSON.put("hours", hoursJSON);
+                        }
+                    }
+                    schedulesJSON.put(scheduleJSON);
+                }
+                json.put("schedules", schedulesJSON);
+            }
+        }
+
+        return json;
     }
 }
