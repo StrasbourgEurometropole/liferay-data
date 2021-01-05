@@ -271,7 +271,7 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 		// date de création de la source (YYYY-MM-DD HH:MM:SS)
 		DateFormat dateTimeFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		jsonManifestation.put("creation_date",
-				dateTimeFormat.format(this.getCreateDate().toString()));
+				dateTimeFormat.format(this.getCreateDate()));
 
 		// date de modification de la source (YYYY-MM-DD HH:MM:SS)
 		jsonManifestation.put("modification_date",

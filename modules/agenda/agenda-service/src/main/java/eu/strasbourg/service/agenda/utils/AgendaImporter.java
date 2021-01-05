@@ -63,6 +63,7 @@ public class AgendaImporter {
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 
 	private DateFormat dateFormat;
+	private DateFormat dateTimeFormat;
 	private long defaultUserId;
 	private long companyId;
 	private long globalGroupId;
@@ -89,7 +90,9 @@ public class AgendaImporter {
 			_log.error(e);
 		}
 		this.dateFormat = DateFormatFactoryUtil
-			.getSimpleDateFormat("yyyy-MM-dd");
+				.getSimpleDateFormat("yyyy-MM-dd");
+		this.dateTimeFormat = DateFormatFactoryUtil
+				.getSimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		// On récupère les vocabulaires obligatoires et facultatifs
 		long manifestationClassNameId = ClassNameLocalServiceUtil
@@ -322,7 +325,7 @@ public class AgendaImporter {
 		Date createDateSource = null;
 		if (createDateSourceString != null) {
 			try {
-				createDateSource = dateFormat.parse(createDateSourceString);
+				createDateSource = dateTimeFormat.parse(createDateSourceString);
 				if (createDateSource == null) {
 					throw new Exception();
 				}
@@ -340,7 +343,7 @@ public class AgendaImporter {
 		Date modifiedDateSource = null;
 		if (modifiedDateSourceString != null) {
 			try {
-				modifiedDateSource = dateFormat.parse(modifiedDateSourceString);
+				modifiedDateSource = dateTimeFormat.parse(modifiedDateSourceString);
 				if (modifiedDateSource == null) {
 					throw new Exception();
 				}
@@ -574,7 +577,7 @@ public class AgendaImporter {
 		Date createDateSource = null;
 		if (Validator.isNotNull(createDateSourceString)) {
 			try {
-				createDateSource = dateFormat.parse(createDateSourceString);
+				createDateSource = dateTimeFormat.parse(createDateSourceString);
 				if (createDateSource == null) {
 					throw new Exception();
 				}
@@ -592,7 +595,7 @@ public class AgendaImporter {
 		Date modifiedDateSource = null;
 		if (Validator.isNotNull(modifiedDateSourceString)) {
 			try {
-				modifiedDateSource = dateFormat.parse(modifiedDateSourceString);
+				modifiedDateSource = dateTimeFormat.parse(modifiedDateSourceString);
 				if (modifiedDateSource == null) {
 					throw new Exception();
 				}
