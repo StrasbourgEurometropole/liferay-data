@@ -61,4 +61,8 @@ public class PortletHelperImpl implements PortletHelperService {
 	public boolean isUserAuthorizedToConsultInternOffer(String typePublication) {
 		return PortletHelper.isUserAuthorizedToConsultInternOffer(typePublication);
 	}
+
+	public boolean isUserAuthorizedToConsultInternOffer() {
+		return PortletHelper.isUserAuthorizedToConsultInternOffer();
+	}
 }
