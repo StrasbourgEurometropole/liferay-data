@@ -338,40 +338,46 @@ public class PortletHelper {
 
 	public static boolean isUserAuthorizedToConsultInternOffer(String typePublication) {
 		if (Validator.isNotNull(typePublication) && typePublication.equals("Interne uniquement")){
-			// récupération de l'adresse IP de l'utilisateur
-			HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
-			String ipUtil = request.getRemoteAddr();
-			for (String header : IP_HEADER_CANDIDATES) {
-				String ip = request.getHeader(header);
-				if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
-					ipUtil = ip;
-				}
-			}
+			// vérifie si l'utilisateur est authorisé
+			return isUserAuthorizedToConsultInternOffer();
+		}
+		return true;
+	}
 
-			// récupération de la liste d'ip autorisée
-			String ipsAutorizedString = StrasbourgPropsUtil.getEJobIP();
-			List<String> ipsAutorized = Arrays.asList(ipsAutorizedString.split(","));
-			if (Validator.isNull(ipsAutorized) || !ipsAutorized.contains(ipUtil)) {
-				for (String ip : ipsAutorized) {
-					if(ip.contains("-")){
-						// teste si l'ip utilisateur est comprise dans le range d'ips
-						String[] ipRange = ip.split("-");
-						try {
-							long ipFrom = ipToLong(InetAddress.getByName(ipRange[0].trim()));
-							long ipTo = ipToLong(InetAddress.getByName(ipRange[1].trim()));
-							long ipToTest = ipToLong(InetAddress.getByName(ipUtil));
-							if(ipToTest >= ipFrom && ipToTest <= ipTo)
-								return true;
-						} catch (UnknownHostException e) {
-							e.printStackTrace();
-						}
-					}else{
-						if(ip.trim().equals(ipUtil))
-							return true;
-					}
-				}
-				return false;
+	public static boolean isUserAuthorizedToConsultInternOffer() {
+		// récupération de l'adresse IP de l'utilisateur
+		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
+		String ipUtil = request.getRemoteAddr();
+		for (String header : IP_HEADER_CANDIDATES) {
+			String ip = request.getHeader(header);
+			if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+				ipUtil = ip;
 			}
+		}
+
+		// récupération de la liste d'ip autorisée
+		String ipsAutorizedString = StrasbourgPropsUtil.getEJobIP();
+		List<String> ipsAutorized = Arrays.asList(ipsAutorizedString.split(","));
+		if (Validator.isNull(ipsAutorized) || !ipsAutorized.contains(ipUtil)) {
+			for (String ip : ipsAutorized) {
+				if(ip.contains("-")){
+					// teste si l'ip utilisateur est comprise dans le range d'ips
+					String[] ipRange = ip.split("-");
+					try {
+						long ipFrom = ipToLong(InetAddress.getByName(ipRange[0].trim()));
+						long ipTo = ipToLong(InetAddress.getByName(ipRange[1].trim()));
+						long ipToTest = ipToLong(InetAddress.getByName(ipUtil));
+						if(ipToTest >= ipFrom && ipToTest <= ipTo)
+							return true;
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+					}
+				}else{
+					if(ip.trim().equals(ipUtil))
+						return true;
+				}
+			}
+			return false;
 		}
 		return true;
 	}
