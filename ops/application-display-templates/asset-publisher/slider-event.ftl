@@ -30,7 +30,7 @@
                             <div class="ops-img">
                                 <figure class="fit-cover">
                                     <#if entry.imageURL?has_content>
-                                        <img src="${entry.imageURL}" width="330" height="170" alt="${entry.getTitle(locale)}" />
+                                        <img src="${entry.imageURL}?imagePreview=1" width="330" height="170" alt="${entry.getTitle(locale)}" />
                                     </#if>
                                 </figure>
                                 <span class="ops-typologie">${entry.getLabelTypologies(locale)}</span>

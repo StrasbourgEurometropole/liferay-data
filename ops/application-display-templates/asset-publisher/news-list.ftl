@@ -46,7 +46,7 @@
 
                 <a href="${homeURL}-/${firstJournal.urlTitle}" class="ops-actu ops-first-actu">
                     <figure class="fit-cover">
-                        <img src="${imageURL}" width="530" height="353" alt="Image article"/>
+                        <img src="${imageURL}?imagePreview=1" width="530" height="353" alt="Image article"/>
                     </figure>
                     <div>
                         <div class="ops-meta-card-article">
@@ -89,7 +89,7 @@
 
                             <a href="${homeURL}-/${journal.urlTitle}" class="ops-actu">
                                 <figure class="fit-cover">
-                                    <img src="${imageURL}" width="200" height="130" alt="Image article"/>
+                                    <img src="${imageURL}?imagePreview=1" width="200" height="130" alt="Image article"/>
                                 </figure>
                                 <div>
                                     <div class="ops-meta-card-article">

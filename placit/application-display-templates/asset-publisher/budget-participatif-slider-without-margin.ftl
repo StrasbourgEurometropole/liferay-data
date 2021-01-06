@@ -56,23 +56,23 @@
                         <#assign statusColor = entry.getBudgetParticipatifStatusCategoryColor() />
 
                         <#assign imageURL = entry.getAuthorImageURL() />
-						
-						<#if entry.isNotDoable()>
-							<#assign classFaisable = "pro-theme-non-faisable"/>
-						<#else>
-							<#assign classFaisable = "pro-theme-faisable" />
-						</#if>
+                        
+                        <#if entry.isNotDoable()>
+                            <#assign classFaisable = "pro-theme-non-faisable"/>
+                        <#else>
+                            <#assign classFaisable = "pro-theme-faisable" />
+                        </#if>
 
-                        <div class="item pro-bloc-card-budget ${classFaisable} data-linkall="a">
+                        <div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
                             <#if entry.getImageURL()?has_content>
-									<figure role="group" class="fit-cover">
-										<img src="${entry.getImageURL()}" width="155" height="200" alt="Image budget participatif"/>
-									</figure>
+                                    <figure role="group" class="fit-cover">
+                                        <img src="${entry.getImageURL()}?imagePreview=1" loading="lazy" width="155" height="200" alt="Image budget participatif"/>
+                                    </figure>
                             </#if>
                             <div class="pro-header-budget">
                                 <#if imageURL?has_content >
                                     <figure role="group">
-                                        <img src="${imageURL}" width="40" height="40" alt="Image du budget participatif"/>
+                                        <img src="${imageURL}?imagePreview=1" loading="lazy" width="40" height="40" alt="Image du budget participatif"/>
                                     </figure>
                                 </#if>
                                 <p>Projet déposé par :</p>
@@ -92,20 +92,20 @@
                                     Publiée le <time datetime="${entry.createDate?date?string['dd/MM/yyyy']}">${entry.createDate?date?string['dd/MM/yyyy']}</time>
                                 </span>
                             </div>
-																				
+                                                                                
                             <div class="pro-footer-budget">
                                 <p>
-									<#if entry.isNotDoable()>
-										Ce projet a été étudié et déclaré "${entry.getBudgetParticipatifStatusTitle(locale)}"
-									<#else>
+                                    <#if entry.isNotDoable()>
+                                        Ce projet a été étudié et déclaré "${entry.getBudgetParticipatifStatusTitle(locale)}"
+                                    <#else>
                                         <strong>${entry.getNbSupports()}</strong> Citoyens-nes 
                                         <#if entry.hasBeenVoted() >
                                             ont soutenus ce projet
                                         <#else>
                                             soutiennent ce projet
                                         </#if>
-									</#if>									
-								</p>
+                                    </#if>                                  
+                                </p>
                             </div>
                         </div>
 
