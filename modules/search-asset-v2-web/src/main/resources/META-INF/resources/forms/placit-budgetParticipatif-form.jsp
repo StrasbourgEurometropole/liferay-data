@@ -143,8 +143,7 @@
 	<script>
 		var porletNamespace = '<portlet:namespace/>';
         var budgetParticipatifsSelectionURL = '${budgetParticipatifsSelectionURL}';
-        var sortField = "${dc.sortField}";
-        var sortType = "${dc.sortType}";
+        var sortFieldsAndTypes = "${dc.sortFieldsAndTypesString}";
 	</script>
 </liferay-util:html-top>
 

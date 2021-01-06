@@ -8,11 +8,10 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.item.selector.api"
 	compileOnly group: "com.liferay", name: "com.liferay.item.selector.criteria.api"
 	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
-	compileOnly group: 'com.liferay', name: 'com.liferay.portal.search'
-	compileOnly group: 'com.liferay', name: 'com.liferay.portal.search.api'
 
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl"
+	compileOnly group: "com.liferay.portal", name: "release.portal.api", version: "7.2.0"
 
 	compileOnly group: "com.sun.xml.ws", name: "jaxws-ri", version: "2.3.2"
 

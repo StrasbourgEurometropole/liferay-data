@@ -66,7 +66,7 @@ function getSelectedEntries() {
 				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedBPStatus : selectedBPStatus,
 				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedDistricts : selectedDistricts,
 				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedThematics : selectedThematics,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_sortFieldAndType : sortField + ',' + sortType,
+				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_sortFieldAndType : sortFieldsAndTypes,
 			},
 			on: {
                 success: function(e) {

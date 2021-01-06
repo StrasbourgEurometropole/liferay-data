@@ -38,14 +38,18 @@ import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
-import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.SearchHelperV2;
 import eu.strasbourg.utils.StringHelper;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceURL;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -56,6 +60,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("deprecation")
@@ -165,13 +170,21 @@ public class SearchAssetDisplayContext {
 	 */
 	public int getSeed() throws ConfigurationException {
 		String sortFieldAndTypeFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
-		int seed = 0;
 		if (Validator.isNull(sortFieldAndTypeFromParam) && Validator.isNull(this.getKeywords())) {
 			if(getConfigurationData().getGroupBy() == 0 && getConfigurationData().isRandomSort()) {
-				seed = 564986113;
+				//Récupération des variables de session
+				HttpServletRequest request = PortalUtil.getLiferayPortletRequest(this._request).getHttpServletRequest();
+				HttpSession session = request.getSession();
+				if(Validator.isNull(session.getAttribute("seed"))) {
+					int seed = new Random().nextInt();
+					session.setAttribute("seed", seed);
+					return seed;
+				}else {
+					return (int) session.getAttribute("seed");
+				}
 			}
 		}
-		return seed;
+		return 0;
 	}
 
 	/**
@@ -484,7 +497,8 @@ public class SearchAssetDisplayContext {
 
 
 		// Recherche
-		this._searchHits = SearchHelper.getGlobalSearchHitsV2(searchContext, getConfigurationData().getAssetTypesJSON().getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES),
+		this._searchHits = getSearchHelperV2().getGlobalSearchHitsV2(searchContext,
+				getConfigurationData().getAssetTypesJSON().getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES),
 				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
 				this.getSortFieldsAndTypes(), this.getGroupBy(), keywords, fromDate,
 				toDate, categoriesIds, idSIGPlace, this.getFilterClassNames(), this._themeDisplay.getLocale(),
@@ -787,7 +801,8 @@ public class SearchAssetDisplayContext {
 		List<Long[]> categoriesIds = this.getFilterCategoriesIds();
 
 		// Recherche
-		SearchHits searchHits = SearchHelper.getGlobalSearchHitsV2(searchContext, getConfigurationData().getAssetTypesJSON().getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES),
+		SearchHits searchHits = getSearchHelperV2().getGlobalSearchHitsV2(searchContext,
+				getConfigurationData().getAssetTypesJSON().getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES),
 				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
 				getSortFieldsAndTypes(), this.getGroupBy(), keywords, fromDate, toDate, categoriesIds,
 				null, this.getFilterClassNames(), this._themeDisplay.getLocale(), -1, -1);
@@ -929,6 +944,19 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
+	 * Retourne le(s) champ(s) sur le(s)quel on classe les résultats en String
+	 */
+	public String getSortFieldsAndTypesString() throws ConfigurationException {
+		StringBuilder sortFieldsAndTypesString = new StringBuilder();
+		getSortFieldsAndTypes().forEach((key, value) -> {
+			if (sortFieldsAndTypesString.length() > 0)
+				sortFieldsAndTypesString.append("--");
+			sortFieldsAndTypesString.append(key + "," + value);
+		});
+		return sortFieldsAndTypesString.toString();
+	}
+
+	/**
 	 * Retourne l'URL de la page d'accueil
 	 */
 	public String getHomeURL() {
@@ -962,4 +990,26 @@ public class SearchAssetDisplayContext {
 	private SearchHits _searchHits;
 	private int _entriesCount;
 
+
+	private static SearchHelperV2 getSearchHelperV2() {
+		return _serviceTrackerSearcher.getService();
+	}
+
+	private static ServiceTracker
+			<SearchHelperV2, SearchHelperV2> _serviceTrackerSearcher;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(SearchHelperV2.class);
+
+		ServiceTracker<SearchHelperV2, SearchHelperV2>
+				serviceTracker =
+				new ServiceTracker
+						<>(
+						bundle.getBundleContext(),
+						SearchHelperV2.class, null);
+
+		serviceTracker.open();
+
+		_serviceTrackerSearcher = serviceTracker;
+	}
 }

@@ -2,7 +2,9 @@ package eu.strasbourg.portlet.search_asset_v2;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -61,7 +63,8 @@ import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.LayoutHelper;
-import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.SearchHelperV2;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -86,6 +89,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -154,8 +158,9 @@ public class SearchAssetPortlet extends MVCPortlet {
 			// Recuperation de l'URL de "base" du site
 			renderRequest.setAttribute("homeURL", dc.getHomeURL());
 
-			/*if(Validator.isNotNull(assetTypes) && assetTypes.size() > 0) {
+			if(Validator.isNotNull(assetTypes) && assetTypes.size() > 0) {
 				String className = assetTypes.get(0).getClassName();
+				long groupId = themeDisplay.getLayout().getGroupId();
 
 				if (className.equals(PARTICIPATION)) {
 					List<Participation> participationListMostCommented = _participationLocalService.getMostCommented(groupId);
@@ -176,10 +181,10 @@ public class SearchAssetPortlet extends MVCPortlet {
 
 				} else if (className.equals(BUDGET)) {
 
-					//Recuperation de la categorie "Phase du budget participatif" configuree
+					//Recuperation de la categorie "Phase du budget participatif" configure
 					AssetCategory phase = null;
-					for (String id : Arrays.asList(this._configuration.prefilterCategoriesIds().replace(';',',').split(","))) {
-						phase = AssetCategoryLocalServiceUtil.getCategory(Long.parseLong(id));
+					for (Long categoryPrefilterId :dc.getCategoryPrefilters()) {
+						phase = AssetCategoryLocalServiceUtil.getCategory(categoryPrefilterId);
 						if(AssetVocabularyLocalServiceUtil.getVocabulary(phase.getVocabularyId()).getName().equals(VocabularyNames.PLACIT_BUDGET_PARTICIPATIF_PHASE))
 							break;
 						else
@@ -206,7 +211,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 					renderRequest.setAttribute("initiativesMostCommented", initiativesMostCommented);
 					renderRequest.setAttribute("initiativesMostHelped", initiativesMostHelped);
 				}
-			}*/
+			}
 
 			renderRequest.setAttribute("isUserloggedIn", false);
 			renderRequest.setAttribute("hasUserPactSign", false);
@@ -563,11 +568,21 @@ public class SearchAssetPortlet extends MVCPortlet {
 		// Lieu (pour la recherche agenda)
 		String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
 
+		//Récupération des variables de session
+		HttpSession session = originalRequest.getSession();
+		int seed = 0;
+		if(Validator.isNull(session.getAttribute("seed"))){
+			seed = new Random().nextInt();
+			session.setAttribute("seed", seed);
+		}else{
+			seed = (int)session.getAttribute("seed");
+		}
+
 		// Recherche
-		SearchHits searchHits = SearchHelper.getGlobalSearchHitsV2(searchContext,
+		SearchHits searchHits = _searchHelperV2.getGlobalSearchHitsV2(searchContext,
 				configurationData.getAssetTypesJSON().getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES),
 				configurationData.isDisplayDateField(), configurationData.getFilterField(),
-				getSeed(configurationData, sortFieldAndType, keywords),
+				getSeed(configurationData, sortFieldAndType, keywords, seed),
 				getSortFieldsAndTypes(configurationData, sortFieldAndType, keywords), getGroupBy(configurationData), keywords, fromDate,
 				toDate, categoriesIds, idSIGPlace, getClassNames(configurationData), themeDisplay.getLocale(),
 				-1, -1);
@@ -791,14 +806,13 @@ public class SearchAssetPortlet extends MVCPortlet {
 	/**
 	 * Retourne le seed sur leuqel on mélange les résultats
 	 */
-	public int getSeed(ConfigurationData configurationData, String sortFieldAndTypeFromParam, String keywords) {
-		int seed = 0;
+	public int getSeed(ConfigurationData configurationData, String sortFieldAndTypeFromParam, String keywords, int seed) {
 		if (Validator.isNull(sortFieldAndTypeFromParam) && Validator.isNull(keywords)) {
 			if(configurationData.getGroupBy() == 0 && configurationData.isRandomSort()) {
-				seed = 564986113;
+				return seed;
 			}
 		}
-		return seed;
+		return 0;
 	}
 
 	/**
@@ -829,9 +843,12 @@ public class SearchAssetPortlet extends MVCPortlet {
 				}
 			}
 		}else{
-			String[] sort = sortFieldAndTypeFromParam.split(",");
-			if(!sort[0].equals("score"))
-				fieldsAndTypes.put(sort[0], sort[1]);
+			String[] sorts = sortFieldAndTypeFromParam.split("--");
+			for (String sort : sorts) {
+				String[] sortArray = sort.split(",");
+				if(!sortArray[0].equals("score"))
+					fieldsAndTypes.put(sortArray[0], sortArray[1]);
+			}
 		}
 		return fieldsAndTypes;
 	}
@@ -911,6 +928,14 @@ public class SearchAssetPortlet extends MVCPortlet {
 	@Reference(unbind = "-")
 	protected void setParticipationLocalService(ParticipationLocalService participationLocalService) {
 		_participationLocalService = participationLocalService;
+	}
+
+	@Reference
+	private SearchHelperV2 _searchHelperV2;
+
+	@Reference(unbind = "-")
+	protected void setSearchHelperV2(SearchHelperV2 searchHelperV2) {
+		_searchHelperV2 = searchHelperV2;
 	}
 
 }
