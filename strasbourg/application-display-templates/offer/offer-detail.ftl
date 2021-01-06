@@ -87,6 +87,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <p>${entry.niveauEtude.getTitle(locale)}</p>
                             </div>
                         </#if>
+
+				        <#if entry.contact?? && entry.typePublication?? && (entry.typePublication.getTitle(locale)=="Interne uniquement" || (entry.typePublication.getTitle(locale)=="Interne et externe" && portletHelper.isUserAuthorizedToConsultInternOffer()))>
+                            <div id="contactRH">
+                                <h3><@liferay_ui.message key="eu.offer-contact-RH" /></h3>
+                                <p>${entry.contact}</p>
+                            </div>
+                        </#if>
                     </div>  
             
                     <!-- Introduction  -->
