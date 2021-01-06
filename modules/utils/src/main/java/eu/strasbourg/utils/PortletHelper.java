@@ -336,7 +336,7 @@ public class PortletHelper {
         }
 	}
 
-	public static boolean isUserAuthorizedToConsultInternOffer(String typePublication) {
+	public static boolean isUserAuthorizedToConsultOffer(String typePublication) {
 		if (Validator.isNotNull(typePublication) && typePublication.equals("Interne uniquement")){
 			// vérifie si l'utilisateur est authorisé
 			return isUserAuthorizedToConsultInternOffer();

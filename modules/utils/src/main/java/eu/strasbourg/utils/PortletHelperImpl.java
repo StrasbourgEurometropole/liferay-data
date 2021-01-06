@@ -58,8 +58,8 @@ public class PortletHelperImpl implements PortletHelperService {
 		PortletHelper.togglePortlet(portletId, show);
 	}
 
-	public boolean isUserAuthorizedToConsultInternOffer(String typePublication) {
-		return PortletHelper.isUserAuthorizedToConsultInternOffer(typePublication);
+	public boolean isUserAuthorizedToConsultOffer(String typePublication) {
+		return PortletHelper.isUserAuthorizedToConsultOffer(typePublication);
 	}
 
 	public boolean isUserAuthorizedToConsultInternOffer() {

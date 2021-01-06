@@ -108,7 +108,7 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 			img = new Image(image);
 			document.add(img.setHorizontalAlignment(HorizontalAlignment.CENTER));
 
-			if(offer.getStatus() == WorkflowConstants.STATUS_APPROVED && PortletHelper.isUserAuthorizedToConsultInternOffer(offer.getTypePublication().getName())) {
+			if(offer.getStatus() == WorkflowConstants.STATUS_APPROVED && PortletHelper.isUserAuthorizedToConsultOffer(offer.getTypePublication().getName())) {
 				// titre du PDF
 				Paragraph paragraph = new Paragraph().setFont(fontBold).setFontSize(20f)
 						.setMarginTop(-10f).setMarginBottom(30f)

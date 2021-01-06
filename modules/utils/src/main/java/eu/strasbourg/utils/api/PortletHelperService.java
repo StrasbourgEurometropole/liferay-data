@@ -22,6 +22,6 @@ public interface PortletHelperService {
 	public void showPortlet(String portletId);
 	public void hidePortlet(String portletId);
 	public void togglePortlet(String portletId, boolean show);
-	public boolean isUserAuthorizedToConsultInternOffer(String typePublication);
+	public boolean isUserAuthorizedToConsultOffer(String typePublication);
 	public boolean isUserAuthorizedToConsultInternOffer();
 }
