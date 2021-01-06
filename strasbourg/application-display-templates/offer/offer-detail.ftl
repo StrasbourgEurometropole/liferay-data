@@ -6,7 +6,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 
-<#if portletHelper.isUserAuthorizedToConsultInternOffer(entry.typePublication.getName())> 
+<#if portletHelper.isUserAuthorizedToConsultOffer(entry.typePublication.getName())> 
     <div class="seu-page-offer">
         <main class="seu-container">
             <h1>${entry.getPost(locale)}</h1>
