@@ -38,10 +38,10 @@ public class updateJsonHoraire extends BaseMessageListener {
 		now.add(Calendar.MINUTE, 5);
 		Date fiveMinutesFromNow = now.getTime();
 
-		// Création du trigger "Tous les jours à 3h45"
+		// Création du trigger "Tous les jours à 3h15"
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				"0 45 3 * * ?");
+				"0 15 3 * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
