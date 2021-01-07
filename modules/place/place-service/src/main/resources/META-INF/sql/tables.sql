@@ -1,12 +1,3 @@
-create table place_Cache (
-	uuid_ VARCHAR(75) null,
-	sigId VARCHAR(75) not null primary key,
-	jsonLieu VARCHAR(400) null,
-	jsonHoraire VARCHAR(400) null,
-	createDate DATE null,
-	modifiedDate DATE null
-);
-
 create table place_CacheJson (
 	uuid_ VARCHAR(75) null,
 	sigId VARCHAR(75) not null primary key,
