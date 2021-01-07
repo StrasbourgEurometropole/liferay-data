@@ -1263,6 +1263,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		return _place.getCreateDate();
 	}
 
+	/**
+	 * Renvoie le JSON de l'entite au format CSMap
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getCSMapJSON() {
+		return _place.getCSMapJSON();
+	}
+
 	@Override
 	public String getDefaultLanguageId() {
 		return _place.getDefaultLanguageId();
@@ -1699,6 +1707,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public String getImageURL(Long imageId) {
 		return _place.getImageURL(imageId);
+	}
+
+	/**
+	 * Retourne la liste des URL publiques des images additionnelles avec la version et le timastamp
+	 */
+	@Override
+	public java.util.List<String> getImageURLsWithTimeStamp() {
+		return _place.getImageURLsWithTimeStamp();
 	}
 
 	/**
@@ -2316,6 +2332,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public String getRTType() {
 		return _place.getRTType();
+	}
+
+	/**
+	 * Renvoie le JSON des horaires sur 7 jours au format CSMap
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getScheduleCSMapJSON() {
+		return _place.getScheduleCSMapJSON();
 	}
 
 	/**

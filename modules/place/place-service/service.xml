@@ -315,4 +315,53 @@
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 
 	</entity>
+
+	<entity local-service="true" name="Historic"
+			cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="sigId" primary="true" type="String" />
+
+		<!-- Informations générales -->
+		<column name="name" type="String" />
+		<column name="suppressionDate" type="Date" />
+
+		<finder name="SuppressionDate" return-type="Collection">
+			<finder-column comparator="&gt;=" name="suppressionDate" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" name="CacheJson"
+			cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="sigId" primary="true" type="String" />
+
+		<!-- Informations générales -->
+		<column name="jsonLieu" type="String" />
+		<column name="jsonHoraire" type="String" />
+		<column name="createPlace" type="Date" />
+		<column name="modifiedPlace" type="Date" />
+		<column name="isActive" type="boolean" />
+
+		<finder name="sigId" return-type="Collection">
+			<finder-column name="sigId" />
+		</finder>
+
+		<finder name="CreatedDateAndIsActive" return-type="Collection">
+			<finder-column comparator="&gt;=" name="createPlace" />
+			<finder-column name="isActive" />
+		</finder>
+		<finder name="CreatedDateAndModifiedDateAndIsActive" return-type="Collection">
+			<finder-column comparator="&lt;" name="createPlace" />
+			<finder-column comparator="&gt;=" name="modifiedPlace" />
+			<finder-column name="isActive" />
+		</finder>
+		<finder name="ModifiedDateAndIsActive" return-type="Collection">
+			<finder-column comparator="&gt;=" name="modifiedPlace" />
+			<finder-column name="isActive" />
+		</finder>
+
+	</entity>
 </service-builder>
