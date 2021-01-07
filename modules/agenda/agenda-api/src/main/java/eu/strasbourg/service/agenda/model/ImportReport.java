@@ -72,6 +72,10 @@ public interface ImportReport extends ImportReportModel, PersistedModel {
 
 	public void incrementErrorManifestations();
 
+	public void incrementUnmodifiedEvents();
+
+	public void incrementUnmodifiedManifestations();
+
 	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
 		getLines();
 

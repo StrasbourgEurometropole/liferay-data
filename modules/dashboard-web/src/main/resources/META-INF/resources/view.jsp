@@ -18,9 +18,10 @@
 				<figure>
 					<img src="${userConnected.get('photo')}" width="40" height="40" alt="Nom de l'utilisateur" />
 				</figure> <span><liferay-ui:message key="dashboard.front.profil" /></span>
-			</a> <span><liferay-ui:message key="dashboard.front.welcome" /><span
-				id="pro-user-name">${userConnected.get('first_name')}
-					${userConnected.get('last_name')}</span></span>
+			</a> <span><liferay-ui:message key="dashboard.front.welcome" />
+			    <span id="pro-user-name">
+			        <c:out value="${userConnected.get('first_name')}" escapeXml='true'/> <c:out value="${userConnected.get('last_name')}" escapeXml='true'/>
+			    </span></span>
 		</div>
 
 		<div class="container pro-wrapper-dashboard">
@@ -367,14 +368,13 @@
 										<liferay-ui:message key="dashboard.thumbnail.petition.from" />
 									</p>
 									<p>
-										<strong>${petitionSigned.petitionnaireFirstname}
-											${petitionSigned.petitionnaireLastname}</strong>
-									</p>
+										<strong><strong><c:out value="${petitionFiled.petitionnaireFirstname}" escapeXml='true'/> <c:out value="${petitionFiled.petitionnaireLastname}" escapeXml='true'/></strong>
+                                    </p>
 								</div>
 								<div class="pro-content-petition">
 									<a
 										href="${homeURL}detail-petition/-/entity/id/${petitionSigned.petitionId}"
-										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${petitionSigned.title}</h3></a>
+										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3><c:out value="${petitionFiled.title}" escapeXml='true'/></h3></a>
 									<p>
 										<liferay-ui:message key="dashboard.thumbnail.petition.to" />
 									</p>
@@ -430,13 +430,13 @@
 										<liferay-ui:message key="dashboard.thumbnail.petition.from" />
 									</p>
 									<p>
-										<strong>${petitionFiled.petitionnaireFirstname} ${petitionFiled.petitionnaireLastname}</strong>
+										<strong><c:out value="${petitionFiled.petitionnaireFirstname}" escapeXml='true'/> <c:out value="${petitionFiled.petitionnaireLastname}" escapeXml='true'/></strong>
 									</p>
 								</div>
 								<div class="pro-content-petition">
 									<a
 										href="${homeURL}detail-petition/-/entity/id/${petitionFiled.petitionId}"
-										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${petitionFiled.title}</h3></a>
+										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3><c:out value="${petitionFiled.title}" escapeXml='true'/></h3></a>
 									<p>
 										<liferay-ui:message key="dashboard.thumbnail.petition.to" />
 									</p>
@@ -495,12 +495,12 @@
 		                                    </figure>
 											<p><liferay-ui:message key="dashboard.thumbnail.initiative.from" /></p>
 											<p>
-												<strong>${initiative.getAuthorLabel()}</strong>
+												<strong><c:out value="${initiative.getAuthorLabel()}" escapeXml='true'/></strong>
 											</p>
 										</div>
 										<div class="pro-content-initiative">
 											<a href="${homeURL}detail-initiative/-/entity/id/${initiative.initiativeId}" 
-											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${initiative.title}</h3>
+											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3><strong><c:out value="${initiative.title}" escapeXml='true'/></strong></h3>
 											</a> <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.initiative.publish.date" /> <time
 											datetime="${initiative.getPublicationDateFr()}">${initiative.getPublicationDateFr()}</time></span>
 										</div>
@@ -546,12 +546,12 @@
 		                                    </figure>
 											<p><liferay-ui:message key="dashboard.thumbnail.initiative.from" /></p>
 											<p>
-												<strong>${initiative.getAuthorLabel()}</strong>
+												<strong><c:out value="${initiative.getAuthorLabel()}" escapeXml='true'/></strong>
 											</p>
 										</div>
 										<div class="pro-content-initiative">
 											<a href="${homeURL}detail-initiative/-/entity/id/${initiative.initiativeId}" 
-											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${initiative.title}</h3>
+											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3><c:out value="${initiative.title}" escapeXml='true'/></h3>
 											</a> <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.initiative.publish.date" /> <time
 											datetime="${initiative.getPublicationDateFr()}">${initiative.getPublicationDateFr()}</time></span>
 										</div>
@@ -604,7 +604,7 @@
 									</figure>
 									<p><liferay-ui:message key="dashboard.thumbnail.bp.from" /></p>
 									<p>
-										<strong>${budget.getAuthor()}</strong>
+										<strong><c:out value="${budget.getAuthor()}" escapeXml='true'/></strong>
 									</p>
 									<div class="pro-info-top-right">
 										<span class="pro-encart-theme" style="background:#${budget.getBudgetParticipatifStatusCategoryColor()}">
@@ -614,7 +614,7 @@
 								</div>
 								<div class="pro-content-budget">
 									<a href="${homeURL}detail-budget-participatif/-/entity/id/${budget.budgetParticipatifId}"
-										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${budget.title}</h3></a>
+										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3><c:out value="${budget.title}" escapeXml='true'/></h3></a>
 								
 									<p><liferay-ui:message key="dashboard.thumbnail.bp.to" /></p>
 									<span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.bp.publish.date" /> 
@@ -674,7 +674,7 @@
 									</figure>
 									<p><liferay-ui:message key="dashboard.thumbnail.bp.from" /></p>
 									<p>
-										<strong>${budget.getAuthor()}</strong>
+										<strong><c:out value="${budget.getAuthor()}" escapeXml='true'/></strong>
 									</p>
 									<div class="pro-info-top-right">
 										<span class="pro-encart-theme" style="background:#${budget.getBudgetParticipatifStatusCategoryColor()}">
@@ -684,7 +684,7 @@
 								</div>
 								<div class="pro-content-budget">
 									<a href="${homeURL}detail-budget-participatif/-/entity/id/${budget.budgetParticipatifId}"
-										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${budget.title}</h3></a>
+										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3><c:out value="${budget.title}" escapeXml='true'/></h3></a>
 								
 									<p><liferay-ui:message key="dashboard.thumbnail.bp.to" /></p>
 									<span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.bp.publish.date" /> 

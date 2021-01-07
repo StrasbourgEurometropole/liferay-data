@@ -221,6 +221,8 @@
 		</field>
 		<field name="firstStartDate" type="Date" />
 		<field name="lastEndDate" type="Date" />
+		<field name="createDateSource" type="Date" />
+		<field name="modifiedDateSource" type="Date" />
 		<field name="imageId" type="Long" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.EventParticipation">
@@ -249,9 +251,11 @@
 		<field name="newEventsCount" type="long" />
 		<field name="modifiedEventsCount" type="long" />
 		<field name="errorEventsCount" type="long" />
+		<field name="unmodifiedEventsCount" type="long" />
 		<field name="newManifestationsCount" type="long" />
 		<field name="modifiedManifestationsCount" type="long" />
 		<field name="errorManifestationsCount" type="long" />
+		<field name="unmodifiedManifestationsCount" type="long" />
 		<field name="startDate" type="Date" />
 		<field name="endDate" type="Date" />
 	</model>
@@ -302,5 +306,7 @@
 		<field name="source" type="String" />
 		<field name="idSource" type="String" />
 		<field name="publicationDate" type="Date" />
+		<field name="createDateSource" type="Date" />
+		<field name="modifiedDateSource" type="Date" />
 	</model>
 </model-hints>

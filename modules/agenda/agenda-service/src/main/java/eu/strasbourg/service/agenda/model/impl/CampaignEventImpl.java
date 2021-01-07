@@ -598,6 +598,15 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		jsonEvent.put("externalId",
 				this.getCampaign().getTitleCurrentValue().substring(0, 3) + "_" + this.getCampaignEventId());
 
+		// date de création chez nous (YYYY-MM-DD HH:MM:SS)
+		DateFormat dateTimeFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		jsonEvent.put("creation_date",
+				dateTimeFormat.format(this.getCreateDate()));
+
+		// date de modification chez nous (YYYY-MM-DD HH:MM:SS)
+		jsonEvent.put("modification_date",
+				dateTimeFormat.format(this.getModifiedDate()));
+
 		// Titre, sous-titre, description
 		jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
 		if (Validator.isNotNull(this.getSubtitle())) {

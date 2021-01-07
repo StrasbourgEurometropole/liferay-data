@@ -108,7 +108,7 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 			img = new Image(image);
 			document.add(img.setHorizontalAlignment(HorizontalAlignment.CENTER));
 
-			if(offer.getStatus() == WorkflowConstants.STATUS_APPROVED && PortletHelper.isUserAuthorizedToConsultInternOffer(offer.getTypePublication().getName())) {
+			if(offer.getStatus() == WorkflowConstants.STATUS_APPROVED && PortletHelper.isUserAuthorizedToConsultOffer(offer.getTypePublication().getName())) {
 				// titre du PDF
 				Paragraph paragraph = new Paragraph().setFont(fontBold).setFontSize(20f)
 						.setMarginTop(-10f).setMarginBottom(30f)
@@ -193,6 +193,17 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 					paragraph.add("\n");
 					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-niveau-etude") + " : ").setFont(fontBold).setFontSize(12f));
 					paragraph.add(offer.getNiveauEtude().getTitle(locale));
+				}
+
+				if (Validator.isNotNull(offer.getTypePublication()) &&
+						(offer.getTypePublication().getTitle(locale).equals("Interne uniquement") ||
+							(offer.getTypePublication().getTitle(locale).equals("Interne et externe") &&
+								PortletHelper.isUserAuthorizedToConsultInternOffer()))) {
+					if (Validator.isNotNull(offer.getContact())) {
+						paragraph.add("\n");
+						paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-contact-RH") + " : ").setFont(fontBold).setFontSize(12f));
+						paragraph.add(offer.getContact());
+					}
 				}
 				document.add(paragraph);
 

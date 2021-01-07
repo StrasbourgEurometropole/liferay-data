@@ -11,7 +11,7 @@
                 <c:set var="article" value="${curEntry.getAssetRenderer().getArticle()}"/>
                 <c:set var="title" value="${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}"/>
                 <c:set var="chapo" value="${dc.DeleteTag(dc.getJournalArticleCatcher(article,locale))}"/>
-                <c:set var="image" value="${dc.getJournalArticleImage(article,locale)}"/>
+                <c:set var="image" value="${dc.getJournalArticleImage(article,locale)}?imagePreview=1"/>
                 <c:set var="id" value="${article.getArticleId()}"/>
                 <c:set var="groupId" value="${article.getGroupId()}"/>
                 <c:set var="currentURL" value="${assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry)}"/>

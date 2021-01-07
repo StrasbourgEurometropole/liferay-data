@@ -50,7 +50,7 @@
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.oidc.model.PublikUser" modelVar="publikUser"
-				keyProperty="publikUserLiferayId" rowIdProperty="publikUserLiferayId">
+				keyProperty="publikUserLiferayId" rowIdProperty="publikUserLiferayId" escapedModel="true">
 				
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
 				<liferay-portlet:renderURL varImpl="editPublikUserURL">

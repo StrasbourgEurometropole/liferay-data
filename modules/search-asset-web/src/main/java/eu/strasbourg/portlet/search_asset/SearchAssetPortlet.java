@@ -2,7 +2,6 @@ package eu.strasbourg.portlet.search_asset;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
@@ -38,7 +37,6 @@ import eu.strasbourg.service.project.service.*;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.*;
-import eu.strasbourg.utils.api.AssetPublisherTemplateHelperService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
@@ -83,15 +81,14 @@ public class SearchAssetPortlet extends MVCPortlet {
     public final static String INITIATIVE = "eu.strasbourg.service.project.model.Initiative";
 
     @Override
-    public void render(RenderRequest renderRequest,
-                       RenderResponse renderResponse) {
+    public void render(RenderRequest renderRequest, RenderResponse renderResponse) {
         try {
             ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
             long groupId = themeDisplay.getLayout().getGroupId();
-            this._configuration = themeDisplay
+            SearchAssetConfiguration configuration = themeDisplay
                     .getPortletDisplay().getPortletInstanceConfiguration(
                             SearchAssetConfiguration.class);
-            List<String> classNameList = getClassNames();
+            List<String> classNameList = getClassNames(configuration);
             String userPublikId = getPublikID(renderRequest);
 
             // On set le DisplayContext
@@ -107,9 +104,9 @@ public class SearchAssetPortlet extends MVCPortlet {
             // correspondre à chaque type d'asset une page de détail
             int i = 0;
             Map<String, Long> className_layoutId = new HashMap<>();
-            for (String className : this._configuration.assetClassNames()
+            for (String className : configuration.assetClassNames()
                     .split(",")) {
-                String layoutFriendlyURL = this._configuration.layoutsFriendlyURLs()
+                String layoutFriendlyURL = configuration.layoutsFriendlyURLs()
                         .split(",")[i];
                 Layout layout = LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
                         themeDisplay.getScopeGroupId(), false,
@@ -153,7 +150,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                 	
                 	//Recuperation de la categorie "Phase du budget participatif" configuree
                 	AssetCategory phase = null;
-                	for (String id : Arrays.asList(this._configuration.prefilterCategoriesIds().replace(';',',').split(","))) {
+                	for (String id : Arrays.asList(configuration.prefilterCategoriesIds().replace(';',',').split(","))) {
                 		phase = AssetCategoryLocalServiceUtil.getCategory(Long.parseLong(id));
                 		if(AssetVocabularyLocalServiceUtil.getVocabulary(phase.getVocabularyId()).getName().equals(VocabularyNames.PLACIT_BUDGET_PARTICIPATIF_PHASE))
                 			break;
@@ -225,181 +222,26 @@ public class SearchAssetPortlet extends MVCPortlet {
     }
 
     @Override
-    public void serveResource(ResourceRequest resourceRequest,
-                              ResourceResponse resourceResponse)
+    public void serveResource(ResourceRequest request, ResourceResponse response)
             throws IOException, PortletException {
 
         try {
-            this._themeDisplay = (ThemeDisplay) resourceRequest
+            ThemeDisplay themeDisplay = (ThemeDisplay) request
                     .getAttribute(WebKeys.THEME_DISPLAY);
-            this._configuration = this._themeDisplay
+            SearchAssetConfiguration configuration = themeDisplay
                     .getPortletDisplay().getPortletInstanceConfiguration(
                             SearchAssetConfiguration.class);
-            this._request = resourceRequest;
-            this._response = resourceResponse;
 
-            String resourceID = resourceRequest.getResourceID();
+            String resourceID = request.getResourceID();
             
-            String publikUserId =  this.getPublikID(resourceRequest);
+            String publikUserId =  this.getPublikID(request);
 
             // Verifions qu'il n'y ait pas d'entourloupe dans la solicitation
             // et réaction au type de la demande
             if (resourceID != null && resourceID.startsWith("entrySelection")) { // Nouvelle sélection de videos
 
-                if (resourceID.equals("entrySelectionVideo")) {
-                    this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
-                    this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
-                    this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
-                    this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
-                    this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
-                    this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
-                    this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
-                    this._states = new long[]{};
-                    this._statuts = new long[]{};
-                    this._bpStatus = new long[] {};
-                    this._initiativeStatus = new long[] {};
-                    this._projects = ParamUtil.getLongValues(resourceRequest, "selectedProject");
-                    this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
-                    this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
-                    this._types = new long[]{};
-                    this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
-                }
-
-                if (resourceID.equals("entrySelectionProject")) {
-                    this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
-                    this._startDay = -1;
-                    this._startMonth = null;
-                    this._startYear = -1;
-                    this._endDay = -1;
-                    this._endMonth = null;
-                    this._endYear = -1;
-                    this._states = new long[]{};
-                    this._statuts = ParamUtil.getLongValues(resourceRequest, "selectedStatut");
-                    this._bpStatus = new long[] {};
-                    this._initiativeStatus = new long[] {};
-                    this._projects = new long[]{};
-                    this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
-                    this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
-                    this._types = new long[]{};
-                    this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
-                }
-
-                if (resourceID.equals("entrySelectionParticipation")) {
-                    this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
-                    this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
-                    this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
-                    this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
-                    this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
-                    this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
-                    this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
-                    this._states = ParamUtil.getLongValues(resourceRequest, "selectedStates");
-                    this._statuts = new long[]{};
-                    this._bpStatus = new long[] {};
-                    this._initiativeStatus = new long[] {};
-                    this._projects = new long[]{};
-                    this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
-                    this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
-                    this._types = ParamUtil.getLongValues(resourceRequest, "selectedTypes");
-                    this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
-                }
-
-                if (resourceID.equals("entrySelectionAgenda")) {
-                    this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
-                    this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
-                    this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
-                    this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
-                    this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
-                    this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
-                    this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
-                    this._states = new long[]{};
-                    this._statuts = new long[]{};
-                    this._bpStatus = new long[] {};
-                    this._initiativeStatus = new long[] {};
-                    this._projects = ParamUtil.getLongValues(resourceRequest, "selectedProject");
-                    this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
-                    this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
-                    this._types = new long[]{};
-                    this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
-                }
-
-                if (resourceID.equals("entrySelectionPetition")) {
-                    this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
-                    this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
-                    this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
-                    this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
-                    this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
-                    this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
-                    this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
-                    this._states = ParamUtil.getLongValues(resourceRequest, "selectedStates");
-                    this._statuts = new long[]{};
-                    this._bpStatus = new long[] {};
-                    this._initiativeStatus = new long[] {};
-                    this._projects = new long[]{};
-                    this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
-                    this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
-                    this._types = new long[]{};
-                    this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
-                }
-                
-                if (resourceID.equals("entrySelectionBudgetParticipatif")) {
-                    this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
-                    this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
-                    this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
-                    this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
-                    this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
-                    this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
-                    this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
-                    this._states = new long[]{};
-                    this._statuts = new long[]{};
-                    this._bpStatus = ParamUtil.getLongValues(resourceRequest, "selectedBPStatus");
-                    this._initiativeStatus = new long[] {};
-                    this._projects = new long[]{};
-                    this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
-                    this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
-                    this._types = new long[]{};
-                    this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
-                }
-                
-                if (resourceID.equals("entrySelectionInitiative")) {
-                	this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
-                	this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
-                	this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
-                	this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
-                	this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
-                	this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
-                	this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
-                	this._states = new long[]{};
-                	this._statuts = new long[]{};
-                	this._bpStatus = new long[]{};
-                	this._initiativeStatus = ParamUtil.getLongValues(resourceRequest, "selectedInitiativeStatus");
-                	this._projects = new long[]{};
-                	this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
-                	this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
-                	this._types = new long[]{};
-                	this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
-                }
-
-                if (resourceID.equals("entrySelectionNews")) {
-                    this._keywords = null;
-                    this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
-                    this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
-                    this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
-                    this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
-                    this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
-                    this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
-                    this._states = ParamUtil.getLongValues(resourceRequest, "selectedStates");
-                    this._statuts = new long[]{};
-                    this._bpStatus = new long[] {};
-                    this._initiativeStatus = new long[] {};
-                    this._projects = new long[]{};
-                    this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
-                    this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
-                    this._types = new long[]{};
-                    this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
-                }
-
                 // Recherche des vidéos
-                List<AssetEntry> entries = searchEntries();
+                List<AssetEntry> entries = searchEntries(request, themeDisplay, configuration);
 
                 // Récupération du json des entités
                 JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
@@ -438,11 +280,11 @@ public class SearchAssetPortlet extends MVCPortlet {
                             Participation participation = ParticipationLocalServiceUtil.fetchParticipation(entry.getClassPK());
                             JSONObject jsonParticipation = JSONFactoryUtil.createJSONObject();
                             jsonParticipation.put("class", className);
-                            json = participation.toJSON(this._themeDisplay);
+                            json = participation.toJSON(themeDisplay);
                             json.put("todayExpirationDifferenceDays", participation.getTodayExpirationDifferenceDays());
                             json.put("isJudgeable", participation.isJudgeable());
                             json.put("groupId", participation.getGroupId());
-                            LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(resourceRequest);
+                            LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
                             HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
                             json.put("hasPactSigned", originalRequest.getSession().getAttribute("has_pact_signed"));
                             jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
@@ -495,7 +337,8 @@ public class SearchAssetPortlet extends MVCPortlet {
                             JSONObject jsonJournalArticle = JSONFactoryUtil.createJSONObject();
                             jsonJournalArticle.put("class", className);
                             json = JSONFactoryUtil.createJSONObject();
-                            json.put("detailURL", LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), this._themeDisplay));
+                            json.put("detailURL", LayoutHelper.getJournalArticleLayoutURL(
+                                    journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay));
                             String document = journalArticle.getContentByLocale(LocaleUtil.toLanguageId(Locale.FRANCE));
                             com.liferay.portal.kernel.xml.Document docXML = SAXReaderUtil.read(document);
                             String title = docXML.valueOf("//dynamic-element[@name='title']/dynamic-content/text()");
@@ -511,7 +354,8 @@ public class SearchAssetPortlet extends MVCPortlet {
                             json.put("thumbnail", imageURL);
                             JSONArray jsonVocabulariesTitle = JSONFactoryUtil.createJSONArray();
                             AssetEntry asset = AssetEntryLocalServiceUtil.getAssetEntry(entry.getEntryId());
-                            List<AssetCategory> listVocabulary = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "territoire");
+                            List<AssetCategory> listVocabulary = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+                                    asset, "territoire");
                             for (AssetCategory assetCategory : listVocabulary) {
                                 jsonVocabulariesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
                             }
@@ -519,7 +363,8 @@ public class SearchAssetPortlet extends MVCPortlet {
                             SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
                             json.put("modifiedDate", dateFormat.format(journalArticle.getModifiedDate()));
                             String chapo = docXML.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()");
-                            json.put("chapo", chapo.replaceAll("<[^>]*>", "").substring(0, chapo.length() > 100 ? 100 : chapo.length()));
+                            json.put("chapo", chapo.replaceAll("<[^>]*>", "")
+                                    .substring(0, chapo.length() > 100 ? 100 : chapo.length()));
                             jsonJournalArticle.put("json", json);
                             jsonEntries.put(jsonJournalArticle);
                             break;
@@ -528,45 +373,172 @@ public class SearchAssetPortlet extends MVCPortlet {
                 jsonResponse.put("entries", jsonEntries);
 
                 // Recuperation de l'élément d'écriture de la réponse
-                PrintWriter writer = resourceResponse.getWriter();
+                PrintWriter writer = response.getWriter();
                 writer.print(jsonResponse.toString());
 
             } else { // pour l'export PDF
-                String exportType = this._configuration.exportType();
-                ExportPDF.printPDF(resourceRequest, resourceResponse, exportType);
+                String exportType = configuration.exportType();
+                ExportPDF.printPDF(request, response, exportType);
             }
         } catch (Exception e2) {
             _log.error(e2);
         }
-        super.serveResource(resourceRequest, resourceResponse);
+        super.serveResource(request, response);
     }
 
     /**
      * Effectue concrètement la recherche
      */
-    private List<AssetEntry> searchEntries() {
-        HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(this._request);
+    private List<AssetEntry> searchEntries(ResourceRequest request, ThemeDisplay themeDisplay,
+                                           SearchAssetConfiguration configuration) {
+        HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
 
         SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
 
-        // Mots clés
-        String keywords = this._keywords;
+        String resourceID = request.getResourceID();
+
+        // Initialisation des paramètre de requête
+        String keywords = "";
+        int startDay = -1;
+        String startMonth = null;
+        int startYear = -1;
+        int endDay = -1;
+        String endMonth = null;
+        int endYear = -1;
+        long[] states = new long[]{};
+        long[] statuts = new long[]{};
+        long[] bpStatus  = new long[]{};
+        long[] initiativeStatus = new long[]{};
+        long[] projects = new long[]{};
+        long[] districts = new long[]{};
+        long[] thematics = new long[]{};
+        long[] types = new long[]{};
+        String sortFieldAndType = null;
+
+        if (resourceID.equals("entrySelectionVideo")) {
+            keywords = ParamUtil.getString(request, "selectedKeyWords");
+            startDay = ParamUtil.getInteger(request, "selectedStartDay");
+            startMonth = ParamUtil.getString(request, "selectedStartMonth");
+            startYear = ParamUtil.getInteger(request, "selectedStartYear");
+            endDay = ParamUtil.getInteger(request, "selectedEndDay");
+            endMonth = ParamUtil.getString(request, "selectedEndMonth");
+            endYear = ParamUtil.getInteger(request, "selectedEndYear");
+            projects = ParamUtil.getLongValues(request, "selectedProject");
+            districts = ParamUtil.getLongValues(request, "selectedDistricts");
+            thematics = ParamUtil.getLongValues(request, "selectedThematics");
+            sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+        }
+
+        if (resourceID.equals("entrySelectionProject")) {
+            keywords = ParamUtil.getString(request, "selectedKeyWords");
+            statuts = ParamUtil.getLongValues(request, "selectedStatut");
+            districts = ParamUtil.getLongValues(request, "selectedDistricts");
+            thematics = ParamUtil.getLongValues(request, "selectedThematics");
+            sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+        }
+
+        if (resourceID.equals("entrySelectionParticipation")) {
+            keywords = ParamUtil.getString(request, "selectedKeyWords");
+            startDay = ParamUtil.getInteger(request, "selectedStartDay");
+            startMonth = ParamUtil.getString(request, "selectedStartMonth");
+            startYear = ParamUtil.getInteger(request, "selectedStartYear");
+            endDay = ParamUtil.getInteger(request, "selectedEndDay");
+            endMonth = ParamUtil.getString(request, "selectedEndMonth");
+            endYear = ParamUtil.getInteger(request, "selectedEndYear");
+            states = ParamUtil.getLongValues(request, "selectedStates");
+            districts = ParamUtil.getLongValues(request, "selectedDistricts");
+            thematics = ParamUtil.getLongValues(request, "selectedThematics");
+            types = ParamUtil.getLongValues(request, "selectedTypes");
+            sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+        }
+
+        if (resourceID.equals("entrySelectionAgenda")) {
+            keywords = ParamUtil.getString(request, "selectedKeyWords");
+            startDay = ParamUtil.getInteger(request, "selectedStartDay");
+            startMonth = ParamUtil.getString(request, "selectedStartMonth");
+            startYear = ParamUtil.getInteger(request, "selectedStartYear");
+            endDay = ParamUtil.getInteger(request, "selectedEndDay");
+            endMonth = ParamUtil.getString(request, "selectedEndMonth");
+            endYear = ParamUtil.getInteger(request, "selectedEndYear");
+            projects = ParamUtil.getLongValues(request, "selectedProject");
+            districts = ParamUtil.getLongValues(request, "selectedDistricts");
+            thematics = ParamUtil.getLongValues(request, "selectedThematics");
+            sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+        }
+
+        if (resourceID.equals("entrySelectionPetition")) {
+            keywords = ParamUtil.getString(request, "selectedKeyWords");
+            startDay = ParamUtil.getInteger(request, "selectedStartDay");
+            startMonth = ParamUtil.getString(request, "selectedStartMonth");
+            startYear = ParamUtil.getInteger(request, "selectedStartYear");
+            endDay = ParamUtil.getInteger(request, "selectedEndDay");
+            endMonth = ParamUtil.getString(request, "selectedEndMonth");
+            endYear = ParamUtil.getInteger(request, "selectedEndYear");
+            states = ParamUtil.getLongValues(request, "selectedStates");
+            districts = ParamUtil.getLongValues(request, "selectedDistricts");
+            thematics = ParamUtil.getLongValues(request, "selectedThematics");
+            sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+        }
+
+        if (resourceID.equals("entrySelectionBudgetParticipatif")) {
+            keywords = ParamUtil.getString(request, "selectedKeyWords");
+            startDay = ParamUtil.getInteger(request, "selectedStartDay");
+            startMonth = ParamUtil.getString(request, "selectedStartMonth");
+            startYear = ParamUtil.getInteger(request, "selectedStartYear");
+            endDay = ParamUtil.getInteger(request, "selectedEndDay");
+            endMonth = ParamUtil.getString(request, "selectedEndMonth");
+            endYear = ParamUtil.getInteger(request, "selectedEndYear");
+            bpStatus = ParamUtil.getLongValues(request, "selectedBPStatus");
+            districts = ParamUtil.getLongValues(request, "selectedDistricts");
+            thematics = ParamUtil.getLongValues(request, "selectedThematics");
+            sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+        }
+
+        if (resourceID.equals("entrySelectionInitiative")) {
+            keywords = ParamUtil.getString(request, "selectedKeyWords");
+            startDay = ParamUtil.getInteger(request, "selectedStartDay");
+            startMonth = ParamUtil.getString(request, "selectedStartMonth");
+            startYear = ParamUtil.getInteger(request, "selectedStartYear");
+            endDay = ParamUtil.getInteger(request, "selectedEndDay");
+            endMonth = ParamUtil.getString(request, "selectedEndMonth");
+            endYear = ParamUtil.getInteger(request, "selectedEndYear");
+            initiativeStatus = ParamUtil.getLongValues(request, "selectedInitiativeStatus");
+            districts = ParamUtil.getLongValues(request, "selectedDistricts");
+            thematics = ParamUtil.getLongValues(request, "selectedThematics");
+            sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+        }
+
+        if (resourceID.equals("entrySelectionNews")) {
+            keywords = null;
+            startDay = ParamUtil.getInteger(request, "selectedStartDay");
+            startMonth = ParamUtil.getString(request, "selectedStartMonth");
+            startYear = ParamUtil.getInteger(request, "selectedStartYear");
+            endDay = ParamUtil.getInteger(request, "selectedEndDay");
+            endMonth = ParamUtil.getString(request, "selectedEndMonth");
+            endYear = ParamUtil.getInteger(request, "selectedEndYear");
+            states = ParamUtil.getLongValues(request, "selectedStates");
+            districts = ParamUtil.getLongValues(request, "selectedDistricts");
+            thematics = ParamUtil.getLongValues(request, "selectedThematics");
+            sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+        }
 
         // ClassNames de la configuration
-        String[] classNames = ArrayUtil.toStringArray(getClassNames());
+        String[] classNames = ArrayUtil.toStringArray(getClassNames(configuration));
 
         // Inclusion ou non du scope global
-        boolean globalScope = this._configuration.globalScope();
-        long globalGroupId = this._themeDisplay.getCompanyGroupId();
+        boolean globalScope = configuration.globalScope();
+        long globalGroupId = themeDisplay.getCompanyGroupId();
 
         // Group ID courant
-        long groupId = this._themeDisplay.getScopeGroupId();
+        long groupId = themeDisplay.getScopeGroupId();
 
         // Catégories sélectionnées par l'utilisateur
-        List<Long[]> categoriesIds = this.getFilterCategoriesIds();
+        List<Long[]> categoriesIds = this.getFilterCategoriesIds(
+                states, statuts, bpStatus, initiativeStatus, projects, districts, thematics, types
+        );
 
         // Préfiltre catégories
-        String prefilterCategoriesIdsString = this._configuration.prefilterCategoriesIds();
+        String prefilterCategoriesIdsString = configuration.prefilterCategoriesIds();
         List<Long[]> prefilterCategoriesIds = new ArrayList<>();
         for (String prefilterCategoriesIdsGroupByVocabulary : prefilterCategoriesIdsString.split(";")) {
             Long[] prefilterCategoriesIdsForVocabulary = ArrayUtil
@@ -575,22 +547,26 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // Préfiltre tags
-        String prefilterTagsNamesString = this._configuration.prefilterTagsNames();
+        String prefilterTagsNamesString = configuration.prefilterTagsNames();
         String[] prefilterTagsNames = StringUtil.split(prefilterTagsNamesString);
 
         // Champ date
-        boolean dateField = this._startDay != -1 && this._configuration.dateField();
-        String dateFieldName = this._configuration.defaultSortField();
+        boolean dateField = startDay != -1 && configuration.dateField();
+        String dateFieldName = configuration.defaultSortField();
         LocalDate fromDate = null;
         LocalDate toDate = null;
         if (dateField) {
-            fromDate = LocalDate.of(this.getFromYear(), this.getFromMonthValue(), this.getFromDay());
-            toDate = LocalDate.of(this.getToYear(), this.getToMonthValue(), this.getToDay());
+            fromDate = LocalDate.of(this.getFromYear(configuration, startYear),
+                    this.getFromMonthValue(configuration, startMonth),
+                    this.getFromDay(configuration, startDay));
+            toDate = LocalDate.of(this.getToYear(configuration, endYear),
+                    this.getToMonthValue(configuration, endMonth),
+                    this.getToDay(configuration, endDay));
         }
 
         // Ordre
-        String sortField = this.getSortField();
-        boolean isSortDesc = "desc".equals(this.getSortType());
+        String sortField = this.getSortField(configuration, sortFieldAndType, keywords);
+        boolean isSortDesc = "desc".equals(this.getSortType(configuration, sortFieldAndType, keywords));
 
         // Permet de remonter la hiérarchie des Request
         HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
@@ -599,22 +575,22 @@ public class SearchAssetPortlet extends MVCPortlet {
         String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
 
         // Recherche
-        this._hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, globalScope,
+        Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, globalScope,
                 keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
-                prefilterTagsNames, idSIGPlace, this._themeDisplay.getLocale(), -1,
+                prefilterTagsNames, idSIGPlace, themeDisplay.getLocale(), -1,
                 -1, sortField, isSortDesc);
 
         List<AssetEntry> results = new ArrayList<>();
-        if (this._hits != null) {
+        if (hits != null) {
             int i = 0;
-            for (float s : this._hits.getScores()) {
-                _log.info(GetterUtil.getString(this._hits.getDocs()[i].get(Field.TITLE)) + " : " + s);
+            for (float s : hits.getScores()) {
+                _log.info(GetterUtil.getString(hits.getDocs()[i].get(Field.TITLE)) + " : " + s);
                 i++;
                 if (i > 10)
                     break;
             }
 
-            for (Document document : this._hits.getDocs()) {
+            for (Document document : hits.getDocs()) {
                 AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
                         GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
                         GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
@@ -624,7 +600,7 @@ public class SearchAssetPortlet extends MVCPortlet {
             }
             SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
                     globalScope, keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds,
-                    prefilterCategoriesIds, prefilterTagsNames, idSIGPlace, this._themeDisplay.getLocale());
+                    prefilterCategoriesIds, prefilterTagsNames, idSIGPlace, themeDisplay.getLocale());
         }
 
         return results;
@@ -633,17 +609,17 @@ public class SearchAssetPortlet extends MVCPortlet {
     /**
      * Retourne la liste des class names sur lesquelles on recherche
      */
-    public List<String> getClassNames() {
+    public List<String> getClassNames(SearchAssetConfiguration configuration) {
         List<String> classNames = new ArrayList<String>();
-        for (String className : this._configuration.assetClassNames().split(",")) {
+        for (String className : configuration.assetClassNames().split(",")) {
             if (Validator.isNotNull(className)) {
                 classNames.add(className);
             }
         }
-        if (this._configuration.searchJournalArticle()) {
+        if (configuration.searchJournalArticle()) {
             classNames.add("com.liferay.journal.model.JournalArticle");
         }
-        if (this._configuration.searchDocument()) {
+        if (configuration.searchDocument()) {
             classNames.add(DLFileEntry.class.getName());
         }
 
@@ -654,12 +630,13 @@ public class SearchAssetPortlet extends MVCPortlet {
      * Renvoie la liste des catégories sur lesquelles on souhaite filtrer les
      * entries. L'opérateur entre chaque id de catégorie d'un array est un "OU", celui entre chaque liste d'array est un "ET"
      */
-    private List<Long[]> getFilterCategoriesIds() {
+    private List<Long[]> getFilterCategoriesIds(long[] states, long[] statuts, long[] bpStatus, long[] initiativeStatus,
+                                                long[] projects, long [] districts, long[] thematics, long[] types) {
         List<Long[]> filterCategoriesIds = new ArrayList<>();
         List<Long> categoriesIds = new ArrayList<>();
 
         // On récupère les états s'il y en a
-        for (long state : this._states) {
+        for (long state : states) {
             if (state > 0) {
                 categoriesIds.add(state);
             }
@@ -669,7 +646,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // On récupère les statuts s'il y en a
-        for (long statut : this._statuts) {
+        for (long statut : statuts) {
             if (statut > 0) {
                 categoriesIds.add(statut);
             }
@@ -679,9 +656,9 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
         
         // On recupere les statuts BP s'il y en a
-        for (long bpStatus : this._bpStatus) {
-            if (bpStatus > 0) {
-                categoriesIds.add(bpStatus);
+        for (long bpStatu : bpStatus) {
+            if (bpStatu > 0) {
+                categoriesIds.add(bpStatu);
             }
         }
         if (categoriesIds.size() > 0) {
@@ -689,9 +666,9 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
         
         // On recupere les statuts initiative s'il y en a
-        for (long initiativeStatus : this._initiativeStatus) {
-        	if (initiativeStatus > 0) {
-        		categoriesIds.add(initiativeStatus);
+        for (long initiativeStatu : initiativeStatus) {
+        	if (initiativeStatu > 0) {
+        		categoriesIds.add(initiativeStatu);
         	}
         }
         if (categoriesIds.size() > 0) {
@@ -699,7 +676,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // On récupère les projets s'il y en a
-        for (long project : this._projects) {
+        for (long project : projects) {
             if (project > 0) {
                 categoriesIds.add(project);
             }
@@ -710,7 +687,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 
         // On récupère les quartiers s'il y en a
         categoriesIds = new ArrayList<>();
-        for (long district : this._districts) {
+        for (long district : districts) {
             if (district > 0) {
                 categoriesIds.add(district);
             }
@@ -721,7 +698,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 
         // On récupère les thématiques s'il y en a
         categoriesIds = new ArrayList<>();
-        for (long thematic : this._thematics) {
+        for (long thematic : thematics) {
             if (thematic > 0) {
                 categoriesIds.add(thematic);
             }
@@ -731,7 +708,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // On récupère les types s'il y en a
-        for (long type : this._types) {
+        for (long type : types) {
             if (type > 0) {
                 categoriesIds.add(type);
             }
@@ -749,13 +726,12 @@ public class SearchAssetPortlet extends MVCPortlet {
      * configuration (date du jour, ou si la période de recherche par défaut par
      * défaut est négative, X jour dans le passé)
      */
-    public int getFromDay() {
-        int fromParam = this._startDay;
-        if (fromParam > 0) {
-            return fromParam;
+    public int getFromDay(SearchAssetConfiguration configuration, int startDay) {
+        if (startDay > 0) {
+            return startDay;
         } else {
-            if (this._configuration.defaultDateRange() < 0) {
-                return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getDayOfMonth();
+            if (configuration.defaultDateRange() < 0) {
+                return LocalDate.now().plusDays(configuration.defaultDateRange()).getDayOfMonth();
             } else {
                 return LocalDate.now().getDayOfMonth();
             }
@@ -768,8 +744,8 @@ public class SearchAssetPortlet extends MVCPortlet {
      * paramètres de la requête ou depuis la configuration, dans l'interval
      * [0;11]
      */
-    public int getFromMonthIndex() {
-        return getFromMonthValue() - 1;
+    public int getFromMonthIndex(SearchAssetConfiguration configuration, String startMonth) {
+        return getFromMonthValue(configuration, startMonth) - 1;
     }
 
     /**
@@ -777,16 +753,15 @@ public class SearchAssetPortlet extends MVCPortlet {
      * paramètres de la requête ou depuis la configuration, dans l'interval
      * [1;12]
      */
-    public int getFromMonthValue() {
-        String fromMonthString = this._startMonth;
-        if (Validator.isNull(fromMonthString)) {
-            if (this._configuration.defaultDateRange() < 0) {
-                return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getMonthValue();
+    public int getFromMonthValue(SearchAssetConfiguration configuration, String startMonth) {
+        if (Validator.isNull(startMonth)) {
+            if (configuration.defaultDateRange() < 0) {
+                return LocalDate.now().plusDays(configuration.defaultDateRange()).getMonthValue();
             } else {
                 return LocalDate.now().getMonthValue();
             }
         } else {
-            return Integer.parseInt(fromMonthString) + 1;
+            return Integer.parseInt(startMonth) + 1;
         }
     }
 
@@ -794,13 +769,12 @@ public class SearchAssetPortlet extends MVCPortlet {
      * Retourne l'année de la date de début de la recherche depuis les
      * paramètres de la requête ou depuis la configuration
      */
-    public int getFromYear() {
-        int fromParam = this._startYear;
-        if (fromParam > 0) {
-            return fromParam;
+    public int getFromYear(SearchAssetConfiguration configuration, int startYear) {
+        if (startYear > 0) {
+            return startYear;
         } else {
-            if (this._configuration.defaultDateRange() < 0) {
-                return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getYear();
+            if (configuration.defaultDateRange() < 0) {
+                return LocalDate.now().plusDays(configuration.defaultDateRange()).getYear();
             } else {
                 return LocalDate.now().getYear();
             }
@@ -813,13 +787,12 @@ public class SearchAssetPortlet extends MVCPortlet {
      * configuration (date du jour + config, ou si la période de recherche par
      * défaut par défaut est négative, date du jour)
      */
-    public int getToDay() {
-        int toParam = this._endDay;
-        if (toParam > 0) {
-            return toParam;
+    public int getToDay(SearchAssetConfiguration configuration, int endDay) {
+        if (endDay > 0) {
+            return endDay;
         } else {
-            if (this._configuration.defaultDateRange() > 0) {
-                return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getDayOfMonth();
+            if (configuration.defaultDateRange() > 0) {
+                return LocalDate.now().plusDays(configuration.defaultDateRange()).getDayOfMonth();
             } else {
                 return LocalDate.now().getDayOfMonth();
             }
@@ -830,24 +803,23 @@ public class SearchAssetPortlet extends MVCPortlet {
      * Retourne le mois de la date de fin de la recherche depuis les paramètres
      * de la requête ou depuis la configuration, dans l'interval [0;11]
      */
-    public int getToMonthIndex() {
-        return getToMonthValue() - 1;
+    public int getToMonthIndex(SearchAssetConfiguration configuration, String endMonth) {
+        return getToMonthValue(configuration, endMonth) - 1;
     }
 
     /**
      * Retourne le mois de la date de fin de la recherche depuis les paramètres
      * de la requête ou depuis la configuration, dans l'interval [1;12]
      */
-    public int getToMonthValue() {
-        String toMonthString = this._endMonth;
-        if (Validator.isNull(toMonthString)) {
-            if (this._configuration.defaultDateRange() > 0) {
-                return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getMonthValue();
+    public int getToMonthValue(SearchAssetConfiguration configuration, String endMonth) {
+        if (Validator.isNull(endMonth)) {
+            if (configuration.defaultDateRange() > 0) {
+                return LocalDate.now().plusDays(configuration.defaultDateRange()).getMonthValue();
             } else {
                 return LocalDate.now().getMonthValue();
             }
         } else {
-            return Integer.parseInt(toMonthString) + 1;
+            return Integer.parseInt(endMonth) + 1;
         }
     }
 
@@ -855,13 +827,12 @@ public class SearchAssetPortlet extends MVCPortlet {
      * Retourne l'année de la date de fin de la recherche depuis les paramètres
      * de la requête ou depuis la configuration
      */
-    public int getToYear() {
-        int toParam = this._endYear;
-        if (toParam > 0) {
-            return toParam;
+    public int getToYear(SearchAssetConfiguration configuration, int endYear) {
+        if (endYear > 0) {
+            return endYear;
         } else {
-            if (this._configuration.defaultDateRange() > 0) {
-                return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getYear();
+            if (configuration.defaultDateRange() > 0) {
+                return LocalDate.now().plusDays(configuration.defaultDateRange()).getYear();
             } else {
                 return LocalDate.now().getYear();
             }
@@ -871,17 +842,16 @@ public class SearchAssetPortlet extends MVCPortlet {
     /**
      * Retourne le champ sur lequel on classe les résultats
      */
-    public String getSortField() {
-        String sortFieldFromParam = this._sortFieldAndType;
-        if (Validator.isNull(sortFieldFromParam)) {
-            if (Validator.isNull(this._keywords)) {
-                return Validator.isNotNull(this._configuration.defaultSortField())
-                        ? this._configuration.defaultSortField() : "modified_sortable";
+    public String getSortField(SearchAssetConfiguration configuration, String sortFieldAndType, String keywords) {
+        if (Validator.isNull(sortFieldAndType)) {
+            if (Validator.isNull(keywords)) {
+                return Validator.isNotNull(configuration.defaultSortField())
+                        ? configuration.defaultSortField() : "modified_sortable";
             } else {
-                return "score";
+                return "_score";
             }
         } else {
-            return sortFieldFromParam.split(",")[0];
+            return sortFieldAndType.split(",")[0];
         }
     }
 
@@ -897,43 +867,21 @@ public class SearchAssetPortlet extends MVCPortlet {
     /**
      * Retourne le type de classement des résultats (croissant ou décroissant)
      */
-    public String getSortType() {
-        if (this.getSortField().equals("score")) {
-            return "desc";
+    public String getSortType(SearchAssetConfiguration configuration, String sortFieldAndType, String keywords) {
+        if (this.getSortField(configuration, sortFieldAndType, keywords).equals("_score")) {
+            // Avec la FP9, on veut reverse = false, parce que Reverse donne ASC, mais que pour _score
+            return "descmaispasceluila";
         } else {
-            String sortTypeFromParam = this._sortFieldAndType;
-            if (Validator.isNull(sortTypeFromParam)) {
-                return Validator.isNotNull(this._configuration.defaultSortType())
-                        ? this._configuration.defaultSortType() : "desc";
+            if (Validator.isNull(sortFieldAndType)) {
+                return Validator.isNotNull(configuration.defaultSortType())
+                        ? configuration.defaultSortType() : "desc";
             } else {
-                return sortTypeFromParam.split(",")[1];
+                return sortFieldAndType.split(",")[1];
             }
         }
     }
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-
-    private ThemeDisplay _themeDisplay;
-    private ResourceRequest _request;
-    private ResourceResponse _response;
-    private SearchAssetConfiguration _configuration;
-    
-    private String _keywords;
-    private int _startDay;
-    private String _startMonth;
-    private int _startYear;
-    private int _endDay;
-    private String _endMonth;
-    private int _endYear;
-    private long[] _states;
-    private long[] _statuts;
-    private long[] _bpStatus;
-    private long[] _initiativeStatus;
-    private long[] _projects;
-    private long[] _districts;
-    private long[] _thematics;
-    private long[] _types;
-    private String _sortFieldAndType;
     
     /**
      * interface des petitions
@@ -954,8 +902,6 @@ public class SearchAssetPortlet extends MVCPortlet {
      * interface des participations
      */
     private ParticipationLocalService _participationLocalService;
-
-    private Hits _hits;
 
     @Reference(unbind = "-")
     protected void setPetitionLocalService(PetitionLocalService petitionLocalService) {

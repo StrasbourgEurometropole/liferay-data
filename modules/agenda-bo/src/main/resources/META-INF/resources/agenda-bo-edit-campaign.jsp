@@ -147,6 +147,7 @@
 	<!-- Include Choices CSS -->
 	<link rel="stylesheet" href="/o/agendabo/css/vendors/choices.min.css">
 	<!-- Include Choices JavaScript -->
+	<script src="/o/agendabo/js/vendors/moment.min.js" type="text/javascript"></script>
 	<script src="/o/agendabo/js/vendors/choices.min.js"></script>
 	<script src="/o/agendabo/js/agenda-bo-edit-campaign.js"></script>
 </liferay-util:html-bottom>

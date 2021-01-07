@@ -1,0 +1,3 @@
+Bundle-Name: form-entry-listener
+Bundle-SymbolicName: eu.strasbourg.listener.ddmFormInstanceRecord
+Bundle-Version: 1.0.0
