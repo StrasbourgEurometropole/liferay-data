@@ -1,5 +1,7 @@
 package eu.strasbourg.service.place.scheduler;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
@@ -38,10 +40,10 @@ public class updateJsonHoraire extends BaseMessageListener {
 		now.add(Calendar.MINUTE, 5);
 		Date fiveMinutesFromNow = now.getTime();
 
-		// Création du trigger "Tous les jours à 3h15"
+		// Création du trigger "Tous les jours à 0h01"
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				"0 15 3 * * ?");
+				"0 1 0 * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
@@ -57,6 +59,7 @@ public class updateJsonHoraire extends BaseMessageListener {
 
 	@Override
 	protected void doReceive(Message message) throws Exception {
+		log.info("Start updateJsonHoraire");
 		// récupère tous les lieux ayant des périodes
 		List<Place> places = _placeLocalService.getPlaces(-1,-1).stream()
 				.filter(p -> !p.getPeriods().isEmpty() && p.getStatus() == WorkflowConstants.STATUS_APPROVED)
@@ -64,6 +67,7 @@ public class updateJsonHoraire extends BaseMessageListener {
 		for (Place place : places) {
 			_placeLocalService.updateJsonHoraire(place);
 		}
+		log.info("Finish updateJsonHoraire");
 	}
 
 	@Reference(unbind = "-")
@@ -86,5 +90,6 @@ public class updateJsonHoraire extends BaseMessageListener {
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 	private PlaceLocalService _placeLocalService;
 	private TriggerFactory _triggerFactory;
+	private Log log = LogFactoryUtil.getLog(this.getClass());
 
 }
