@@ -56,7 +56,7 @@
                             <div>
                                 <div class="pro-header-participation">
                                     <figure role="group">
-                                        <img src="${user.getPortraitURL(themeDisplay)}" width="40" height="40" alt="Image participation"/>
+                                        <img src="${user.getPortraitURL(themeDisplay)}?imagePreview=1" loading="lazy width="40" height="40" alt="Image participation"/>
                                     </figure>
                                     <p>Concertation publiée par :</p>
                                     <p><strong>${user.getFullName()}</strong></p>

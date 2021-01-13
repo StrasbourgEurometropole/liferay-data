@@ -66,13 +66,13 @@
                         <div class="item pro-bloc-card-budget ${classFaisable} data-linkall="a">
                             <#if entry.getImageURL()?has_content>
 									<figure role="group" class="fit-cover">
-										<img src="${entry.getImageURL()}" width="155" height="200" alt="Image budget participatif"/>
+										<img src="${entry.getImageURL()}?imagePreview=1" loading="lazy" width="155" height="200" alt="Image budget participatif"/>
 									</figure>
                             </#if>
                             <div class="pro-header-budget">
                                 <#if imageURL?has_content >
                                     <figure role="group">
-                                        <img src="${imageURL}" width="40" height="40" alt="Image du budget participatif"/>
+                                        <img src="${imageURL}?imagePreview=1" loading="lazy" width="40" height="40" alt="Image du budget participatif"/>
                                     </figure>
                                 </#if>
                                 <p>Projet déposé par :</p>
