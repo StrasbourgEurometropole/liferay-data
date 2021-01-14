@@ -16,6 +16,8 @@ import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfigurat
 import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfigurationAction;
 import eu.strasbourg.portlet.search_asset_v2.configuration.constants.ConfigurationConstants;
 import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.bean.AssetPrefilter;
+import eu.strasbourg.utils.bean.AssetType;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.portlet.ActionRequest;
@@ -28,6 +30,7 @@ public class ConfigurationData {
     private SearchAssetConfiguration configuration;
 
     /** Données */
+    private List<AssetType> utilsAssetTypeList;
     private List<ConfigurationAssetData> assetTypeDataList;
     private LinkedHashMap<String, String> vocabulariesControlTypes;
     private boolean displayDateField;
@@ -162,8 +165,10 @@ public class ConfigurationData {
 
     private void initDataFromConfiguration() {
         // Asset types
+        this.utilsAssetTypeList = new ArrayList<>();
         this.assetTypeDataList = new ArrayList<>();
         List<ConfigurationAssetPrefilterData> assetPrefilterDataList;
+        List<AssetPrefilter> utilsAssetPrefilterList;
         try {
             JSONObject json = JSONFactoryUtil.createJSONObject(this.configuration.assetTypes());
             JSONArray jsonAssetsTypes = json.getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES);
@@ -179,6 +184,7 @@ public class ConfigurationData {
                     String friendlyURL = jsonAssetType.getString(ConfigurationConstants.JSON_ASSET_FRIENDLY_URL);
 
                     assetPrefilterDataList = new ArrayList<>();
+                    utilsAssetPrefilterList = new ArrayList<>();
                     JSONArray jsonPrefilters = jsonAssetType.getJSONArray(ConfigurationConstants.JSON_ASSET_PREFILTERS);
                     if(Validator.isNotNull(jsonPrefilters)) {
                         for (int j = 0; j < jsonPrefilters.length(); j++) {
@@ -194,6 +200,11 @@ public class ConfigurationData {
                                             contains, operator, categoryOrTagIdList, Arrays.asList(prefilterIDs)
                                     )
                             );
+                            utilsAssetPrefilterList.add(
+                                    new AssetPrefilter(
+                                            contains, operator, categoryOrTagIdList, Arrays.asList(prefilterIDs)
+                                    )
+                            );
                         }
                     }
 
@@ -202,6 +213,10 @@ public class ConfigurationData {
                                     className, Arrays.asList(scopeGroupIDs), structureID, templateKey, friendlyURL,
                                     assetPrefilterDataList
                             )
+                    );
+
+                    this.utilsAssetTypeList.add(
+                            new AssetType(className, Arrays.asList(scopeGroupIDs), structureID, utilsAssetPrefilterList)
                     );
 
                 }
@@ -342,6 +357,10 @@ public class ConfigurationData {
 
     public List<ConfigurationAssetData> getAssetTypeDataList() {
         return this.assetTypeDataList;
+    }
+
+    public List<AssetType> getUtilsAssetTypeList() {
+        return this.utilsAssetTypeList;
     }
 
     public JSONObject getAssetTypesJSON() {

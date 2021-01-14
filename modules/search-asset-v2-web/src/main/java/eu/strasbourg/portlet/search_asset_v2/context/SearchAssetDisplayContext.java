@@ -33,7 +33,6 @@ import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfigurat
 import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationAssetData;
 import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationAssetPrefilterData;
 import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationData;
-import eu.strasbourg.portlet.search_asset_v2.configuration.constants.ConfigurationConstants;
 import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -498,7 +497,7 @@ public class SearchAssetDisplayContext {
 
 		// Recherche
 		this._searchHits = getSearchHelperV2().getGlobalSearchHitsV2(searchContext,
-				getConfigurationData().getAssetTypesJSON().getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES),
+				getConfigurationData().getUtilsAssetTypeList(),
 				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
 				this.getSortFieldsAndTypes(), this.getGroupBy(), keywords, fromDate,
 				toDate, categoriesIds, idSIGPlace, this.getFilterClassNames(), this._themeDisplay.getLocale(),
@@ -802,7 +801,7 @@ public class SearchAssetDisplayContext {
 
 		// Recherche
 		SearchHits searchHits = getSearchHelperV2().getGlobalSearchHitsV2(searchContext,
-				getConfigurationData().getAssetTypesJSON().getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES),
+				getConfigurationData().getUtilsAssetTypeList(),
 				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
 				getSortFieldsAndTypes(), this.getGroupBy(), keywords, fromDate, toDate, categoriesIds,
 				null, this.getFilterClassNames(), this._themeDisplay.getLocale(), -1, -1);

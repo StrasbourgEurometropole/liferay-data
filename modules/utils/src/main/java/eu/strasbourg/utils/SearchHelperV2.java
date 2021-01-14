@@ -2,8 +2,6 @@ package eu.strasbourg.utils;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
-import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Field;
@@ -31,6 +29,8 @@ import com.liferay.portal.search.sort.FieldSort;
 import com.liferay.portal.search.sort.Sort;
 import com.liferay.portal.search.sort.SortOrder;
 import com.liferay.portal.search.sort.Sorts;
+import eu.strasbourg.utils.bean.AssetPrefilter;
+import eu.strasbourg.utils.bean.AssetType;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -55,7 +55,7 @@ public class SearchHelperV2{
 	 *
 	 * @param searchContext
 	 * @param assetTypes
-	 *            Le JSON des assetTypes
+	 *            Liste d'AssetType
 	 * @param isDisplayField
 	 *            Si la recherche se fait par rapport à des dates
 	 * @param filterField
@@ -87,7 +87,7 @@ public class SearchHelperV2{
 	 *
 	 * @return Les hits renvoyés par le moteur de recherche
 	 */
-	public SearchHits  getGlobalSearchHitsV2(SearchContext searchContext, JSONArray assetTypes, Boolean isDisplayField,
+	public SearchHits  getGlobalSearchHitsV2(SearchContext searchContext, List<AssetType> assetTypes, Boolean isDisplayField,
 											 String filterField, int seed, Map<String, String> sortingFieldsAndTypes,
 											 long[] groupBy, String keywords, LocalDate fromDate, LocalDate toDate,
 											 List<Long[]> categoriesIds, String idSIGPlace, List<String> classNamesSelected, Locale locale, int start, int end) {
@@ -137,7 +137,7 @@ public class SearchHelperV2{
 	/**
 	 * Retourne la requête à exécuter correspondant aux paramètres pour le searchAssetV2
 	 */
-	private Query getGlobalSearchV2Query(JSONArray assetTypes,
+	private Query getGlobalSearchV2Query(List<AssetType> assetTypes,
 										 Boolean isDisplayField, String filterField,
 										 int seed, String keywords, LocalDate fromDate,
 										 LocalDate toDate, List<Long[]> categoriesIds,
@@ -149,33 +149,32 @@ public class SearchHelperV2{
 		//Asset type
 		BooleanQuery assetTypesQuery = queries.booleanQuery();
 		if(filterClassNames.size() > 0) {
-			for (Object assetTypeObject : assetTypes) {
-				JSONObject assetType = (JSONObject) assetTypeObject;
+			for (AssetType assetType : assetTypes) {
 				if (Validator.isNotNull(assetType)) {
-					if (Validator.isNotNull(assetType.getString("classname"))) {
+					if (Validator.isNotNull(assetType.getClassName())) {
 						// on vérifie si le className est sélectionné par l'utilisateur
-						if (filterClassNames.contains(assetType.getString("classname"))) {
+						if (filterClassNames.contains(assetType.getClassName())) {
 							BooleanQuery assetTypeQuery = queries.booleanQuery();
 							// ClassNames
-							if (assetType.getString("classname").equals("searchJournalArticle")) {
+							if (assetType.getClassName().equals("searchJournalArticle")) {
 								// Cas d'un journalArticle
 								TermQuery journalArticleClassNameQuery = queries.term(Field.ENTRY_CLASS_NAME, JournalArticle.class.getName());
 								// on vérifie que c'est la dernière version
 								TermQuery journalArticleHeadQuery = queries.term("head", true);
 								assetTypeQuery.addMustQueryClauses(journalArticleClassNameQuery, journalArticleHeadQuery);
 								// ajout de la structure du contenu web
-								if (Validator.isNotNull(assetType.getLong("structureId"))) {
-									TermQuery structureQuery = queries.term(Field.CLASS_TYPE_ID, assetType.getString("structureId"));
+								if (Validator.isNotNull(assetType.getStructureID())) {
+									TermQuery structureQuery = queries.term(Field.CLASS_TYPE_ID, assetType.getStructureID());
 									assetTypeQuery.addMustQueryClauses(structureQuery);
 								}
 
 							} else {
-								if (assetType.getString("classname").equals("searchDocument")) {
+								if (assetType.getClassName().equals("searchDocument")) {
 									// Cas d'un fichier
 									TermQuery classNameQuery = queries.term(Field.ENTRY_CLASS_NAME, DLFileEntry.class.getName());
 									assetTypeQuery.addMustQueryClauses(classNameQuery);
 								} else {
-									if (assetType.getString("classname").equals("searchDemarche")) {
+									if (assetType.getClassName().equals("searchDemarche")) {
 										// Cas d'une procédures/démarches
 										BooleanQuery procedureQuery = queries.booleanQuery();
 										TermQuery typeQuery = queries.term("type", "procedure");
@@ -185,17 +184,16 @@ public class SearchHelperV2{
 										superQuery.addShouldQueryClauses(procedureQuery);
 									} else {
 										// Cas général
-										TermQuery classNameQuery = queries.term(Field.ENTRY_CLASS_NAME, assetType.getString("classname"));
+										TermQuery classNameQuery = queries.term(Field.ENTRY_CLASS_NAME, assetType.getClassName());
 										assetTypeQuery.addMustQueryClauses(classNameQuery);
 									}
 								}
 							}
 
 							// Groups
-							if (assetType.getJSONArray("scopeIds").length() > 0) {
+							if (assetType.getScopeGroupIDs().size() > 0) {
 								BooleanQuery groupsQuery = queries.booleanQuery();
-								for (Object groupObject : assetType.getJSONArray("scopeIds")) {
-									Long groupId = (Long) groupObject;
+								for (Long groupId : assetType.getScopeGroupIDs()) {
 									TermQuery groupQuery = queries.term(Field.GROUP_ID, groupId);
 									groupsQuery.addShouldQueryClauses(groupQuery);
 								}
@@ -203,40 +201,37 @@ public class SearchHelperV2{
 							}
 
 							// Préfiltres
-							if (assetType.getJSONArray("prefilters").length() > 0) {
+							if (assetType.getAssetPrefilterList().size() > 0) {
 								BooleanQuery prefiltersQuery = queries.booleanQuery();
-								for (Object prefilterObject : assetType.getJSONArray("prefilters")) {
-									JSONObject prefilter = (JSONObject) prefilterObject;
-									if (prefilter.getString("type").equals("tags")) {
+								for (AssetPrefilter prefilter : assetType.getAssetPrefilterList()) {
+									if (prefilter.getType().equals("tags")) {
 										BooleanQuery tagsQuery = queries.booleanQuery();
-										for (Object tagObject : prefilter.getJSONArray("selection")) {
-											Long tagId = (Long) tagObject;
+										for (Long tagId : prefilter.getCategoryOrTagIdList()) {
 											TermQuery tagQuery = queries.term(Field.ASSET_TAG_IDS, String.valueOf(tagId));
-											if (prefilter.getString("operator").equals("all")) {
+											if (prefilter.getOperator().equals("all")) {
 												tagsQuery.addMustQueryClauses(tagQuery);
 											} else {
 												tagsQuery.addShouldQueryClauses(tagQuery);
 											}
 										}
 										// si true alors contient
-										if (prefilter.getBoolean("contains")) {
+										if (prefilter.isIncludeOrExclude()) {
 											prefiltersQuery.addMustQueryClauses(tagsQuery);
 										} else {
 											prefiltersQuery.addMustNotQueryClauses(tagsQuery);
 										}
 									} else {
 										BooleanQuery categoriesQuery = queries.booleanQuery();
-										for (Object categoryObject : prefilter.getJSONArray("selection")) {
-											Long categoryId = (Long) categoryObject;
+										for (Long categoryId : prefilter.getCategoryOrTagIdList()) {
 											TermQuery categoryQuery = queries.term(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
-											if (prefilter.getString("operator").equals("all")) {
+											if (prefilter.getOperator().equals("all")) {
 												categoriesQuery.addMustQueryClauses(categoryQuery);
 											} else {
 												categoriesQuery.addShouldQueryClauses(categoryQuery);
 											}
 										}
 										// si true alors contient
-										if (prefilter.getBoolean("contains")) {
+										if (prefilter.isIncludeOrExclude()) {
 											prefiltersQuery.addMustQueryClauses(categoriesQuery);
 										} else {
 											prefiltersQuery.addMustNotQueryClauses(categoriesQuery);

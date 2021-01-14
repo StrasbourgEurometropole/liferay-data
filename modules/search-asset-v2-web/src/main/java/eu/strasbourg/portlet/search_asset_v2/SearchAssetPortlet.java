@@ -36,7 +36,6 @@ import eu.strasbourg.portlet.search_asset_v2.action.ExportPDF;
 import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationAssetData;
 import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationData;
-import eu.strasbourg.portlet.search_asset_v2.configuration.constants.ConfigurationConstants;
 import eu.strasbourg.portlet.search_asset_v2.constants.SearchAssetPortletKeys;
 import eu.strasbourg.portlet.search_asset_v2.context.SearchAssetDisplayContext;
 import eu.strasbourg.service.agenda.model.Event;
@@ -581,7 +580,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 
 		// Recherche
 		SearchHits searchHits = _searchHelperV2.getGlobalSearchHitsV2(searchContext,
-				configurationData.getAssetTypesJSON().getJSONArray(ConfigurationConstants.JSON_ASSETS_TYPES),
+				configurationData.getUtilsAssetTypeList(),
 				configurationData.isDisplayDateField(), configurationData.getFilterField(),
 				getSeed(configurationData, sortFieldAndType, keywords, seed),
 				getSortFieldsAndTypes(configurationData, sortFieldAndType, keywords), getGroupBy(configurationData), keywords, fromDate,
