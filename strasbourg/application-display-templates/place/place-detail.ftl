@@ -554,28 +554,30 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </button>
                         <div class="seu-collapsing-box">
                             <#list entry.documentURLs as fileURL>
-                                <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
-                                <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-                                <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
-                                <div class="seu-wi seu-media seu-wi-download">  
-                                    <div class="seu-media-container">  
-                                        <div class="seu-media-left"><div class="seu-media-picto"></div></div>  
-                                        <div class="seu-media-right">  
-                                            <div class="seu-media-text">  
-                                                <div class="seu-media-title">${title}</div>  
-                                                <p>${file.getExtension()?upper_case} - ${size}</p>  
-                                            </div>  
-                                            <a href="${fileURL}" target="_blank" class="seu-media-download seu-btn-square seu-filled seu-second" title="${title} (<@liferay_ui.message key="eu.new-window" />)">  
-                                                <div class="seu-btn-text-editable">
-                                                    <span class="seu-flexbox">  
-                                                        <span class="seu-btn-text"><@liferay_ui.message key="download" /></span>  
-                                                        <span class="seu-btn-arrow">&nbsp;</span>  
-                                                    </span>
+                                <#if fileURL?has_content>
+                                    <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
+                                    <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
+                                    <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
+                                    <div class="seu-wi seu-media seu-wi-download">  
+                                        <div class="seu-media-container">  
+                                            <div class="seu-media-left"><div class="seu-media-picto"></div></div>  
+                                            <div class="seu-media-right">  
+                                                <div class="seu-media-text">  
+                                                    <div class="seu-media-title">${title}</div>  
+                                                    <p>${file.getExtension()?upper_case} - ${size}</p>  
                                                 </div>  
-                                            </a>  
+                                                <a href="${fileURL}" target="_blank" class="seu-media-download seu-btn-square seu-filled seu-second" title="${title} (<@liferay_ui.message key="eu.new-window" />)">  
+                                                    <div class="seu-btn-text-editable">
+                                                        <span class="seu-flexbox">  
+                                                            <span class="seu-btn-text"><@liferay_ui.message key="download" /></span>  
+                                                            <span class="seu-btn-arrow">&nbsp;</span>  
+                                                        </span>
+                                                    </div>  
+                                                </a>  
+                                            </div>  
                                         </div>  
                                     </div>  
-                                </div>  
+                                </#if>
                             </#list>
                             <#list entry.videos as video>
                                 <div class="seu-wi seu-media seu-wi-embed">
