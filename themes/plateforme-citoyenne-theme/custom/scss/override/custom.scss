@@ -354,9 +354,7 @@
 } 
 // Fin style pour les alertes de modifications de budget participatifs
 
-
-
-// affichage des menus des portlets
+// Affichage des menus des portlets
 .portlet:hover > .portlet-topper{
     width: calc(100% - 35px);
     height: auto;
@@ -386,3 +384,17 @@
       }
     }
   }
+// Fin affichage des menus des portlets
+
+// Correctifs d'affichage des liens après renouvellement de charte grahique de fin 2020
+.journal-content-article, .pro-comment, .pro-comment-response, .pro-bloc-accordion {
+
+    li, p, h3 {
+        a, a:hover{
+            color: #000;
+            text-decoration: underline;
+        }
+    }
+
+}
+// Fin correctifs d'affichage des liens après renouvellement de charte grahique de fin 2020
