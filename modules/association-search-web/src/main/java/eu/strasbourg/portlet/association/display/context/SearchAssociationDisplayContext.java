@@ -8,17 +8,22 @@ import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.*;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.association.configuration.SearchAssociationConfiguration;
 import eu.strasbourg.service.activity.model.Association;
 import eu.strasbourg.service.activity.model.Practice;
 import eu.strasbourg.service.activity.service.PracticeLocalServiceUtil;
-import eu.strasbourg.service.search.log.model.SearchLog;
-import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
@@ -29,9 +34,12 @@ import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
 public class SearchAssociationDisplayContext {
 
@@ -47,10 +55,6 @@ public class SearchAssociationDisplayContext {
             this.initEntries();
         } else {
             this._entries = new ArrayList<AssetEntry>();
-        }
-        // Gestion du log
-        if (this.isUserSearch()) {
-            this.logSearch();
         }
         long logSearchId = ParamUtil.getLong(request, "searchLogId");
         if (logSearchId > 0) {
@@ -215,19 +219,6 @@ public class SearchAssociationDisplayContext {
      */
     public SearchContainer<AssetEntry> getSearchContainer() {
         return this._searchContainer;
-    }
-
-    private void logSearch() throws PortalException {
-        ServiceContext sc = ServiceContextFactory.getInstance(this._request);
-        AssetEntry result1 = this.getEntries().size() > 0 ? this.getEntries().get(0) : null;
-        AssetEntry result2 = this.getEntries().size() > 1 ? this.getEntries().get(1) : null;
-        AssetEntry result3 = this.getEntries().size() > 2 ? this.getEntries().get(2) : null;
-        long searchTime = (long) (this._hits.getSearchTime() * 1000);
-        SearchLog searchLog = SearchLogLocalServiceUtil.addSearchLog(sc, "",
-                this.getSearchContainer().getTotal(), result1, result2, result3, null, searchTime);
-        this.getSearchContainer().getIteratorURL().setParameter("searchLogId",
-                String.valueOf(searchLog.getSearchLogId()));
-        this._request.setAttribute("searchLogId", searchLog.getSearchLogId());
     }
 
     /**
