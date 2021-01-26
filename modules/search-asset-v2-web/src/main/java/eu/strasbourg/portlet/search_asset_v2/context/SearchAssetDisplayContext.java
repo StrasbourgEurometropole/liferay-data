@@ -79,7 +79,7 @@ public class SearchAssetDisplayContext {
 			this._entriesCount = 0;
 		}
 		// Gestion du log
-		if (this.isUserSearch()) {
+		if (this.isUserSearch() && Validator.isNotNull(this._keywords)) {
 			this.logSearch();
 		}
 		long logSearchId = ParamUtil.getLong(request, "searchLogId");
