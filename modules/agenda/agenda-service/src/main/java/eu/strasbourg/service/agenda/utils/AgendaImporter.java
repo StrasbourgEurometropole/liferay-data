@@ -267,10 +267,11 @@ public class AgendaImporter {
 		}
 		if (fileIndex == 0) {
 			_log.info("No file to import");
+			String environment = StrasbourgPropsUtil.getEnvironment();
 			String from = "no-reply@no-reply.strasbourg.eu";
 			String to = StrasbourgPropsUtil.getAgendaImportMails();
-			String subject = "Aucun fichier dans le dossier d'import";
-			String body = "Aucun fichier ne se trouve dans le dossier d'import.";
+			String subject = "[" + environment + "] " + LanguageUtil.get(bundle, "no-file");
+			String body = LanguageUtil.get(bundle, "no-file-text");
 			MailHelper.sendMailWithPlainText(from, to, subject, body);
 		}
 
@@ -987,7 +988,7 @@ public class AgendaImporter {
 						}
 					}
 				}
-			
+
 				JSONObject jsonPrice = jsonEvent.getJSONObject("price");
 				JSONObject jsonBookingDescription = jsonEvent.getJSONObject("bookingDescription");
 

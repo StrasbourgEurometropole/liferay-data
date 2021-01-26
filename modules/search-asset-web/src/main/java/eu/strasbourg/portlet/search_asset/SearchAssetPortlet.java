@@ -282,6 +282,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                             jsonParticipation.put("class", className);
                             json = participation.toJSON(themeDisplay);
                             json.put("todayExpirationDifferenceDays", participation.getTodayExpirationDifferenceDays());
+                            json.put("todayPublicationDifferenceDays", participation.getTodayPublicationDifferenceDays());
                             json.put("isJudgeable", participation.isJudgeable());
                             json.put("groupId", participation.getGroupId());
                             LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);

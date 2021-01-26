@@ -68,7 +68,7 @@
    			    <aui:button cssClass="btn-lg" type="submit" value="synchronize" />
    			</c:if>
    			<c:if test="${not dc.canSynchronise() || not isAdmin}">
-   			    <aui:button cssClass="btn-lg" type="submit" value="synchronize"  disabled="true" />
+   			    <aui:button cssClass="btn-lg synchro" type="submit" value="synchronize"  disabled="true" />
    			    <div class="tooltip-inner"><liferay-ui:message key="synchronise-forbidden" /></div>
    			</c:if>
    		</aui:button-row>
