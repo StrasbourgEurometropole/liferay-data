@@ -51,7 +51,7 @@ public class PlaceApplication extends Application {
 
 	@GET
 	@Path("/get-places/{date}")
-	public String getLieu(
+	public String getPlaces(
 			@PathParam("date") Date date) {
 		JSONObject json = JSONFactoryUtil.createJSONObject();
 
@@ -94,7 +94,7 @@ public class PlaceApplication extends Application {
 
 	@GET
 	@Path("/get-hours/{sigid}")
-	public String getHoraires(
+	public String getHours(
 			@PathParam("sigid") String sigid) {
 		JSONObject json = JSONFactoryUtil.createJSONObject();
 		try {
@@ -110,7 +110,7 @@ public class PlaceApplication extends Application {
 
 	@GET
 	@Path("/get-categories/{date}/{ids}")
-	public String getCategoryMap(
+	public String getCategories(
 			@PathParam("date") Date date,
 			@PathParam("ids") String ids) {
 		JSONObject json = JSONFactoryUtil.createJSONObject();
