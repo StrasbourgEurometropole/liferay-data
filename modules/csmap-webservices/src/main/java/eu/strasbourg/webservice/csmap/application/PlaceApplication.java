@@ -31,25 +31,26 @@ import java.util.Set;
 
 /**
  * @author angelique.champougny
+ * @author jeremy.zwickert
+ * @author cédric.henry
  */
 @Component(
 	property = {
-		JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=/lieu",
-		JaxrsWhiteboardConstants.JAX_RS_NAME + "=Lieu.Rest",
+		JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=/csmap-ws/place",
+		JaxrsWhiteboardConstants.JAX_RS_NAME + "=CSMAP.Place.Rest",
 		"auth.verifier.guest.allowed=true",
 		"liferay.access.control.disable=true"
-
 	},
 	service = Application.class
 )
-public class LieuApplication extends Application {
+public class PlaceApplication extends Application {
 
 	public Set<Object> getSingletons() {
-		return Collections.<Object>singleton(this);
+		return Collections.singleton(this);
 	}
 
 	@GET
-	@Path("/{date}")
+	@Path("/get-places/{date}")
 	public String getLieu(
 			@PathParam("date") Date date) {
 		JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -92,7 +93,7 @@ public class LieuApplication extends Application {
 	}
 
 	@GET
-	@Path("/horaires/{sigid}")
+	@Path("/get-hours/{sigid}")
 	public String getHoraires(
 			@PathParam("sigid") String sigid) {
 		JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -108,7 +109,7 @@ public class LieuApplication extends Application {
 	}
 
 	@GET
-	@Path("/category/{date}/{ids}")
+	@Path("/get-categories/{date}/{ids}")
 	public String getCategoryMap(
 			@PathParam("date") Date date,
 			@PathParam("ids") String ids) {
