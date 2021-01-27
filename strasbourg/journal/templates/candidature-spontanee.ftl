@@ -1,7 +1,7 @@
 <div class="seu-wi seu-wi-quote offer-contact"> 
     <div class="seu-container"> 
         <h2 class="seu-section-title">
-            <span class="seu-title"><@liferay_ui.message key="eu.offer-candidature-spontanee" /></span>
+            <span class="seu-title">${title.getData()}</span>
         </h2>
         <div class="rte">
             ${content.getData()}
