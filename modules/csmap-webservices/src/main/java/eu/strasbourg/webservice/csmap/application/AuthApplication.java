@@ -2,6 +2,7 @@ package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.StringUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
@@ -36,7 +37,8 @@ public class AuthApplication extends Application {
     @Path("/get-nonce")
     public String getNonce() {
         JSONObject json = JSONFactoryUtil.createJSONObject();
-        json.put("TODO", "Implement getNonce");
+        String nonce = StringUtil.randomString(32);
+        json.put("nonce", nonce);
         return json.toString();
     }
 
