@@ -1,7 +1,7 @@
 package eu.strasbourg.webservice.csmap.application;
 
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
@@ -34,9 +34,9 @@ public class ProfileApplication extends Application {
     @GET
     @Path("/get-profile")
     public String getProfile() {
-        JSONObject json = JSONFactoryUtil.createJSONObject();
-        json.put("TODO", "Implement getProfile");
-        return json.toString();
+        JSONObject jsonResponse = WSResponseUtil.initializeResponse();
+        jsonResponse.put("TODO", "Implement getProfile");
+        return jsonResponse.toString();
     }
 
 }

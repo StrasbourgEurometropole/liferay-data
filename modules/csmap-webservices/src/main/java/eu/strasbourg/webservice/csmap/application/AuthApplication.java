@@ -3,6 +3,7 @@ package eu.strasbourg.webservice.csmap.application;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.StringUtil;
+import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
@@ -36,10 +37,10 @@ public class AuthApplication extends Application {
     @GET
     @Path("/get-nonce")
     public String getNonce() {
-        JSONObject json = JSONFactoryUtil.createJSONObject();
+        JSONObject jsonResponse = WSResponseUtil.initializeResponse();
         String nonce = StringUtil.randomString(32);
-        json.put("nonce", nonce);
-        return json.toString();
+        jsonResponse.put("nonce", nonce);
+        return jsonResponse.toString();
     }
 
     @GET
@@ -47,21 +48,21 @@ public class AuthApplication extends Application {
     public String authentication(
             @PathParam("code") String code,
             @PathParam("nonce") String nonce) {
-        JSONObject json = JSONFactoryUtil.createJSONObject();
-        json.put("TODO", "Implement authentication");
-        json.put("arg[code]", code);
-        json.put("arg[nonce]", nonce);
-        return json.toString();
+        JSONObject jsonResponse = WSResponseUtil.initializeResponse();
+        jsonResponse.put("TODO", "Implement authentication");
+        jsonResponse.put("arg[code]", code);
+        jsonResponse.put("arg[nonce]", nonce);
+        return jsonResponse.toString();
     }
 
     @GET
     @Path("/get-new-jwt/{refreshToken}")
     public String getNewJWT(
             @PathParam("refreshToken") String refreshToken) {
-        JSONObject json = JSONFactoryUtil.createJSONObject();
-        json.put("TODO", "Implement getNewJWT");
-        json.put("arg[refreshToken]", refreshToken);
-        return json.toString();
+        JSONObject jsonResponse = WSResponseUtil.initializeResponse();
+        jsonResponse.put("TODO", "Implement getNewJWT");
+        jsonResponse.put("arg[refreshToken]", refreshToken);
+        return jsonResponse.toString();
     }
 
 }
