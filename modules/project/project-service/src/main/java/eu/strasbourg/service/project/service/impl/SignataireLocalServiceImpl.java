@@ -60,6 +60,16 @@ public class SignataireLocalServiceImpl extends SignataireLocalServiceBaseImpl {
     }
 
     /**
+     * méthode permettant de récuperer tous les signataires par l'identifiant de la pétition y compris les entree anonymes (Signatures papiers)
+     * @param petitionId l'identifiant de la pétition.
+     * @return la liste des signataires.
+     */
+    @Override
+    public List<Signataire> getAllSignatairesByPetitionId(long petitionId) {
+        return signatairePersistence.findByPetition(petitionId);
+    }
+
+    /**
      * méthode permettant de récuperer les signataires par l'identifiant de la pétition.
      * @param petitionId l'identifiant de la pétition.
      * @return la liste des signataires.
