@@ -1,5 +1,5 @@
 # Image sur laquelle se base les opérations suivantes (@see https://hub.docker.com/r/liferay/dxp)
-FROM liferay/dxp:7.2.10-dxp-9
+FROM liferay/dxp:7.2.10-dxp-10
 
 # Chemin vers les éléments "constants" ajoutés à l'image (scripts, fichiers d'install ou autres)
 ENV SOURCES_PATH=./sources
