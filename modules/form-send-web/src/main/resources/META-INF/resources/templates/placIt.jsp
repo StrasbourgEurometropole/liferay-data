@@ -80,7 +80,7 @@
                                                     </table>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <p style="text-transform: capitalize">
+                                                    <p class="capitalize">
                                                         ${recordField[2]}
                                                     </p>
                                                 </c:otherwise>
@@ -239,6 +239,9 @@
         margin-bottom: 60px;
     }
 
+    .capitalize:first-letter{
+        text-transform: uppercase;
+    }
 </style>
 
 <script>
