@@ -15,5 +15,11 @@ public class WSConstants {
     public static final String JSON_DELETE = "DELETE";
 
     // Profil
-
+    public static final String JSON_LAST_NAME = "lastname";
+    public static final String JSON_FIRST_NAME = "firstname";
+    public static final String JSON_EMAIL = "email";
+    public static final String JSON_ADDRESS = "address";
+    public static final String JSON_POSTAL_CODE = "postalCode";
+    public static final String JSON_CITY = "city";
+    public static final String JSON_IMAGE_URL = "imageURL";
 }
