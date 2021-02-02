@@ -8,11 +8,15 @@ import eu.strasbourg.webservice.csmap.constants.WSConstants;
 public class WSResponseUtil {
 
     public static JSONObject initializeResponse() {
-        return generateResponse(201, null);
+        return generateResponse(200, null);
     }
 
     public static JSONObject initializeError(String error) {
         return generateResponse(400, error);
+    }
+
+    public static JSONObject initializeServerError(String error) {
+        return generateResponse(500, error);
     }
 
     public static JSONObject generateResponse(int responseCode, String errorDescription) {
