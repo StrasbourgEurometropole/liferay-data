@@ -65,7 +65,7 @@ public class PlaceApplication extends Application {
 		// On transforme la date string en date
 		Date lastUpdateTime;
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-jj");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
 			lastUpdateTime = sdf.parse(lastUpdateTimeString);
 		}catch (Exception e) {
 			return WSResponseUtil.initializeError("Format de date incorrect").toString();
@@ -150,7 +150,7 @@ public class PlaceApplication extends Application {
 		// On transforme la date string en date
 		Date lastUpdateTime;
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-jj");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
 			lastUpdateTime = sdf.parse(lastUpdateTimeString);
 		}catch (Exception e) {
 			return WSResponseUtil.initializeError("Format de date incorrect").toString();
@@ -159,6 +159,14 @@ public class PlaceApplication extends Application {
 		// On vérifie que les ids sont renseignés
 		if (Validator.isNull(ids))
 			return WSResponseUtil.initializeError("Il manque le paramètre ids_category").toString();
+
+		// On vérifie le format de ids_category
+		JSONArray idsJson;
+		try {
+			idsJson = JSONFactoryUtil.createJSONArray(ids);
+		}catch (Exception e) {
+			return WSResponseUtil.initializeError("Format json de ids_category incorrect").toString();
+		}
 
 		JSONObject json = WSResponseUtil.initializeResponse();
 
@@ -201,11 +209,11 @@ public class PlaceApplication extends Application {
 
 			// On récupère toutes les catégories qui ont été supprimées
 			JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-			JSONArray idsJson = JSONFactoryUtil.createJSONArray(ids);
-			for (int i = 0; i < idsJson.length(); i++) {
-				if(AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idsJson.get(i).toString()) == null)
-					jsonSuppr.put(idsJson.get(i));
-			}
+			if(Validator.isNotNull(placeTypeVocabulary))
+				for (int i = 0; i < idsJson.length(); i++) {
+					if(AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idsJson.get(i).toString()) == null)
+						jsonSuppr.put(idsJson.get(i));
+				}
 			json.put(WSConstants.JSON_DELETE, jsonSuppr);
 		} catch (PortalException e) {
 			e.printStackTrace();
