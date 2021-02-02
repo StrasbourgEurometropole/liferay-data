@@ -25,7 +25,10 @@
                         <#if gradeRanges??>
                             <div class="seu-result-grade">
                                 <#list gradeRanges as gradeRange>
-                                    ${gradeRange[2].getTitle(locale)} <@liferay_ui.message key="eu.to" /> ${gradeRange[3].getTitle(locale)}<#sep>, </#sep>
+                                    ${gradeRange[2].getTitle(locale)}
+                                    <#if gradeRange[3]??>
+                                        <@liferay_ui.message key="eu.to" /> ${gradeRange[3].getTitle(locale)}<#sep>, </#sep>
+                                    </#if>
                                 </#list>
                             </div>
                         </#if>
