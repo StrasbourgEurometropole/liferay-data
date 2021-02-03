@@ -220,7 +220,7 @@
                     }
                     layer.bindPopup($(popupElement).html(), {closeButton: false});
                     layer.on('popupopen', function(e) {
-                        if(feature.properties.codeArret != ""){
+                        if(feature.properties.codeArret != undefined && feature.properties.codeArret != ""){
                             // Chargement des prochains passages lors de l'ouverture de la popup
                             var destinationList = $('.popup-content-tram-list', e.target._popup._contentNode);
 
