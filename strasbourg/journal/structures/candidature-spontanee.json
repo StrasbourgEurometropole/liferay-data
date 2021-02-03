@@ -23,7 +23,7 @@
             "name": "title",
             "readOnly": false,
             "repeatable": false,
-            "required": false,
+            "required": true,
             "showLabel": true,
             "type": "text"
         },
