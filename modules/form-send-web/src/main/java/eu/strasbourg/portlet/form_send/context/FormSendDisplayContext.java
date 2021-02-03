@@ -215,7 +215,7 @@ public class FormSendDisplayContext {
         if(Validator.isNotNull(fieldsSelectedString)) {
             String[] fieldsSelected = fieldsSelectedString.split(",");
             for (String fieldSelected : fieldsSelected) {
-                fieldsToShow.add(fieldSelected.split("_")[1]);
+                fieldsToShow.add(fieldSelected.split("_",2)[1]);
             }
         }
 
