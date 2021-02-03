@@ -4187,9 +4187,8 @@ a {
       overflow: hidden;
       color: #31455d;
       font-size: 1.5rem;
-      text-align: left;
-      line-height: 1.5rem; }
-  /* line 46, custom/02-particules/01-shared/tram-destination/_quark-tram-destination.scss */
+      text-align: left; }
+  /* line 45, custom/02-particules/01-shared/tram-destination/_quark-tram-destination.scss */
   .favoris-teaser .scroll-pane .tram-destination .tram-destination-schedule, #favoris .favoris-grid .scroll-pane .tram-destination .tram-destination-schedule, #aroundme .filtres__item .tram-destination .tram-destination-schedule, #aroundme .infowindow__middle .infowindow__contenu:not(:empty) .tram-destination .tram-destination-schedule {
     margin: auto;
     font-weight: bold;
