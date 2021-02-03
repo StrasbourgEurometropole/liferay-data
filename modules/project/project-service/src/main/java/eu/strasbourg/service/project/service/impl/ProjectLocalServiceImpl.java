@@ -36,6 +36,8 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.project.exception.NoSuchProjectException;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Project;
@@ -248,6 +250,13 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 					.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
 				this.assetLinkLocalService.deleteAssetLink(link);
+			}
+
+			// Supprime les commentaires liés à cet entries
+			List<Comment> comments = CommentLocalServiceUtil
+					.getByAssetEntry(entry.getEntryId(), WorkflowConstants.STATUS_APPROVED);
+			for (Comment comment : comments) {
+				CommentLocalServiceUtil.removeComment(comment.getCommentId());
 			}
 
 			// Delete the AssetEntry
