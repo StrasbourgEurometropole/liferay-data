@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.csmap.model.Nonce">
+		<field name="uuid" type="String" />
+		<field name="nonceId" type="long" />
+		<field name="value" type="String" />
+		<field name="expirationDate" type="Date" />
+	</model>
+</model-hints>

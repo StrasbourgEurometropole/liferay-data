@@ -1,0 +1,9 @@
+Bundle-SymbolicName: csmap-api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.csmap.exception,\
+	eu.strasbourg.service.csmap.model,\
+	eu.strasbourg.service.csmap.service,\
+	eu.strasbourg.service.csmap.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../csmap-service/service.xml

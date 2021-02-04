@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_2_0.dtd">
+
+<service-builder dependency-injector="ds" package-path="eu.strasbourg.service.csmap">
+
+	<namespace>csmap</namespace>
+
+	<entity local-service="true" cache-enabled="true" name="Nonce" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="nonceId" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="value" type="String" />
+		<column name="expirationDate" type="Date" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="expirationDate" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="Value" return-type="Nonce">
+			<finder-column name="value" />
+		</finder>
+
+	</entity>
+
+</service-builder>
