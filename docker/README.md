@@ -109,25 +109,54 @@ $ docker service logs SERVICE_ID -f
     $ sh 1_prepare-delivery.sh
     ```
 
-5. Lancer le script d'arrêt des services et du backup de base de données :
+5. [ONLY PRODUCTION] Couper les serveurs Apache :
+
+    **Notes** : effectuer d'abord cette action sur le noeud esclave de Docker Swarm, puis sur le noeud maitre (cela demande d'être connecté au deux machines).
+
+    ```shell
+    $ sudo systemctl stop httpd
+    ```
+
+6. Lancer le script d'arrêt des services et du backup de base de données :
 
     ```shell
     $ sh 2_shutdown-services-and-backups.sh
     ```
 
-7. Lancer le script de démarrage des services :
+7. [OPTIONNEL] Exécuter les scripts SQL de la livraison en cours. Se connecter à MySQL via ligne de commande en remplaçant :
+    * `MYSQL_USER` par l'utilisateur MySQL utilisé par Liferay;
+    * `MYSQL_DB` par le nom de la base de données MySQL utilisé par Liferay.
+
+    ```shell
+    # Connexion à MySQL
+    $ mysql -u MYSQL_USER -p MYSQL_DB
+
+    # Sortir de MySQL
+    $ exit
+    ```
+
+8. Lancer le script de démarrage des services :
 
     ```shell
     $ sh 3_startup-services.sh
     ```
 
-8. Vérifier le bon déroulement de la livraison sur le noeud principal via la commande suivante en remplaçant `SERVICE_ID` par celui récupéré avec `docker service ls` (dernière commande lancée par le script `startup.sh`):
+9. Vérifier le bon déroulement de la livraison sur le noeud principal via la commande suivante en remplaçant `SERVICE_ID` par celui récupéré avec `docker service ls` (dernière commande lancée par le script `startup.sh`):
 
     ```shell
     $ docker service logs SERVICE_ID -f
     ```
 
     **Notes** : `ctrl + c` pour quitter les logs.
+
+10. [ONLY PRODUCTION] relancer les serveurs Apache dès que Liferay est complétement opérationnel :
+
+    **Notes** : effectuer d'abord cette action sur le noeud maître de Docker Swarm, puis sur le noeud escalve (cela demande d'être connecté au deux machines).
+
+    ```shell
+    $ sudo systemctl start httpd
+    ```
+
 
 # Commandes Docker utiles
 
