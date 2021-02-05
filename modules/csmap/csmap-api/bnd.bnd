@@ -1,4 +1,5 @@
-Bundle-SymbolicName: csmap-api
+Bundle-Name: csmap-api
+Bundle-SymbolicName: eu.strasbourg.service.csmap.api
 Bundle-Version: 1.0.0
 Export-Package:\
 	eu.strasbourg.service.csmap.exception,\
