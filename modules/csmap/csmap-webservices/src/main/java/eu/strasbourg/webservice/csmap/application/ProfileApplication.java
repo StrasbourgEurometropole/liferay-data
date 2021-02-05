@@ -25,8 +25,8 @@ import java.util.Set;
  */
 @Component(
     property = {
-        JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=/csmap-ws/profile",
-        JaxrsWhiteboardConstants.JAX_RS_NAME + "=CSMAP.Profile.Rest",
+        JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=" + WSConstants.APP_GROUP_BASE + WSConstants.APP_PROFILE_BASE,
+        JaxrsWhiteboardConstants.JAX_RS_NAME + "=" + WSConstants.APP_PROFILE_NAME,
         "auth.verifier.guest.allowed=true",
         "liferay.access.control.disable=true"
     },

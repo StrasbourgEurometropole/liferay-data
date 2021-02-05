@@ -1,8 +1,8 @@
 package eu.strasbourg.webservice.csmap.application;
 
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.StringUtil;
+import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
@@ -21,8 +21,8 @@ import java.util.Set;
  */
 @Component(
     property = {
-        JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=/csmap-ws/auth",
-        JaxrsWhiteboardConstants.JAX_RS_NAME + "=CSMAP.Auth.Rest",
+        JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=" + WSConstants.APP_GROUP_BASE + WSConstants.APP_AUTH_BASE,
+        JaxrsWhiteboardConstants.JAX_RS_NAME + "=" + WSConstants.APP_AUTH_NAME,
         "auth.verifier.guest.allowed=true",
         "liferay.access.control.disable=true"
     },
@@ -38,20 +38,24 @@ public class AuthApplication extends Application {
     @Path("/get-nonce")
     public String getNonce() {
         JSONObject jsonResponse = WSResponseUtil.initializeResponse();
+
         String nonce = StringUtil.randomString(32);
         jsonResponse.put("nonce", nonce);
+
         return jsonResponse.toString();
     }
 
     @GET
-    @Path("/authentication/{code}/{nonce}")
+    @Path("/authentication/{code}")
     public String authentication(
-            @PathParam("code") String code,
-            @PathParam("nonce") String nonce) {
+            @PathParam("code") String code) {
         JSONObject jsonResponse = WSResponseUtil.initializeResponse();
+
         jsonResponse.put("TODO", "Implement authentication");
-        jsonResponse.put("arg[code]", code);
-        jsonResponse.put("arg[nonce]", nonce);
+
+        jsonResponse.put(WSConstants.JSON_JWT_CSM, "");
+        jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, "");
+
         return jsonResponse.toString();
     }
 
@@ -60,8 +64,11 @@ public class AuthApplication extends Application {
     public String getNewJWT(
             @PathParam("refreshToken") String refreshToken) {
         JSONObject jsonResponse = WSResponseUtil.initializeResponse();
+
         jsonResponse.put("TODO", "Implement getNewJWT");
-        jsonResponse.put("arg[refreshToken]", refreshToken);
+
+        jsonResponse.put(WSConstants.JSON_JWT_CSM, "");
+
         return jsonResponse.toString();
     }
 

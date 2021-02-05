@@ -40,8 +40,8 @@ import java.util.Set;
  */
 @Component(
 	property = {
-		JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=/csmap-ws/place",
-		JaxrsWhiteboardConstants.JAX_RS_NAME + "=CSMAP.Place.Rest",
+		JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=" + WSConstants.APP_GROUP_BASE + WSConstants.APP_PLACE_BASE,
+		JaxrsWhiteboardConstants.JAX_RS_NAME + "=" + WSConstants.APP_PLACE_NAME,
 		"auth.verifier.guest.allowed=true",
 		"liferay.access.control.disable=true"
 	},
