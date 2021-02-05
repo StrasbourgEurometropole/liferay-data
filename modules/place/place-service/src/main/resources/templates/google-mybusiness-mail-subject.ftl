@@ -10,4 +10,4 @@
 	<#assign importer = 'import automatique' />
 </#if>
 
-[${environment}] Journal de synchronisation - ${importer} - ${result}
+[${environment}] Journal de synchro GMB - ${importer} - ${result}
