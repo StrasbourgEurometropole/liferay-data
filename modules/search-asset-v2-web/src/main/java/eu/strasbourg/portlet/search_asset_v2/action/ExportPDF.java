@@ -154,12 +154,17 @@ public class ExportPDF {
 		List<Official> elus = getPeopleList(req);
 		for (Official elu : elus) {
 			// photo de l'élu
-			ImageData image = ImageDataFactory.create(domaine + elu.getImageURL());
-			Image img = new Image(image);
-			float newWidth = 90;
-			float newHeight = (img.getImageHeight() / img.getImageWidth()) * newWidth;
-			img.scaleAbsolute(newWidth, newHeight).setPadding(0f).setMargins(0f, 0f, 0f, 0f);
-			Cell cell = new Cell().add(img).setBorder(Border.NO_BORDER).setPaddings(10f, 0f, 10f, 0f);
+			Cell cell = new Cell().setBorder(Border.NO_BORDER).setPaddings(10f, 0f, 10f, 0f);
+			try {
+				ImageData image = ImageDataFactory.create(domaine + elu.getImageURL());
+				Image img = new Image(image);
+				float newWidth = 90;
+				float newHeight = (img.getImageHeight() / img.getImageWidth()) * newWidth;
+				img.scaleAbsolute(newWidth, newHeight).setPadding(0f).setMargins(0f, 0f, 0f, 0f);
+				cell = cell.add(img);
+			}catch (Exception e){
+				System.out.println(elu.getFirstName() + " " + elu.getLastName() + " : " + e.getMessage());
+			}
 			table.addCell(cell);
 
 			// info de l'élu
