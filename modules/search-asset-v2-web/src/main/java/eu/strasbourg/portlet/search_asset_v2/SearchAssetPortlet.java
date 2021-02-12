@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.search_asset_v2;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
@@ -583,7 +584,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 				configurationData.getUtilsAssetTypeList(),
 				configurationData.isDisplayDateField(), configurationData.getFilterField(),
 				getSeed(configurationData, sortFieldAndType, keywords, seed),
-				getSortFieldsAndTypes(configurationData, sortFieldAndType, keywords), getGroupBy(configurationData), keywords, fromDate,
+				getSortFieldsAndTypes(configurationData, sortFieldAndType, keywords), getCategoriesIdsForGroupBy(configurationData), keywords, fromDate,
 				toDate, categoriesIds, idSIGPlace, getClassNames(configurationData), themeDisplay.getLocale(),
 				-1, -1);
 
@@ -808,7 +809,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 	 */
 	public int getSeed(ConfigurationData configurationData, String sortFieldAndTypeFromParam, String keywords, int seed) {
 		if (Validator.isNull(sortFieldAndTypeFromParam) && Validator.isNull(keywords)) {
-			if(configurationData.getGroupBy() == 0 && configurationData.isRandomSort()) {
+			if(configurationData.isRandomSort()) {
 				return seed;
 			}
 		}
@@ -822,24 +823,17 @@ public class SearchAssetPortlet extends MVCPortlet {
 		Map fieldsAndTypes = new LinkedHashMap();
 		if (Validator.isNull(sortFieldAndTypeFromParam)) {
 			if (Validator.isNull(keywords)) {
-				if(configurationData.getGroupBy() == -1){
-					// ajout du tri par type d'asset
-					String assetTypeSort = Field.ENTRY_CLASS_NAME;
-					fieldsAndTypes.put(assetTypeSort, "DESC");
-				}
-				if(!configurationData.isRandomSort()) {
-					String firstSortingField = Validator.isNotNull(configurationData.getFirstSortingField())
-							? configurationData.getFirstSortingField() : "modified_sortable";
-					String firstSortingType = Validator.isNotNull(configurationData.getFirstSortingType())
-							? configurationData.getFirstSortingType() : "DESC";
-					fieldsAndTypes.put(firstSortingField, firstSortingType);
-					String secondSortingField = Validator.isNotNull(configurationData.getSecondSortingField())
-							? configurationData.getSecondSortingField() : "modified_sortable";
-					if (!firstSortingField.equals(secondSortingField)) {
-						String secondSortingType = Validator.isNotNull(configurationData.getSecondSortingType())
-								? configurationData.getSecondSortingType() : "DESC";
-						fieldsAndTypes.put(secondSortingField, secondSortingType);
-					}
+				String firstSortingField = Validator.isNotNull(configurationData.getFirstSortingField())
+						? configurationData.getFirstSortingField() : "modified_sortable";
+				String firstSortingType = Validator.isNotNull(configurationData.getFirstSortingType())
+						? configurationData.getFirstSortingType() : "DESC";
+				fieldsAndTypes.put(firstSortingField, firstSortingType);
+				String secondSortingField = Validator.isNotNull(configurationData.getSecondSortingField())
+						? configurationData.getSecondSortingField() : "modified_sortable";
+				if (!firstSortingField.equals(secondSortingField)) {
+					String secondSortingType = Validator.isNotNull(configurationData.getSecondSortingType())
+							? configurationData.getSecondSortingType() : "DESC";
+					fieldsAndTypes.put(secondSortingField, secondSortingType);
 				}
 			}
 		}else{
@@ -856,11 +850,23 @@ public class SearchAssetPortlet extends MVCPortlet {
 	/**
 	 * Retourne le vocabulaireId sur leuqel on regroupe les résultats
 	 */
-	public long[] getGroupBy(ConfigurationData configurationData) {
-		if (configurationData.getGroupBy() > 0) {
-			return new long[]{configurationData.getGroupBy()};
+
+	/**
+	 * Retourne les categories du vocabulaire sur lequel on regroupe les résultats (par tri)
+	 */
+	public long[] getCategoriesIdsForGroupBy(ConfigurationData configurationData) {
+		long[] categoriesIdsForGroupBy = {0};
+		if(configurationData.getGroupBy() > 0) {
+			// On récupère le vocabulaire
+			AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(configurationData.getGroupBy());
+			if (Validator.isNotNull(vocabulary)) {
+				// On récupère les catégories
+				categoriesIdsForGroupBy = vocabulary.getCategories().stream().mapToLong(c -> c.getCategoryId()).toArray();
+			}
+		}else{
+			categoriesIdsForGroupBy[0] = configurationData.getGroupBy();
 		}
-		return new long[]{};
+		return categoriesIdsForGroupBy;
 	}
 
 	/**

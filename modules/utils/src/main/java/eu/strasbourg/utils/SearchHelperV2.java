@@ -8,6 +8,8 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.search.groupby.GroupByRequest;
+import com.liferay.portal.search.groupby.GroupByRequestFactory;
 import com.liferay.portal.search.hits.SearchHits;
 import com.liferay.portal.search.query.BooleanQuery;
 import com.liferay.portal.search.query.FunctionScoreQuery;
@@ -64,8 +66,6 @@ public class SearchHelperV2{
 	 *            int pour le tri aléatoire
 	 * @param sortingFieldsAndTypes
 	 *            Map contenant les champs et les types des tri
-	 * @param groupBy
-	 *            Id du vocabulaire sur lequel se fait le regroupement
 	 * @param keywords
 	 *            Mots clés de recherche
 	 * @param fromDate
@@ -89,12 +89,13 @@ public class SearchHelperV2{
 	 */
 	public SearchHits  getGlobalSearchHitsV2(SearchContext searchContext, List<AssetType> assetTypes, Boolean isDisplayField,
 											 String filterField, int seed, Map<String, String> sortingFieldsAndTypes,
-											 long[] groupBy, String keywords, LocalDate fromDate, LocalDate toDate,
-											 List<Long[]> categoriesIds, String idSIGPlace, List<String> classNamesSelected, Locale locale, int start, int end) {
+											 long[] categoriesIdsForGroupBy, String keywords, LocalDate fromDate,
+											 LocalDate toDate, List<Long[]> categoriesIds, String idSIGPlace,
+											 List<String> classNamesSelected, Locale locale, int start, int end) {
 
 		// Query
-		Query query = getGlobalSearchV2Query(assetTypes, isDisplayField, filterField,
-				seed, keywords, fromDate, toDate, categoriesIds, idSIGPlace, classNamesSelected, locale);
+		Query query = getGlobalSearchV2Query(assetTypes, isDisplayField, filterField, categoriesIdsForGroupBy,
+				keywords, fromDate, toDate, categoriesIds, idSIGPlace, classNamesSelected, locale);
 
 		SearchRequestBuilder searchRequestBuilder = searchRequestBuilderFactory.builder();
 
@@ -105,17 +106,56 @@ public class SearchHelperV2{
 				sc.setCompanyId(searchContext.getCompanyId());
 				sc.setStart(start);
 				sc.setEnd(end);
+				/*if(Validator.isNotNull(groupBy) && groupBy > 0) {
+					// Regroupement
+					GroupBy groupBy1 = new GroupBy(Field.ENTRY_CLASS_NAME);
+					sc.setGroupBy(groupBy1);
+				}else {
+					// Tri
+					com.liferay.portal.kernel.search.Sort[] sortArray = new com.liferay.portal.kernel.search.Sort[sortingFieldsAndTypes.size()];
+					Iterator iterator = sortingFieldsAndTypes.entrySet().iterator();
+					int i = 0;
+					while (iterator.hasNext()) {
+						Map.Entry entry = (Map.Entry) iterator.next();
+						com.liferay.portal.kernel.search.Sort fieldSort = new com.liferay.portal.kernel.search.Sort((String) entry.getKey(), entry.getValue().equals("DESC"));
+						sortArray[i] = fieldSort;
+						i++;
+					}
+					sc.setSorts(sortArray);
+				}*/
 			}
 		);
 
 		searchRequestBuilder.from(start);
 		searchRequestBuilder.size(end - start);
 
-		// Ordre
-		if(Validator.isNull(seed) || seed == 0) {
+		// Regroupement
+		if(categoriesIdsForGroupBy[0] != 0){
+			// tri par type d'asset
+			GroupByRequest groupByRequest;
+			if(categoriesIdsForGroupBy[0] > 0){
+				// tri sur les catégories
+				groupByRequest = groupByRequestFactory.getGroupByRequest(Field.ASSET_CATEGORY_IDS);
+			}else{
+				groupByRequest = groupByRequestFactory.getGroupByRequest(Field.ENTRY_CLASS_NAME);
+			}
+			searchRequestBuilder = searchRequestBuilder.groupByRequests(groupByRequest);
+		}
+
+		// Tri
+		if (Validator.isNotNull(seed) && seed > 0) {
+			// Tri aléatoire
+			RandomScoreFunction randomScoreFunction = scoreFunctions.random();
+			randomScoreFunction.setSeed(seed);
+			randomScoreFunction.setField("entryClassPK");
+			FunctionScoreQuery functionScoreQuery =
+					queries.functionScore(query);
+			functionScoreQuery.addFilterQueryScoreFunctionHolder(query, randomScoreFunction);
+			query = functionScoreQuery;
+		}else{
 			Sort[] sortArray = new Sort[sortingFieldsAndTypes.size()];
-			Iterator iterator = sortingFieldsAndTypes.entrySet().iterator();
 			int i = 0;
+			Iterator iterator = sortingFieldsAndTypes.entrySet().iterator();
 			while (iterator.hasNext()) {
 				Map.Entry entry = (Map.Entry) iterator.next();
 				FieldSort fieldSort = sorts.field((String)entry.getKey(), SortOrder.valueOf(String.valueOf(entry.getValue()).toUpperCase()));
@@ -138,9 +178,8 @@ public class SearchHelperV2{
 	 * Retourne la requête à exécuter correspondant aux paramètres pour le searchAssetV2
 	 */
 	private Query getGlobalSearchV2Query(List<AssetType> assetTypes,
-										 Boolean isDisplayField, String filterField,
-										 int seed, String keywords, LocalDate fromDate,
-										 LocalDate toDate, List<Long[]> categoriesIds,
+										 Boolean isDisplayField, String filterField, long[] categoriesIdsForGroupBy,
+										 String keywords, LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds,
 										 String placeSigId, List<String> filterClassNames, Locale locale) {
 		// Construction de la requète
 		BooleanQuery superQuery = queries.booleanQuery();
@@ -290,12 +329,20 @@ public class SearchHelperV2{
 			titleQueryWithoutAnalyzer.setZeroTermsQuery(com.liferay.portal.search.query.MatchQuery.ZeroTermsQuery.NONE);
 //					"auto_generate_synonyms_phrase_query" : true,
 			titleQueryWithoutAnalyzer.setBoost(3.0f);
+			FunctionScoreQuery functionScoreQueryTitleQueryWithoutAnalyzer =
+					queries.functionScore(titleQueryWithoutAnalyzer);
+			functionScoreQueryTitleQueryWithoutAnalyzer.setBoost(3.0f);
+			keywordQuery.addShouldQueryClauses(functionScoreQueryTitleQueryWithoutAnalyzer);
 			keywordQuery.addShouldQueryClauses(titleQueryWithoutAnalyzer);
 
 			// Wildcard sur titre
 			WildcardQuery titleWildcardQuery = queries.wildcard(Field.TITLE + "_" + locale,
 					"*" + keywords + "*");
 			titleWildcardQuery.setBoost(30.0f);
+			FunctionScoreQuery functionScoreQueryTitleWildcard =
+					queries.functionScore(titleWildcardQuery);
+			functionScoreQueryTitleWildcard.setBoost(30.0f);
+			keywordQuery.addShouldQueryClauses(functionScoreQueryTitleWildcard);
 			keywordQuery.addShouldQueryClauses(titleWildcardQuery);
 
 			// Description
@@ -394,6 +441,17 @@ public class SearchHelperV2{
 			query.addMustQueryClauses(vocabularyQuery);
 		}
 
+		// Regroupement
+		// On fait un "ou" entre les catégories
+		if (categoriesIdsForGroupBy[0] > 0) {
+			BooleanQuery vocabularyQuery = queries.booleanQuery();
+			for (long categoryId : categoriesIdsForGroupBy) {
+				TermQuery categoryQuery = queries.term(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
+				vocabularyQuery.addShouldQueryClauses(categoryQuery);
+			}
+			query.addMustQueryClauses(vocabularyQuery);
+		}
+
 		// Dates
 		if (isDisplayField) {
 			if (filterField.equals("dates_Number_sortable")) {
@@ -422,21 +480,15 @@ public class SearchHelperV2{
 			query.addMustQueryClauses(placeQuery);
 		}
 
-		// Tri aléatoire
-		if(Validator.isNotNull(seed) && seed > 0) {
-			RandomScoreFunction randomScoreFunction = scoreFunctions.random();
-			randomScoreFunction.setSeed(seed);
-			randomScoreFunction.setField("entryClassPK");
-			FunctionScoreQuery functionScoreQuery = queries.functionScore(query);
-			functionScoreQuery.addFilterQueryScoreFunctionHolder(query, randomScoreFunction);
-		}
-
 		superQuery.addShouldQueryClauses(query);
 
 		return superQuery;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(SearchHelperV2.class.getName());
+
+	@Reference
+	GroupByRequestFactory groupByRequestFactory;
 
 	@Reference
 	protected Sorts sorts;

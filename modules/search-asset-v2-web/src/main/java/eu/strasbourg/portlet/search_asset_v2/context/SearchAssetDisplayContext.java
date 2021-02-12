@@ -136,24 +136,17 @@ public class SearchAssetDisplayContext {
 		Map fieldsAndTypes = new LinkedHashMap();
 		if (Validator.isNull(sortFieldAndTypeFromParam)) {
 			if (Validator.isNull(this.getKeywords())) {
-				if(getConfigurationData().getGroupBy() == -1){
-					// ajout du tri par type d'asset
-					String assetTypeSort = Field.ENTRY_CLASS_NAME;
-					fieldsAndTypes.put(assetTypeSort, "DESC");
-				}
-				if(!getConfigurationData().isRandomSort()) {
-					String firstSortingField = Validator.isNotNull(getConfigurationData().getFirstSortingField())
-							? getConfigurationData().getFirstSortingField() : "modified_sortable";
-					String firstSortingType = Validator.isNotNull(getConfigurationData().getFirstSortingType())
-							? getConfigurationData().getFirstSortingType() : "DESC";
-					fieldsAndTypes.put(firstSortingField, firstSortingType);
-					String secondSortingField = Validator.isNotNull(getConfigurationData().getSecondSortingField())
-							? getConfigurationData().getSecondSortingField() : "modified_sortable";
-					if (!firstSortingField.equals(secondSortingField)) {
-						String secondSortingType = Validator.isNotNull(getConfigurationData().getSecondSortingType())
-								? getConfigurationData().getSecondSortingType() : "DESC";
-						fieldsAndTypes.put(secondSortingField, secondSortingType);
-					}
+				String firstSortingField = Validator.isNotNull(getConfigurationData().getFirstSortingField())
+						? getConfigurationData().getFirstSortingField() : "modified_sortable";
+				String firstSortingType = Validator.isNotNull(getConfigurationData().getFirstSortingType())
+						? getConfigurationData().getFirstSortingType() : "DESC";
+				fieldsAndTypes.put(firstSortingField, firstSortingType);
+				String secondSortingField = Validator.isNotNull(getConfigurationData().getSecondSortingField())
+						? getConfigurationData().getSecondSortingField() : "modified_sortable";
+				if (!firstSortingField.equals(secondSortingField)) {
+					String secondSortingType = Validator.isNotNull(getConfigurationData().getSecondSortingType())
+							? getConfigurationData().getSecondSortingType() : "DESC";
+					fieldsAndTypes.put(secondSortingField, secondSortingType);
 				}
 			}
 		}else{
@@ -165,17 +158,19 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
-	 * Retourne le seed sur leuqel on mélange les résultats
+	 * Retourne le seed sur lequel on mélange les résultats
 	 */
 	public int getSeed() throws ConfigurationException {
 		String sortFieldAndTypeFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
 		if (Validator.isNull(sortFieldAndTypeFromParam) && Validator.isNull(this.getKeywords())) {
-			if(getConfigurationData().getGroupBy() == 0 && getConfigurationData().isRandomSort()) {
+			if(getConfigurationData().isRandomSort()) {
 				//Récupération des variables de session
 				HttpServletRequest request = PortalUtil.getLiferayPortletRequest(this._request).getHttpServletRequest();
 				HttpSession session = request.getSession();
 				if(Validator.isNull(session.getAttribute("seed"))) {
 					int seed = new Random().nextInt();
+					if(seed < 0)
+						seed = seed * -1;
 					session.setAttribute("seed", seed);
 					return seed;
 				}else {
@@ -187,13 +182,21 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
-	 * Retourne le vocabulaireId sur leuqel on regroupe les résultats
+	 * Retourne les categories du vocabulaire sur lequel on regroupe les résultats (par tri)
 	 */
-	public long[] getGroupBy() throws ConfigurationException {
-		if (getConfigurationData().getGroupBy() > 0) {
-			return new long[]{getConfigurationData().getGroupBy()};
+	public long[] getCategoriesIdsForGroupBy() throws ConfigurationException {
+		long[] categoriesIdsForGroupBy = {0};
+		if(getConfigurationData().getGroupBy() > 0) {
+			// On récupère le vocabulaire
+			AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(getConfigurationData().getGroupBy());
+			if (Validator.isNotNull(vocabulary)) {
+				// On récupère les catégories
+				categoriesIdsForGroupBy = vocabulary.getCategories().stream().mapToLong(c -> c.getCategoryId()).toArray();
+			}
+		}else{
+			categoriesIdsForGroupBy[0] = getConfigurationData().getGroupBy();
 		}
-		return new long[]{};
+		return categoriesIdsForGroupBy;
 	}
 
 	/**
@@ -499,7 +502,7 @@ public class SearchAssetDisplayContext {
 		this._searchHits = getSearchHelperV2().getGlobalSearchHitsV2(searchContext,
 				getConfigurationData().getUtilsAssetTypeList(),
 				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
-				this.getSortFieldsAndTypes(), this.getGroupBy(), keywords, fromDate,
+				this.getSortFieldsAndTypes(), getCategoriesIdsForGroupBy(), keywords, fromDate,
 				toDate, categoriesIds, idSIGPlace, this.getFilterClassNames(), this._themeDisplay.getLocale(),
 				getSearchContainer().getStart(), getSearchContainer().getEnd());
 
@@ -803,7 +806,7 @@ public class SearchAssetDisplayContext {
 		SearchHits searchHits = getSearchHelperV2().getGlobalSearchHitsV2(searchContext,
 				getConfigurationData().getUtilsAssetTypeList(),
 				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
-				getSortFieldsAndTypes(), this.getGroupBy(), keywords, fromDate, toDate, categoriesIds,
+				getSortFieldsAndTypes(), getCategoriesIdsForGroupBy(), keywords, fromDate, toDate, categoriesIds,
 				null, this.getFilterClassNames(), this._themeDisplay.getLocale(), -1, -1);
 
 		StringBuilder ids = new StringBuilder();
