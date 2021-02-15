@@ -3,8 +3,7 @@
 <#else>
 	<#assign result = 'Erreur' />
 </#if>
-
-<#if googleMyBusinessHistoric.userName?has_content >
+<#if googleMyBusinessHistoric.userName?has_content && googleMyBusinessHistoric.userName != "Serveur">
 	<#assign importer = 'import manuel : ' + googleMyBusinessHistoric.userName />
 <#else>
 	<#assign importer = 'import automatique' />
