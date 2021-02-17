@@ -332,4 +332,16 @@ public class StrasbourgPropsUtil {
 	public static String getURLPorteDocument() {return PropsUtil.get("eu.strasbourg.url.porte.document");}
 	
 	public static String getDocLibResizeAndCompressEnabled() {return PropsUtil.get("eu.strasbourg.dlfileentry.service.wrapper.resizeandcompress.enable");}
+
+	public static String getCSMAPPublikClientId() {
+		return PropsUtil.get("eu.strasbourg.csmap.publik.client.id");
+	}
+
+	public static String getCSMAPPublikClientSecret() {
+		return PropsUtil.get("eu.strasbourg.csmap.publik.client.secret");
+	}
+
+	public static String getCSMAPPublikRedirectURI() {
+		return PropsUtil.get("eu.strasbourg.csmap.publik.redirect.uri");
+	}
 }

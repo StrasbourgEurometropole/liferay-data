@@ -4,8 +4,8 @@ public class WSConstants {
 
     /** Web service config */
     public static final String APP_GROUP_BASE = "/csmap-ws";
-    public static final String APP_AUTH_NAME = "/auth";
-    public static final String APP_AUTH_BASE = "CSMAP.Auth.Rest";
+    public static final String APP_AUTH_BASE = "/auth";
+    public static final String APP_AUTH_NAME = "CSMAP.Auth.Rest";
     public static final String APP_PLACE_BASE = "/place";
     public static final String APP_PLACE_NAME = "CSMAP.Place.Rest";
     public static final String APP_PROFILE_BASE = "/auth";
