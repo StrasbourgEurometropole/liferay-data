@@ -18,7 +18,7 @@ import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
 
-import eu.strasbourg.service.csmap.model.Nonce;
+import eu.strasbourg.service.csmap.model.RefreshToken;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -30,13 +30,14 @@ import java.util.Date;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
- * The cache model class for representing Nonce in entity cache.
+ * The cache model class for representing RefreshToken in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
 @ProviderType
-public class NonceCacheModel implements CacheModel<Nonce>, Externalizable {
+public class RefreshTokenCacheModel
+	implements CacheModel<RefreshToken>, Externalizable {
 
 	@Override
 	public boolean equals(Object obj) {
@@ -44,13 +45,14 @@ public class NonceCacheModel implements CacheModel<Nonce>, Externalizable {
 			return true;
 		}
 
-		if (!(obj instanceof NonceCacheModel)) {
+		if (!(obj instanceof RefreshTokenCacheModel)) {
 			return false;
 		}
 
-		NonceCacheModel nonceCacheModel = (NonceCacheModel)obj;
+		RefreshTokenCacheModel refreshTokenCacheModel =
+			(RefreshTokenCacheModel)obj;
 
-		if (nonceId == nonceCacheModel.nonceId) {
+		if (refreshTokenId == refreshTokenCacheModel.refreshTokenId) {
 			return true;
 		}
 
@@ -59,65 +61,75 @@ public class NonceCacheModel implements CacheModel<Nonce>, Externalizable {
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, nonceId);
+		return HashUtil.hash(0, refreshTokenId);
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(11);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
-		sb.append(", nonceId=");
-		sb.append(nonceId);
+		sb.append(", refreshTokenId=");
+		sb.append(refreshTokenId);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", value=");
 		sb.append(value);
+		sb.append(", publikId=");
+		sb.append(publikId);
 		sb.append("}");
 
 		return sb.toString();
 	}
 
 	@Override
-	public Nonce toEntityModel() {
-		NonceImpl nonceImpl = new NonceImpl();
+	public RefreshToken toEntityModel() {
+		RefreshTokenImpl refreshTokenImpl = new RefreshTokenImpl();
 
 		if (uuid == null) {
-			nonceImpl.setUuid("");
+			refreshTokenImpl.setUuid("");
 		}
 		else {
-			nonceImpl.setUuid(uuid);
+			refreshTokenImpl.setUuid(uuid);
 		}
 
-		nonceImpl.setNonceId(nonceId);
+		refreshTokenImpl.setRefreshTokenId(refreshTokenId);
 
 		if (createDate == Long.MIN_VALUE) {
-			nonceImpl.setCreateDate(null);
+			refreshTokenImpl.setCreateDate(null);
 		}
 		else {
-			nonceImpl.setCreateDate(new Date(createDate));
+			refreshTokenImpl.setCreateDate(new Date(createDate));
 		}
 
 		if (value == null) {
-			nonceImpl.setValue("");
+			refreshTokenImpl.setValue("");
 		}
 		else {
-			nonceImpl.setValue(value);
+			refreshTokenImpl.setValue(value);
 		}
 
-		nonceImpl.resetOriginalValues();
+		if (publikId == null) {
+			refreshTokenImpl.setPublikId("");
+		}
+		else {
+			refreshTokenImpl.setPublikId(publikId);
+		}
 
-		return nonceImpl;
+		refreshTokenImpl.resetOriginalValues();
+
+		return refreshTokenImpl;
 	}
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
 
-		nonceId = objectInput.readLong();
+		refreshTokenId = objectInput.readLong();
 		createDate = objectInput.readLong();
 		value = objectInput.readUTF();
+		publikId = objectInput.readUTF();
 	}
 
 	@Override
@@ -129,7 +141,7 @@ public class NonceCacheModel implements CacheModel<Nonce>, Externalizable {
 			objectOutput.writeUTF(uuid);
 		}
 
-		objectOutput.writeLong(nonceId);
+		objectOutput.writeLong(refreshTokenId);
 		objectOutput.writeLong(createDate);
 
 		if (value == null) {
@@ -138,11 +150,19 @@ public class NonceCacheModel implements CacheModel<Nonce>, Externalizable {
 		else {
 			objectOutput.writeUTF(value);
 		}
+
+		if (publikId == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(publikId);
+		}
 	}
 
 	public String uuid;
-	public long nonceId;
+	public long refreshTokenId;
 	public long createDate;
 	public String value;
+	public String publikId;
 
 }

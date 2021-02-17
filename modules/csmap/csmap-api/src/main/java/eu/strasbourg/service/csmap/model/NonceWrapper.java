@@ -46,8 +46,8 @@ public class NonceWrapper
 
 		attributes.put("uuid", getUuid());
 		attributes.put("nonceId", getNonceId());
+		attributes.put("createDate", getCreateDate());
 		attributes.put("value", getValue());
-		attributes.put("expirationDate", getExpirationDate());
 
 		return attributes;
 	}
@@ -66,27 +66,27 @@ public class NonceWrapper
 			setNonceId(nonceId);
 		}
 
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
 		String value = (String)attributes.get("value");
 
 		if (value != null) {
 			setValue(value);
 		}
-
-		Date expirationDate = (Date)attributes.get("expirationDate");
-
-		if (expirationDate != null) {
-			setExpirationDate(expirationDate);
-		}
 	}
 
 	/**
-	 * Returns the expiration date of this nonce.
+	 * Returns the create date of this nonce.
 	 *
-	 * @return the expiration date of this nonce
+	 * @return the create date of this nonce
 	 */
 	@Override
-	public Date getExpirationDate() {
-		return model.getExpirationDate();
+	public Date getCreateDate() {
+		return model.getCreateDate();
 	}
 
 	/**
@@ -135,13 +135,13 @@ public class NonceWrapper
 	}
 
 	/**
-	 * Sets the expiration date of this nonce.
+	 * Sets the create date of this nonce.
 	 *
-	 * @param expirationDate the expiration date of this nonce
+	 * @param createDate the create date of this nonce
 	 */
 	@Override
-	public void setExpirationDate(Date expirationDate) {
-		model.setExpirationDate(expirationDate);
+	public void setCreateDate(Date createDate) {
+		model.setCreateDate(createDate);
 	}
 
 	/**

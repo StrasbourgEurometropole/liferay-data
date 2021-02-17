@@ -1485,7 +1485,7 @@ public class NoncePersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			NonceModelImpl.UUID_COLUMN_BITMASK |
-			NonceModelImpl.EXPIRATIONDATE_COLUMN_BITMASK);
+			NonceModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,

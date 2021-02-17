@@ -85,6 +85,20 @@ public interface NonceModel extends BaseModel<Nonce> {
 	public void setNonceId(long nonceId);
 
 	/**
+	 * Returns the create date of this nonce.
+	 *
+	 * @return the create date of this nonce
+	 */
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this nonce.
+	 *
+	 * @param createDate the create date of this nonce
+	 */
+	public void setCreateDate(Date createDate);
+
+	/**
 	 * Returns the value of this nonce.
 	 *
 	 * @return the value of this nonce
@@ -98,19 +112,5 @@ public interface NonceModel extends BaseModel<Nonce> {
 	 * @param value the value of this nonce
 	 */
 	public void setValue(String value);
-
-	/**
-	 * Returns the expiration date of this nonce.
-	 *
-	 * @return the expiration date of this nonce
-	 */
-	public Date getExpirationDate();
-
-	/**
-	 * Sets the expiration date of this nonce.
-	 *
-	 * @param expirationDate the expiration date of this nonce
-	 */
-	public void setExpirationDate(Date expirationDate);
 
 }

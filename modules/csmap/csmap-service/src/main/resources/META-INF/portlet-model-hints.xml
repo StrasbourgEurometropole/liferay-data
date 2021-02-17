@@ -4,7 +4,20 @@
 	<model name="eu.strasbourg.service.csmap.model.Nonce">
 		<field name="uuid" type="String" />
 		<field name="nonceId" type="long" />
-		<field name="value" type="String" />
-		<field name="expirationDate" type="Date" />
+		<field name="createDate" type="Date" />
+		<field name="value" type="String">
+			<hint name="max-length">255</hint>
+		</field>
+	</model>
+	<model name="eu.strasbourg.service.csmap.model.RefreshToken">
+		<field name="uuid" type="String" />
+		<field name="refreshTokenId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="value" type="String">
+			<hint name="max-length">255</hint>
+		</field>
+		<field name="publikId" type="String">
+			<hint name="max-length">200</hint>
+		</field>
 	</model>
 </model-hints>

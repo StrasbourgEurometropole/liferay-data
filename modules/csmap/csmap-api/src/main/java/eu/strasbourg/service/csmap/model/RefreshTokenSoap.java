@@ -29,21 +29,22 @@ import org.osgi.annotation.versioning.ProviderType;
  * @generated
  */
 @ProviderType
-public class NonceSoap implements Serializable {
+public class RefreshTokenSoap implements Serializable {
 
-	public static NonceSoap toSoapModel(Nonce model) {
-		NonceSoap soapModel = new NonceSoap();
+	public static RefreshTokenSoap toSoapModel(RefreshToken model) {
+		RefreshTokenSoap soapModel = new RefreshTokenSoap();
 
 		soapModel.setUuid(model.getUuid());
-		soapModel.setNonceId(model.getNonceId());
+		soapModel.setRefreshTokenId(model.getRefreshTokenId());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setValue(model.getValue());
+		soapModel.setPublikId(model.getPublikId());
 
 		return soapModel;
 	}
 
-	public static NonceSoap[] toSoapModels(Nonce[] models) {
-		NonceSoap[] soapModels = new NonceSoap[models.length];
+	public static RefreshTokenSoap[] toSoapModels(RefreshToken[] models) {
+		RefreshTokenSoap[] soapModels = new RefreshTokenSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -52,14 +53,14 @@ public class NonceSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static NonceSoap[][] toSoapModels(Nonce[][] models) {
-		NonceSoap[][] soapModels = null;
+	public static RefreshTokenSoap[][] toSoapModels(RefreshToken[][] models) {
+		RefreshTokenSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new NonceSoap[models.length][models[0].length];
+			soapModels = new RefreshTokenSoap[models.length][models[0].length];
 		}
 		else {
-			soapModels = new NonceSoap[0][0];
+			soapModels = new RefreshTokenSoap[0][0];
 		}
 
 		for (int i = 0; i < models.length; i++) {
@@ -69,25 +70,26 @@ public class NonceSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static NonceSoap[] toSoapModels(List<Nonce> models) {
-		List<NonceSoap> soapModels = new ArrayList<NonceSoap>(models.size());
+	public static RefreshTokenSoap[] toSoapModels(List<RefreshToken> models) {
+		List<RefreshTokenSoap> soapModels = new ArrayList<RefreshTokenSoap>(
+			models.size());
 
-		for (Nonce model : models) {
+		for (RefreshToken model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new NonceSoap[soapModels.size()]);
+		return soapModels.toArray(new RefreshTokenSoap[soapModels.size()]);
 	}
 
-	public NonceSoap() {
+	public RefreshTokenSoap() {
 	}
 
 	public long getPrimaryKey() {
-		return _nonceId;
+		return _refreshTokenId;
 	}
 
 	public void setPrimaryKey(long pk) {
-		setNonceId(pk);
+		setRefreshTokenId(pk);
 	}
 
 	public String getUuid() {
@@ -98,12 +100,12 @@ public class NonceSoap implements Serializable {
 		_uuid = uuid;
 	}
 
-	public long getNonceId() {
-		return _nonceId;
+	public long getRefreshTokenId() {
+		return _refreshTokenId;
 	}
 
-	public void setNonceId(long nonceId) {
-		_nonceId = nonceId;
+	public void setRefreshTokenId(long refreshTokenId) {
+		_refreshTokenId = refreshTokenId;
 	}
 
 	public Date getCreateDate() {
@@ -122,9 +124,18 @@ public class NonceSoap implements Serializable {
 		_value = value;
 	}
 
+	public String getPublikId() {
+		return _publikId;
+	}
+
+	public void setPublikId(String publikId) {
+		_publikId = publikId;
+	}
+
 	private String _uuid;
-	private long _nonceId;
+	private long _refreshTokenId;
 	private Date _createDate;
 	private String _value;
+	private String _publikId;
 
 }

@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import eu.strasbourg.service.csmap.model.Nonce;
 import eu.strasbourg.service.csmap.service.NonceLocalService;
 import eu.strasbourg.service.csmap.service.persistence.NoncePersistence;
+import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
 
 import java.io.Serializable;
 
@@ -379,6 +380,9 @@ public abstract class NonceLocalServiceBaseImpl
 
 	@Reference
 	protected NoncePersistence noncePersistence;
+
+	@Reference
+	protected RefreshTokenPersistence refreshTokenPersistence;
 
 	@Reference
 	protected com.liferay.counter.kernel.service.CounterLocalService
