@@ -6,7 +6,7 @@
 	}
 
 	.pro-affiner {
-		@include ft($f_hx, 0.938em, 400, $c_main, 1.5em);
+		@include ft($f_hx, 0.938em, 400, $c_white, 1.5em);
 		text-transform: uppercase;
 		display: block;
 		padding: 20px 15px 25px;

@@ -232,30 +232,18 @@ a.pro-btn-share {
 }
 
 .pro-btn {
-	@include btn($c_sub, $c_white, 0, $f_hx, $s_p);
+	@include btn($c_main, $c_white, 2, $f_hx, $s_p);
 	min-width: 100px;
 	line-height: 26px;
 	padding: 12px 35px;
 	display: inline-block;
 	text-transform: uppercase;
 	z-index: 10;
-	&:after {
-		content: '';
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		top: auto;
-		right: 0;
-		height: 0;
-		transform-origin: bottom;
-		background: $c_dark;
-		z-index: -1;
-		@include addTransitionCurve();
-	}
+	border: 2px solid $c_main;
 	&:hover, &:focus {
-		background: $c_sub;
-		border-color: $c_sub;
-		color: $c_white;
+		background: $c_white;
+		border-color: $c_main;
+		color: $c_main;
 		z-index: 10;
 		&:after {
 			height: 100%;
@@ -264,21 +252,16 @@ a.pro-btn-share {
 }
 
 .pro-btn-yellow {
-	@include btn($c_main, $c_txt, 2, $f_hx, $s_p);
+	@include btn(transparent, $c_main, 2, $f_hx, $s_p);
 	text-transform: uppercase;
 	font-weight: 700;
 	line-height: 22px;
 	border: 2px solid $c_main;
-	width: 100%;
-	height: 100%;
-	display: block;
 	text-align: center;
-	position: relative;
-	padding: 12px 0;
 	@include addTransition();
 	&:hover, &:focus {
-		background: transparent;
-		color: $c_main;
+		background: $c_main;
+		color: $c_white;
 	}
 }
 

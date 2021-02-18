@@ -333,7 +333,7 @@ form{
 		background: $c_dark;
 		border-top: 1px solid rgba($c_white,0.2);
 		button{
-			@include ft($f_hx, 0.938em, 700, $c_dark, 22px);
+			@include ft($f_hx, 0.938em, 700, $c_white, 22px);
 			@extend %appearance;
 			background: $c_main;
 			border-radius: 4px;
@@ -346,7 +346,7 @@ form{
 				width: 100%;
 			}
 			&:hover, &:focus{
-				background: $c_dark;
+				background: transparent;
 				color: $c_main;
 			}
 		}
@@ -370,14 +370,22 @@ form{
 		}
 	}
 
+	.pro-optin{
+		background: $c_dark;
+		padding: 20px;
+		margin-bottom: 0;
+		label{
+			color: $c_white;
+		}
+		&.group-checkbox{
+			padding-bottom: 0;
+		}
+	}
+
 	.form-checkbox {
 		position: relative;
 		clear: both;
-		margin-bottom: 10px;
 		&.pro-optin{
-			background: $c_dark;
-			padding: 20px;
-			margin-bottom: 0;
 			input{
 				&:focus{
 					+ label{
@@ -386,7 +394,6 @@ form{
 				}
 			}
 			label{
-				color: $c_white;
 				&:hover{
 					color: $c_main;
 				}
@@ -570,7 +577,7 @@ form{
 				@include ft($f_txt, 0.875em, 400, $c_txt, 38px);
 				display: block;
 				width: 100%;
-				height: 40px;
+				height: 38px;
 				padding: 0 25px 0 15px;
 				margin: 0;
 				background: $c_white;
@@ -628,7 +635,7 @@ form{
 	.input-group-btn{
 		font-size: 1em;
 		.btn{
-			@include ft($f_hx, 0.813em, 700, $c_txt, normal);
+			@include ft($f_hx, 0.813em, 700, $c_white, normal);
 			text-align: center;
 			border-color: #B2B2B2;
 			text-transform: uppercase;

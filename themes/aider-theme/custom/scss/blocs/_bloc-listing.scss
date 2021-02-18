@@ -57,6 +57,18 @@
 			}
 		}
 	}
+	
+	&:after {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 0;
+		right: -15px;
+		bottom: 0;
+		height: 100%;
+		width: 1px;
+		background: #CECECE;
+	}
 }
 
 
@@ -80,7 +92,7 @@
 		padding: 15px 0;
 	}
 
-	.pro-bloc-card-initiative {
+	.pro-bloc-card-help {
 		margin: 20px 0;
 		&:first-child {
 			@include tablet_landscape {
@@ -109,12 +121,12 @@
 			}
 		}
 
-		.pro-header-initiative {
+		.pro-header-help {
 			margin-bottom: 15px;
 			padding: 25px 25px 0 25px;
 		}
 
-		.pro-content-initiative {
+		.pro-content-help {
 			padding: 0 25px 15px 25px;
 
 			.pro-meta {
@@ -124,7 +136,7 @@
 			h3 {
 				@include ft($f_hx, 1.875em, 700, $c_txt, 1.15em);
 				margin-bottom: 15px;
-				height: 68px;
+				height: 35px;
 				overflow: hidden;
 				@include mobile{
 					font-size: 22px;

@@ -74,8 +74,7 @@
         <div class="container pro-header">
             <a href="${themeDisplay.getPortalURL()}${homeURL}accueil" class="pro-logo" title="Lien du Logo du site Portail du Citoyen Strasbourg" aria-label="Logo du site Portail du Citoyen Strasbourg">
                 <figure role="group">
-                    <img src="/o/aider-theme/images/logos/logo-aider.png" srcset="/o/aider-theme/images/logos/logo-aider-2x.png 2x" width="128" height="122" alt="Logo du site
-                    Plateforme Citoyenne de Strasbourg"/>
+                    <img src="/o/aider-theme/images/logos/logo.png" srcset="/o/aider-theme/images/logos/logo.png 2x" width="128" height="122" alt="Logo du site"/>
                 </figure>
             </a>
 

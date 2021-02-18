@@ -313,6 +313,9 @@
                         <aui:option value="ops-news" selected="${searchForm eq 'ops-news'}">
                             <liferay-ui:message key="ops-news" />
                         </aui:option>
+                        <aui:option value="aide" selected="${searchForm eq 'aide'}">
+                            <liferay-ui:message key="aide" />
+                        </aui:option>
                     </aui:select>
 
                     <!-- Bouton exporter -->

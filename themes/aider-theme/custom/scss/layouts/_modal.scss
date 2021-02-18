@@ -132,11 +132,12 @@
 
 		.pro-modal-top {
 			position: relative;
+			display: flex;
 			width: 100%;
-			background: $c_dark;
+			background: $c_main;
 			padding: 0 20px;
 			h3 {
-				@include ft($f_hx, 1.25em, 700, $c_main, 1.25em);
+				@include ft($f_hx, 1.25em, 700, $c_white, 1.25em);
 				text-align: left;
 				text-transform: uppercase;
 				margin: 0;
@@ -144,15 +145,14 @@
 			}
 			button {
 				position: absolute;
-				top: 50%;
 				right: 20px;
 				z-index: 10000;
 				color: white;
 				opacity: 1;
 				font-size: 16px;
-				margin-top: -8px;
 				outline: none;
 				@include addTransition();
+				height: 100%;
 				&:hover, &:focus, &:active {
 					color: $c_main;
 				}

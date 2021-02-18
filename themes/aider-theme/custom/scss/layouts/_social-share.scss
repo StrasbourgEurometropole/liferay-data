@@ -48,7 +48,7 @@
 		height: 50px;
 		line-height: 50px;
 		left: -1px;
-		color: $c_dark;
+		color: $c_white;
 		@include addTransition();
 	}
 
@@ -122,9 +122,6 @@
 		@include addTransition();
 		&:hover, &:focus {
 			background: $c_main;
-			&:before {
-				color: $c_dark !important;
-			}
 		}
 	}
 
