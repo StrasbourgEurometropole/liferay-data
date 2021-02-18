@@ -63,6 +63,17 @@ public class RefreshTokenLocalServiceWrapper
 	}
 
 	/**
+	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public eu.strasbourg.service.csmap.model.RefreshToken createRefreshToken(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _refreshTokenLocalService.createRefreshToken(sc);
+	}
+
+	/**
 	 * @throws PortalException
 	 */
 	@Override

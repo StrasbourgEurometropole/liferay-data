@@ -16,6 +16,15 @@ package eu.strasbourg.service.csmap.service.impl;
 
 import com.liferay.portal.aop.AopService;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.csmap.model.RefreshToken;
+import eu.strasbourg.service.csmap.service.RefreshTokenLocalService;
 import eu.strasbourg.service.csmap.service.base.RefreshTokenLocalServiceBaseImpl;
 
 import org.osgi.service.component.annotations.Component;
@@ -37,12 +46,25 @@ import org.osgi.service.component.annotations.Component;
 	property = "model.class.name=eu.strasbourg.service.csmap.model.RefreshToken",
 	service = AopService.class
 )
-public class RefreshTokenLocalServiceImpl
-	extends RefreshTokenLocalServiceBaseImpl {
+public class RefreshTokenLocalServiceImpl extends RefreshTokenLocalServiceBaseImpl {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. Use <code>eu.strasbourg.service.csmap.service.RefreshTokenLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.csmap.service.RefreshTokenLocalServiceUtil</code>.
 	 */
+
+	public final static Log log = LogFactoryUtil.getLog(RefreshTokenLocalServiceImpl.class);
+
+	/**
+	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public RefreshToken createRefreshToken(ServiceContext sc) throws PortalException {
+		long pk = counterLocalService.increment();
+		return refreshTokenLocalService.createRefreshToken(pk);
+	}
+
+
+
 }

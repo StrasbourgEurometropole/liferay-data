@@ -44,4 +44,6 @@ public class NonceLocalServiceImpl extends NonceLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Use <code>eu.strasbourg.service.csmap.service.NonceLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.csmap.service.NonceLocalServiceUtil</code>.
 	 */
+
+
 }

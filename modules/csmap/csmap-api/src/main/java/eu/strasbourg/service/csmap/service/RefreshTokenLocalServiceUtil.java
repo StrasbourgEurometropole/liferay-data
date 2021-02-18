@@ -66,6 +66,17 @@ public class RefreshTokenLocalServiceUtil {
 	}
 
 	/**
+	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 */
+	public static eu.strasbourg.service.csmap.model.RefreshToken
+			createRefreshToken(
+				com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().createRefreshToken(sc);
+	}
+
+	/**
 	 * @throws PortalException
 	 */
 	public static com.liferay.portal.kernel.model.PersistedModel
