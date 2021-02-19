@@ -226,6 +226,9 @@ aside .leaflet-map {
 .pro-modal .text-warning {
 	font-size: 35%;
     vertical-align: super;
+    position: absolute;
+    top: -2px;
+    margin-left: 3px;
 }
 
 // affichage des petites étoiles dans la popup modalPetition.
