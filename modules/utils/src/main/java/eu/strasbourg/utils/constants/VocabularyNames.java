@@ -47,6 +47,11 @@ public class VocabularyNames {
 	public static final String COUNCIL_OFFICIAL_ACTIVITY = "Activite elu";
 	public static final String COMMISSION = "commission des actes reglementaires et normatifs";
 
+	public static final String HELP_HELPER_TYPE = "type d'aidant";
+	public static final String HELP_PROPOSAL_TYPE = "type d'aide proposee";
+	public static final String HELP_PROPOSAL_STATUS = "statut proposition aide";
+	public static final String HELP_MODERATION_STATUS = "statut moderation proposition aide";
+
 	public static final String TYPE_NOEL = "type noel";
 	public static final String TAUX_NOEL = "taux noel";
 	public static final String DUREE_NOEL = "duree noel";

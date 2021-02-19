@@ -245,13 +245,6 @@ public class HelpProposalLocalServiceWrapper
 
 	@Override
 	public java.util.List<eu.strasbourg.service.help.model.HelpProposal>
-		findByPublikUserId(String publikUserId) {
-
-		return _helpProposalLocalService.findByPublikUserId(publikUserId);
-	}
-
-	@Override
-	public java.util.List<eu.strasbourg.service.help.model.HelpProposal>
 		findHelpedByPublikId(String publikUserId) {
 
 		return _helpProposalLocalService.findHelpedByPublikId(publikUserId);
