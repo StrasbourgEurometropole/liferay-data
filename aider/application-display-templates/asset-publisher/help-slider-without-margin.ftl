@@ -75,7 +75,7 @@
                             </div>
                             <div class="pro-footer-help "> 
                                 <p>
-                                    Publiée le <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time>  
+                                    Publiée le <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time> - 
                                     Mise à jour le <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time>
                                 </p>   
                             </div>
