@@ -110,13 +110,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 						
 							<#if isUserloggedIn && isUserHelps >
 								<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpProposal" data-toggle="modal" data-target="#modalSubmitHelpProposal">Modifier mon annonce</a>
-                                <a name="#Desactivate-help" href="" class="pro-btn-yellow" id="buttonDesactivateHelp" >Désactiver mon annonce</a>   
+                                <a href="#" class="pro-btn-yellow" id="buttonDesactivateHelp" data-toggle="modal" data-target="#modalDesactivateHelp">Désactiver mon annonce</a>   
 							<#else>
 								<#if isUserloggedIn >
 									<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpRequest" data-toggle="modal" data-target="#modalSubmitHelpRequest">Faire une demande d'aide</a><br>
 									
     								<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpProposal" data-toggle="modal" data-target="#modalSubmitHelpProposal">Modifier mon annonce</a>
-                                    <a name="#Desactivate-help" href="" class="pro-btn-yellow" id="buttonDesactivateHelp" >Désactiver mon annonce</a> 
+                                    <a href="#" class="pro-btn-yellow" id="buttonDesactivateHelp" data-toggle="modal" data-target="#modalDesactivateHelp">Désactiver mon annonce</a>   
 								<#else>
 									<a name="#Need-connexion" href="" class="pro-btn-yellow" id="buttonContactInitiativeAuthor">Faire une demande d'aide</a>
 								</#if>
