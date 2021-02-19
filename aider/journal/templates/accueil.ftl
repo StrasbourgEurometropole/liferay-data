@@ -16,15 +16,9 @@
                     <h4>${TexteProposition.getData()}</h4>
                 </div>
                 <div class="pro-footer-home "> 
-                    <#if isUserloggedIn >
-                        <a id="buttonSubmitHelpProposal" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalSubmitHelpProposal">
-                            ${BoutonProposition.getData()}
-                        </a>
-                    <#else>
-                        <a href="" class="pro-btn-action" name="#Need-connexion">
-                            ${BoutonProposition.getData()}
-                        </a>
-                    </#if>
+                    <a href="${URLProposition.getData()}" class="pro-btn-yellow" >
+                        ${BoutonProposition.getData()}
+                    </a>
                 </div>
             </div>
         </div>
