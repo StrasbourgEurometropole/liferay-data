@@ -146,6 +146,9 @@
                         <aui:select required="true" name="localisation" label="modal.submit.help.information.territories">
                             <c:forEach var="localisation" items="${localisations}">
                                 <aui:option value="${localisation.categoryId}" label="${localisation.name}" />
+                                <c:set var="category" value="${localisation}" scope="request"/>
+                                <c:set var="level" value="0" scope="request" />
+                                <jsp:include page="/include/category-option.jsp"/>
                             </c:forEach>
                         </aui:select>
                     </div>
