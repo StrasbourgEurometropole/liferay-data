@@ -374,7 +374,7 @@ form{
 		background: $c_dark;
 		padding: 20px;
 		margin-bottom: 0;
-		label{
+		label, label p{
 			color: $c_white;
 		}
 		&.group-checkbox{

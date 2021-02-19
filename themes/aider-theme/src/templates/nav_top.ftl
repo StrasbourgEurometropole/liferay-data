@@ -63,8 +63,6 @@
                             </a>
                         </#if>
                         <ul>
-                            <li><a href="${themeDisplay.getPortalURL()}${homeURL}accessibilite" title="Lien vers la page Accessibilité">Accessibilité</a></li>
-                            <li><a href="https://signaler.strasbourg.eu/" target="_blank" title="Avertir">Avertir</a></li>
                             <li><a href="${themeDisplay.getPortalURL()}${homeURL}glossaire" title="Lien vers la page Glossaire & Règles d’utilisation">Glossaire & Règles d’utilisation</a></li>
                         </ul>
                     </div>

@@ -243,7 +243,7 @@ main {
 	// ==========================================================================
 	.pro-top-header {
 		height: 48px;
-		background: #2d2d2d;
+		background: $c_darkgrey;
 		@include addTransitionCurve();
 		@include tablet_portrait {
 			display: block;
@@ -616,7 +616,8 @@ main {
 							}
 						}
 						a {
-							@include ft($f_hx, $s_link, 700, $c_txt, 1.333em);
+							@include ft('roadwayregular', $s_link, 400, $c_txt, 1em);
+							font-size: 1.375em;
 							text-transform: uppercase;
 							display: block;
 							padding: 0 15px;
