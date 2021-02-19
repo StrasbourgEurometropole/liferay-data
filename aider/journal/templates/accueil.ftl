@@ -11,7 +11,6 @@
             <div>
                 <div class="pro-header-home">
                     <span class="pro-ico">
-                        <span class="icon-ico-debat"></span>
                         <i class="fas fa-hands-helping"></i>
                     </span>
                     <h4>${TexteProposition.getData()}</h4>
@@ -34,7 +33,6 @@
             <div>
                 <div class="pro-header-home">
                     <span class="pro-ico">
-                        <span class="icon-ico-debat"></span>
                         <i class="fas fa-search"></i>
                     </span>
                     <h4>${TexteDemande.getData()}</h4>
