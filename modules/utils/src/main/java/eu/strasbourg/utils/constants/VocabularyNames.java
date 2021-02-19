@@ -62,5 +62,5 @@ public class VocabularyNames {
 	public static final String EJOB_MOTIF = "(e-job) motif";
 
 
-	public static final String HELPERS = "helpers";
+	public static final String HELPERS = "type d'aidant";
 }
