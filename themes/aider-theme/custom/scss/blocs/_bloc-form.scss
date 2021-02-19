@@ -237,6 +237,10 @@ form{
 		resize: none;
 		padding: 10px 15px;
 		margin-bottom: 0;
+
+		&.allergie{
+			height: 65px;
+		}
 		&.pro-textarea-small{
 			height: 130px;
 		}
