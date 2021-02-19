@@ -3,6 +3,47 @@
 <portlet:resourceURL id="desactivateHelp" var="desactivateHelpURL">
 </portlet:resourceURL>
 
+<!-- DESACTIVER UNE AIDE -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalDesactivateHelp" tabindex="-1" role="dialog" aria-labelledby="modalDesactivateHelp"
+	data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        	<%-- Top titre du modal --%>
+            <div class="pro-modal-top">
+                <h3><liferay-ui:message key="modal.desactivate.help.title"/></h3>
+                <button  type="button" class="close closefirstmodal" aria-label="Close">
+                	<span aria-hidden="true"><span class="icon-multiply"></span></span>
+                </button>
+            </div>
+
+			<%-- Formulaire --%>
+            <aui:form name="uploadForm" enctype="multipart/form-data">
+
+                <%-- Groupe de champs : Information utilisateur --%>
+                <div class="pro-wrapper">
+                    <label>
+                        <liferay-ui:message key="modal.show.info.desactivate.help"/>
+                    </label>
+                </div>
+
+                <div class="pro-form-submit">
+                    <%-- Boutou de désactivation --%>
+                    <button id="<portlet:namespace />buttonSubmit" class="btn btn-default">
+                    	<liferay-ui:message key="yes"/>
+                    </button>
+
+                    <%-- Boutou de retour --%>
+                    <button id="<portlet:namespace />buttonReset" class="btn btn-default">
+                    	<liferay-ui:message key="no"/>
+                    </button>
+                </div>
+
+            </aui:form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!-- CONFIRMATION NOUVELLE AIDE -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="<portlet:namespace />modalConfirm" tabindex="-1" role="dialog" aria-labelledby="<portlet:namespace />modalConfirm">
     <div class="modal-dialog" role="document">
@@ -53,10 +94,10 @@
     });
 
 	/*
-	* Lors du click sur buttonDesactivateHelp
+	* Lors du click sur le bouton ok
 	*/
-    $(document).on("click", "[name='#Desactivate-help']", function(e) {
-        e.preventDefault();
+    $("#<portlet:namespace />buttonSubmit").click(function(event){
+        event.preventDefault();
         var request = new XMLHttpRequest();
         var formElement = $("#<portlet:namespace />uploadForm");
         request.open('POST', '${desactivateHelpURL}', true);
@@ -66,6 +107,7 @@
                 // Success!
                 var data = JSON.parse(this.response);
                 if(data.result){
+                    $("#modalDesactivateHelp").modal('hide');
                     $("#<portlet:namespace />modalConfirm").modal('show');
                 }else{
                     $("#<portlet:namespace />modalError h4").text(data.message);
@@ -77,6 +119,11 @@
         };
 
         request.send(new FormData(formElement[0]));
+    });
+
+    $("#<portlet:namespace />buttonReset").click(function(event){
+        event.preventDefault();
+        $("#modalDesactivateHelp").modal('hide');
     });
 
     $("#<portlet:namespace />modalConfirm #<portlet:namespace />buttonConfirm").click(function(event){

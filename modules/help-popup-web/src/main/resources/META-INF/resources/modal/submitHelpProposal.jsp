@@ -25,9 +25,6 @@
 
                 	<%-- Label : Informations utilisateur --%>
                     <h4><liferay-ui:message key="modal.submit.help.user"/></h4>
-                    <label>
-                        <liferay-ui:message key="modal.show.info"/>
-                    </label>
 
                     <%-- Groupe de champs : Informations generales --%>
                     <div class="pro-row">
@@ -85,7 +82,10 @@
                 <div class="pro-wrapper">
                 	
 					<%-- Label : Informations aide --%>
-                    <h4><liferay-ui:message key="modal.submit.help.proposal.information"/></h4>
+                    <h4 style="margin-bottom:0;"><liferay-ui:message key="modal.submit.help.proposal.information"/></h4>
+                    <label>
+                        <liferay-ui:message key="modal.show.info"/>
+                    </label><br><br>
                     
                     <%-- Champ : Titre --%>
                     <div class="form-group">
@@ -131,7 +131,7 @@
 
                         <%-- Champ : Au nom de --%>
                         <div class="form-group form-half">
-                            <aui:input id="helpProposalInTheNameOf" name="inTheNameOf" label="modal.submit.help.information.inTheNameOf" required="false" maxlength="400" value=""/>
+                            <aui:input id="helpProposalInTheNameOf" name="inTheNameOf" label="modal.submit.help.information.inTheNameOf" required="true" maxlength="400" value=""/>
                         </div>
 
                     </div>
@@ -146,6 +146,9 @@
                         <aui:select required="true" name="localisation" label="modal.submit.help.information.territories">
                             <c:forEach var="localisation" items="${localisations}">
                                 <aui:option value="${localisation.categoryId}" label="${localisation.name}" />
+                                <c:set var="category" value="${localisation}" scope="request"/>
+                                <c:set var="level" value="0" scope="request" />
+                                <jsp:include page="/include/category-option.jsp"/>
                             </c:forEach>
                         </aui:select>
                     </div>

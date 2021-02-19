@@ -15,3 +15,5 @@
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<jsp:useBean id="vocabularyHelper" class="eu.strasbourg.utils.AssetVocabularyHelper" />

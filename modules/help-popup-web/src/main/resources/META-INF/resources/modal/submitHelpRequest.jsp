@@ -66,7 +66,7 @@
                     
                     <%-- Champ : Allergies --%>
                     <div class="form-group">
-                        <aui:input id="allergie" type="textarea" name="allergie" required="true" label="modal.submit.help.information.allergie" value=""/>
+                        <aui:input id="allergie" type="textarea" name="allergie" required="true" label="modal.submit.help.information.allergie" value="" cssClass="allergie"/>
                     </div>
                     
                     <%-- Champ : Image --%>

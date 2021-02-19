@@ -129,7 +129,7 @@ function createHelp(help){
                 '</div>' +
             '</div>' +
             '<div class="pro-footer-help">' +
-                '<p>Publiée le <time datetime="' + help.unformatedPublishedDate + '">' + help.publishedDate + '</time> -  ' +
+                '<p>Publiée le <time datetime="' + help.unformatedPublishedDate + '">' + help.publishedDate + '</time> - ' +
                 'Mise à jour le <time datetime="' + help.unformatedPublishedDate + '">' + help.publishedDate + '</time></p>' +
             '</div>' +
         '</div>';
