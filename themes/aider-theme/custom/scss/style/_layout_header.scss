@@ -435,7 +435,7 @@ main {
 				top: 50%;
 				transform: translateY(-50%);
 				transform: translate3d(0, -50%, 0);
-				background-color: black;
+				background-color: $c_darkgrey;
 				border-radius: 10px;
 				img {
 					@include addTransitionCurve();

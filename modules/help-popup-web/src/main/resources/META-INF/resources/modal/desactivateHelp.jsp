@@ -97,7 +97,7 @@
 	* Lors du click sur le bouton ok
 	*/
     $("#<portlet:namespace />buttonSubmit").click(function(event){
-        e.preventDefault();
+        event.preventDefault();
         var request = new XMLHttpRequest();
         var formElement = $("#<portlet:namespace />uploadForm");
         request.open('POST', '${desactivateHelpURL}', true);
@@ -107,6 +107,7 @@
                 // Success!
                 var data = JSON.parse(this.response);
                 if(data.result){
+                    $("#modalDesactivateHelp").modal('hide');
                     $("#<portlet:namespace />modalConfirm").modal('show');
                 }else{
                     $("#<portlet:namespace />modalError h4").text(data.message);
@@ -121,8 +122,8 @@
     });
 
     $("#<portlet:namespace />buttonReset").click(function(event){
-        e.preventDefault();
-        $("#<portlet:namespace />modalDesactivateHelp").modal('hide');
+        event.preventDefault();
+        $("#modalDesactivateHelp").modal('hide');
     });
 
     $("#<portlet:namespace />modalConfirm #<portlet:namespace />buttonConfirm").click(function(event){
