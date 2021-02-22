@@ -53,7 +53,7 @@
 				<aui:input name="description" required="false"/>
 
 				<%-- Champ : Image interne --%>
-				<div class="internalImage" <c:if test="${(empty dc.helpProposal.imageId or dc.helpProposal.imageId eq 0) and not empty dc.helpProposal.externalImageURL }">style="display: none;"</c:if>>
+				<div class="internalImage">
 					<strasbourg-picker:image label="image" name="imageId" required="false" value="${dc.helpProposal.imageId}" global="false" />
 				</div>
 				

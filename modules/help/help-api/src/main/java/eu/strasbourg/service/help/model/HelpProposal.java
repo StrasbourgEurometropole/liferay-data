@@ -71,6 +71,38 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 		getCategories();
 
 	/**
+	 * Retourne la class du statut d'activité de la proposition d'aide (
+	 */
+	public String getActivityStatusClass();
+
+	/**
+	 * Retourne le statut d'activité de la proposition d'aide (
+	 */
+	public String getActivityStatusTitle(java.util.Locale locale);
+
+	/**
+	 * Retourne la catégorie statut activite proposition d'aide de l'aide
+	 */
+	public com.liferay.asset.kernel.model.AssetCategory
+		getActivitStatusCategory();
+
+	/**
+	 * Retourne la class du statut de modération de la proposition d'aide (
+	 */
+	public String getModerationStatusClass();
+
+	/**
+	 * Retourne le statut de modération de la proposition d'aide (
+	 */
+	public String getModerationStatusTitle(java.util.Locale locale);
+
+	/**
+	 * Retourne la catégorie statut activite proposition d'aide de l'aide
+	 */
+	public com.liferay.asset.kernel.model.AssetCategory
+		getModerationStatusCategory();
+
+	/**
 	 * Retourne les catégories 'Territoire' correspondant aux pays de la helpProposal
 	 */
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>

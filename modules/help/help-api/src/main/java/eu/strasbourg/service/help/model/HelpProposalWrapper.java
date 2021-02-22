@@ -17,12 +17,11 @@ package eu.strasbourg.service.help.model;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -226,6 +225,32 @@ public class HelpProposalWrapper
 		if (comment != null) {
 			setComment(comment);
 		}
+	}
+
+	/**
+	 * Retourne la catégorie statut activite proposition d'aide de l'aide
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory
+		getActivitStatusCategory() {
+
+		return model.getActivitStatusCategory();
+	}
+
+	/**
+	 * Retourne la class du statut d'activité de la proposition d'aide (
+	 */
+	@Override
+	public String getActivityStatusClass() {
+		return model.getActivityStatusClass();
+	}
+
+	/**
+	 * Retourne le statut d'activité de la proposition d'aide (
+	 */
+	@Override
+	public String getActivityStatusTitle(java.util.Locale locale) {
+		return model.getActivityStatusTitle(locale);
 	}
 
 	/**
@@ -496,7 +521,7 @@ public class HelpProposalWrapper
 	}
 
 	/**
-	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la initiative
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la helpProposal
 	 *
 	 * @return : null si vide, sinon la liste des catégories
 	 */
@@ -545,6 +570,32 @@ public class HelpProposalWrapper
 	@Override
 	public String getInTheNameOf() {
 		return model.getInTheNameOf();
+	}
+
+	/**
+	 * Retourne la catégorie statut activite proposition d'aide de l'aide
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory
+		getModerationStatusCategory() {
+
+		return model.getModerationStatusCategory();
+	}
+
+	/**
+	 * Retourne la class du statut de modération de la proposition d'aide (
+	 */
+	@Override
+	public String getModerationStatusClass() {
+		return model.getModerationStatusClass();
+	}
+
+	/**
+	 * Retourne le statut de modération de la proposition d'aide (
+	 */
+	@Override
+	public String getModerationStatusTitle(java.util.Locale locale) {
+		return model.getModerationStatusTitle(locale);
 	}
 
 	/**
@@ -606,7 +657,7 @@ public class HelpProposalWrapper
 	}
 
 	/**
-	 * Retourne le statut de l'initiative (
+	 * Retourne le statut de la HelpProposal (
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory
@@ -772,7 +823,7 @@ public class HelpProposalWrapper
 	}
 
 	/**
-	 * Retourne les catégories 'Territoire' correspondant aux pays de la initiative
+	 * Retourne les catégories 'Territoire' correspondant aux pays de la helpProposal
 	 */
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>

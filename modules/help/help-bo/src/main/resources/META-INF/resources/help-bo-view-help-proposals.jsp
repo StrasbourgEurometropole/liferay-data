@@ -82,29 +82,31 @@
 					href="${editHelpProposalURL}" name="title" truncate="true" orderable="true"
 					value="${helpProposal.titleCurrentValue}" />
 				
+				<%-- Colonne : Createur --%>
+				<liferay-ui:search-container-column-text name="user">
+					${helpProposal.authorNameLabel}
+				</liferay-ui:search-container-column-text>
+				
+				<%-- Colonne : Statut activité de l'aide --%>
+				<liferay-ui:search-container-column-text name="statusHelpActivity">
+                    <span class="badge ${helpProposal.getActivityStatusClass()}">
+                        ${helpProposal.getActivityStatusTitle(locale)}
+                    </span>
+				</liferay-ui:search-container-column-text>
+
+				<%-- Colonne : Statut modération de l'aide --%>
+				<liferay-ui:search-container-column-text name="statusHelpModeration">
+				    <span class="badge ${helpProposal.getModerationStatusClass()}">
+				        ${helpProposal.getModerationStatusTitle(locale)}
+                    </span>
+				</liferay-ui:search-container-column-text>
+
 				<%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${helpProposal.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
-				
-				<%-- Colonne : Createur --%>
-				<liferay-ui:search-container-column-text name="user">
-					${helpProposal.statusByUserName}
-				</liferay-ui:search-container-column-text>
-				
-				<%-- Colonne : Statut activité de l'aide --%>
-				<liferay-ui:search-container-column-text name="statusHelpActivity">
-					<aui:workflow-status markupView="lexicon" showIcon="false"
-						showLabel="false" status="${helpProposal.status}" />
-				</liferay-ui:search-container-column-text>
-
-				<%-- Colonne : Statut modération de l'aide --%>
-				<liferay-ui:search-container-column-text name="statusHelpModeration">
-					<aui:workflow-status markupView="lexicon" showIcon="false"
-						showLabel="false" status="${helpProposal.status}" />
-				</liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Statut Liferay --%>
 				<liferay-ui:search-container-column-text name="statusLiferay">
@@ -119,7 +121,7 @@
 							<liferay-ui:icon message="edit" url="${editHelpProposalURL}" />
 						</c:if>
 
-						<liferay-portlet:actionURL name="deleteHelp" var="deleteHelpPRoposalURL">
+						<liferay-portlet:actionURL name="deleteHelpProposal" var="deleteHelpProposalURL">
 							<portlet:param name="cmd" value="deleteHelpProposal" />
 							<portlet:param name="tab" value="helpProposals" />
 							<portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />

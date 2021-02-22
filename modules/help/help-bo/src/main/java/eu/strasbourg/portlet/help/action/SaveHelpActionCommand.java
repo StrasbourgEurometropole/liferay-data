@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.help.action;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -9,6 +10,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -16,6 +18,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.service.HelpProposalLocalService;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -27,8 +30,12 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component(
 	immediate = true,
@@ -86,9 +93,21 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 			Map<Locale, String> title = LocalizationUtil.getLocalizationMap(request, "title");
 			helpProposal.setTitleMap(title);
 
+			// Défini le format de date à utiliser pour les champs temporels
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+			// Date de publication
+			String modifiedByUserDateStr = ParamUtil.getString(request, "modifiedByUserDate");
+			String modifiedByUserTimeStr = ParamUtil.getString(request, "modifiedByUserDateTime");
+			Date publicationDate = GetterUtil.getDate(modifiedByUserDateStr + " " + modifiedByUserTimeStr, dateFormat);
+			helpProposal.setModifiedByUserDate(publicationDate);
+
 			// Détail de l'aide
 			Map<Locale, String> description = LocalizationUtil.getLocalizationMap(request, "description");
 			helpProposal.setDescriptionMap(description);
+
+			// Image
+			Long imageId = ParamUtil.getLong(request, "imageId");
+			helpProposal.setImageId(imageId);
 
 			// ---------------------------------------------------------------
 			// -------------------------- DEPOSITAIRE ------------------------
@@ -119,12 +138,26 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 			helpProposal.setSpokenLanguagesMap(spokenLanguages);
 									
 			// ---------------------------------------------------------------
-			// -------------------------- MEDIAS -----------------------------
+			// ------------------------ MODERATEUR ---------------------------
 			// ---------------------------------------------------------------
-			
-			// Image
-			Long imageId = ParamUtil.getLong(request, "imageId");
-			helpProposal.setImageId(imageId);
+
+			// Commentaire
+			Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request, "comment");
+			helpProposal.setCommentMap(comment);
+
+			// Mise du statut de modération en lu
+			long[] ids = sc.getAssetCategoryIds();
+			List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
+
+			AssetCategory nonLu = AssetVocabularyHelper.getCategory("Non Lue", sc.getScopeGroupId());
+			if(nonLu != null && idsLong.indexOf(nonLu.getCategoryId()) >= 0)
+				idsLong.remove(idsLong.indexOf(nonLu.getCategoryId()));
+
+			AssetCategory lu = AssetVocabularyHelper.getCategory("Lue", sc.getScopeGroupId());
+			if(lu != null)
+				idsLong.add(lu.getCategoryId());
+
+			sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
 
 			_helpProposalLocalService.updateHelpProposal(helpProposal, sc);
 
