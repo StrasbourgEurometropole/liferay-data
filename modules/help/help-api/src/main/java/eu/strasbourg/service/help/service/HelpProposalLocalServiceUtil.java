@@ -68,11 +68,11 @@ public class HelpProposalLocalServiceUtil {
 	 * Crée une helpProposal vide avec une PK, non ajouté à la base de donnée
 	 */
 	public static eu.strasbourg.service.help.model.HelpProposal
-			createInitiative(
+			createHelpProposal(
 				com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().createInitiative(sc);
+		return getService().createHelpProposal(sc);
 	}
 
 	/**

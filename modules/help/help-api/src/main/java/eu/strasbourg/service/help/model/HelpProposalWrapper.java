@@ -330,7 +330,7 @@ public class HelpProposalWrapper
 	}
 
 	/**
-	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la initiative
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la helpProposal
 	 *
 	 * @return : null si vide, sinon la liste des catégories
 	 */
@@ -430,7 +430,7 @@ public class HelpProposalWrapper
 	}
 
 	/**
-	 * Retourne le statut de l'initiative (
+	 * Retourne le statut de la HelpProposal (
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory
@@ -528,7 +528,7 @@ public class HelpProposalWrapper
 	}
 
 	/**
-	 * Retourne les catégories 'Territoire' correspondant aux pays de la initiative
+	 * Retourne les catégories 'Territoire' correspondant aux pays de la helpProposal
 	 */
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>

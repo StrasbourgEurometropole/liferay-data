@@ -87,7 +87,7 @@ public interface HelpProposalLocalService
 	/**
 	 * Crée une helpProposal vide avec une PK, non ajouté à la base de donnée
 	 */
-	public HelpProposal createInitiative(ServiceContext sc)
+	public HelpProposal createHelpProposal(ServiceContext sc)
 		throws PortalException;
 
 	/**

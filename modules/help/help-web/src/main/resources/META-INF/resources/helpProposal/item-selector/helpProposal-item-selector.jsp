@@ -40,7 +40,7 @@
         />
 
         <liferay-ui:search-container-row
-                className="eu.strasbourg.service.project.model.Initiative"
+                className="eu.strasbourg.service.project.model.HelpProposal"
                 modelVar="helpProposal" cssClass="helpProposal-row" keyProperty="helpProposalId" rowIdProperty="helpProposalId"
         >
             <liferay-ui:search-container-column-text cssClass="content-column"
@@ -82,7 +82,7 @@
     }
     var id = $('.info .data').data('id');
     var title = $('.info .data').data('title');
-    Liferay.Util.getOpener().Liferay.fire('${itemSelectedInitiativeName}', {
+    Liferay.Util.getOpener().Liferay.fire('${itemSelectedHelpProposalName}', {
     data: {
     entityId: id,
     title: title
@@ -98,7 +98,7 @@
     });
     }
 
-    Liferay.Util.getOpener().Liferay.fire('${itemSelectedInitiativeName}', {
+    Liferay.Util.getOpener().Liferay.fire('${itemSelectedHelpProposalName}', {
     data: dataToSend
     });
     }

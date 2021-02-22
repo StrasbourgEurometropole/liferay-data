@@ -75,7 +75,7 @@ public class HelpProposalLocalServiceImpl
 	 * Crée une helpProposal vide avec une PK, non ajouté à la base de donnée
 	 */
 	@Override
-	public HelpProposal createInitiative(ServiceContext sc)
+	public HelpProposal createHelpProposal(ServiceContext sc)
 			throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
@@ -232,7 +232,7 @@ public class HelpProposalLocalServiceImpl
 					helpProposalId);
 		}
 
-		// Supprime la initiative
+		// Supprime la helpProposal
 		HelpProposal helpProposal = helpProposalPersistence.remove(helpProposalId);
 
 		// Delete the index

@@ -71,7 +71,7 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 		getCategories();
 
 	/**
-	 * Retourne les catégories 'Territoire' correspondant aux pays de la initiative
+	 * Retourne les catégories 'Territoire' correspondant aux pays de la helpProposal
 	 */
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTerritoryCategories();
@@ -85,7 +85,7 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 		getCityCategories();
 
 	/**
-	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la initiative
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la helpProposal
 	 *
 	 * @return : null si vide, sinon la liste des catégories
 	 */
@@ -115,7 +115,7 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthor();
 
 	/**
-	 * Retourne le statut de l'initiative (
+	 * Retourne le statut de la HelpProposal (
 	 */
 	public com.liferay.asset.kernel.model.AssetCategory
 		getProposalStatusCategory();

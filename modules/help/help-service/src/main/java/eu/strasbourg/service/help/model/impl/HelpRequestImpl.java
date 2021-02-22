@@ -90,12 +90,12 @@ public class HelpRequestImpl extends HelpRequestBaseImpl {
 
 
 	/**
-	 * Retourne l'initiative de l'aide
+	 * Retourne la proposition d'aide de la demande
 	 * @return
 	 * @throws PortalException
 	 */
 	@Override
-	public HelpProposal getInitiative() {
+	public HelpProposal getHelpProposal() {
 		try {
 			return HelpProposalLocalServiceUtil.getHelpProposal(this.getHelpProposalId());
 		} catch (PortalException e) {
