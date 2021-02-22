@@ -228,7 +228,7 @@ public class HelpProposalLocalServiceImpl
 					helpProposalId);
 		}
 
-		// Supprime la initiative
+		// Supprime la helpProposal
 		HelpProposal helpProposal = helpProposalPersistence.remove(helpProposalId);
 
 		// Delete the index

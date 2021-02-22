@@ -256,6 +256,17 @@ public class HelpRequestWrapper
 	}
 
 	/**
+	 * Retourne la proposition d'aide de la demande
+	 *
+	 * @return
+	 * @throws PortalException
+	 */
+	@Override
+	public eu.strasbourg.service.help.model.HelpProposal getHelpProposal() {
+		return model.getHelpProposal();
+	}
+
+	/**
 	 * Returns the help proposal ID of this help request.
 	 *
 	 * @return the help proposal ID of this help request
@@ -273,17 +284,6 @@ public class HelpRequestWrapper
 	@Override
 	public long getHelpRequestId() {
 		return model.getHelpRequestId();
-	}
-
-	/**
-	 * Retourne l'initiative de l'aide
-	 *
-	 * @return
-	 * @throws PortalException
-	 */
-	@Override
-	public eu.strasbourg.service.help.model.HelpProposal getInitiative() {
-		return model.getInitiative();
 	}
 
 	/**

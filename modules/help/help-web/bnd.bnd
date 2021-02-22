@@ -1,4 +1,4 @@
 Bundle-Name: help-web
-Bundle-SymbolicName: help.web
+Bundle-SymbolicName: eu.strasbourg.portlet.help.web
 Bundle-Version: 1.0.0
-Export-Package: eu.strasbourg.portlet.help.constants
+Export-Package: eu.strasbourg.portlet.help.itemselector

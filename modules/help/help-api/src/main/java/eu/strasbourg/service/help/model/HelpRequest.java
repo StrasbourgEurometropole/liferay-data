@@ -83,11 +83,11 @@ public interface HelpRequest extends HelpRequestModel, PersistedModel {
 	public String getFormatedMessage();
 
 	/**
-	 * Retourne l'initiative de l'aide
+	 * Retourne la proposition d'aide de la demande
 	 *
 	 * @return
 	 * @throws PortalException
 	 */
-	public eu.strasbourg.service.help.model.HelpProposal getInitiative();
+	public eu.strasbourg.service.help.model.HelpProposal getHelpProposal();
 
 }

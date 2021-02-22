@@ -89,7 +89,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	*/
 
 	/**
-	 * Retourne les catégories 'Territoire' correspondant aux pays de la initiative
+	 * Retourne les catégories 'Territoire' correspondant aux pays de la helpProposal
 	 */
 	@Override
 	public List<AssetCategory> getTerritoryCategories() {
@@ -118,7 +118,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	}
 
 	/**
-	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la initiative
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la helpProposal
 	 * @return : null si vide, sinon la liste des catégories
 	 */
 	@Override
@@ -195,13 +195,13 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	}
 
 	/**
-	 * Retourne le statut de l'initiative (
+	 * Retourne le statut de la HelpProposal (
 	 */
 	 // A modifier avec la nouvelle catégorie de statut
 	@Override
 	public AssetCategory getProposalStatusCategory() {
 		List <AssetCategory> status = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.INITIATIVE_STATUS);
+				VocabularyNames.HELP_PROPOSAL_STATUS);
 		return status.size() > 0 ? status.get(0) : null;
 	}
 
