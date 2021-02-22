@@ -47,7 +47,7 @@
 				<aui:input name="title" required="false" />
 
 				<%-- Champ : Date de modification --%>
-				<aui:input name="modifiedByUserDate" required="true" disabled="true" />
+				<aui:input name="modifiedByUserDate" disabled="true" helpMessage="help-update-date-by-user" />
 				
 				<%-- Champ : Détail de l'aide --%>
 				<aui:input name="description" required="false"/>
