@@ -234,12 +234,6 @@ public class HelpProposalLocalServiceUtil {
 	}
 
 	public static java.util.List<eu.strasbourg.service.help.model.HelpProposal>
-		findByPublikUserId(String publikUserId) {
-
-		return getService().findByPublikUserId(publikUserId);
-	}
-
-	public static java.util.List<eu.strasbourg.service.help.model.HelpProposal>
 		findHelpedByPublikId(String publikUserId) {
 
 		return getService().findHelpedByPublikId(publikUserId);

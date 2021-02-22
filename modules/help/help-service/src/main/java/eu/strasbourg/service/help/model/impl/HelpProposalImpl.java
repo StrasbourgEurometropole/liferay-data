@@ -137,22 +137,6 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		return districts;
 	}
 
-	/**
-	 * Retourne une chaine des 'Thematics' sépararée d'un '-'
-	 */
-	/* To Delete ?
-	@Override
-	public String getThematicsLabel(Locale locale) {
-		StringBuilder result = new StringBuilder();
-		List<AssetCategory> thematics = this.getThematicCategories();
-
-		result.append(thematics.stream()
-				.map(thematic -> thematic.getTitle(locale))
-				.collect(Collectors.joining(" - ")));
-
-		return result.toString();
-	}
-	*/
 
 	/**
 	 * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
@@ -213,14 +197,14 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	/**
 	 * Retourne le statut de l'initiative (
 	 */
-	/*  A modifier avec la nouvelle catégorie de statut
+	 // A modifier avec la nouvelle catégorie de statut
 	@Override
-	public AssetCategory getStatusCategory() {
+	public AssetCategory getProposalStatusCategory() {
 		List <AssetCategory> status = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.INITIATIVE_STATUS);
 		return status.size() > 0 ? status.get(0) : null;
 	}
-	*/
+
 
 	/**
 	 * Retourne le nombre de demandes d'aides pour cette proposition

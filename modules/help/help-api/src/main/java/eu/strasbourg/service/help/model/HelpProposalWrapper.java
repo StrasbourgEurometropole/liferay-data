@@ -430,6 +430,16 @@ public class HelpProposalWrapper
 	}
 
 	/**
+	 * Retourne le statut de l'initiative (
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory
+		getProposalStatusCategory() {
+
+		return model.getProposalStatusCategory();
+	}
+
+	/**
 	 * Returns the publication date of this help proposal.
 	 *
 	 * @return the publication date of this help proposal

@@ -284,16 +284,6 @@ public class HelpProposalLocalServiceImpl
 		return this.helpProposalPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
 	}
 
-	// Les HelpProposal sont approuvées par défaut, à garder malgré tout ?
-	/*
-	public List<HelpProposal> findByPublikId(String publikUserId){
-		List<HelpProposal> result = helpProposalPersistence.findBypublikId(publikUserId);
-
-		return result.stream()
-				.filter(HelpProposalModel::isApproved)
-				.collect(Collectors.toList());
-	}
-	*/
 	// Différence avec le finder ? Pq pas de @Override
 	public List<HelpProposal> findHelpedByPublikId(String publikUserId){
 		List<HelpProposal> result = helpProposalPersistence.findBypublikId(publikUserId);
@@ -318,13 +308,6 @@ public class HelpProposalLocalServiceImpl
 		return helpProposalPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 
-	public List<HelpProposal> findByPublikUserId(String publikUserId){
-		List<HelpProposal> result = helpProposalPersistence.findBypublikId(publikUserId);
-
-		return result.stream()
-				.filter(HelpProposalModel::isApproved)
-				.collect(Collectors.toList());
-	}
 
 	/**
 	 * Recherche par mot clés

@@ -208,8 +208,6 @@ public interface HelpProposalLocalService
 	 */
 	public long findByKeywordCount(String keyword, long groupId);
 
-	public List<HelpProposal> findByPublikUserId(String publikUserId);
-
 	public List<HelpProposal> findHelpedByPublikId(String publikUserId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

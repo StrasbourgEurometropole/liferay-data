@@ -115,6 +115,12 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthor();
 
 	/**
+	 * Retourne le statut de l'initiative (
+	 */
+	public com.liferay.asset.kernel.model.AssetCategory
+		getProposalStatusCategory();
+
+	/**
 	 * Retourne le nombre de demandes d'aides pour cette proposition
 	 */
 	public int getNbHelpRequests();

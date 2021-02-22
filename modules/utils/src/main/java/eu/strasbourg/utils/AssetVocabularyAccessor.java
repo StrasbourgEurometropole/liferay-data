@@ -1,5 +1,6 @@
 package eu.strasbourg.utils;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -281,6 +282,30 @@ public class AssetVocabularyAccessor {
 	public static AssetVocabulary getEJobMotif(long groupID) {
 		try {
 			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_MOTIF, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static AssetVocabulary getHelpHelperType(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_HELPER_TYPE, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static AssetVocabulary getHelpProposalType(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_PROPOSAL_TYPE, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static AssetVocabulary getHelpProposalStatus(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_PROPOSAL_STATUS, groupID);
 		} catch (Exception e) {
 			return null;
 		}
