@@ -19,7 +19,9 @@ import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.User;
@@ -28,8 +30,11 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.help.model.HelpProposal;
@@ -46,7 +51,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -84,9 +92,10 @@ public class HelpProposalModelImpl
 		{"title", Types.VARCHAR}, {"description", Types.CLOB},
 		{"inTheNameOf", Types.VARCHAR}, {"address", Types.VARCHAR},
 		{"city", Types.VARCHAR}, {"postalCode", Types.BIGINT},
-		{"modifiedByUserDate", Types.TIMESTAMP},
+		{"phoneNumber", Types.VARCHAR}, {"modifiedByUserDate", Types.TIMESTAMP},
 		{"spokenLanguages", Types.VARCHAR}, {"imageId", Types.BIGINT},
-		{"publikId", Types.VARCHAR}, {"publicationDate", Types.TIMESTAMP}
+		{"publikId", Types.VARCHAR}, {"publicationDate", Types.TIMESTAMP},
+		{"comment_", Types.CLOB}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -111,15 +120,17 @@ public class HelpProposalModelImpl
 		TABLE_COLUMNS_MAP.put("address", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("city", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("postalCode", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("phoneNumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("modifiedByUserDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("spokenLanguages", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("comment_", Types.CLOB);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table help_HelpProposal (uuid_ VARCHAR(75) null,helpProposalId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,inTheNameOf VARCHAR(400) null,address VARCHAR(400) null,city VARCHAR(400) null,postalCode LONG,modifiedByUserDate DATE null,spokenLanguages VARCHAR(75) null,imageId LONG,publikId VARCHAR(75) null,publicationDate DATE null)";
+		"create table help_HelpProposal (uuid_ VARCHAR(75) null,helpProposalId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,description TEXT null,inTheNameOf VARCHAR(400) null,address VARCHAR(400) null,city VARCHAR(400) null,postalCode LONG,phoneNumber VARCHAR(75) null,modifiedByUserDate DATE null,spokenLanguages STRING null,imageId LONG,publikId VARCHAR(75) null,publicationDate DATE null,comment_ TEXT null)";
 
 	public static final String TABLE_SQL_DROP = "drop table help_HelpProposal";
 
@@ -356,6 +367,11 @@ public class HelpProposalModelImpl
 			"postalCode",
 			(BiConsumer<HelpProposal, Long>)HelpProposal::setPostalCode);
 		attributeGetterFunctions.put(
+			"phoneNumber", HelpProposal::getPhoneNumber);
+		attributeSetterBiConsumers.put(
+			"phoneNumber",
+			(BiConsumer<HelpProposal, String>)HelpProposal::setPhoneNumber);
+		attributeGetterFunctions.put(
 			"modifiedByUserDate", HelpProposal::getModifiedByUserDate);
 		attributeSetterBiConsumers.put(
 			"modifiedByUserDate",
@@ -379,6 +395,10 @@ public class HelpProposalModelImpl
 		attributeSetterBiConsumers.put(
 			"publicationDate",
 			(BiConsumer<HelpProposal, Date>)HelpProposal::setPublicationDate);
+		attributeGetterFunctions.put("comment", HelpProposal::getComment);
+		attributeSetterBiConsumers.put(
+			"comment",
+			(BiConsumer<HelpProposal, String>)HelpProposal::setComment);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -616,8 +636,97 @@ public class HelpProposalModelImpl
 	}
 
 	@Override
+	public String getTitle(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getTitle(languageId);
+	}
+
+	@Override
+	public String getTitle(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getTitle(languageId, useDefault);
+	}
+
+	@Override
+	public String getTitle(String languageId) {
+		return LocalizationUtil.getLocalization(getTitle(), languageId);
+	}
+
+	@Override
+	public String getTitle(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getTitle(), languageId, useDefault);
+	}
+
+	@Override
+	public String getTitleCurrentLanguageId() {
+		return _titleCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getTitleCurrentValue() {
+		Locale locale = getLocale(_titleCurrentLanguageId);
+
+		return getTitle(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getTitleMap() {
+		return LocalizationUtil.getLocalizationMap(getTitle());
+	}
+
+	@Override
 	public void setTitle(String title) {
 		_title = title;
+	}
+
+	@Override
+	public void setTitle(String title, Locale locale) {
+		setTitle(title, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setTitle(String title, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(title)) {
+			setTitle(
+				LocalizationUtil.updateLocalization(
+					getTitle(), "Title", title, languageId, defaultLanguageId));
+		}
+		else {
+			setTitle(
+				LocalizationUtil.removeLocalization(
+					getTitle(), "Title", languageId));
+		}
+	}
+
+	@Override
+	public void setTitleCurrentLanguageId(String languageId) {
+		_titleCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setTitleMap(Map<Locale, String> titleMap) {
+		setTitleMap(titleMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setTitleMap(
+		Map<Locale, String> titleMap, Locale defaultLocale) {
+
+		if (titleMap == null) {
+			return;
+		}
+
+		setTitle(
+			LocalizationUtil.updateLocalization(
+				titleMap, getTitle(), "Title",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -631,8 +740,100 @@ public class HelpProposalModelImpl
 	}
 
 	@Override
+	public String getDescription(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescription(languageId);
+	}
+
+	@Override
+	public String getDescription(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescription(String languageId) {
+		return LocalizationUtil.getLocalization(getDescription(), languageId);
+	}
+
+	@Override
+	public String getDescription(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getDescription(), languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionCurrentLanguageId() {
+		return _descriptionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getDescriptionCurrentValue() {
+		Locale locale = getLocale(_descriptionCurrentLanguageId);
+
+		return getDescription(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getDescriptionMap() {
+		return LocalizationUtil.getLocalizationMap(getDescription());
+	}
+
+	@Override
 	public void setDescription(String description) {
 		_description = description;
+	}
+
+	@Override
+	public void setDescription(String description, Locale locale) {
+		setDescription(description, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDescription(
+		String description, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(description)) {
+			setDescription(
+				LocalizationUtil.updateLocalization(
+					getDescription(), "Description", description, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setDescription(
+				LocalizationUtil.removeLocalization(
+					getDescription(), "Description", languageId));
+		}
+	}
+
+	@Override
+	public void setDescriptionCurrentLanguageId(String languageId) {
+		_descriptionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setDescriptionMap(Map<Locale, String> descriptionMap) {
+		setDescriptionMap(descriptionMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDescriptionMap(
+		Map<Locale, String> descriptionMap, Locale defaultLocale) {
+
+		if (descriptionMap == null) {
+			return;
+		}
+
+		setDescription(
+			LocalizationUtil.updateLocalization(
+				descriptionMap, getDescription(), "Description",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -691,6 +892,21 @@ public class HelpProposalModelImpl
 	}
 
 	@Override
+	public String getPhoneNumber() {
+		if (_phoneNumber == null) {
+			return "";
+		}
+		else {
+			return _phoneNumber;
+		}
+	}
+
+	@Override
+	public void setPhoneNumber(String phoneNumber) {
+		_phoneNumber = phoneNumber;
+	}
+
+	@Override
 	public Date getModifiedByUserDate() {
 		return _modifiedByUserDate;
 	}
@@ -713,8 +929,102 @@ public class HelpProposalModelImpl
 	}
 
 	@Override
+	public String getSpokenLanguages(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getSpokenLanguages(languageId);
+	}
+
+	@Override
+	public String getSpokenLanguages(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getSpokenLanguages(languageId, useDefault);
+	}
+
+	@Override
+	public String getSpokenLanguages(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getSpokenLanguages(), languageId);
+	}
+
+	@Override
+	public String getSpokenLanguages(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getSpokenLanguages(), languageId, useDefault);
+	}
+
+	@Override
+	public String getSpokenLanguagesCurrentLanguageId() {
+		return _spokenLanguagesCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getSpokenLanguagesCurrentValue() {
+		Locale locale = getLocale(_spokenLanguagesCurrentLanguageId);
+
+		return getSpokenLanguages(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getSpokenLanguagesMap() {
+		return LocalizationUtil.getLocalizationMap(getSpokenLanguages());
+	}
+
+	@Override
 	public void setSpokenLanguages(String spokenLanguages) {
 		_spokenLanguages = spokenLanguages;
+	}
+
+	@Override
+	public void setSpokenLanguages(String spokenLanguages, Locale locale) {
+		setSpokenLanguages(
+			spokenLanguages, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setSpokenLanguages(
+		String spokenLanguages, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(spokenLanguages)) {
+			setSpokenLanguages(
+				LocalizationUtil.updateLocalization(
+					getSpokenLanguages(), "SpokenLanguages", spokenLanguages,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setSpokenLanguages(
+				LocalizationUtil.removeLocalization(
+					getSpokenLanguages(), "SpokenLanguages", languageId));
+		}
+	}
+
+	@Override
+	public void setSpokenLanguagesCurrentLanguageId(String languageId) {
+		_spokenLanguagesCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setSpokenLanguagesMap(Map<Locale, String> spokenLanguagesMap) {
+		setSpokenLanguagesMap(spokenLanguagesMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setSpokenLanguagesMap(
+		Map<Locale, String> spokenLanguagesMap, Locale defaultLocale) {
+
+		if (spokenLanguagesMap == null) {
+			return;
+		}
+
+		setSpokenLanguages(
+			LocalizationUtil.updateLocalization(
+				spokenLanguagesMap, getSpokenLanguages(), "SpokenLanguages",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -760,6 +1070,113 @@ public class HelpProposalModelImpl
 	@Override
 	public void setPublicationDate(Date publicationDate) {
 		_publicationDate = publicationDate;
+	}
+
+	@Override
+	public String getComment() {
+		if (_comment == null) {
+			return "";
+		}
+		else {
+			return _comment;
+		}
+	}
+
+	@Override
+	public String getComment(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getComment(languageId);
+	}
+
+	@Override
+	public String getComment(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getComment(String languageId) {
+		return LocalizationUtil.getLocalization(getComment(), languageId);
+	}
+
+	@Override
+	public String getComment(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getComment(), languageId, useDefault);
+	}
+
+	@Override
+	public String getCommentCurrentLanguageId() {
+		return _commentCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getCommentCurrentValue() {
+		Locale locale = getLocale(_commentCurrentLanguageId);
+
+		return getComment(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getCommentMap() {
+		return LocalizationUtil.getLocalizationMap(getComment());
+	}
+
+	@Override
+	public void setComment(String comment) {
+		_comment = comment;
+	}
+
+	@Override
+	public void setComment(String comment, Locale locale) {
+		setComment(comment, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setComment(
+		String comment, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(comment)) {
+			setComment(
+				LocalizationUtil.updateLocalization(
+					getComment(), "Comment", comment, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setComment(
+				LocalizationUtil.removeLocalization(
+					getComment(), "Comment", languageId));
+		}
+	}
+
+	@Override
+	public void setCommentCurrentLanguageId(String languageId) {
+		_commentCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setCommentMap(Map<Locale, String> commentMap) {
+		setCommentMap(commentMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setCommentMap(
+		Map<Locale, String> commentMap, Locale defaultLocale) {
+
+		if (commentMap == null) {
+			return;
+		}
+
+		setComment(
+			LocalizationUtil.updateLocalization(
+				commentMap, getComment(), "Comment",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -866,6 +1283,137 @@ public class HelpProposalModelImpl
 	}
 
 	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> titleMap = getTitleMap();
+
+		for (Map.Entry<Locale, String> entry : titleMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> descriptionMap = getDescriptionMap();
+
+		for (Map.Entry<Locale, String> entry : descriptionMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> spokenLanguagesMap = getSpokenLanguagesMap();
+
+		for (Map.Entry<Locale, String> entry : spokenLanguagesMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> commentMap = getCommentMap();
+
+		for (Map.Entry<Locale, String> entry : commentMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getTitle();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			HelpProposal.class.getName(), getPrimaryKey(), defaultLocale,
+			availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String title = getTitle(defaultLocale);
+
+		if (Validator.isNull(title)) {
+			setTitle(getTitle(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setTitle(getTitle(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String description = getDescription(defaultLocale);
+
+		if (Validator.isNull(description)) {
+			setDescription(
+				getDescription(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setDescription(
+				getDescription(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String spokenLanguages = getSpokenLanguages(defaultLocale);
+
+		if (Validator.isNull(spokenLanguages)) {
+			setSpokenLanguages(
+				getSpokenLanguages(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setSpokenLanguages(
+				getSpokenLanguages(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String comment = getComment(defaultLocale);
+
+		if (Validator.isNull(comment)) {
+			setComment(getComment(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setComment(getComment(defaultLocale), defaultLocale, defaultLocale);
+		}
+	}
+
+	@Override
 	public HelpProposal toEscapedModel() {
 		if (_escapedModel == null) {
 			_escapedModel = _escapedModelProxyProviderFunction.apply(
@@ -897,11 +1445,13 @@ public class HelpProposalModelImpl
 		helpProposalImpl.setAddress(getAddress());
 		helpProposalImpl.setCity(getCity());
 		helpProposalImpl.setPostalCode(getPostalCode());
+		helpProposalImpl.setPhoneNumber(getPhoneNumber());
 		helpProposalImpl.setModifiedByUserDate(getModifiedByUserDate());
 		helpProposalImpl.setSpokenLanguages(getSpokenLanguages());
 		helpProposalImpl.setImageId(getImageId());
 		helpProposalImpl.setPublikId(getPublikId());
 		helpProposalImpl.setPublicationDate(getPublicationDate());
+		helpProposalImpl.setComment(getComment());
 
 		helpProposalImpl.resetOriginalValues();
 
@@ -1096,6 +1646,14 @@ public class HelpProposalModelImpl
 
 		helpProposalCacheModel.postalCode = getPostalCode();
 
+		helpProposalCacheModel.phoneNumber = getPhoneNumber();
+
+		String phoneNumber = helpProposalCacheModel.phoneNumber;
+
+		if ((phoneNumber != null) && (phoneNumber.length() == 0)) {
+			helpProposalCacheModel.phoneNumber = null;
+		}
+
 		Date modifiedByUserDate = getModifiedByUserDate();
 
 		if (modifiedByUserDate != null) {
@@ -1131,6 +1689,14 @@ public class HelpProposalModelImpl
 		}
 		else {
 			helpProposalCacheModel.publicationDate = Long.MIN_VALUE;
+		}
+
+		helpProposalCacheModel.comment = getComment();
+
+		String comment = helpProposalCacheModel.comment;
+
+		if ((comment != null) && (comment.length() == 0)) {
+			helpProposalCacheModel.comment = null;
 		}
 
 		return helpProposalCacheModel;
@@ -1225,17 +1791,23 @@ public class HelpProposalModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
+	private String _titleCurrentLanguageId;
 	private String _description;
+	private String _descriptionCurrentLanguageId;
 	private String _inTheNameOf;
 	private String _address;
 	private String _city;
 	private long _postalCode;
+	private String _phoneNumber;
 	private Date _modifiedByUserDate;
 	private String _spokenLanguages;
+	private String _spokenLanguagesCurrentLanguageId;
 	private long _imageId;
 	private String _publikId;
 	private String _originalPublikId;
 	private Date _publicationDate;
+	private String _comment;
+	private String _commentCurrentLanguageId;
 	private long _columnBitmask;
 	private HelpProposal _escapedModel;
 

@@ -1,5 +1,0 @@
-Bundle-Name: help-bo
-Bundle-SymbolicName: eu.strasbourg.portlet.help
-Bundle-Version: 1.0.0
-Export-Package: eu.strasbourg.portlet.help.constants
-Web-ContextPath: /helpbo

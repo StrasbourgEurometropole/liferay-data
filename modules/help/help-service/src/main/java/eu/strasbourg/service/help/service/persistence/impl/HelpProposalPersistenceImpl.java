@@ -3088,6 +3088,7 @@ public class HelpProposalPersistenceImpl
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
 		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("comment", "comment_");
 
 		setDBColumnNames(dbColumnNames);
 	}
@@ -4050,6 +4051,6 @@ public class HelpProposalPersistenceImpl
 		HelpProposalPersistenceImpl.class);
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
-		new String[] {"uuid"});
+		new String[] {"uuid", "comment"});
 
 }

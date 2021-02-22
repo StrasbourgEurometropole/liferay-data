@@ -66,11 +66,11 @@ public class HelpProposalLocalServiceWrapper
 	 * Crée une helpProposal vide avec une PK, non ajouté à la base de donnée
 	 */
 	@Override
-	public eu.strasbourg.service.help.model.HelpProposal createInitiative(
+	public eu.strasbourg.service.help.model.HelpProposal createHelpProposal(
 			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _helpProposalLocalService.createInitiative(sc);
+		return _helpProposalLocalService.createHelpProposal(sc);
 	}
 
 	/**

@@ -1,6 +1,5 @@
 package eu.strasbourg.utils;
 
-import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -303,9 +302,17 @@ public class AssetVocabularyAccessor {
 		}
 	}
 
-	public static AssetVocabulary getHelpProposalStatus(long groupID) {
+	public static AssetVocabulary getHelpProposalActivityStatus(long groupID) {
 		try {
-			return AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_PROPOSAL_STATUS, groupID);
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_PROPOSAL_ACTIVITY_STATUS, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static AssetVocabulary getHelpProposalModerationStatus(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_PROPOSAL_MODERATION_STATUS, groupID);
 		} catch (Exception e) {
 			return null;
 		}

@@ -52,11 +52,13 @@ public class HelpProposalSoap implements Serializable {
 		soapModel.setAddress(model.getAddress());
 		soapModel.setCity(model.getCity());
 		soapModel.setPostalCode(model.getPostalCode());
+		soapModel.setPhoneNumber(model.getPhoneNumber());
 		soapModel.setModifiedByUserDate(model.getModifiedByUserDate());
 		soapModel.setSpokenLanguages(model.getSpokenLanguages());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setPublikId(model.getPublikId());
 		soapModel.setPublicationDate(model.getPublicationDate());
+		soapModel.setComment(model.getComment());
 
 		return soapModel;
 	}
@@ -254,6 +256,14 @@ public class HelpProposalSoap implements Serializable {
 		_postalCode = postalCode;
 	}
 
+	public String getPhoneNumber() {
+		return _phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		_phoneNumber = phoneNumber;
+	}
+
 	public Date getModifiedByUserDate() {
 		return _modifiedByUserDate;
 	}
@@ -294,6 +304,14 @@ public class HelpProposalSoap implements Serializable {
 		_publicationDate = publicationDate;
 	}
 
+	public String getComment() {
+		return _comment;
+	}
+
+	public void setComment(String comment) {
+		_comment = comment;
+	}
+
 	private String _uuid;
 	private long _helpProposalId;
 	private long _groupId;
@@ -312,10 +330,12 @@ public class HelpProposalSoap implements Serializable {
 	private String _address;
 	private String _city;
 	private long _postalCode;
+	private String _phoneNumber;
 	private Date _modifiedByUserDate;
 	private String _spokenLanguages;
 	private long _imageId;
 	private String _publikId;
 	private Date _publicationDate;
+	private String _comment;
 
 }

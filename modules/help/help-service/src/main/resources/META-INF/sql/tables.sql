@@ -11,17 +11,19 @@ create table help_HelpProposal (
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
-	title VARCHAR(400) null,
+	title STRING null,
 	description TEXT null,
 	inTheNameOf VARCHAR(400) null,
 	address VARCHAR(400) null,
 	city VARCHAR(400) null,
 	postalCode LONG,
+	phoneNumber VARCHAR(75) null,
 	modifiedByUserDate DATE null,
-	spokenLanguages VARCHAR(75) null,
+	spokenLanguages STRING null,
 	imageId LONG,
 	publikId VARCHAR(75) null,
-	publicationDate DATE null
+	publicationDate DATE null,
+	comment_ TEXT null
 );
 
 create table help_HelpRequest (

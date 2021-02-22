@@ -64,11 +64,13 @@ public class HelpProposalWrapper
 		attributes.put("address", getAddress());
 		attributes.put("city", getCity());
 		attributes.put("postalCode", getPostalCode());
+		attributes.put("phoneNumber", getPhoneNumber());
 		attributes.put("modifiedByUserDate", getModifiedByUserDate());
 		attributes.put("spokenLanguages", getSpokenLanguages());
 		attributes.put("imageId", getImageId());
 		attributes.put("publikId", getPublikId());
 		attributes.put("publicationDate", getPublicationDate());
+		attributes.put("comment", getComment());
 
 		return attributes;
 	}
@@ -183,6 +185,12 @@ public class HelpProposalWrapper
 			setPostalCode(postalCode);
 		}
 
+		String phoneNumber = (String)attributes.get("phoneNumber");
+
+		if (phoneNumber != null) {
+			setPhoneNumber(phoneNumber);
+		}
+
 		Date modifiedByUserDate = (Date)attributes.get("modifiedByUserDate");
 
 		if (modifiedByUserDate != null) {
@@ -211,6 +219,12 @@ public class HelpProposalWrapper
 
 		if (publicationDate != null) {
 			setPublicationDate(publicationDate);
+		}
+
+		String comment = (String)attributes.get("comment");
+
+		if (comment != null) {
+			setComment(comment);
 		}
 	}
 
@@ -266,6 +280,11 @@ public class HelpProposalWrapper
 		return model.getAuthorNameLabel();
 	}
 
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
+	}
+
 	/**
 	 * Renvoie la liste des AssetCategory rattachées à cette proposition d'aide (via
 	 * l'assetEntry)
@@ -300,6 +319,82 @@ public class HelpProposalWrapper
 	}
 
 	/**
+	 * Returns the comment of this help proposal.
+	 *
+	 * @return the comment of this help proposal
+	 */
+	@Override
+	public String getComment() {
+		return model.getComment();
+	}
+
+	/**
+	 * Returns the localized comment of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized comment of this help proposal
+	 */
+	@Override
+	public String getComment(java.util.Locale locale) {
+		return model.getComment(locale);
+	}
+
+	/**
+	 * Returns the localized comment of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized comment of this help proposal. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getComment(java.util.Locale locale, boolean useDefault) {
+		return model.getComment(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized comment of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized comment of this help proposal
+	 */
+	@Override
+	public String getComment(String languageId) {
+		return model.getComment(languageId);
+	}
+
+	/**
+	 * Returns the localized comment of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized comment of this help proposal
+	 */
+	@Override
+	public String getComment(String languageId, boolean useDefault) {
+		return model.getComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getCommentCurrentLanguageId() {
+		return model.getCommentCurrentLanguageId();
+	}
+
+	@Override
+	public String getCommentCurrentValue() {
+		return model.getCommentCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized comments of this help proposal.
+	 *
+	 * @return the locales and localized comments of this help proposal
+	 */
+	@Override
+	public Map<java.util.Locale, String> getCommentMap() {
+		return model.getCommentMap();
+	}
+
+	/**
 	 * Returns the company ID of this help proposal.
 	 *
 	 * @return the company ID of this help proposal
@@ -319,6 +414,11 @@ public class HelpProposalWrapper
 		return model.getCreateDate();
 	}
 
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
+	}
+
 	/**
 	 * Returns the description of this help proposal.
 	 *
@@ -327,6 +427,72 @@ public class HelpProposalWrapper
 	@Override
 	public String getDescription() {
 		return model.getDescription();
+	}
+
+	/**
+	 * Returns the localized description of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized description of this help proposal
+	 */
+	@Override
+	public String getDescription(java.util.Locale locale) {
+		return model.getDescription(locale);
+	}
+
+	/**
+	 * Returns the localized description of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this help proposal. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getDescription(java.util.Locale locale, boolean useDefault) {
+		return model.getDescription(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized description of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized description of this help proposal
+	 */
+	@Override
+	public String getDescription(String languageId) {
+		return model.getDescription(languageId);
+	}
+
+	/**
+	 * Returns the localized description of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this help proposal
+	 */
+	@Override
+	public String getDescription(String languageId, boolean useDefault) {
+		return model.getDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionCurrentLanguageId() {
+		return model.getDescriptionCurrentLanguageId();
+	}
+
+	@Override
+	public String getDescriptionCurrentValue() {
+		return model.getDescriptionCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized descriptions of this help proposal.
+	 *
+	 * @return the locales and localized descriptions of this help proposal
+	 */
+	@Override
+	public Map<java.util.Locale, String> getDescriptionMap() {
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -410,6 +576,16 @@ public class HelpProposalWrapper
 	}
 
 	/**
+	 * Returns the phone number of this help proposal.
+	 *
+	 * @return the phone number of this help proposal
+	 */
+	@Override
+	public String getPhoneNumber() {
+		return model.getPhoneNumber();
+	}
+
+	/**
 	 * Returns the postal code of this help proposal.
 	 *
 	 * @return the postal code of this help proposal
@@ -475,6 +651,74 @@ public class HelpProposalWrapper
 	@Override
 	public String getSpokenLanguages() {
 		return model.getSpokenLanguages();
+	}
+
+	/**
+	 * Returns the localized spoken languages of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized spoken languages of this help proposal
+	 */
+	@Override
+	public String getSpokenLanguages(java.util.Locale locale) {
+		return model.getSpokenLanguages(locale);
+	}
+
+	/**
+	 * Returns the localized spoken languages of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized spoken languages of this help proposal. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getSpokenLanguages(
+		java.util.Locale locale, boolean useDefault) {
+
+		return model.getSpokenLanguages(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized spoken languages of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized spoken languages of this help proposal
+	 */
+	@Override
+	public String getSpokenLanguages(String languageId) {
+		return model.getSpokenLanguages(languageId);
+	}
+
+	/**
+	 * Returns the localized spoken languages of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized spoken languages of this help proposal
+	 */
+	@Override
+	public String getSpokenLanguages(String languageId, boolean useDefault) {
+		return model.getSpokenLanguages(languageId, useDefault);
+	}
+
+	@Override
+	public String getSpokenLanguagesCurrentLanguageId() {
+		return model.getSpokenLanguagesCurrentLanguageId();
+	}
+
+	@Override
+	public String getSpokenLanguagesCurrentValue() {
+		return model.getSpokenLanguagesCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized spoken languageses of this help proposal.
+	 *
+	 * @return the locales and localized spoken languageses of this help proposal
+	 */
+	@Override
+	public Map<java.util.Locale, String> getSpokenLanguagesMap() {
+		return model.getSpokenLanguagesMap();
 	}
 
 	/**
@@ -545,6 +789,72 @@ public class HelpProposalWrapper
 	@Override
 	public String getTitle() {
 		return model.getTitle();
+	}
+
+	/**
+	 * Returns the localized title of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized title of this help proposal
+	 */
+	@Override
+	public String getTitle(java.util.Locale locale) {
+		return model.getTitle(locale);
+	}
+
+	/**
+	 * Returns the localized title of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized title of this help proposal. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getTitle(java.util.Locale locale, boolean useDefault) {
+		return model.getTitle(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized title of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized title of this help proposal
+	 */
+	@Override
+	public String getTitle(String languageId) {
+		return model.getTitle(languageId);
+	}
+
+	/**
+	 * Returns the localized title of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized title of this help proposal
+	 */
+	@Override
+	public String getTitle(String languageId, boolean useDefault) {
+		return model.getTitle(languageId, useDefault);
+	}
+
+	@Override
+	public String getTitleCurrentLanguageId() {
+		return model.getTitleCurrentLanguageId();
+	}
+
+	@Override
+	public String getTitleCurrentValue() {
+		return model.getTitleCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized titles of this help proposal.
+	 *
+	 * @return the locales and localized titles of this help proposal
+	 */
+	@Override
+	public Map<java.util.Locale, String> getTitleMap() {
+		return model.getTitleMap();
 	}
 
 	/**
@@ -672,6 +982,21 @@ public class HelpProposalWrapper
 		model.persist();
 	}
 
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
 	/**
 	 * Sets the address of this help proposal.
 	 *
@@ -690,6 +1015,71 @@ public class HelpProposalWrapper
 	@Override
 	public void setCity(String city) {
 		model.setCity(city);
+	}
+
+	/**
+	 * Sets the comment of this help proposal.
+	 *
+	 * @param comment the comment of this help proposal
+	 */
+	@Override
+	public void setComment(String comment) {
+		model.setComment(comment);
+	}
+
+	/**
+	 * Sets the localized comment of this help proposal in the language.
+	 *
+	 * @param comment the localized comment of this help proposal
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setComment(String comment, java.util.Locale locale) {
+		model.setComment(comment, locale);
+	}
+
+	/**
+	 * Sets the localized comment of this help proposal in the language, and sets the default locale.
+	 *
+	 * @param comment the localized comment of this help proposal
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setComment(
+		String comment, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setComment(comment, locale, defaultLocale);
+	}
+
+	@Override
+	public void setCommentCurrentLanguageId(String languageId) {
+		model.setCommentCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized comments of this help proposal from the map of locales and localized comments.
+	 *
+	 * @param commentMap the locales and localized comments of this help proposal
+	 */
+	@Override
+	public void setCommentMap(Map<java.util.Locale, String> commentMap) {
+		model.setCommentMap(commentMap);
+	}
+
+	/**
+	 * Sets the localized comments of this help proposal from the map of locales and localized comments, and sets the default locale.
+	 *
+	 * @param commentMap the locales and localized comments of this help proposal
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setCommentMap(
+		Map<java.util.Locale, String> commentMap,
+		java.util.Locale defaultLocale) {
+
+		model.setCommentMap(commentMap, defaultLocale);
 	}
 
 	/**
@@ -720,6 +1110,63 @@ public class HelpProposalWrapper
 	@Override
 	public void setDescription(String description) {
 		model.setDescription(description);
+	}
+
+	/**
+	 * Sets the localized description of this help proposal in the language.
+	 *
+	 * @param description the localized description of this help proposal
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setDescription(String description, java.util.Locale locale) {
+		model.setDescription(description, locale);
+	}
+
+	/**
+	 * Sets the localized description of this help proposal in the language, and sets the default locale.
+	 *
+	 * @param description the localized description of this help proposal
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setDescription(
+		String description, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setDescription(description, locale, defaultLocale);
+	}
+
+	@Override
+	public void setDescriptionCurrentLanguageId(String languageId) {
+		model.setDescriptionCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized descriptions of this help proposal from the map of locales and localized descriptions.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this help proposal
+	 */
+	@Override
+	public void setDescriptionMap(
+		Map<java.util.Locale, String> descriptionMap) {
+
+		model.setDescriptionMap(descriptionMap);
+	}
+
+	/**
+	 * Sets the localized descriptions of this help proposal from the map of locales and localized descriptions, and sets the default locale.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this help proposal
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setDescriptionMap(
+		Map<java.util.Locale, String> descriptionMap,
+		java.util.Locale defaultLocale) {
+
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -783,6 +1230,16 @@ public class HelpProposalWrapper
 	}
 
 	/**
+	 * Sets the phone number of this help proposal.
+	 *
+	 * @param phoneNumber the phone number of this help proposal
+	 */
+	@Override
+	public void setPhoneNumber(String phoneNumber) {
+		model.setPhoneNumber(phoneNumber);
+	}
+
+	/**
 	 * Sets the postal code of this help proposal.
 	 *
 	 * @param postalCode the postal code of this help proposal
@@ -830,6 +1287,65 @@ public class HelpProposalWrapper
 	@Override
 	public void setSpokenLanguages(String spokenLanguages) {
 		model.setSpokenLanguages(spokenLanguages);
+	}
+
+	/**
+	 * Sets the localized spoken languages of this help proposal in the language.
+	 *
+	 * @param spokenLanguages the localized spoken languages of this help proposal
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setSpokenLanguages(
+		String spokenLanguages, java.util.Locale locale) {
+
+		model.setSpokenLanguages(spokenLanguages, locale);
+	}
+
+	/**
+	 * Sets the localized spoken languages of this help proposal in the language, and sets the default locale.
+	 *
+	 * @param spokenLanguages the localized spoken languages of this help proposal
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setSpokenLanguages(
+		String spokenLanguages, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setSpokenLanguages(spokenLanguages, locale, defaultLocale);
+	}
+
+	@Override
+	public void setSpokenLanguagesCurrentLanguageId(String languageId) {
+		model.setSpokenLanguagesCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized spoken languageses of this help proposal from the map of locales and localized spoken languageses.
+	 *
+	 * @param spokenLanguagesMap the locales and localized spoken languageses of this help proposal
+	 */
+	@Override
+	public void setSpokenLanguagesMap(
+		Map<java.util.Locale, String> spokenLanguagesMap) {
+
+		model.setSpokenLanguagesMap(spokenLanguagesMap);
+	}
+
+	/**
+	 * Sets the localized spoken languageses of this help proposal from the map of locales and localized spoken languageses, and sets the default locale.
+	 *
+	 * @param spokenLanguagesMap the locales and localized spoken languageses of this help proposal
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setSpokenLanguagesMap(
+		Map<java.util.Locale, String> spokenLanguagesMap,
+		java.util.Locale defaultLocale) {
+
+		model.setSpokenLanguagesMap(spokenLanguagesMap, defaultLocale);
 	}
 
 	/**
@@ -890,6 +1406,60 @@ public class HelpProposalWrapper
 	@Override
 	public void setTitle(String title) {
 		model.setTitle(title);
+	}
+
+	/**
+	 * Sets the localized title of this help proposal in the language.
+	 *
+	 * @param title the localized title of this help proposal
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setTitle(String title, java.util.Locale locale) {
+		model.setTitle(title, locale);
+	}
+
+	/**
+	 * Sets the localized title of this help proposal in the language, and sets the default locale.
+	 *
+	 * @param title the localized title of this help proposal
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setTitle(
+		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
+
+		model.setTitle(title, locale, defaultLocale);
+	}
+
+	@Override
+	public void setTitleCurrentLanguageId(String languageId) {
+		model.setTitleCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized titles of this help proposal from the map of locales and localized titles.
+	 *
+	 * @param titleMap the locales and localized titles of this help proposal
+	 */
+	@Override
+	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
+		model.setTitleMap(titleMap);
+	}
+
+	/**
+	 * Sets the localized titles of this help proposal from the map of locales and localized titles, and sets the default locale.
+	 *
+	 * @param titleMap the locales and localized titles of this help proposal
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setTitleMap(
+		Map<java.util.Locale, String> titleMap,
+		java.util.Locale defaultLocale) {
+
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**

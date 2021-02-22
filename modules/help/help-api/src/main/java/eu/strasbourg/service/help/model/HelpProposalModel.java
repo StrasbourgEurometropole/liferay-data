@@ -15,15 +15,18 @@
 package eu.strasbourg.service.help.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
-
-import org.osgi.annotation.versioning.ProviderType;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * The base model interface for the HelpProposal service. Represents a row in the &quot;help_HelpProposal&quot; database table, with each column mapped to a property of this class.
@@ -38,7 +41,7 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface HelpProposalModel
-	extends BaseModel<HelpProposal>, GroupedModel, ShardedModel,
+	extends BaseModel<HelpProposal>, GroupedModel, LocalizedModel, ShardedModel,
 			StagedAuditedModel, WorkflowedModel {
 
 	/*
@@ -291,8 +294,58 @@ public interface HelpProposalModel
 	 *
 	 * @return the title of this help proposal
 	 */
-	@AutoEscape
 	public String getTitle();
+
+	/**
+	 * Returns the localized title of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized title of this help proposal
+	 */
+	@AutoEscape
+	public String getTitle(Locale locale);
+
+	/**
+	 * Returns the localized title of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized title of this help proposal. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getTitle(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized title of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized title of this help proposal
+	 */
+	@AutoEscape
+	public String getTitle(String languageId);
+
+	/**
+	 * Returns the localized title of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized title of this help proposal
+	 */
+	@AutoEscape
+	public String getTitle(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getTitleCurrentLanguageId();
+
+	@AutoEscape
+	public String getTitleCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized titles of this help proposal.
+	 *
+	 * @return the locales and localized titles of this help proposal
+	 */
+	public Map<Locale, String> getTitleMap();
 
 	/**
 	 * Sets the title of this help proposal.
@@ -302,12 +355,96 @@ public interface HelpProposalModel
 	public void setTitle(String title);
 
 	/**
+	 * Sets the localized title of this help proposal in the language.
+	 *
+	 * @param title the localized title of this help proposal
+	 * @param locale the locale of the language
+	 */
+	public void setTitle(String title, Locale locale);
+
+	/**
+	 * Sets the localized title of this help proposal in the language, and sets the default locale.
+	 *
+	 * @param title the localized title of this help proposal
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setTitle(String title, Locale locale, Locale defaultLocale);
+
+	public void setTitleCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized titles of this help proposal from the map of locales and localized titles.
+	 *
+	 * @param titleMap the locales and localized titles of this help proposal
+	 */
+	public void setTitleMap(Map<Locale, String> titleMap);
+
+	/**
+	 * Sets the localized titles of this help proposal from the map of locales and localized titles, and sets the default locale.
+	 *
+	 * @param titleMap the locales and localized titles of this help proposal
+	 * @param defaultLocale the default locale
+	 */
+	public void setTitleMap(Map<Locale, String> titleMap, Locale defaultLocale);
+
+	/**
 	 * Returns the description of this help proposal.
 	 *
 	 * @return the description of this help proposal
 	 */
-	@AutoEscape
 	public String getDescription();
+
+	/**
+	 * Returns the localized description of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized description of this help proposal
+	 */
+	@AutoEscape
+	public String getDescription(Locale locale);
+
+	/**
+	 * Returns the localized description of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this help proposal. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getDescription(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized description of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized description of this help proposal
+	 */
+	@AutoEscape
+	public String getDescription(String languageId);
+
+	/**
+	 * Returns the localized description of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this help proposal
+	 */
+	@AutoEscape
+	public String getDescription(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getDescriptionCurrentLanguageId();
+
+	@AutoEscape
+	public String getDescriptionCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized descriptions of this help proposal.
+	 *
+	 * @return the locales and localized descriptions of this help proposal
+	 */
+	public Map<Locale, String> getDescriptionMap();
 
 	/**
 	 * Sets the description of this help proposal.
@@ -315,6 +452,42 @@ public interface HelpProposalModel
 	 * @param description the description of this help proposal
 	 */
 	public void setDescription(String description);
+
+	/**
+	 * Sets the localized description of this help proposal in the language.
+	 *
+	 * @param description the localized description of this help proposal
+	 * @param locale the locale of the language
+	 */
+	public void setDescription(String description, Locale locale);
+
+	/**
+	 * Sets the localized description of this help proposal in the language, and sets the default locale.
+	 *
+	 * @param description the localized description of this help proposal
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setDescription(
+		String description, Locale locale, Locale defaultLocale);
+
+	public void setDescriptionCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized descriptions of this help proposal from the map of locales and localized descriptions.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this help proposal
+	 */
+	public void setDescriptionMap(Map<Locale, String> descriptionMap);
+
+	/**
+	 * Sets the localized descriptions of this help proposal from the map of locales and localized descriptions, and sets the default locale.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this help proposal
+	 * @param defaultLocale the default locale
+	 */
+	public void setDescriptionMap(
+		Map<Locale, String> descriptionMap, Locale defaultLocale);
 
 	/**
 	 * Returns the in the name of of this help proposal.
@@ -376,6 +549,21 @@ public interface HelpProposalModel
 	public void setPostalCode(long postalCode);
 
 	/**
+	 * Returns the phone number of this help proposal.
+	 *
+	 * @return the phone number of this help proposal
+	 */
+	@AutoEscape
+	public String getPhoneNumber();
+
+	/**
+	 * Sets the phone number of this help proposal.
+	 *
+	 * @param phoneNumber the phone number of this help proposal
+	 */
+	public void setPhoneNumber(String phoneNumber);
+
+	/**
 	 * Returns the modified by user date of this help proposal.
 	 *
 	 * @return the modified by user date of this help proposal
@@ -394,8 +582,58 @@ public interface HelpProposalModel
 	 *
 	 * @return the spoken languages of this help proposal
 	 */
-	@AutoEscape
 	public String getSpokenLanguages();
+
+	/**
+	 * Returns the localized spoken languages of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized spoken languages of this help proposal
+	 */
+	@AutoEscape
+	public String getSpokenLanguages(Locale locale);
+
+	/**
+	 * Returns the localized spoken languages of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized spoken languages of this help proposal. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getSpokenLanguages(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized spoken languages of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized spoken languages of this help proposal
+	 */
+	@AutoEscape
+	public String getSpokenLanguages(String languageId);
+
+	/**
+	 * Returns the localized spoken languages of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized spoken languages of this help proposal
+	 */
+	@AutoEscape
+	public String getSpokenLanguages(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getSpokenLanguagesCurrentLanguageId();
+
+	@AutoEscape
+	public String getSpokenLanguagesCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized spoken languageses of this help proposal.
+	 *
+	 * @return the locales and localized spoken languageses of this help proposal
+	 */
+	public Map<Locale, String> getSpokenLanguagesMap();
 
 	/**
 	 * Sets the spoken languages of this help proposal.
@@ -403,6 +641,42 @@ public interface HelpProposalModel
 	 * @param spokenLanguages the spoken languages of this help proposal
 	 */
 	public void setSpokenLanguages(String spokenLanguages);
+
+	/**
+	 * Sets the localized spoken languages of this help proposal in the language.
+	 *
+	 * @param spokenLanguages the localized spoken languages of this help proposal
+	 * @param locale the locale of the language
+	 */
+	public void setSpokenLanguages(String spokenLanguages, Locale locale);
+
+	/**
+	 * Sets the localized spoken languages of this help proposal in the language, and sets the default locale.
+	 *
+	 * @param spokenLanguages the localized spoken languages of this help proposal
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setSpokenLanguages(
+		String spokenLanguages, Locale locale, Locale defaultLocale);
+
+	public void setSpokenLanguagesCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized spoken languageses of this help proposal from the map of locales and localized spoken languageses.
+	 *
+	 * @param spokenLanguagesMap the locales and localized spoken languageses of this help proposal
+	 */
+	public void setSpokenLanguagesMap(Map<Locale, String> spokenLanguagesMap);
+
+	/**
+	 * Sets the localized spoken languageses of this help proposal from the map of locales and localized spoken languageses, and sets the default locale.
+	 *
+	 * @param spokenLanguagesMap the locales and localized spoken languageses of this help proposal
+	 * @param defaultLocale the default locale
+	 */
+	public void setSpokenLanguagesMap(
+		Map<Locale, String> spokenLanguagesMap, Locale defaultLocale);
 
 	/**
 	 * Returns the image ID of this help proposal.
@@ -446,6 +720,106 @@ public interface HelpProposalModel
 	 * @param publicationDate the publication date of this help proposal
 	 */
 	public void setPublicationDate(Date publicationDate);
+
+	/**
+	 * Returns the comment of this help proposal.
+	 *
+	 * @return the comment of this help proposal
+	 */
+	public String getComment();
+
+	/**
+	 * Returns the localized comment of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized comment of this help proposal
+	 */
+	@AutoEscape
+	public String getComment(Locale locale);
+
+	/**
+	 * Returns the localized comment of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized comment of this help proposal. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getComment(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized comment of this help proposal in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized comment of this help proposal
+	 */
+	@AutoEscape
+	public String getComment(String languageId);
+
+	/**
+	 * Returns the localized comment of this help proposal in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized comment of this help proposal
+	 */
+	@AutoEscape
+	public String getComment(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getCommentCurrentLanguageId();
+
+	@AutoEscape
+	public String getCommentCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized comments of this help proposal.
+	 *
+	 * @return the locales and localized comments of this help proposal
+	 */
+	public Map<Locale, String> getCommentMap();
+
+	/**
+	 * Sets the comment of this help proposal.
+	 *
+	 * @param comment the comment of this help proposal
+	 */
+	public void setComment(String comment);
+
+	/**
+	 * Sets the localized comment of this help proposal in the language.
+	 *
+	 * @param comment the localized comment of this help proposal
+	 * @param locale the locale of the language
+	 */
+	public void setComment(String comment, Locale locale);
+
+	/**
+	 * Sets the localized comment of this help proposal in the language, and sets the default locale.
+	 *
+	 * @param comment the localized comment of this help proposal
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setComment(String comment, Locale locale, Locale defaultLocale);
+
+	public void setCommentCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized comments of this help proposal from the map of locales and localized comments.
+	 *
+	 * @param commentMap the locales and localized comments of this help proposal
+	 */
+	public void setCommentMap(Map<Locale, String> commentMap);
+
+	/**
+	 * Sets the localized comments of this help proposal from the map of locales and localized comments, and sets the default locale.
+	 *
+	 * @param commentMap the locales and localized comments of this help proposal
+	 * @param defaultLocale the default locale
+	 */
+	public void setCommentMap(
+		Map<Locale, String> commentMap, Locale defaultLocale);
 
 	/**
 	 * Returns <code>true</code> if this help proposal is approved.
@@ -510,5 +884,18 @@ public interface HelpProposalModel
 	 */
 	@Override
 	public boolean isScheduled();
+
+	@Override
+	public String[] getAvailableLanguageIds();
+
+	@Override
+	public String getDefaultLanguageId();
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException;
+
+	@Override
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException;
 
 }
