@@ -1,0 +1,253 @@
+// CARD BLOC HOME
+// ==========================================================================
+.pro-bloc-card-home {
+	display: block;
+    margin: 30px;
+	@include mobile {
+		max-width: 100%;
+		flex: 0 0 100%;
+	}
+	&:hover {
+		> * {
+			box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.2);
+			transform: translateY(-20px);
+			transform: translate3d(0, -20px, 0);
+		}
+	}
+
+	&:focus {
+		> * {
+			box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+			h3 {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	> * {
+		position: relative;
+		display: block;
+		border: 1px solid rgba($c_dark, 0.25);
+		border-radius: 4px;
+		background: $c_white;
+		@include addTransition();
+	}
+
+	.pro-header-home {
+		padding: 20px;
+		min-height: 110px;
+
+		.pro-ico {
+			width: 75px;
+			height: 75px;
+			border-radius: 50%;
+			background: $c_main;
+			float: left;
+			margin-right: 20px;
+			@include mobile {
+				width: 40px;
+				height: 40px;
+				margin-right: 15px;
+			}
+			> * {
+				display: block;
+				text-align: center;
+				line-height: 75px;
+				font-size: 2em;
+				color: $c_white;
+				@include mobile {
+					font-size: 16px;
+					line-height: 40px;
+				}
+			}
+		}
+		p {
+			@include ft($f_txt, 0.875em, 400, $c_txt, 1.225em);
+			margin-bottom: 10px;
+			white-space: nowrap;
+			overflow: hidden;
+			max-width: 280px;
+			text-overflow: ellipsis;
+			margin-left: 95px;
+			display: block;
+			@include mobile {
+				max-width: 100%;
+				margin-left: 0;
+			}
+
+		}
+		h3 {
+			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
+			text-transform: uppercase;
+			margin: 0 0 0 95px;
+			height: 50px;
+			overflow: hidden;
+			@include mobile {
+				margin: 0;
+				font-size: 22px;
+				line-height: 28px;
+				height: auto;
+			}
+		}
+	}
+
+	.pro-footer-home {
+		background: #edf0f2;
+		padding: 20px;
+		border-bottom-left-radius: 4px;
+		border-bottom-right-radius: 4px;
+		text-align: center;
+	}
+}
+
+// CARD BLOC INITIATIVE
+// ==========================================================================
+.pro-bloc-card-help {
+	position: relative;
+	display: block;
+	z-index: 100;
+	@include addTransition();
+
+	&:hover {
+		cursor: pointer;
+		box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.2);
+		transform: translateY(-20px);
+		transform: translate3d(0, -20px, 0);
+		.no-hover & {
+			box-shadow: none;
+			transform: none;
+		}
+	}
+
+	> * {
+		background: $c_white;
+		position: relative;
+		display: block;
+		border: 1px solid rgba($c_dark, 0.25);
+		@include addTransition();
+	}
+
+	.wrapper-card-help {
+		border-top-left-radius: 4px;
+		border-top-right-radius: 4px;
+		border-bottom: none;
+		height: calc(100% - 100px);
+		@include clearfix();
+		> * {
+			float: left;
+		}
+		> div {
+			width: 100%;
+		}
+		> figure, .fit-cover {
+			width: 155px !important;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			@include mobile {
+				position: relative;
+				width: 100% !important;
+				height: 150px;
+			}
+			> img {
+				height: 100%;
+			}
+			& + div {
+				width: calc(100% - 155px);
+				position: relative;
+				left: 155px;
+				@include mobile {
+					width: 100%;
+					left: 0;
+				}
+			}
+		}
+	}
+
+	.pro-header-help {
+		margin-bottom: 5px;
+		padding: 15px 15px 0 15px;
+		p {
+			@include ft($f_txt, 0.750em, 400, $c_txt, 1.533em);
+			display: inline-block;
+			width: calc(100% - 70px);
+			margin-bottom: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+
+	.pro-content-help {
+		padding: 0 15px 15px 15px;
+		position: relative;
+
+		.pro-wrapper-meta {
+			@include clearfix();
+			> * {
+				float: left;
+			}
+		}
+
+		.pro-meta {
+			margin-bottom: 0;
+			> span {
+				&:first-child {
+					padding-left: 0;
+				}
+				position: relative;
+				font-size: 0.875em;
+				line-height: 2em;
+				text-align: left;
+				&:after {
+					height: 13px;
+					right: -1px;
+				}
+			}
+		}
+		
+		h3 {
+			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
+			text-transform: uppercase;
+			margin: 0 0 5px 0;
+			height: 30px;
+			overflow: hidden;
+			@include mobile {
+				font-size: 22px;
+				line-height: 28px;
+				height: auto;
+			}
+		}
+
+		a {
+			&:focus {
+				h3 {
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+
+	.pro-footer-help {
+		padding: 0 20px;
+		background: #edf0f2;
+		height: 80px;
+		border-bottom-left-radius: 4px;
+		border-bottom-right-radius: 4px;
+		border-top: none;
+		@include mobile {
+			height: 100%;
+			padding: 10px 20px;
+		}
+		> p {
+			@include ft($f_txt, $s_small, 400, $c_txt, 80px);
+			float: left;
+			margin-bottom: 0;
+			@include mobile {
+				float: none;
+				line-height: 20px;
+			}
+		}
+	}
+
+}

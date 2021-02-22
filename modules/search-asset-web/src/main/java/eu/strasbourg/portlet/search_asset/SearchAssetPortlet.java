@@ -79,6 +79,7 @@ public class SearchAssetPortlet extends MVCPortlet {
     public final static String PARTICIPATION = "eu.strasbourg.service.project.model.Participation";
     public final static String BUDGET = "eu.strasbourg.service.project.model.BudgetParticipatif";
     public final static String INITIATIVE = "eu.strasbourg.service.project.model.Initiative";
+    public final static String AIDE = "eu.strasbourg.service.project.model.Initiative";
 
     @Override
     public void render(RenderRequest renderRequest, RenderResponse renderResponse) {

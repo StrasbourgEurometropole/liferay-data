@@ -132,4 +132,6 @@ public class StrasbourgPortletKeys {
 	public static final String OFFER_WEB = "eu_strasbourg_portlet_offer_OfferPortlet";
 
 	public static final String HELP_WEB = "eu_strasbourg_portlet_help_HelpPortlet";
+	public static final String HELP_POPUP_WEB = "eu_strasbourg_portlet_project_HelpPopupPortlet";
+
 }

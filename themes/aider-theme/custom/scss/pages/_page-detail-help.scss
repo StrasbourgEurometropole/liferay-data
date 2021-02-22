@@ -1,0 +1,131 @@
+.pro-page-detail-help{
+
+	> header {
+		@include tablet_portrait {
+			display: none;
+		}
+	}
+
+	article {
+
+		header {
+			.pro-header-help {
+				position: relative;
+
+				h1 {
+					&:before {
+						content: none;
+					}
+				}
+
+				.pro-wrapper-meta {
+					margin-top: 4px;
+					@include clearfix();
+					> * {
+						float: left;
+					}
+				}
+
+				.pro-statut {
+					margin-right: 8px;
+					position: relative;
+					top: 4px;
+					@include mobile{
+						top: 0;
+					}
+					span {
+						@include ft($f_hx, 0.875em, 700, $c_white, normal);
+						background: $c_dark;
+						border-radius: 4px;
+						text-transform: uppercase;
+						display: block;
+						padding: 3px 10px;
+					}
+				}
+
+				.pro-header-auteur {
+					margin-bottom: 10px;
+					padding: 12px 0 5px;
+					p {
+						@include ft($f_txt, 0.875em, 400, $c_txt, 1.533em);
+						display: inline-block;
+						width: calc(100% - 70px);
+						margin-bottom: 0;
+					}
+				}
+
+				&.pro-theme-actif{
+					.pro-wrapper-meta{
+						.pro-statut{
+							span{
+								background: #89f3d8;
+							}
+						}
+					}
+				}
+
+				&.pro-theme-inactif{
+					.pro-wrapper-meta{
+						.pro-statut{
+							span{
+								background: #89f3d8;
+							}
+						}
+					}
+				}
+
+			}
+
+			#breadcrumb {
+				width: calc(66.66666667% - 10px);
+				padding: 15px 0;
+				@include mobile{
+					width: 100%;
+				}
+				a {
+					&:after {
+						top: 0;
+					}
+				}
+			}
+		}
+
+		.pro-main-img {
+			position: relative;
+		}
+
+		aside {
+			@include mobile {
+				margin-top: 40px;
+			}
+			.pro-btn-yellow.pro-btn-disabled{
+				background: #ececec;
+				color: rgba($c_dark, 0.5);
+				border-color: #ececec;
+				&:hover, &:focus {
+					cursor: default;
+				}
+			}
+
+			.pro-wrapper-links{
+				padding: 40px;
+				background: $c_dark;
+				@include tablet_portrait{
+					padding: 20px;
+				}
+				> a {
+					margin-bottom: 10px;
+					width: 100%;
+					&:last-child{
+						margin-bottom: 0;
+					}
+				}
+			}
+		}
+
+		.pro-bloc-texte h2{
+			margin-top: 20px;
+		}
+
+	}
+}

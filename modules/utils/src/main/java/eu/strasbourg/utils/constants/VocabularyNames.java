@@ -64,4 +64,7 @@ public class VocabularyNames {
 	public static final String EJOB_CONTACT = "(e-job) contact responsable";
 	public static final String EJOB_INTERNE_EXTERNE = "(e-job) type de publication";
 	public static final String EJOB_MOTIF = "(e-job) motif";
+
+
+	public static final String HELPERS = "helpers";
 }
