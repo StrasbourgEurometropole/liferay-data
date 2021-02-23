@@ -24,6 +24,11 @@
         <div class="container">
             <div>
                 <h2>Mes propositions d'aide (${entries?size})</h2> 
+                <#if isUserloggedIn >
+                    <a id="buttonSubmitHelpProposal" href="" class="pro-btn" data-toggle="modal" data-target="#modalSubmitHelpProposal">Proposer une nouvelle aide</a>
+                <#else>
+                    <a name="#Need-connexion" href="" id="buttonSubmitHelpProposal" class="pro-btn" >Proposer une nouvelle aide</a>
+                </#if>
             </div>
             <div>
                 <div class="owl-carousel owl-opacify owl-theme owl-cards">
@@ -48,7 +53,7 @@
                                     <div class="pro-content-help">
                                         <div class="pro-wrapper-meta">
                                             <div class="pro-meta">
-                                                ${entry.getDistrictLabel(locale)?has_content?then('<span>'+entry.getDistrictLabel(locale)+'</span>','')}
+                                                ${entry.getLocalisationLabel(locale)?has_content?then('<span>'+entry.getLocalisationLabel(locale)+'</span>','')}
                                                 <#if entry.getHelpProposalTypeCategories()?? >
                                                     <span>
                                                         <#list entry.getHelpProposalTypeCategories() as helpType >

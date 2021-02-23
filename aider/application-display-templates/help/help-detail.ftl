@@ -13,16 +13,16 @@
     <#assign homeURL = "/" />
 </#if>
 
-<!-- Recuperation des thématiques -->
-<#if entry.getThematicCategories()??>
-    <#assign helpTypes = entry.getThematicCategories() />
+<!-- Recuperation des types d'aide -->
+<#if entry.getHelpProposalTypeCategories()??>
+    <#assign helpTypes = entry.getHelpProposalTypeCategories() />
 </#if>
 
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
 <#-- Récupération de l'ID de l'utilisateur -->
-<#assign isUserHelps = entry.isUserAlreadyHelp(userID) />
+<#-- <#assign isUserHelps = entry.isUserAlreadyHelp(userID) /> -->
 
 <#-- Récupération du contexte de navigation de l'utilisateur -->
 <#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
@@ -54,13 +54,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 					<div class="pro-header-help pro-theme-actif">
 						<h1>${entry.title}</h1>
 						<div class="pro-wrapper-meta">
-							<#if entry.getStatusCategory()?has_content>
-								<div class="pro-statut" ><span style="background : #${entry.getStatusCategoryColor()};">${entry.getStatusCategory().getTitle(locale)}</span></div>
+							<#if entry.getActivitStatusCategory()?has_content>
+								<div class="pro-statut" ><span style="background : #${entry.getActivityStatusClass()};">${entry.getActivitStatusCategory().getTitle(locale)}</span></div>
 							</#if>
 							<div class="pro-meta">
 							
 								<!-- Liste des quartiers  -->
-								<span>${entry.getDistrictLabel(locale)}</span>
+								<span>${entry.getLocalisationLabel(locale)}</span>
 
 								<!-- Liste des types -->
 								<#if helpTypes?? >
@@ -71,7 +71,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 							</div>
 						</div>
 						<div class="pro-header-auteur">
-							<p>Aide publiée le ${entry.publicationDate?date?string['dd/MM/yyyy']} par :</p>
+							<p>Aide publiée le ${entry.createDate?date?string['dd/MM/yyyy']} par :</p>
 							<p><strong>${entry.getAuthorLabel()}</strong></p>
 						</div>
 					</div>
@@ -80,7 +80,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 					<span>
 						<span>
 							<a href="${homeURL}">Accueil</a>
-						<a href="${homeURL}initiatives">Aide</a>
 						<span class="breadcrumb_last">${entry.title}</span>
 						</span>
 					</span>
@@ -108,19 +107,16 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 						
 						<div class="pro-wrapper-links">
 						
-							<#if isUserloggedIn && isUserHelps >
+							<#-- <#if isUserloggedIn && isUserHelps >
 								<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpProposal" data-toggle="modal" data-target="#modalSubmitHelpProposal">Modifier mon annonce</a>
                                 <a href="#" class="pro-btn-yellow" id="buttonDesactivateHelp" data-toggle="modal" data-target="#modalDesactivateHelp">Désactiver mon annonce</a>   
 							<#else>
 								<#if isUserloggedIn >
 									<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpRequest" data-toggle="modal" data-target="#modalSubmitHelpRequest">Faire une demande d'aide</a><br>
-									
-    								<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpProposal" data-toggle="modal" data-target="#modalSubmitHelpProposal">Modifier mon annonce</a>
-                                    <a href="#" class="pro-btn-yellow" id="buttonDesactivateHelp" data-toggle="modal" data-target="#modalDesactivateHelp">Désactiver mon annonce</a>   
 								<#else>
 									<a name="#Need-connexion" href="" class="pro-btn-yellow" id="buttonContactInitiativeAuthor">Faire une demande d'aide</a>
 								</#if>
-							</#if>
+							</#if> -->
 
 						</div>
 					</aside>
