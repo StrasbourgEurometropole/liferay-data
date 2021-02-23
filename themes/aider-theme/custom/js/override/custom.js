@@ -39,7 +39,7 @@ function getResult(searchPage, data) {
 			
         });
         listing += '</div>';
-        $('.pro-listing-initiative').html(listing);
+        $('.pro-listing-help').html(listing);
 
         // gestion de la pagination
         // selecteur de page + Label

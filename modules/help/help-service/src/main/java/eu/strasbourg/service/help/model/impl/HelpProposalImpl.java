@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -78,15 +79,84 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	}
 
 	/**
-	 * Retourne les thematiques de la proposition d'aide (
+	 * Retourne la class du statut d'activité de la proposition d'aide (
 	 */
-	/* A remplacer par HelpProposalType ?
 	@Override
-	public List<AssetCategory> getThematicCategories() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.THEMATIC);
+	public String getActivityStatusClass() {
+		AssetCategory ActivityStatusCategory = this.getActivitStatusCategory();
+		if (ActivityStatusCategory != null) {
+			return AssetVocabularyHelper.getCategoryProperty(ActivityStatusCategory.getCategoryId(), "class");
+		} else {
+			return "";
+		}
 	}
-	*/
+
+	/**
+	 * Retourne le statut d'activité de la proposition d'aide (
+	 */
+	@Override
+	public String getActivityStatusTitle(Locale locale) {
+		AssetCategory ActivityStatusCategory = this.getActivitStatusCategory();
+		if (ActivityStatusCategory != null) {
+			return ActivityStatusCategory.getTitle(locale);
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * Retourne la catégorie statut activite proposition d'aide de l'aide
+	 */
+	@Override
+	public AssetCategory getActivitStatusCategory() {
+		List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.HELP_PROPOSAL_ACTIVITY_STATUS);
+		if (assetCategories.size() > 0) {
+			return assetCategories.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Retourne la class du statut de modération de la proposition d'aide (
+	 */
+	@Override
+	public String getModerationStatusClass() {
+		AssetCategory ModerationStatusCategory = this.getModerationStatusCategory();
+		if (ModerationStatusCategory != null) {
+			return AssetVocabularyHelper.getCategoryProperty(ModerationStatusCategory.getCategoryId(), "class");
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * Retourne le statut de modération de la proposition d'aide (
+	 */
+	@Override
+	public String getModerationStatusTitle(Locale locale) {
+		AssetCategory ModerationStatusCategory = this.getModerationStatusCategory();
+		if (ModerationStatusCategory != null) {
+			return ModerationStatusCategory.getTitle(locale);
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * Retourne la catégorie statut activite proposition d'aide de l'aide
+	 */
+	@Override
+	public AssetCategory getModerationStatusCategory() {
+		List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.HELP_PROPOSAL_MODERATION_STATUS);
+		if (assetCategories.size() > 0) {
+			return assetCategories.get(0);
+		} else {
+			return null;
+		}
+	}
 
 	/**
 	 * Retourne les catégories 'Territoire' correspondant aux pays de la helpProposal
@@ -201,7 +271,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	@Override
 	public AssetCategory getProposalStatusCategory() {
 		List <AssetCategory> status = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.HELP_PROPOSAL_STATUS);
+				VocabularyNames.HELP_PROPOSAL_ACTIVITY_STATUS);
 		return status.size() > 0 ? status.get(0) : null;
 	}
 

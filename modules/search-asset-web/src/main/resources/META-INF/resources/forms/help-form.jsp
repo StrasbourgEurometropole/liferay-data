@@ -88,12 +88,12 @@
         <h4><liferay-ui:message key="eu.search.asset.web.platit.participation.territories" /></h4>
         <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
-    <fieldset id="districts_fieldset" class="pro-checkbox">
+    <fieldset id="localisations_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de quartier</legend>
         
-        <c:set var="districtVocabulary" value="${vocabularyAccessor.getTerritories()}" />
+        <c:set var="localisationVocabulary" value="${vocabularyAccessor.getTerritories()}" />
 		<c:forEach
-			items="${dc.getDropdownRootCategories(districtVocabulary)}"
+			items="${dc.getDropdownRootCategories(localisationVocabulary)}"
 			var="category"
 			varStatus="catStatus">
 			<aui:input type="checkbox" name="vocabulary_1"
@@ -147,5 +147,5 @@
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>
-	<script src="/o/searchassetweb/js/aide.js"></script>
+	<script src="/o/searchassetweb/js/help.js"></script>
 </liferay-util:html-bottom>

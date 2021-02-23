@@ -66,7 +66,7 @@ public class HelpProposalCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(51);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -104,6 +104,8 @@ public class HelpProposalCacheModel
 		sb.append(city);
 		sb.append(", postalCode=");
 		sb.append(postalCode);
+		sb.append(", phoneNumber=");
+		sb.append(phoneNumber);
 		sb.append(", modifiedByUserDate=");
 		sb.append(modifiedByUserDate);
 		sb.append(", spokenLanguages=");
@@ -114,6 +116,8 @@ public class HelpProposalCacheModel
 		sb.append(publikId);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
+		sb.append(", comment=");
+		sb.append(comment);
 		sb.append("}");
 
 		return sb.toString();
@@ -210,6 +214,13 @@ public class HelpProposalCacheModel
 
 		helpProposalImpl.setPostalCode(postalCode);
 
+		if (phoneNumber == null) {
+			helpProposalImpl.setPhoneNumber("");
+		}
+		else {
+			helpProposalImpl.setPhoneNumber(phoneNumber);
+		}
+
 		if (modifiedByUserDate == Long.MIN_VALUE) {
 			helpProposalImpl.setModifiedByUserDate(null);
 		}
@@ -239,6 +250,13 @@ public class HelpProposalCacheModel
 		}
 		else {
 			helpProposalImpl.setPublicationDate(new Date(publicationDate));
+		}
+
+		if (comment == null) {
+			helpProposalImpl.setComment("");
+		}
+		else {
+			helpProposalImpl.setComment(comment);
 		}
 
 		helpProposalImpl.resetOriginalValues();
@@ -273,12 +291,14 @@ public class HelpProposalCacheModel
 		city = objectInput.readUTF();
 
 		postalCode = objectInput.readLong();
+		phoneNumber = objectInput.readUTF();
 		modifiedByUserDate = objectInput.readLong();
 		spokenLanguages = objectInput.readUTF();
 
 		imageId = objectInput.readLong();
 		publikId = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
+		comment = objectInput.readUTF();
 	}
 
 	@Override
@@ -357,6 +377,14 @@ public class HelpProposalCacheModel
 		}
 
 		objectOutput.writeLong(postalCode);
+
+		if (phoneNumber == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(phoneNumber);
+		}
+
 		objectOutput.writeLong(modifiedByUserDate);
 
 		if (spokenLanguages == null) {
@@ -376,6 +404,13 @@ public class HelpProposalCacheModel
 		}
 
 		objectOutput.writeLong(publicationDate);
+
+		if (comment == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(comment);
+		}
 	}
 
 	public String uuid;
@@ -396,10 +431,12 @@ public class HelpProposalCacheModel
 	public String address;
 	public String city;
 	public long postalCode;
+	public String phoneNumber;
 	public long modifiedByUserDate;
 	public String spokenLanguages;
 	public long imageId;
 	public String publikId;
 	public long publicationDate;
+	public String comment;
 
 }

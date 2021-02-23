@@ -88,7 +88,7 @@ public class HelpPopupPortlet extends MVCPortlet {
 			List<AssetCategory> localisations = AssetVocabularyHelper.getChild(france.getCategoryId());
 
 			// Récupération des aidants
-			AssetVocabulary helpersVocabulary = AssetVocabularyHelper.getVocabulary(VocabularyNames.HELPERS, groupId);
+			AssetVocabulary helpersVocabulary = AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_HELPER_TYPE, groupId);
 			List<AssetCategory> helpers = helpersVocabulary.getCategories();
 
 			// Récupération des thematics

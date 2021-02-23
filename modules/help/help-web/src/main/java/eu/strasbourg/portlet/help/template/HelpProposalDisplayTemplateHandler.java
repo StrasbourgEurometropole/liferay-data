@@ -29,7 +29,7 @@ public class HelpProposalDisplayTemplateHandler extends BasePortletDisplayTempla
 
     @Override
     public String getName(Locale locale) {
-        return "Template HelpProposal";
+        return "Template Proposition d'aide";
     }
 
     @Override

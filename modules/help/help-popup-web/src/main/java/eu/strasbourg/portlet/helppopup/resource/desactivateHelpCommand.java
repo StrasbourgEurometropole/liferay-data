@@ -34,10 +34,10 @@ import java.io.PrintWriter;
 public class desactivateHelpCommand implements MVCResourceCommand {
 	
 	// Id de recuperation des champs
-	private static final String HELP_ID = "helpId";
+	private static final String HELP_PROPOSAL_ID = "helpProposalId";
 
 	// Champs
-	private long helpId;
+	private long helpProposalId;
 
     // Gestion et contexte de la requete
     private String publikID;
@@ -57,13 +57,13 @@ public class desactivateHelpCommand implements MVCResourceCommand {
         this.publikID = getPublikID(request);
         
         // Recuperation de l'aide
-        this.helpId = ParamUtil.getLong(request, HELP_ID);
+        this.helpProposalId = ParamUtil.getLong(request, HELP_PROPOSAL_ID);
 
         // Verification de la validite des informations
         if (validate(request)) {
 
             try {
-                InitiativeLocalServiceUtil.deleteInitiative(this.helpId);
+                InitiativeLocalServiceUtil.deleteInitiative(this.helpProposalId);
             } catch (PortalException e) {
                 this.message = e.getMessage();
                 result = false;
@@ -101,7 +101,7 @@ public class desactivateHelpCommand implements MVCResourceCommand {
         }
 
         // title
-        if (Validator.isNull(this.helpId)) {
+        if (Validator.isNull(this.helpProposalId)) {
         	this.message = "Id non valide";
             return false;
         }

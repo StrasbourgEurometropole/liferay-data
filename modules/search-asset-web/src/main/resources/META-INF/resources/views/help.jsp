@@ -23,7 +23,7 @@
                     
                         <!-- Resultats -->
                         <aui:form method="post" name="fm">
-                            <div class="pro-listing-initiative"></div>
+                            <div class="pro-listing-help"></div>
                         </aui:form>
                         
                     </div>
@@ -35,13 +35,13 @@
 	        <div class="col-md-4 pro-wrapper-aside">
 	           
 	           	<!-- Bloc : formulaire -->
-	            <div class="pro-bloc-facette pro-bloc-facette-participation">
+	            <div class="pro-bloc-facette pro-bloc-facette-help">
 	                <span class="pro-affiner"><liferay-ui:message key="eu.refine-research" /> <span class="icon-ico-chevron-down"></span></span>
 	
 	                <!-- Formulaire -->
 					<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form">
 						<liferay-portlet:renderURLParams varImpl="searchActionURL" />
-						<liferay-util:include page="/forms/aides-form.jsp" servletContext="<%=application%>" />
+						<liferay-util:include page="/forms/help-form.jsp" servletContext="<%=application%>" />
 					</aui:form>
 	                
 	            </div>

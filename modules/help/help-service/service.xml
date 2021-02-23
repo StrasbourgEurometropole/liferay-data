@@ -26,14 +26,15 @@
 		<column name="statusDate" type="Date" />
 
 		<!-- Main fields -->
-		<column name="title" type="String" />
-		<column name="description" type="String" />
+		<column name="title" type="String" localized="true" />
+		<column name="description" type="String" localized="true" />
 		<column name="inTheNameOf" type="String" />
 		<column name="address" type="String" />
 		<column name="city" type="String" />
 		<column name="postalCode" type="long" />
+		<column name="phoneNumber" type="String" />
 		<column name="modifiedByUserDate" type="Date"/>
-		<column name="spokenLanguages" type="String" />
+		<column name="spokenLanguages" type="String" localized="true" />
 
 		<!-- Medias -->
 		<column name="imageId" type="long" />
@@ -43,6 +44,7 @@
 
 		<!-- Others -->
 		<column name="publicationDate" type="Date" />
+		<column name="comment" type="String" localized="true" />
 
 		<!-- Order -->
 		<order by="asc">

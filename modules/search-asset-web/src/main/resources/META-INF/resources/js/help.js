@@ -3,7 +3,7 @@ var help = null;
 
 var entityType = {
 	THEMATIC : 'vocabulary_0',
-	DISTRICT : 'vocabulary_1',
+	LOCALISATION : 'vocabulary_1',
 	HELP_STATUS : 'vocabulary_2',
 }
 
@@ -51,7 +51,7 @@ function getSelectedEntries() {
         selectedEndYear = $('input[data-name="toYear"]')[0].value;
 	}
 	var selectedHelpStatus = getSelectedMarkerElements(entityType.HELP_STATUS);
-	var selectedDistricts = getSelectedMarkerElements(entityType.DISTRICT);
+	var selectedLocalisations = getSelectedMarkerElements(entityType.LOCALISATION);
 	var selectedThematics = getSelectedMarkerElements(entityType.THEMATIC);
 
 	AUI().use('aui-io-request', function(A) {
@@ -66,8 +66,8 @@ function getSelectedEntries() {
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndDay : selectedEndDay,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndMonth : selectedEndMonth,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndYear : selectedEndYear,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedInitiativeStatus : selectedHelpStatus,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedDistricts : selectedDistricts,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedHelpStatus : selectedHelpStatus,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedLocalisations : selectedLocalisations,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedThematics : selectedThematics,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_sortFieldAndType : sortField + ',' + sortType,
 			},
@@ -92,7 +92,7 @@ $("fieldset[id='help_status_fieldset'] input").change(function() {
 });
 
 // Lors d'une selection d'un quartier
-$("fieldset[id='districts_fieldset'] input").change(function() {
+$("fieldset[id='localisations_fieldset'] input").change(function() {
 	getSelectedEntries();
 });
 
