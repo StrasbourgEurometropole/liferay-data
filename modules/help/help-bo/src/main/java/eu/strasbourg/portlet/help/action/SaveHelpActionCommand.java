@@ -145,19 +145,22 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 			Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request, "comment");
 			helpProposal.setCommentMap(comment);
 
-			// Mise du statut de modération en lu
-			long[] ids = sc.getAssetCategoryIds();
-			List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
+			// Mise du statut de modération en lue
+			Boolean isRead = ParamUtil.getBoolean(request, "read");
+			if(isRead) {
+				long[] ids = sc.getAssetCategoryIds();
+				List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
 
-			AssetCategory nonLu = AssetVocabularyHelper.getCategory("Non Lue", sc.getScopeGroupId());
-			if(nonLu != null && idsLong.indexOf(nonLu.getCategoryId()) >= 0)
-				idsLong.remove(idsLong.indexOf(nonLu.getCategoryId()));
+				AssetCategory nonLu = AssetVocabularyHelper.getCategory("Non Lue", sc.getScopeGroupId());
+				if (nonLu != null && idsLong.indexOf(nonLu.getCategoryId()) >= 0)
+					idsLong.remove(idsLong.indexOf(nonLu.getCategoryId()));
 
-			AssetCategory lu = AssetVocabularyHelper.getCategory("Lue", sc.getScopeGroupId());
-			if(lu != null)
-				idsLong.add(lu.getCategoryId());
+				AssetCategory lu = AssetVocabularyHelper.getCategory("Lue", sc.getScopeGroupId());
+				if (lu != null)
+					idsLong.add(lu.getCategoryId());
 
-			sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
+				sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
+			}
 
 			_helpProposalLocalService.updateHelpProposal(helpProposal, sc);
 
