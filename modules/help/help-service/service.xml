@@ -43,7 +43,6 @@
 		<column name="publikId" type="String" />
 
 		<!-- Others -->
-		<column name="publicationDate" type="Date" />
 		<column name="comment" type="String" localized="true" />
 
 		<!-- Order -->

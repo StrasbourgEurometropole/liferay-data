@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.helppopup.resource;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
@@ -85,6 +86,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
 	private static final String PHOTO = "photo";
 
 	// Champs
+    private long helpProposalId;
     private String address;
     private String city;
     private String postalcode;
@@ -132,8 +134,8 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
          	// Envoi de la demande
             result = saveHelp(request);
             
-//            if(result)
-//            	sendHelpMailConfirmation(request);
+            if(result)
+            	sendHelpMailConfirmation(request);
         }
         
         // Retour des informations de la requete en JSON
@@ -165,11 +167,12 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
                     identifiants.add(Long.parseLong(typeId));
                 }
             }
-            if (this.helperId != 0) {
-                identifiants.add(helperId);
-            }
-            if (this.localisationId != 0) {
-                identifiants.add(localisationId);
+            identifiants.add(helperId);
+            identifiants.add(localisationId);
+            // Mise de la ville de strasbourg si c'est un quartier
+            AssetCategory parent = AssetCategoryLocalServiceUtil.fetchAssetCategory(localisationId).getParentCategory();
+            if(parent.getName().equals("Strasbourg")) {
+                identifiants.add(parent.getCategoryId());
             }
             // Ajout active
             AssetCategory active = AssetVocabularyHelper.getCategory("Active", sc.getScopeGroupId());
@@ -188,6 +191,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
             sc.setAssetCategoryIds(ids);
 
             helpProposal = _helpProposalLocalService.createHelpProposal(sc);
+            this.helpProposalId = helpProposal.getHelpProposalId();
 
 
             helpProposal.setAddress(this.address);
@@ -222,18 +226,18 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
 	    	// récupération des images
 			StringBuilder hostUrl = new StringBuilder("https://");
 			hostUrl.append(request.getServerName());
-			StringBuilder headerImage = new StringBuilder(hostUrl)
-					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
-			StringBuilder btnImage = new StringBuilder(hostUrl)
-					.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
+//			StringBuilder headerImage = new StringBuilder(hostUrl)
+//					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
+//			StringBuilder btnImage = new StringBuilder(hostUrl)
+//					.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
 	    	
 			// préparation du template de mail
 			Map<String, Object> context = new HashMap<>();
 			context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
-			context.put("headerImage", headerImage.toString());
-			context.put("footerImage", btnImage.toString());
-			context.put("Title", this.title);
-			context.put("Message", this.presentation);
+//			context.put("headerImage", headerImage.toString());
+//			context.put("footerImage", btnImage.toString());
+            // Retourne l'URL de la page d'accueil
+			context.put("detailURL", themeDisplay.getScopeGroup().getDisplayURL(themeDisplay) + "/detail-aide/-/entity/id/" + this.helpProposalId);
 
             StringWriter out = new StringWriter();
 
@@ -249,7 +253,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
             bodyTemplate.processTemplate(out);
             String mailBody = out.toString();
 			
-			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submit.help-proposal.mail.information");
+			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submit.help-proposal.mail.information") + this.title;
 			
 			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
 					themeDisplay.getScopeGroup().getName(request.getLocale()));

@@ -112,6 +112,15 @@ public class HelpPopupPortlet extends MVCPortlet {
 			boolean isSignedIn = themeDisplay.isSignedIn();
 			request.setAttribute("isSignedIn", isSignedIn);
 
+			 // Retourne l'URL de la page d'accueil
+			String homeURL = "/";
+			if (themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname() != null
+					|| themeDisplay.getScopeGroup().isStagingGroup()) {
+				homeURL =  "/web" + themeDisplay.getScopeGroup().getFriendlyURL() + "/";
+			}
+			request.setAttribute("homeURL", homeURL);
+
+
 		} catch (Exception e) {
 			_log.error("erreur : ", e);
 		}

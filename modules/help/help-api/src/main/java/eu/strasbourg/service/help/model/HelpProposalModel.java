@@ -709,20 +709,6 @@ public interface HelpProposalModel
 	public void setPublikId(String publikId);
 
 	/**
-	 * Returns the publication date of this help proposal.
-	 *
-	 * @return the publication date of this help proposal
-	 */
-	public Date getPublicationDate();
-
-	/**
-	 * Sets the publication date of this help proposal.
-	 *
-	 * @param publicationDate the publication date of this help proposal
-	 */
-	public void setPublicationDate(Date publicationDate);
-
-	/**
 	 * Returns the comment of this help proposal.
 	 *
 	 * @return the comment of this help proposal

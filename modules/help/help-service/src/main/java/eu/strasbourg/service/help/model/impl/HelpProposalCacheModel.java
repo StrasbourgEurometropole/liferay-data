@@ -17,17 +17,14 @@ package eu.strasbourg.service.help.model.impl;
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
-
 import eu.strasbourg.service.help.model.HelpProposal;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
 import java.util.Date;
-
-import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The cache model class for representing HelpProposal in entity cache.
@@ -66,7 +63,7 @@ public class HelpProposalCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(51);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -114,8 +111,6 @@ public class HelpProposalCacheModel
 		sb.append(imageId);
 		sb.append(", publikId=");
 		sb.append(publikId);
-		sb.append(", publicationDate=");
-		sb.append(publicationDate);
 		sb.append(", comment=");
 		sb.append(comment);
 		sb.append("}");
@@ -245,13 +240,6 @@ public class HelpProposalCacheModel
 			helpProposalImpl.setPublikId(publikId);
 		}
 
-		if (publicationDate == Long.MIN_VALUE) {
-			helpProposalImpl.setPublicationDate(null);
-		}
-		else {
-			helpProposalImpl.setPublicationDate(new Date(publicationDate));
-		}
-
 		if (comment == null) {
 			helpProposalImpl.setComment("");
 		}
@@ -297,7 +285,6 @@ public class HelpProposalCacheModel
 
 		imageId = objectInput.readLong();
 		publikId = objectInput.readUTF();
-		publicationDate = objectInput.readLong();
 		comment = objectInput.readUTF();
 	}
 
@@ -403,8 +390,6 @@ public class HelpProposalCacheModel
 			objectOutput.writeUTF(publikId);
 		}
 
-		objectOutput.writeLong(publicationDate);
-
 		if (comment == null) {
 			objectOutput.writeUTF("");
 		}
@@ -436,7 +421,6 @@ public class HelpProposalCacheModel
 	public String spokenLanguages;
 	public long imageId;
 	public String publikId;
-	public long publicationDate;
 	public String comment;
 
 }

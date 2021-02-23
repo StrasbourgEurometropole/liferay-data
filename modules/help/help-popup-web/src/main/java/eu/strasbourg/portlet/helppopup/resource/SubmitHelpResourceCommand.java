@@ -265,7 +265,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
             //Chargement du template contenant le corps du mail
             TemplateResource templateResourceBody = new URLTemplateResource("0",
                     Objects.requireNonNull(this.getClass().getClassLoader()
-                            .getResource("META-INF/resources/templates/contact-mail-initiative-copy-body-fr_FR.ftl")));
+                            .getResource("META-INF/resources/templates/contact-mail-help-proposal-copy-body-fr_FR.ftl")));
             Template bodyTemplate = TemplateManagerUtil.getTemplate(
                     TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
 

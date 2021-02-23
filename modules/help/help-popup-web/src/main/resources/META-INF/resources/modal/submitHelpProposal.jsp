@@ -323,7 +323,7 @@
                     var data = JSON.parse(this.response);
                     if(data.result){
                         $("#modalSubmitHelpProposal").modal('hide');
-                        $("#<portlet:namespace />modalConfirm #lien-detail").attr("href", "/detail-aide/-/entity/id/" + data.message);
+                        $("#<portlet:namespace />modalConfirm #lien-detail").attr("href", "${homeURL}detail-aide/-/entity/id/" + data.message);
                         $("#<portlet:namespace />modalConfirm").modal('show');
                         resetValuesHelpProposal();
                     }else{
