@@ -24,11 +24,6 @@
         <div class="container">
             <div>
                 <h2>Mes propositions d'aide (${entries?size})</h2> 
-                <#if isUserloggedIn >
-                    <a id="buttonSubmitHelpProposal" href="" class="pro-btn" data-toggle="modal" data-target="#modalSubmitHelpProposal">Proposer une nouvelle aide</a>
-                <#else>
-                    <a name="#Need-connexion" href="" id="buttonSubmitHelpProposal" class="pro-btn" >Proposer une nouvelle aide</a>
-                </#if>
             </div>
             <div>
                 <div class="owl-carousel owl-opacify owl-theme owl-cards">
@@ -37,10 +32,7 @@
                     <#list entries as curEntry>
 
                         <!-- Recuperation de l'entite -->
-                        <#assign entry = curEntry.getAssetRenderer().getInitiative() />
-
-                        <#-- Récupération de l'ID de l'utilisateur -->
-                        <#assign isUserHelps = entry.isUserAlreadyHelp(userID) />
+                        <#assign entry = curEntry.getAssetRenderer().getHelpProposal() />
 
                         <div class="item pro-bloc-card-help" data-linkall="a">
                             <div class="wrapper-card-help">
@@ -57,18 +49,18 @@
                                         <div class="pro-wrapper-meta">
                                             <div class="pro-meta">
                                                 ${entry.getDistrictLabel(locale)?has_content?then('<span>'+entry.getDistrictLabel(locale)+'</span>','')}
-                                                <#if entry.getThematicCategories()?? >
+                                                <#if entry.getHelpProposalTypeCategories()?? >
                                                     <span>
-                                                        <#list entry.getThematicCategories() as helpType >
+                                                        <#list entry.getHelpProposalTypeCategories() as helpType >
                                                             ${helpType.getTitle(locale)}<#sep> - </#sep>
                                                         </#list>
                                                     </span>
                                                 </#if>
                                             </div>
                                         </div>
-                                        <a href="${homeURL}detail-aide/-/entity/id/${entry.initiativeId}" title="lien de la page">
-                                            <h3>${entry.title?html}</h3>
-                                            ${(entry.getDescription()?replace("<[^>]*>", "", "r")?length>50)?then("<p>"+entry.getDescription()?replace("<[^>]*>", "", "r")[0..*50]+"...</p>", entry.getDescription())}
+                                        <a href="${homeURL}detail-aide/-/entity/id/${entry.helpProposalId}" title="lien de la page">
+                                            <h3>${entry.getTitle(locale)?html}</h3>
+                                            <p>${(entry.getDescription(locale)?replace("<[^>]*>", "", "r")?length>50)?then(entry.getDescription(locale)?replace("<[^>]*>", "", "r")[0..*50]+"...", entry.getDescription(locale))}</p>
                                         </a>
                                     </div>
                                 </div>
