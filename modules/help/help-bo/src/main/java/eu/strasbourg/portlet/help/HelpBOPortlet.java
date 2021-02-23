@@ -10,6 +10,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.help.context.EditHelpDisplayContext;
+import eu.strasbourg.portlet.help.context.ViewHelpSeekersDisplayContext;
 import eu.strasbourg.portlet.help.context.ViewHelpsDisplayContext;
 import org.osgi.service.component.annotations.Component;
 
@@ -68,7 +69,10 @@ public class HelpBOPortlet extends MVCPortlet {
 			EditHelpDisplayContext dc = new EditHelpDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "Help";
-		}else { // Else, we are on the projects list page
+		} else if(tab.equals("helpSeekers")) {
+			ViewHelpSeekersDisplayContext dc = new ViewHelpSeekersDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+		} else { // Else, we are on the main list page
 				ViewHelpsDisplayContext dc = new ViewHelpsDisplayContext(renderRequest, renderResponse);
 				renderRequest.setAttribute("dc", dc);
 				title = "helps";
@@ -82,4 +86,5 @@ public class HelpBOPortlet extends MVCPortlet {
 		title = LanguageUtil.get(PortalUtil.getHttpServletRequest(renderRequest), title);
 		renderResponse.setTitle(title);
 	}
+
 }
