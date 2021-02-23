@@ -11,7 +11,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
+import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -63,7 +63,7 @@ public class desactivateHelpCommand implements MVCResourceCommand {
         if (validate(request)) {
 
             try {
-                InitiativeLocalServiceUtil.deleteInitiative(this.helpProposalId);
+                HelpProposalLocalServiceUtil.deleteHelpProposal(this.helpProposalId);
             } catch (PortalException e) {
                 this.message = e.getMessage();
                 result = false;

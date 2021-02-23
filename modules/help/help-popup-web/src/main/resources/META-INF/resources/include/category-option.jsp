@@ -1,7 +1,7 @@
 <%@ include file="/help-popup-init.jsp" %>
 <c:set var="prefix" value="" />
 <c:forEach var="i" begin="1" end="${level}">
-	<c:set var="prefix" value="${prefix} - " />
+	<c:set var="prefix" value="${prefix} -- " />
 </c:forEach>
 <aui:option value="${category.categoryId}"
 	label="${prefix} ${category.getTitle(locale)}" />

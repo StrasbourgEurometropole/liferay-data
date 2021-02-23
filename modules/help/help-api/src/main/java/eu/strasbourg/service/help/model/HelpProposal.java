@@ -163,6 +163,22 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 	public String getPublicationDateFr();
 
 	/**
+	 * Retourne une chaine des 'Territoires' correspondant aux ville et quartiers de l'aide
+	 */
+	public String getDistrictLabel(java.util.Locale locale);
+
+	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	public String getImageURL();
+
+	/**
+	 * Retourne les type d'aide de l'aide
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getHelpProposalTypeCategories();
+
+	/**
 	 * Retourne la version JSON de l'entité
 	 *
 	 * @throws PortalException

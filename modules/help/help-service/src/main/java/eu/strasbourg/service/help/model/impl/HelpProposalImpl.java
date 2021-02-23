@@ -28,7 +28,7 @@ import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-
+import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -292,6 +292,34 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		Date date = this.getAssetEntry().getPublishDate();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		return sdf.format(date);
+	}
+
+	/**
+	 * Retourne une chaine des 'Territoires' correspondant aux ville et quartiers de l'aide
+	 */
+	@Override
+	public String getDistrictLabel(Locale locale) {
+		List<AssetCategory> districts = getDistrictCategories();
+		List<AssetCategory> cities = getCityCategories();
+		return AssetVocabularyHelper.getDistrictTitle(locale, districts, cities);
+	}
+
+	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageURL() {
+		return FileEntryHelper.getFileEntryURL(this.getImageId());
+	}
+
+
+	/**
+	 * Retourne les type d'aide de l'aide
+	 */
+	@Override
+	public List<AssetCategory> getHelpProposalTypeCategories() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.HELP_PROPOSAL_TYPE);
 	}
 
 	/**

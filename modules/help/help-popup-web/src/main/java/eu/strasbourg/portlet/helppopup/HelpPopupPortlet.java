@@ -91,8 +91,8 @@ public class HelpPopupPortlet extends MVCPortlet {
 			AssetVocabulary helpersVocabulary = AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_HELPER_TYPE, groupId);
 			List<AssetCategory> helpers = helpersVocabulary.getCategories();
 
-			// Récupération des thematics
-			List<AssetCategory> types = assetVocabularyAccessor.getThematics(groupId).getCategories();
+			// Récupération des types d'aide
+			List<AssetCategory> types = assetVocabularyAccessor.getHelpProposalType(groupId).getCategories();
 
 			request.setAttribute("localisations", localisations);
 			request.setAttribute("helpers", helpers);

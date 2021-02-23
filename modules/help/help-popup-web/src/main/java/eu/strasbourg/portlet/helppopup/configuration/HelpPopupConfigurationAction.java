@@ -20,11 +20,11 @@ import javax.servlet.http.HttpServletResponse;
  * @author alexandre.quere
  */
 @Component(
-        configurationPid = "eu.strasbourg.portlet.project.configuration.HelpPopupConfiguration",
+        configurationPid = "eu.strasbourg.portlet.help.configuration.HelpPopupConfiguration",
         configurationPolicy = ConfigurationPolicy.OPTIONAL,
         immediate = true,
         property = {
-                "javax.portlet.name=eu_strasbourg_portlet_project_HelpPopupPortlet"
+                "javax.portlet.name=eu_strasbourg_portlet_help_HelpPopupPortlet"
         },
         service = ConfigurationAction.class
 )

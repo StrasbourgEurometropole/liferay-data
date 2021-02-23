@@ -533,6 +533,14 @@ public class HelpProposalWrapper
 	}
 
 	/**
+	 * Retourne une chaine des 'Territoires' correspondant aux ville et quartiers de l'aide
+	 */
+	@Override
+	public String getDistrictLabel(java.util.Locale locale) {
+		return model.getDistrictLabel(locale);
+	}
+
+	/**
 	 * Returns the group ID of this help proposal.
 	 *
 	 * @return the group ID of this help proposal
@@ -553,6 +561,16 @@ public class HelpProposalWrapper
 	}
 
 	/**
+	 * Retourne les type d'aide de l'aide
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getHelpProposalTypeCategories() {
+
+		return model.getHelpProposalTypeCategories();
+	}
+
+	/**
 	 * Returns the image ID of this help proposal.
 	 *
 	 * @return the image ID of this help proposal
@@ -560,6 +578,14 @@ public class HelpProposalWrapper
 	@Override
 	public long getImageId() {
 		return model.getImageId();
+	}
+
+	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageURL() {
+		return model.getImageURL();
 	}
 
 	/**
