@@ -69,6 +69,10 @@ public class HelpBOPortlet extends MVCPortlet {
 			EditHelpDisplayContext dc = new EditHelpDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "Help";
+		} else if(cmd.equals("viewProposalHelpRequests") || mvcPath.equals("/help-bo-view-proposal-help-requests.jsp")) {
+			// TODO : Implement DC for "view proposal help requests"
+		} else if(cmd.equals("viewSeekerHelpRequests") || mvcPath.equals("/help-bo-view-seeker-help-requests.jsp")) {
+			// TODO : Implement DC for "view seeker help requests"
 		} else if(tab.equals("helpSeekers")) {
 			ViewHelpSeekersDisplayContext dc = new ViewHelpSeekersDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

@@ -77,6 +77,14 @@
 					<portlet:param name="mvcPath" value="/help-bo-edit-help-proposal.jsp" />
 				</liferay-portlet:renderURL>
 
+				<%-- URL : definit le lien vers la page de consultation des demandes d'aide --%>
+                <liferay-portlet:renderURL varImpl="viewProposalHelpRequestsURL">
+                    <portlet:param name="cmd" value="viewProposalHelpRequests" />
+                    <portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />
+                    <portlet:param name="returnURL" value="${helpProposalsURL}" />
+                    <portlet:param name="mvcPath" value="/help-bo-view-proposal-help-requests.jsp" />
+                </liferay-portlet:renderURL>
+
 				<%-- Colonne : Titre --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editHelpProposalURL}" name="title" truncate="true" orderable="true"
@@ -120,6 +128,9 @@
 						<c:if test="${dc.hasPermission('EDIT_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editHelpProposalURL}" />
 						</c:if>
+
+                        <%-- TODO : ajouter un checker sur les permissions VIEW des demandes d'aide --%>
+						<liferay-ui:icon message="view-help-requests" url="${viewProposalHelpRequestsURL}" />
 
 						<liferay-portlet:actionURL name="deleteHelpProposal" var="deleteHelpProposalURL">
 							<portlet:param name="cmd" value="deleteHelpProposal" />

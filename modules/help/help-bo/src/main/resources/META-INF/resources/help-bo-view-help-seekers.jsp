@@ -52,42 +52,42 @@
                     <portlet:param name="mvcPath" value="/oidc-bo-edit-publikuser.jsp" />
                 </liferay-portlet:renderURL>
 
-                <%-- URL : definit le lien vers la page de consultation des aides --%>
-                <liferay-portlet:renderURL varImpl="showSeekerHelpRequestsURL">
-                    <portlet:param name="cmd" value="showSeekerHelpRequests" />
+                <%-- URL : definit le lien vers la page de consultation des demandes d'aide --%>
+                <liferay-portlet:renderURL varImpl="viewSeekerHelpRequestsURL">
+                    <portlet:param name="cmd" value="viewSeekerHelpRequests" />
                     <portlet:param name="helpSeekerId" value="${helpSeeker.publikUserLiferayId}" />
                     <portlet:param name="returnURL" value="${helpSeekersURL}" />
-                    <portlet:param name="mvcPath" value="/help-bo-show-seeker-hep-requests.jsp" />
+                    <portlet:param name="mvcPath" value="/help-bo-view-seeker-help-requests.jsp" />
                 </liferay-portlet:renderURL>
 
                 <%-- Colonne : Nom --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
-                    href="${showSeekerHelpRequestsURL}" name="last-name" truncate="true" orderable="true"
+                    href="${viewSeekerHelpRequestsURL}" name="last-name" truncate="true" orderable="true"
                     value="${helpSeeker.lastName}" />
 
                 <%-- Colonne : Prenom --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
-                    href="${showSeekerHelpRequestsURL}" name="first-name" truncate="true" orderable="true"
+                    href="${viewSeekerHelpRequestsURL}" name="first-name" truncate="true" orderable="true"
                     value="${helpSeeker.firstName}" />
 
                 <%-- Colonne : Email --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
-                    href="${showSeekerHelpRequestsURL}" name="email" truncate="true" orderable="true"
+                    href="${viewSeekerHelpRequestsURL}" name="email" truncate="true" orderable="true"
                     value="${helpSeeker.email}" />
 
                 <%-- Colonne : Nombre de demandes de l'utilisateur' --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
-                    href="${showSeekerHelpRequestsURL}" name="nb-asks" truncate="true" orderable="true"
+                    href="${viewSeekerHelpRequestsURL}" name="nb-asks" truncate="true" orderable="true"
                     value="3" />
 
                 <%-- Colonne : Actions possibles --%>
                 <liferay-ui:search-container-column-text>
                     <liferay-ui:icon-menu markupView="lexicon">
+                        <liferay-ui:icon message="view-help-requests" url="${viewSeekerHelpRequestsURL}" />
                         <%-- TODO : ajouter un checker qui verifie selon OIDC BO
                             <c:if test="${dc.hasPermission('EDIT_PUBLIKUSER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
                         --%>
-                            <liferay-ui:icon message="view-user-profil" url="${showSeekerHelpRequestsURL}" />
-                            <liferay-ui:icon message="show-help-requests" url="${showSeekerHelpRequestsURL}" />
+                            <liferay-ui:icon message="view-user-profil" url="${viewSeekerHelpRequestsURL}" />
                         <%--
                             </c:if>
                         --%>
