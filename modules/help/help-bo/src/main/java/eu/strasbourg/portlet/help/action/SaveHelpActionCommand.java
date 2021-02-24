@@ -193,6 +193,12 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 		// Défini le format de date à utiliser pour les champs temporels 
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
+		// Titre
+		if (Validator.isNull(ParamUtil.getString(request, "title"))) {
+			SessionErrors.add(request, "title-error");
+			isValid = false;
+		}
+
 		// Adresse
 		if (Validator.isNull(ParamUtil.getString(request, "address"))) {
 			SessionErrors.add(request, "address-error");
