@@ -167,7 +167,7 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 			long[] ids = sc.getAssetCategoryIds();
 			for (long id : ids) {
 				AssetCategory categ = AssetCategoryLocalServiceUtil.fetchAssetCategory(id).getParentCategory();
-				if(categ.getName().equals("Strasbourg")) {
+				if(categ != null && categ.getName().equals("Strasbourg")) {
 					List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
 					idsLong.add(categ.getCategoryId());
 					sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());

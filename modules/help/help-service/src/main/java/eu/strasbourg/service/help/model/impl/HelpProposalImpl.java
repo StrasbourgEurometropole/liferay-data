@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 
 /**
@@ -155,6 +156,21 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Retourne une chaine des localisations correspondant
+	 */
+	@Override
+	public String getHelpProposalTypeLabel(Locale locale) {
+		StringBuilder result = new StringBuilder();
+		List<AssetCategory> helpProposalTypeCategories = this.getHelpProposalTypeCategories();
+
+		result.append(helpProposalTypeCategories.stream()
+				.map(helpProposalTypeCategory -> helpProposalTypeCategory.getTitle(locale))
+				.collect(Collectors.joining(" - ")));
+
+		return result.toString();
 	}
 
 	/**
@@ -321,7 +337,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	 * @throws PortalException
 	 */
 	@Override
-	public JSONObject toJSON() throws PortalException {
+	public JSONObject toJSON(Locale locale) throws PortalException {
 		// Initialisation des variables tempons et résultantes
 		JSONObject jsonHelpProposal = JSONFactoryUtil.createJSONObject();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -334,19 +350,22 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		jsonHelpProposal.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
 
 		// Champs : Generaux
-		jsonHelpProposal.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
+		jsonHelpProposal.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle(locale))));
 		jsonHelpProposal.put("author", HtmlUtil.stripHtml(HtmlUtil.escape(this.getAuthorLabel())));
-		jsonHelpProposal.put("description", this.getDescription());
+		jsonHelpProposal.put("description", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDescription(locale))));
 		jsonHelpProposal.put("address", this.getAddress());
 		jsonHelpProposal.put("city", this.getCity());
 		jsonHelpProposal.put("postalCode", this.getPostalCode());
 		jsonHelpProposal.put("modifiedByUserDate", this.getModifiedByUserDate());
-		jsonHelpProposal.put("spokenLanguages", this.getSpokenLanguages());
+		jsonHelpProposal.put("spokenLanguages", HtmlUtil.stripHtml(HtmlUtil.escape(this.getSpokenLanguages(locale))));
 
 		// Champs : Médias
 		jsonHelpProposal.put("imageId", this.getImageId());
+		jsonHelpProposal.put("imageURL", this.getImageURL());
 
-		// Liste des Ids des catégories Thématiques
+		// Liste des Ids des catégories
+		jsonHelpProposal.put("localisationLabel", this.getLocalisationLabel(locale));
+		jsonHelpProposal.put("helpProposalTypeLabel", this.getHelpProposalTypeLabel(locale));
 		/*
 		JSONArray jsonThematics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThematicCategories());
 		if (jsonThematics.length() > 0) {
