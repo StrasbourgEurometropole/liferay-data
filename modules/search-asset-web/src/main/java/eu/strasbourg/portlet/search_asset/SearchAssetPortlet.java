@@ -34,6 +34,8 @@ import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.*;
+import eu.strasbourg.service.help.model.HelpProposal;
+import eu.strasbourg.service.help.service.*;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.*;
@@ -79,7 +81,7 @@ public class SearchAssetPortlet extends MVCPortlet {
     public final static String PARTICIPATION = "eu.strasbourg.service.project.model.Participation";
     public final static String BUDGET = "eu.strasbourg.service.project.model.BudgetParticipatif";
     public final static String INITIATIVE = "eu.strasbourg.service.project.model.Initiative";
-    public final static String AIDE = "eu.strasbourg.service.project.model.Initiative";
+    public final static String AIDE = "eu.strasbourg.service.help.model.HelpProposal";
 
     @Override
     public void render(RenderRequest renderRequest, RenderResponse renderResponse) {
@@ -327,6 +329,12 @@ public class SearchAssetPortlet extends MVCPortlet {
                         	jsonInitiative.put("json", initiative.toJSON());
                         	jsonEntries.put(jsonInitiative);
                         	break;
+                        case "eu.strasbourg.service.help.model.HelpProposal":
+                            HelpProposal helpProposal = HelpProposalLocalServiceUtil.fetchHelpProposal(entry.getClassPK());
+                            JSONObject helpProposalJson = JSONFactoryUtil.createJSONObject();
+                            helpProposalJson.put("class", className);
+                            helpProposalJson.put("json", helpProposal.toJSON());
+                            jsonEntries.put(helpProposalJson);
                         case "eu.strasbourg.service.video.model.Video":
                             Video video = VideoLocalServiceUtil.fetchVideo(entry.getClassPK());
                             JSONObject jsonVideo = JSONFactoryUtil.createJSONObject();
@@ -411,6 +419,8 @@ public class SearchAssetPortlet extends MVCPortlet {
         long[] statuts = new long[]{};
         long[] bpStatus  = new long[]{};
         long[] initiativeStatus = new long[]{};
+        long[] helpProposalStatus = new long[]{};
+        long[] helpType = new long[]{};
         long[] projects = new long[]{};
         long[] districts = new long[]{};
         long[] thematics = new long[]{};
@@ -510,6 +520,20 @@ public class SearchAssetPortlet extends MVCPortlet {
             sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
         }
 
+        if (resourceID.equals("entrySelectionHelpProposal")) {
+            keywords = ParamUtil.getString(request, "selectedKeyWords");
+            startDay = ParamUtil.getInteger(request, "selectedStartDay");
+            startMonth = ParamUtil.getString(request, "selectedStartMonth");
+            startYear = ParamUtil.getInteger(request, "selectedStartYear");
+            endDay = ParamUtil.getInteger(request, "selectedEndDay");
+            endMonth = ParamUtil.getString(request, "selectedEndMonth");
+            endYear = ParamUtil.getInteger(request, "selectedEndYear");
+            helpProposalStatus = ParamUtil.getLongValues(request, "selectedHelpProposalStatus");
+            helpType = ParamUtil.getLongValues(request, "selectedHelpType");
+            districts = ParamUtil.getLongValues(request, "selectedDistricts");
+            sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+        }
+
         if (resourceID.equals("entrySelectionNews")) {
             keywords = null;
             startDay = ParamUtil.getInteger(request, "selectedStartDay");
@@ -536,7 +560,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 
         // Catégories sélectionnées par l'utilisateur
         List<Long[]> categoriesIds = this.getFilterCategoriesIds(
-                states, statuts, bpStatus, initiativeStatus, projects, districts, thematics, types
+                states, statuts, bpStatus, initiativeStatus, projects, districts, thematics, types, helpProposalStatus, helpType
         );
 
         // Préfiltre catégories
@@ -633,7 +657,8 @@ public class SearchAssetPortlet extends MVCPortlet {
      * entries. L'opérateur entre chaque id de catégorie d'un array est un "OU", celui entre chaque liste d'array est un "ET"
      */
     private List<Long[]> getFilterCategoriesIds(long[] states, long[] statuts, long[] bpStatus, long[] initiativeStatus,
-                                                long[] projects, long [] districts, long[] thematics, long[] types) {
+                                                long[] projects, long [] districts, long[] thematics, long[] types,
+                                                long[] helpProposalStatus, long[] helpTypes) {
         List<Long[]> filterCategoriesIds = new ArrayList<>();
         List<Long> categoriesIds = new ArrayList<>();
 
@@ -713,6 +738,26 @@ public class SearchAssetPortlet extends MVCPortlet {
         for (long type : types) {
             if (type > 0) {
                 categoriesIds.add(type);
+            }
+        }
+        if (categoriesIds.size() > 0) {
+            filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+        }
+
+        // On recupere les statuts aides s'il y en a
+        for (long helpProposalStatu : helpProposalStatus) {
+            if (helpProposalStatu > 0) {
+                categoriesIds.add(helpProposalStatu);
+            }
+        }
+        if (categoriesIds.size() > 0) {
+            filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+        }
+
+        // On recupere les types d'aide s'il y en a
+        for (long helpType : helpTypes) {
+            if (helpType > 0) {
+                categoriesIds.add(helpType);
             }
         }
         if (categoriesIds.size() > 0) {
@@ -901,6 +946,11 @@ public class SearchAssetPortlet extends MVCPortlet {
     private InitiativeLocalService _initiativeLocalService;
 
     /**
+     * interface des propositions d'aides ? Pas utile ?
+     */
+    private HelpProposalLocalService _helpProposalLocalService;
+
+    /**
      * interface des participations
      */
     private ParticipationLocalService _participationLocalService;
@@ -918,6 +968,11 @@ public class SearchAssetPortlet extends MVCPortlet {
     @Reference(unbind = "-")
     protected void setInitiativeLocalService(InitiativeLocalService initiativeLocalService) {
     	_initiativeLocalService = initiativeLocalService;
+    }
+
+    @Reference(unbind = "-")
+    protected void setHelpProposalLocalService(HelpProposalLocalService helpProposalLocalService) {
+        _helpProposalLocalService = helpProposalLocalService;
     }
 
     @Reference(unbind = "-")
