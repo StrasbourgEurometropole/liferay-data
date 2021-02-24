@@ -71,7 +71,7 @@
 				
 				<%-- Champ : Adresse mail --%>
 				<aui:input name="authorEmail" type="text" label="email" disabled="true" value="${not empty dc.helpProposal ? dc.helpProposal.getAuthorEmail() : '' }" />
-				
+
 				<%-- Champ : Adresse --%>
 				<aui:input name="address" required="true" />
 
@@ -164,12 +164,6 @@
 	</aui:form>
 	
 </div>
-
-<liferay-util:html-top>
-	<script>
-		var editHelp = true;
-	</script>
-</liferay-util:html-top>
 
 <liferay-util:html-bottom>
 	<script src="/o/helpbo/js/help-bo-edit-help-proposal.js" type="text/javascript"></script>
