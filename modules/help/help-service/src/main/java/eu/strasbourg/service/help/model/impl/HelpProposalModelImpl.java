@@ -36,17 +36,14 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.model.HelpProposalModel;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
 import java.sql.Types;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -57,8 +54,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-
-import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the HelpProposal service. Represents a row in the &quot;help_HelpProposal&quot; database table, with each column mapped to a property of this class.
@@ -94,8 +89,7 @@ public class HelpProposalModelImpl
 		{"city", Types.VARCHAR}, {"postalCode", Types.BIGINT},
 		{"phoneNumber", Types.VARCHAR}, {"modifiedByUserDate", Types.TIMESTAMP},
 		{"spokenLanguages", Types.VARCHAR}, {"imageId", Types.BIGINT},
-		{"publikId", Types.VARCHAR}, {"publicationDate", Types.TIMESTAMP},
-		{"comment_", Types.CLOB}
+		{"publikId", Types.VARCHAR}, {"comment_", Types.CLOB}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -125,12 +119,11 @@ public class HelpProposalModelImpl
 		TABLE_COLUMNS_MAP.put("spokenLanguages", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("comment_", Types.CLOB);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table help_HelpProposal (uuid_ VARCHAR(75) null,helpProposalId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,description TEXT null,inTheNameOf VARCHAR(400) null,address VARCHAR(400) null,city VARCHAR(400) null,postalCode LONG,phoneNumber VARCHAR(75) null,modifiedByUserDate DATE null,spokenLanguages STRING null,imageId LONG,publikId VARCHAR(75) null,publicationDate DATE null,comment_ TEXT null)";
+		"create table help_HelpProposal (uuid_ VARCHAR(75) null,helpProposalId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,description TEXT null,inTheNameOf VARCHAR(400) null,address VARCHAR(400) null,city VARCHAR(400) null,postalCode LONG,phoneNumber VARCHAR(75) null,modifiedByUserDate DATE null,spokenLanguages STRING null,imageId LONG,publikId VARCHAR(75) null,comment_ TEXT null)";
 
 	public static final String TABLE_SQL_DROP = "drop table help_HelpProposal";
 
@@ -390,11 +383,6 @@ public class HelpProposalModelImpl
 		attributeSetterBiConsumers.put(
 			"publikId",
 			(BiConsumer<HelpProposal, String>)HelpProposal::setPublikId);
-		attributeGetterFunctions.put(
-			"publicationDate", HelpProposal::getPublicationDate);
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			(BiConsumer<HelpProposal, Date>)HelpProposal::setPublicationDate);
 		attributeGetterFunctions.put("comment", HelpProposal::getComment);
 		attributeSetterBiConsumers.put(
 			"comment",
@@ -1063,16 +1051,6 @@ public class HelpProposalModelImpl
 	}
 
 	@Override
-	public Date getPublicationDate() {
-		return _publicationDate;
-	}
-
-	@Override
-	public void setPublicationDate(Date publicationDate) {
-		_publicationDate = publicationDate;
-	}
-
-	@Override
 	public String getComment() {
 		if (_comment == null) {
 			return "";
@@ -1450,7 +1428,6 @@ public class HelpProposalModelImpl
 		helpProposalImpl.setSpokenLanguages(getSpokenLanguages());
 		helpProposalImpl.setImageId(getImageId());
 		helpProposalImpl.setPublikId(getPublikId());
-		helpProposalImpl.setPublicationDate(getPublicationDate());
 		helpProposalImpl.setComment(getComment());
 
 		helpProposalImpl.resetOriginalValues();
@@ -1682,15 +1659,6 @@ public class HelpProposalModelImpl
 			helpProposalCacheModel.publikId = null;
 		}
 
-		Date publicationDate = getPublicationDate();
-
-		if (publicationDate != null) {
-			helpProposalCacheModel.publicationDate = publicationDate.getTime();
-		}
-		else {
-			helpProposalCacheModel.publicationDate = Long.MIN_VALUE;
-		}
-
 		helpProposalCacheModel.comment = getComment();
 
 		String comment = helpProposalCacheModel.comment;
@@ -1805,7 +1773,6 @@ public class HelpProposalModelImpl
 	private long _imageId;
 	private String _publikId;
 	private String _originalPublikId;
-	private Date _publicationDate;
 	private String _comment;
 	private String _commentCurrentLanguageId;
 	private long _columnBitmask;

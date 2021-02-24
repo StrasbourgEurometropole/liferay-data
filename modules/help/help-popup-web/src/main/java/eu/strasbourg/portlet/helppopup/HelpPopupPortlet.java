@@ -91,8 +91,8 @@ public class HelpPopupPortlet extends MVCPortlet {
 			AssetVocabulary helpersVocabulary = AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_HELPER_TYPE, groupId);
 			List<AssetCategory> helpers = helpersVocabulary.getCategories();
 
-			// Récupération des thematics
-			List<AssetCategory> types = assetVocabularyAccessor.getThematics(groupId).getCategories();
+			// Récupération des types d'aide
+			List<AssetCategory> types = assetVocabularyAccessor.getHelpProposalType(groupId).getCategories();
 
 			request.setAttribute("localisations", localisations);
 			request.setAttribute("helpers", helpers);
@@ -111,6 +111,15 @@ public class HelpPopupPortlet extends MVCPortlet {
 			// Vérifie si l'utilisateur est connecté liferay
 			boolean isSignedIn = themeDisplay.isSignedIn();
 			request.setAttribute("isSignedIn", isSignedIn);
+
+			 // Retourne l'URL de la page d'accueil
+			String homeURL = "/";
+			if (themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname() != null
+					|| themeDisplay.getScopeGroup().isStagingGroup()) {
+				homeURL =  "/web" + themeDisplay.getScopeGroup().getFriendlyURL() + "/";
+			}
+			request.setAttribute("homeURL", homeURL);
+
 
 		} catch (Exception e) {
 			_log.error("erreur : ", e);

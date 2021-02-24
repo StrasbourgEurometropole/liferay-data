@@ -68,7 +68,6 @@ public class HelpProposalWrapper
 		attributes.put("spokenLanguages", getSpokenLanguages());
 		attributes.put("imageId", getImageId());
 		attributes.put("publikId", getPublikId());
-		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("comment", getComment());
 
 		return attributes;
@@ -214,12 +213,6 @@ public class HelpProposalWrapper
 			setPublikId(publikId);
 		}
 
-		Date publicationDate = (Date)attributes.get("publicationDate");
-
-		if (publicationDate != null) {
-			setPublicationDate(publicationDate);
-		}
-
 		String comment = (String)attributes.get("comment");
 
 		if (comment != null) {
@@ -332,7 +325,7 @@ public class HelpProposalWrapper
 	}
 
 	/**
-	 * Retourne les sous-catégories 'Territoire' correspondant aux villes de la proposition d'aide
+	 * Retourne les sous-catégories 'Territoire' correspondant aux villes de la initiative
 	 *
 	 * @return : null si vide, sinon la liste des catégories
 	 */
@@ -521,7 +514,7 @@ public class HelpProposalWrapper
 	}
 
 	/**
-	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la helpProposal
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la proposition d'aide
 	 *
 	 * @return : null si vide, sinon la liste des catégories
 	 */
@@ -553,6 +546,24 @@ public class HelpProposalWrapper
 	}
 
 	/**
+	 * Retourne les type d'aide de la proposition d'aide
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getHelpProposalTypeCategories() {
+
+		return model.getHelpProposalTypeCategories();
+	}
+
+	/**
+	 * Retourne le copyright de l'image principale
+	 */
+	@Override
+	public String getImageCopyright(java.util.Locale locale) {
+		return model.getImageCopyright(locale);
+	}
+
+	/**
 	 * Returns the image ID of this help proposal.
 	 *
 	 * @return the image ID of this help proposal
@@ -563,6 +574,14 @@ public class HelpProposalWrapper
 	}
 
 	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageURL() {
+		return model.getImageURL();
+	}
+
+	/**
 	 * Returns the in the name of of this help proposal.
 	 *
 	 * @return the in the name of of this help proposal
@@ -570,6 +589,14 @@ public class HelpProposalWrapper
 	@Override
 	public String getInTheNameOf() {
 		return model.getInTheNameOf();
+	}
+
+	/**
+	 * Retourne une chaine des localisations correspondant
+	 */
+	@Override
+	public String getLocalisationLabel(java.util.Locale locale) {
+		return model.getLocalisationLabel(locale);
 	}
 
 	/**
@@ -654,26 +681,6 @@ public class HelpProposalWrapper
 	@Override
 	public long getPrimaryKey() {
 		return model.getPrimaryKey();
-	}
-
-	/**
-	 * Retourne le statut de la HelpProposal (
-	 */
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory
-		getProposalStatusCategory() {
-
-		return model.getProposalStatusCategory();
-	}
-
-	/**
-	 * Returns the publication date of this help proposal.
-	 *
-	 * @return the publication date of this help proposal
-	 */
-	@Override
-	public Date getPublicationDate() {
-		return model.getPublicationDate();
 	}
 
 	/**
@@ -823,7 +830,7 @@ public class HelpProposalWrapper
 	}
 
 	/**
-	 * Retourne les catégories 'Territoire' correspondant aux pays de la helpProposal
+	 * Retourne les catégories 'Territoire' correspondant aux pays de la proposaition d'aide
 	 */
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
@@ -1308,16 +1315,6 @@ public class HelpProposalWrapper
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		model.setPrimaryKey(primaryKey);
-	}
-
-	/**
-	 * Sets the publication date of this help proposal.
-	 *
-	 * @param publicationDate the publication date of this help proposal
-	 */
-	@Override
-	public void setPublicationDate(Date publicationDate) {
-		model.setPublicationDate(publicationDate);
 	}
 
 	/**

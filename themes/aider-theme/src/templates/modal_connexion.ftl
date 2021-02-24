@@ -11,10 +11,10 @@
 							<div class="modal-body"> 
 								<div class="pro-reagir">
 									<div>
-										<h3>Se connecter</h3>
-										<p>Vous devez être identifié avec votre compte MonStrasbourg.eu pour agir sur le site.</p>                          
+										<h3><@liferay.language key='eu.login' /></h3>
+										<p><@liferay.language key='eu.help.need-connexion'/></p>                          
 										<a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="pro-btn-yellow" title="Connexion">
-											Se connecter
+											<@liferay.language key='eu.login' />
 										</a>									
 									</div>
 								</div>

@@ -22,7 +22,6 @@ create table help_HelpProposal (
 	spokenLanguages STRING null,
 	imageId LONG,
 	publikId VARCHAR(75) null,
-	publicationDate DATE null,
 	comment_ TEXT null
 );
 

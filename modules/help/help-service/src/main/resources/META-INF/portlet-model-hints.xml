@@ -35,7 +35,6 @@
 		<field localized="true" name="spokenLanguages" type="String" />
 		<field name="imageId" type="long" />
 		<field name="publikId" type="String" />
-		<field name="publicationDate" type="Date" />
 		<field localized="true" name="comment" type="String">
 			<hint-collection name="EDITOR" />
 		</field>

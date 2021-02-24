@@ -51,7 +51,7 @@
 
                     	<%-- Champ : Adresse --%>
                         <div class="form-group form-half">
-                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValuesHelpProposal();" />
+                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256"  value="${userConnected.get('address')}"/>
                         </div>
 
                         <%-- Groupe de champs : (note : utilise pour la sous division d'une meme ligne en plus petit champ) --%>
@@ -59,12 +59,12 @@
 
                         	<%-- Champ : Ville --%>
                             <div class="form-city">
-                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256" onInput="checkValuesHelpProposal();" />
+                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256"  value="${userConnected.get('city')}"/>
                             </div>
 
                             <%-- Champ : Code postal --%>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" onInput="checkValuesHelpProposal();"/>
+                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" value="${userConnected.get('zipcode')}"/>
                             </div>
 
                         </div>
@@ -73,7 +73,16 @@
 
                     <%-- Champ : Telephone --%>
                     <div class="form-group">
-                        <aui:input name="phone" label="modal.user.phone" required="true" maxlength="20" value="" onInput="checkValuesHelpProposal();"/>
+                        <c:set var="phoneNumber" value="${userConnected.get('phone')}" />
+                        <c:if test="${not empty userConnected.get('mobile')}">
+                            <c:if test="${not empty phoneNumber}">
+                                <c:set var="phoneNumber" value="${phoneNumber} / ${userConnected.get('mobile')}" />
+                            </c:if>
+                            <c:if test="${empty phoneNumber}">
+                                <c:set var="phoneNumber" value="${userConnected.get('mobile')}" />
+                            </c:if>
+                        </c:if>
+                        <aui:input name="phoneNumber" label="modal.user.phone" required="true" maxlength="20" value="${phoneNumber}"/>
                     </div>
 
                 </div>
@@ -102,14 +111,15 @@
                                 </svg>
                             </span>
                         </label>
-                        <c:forEach var="type" items="${types}">
+                        <c:forEach var="type" items="${types}" varStatus="status">
                             <div class="form-checkbox">
-                                <input type="checkbox"  id="<portlet:namespace />type-${type.categoryId}" value="${type.categoryId}">
-                                <label for="<portlet:namespace />type-${type.categoryId}" class="fontWhite">
+                                <input type="checkbox"  id="<portlet:namespace />type-${status.index}" value="${type.categoryId}">
+                                <label for="<portlet:namespace />type-${status.index}" class="fontWhite">
                                     ${type.name}
                                 </label>
                             </div>
                         </c:forEach>
+                        <aui:input type="hidden"  name="types" />
                     </div>
 
                     <%-- Champ : Présentation --%>
@@ -123,6 +133,7 @@
                     	<%-- Champ : Je suis --%>
                         <div class="form-group form-half">
                             <aui:select required="true" name="helper" label="modal.submit.help.information.helper">
+                                <option value="0" selected><liferay-ui:message key="modal.submit.help.information.choice"/></option>
                                 <c:forEach var="helper" items="${helpers}">
                                     <aui:option value="${helper.categoryId}" label="${helper.name}" />
                                 </c:forEach>
@@ -131,7 +142,7 @@
 
                         <%-- Champ : Au nom de --%>
                         <div class="form-group form-half">
-                            <aui:input id="helpProposalInTheNameOf" name="inTheNameOf" label="modal.submit.help.information.inTheNameOf" required="true" maxlength="400" value=""/>
+                            <aui:input id="inTheNameOf" name="inTheNameOf" label="modal.submit.help.information.inTheNameOf" required="true" maxlength="400" value="${userConnected.get('first_name')} ${fn:substring(userConnected.get('last_name'),0,1)}"/>
                         </div>
 
                     </div>
@@ -144,8 +155,8 @@
                     <%-- Champ : Localisation --%>
                     <div class="form-group">
                         <aui:select required="true" name="localisation" label="modal.submit.help.information.territories">
+                            <option value="0" selected><liferay-ui:message key="modal.submit.help.information.choice"/></option>
                             <c:forEach var="localisation" items="${localisations}">
-                                <aui:option value="${localisation.categoryId}" label="${localisation.name}" />
                                 <c:set var="category" value="${localisation}" scope="request"/>
                                 <c:set var="level" value="0" scope="request" />
                                 <jsp:include page="/include/category-option.jsp"/>
@@ -243,6 +254,12 @@
             </div>
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='submit-proposal-help-ok'/></h4>
+                <p>
+                    <liferay-ui:message key='submit-proposal-help-ok-find'/>
+                    <a id="lien-detail" href="">
+                        <liferay-ui:message key='submit-proposal-help-ok-here'/>
+                    </a>
+                </p>
                 <div class="centerButtonValidation">
                     <input id="<portlet:namespace />buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-submit-help-ok"/> />
                 </div>
@@ -276,12 +293,6 @@
 	
 	// Variables tempons des informations utilisateur et contexte namespace
 	var namespaceHelpProposal = "<portlet:namespace />";
-	var saved_address = "${userConnected.get('address')}";
-	var saved_zipCode = "${userConnected.get('zipcode')}";
-	var saved_city = "${userConnected.get('city')}";
-	var saved_dateNaiss = "${formattedDate}";
-	var saved_phone = "${userConnected.get('phone')}" != 'null' ? "${userConnected.get('phone')}" : " ";
-	var saved_mobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : " ";
 
 	/*
 	* Lors du chargement de la page
@@ -294,7 +305,7 @@
     });
 
     /*
-	* Lors du click sur le bouton de vote
+	* Lors du click sur le bouton de submit
 	*/
     $("#<portlet:namespace />buttonSubmit").click(function(event){
         event.preventDefault();
@@ -310,20 +321,9 @@
                 if (this.status >= 200 && this.status < 400) {
                     // Success!
                     var data = JSON.parse(this.response);
-                    // var data = this.get('responseData');
-                    //var data = JSON.parse(e.details[1].responseText);
                     if(data.result){
                         $("#modalSubmitHelpProposal").modal('hide');
-                        if(data.savedInfo){
-                            saved_dateNaiss = birthday;
-                            saved_city = $("#<portlet:namespace />city").val();
-                            saved_address = $("#<portlet:namespace />address").val();
-                            saved_zipCode = $("#<portlet:namespace />postalcode").val();
-                            if($("#<portlet:namespace />phone").val() != "")
-                                saved_phone = $("#<portlet:namespace />phone").val();
-                            if($("#<portlet:namespace />mobile").val() != "")
-                                saved_mobile = $("#<portlet:namespace />mobile").val();
-                        }
+                        $("#<portlet:namespace />modalConfirm #lien-detail").attr("href", "${homeURL}detail-aide/-/entity/id/" + data.message);
                         $("#<portlet:namespace />modalConfirm").modal('show');
                         resetValuesHelpProposal();
                     }else{
@@ -354,49 +354,21 @@
     function resetValuesHelpProposal(){
     	// Champs entite
         $("#<portlet:namespace />title").val("");
-        $("#<portlet:namespace />description").val("");
+        $("input[id^='<portlet:namespace />type']").prop("checked", false);
+        $("#<portlet:namespace />presentation").val("");
+        $("#<portlet:namespace />helper option[value='0']").prop('selected', true);
+        $("#<portlet:namespace />helper").selectric();
         $("#<portlet:namespace />HelpProposalInTheNameOf").val("");
-        $("#<portlet:namespace />place").val("");
-        $("#<portlet:namespace />project option[value='0']").prop('selected', true);
-        $("#<portlet:namespace />project").selectric();
-        $("#<portlet:namespace />district option[value='0']").prop('selected', true);
-        $("#<portlet:namespace />district").selectric();
-        $("#<portlet:namespace />thematic option[value='0']").prop('selected', true);
-        $("#<portlet:namespace />thematic").selectric();
-        
-     	// Champs informations utilisateur
-        $("#<portlet:namespace />address").val(saved_address);
+        $("#<portlet:namespace />language").val("");
+        $("#<portlet:namespace />localisation option[value='0']").prop('selected', true);
+        $("#<portlet:namespace />localisation").selectric();
         $("#<portlet:namespace />photo").val("");
-        $("#<portlet:namespace />video").val("");
-        $("#<portlet:namespace />postalcode").val(saved_zipCode);
-        $("#<portlet:namespace />phone").val(saved_phone);
-        $("#<portlet:namespace />mobile").val(saved_mobile);
-        $("#<portlet:namespace />birthday").val(saved_dateNaiss);
-        
-     	// Chebox de conditions et de sauvegade des informations
-     	$("#<portlet:namespace />checkboxSaveInfo #<portlet:namespace />saveInfo").prop('checked', false);
-        $("#<portlet:namespace />checkboxSaveInfo").hide();
-        $("#<portlet:namespace />legalage").prop("checked", false);
-        $("#<portlet:namespace />cnil").prop("checked", false);
-        $("#<portlet:namespace />city").val(saved_city);
-    }
 
-    /*
-	* Affiche la demande de sauvegarde des informations dans Publik
-	*/
-    function checkValuesHelpProposal(){
-        if($("#<portlet:namespace />birthday").val() != saved_dateNaiss 
-        		|| $("#<portlet:namespace />address").val() != saved_address 
-        		|| $("#<portlet:namespace />city").val() != saved_city 
-        		|| $("#<portlet:namespace />postalcode").val() != saved_zipCode 
-        		|| $("#<portlet:namespace />phone").val() != saved_phone 
-        		|| $("#<portlet:namespace />mobile").val() != saved_mobile) {
-            $("#<portlet:namespace />checkboxSaveInfo #<portlet:namespace />saveInfo").prop('checked', true);
-            $("#<portlet:namespace />checkboxSaveInfo").show();
-        }else{
-            $("#<portlet:namespace />checkboxSaveInfo #<portlet:namespace />saveInfo").prop('checked', false);
-            $("#<portlet:namespace />checkboxSaveInfo").hide();
-        }
+     	// Chebox de conditions et de sauvegade des informations
+        $("#<portlet:namespace />legalage").prop("checked", false);
+        $("#<portlet:namespace />security").prop("checked", false);
+        $("#<portlet:namespace />security2").prop("checked", false);
+        $("#<portlet:namespace />responsability").prop("checked", false);
     }
 
     /*
@@ -405,69 +377,96 @@
     function validateFormHelpProposal()
     {
         var result = true;
-        
-        var title = $("#<portlet:namespace />title").val();
-        var description = $("#<portlet:namespace />description").val();
-        var legalage = $("#<portlet:namespace />legalage").is(":checked");
-        var cnil = $("#<portlet:namespace />cnil").is(":checked");
-        var photo = $("#<portlet:namespace />photo").val();
-        
-        <%-- desactivation de la verification de certains champs obligatoires
-        var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
-        var city = $("#<portlet:namespace />city").val();
+
         var address = $("#<portlet:namespace />address").val();
-        var postalcode = $("#<portlet:namespace />postalcode").val();
-        --%>
-
-        if (photo!=null && photo!==""){
-            var ext = photo.split(".").pop().toLowerCase();
-            if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
-            $("#<portlet:namespace />photo").css({ "box-shadow" : "0 0 10px #CC0000" });
-                result = false;
-            }else $("#<portlet:namespace />photo").css({ "box-shadow" : "" });
-        }
-
-        if (title===null || title===""){
-            $("#<portlet:namespace />title").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#<portlet:namespace />title").css({ "box-shadow" : "" });
-
-        if (description===null || description===""){
-            $("#<portlet:namespace />description").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#<portlet:namespace />description").css({ "box-shadow" : "" });
-
-        <%-- desactivation de la verification de certains champs obligatoires
-        if (city===null || city===""){
-            $("#<portlet:namespace />city").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#<portlet:namespace />city").css({ "box-shadow" : "" });
-
         if (address===null || address===""){
             $("#<portlet:namespace />address").css({ "box-shadow" : "0 0 10px #CC0000" });
             //result = false;
         }else $("#<portlet:namespace />address").css({ "box-shadow" : "" });
 
+        var city = $("#<portlet:namespace />city").val();
+        if (city===null || city===""){
+            $("#<portlet:namespace />city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />city").css({ "box-shadow" : "" });
+
+        var postalcode = $("#<portlet:namespace />postalcode").val();
+        var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
         if (postalcode===null || postalcode===""){
             $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
-            //result = false;
+            result = false;
         }else if(!regex.test(postalcode)){
             $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             alert("Merci de respecter la syntaxe d'un code postal");
             result = false;
-        }
-        else $("#<portlet:namespace />postalcode").css({ "box-shadow" : "" });
-        --%>
+        }else $("#<portlet:namespace />postalcode").css({ "box-shadow" : "" });
 
-        if (!legalage)
+        var phoneNumber = $("#<portlet:namespace />phoneNumber").val();
+        if (phoneNumber===null || phoneNumber===""){
+            $("#<portlet:namespace />phoneNumber").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
+        }else $("#<portlet:namespace />phoneNumber").css({ "box-shadow" : "" });
 
-        if (!cnil)
+        var types = "";
+        $("input[id^='<portlet:namespace />type']").each(function( index ) {
+            if(this.checked){
+                types += this.value + "-";
+            }
+        });
+        $("#<portlet:namespace />types").val(types);
+        if(types===""){
+            $("input[id^='<portlet:namespace />type']").closest('.form-group').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
+        }else $("input[id^='<portlet:namespace />type']").closest('.form-group').css({ "box-shadow" : "" });
+
+        var helper = $("#<portlet:namespace />helper").val();
+        if (helper===null || helper==="0"){
+            $("#<portlet:namespace />helper").closest('.form-group').css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />helper").closest('.form-group').css({ "box-shadow" : "" });
+
+        var inTheNameOf = $("#<portlet:namespace />inTheNameOf").val();
+        if (inTheNameOf===null || inTheNameOf===""){
+            $("#<portlet:namespace />inTheNameOf").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />inTheNameOf").css({ "box-shadow" : "" });
+
+        var localisation = $("#<portlet:namespace />localisation").val();
+        if (localisation===null || localisation==="0"){
+            $("#<portlet:namespace />localisation").closest('.form-group').css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />localisation").closest('.form-group').css({ "box-shadow" : "" });
+
+        var legalage = $("#<portlet:namespace />legalage").is(":checked");
+        if (!legalage){
+            $("#<portlet:namespace />legalage").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />legalage").closest('div').css({ "box-shadow" : "" });
+
+        var security = $("#<portlet:namespace />security").is(":checked");
+        if (!security){
+            $("#<portlet:namespace />security").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />security").closest('div').css({ "box-shadow" : "" });
+
+        var security2 = $("#<portlet:namespace />security2").is(":checked");
+        if (!security2){
+            $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "" });
+
+        var responsability = $("#<portlet:namespace />responsability").is(":checked");
+        if (!responsability){
+            $("#<portlet:namespace />responsability").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />responsability").closest('div').css({ "box-shadow" : "" });
+
+
 
         if (!result)
             $("#<portlet:namespace />alert").removeClass("hidden");
-        else $("#<portlet:namespace />alert").addClass("hidden");
+        else
+            $("#<portlet:namespace />alert").addClass("hidden");
         
         return result;
     }

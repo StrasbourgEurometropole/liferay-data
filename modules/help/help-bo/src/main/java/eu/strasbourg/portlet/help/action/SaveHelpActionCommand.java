@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.help.action;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -145,19 +146,34 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 			Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request, "comment");
 			helpProposal.setCommentMap(comment);
 
-			// Mise du statut de modération en lu
+			// Mise du statut de modération en lue
+			Boolean isRead = ParamUtil.getBoolean(request, "read");
+			if(isRead) {
+				long[] ids = sc.getAssetCategoryIds();
+				List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
+
+				AssetCategory nonLu = AssetVocabularyHelper.getCategory("Non Lue", sc.getScopeGroupId());
+				if (nonLu != null && idsLong.indexOf(nonLu.getCategoryId()) >= 0)
+					idsLong.remove(idsLong.indexOf(nonLu.getCategoryId()));
+
+				AssetCategory lu = AssetVocabularyHelper.getCategory("Lue", sc.getScopeGroupId());
+				if (lu != null)
+					idsLong.add(lu.getCategoryId());
+
+				sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
+			}
+
+			// Mise de la ville de strasbourg si c'est un quartier
 			long[] ids = sc.getAssetCategoryIds();
-			List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
-
-			AssetCategory nonLu = AssetVocabularyHelper.getCategory("Non Lue", sc.getScopeGroupId());
-			if(nonLu != null && idsLong.indexOf(nonLu.getCategoryId()) >= 0)
-				idsLong.remove(idsLong.indexOf(nonLu.getCategoryId()));
-
-			AssetCategory lu = AssetVocabularyHelper.getCategory("Lue", sc.getScopeGroupId());
-			if(lu != null)
-				idsLong.add(lu.getCategoryId());
-
-			sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
+			for (long id : ids) {
+				AssetCategory categ = AssetCategoryLocalServiceUtil.fetchAssetCategory(id).getParentCategory();
+				if(categ.getName().equals("Strasbourg")) {
+					List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
+					idsLong.add(categ.getCategoryId());
+					sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
+					break;
+				}
+			}
 
 			_helpProposalLocalService.updateHelpProposal(helpProposal, sc);
 

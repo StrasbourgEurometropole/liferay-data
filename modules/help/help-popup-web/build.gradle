@@ -15,5 +15,5 @@ dependencies {
 	compileInclude 'org.apache.commons:commons-text:1.4'
 
 	compile project (':modules:utils')
-	compile project (':modules:project:project-api')
+	compile project (':modules:help:help-api')
 }

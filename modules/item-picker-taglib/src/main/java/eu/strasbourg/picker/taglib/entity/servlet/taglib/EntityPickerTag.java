@@ -26,6 +26,7 @@ import eu.strasbourg.portlet.ejob.itemselector.AlertItemSelectorCriterion;
 import eu.strasbourg.portlet.ejob.itemselector.OfferItemSelectorCriterion;
 import eu.strasbourg.portlet.gtfs.itemselector.ArretItemSelectorCriterion;
 import eu.strasbourg.portlet.gtfs.itemselector.LigneItemSelectorCriterion;
+import eu.strasbourg.portlet.help.itemselector.HelpProposalItemSelectorCriterion;
 import eu.strasbourg.portlet.link.itemselector.LinkItemSelectorCriterion;
 import eu.strasbourg.portlet.official.itemselector.OfficialItemSelectorCriterion;
 import eu.strasbourg.portlet.place.itemselector.PlaceItemSelectorCriterion;
@@ -385,6 +386,16 @@ public class EntityPickerTag extends IncludeTag {
 						.getItemSelectorURL(
 								RequestBackedPortletURLFactoryUtil.create(request),
 								"itemSelected" + _name, alertItemSelectorCriterion);
+				break;
+			case "eu.strasbourg.service.help.model.HelpProposal":
+				HelpProposalItemSelectorCriterion helpProposalItemSelectorCriterion = new HelpProposalItemSelectorCriterion();
+				helpProposalItemSelectorCriterion
+						.setDesiredItemSelectorReturnTypes(
+								desiredItemSelectorReturnTypes);
+				itemSelectorURL = ServletContextUtil.getItemSelector()
+						.getItemSelectorURL(
+								RequestBackedPortletURLFactoryUtil.create(request),
+								"itemSelected" + _name, helpProposalItemSelectorCriterion);
 				break;
 		}
 		

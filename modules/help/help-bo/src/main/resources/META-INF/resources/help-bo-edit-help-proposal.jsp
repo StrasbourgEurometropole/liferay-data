@@ -40,6 +40,9 @@
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="helpProposalId" type="hidden" />
 
+			<%-- Champ : (cache) enriegistrement lue ou non lue --%>
+			<aui:input name="read" type="hidden" value="0" />
+
 			<%-- Groupe de champs : Generalites --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="general">
 
@@ -54,7 +57,7 @@
 
 				<%-- Champ : Image interne --%>
 				<div class="internalImage">
-					<strasbourg-picker:image label="image" name="imageId" required="false" value="${dc.helpProposal.imageId}" global="false" />
+					<strasbourg-picker:image label="photo" name="imageId" required="false" value="${dc.helpProposal.imageId}" global="false" />
 				</div>
 				
 			</aui:fieldset>
@@ -142,8 +145,8 @@
 					<aui:button cssClass="btn-lg" type="submit" value="save" />
 				</c:if>
 				<c:if test="${not dc.workflowEnabled}">
-					<aui:button cssClass="btn-lg" type="submit" name="publish" value="eu.publish" />
-					<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft" value="save-as-draft" />
+					<aui:button cssClass="btn-lg" type="submit" name="save" value="save" />
+					<aui:button cssClass="btn-lg btn-default" type="submit" name="save-and-read" value="save-and-read" />
 				</c:if>
 			</c:if>
 			
@@ -178,4 +181,9 @@
 			window.location = '${deleteHelpProposalURL}';
 		}
 	}
+
+
+    $("#<portlet:namespace />save-and-read").click(function(event){
+        $("#<portlet:namespace />read").val('1');
+    });
 </aui:script>

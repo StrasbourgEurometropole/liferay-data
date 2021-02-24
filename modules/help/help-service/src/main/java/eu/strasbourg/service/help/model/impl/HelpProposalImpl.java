@@ -18,7 +18,6 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.HtmlUtil;
@@ -28,7 +27,7 @@ import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-
+import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -159,16 +158,26 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	}
 
 	/**
-	 * Retourne les catégories 'Territoire' correspondant aux pays de la helpProposal
+	 * Retourne les type d'aide de la proposition d'aide
 	 */
 	@Override
-	public List<AssetCategory> getTerritoryCategories() {
+	public List<AssetCategory> getHelpProposalTypeCategories() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.TERRITORY);
+				VocabularyNames.HELP_PROPOSAL_TYPE);
 	}
 
 	/**
-	 * Retourne les sous-catégories 'Territoire' correspondant aux villes de la proposition d'aide
+	 * Retourne une chaine des localisations correspondant
+	 */
+	@Override
+	public String getLocalisationLabel(Locale locale) {
+		List<AssetCategory> districts = getDistrictCategories();
+		List<AssetCategory> cities = getCityCategories();
+		return AssetVocabularyHelper.getDistrictTitle(locale, districts, cities);
+	}
+
+	/**
+	 * Retourne les sous-catégories 'Territoire' correspondant aux villes de la initiative
 	 * @return : null si vide, sinon la liste des catégories
 	 */
 	@Override
@@ -188,7 +197,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	}
 
 	/**
-	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la helpProposal
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la proposition d'aide
 	 * @return : null si vide, sinon la liste des catégories
 	 */
 	@Override
@@ -207,6 +216,14 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		return districts;
 	}
 
+	/**
+	 * Retourne les catégories 'Territoire' correspondant aux pays de la proposaition d'aide
+	 */
+	@Override
+	public List<AssetCategory> getTerritoryCategories() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.TERRITORY);
+	}
 
 	/**
 	 * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
@@ -255,24 +272,12 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		}
 	}
 
-
 	/**
 	 * Retourne l'utilisateur Publik depositaire
 	 * @return
 	 */
 	public PublikUser getAuthor() {
 		return PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikId());
-	}
-
-	/**
-	 * Retourne le statut de la HelpProposal (
-	 */
-	 // A modifier avec la nouvelle catégorie de statut
-	@Override
-	public AssetCategory getProposalStatusCategory() {
-		List <AssetCategory> status = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.HELP_PROPOSAL_ACTIVITY_STATUS);
-		return status.size() > 0 ? status.get(0) : null;
 	}
 
 
@@ -292,6 +297,22 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		Date date = this.getAssetEntry().getPublishDate();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		return sdf.format(date);
+	}
+
+	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageURL() {
+		return FileEntryHelper.getFileEntryURL(this.getImageId());
+	}
+
+	/**
+	 * Retourne le copyright de l'image principale
+	 */
+	@Override
+	public String getImageCopyright(Locale locale) {
+		return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
 	}
 
 	/**
@@ -321,28 +342,9 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		jsonHelpProposal.put("postalCode", this.getPostalCode());
 		jsonHelpProposal.put("modifiedByUserDate", this.getModifiedByUserDate());
 		jsonHelpProposal.put("spokenLanguages", this.getSpokenLanguages());
-		jsonHelpProposal.put("publishedDate", dateFormat.format(this.getPublicationDate()));
-		jsonHelpProposal.put("unformattedPublishedDate", unformattedDateFormat.format(this.getPublicationDate()));
 
 		// Champs : Médias
 		jsonHelpProposal.put("imageId", this.getImageId());
-
-		// Champs : Categorisations
-		/*
-		AssetCategory statusCategory = this.getStatusCategory();
-
-		jsonHelpProposal.put("statusLabel", statusCategory != null ? statusCategory.getTitle(Locale.FRENCH) : "");
-		jsonHelpProposal.put("statusColor", this.getStatusCategoryColor());
-		jsonHelpProposal.put("districtsLabel", this.getDistrictLabel(Locale.FRENCH));
-		jsonHelpProposal.put("thematicsLabel", this.getThematicsLabel(Locale.FRENCH));
-		jsonHelpProposal.put("projectName", projectCategory != null ? projectCategory.getTitle(Locale.FRENCH) : "");
-		*/
-
-		// Liste des Ids des catégories Territoire
-		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritoryCategories());
-		if (jsonTerritories.length() > 0) {
-			jsonHelpProposal.put("territories", jsonTerritories);
-		}
 
 		// Liste des Ids des catégories Thématiques
 		/*

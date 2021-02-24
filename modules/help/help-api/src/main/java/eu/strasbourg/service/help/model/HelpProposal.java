@@ -103,13 +103,18 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 		getModerationStatusCategory();
 
 	/**
-	 * Retourne les catégories 'Territoire' correspondant aux pays de la helpProposal
+	 * Retourne les type d'aide de la proposition d'aide
 	 */
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
-		getTerritoryCategories();
+		getHelpProposalTypeCategories();
 
 	/**
-	 * Retourne les sous-catégories 'Territoire' correspondant aux villes de la proposition d'aide
+	 * Retourne une chaine des localisations correspondant
+	 */
+	public String getLocalisationLabel(java.util.Locale locale);
+
+	/**
+	 * Retourne les sous-catégories 'Territoire' correspondant aux villes de la initiative
 	 *
 	 * @return : null si vide, sinon la liste des catégories
 	 */
@@ -117,12 +122,18 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 		getCityCategories();
 
 	/**
-	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la helpProposal
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la proposition d'aide
 	 *
 	 * @return : null si vide, sinon la liste des catégories
 	 */
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getDistrictCategories();
+
+	/**
+	 * Retourne les catégories 'Territoire' correspondant aux pays de la proposaition d'aide
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getTerritoryCategories();
 
 	/**
 	 * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
@@ -147,12 +158,6 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthor();
 
 	/**
-	 * Retourne le statut de la HelpProposal (
-	 */
-	public com.liferay.asset.kernel.model.AssetCategory
-		getProposalStatusCategory();
-
-	/**
 	 * Retourne le nombre de demandes d'aides pour cette proposition
 	 */
 	public int getNbHelpRequests();
@@ -161,6 +166,16 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 	 * @return La date de publication au format français jj/mm/aaaa
 	 */
 	public String getPublicationDateFr();
+
+	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	public String getImageURL();
+
+	/**
+	 * Retourne le copyright de l'image principale
+	 */
+	public String getImageCopyright(java.util.Locale locale);
 
 	/**
 	 * Retourne la version JSON de l'entité

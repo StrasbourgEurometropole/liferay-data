@@ -57,7 +57,6 @@ public class HelpProposalSoap implements Serializable {
 		soapModel.setSpokenLanguages(model.getSpokenLanguages());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setPublikId(model.getPublikId());
-		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setComment(model.getComment());
 
 		return soapModel;
@@ -296,14 +295,6 @@ public class HelpProposalSoap implements Serializable {
 		_publikId = publikId;
 	}
 
-	public Date getPublicationDate() {
-		return _publicationDate;
-	}
-
-	public void setPublicationDate(Date publicationDate) {
-		_publicationDate = publicationDate;
-	}
-
 	public String getComment() {
 		return _comment;
 	}
@@ -335,7 +326,6 @@ public class HelpProposalSoap implements Serializable {
 	private String _spokenLanguages;
 	private long _imageId;
 	private String _publikId;
-	private Date _publicationDate;
 	private String _comment;
 
 }

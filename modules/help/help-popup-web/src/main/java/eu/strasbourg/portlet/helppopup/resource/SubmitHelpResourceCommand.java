@@ -34,10 +34,10 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.help.model.HelpProposal;
+import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
-import eu.strasbourg.service.project.model.Initiative;
-import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -192,7 +192,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
 	
 	private boolean saveInitiative(ResourceRequest request) throws PortletException {
 		ServiceContext sc;
-        Initiative initiative;
+        HelpProposal initiative;
         
         try {
             sc = ServiceContextFactory.getInstance(request);
@@ -219,17 +219,15 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
             }
             sc.setAssetCategoryIds(ids);
 
-            initiative = InitiativeLocalServiceUtil.createInitiative(sc);
+            initiative = HelpProposalLocalServiceUtil.createHelpProposal(sc);
             
             initiative.setTitle(this.title);
             initiative.setDescription(this.description);
             initiative.setInTheNameOf(this.inTheNameOf);
-            initiative.setPlaceTextArea(this.place);
-            initiative.setVideoUrl(this.video);
             initiative.setPublikId(this.publikID);
             initiative = uploadFile(initiative, request);
             
-            initiative = InitiativeLocalServiceUtil.updateInitiative(initiative, sc);
+            initiative = HelpProposalLocalServiceUtil.updateHelpProposal(initiative, sc);
             
         } catch (PortalException | IOException e) {
             _log.error(e);
@@ -267,7 +265,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
             //Chargement du template contenant le corps du mail
             TemplateResource templateResourceBody = new URLTemplateResource("0",
                     Objects.requireNonNull(this.getClass().getClassLoader()
-                            .getResource("META-INF/resources/templates/contact-mail-initiative-copy-body-fr_FR.ftl")));
+                            .getResource("META-INF/resources/templates/contact-mail-help-proposal-copy-body-fr_FR.ftl")));
             Template bodyTemplate = TemplateManagerUtil.getTemplate(
                     TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
 
@@ -301,7 +299,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
      * @throws IOException
      * @throws PortalException
      */
-    private Initiative uploadFile(Initiative initiative, ResourceRequest request) throws IOException, PortalException {
+    private HelpProposal uploadFile(HelpProposal initiative, ResourceRequest request) throws IOException, PortalException {
     	
     	// Recuperation du contexte de la requete
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
