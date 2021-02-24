@@ -167,7 +167,7 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 			long[] ids = sc.getAssetCategoryIds();
 			for (long id : ids) {
 				AssetCategory categ = AssetCategoryLocalServiceUtil.fetchAssetCategory(id).getParentCategory();
-				if(categ.getName().equals("Strasbourg")) {
+				if(categ != null && categ.getName().equals("Strasbourg")) {
 					List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
 					idsLong.add(categ.getCategoryId());
 					sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
@@ -192,6 +192,12 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 		boolean isValid = true;
 		// Défini le format de date à utiliser pour les champs temporels 
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+		// Titre
+		if (Validator.isNull(ParamUtil.getString(request, "title"))) {
+			SessionErrors.add(request, "title-error");
+			isValid = false;
+		}
 
 		// Adresse
 		if (Validator.isNull(ParamUtil.getString(request, "address"))) {

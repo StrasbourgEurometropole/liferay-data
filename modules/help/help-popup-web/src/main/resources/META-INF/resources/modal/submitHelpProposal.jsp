@@ -98,7 +98,7 @@
                     
                     <%-- Champ : Titre --%>
                     <div class="form-group">
-                        <aui:input id="title" name="title" label="modal.submit.help.information.title" maxlength="256" value=""/>
+                        <aui:input id="title" name="title" label="modal.submit.help.information.title" required="true" maxlength="256" value=""/>
                     </div>
 
                     <%-- Champ : Type de l'aide --%>
@@ -378,10 +378,16 @@
     {
         var result = true;
 
+        var title = $("#<portlet:namespace />title").val();
+        if (title===null || title===""){
+            $("#<portlet:namespace />title").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />title").css({ "box-shadow" : "" });
+
         var address = $("#<portlet:namespace />address").val();
         if (address===null || address===""){
             $("#<portlet:namespace />address").css({ "box-shadow" : "0 0 10px #CC0000" });
-            //result = false;
+            result = false;
         }else $("#<portlet:namespace />address").css({ "box-shadow" : "" });
 
         var city = $("#<portlet:namespace />city").val();

@@ -352,6 +352,12 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
         }
 
+        // title
+        if (Validator.isNull(this.title)) {
+            this.message = "Titre non valide";
+            return false;
+        }
+
         // address
         if (Validator.isNull(this.address)) {
             this.message = "Adresse non valide";

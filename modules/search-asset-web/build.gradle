@@ -44,4 +44,5 @@ dependencies {
 	compile project (':modules:place:place-api')
 	compile project (':modules:project:project-api')
 	compile project (':modules:ejob:ejob-api')
+	compile project (':modules:help:help-api')
 }
