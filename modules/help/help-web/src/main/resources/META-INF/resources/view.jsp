@@ -1,5 +1,5 @@
 <%@ include file="/init.jsp" %>
 
 <p>
-	Aider
+	Entraide
 </p>
