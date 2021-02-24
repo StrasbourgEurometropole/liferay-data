@@ -1,5 +1,26 @@
 package eu.strasbourg.utils;
 
+import com.liferay.document.library.kernel.antivirus.AntivirusScannerException;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
+import com.liferay.document.library.kernel.util.DLUtil;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormFieldValue;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
+import com.liferay.dynamic.data.mapping.kernel.Value;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.TextFormatter;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portlet.documentlibrary.antivirus.ClamAntivirusScannerImpl;
+import com.liferay.portlet.documentlibrary.lar.FileEntryUtil;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,23 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import com.liferay.document.library.kernel.antivirus.AntivirusScannerException;
-import com.liferay.document.library.kernel.model.DLFileEntry;
-import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
-import com.liferay.document.library.kernel.util.DLUtil;
-import com.liferay.dynamic.data.mapping.kernel.DDMFormFieldValue;
-import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
-import com.liferay.dynamic.data.mapping.kernel.Value;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.repository.model.FileEntry;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.TextFormatter;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portlet.documentlibrary.antivirus.ClamAntivirusScannerImpl;
-import com.liferay.portlet.documentlibrary.lar.FileEntryUtil;
+import java.util.TreeMap;
 
 /**
  * Classe Helper pour tout ce qui concerne les fichiers
@@ -60,6 +65,18 @@ public class FileEntryHelper {
 		} else {
 			return "";
 		}
+	}
+
+	public static String getFileEntryURLWithTimeStamp(long fileEntryId) {
+		String url = "";
+		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
+		if (fileEntry != null) {
+			FileEntryHelper.getImageCopyright(fileEntry.getFileEntryId(), null);
+			if (fileEntry != null) {
+				url = "/documents/" + fileEntry.getGroupId() + "/" + fileEntry.getFolderId() + "/0/" + fileEntry.getUuid() + "?version=" + fileEntry.getVersion() + "&t=" + fileEntry.getModifiedDate().getTime();
+			}
+		}
+		return url;
 	}
 
 	public static String getFileEntryURL(DLFileEntry fileEntry) {
@@ -271,6 +288,49 @@ public class FileEntryHelper {
 		} catch (IOException e) {
 			_log.error("Error during file analysis of " + file);
 		}
+	}
+
+	/**
+	 * Renvoie une map d'identifiant et fichier de picto
+	 * @param nomRepertoireVocabulaire ex: Catégorie de lieux
+	 * @param nomRepertoire ex: CSMap
+	 */
+	public static Map<String, DLFileEntry> getPictoForVocabulary( String nomRepertoireVocabulaire, String nomRepertoire){
+
+		Map<String, DLFileEntry> map = new TreeMap<>();
+		if (nomRepertoireVocabulaire != null && nomRepertoire != null) {
+			try {
+				long companyId = PortalUtil.getDefaultCompanyId();
+				long companyGroupId = CompanyLocalServiceUtil.getCompany(companyId).getGroupId();
+				DLFolder pictosFolder = DLFolderLocalServiceUtil
+						.getFolder(companyGroupId, 0, "Pictos");
+
+				if (pictosFolder != null) {
+					DLFolder vocabularyFolder = DLFolderLocalServiceUtil
+							.getFolder(companyGroupId, pictosFolder.getFolderId(), nomRepertoireVocabulaire);
+
+					if (vocabularyFolder != null) {
+						DLFolder folder = DLFolderLocalServiceUtil
+								.getFolder(companyGroupId, vocabularyFolder.getFolderId(), nomRepertoire);
+
+						if (folder != null) {
+							// Ajoute les fichiers de la rubrique qui ne sont pas dans une sous rubrique
+							List<DLFileEntry> files = DLFileEntryLocalServiceUtil.getFileEntries(companyGroupId, folder.getFolderId());
+
+							for (DLFileEntry file : files) {
+								map.put(file.getTitle(), file);
+							}
+						}
+					}
+				}
+
+			} catch (PortalException e) {
+				_log.error("Erreur pendant la récupération des répertoires des pictos", e);
+			}
+		}
+
+		return map;
+
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(FileEntryHelper.class.getName());

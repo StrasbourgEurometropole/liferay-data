@@ -18,7 +18,7 @@ create table comment_Comment (
 	assetEntryId LONG,
 	publikId VARCHAR(75) null,
 	parentCommentId LONG,
-	urlProjectCommentaire STRING null
+	urlProjectCommentaire VARCHAR(75) null
 );
 
 create table comment_Signalement (

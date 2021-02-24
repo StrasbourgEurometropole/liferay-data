@@ -3,7 +3,7 @@
 	
 	${report.globalErrorCause}
 <#else>
-	L'import du fichier "${report.filename!"no_filename"}" du prestataire "${report.provider!"no_provider"}" a été réalisé avec succès le ${report.endDate?date} à ${report.endDate?time}.
+	L'import du fichier "${report.filename!"no_filename"}" du prestataire "${report.provider!"no_provider"}" a été réalisé avec succès le ${report.endDate?date?string["dd MMM yyyy"]} à ${report.endDate?time?string["HH:mm"]}.
 	
 	${report.errorEventsCount} événement<#if (report.errorEventsCount > 1)>s</#if> en erreur
 	
@@ -29,7 +29,10 @@
 		- ${event.entityExternalId} - ${event.entityName}
 	</#list>
 
-	${report.newManifestationsCount} manifestation<#if (report.newManifestationsCount > 1)>s</#if> créée<#if (report.newManifestationsCount > 1)>s</#if>
+	${report.unmodifiedEventsCount} événement<#if (report.unmodifiedEventsCount > 1)>s</#if> non modifié<#if (report.unmodifiedEventsCount > 1)>s</#if>
+
+
+    ${report.newManifestationsCount} manifestation<#if (report.newManifestationsCount > 1)>s</#if> créée<#if (report.newManifestationsCount > 1)>s</#if>
 	
 	<#list report.newManifestationsLines as manif>
 		- ${manif.entityExternalId} - ${manif.entityName}
@@ -40,4 +43,7 @@
 	<#list report.modifiedManifestationsLines as manif>
 		- ${manif.entityExternalId} - ${manif.entityName}
 	</#list>
+
+	${report.unmodifiedManifestationsCount} manifestation<#if (report.unmodifiedManifestationsCount > 1)>s</#if> non modifiée<#if (report.unmodifiedManifestationsCount > 1)>s</#if>
+
 </#if>

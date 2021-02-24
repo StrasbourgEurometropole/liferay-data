@@ -66,7 +66,7 @@ public class ManifestationCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(51);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -114,6 +114,10 @@ public class ManifestationCacheModel
 		sb.append(idSource);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
+		sb.append(", createDateSource=");
+		sb.append(createDateSource);
+		sb.append(", modifiedDateSource=");
+		sb.append(modifiedDateSource);
 		sb.append("}");
 
 		return sb.toString();
@@ -245,6 +249,21 @@ public class ManifestationCacheModel
 			manifestationImpl.setPublicationDate(new Date(publicationDate));
 		}
 
+		if (createDateSource == Long.MIN_VALUE) {
+			manifestationImpl.setCreateDateSource(null);
+		}
+		else {
+			manifestationImpl.setCreateDateSource(new Date(createDateSource));
+		}
+
+		if (modifiedDateSource == Long.MIN_VALUE) {
+			manifestationImpl.setModifiedDateSource(null);
+		}
+		else {
+			manifestationImpl.setModifiedDateSource(
+				new Date(modifiedDateSource));
+		}
+
 		manifestationImpl.resetOriginalValues();
 
 		return manifestationImpl;
@@ -282,6 +301,8 @@ public class ManifestationCacheModel
 		source = objectInput.readUTF();
 		idSource = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
+		createDateSource = objectInput.readLong();
+		modifiedDateSource = objectInput.readLong();
 	}
 
 	@Override
@@ -373,6 +394,8 @@ public class ManifestationCacheModel
 		}
 
 		objectOutput.writeLong(publicationDate);
+		objectOutput.writeLong(createDateSource);
+		objectOutput.writeLong(modifiedDateSource);
 	}
 
 	public String uuid;
@@ -398,5 +421,7 @@ public class ManifestationCacheModel
 	public String source;
 	public String idSource;
 	public long publicationDate;
+	public long createDateSource;
+	public long modifiedDateSource;
 
 }

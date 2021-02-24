@@ -83,7 +83,8 @@ public class SaveOfferActionCommand implements MVCActionCommand {
 
             // Si édition ou création d'une nouvelle entrée
             Offer offer;
-            if (this.offerId == 0) {
+            boolean isDuplication = ParamUtil.getBoolean(request, "new");
+            if (this.offerId == 0 || isDuplication) {
                 offer = _offerLocalService.createOffer(sc);
             } else {
                 offer = _offerLocalService.getOffer(this.offerId);
@@ -232,9 +233,11 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                 }
 
                 // Champ : motif
-                Map<Locale, String> motif = LocalizationUtil
-                        .getLocalizationMap(request, "motif");
-                offer.setMotifMap(motif);
+                long motifCategoryID = ParamUtil.getLong(request, "ejobMotif");
+                if (Validator.isNotNull(AssetCategoryLocalServiceUtil
+                        .fetchAssetCategory(motifCategoryID))) {
+                    categories.add(""+motifCategoryID);
+                }
 
                 if(this.typeRecrutementString.equals("Permanent")) {
                     // Champ : permanentDescription
@@ -251,15 +254,10 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                         "isFullTime");
                 offer.setIsFullTime(isFullTime);
 
-                if(isFullTime) {
-                    // Champ : fullTimeDescription
-                    Map<Locale, String> fullTimeDescription = LocalizationUtil
-                            .getLocalizationMap(request, "fullTimeDescription");
-                    offer.setFullTimeDescriptionMap(fullTimeDescription);
-                }else {
-                    // Champ : fullTimeDescription
-                    offer.setFullTimeDescriptionMap(new HashMap<>());
-                }
+                // Champ : fullTimeDescription
+                Map<Locale, String> fullTimeDescription = LocalizationUtil
+                        .getLocalizationMap(request, "fullTimeDescription");
+                offer.setFullTimeDescriptionMap(fullTimeDescription);
 
                 if(!this.typeRecrutementString.equals("Vacataire")) {
                     // Champs : ejobCategorie, ejobFiliere, ejobCategorie label, ejobGrade minimun et ejobGrade maximum
@@ -319,9 +317,6 @@ public class SaveOfferActionCommand implements MVCActionCommand {
 
                 // Champ : startDate
                 offer.setStartDate(null);
-
-                // Champ : motif
-                offer.setMotifMap(new HashMap<>());
 
                 // Champ : permanentDescription
                 offer.setPermanentDescriptionMap(new HashMap<>());
@@ -489,7 +484,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                     if (Validator.isNotNull(index)){
                         // catégorie, filière, grades
                         if (Validator.isNull(ParamUtil.getLong(request, "ejobCategory" + index)) || Validator.isNull(ParamUtil.getLong(request, "ejobFiliere" + index))
-                                ||Validator.isNull(ParamUtil.getLong(request, "ejobGradeMin" + index)) || Validator.isNull(ParamUtil.getLong(request, "ejobGradeMax" + index))) {
+                                ||Validator.isNull(ParamUtil.getLong(request, "ejobGradeMin" + index))) {
                             SessionErrors.add(request, "grade-range-error");
                             isValid = false;
                             break;

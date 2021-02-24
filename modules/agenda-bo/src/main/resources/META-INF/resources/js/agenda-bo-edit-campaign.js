@@ -17,15 +17,15 @@ function setPeriodValidators(event) {
 	var namespace = "_eu_strasbourg_portlet_agenda_AgendaBOPortlet_";
 	var namespaceAUI = "#" + namespace;
     var allValidated = true;
-    var startDate = $(namespaceAUI + "startDate").val();
-    if(startDate == ""){
+    var startDateString = $(namespaceAUI + "startDate").val();
+    if(startDateString == ""){
         $('.start-date-error').show();
         allValidated = false;
     }else{
         $('.start-date-error').hide();
     }
-    var endDate = $(namespaceAUI + "endDate").val();
-    if(endDate == ""){
+    var endDateString = $(namespaceAUI + "endDate").val();
+    if(endDateString == ""){
         $('.end-date-error').show();
         allValidated = false;
     }else{
@@ -34,7 +34,9 @@ function setPeriodValidators(event) {
 
     if(allValidated){
         // on vérifie que la date de début soit <= à la date de fin
-        if(startDate > endDate){
+        var startDate = moment(startDateString, 'DD/MM/YYYY');
+        var endDate = moment(endDateString, 'DD/MM/YYYY');
+        if(startDate.isSameOrAfter(endDate)){
             $('.incorrect-date-error').show();
             allValidated = false;
         }else{

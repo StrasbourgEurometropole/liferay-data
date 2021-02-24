@@ -27,7 +27,7 @@
                     	<img src="${comment.getPublikUser().getImageURLOrSurrogate()}" alt="Photo de profil" width="85" height="85" class="fit-cover"/>
                     </figure>
 					<div class="pro-txt">
-						<span class="pro-name">${comment.getPublikUserName()}</span>
+						<span class="pro-name"><c:out value="${comment.getPublikUserName()}" escapeXml="true"/></span>
 						<span class="pro-comment-time">
 							<liferay-ui:message key='comment-published' />
 							<time datetime="${comment.createDate}">
@@ -251,7 +251,7 @@
 										</c:choose>
 									></textarea>
 									<label for="inQualityOf"><liferay-ui:message key="comment-your-quality" /></label>
-									<input type="text" id="inQualityOf"
+									<input type="text" id="inQualityOf" maxlength="150"
 										name="<portlet:namespace />inQualityOf"
 										placeholder="<liferay-ui:message key='comment-write-your-quality-here'/>"
 									/>

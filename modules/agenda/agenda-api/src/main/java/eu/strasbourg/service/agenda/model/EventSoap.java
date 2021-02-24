@@ -87,6 +87,8 @@ public class EventSoap implements Serializable {
 		soapModel.setProgram(model.getProgram());
 		soapModel.setFirstStartDate(model.getFirstStartDate());
 		soapModel.setLastEndDate(model.getLastEndDate());
+		soapModel.setCreateDateSource(model.getCreateDateSource());
+		soapModel.setModifiedDateSource(model.getModifiedDateSource());
 		soapModel.setImageId(model.getImageId());
 
 		return soapModel;
@@ -564,6 +566,22 @@ public class EventSoap implements Serializable {
 		_lastEndDate = lastEndDate;
 	}
 
+	public Date getCreateDateSource() {
+		return _createDateSource;
+	}
+
+	public void setCreateDateSource(Date createDateSource) {
+		_createDateSource = createDateSource;
+	}
+
+	public Date getModifiedDateSource() {
+		return _modifiedDateSource;
+	}
+
+	public void setModifiedDateSource(Date modifiedDateSource) {
+		_modifiedDateSource = modifiedDateSource;
+	}
+
 	public Long getImageId() {
 		return _imageId;
 	}
@@ -625,6 +643,8 @@ public class EventSoap implements Serializable {
 	private String _program;
 	private Date _firstStartDate;
 	private Date _lastEndDate;
+	private Date _createDateSource;
+	private Date _modifiedDateSource;
 	private Long _imageId;
 
 }

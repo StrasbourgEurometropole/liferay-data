@@ -11,7 +11,7 @@
                 <c:set var="article" value="${curEntry.getAssetRenderer().getArticle()}"/>
                 <c:set var="title" value="${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}"/>
                 <c:set var="chapo" value="${dc.DeleteTag(dc.getJournalArticleCatcher(article,locale))}"/>
-                <c:set var="image" value="${dc.getJournalArticleImage(article,locale)}"/>
+                <c:set var="image" value="${dc.getJournalArticleImage(article,locale)}?imagePreview=1"/>
                 <c:set var="id" value="${article.getArticleId()}"/>
                 <c:set var="groupId" value="${article.getGroupId()}"/>
                 <c:set var="currentURL" value="${assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry)}"/>
@@ -192,9 +192,9 @@
         </div>
     </c:if >
     <div class="seu-btn-line">
-        <a href="${dc.getHomeURL()}${dc.link}" class="seu-btn-square seu-filled seu-second" title="<liferay-ui:message key="eu.news-new" />">
+        <a href="${dc.getHomeURL()}${dc.link}" class="seu-btn-square seu-filled seu-second" title="<liferay-ui:message key="eu.news.all-news" />">
             <span class="seu-flexbox">
-                <span class="seu-btn-text"><liferay-ui:message key="eu.new" /></span>
+                <span class="seu-btn-text"><liferay-ui:message key="eu.news.all-news" /></span>
                 <span class="seu-btn-arrow"></span>
             </span>
         </a>

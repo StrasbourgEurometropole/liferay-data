@@ -278,6 +278,20 @@ public class SignataireLocalServiceWrapper
 		return _signataireLocalService.getActionableDynamicQuery();
 	}
 
+	/**
+	 * méthode permettant de récuperer tous les signataires par l'identifiant de la pétition y compris les entree anonymes (Signatures papiers)
+	 *
+	 * @param petitionId l'identifiant de la pétition.
+	 * @return la liste des signataires.
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Signataire>
+		getAllSignatairesByPetitionId(long petitionId) {
+
+		return _signataireLocalService.getAllSignatairesByPetitionId(
+			petitionId);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(

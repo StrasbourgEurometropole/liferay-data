@@ -124,13 +124,13 @@
     visibility: hidden;
 }
 
-.tooltip-inner{
+button.synchro + .tooltip-inner{
     display: none;
     left: 170px;
     position: absolute;
     bottom: 60px;
 }
 
-button.disabled:hover + .tooltip-inner{
+button.synchro.disabled:hover + .tooltip-inner{
     display: block;
 }

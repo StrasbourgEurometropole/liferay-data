@@ -121,4 +121,23 @@
 			<guest-unsupported></guest-unsupported>
 		</permissions>
 	</model-resource>
+	<model-resource>
+		<model-name>eu.strasbourg.service.activity.model.Practice</model-name>
+		<portlet-ref>
+			<portlet-name>eu_strasbourg_portlet_activity_ActivityBOPortlet</portlet-name>
+		</portlet-ref>
+		<weight>3</weight>
+		<permissions>
+			<supports>
+				<action-key>VIEW</action-key>
+			</supports>
+			<site-member-defaults>
+				<action-key>VIEW</action-key>
+			</site-member-defaults>
+			<guest-defaults>
+				<action-key>VIEW</action-key>
+			</guest-defaults>
+			<guest-unsupported></guest-unsupported>
+		</permissions>
+	</model-resource>
 </resource-action-mapping>

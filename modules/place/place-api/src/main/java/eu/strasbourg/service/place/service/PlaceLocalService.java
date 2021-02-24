@@ -341,6 +341,11 @@ public interface PlaceLocalService
 	public Hits search(SearchContext searchContext) throws SearchException;
 
 	/**
+	 * Met à jour le jsonHoraire d'un lieu
+	 */
+	public Place updateJsonHoraire(Place place) throws PortalException;
+
+	/**
 	 * Updates the place in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
 	 * @param place the place

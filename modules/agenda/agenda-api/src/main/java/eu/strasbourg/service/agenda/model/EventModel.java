@@ -1928,6 +1928,34 @@ public interface EventModel
 	public void setLastEndDate(Date lastEndDate);
 
 	/**
+	 * Returns the create date source of this event.
+	 *
+	 * @return the create date source of this event
+	 */
+	public Date getCreateDateSource();
+
+	/**
+	 * Sets the create date source of this event.
+	 *
+	 * @param createDateSource the create date source of this event
+	 */
+	public void setCreateDateSource(Date createDateSource);
+
+	/**
+	 * Returns the modified date source of this event.
+	 *
+	 * @return the modified date source of this event
+	 */
+	public Date getModifiedDateSource();
+
+	/**
+	 * Sets the modified date source of this event.
+	 *
+	 * @param modifiedDateSource the modified date source of this event
+	 */
+	public void setModifiedDateSource(Date modifiedDateSource);
+
+	/**
 	 * Returns the image ID of this event.
 	 *
 	 * @return the image ID of this event

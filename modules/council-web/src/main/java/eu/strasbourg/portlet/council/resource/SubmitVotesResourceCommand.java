@@ -56,74 +56,91 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
     private ProcurationLocalService procurationLocalService;
     private VoteLocalService voteLocalService;
 
-    /** Tempons **/
-    private long sessionId;
-    private long deliberationId;
-    private long officialId;
-    private String officialVote;
-    private long officialProcurationId_1;
-    private String officialProcurationVote_1;
-    private long officialProcurationId_2;
-    private String officialProcurationVote_2;
-    private String message;
-
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) {
         boolean result = false;
+        String message = "";
+        Vote officialVote = null;
+        Vote officialProcurationVote1 = null;
+        Vote officialProcurationVote2 = null;
         try {
+
             // Récupération des paramètres
-            this.sessionId = ParamUtil.getLong(request, PARAM_SESSION_ID);
-            this.deliberationId = ParamUtil.getLong(request, PARAM_DELIBERATION_ID);
-            this.officialId = ParamUtil.getLong(request, PARAM_OFFICIAL_ID);
-            this.officialVote = ParamUtil.getString(request, PARAM_OFFICIAL_VOTE);
-            this.officialProcurationId_1 = ParamUtil.getLong(request, PARAM_OFFICIAL_PROCURATION_ID_1);
-            this.officialProcurationVote_1 = ParamUtil.getString(request, PARAM_OFFICIAL_PROCURATION_VOTE_1);
-            this.officialProcurationId_2 = ParamUtil.getLong(request, PARAM_OFFICIAL_PROCURATION_ID_2);
-            this.officialProcurationVote_2 = ParamUtil.getString(request, PARAM_OFFICIAL_PROCURATION_VOTE_2);
+            long paramDeliberationId = ParamUtil.getLong(request, PARAM_DELIBERATION_ID);
+            long paramOfficialId = ParamUtil.getLong(request, PARAM_OFFICIAL_ID);
+            String paramOfficialVote = ParamUtil.getString(request, PARAM_OFFICIAL_VOTE);
+            long paramOfficialProcurationId_1 = ParamUtil.getLong(request, PARAM_OFFICIAL_PROCURATION_ID_1);
+            String paramOfficialProcurationVote_1 = ParamUtil.getString(request, PARAM_OFFICIAL_PROCURATION_VOTE_1);
+            long paramOfficialProcurationId_2 = ParamUtil.getLong(request, PARAM_OFFICIAL_PROCURATION_ID_2);
+            String paramOfficialProcurationVote_2 = ParamUtil.getString(request, PARAM_OFFICIAL_PROCURATION_VOTE_2);
+
+            this.log.info(
+                "Informations de vote avant enregistrement : [ " +
+                        "id deliberation : " + paramDeliberationId + ", " +
+                        "id official : " + paramOfficialId + ", " +
+                        "vote official : " + paramOfficialVote +
+                        (paramOfficialProcurationId_1 != 0 ? ", id official procuration 1 : " + paramOfficialProcurationId_1 : "") +
+                        (!paramOfficialProcurationVote_1.equals("") ? ", vote official procuration 1 : " + paramOfficialProcurationVote_1 : "") +
+                        (paramOfficialProcurationId_2 != 0 ? ", id official procuration 2 : " + paramOfficialProcurationId_2 : "") +
+                        (!paramOfficialProcurationVote_2.equals("") ? ", vote official procuration 2 : " + paramOfficialProcurationVote_2 : "") +
+                        " ]"
+            );
 
             // Verification du business de la requête
-            if (this.validate()) {
+            if (validate(request).equals("")) {
                 ServiceContext sc = ServiceContextFactory.getInstance(request);
 
                 try {
                     // Si exite, enregistrement du vote de l'élu
-                    if (Validator.isNotNull(this.officialVote)) {
-                        Vote officialVote = this.voteLocalService.createVote(
-                                this.officialId, this.deliberationId, sc);
-                        officialVote.setResult(this.officialVote);
-                        this.voteLocalService.updateVote(officialVote, sc);
+                    if (Validator.isNotNull(paramOfficialVote)) {
+                        officialVote = this.voteLocalService.createVote(
+                                paramOfficialId, paramDeliberationId, sc);
+                        officialVote.setResult(paramOfficialVote);
+                        officialVote = this.voteLocalService.updateVote(officialVote, sc);
                     }
 
                     // Si exite, enregistrement de la 1ere procuration
-                    if (this.officialProcurationId_1 > 0 && Validator.isNotNull(this.officialProcurationVote_1)) {
-                        Vote officialProcurationVote1 = this.voteLocalService.createVote(
-                                this.officialProcurationId_1, this.deliberationId, sc);
-                        officialProcurationVote1.setResult(this.officialProcurationVote_1);
-                        officialProcurationVote1.setOfficialProcurationId(this.officialId);
-                        this.voteLocalService.updateVote(officialProcurationVote1, sc);
+                    if (paramOfficialProcurationId_1 > 0 && Validator.isNotNull(paramOfficialProcurationVote_1)) {
+                        officialProcurationVote1 = this.voteLocalService.createVote(
+                                paramOfficialProcurationId_1, paramDeliberationId, sc);
+                        officialProcurationVote1.setResult(paramOfficialProcurationVote_1);
+                        officialProcurationVote1.setOfficialProcurationId(paramOfficialId);
+                        officialProcurationVote1 = this.voteLocalService.updateVote(officialProcurationVote1, sc);
                     }
 
                     // Si exite, enregistrement de la 2ème procuration
-                    if (this.officialProcurationId_2 > 0 && Validator.isNotNull(this.officialProcurationVote_2)) {
-                        Vote officialProcurationVote2 = this.voteLocalService.createVote(
-                                this.officialProcurationId_2, this.deliberationId, sc);
-                        officialProcurationVote2.setResult(this.officialProcurationVote_2);
-                        officialProcurationVote2.setOfficialProcurationId(this.officialId);
-                        this.voteLocalService.updateVote(officialProcurationVote2, sc);
+                    if (paramOfficialProcurationId_2 > 0 && Validator.isNotNull(paramOfficialProcurationVote_2)) {
+                        officialProcurationVote2 = this.voteLocalService.createVote(
+                                paramOfficialProcurationId_2, paramDeliberationId, sc);
+                        officialProcurationVote2.setResult(paramOfficialProcurationVote_2);
+                        officialProcurationVote2.setOfficialProcurationId(paramOfficialId);
+                        officialProcurationVote2 = this.voteLocalService.updateVote(officialProcurationVote2, sc);
                     }
 
                     result = true;
 
                 } catch (ConstraintViolationException e) {
-                    this.message = "";
+                    message = "";
                     this.log.error(e);
                 }
             }
 
+            this.log.info(
+                "Informations de vote enregistees : [ " +
+                        (officialVote != null ? "id deliberation : " + officialVote.getDeliberationId() : "") +
+                        (officialVote != null ? ", id official : " + officialVote.getOfficialId() : "") +
+                        (officialVote != null ? ", vote official : " + officialVote.getResult() : "") +
+                        (officialProcurationVote1 != null ? ", id official procuration 1 : " + officialProcurationVote1.getOfficialId() : "") +
+                        (officialProcurationVote1 != null ? ", vote official procuration 1 : " + officialProcurationVote1.getResult() : "") +
+                        (officialProcurationVote2 != null ? ", id official procuration 2 : " + officialProcurationVote2.getOfficialId() : "") +
+                        (officialProcurationVote2 != null ? ", vote official procuration 2 : " + officialProcurationVote2.getResult() : "") +
+                        " ]"
+            );
+
             // Complétion du JSON de retour
             JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
             jsonResponse.put("result", result);
-            jsonResponse.put("message", this.message);
+            jsonResponse.put("message", message);
 
             // Recuperation de l'élément d'écriture de la réponse et envoie
             PrintWriter writer = response.getWriter();
@@ -137,65 +154,86 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
 
     /**
      * Validation des informations de la requête
+     * @note si message rempli alors erreur
      */
-    private boolean validate() {
+    private String validate(ResourceRequest request) {
+
+        // Récupération des paramètres
+        long paramSessionId = ParamUtil.getLong(request, PARAM_SESSION_ID);
+        long paramDeliberationId = ParamUtil.getLong(request, PARAM_DELIBERATION_ID);
+        long paramOfficialId = ParamUtil.getLong(request, PARAM_OFFICIAL_ID);
+        String paramOfficialVote = ParamUtil.getString(request, PARAM_OFFICIAL_VOTE);
+        long paramOfficialProcurationId_1 = ParamUtil.getLong(request, PARAM_OFFICIAL_PROCURATION_ID_1);
+        String paramOfficialProcurationVote_1 = ParamUtil.getString(request, PARAM_OFFICIAL_PROCURATION_VOTE_1);
+        long paramOfficialProcurationId_2 = ParamUtil.getLong(request, PARAM_OFFICIAL_PROCURATION_ID_2);
+        String paramOfficialProcurationVote_2 = ParamUtil.getString(request, PARAM_OFFICIAL_PROCURATION_VOTE_2);
+
         // Vérification de l'existance de la délibération
-        Deliberation deliberation = this.deliberationLocalService.fetchDeliberation(this.deliberationId);
+        Deliberation deliberation = this.deliberationLocalService.fetchDeliberation(paramDeliberationId);
         if (deliberation ==  null) {
-            this.message = LanguageUtil.get(this.bundle, "deliberation-not-exist-error");
-            return false;
+            this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
+                    "pour une deliberation " + paramDeliberationId + " qui n'existe pas");
+            return LanguageUtil.get(this.bundle, "deliberation-not-exist-error");
         }
 
         // Vérification du statut de la délibération
         if (!deliberation.isVoteOuvert()) {
-            this.message = LanguageUtil.get(bundle, "deliberation-not-open-for-vote-error");
-            return false;
+            this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
+                    "pour la deliberation " + paramDeliberationId + " qui n'est pas ouverte");
+            return LanguageUtil.get(bundle, "deliberation-not-open-for-vote-error");
         }
 
         // Vérification qu'au moins un vote est rempli
-        if (Validator.isNull(this.officialVote)
-                && Validator.isNull(this.officialProcurationVote_1)
-                && Validator.isNull(this.officialProcurationVote_2)) {
-            this.message = LanguageUtil.get(this.bundle, "vote-empty-error");
-            return false;
+        if (Validator.isNull(paramOfficialVote)
+                && Validator.isNull(paramOfficialProcurationVote_1)
+                && Validator.isNull(paramOfficialProcurationVote_2)) {
+            this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
+                    "pour la deliberation " + paramDeliberationId + " sans fournir de vote");
+            return LanguageUtil.get(this.bundle, "vote-empty-error");
         }
 
         // Vérification que le vote n'existe pas déjà
         Vote vote = this.voteLocalService.findByDeliberationIdandOfficialId(
-                this.deliberationId, this.officialId);
+                paramDeliberationId, paramOfficialId);
         if (vote != null) {
-            this.message = LanguageUtil.get(this.bundle, "vote-already-register");
-            return false;
+            this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
+                    " plusieurs fois pour la deliberation " + paramDeliberationId);
+            return LanguageUtil.get(this.bundle, "vote-already-register");
         }
 
         // Vérification qu'il n'existe pas une procuration définissant l'absence de l'élu
         Procuration absenceProcuration = this.procurationLocalService.findAbsenceForCouncilSession(
-                this.sessionId, this.officialId);
+                paramSessionId, paramOfficialId);
         if (absenceProcuration != null) {
-            this.message = LanguageUtil.get(this.bundle, "defined.as.absent.error");
-            return false;
+            this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
+                    " pour la deliberation " + paramDeliberationId + "alors qu'il est defini absent");
+            return LanguageUtil.get(this.bundle, "defined.as.absent.error");
         }
 
         // Vérification de l'exitence des procurations
         Procuration procuration;
-        if (this.officialProcurationId_1 > 0 && Validator.isNotNull(this.officialProcurationVote_1)) {
+        if (paramOfficialProcurationId_1 > 0 && Validator.isNotNull(paramOfficialProcurationVote_1)) {
             procuration = this.procurationLocalService.findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
-                    this.sessionId, this.officialId, this.officialProcurationId_1);
+                    paramSessionId, paramOfficialId, paramOfficialProcurationId_1);
             if (procuration == null) {
-                this.message = LanguageUtil.get(bundle, "procuration-voted-not-found-error");
-                return false;
+                this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
+                        "par procuration pour le votant " + paramOfficialProcurationId_1 + " pour la deliberation " +
+                        paramDeliberationId + "alors qu'il ne possede pas/plus cette procuration");
+                return LanguageUtil.get(bundle, "procuration-voted-not-found-error");
             }
         }
-        if (this.officialProcurationId_2 > 0 && Validator.isNotNull(this.officialProcurationVote_2)) {
+        if (paramOfficialProcurationId_2 > 0 && Validator.isNotNull(paramOfficialProcurationVote_2)) {
            procuration = this.procurationLocalService.findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
-                    this.sessionId, this.officialId, this.officialProcurationId_2);
+                    paramSessionId, paramOfficialId, paramOfficialProcurationId_2);
             if (procuration == null) {
-                this.message = LanguageUtil.get(bundle, "procuration-voted-not-found-error");
-                return false;
+                this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
+                        "par procuration pour le votant " + paramOfficialProcurationId_2 + " pour la deliberation " +
+                        paramDeliberationId + "alors qu'il ne possede pas/plus cette procuration");
+                return LanguageUtil.get(bundle, "procuration-voted-not-found-error");
             }
         }
 
-        return true;
+        return "";
     }
 
     @Reference(unbind = "-")

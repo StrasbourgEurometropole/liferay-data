@@ -57,6 +57,8 @@ public class ManifestationSoap implements Serializable {
 		soapModel.setSource(model.getSource());
 		soapModel.setIdSource(model.getIdSource());
 		soapModel.setPublicationDate(model.getPublicationDate());
+		soapModel.setCreateDateSource(model.getCreateDateSource());
+		soapModel.setModifiedDateSource(model.getModifiedDateSource());
 
 		return soapModel;
 	}
@@ -294,6 +296,22 @@ public class ManifestationSoap implements Serializable {
 		_publicationDate = publicationDate;
 	}
 
+	public Date getCreateDateSource() {
+		return _createDateSource;
+	}
+
+	public void setCreateDateSource(Date createDateSource) {
+		_createDateSource = createDateSource;
+	}
+
+	public Date getModifiedDateSource() {
+		return _modifiedDateSource;
+	}
+
+	public void setModifiedDateSource(Date modifiedDateSource) {
+		_modifiedDateSource = modifiedDateSource;
+	}
+
 	private String _uuid;
 	private long _manifestationId;
 	private long _groupId;
@@ -317,5 +335,7 @@ public class ManifestationSoap implements Serializable {
 	private String _source;
 	private String _idSource;
 	private Date _publicationDate;
+	private Date _createDateSource;
+	private Date _modifiedDateSource;
 
 }

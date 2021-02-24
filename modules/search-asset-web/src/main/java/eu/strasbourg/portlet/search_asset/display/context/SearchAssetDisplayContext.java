@@ -1,25 +1,5 @@
 package eu.strasbourg.portlet.search_asset.display.context;
 
-import java.text.Normalizer;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
-
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceURL;
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -50,9 +30,9 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portlet.asset.model.impl.AssetEntryImpl;
-
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset.constants.OfficialsConstants;
+import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -60,6 +40,24 @@ import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceURL;
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 public class SearchAssetDisplayContext {
 
@@ -79,7 +77,7 @@ public class SearchAssetDisplayContext {
 			this._entriesCount = 0;
 		}
 		// Gestion du log
-		if (this.isUserSearch()) {
+		if (this.isUserSearch() && Validator.isNotNull(this._keywords)) {
 			this.logSearch();
 		}
 		long logSearchId = ParamUtil.getLong(request, "searchLogId");
@@ -532,10 +530,13 @@ public class SearchAssetDisplayContext {
 		String sortFieldFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
 		if (Validator.isNull(sortFieldFromParam)) {
 			if (Validator.isNull(this.getKeywords())) {
-				return Validator.isNotNull(this._configuration.defaultSortField())
+				if(this._configuration.assetClassNames().contains(Offer.class.getName()))
+					return "endDate_Number_sortable";
+				else
+					return Validator.isNotNull(this._configuration.defaultSortField())
 						? this._configuration.defaultSortField() : "modified_sortable";
 			} else {
-				return "score";
+				return "_score";
 			}
 		} else {
 			return sortFieldFromParam.split(",")[0];
@@ -546,11 +547,15 @@ public class SearchAssetDisplayContext {
 	 * Retourne le type de classement des résultats (croissant ou décroissant)
 	 */
 	public String getSortType() {
-		if (this.getSortField() == "score") {
-			return "desc";
+		if (this.getSortField() == "_score") {
+			// Avec la FP9, on veut reverse = false, parce que Reverse donne ASC, mais que pour _score
+			return "descmaispasceluila";
 		} else {
 			String sortTypeFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
 			if (Validator.isNull(sortTypeFromParam)) {
+				if(this._configuration.assetClassNames().contains(Offer.class.getName()))
+					return "asc";
+				else
 				return Validator.isNotNull(this._configuration.defaultSortType())
 						? this._configuration.defaultSortType() : "desc";
 			} else {

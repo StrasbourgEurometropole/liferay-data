@@ -13,7 +13,7 @@ var typeExportTotem = document.getElementById("typeExportTotem");
 var postNumber = document.getElementById(namespace + "postNumber");
 var jobCreationDescription = document.querySelectorAll('[for=' + namespace + 'jobCreationDescription]')[0];
 var startDate = document.querySelectorAll('[for=' + namespace + 'startDate2]')[0];
-var motif = document.querySelectorAll('[for=' + namespace + 'motif]')[0];
+var ejobMotif = document.getElementById(namespace + "ejobMotif");
 var permanentDescription = document.querySelectorAll('[for=' + namespace + 'permanentDescription]')[0];
 var directions = document.getElementById(namespace + "ejobDirection");
 var services = document.getElementById(namespace + "ejobService");
@@ -40,22 +40,9 @@ function initialiseService(){
     });
 }
 var blockFullTime = document.getElementById("blockFullTime");
-// gestion de l'affichage de la description en fonction du temps du contrat
 var fullTime = document.querySelectorAll('input[name=' + namespace + 'isFullTime]');
 var fullTimeDescription = document.querySelectorAll('[for=' + namespace + 'fullTimeDescription]')[0];
-if(fullTime[1].checked)
-    fullTimeDescription.parentNode.style.display="none";
-function changeHandlerFullTime(event) {
-    if(fullTime[0].checked)
-        fullTimeDescription.parentNode.style.display="block";
-    else{
-        document.getElementById(namespace + "fullTimeDescription").value = "";
-        fullTimeDescription.parentNode.style.display="none";
-    }
-}
-Array.prototype.forEach.call(fullTime, function(element) {
-   element.addEventListener('change', changeHandlerFullTime);
-});
+
 var gradeRangeFields = document.getElementById("grade-range-fields");
 Array.prototype.forEach.call(gradeRangeFields.getElementsByClassName("lfr-form-row"), function(element) {
     if(element.querySelectorAll('[id^=' + namespace + 'ejobCategory]')[0].value != ""){
@@ -78,14 +65,13 @@ function initialise(){
         jobCreationDescription.parentNode.style.display="none";
         document.getElementById(namespace + "startDate2").value = "";
         startDate.parentNode.style.display="none";
-        document.getElementById(namespace + "motif").value = "";
-        motif.parentNode.style.display="none";
+        ejobMotif.options[0].selected = 'selected';
+        ejobMotif.style.display="none";
         document.getElementById(namespace + "permanentDescription").value = Liferay.Language.get('ejob-permanent-description-value');
         permanentDescription.parentNode.style.display="none";
         // réinitialise en temps complet par défaut
         fullTime[0].checked = "true";
         document.getElementById(namespace + "fullTimeDescription").value = "";
-        changeHandlerFullTime();
         blockFullTime.style.display="none";
         if(gradeRangeAutoFields != null)
             gradeRangeAutoFields.reset();
@@ -100,7 +86,7 @@ function initialise(){
         if(publicationId.value == '')
             document.getElementById(namespace + "startDate2").value = new Date().toLocaleString().split(" à ")[0];
         startDate.parentNode.style.display="block";
-        motif.parentNode.style.display="block";
+        ejobMotif.parentNode.style.display="block";
         blockFullTime.style.display="block";
         if (typeRecrutementsValue == "Permanent"){
                 permanentDescription.parentNode.style.display="block";
@@ -188,19 +174,9 @@ function setFiliereConditionalValidators(event) {
                     }
 
                     offerGradeMax = element.querySelectorAll('[id^=' + namespace + 'ejobGradeMax]')[0];
-                    if (offerGradeMax.value == "") {
-                        element.getElementsByClassName('offerGradeMaxError')[0].style.display = "block";
-                        offerGradeMax.closest(".form-group").classList.add('has-error');
-                        if(allValidate){
-                            offerGradeMax.scrollIntoView();
-                            allValidate = false;
-                        }
-                    }else{
-                        element.getElementsByClassName('offerGradeMaxError')[0].style.display = "none";
-                        offerGradeMax.closest(".form-group").classList.remove('has-error');
-                    }
-
-                    if (offerGradeMax.value != "" && offerGradeMax.value != "" && (offerGradeMax.selectedOptions[0].attributes["data-filiere-category-id"].value != offerGradeMin.selectedOptions[0].attributes["data-filiere-category-id"].value)) {
+                    if (offerGradeMax.value != "" && offerGradeMax.value != "" &&
+                            (offerGradeMax.selectedOptions[0].attributes["data-filiere-category-id"].value
+                             != offerGradeMin.selectedOptions[0].attributes["data-filiere-category-id"].value)) {
                         element.getElementsByClassName('offerGradeMinMaxError')[0].style.display = "block";
                         offerGradeMin.closest(".form-group").classList.add('has-error');
                         offerGradeMax.closest(".form-group").classList.add('has-error');
@@ -282,7 +258,6 @@ function changeHandlerEjobFiliere(element) {
         rules[namespace + 'ejobFiliere0'].required = false;
         rules[namespace + 'ejobCategory0'].required = false;
         rules[namespace + 'ejobGradeMin0'].required = false;
-        rules[namespace + 'ejobGradeMax0'].required = false;
 
 		if (!!document.getElementById('email-fields')) {
 			// Création de l'autofield

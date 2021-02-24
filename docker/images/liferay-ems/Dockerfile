@@ -1,5 +1,5 @@
 # Image sur laquelle se base les opérations suivantes (@see https://hub.docker.com/r/liferay/dxp)
-FROM liferay/dxp:7.2.10-dxp-6
+FROM liferay/dxp:7.2.10-dxp-10
 
 # Chemin vers les éléments "constants" ajoutés à l'image (scripts, fichiers d'install ou autres)
 ENV SOURCES_PATH=./sources
@@ -35,6 +35,8 @@ RUN keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alia
         -file /tmp/certificates/apiDailymotion.cer -storepass changeit -noprompt \
     && keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias apiYoutube \
         -file /tmp/certificates/apiYoutube.cer -storepass changeit -noprompt \
+    && keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias ZscalerIntermediateRootCA \
+        -file /tmp/certificates/ZscalerIntermediateRootCA.cer -storepass changeit -noprompt \
     && rm -rf /tmp/certificates
 
 # Repositionnement sur l'utilisateur liferay

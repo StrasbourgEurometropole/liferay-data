@@ -277,4 +277,12 @@ public class AssetVocabularyAccessor {
 			return null;
 		}
 	}
+
+	public static AssetVocabulary getEJobMotif(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_MOTIF, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

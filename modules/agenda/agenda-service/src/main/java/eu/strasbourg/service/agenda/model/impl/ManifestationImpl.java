@@ -14,11 +14,7 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -29,8 +25,6 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
@@ -40,6 +34,11 @@ import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * The extended model implementation for the Manifestation service. Represents a
@@ -268,7 +267,16 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 		
 		jsonManifestation.put("id", this.getManifestationId());
 		jsonManifestation.put("externalId", this.getIdSource());
-		
+
+		// date de création de la source (YYYY-MM-DD HH:MM:SS)
+		DateFormat dateTimeFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		jsonManifestation.put("creation_date",
+				dateTimeFormat.format(this.getCreateDate()));
+
+		// date de modification de la source (YYYY-MM-DD HH:MM:SS)
+		jsonManifestation.put("modification_date",
+				dateTimeFormat.format(this.getModifiedDate()));
+
 		jsonManifestation.put("title",
 			JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
 		
