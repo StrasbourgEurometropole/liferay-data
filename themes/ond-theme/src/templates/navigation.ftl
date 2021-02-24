@@ -21,7 +21,7 @@
 									<#list nav_item.getChildren() as nav_child>
 										<li>
 											<div class="item">
-												<a href="${nav_child.getURL()}" class="item_img"><img width="139" height="96" src="${nav_child.getLayout().getExpandoBridge().getAttribute('image')}" ></a>
+												<a href="${nav_child.getURL()}" class="item_img"><img width="139" height="96" src="${nav_child.getLayout().getExpandoBridge().getAttribute('image')}?imagePreview=1" ></a>
 												<a class="item_content" href="${nav_child.getURL()}" ${nav_child.getTarget()}>${nav_child.getName()}</a>
 											</div>
 										</li>
