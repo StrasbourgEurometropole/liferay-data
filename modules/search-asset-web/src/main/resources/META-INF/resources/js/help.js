@@ -2,9 +2,9 @@
 var help = null;
 
 var entityType = {
-	THEMATIC : 'vocabulary_0',
+	HELP_PROPOSAL_TYPES : 'vocabulary_0',
 	LOCALISATION : 'vocabulary_1',
-	HELP_STATUS : 'vocabulary_2',
+	HELP_PROPOSAL_ACTIVITY_STATUS : 'vocabulary_2',
 }
 
 var sortField = "publishDate_sortable";
@@ -50,9 +50,9 @@ function getSelectedEntries() {
         selectedEndMonth = $('input[data-name="toMonth"]')[0].value;
         selectedEndYear = $('input[data-name="toYear"]')[0].value;
 	}
-	var selectedHelpStatus = getSelectedMarkerElements(entityType.HELP_STATUS);
+	var selectedHelpProposalActivityStatus = getSelectedMarkerElements(entityType.HELP_PROPOSAL_ACTIVITY_STATUS);
 	var selectedLocalisations = getSelectedMarkerElements(entityType.LOCALISATION);
-	var selectedThematics = getSelectedMarkerElements(entityType.THEMATIC);
+	var selectedHelpProposalTypes = getSelectedMarkerElements(entityType.HELP_PROPOSAL_TYPES);
 
 	AUI().use('aui-io-request', function(A) {
 		A.io.request(helpsSelectionURL, {
@@ -66,9 +66,9 @@ function getSelectedEntries() {
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndDay : selectedEndDay,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndMonth : selectedEndMonth,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndYear : selectedEndYear,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedHelpStatus : selectedHelpStatus,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedHelpProposalActivityStatus : selectedHelpProposalActivityStatus,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedLocalisations : selectedLocalisations,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedThematics : selectedThematics,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedHelpProposalTypes : selectedHelpProposalTypes,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_sortFieldAndType : sortField + ',' + sortType,
 			},
 			on: {
@@ -87,7 +87,7 @@ $('#name').on('input',function() {
 });
 
 // Lors d'une selection d'état
-$("fieldset[id='help_status_fieldset'] input").change(function() {
+$("fieldset[id='help_activity_status_fieldset'] input").change(function() {
 	getSelectedEntries();
 });
 
@@ -97,6 +97,6 @@ $("fieldset[id='localisations_fieldset'] input").change(function() {
 });
 
 // Lors d'une selection d'une thématique
-$("fieldset[id='thematics_fieldset'] input").change(function() {
+$("fieldset[id='types_fieldset'] input").change(function() {
 	getSelectedEntries();
 });

@@ -352,7 +352,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		// Champs : Generaux
 		jsonHelpProposal.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle(locale))));
 		jsonHelpProposal.put("author", HtmlUtil.stripHtml(HtmlUtil.escape(this.getAuthorLabel())));
-		jsonHelpProposal.put("description", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDescription(locale))));
+		jsonHelpProposal.put("description", this.getDescription(locale));
 		jsonHelpProposal.put("address", this.getAddress());
 		jsonHelpProposal.put("city", this.getCity());
 		jsonHelpProposal.put("postalCode", this.getPostalCode());

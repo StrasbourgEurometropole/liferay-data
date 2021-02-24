@@ -1,6 +1,6 @@
 <%@ include file="/search-asset-init.jsp"%>
 
-<portlet:resourceURL id="entrySelectionHelp" var="helpsSelectionURL">
+<portlet:resourceURL id="entrySelectionHelpProposal" var="helpsSelectionURL">
 </portlet:resourceURL>
 
 <c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
@@ -24,51 +24,18 @@
     </fieldset>
 </div>
 
-<!-- Recherche par dates -->
-<c:if test="${dc.dateField}">
-	<div class="pro-group">
-	    <div class="pro-header">
-	        <h4><liferay-ui:message key="eu.dates" /></h4>
-	        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
-	    </div>
-	    <fieldset>
-	        <legend aria-hidden="true" class="hide">Choix par date</legend>
-	        <div>
-	            <div class="pro-facette-date">
-	                <label for="startDate" class="hide"><liferay-ui:message key="eu.dates" /></label>
-	                <span class="pro-wrapper-date">
-	                	<input name="from" data-type="date" type="text" id="date-start"  class="frm_date dynamic"
-			            	readonly="readonly" value="${dc.fromMonthValue}/${dc.fromDay}/${dc.fromYear}">
-			            <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${dc.fromDay}" />
-			            <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${dc.fromMonthIndex}" />
-			            <input type="hidden" name="<portlet:namespace />fromYear" data-name="fromYear" value="${dc.fromYear}" />
-	                </span>
-	                <label for="endDate"><liferay-ui:message key="eu.au" /></label>
-	                <span class="pro-wrapper-date"> 
-	                	<input name="to" data-type="date" type="text" id="date-end" class="frm_date dynamic"
-			            	readonly="readonly" value="${dc.toMonthValue}/${dc.toDay}/${dc.toYear}">
-			            <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${dc.toDay}" />
-			            <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${dc.toMonthIndex}" />
-			            <input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${dc.toYear}" />
-	                </span>
-	            </div>
-	        </div>
-	    </fieldset>
-	</div>
-</c:if>
-
-<!-- Recherche par thematiques -->
+<!-- Recherche par type d'aide' -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.help.types" /></h4>
         <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
-    <fieldset id="thematics_fieldset" class="pro-checkbox">
-        <legend aria-hidden="true" class="hide">Choix par nom de la thematique</legend>
+    <fieldset id="types_fieldset" class="pro-checkbox">
+        <legend aria-hidden="true" class="hide">Choix par type d'aide</legend>
 
-		<c:set var="thematicVocabulary" value="${vocabularyAccessor.getThematics(groupID)}" />
+		<c:set var="typeVocabulary" value="${vocabularyAccessor.getHelpProposalType(groupID)}" />
 		<c:forEach
-			items="${dc.getDropdownRootCategories(thematicVocabulary)}"
+			items="${dc.getDropdownRootCategories(typeVocabulary)}"
 			var="category"
 			varStatus="catStatus">
 			<aui:input type="checkbox" name="vocabulary_0"
@@ -82,14 +49,14 @@
     </fieldset>
 </div>
 
-<!-- Recherche par quartiers -->
+<!-- Recherche par localisation -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.search.asset.web.platit.participation.territories" /></h4>
         <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
     <fieldset id="localisations_fieldset" class="pro-checkbox">
-        <legend aria-hidden="true" class="hide">Choix par nom de quartier</legend>
+        <legend aria-hidden="true" class="hide">Choix par localisation</legend>
         
         <c:set var="localisationVocabulary" value="${vocabularyAccessor.getTerritories()}" />
 		<c:forEach
@@ -113,10 +80,10 @@
         <h4><liferay-ui:message key="eu.help.state" /></h4>
         <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
-    <fieldset id="help_status_fieldset" class="pro-checkbox">
+    <fieldset id="help_activity_status_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par denomination de l'etat</legend>
 
-        <c:set var="statusVocabulary" value="${vocabularyAccessor.getInitiativeStatus(groupID)}" />
+        <c:set var="statusVocabulary" value="${vocabularyAccessor.getHelpProposalActivityStatus(groupID)}" />
 		<c:forEach
 			items="${dc.getDropdownRootCategories(statusVocabulary)}"
 			var="category"

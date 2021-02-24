@@ -119,18 +119,18 @@ function createHelp(help){
                     '<div class="pro-content-help">' +
                         '<div class="pro-wrapper-meta">' +
                             '<div class="pro-meta">' +
-                                (help.districtsLabel != "" ? '<span>' + help.districtsLabel + '</span>' : '') +
-                                (help.thematicsLabel != "" ? '<span>' + help.thematicsLabel + '</span>' : '') +
+                                (help.localisationLabel != "" ? '<span>' + help.localisationLabel + '</span>' : '') +
+                                (help.helpProposalTypeLabel != "" ? '<span>' + help.helpProposalTypeLabel + '</span>' : '') +
                             '</div>' +
                         '</div>' +
                         '<a href="' + homeURL + 'detail-aide/-/entity/id/' + help.id + '" title="lien de la page"><h3>' + help.title + '</h3>' +
-                        (help.description.replaceAll(/<[^>]*>/ig, '').length > 300?"<p>"+help.description.replaceAll(/<[^>]*>/ig, '').substr(0,300)+"...</p>":help.description) + '</a>' +
+                        '<p>'+(help.description.replaceAll(/<[^>]*>/ig, '').length > 300?help.description.replaceAll(/<[^>]*>/ig, '').substr(0,300)+"...":help.description) + '</p></a>' +
                     '</div>' +
                 '</div>' +
             '</div>' +
             '<div class="pro-footer-help">' +
-                '<p>Publiée le <time datetime="' + help.unformatedPublishedDate + '">' + help.publishedDate + '</time> - ' +
-                'Mise à jour le <time datetime="' + help.unformatedPublishedDate + '">' + help.publishedDate + '</time></p>' +
+                '<p>Publiée le <time datetime="' + help.unformattedCreateDate + '">' + help.createDate + '</time> - ' +
+                'Mise à jour le <time datetime="' + help.unformattedCreateDate + '">' + help.createDate + '</time></p>' +
             '</div>' +
         '</div>';
 

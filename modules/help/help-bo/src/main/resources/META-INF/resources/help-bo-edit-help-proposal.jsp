@@ -24,6 +24,7 @@
 
 	<%-- Composant : definit la liste des messages d'erreur 
 	(voir methode "validate" dans le saveAction de l'entite) --%>
+	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="address-error" message="address-error" />
 	<liferay-ui:error key="city-error" message="city-error" />
 	<liferay-ui:error key="postal-code-error" message="postal-code-error" />
@@ -47,7 +48,7 @@
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="general">
 
 				<%-- Champ : Titre --%>
-				<aui:input name="title" required="false" />
+				<aui:input name="title" required="true" />
 
 				<%-- Champ : Date de modification --%>
 				<aui:input name="modifiedByUserDate" disabled="true" helpMessage="help-update-date-by-user" />
