@@ -1,4 +1,0 @@
-Bundle-Name: help-popup-web
-Bundle-SymbolicName: eu.strasbourg.portlet.helppopup
-Bundle-Version: 1.0.0
-Web-ContextPath: /helppopupweb

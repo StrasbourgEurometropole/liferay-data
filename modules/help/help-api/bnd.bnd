@@ -1,0 +1,10 @@
+Bundle-Name: help-api
+Bundle-SymbolicName: eu.strasbourg.service.help.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.help.exception,\
+	eu.strasbourg.service.help.model,\
+	eu.strasbourg.service.help.service,\
+	eu.strasbourg.service.help.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../help-service/service.xml
