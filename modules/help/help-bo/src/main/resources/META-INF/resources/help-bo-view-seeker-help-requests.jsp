@@ -1,3 +1,12 @@
+<%@ include file="/help-bo-init.jsp"%>
+
+<%-- URL : definit le lien vers la page d'ajout/edition d'une entite --%>
+<liferay-portlet:renderURL varImpl="editHelpRequestURL">
+	<portlet:param name="cmd" value="editHelpRequest" />
+	<portlet:param name="mvcPath" value="/help-bo-edit-help-request.jsp" />
+	<portlet:param name="returnURL" value="/TODO" />
+</liferay-portlet:renderURL>
+
 <%-- Header --%>
 <div class="navbar navbar-default collapse-basic-search" id="iqzh">
 	<div class="container-fluid-1280">
@@ -43,11 +52,6 @@
 						<table class="show-quick-actions-on-hover table table-autofit table-heading-nowrap table-list" data-searchcontainerid="_eu_strasbourg_portlet_help_HelpBOPortlet_helpProposalsSearchContainer">
 							<thead>
 								<tr>
-								    <th class="lfr-modified-date-column content-column table-cell-content" id="_eu_strasbourg_portlet_help_HelpBOPortlet_helpProposalsSearchContainer_col-modified-date">
-                                        <span class="truncate-text">
-                                        Date de la demande
-                                        </span>
-                                    </th>
 									<th class="lfr-title-column content-column table-cell-content" id="_eu_strasbourg_portlet_help_HelpBOPortlet_helpProposalsSearchContainer_col-title">
 										<span class="truncate-text">
 										Titre de la proposition d'aide
@@ -62,6 +66,11 @@
 									<th class="lfr-statushelpmoderation-column " id="_eu_strasbourg_portlet_help_HelpBOPortlet_helpProposalsSearchContainer_col-statushelpmoderation">
 										Statut de moderation
 									</th>
+									<th class="lfr-modified-date-column content-column table-cell-content" id="_eu_strasbourg_portlet_help_HelpBOPortlet_helpProposalsSearchContainer_col-modified-date">
+                                        <span class="truncate-text">
+                                        Date de la demande
+                                        </span>
+                                    </th>
 									<th class="lfr-entry-action-column " id="_eu_strasbourg_portlet_help_HelpBOPortlet_helpProposalsSearchContainer_col-8">
 										&nbsp;
 									</th>
@@ -69,18 +78,13 @@
 							</thead>
 							<tbody>
 								<tr class="   " data-qa-id="row" data-selectable="true">
-								    <td class="content-column table-cell-content lfr-modified-date-column" colspan="1">
-                                        <span class="truncate-text">
-                                        23/02/2021 10:52
-                                        </span>
-                                    </td>
 									<td class="content-column table-cell-content lfr-title-column" colspan="1">
 										<span class="truncate-text">
-										<a href="http://vm19012:8080/group/entraide/~/control_panel/manage?p_p_id=eu_strasbourg_portlet_help_HelpBOPortlet&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_mvcPath=%2Fhelp-bo-edit-help-proposal.jsp&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_cmd=editHelpProposal&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_returnURL=http%3A%2F%2Fvm19012%3A8080%2Fgroup%2Fentraide%2F%7E%2Fcontrol_panel%2Fmanage%3Fp_p_id%3Deu_strasbourg_portlet_help_HelpBOPortlet%26p_p_lifecycle%3D0%26p_p_state%3Dmaximized%26p_p_mode%3Dview%26_eu_strasbourg_portlet_help_HelpBOPortlet_filterCategoriesIds%3D%252C%26_eu_strasbourg_portlet_help_HelpBOPortlet_tab%3DhelpProposals%26_eu_strasbourg_portlet_help_HelpBOPortlet_orderByCol%3Dmodified-date%26_eu_strasbourg_portlet_help_HelpBOPortlet_delta%3D20&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_helpProposalId=106276101">test AZC</a>
+										<a href="${editHelpRequestURL}">test AZC</a>
 										</span>
 									</td>
 									<td class=" lfr-user-column" colspan="1">
-										anonym e
+										<a href="${editHelpRequestURL}">anonym e</a>
 									</td>
 									<td class=" lfr-statushelpactivity-column" colspan="1">
 										<span class="badge badge-success">
@@ -92,6 +96,11 @@
 										Lue
 										</span>
 									</td>
+									<td class="content-column table-cell-content lfr-modified-date-column" colspan="1">
+                                        <span class="truncate-text">
+                                        <a href="${editHelpRequestURL}">23/02/2021 10:52</a>
+                                        </span>
+                                    </td>
 									<td class=" lfr-entry-action-column" colspan="1">
 										<div class="dropdown lfr-icon-menu ">
 											<a class="direction-left dropdown-toggle icon-monospaced " href="javascript:;" id="_eu_strasbourg_portlet_help_HelpBOPortlet_kldx___menu" title="Actions">
@@ -112,7 +121,7 @@
 											</script>
 											<ul class="dropdown-menu dropdown-menu-left">
 												<li class="" role="presentation">
-													<a href="http://vm19012:8080/group/entraide/~/control_panel/manage?p_p_id=eu_strasbourg_portlet_help_HelpBOPortlet&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_mvcPath=%2Fhelp-bo-edit-help-proposal.jsp&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_cmd=editHelpProposal&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_returnURL=http%3A%2F%2Fvm19012%3A8080%2Fgroup%2Fentraide%2F%7E%2Fcontrol_panel%2Fmanage%3Fp_p_id%3Deu_strasbourg_portlet_help_HelpBOPortlet%26p_p_lifecycle%3D0%26p_p_state%3Dmaximized%26p_p_mode%3Dview%26_eu_strasbourg_portlet_help_HelpBOPortlet_filterCategoriesIds%3D%252C%26_eu_strasbourg_portlet_help_HelpBOPortlet_tab%3DhelpProposals%26_eu_strasbourg_portlet_help_HelpBOPortlet_orderByCol%3Dmodified-date%26_eu_strasbourg_portlet_help_HelpBOPortlet_delta%3D20&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_helpProposalId=106276101" target="_self" class=" lfr-icon-item taglib-icon" id="_eu_strasbourg_portlet_help_HelpBOPortlet_kldx______menu__edit" role="menuitem">
+													<a href="${editHelpRequestURL}" target="_self" class=" lfr-icon-item taglib-icon" id="_eu_strasbourg_portlet_help_HelpBOPortlet_kldx______menu__edit" role="menuitem">
 													<span class="taglib-text-icon">Consulter la demande</span>
 													</a>
 												</li>
@@ -126,18 +135,13 @@
 									</td>
 								</tr>
 								<tr class="   " data-qa-id="row" data-selectable="true">
-								    <td class="content-column table-cell-content lfr-modified-date-column" colspan="1">
-                                        <span class="truncate-text">
-                                        23/02/2021 10:28
-                                        </span>
-                                    </td>
 									<td class="content-column table-cell-content lfr-title-column" colspan="1">
 										<span class="truncate-text">
-										<a href="http://vm19012:8080/group/entraide/~/control_panel/manage?p_p_id=eu_strasbourg_portlet_help_HelpBOPortlet&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_mvcPath=%2Fhelp-bo-edit-help-proposal.jsp&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_cmd=editHelpProposal&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_returnURL=http%3A%2F%2Fvm19012%3A8080%2Fgroup%2Fentraide%2F%7E%2Fcontrol_panel%2Fmanage%3Fp_p_id%3Deu_strasbourg_portlet_help_HelpBOPortlet%26p_p_lifecycle%3D0%26p_p_state%3Dmaximized%26p_p_mode%3Dview%26_eu_strasbourg_portlet_help_HelpBOPortlet_filterCategoriesIds%3D%252C%26_eu_strasbourg_portlet_help_HelpBOPortlet_tab%3DhelpProposals%26_eu_strasbourg_portlet_help_HelpBOPortlet_orderByCol%3Dmodified-date%26_eu_strasbourg_portlet_help_HelpBOPortlet_delta%3D20&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_helpProposalId=106276503">Couscous pour 3 tous les dimanches midi</a>
+										<a href="${editHelpRequestURL}">Couscous pour 3 tous les dimanches midi</a>
 										</span>
 									</td>
 									<td class=" lfr-user-column" colspan="1">
-										anonym e
+										<a href="${editHelpRequestURL}">anonym e</a>
 									</td>
 									<td class=" lfr-statushelpactivity-column" colspan="1">
 										<span class="badge badge-success">
@@ -149,6 +153,11 @@
 										Lue
 										</span>
 									</td>
+									<td class="content-column table-cell-content lfr-modified-date-column" colspan="1">
+                                        <span class="truncate-text">
+                                        <a href="${editHelpRequestURL}">23/02/2021 10:28</a>
+                                        </span>
+                                    </td>
 									<td class=" lfr-entry-action-column" colspan="1">
 										<div class="dropdown lfr-icon-menu ">
 											<a class="direction-left dropdown-toggle icon-monospaced " href="javascript:;" id="_eu_strasbourg_portlet_help_HelpBOPortlet_tiym___menu" title="Actions">
@@ -169,7 +178,7 @@
 											</script>
 											<ul class="dropdown-menu dropdown-menu-left">
 												<li class="" role="presentation">
-													<a href="http://vm19012:8080/group/entraide/~/control_panel/manage?p_p_id=eu_strasbourg_portlet_help_HelpBOPortlet&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_mvcPath=%2Fhelp-bo-edit-help-proposal.jsp&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_cmd=editHelpProposal&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_returnURL=http%3A%2F%2Fvm19012%3A8080%2Fgroup%2Fentraide%2F%7E%2Fcontrol_panel%2Fmanage%3Fp_p_id%3Deu_strasbourg_portlet_help_HelpBOPortlet%26p_p_lifecycle%3D0%26p_p_state%3Dmaximized%26p_p_mode%3Dview%26_eu_strasbourg_portlet_help_HelpBOPortlet_filterCategoriesIds%3D%252C%26_eu_strasbourg_portlet_help_HelpBOPortlet_tab%3DhelpProposals%26_eu_strasbourg_portlet_help_HelpBOPortlet_orderByCol%3Dmodified-date%26_eu_strasbourg_portlet_help_HelpBOPortlet_delta%3D20&amp;_eu_strasbourg_portlet_help_HelpBOPortlet_helpProposalId=106276503" target="_self" class=" lfr-icon-item taglib-icon" id="_eu_strasbourg_portlet_help_HelpBOPortlet_tiym______menu__edit" role="menuitem">
+													<a href="${editHelpRequestURL}" target="_self" class=" lfr-icon-item taglib-icon" id="_eu_strasbourg_portlet_help_HelpBOPortlet_tiym______menu__edit" role="menuitem">
 													<span class="taglib-text-icon">Consulter la demande</span>
 													</a>
 												</li>

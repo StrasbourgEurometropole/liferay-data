@@ -12,6 +12,9 @@
 				<action-key>ADD_HELP</action-key>
 				<action-key>DELETE_HELP</action-key>
 				<action-key>EDIT_HELP</action-key>
+				<action-key>ADD_HELP_REQUEST</action-key>
+				<action-key>DELETE_HELP_REQUEST</action-key>
+				<action-key>EDIT_HELP_REQUEST</action-key>
 			</supports>
 			<site-member-defaults>
 			</site-member-defaults>
@@ -24,11 +27,33 @@
 				<action-key>ADD_HELP</action-key>
 				<action-key>DELETE_HELP</action-key>
 				<action-key>EDIT_HELP</action-key>
+				<action-key>ADD_HELP_REQUEST</action-key>
+				<action-key>DELETE_HELP_REQUEST</action-key>
+				<action-key>EDIT_HELP_REQUEST</action-key>
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>
 	<model-resource>
 		<model-name>eu.strasbourg.service.help.model.HelpProposal</model-name>
+		<portlet-ref>
+			<portlet-name>eu_strasbourg_portlet_help_HelpBOPortlet</portlet-name>
+		</portlet-ref>
+		<weight>3</weight>
+		<permissions>
+			<supports>
+				<action-key>VIEW</action-key>
+			</supports>
+			<site-member-defaults>
+				<action-key>VIEW</action-key>
+			</site-member-defaults>
+			<guest-defaults>
+				<action-key>VIEW</action-key>
+			</guest-defaults>
+			<guest-unsupported></guest-unsupported>
+		</permissions>
+	</model-resource>
+	<model-resource>
+		<model-name>eu.strasbourg.service.help.model.HelpRequest</model-name>
 		<portlet-ref>
 			<portlet-name>eu_strasbourg_portlet_help_HelpBOPortlet</portlet-name>
 		</portlet-ref>

@@ -75,10 +75,17 @@
                     href="${viewSeekerHelpRequestsURL}" name="email" truncate="true" orderable="true"
                     value="${helpSeeker.email}" />
 
-                <%-- Colonne : Nombre de demandes de l'utilisateur' --%>
+                <%-- Colonne : Nombre de demandes de l'utilisateur --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
-                    href="${viewSeekerHelpRequestsURL}" name="nb-asks" truncate="true" orderable="true"
+                    href="${viewSeekerHelpRequestsURL}" name="nb-requests" truncate="true" orderable="true"
                     value="3" />
+
+                <%-- Colonne : Date de dernière demande --%>
+                <fmt:formatDate value="${helpSeeker.modifiedDate}"
+                    var="formattedLastRequestDate" type="date" pattern="dd/MM/yyyy HH:mm" />
+                <liferay-ui:search-container-column-text cssClass="content-column"
+                    href="${viewSeekerHelpRequestsURL}" name="last-request-date" truncate="true" orderable="true"
+                    value="${formattedLastRequestDate}" />
 
                 <%-- Colonne : Actions possibles --%>
                 <liferay-ui:search-container-column-text>
