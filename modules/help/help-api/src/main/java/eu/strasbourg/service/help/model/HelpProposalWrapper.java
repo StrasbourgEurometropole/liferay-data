@@ -556,6 +556,14 @@ public class HelpProposalWrapper
 	}
 
 	/**
+	 * Retourne une chaine des localisations correspondant
+	 */
+	@Override
+	public String getHelpProposalTypeLabel(java.util.Locale locale) {
+		return model.getHelpProposalTypeLabel(locale);
+	}
+
+	/**
 	 * Retourne le copyright de l'image principale
 	 */
 	@Override
@@ -1556,10 +1564,11 @@ public class HelpProposalWrapper
 	 * @throws PortalException
 	 */
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject toJSON()
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+			java.util.Locale locale)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return model.toJSON();
+		return model.toJSON(locale);
 	}
 
 	@Override

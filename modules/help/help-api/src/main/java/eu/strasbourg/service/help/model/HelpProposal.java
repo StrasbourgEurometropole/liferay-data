@@ -103,6 +103,11 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 		getModerationStatusCategory();
 
 	/**
+	 * Retourne une chaine des localisations correspondant
+	 */
+	public String getHelpProposalTypeLabel(java.util.Locale locale);
+
+	/**
 	 * Retourne les type d'aide de la proposition d'aide
 	 */
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
@@ -182,7 +187,8 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 	 *
 	 * @throws PortalException
 	 */
-	public com.liferay.portal.kernel.json.JSONObject toJSON()
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+			java.util.Locale locale)
 		throws com.liferay.portal.kernel.exception.PortalException;
 
 }
