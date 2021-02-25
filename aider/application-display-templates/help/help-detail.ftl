@@ -71,7 +71,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 							</div>
 						</div>
 						<div class="pro-header-auteur">
-							<p>Aide publiée le ${entry.createDate?date?string['dd/MM/yyyy']} par :</p>
+							<p><@liferay_ui.message key="eu.help.published-x" arguments="${entry.createDate?date?string['dd/MM/yyyy']}" /></p>
 							<p><strong>${entry.getAuthorLabel()}</strong></p>
 						</div>
 					</div>
@@ -79,8 +79,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 					<div id="breadcrumb">
 					<span>
 						<span>
-							<a href="${homeURL}">Accueil</a>
-						<span class="breadcrumb_last">${entry.title}</span>
+							<a href="${homeURL}"><@liferay_ui.message key="home" /></a>
+						<span class="breadcrumb_last">${entry.getTitle(locale)}</span>
 						</span>
 					</span>
 					</div>
@@ -98,8 +98,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 							</figure>
 						</div>
 						<div class="pro-bloc-texte">
-							<h2>Description</h2>
-							<p>${entry.getDescription()}</p>
+							<h2><@liferay_ui.message key="eu.help.description" /></h2>
+							<p>${entry.getDescription(locale)}</p>
 						</div>
 					</div>
 
