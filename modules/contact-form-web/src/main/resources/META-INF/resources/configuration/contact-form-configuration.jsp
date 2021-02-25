@@ -25,6 +25,7 @@
                         <aui:option value="christmas" label="christmas" selected="${template eq 'christmas'}"/>
                         <aui:option value="tipi" label="tipi" selected="${template eq 'tipi'}"/>
                         <aui:option value="placit" label="placit" selected="${template eq 'placit'}"/>
+                        <aui:option value="help" label="help" selected="${template eq 'help'}"/>
                     </aui:select>
 
                     <!-- Titre -->
