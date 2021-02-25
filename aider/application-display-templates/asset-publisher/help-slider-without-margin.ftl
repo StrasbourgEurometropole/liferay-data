@@ -31,7 +31,7 @@
                 </#if>
             </div>
             <div>
-                <div class="owl-carousel owl-opacify owl-theme owl-cards">
+                <div class="owl-carousel owl-opacify owl-theme owl-cards" >
 
                     <!-- Parcours des entites de l'asset publisher -->
                     <#list entries as curEntry>
