@@ -11,7 +11,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -32,7 +31,6 @@ import javax.portlet.PortletURL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -94,14 +92,6 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 			Map<Locale, String> title = LocalizationUtil.getLocalizationMap(request, "title");
 			helpProposal.setTitleMap(title);
 
-			// Défini le format de date à utiliser pour les champs temporels
-			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-			// Date de publication
-			String modifiedByUserDateStr = ParamUtil.getString(request, "modifiedByUserDate");
-			String modifiedByUserTimeStr = ParamUtil.getString(request, "modifiedByUserDateTime");
-			Date publicationDate = GetterUtil.getDate(modifiedByUserDateStr + " " + modifiedByUserTimeStr, dateFormat);
-			helpProposal.setModifiedByUserDate(publicationDate);
-
 			// Détail de l'aide
 			Map<Locale, String> description = LocalizationUtil.getLocalizationMap(request, "description");
 			helpProposal.setDescriptionMap(description);
@@ -146,10 +136,10 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 			Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request, "comment");
 			helpProposal.setCommentMap(comment);
 
+			long[] ids = sc.getAssetCategoryIds();
 			// Mise du statut de modération en lue
 			Boolean isRead = ParamUtil.getBoolean(request, "read");
 			if(isRead) {
-				long[] ids = sc.getAssetCategoryIds();
 				List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
 
 				AssetCategory nonLu = AssetVocabularyHelper.getCategory("Non Lue", sc.getScopeGroupId());
@@ -164,7 +154,6 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 			}
 
 			// Mise de la ville de strasbourg si c'est un quartier
-			long[] ids = sc.getAssetCategoryIds();
 			for (long id : ids) {
 				AssetCategory categ = AssetCategoryLocalServiceUtil.fetchAssetCategory(id).getParentCategory();
 				if(categ != null && categ.getName().equals("Strasbourg")) {

@@ -86,6 +86,13 @@
 				<liferay-ui:search-container-column-text name="user">
 					${helpProposal.authorNameLabel}
 				</liferay-ui:search-container-column-text>
+
+				<%-- Colonne : Date de modification --%>
+				<fmt:formatDate value="${helpProposal.modifiedDate}"
+					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
+				<liferay-ui:search-container-column-text cssClass="content-column"
+					name="modified-date" truncate="true" orderable="true"
+					value="${formattedModifiedDate}" />
 				
 				<%-- Colonne : Statut activité de l'aide --%>
 				<liferay-ui:search-container-column-text name="statusHelpActivity">
@@ -101,24 +108,22 @@
                     </span>
 				</liferay-ui:search-container-column-text>
 
-				<%-- Colonne : Date de modification --%>
-				<fmt:formatDate value="${helpProposal.modifiedDate}"
-					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true" orderable="true"
-					value="${formattedModifiedDate}" />
-
-				<%-- Colonne : Statut Liferay --%>
-				<liferay-ui:search-container-column-text name="statusLiferay">
-					<aui:workflow-status markupView="lexicon" showIcon="false"
-						showLabel="false" status="${helpProposal.status}" />
-				</liferay-ui:search-container-column-text>
-
 				<%-- Colonne : Actions possibles --%>
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
 						<c:if test="${dc.hasPermission('EDIT_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editHelpProposalURL}" />
+						</c:if>
+
+
+                        <%-- URL : definit le lien vers l'action de modifier l'aide --%>
+                        <liferay-portlet:actionURL name="readHelpProposal" var="readHelpProposalURL">
+                            <portlet:param name="cmd" value="readHelpProposal" />
+							<portlet:param name="tab" value="helpProposals" />
+                            <portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />
+                        </liferay-portlet:actionURL>
+						<c:if test="${dc.hasPermission('EDIT_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<liferay-ui:icon message="setRead" url="${readHelpProposalURL}" />
 						</c:if>
 
 						<liferay-portlet:actionURL name="deleteHelpProposal" var="deleteHelpProposalURL">

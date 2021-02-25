@@ -50,6 +50,9 @@
 				<%-- Champ : Titre --%>
 				<aui:input name="title" required="true" />
 
+				<%-- Champ : Date de création --%>
+				<aui:input name="createDate" disabled="true" />
+
 				<%-- Champ : Date de modification --%>
 				<aui:input name="modifiedByUserDate" disabled="true" helpMessage="help-update-date-by-user" />
 				
@@ -58,7 +61,7 @@
 
 				<%-- Champ : Image interne --%>
 				<div class="internalImage">
-					<strasbourg-picker:image label="photo" name="imageId" required="false" value="${dc.helpProposal.imageId}" global="false" />
+					<strasbourg-picker:image label="help.photo" name="imageId" required="false" value="${dc.helpProposal.imageId}" global="false" />
 				</div>
 				
 			</aui:fieldset>

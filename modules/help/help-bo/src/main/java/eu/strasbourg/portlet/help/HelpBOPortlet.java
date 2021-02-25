@@ -67,7 +67,7 @@ public class HelpBOPortlet extends MVCPortlet {
 		if (cmd.equals("editHelpProposal") || mvcPath.equals("/help-bo-edit-help-proposal.jsp") || fromAjaxHelp) {
 			EditHelpDisplayContext dc = new EditHelpDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-			title = "Help";
+			title = "helpProposal";
 		}else { // Else, we are on the projects list page
 				ViewHelpsDisplayContext dc = new ViewHelpsDisplayContext(renderRequest, renderResponse);
 				renderRequest.setAttribute("dc", dc);
