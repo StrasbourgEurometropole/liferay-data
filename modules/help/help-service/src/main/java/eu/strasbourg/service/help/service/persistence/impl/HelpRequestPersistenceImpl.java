@@ -35,7 +35,6 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
@@ -2536,282 +2535,6 @@ public class HelpRequestPersistenceImpl
 	private static final String _FINDER_COLUMN_HELPPROPOSALID_HELPPROPOSALID_2 =
 		"helpRequest.helpProposalId = ?";
 
-	private FinderPath _finderPathFetchByPublikIdAndHelpProposalId;
-	private FinderPath _finderPathCountByPublikIdAndHelpProposalId;
-
-	/**
-	 * Returns the help request where publikId = &#63; and helpProposalId = &#63; or throws a <code>NoSuchHelpRequestException</code> if it could not be found.
-	 *
-	 * @param publikId the publik ID
-	 * @param helpProposalId the help proposal ID
-	 * @return the matching help request
-	 * @throws NoSuchHelpRequestException if a matching help request could not be found
-	 */
-	@Override
-	public HelpRequest findByPublikIdAndHelpProposalId(
-			String publikId, long helpProposalId)
-		throws NoSuchHelpRequestException {
-
-		HelpRequest helpRequest = fetchByPublikIdAndHelpProposalId(
-			publikId, helpProposalId);
-
-		if (helpRequest == null) {
-			StringBundler msg = new StringBundler(6);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("publikId=");
-			msg.append(publikId);
-
-			msg.append(", helpProposalId=");
-			msg.append(helpProposalId);
-
-			msg.append("}");
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(msg.toString());
-			}
-
-			throw new NoSuchHelpRequestException(msg.toString());
-		}
-
-		return helpRequest;
-	}
-
-	/**
-	 * Returns the help request where publikId = &#63; and helpProposalId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param publikId the publik ID
-	 * @param helpProposalId the help proposal ID
-	 * @return the matching help request, or <code>null</code> if a matching help request could not be found
-	 */
-	@Override
-	public HelpRequest fetchByPublikIdAndHelpProposalId(
-		String publikId, long helpProposalId) {
-
-		return fetchByPublikIdAndHelpProposalId(publikId, helpProposalId, true);
-	}
-
-	/**
-	 * Returns the help request where publikId = &#63; and helpProposalId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param publikId the publik ID
-	 * @param helpProposalId the help proposal ID
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the matching help request, or <code>null</code> if a matching help request could not be found
-	 */
-	@Override
-	public HelpRequest fetchByPublikIdAndHelpProposalId(
-		String publikId, long helpProposalId, boolean retrieveFromCache) {
-
-		publikId = Objects.toString(publikId, "");
-
-		Object[] finderArgs = new Object[] {publikId, helpProposalId};
-
-		Object result = null;
-
-		if (retrieveFromCache) {
-			result = finderCache.getResult(
-				_finderPathFetchByPublikIdAndHelpProposalId, finderArgs, this);
-		}
-
-		if (result instanceof HelpRequest) {
-			HelpRequest helpRequest = (HelpRequest)result;
-
-			if (!Objects.equals(publikId, helpRequest.getPublikId()) ||
-				(helpProposalId != helpRequest.getHelpProposalId())) {
-
-				result = null;
-			}
-		}
-
-		if (result == null) {
-			StringBundler query = new StringBundler(4);
-
-			query.append(_SQL_SELECT_HELPREQUEST_WHERE);
-
-			boolean bindPublikId = false;
-
-			if (publikId.isEmpty()) {
-				query.append(
-					_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_PUBLIKID_3);
-			}
-			else {
-				bindPublikId = true;
-
-				query.append(
-					_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_PUBLIKID_2);
-			}
-
-			query.append(
-				_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_HELPPROPOSALID_2);
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				if (bindPublikId) {
-					qPos.add(publikId);
-				}
-
-				qPos.add(helpProposalId);
-
-				List<HelpRequest> list = q.list();
-
-				if (list.isEmpty()) {
-					finderCache.putResult(
-						_finderPathFetchByPublikIdAndHelpProposalId, finderArgs,
-						list);
-				}
-				else {
-					if (list.size() > 1) {
-						Collections.sort(list, Collections.reverseOrder());
-
-						if (_log.isWarnEnabled()) {
-							_log.warn(
-								"HelpRequestPersistenceImpl.fetchByPublikIdAndHelpProposalId(String, long, boolean) with parameters (" +
-									StringUtil.merge(finderArgs) +
-										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
-						}
-					}
-
-					HelpRequest helpRequest = list.get(0);
-
-					result = helpRequest;
-
-					cacheResult(helpRequest);
-				}
-			}
-			catch (Exception e) {
-				finderCache.removeResult(
-					_finderPathFetchByPublikIdAndHelpProposalId, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		if (result instanceof List<?>) {
-			return null;
-		}
-		else {
-			return (HelpRequest)result;
-		}
-	}
-
-	/**
-	 * Removes the help request where publikId = &#63; and helpProposalId = &#63; from the database.
-	 *
-	 * @param publikId the publik ID
-	 * @param helpProposalId the help proposal ID
-	 * @return the help request that was removed
-	 */
-	@Override
-	public HelpRequest removeByPublikIdAndHelpProposalId(
-			String publikId, long helpProposalId)
-		throws NoSuchHelpRequestException {
-
-		HelpRequest helpRequest = findByPublikIdAndHelpProposalId(
-			publikId, helpProposalId);
-
-		return remove(helpRequest);
-	}
-
-	/**
-	 * Returns the number of help requests where publikId = &#63; and helpProposalId = &#63;.
-	 *
-	 * @param publikId the publik ID
-	 * @param helpProposalId the help proposal ID
-	 * @return the number of matching help requests
-	 */
-	@Override
-	public int countByPublikIdAndHelpProposalId(
-		String publikId, long helpProposalId) {
-
-		publikId = Objects.toString(publikId, "");
-
-		FinderPath finderPath = _finderPathCountByPublikIdAndHelpProposalId;
-
-		Object[] finderArgs = new Object[] {publikId, helpProposalId};
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler query = new StringBundler(3);
-
-			query.append(_SQL_COUNT_HELPREQUEST_WHERE);
-
-			boolean bindPublikId = false;
-
-			if (publikId.isEmpty()) {
-				query.append(
-					_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_PUBLIKID_3);
-			}
-			else {
-				bindPublikId = true;
-
-				query.append(
-					_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_PUBLIKID_2);
-			}
-
-			query.append(
-				_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_HELPPROPOSALID_2);
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				if (bindPublikId) {
-					qPos.add(publikId);
-				}
-
-				qPos.add(helpProposalId);
-
-				count = (Long)q.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String
-		_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_PUBLIKID_2 =
-			"helpRequest.publikId = ? AND ";
-
-	private static final String
-		_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_PUBLIKID_3 =
-			"(helpRequest.publikId IS NULL OR helpRequest.publikId = '') AND ";
-
-	private static final String
-		_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_HELPPROPOSALID_2 =
-			"helpRequest.helpProposalId = ?";
-
 	public HelpRequestPersistenceImpl() {
 		setModelClass(HelpRequest.class);
 
@@ -2839,13 +2562,6 @@ public class HelpRequestPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {helpRequest.getUuid(), helpRequest.getGroupId()},
-			helpRequest);
-
-		finderCache.putResult(
-			_finderPathFetchByPublikIdAndHelpProposalId,
-			new Object[] {
-				helpRequest.getPublikId(), helpRequest.getHelpProposalId()
-			},
 			helpRequest);
 
 		helpRequest.resetOriginalValues();
@@ -2931,18 +2647,6 @@ public class HelpRequestPersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, helpRequestModelImpl, false);
-
-		args = new Object[] {
-			helpRequestModelImpl.getPublikId(),
-			helpRequestModelImpl.getHelpProposalId()
-		};
-
-		finderCache.putResult(
-			_finderPathCountByPublikIdAndHelpProposalId, args, Long.valueOf(1),
-			false);
-		finderCache.putResult(
-			_finderPathFetchByPublikIdAndHelpProposalId, args,
-			helpRequestModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -2968,33 +2672,6 @@ public class HelpRequestPersistenceImpl
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
 			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				helpRequestModelImpl.getPublikId(),
-				helpRequestModelImpl.getHelpProposalId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByPublikIdAndHelpProposalId, args);
-			finderCache.removeResult(
-				_finderPathFetchByPublikIdAndHelpProposalId, args);
-		}
-
-		if ((helpRequestModelImpl.getColumnBitmask() &
-			 _finderPathFetchByPublikIdAndHelpProposalId.getColumnBitmask()) !=
-				 0) {
-
-			Object[] args = new Object[] {
-				helpRequestModelImpl.getOriginalPublikId(),
-				helpRequestModelImpl.getOriginalHelpProposalId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByPublikIdAndHelpProposalId, args);
-			finderCache.removeResult(
-				_finderPathFetchByPublikIdAndHelpProposalId, args);
 		}
 	}
 
@@ -3692,19 +3369,6 @@ public class HelpRequestPersistenceImpl
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByHelpProposalId",
 			new String[] {Long.class.getName()});
-
-		_finderPathFetchByPublikIdAndHelpProposalId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, HelpRequestImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByPublikIdAndHelpProposalId",
-			new String[] {String.class.getName(), Long.class.getName()},
-			HelpRequestModelImpl.PUBLIKID_COLUMN_BITMASK |
-			HelpRequestModelImpl.HELPPROPOSALID_COLUMN_BITMASK);
-
-		_finderPathCountByPublikIdAndHelpProposalId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByPublikIdAndHelpProposalId",
-			new String[] {String.class.getName(), Long.class.getName()});
 	}
 
 	@Deactivate

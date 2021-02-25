@@ -253,17 +253,6 @@ public class HelpRequestLocalServiceWrapper
 		return _helpRequestLocalService.getByPublikId(publikId);
 	}
 
-	/**
-	 * Retourne la demande d'aide pour un utilisateur et une proposition donnee
-	 */
-	@Override
-	public eu.strasbourg.service.help.model.HelpRequest
-		getByPublikIdAndHelpProposalId(String publikId, long helpProposalId) {
-
-		return _helpRequestLocalService.getByPublikIdAndHelpProposalId(
-			publikId, helpProposalId);
-	}
-
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(

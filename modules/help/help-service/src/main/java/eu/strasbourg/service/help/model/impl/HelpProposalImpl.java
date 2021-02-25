@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.help.model.HelpProposal;
+import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -329,6 +330,16 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	@Override
 	public String getImageCopyright(Locale locale) {
 		return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+	}
+
+	/**
+	 * Est-ce l'utilisateur qui a crée la proposition ?
+	 * @param publikUserId L'identifiant Publik de l'utilisateur
+	 * @return La verite
+	 */
+	@Override
+	public boolean isUserHelping(String publikUserId) {
+		return HelpProposalLocalServiceUtil.getByPublikIdAndHelpProposalId(publikUserId, this.getHelpProposalId()) != null;
 	}
 
 	/**

@@ -183,6 +183,14 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 	public String getImageCopyright(java.util.Locale locale);
 
 	/**
+	 * Est-ce l'utilisateur qui a crée la proposition ?
+	 *
+	 * @param publikUserId L'identifiant Publik de l'utilisateur
+	 * @return La verite
+	 */
+	public boolean isUserHelping(String publikUserId);
+
+	/**
 	 * Retourne la version JSON de l'entité
 	 *
 	 * @throws PortalException

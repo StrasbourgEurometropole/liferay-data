@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
@@ -2529,148 +2530,115 @@ public class HelpProposalPersistenceImpl
 	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_3 =
 		"(helpProposal.publikId IS NULL OR helpProposal.publikId = '')";
 
-	private FinderPath _finderPathWithPaginationFindByStatusAndGroupId;
-	private FinderPath _finderPathWithoutPaginationFindByStatusAndGroupId;
-	private FinderPath _finderPathCountByStatusAndGroupId;
+	private FinderPath _finderPathFetchByPublikIdAndHelpProposalId;
+	private FinderPath _finderPathCountByPublikIdAndHelpProposalId;
 
 	/**
-	 * Returns all the help proposals where status = &#63; and groupId = &#63;.
+	 * Returns the help proposal where publikId = &#63; and helpProposalId = &#63; or throws a <code>NoSuchHelpProposalException</code> if it could not be found.
 	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @return the matching help proposals
+	 * @param publikId the publik ID
+	 * @param helpProposalId the help proposal ID
+	 * @return the matching help proposal
+	 * @throws NoSuchHelpProposalException if a matching help proposal could not be found
 	 */
 	@Override
-	public List<HelpProposal> findByStatusAndGroupId(int status, long groupId) {
-		return findByStatusAndGroupId(
-			status, groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public HelpProposal findByPublikIdAndHelpProposalId(
+			String publikId, long helpProposalId)
+		throws NoSuchHelpProposalException {
+
+		HelpProposal helpProposal = fetchByPublikIdAndHelpProposalId(
+			publikId, helpProposalId);
+
+		if (helpProposal == null) {
+			StringBundler msg = new StringBundler(6);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("publikId=");
+			msg.append(publikId);
+
+			msg.append(", helpProposalId=");
+			msg.append(helpProposalId);
+
+			msg.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchHelpProposalException(msg.toString());
+		}
+
+		return helpProposal;
 	}
 
 	/**
-	 * Returns a range of all the help proposals where status = &#63; and groupId = &#63;.
+	 * Returns the help proposal where publikId = &#63; and helpProposalId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>HelpProposalModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param start the lower bound of the range of help proposals
-	 * @param end the upper bound of the range of help proposals (not inclusive)
-	 * @return the range of matching help proposals
+	 * @param publikId the publik ID
+	 * @param helpProposalId the help proposal ID
+	 * @return the matching help proposal, or <code>null</code> if a matching help proposal could not be found
 	 */
 	@Override
-	public List<HelpProposal> findByStatusAndGroupId(
-		int status, long groupId, int start, int end) {
+	public HelpProposal fetchByPublikIdAndHelpProposalId(
+		String publikId, long helpProposalId) {
 
-		return findByStatusAndGroupId(status, groupId, start, end, null);
+		return fetchByPublikIdAndHelpProposalId(publikId, helpProposalId, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the help proposals where status = &#63; and groupId = &#63;.
+	 * Returns the help proposal where publikId = &#63; and helpProposalId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>HelpProposalModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param start the lower bound of the range of help proposals
-	 * @param end the upper bound of the range of help proposals (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching help proposals
-	 */
-	@Override
-	public List<HelpProposal> findByStatusAndGroupId(
-		int status, long groupId, int start, int end,
-		OrderByComparator<HelpProposal> orderByComparator) {
-
-		return findByStatusAndGroupId(
-			status, groupId, start, end, orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the help proposals where status = &#63; and groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>HelpProposalModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param start the lower bound of the range of help proposals
-	 * @param end the upper bound of the range of help proposals (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param publikId the publik ID
+	 * @param helpProposalId the help proposal ID
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching help proposals
+	 * @return the matching help proposal, or <code>null</code> if a matching help proposal could not be found
 	 */
 	@Override
-	public List<HelpProposal> findByStatusAndGroupId(
-		int status, long groupId, int start, int end,
-		OrderByComparator<HelpProposal> orderByComparator,
-		boolean retrieveFromCache) {
+	public HelpProposal fetchByPublikIdAndHelpProposalId(
+		String publikId, long helpProposalId, boolean retrieveFromCache) {
 
-		boolean pagination = true;
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
+		publikId = Objects.toString(publikId, "");
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-			(orderByComparator == null)) {
+		Object[] finderArgs = new Object[] {publikId, helpProposalId};
 
-			pagination = false;
-			finderPath = _finderPathWithoutPaginationFindByStatusAndGroupId;
-			finderArgs = new Object[] {status, groupId};
-		}
-		else {
-			finderPath = _finderPathWithPaginationFindByStatusAndGroupId;
-			finderArgs = new Object[] {
-				status, groupId, start, end, orderByComparator
-			};
-		}
-
-		List<HelpProposal> list = null;
+		Object result = null;
 
 		if (retrieveFromCache) {
-			list = (List<HelpProposal>)finderCache.getResult(
-				finderPath, finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByPublikIdAndHelpProposalId, finderArgs, this);
+		}
 
-			if ((list != null) && !list.isEmpty()) {
-				for (HelpProposal helpProposal : list) {
-					if ((status != helpProposal.getStatus()) ||
-						(groupId != helpProposal.getGroupId())) {
+		if (result instanceof HelpProposal) {
+			HelpProposal helpProposal = (HelpProposal)result;
 
-						list = null;
+			if (!Objects.equals(publikId, helpProposal.getPublikId()) ||
+				(helpProposalId != helpProposal.getHelpProposalId())) {
 
-						break;
-					}
-				}
+				result = null;
 			}
 		}
 
-		if (list == null) {
-			StringBundler query = null;
-
-			if (orderByComparator != null) {
-				query = new StringBundler(
-					4 + (orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				query = new StringBundler(4);
-			}
+		if (result == null) {
+			StringBundler query = new StringBundler(4);
 
 			query.append(_SQL_SELECT_HELPPROPOSAL_WHERE);
 
-			query.append(_FINDER_COLUMN_STATUSANDGROUPID_STATUS_2);
+			boolean bindPublikId = false;
 
-			query.append(_FINDER_COLUMN_STATUSANDGROUPID_GROUPID_2);
+			if (publikId.isEmpty()) {
+				query.append(
+					_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_PUBLIKID_3);
+			}
+			else {
+				bindPublikId = true;
 
-			if (orderByComparator != null) {
-				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+				query.append(
+					_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_PUBLIKID_2);
 			}
-			else if (pagination) {
-				query.append(HelpProposalModelImpl.ORDER_BY_JPQL);
-			}
+
+			query.append(
+				_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_HELPPROPOSALID_2);
 
 			String sql = query.toString();
 
@@ -2683,29 +2651,41 @@ public class HelpProposalPersistenceImpl
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(status);
+				if (bindPublikId) {
+					qPos.add(publikId);
+				}
 
-				qPos.add(groupId);
+				qPos.add(helpProposalId);
 
-				if (!pagination) {
-					list = (List<HelpProposal>)QueryUtil.list(
-						q, getDialect(), start, end, false);
+				List<HelpProposal> list = q.list();
 
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
+				if (list.isEmpty()) {
+					finderCache.putResult(
+						_finderPathFetchByPublikIdAndHelpProposalId, finderArgs,
+						list);
 				}
 				else {
-					list = (List<HelpProposal>)QueryUtil.list(
-						q, getDialect(), start, end);
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"HelpProposalPersistenceImpl.fetchByPublikIdAndHelpProposalId(String, long, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					HelpProposal helpProposal = list.get(0);
+
+					result = helpProposal;
+
+					cacheResult(helpProposal);
 				}
-
-				cacheResult(list);
-
-				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(
+					_finderPathFetchByPublikIdAndHelpProposalId, finderArgs);
 
 				throw processException(e);
 			}
@@ -2714,321 +2694,48 @@ public class HelpProposalPersistenceImpl
 			}
 		}
 
-		return list;
-	}
-
-	/**
-	 * Returns the first help proposal in the ordered set where status = &#63; and groupId = &#63;.
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching help proposal
-	 * @throws NoSuchHelpProposalException if a matching help proposal could not be found
-	 */
-	@Override
-	public HelpProposal findByStatusAndGroupId_First(
-			int status, long groupId,
-			OrderByComparator<HelpProposal> orderByComparator)
-		throws NoSuchHelpProposalException {
-
-		HelpProposal helpProposal = fetchByStatusAndGroupId_First(
-			status, groupId, orderByComparator);
-
-		if (helpProposal != null) {
-			return helpProposal;
-		}
-
-		StringBundler msg = new StringBundler(6);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("status=");
-		msg.append(status);
-
-		msg.append(", groupId=");
-		msg.append(groupId);
-
-		msg.append("}");
-
-		throw new NoSuchHelpProposalException(msg.toString());
-	}
-
-	/**
-	 * Returns the first help proposal in the ordered set where status = &#63; and groupId = &#63;.
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching help proposal, or <code>null</code> if a matching help proposal could not be found
-	 */
-	@Override
-	public HelpProposal fetchByStatusAndGroupId_First(
-		int status, long groupId,
-		OrderByComparator<HelpProposal> orderByComparator) {
-
-		List<HelpProposal> list = findByStatusAndGroupId(
-			status, groupId, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last help proposal in the ordered set where status = &#63; and groupId = &#63;.
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching help proposal
-	 * @throws NoSuchHelpProposalException if a matching help proposal could not be found
-	 */
-	@Override
-	public HelpProposal findByStatusAndGroupId_Last(
-			int status, long groupId,
-			OrderByComparator<HelpProposal> orderByComparator)
-		throws NoSuchHelpProposalException {
-
-		HelpProposal helpProposal = fetchByStatusAndGroupId_Last(
-			status, groupId, orderByComparator);
-
-		if (helpProposal != null) {
-			return helpProposal;
-		}
-
-		StringBundler msg = new StringBundler(6);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("status=");
-		msg.append(status);
-
-		msg.append(", groupId=");
-		msg.append(groupId);
-
-		msg.append("}");
-
-		throw new NoSuchHelpProposalException(msg.toString());
-	}
-
-	/**
-	 * Returns the last help proposal in the ordered set where status = &#63; and groupId = &#63;.
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching help proposal, or <code>null</code> if a matching help proposal could not be found
-	 */
-	@Override
-	public HelpProposal fetchByStatusAndGroupId_Last(
-		int status, long groupId,
-		OrderByComparator<HelpProposal> orderByComparator) {
-
-		int count = countByStatusAndGroupId(status, groupId);
-
-		if (count == 0) {
+		if (result instanceof List<?>) {
 			return null;
 		}
-
-		List<HelpProposal> list = findByStatusAndGroupId(
-			status, groupId, count - 1, count, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
+		else {
+			return (HelpProposal)result;
 		}
-
-		return null;
 	}
 
 	/**
-	 * Returns the help proposals before and after the current help proposal in the ordered set where status = &#63; and groupId = &#63;.
+	 * Removes the help proposal where publikId = &#63; and helpProposalId = &#63; from the database.
 	 *
-	 * @param helpProposalId the primary key of the current help proposal
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next help proposal
-	 * @throws NoSuchHelpProposalException if a help proposal with the primary key could not be found
+	 * @param publikId the publik ID
+	 * @param helpProposalId the help proposal ID
+	 * @return the help proposal that was removed
 	 */
 	@Override
-	public HelpProposal[] findByStatusAndGroupId_PrevAndNext(
-			long helpProposalId, int status, long groupId,
-			OrderByComparator<HelpProposal> orderByComparator)
+	public HelpProposal removeByPublikIdAndHelpProposalId(
+			String publikId, long helpProposalId)
 		throws NoSuchHelpProposalException {
 
-		HelpProposal helpProposal = findByPrimaryKey(helpProposalId);
+		HelpProposal helpProposal = findByPublikIdAndHelpProposalId(
+			publikId, helpProposalId);
 
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			HelpProposal[] array = new HelpProposalImpl[3];
-
-			array[0] = getByStatusAndGroupId_PrevAndNext(
-				session, helpProposal, status, groupId, orderByComparator,
-				true);
-
-			array[1] = helpProposal;
-
-			array[2] = getByStatusAndGroupId_PrevAndNext(
-				session, helpProposal, status, groupId, orderByComparator,
-				false);
-
-			return array;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected HelpProposal getByStatusAndGroupId_PrevAndNext(
-		Session session, HelpProposal helpProposal, int status, long groupId,
-		OrderByComparator<HelpProposal> orderByComparator, boolean previous) {
-
-		StringBundler query = null;
-
-		if (orderByComparator != null) {
-			query = new StringBundler(
-				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
-		else {
-			query = new StringBundler(4);
-		}
-
-		query.append(_SQL_SELECT_HELPPROPOSAL_WHERE);
-
-		query.append(_FINDER_COLUMN_STATUSANDGROUPID_STATUS_2);
-
-		query.append(_FINDER_COLUMN_STATUSANDGROUPID_GROUPID_2);
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			query.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
-					}
-					else {
-						query.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			query.append(HelpProposalModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = query.toString();
-
-		Query q = session.createQuery(sql);
-
-		q.setFirstResult(0);
-		q.setMaxResults(2);
-
-		QueryPos qPos = QueryPos.getInstance(q);
-
-		qPos.add(status);
-
-		qPos.add(groupId);
-
-		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(helpProposal)) {
-
-				qPos.add(orderByConditionValue);
-			}
-		}
-
-		List<HelpProposal> list = q.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
+		return remove(helpProposal);
 	}
 
 	/**
-	 * Removes all the help proposals where status = &#63; and groupId = &#63; from the database.
+	 * Returns the number of help proposals where publikId = &#63; and helpProposalId = &#63;.
 	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 */
-	@Override
-	public void removeByStatusAndGroupId(int status, long groupId) {
-		for (HelpProposal helpProposal :
-				findByStatusAndGroupId(
-					status, groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-					null)) {
-
-			remove(helpProposal);
-		}
-	}
-
-	/**
-	 * Returns the number of help proposals where status = &#63; and groupId = &#63;.
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
+	 * @param publikId the publik ID
+	 * @param helpProposalId the help proposal ID
 	 * @return the number of matching help proposals
 	 */
 	@Override
-	public int countByStatusAndGroupId(int status, long groupId) {
-		FinderPath finderPath = _finderPathCountByStatusAndGroupId;
+	public int countByPublikIdAndHelpProposalId(
+		String publikId, long helpProposalId) {
 
-		Object[] finderArgs = new Object[] {status, groupId};
+		publikId = Objects.toString(publikId, "");
+
+		FinderPath finderPath = _finderPathCountByPublikIdAndHelpProposalId;
+
+		Object[] finderArgs = new Object[] {publikId, helpProposalId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -3037,9 +2744,21 @@ public class HelpProposalPersistenceImpl
 
 			query.append(_SQL_COUNT_HELPPROPOSAL_WHERE);
 
-			query.append(_FINDER_COLUMN_STATUSANDGROUPID_STATUS_2);
+			boolean bindPublikId = false;
 
-			query.append(_FINDER_COLUMN_STATUSANDGROUPID_GROUPID_2);
+			if (publikId.isEmpty()) {
+				query.append(
+					_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_PUBLIKID_3);
+			}
+			else {
+				bindPublikId = true;
+
+				query.append(
+					_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_PUBLIKID_2);
+			}
+
+			query.append(
+				_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_HELPPROPOSALID_2);
 
 			String sql = query.toString();
 
@@ -3052,9 +2771,11 @@ public class HelpProposalPersistenceImpl
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(status);
+				if (bindPublikId) {
+					qPos.add(publikId);
+				}
 
-				qPos.add(groupId);
+				qPos.add(helpProposalId);
 
 				count = (Long)q.uniqueResult();
 
@@ -3073,11 +2794,17 @@ public class HelpProposalPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_STATUSANDGROUPID_STATUS_2 =
-		"helpProposal.status = ? AND ";
+	private static final String
+		_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_PUBLIKID_2 =
+			"helpProposal.publikId = ? AND ";
 
-	private static final String _FINDER_COLUMN_STATUSANDGROUPID_GROUPID_2 =
-		"helpProposal.groupId = ?";
+	private static final String
+		_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_PUBLIKID_3 =
+			"(helpProposal.publikId IS NULL OR helpProposal.publikId = '') AND ";
+
+	private static final String
+		_FINDER_COLUMN_PUBLIKIDANDHELPPROPOSALID_HELPPROPOSALID_2 =
+			"helpProposal.helpProposalId = ?";
 
 	public HelpProposalPersistenceImpl() {
 		setModelClass(HelpProposal.class);
@@ -3107,6 +2834,13 @@ public class HelpProposalPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {helpProposal.getUuid(), helpProposal.getGroupId()},
+			helpProposal);
+
+		finderCache.putResult(
+			_finderPathFetchByPublikIdAndHelpProposalId,
+			new Object[] {
+				helpProposal.getPublikId(), helpProposal.getHelpProposalId()
+			},
 			helpProposal);
 
 		helpProposal.resetOriginalValues();
@@ -3192,6 +2926,18 @@ public class HelpProposalPersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, helpProposalModelImpl, false);
+
+		args = new Object[] {
+			helpProposalModelImpl.getPublikId(),
+			helpProposalModelImpl.getHelpProposalId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByPublikIdAndHelpProposalId, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(
+			_finderPathFetchByPublikIdAndHelpProposalId, args,
+			helpProposalModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -3217,6 +2963,33 @@ public class HelpProposalPersistenceImpl
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
 			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+				helpProposalModelImpl.getPublikId(),
+				helpProposalModelImpl.getHelpProposalId()
+			};
+
+			finderCache.removeResult(
+				_finderPathCountByPublikIdAndHelpProposalId, args);
+			finderCache.removeResult(
+				_finderPathFetchByPublikIdAndHelpProposalId, args);
+		}
+
+		if ((helpProposalModelImpl.getColumnBitmask() &
+			 _finderPathFetchByPublikIdAndHelpProposalId.getColumnBitmask()) !=
+				 0) {
+
+			Object[] args = new Object[] {
+				helpProposalModelImpl.getOriginalPublikId(),
+				helpProposalModelImpl.getOriginalHelpProposalId()
+			};
+
+			finderCache.removeResult(
+				_finderPathCountByPublikIdAndHelpProposalId, args);
+			finderCache.removeResult(
+				_finderPathFetchByPublikIdAndHelpProposalId, args);
 		}
 	}
 
@@ -3435,15 +3208,6 @@ public class HelpProposalPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindBypublikId, args);
 
-			args = new Object[] {
-				helpProposalModelImpl.getStatus(),
-				helpProposalModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByStatusAndGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByStatusAndGroupId, args);
-
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
@@ -3527,31 +3291,6 @@ public class HelpProposalPersistenceImpl
 				finderCache.removeResult(_finderPathCountBypublikId, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindBypublikId, args);
-			}
-
-			if ((helpProposalModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByStatusAndGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					helpProposalModelImpl.getOriginalStatus(),
-					helpProposalModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByStatusAndGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStatusAndGroupId, args);
-
-				args = new Object[] {
-					helpProposalModelImpl.getStatus(),
-					helpProposalModelImpl.getGroupId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByStatusAndGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStatusAndGroupId, args);
 			}
 		}
 
@@ -3952,28 +3691,18 @@ public class HelpProposalPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBypublikId",
 			new String[] {String.class.getName()});
 
-		_finderPathWithPaginationFindByStatusAndGroupId = new FinderPath(
+		_finderPathFetchByPublikIdAndHelpProposalId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, HelpProposalImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStatusAndGroupId",
-			new String[] {
-				Integer.class.getName(), Long.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			FINDER_CLASS_NAME_ENTITY, "fetchByPublikIdAndHelpProposalId",
+			new String[] {String.class.getName(), Long.class.getName()},
+			HelpProposalModelImpl.PUBLIKID_COLUMN_BITMASK |
+			HelpProposalModelImpl.HELPPROPOSALID_COLUMN_BITMASK);
 
-		_finderPathWithoutPaginationFindByStatusAndGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, HelpProposalImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStatusAndGroupId",
-			new String[] {Integer.class.getName(), Long.class.getName()},
-			HelpProposalModelImpl.STATUS_COLUMN_BITMASK |
-			HelpProposalModelImpl.GROUPID_COLUMN_BITMASK |
-			HelpProposalModelImpl.MODIFIEDBYUSERDATE_COLUMN_BITMASK);
-
-		_finderPathCountByStatusAndGroupId = new FinderPath(
+		_finderPathCountByPublikIdAndHelpProposalId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByStatusAndGroupId",
-			new String[] {Integer.class.getName(), Long.class.getName()});
+			"countByPublikIdAndHelpProposalId",
+			new String[] {String.class.getName(), Long.class.getName()});
 	}
 
 	@Deactivate

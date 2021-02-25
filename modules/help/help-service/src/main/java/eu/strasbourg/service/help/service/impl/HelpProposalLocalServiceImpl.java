@@ -273,11 +273,11 @@ public class HelpProposalLocalServiceImpl
 	}
 
 	/**
-	 * Retourne toutes les helpProposal publiées d'un groupe
+	 * Retourne la demande d'aide pour un utilisateur et une proposition donnee
 	 */
 	@Override
-	public List<HelpProposal> getPublishedByGroupId(long groupId) {
-		return this.helpProposalPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
+	public HelpProposal getByPublikIdAndHelpProposalId(String publikId, long helpProposalId) {
+		return this.helpProposalPersistence.fetchByPublikIdAndHelpProposalId(publikId, helpProposalId);
 	}
 
 	// Différence avec le finder ? Pq pas de @Override

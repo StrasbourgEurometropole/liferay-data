@@ -58,9 +58,6 @@
 		<field name="message" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
-		<field name="foodAllergies" type="String">
-			<hint name="max-length">400</hint>
-		</field>
 		<field name="studentCardImageId" type="long" />
 	</model>
 </model-hints>

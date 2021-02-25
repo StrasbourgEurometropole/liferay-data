@@ -301,7 +301,6 @@
     	resetValuesHelpProposal();
         $("#<portlet:namespace />modalConfirm").modal('hide');
         $("#<portlet:namespace />modalError").modal('hide');
-        $("#<portlet:namespace />checkboxSaveInfo").hide();
     });
 
     /*

@@ -14,13 +14,12 @@
 
 package eu.strasbourg.service.help.model;
 
-import java.io.Serializable;
+import org.osgi.annotation.versioning.ProviderType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * This class is used by SOAP remote services.
@@ -50,7 +49,6 @@ public class HelpRequestSoap implements Serializable {
 		soapModel.setHelpProposalId(model.getHelpProposalId());
 		soapModel.setPhoneNumber(model.getPhoneNumber());
 		soapModel.setMessage(model.getMessage());
-		soapModel.setFoodAllergies(model.getFoodAllergies());
 		soapModel.setStudentCardImageId(model.getStudentCardImageId());
 
 		return soapModel;
@@ -233,14 +231,6 @@ public class HelpRequestSoap implements Serializable {
 		_message = message;
 	}
 
-	public String getFoodAllergies() {
-		return _foodAllergies;
-	}
-
-	public void setFoodAllergies(String foodAllergies) {
-		_foodAllergies = foodAllergies;
-	}
-
 	public long getStudentCardImageId() {
 		return _studentCardImageId;
 	}
@@ -265,7 +255,6 @@ public class HelpRequestSoap implements Serializable {
 	private long _helpProposalId;
 	private String _phoneNumber;
 	private String _message;
-	private String _foodAllergies;
 	private long _studentCardImageId;
 
 }

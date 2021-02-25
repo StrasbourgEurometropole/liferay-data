@@ -677,60 +677,6 @@ public interface HelpRequestPersistence extends BasePersistence<HelpRequest> {
 	public int countByHelpProposalId(long helpProposalId);
 
 	/**
-	 * Returns the help request where publikId = &#63; and helpProposalId = &#63; or throws a <code>NoSuchHelpRequestException</code> if it could not be found.
-	 *
-	 * @param publikId the publik ID
-	 * @param helpProposalId the help proposal ID
-	 * @return the matching help request
-	 * @throws NoSuchHelpRequestException if a matching help request could not be found
-	 */
-	public HelpRequest findByPublikIdAndHelpProposalId(
-			String publikId, long helpProposalId)
-		throws NoSuchHelpRequestException;
-
-	/**
-	 * Returns the help request where publikId = &#63; and helpProposalId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param publikId the publik ID
-	 * @param helpProposalId the help proposal ID
-	 * @return the matching help request, or <code>null</code> if a matching help request could not be found
-	 */
-	public HelpRequest fetchByPublikIdAndHelpProposalId(
-		String publikId, long helpProposalId);
-
-	/**
-	 * Returns the help request where publikId = &#63; and helpProposalId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param publikId the publik ID
-	 * @param helpProposalId the help proposal ID
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the matching help request, or <code>null</code> if a matching help request could not be found
-	 */
-	public HelpRequest fetchByPublikIdAndHelpProposalId(
-		String publikId, long helpProposalId, boolean retrieveFromCache);
-
-	/**
-	 * Removes the help request where publikId = &#63; and helpProposalId = &#63; from the database.
-	 *
-	 * @param publikId the publik ID
-	 * @param helpProposalId the help proposal ID
-	 * @return the help request that was removed
-	 */
-	public HelpRequest removeByPublikIdAndHelpProposalId(
-			String publikId, long helpProposalId)
-		throws NoSuchHelpRequestException;
-
-	/**
-	 * Returns the number of help requests where publikId = &#63; and helpProposalId = &#63;.
-	 *
-	 * @param publikId the publik ID
-	 * @param helpProposalId the help proposal ID
-	 * @return the number of matching help requests
-	 */
-	public int countByPublikIdAndHelpProposalId(
-		String publikId, long helpProposalId);
-
-	/**
 	 * Caches the help request in the entity cache if it is enabled.
 	 *
 	 * @param helpRequest the help request

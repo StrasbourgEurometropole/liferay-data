@@ -50,7 +50,6 @@ public class desactivateHelpCommand implements MVCResourceCommand {
         
         // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour, format de date
         boolean result = false;
-        boolean savedInfo = false;
         this.message = "";
 
         // Recuperation de l'utilsiteur Publik ayant lance la demande

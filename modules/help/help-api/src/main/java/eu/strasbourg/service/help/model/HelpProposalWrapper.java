@@ -1044,6 +1044,17 @@ public class HelpProposalWrapper
 		return model.isScheduled();
 	}
 
+	/**
+	 * Est-ce l'utilisateur qui a crée la proposition ?
+	 *
+	 * @param publikUserId L'identifiant Publik de l'utilisateur
+	 * @return La verite
+	 */
+	@Override
+	public boolean isUserHelping(String publikUserId) {
+		return model.isUserHelping(publikUserId);
+	}
+
 	@Override
 	public void persist() {
 		model.persist();

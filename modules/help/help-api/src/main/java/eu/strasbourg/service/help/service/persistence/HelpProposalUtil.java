@@ -887,193 +887,79 @@ public class HelpProposalUtil {
 	}
 
 	/**
-	 * Returns all the help proposals where status = &#63; and groupId = &#63;.
+	 * Returns the help proposal where publikId = &#63; and helpProposalId = &#63; or throws a <code>NoSuchHelpProposalException</code> if it could not be found.
 	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @return the matching help proposals
+	 * @param publikId the publik ID
+	 * @param helpProposalId the help proposal ID
+	 * @return the matching help proposal
+	 * @throws NoSuchHelpProposalException if a matching help proposal could not be found
 	 */
-	public static List<HelpProposal> findByStatusAndGroupId(
-		int status, long groupId) {
+	public static HelpProposal findByPublikIdAndHelpProposalId(
+			String publikId, long helpProposalId)
+		throws eu.strasbourg.service.help.exception.
+			NoSuchHelpProposalException {
 
-		return getPersistence().findByStatusAndGroupId(status, groupId);
+		return getPersistence().findByPublikIdAndHelpProposalId(
+			publikId, helpProposalId);
 	}
 
 	/**
-	 * Returns a range of all the help proposals where status = &#63; and groupId = &#63;.
+	 * Returns the help proposal where publikId = &#63; and helpProposalId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>HelpProposalModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param start the lower bound of the range of help proposals
-	 * @param end the upper bound of the range of help proposals (not inclusive)
-	 * @return the range of matching help proposals
+	 * @param publikId the publik ID
+	 * @param helpProposalId the help proposal ID
+	 * @return the matching help proposal, or <code>null</code> if a matching help proposal could not be found
 	 */
-	public static List<HelpProposal> findByStatusAndGroupId(
-		int status, long groupId, int start, int end) {
+	public static HelpProposal fetchByPublikIdAndHelpProposalId(
+		String publikId, long helpProposalId) {
 
-		return getPersistence().findByStatusAndGroupId(
-			status, groupId, start, end);
+		return getPersistence().fetchByPublikIdAndHelpProposalId(
+			publikId, helpProposalId);
 	}
 
 	/**
-	 * Returns an ordered range of all the help proposals where status = &#63; and groupId = &#63;.
+	 * Returns the help proposal where publikId = &#63; and helpProposalId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>HelpProposalModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param start the lower bound of the range of help proposals
-	 * @param end the upper bound of the range of help proposals (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching help proposals
-	 */
-	public static List<HelpProposal> findByStatusAndGroupId(
-		int status, long groupId, int start, int end,
-		OrderByComparator<HelpProposal> orderByComparator) {
-
-		return getPersistence().findByStatusAndGroupId(
-			status, groupId, start, end, orderByComparator);
-	}
-
-	/**
-	 * Returns an ordered range of all the help proposals where status = &#63; and groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>HelpProposalModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param start the lower bound of the range of help proposals
-	 * @param end the upper bound of the range of help proposals (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param publikId the publik ID
+	 * @param helpProposalId the help proposal ID
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching help proposals
+	 * @return the matching help proposal, or <code>null</code> if a matching help proposal could not be found
 	 */
-	public static List<HelpProposal> findByStatusAndGroupId(
-		int status, long groupId, int start, int end,
-		OrderByComparator<HelpProposal> orderByComparator,
-		boolean retrieveFromCache) {
+	public static HelpProposal fetchByPublikIdAndHelpProposalId(
+		String publikId, long helpProposalId, boolean retrieveFromCache) {
 
-		return getPersistence().findByStatusAndGroupId(
-			status, groupId, start, end, orderByComparator, retrieveFromCache);
+		return getPersistence().fetchByPublikIdAndHelpProposalId(
+			publikId, helpProposalId, retrieveFromCache);
 	}
 
 	/**
-	 * Returns the first help proposal in the ordered set where status = &#63; and groupId = &#63;.
+	 * Removes the help proposal where publikId = &#63; and helpProposalId = &#63; from the database.
 	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching help proposal
-	 * @throws NoSuchHelpProposalException if a matching help proposal could not be found
+	 * @param publikId the publik ID
+	 * @param helpProposalId the help proposal ID
+	 * @return the help proposal that was removed
 	 */
-	public static HelpProposal findByStatusAndGroupId_First(
-			int status, long groupId,
-			OrderByComparator<HelpProposal> orderByComparator)
+	public static HelpProposal removeByPublikIdAndHelpProposalId(
+			String publikId, long helpProposalId)
 		throws eu.strasbourg.service.help.exception.
 			NoSuchHelpProposalException {
 
-		return getPersistence().findByStatusAndGroupId_First(
-			status, groupId, orderByComparator);
+		return getPersistence().removeByPublikIdAndHelpProposalId(
+			publikId, helpProposalId);
 	}
 
 	/**
-	 * Returns the first help proposal in the ordered set where status = &#63; and groupId = &#63;.
+	 * Returns the number of help proposals where publikId = &#63; and helpProposalId = &#63;.
 	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching help proposal, or <code>null</code> if a matching help proposal could not be found
-	 */
-	public static HelpProposal fetchByStatusAndGroupId_First(
-		int status, long groupId,
-		OrderByComparator<HelpProposal> orderByComparator) {
-
-		return getPersistence().fetchByStatusAndGroupId_First(
-			status, groupId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last help proposal in the ordered set where status = &#63; and groupId = &#63;.
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching help proposal
-	 * @throws NoSuchHelpProposalException if a matching help proposal could not be found
-	 */
-	public static HelpProposal findByStatusAndGroupId_Last(
-			int status, long groupId,
-			OrderByComparator<HelpProposal> orderByComparator)
-		throws eu.strasbourg.service.help.exception.
-			NoSuchHelpProposalException {
-
-		return getPersistence().findByStatusAndGroupId_Last(
-			status, groupId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last help proposal in the ordered set where status = &#63; and groupId = &#63;.
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching help proposal, or <code>null</code> if a matching help proposal could not be found
-	 */
-	public static HelpProposal fetchByStatusAndGroupId_Last(
-		int status, long groupId,
-		OrderByComparator<HelpProposal> orderByComparator) {
-
-		return getPersistence().fetchByStatusAndGroupId_Last(
-			status, groupId, orderByComparator);
-	}
-
-	/**
-	 * Returns the help proposals before and after the current help proposal in the ordered set where status = &#63; and groupId = &#63;.
-	 *
-	 * @param helpProposalId the primary key of the current help proposal
-	 * @param status the status
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next help proposal
-	 * @throws NoSuchHelpProposalException if a help proposal with the primary key could not be found
-	 */
-	public static HelpProposal[] findByStatusAndGroupId_PrevAndNext(
-			long helpProposalId, int status, long groupId,
-			OrderByComparator<HelpProposal> orderByComparator)
-		throws eu.strasbourg.service.help.exception.
-			NoSuchHelpProposalException {
-
-		return getPersistence().findByStatusAndGroupId_PrevAndNext(
-			helpProposalId, status, groupId, orderByComparator);
-	}
-
-	/**
-	 * Removes all the help proposals where status = &#63; and groupId = &#63; from the database.
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
-	 */
-	public static void removeByStatusAndGroupId(int status, long groupId) {
-		getPersistence().removeByStatusAndGroupId(status, groupId);
-	}
-
-	/**
-	 * Returns the number of help proposals where status = &#63; and groupId = &#63;.
-	 *
-	 * @param status the status
-	 * @param groupId the group ID
+	 * @param publikId the publik ID
+	 * @param helpProposalId the help proposal ID
 	 * @return the number of matching help proposals
 	 */
-	public static int countByStatusAndGroupId(int status, long groupId) {
-		return getPersistence().countByStatusAndGroupId(status, groupId);
+	public static int countByPublikIdAndHelpProposalId(
+		String publikId, long helpProposalId) {
+
+		return getPersistence().countByPublikIdAndHelpProposalId(
+			publikId, helpProposalId);
 	}
 
 	/**

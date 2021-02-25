@@ -102,14 +102,6 @@ public class HelpRequestLocalServiceImpl
 		return this.helpRequestPersistence.findByHelpProposalId(helpRequestId);
 	}
 
-	/**
-	 * Retourne la demande d'aide pour un utilisateur et une proposition donnee
-	 */
-	@Override
-	public HelpRequest getByPublikIdAndHelpProposalId(String publikId, long helpProposalId) {
-		return this.helpRequestPersistence.fetchByPublikIdAndHelpProposalId(publikId, helpProposalId);
-	}
-
 
 
 	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

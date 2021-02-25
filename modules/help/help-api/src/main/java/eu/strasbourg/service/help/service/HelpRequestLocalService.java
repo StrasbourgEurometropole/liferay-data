@@ -213,13 +213,6 @@ public interface HelpRequestLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<HelpRequest> getByPublikId(String publikId);
 
-	/**
-	 * Retourne la demande d'aide pour un utilisateur et une proposition donnee
-	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public HelpRequest getByPublikIdAndHelpProposalId(
-		String publikId, long helpProposalId);
-
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		PortletDataContext portletDataContext);
