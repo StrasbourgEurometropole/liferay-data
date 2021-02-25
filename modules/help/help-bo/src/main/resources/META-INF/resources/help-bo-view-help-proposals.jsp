@@ -9,13 +9,6 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 
-<%-- URL : definit le lien vers la page d'ajout/edition d'une entite --%>
-<liferay-portlet:renderURL varImpl="addHelpProposalURL">
-	<portlet:param name="cmd" value="edithelpProposal" />
-	<portlet:param name="mvcPath" value="/help-bo-edit-help-proposal.jsp" />
-	<portlet:param name="returnURL" value="${helpProposalsURL}" />
-</liferay-portlet:renderURL>
-
 <%-- Composant : barre de filtres et de gestion des entites --%>
 <liferay-frontend:management-bar includeCheckBox="true" searchContainerId="helpsSearchContainer">
 
@@ -146,12 +139,6 @@
 	</aui:form>
 </div>
 
-<%-- Composant : bouton d'ajout d'entite --%>
-<liferay-frontend:add-menu>
-	<c:if test="${dc.hasPermission('ADD_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-		<liferay-frontend:add-menu-item title="Ajouter une proposition d'aide" url="${addHelpProposalURL}" />
-	</c:if>
-</liferay-frontend:add-menu>
 
 <%-- URL : defini le lien vers l'action de suppression --%>
 <liferay-portlet:actionURL name="selectionAction" var="deleteSelectionURL">
