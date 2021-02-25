@@ -214,7 +214,7 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 
 		// Téléphone
 		if (Validator.isNull(ParamUtil.getString(request, "phoneNumber"))) {
-SessionErrors.add(request, "phone-number-error");
+			SessionErrors.add(request, "phone-number-error");
 			isValid = false;
 		}
 

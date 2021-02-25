@@ -82,7 +82,7 @@
                                 <c:set var="phoneNumber" value="${userConnected.get('mobile')}" />
                             </c:if>
                         </c:if>
-                        <aui:input name="phoneNumber" label="modal.user.phone" required="true" maxlength="20" value="${phoneNumber}"/>
+                        <aui:input name="phoneNumber" label="modal.user.phone" required="true" value="${phoneNumber}"/>
                     </div>
 
                 </div>
