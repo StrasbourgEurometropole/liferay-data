@@ -22,17 +22,18 @@
     <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
 </@liferay_portlet.actionURL>
 
+<#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
 
-<div class="wi-search-result wi-search-generic wi-search-association">
-    <div class="seu-result-left">
+<li class="grid-item">
+    <div class="wi-search-result" style="padding-top: 0; margin-right: 20px;">
         <div class="seu-result-icon"></div>
     </div>
-    <div class="seu-result-right">
-        <div>
-            <a class="seu-result-content" href="${detailURLFilter}">
-                <h2 class="seu-result-title">${entry.getName(locale)}</h2>
-                <div class="seu-result-catcher">
-                    ${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")[0..*100]}...
+    <div class="item-right">
+        <div class="item-content">
+            <a class="item-link" href="${detailURLFilter}" title="${entry.getName(locale)}">
+                <h3 class="item-title" data-dot="1">${entry.getName(locale)}</h3>
+                <div class="item-description" data-dot="3">
+                    ${entry.getPresentation(locale)}
                 </div>
             </a>
             <div class="contact">
@@ -58,17 +59,13 @@
                 </#if>
             </div>
         </div>
-        <div class="seu-result-infos">
-            <div class="seu-result-infos-top">
-            </div>
-            <div class="seu-result-infos-bottom"> 
-            </div>
-        </div>
     </div>
-
-</div>
+</li>
 
 <style>
+    #seu-grid--list01 .grid-item .item-infos .item-geoloc:after{
+        content:none;
+    }
 .contact{
     display: flex;
     flex-direction: rox;

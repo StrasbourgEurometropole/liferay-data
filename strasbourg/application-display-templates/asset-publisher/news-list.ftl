@@ -20,6 +20,11 @@
                             <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
                             <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
                             <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
+                            <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+                            <#assign imageURL ="" />
+                            <#if thumbnail?has_content>
+                                <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail) />
+                            </#if>
                             <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                             <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
                             <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
@@ -28,9 +33,9 @@
                             <#else>
                                 <div class="seu-wi-item seu-actu seu-has-picture">
                             </#if>
-                                <a href="${viewURL}" class="seu-link" title="${title}">
+                                <a href="${viewURL}" class="seu-link" title="${title}" style="background-color:white">
                                     <#if curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag")>
-                                        <div class="seu-picture" style="background-image: url(${thumbnail})">
+                                        <div class="seu-picture" style="background-image: url(${imageURL})">
                                         </div>
                                         <div class="seu-mag-logo">
                                             <div class="seu-mag-text">Mag'</div>
@@ -43,7 +48,7 @@
                                     </div>
                                     <#if !(curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag"))>
                                         <div>
-                                            <div class="seu-picture" style="background-image: url(${thumbnail})"></div>
+                                            <div class="seu-picture" style="background-image: url(${imageURL})"></div>
                                         </div>
                                     </#if>
                                 </a>

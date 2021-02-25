@@ -11,8 +11,8 @@
                     <span class="icon-ico-lecteur"></span>
                 </a>
             </div>
-            <div class="mns-embed-container" data-urlvideo="${videoUrl.data}"></div>
-            <p class="mns-legend-video">${legend.data}</p>
+            <div class="mns-embed-container" data-urlvideo="${videoUrl.getData()}"></div>
+            <p class="mns-legend-video">${legend.getData()}</p>
         </div>
     </div>
 </div>

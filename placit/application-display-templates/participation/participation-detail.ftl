@@ -47,20 +47,20 @@
 <#assign participationJSON = entry.toJSON(themeDisplay) />
 <#assign eventsJSON = [] />
 
-<#-- Récupération des liens médias de l'entité -->
-<#assign imageURL = entry.getImageURL() />
-<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
-<#assign imageFullURL = themeDisplay.getPortalURL() + imageURL />
+<#assign imageUrlOG = ""/>
+<!-- vignette -->
+<#if entry.imageURL?has_content>
+    <#assign imageUrlOG=themeDisplay.getPortalURL() + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
+</#if>
 
-<@liferay_util["html-top"]>
-    <meta property="og:url" content="${currentUrl}" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content="${entry.title}" />
-    <meta property="og:description" content="${entry.descriptionChapeau?replace("<[^>]*>", "", "r")?html}" /> 
-    <meta property="og:image" content="${imageFullURL}"/>
-    <meta property="og:image:width" content="450"/>
-    <meta property="og:image:height" content="298"/>
-</@> 
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${entry.title?html}",
+"og:description":'${entry.descriptionChapeau?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrlOG}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <div class="pro-page-detail pro-page-detail-participation">
 
@@ -145,8 +145,8 @@
 
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation" class="active">
-                                	<a href="#description" aria-controls="description" role="tab" data-toggle="tab" title="Onglet de description">Description</a>
+                                <li role="presentation">
+                                	<a href="#description" class="active" aria-controls="description" role="tab" data-toggle="tab" title="Onglet de description">Description</a>
                                 </li>
                                 <li role="presentation">
                                 	<a href="#lieux" aria-controls="lieux" role="tab" data-toggle="tab" title="Onglet de Lieux de consultation">Lieux de consultation</a>
@@ -196,31 +196,25 @@
                             </div>
                         </div>
 
-                        <div class="pro-bloc-texte pro-bloc-telechargements">
-                            <h3>Documents à télécharger</h3>
-                            <div class="row">
+                        <#if entry.filesURLs?has_content>
+                            <div class="pro-bloc-texte pro-bloc-telechargements">
+                                <h3>Documents à télécharger</h3>
+                                <div class="row">
+                                        <#list entry.filesURLs as fileURL>
+                                            <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
+                                            <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
+                                            <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
+                                            <div class="col-sm-6">
+                                                <a href="${fileURL}" download title="${title}">
+                                                    <span class="pro-filename">${title}</span>
+                                                    <span class="pro-poids">Poids ${size}</span>
+                                                </a>
+                                            </div>
+                                        </#list>
 
-                            	<#if entry.filesURLs?has_content>
-						            <#list entry.filesURLs as fileURL>
-
-						                <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
-						                <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-						                <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
-
-						                <div class="col-sm-6">
-		                                    <a href="${fileURL}" download title="${title}">
-		                                        <span class="pro-filename">${title}</span>
-		                                        <span class="pro-poids">Poids ${size}</span>
-		                                    </a>
-	                                	</div>
-
-						            </#list>
-						        <#else>
-						        	Aucun document associé pour le moment
-						        </#if>
-
+                                </div>
                             </div>
-                        </div>
+                        </#if>
 
                     </div>
 

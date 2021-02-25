@@ -1,21 +1,26 @@
 {
     "availableLanguageIds": [
-        "fr_FR"
+        "fr_FR",
+        "en_US"
     ],
     "defaultLanguageId": "fr_FR",
     "fields": [
         {
             "label": {
-                "fr_FR": "Chiffre"
+                "fr_FR": "Chiffre",
+                "en_US": "Number"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "dataType": "string",
             "indexType": "",
@@ -29,16 +34,20 @@
             "nestedFields": [
                 {
                     "label": {
-                        "fr_FR": "Texte"
+                        "fr_FR": "Texte",
+                        "en_US": "Text"
                     },
                     "predefinedValue": {
-                        "fr_FR": ""
+                        "fr_FR": "",
+                        "en_US": ""
                     },
                     "style": {
-                        "fr_FR": ""
+                        "fr_FR": "",
+                        "en_US": ""
                     },
                     "tip": {
-                        "fr_FR": ""
+                        "fr_FR": "",
+                        "en_US": ""
                     },
                     "dataType": "string",
                     "indexType": "",
@@ -54,16 +63,20 @@
         },
         {
             "label": {
-                "fr_FR": "Image de fond"
+                "fr_FR": "Image de fond",
+                "en_US": "Background image"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "dataType": "image",
             "fieldNamespace": "ddm",

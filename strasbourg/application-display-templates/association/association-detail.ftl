@@ -7,8 +7,14 @@
     <#assign homeURL = "/" />
 </#if>
 <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
+<#assign utils = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
 
-
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:description":'${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html}'
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)} 
 
 <div class="seu-page-association">
     <main class="seu-container">
@@ -36,51 +42,51 @@
                 <!-- Pratiques -->
                 <div class="seu-wi--collapsing  seu-first-opened">
                     <button class="seu-toggle-collapse">
-                        <h2 class="more"><span><@liferay_ui.message key="eu.association.practices" /></span></h2>
+                        <h2 class="file"><span><@liferay_ui.message key="eu.association.practices" /></span></h2>
                     </button>
                     <div class="seu-collapsing-box">
-                        <div class="seu-wi seu-wi-practices">
-                            <#list entry.practices as practice>
-                                <div class="seu-content" style="margin-bottom: 20px">
-                                    <div class="title">${practice.practice.getTitle(locale)}</div>
-                                    <div class="rte" style="margin-top: -5px; margin-bottom: 10px;">
-                                        <#assign categories = assetVocabularyHelper.getCategoryWithAncestors(practice.practice) />
-                                        <#list categories[1..]?reverse as category>
-                                                ${category.getTitle(locale)}<#sep> > </#sep>
-                                        </#list>
+                        <#assign domaine = '' />
+                        <#list entry.practicesCategories as practiceCategories>
+                            <#if domaine != practiceCategories.getDomaine(locale)>
+                                <#if domaine?has_content>
                                     </div>
-                                    <ul class="category-list" style="margin-bottom: 10px;">
-                                        <li>
-                                            <span><@liferay_ui.message key="eu.association.public" /></span>
-                                            <span>
-                                                <#list practice.publics as public>
-                                                    ${public.getTitle(locale)}<#sep>,</#sep>
-                                                </#list>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span><@liferay_ui.message key="eu.association.district" /></span>
-                                            <span>
-                                                <#list practice.districts as district>
-                                                    ${district.getTitle(locale)}<#sep>,</#sep>
-                                                </#list>
-                                            </span>
-                                        </li>
-                                        <#assign accessibilities = practice.accessibilities />
-                                        <#if accessibilities?has_content>
-                                            <li>
-                                                <span><@liferay_ui.message key="eu.association.accessibility" /></span>
-                                                <span>
-                                                    <#list accessibilities as accessibility>
-                                                        ${accessibility.getTitle(locale)}<#sep>,</#sep>
-                                                    </#list>
-                                                </span>
-                                            </li>
+                                </#if>
+                                <#assign domaine = practiceCategories.getDomaine(locale) />
+                                <h3>${practiceCategories.getDomaine(locale)}</h3>
+                                <div class="seu-wi seu-wi-practices"><br>
+                            </#if>
+                            <div class="seu-content" style="margin-bottom: 20px">
+                                <div class="title">${practiceCategories.getPratique(locale)}</div>
+                                <div class="rte" style="margin-top: -5px; margin-bottom: 10px;">
+                                    ${domaine}
+                                    <#if practiceCategories.getSous_specialite(locale)?has_content>
+                                        > ${practiceCategories.getSpecialite(locale)}
+                                        <#if practiceCategories.getSous_sous_specialite(locale)?has_content>
+                                            > ${practiceCategories.getSous_specialite(locale)}
                                         </#if>
-                                    </ul>
+                                    </#if>
                                 </div>
-                            </#list>
-                        </div>
+                                <ul class="category-list" style="margin-bottom: 10px;">
+                                    <li>
+                                        <span><@liferay_ui.message key="eu.association.public" /></span>
+                                        <span>${practiceCategories.getPublics(locale)}</span>
+                                    </li>
+                                    <li>
+                                        <span><@liferay_ui.message key="eu.association.district" /></span>
+                                        <span>${practiceCategories.getDistricts(locale)}</span>
+                                    </li>
+                                    <#if practiceCategories.getAccessibilities(locale)?has_content>
+                                        <li>
+                                            <span><@liferay_ui.message key="eu.association.accessibility" /></span>
+                                            <span>${practiceCategories.getAccessibilities(locale)}</span>
+                                        </li>
+                                    </#if>
+                                </ul>
+                            </div>
+                        </#list>
+                        <#if domaine?has_content>
+                            </div>
+                        </#if>
                     </div>
                 </div>
             </div>

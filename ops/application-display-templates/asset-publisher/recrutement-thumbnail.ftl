@@ -24,14 +24,16 @@
             <#assign detailURL = layoutHelper.getJournalArticleLayoutURL(journalArticle.groupId, journalArticle.articleId, themeDisplay) />
 
             <#list rootElement.elements() as ele >
-                <#if "date" == ele.attributeValue("name") >
+                <#if "date" == ele.attributeValue("name") && ele.element("dynamic-content").getData()?has_content>
                     <#assign date = dateUtil.parseDate("yyyy-MM-dd", ele.element("dynamic-content").getData(), locale)/>                  
                 </#if>
             </#list>
             <div class="ops-col-50">
                 <a href="${detailURL}" class="ops-card ops-card-emploi">
                     <div>
-                        <span class="ops-date-concours"><@liferay_ui.message key="eu.ops.contest.date" /> : ${date?string("dd.MM.yyyy")}</span>
+                        <#if date?has_content>
+                            <span class="ops-date-concours"><@liferay_ui.message key="eu.ops.contest.date" /> : ${date?string("dd.MM.yyyy")}</span>
+                        </#if>
                         <h3>${title}</h3>
                         <span class="ops-link"><@liferay_ui.message key="eu.ops.learn.more" /></span>
                     </div>

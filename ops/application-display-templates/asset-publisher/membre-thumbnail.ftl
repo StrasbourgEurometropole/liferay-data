@@ -31,6 +31,11 @@
             <#assign name = docXml.valueOf("//dynamic-element[@name='Name']/dynamic-content/text()")/>
             <#assign post = docXml.valueOf("//dynamic-element[@name='post']/dynamic-content/text()")/>
             <#assign image = docXml.valueOf("//dynamic-element[@name='smallImage']/dynamic-content/text()")/>
+            <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+            <#assign imageURL ="" />
+            <#if image?has_content>
+                <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+            </#if>
             <#assign detailURL = layoutHelper.getJournalArticleLayoutURL(journalArticle.groupId, journalArticle.articleId, themeDisplay) />
 
             <li>
@@ -41,7 +46,7 @@
             </#if>
                     <#if image?has_content>
                         <figure class="fit-cover">
-                                <img src="${image}" width="80" height="80" alt="${name}"/>
+                                <img src="${imageURL}" width="80" height="80" alt="${name}"/>
                         </figure>
                     </#if>
                     <div class="ops-info-people">

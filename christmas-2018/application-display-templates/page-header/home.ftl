@@ -9,8 +9,6 @@
     <!--</div>-->
     <div class="container mns-center">
         ${page.getDescription(locale)}
-        <#if themeDisplay.getLocale() == "fr_FR">
-            <a href="/experientiel" class="mns-btn-chevron"><@liferay_ui.message key="prepare-your-program" /></a>
-        </#if>
+        <a href="/experientiel" class="mns-btn-chevron"><@liferay_ui.message key="prepare-your-program" /></a>
     </div>
 </header>

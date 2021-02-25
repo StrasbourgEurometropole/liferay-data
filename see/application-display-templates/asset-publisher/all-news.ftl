@@ -1,5 +1,7 @@
 <!-- Toutes les actualités -->
 <#setting locale = locale />
+<#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+
 <section id="medias" class="section align-center">
   <div class="container">
     <span class="icon section-icon icon-multimedia-08"></span>
@@ -17,13 +19,17 @@
             <#assign videoURL = docXml.valueOf("//dynamic-element[@name='videoURL']/dynamic-content/text()") />
             <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
             <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
+            <#assign imageURL ="" />
+            <#if image?has_content>
+                <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+            </#if>
             <div class="col-sm-4">
               <div class="speaker">
                 <div class="photo-wrapper"> 
                     <#if videoURL?has_content>
-                        <iframe width="100%" height="205" src="${videoURL}" frameborder="0" allowfullscreen></iframe>
+                        <iframe width="100%" height="205" src="${videoURL}" frameborder="0" allowfullscreen></iframe>    
                     <#else>
-                        <img src="${image}" width="250" class="img-responsive">
+                        <img src="${imageURL}" width="250" class="img-responsive">
                     </#if>
                 </div>
                 <h3 class="name">${title}</h3>

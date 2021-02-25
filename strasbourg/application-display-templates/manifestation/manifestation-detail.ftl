@@ -8,13 +8,20 @@
 <#assign imageUrl = ""/>
 <!-- vignette -->
 <#if entry.imageURL?has_content>
-    <#assign imageUrl = entry.imageURL />
+    <#if !entry.imageURL?contains('http')>
+        <#assign imageUrl = themeDisplay.getPortalURL() />
+    </#if>
+    <#assign imageUrl = imageUrl + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
-<script>
-    title = '${entry.getManifestationScheduleDisplay(locale)?js_string} - ${entry.getTitle(locale)?html?js_string}';
-    description = '${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
-    imageUrl = '${imageUrl}';
-</script>
+
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${entry.getManifestationScheduleDisplay(locale)} - ${entry.getTitle(locale)?html}",
+"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrl}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <!-- Détail manifestation -->
 <div class="seu-container">
@@ -49,7 +56,8 @@
     </div>
 </div>
 
-<#if entry.publishedEvents?has_content>
+<#assign events = entry.publishedEvents />
+<#if events?has_content>
     <div class="seu-wi seu-wi-agenda" style="background: white;">
         <div class="seu-container">
             <h2 class="seu-section-title">
@@ -57,20 +65,24 @@
             </h2>
             <div class="seu-wi-content">
                 <div class="seu-wi-grid">
-                    <#list entry.publishedEvents as event>
+                    <#list events as event>
                         <div class="seu-wi-item seu-has-ville">
                             <a href="${homeURL}evenement/-/entity/id/${event.eventId}" class="seu-link" title="${event.getTitle(locale)}">
                                 <div class="seu-date">
                                     <div class="seu-date-sup">
-                                        <#if event.firstStartDate?date == event.lastEndDate?date>
-                                            <span class="seu-date-prefix"><@liferay_ui.message key="eu.event.the" /></span>
-                                        <#else>
-                                            <span class="seu-date-prefix"><@liferay_ui.message key="eu.event.from-the" /></span>
+                                        <#if event.firstStartDate?has_content && event.lastEndDate?has_content>
+                                            <#if event.firstStartDate?date == event.lastEndDate?date>
+                                                <span class="seu-date-prefix"><@liferay_ui.message key="eu.event.the" /></span>
+                                            <#else>
+                                                <span class="seu-date-prefix"><@liferay_ui.message key="eu.event.from-the" /></span>
+                                            </#if>
                                         </#if>
                                         <span class="seu-date-start"></span>
                                         <span class="seu-date-suffix"></span>
                                     </div>
-                                    <div class="seu-date-end">${event.firstStartDate?date?string['dd.MM']}</div>
+                                    <#if event.firstStartDate?has_content && event.lastEndDate?has_content>
+                                        <div class="seu-date-end">${event.firstStartDate?date?string['dd.MM']}</div>
+                                    </#if>
                                 </div>
                                 <div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${event.getTitle(locale)}</div>
                                 <div class="seu-ville">

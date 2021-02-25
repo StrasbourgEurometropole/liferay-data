@@ -37,19 +37,19 @@
                             <div class="wrapper-card-initiative">
 								<#if entry.getImageURL()?has_content>
 									<figure role="group" class="fit-cover">
-										<img src="${entry.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+										<img src="${entry.getImageURL()}?imagePreview=1" loading="lazy" width="155" height="200" alt="Image initiative"/>
 									</figure>
 								</#if>
                                 <div>
                                     <div class="pro-header-initiative">
                                         <figure role="group">
-											<img src="${entry.getAuthorImageURL()}" width="40" height="40" alt="Image de profil">
+											<img src="${entry.getAuthorImageURL()}?imagePreview=1" loading="lazy" width="40" height="40" alt="Image de profil">
 										</figure>
                                         <p>Initiative publiée par :</p>
-                                        <p><strong>${entry.getAuthorLabel()}</strong></p>
+                                        <p><strong>${entry.getAuthorLabel()?html}</strong></p>
                                     </div>
                                     <div class="pro-content-initiative">
-                                        <a href="${homeURL}detail-initiative/-/entity/id/${entry.initiativeId}" title="lien de la page"><h3>${entry.title}</h3></a>
+                                        <a href="${homeURL}detail-initiative/-/entity/id/${entry.initiativeId}" title="lien de la page"><h3>${entry.title?html}</h3></a>
                                         <span class="pro-time">Publiée le <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time></span>
                                     </div>
                                 </div>

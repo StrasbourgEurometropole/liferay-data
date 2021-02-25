@@ -13,7 +13,9 @@
         <iframe width="100%" height="205" src="${videoURL.getData()}" frameborder="0" allowfullscreen></iframe>
       </div>
     </#if>
+    <div class="align-left">
+      ${text.getData()}
+    </div>
   </div>
-</section>
 
-${text.getData()}
+</section>

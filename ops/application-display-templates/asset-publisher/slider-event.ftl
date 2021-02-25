@@ -30,14 +30,14 @@
                             <div class="ops-img">
                                 <figure class="fit-cover">
                                     <#if entry.imageURL?has_content>
-                                        <img src="${entry.imageURL}" width="330" height="170" alt="${entry.getTitle(locale)}" />
+                                        <img src="${entry.imageURL}?imagePreview=1" width="330" height="170" alt="${entry.getTitle(locale)}" />
                                     </#if>
                                 </figure>
                                 <span class="ops-typologie">${entry.getLabelTypologies(locale)}</span>
                             </div>
                             <div class="ops-content">
                                 <span class="ops-songs"><strong>${entry.getComposer()}</strong></span>
-                                <span class="ops-names">${entry.getDistribution()}</span>
+                                <span class="ops-names">${entry.getDistribution(locale)}</span>
                             </div>
                         </div>
                     </a>

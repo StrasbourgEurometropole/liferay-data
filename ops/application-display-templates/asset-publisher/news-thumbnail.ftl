@@ -13,6 +13,11 @@
 <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
 <#if !title?has_content><#assign title = entry.getTitle(locale) /></#if>
 <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
+<#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+<#assign imageURL ="" />
+<#if image?has_content>
+    <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+</#if>
 
 <#-- Récupération de la Typologie -->
 <#assign assetEntryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
@@ -27,7 +32,7 @@
 <a href="${detailURL}" class="searchable-item">
 
     <figure class="fit-cover">
-        <img src="${image}" width="1200" height="590" alt="Article image" />
+        <img src="${imageURL}" width="1200" height="590" alt="Article image" />
     </figure>
 
     <div>

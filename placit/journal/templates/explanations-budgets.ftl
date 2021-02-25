@@ -12,12 +12,33 @@
 <#assign hasUserPactSign = httpServletRequest.getSession().getAttribute("has_pact_signed")!false />
 <#assign isUserBanned = httpServletRequest.getSession().getAttribute("is_banish")!false />
 
+
+
+<#assign BudgetPhaseLocalService = serviceLocator.findService("eu.strasbourg.service.project.service.BudgetPhaseLocalService")/>
+<#assign activePhase = BudgetPhaseLocalService.getActivePhase(themeDisplay.scopeGroupId) />  
+
+<#assign AssetEntryService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService")/>
+<#assign AssetEntryAssetCategoryRelLocalService = serviceLocator.findService("com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService")/>
+<#assign LayoutLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.LayoutLocalService")/>
+<#assign assetEntryAssetCategoryRels = AssetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(activePhase.getPhaseCategory().getCategoryId())  />
+
+<#-- Récupération de la page de listing de BP qui correspond à la phase active. Chaque page de listing est configurée avec la catégorie qui correspond à la phase -->
+<#list assetEntryAssetCategoryRels as assetEntryAssetCategoryRel>
+    <#assign asset = AssetEntryService.getAssetEntry(assetEntryAssetCategoryRel.getAssetEntryId()) />
+    <#if asset.getClassName() == "com.liferay.portal.kernel.model.Layout">
+        <#assign abc = LayoutLocalService.getLayout(asset.getClassPK())/>
+        <#assign pageListing = abc.getFriendlyURL()/>
+        <#break>
+    </#if>
+</#list>
+
 <!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
+<#assign homeURL2 = "/web${layout.group.friendlyURL}" />
 
 <!-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
@@ -25,22 +46,22 @@
 <div class="pro-page-budget-participatif">
 
     <section class="container">
-        <div class="row">
+        <div>
 
             <div class="col-xs-12 pro-wrapper-title">
                 <h1>${rightTitle.getData()}</h1>
             </div>
 
-            <div class="pro-wrapper-content">
+            <div class="row pro-wrapper-content">
 
-                <div class="col-sm-6">
+                <div class="col-md-6">
                     <div class="pro-preambule">
                         <h2 class="pro-title">${leftTitle.getData()}</h2>
                         ${leftTitle.getChild("leftText").getData()}
                     </div>
                 </div>
 
-                <div class="col-sm-6 pro-annexes">
+                <div class="col-md-6 pro-annexes">
                     <div>
                         <h3>Annexes à télécharger</h3>
                         <ul>
@@ -72,7 +93,9 @@
 							<#elseif isUserBanned>
 								<a class="pro-btn-yellow deposit-button" name="#IsBanned">Soumettre un projet</a>
 							</#if>
-							<a href="/projets-budget-participatif" class="pro-btn-transparent">Voir la liste des projets</a>										
+                            <#if pageListing??>
+                                <a href="${homeURL2}${pageListing}" class="pro-btn-transparent">Voir la liste des projets</a>
+                            </#if>
 						</div>
 
                     </div>
@@ -148,7 +171,9 @@
                             <#elseif isUserBanned>
                                 <a class="pro-btn-yellow deposit-button" name="#IsBanned">Soumettre un projet</a>
                             </#if>
-                            <a href="/projets-budget-participatif" class="pro-btn-transparent">Voir la liste des projets</a>
+                            <#if pageListing??>
+                                    <a href="${homeURL2}${pageListing}" class="pro-btn-transparent">Voir la liste des projets</a>
+                            </#if>
 						</div>
 					</div>
 				</div>

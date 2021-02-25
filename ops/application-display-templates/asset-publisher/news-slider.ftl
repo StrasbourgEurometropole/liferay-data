@@ -11,6 +11,7 @@
     <#else>
         <#assign homeURL = "/" />
     </#if>
+    <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
 
     <header class="ops-fullpage-header" data-vheight="100">	
         <div class="slick-carousel slick-basic-slider">
@@ -22,6 +23,11 @@
                 <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
                 <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
                 <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
+                <#assign imageURL ="" />
+                <#if thumbnail?has_content>
+                    <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail) />
+                </#if>
+
                 <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
 
                 <#-- Récupération de l'id du webcontent -->
@@ -30,7 +36,7 @@
 
                 <div class="ops-item">
                     <figure class="fit-cover">
-                        <img src="${thumbnail}" width="1600" height="900" alt="Image article"/>
+                        <img src="${imageURL}" width="1600" height="900" alt="Image article"/>
                     </figure>
                     <div class="ops-content-wrapper ops-content-wrapper-large ops-caption">
                         <span class="ops-typologie">

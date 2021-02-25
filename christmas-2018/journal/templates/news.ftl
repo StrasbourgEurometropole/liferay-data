@@ -4,22 +4,28 @@
 <#assign displaydate = displaydate?date("EEE, d MMM yyyy HH:mm:ss Z")>
 <#setting date_format = "d MMMM yyyy">
 <#setting locale = locale />
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
+<#assign request = serviceContext.getRequest()/>
 
 <#assign imageUrl = ""/>
 <!-- image -->
-<#if !image.data?has_content>
-    <#assign imageUrl = image.data />
+<#if image.getData()?has_content>
+    <#assign imageUrl = themeDisplay.getPortalURL() + image.getData()?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
-<script>
-    title = '${title.data?html?js_string}';
-    description = '${text.data?replace("<[^>]*>", "", "r")?html?js_string}';
-    imageUrl = '${imageUrl}';
-</script>
+
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${title.data?html}",
+"og:description":'${text.data?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrl}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <!-- Détail actualité -->
 <div class="small-container mns-actu-detail mns-fck">
     <div class="mns-top-detail-img">
-        <img src="${image.data}" alt="${title.data}" width="930" height="620" />
+        <img src="${image.getData()}" alt="${title.data}" width="930" height="620" />
     </div>
     <div class="mns-detail-actu-content col-sm-9 col-sm-offset-3 col-xs-12">
         <h1>${title.data}</h1>

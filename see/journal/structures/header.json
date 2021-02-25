@@ -1,21 +1,26 @@
 {
     "availableLanguageIds": [
-        "fr_FR"
+        "fr_FR",
+        "en_US"
     ],
     "defaultLanguageId": "fr_FR",
     "fields": [
         {
             "label": {
-                "fr_FR": "Lien Twitter"
+                "fr_FR": "Lien Twitter",
+                "en_US": "Twitter link"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "dataType": "string",
             "indexType": "keyword",
@@ -29,16 +34,20 @@
         },
         {
             "label": {
-                "fr_FR": "Lien Facebook"
+                "fr_FR": "Lien Facebook",
+                "en_US": "Facebook link"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "dataType": "string",
             "indexType": "",
@@ -52,16 +61,128 @@
         },
         {
             "label": {
-                "fr_FR": "Date"
+                "fr_FR": "Lien Youtube",
+                "en_US": "Youtube Link"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "youtubeLink",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Lien Instagram",
+                "en_US": "Instagram Link"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "instagramLink",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Lien SoundCloud",
+                "en_US": "SoundCloud Link"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "soundCloudLink",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Lien LinkedIn",
+                "en_US": "LinkedIn Link"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "linkedInLink",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Date",
+                "en_US": "Date"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
             },
             "dataType": "string",
             "indexType": "",
@@ -75,16 +196,20 @@
         },
         {
             "label": {
-                "fr_FR": "Lieu"
+                "fr_FR": "Lieu",
+                "en_US": "Place"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "dataType": "string",
             "indexType": "",
@@ -98,16 +223,20 @@
         },
         {
             "label": {
-                "fr_FR": "Titre"
+                "fr_FR": "Titre",
+                "en_US": "Title"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "dataType": "string",
             "indexType": "keyword",
@@ -121,16 +250,20 @@
         },
         {
             "label": {
-                "fr_FR": "Sous-titre"
+                "fr_FR": "Sous-titre",
+                "en_US": "Subtitle"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "dataType": "string",
             "indexType": "keyword",
@@ -144,16 +277,20 @@
         },
         {
             "label": {
-                "fr_FR": "Image de fond"
+                "fr_FR": "Image de fond",
+                "en_US": "Background image"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "dataType": "image",
             "fieldNamespace": "ddm",

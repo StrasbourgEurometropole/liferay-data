@@ -19,7 +19,7 @@
         <div class="container">
             
             <div>
-                <h2>Participer (${entries?size})</h2>
+                <h2>Participer Strasbourg (${entries?size})</h2>
                 <a href="${themeDisplay.getPortalURL()}${homeURL}participations" class="pro-btn" title="Lien vers la page Toutes les participations">Tout voir</a>
             </div>
 
@@ -56,7 +56,7 @@
                             <div>
                                 <div class="pro-header-participation">
                                     <figure role="group">
-                                        <img src="${user.getPortraitURL(themeDisplay)}" width="40" height="40" alt="Image participation"/>
+                                        <img src="${user.getPortraitURL(themeDisplay)}?imagePreview=1" loading="lazy" width="40" height="40" alt="Image participation"/>
                                     </figure>
                                     <p>Concertation publiée par :</p>
                                     <p><strong>${user.getFullName()}</strong></p>

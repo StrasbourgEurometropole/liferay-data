@@ -8,27 +8,34 @@
 <#-- Récupération de DateHelper pour le format date -->
 <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
 
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
+<#assign request = serviceContext.getRequest()/>
+
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if thumbnail.getData()?has_content>
-    <#assign imageUrl = thumbnail.getData() />
+    <#assign imageUrl = themeDisplay.getPortalURL() + thumbnail.getData()?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
-<script>
-    title = '${title.getData()?html?js_string}';
-    description = '${chapo.getData()?replace("<[^>]*>", "", "r")?html?js_string}';
-    imageUrl = '${imageUrl}';
-</script>
+
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${title.getData()?html}",
+"og:description":'${chapo.getData()?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrl}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)} 
 
 <main class="seu-container" style="margin-bottom: 50px">
     <div class="detail-line">
         <div class="filler"></div>
         <p class="seu-published">
             <@liferay_ui.message key="eu.published-on" /> 
-            ${dateHelperService.displayShortDate(dateHelperService.convertStringToDate(.vars['reserved-article-display-date'].getData(), "EEE, dd MMM yyyy hh:mm:ss Z"), locale)} 
+            ${dateHelperService.displayShortDate(.vars['reserved-article-display-date'].getData()?datetime("EEE, dd MMM yyyy hh:mm:ss Z"), locale)} 
             - <@liferay_ui.message key="eu.modified-on" /> 
-            ${dateHelperService.displayShortDate(dateHelperService.convertStringToDate(.vars['reserved-article-modified-date'].getData(), "EEE, dd MMM yyyy hh:mm:ss Z"), locale)} 
+            ${dateHelperService.displayShortDate(.vars['reserved-article-modified-date'].getData()?datetime("EEE, dd MMM yyyy hh:mm:ss Z"), locale)} 
         </p>
         <a href="#" class="add-favorites"
             data-type="6" 
@@ -50,10 +57,10 @@
         <#if newsTypes?has_content>
             <p class="seu-event-categories">
                 <#list newsTypes as type>
-                        <a href="${homeURL}actualite?_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_categoriesIds=${type.getCategoryId()}&p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet">
+                        <a href="${homeURL}${(locale == 'fr_FR')?then('actualite','news')}?_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_categoriesIds=${type.getCategoryId()}&p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet">
                             ${type.getTitle(locale)}
                         </a>
-                        <#sep>, </#sep>
+                        <#sep>,&nbsp;</#sep>
                 </#list>
             </p>
         </#if>

@@ -8,12 +8,17 @@
         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
         <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
         <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
+        <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+        <#assign imageURL ="" />
+        <#if image?has_content>
+            <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+        </#if>
         <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
         <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
         <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
         <li class="portrait__item gridy__item">
             <div class="portrait__card ${(curEntry?index < 4)?then('highlighted', '')}">
-                <div class="portrait__card-picture" style="background-image: url(${image});"></div>
+                <div class="portrait__card-picture" style="background-image: url(${imageURL});"></div>
                 <div class="portrait__card-text">
                     <h3 class="portrait__card-title" data-dot="3" style="overflow-wrap: break-word;">${title}</h3>
                     <div class="portrait__card-lead" data-dot="3" style="overflow-wrap: break-word;">${chapo}</div>

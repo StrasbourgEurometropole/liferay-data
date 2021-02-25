@@ -3,6 +3,8 @@
 
 <#-- Récupération de DateHelper pour le format date -->
 <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
+<#-- Template permet la récupération de l'image à partir de la valeur du docxml -->
+<#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
 
 <div class="seu-container" style="margin-bottom: 45px">
     <div class="seu-wi smag-wi-breve seu-type--actu">
@@ -14,6 +16,10 @@
                         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
                         <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
                         <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
+                        <#assign imageURL ="" />
+                        <#if image?has_content>
+                            <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+                        </#if>
                         <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                         <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
                        
@@ -22,7 +28,7 @@
                             <div class="wi-search-result wi-edition-thumbnail">
                                 <div class="seu-result-left seu-result-thumbnail">
                                     <a href="${viewURL}" title="${title}">
-                                        <div style="background-image: url(${image});" class="thumbnail-background" ></div>
+                                        <div style="background-image: url(${imageURL});" class="thumbnail-background" ></div>
                                     </a>
                                 </div>
                                 <div class="seu-result-right">

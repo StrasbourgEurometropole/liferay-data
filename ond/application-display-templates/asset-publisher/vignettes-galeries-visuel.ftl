@@ -12,7 +12,12 @@
                             <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
                             <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
                             <#assign mainImage = docXml.valueOf("//dynamic-element[@name='mainImage']/dynamic-content/text()") />
-                            <#assign content = docXml.valueOf("//dynamic-element[@name='content']/dynamic-content/text()") />
+                            <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+							<#assign imageURL ="" />
+							<#if mainImage?has_content>
+								<#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(mainImage) />
+							</#if>
+							<#assign content = docXml.valueOf("//dynamic-element[@name='content']/dynamic-content/text()") />
                             <#assign images = docXml.valueOf("//dynamic-element[@name='images']/dynamic-content/text()") />
                             <#assign publishDate = curEntry.getPublishDate() />
                             <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
@@ -20,7 +25,7 @@
         					<div class="event portlet-visuel-item">
         						<div class="entry-image">
         							<a href="${viewURL}" title="${title}">
-        								<img src="${mainImage}" alt="${title}">
+        								<img src="${imageURL}" alt="${title}">
         							</a>
         						</div>
         						<div class="entry-header">

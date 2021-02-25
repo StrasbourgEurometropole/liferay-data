@@ -1,5 +1,6 @@
 <#setting locale = locale />
 <#setting date_format = "d MMMM yyyy">
+<#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
 <div class="container">
     <div class="row">
         <div class="small-container">
@@ -8,6 +9,10 @@
                     <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
                     <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
                     <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
+                    <#assign imageURL ="" />
+                    <#if image?has_content>
+                        <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+                    </#if>
                     <#assign text = docXml.valueOf("//dynamic-element[@name='text']/dynamic-content/text()") />
                     <#assign publishDate = curEntry.getPublishDate() />
                     <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
@@ -16,7 +21,7 @@
                         <article class="mns-bloc-actu">
                             <a href="${viewURL}">
                                 <figure>
-                                    <img src="${image}" alt="${title}" width="450" height="300" />
+                                    <img src="${imageURL}" alt="${title}" width="450" height="300" />
                                 </figure>
                                 <div class="mns-bloc-content-actu">
                                     <span class="publication"><@liferay_ui.message key="eu.published-on" /> ${publishDate?date}</span>

@@ -41,20 +41,20 @@
 <#-- Recuperation de la version JSON de l'événement -->
 <#assign eventJSON = entry.toJSON(userID) />
 
+<#assign imageUrl = ""/>
+<!-- vignette -->
+<#if entry.imageURL?has_content>
+    <#assign imageUrl=themeDisplay.getPortalURL() + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
+</#if>
 
-<#-- Récupération des liens médias de l'entité -->
-<#assign imageURL = entry.imageURL />
-<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
-
-<@liferay_util["html-top"]>
-    <meta property="og:url" content="${currentUrl}" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content="${entry.getTitle(locale)}" />
-    <meta property="og:description" content="${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}" /> 
-    <meta property="og:image" content="${imageURL}"/>
-    <meta property="og:image:width" content="450"/>
-    <meta property="og:image:height" content="298"/>
-</@>
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${entry.getEventScheduleDisplay(locale)} - ${entry.getTitle(locale)?html}",
+"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrl}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <div class="pro-page-detail">
 

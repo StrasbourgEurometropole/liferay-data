@@ -10,7 +10,12 @@
     <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
     <#assign text = docXml.valueOf("//dynamic-element[@name='text']/dynamic-content/text()") />
     <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
-
+    <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+    <#assign imageURL ="" />
+    <#if thumbnail?has_content>
+        <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail) />
+    </#if>
+                    
     <#-- Récupération des catégories "Type d'actualité de l'entité -->
     <#assign assetEntryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
     <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
@@ -37,7 +42,7 @@
     <div class="wi-search-result wi-edition-thumbnail">
         <div class="seu-result-left seu-result-thumbnail">
             <a href="${detailURLFilter}" title="${title}">
-                <div style="background-image: url(${thumbnail});" class="thumbnail-background" >
+                <div style="background-image: url(${imageURL});" class="thumbnail-background" >
                     <#if asset.tagNames?seq_contains("euromag") || asset.tagNames?seq_contains("villemag") || asset.tagNames?seq_contains("webmag")>
                         <div class="mag">MAG'</div>
                         <div class="bg-mag"></div>

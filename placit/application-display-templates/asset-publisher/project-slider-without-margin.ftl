@@ -46,7 +46,7 @@
             <a href="${homeURL}projets" class="pro-btn" title="Lien vers la page de tous les projets">Tout voir</a>
 
             <!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS -->
-            <div id="pro-projet-all" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet">
+            <div id="pro-projet-all" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet" >
 
                 <!-- Parcours des entites de l'asset publisher -->
                 <#list entries as curEntry>
@@ -58,7 +58,7 @@
                         <a href="${homeURL + entry.detailURL}" title="détail du projet">
                             <div class="img">
                                 <figure role="group">
-                                    <img src='${entry.imageURL}' alt="Image projet" width="360" height="242" class="fit-cover"/>
+                                    <img src='${entry.imageURL}?imagePreview=1' loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>
                                 </figure>
                                 <span>Voir le projet</span>
                             </div>
@@ -86,7 +86,7 @@
 
             <#list quartiers as quartier>
 
-                <div id="pro-projet-${quartier}" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet">
+                <div id="pro-projet-${quartier}" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet" >
 
                     <!-- Parcours des entites de l'asset publisher -->
                     <#list entries as curEntry>
@@ -101,7 +101,7 @@
                                     <a href="${homeURL + entry.detailURL}" title="détail du projet">
                                         <div class="img">
                                             <figure role="group">
-                                                <img src='${entry.imageURL}' alt="Image projet" width="360" height="242" class="fit-cover"/>
+                                                <img src='${entry.imageURL}?imagePreview=1' loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>
                                             </figure>
                                             <span>Voir le projet</span>
                                         </div>

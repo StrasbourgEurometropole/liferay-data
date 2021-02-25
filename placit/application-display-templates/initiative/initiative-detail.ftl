@@ -38,18 +38,21 @@
 
 <#-- Récupération des liens médias de l'entité -->
 <#assign imageURL = entry.getImageURL() />
-<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
-<#assign imageFullURL = themeDisplay.getPortalURL() + imageURL />
 
-<@liferay_util["html-top"]>
-    <meta property="og:url" content="${currentUrl}" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content="${entry.title}" />
-    <meta property="og:description" content="${entry.description?replace("<[^>]*>", "", "r")?html}" /> 
-    <meta property="og:image" content="${imageFullURL}"/>
-	<meta property="og:image:width" content="450"/>
-    <meta property="og:image:height" content="298"/>
-</@> 
+<#assign imageUrlOG = ""/>
+<!-- vignette -->
+<#if entry.imageURL?has_content>
+    <#assign imageUrlOG=themeDisplay.getPortalURL() + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
+</#if>
+
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${entry.title?html}",
+"og:description":'${entry.description?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrlOG}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <div class="pro-page-detail pro-page-detail-initiative">
 	<div class="container">
@@ -139,7 +142,7 @@
 
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs" role="tablist">
-								<li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab" title="Onglet de description">Description</a></li>
+								<li role="presentation"><a href="#description" class="active" aria-controls="description" role="tab" data-toggle="tab" title="Onglet de description">Description</a></li>
 								<li role="presentation"><a href="#lieux" aria-controls="lieux" role="tab" data-toggle="tab" title="Onglet des aides">Ils aident</a></li>
 							</ul>
 

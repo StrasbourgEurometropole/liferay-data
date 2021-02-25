@@ -1,6 +1,12 @@
 <!-- Détail lieu -->
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+   <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+   <#assign homeURL = "/" />
+</#if>
 <#setting date_format="d MMMM yyyy">
+<#assign EventLocalService = serviceLocator.findService("eu.strasbourg.service.agenda.service.EventLocalService")/>
 
 <#if entry?has_content>
     <div class="place-detail">
@@ -27,7 +33,7 @@
                 </div>
             </#if>
 
-            <#if entry.mail?has_content || (entry.getFacebookLabel(locale)?has_content && entry.getFacebookURL(locale)?has_content)>
+            <#if entry.mail?has_content || (entry.getFacebookLabel(locale)?has_content && entry.getFacebookURL(locale)?has_content) || (entry.getInstagramLabel(locale)?has_content && entry.getInstagramURL(locale)?has_content)>
                 <div class="place-links">
                     <#if entry.mail?has_content>
                         <a href="#contact-form-section"><@liferay_ui.message key="contact" /></a> 
@@ -35,6 +41,11 @@
                     <#if entry.getFacebookLabel(locale)?has_content && entry.getFacebookURL(locale)?has_content >
                         <a href="${entry.getFacebookURL(locale)}" title="${entry.getFacebookLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
                             ${entry.getFacebookLabel(locale)}
+                        </a> 
+                    </#if>
+                    <#if entry.getInstagramLabel(locale)?has_content && entry.getInstagramURL(locale)?has_content >
+                        <a href="${entry.getInstagramURL(locale)}" title="${entry.getInstagramLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
+                            ${entry.getInstagramLabel(locale)}
                         </a> 
                     </#if>
                 </div>
@@ -151,8 +162,9 @@
                 </#if>
 
                 <!-- Widget Bloc Agenda -->
+                <#assign placeEvents = EventLocalService.getCurrentAndFuturePublishedEventsFromPlace(entry.getSIGid()) />
                 <#if entry.displayEvents>
-                    <#assign events = entry.getEvents() />
+                    <#assign events = placeEvents />
                     <#if events?has_content>
                         <div class="agenda-collections-carousel">
                             <h4 class="agenda-carousel-title">
@@ -257,18 +269,16 @@
                             <p>
                                 * :  <@liferay_ui.message key="eu.required-field" />
                             </p>
-                            <p class="privacy-policy">
-                                <label><@liferay_ui.message key="eu.privacy-policy" /></label>
-                                <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
-                                <@liferay_portlet["runtime"]
-                                defaultPreferences="${freeMarkerPortletPreferences}"
-                                portletProviderAction=portletProviderAction.VIEW
-                                portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-                                settingsScope="group"
-                                instanceId="entityDetail" />
-                                ${freeMarkerPortletPreferences.reset()}
-                            </p>
                         </form>
+                        <p class="privacy-policy">
+                            <label><@liferay_ui.message key="eu.privacy-policy" /></label>
+                            <@liferay_portlet["runtime"]
+                            defaultPreferences="${freeMarkerPortletPreferences}"
+                            portletProviderAction=portletProviderAction.VIEW
+                            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                            settingsScope="group"
+                            instanceId="entityDetail" />
+                        </p>
                     </div>
                 </#if>
             </div>
@@ -295,7 +305,7 @@
 	                        			<#assign categoriesIds = categoriesIds + "," + type.getCategoryId() />
 	                                </#if> 
 	                            </#list>
-	                            <a href="tous-les-horaires/-/schedules/category/${categoriesIds}"><@liferay_ui.message key="eu.all-times" /></a>
+	                            <a href="${homeURL}tous-les-horaires"><@liferay_ui.message key="eu.all-times" /></a>
 	                        </#if>
 	                    </h4>
 	                    <#assign hasURL = 0 />
@@ -393,10 +403,10 @@
                 <#if entry.getPrice()?has_content >
                     <div class="place-info-section">
                         <h4>
-                            <@liferay_ui.message key="eu.prices" />
+                            <@liferay_ui.message key="eu.priceDescription" />
                         </h4>
                         <p>
-                            ${entry.getPrice().getPrice(locale)}
+                            ${entry.getPrice().getPriceDescription(locale)}
                         </p>
                     </div>
                 </#if>

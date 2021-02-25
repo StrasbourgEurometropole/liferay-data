@@ -1,6 +1,6 @@
 <#setting locale = locale />
 <!-- Zone recherche séjour -->
-<div class="mns-sejour" style="background: url(${image.data}) no-repeat center center /cover; background-attachment: fixed;">
+<div class="mns-sejour" style="background: url(${image.getData()}) no-repeat center center /cover; background-attachment: fixed;">
     <div class="container">
         <div class="row">
             <div class="container caption">

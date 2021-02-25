@@ -8,7 +8,7 @@
 <div class="region-nav-tools">
     <div class="block-container-breadcrumb">
         <h2 class="hidden">Vous êtes ici</h2>
-        <!-- <a href="../" class="back">Précédent</a> -->
+        <a href="../" class="back">Précédent</a>
         <ul class="page-depth">
             <li>
                 <a href="${homeURL}"><@liferay_ui.message key="home" /></a>
@@ -20,7 +20,11 @@
                             <#if curEntry?is_last>
                                 <div class="page active">${curEntry.getTitle()}</div>
                             <#else>
-                                <a href="${curEntry.getURL()}">${curEntry.getTitle()}</a>
+                                <#if curEntry.getURL()?has_content>
+                                    <a href="${curEntry.getURL()}">${curEntry.getTitle()}</a>
+                                <#else>
+                                    <div class="page active">${curEntry.getTitle()}</div>
+                                </#if>
                             </#if>
                         </li>
                     </#if>

@@ -1,6 +1,6 @@
 <#setting locale = locale />
 <!-- Zone Testimonials -->
-<div class="mns-testimonial small-container row">
+<div class="mns-testimonial small-container">
     <img src="/o/christmas-2018-theme/images/cote-left.png" alt="image" class="img-cote-left" width="232" height="161" />
     <div>
         <div class="col-xs-12">

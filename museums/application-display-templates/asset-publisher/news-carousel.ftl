@@ -16,6 +16,12 @@
             <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
             <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
             <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
+            <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+            <#assign imageURL ="" />
+            <#if image?has_content>
+                <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+            </#if>
+                    
             <#assign content = docXml.valueOf("//dynamic-element[@name='content']/dynamic-content/text()") />
             <#assign publishDate = curEntry.getPublishDate() />
             <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
@@ -23,7 +29,7 @@
             <div class="item"> 
                 <div class="item-image">
                     <a href="${viewURL}">
-                        <img src="${image}" >
+                        <img src="${imageURL}" >
                     </a>
                 </div>
                 <div class="item-info">

@@ -9,7 +9,7 @@
     <br/>
     <div class="sponsors">
       <#list sponsors.getSiblings() as cur_sponsor>
-        <div class="sponsor big"><a href="${cur_sponsor.getChildren()[0].getData()}"><img src="${cur_sponsor.getData()}"></a></div>
+        <div class="sponsor big"><a href="${cur_sponsor.getChildren()[0].getData()}" target="_blank"><img src="${cur_sponsor.getData()}"></a></div>
       </#list>
     </div>
   </div>

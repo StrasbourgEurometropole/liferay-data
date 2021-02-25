@@ -5,6 +5,7 @@
 <#else>
     <#assign homeURL = "/" />
 </#if>
+<#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
 
 <ul class="unstyled hp-rencontres__list">
     <#list entries as curEntry>
@@ -12,12 +13,16 @@
         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
         <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
         <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
+        <#assign imageURL ="" />
+        <#if image?has_content>
+            <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+        </#if>
         <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
         <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
         <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
         <li class="hp-rencontres__card">
             <a href="${viewURL}">
-                <div class="hp-rencontres__card-picture" style="background-image: url(${image});"></div>
+                <div class="hp-rencontres__card-picture" style="background-image: url(${imageURL});"></div>
             </a>
             <div class="hp-rencontres__card-text">
                 <a href="${viewURL}">

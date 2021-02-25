@@ -1,12 +1,16 @@
 <!-- Oeuvres à la une -->
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+   <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+   <#assign homeURL = "/" />
+</#if>
 <#if entries?has_content>
   <#list entries as curEntry>
     <#assign artwork = curEntry.getAssetRenderer().getArtwork() />
-    <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-      <@liferay_portlet.param name="classPK" value="${artwork.getArtworkId()}" />
-      <@liferay_portlet.param name="returnURL" value="${currentURL}" />
-    </@liferay_portlet.renderURL>
+    <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+    <#assign entryURL = assetPublisherTemplateHelperService.createRenderUrlMusee("oeuvre",artwork.getSources()[0].getTitle(locale)) />
+    <#assign detailURL = homeURL + entryURL + "/-/entity/id/" + artwork.artworkId />
     <div class="featured-artwork ${artwork.sourceCSSClass}">
       <div class="featured-artwork-image">
         <a href="${detailURL}">

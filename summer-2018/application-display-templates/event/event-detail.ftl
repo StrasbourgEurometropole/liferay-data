@@ -3,14 +3,21 @@
 
 <!-- image -->
 <#assign imageUrl = ""/>
-<#if !imageUrl?has_content>
-    <#assign imageUrl = entry.imageURL />
+<#if entry.imageURL?has_content>
+    <#if !entry.imageURL?contains('http')>
+        <#assign imageUrl = themeDisplay.getPortalURL() />
+    </#if>
+    <#assign imageUrl = imageUrl + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
-<script>
-    title = '${entry.getEventScheduleDisplay(locale)?js_string} - ${entry.getTitle(locale)?html?js_string}';
-    description = '${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
-    imageUrl = '${imageUrl}';
-</script>
+
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${entry.getEventScheduleDisplay(locale)} - ${entry.getTitle(locale)?html}",
+"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrl}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 
 <div class="container mns-agenda-detail mns-fck">
@@ -74,52 +81,66 @@
             <#else>
                 <#assign column= 12/i />
             </#if>
-
-            <div class="mns-info-more col-sm-${column}">
-                <span class="mns-title-detail-actu"><@liferay_ui.message key="eu.dates-and-times" /></span>
-                <#list entry.eventPeriods as period>
-                    <p>
-                    ${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if>
-                    </p>
-                </#list>
-            </div>
-            <#if entry.free == 1 || entry.getPrice(locale)?has_content>
-                <div class="mns-info-more col-sm-${column}">                 
-                    <span class="mns-title-detail-actu">Tarifs</span>
-                    <#if entry.free == 1>
-                        <div class="free-event">
-                            <@liferay_ui.message key="eu.free-event" />
-                        </div>
-                    </#if>
-                    <p>${entry.getPrice(locale)}</p>
-                </div>
-            </#if>
-            <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
+            <div class="row">
                 <div class="mns-info-more col-sm-${column}">
-                    <span class="mns-title-detail-actu" style="padding-bottom: 10px;">Services aux Handicapés</span>
-                    <#if entry.accessForBlind>
-                        <span class="icon-ico-1"></span>
-                    </#if>
-                    <#if entry.accessForDeficient>
-                        <span class="icon-ico-2"></span>
-                    </#if>
-                    <#if entry.accessForDeaf>
-                        <span class="icon-ico-3"></span>
-                    </#if>
-                    <#if entry.accessForWheelchair>
-                        <span class="icon-ico-4"></span>
-                    </#if>
-                    <p>
-                        ${entry.getAccessForDisabled(locale)}
-                    </p>
+                    <span class="mns-title-detail-actu"><@liferay_ui.message key="eu.dates-and-times" /></span>
+                    <#list entry.eventPeriods as period>
+                        <p>
+                        ${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if>
+                        </p>
+                    </#list>
                 </div>
-            </#if>
-            <#if entry.getAccess(locale)?has_content>
-                <div class="mns-info-more col-sm-${column}">
-                    <span class="mns-title-detail-actu">Transport</span>
-                    <p>${entry.getAccess(locale)}</p>
-                </div>
-            </#if>
+                <#if entry.free == 1 || entry.getPrice(locale)?has_content>
+                    <div class="mns-info-more col-sm-${column}">                 
+                        <span class="mns-title-detail-actu">Tarifs</span>
+                        <#if entry.free == 1>
+                            <div class="free-event">
+                                <@liferay_ui.message key="eu.free-event" />
+                            </div>
+                        </#if>
+                        <p>${entry.getPrice(locale)}</p>
+                    </div>
+                </#if>
+                <#if entry.bookingURL?has_content || entry.getBookingDescription(locale)?has_content>
+                    <div class="mns-info-more col-sm-4">
+                        <span class="mns-title-detail-actu col-sm-6"><@liferay_ui.message key="eu.booking" /></span>
+                        <#if entry.getBookingDescription(locale)?has_content>
+                            <p>${entry.getBookingDescription(locale)}</p>
+                        </#if>
+                        <#if entry.bookingURL?has_content>
+                            <div class="booking">
+                                <a href="${entry.bookingURL}" target="_blank"><@liferay_ui.message key="eu.book" /> </a>
+                            </div>
+                        </#if>
+                    </div>
+                </#if>
+                <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
+                    <div class="mns-info-more col-sm-${column}">
+                        <span class="mns-title-detail-actu" style="padding-bottom: 10px;">Services aux Handicapés</span>
+                        <#if entry.accessForBlind>
+                            <span class="icon-ico-1"></span>
+                        </#if>
+                        <#if entry.accessForDeficient>
+                            <span class="icon-ico-2"></span>
+                        </#if>
+                        <#if entry.accessForDeaf>
+                            <span class="icon-ico-3"></span>
+                        </#if>
+                        <#if entry.accessForWheelchair>
+                            <span class="icon-ico-4"></span>
+                        </#if>
+                        <p>
+                            ${entry.getAccessForDisabled(locale)}
+                        </p>
+                    </div>
+                </#if>
+                <#if entry.getAccess(locale)?has_content>
+                    <div class="mns-info-more col-sm-${column}">
+                        <span class="mns-title-detail-actu">Transport</span>
+                        <p>${entry.getAccess(locale)}</p>
+                    </div>
+                </#if>
+            <div>
 
             <!-- Contact -->
             <#if entry.email?has_content>

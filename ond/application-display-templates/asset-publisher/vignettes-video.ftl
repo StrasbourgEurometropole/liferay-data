@@ -1,5 +1,10 @@
 <!-- Vignette Vidéo -->
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+   <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+   <#assign homeURL = "/" />
+</#if>
 
 <h2 class="subtitle video"><@liferay_ui.message key='eu.last-videos' /></h2>
 <#if entries?has_content>
@@ -7,11 +12,9 @@
 		<div class="lfr-search-container ">
 			<div summary class="list-evt">
                 <#list entries as curEntry>
-		            <#assign video = curEntry.getAssetRenderer().getVideo() />
-		            <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-		              <@liferay_portlet.param name="classPK" value="${video.getVideoId()}" />
-		              <@liferay_portlet.param name="returnURL" value="${currentURL}" />
-		            </@liferay_portlet.renderURL>
+                    <#assign video = curEntry.getAssetRenderer().getVideo() />
+					<#assign detailURL = homeURL + "detail-video/-/entity/id/" + video.videoId />
+
 					<div class="event portlet-video-item" headers="pihe_col-1">
 						<script type="text/javascript">
 							/*<![CDATA[*/
@@ -51,4 +54,4 @@
 			</div>
 		</div>
 	</div>
-</#if>
+</#if>									

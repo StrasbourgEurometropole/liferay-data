@@ -1,21 +1,26 @@
 {
     "availableLanguageIds": [
-        "fr_FR"
+        "fr_FR",
+        "en_US"
     ],
     "defaultLanguageId": "fr_FR",
     "fields": [
         {
             "label": {
-                "fr_FR": "Label du lien de téléchargement"
+                "fr_FR": "Label du lien",
+                "en_US": "Link label"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "dataType": "string",
             "indexType": "",
@@ -29,40 +34,47 @@
         },
         {
             "label": {
-                "fr_FR": "Programme"
+                "fr_FR": "URL du lien",
+                "en_US": "Link"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
-            "dataType": "document-library",
-            "fieldNamespace": "ddm",
+            "dataType": "string",
             "indexType": "",
             "localizable": true,
-            "name": "file",
+            "name": "linkURL",
             "readOnly": false,
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "ddm-documentlibrary"
+            "type": "text"
         },
         {
             "label": {
-                "fr_FR": "Image de fond"
+                "fr_FR": "Image de fond",
+                "en_US": "Background image"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": ""
             },
             "dataType": "image",
             "fieldNamespace": "ddm",

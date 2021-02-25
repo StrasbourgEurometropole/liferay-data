@@ -10,7 +10,7 @@
       <#list childName.getSiblings() as child>
           <li class="grid-item">
             <a href="${child.link.data}">
-              <div class="grid-item-visu" style="background-image: url(${child.image.data});">
+              <div class="grid-item-visu" style="background-image: url(${child.image.getData()});">
               </div>
               <div class="grid-item-text">
                 <span>${child.data}</span>

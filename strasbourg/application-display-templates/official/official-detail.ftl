@@ -18,13 +18,17 @@
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if entry.imageURL?has_content>
-    <#assign imageUrl = entry.imageURL />
+    <#assign imageUrl = themeDisplay.getPortalURL() + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
-<script>
-    title = '${entry.lastName?js_string} ${entry.firstName?js_string}';
-    description = '${fonction?js_string}';
-    imageUrl = '${imageURL}';
-</script> 
+
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${entry.lastName?html} - ${entry.firstName?html}",
+"og:description":'${fonction?html}', 
+"og:image":"${imageUrl}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)} 
 
 <div class="seu-container official-detail">
     <h1>${entry.firstName} ${entry.lastName}</h1>

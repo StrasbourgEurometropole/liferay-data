@@ -5,12 +5,18 @@
         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
         <#assign catcher = docXml.valueOf("//dynamic-element[@name='catcher']/dynamic-content/text()") />
         <#assign illustration = docXml.valueOf("//dynamic-element[@name='illustration']/dynamic-content/text()") />
+		<#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+		<#assign imageURL ="" />
+		<#if illustration?has_content>
+			<#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(illustration) />
+		</#if>
+                    
         <#assign publishDate = curEntry.getPublishDate() />
         <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
         <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
 		<div class="cus-news"> 
 			<div class="cus-news-illustration"> 
-				<a href="${viewURL}" title="${title}"><img src="${illustration}" id="illustration"></a> 
+				<a href="${viewURL}" title="${title}"><img src="${imageURL}" id="illustration"></a> 
 			</div> 
 			<div class="cus-news-content"> 
 				<span class="cus-news-theme"> </span> 

@@ -17,6 +17,11 @@
                     <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
                     <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
                     <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
+                    <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+                    <#assign imageURL ="" />
+                    <#if image?has_content>
+                        <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+                    </#if>
                     <#assign text = docXml.valueOf("//dynamic-element[@name='text']/dynamic-content/text()") />
                     <#assign publishDate = curEntry.getPublishDate() />
                     <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
@@ -24,9 +29,7 @@
                     <div class="col-sm-6">
                         <article class="mns-bloc-actu">
                             <a href="${viewURL}">
-                                <figure>
-                                    <img src="${image}" alt="${title}" width="450" height="300" />
-                                </figure>
+                                <img src="${imageURL}" alt="${title}" width="450" height="300" />
                                 <div class="mns-bloc-content-actu">
                                     <span class="publication"><@liferay_ui.message key="eu.published-on" /> ${publishDate?date}</span>
                                     <h1>${title}</h1>

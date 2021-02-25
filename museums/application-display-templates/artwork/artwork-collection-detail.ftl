@@ -1,5 +1,10 @@
 <!-- Détail collection d'oeuvres -->
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+   <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+   <#assign homeURL = "/" />
+</#if>
 <div class="entity-detail artwork-collection-detail">
   <div class="entity-images">
     <div class="entity-images-main image-with-copyright-on-hover">
@@ -39,10 +44,10 @@
   <h3 class="entity-detail-children-title"><@liferay_ui["message"] key="eu.artwork.collection-artworks" /></h3>
   <div class="entity-detail-children artwork-collection-artworks">
     <#list entry.getPublishedArtworks() as artwork>
-      <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-          <@liferay_portlet.param name="classPK" value="${artwork.getArtworkId()}" />
-          <@liferay_portlet.param name="returnURL" value="${currentURL}" />
-      </@liferay_portlet.renderURL>
+      
+      <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+      <#assign entryURL = assetPublisherTemplateHelperService.createRenderUrlMusee("oeuvre",entry.getSources()[0].getTitle(locale)) />
+      <#assign detailURL = homeURL + entryURL + "/-/entity/id/" + artwork.artworkId />
       <div class="entity-detail-child artwork-collection-artwork ${artwork.getSourceCSSClass()}">
         <div class="entity-detail-child-image">
           <a href="${detailURL}">

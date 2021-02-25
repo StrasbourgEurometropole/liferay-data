@@ -12,6 +12,7 @@
 
 <#assign assetEntryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
 <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
+<#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
 
 <section class="pro-bloc-select">
     <div class="container">
@@ -29,7 +30,12 @@
              <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
              <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
              <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
-             <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
+             <#assign imageURL ="" />
+			 <#if thumbnail?has_content>
+			 	<#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail) />
+			 </#if>
+
+			 <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
 
              <#assign asset = assetEntryLocalService.getEntry('com.liferay.journal.model.JournalArticle', curEntry.getAssetRenderer().getArticle().resourcePrimKey) >
              <#assign territoires = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "territoire") />
@@ -38,7 +44,7 @@
 	                <a href="${homeURL}-/${curEntry.getAssetRenderer().getArticle().urlTitle}" class="pro-bloc-actu" title="Lien vers la page de détail de l'article">
 	                    <div class="img">
 	                        <figure role="group">
-	                            <img src='${thumbnail}' alt="Image agenda" width="360" height="174" class="fit-cover"/>
+	                            <img src='${imageURL}?imagePreview=1' loading="lazy" alt="Image agenda" width="360" height="174" class="fit-cover"/>
 	                        </figure>
 	                        <span>
 	                        	<#list territoires as t>

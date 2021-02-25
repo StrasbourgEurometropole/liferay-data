@@ -48,7 +48,17 @@
     <div id="ops-representations" class="ops-bloc-slider-concerts">
         <div class="ops-content-wrapper">
 
-            <div class="slick-carousel slick-cards-slider">
+            <div class="slick-carousel slick-cards-slider hide">
+
+                <#-- Parcours des dates de l'event -->
+                <#list entry.getCurrentAndFuturePeriods() as period>
+                    <div class="ops-item">
+                        <time><span>${period.getDisplay(locale, false, true)}</span></time>
+                        <div class="ops-horaires">${period.getTimeDetail(locale)}</div>
+                        <h3>${entry.getTitle(locale)}</h3>
+                        <span class="ops-typologie">${entry.getThemeLabel(locale)}</span>
+                    </div>
+                </#list>
                 
             </div>
 
@@ -60,18 +70,18 @@
         <div class="ops-content-wrapper">
 
             <!-- Programme -->
-            <#if entry.program?has_content>
+            <#if entry.getProgram(locale)?has_content>
                 <div class="ops-col-33">
                     <span class="ops-title-infos"><@liferay_ui.message key="eu.ops.program" /></span>
-                    <p>${entry.program}</p>
+                    ${entry.getProgram(locale)}
                 </div>
             </#if>
 
             <!-- Distribution -->
-            <#if entry.distribution?has_content>
+            <#if entry.getDistribution(locale)?has_content>
                 <div class="ops-col-33">
                     <span class="ops-title-infos"><@liferay_ui.message key="eu.ops.distribution" /></span>
-                    <p>${entry.distribution}</p>
+                    ${entry.getDistribution(locale)}
                 </div>
             </#if>
 
@@ -168,6 +178,53 @@
                 eventID: eventID
             },
             function(json) {
+                if(json != ""){
+                    $('#ops-representations .ops-item').each(function(index) {
+                        $('#ops-representations .slick-cards-slider').slick('slickRemove', 0);
+                    });
+                }
+                $('#ops-representations .slick-cards-slider').removeClass('hide');
+
+                for(var i = 0; i < json.length; i++) {
+                    var session = json[i];
+
+                    // Date de concert
+                    var concertDate = new Date(Date.parse(session.sessionDate));
+
+                    // Elements
+
+                        cssClass = "";
+                        ticketingElement = '<a href="' + session.link + '" target="_blank"><@liferay_ui.message key="eu.ops.buy.my.ticket" /></a>';
+ 
+                    $('#ops-representations .slick-cards-slider').slick('slickAdd',
+                        '<div class="ops-item ' + session.cssClass + '">' +
+                            '<time datetime="' + concertDate.getFullYear() + '-' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '-' + concertDate.getDate() + '">' + 
+                                '<span>' + ('0' + concertDate.getDate()).slice(-2) + '/' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '/' + concertDate.getFullYear() + '</span> ' + 
+                            '</time>' +
+                            '<div class="ops-horaires">' + ('0' + concertDate.getHours()).slice(-2) + 'h' +  ('0' + concertDate.getMinutes()).slice(-2) + '</div>' +
+                            '<h3>' + session.eventName + '</h3>' +
+                            '<div class="ops-bottom-card">' + 
+                                ticketingElement +
+                            '</div>' +
+                        '</div>'
+                    );
+                    
+                }
+
+            }
+        );
+    });
+</script>
+<#-- Script avant désactivation du nombre de place restante
+var eventID = ${entry.eventId};
+
+        // Recherche des sessions futures
+        Liferay.Service(
+            '/agenda.event/get-sessions',
+            {
+                eventID: eventID
+            },
+            function(json) {
 
                 for(var i = 0; i < json.length; i++) {
                     var session = json[i];
@@ -203,5 +260,4 @@
                 }
             }
         );
-    });
-</script>
+        -->

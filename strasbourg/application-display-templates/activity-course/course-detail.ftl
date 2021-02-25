@@ -7,9 +7,12 @@
   <#assign homeURL = "/" />
 </#if>
 
-<script>
-    description = '${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
-</script>
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:description":'${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html}'
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <div class="seu-container">
     <a href="#" class="add-favorites"
@@ -175,6 +178,9 @@
                                                     <span>
                                                         <#list schedules as schedule>
                                                             <div>${schedule.startTime} - ${schedule.endTime}</div>
+                                                            <#if schedule.getComments(locale)?has_content>
+                                                                <div style="margin-top: -10px;">(${schedule.getComments(locale)})</div>
+                                                            </#if>
                                                         </#list>
                                                     </span>
                                                 </li>

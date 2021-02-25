@@ -1,0 +1,131 @@
+{
+    "availableLanguageIds": [
+        "fr_FR"
+    ],
+    "defaultLanguageId": "fr_FR",
+    "fields": [
+        {
+            "label": {
+                "fr_FR": "Date"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "date",
+            "fieldNamespace": "ddm",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "Date",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "ddm-date",
+            "nestedFields": [
+                {
+                    "label": {
+                        "fr_FR": "Titre question"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "TitreQuestion",
+                    "readOnly": false,
+                    "repeatable": true,
+                    "required": true,
+                    "showLabel": true,
+                    "type": "text",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "fr_FR": "Question"
+                            },
+                            "predefinedValue": {
+                                "fr_FR": ""
+                            },
+                            "style": {
+                                "fr_FR": ""
+                            },
+                            "tip": {
+                                "fr_FR": ""
+                            },
+                            "dataType": "html",
+                            "fieldNamespace": "ddm",
+                            "indexType": "text",
+                            "localizable": true,
+                            "name": "Question",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "ddm-text-html"
+                        },
+                        {
+                            "label": {
+                                "fr_FR": "Réponse usager"
+                            },
+                            "predefinedValue": {
+                                "fr_FR": ""
+                            },
+                            "style": {
+                                "fr_FR": ""
+                            },
+                            "tip": {
+                                "fr_FR": ""
+                            },
+                            "dataType": "html",
+                            "fieldNamespace": "ddm",
+                            "indexType": "text",
+                            "localizable": true,
+                            "name": "ReponseUsager",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": true,
+                            "showLabel": true,
+                            "type": "ddm-text-html"
+                        },
+                        {
+                            "label": {
+                                "fr_FR": "Réponse ville"
+                            },
+                            "predefinedValue": {
+                                "fr_FR": ""
+                            },
+                            "style": {
+                                "fr_FR": ""
+                            },
+                            "tip": {
+                                "fr_FR": ""
+                            },
+                            "dataType": "html",
+                            "fieldNamespace": "ddm",
+                            "indexType": "text",
+                            "localizable": true,
+                            "name": "ReponseVille",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "ddm-text-html"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

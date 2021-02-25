@@ -14,12 +14,12 @@
 
 	<!--  -->
     <figure class="fit-cover">
-	    <img src="${currEntry.imageURL}" alt="" width="1600" height="600" style="opacity:${currEntry.opacityImage}">
+	    <img src="${currEntry.imageURL}?imagePreview=1" loading="lazy" alt="" width="1600" height="600" style="opacity:${currEntry.opacityImage}">
     </figure>
     <div class="container caption">
         <div class="pro-bloc-display"><span class="pro-surtitre">${currEntry.getProjectStatus(locale)}</span></div>
         <h1>${currEntry.title}</h1>
-        <div class="pro-bloc-display"><span class="pro-soustitre">Quartier concerné : <strong>${currEntry.getDistrictCategories(locale)}</strong></span></div>
+        <div class="pro-bloc-display"><span class="pro-soustitre"><@liferay_ui.message key="placit.information.territoire" /> <strong>${currEntry.getDistrictLabel(locale)}</strong></span></div>
         <div class="pro-bloc-display-desc"><p>${currEntry.description}</p></div>
     </div>
 

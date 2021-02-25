@@ -7,6 +7,7 @@
 
     <#-- Récupération de DateHelper pour le format date -->
     <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
+    <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
 
     <#-- Recuperation de l'URL de "base" du site -->
     <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
@@ -31,6 +32,10 @@
                 <#assign docXml = saxReaderUtil.read(firstEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
                 <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
                 <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
+                <#assign imageURL ="" />
+                <#if thumbnail?has_content>
+                    <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail) />
+                </#if>
 
                 <#-- Récupération de l'id du webcontent -->
                 <#assign assetCategoryLocalServiceUtil = staticUtil["com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil"]>
@@ -41,15 +46,15 @@
 
                 <a href="${homeURL}-/${firstJournal.urlTitle}" class="ops-actu ops-first-actu">
                     <figure class="fit-cover">
-                        <img src="${thumbnail}" width="530" height="353" alt="Image article"/>
+                        <img src="${imageURL}?imagePreview=1" width="530" height="353" alt="Image article"/>
                     </figure>
                     <div>
                         <div class="ops-meta-card-article">
-                            <div class="ops-cats">
+                            <#--  <div class="ops-cats">
                                 <#list categoryList as category>
                                     <span class="ops-cat">${category.getTitle(locale)}</span>
                                 </#list>
-                            </div>
+                            </div>  -->
                             <span class="ops-date-article">
                                 <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${firstJournal.displayDate?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(firstJournal.displayDate?date, locale)}</time>
                             </span>
@@ -70,6 +75,10 @@
                             <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
                             <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
                             <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
+                            <#assign imageURL ="" />
+                            <#if thumbnail?has_content>
+                                <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail) />
+                            </#if>
 
                             <#-- Récupération de l'id du webcontent -->
                             <#assign assetCategoryLocalServiceUtil = staticUtil["com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil"]>
@@ -80,15 +89,15 @@
 
                             <a href="${homeURL}-/${journal.urlTitle}" class="ops-actu">
                                 <figure class="fit-cover">
-                                    <img src="${thumbnail}" width="200" height="130" alt="Image article"/>
+                                    <img src="${imageURL}?imagePreview=1" width="200" height="130" alt="Image article"/>
                                 </figure>
                                 <div>
                                     <div class="ops-meta-card-article">
-                                        <div class="ops-cats">
+                                        <#--  <div class="ops-cats">
                                             <#list categoryList as categoryList>
                                                 <span class="ops-cat">${categoryList.getName()}</span>
                                             </#list>
-                                        </div>
+                                        </div>  -->
                                         <span class="ops-date-article">
                                             <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${journal.displayDate?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(journal.displayDate?date, locale)}</time>
                                         </span>
