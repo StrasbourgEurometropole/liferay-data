@@ -1,23 +1,26 @@
 package eu.strasbourg.service.place.scheduler;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
-import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.scheduler.*;
+import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
+import com.liferay.portal.kernel.scheduler.SchedulerEntry;
+import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
+import com.liferay.portal.kernel.scheduler.TimeUnit;
+import com.liferay.portal.kernel.scheduler.Trigger;
+import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import eu.strasbourg.service.place.service.PlaceLocalService;
-import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import org.osgi.service.component.annotations.*;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
+import org.osgi.service.component.annotations.Reference;
 
 import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Passe au statut "APPROVED" tous les événements et les manifestations dont la
- * publication a été programmée et dont la date de publication est désormais
- * dépassée
+ * Met à jour le temps réel des lieux qui sont concernés
  */
 @Component(immediate = true, service = RealTimeDataImporter.class)
 public class RealTimeDataImporter extends BaseMessageListener {

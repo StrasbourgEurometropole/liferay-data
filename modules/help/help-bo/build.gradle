@@ -21,4 +21,5 @@ dependencies {
 
 	compile project (':modules:utils')
 	compile project (':modules:help:help-api')
+	compile project (':modules:oidc:oidc-api')
 }

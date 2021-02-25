@@ -4,12 +4,14 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.help.constants.HelpBOConstants;
 import eu.strasbourg.portlet.help.context.EditHelpDisplayContext;
+import eu.strasbourg.portlet.help.context.EditHelpRequestDisplayContext;
+import eu.strasbourg.portlet.help.context.ViewHelpSeekersDisplayContext;
 import eu.strasbourg.portlet.help.context.ViewHelpsDisplayContext;
 import org.osgi.service.component.annotations.Component;
 
@@ -47,31 +49,36 @@ public class HelpBOPortlet extends MVCPortlet {
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
 		// Recuperation des données de la requete de page
-		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		String tab = ParamUtil.getString(renderRequest, "tab");
-		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
-		String title = PortalUtil.getPortletTitle(renderRequest);
-
-		// Verification des requetes issues d'un champ repetable
-		Boolean fromAjaxHelp = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxHelp"));
+		String cmd = ParamUtil.getString(renderRequest, HelpBOConstants.PARAM_CMD);
+		String tab = ParamUtil.getString(renderRequest, HelpBOConstants.PARAM_TAB);
+		String mvcPath = ParamUtil.getString(renderRequest, HelpBOConstants.PARAM_MVC_PATH);
+		String title = HelpBOConstants.HEADER_TITLE;
 
 		// Si on est sur la page d'ajout, on affiche un lien de retour
-		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
+		String returnURL = ParamUtil.getString(renderRequest, HelpBOConstants.PARAM_RETURN_URL);
 		boolean showBackButton = Validator.isNotNull(returnURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL.toString());
+			portletDisplay.setURLBack(returnURL);
 		}
 
 		// On set le displayContext selon la page sur laquelle on est
-		if (cmd.equals("editHelpProposal") || mvcPath.equals("/help-bo-edit-help-proposal.jsp") || fromAjaxHelp) {
+		if (cmd.equals("editHelpProposal") || mvcPath.equals("/help-bo-edit-help-proposal.jsp")) {
 			EditHelpDisplayContext dc = new EditHelpDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-			title = "Help";
-		}else { // Else, we are on the projects list page
+		} else if (cmd.equals("editHelpRequest") || mvcPath.equals("/help-bo-edit-help-request.jsp")) {
+			EditHelpRequestDisplayContext dc = new EditHelpRequestDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+		} else if(cmd.equals("viewProposalHelpRequests") || mvcPath.equals("/help-bo-view-proposal-help-requests.jsp")) {
+			// TODO : Implement DC for "view proposal help requests"
+		} else if(cmd.equals("viewSeekerHelpRequests") || mvcPath.equals("/help-bo-view-seeker-help-requests.jsp")) {
+			// TODO : Implement DC for "view seeker help requests"
+		} else if(tab.equals("helpSeekers")) {
+			ViewHelpSeekersDisplayContext dc = new ViewHelpSeekersDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+		} else { // Else, we are on the main list page
 				ViewHelpsDisplayContext dc = new ViewHelpsDisplayContext(renderRequest, renderResponse);
 				renderRequest.setAttribute("dc", dc);
-				title = "helps";
 		}
 
 		// Admin ou pas
@@ -82,4 +89,5 @@ public class HelpBOPortlet extends MVCPortlet {
 		title = LanguageUtil.get(PortalUtil.getHttpServletRequest(renderRequest), title);
 		renderResponse.setTitle(title);
 	}
+
 }
