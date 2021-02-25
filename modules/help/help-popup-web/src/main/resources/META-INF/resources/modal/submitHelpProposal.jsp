@@ -124,7 +124,7 @@
 
                     <%-- Champ : Présentation --%>
                     <div class="form-group">
-                        <aui:input id="presentation" type="textarea" name="presentation" label="modal.submit.help.information.presentation" value=""/>
+                        <aui:input id="presentation" type="textarea" name="presentation" required="true" label="modal.submit.help.information.presentation" value=""/>
                     </div>
 
                     <%-- Groupe de champs : Je suis --%>
@@ -383,6 +383,12 @@
             $("#<portlet:namespace />title").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#<portlet:namespace />title").css({ "box-shadow" : "" });
+
+        var presentation = $("#<portlet:namespace />presentation").val();
+        if (presentation===null || presentation===""){
+            $("#<portlet:namespace />presentation").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />presentation").css({ "box-shadow" : "" });
 
         var address = $("#<portlet:namespace />address").val();
         if (address===null || address===""){

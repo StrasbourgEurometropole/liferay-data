@@ -358,6 +358,12 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
             return false;
         }
 
+        // présentation
+        if (Validator.isNull(this.presentation)) {
+            this.message = "Présentation non valide";
+            return false;
+        }
+
         // address
         if (Validator.isNull(this.address)) {
             this.message = "Adresse non valide";

@@ -188,6 +188,12 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 			isValid = false;
 		}
 
+		// Description
+		if (Validator.isNull(ParamUtil.getString(request, "description"))) {
+			SessionErrors.add(request, "description-error");
+			isValid = false;
+		}
+
 		// Adresse
 		if (Validator.isNull(ParamUtil.getString(request, "address"))) {
 			SessionErrors.add(request, "address-error");
