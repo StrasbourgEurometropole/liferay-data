@@ -203,8 +203,10 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
 
             InternetAddress[] toAddresses = new InternetAddress[0];
             PublikUser helper =  PublikUserLocalServiceUtil.getByPublikUserId(this.helpProposal.getPublikId());
-            InternetAddress address = new InternetAddress(helper.getEmail());
-            toAddresses = ArrayUtil.append(toAddresses, address);
+            if(helper != null) {
+                InternetAddress address = new InternetAddress(helper.getEmail());
+                toAddresses = ArrayUtil.append(toAddresses, address);
+            }
 
             // envoi du mail aux utilisateurs
             MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, mailBody);
