@@ -1,4 +1,4 @@
-<!-- SLIDER DES INITAITVES SANS MARGE -->
+<!-- SLIDER DES PROPOSITION D'AIDE SANS MARGE -->
 
 <#-- Récupération du contexte de navigation de l'utilisateur -->
 <#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
@@ -8,7 +8,7 @@
     <!-- Recuperation de la localisation de l'utilisateur -->
     <#setting locale = locale />
 
-    <!-- Recuperation du créateur de l'initiative -->
+    <!-- Recuperation du créateur de la proposition d'aide -->
     <#assign UserLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserLocalService")/>
     <#assign user = UserLocalService.getUser(entry.userId) />
 
@@ -43,7 +43,7 @@
                             <div class="wrapper-card-help">
                                 <#if entry.imageURL?has_content>
                                     <figure role="group" class="fit-cover">
-                                        <img src="${entry.imageURL}?imagePreview=1" loading="lazy" width="240" height="250" alt="Image aide"/>
+                                        <img src="${entry.imageURL}?imagePreview=1" loading="lazy" width="240" height="250" alt="Photo d’illustration de ${entry.getTitle(locale)?html}"/>
                                     </figure>
                                 </#if>
                                 <div>

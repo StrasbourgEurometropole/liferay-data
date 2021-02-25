@@ -1,4 +1,4 @@
-<!-- DETAIL D'UNE INITIATIVE -->
+<!-- DETAIL D'UNE PROPOSITION D'AIDE -->
 
 <!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
@@ -21,8 +21,8 @@
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
-<#-- Récupération de l'ID de l'utilisateur -->
-<#-- <#assign isUserHelps = entry.isUserAlreadyHelp(userID) /> -->
+<#-- Vérifie si l'utilisateur est celui qui a créé la proposition -->
+<#assign isUserHelping = entry.isUserAlreadyHelp(userID) />
 
 <#-- Récupération du contexte de navigation de l'utilisateur -->
 <#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
@@ -92,7 +92,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 						<div class="pro-main-img">
 							<figure>
 								<#if entry.getImageURL()?has_content>
-									<img src='${entry.getImageURL()}' alt="Image agenda" width="880" height="593" class="fit-cover"/>
+									<img src='${entry.getImageURL()}' alt="Photo d’illustration de ${entry.getTitle(locale)?html}" width="880" height="593" class="fit-cover"/>
 									<figcaption>${entry.getImageCopyright(locale)}</figcaption>
 								</#if>
 							</figure>
@@ -107,16 +107,16 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 						
 						<div class="pro-wrapper-links">
 						
-							<#-- <#if isUserloggedIn && isUserHelps >
+							<#if isUserloggedIn && isUserHelping >
 								<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpProposal" data-toggle="modal" data-target="#modalSubmitHelpProposal">Modifier mon annonce</a>
                                 <a href="#" class="pro-btn-yellow" id="buttonDesactivateHelp" data-toggle="modal" data-target="#modalDesactivateHelp">Désactiver mon annonce</a>   
 							<#else>
 								<#if isUserloggedIn >
 									<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpRequest" data-toggle="modal" data-target="#modalSubmitHelpRequest">Faire une demande d'aide</a><br>
 								<#else>
-									<a name="#Need-connexion" href="" class="pro-btn-yellow" id="buttonContactInitiativeAuthor">Faire une demande d'aide</a>
+									<a name="#Need-connexion" href="" class="pro-btn-yellow" id="buttonNeedHelp">Faire une demande d'aide</a>
 								</#if>
-							</#if> -->
+							</#if>
 
 						</div>
 					</aside>
