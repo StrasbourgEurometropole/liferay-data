@@ -22,7 +22,7 @@
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
 <#-- Vérifie si l'utilisateur est celui qui a créé la proposition -->
-<#-- <#assign isUserHelping = entry.isUserHelping(userID) /> -->
+<#assign isUserHelping = entry.isUserHelping(userID) />
 
 <#-- Récupération du contexte de navigation de l'utilisateur -->
 <#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
@@ -105,7 +105,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 					<aside class="col-sm-4" style="diplay:none">
 						
-						<#-- <div class="pro-wrapper-links">
+						<div class="pro-wrapper-links">
 						
 							<#if isUserloggedIn && isUserHelping >
 								<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpProposal" data-toggle="modal" data-target="#modalSubmitHelpProposal">Modifier mon annonce</a>
@@ -118,7 +118,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 								</#if>
 							</#if>
 
-						</div> -->
+						</div>
 					</aside>
 				</div>
 			</article>
