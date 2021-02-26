@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 	},
 	service = MVCActionCommand.class
 )
-public class ReadHelpActionCommand implements MVCActionCommand {
+public class ReadHelpProposalActionCommand implements MVCActionCommand {
 
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response)

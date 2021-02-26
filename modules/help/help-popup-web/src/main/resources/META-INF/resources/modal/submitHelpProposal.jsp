@@ -175,13 +175,15 @@
                             </span>
                         </div>
                     </div>
+                    <p><liferay-ui:message key='submit-proposal-help-image-information'/></p>
                     
                 </div>
 
-                <div class="pro-optin group-checkbox" >
-                    <label class="fontWhite">
-                        <liferay-ui:message key="modal.submit.help.information.legalage"/>
-                    </label>
+
+                <div class="pro-optin form-checkbox">
+                    <div>
+                        <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_messageHelpProposal"/>
+                    </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
@@ -190,12 +192,6 @@
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageSubmitHelpProposal"/>
                         </label>
                     </div>
-                </div>
-
-                <div class="pro-optin group-checkbox" >
-                    <label class="fontWhite">
-                        <liferay-ui:message key="modal.submit.help.information.security"/>
-                    </label>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
@@ -210,12 +206,6 @@
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_security2SubmitHelp"/>
                         </label>
                     </div>
-                </div>
-
-                <div class="pro-optin group-checkbox" >
-                    <label class="fontWhite">
-                        <liferay-ui:message key="modal.submit.help.information.responsability"/>
-                    </label>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
