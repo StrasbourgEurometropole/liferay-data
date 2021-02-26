@@ -38,7 +38,7 @@
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="seeker-informations">
 
                 <%-- Champ : Nom --%>
-                <aui:input name="authorName" type="text" label="author" disabled="true" value="${not empty dc.helpRequest ? dc.helpRequest.getAuthorNameLabel() : '' }" />
+                <aui:input name="authorName" type="text" label="author" disabled="true" value="${not empty dc.helpRequest ? dc.helpRequest.getAuthorLabel() : '' }" />
 
                 <%-- Champ : Adresse mail --%>
                 <aui:input name="authorEmail" type="text" label="email" disabled="true" value="${not empty dc.helpRequest ? dc.helpRequest.getAuthorEmail() : '' }" />

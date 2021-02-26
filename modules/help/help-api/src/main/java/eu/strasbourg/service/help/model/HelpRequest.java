@@ -71,6 +71,11 @@ public interface HelpRequest extends HelpRequestModel, PersistedModel {
 	public String getAuthorLabel();
 
 	/**
+	 * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	 */
+	public String getAuthorEmail();
+
+	/**
 	 * Retourne l'URL de l'image de l'utilisateur
 	 */
 	public String getAuthorImageURL();

@@ -17,7 +17,7 @@
 </liferay-portlet:renderURL>
 
 <%-- Composant : barre de filtres et de gestion des entites --%>
-<liferay-frontend:management-bar includeCheckBox="true" searchContainerId="helpsSearchContainer">
+<liferay-frontend:management-bar includeCheckBox="false" searchContainerId="helpsSearchContainer">
 
 		<%-- Composant : partie filtres et selection --%>
 		<liferay-frontend:management-bar-filters>

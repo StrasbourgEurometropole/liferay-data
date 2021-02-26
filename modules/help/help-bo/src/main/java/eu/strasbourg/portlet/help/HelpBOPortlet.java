@@ -9,10 +9,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.help.constants.HelpBOConstants;
-import eu.strasbourg.portlet.help.context.EditHelpDisplayContext;
-import eu.strasbourg.portlet.help.context.EditHelpRequestDisplayContext;
-import eu.strasbourg.portlet.help.context.ViewHelpSeekersDisplayContext;
-import eu.strasbourg.portlet.help.context.ViewHelpsDisplayContext;
+import eu.strasbourg.portlet.help.context.*;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
@@ -70,7 +67,8 @@ public class HelpBOPortlet extends MVCPortlet {
 			EditHelpRequestDisplayContext dc = new EditHelpRequestDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else if(cmd.equals("viewProposalHelpRequests") || mvcPath.equals("/help-bo-view-proposal-help-requests.jsp")) {
-			// TODO : Implement DC for "view proposal help requests"
+			ViewProposalHelpRequestsDisplayContext dc = new ViewProposalHelpRequestsDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
 		} else if(cmd.equals("viewSeekerHelpRequests") || mvcPath.equals("/help-bo-view-seeker-help-requests.jsp")) {
 			// TODO : Implement DC for "view seeker help requests"
 		} else if(tab.equals("helpSeekers")) {
