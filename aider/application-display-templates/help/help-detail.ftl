@@ -52,7 +52,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 			<article>
 				<header>
 					<div class="pro-header-help pro-theme-actif">
-						<h1>${entry.title}</h1>
+						<h1>${entry.getTitle(locale)}</h1>
 						<div class="pro-wrapper-meta">
 							<#if entry.getActivitStatusCategory()?has_content>
 								<div class="pro-statut" ><span style="background : #${entry.getActivityStatusClass()};">${entry.getActivitStatusCategory().getTitle(locale)}</span></div>
@@ -80,7 +80,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 					<span>
 						<span>
 							<a href="${homeURL}">Accueil</a>
-						<span class="breadcrumb_last">${entry.title}</span>
+						<span class="breadcrumb_last">${entry.getTitle(locale)}</span>
 						</span>
 					</span>
 					</div>
@@ -99,16 +99,15 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 						</div>
 						<div class="pro-bloc-texte">
 							<h2>Description</h2>
-							<p>${entry.getDescription()}</p>
+							<p>${entry.getDescription(locale)}</p>
 						</div>
 					</div>
 
 					<aside class="col-sm-4" style="diplay:none">
 						
 						<div class="pro-wrapper-links">
-						
 							<#if isUserloggedIn && isUserHelping >
-								<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpProposal" data-toggle="modal" data-target="#modalSubmitHelpProposal"><@liferay_ui.message key="eu.help.update" /></a>
+								<a href="#showModalEditHelpProposal" class="pro-btn-yellow" id="buttonEditHelpProposal" data-toggle="modal" data-target="#modalEditHelpProposal"><@liferay_ui.message key="eu.help.update" /></a>
                                 <a href="#" class="pro-btn-yellow" id="buttonDesactivateHelp" data-toggle="modal" data-target="#modalDesactivateHelp"><@liferay_ui.message key="eu.help.desactivate" /></a>   
 							<#else>
 								<#if isUserloggedIn >
