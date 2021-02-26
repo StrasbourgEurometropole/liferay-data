@@ -108,13 +108,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 						<div class="pro-wrapper-links">
 						
 							<#if isUserloggedIn && isUserHelping >
-								<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpProposal" data-toggle="modal" data-target="#modalSubmitHelpProposal">Modifier mon annonce</a>
-                                <a href="#" class="pro-btn-yellow" id="buttonDesactivateHelp" data-toggle="modal" data-target="#modalDesactivateHelp">Désactiver mon annonce</a>   
+								<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpProposal" data-toggle="modal" data-target="#modalSubmitHelpProposal"><@liferay_ui.message key="eu.help.update" /></a>
+                                <a href="#" class="pro-btn-yellow" id="buttonDesactivateHelp" data-toggle="modal" data-target="#modalDesactivateHelp"><@liferay_ui.message key="eu.help.desactivate" /></a>   
 							<#else>
 								<#if isUserloggedIn >
-									<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpRequest" data-toggle="modal" data-target="#modalSubmitHelpRequest">Faire une demande d'aide</a><br>
+									<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpRequest" data-toggle="modal" data-target="#modalSubmitHelpRequest"><@liferay_ui.message key="eu.help.do-request" /></a><br>
 								<#else>
-									<a name="#Need-connexion" href="" class="pro-btn-yellow" id="buttonNeedHelp">Faire une demande d'aide</a>
+									<a name="#Need-connexion" href="" class="pro-btn-yellow" id="buttonNeedHelp"><@liferay_ui.message key="eu.help.do-request" /></a>
 								</#if>
 							</#if>
 

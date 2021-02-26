@@ -48,7 +48,7 @@
                                 </#if>
                                 <div>
                                     <div class="pro-header-help">
-                                        <p>Aide proposée par : <strong>${entry.getAuthorLabel()?html}</strong></p>
+                                        <p><@liferay_ui.message key="eu.help.help-by" /> <strong>${entry.getAuthorLabel()?html}</strong></p>
                                     </div>
                                     <div class="pro-content-help">
                                         <div class="pro-wrapper-meta">
@@ -72,8 +72,8 @@
                             </div>
                             <div class="pro-footer-help "> 
                                 <p>
-                                    Publiée le <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time> - 
-                                    Mise à jour le <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time>
+                                    <@liferay_ui.message key="eu.help.publication-help" /> <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time> - 
+                                    <@liferay_ui.message key="eu.help.update-help" /> <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time>
                                 </p>   
                             </div>
                         </div>
