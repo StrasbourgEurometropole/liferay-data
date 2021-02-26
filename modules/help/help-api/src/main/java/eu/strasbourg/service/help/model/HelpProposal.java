@@ -114,6 +114,12 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 		getHelpProposalTypeCategories();
 
 	/**
+	 * Retourne les types d'aidant de la proposition d'aide
+	 */
+	public com.liferay.asset.kernel.model.AssetCategory
+		getHelpProposalHelperCategory();
+
+	/**
 	 * Retourne une chaine des localisations correspondant
 	 */
 	public String getLocalisationLabel(java.util.Locale locale);

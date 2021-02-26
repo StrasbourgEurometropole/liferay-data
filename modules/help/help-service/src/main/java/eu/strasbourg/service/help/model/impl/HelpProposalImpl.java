@@ -184,6 +184,15 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	}
 
 	/**
+	 * Retourne les types d'aidant de la proposition d'aide
+	 */
+	@Override
+	public AssetCategory getHelpProposalHelperCategory() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.HELP_HELPER_TYPE).get(0);
+	}
+
+	/**
 	 * Retourne une chaine des localisations correspondant
 	 */
 	@Override

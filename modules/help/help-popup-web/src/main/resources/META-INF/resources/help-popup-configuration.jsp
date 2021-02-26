@@ -31,6 +31,9 @@
 					<aui:option value="submitHelpRequest" selected="${popupTemplateId eq 'submitHelpRequest'}">
 						<liferay-ui:message key="submitHelpRequest" />
 					</aui:option>
+					<aui:option value="editHelpProposal" selected="${popupTemplateId eq 'editHelpProposal'}">
+						<liferay-ui:message key="editHelpProposal" />
+					</aui:option>
 					<aui:option value="desactivateHelp" selected="${popupTemplateId eq 'desactivateHelp'}">
 						<liferay-ui:message key="desactivateHelp" />
 					</aui:option>
