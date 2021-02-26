@@ -9,20 +9,22 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.service.HelpProposalLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * @author romain.vergnais
@@ -40,8 +42,9 @@ public class GetHelpProposalResourceCommand implements MVCResourceCommand {
 	private long entryID;
 	
 	@Override
-	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
+	public boolean serveResource(ResourceRequest request, ResourceResponse response) {
 		boolean success = true;
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		
 		// Recuperation de l'id de l'entité
         this.entryID = ParamUtil.getLong(request, "entryId");
@@ -74,9 +77,15 @@ public class GetHelpProposalResourceCommand implements MVCResourceCommand {
 
 					//Récupération de la liste des types
 					List<AssetCategory> localisations = helpProposal.getTerritoryCategories();
+					if(localisations.size()>1){
+						// On est dans le cas du choix d'un quartier de Strasbourg auquel on a ajouté Strasbourg
+						// il faut donc n'envoyer que le quartier
+						localisations = localisations.stream().filter(l -> !l.getName().equals("Strasbourg")).collect(Collectors.toList());
+					}
+
 					long[] idslocalisations = localisations.stream()
 							.mapToLong(AssetCategory::getCategoryId).toArray();
-					jsonResponse.put("localisations", idslocalisations);
+					jsonResponse.put("localisationId", idslocalisations[0]);
 
 					jsonResponse.put("hasImage", helpProposal.getImageId() != 0 ? true : false);
 				}

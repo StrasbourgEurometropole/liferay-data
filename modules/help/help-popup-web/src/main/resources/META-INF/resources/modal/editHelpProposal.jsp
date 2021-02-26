@@ -80,7 +80,7 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
-                        	<div id="helpProposalphotoID">
+                        	<div id="HelpProposalPhotoID">
 	                            <span class="browsePicture input-group-btn">
 	                                <aui:input name="photo" type="file" label="modal.submit.help.information.picture"
 	                                    cssClass="btn btn-default btn-choose">
@@ -203,16 +203,16 @@
                             $("#"+namespaceEditHelpProposal+"helper").val(data.helperId).change().selectric('refresh');
                             $("#"+namespaceEditHelpProposal+"inTheNameOf").val(data.inTheNameOf);
                             $("#"+namespaceEditHelpProposal+"language").val(data.languages);
-                            $("#"+namespaceEditHelpProposal+"localisation").val(data.localisations).change().selectric('refresh');
+                            $("#"+namespaceEditHelpProposal+"localisation").val(data.localisationId).change().selectric('refresh');
 
                             if(data.hasImage) {
-                                $("#helpProposalPhotoID").hide();
+                                $("#HelpProposalPhotoID").hide();
                                 $("#editPhotoID").show();
-                                $("#helpProposalPhotoMessageID").show();
+                                $("#photoMessageID").show();
                             }else {
                                 $("#editPhotoID").hide();
-                                $("#helpProposalPhotoMessageID").hide();
-                                $("#helpProposalPhotoID").show();
+                                $("#photoMessageID").hide();
+                                $("#HelpProposalPhotoID").show();
                             }
                         }
                      }
