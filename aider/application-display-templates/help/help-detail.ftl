@@ -52,7 +52,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 			<article>
 				<header>
 					<div class="pro-header-help pro-theme-actif">
-						<h1>${entry.title}</h1>
+						<h1>${entry.getTitle(locale)}</h1>
 						<div class="pro-wrapper-meta">
 							<#if entry.getActivitStatusCategory()?has_content>
 								<div class="pro-statut" ><span style="background : #${entry.getActivityStatusClass()};">${entry.getActivitStatusCategory().getTitle(locale)}</span></div>
@@ -74,7 +74,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 							<p><@liferay_ui.message key="eu.help.published-x" arguments="${entry.createDate?date?string['dd/MM/yyyy']}" /></p>
 							<p><strong>${entry.getAuthorLabel()}</strong></p>
 						</div>
+						<#if entry.getSpokenLanguages(locale)?has_content >
+							<div class="pro-header-language">
+								<p><@liferay_ui.message key="eu.help.another-languages" /> : ${entry.getSpokenLanguages(locale)}</p>
+							</div>
+						</#if>
 					</div>
+					<p>Pour bénéficier des aides proposées, la mise en relation avec les contributeurs sera disponible à partir du 12/03/2021.</p>
 
 					<div id="breadcrumb">
 					<span>
