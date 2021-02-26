@@ -11,6 +11,7 @@
 				<action-key>VIEW</action-key>
 				<action-key>ADD_HELP</action-key>
 				<action-key>DELETE_HELP</action-key>
+				<action-key>CHANGE_ACTIVITY_HELP</action-key>
 				<action-key>EDIT_HELP</action-key>
 				<action-key>ADD_HELP_REQUEST</action-key>
 				<action-key>DELETE_HELP_REQUEST</action-key>
@@ -26,6 +27,7 @@
 				<action-key>VIEW</action-key>
 				<action-key>ADD_HELP</action-key>
 				<action-key>DELETE_HELP</action-key>
+				<action-key>CHANGE_ACTIVITY_HELP</action-key>
 				<action-key>EDIT_HELP</action-key>
 				<action-key>ADD_HELP_REQUEST</action-key>
 				<action-key>DELETE_HELP_REQUEST</action-key>

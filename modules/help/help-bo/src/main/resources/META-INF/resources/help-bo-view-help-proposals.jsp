@@ -132,6 +132,21 @@
                         <%-- TODO : ajouter un checker sur les permissions VIEW des demandes d'aide --%>
 						<liferay-ui:icon message="view-help-requests" url="${viewProposalHelpRequestsURL}" />
 
+						<%-- Deactivation de la proposition d'aide --%>
+						<liferay-portlet:actionURL name="changeActivityHelpProposal" var="changeActivityHelpProposalURL">
+							<portlet:param name="cmd" value="changeActivityHelpProposal" />
+							<portlet:param name="tab" value="helpProposals" />
+							<portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />
+						</liferay-portlet:actionURL>
+						<c:if test="${dc.hasPermission('CHANGE_ACTIVITY_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<c:if test="${helpProposal.getActivityStatusTitle(locale) == 'Active'}">
+								<liferay-ui:icon message="deactivate-help-proposal" url="${changeActivityHelpProposalURL}" />
+							</c:if>
+							<c:if test="${helpProposal.getActivityStatusTitle(locale) == 'Inactive'}">
+								<liferay-ui:icon message="reactivate-help-proposal" url="${changeActivityHelpProposalURL}" />
+							</c:if>
+						</c:if>
+
 						<liferay-portlet:actionURL name="deleteHelpProposal" var="deleteHelpProposalURL">
 							<portlet:param name="cmd" value="deleteHelpProposal" />
 							<portlet:param name="tab" value="helpProposals" />
