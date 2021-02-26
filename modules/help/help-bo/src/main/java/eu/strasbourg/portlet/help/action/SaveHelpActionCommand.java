@@ -1,7 +1,7 @@
 package eu.strasbourg.portlet.help.action;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -166,7 +166,7 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 			// Mise de la ville de strasbourg si c'est un quartier
 			long[] ids = sc.getAssetCategoryIds();
 			for (long id : ids) {
-				AssetCategory categ = AssetCategoryLocalServiceUtil.fetchAssetCategory(id).getParentCategory();
+				AssetCategory categ = _assetCategoryLocalService.fetchAssetCategory(id).getParentCategory();
 				if(categ != null && categ.getName().equals("Strasbourg")) {
 					List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
 					idsLong.add(categ.getCategoryId());
@@ -236,8 +236,15 @@ SessionErrors.add(request, "phone-number-error");
 	protected void setHelpProposalLocalService(HelpProposalLocalService helpProposalLocalService) {
 		_helpProposalLocalService = helpProposalLocalService;
 	}
-	
+
+	@Reference(unbind = "-")
+	protected void setAssetCategoryLocalService(AssetCategoryLocalService assetCategoryLocalService) {
+		_assetCategoryLocalService = assetCategoryLocalService;
+	}
+
 	private HelpProposalLocalService _helpProposalLocalService;
+	
+	private AssetCategoryLocalService _assetCategoryLocalService;
 	
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 

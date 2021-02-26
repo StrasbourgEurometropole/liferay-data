@@ -25,6 +25,9 @@
                     <label>
                         <liferay-ui:message key="modal.show.info.desactivate.help"/>
                     </label>
+
+                    <%-- Champ cache : ID --%>
+                    <aui:input type="hidden" name="entryId" value="${entryId}"/>
                 </div>
 
                 <div class="pro-form-submit">
