@@ -132,6 +132,12 @@
 			<%-- Groupe de champs : Autres --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="moderation">
 
+			    <%-- Champ : Dernière modification faite par --%>
+                <aui:input name="statusByUserName" label="last-moderation-user-name" disabled="true" required="false" />
+
+                <%-- Champ : Dernière modification faite le --%>
+                <aui:input name="statusDate" label="last-moderation-date" disabled="true" required="false" helpMessage="help-last-moderation-date" />
+
 				<%-- Champ : Commentaire --%>
 				<aui:input name="comment" required="false" />
 

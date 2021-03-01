@@ -98,9 +98,9 @@ public class HelpProposalLocalServiceImpl
 			throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
+		helpProposal.setModifiedDate(new Date());
 		helpProposal.setStatusByUserId(sc.getUserId());
 		helpProposal.setStatusByUserName(user.getFullName());
-		helpProposal.setStatusDate(sc.getModifiedDate());
 
 		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
 			helpProposal.setStatus(WorkflowConstants.STATUS_APPROVED);
