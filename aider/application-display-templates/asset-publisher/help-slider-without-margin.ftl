@@ -23,17 +23,20 @@
 
         <div class="container">
             <div>
-                <h2>Mes propositions d'aide (${entries?size})</h2> 
+                <h2><@liferay_ui.message key="eu.help.help-proposals" /></h2> 
                 <#if isUserloggedIn >
-                    <a id="buttonSubmitHelpProposal" href="" class="pro-btn" data-toggle="modal" data-target="#modalSubmitHelpProposal">Proposer une nouvelle aide</a>
+                    <a id="buttonSubmitHelpProposal" href="" class="pro-btn" data-toggle="modal" data-target="#modalSubmitHelpProposal"><@liferay_ui.message key="eu.help.proposed" /></a>
                 <#else>
-                    <a name="#Need-connexion" href="" id="buttonSubmitHelpProposal" class="pro-btn" >Proposer une nouvelle aide</a>
+                    <a name="#Need-connexion" href="" id="buttonSubmitHelpProposal" class="pro-btn" ><@liferay_ui.message key="eu.help.proposed" /></a>
                 </#if>
             </div>
             <div>
                 <div class="owl-carousel owl-opacify owl-theme owl-cards">
-
-                    Fonctionnalité bientôt disponible
+                    <#if isUserloggedIn >
+                        <@liferay_ui.message key="eu.help.soon" />
+                    <#else>
+                        <@liferay_ui.message key="eu.help.must-connected" /> <a href="?auth=publik"  ><@liferay_ui.message key="eu.help.create-account" /></a>
+                    </#if>
                                     
                 </div>
             </div>
