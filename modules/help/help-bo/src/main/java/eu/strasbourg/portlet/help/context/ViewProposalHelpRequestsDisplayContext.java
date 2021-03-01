@@ -2,7 +2,9 @@ package eu.strasbourg.portlet.help.context;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.model.HelpRequest;
@@ -14,6 +16,8 @@ import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ViewProposalHelpRequestsDisplayContext extends ViewListBaseDisplayContext<HelpRequest> {
@@ -40,11 +44,23 @@ public class ViewProposalHelpRequestsDisplayContext extends ViewListBaseDisplayC
 
     public List<HelpRequest> getHelpRequests() throws PortalException {
         if (this._helpRequests == null) {
-            this._helpRequests = HelpRequestLocalServiceUtil.getByHelpProposalId(getHelpProposal().getHelpProposalId());
+            List unsortedRequests = HelpRequestLocalServiceUtil.getByHelpProposalId(getHelpProposal().getHelpProposalId());
+
+            Comparator<HelpRequest> byDate = new Comparator<HelpRequest>() {
+                @Override
+                public int compare(HelpRequest c1, HelpRequest c2) {
+                    return Long.valueOf(c1.getCreateDate().getTime()).compareTo(c2.getCreateDate().getTime());
+                }
+            };
+            this._helpRequests = ListUtil.sort(unsortedRequests, byDate.reversed());
+
         }
         return this._helpRequests;
     }
 
+    public String getCurrentUrl() {
+        return PortalUtil.getCurrentURL(this._request);
+    }
 
     /**
      * Wrapper autour du permission checker pour les permissions de module

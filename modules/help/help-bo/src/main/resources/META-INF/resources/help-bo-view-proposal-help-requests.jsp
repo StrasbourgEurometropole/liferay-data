@@ -4,7 +4,7 @@
 <liferay-portlet:renderURL varImpl="editHelpProposalURL">
 	<portlet:param name="cmd" value="editHelpProposal" />
 	<portlet:param name="helpProposalId" value="${dc.helpProposal.helpProposalId}" />
-	<portlet:param name="returnURL" value="" />
+	<portlet:param name="returnURL" value="${dc.currentUrl}" />
 	<portlet:param name="mvcPath" value="/help-bo-edit-help-proposal.jsp" />
 </liferay-portlet:renderURL>
 
@@ -53,9 +53,11 @@
 					${helpRequest.message}
 				</liferay-ui:search-container-column-text>
 				<%-- Colonne : Date de depot de la demande --%>
-				<liferay-ui:search-container-column-text name="request-create-date">
-					${helpRequest.createDate}
-				</liferay-ui:search-container-column-text>
+				<fmt:formatDate value="${helpRequest.createDate}"
+								var="formattedCreateDate" type="date" pattern="dd/MM/yyyy HH:mm" />
+				<liferay-ui:search-container-column-text cssClass="content-column"
+														 name="request-create-date" truncate="true" orderable="true"
+														 value="${formattedCreateDate}" />
 				<%-- Colonne : Boutons --%>
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
@@ -64,7 +66,7 @@
 							<portlet:param name="cmd" value="editHelpRequest" />
 							<portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
 							<portlet:param name="mvcPath" value="/help-bo-edit-help-request.jsp" />
-							<portlet:param name="returnURL" value="" />
+							<portlet:param name="returnURL" value="${dc.currentUrl}" />
 						</liferay-portlet:renderURL>
 						<%-- Consulter la demande --%>
 						<c:if test="${dc.hasPermission('EDIT_HELP_REQUEST') and empty themeDisplay.scopeGroup.getStagingGroup()}">
