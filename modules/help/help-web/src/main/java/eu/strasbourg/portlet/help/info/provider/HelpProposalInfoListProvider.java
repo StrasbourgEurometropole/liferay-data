@@ -32,9 +32,8 @@ public class HelpProposalInfoListProvider implements InfoListProvider<AssetEntry
         // Recuperer l'utilisateur publik courant.
         HttpServletRequest  request = ServiceContextThreadLocal.getServiceContext().getRequest();
         boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
-        boolean isNotBanish = SessionParamUtil.getBoolean(request, "is_banish");
         String currentPublikUserId = "";
-        if (isLoggedIn && !isNotBanish) {
+        if (isLoggedIn) {
             currentPublikUserId = SessionParamUtil.getString(request, "publik_internal_id");
         }
 
