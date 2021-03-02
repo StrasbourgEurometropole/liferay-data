@@ -84,7 +84,7 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 	 * Retourne la catégorie statut activite proposition d'aide de l'aide
 	 */
 	public com.liferay.asset.kernel.model.AssetCategory
-		getActivitStatusCategory();
+		getActivityStatusCategory();
 
 	/**
 	 * Retourne la class du statut de modération de la proposition d'aide (

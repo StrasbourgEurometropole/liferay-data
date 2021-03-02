@@ -84,7 +84,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	 */
 	@Override
 	public String getActivityStatusClass() {
-		AssetCategory ActivityStatusCategory = this.getActivitStatusCategory();
+		AssetCategory ActivityStatusCategory = this.getActivityStatusCategory();
 		if (ActivityStatusCategory != null) {
 			return AssetVocabularyHelper.getCategoryProperty(ActivityStatusCategory.getCategoryId(), "class");
 		} else {
@@ -97,7 +97,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	 */
 	@Override
 	public String getActivityStatusTitle(Locale locale) {
-		AssetCategory ActivityStatusCategory = this.getActivitStatusCategory();
+		AssetCategory ActivityStatusCategory = this.getActivityStatusCategory();
 		if (ActivityStatusCategory != null) {
 			return ActivityStatusCategory.getTitle(locale);
 		} else {
@@ -109,7 +109,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	 * Retourne la catégorie statut activite proposition d'aide de l'aide
 	 */
 	@Override
-	public AssetCategory getActivitStatusCategory() {
+	public AssetCategory getActivityStatusCategory() {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.HELP_PROPOSAL_ACTIVITY_STATUS);
 		if (assetCategories.size() > 0) {

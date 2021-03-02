@@ -17,11 +17,12 @@ package eu.strasbourg.service.help.model;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
