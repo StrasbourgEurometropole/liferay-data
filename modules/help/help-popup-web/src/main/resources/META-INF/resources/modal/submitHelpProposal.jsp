@@ -207,14 +207,6 @@
                         </label>
                     </div>
                 </div>
-                <div class="pro-optin form-checkbox">
-                    <div>
-                        <input type="checkbox"  id="<portlet:namespace />responsability" value="responsability">
-                        <label for="<portlet:namespace />responsability" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_responsabilitySubmitHelp"/>
-                        </label>
-                    </div>
-                </div>
                 <div class="pro-info-supp">
                     <p><liferay-ui:message key="modal.submit.help.information.delete"/></p>
                 </div>
@@ -358,7 +350,6 @@
         $("#<portlet:namespace />legalage").prop("checked", false);
         $("#<portlet:namespace />security").prop("checked", false);
         $("#<portlet:namespace />security2").prop("checked", false);
-        $("#<portlet:namespace />responsability").prop("checked", false);
     }
 
     /*
@@ -456,14 +447,6 @@
             $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "" });
-
-        var responsability = $("#<portlet:namespace />responsability").is(":checked");
-        if (!responsability){
-            $("#<portlet:namespace />responsability").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#<portlet:namespace />responsability").closest('div').css({ "box-shadow" : "" });
-
-
 
         if (!result)
             $("#<portlet:namespace />alert").removeClass("hidden");
