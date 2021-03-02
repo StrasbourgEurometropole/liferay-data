@@ -68,6 +68,19 @@ public class HelpRequestImpl extends HelpRequestBaseImpl {
 	}
 
 	/**
+	 * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	 */
+	@Override
+	public String getAuthorEmail() {
+		PublikUser author = this.getAuthor();
+		if (author != null) {
+			return author.getEmail();
+		} else {
+			return null;
+		}
+	}
+
+	/**
 	 * Retourne l'URL de l'image de l'utilisateur
 	 */
 	@Override

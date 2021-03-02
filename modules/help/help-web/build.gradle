@@ -8,6 +8,7 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.journal.taglib"
 	compileOnly group: "com.liferay", name: "com.liferay.layout.taglib"
 	compileOnly group: "com.liferay", name: "com.liferay.site.taglib"
+	compileOnly group: "com.liferay", name: "com.liferay.info.api"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
 	compileOnly group: "com.liferay", name: "com.liferay.item.selector.api"

@@ -182,6 +182,14 @@ public class HelpRequestWrapper
 	}
 
 	/**
+	 * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	 */
+	@Override
+	public String getAuthorEmail() {
+		return model.getAuthorEmail();
+	}
+
+	/**
 	 * Retourne l'URL de l'image de l'utilisateur
 	 */
 	@Override
