@@ -63,7 +63,7 @@
                             </a>
                         </#if>
                         <ul>
-                            <li><a href="${themeDisplay.getPortalURL()}${homeURL}glossaire" title="Lien vers la page Glossaire & Règles d’utilisation">Conditions générales d'utilisation</a></li>
+                            <li><a href="${themeDisplay.getPortalURL()}${homeURL}conditions-generales-d-utilisation" title="Lien vers la page Glossaire & Règles d’utilisation">Conditions générales d'utilisation</a></li>
                         </ul>
                     </div>
                 </div>
