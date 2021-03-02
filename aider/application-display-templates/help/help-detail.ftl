@@ -27,7 +27,6 @@
 <#-- Récupération du contexte de navigation de l'utilisateur -->
 <#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
 
-
 <#-- Récupération des liens médias de l'entité -->
 <#assign imageURL = entry.getImageURL() />
 
@@ -54,8 +53,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 					<div class="pro-header-help pro-theme-actif">
 						<h1>${entry.getTitle(locale)}</h1>
 						<div class="pro-wrapper-meta">
-							<#if entry.getActivitStatusCategory()?has_content>
-								<div class="pro-statut" ><span style="background : #${entry.getActivityStatusClass()};">${entry.getActivitStatusCategory().getTitle(locale)}</span></div>
+							<#if entry.getActivityStatusCategory()?has_content>
+								<div class="pro-statut" ><span style="background : #${entry.getActivityStatusClass()};">${entry.getActivityStatusCategory().getTitle(locale)}</span></div>
 							</#if>
 							<div class="pro-meta">
 							
