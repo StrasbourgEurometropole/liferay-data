@@ -181,7 +181,7 @@
 
 
                 <div class="pro-optin form-checkbox">
-                    <div>
+                    <div class="fontWhite">
                         <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_messageHelpProposal"/>
                     </div>
                 </div>
