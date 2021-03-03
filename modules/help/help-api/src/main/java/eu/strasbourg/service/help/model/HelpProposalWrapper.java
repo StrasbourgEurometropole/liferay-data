@@ -975,6 +975,14 @@ public class HelpProposalWrapper
 	}
 
 	/**
+	 * Retourne si la catégorie statut activité est bien à "Active" sinon "Inactive"
+	 */
+	@Override
+	public boolean isActive() {
+		return model.isActive();
+	}
+
+	/**
 	 * Returns <code>true</code> if this help proposal is approved.
 	 *
 	 * @return <code>true</code> if this help proposal is approved; <code>false</code> otherwise

@@ -52,6 +52,8 @@ import java.util.stream.Collectors;
 @ProviderType
 public class HelpProposalImpl extends HelpProposalBaseImpl {
 
+	public static final String STATUS_ACTIVE = "Active";
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -117,6 +119,19 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Retourne si la catégorie statut activité est bien à "Active" sinon "Inactive"
+	 */
+	@Override
+	public boolean isActive() {
+		boolean result = false;
+		AssetCategory ActivityStatusCategory = this.getActivityStatusCategory();
+		if (ActivityStatusCategory != null) {
+			result = ActivityStatusCategory.getName().equals(STATUS_ACTIVE);
+		}
+		return result;
 	}
 
 	/**

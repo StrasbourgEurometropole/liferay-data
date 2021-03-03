@@ -87,6 +87,11 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 		getActivityStatusCategory();
 
 	/**
+	 * Retourne si la catégorie statut activité est bien à "Active" sinon "Inactive"
+	 */
+	public boolean isActive();
+
+	/**
 	 * Retourne la class du statut de modération de la proposition d'aide (
 	 */
 	public String getModerationStatusClass();
