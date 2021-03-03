@@ -201,6 +201,12 @@ form{
 	&.pro-form-page-contact{
 		.pro-wrapper{
 			padding: 20px 0 30px 0;
+
+			p{
+				color: $c_main;
+				font-weight: 700;
+				font-size: 1.25em;
+			}
 		}
 		.form-checkbox.pro-optin{
 			> div{

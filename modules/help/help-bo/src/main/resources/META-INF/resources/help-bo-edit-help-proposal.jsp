@@ -25,6 +25,7 @@
 	<%-- Composant : definit la liste des messages d'erreur 
 	(voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="address-error" message="address-error" />
 	<liferay-ui:error key="city-error" message="city-error" />
 	<liferay-ui:error key="postal-code-error" message="postal-code-error" />
@@ -50,15 +51,18 @@
 				<%-- Champ : Titre --%>
 				<aui:input name="title" required="true" />
 
+				<%-- Champ : Date de création --%>
+				<aui:input name="createDate" disabled="true" />
+
 				<%-- Champ : Date de modification --%>
 				<aui:input name="modifiedByUserDate" disabled="true" helpMessage="help-update-date-by-user" />
 				
 				<%-- Champ : Détail de l'aide --%>
-				<aui:input name="description" required="false"/>
+				<aui:input name="description" required="true"/>
 
 				<%-- Champ : Image interne --%>
 				<div class="internalImage">
-					<strasbourg-picker:image label="photo" name="imageId" required="false" value="${dc.helpProposal.imageId}" global="false" />
+					<strasbourg-picker:image label="help.photo" name="imageId" required="false" value="${dc.helpProposal.imageId}" global="false" />
 				</div>
 				
 			</aui:fieldset>
@@ -127,6 +131,12 @@
 
 			<%-- Groupe de champs : Autres --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="moderation">
+
+			    <%-- Champ : Dernière modification faite par --%>
+                <aui:input name="statusByUserName" label="last-moderation-user-name" disabled="true" required="false" />
+
+                <%-- Champ : Dernière modification faite le --%>
+                <aui:input name="statusDate" label="last-moderation-date" disabled="true" required="false" helpMessage="help-last-moderation-date" />
 
 				<%-- Champ : Commentaire --%>
 				<aui:input name="comment" required="false" />

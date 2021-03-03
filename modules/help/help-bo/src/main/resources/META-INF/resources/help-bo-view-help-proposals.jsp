@@ -25,8 +25,8 @@
 				<li><a>Filtrer par :</a></li>
 			</c:if>
 			<c:forEach var="vocabulary" items="${dc.vocabularies}">
-				<liferay-frontend:management-bar-filter 
-					managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}" 
+				<liferay-frontend:management-bar-filter
+					managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}"
 					value="${dc.getVocabularyFilterLabel(vocabulary)}" />
 			</c:forEach>
 
@@ -54,7 +54,7 @@
 				icon="trash" label="delete" />
 			</c:if>
 		</liferay-frontend:management-bar-action-buttons>
-		
+
 </liferay-frontend:management-bar>
 
 <%-- Composant : tableau de visualisation des entites --%>
@@ -68,7 +68,7 @@
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.help.model.HelpProposal" modelVar="helpProposal"
 				keyProperty="helpProposalId" rowIdProperty="helpProposalId">
-				
+
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionne --%>
 				<liferay-portlet:renderURL varImpl="editHelpProposalURL">
 					<portlet:param name="cmd" value="editHelpProposal" />
@@ -89,12 +89,12 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editHelpProposalURL}" name="title" truncate="true" orderable="true"
 					value="${helpProposal.titleCurrentValue}" />
-				
+
 				<%-- Colonne : Createur --%>
 				<liferay-ui:search-container-column-text name="user">
 					${helpProposal.authorNameLabel}
 				</liferay-ui:search-container-column-text>
-				
+
 				<%-- Colonne : Statut activité de l'aide --%>
 				<liferay-ui:search-container-column-text name="statusHelpActivity">
                     <span class="badge ${helpProposal.getActivityStatusClass()}">
@@ -145,6 +145,16 @@
 							<c:if test="${helpProposal.getActivityStatusTitle(locale) == 'Inactive'}">
 								<liferay-ui:icon message="reactivate-help-proposal" url="${changeActivityHelpProposalURL}" />
 							</c:if>
+						</c:if>
+
+						<%-- URL : definit le lien vers l'action de modifier l'aide --%>
+						<liferay-portlet:actionURL name="readHelpProposal" var="readHelpProposalURL">
+							<portlet:param name="cmd" value="readHelpProposal" />
+							<portlet:param name="tab" value="helpProposals" />
+							<portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />
+						</liferay-portlet:actionURL>
+						<c:if test="${dc.hasPermission('EDIT_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<liferay-ui:icon message="setRead" url="${readHelpProposalURL}" />
 						</c:if>
 
 						<liferay-portlet:actionURL name="deleteHelpProposal" var="deleteHelpProposalURL">

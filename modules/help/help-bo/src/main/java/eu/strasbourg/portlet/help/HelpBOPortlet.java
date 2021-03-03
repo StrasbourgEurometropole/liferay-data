@@ -76,6 +76,7 @@ public class HelpBOPortlet extends MVCPortlet {
 			ViewHelpSeekersDisplayContext dc = new ViewHelpSeekersDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else { // Else, we are on the main list page
+				title = "helpProposals";
 				ViewHelpsDisplayContext dc = new ViewHelpsDisplayContext(renderRequest, renderResponse);
 				renderRequest.setAttribute("dc", dc);
 		}

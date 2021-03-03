@@ -63,7 +63,7 @@
                             </a>
                         </#if>
                         <ul>
-                            <li><a href="${themeDisplay.getPortalURL()}${homeURL}glossaire" title="Lien vers la page Glossaire & Règles d’utilisation">Glossaire & Règles d’utilisation</a></li>
+                            <li><a href="${themeDisplay.getPortalURL()}${homeURL}conditions-generales-d-utilisation" title="Lien vers la page Glossaire & Règles d’utilisation">Conditions générales d'utilisation</a></li>
                         </ul>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
         <div class="container pro-header">
             <a href="${themeDisplay.getPortalURL()}${homeURL}accueil" class="pro-logo" title="Lien du Logo du site Portail du Citoyen Strasbourg" aria-label="Logo du site Portail du Citoyen Strasbourg">
                 <figure role="group">
-                    <img src="/o/aider-theme/images/logos/logo.png" srcset="/o/aider-theme/images/logos/logo.png 2x" width="128" height="122" alt="Logo du site"/>
+                    <img style="display:none" src="/o/aider-theme/images/logos/logo.png" srcset="/o/aider-theme/images/logos/logo.png 2x" width="128" height="122" alt="Logo du site"/>
                 </figure>
             </a>
 

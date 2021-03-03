@@ -56,6 +56,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -198,10 +199,10 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
             helpProposal.setCity(this.city);
             helpProposal.setPostalCode(Long.parseLong(this.postalcode));
             helpProposal.setPhoneNumber(this.phoneNumber);
-            helpProposal.setTitle(this.title);
-            helpProposal.setDescription(this.presentation);
+            helpProposal.setTitle(this.title, Locale.FRANCE);
+            helpProposal.setDescription(this.presentation, Locale.FRANCE);
             helpProposal.setInTheNameOf(this.inTheNameOf);
-            helpProposal.setSpokenLanguages(this.language);
+            helpProposal.setSpokenLanguages(this.language, Locale.FRANCE);
             helpProposal.setPublikId(this.publikID);
             helpProposal = uploadFile(helpProposal, request);
 
@@ -209,7 +210,8 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
             
         } catch (PortalException | IOException e) {
             _log.error(e);
-            throw new PortletException(e);
+            this.message = e.getMessage();
+            return false;
         }
         _log.info("Proposition d'aide cree : " + helpProposal);
         this.message = ""+helpProposal.getHelpProposalId();
@@ -237,7 +239,8 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
 //			context.put("headerImage", headerImage.toString());
 //			context.put("footerImage", btnImage.toString());
             // Retourne l'URL de la page d'accueil
-			context.put("detailURL", themeDisplay.getScopeGroup().getDisplayURL(themeDisplay) + "/detail-aide/-/entity/id/" + this.helpProposalId);
+            context.put("domaine", themeDisplay.getScopeGroup().getDisplayURL(themeDisplay));
+            context.put("detailURL", "/detail-aide/-/entity/id/" + this.helpProposalId);
 
             StringWriter out = new StringWriter();
 
@@ -332,7 +335,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         String fileName = uploadRequest.getFileName(PHOTO);
         if (fileName != null && !fileName.isEmpty()) {
-            String type = fileName.substring(fileName.lastIndexOf("."));
+            String type = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
             result = type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
         }
         return result;
@@ -355,6 +358,12 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
         // title
         if (Validator.isNull(this.title)) {
             this.message = "Titre non valide";
+            return false;
+        }
+
+        // présentation
+        if (Validator.isNull(this.presentation)) {
+            this.message = "Présentation non valide";
             return false;
         }
 

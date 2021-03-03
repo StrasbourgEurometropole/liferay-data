@@ -59,6 +59,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -221,8 +222,8 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
 
             initiative = HelpProposalLocalServiceUtil.createHelpProposal(sc);
             
-            initiative.setTitle(this.title);
-            initiative.setDescription(this.description);
+            initiative.setTitle(this.title, Locale.FRANCE);
+            initiative.setDescription(this.description, Locale.FRANCE);
             initiative.setInTheNameOf(this.inTheNameOf);
             initiative.setPublikId(this.publikID);
             initiative = uploadFile(initiative, request);

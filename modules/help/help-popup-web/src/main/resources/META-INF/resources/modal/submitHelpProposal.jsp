@@ -82,7 +82,7 @@
                                 <c:set var="phoneNumber" value="${userConnected.get('mobile')}" />
                             </c:if>
                         </c:if>
-                        <aui:input name="phoneNumber" label="modal.user.phone" required="true" maxlength="20" value="${phoneNumber}"/>
+                        <aui:input name="phoneNumber" label="modal.user.phone" required="true" value="${phoneNumber}"/>
                     </div>
 
                 </div>
@@ -124,7 +124,7 @@
 
                     <%-- Champ : Présentation --%>
                     <div class="form-group">
-                        <aui:input id="presentation" type="textarea" name="presentation" label="modal.submit.help.information.presentation" value=""/>
+                        <aui:input id="presentation" type="textarea" name="presentation" required="true" label="modal.submit.help.information.presentation" value=""/>
                     </div>
 
                     <%-- Groupe de champs : Je suis --%>
@@ -175,13 +175,15 @@
                             </span>
                         </div>
                     </div>
+                    <p><liferay-ui:message key='submit-proposal-help-image-information'/></p>
                     
                 </div>
 
-                <div class="pro-optin group-checkbox" >
-                    <label class="fontWhite">
-                        <liferay-ui:message key="modal.submit.help.information.legalage"/>
-                    </label>
+
+                <div class="pro-optin form-checkbox">
+                    <div class="fontWhite">
+                        <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_messageHelpProposal"/>
+                    </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
@@ -190,12 +192,6 @@
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageSubmitHelpProposal"/>
                         </label>
                     </div>
-                </div>
-
-                <div class="pro-optin group-checkbox" >
-                    <label class="fontWhite">
-                        <liferay-ui:message key="modal.submit.help.information.security"/>
-                    </label>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
@@ -208,20 +204,6 @@
                         <input type="checkbox" id="<portlet:namespace />security2" value="security2">
                         <label for="<portlet:namespace />security2" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_security2SubmitHelp"/>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="pro-optin group-checkbox" >
-                    <label class="fontWhite">
-                        <liferay-ui:message key="modal.submit.help.information.responsability"/>
-                    </label>
-                </div>
-                <div class="pro-optin form-checkbox">
-                    <div>
-                        <input type="checkbox"  id="<portlet:namespace />responsability" value="responsability">
-                        <label for="<portlet:namespace />responsability" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_responsabilitySubmitHelp"/>
                         </label>
                     </div>
                 </div>
@@ -368,7 +350,6 @@
         $("#<portlet:namespace />legalage").prop("checked", false);
         $("#<portlet:namespace />security").prop("checked", false);
         $("#<portlet:namespace />security2").prop("checked", false);
-        $("#<portlet:namespace />responsability").prop("checked", false);
     }
 
     /*
@@ -383,6 +364,12 @@
             $("#<portlet:namespace />title").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#<portlet:namespace />title").css({ "box-shadow" : "" });
+
+        var presentation = $("#<portlet:namespace />presentation").val();
+        if (presentation===null || presentation===""){
+            $("#<portlet:namespace />presentation").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />presentation").css({ "box-shadow" : "" });
 
         var address = $("#<portlet:namespace />address").val();
         if (address===null || address===""){
@@ -460,14 +447,6 @@
             $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "" });
-
-        var responsability = $("#<portlet:namespace />responsability").is(":checked");
-        if (!responsability){
-            $("#<portlet:namespace />responsability").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#<portlet:namespace />responsability").closest('div').css({ "box-shadow" : "" });
-
-
 
         if (!result)
             $("#<portlet:namespace />alert").removeClass("hidden");
