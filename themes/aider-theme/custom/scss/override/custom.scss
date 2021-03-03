@@ -398,3 +398,8 @@
 
 }
 // Fin correctifs d'affichage des liens après renouvellement de charte grahique de fin 2020
+
+// Hotfix de SimplebarJS ne permettant plus le scroll plus sous Chrome 3.5.0
+#th-global .pro-modal .modal-dialog {
+    pointer-events: inherit;
+}
