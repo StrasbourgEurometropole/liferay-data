@@ -40,8 +40,8 @@
 			<liferay-ui:search-container-results results="${dc.helpSeekers}" />
 
 			<liferay-ui:search-container-row
-                className="eu.strasbourg.service.oidc.model.PublikUser" modelVar="helpSeeker"
-                keyProperty="publikUserLiferayId" rowIdProperty="publikUserLiferayId" escapedModel="true">
+                className="eu.strasbourg.portlet.help.context.ViewHelpSeekersDisplayContext.HelpSeeker" modelVar="helpSeeker"
+                keyProperty="publikUser.publikUserLiferayId" rowIdProperty="publikUserLiferayId" escapedModel="true">
 
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
 				<%-- TODO : faire un lien vers le BO de OIDC -->
@@ -55,7 +55,7 @@
                 <%-- URL : definit le lien vers la page de consultation des demandes d'aide --%>
                 <liferay-portlet:renderURL varImpl="viewSeekerHelpRequestsURL">
                     <portlet:param name="cmd" value="viewSeekerHelpRequests" />
-                    <portlet:param name="helpSeekerId" value="${helpSeeker.publikUserLiferayId}" />
+                    <portlet:param name="helpSeekerId" value="${helpSeeker.publikUser.publikId}" />
                     <portlet:param name="returnURL" value="${helpSeekersURL}" />
                     <portlet:param name="mvcPath" value="/help-bo-view-seeker-help-requests.jsp" />
                 </liferay-portlet:renderURL>
@@ -63,25 +63,25 @@
                 <%-- Colonne : Nom --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
                     href="${viewSeekerHelpRequestsURL}" name="last-name" truncate="true" orderable="true"
-                    value="${helpSeeker.lastName}" />
+                    value="${helpSeeker.publikUser.lastName}" />
 
                 <%-- Colonne : Prenom --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
                     href="${viewSeekerHelpRequestsURL}" name="first-name" truncate="true" orderable="true"
-                    value="${helpSeeker.firstName}" />
+                    value="${helpSeeker.publikUser.firstName}" />
 
                 <%-- Colonne : Email --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
                     href="${viewSeekerHelpRequestsURL}" name="email" truncate="true" orderable="true"
-                    value="${helpSeeker.email}" />
+                    value="${helpSeeker.publikUser.email}" />
 
                 <%-- Colonne : Nombre de demandes de l'utilisateur --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
                     href="${viewSeekerHelpRequestsURL}" name="nb-requests" truncate="true" orderable="true"
-                    value="${dc.helpRequestsNumbers[helpSeeker.publikId]}" />
+                    value="${helpSeeker.requestsNumber}" />
 
                 <%-- Colonne : Date de dernière demande --%>
-                <fmt:formatDate value="${dc.lastRequestbySeekers[helpSeeker.publikId].createDate}"
+                <fmt:formatDate value="${helpSeeker.publikUser.createDate}"
                     var="formattedLastRequestDate" type="date" pattern="dd/MM/yyyy HH:mm" />
                 <liferay-ui:search-container-column-text cssClass="content-column"
                     href="${viewSeekerHelpRequestsURL}" name="last-request-date" truncate="true" orderable="true"
