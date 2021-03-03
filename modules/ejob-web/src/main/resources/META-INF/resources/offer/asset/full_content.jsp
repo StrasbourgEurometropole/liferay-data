@@ -100,10 +100,12 @@
                 ${gradeRange[2].getTitle(locale)}
             </p>
 
-            <h4><liferay-ui:message key="eu.offer-grade-max" /></h4>
-            <p>
-                ${gradeRange[3].getTitle(locale)}
-            </p>
+            <c:if test="${not empty gradeRange[3]}" >
+                <h4><liferay-ui:message key="eu.offer-grade-max" /></h4>
+                <p>
+                    ${gradeRange[3].getTitle(locale)}
+                </p>
+            </c:if>
         </div>
     </c:forEach>
 </c:if>

@@ -32,7 +32,7 @@ public class CheckEventMessageListener
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
-		// Maintenant + 2 min pour ne pas lancer le scheduler au Startup du module
+		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
 		Calendar now = Calendar.getInstance();
 		now.add(Calendar.MINUTE, 5);
 		Date fiveMinutesFromNow = now.getTime();

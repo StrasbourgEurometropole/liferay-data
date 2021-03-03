@@ -1,0 +1,28 @@
+.fas {
+	font-family: 'FontAwesome';
+}
+.fa-hands-helping:before {
+	content: "\f4c4";
+}
+.fa-search:before {
+	content: "\f002";
+}
+
+.fas {
+    display: inline;
+    width: auto;
+    height: auto;
+    line-height: normal;
+    vertical-align: baseline;
+    background-image: none;
+    background-position: 0% 0%;
+    background-repeat: repeat;
+    margin-top: 0;
+}
+
+.fas:before {
+    text-decoration: inherit;
+    display: inline-block;
+    speak: none;
+}
+

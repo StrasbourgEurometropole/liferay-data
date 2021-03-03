@@ -1,0 +1,28 @@
+.pro-page-404 {
+	header {
+		.caption {
+			text-align: left;
+		}
+	}
+
+	.pro-bloc {
+		padding: 80px 15px;
+		text-align: center;
+		h2 {
+			font-size: 2em;
+			@include mobile {
+				font-size: 1.5em;
+			}
+		}
+		.pro-btn-yellow {
+			display: inline-block;
+			width: auto;
+			padding: 12px 30px;
+			&:hover, &:focus {
+				background: $c_dark;
+				border-color: $c_dark;
+				color: $c_main;
+			}
+		}
+	}
+}
