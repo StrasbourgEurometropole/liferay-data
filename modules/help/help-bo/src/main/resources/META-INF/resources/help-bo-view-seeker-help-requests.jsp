@@ -35,23 +35,36 @@
 			<liferay-ui:search-container-results results="${dc.helpRequests}" />
 			<liferay-ui:search-container-row className="eu.strasbourg.service.help.model.HelpRequest" modelVar="helpRequest"
 											 keyProperty="helpRequestId" rowIdProperty="helpRequestId">
+
+                <%-- URL : definit le lien vers la page d'ajout/edition d'une demande d'aide --%>
+                <liferay-portlet:renderURL varImpl="editHelpRequestURL">
+                    <portlet:param name="cmd" value="editHelpRequest" />
+                    <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
+                    <portlet:param name="mvcPath" value="/help-bo-edit-help-request.jsp" />
+                    <portlet:param name="returnURL" value="${dc.currentUrl}" />
+                </liferay-portlet:renderURL>
+
 				<%-- Colonne : Auteur de la demande --%>
-				<liferay-ui:search-container-column-text name="help-proposal-title">
+				<liferay-ui:search-container-column-text name="help-proposal-title"
+                                                         href="${editHelpRequestURL}">
 					${helpRequest.helpProposal.getTitle(locale)}
 				</liferay-ui:search-container-column-text>
 				<%-- Colonne : Message de la demande --%>
-				<liferay-ui:search-container-column-text name="helper-name">
+				<liferay-ui:search-container-column-text name="helper-name"
+                                                         href="${editHelpRequestURL}">
 					${helpRequest.helpProposal.authorNameLabel}
 				</liferay-ui:search-container-column-text>
 				<%-- Colonne : Statut activite de l'aide --%>
-				<liferay-ui:search-container-column-text name="statusHelpActivity">
+				<liferay-ui:search-container-column-text name="statusHelpActivity"
+                                                         href="${editHelpRequestURL}">
                     <span class="badge ${helpRequest.helpProposal.getActivityStatusClass()}">
 							${helpRequest.helpProposal.getActivityStatusTitle(locale)}
 					</span>
 				</liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Statut moderation de l'aide --%>
-				<liferay-ui:search-container-column-text name="statusHelpModeration">
+				<liferay-ui:search-container-column-text name="statusHelpModeration"
+                                                         href="${editHelpRequestURL}">
 				    <span class="badge ${helpRequest.helpProposal.getModerationStatusClass()}">
 							${helpRequest.helpProposal.getModerationStatusTitle(locale)}
 					</span>
@@ -59,19 +72,13 @@
 				<%-- Colonne : Date de depot de la demande --%>
 				<fmt:formatDate value="${helpRequest.createDate}"
 								var="formattedCreateDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-														 name="request-create-date" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text cssClass="content-column" href="${editHelpRequestURL}"
+														 name="request-create-date"
 														 value="${formattedCreateDate}" />
 				<%-- Colonne : Boutons --%>
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
-						<%-- URL : definit le lien vers la page d'ajout/edition d'une entite --%>
-						<liferay-portlet:renderURL varImpl="editHelpRequestURL">
-							<portlet:param name="cmd" value="editHelpRequest" />
-							<portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
-							<portlet:param name="mvcPath" value="/help-bo-edit-help-request.jsp" />
-							<portlet:param name="returnURL" value="${dc.currentUrl}" />
-						</liferay-portlet:renderURL>
+
 						<%-- Consulter la demande --%>
 						<c:if test="${dc.hasPermission('EDIT_HELP_REQUEST') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="view-help-request" url="${editHelpRequestURL}" />

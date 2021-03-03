@@ -43,15 +43,6 @@
                 className="eu.strasbourg.portlet.help.context.ViewHelpSeekersDisplayContext.HelpSeeker" modelVar="helpSeeker"
                 keyProperty="publikUser.publikUserLiferayId" rowIdProperty="publikUserLiferayId" escapedModel="true">
 
-				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
-				<%-- TODO : faire un lien vers le BO de OIDC -->
-                <liferay-portlet:renderURL varImpl="editHelpSeekerURL">
-                    <portlet:param name="cmd" value="editHelpSeeker" />
-                    <portlet:param name="publikUserLiferayId" value="${helpSeeker.publikUserLiferayId}" />
-                    <portlet:param name="returnURL" value="${helpSeekersURL}" />
-                    <portlet:param name="mvcPath" value="/oidc-bo-edit-publikuser.jsp" />
-                </liferay-portlet:renderURL>
-
                 <%-- URL : definit le lien vers la page de consultation des demandes d'aide --%>
                 <liferay-portlet:renderURL varImpl="viewSeekerHelpRequestsURL">
                     <portlet:param name="cmd" value="viewSeekerHelpRequests" />
@@ -81,24 +72,30 @@
                     value="${helpSeeker.requestsNumber}" />
 
                 <%-- Colonne : Date de dernière demande --%>
-                <fmt:formatDate value="${helpSeeker.publikUser.createDate}"
+                <fmt:formatDate value="${helpSeeker.lastRequest.createDate}"
                     var="formattedLastRequestDate" type="date" pattern="dd/MM/yyyy HH:mm" />
                 <liferay-ui:search-container-column-text cssClass="content-column"
                     href="${viewSeekerHelpRequestsURL}" name="last-request-date" truncate="true" orderable="true"
                     value="${formattedLastRequestDate}" />
 
+				<%-- URL : definit le lien vers la page de consultation des demandes d'aide --%>
+				<liferay-portlet:renderURL varImpl="editHelpSeekerURL">
+					<portlet:param name="cmd" value="editHelpSeeker" />
+					<portlet:param name="helpSeekerId" value="${helpSeeker.publikUser.publikUserLiferayId}" />
+					<portlet:param name="returnURL" value="${dc.currentURL}" />
+					<portlet:param name="mvcPath" value="/oidc-bo-edit-publikuser.jsp" />
+				</liferay-portlet:renderURL>
                 <%-- Colonne : Actions possibles --%>
                 <liferay-ui:search-container-column-text>
                     <liferay-ui:icon-menu markupView="lexicon">
                         <liferay-ui:icon message="view-help-requests" url="${viewSeekerHelpRequestsURL}" />
-                        <%-- TODO : ajouter un checker qui verifie selon OIDC BO
-                            <c:if test="${dc.hasPermission('EDIT_PUBLIKUSER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                        --%>
-                            <liferay-ui:icon message="view-user-profil" url="${viewSeekerHelpRequestsURL}" />
-                        <%--
-                            </c:if>
-                        --%>
 
+						<%--
+						<c:set value="${helpSeeker.publikUser.publikUserLiferayId}" var="publikId" />
+						<c:if test="${dc.hasPermissionOIDC('EDIT_PUBLIKUSER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<liferay-ui:icon message="view-user-profil" url="${dc.getPublikUserEditURL(publikId)}" />
+						</c:if>
+						--%>
                     </liferay-ui:icon-menu>
                 </liferay-ui:search-container-column-text>
 
