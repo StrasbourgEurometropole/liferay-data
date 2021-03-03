@@ -78,10 +78,10 @@
                 <%-- Colonne : Nombre de demandes de l'utilisateur --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
                     href="${viewSeekerHelpRequestsURL}" name="nb-requests" truncate="true" orderable="true"
-                    value="3" />
+                    value="${dc.helpRequestsNumbers[helpSeeker.publikId]}" />
 
                 <%-- Colonne : Date de dernière demande --%>
-                <fmt:formatDate value="${helpSeeker.modifiedDate}"
+                <fmt:formatDate value="${dc.lastRequestbySeekers[helpSeeker.publikId].createDate}"
                     var="formattedLastRequestDate" type="date" pattern="dd/MM/yyyy HH:mm" />
                 <liferay-ui:search-container-column-text cssClass="content-column"
                     href="${viewSeekerHelpRequestsURL}" name="last-request-date" truncate="true" orderable="true"
