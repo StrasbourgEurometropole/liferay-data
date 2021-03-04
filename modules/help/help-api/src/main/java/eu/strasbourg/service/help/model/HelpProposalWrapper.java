@@ -232,11 +232,19 @@ public class HelpProposalWrapper
 	}
 
 	/**
-	 * Retourne la class du statut d'activité de la proposition d'aide (
+	 * Retourne la class du statut d'activité de la proposition d'aide
 	 */
 	@Override
 	public String getActivityStatusClass() {
 		return model.getActivityStatusClass();
+	}
+
+	/**
+	 * Retourne la couleur du statut d'activité de la proposition d'aide
+	 */
+	@Override
+	public String getActivityStatusColor() {
+		return model.getActivityStatusColor();
 	}
 
 	/**

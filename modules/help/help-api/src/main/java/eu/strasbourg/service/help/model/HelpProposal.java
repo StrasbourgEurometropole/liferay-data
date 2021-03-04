@@ -71,7 +71,12 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 		getCategories();
 
 	/**
-	 * Retourne la class du statut d'activité de la proposition d'aide (
+	 * Retourne la couleur du statut d'activité de la proposition d'aide
+	 */
+	public String getActivityStatusColor();
+
+	/**
+	 * Retourne la class du statut d'activité de la proposition d'aide
 	 */
 	public String getActivityStatusClass();
 
