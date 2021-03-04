@@ -122,8 +122,14 @@ function createHelp(help){
                 ) +
                 '<div>' +
                     '<div class="pro-header-help">' +
-                        '<p>Aide proposée par : ' +
-                        '<strong>' + help.author + '</strong></p>' +
+                        '<p>Aide proposée par : ' + '<strong>' + help.author + '</strong></p>' +
+                        (!help.isActive ?
+                            '<div class="pro-statut">' + 
+                                '<span style="background : #' + help.activityStatusColor +';">' +
+                                    help.activityStatusTitle +
+                                '</span>' +
+                            '</div>'
+                        : '') +
                     '</div>' +
                     '<div class="pro-content-help">' +
                         '<div class="pro-wrapper-meta">' +

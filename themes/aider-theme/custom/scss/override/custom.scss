@@ -403,3 +403,27 @@
 #th-global .pro-modal .modal-dialog {
     pointer-events: inherit;
 }
+
+// Affichage des statuts de propositions d'aide sur les vignettes de la recherche
+#th-global .pro-bloc-card-help .pro-header-help .pro-statut {
+
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    width: auto;
+    text-align: right;
+
+    span {
+        font-family: "proximanovalight",Arial,sans-serif;
+        font-size: .875em;
+        font-weight: 700;
+        color: #fff;
+        line-height: normal;
+        background: #000;
+        border-radius: 4px;
+        text-transform: uppercase;
+        display: block;
+        padding: 3px 10px;
+    }
+
+}

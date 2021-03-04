@@ -419,6 +419,12 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		// Liste des Ids des catégories
 		jsonHelpProposal.put("localisationLabel", this.getLocalisationLabel(locale));
 		jsonHelpProposal.put("helpProposalTypeLabel", this.getHelpProposalTypeLabel(locale));
+
+		// Elements liés aux vocabulaires
+		jsonHelpProposal.put("isActive", this.isActive());
+		jsonHelpProposal.put("activityStatusTitle", this.getActivityStatusTitle(locale));
+		jsonHelpProposal.put("activityStatusColor", this.getActivityStatusColor());
+
 		/*
 		JSONArray jsonThematics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThematicCategories());
 		if (jsonThematics.length() > 0) {
