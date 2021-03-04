@@ -54,6 +54,11 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 
 	public static final String STATUS_ACTIVE = "Active";
 
+	public static final String HELP_DEFAULT_COLOR = "00aeef";
+
+	public static final String PROPERTIES_CLASS = "class";
+	public static final String PROPERTIES_COLOR_CODE = "color_code";
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -82,13 +87,26 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	}
 
 	/**
-	 * Retourne la class du statut d'activité de la proposition d'aide (
+	* Retourne la couleur du statut d'activité de la proposition d'aide
+	 */
+	 @Override
+	 public String getActivityStatusColor() {
+	 	String result = "";
+		AssetCategory ActivityStatusCategory = this.getActivityStatusCategory();
+		if (ActivityStatusCategory != null) {
+			result = AssetVocabularyHelper.getCategoryProperty(ActivityStatusCategory.getCategoryId(), PROPERTIES_COLOR_CODE);
+		}
+		return result.equals("") ? HELP_DEFAULT_COLOR : result;
+	}
+
+	/**
+	 * Retourne la class du statut d'activité de la proposition d'aide
 	 */
 	@Override
 	public String getActivityStatusClass() {
 		AssetCategory ActivityStatusCategory = this.getActivityStatusCategory();
 		if (ActivityStatusCategory != null) {
-			return AssetVocabularyHelper.getCategoryProperty(ActivityStatusCategory.getCategoryId(), "class");
+			return AssetVocabularyHelper.getCategoryProperty(ActivityStatusCategory.getCategoryId(), PROPERTIES_CLASS);
 		} else {
 			return "";
 		}
