@@ -1,0 +1,173 @@
+{
+    "availableLanguageIds": [
+        "fr_FR"
+    ],
+    "defaultLanguageId": "fr_FR",
+    "fields": [
+        {
+            "label": {
+                "fr_FR": "Titre ligne 1"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "titleLine1",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Titre ligne 2"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "titleLine2",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Image"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "image",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "ddm-image",
+            "nestedFields": [
+                {
+                    "label": {
+                        "fr_FR": "Crédit photographie"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "copyright",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": true,
+                    "showLabel": true,
+                    "type": "text"
+                }
+            ]
+        },
+        {
+            "label": {
+                "fr_FR": "Texte"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
+            "localizable": true,
+            "name": "text",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "ddm-text-html"
+        },
+        {
+            "label": {
+                "fr_FR": "Nom du lien"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "linkLabel",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "URL du lien"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "linkUrl",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        }
+    ]
+}
