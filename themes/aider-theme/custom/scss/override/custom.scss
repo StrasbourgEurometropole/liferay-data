@@ -427,3 +427,24 @@
     }
 
 }
+
+// Affichage des statuts de propositions d'aide sur les vignettes du slider
+#th-global .pro-bloc-card-help .pro-footer-help .pro-statut {
+
+    float: right;
+    padding-top: 28px;
+
+    span {
+        font-family: "proximanovalight",Arial,sans-serif;
+        font-size: .875em;
+        font-weight: 700;
+        color: #fff;
+        line-height: normal;
+        background: #000;
+        border-radius: 4px;
+        text-transform: uppercase;
+        display: block;
+        padding: 3px 10px;
+    }
+
+}
