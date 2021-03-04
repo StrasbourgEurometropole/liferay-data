@@ -420,6 +420,13 @@ public class HelpProposalLocalServiceWrapper
 		return _helpProposalLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public void reindexById(long helpProposalId)
+		throws com.liferay.portal.kernel.search.SearchException {
+
+		_helpProposalLocalService.reindexById(helpProposalId);
+	}
+
 	/**
 	 * Supprime une helpProposal
 	 */

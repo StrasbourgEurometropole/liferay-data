@@ -255,6 +255,13 @@ public class HelpProposalLocalServiceImpl
 		}
 	}
 
+	@Override
+	public void reindexById(long helpProposalId) throws SearchException {
+		HelpProposal helpProposal = fetchHelpProposal(helpProposalId);
+		if (helpProposal != null)
+			reindex(helpProposal, false);
+	}
+
 	// FINDERS
 	/**
 	 * Retourne toutes les helpProposal d'un groupe

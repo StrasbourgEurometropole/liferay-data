@@ -393,6 +393,12 @@ public class HelpProposalLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
+	public static void reindexById(long helpProposalId)
+		throws com.liferay.portal.kernel.search.SearchException {
+
+		getService().reindexById(helpProposalId);
+	}
+
 	/**
 	 * Supprime une helpProposal
 	 */

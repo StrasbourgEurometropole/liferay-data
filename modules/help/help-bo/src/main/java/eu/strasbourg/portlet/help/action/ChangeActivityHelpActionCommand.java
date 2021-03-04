@@ -1,9 +1,6 @@
 package eu.strasbourg.portlet.help.action;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetEntryLocalService;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
@@ -22,9 +19,7 @@ import org.osgi.service.component.annotations.Reference;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component(
         immediate = true,
@@ -37,8 +32,7 @@ import java.util.stream.Collectors;
 public class ChangeActivityHelpActionCommand implements MVCActionCommand {
 
     @Override
-    public boolean processAction(ActionRequest request, ActionResponse response)
-            throws PortletException {
+    public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
 
         try {
             long helpProposalId = ParamUtil.getLong(request, "helpProposalId");
@@ -60,6 +54,7 @@ public class ChangeActivityHelpActionCommand implements MVCActionCommand {
                 AssetCategoryLocalServiceUtil.deleteAssetEntryAssetCategory(helpAssetId, inactive);
                 AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(helpAssetId, active);
             }
+            _helpProposalLocalService.reindexById(helpProposal.getHelpProposalId());
         } catch (PortalException e) {
             _log.error(e);
         }
