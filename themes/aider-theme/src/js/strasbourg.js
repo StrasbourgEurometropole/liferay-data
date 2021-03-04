@@ -24873,6 +24873,15 @@ $(document).on("click", "[name='#Need-connexion']", function(e) {
     $("#myModal").modal();
 });
 
+/*
+* Demande d'action sur une proposition d'aide désactivée
+*/
+$(document).on("click", "[name='#inactive-help-proposal']", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $("#inactive-help-proposal-modal").modal();
+});
+
 /**
  * Retoune le résultat
  */

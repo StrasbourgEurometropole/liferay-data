@@ -158,6 +158,8 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!-- Inclusion de la modal d'alerte d'une propostion d'aide désactivée -->
+<jsp:include page="/include/inactive-help-proposal-modal.jsp"/>
 
 <script type="text/javascript">
 
