@@ -105,25 +105,59 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 					<aside class="col-sm-4" style="diplay:none">
 						
 						<div class="pro-wrapper-links">
+							
 							<#-- Si l'auteur est l'utilisateur courant -->
-							<#if isUserloggedIn && isUserHelping >
-								<a href="#showModalEditHelpProposal" class="pro-btn-yellow" id="buttonEditHelpProposal" data-toggle="modal" data-target="#modalEditHelpProposal">
-									<@liferay_ui.message key="eu.help.update" />
-								</a>
-                                <a href="#" class="pro-btn-yellow" id="buttonDesactivateHelp" data-toggle="modal" data-target="#modalDesactivateHelp">
-									<@liferay_ui.message key="eu.help.desactivate" />
-								</a>   
+							<#if isUserloggedIn && isUserHelping> 
+
+								<#-- Si proposition d'aide activée -->
+								<#if entry.isActive()>
+									<a href="#showModalEditHelpProposal" class="pro-btn-yellow" id="buttonEditHelpProposal" data-toggle="modal" data-target="#modalEditHelpProposal">
+										<@liferay_ui.message key="eu.help.update" />
+									</a>
+									<a href="#" class="pro-btn-yellow" id="buttonDesactivateHelp" data-toggle="modal" data-target="#modalDesactivateHelp">
+										<@liferay_ui.message key="eu.help.desactivate" />
+									</a> 
+								<#-- Alors proposition d'aide désactivée -->
+								<#else>
+									<a name="#inactive-help-proposal" href="" class="pro-btn-yellow pro-btn-disabled">
+										<@liferay_ui.message key="eu.help.update" />
+									</a>
+									<a name="#inactive-help-proposal" href="" class="pro-btn-yellow pro-btn-disabled">
+										<@liferay_ui.message key="eu.help.desactivate" />
+									</a> 
+								</#if>
+
+							<#-- Si l'utilisateur courant est connecté -->
 							<#elseif isUserloggedIn>
-								<#-- Si l'utilisateur courant est connecté -->
-								<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpRequest" data-toggle="modal" data-target="#modalSubmitHelpRequest">
-									<@liferay_ui.message key="eu.help.do-request" />
-								</a>
+								
+								<#-- Si proposition d'aide activée -->
+								<#if entry.isActive()>
+									<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpRequest" data-toggle="modal" data-target="#modalSubmitHelpRequest">
+										<@liferay_ui.message key="eu.help.do-request" />
+									</a>
+								<#-- Alors proposition d'aide désactivée -->
+								<#else>
+									<a name="#inactive-help-proposal" href="" class="pro-btn-yellow pro-btn-disabled">
+										<@liferay_ui.message key="eu.help.do-request" />
+									</a>
+								</#if>
 								<br>
+
+							<#-- Sinon demande de connexion -->
 							<#else>
-								<#-- Sinon demande de connexion -->
-								<a name="#Need-connexion" href="" class="pro-btn-yellow" id="buttonNeedHelp">
-									<@liferay_ui.message key="eu.help.do-request" />
-								</a>
+
+								<#-- Si proposition d'aide activée -->
+								<#if entry.isActive()>
+									<a name="#Need-connexion" href="" class="pro-btn-yellow" id="buttonNeedHelp">
+										<@liferay_ui.message key="eu.help.do-request" />
+									</a>
+								<#-- Alors proposition d'aide désactivée -->
+								<#else>
+									<a name="#inactive-help-proposal" href="" class="pro-btn-yellow pro-btn-disabled">
+										<@liferay_ui.message key="eu.help.do-request" />
+									</a>
+								</#if>
+
 							</#if>
 
 						</div>
