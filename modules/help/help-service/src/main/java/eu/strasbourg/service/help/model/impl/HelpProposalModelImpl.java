@@ -148,9 +148,9 @@ public class HelpProposalModelImpl
 
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long PUBLIKID_COLUMN_BITMASK = 4L;
+	public static final long HELPPROPOSALID_COLUMN_BITMASK = 4L;
 
-	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long PUBLIKID_COLUMN_BITMASK = 8L;
 
 	public static final long UUID_COLUMN_BITMASK = 16L;
 
@@ -431,7 +431,19 @@ public class HelpProposalModelImpl
 
 	@Override
 	public void setHelpProposalId(long helpProposalId) {
+		_columnBitmask |= HELPPROPOSALID_COLUMN_BITMASK;
+
+		if (!_setOriginalHelpProposalId) {
+			_setOriginalHelpProposalId = true;
+
+			_originalHelpProposalId = _helpProposalId;
+		}
+
 		_helpProposalId = helpProposalId;
+	}
+
+	public long getOriginalHelpProposalId() {
+		return _originalHelpProposalId;
 	}
 
 	@Override
@@ -552,19 +564,7 @@ public class HelpProposalModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
-		}
-
 		_status = status;
-	}
-
-	public int getOriginalStatus() {
-		return _originalStatus;
 	}
 
 	@Override
@@ -1497,6 +1497,11 @@ public class HelpProposalModelImpl
 
 		helpProposalModelImpl._originalUuid = helpProposalModelImpl._uuid;
 
+		helpProposalModelImpl._originalHelpProposalId =
+			helpProposalModelImpl._helpProposalId;
+
+		helpProposalModelImpl._setOriginalHelpProposalId = false;
+
 		helpProposalModelImpl._originalGroupId = helpProposalModelImpl._groupId;
 
 		helpProposalModelImpl._setOriginalGroupId = false;
@@ -1507,10 +1512,6 @@ public class HelpProposalModelImpl
 		helpProposalModelImpl._setOriginalCompanyId = false;
 
 		helpProposalModelImpl._setModifiedDate = false;
-
-		helpProposalModelImpl._originalStatus = helpProposalModelImpl._status;
-
-		helpProposalModelImpl._setOriginalStatus = false;
 
 		helpProposalModelImpl._originalPublikId =
 			helpProposalModelImpl._publikId;
@@ -1746,6 +1747,8 @@ public class HelpProposalModelImpl
 	private String _uuid;
 	private String _originalUuid;
 	private long _helpProposalId;
+	private long _originalHelpProposalId;
+	private boolean _setOriginalHelpProposalId;
 	private long _groupId;
 	private long _originalGroupId;
 	private boolean _setOriginalGroupId;
@@ -1758,8 +1761,6 @@ public class HelpProposalModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;

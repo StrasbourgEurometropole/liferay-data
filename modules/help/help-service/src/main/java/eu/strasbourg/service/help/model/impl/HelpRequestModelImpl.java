@@ -82,7 +82,7 @@ public class HelpRequestModelImpl
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
 		{"publikId", Types.VARCHAR}, {"helpProposalId", Types.BIGINT},
 		{"phoneNumber", Types.VARCHAR}, {"message", Types.CLOB},
-		{"foodAllergies", Types.VARCHAR}, {"studentCardImageId", Types.BIGINT}
+		{"studentCardImageId", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -105,12 +105,11 @@ public class HelpRequestModelImpl
 		TABLE_COLUMNS_MAP.put("helpProposalId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("phoneNumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("message", Types.CLOB);
-		TABLE_COLUMNS_MAP.put("foodAllergies", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("studentCardImageId", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table help_HelpRequest (uuid_ VARCHAR(75) null,helpRequestId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,publikId VARCHAR(75) null,helpProposalId LONG,phoneNumber VARCHAR(75) null,message TEXT null,foodAllergies VARCHAR(400) null,studentCardImageId LONG)";
+		"create table help_HelpRequest (uuid_ VARCHAR(75) null,helpRequestId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,publikId VARCHAR(75) null,helpProposalId LONG,phoneNumber VARCHAR(75) null,message TEXT null,studentCardImageId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table help_HelpRequest";
 
@@ -337,11 +336,6 @@ public class HelpRequestModelImpl
 		attributeSetterBiConsumers.put(
 			"message",
 			(BiConsumer<HelpRequest, String>)HelpRequest::setMessage);
-		attributeGetterFunctions.put(
-			"foodAllergies", HelpRequest::getFoodAllergies);
-		attributeSetterBiConsumers.put(
-			"foodAllergies",
-			(BiConsumer<HelpRequest, String>)HelpRequest::setFoodAllergies);
 		attributeGetterFunctions.put(
 			"studentCardImageId", HelpRequest::getStudentCardImageId);
 		attributeSetterBiConsumers.put(
@@ -639,21 +633,6 @@ public class HelpRequestModelImpl
 	}
 
 	@Override
-	public String getFoodAllergies() {
-		if (_foodAllergies == null) {
-			return "";
-		}
-		else {
-			return _foodAllergies;
-		}
-	}
-
-	@Override
-	public void setFoodAllergies(String foodAllergies) {
-		_foodAllergies = foodAllergies;
-	}
-
-	@Override
 	public long getStudentCardImageId() {
 		return _studentCardImageId;
 	}
@@ -796,7 +775,6 @@ public class HelpRequestModelImpl
 		helpRequestImpl.setHelpProposalId(getHelpProposalId());
 		helpRequestImpl.setPhoneNumber(getPhoneNumber());
 		helpRequestImpl.setMessage(getMessage());
-		helpRequestImpl.setFoodAllergies(getFoodAllergies());
 		helpRequestImpl.setStudentCardImageId(getStudentCardImageId());
 
 		helpRequestImpl.resetOriginalValues();
@@ -977,14 +955,6 @@ public class HelpRequestModelImpl
 			helpRequestCacheModel.message = null;
 		}
 
-		helpRequestCacheModel.foodAllergies = getFoodAllergies();
-
-		String foodAllergies = helpRequestCacheModel.foodAllergies;
-
-		if ((foodAllergies != null) && (foodAllergies.length() == 0)) {
-			helpRequestCacheModel.foodAllergies = null;
-		}
-
 		helpRequestCacheModel.studentCardImageId = getStudentCardImageId();
 
 		return helpRequestCacheModel;
@@ -1083,7 +1053,6 @@ public class HelpRequestModelImpl
 	private boolean _setOriginalHelpProposalId;
 	private String _phoneNumber;
 	private String _message;
-	private String _foodAllergies;
 	private long _studentCardImageId;
 	private long _columnBitmask;
 	private HelpRequest _escapedModel;

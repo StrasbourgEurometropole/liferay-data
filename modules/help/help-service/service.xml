@@ -57,9 +57,9 @@
 		<finder name="publikId" return-type="Collection">
 			<finder-column name="publikId" />
 		</finder>
-		<finder name="StatusAndGroupId" return-type="Collection">
-			<finder-column name="status" />
-			<finder-column name="groupId" />
+		<finder name="PublikIdAndHelpProposalId" return-type="HelpRequest">
+			<finder-column name="publikId" />
+			<finder-column name="helpProposalId" />
 		</finder>
 
 		<!-- References -->
@@ -95,7 +95,6 @@
 		<column name="helpProposalId" type="long" />
 		<column name="phoneNumber" type="String" />
 		<column name="message" type="String" />
-		<column name="foodAllergies" type="String" />
 		<column name="studentCardImageId" type="long" />
 
 		<!-- Finder methods -->
@@ -103,10 +102,6 @@
 			<finder-column name="publikId" />
 		</finder>
 		<finder name="HelpProposalId" return-type="Collection" db-index="true">
-			<finder-column name="helpProposalId" />
-		</finder>
-		<finder name="PublikIdAndHelpProposalId" return-type="HelpRequest">
-			<finder-column name="publikId" />
 			<finder-column name="helpProposalId" />
 		</finder>
 

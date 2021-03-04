@@ -277,6 +277,17 @@ public class HelpProposalLocalServiceWrapper
 		return _helpProposalLocalService.getByPublikID(publikId);
 	}
 
+	/**
+	 * Retourne la demande d'aide pour un utilisateur et une proposition donnee
+	 */
+	@Override
+	public eu.strasbourg.service.help.model.HelpProposal
+		getByPublikIdAndHelpProposalId(String publikId, long helpProposalId) {
+
+		return _helpProposalLocalService.getByPublikIdAndHelpProposalId(
+			publikId, helpProposalId);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(
@@ -407,16 +418,6 @@ public class HelpProposalLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _helpProposalLocalService.getPersistedModel(primaryKeyObj);
-	}
-
-	/**
-	 * Retourne toutes les helpProposal publiées d'un groupe
-	 */
-	@Override
-	public java.util.List<eu.strasbourg.service.help.model.HelpProposal>
-		getPublishedByGroupId(long groupId) {
-
-		return _helpProposalLocalService.getPublishedByGroupId(groupId);
 	}
 
 	/**

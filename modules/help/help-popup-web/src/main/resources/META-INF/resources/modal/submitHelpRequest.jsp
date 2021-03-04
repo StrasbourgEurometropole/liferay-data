@@ -48,7 +48,16 @@
 
                     <%-- Champ : Telephone --%>
                     <div class="form-group">
-                        <aui:input name="phone" label="modal.user.phone" required="true" maxlength="20" value="" onInput="checkValuesHelpRequest();"/>
+                        <c:set var="phoneNumber" value="${userConnected.get('phone')}" />
+                        <c:if test="${not empty userConnected.get('mobile')}">
+                            <c:if test="${not empty phoneNumber}">
+                                <c:set var="phoneNumber" value="${phoneNumber} / ${userConnected.get('mobile')}" />
+                            </c:if>
+                            <c:if test="${empty phoneNumber}">
+                                <c:set var="phoneNumber" value="${userConnected.get('mobile')}" />
+                            </c:if>
+                        </c:if>
+                        <aui:input name="phoneNumber" label="modal.user.phone" required="true" maxlength="20" value="${phoneNumber}"/>
                     </div>
 
                 </div>
@@ -61,12 +70,7 @@
                     
                     <%-- Champ : Message --%>
                     <div class="form-group">
-                        <aui:input id="message" type="textarea" name="message" label="modal.submit.help.information.message" value=""/>
-                    </div>
-                    
-                    <%-- Champ : Allergies --%>
-                    <div class="form-group">
-                        <aui:input id="allergie" type="textarea" name="allergie" required="true" label="modal.submit.help.information.allergie" value="" cssClass="allergie"/>
+                        <aui:input id="message" type="textarea" name="message" required="true" label="modal.submit.help.information.message" value=""/>
                     </div>
                     
                     <%-- Champ : Image --%>
@@ -80,6 +84,9 @@
                             </span>
                         </div>
                     </div>
+
+                    <%-- Champ cache : ID --%>
+                    <aui:input type="hidden" name="entryId" value="${entryId}"/>
 
                 </div>
 
@@ -199,16 +206,13 @@
     </div>
 </div>
 
+<!-- Inclusion de la modal d'alerte d'une propostion d'aide désactivée -->
+<jsp:include page="/include/inactive-help-proposal-modal.jsp"/>
+
 <script type="text/javascript">
 	
 	// Variables tempons des informations utilisateur et contexte namespace
 	var namespaceHelpRequest = "<portlet:namespace />";
-	var saved_address = "${userConnected.get('address')}";
-	var saved_zipCode = "${userConnected.get('zipcode')}";
-	var saved_city = "${userConnected.get('city')}";
-	var saved_dateNaiss = "${formattedDate}";
-	var saved_phone = "${userConnected.get('phone')}" != 'null' ? "${userConnected.get('phone')}" : " ";
-	var saved_mobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : " ";
 
 	/*
 	* Lors du chargement de la page
@@ -217,11 +221,10 @@
     	resetValuesHelpRequest();
         $("#<portlet:namespace />modalConfirm").modal('hide');
         $("#<portlet:namespace />modalError").modal('hide');
-        $("#<portlet:namespace />checkboxSaveInfo").hide();
     });
 
     /*
-	* Lors du click sur le bouton de vote
+	* Lors du click sur le bouton de submit
 	*/
     $("#<portlet:namespace />buttonSubmit").click(function(event){
         event.preventDefault();
@@ -237,20 +240,8 @@
                 if (this.status >= 200 && this.status < 400) {
                     // Success!
                     var data = JSON.parse(this.response);
-                    // var data = this.get('responseData');
-                    //var data = JSON.parse(e.details[1].responseText);
                     if(data.result){
                         $("#modalSubmitHelpRequest").modal('hide');
-                        if(data.savedInfo){
-                            saved_dateNaiss = birthday;
-                            saved_city = $("#<portlet:namespace />city").val();
-                            saved_address = $("#<portlet:namespace />address").val();
-                            saved_zipCode = $("#<portlet:namespace />postalcode").val();
-                            if($("#<portlet:namespace />phone").val() != "")
-                                saved_phone = $("#<portlet:namespace />phone").val();
-                            if($("#<portlet:namespace />mobile").val() != "")
-                                saved_mobile = $("#<portlet:namespace />mobile").val();
-                        }
                         $("#<portlet:namespace />modalConfirm").modal('show');
                         resetValuesHelpRequest();
                     }else{
@@ -280,50 +271,15 @@
 	*/
     function resetValuesHelpRequest(){
     	// Champs entite
-        $("#<portlet:namespace />title").val("");
-        $("#<portlet:namespace />description").val("");
-        $("#<portlet:namespace />helpRequestInTheNameOf").val("");
-        $("#<portlet:namespace />place").val("");
-        $("#<portlet:namespace />project option[value='0']").prop('selected', true);
-        $("#<portlet:namespace />project").selectric();
-        $("#<portlet:namespace />district option[value='0']").prop('selected', true);
-        $("#<portlet:namespace />district").selectric();
-        $("#<portlet:namespace />thematic option[value='0']").prop('selected', true);
-        $("#<portlet:namespace />thematic").selectric();
-        
-     	// Champs informations utilisateur
-        $("#<portlet:namespace />address").val(saved_address);
+        $("#<portlet:namespace />message").val("");
         $("#<portlet:namespace />photo").val("");
-        $("#<portlet:namespace />video").val("");
-        $("#<portlet:namespace />postalcode").val(saved_zipCode);
-        $("#<portlet:namespace />phone").val(saved_phone);
-        $("#<portlet:namespace />mobile").val(saved_mobile);
-        $("#<portlet:namespace />birthday").val(saved_dateNaiss);
-        
-     	// Chebox de conditions et de sauvegade des informations
-     	$("#<portlet:namespace />checkboxSaveInfo #<portlet:namespace />saveInfo").prop('checked', false);
-        $("#<portlet:namespace />checkboxSaveInfo").hide();
-        $("#<portlet:namespace />legalage").prop("checked", false);
-        $("#<portlet:namespace />cnil").prop("checked", false);
-        $("#<portlet:namespace />city").val(saved_city);
-    }
 
-    /*
-	* Affiche la demande de sauvegarde des informations dans Publik
-	*/
-    function checkValuesHelpRequest(){
-        if($("#<portlet:namespace />birthday").val() != saved_dateNaiss 
-        		|| $("#<portlet:namespace />address").val() != saved_address 
-        		|| $("#<portlet:namespace />city").val() != saved_city 
-        		|| $("#<portlet:namespace />postalcode").val() != saved_zipCode 
-        		|| $("#<portlet:namespace />phone").val() != saved_phone 
-        		|| $("#<portlet:namespace />mobile").val() != saved_mobile) {
-            $("#<portlet:namespace />checkboxSaveInfo #<portlet:namespace />saveInfo").prop('checked', true);
-            $("#<portlet:namespace />checkboxSaveInfo").show();
-        }else{
-            $("#<portlet:namespace />checkboxSaveInfo #<portlet:namespace />saveInfo").prop('checked', false);
-            $("#<portlet:namespace />checkboxSaveInfo").hide();
-        }
+     	// Chebox de conditions et de sauvegade des informations
+        $("#<portlet:namespace />consentement").prop("checked", false);
+        $("#<portlet:namespace />data").prop("checked", false);
+        $("#<portlet:namespace />security").prop("checked", false);
+        $("#<portlet:namespace />security2").prop("checked", false);
+        $("#<portlet:namespace />responsability").prop("checked", false);
     }
 
     /*
@@ -332,20 +288,20 @@
     function validateFormHelpRequest()
     {
         var result = true;
-        
-        var title = $("#<portlet:namespace />title").val();
-        var description = $("#<portlet:namespace />description").val();
-        var legalage = $("#<portlet:namespace />legalage").is(":checked");
-        var cnil = $("#<portlet:namespace />cnil").is(":checked");
-        var photo = $("#<portlet:namespace />photo").val();
-        
-        <%-- desactivation de la verification de certains champs obligatoires
-        var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
-        var city = $("#<portlet:namespace />city").val();
-        var address = $("#<portlet:namespace />address").val();
-        var postalcode = $("#<portlet:namespace />postalcode").val();
-        --%>
 
+        var phoneNumber = $("#<portlet:namespace />phoneNumber").val();
+        if (phoneNumber===null || phoneNumber===""){
+            $("#<portlet:namespace />phoneNumber").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />phoneNumber").css({ "box-shadow" : "" });
+
+        var message = $("#<portlet:namespace />message").val();
+        if (message===null || message===""){
+            $("#<portlet:namespace />message").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />message").css({ "box-shadow" : "" });
+
+        var photo = $("#<portlet:namespace />photo").val();
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
             if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
@@ -354,47 +310,40 @@
             }else $("#<portlet:namespace />photo").css({ "box-shadow" : "" });
         }
 
-        if (title===null || title===""){
-            $("#<portlet:namespace />title").css({ "box-shadow" : "0 0 10px #CC0000" });
+        var consentement = $("#<portlet:namespace />consentement").is(":checked");
+        if (!consentement){
+            $("#<portlet:namespace />consentement").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#<portlet:namespace />title").css({ "box-shadow" : "" });
+        }else $("#<portlet:namespace />consentement").closest('div').css({ "box-shadow" : "" });
 
-        if (description===null || description===""){
-            $("#<portlet:namespace />description").css({ "box-shadow" : "0 0 10px #CC0000" });
+        var data = $("#<portlet:namespace />data").is(":checked");
+        if (!data){
+            $("#<portlet:namespace />data").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#<portlet:namespace />description").css({ "box-shadow" : "" });
+        }else $("#<portlet:namespace />data").closest('div').css({ "box-shadow" : "" });
 
-        <%-- desactivation de la verification de certains champs obligatoires
-        if (city===null || city===""){
-            $("#<portlet:namespace />city").css({ "box-shadow" : "0 0 10px #CC0000" });
+        var security = $("#<portlet:namespace />security").is(":checked");
+        if (!security){
+            $("#<portlet:namespace />security").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#<portlet:namespace />city").css({ "box-shadow" : "" });
+        }else $("#<portlet:namespace />security").closest('div').css({ "box-shadow" : "" });
 
-        if (address===null || address===""){
-            $("#<portlet:namespace />address").css({ "box-shadow" : "0 0 10px #CC0000" });
-            //result = false;
-        }else $("#<portlet:namespace />address").css({ "box-shadow" : "" });
-
-        if (postalcode===null || postalcode===""){
-            $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
-            //result = false;
-        }else if(!regex.test(postalcode)){
-            $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
-            alert("Merci de respecter la syntaxe d'un code postal");
+        var security2 = $("#<portlet:namespace />security2").is(":checked");
+        if (!security2){
+            $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }
-        else $("#<portlet:namespace />postalcode").css({ "box-shadow" : "" });
-        --%>
+        }else $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "" });
 
-        if (!legalage)
+        var responsability = $("#<portlet:namespace />responsability").is(":checked");
+        if (!responsability){
+            $("#<portlet:namespace />responsability").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-
-        if (!cnil)
-            result = false;
+        }else $("#<portlet:namespace />responsability").closest('div').css({ "box-shadow" : "" });
 
         if (!result)
             $("#<portlet:namespace />alert").removeClass("hidden");
-        else $("#<portlet:namespace />alert").addClass("hidden");
+        else
+            $("#<portlet:namespace />alert").addClass("hidden");
         
         return result;
     }

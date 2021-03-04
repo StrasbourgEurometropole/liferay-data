@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.help.model.HelpProposal;
+import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -50,6 +51,8 @@ import java.util.stream.Collectors;
  */
 @ProviderType
 public class HelpProposalImpl extends HelpProposalBaseImpl {
+
+	public static final String STATUS_ACTIVE = "Active";
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -83,7 +86,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	 */
 	@Override
 	public String getActivityStatusClass() {
-		AssetCategory ActivityStatusCategory = this.getActivitStatusCategory();
+		AssetCategory ActivityStatusCategory = this.getActivityStatusCategory();
 		if (ActivityStatusCategory != null) {
 			return AssetVocabularyHelper.getCategoryProperty(ActivityStatusCategory.getCategoryId(), "class");
 		} else {
@@ -96,7 +99,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	 */
 	@Override
 	public String getActivityStatusTitle(Locale locale) {
-		AssetCategory ActivityStatusCategory = this.getActivitStatusCategory();
+		AssetCategory ActivityStatusCategory = this.getActivityStatusCategory();
 		if (ActivityStatusCategory != null) {
 			return ActivityStatusCategory.getTitle(locale);
 		} else {
@@ -108,7 +111,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	 * Retourne la catégorie statut activite proposition d'aide de l'aide
 	 */
 	@Override
-	public AssetCategory getActivitStatusCategory() {
+	public AssetCategory getActivityStatusCategory() {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.HELP_PROPOSAL_ACTIVITY_STATUS);
 		if (assetCategories.size() > 0) {
@@ -116,6 +119,19 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Retourne si la catégorie statut activité est bien à "Active" sinon "Inactive"
+	 */
+	@Override
+	public boolean isActive() {
+		boolean result = false;
+		AssetCategory ActivityStatusCategory = this.getActivityStatusCategory();
+		if (ActivityStatusCategory != null) {
+			result = ActivityStatusCategory.getName().equals(STATUS_ACTIVE);
+		}
+		return result;
 	}
 
 	/**
@@ -180,6 +196,15 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	public List<AssetCategory> getHelpProposalTypeCategories() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.HELP_PROPOSAL_TYPE);
+	}
+
+	/**
+	 * Retourne les types d'aidant de la proposition d'aide
+	 */
+	@Override
+	public AssetCategory getHelpProposalHelperCategory() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.HELP_HELPER_TYPE).get(0);
 	}
 
 	/**
@@ -329,6 +354,16 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	@Override
 	public String getImageCopyright(Locale locale) {
 		return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+	}
+
+	/**
+	 * Est-ce l'utilisateur qui a crée la proposition ?
+	 * @param publikUserId L'identifiant Publik de l'utilisateur
+	 * @return La verite
+	 */
+	@Override
+	public boolean isUserHelping(String publikUserId) {
+		return HelpProposalLocalServiceUtil.getByPublikIdAndHelpProposalId(publikUserId, this.getHelpProposalId()) != null;
 	}
 
 	/**

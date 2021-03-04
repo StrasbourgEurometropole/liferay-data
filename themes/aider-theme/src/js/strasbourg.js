@@ -267,13 +267,13 @@
 
     function areAlike ( node, node2 ) {
         return !isLeaf( node ) && (
-                node.nodeType === node2.nodeType &&
-                node.nodeName === node2.nodeName &&
-                node.nodeName !== 'A' &&
-                node.className === node2.className &&
-                ( ( !node.style && !node2.style ) ||
+            node.nodeType === node2.nodeType &&
+            node.nodeName === node2.nodeName &&
+            node.nodeName !== 'A' &&
+            node.className === node2.className &&
+            ( ( !node.style && !node2.style ) ||
                 node.style.cssText === node2.style.cssText )
-            );
+        );
     }
     function hasTagAttributes ( node, tag, attributes ) {
         if ( node.nodeName !== tag ) {
@@ -475,7 +475,7 @@
                 self.didError({
                     name: 'Squire: fixCursor – ' + error,
                     message: 'Parent: ' + node.nodeName + '/' + node.innerHTML +
-                    ' appendChild: ' + fixer.nodeName
+                        ' appendChild: ' + fixer.nodeName
                 });
             }
         }
@@ -1204,7 +1204,7 @@
         function ( node ) {
             return node.nodeType === TEXT_NODE ?
                 notWS.test( node.data ) :
-            node.nodeName === 'IMG';
+                node.nodeName === 'IMG';
         }
     );
 
@@ -1493,7 +1493,7 @@
                 // desired outcome.
                 if ( nodeAfterSplit.nodeName === 'A' &&
                     ( !nodeAfterSplit.textContent ||
-                    nodeAfterSplit.textContent === ZWS ) ) {
+                        nodeAfterSplit.textContent === ZWS ) ) {
                     child = self._doc.createTextNode( '' );
                     replaceWith( nodeAfterSplit, child );
                     nodeAfterSplit = child;
@@ -1565,7 +1565,7 @@
                     }
                     self.setSelection( range );
                 }
-                // If at very beginning of text area, allow backspace
+                    // If at very beginning of text area, allow backspace
                 // to break lists/blockquote.
                 else if ( current ) {
                     // Break list
@@ -1581,7 +1581,7 @@
                     self._updatePath( range, true );
                 }
             }
-            // Otherwise, leave to browser but check afterwards whether it has
+                // Otherwise, leave to browser but check afterwards whether it has
             // left behind an empty inline tag.
             else {
                 self.setSelection( range );
@@ -1634,7 +1634,7 @@
                     self._updatePath( range, true );
                 }
             }
-            // Otherwise, leave to browser but check afterwards whether it has
+                // Otherwise, leave to browser but check afterwards whether it has
             // left behind an empty inline tag.
             else {
                 // But first check if the cursor is just before an IMG tag. If so,
@@ -2016,7 +2016,7 @@
                             nodeName = sibling.nodeName;
                             if ( nodeName === 'IMG' ||
                                 ( nodeName === '#text' &&
-                                notWS.test( sibling.data ) ) ) {
+                                    notWS.test( sibling.data ) ) ) {
                                 break;
                             }
                             if ( !isInline( sibling ) ) {
@@ -2031,7 +2031,7 @@
                         while ( sibling = walker.nextNode() ) {
                             if ( nodeName === 'IMG' ||
                                 ( nodeName === '#text' &&
-                                notWS.test( sibling.data ) ) ) {
+                                    notWS.test( sibling.data ) ) ) {
                                 break;
                             }
                             if ( !isInline( sibling ) ) {
@@ -2077,7 +2077,7 @@
 
     var notWSTextNode = function ( node ) {
         return node.nodeType === ELEMENT_NODE ?
-        node.nodeName === 'BR' :
+            node.nodeName === 'BR' :
             notWS.test( node.data );
     };
     var isLineBreak = function ( br, isLBIfEmptyBlock ) {
@@ -2338,11 +2338,11 @@
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1254028
         types = clipboardData && clipboardData.types;
         if ( !isEdge && types && (
-                indexOf.call( types, 'text/html' ) > -1 || (
+            indexOf.call( types, 'text/html' ) > -1 || (
                 !isGecko &&
                 indexOf.call( types, 'text/plain' ) > -1 &&
                 indexOf.call( types, 'text/rtf' ) < 0 )
-            )) {
+        )) {
             event.preventDefault();
             // Abiword on Linux copies a plain text and html version, but the HTML
             // version is the empty string! So always try to get HTML, but if none,
@@ -3438,8 +3438,8 @@
             }
             removeZWS( block, el );
         }
-        // Otherwise we find all the textnodes in the range (splitting
-        // partially selected nodes) and if they're not already formatted
+            // Otherwise we find all the textnodes in the range (splitting
+            // partially selected nodes) and if they're not already formatted
         // correctly we wrap them in the appropriate tag.
         else {
             // Create an iterator to walk over all the text nodes under this
@@ -3458,9 +3458,9 @@
                 SHOW_TEXT|SHOW_ELEMENT,
                 function ( node ) {
                     return ( node.nodeType === TEXT_NODE ||
-                            node.nodeName === 'BR' ||
-                            node.nodeName === 'IMG'
-                        ) && isNodeContainedInRange( range, node, true );
+                        node.nodeName === 'BR' ||
+                        node.nodeName === 'IMG'
+                    ) && isNodeContainedInRange( range, node, true );
                 },
                 false
             );
@@ -3590,8 +3590,8 @@
                         toWrap.push([ exemplar, node ]);
                     }
                 }
-                // If not a text node, recurse onto all children.
-                // Beware, the tree may be rewritten with each call
+                    // If not a text node, recurse onto all children.
+                    // Beware, the tree may be rewritten with each call
                 // to examineNode, hence find the next sibling first.
                 else {
                     for ( child = node.firstChild; child; child = next ) {
@@ -4159,8 +4159,8 @@
                     href: match[1] ?
                         /^(?:ht|f)tps?:/.test( match[1] ) ?
                             match[1] :
-                        'http://' + match[1] :
-                    'mailto:' + match[2]
+                            'http://' + match[1] :
+                        'mailto:' + match[2]
                 }, defaultAttributes, false ));
                 child.textContent = data.slice( index, endIndex );
                 parent.insertBefore( child, node );
@@ -4374,7 +4374,7 @@
             attributes: {
                 'class': FONT_SIZE_CLASS,
                 style: 'font-size: ' +
-                ( typeof size === 'number' ? size + 'px' : size )
+                    ( typeof size === 'number' ? size + 'px' : size )
             }
         } : null, {
             tag: 'SPAN',
@@ -4592,860 +4592,860 @@
     Squire.endSelectionId = endSelectionId;
 
 
-        win.Squire = Squire;
+    win.Squire = Squire;
 
-        if ( top !== win &&
-            doc.documentElement.getAttribute( 'data-squireinit' ) === 'true' ) {
-            win.editor = new Squire( doc );
-            if ( win.onEditorLoad ) {
-                win.onEditorLoad( win.editor );
-                win.onEditorLoad = null;
-            }
+    if ( top !== win &&
+        doc.documentElement.getAttribute( 'data-squireinit' ) === 'true' ) {
+        win.editor = new Squire( doc );
+        if ( win.onEditorLoad ) {
+            win.onEditorLoad( win.editor );
+            win.onEditorLoad = null;
         }
-    
+    }
+
 
 }( document ) );
 !function(e){"use strict";var t=e(document),s=e(window),i="selectric",l=".sl",n=["a","e","i","o","u","n","c","y"],a=[/[\xE0-\xE5]/g,/[\xE8-\xEB]/g,/[\xEC-\xEF]/g,/[\xF2-\xF6]/g,/[\xF9-\xFC]/g,/[\xF1]/g,/[\xE7]/g,/[\xFD-\xFF]/g],o=function(t,s){var i=this;i.element=t,i.$element=e(t),i.state={multiple:!!i.$element.attr("multiple"),enabled:!1,opened:!1,currValue:-1,selectedIdx:-1,highlightedIdx:-1},i.eventTriggers={open:i.open,close:i.close,destroy:i.destroy,refresh:i.refresh,init:i.init},i.init(s)};o.prototype={utils:{isMobile:function(){return/android|ip(hone|od|ad)/i.test(navigator.userAgent)},escapeRegExp:function(e){return e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")},replaceDiacritics:function(e){for(var t=a.length;t--;)e=e.toLowerCase().replace(a[t],n[t]);return e},format:function(e){var t=arguments;return(""+e).replace(/\{(?:(\d+)|(\w+))\}/g,function(e,s,i){return i&&t[1]?t[1][i]:t[s]})},nextEnabledItem:function(e,t){for(;e[t=(t+1)%e.length].disabled;);return t},previousEnabledItem:function(e,t){for(;e[t=(t>0?t:e.length)-1].disabled;);return t},toDash:function(e){return e.replace(/([a-z])([A-Z])/g,"$1-$2").toLowerCase()},triggerCallback:function(t,s){var l=s.element,n=s.options["on"+t],a=[l].concat([].slice.call(arguments).slice(1));e.isFunction(n)&&n.apply(l,a),e(l).trigger(i+"-"+this.toDash(t),a)},arrayToClassname:function(t){var s=e.grep(t,function(e){return!!e});return e.trim(s.join(" "))}},init:function(t){var s=this;if(s.options=e.extend(!0,{},e.fn[i].defaults,s.options,t),s.utils.triggerCallback("BeforeInit",s),s.destroy(!0),s.options.disableOnMobile&&s.utils.isMobile())s.disableOnMobile=!0;else{s.classes=s.getClassNames();var l=e("<input/>",{class:s.classes.input,readonly:s.utils.isMobile()}),n=e("<div/>",{class:s.classes.items,tabindex:-1}),a=e("<div/>",{class:s.classes.scroll}),o=e("<div/>",{class:s.classes.prefix,html:s.options.arrowButtonMarkup}),r=e("<span/>",{class:"label"}),p=s.$element.wrap("<div/>").parent().append(o.prepend(r),n,l),u=e("<div/>",{class:s.classes.hideselect});s.elements={input:l,items:n,itemsScroll:a,wrapper:o,label:r,outerWrapper:p},s.options.nativeOnMobile&&s.utils.isMobile()&&(s.elements.input=void 0,u.addClass(s.classes.prefix+"-is-native"),s.$element.on("change",function(){s.refresh()})),s.$element.on(s.eventTriggers).wrap(u),s.originalTabindex=s.$element.prop("tabindex"),s.$element.prop("tabindex",-1),s.populate(),s.activate(),s.utils.triggerCallback("Init",s)}},activate:function(){var e=this,t=e.elements.items.closest(":visible").children(":hidden").addClass(e.classes.tempshow),s=e.$element.width();t.removeClass(e.classes.tempshow),e.utils.triggerCallback("BeforeActivate",e),e.elements.outerWrapper.prop("class",e.utils.arrayToClassname([e.classes.wrapper,e.$element.prop("class").replace(/\S+/g,e.classes.prefix+"-$&"),e.options.responsive?e.classes.responsive:""])),e.options.inheritOriginalWidth&&s>0&&e.elements.outerWrapper.width(s),e.unbindEvents(),e.$element.prop("disabled")?(e.elements.outerWrapper.addClass(e.classes.disabled),e.elements.input&&e.elements.input.prop("disabled",!0)):(e.state.enabled=!0,e.elements.outerWrapper.removeClass(e.classes.disabled),e.$li=e.elements.items.removeAttr("style").find("li"),e.bindEvents()),e.utils.triggerCallback("Activate",e)},getClassNames:function(){var t=this,s=t.options.customClass,i={};return e.each("Input Items Open Disabled TempShow HideSelect Wrapper Focus Hover Responsive Above Scroll Group GroupLabel".split(" "),function(e,l){var n=s.prefix+l;i[l.toLowerCase()]=s.camelCase?n:t.utils.toDash(n)}),i.prefix=s.prefix,i},setLabel:function(){var t=this,s=t.options.labelBuilder;if(t.state.multiple){var i=e.isArray(t.state.currValue)?t.state.currValue:[t.state.currValue];i=0===i.length?[0]:i;var l=e.map(i,function(s){return e.grep(t.lookupItems,function(e){return e.index===s})[0]});l=e.grep(l,function(t){return l.length>1||0===l.length?""!==e.trim(t.value):t}),l=e.map(l,function(i){return e.isFunction(s)?s(i):t.utils.format(s,i)}),t.options.multiple.maxLabelEntries&&(l.length>=t.options.multiple.maxLabelEntries+1?(l=l.slice(0,t.options.multiple.maxLabelEntries)).push(e.isFunction(s)?s({text:"..."}):t.utils.format(s,{text:"..."})):l.slice(l.length-1)),t.elements.label.html(l.join(t.options.multiple.separator))}else{var n=t.lookupItems[t.state.currValue];t.elements.label.html(e.isFunction(s)?s(n):t.utils.format(s,n))}},populate:function(){var t=this,s=t.$element.children(),i=t.$element.find("option"),l=i.filter(":selected"),n=i.index(l),a=0,o=t.state.multiple?[]:0;l.length>1&&t.state.multiple&&(n=[],l.each(function(){n.push(e(this).index())})),t.state.currValue=~n?n:o,t.state.selectedIdx=t.state.currValue,t.state.highlightedIdx=t.state.currValue,t.items=[],t.lookupItems=[],s.length&&(s.each(function(s){var i=e(this);if(i.is("optgroup")){var l={element:i,label:i.prop("label"),groupDisabled:i.prop("disabled"),items:[]};i.children().each(function(s){var i=e(this);l.items[s]=t.getItemData(a,i,l.groupDisabled||i.prop("disabled")),t.lookupItems[a]=l.items[s],a++}),t.items[s]=l}else t.items[s]=t.getItemData(a,i,i.prop("disabled")),t.lookupItems[a]=t.items[s],a++}),t.setLabel(),t.elements.items.append(t.elements.itemsScroll.html(t.getItemsMarkup(t.items))))},getItemData:function(t,s,i){return{index:t,element:s,value:s.val(),className:s.prop("class"),text:s.html(),slug:e.trim(this.utils.replaceDiacritics(s.html())),selected:s.prop("selected"),disabled:i}},getItemsMarkup:function(t){var s=this,i="<ul>";return e.isFunction(s.options.listBuilder)&&s.options.listBuilder&&(t=s.options.listBuilder(t)),e.each(t,function(t,l){void 0!==l.label?(i+=s.utils.format('<ul class="{1}"><li class="{2}">{3}</li>',s.utils.arrayToClassname([s.classes.group,l.groupDisabled?"disabled":"",l.element.prop("class")]),s.classes.grouplabel,l.element.prop("label")),e.each(l.items,function(e,t){i+=s.getItemMarkup(t.index,t)}),i+="</ul>"):i+=s.getItemMarkup(l.index,l)}),i+"</ul>"},getItemMarkup:function(t,s){var i=this,l=i.options.optionsItemBuilder,n={value:s.value,text:s.text,slug:s.slug,index:s.index};return i.utils.format('<li data-index="{1}" class="{2}">{3}</li>',t,i.utils.arrayToClassname([s.className,t===i.items.length-1?"last":"",s.disabled?"disabled":"",s.selected?"selected":""]),e.isFunction(l)?i.utils.format(l(s),s):i.utils.format(l,n))},unbindEvents:function(){this.elements.wrapper.add(this.$element).add(this.elements.outerWrapper).add(this.elements.input).off(l)},bindEvents:function(){var t=this;t.elements.outerWrapper.on("mouseenter.sl mouseleave"+l,function(s){e(this).toggleClass(t.classes.hover,"mouseenter"===s.type),t.options.openOnHover&&(clearTimeout(t.closeTimer),"mouseleave"===s.type?t.closeTimer=setTimeout(e.proxy(t.close,t),t.options.hoverIntentTimeout):t.open())}),t.elements.wrapper.on("click"+l,function(e){t.state.opened?t.close():t.open(e)}),t.options.nativeOnMobile&&t.utils.isMobile()||(t.$element.on("focus"+l,function(){t.elements.input.focus()}),t.elements.input.prop({tabindex:t.originalTabindex,disabled:!1}).on("keydown"+l,e.proxy(t.handleKeys,t)).on("focusin"+l,function(e){t.elements.outerWrapper.addClass(t.classes.focus),t.elements.input.one("blur",function(){t.elements.input.blur()}),t.options.openOnFocus&&!t.state.opened&&t.open(e)}).on("focusout"+l,function(){t.elements.outerWrapper.removeClass(t.classes.focus)}).on("input propertychange",function(){var s=t.elements.input.val(),i=new RegExp("^"+t.utils.escapeRegExp(s),"i");clearTimeout(t.resetStr),t.resetStr=setTimeout(function(){t.elements.input.val("")},t.options.keySearchTimeout),s.length&&e.each(t.items,function(e,s){(!s.disabled&&i.test(s.text)||i.test(s.slug))&&t.highlight(e)})})),t.$li.on({mousedown:function(e){e.preventDefault(),e.stopPropagation()},click:function(){return t.select(e(this).data("index")),!1}})},handleKeys:function(t){var s=this,i=t.which,l=s.options.keys,n=e.inArray(i,l.previous)>-1,a=e.inArray(i,l.next)>-1,o=e.inArray(i,l.select)>-1,r=e.inArray(i,l.open)>-1,p=s.state.highlightedIdx,u=n&&0===p||a&&p+1===s.items.length,c=0;if(13!==i&&32!==i||t.preventDefault(),n||a){if(!s.options.allowWrap&&u)return;n&&(c=s.utils.previousEnabledItem(s.lookupItems,p)),a&&(c=s.utils.nextEnabledItem(s.lookupItems,p)),s.highlight(c)}if(o&&s.state.opened)return s.select(p),void(s.state.multiple&&s.options.multiple.keepMenuOpen||s.close());r&&!s.state.opened&&s.open()},refresh:function(){this.populate(),this.activate(),this.utils.triggerCallback("Refresh",this)},setOptionsDimensions:function(){var e=this,t=e.elements.items.closest(":visible").children(":hidden").addClass(e.classes.tempshow),s=e.options.maxHeight,i=e.elements.items.outerWidth(),l=e.elements.wrapper.outerWidth()-(i-e.elements.items.width());!e.options.expandToItemText||l>i?e.finalWidth=l:(e.elements.items.css("overflow","scroll"),e.elements.outerWrapper.width(9e4),e.finalWidth=e.elements.items.width(),e.elements.items.css("overflow",""),e.elements.outerWrapper.width("")),e.elements.items.width(e.finalWidth).height()>s&&e.elements.items.height(s),t.removeClass(e.classes.tempshow)},isInViewport:function(){var e=this,t=s.scrollTop(),i=s.height(),l=e.elements.outerWrapper.offset().top,n=e.elements.outerWrapper.outerHeight(),a=l+n+e.itemsHeight<=t+i,o=l-e.itemsHeight>t,r=!a&&o;e.elements.outerWrapper.toggleClass(e.classes.above,r)},detectItemVisibility:function(t){var s=this,i=s.$li.filter("[data-index]");s.state.multiple&&(t=e.isArray(t)&&0===t.length?0:t,t=e.isArray(t)?Math.min.apply(Math,t):t);var l=i.eq(t).outerHeight(),n=i[t].offsetTop,a=s.elements.itemsScroll.scrollTop(),o=n+2*l;s.elements.itemsScroll.scrollTop(o>a+s.itemsHeight?o-s.itemsHeight:n-l<a?n-l:a)},open:function(s){var n=this;if(n.options.nativeOnMobile&&n.utils.isMobile())return!1;n.utils.triggerCallback("BeforeOpen",n),s&&(s.preventDefault(),n.options.stopPropagation&&s.stopPropagation()),n.state.enabled&&(n.setOptionsDimensions(),e("."+n.classes.hideselect,"."+n.classes.open).children()[i]("close"),n.state.opened=!0,n.itemsHeight=n.elements.items.outerHeight(),n.itemsInnerHeight=n.elements.items.height(),n.elements.outerWrapper.addClass(n.classes.open),n.elements.input.val(""),s&&"focusin"!==s.type&&n.elements.input.focus(),setTimeout(function(){t.on("click"+l,e.proxy(n.close,n)).on("scroll"+l,e.proxy(n.isInViewport,n))},1),n.isInViewport(),n.options.preventWindowScroll&&t.on("mousewheel.sl DOMMouseScroll"+l,"."+n.classes.scroll,function(t){var s=t.originalEvent,i=e(this).scrollTop(),l=0;"detail"in s&&(l=-1*s.detail),"wheelDelta"in s&&(l=s.wheelDelta),"wheelDeltaY"in s&&(l=s.wheelDeltaY),"deltaY"in s&&(l=-1*s.deltaY),(i===this.scrollHeight-n.itemsInnerHeight&&l<0||0===i&&l>0)&&t.preventDefault()}),n.detectItemVisibility(n.state.selectedIdx),n.highlight(n.state.multiple?-1:n.state.selectedIdx),n.utils.triggerCallback("Open",n))},close:function(){var e=this;e.utils.triggerCallback("BeforeClose",e),t.off(l),e.elements.outerWrapper.removeClass(e.classes.open),e.state.opened=!1,e.utils.triggerCallback("Close",e)},change:function(){var t=this;t.utils.triggerCallback("BeforeChange",t),t.state.multiple?(e.each(t.lookupItems,function(e){t.lookupItems[e].selected=!1,t.$element.find("option").prop("selected",!1)}),e.each(t.state.selectedIdx,function(e,s){t.lookupItems[s].selected=!0,t.$element.find("option").eq(s).prop("selected",!0)}),t.state.currValue=t.state.selectedIdx,t.setLabel(),t.utils.triggerCallback("Change",t)):t.state.currValue!==t.state.selectedIdx&&(t.$element.prop("selectedIndex",t.state.currValue=t.state.selectedIdx).data("value",t.lookupItems[t.state.selectedIdx].text),t.setLabel(),t.utils.triggerCallback("Change",t))},highlight:function(e){var t=this,s=t.$li.filter("[data-index]").removeClass("highlighted");t.utils.triggerCallback("BeforeHighlight",t),void 0===e||-1===e||t.lookupItems[e].disabled||(s.eq(t.state.highlightedIdx=e).addClass("highlighted"),t.detectItemVisibility(e),t.utils.triggerCallback("Highlight",t))},select:function(t){var s=this,i=s.$li.filter("[data-index]");if(s.utils.triggerCallback("BeforeSelect",s,t),void 0!==t&&-1!==t&&!s.lookupItems[t].disabled){if(s.state.multiple){s.state.selectedIdx=e.isArray(s.state.selectedIdx)?s.state.selectedIdx:[s.state.selectedIdx];var l=e.inArray(t,s.state.selectedIdx);-1!==l?s.state.selectedIdx.splice(l,1):s.state.selectedIdx.push(t),i.removeClass("selected").filter(function(t){return-1!==e.inArray(t,s.state.selectedIdx)}).addClass("selected")}else i.removeClass("selected").eq(s.state.selectedIdx=t).addClass("selected");s.state.multiple&&s.options.multiple.keepMenuOpen||s.close(),s.change(),s.utils.triggerCallback("Select",s,t)}},destroy:function(e){var t=this;t.state&&t.state.enabled&&(t.elements.items.add(t.elements.wrapper).add(t.elements.input).remove(),e||t.$element.removeData(i).removeData("value"),t.$element.prop("tabindex",t.originalTabindex).off(l).off(t.eventTriggers).unwrap().unwrap(),t.state.enabled=!1)}},e.fn[i]=function(t){return this.each(function(){var s=e.data(this,i);s&&!s.disableOnMobile?"string"==typeof t&&s[t]?s[t]():s.init(t):e.data(this,i,new o(this,t))})},e.fn[i].defaults={onChange:function(t){e(t).change()},maxHeight:300,keySearchTimeout:500,arrowButtonMarkup:'<b class="button">&#x25be;</b>',disableOnMobile:!1,nativeOnMobile:!0,openOnFocus:!0,openOnHover:!1,hoverIntentTimeout:500,expandToItemText:!1,responsive:!1,preventWindowScroll:!0,inheritOriginalWidth:!1,allowWrap:!0,stopPropagation:!0,optionsItemBuilder:"{text}",labelBuilder:"{text}",listBuilder:!1,keys:{previous:[37,38],next:[39,40],select:[9,13,27],open:[13,32,37,38,39,40],close:[9,27]},customClass:{prefix:i,camelCase:!1},multiple:{separator:", ",keepMenuOpen:!0,maxLabelEntries:!1}}}(jQuery);!function(e){"use strict";var t=e(document),s=e(window),i="selectric",l=".sl",n=["a","e","i","o","u","n","c","y"],a=[/[\xE0-\xE5]/g,/[\xE8-\xEB]/g,/[\xEC-\xEF]/g,/[\xF2-\xF6]/g,/[\xF9-\xFC]/g,/[\xF1]/g,/[\xE7]/g,/[\xFD-\xFF]/g],o=function(t,s){var i=this;i.element=t,i.$element=e(t),i.state={multiple:!!i.$element.attr("multiple"),enabled:!1,opened:!1,currValue:-1,selectedIdx:-1,highlightedIdx:-1},i.eventTriggers={open:i.open,close:i.close,destroy:i.destroy,refresh:i.refresh,init:i.init},i.init(s)};o.prototype={utils:{isMobile:function(){return/android|ip(hone|od|ad)/i.test(navigator.userAgent)},escapeRegExp:function(e){return e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")},replaceDiacritics:function(e){for(var t=a.length;t--;)e=e.toLowerCase().replace(a[t],n[t]);return e},format:function(e){var t=arguments;return(""+e).replace(/\{(?:(\d+)|(\w+))\}/g,function(e,s,i){return i&&t[1]?t[1][i]:t[s]})},nextEnabledItem:function(e,t){for(;e[t=(t+1)%e.length].disabled;);return t},previousEnabledItem:function(e,t){for(;e[t=(t>0?t:e.length)-1].disabled;);return t},toDash:function(e){return e.replace(/([a-z])([A-Z])/g,"$1-$2").toLowerCase()},triggerCallback:function(t,s){var l=s.element,n=s.options["on"+t],a=[l].concat([].slice.call(arguments).slice(1));e.isFunction(n)&&n.apply(l,a),e(l).trigger(i+"-"+this.toDash(t),a)},arrayToClassname:function(t){var s=e.grep(t,function(e){return!!e});return e.trim(s.join(" "))}},init:function(t){var s=this;if(s.options=e.extend(!0,{},e.fn[i].defaults,s.options,t),s.utils.triggerCallback("BeforeInit",s),s.destroy(!0),s.options.disableOnMobile&&s.utils.isMobile())s.disableOnMobile=!0;else{s.classes=s.getClassNames();var l=e("<input/>",{class:s.classes.input,readonly:s.utils.isMobile()}),n=e("<div/>",{class:s.classes.items,tabindex:-1}),a=e("<div/>",{class:s.classes.scroll}),o=e("<div/>",{class:s.classes.prefix,html:s.options.arrowButtonMarkup}),r=e("<span/>",{class:"label"}),p=s.$element.wrap("<div/>").parent().append(o.prepend(r),n,l),u=e("<div/>",{class:s.classes.hideselect});s.elements={input:l,items:n,itemsScroll:a,wrapper:o,label:r,outerWrapper:p},s.options.nativeOnMobile&&s.utils.isMobile()&&(s.elements.input=void 0,u.addClass(s.classes.prefix+"-is-native"),s.$element.on("change",function(){s.refresh()})),s.$element.on(s.eventTriggers).wrap(u),s.originalTabindex=s.$element.prop("tabindex"),s.$element.prop("tabindex",-1),s.populate(),s.activate(),s.utils.triggerCallback("Init",s)}},activate:function(){var e=this,t=e.elements.items.closest(":visible").children(":hidden").addClass(e.classes.tempshow),s=e.$element.width();t.removeClass(e.classes.tempshow),e.utils.triggerCallback("BeforeActivate",e),e.elements.outerWrapper.prop("class",e.utils.arrayToClassname([e.classes.wrapper,e.$element.prop("class").replace(/\S+/g,e.classes.prefix+"-$&"),e.options.responsive?e.classes.responsive:""])),e.options.inheritOriginalWidth&&s>0&&e.elements.outerWrapper.width(s),e.unbindEvents(),e.$element.prop("disabled")?(e.elements.outerWrapper.addClass(e.classes.disabled),e.elements.input&&e.elements.input.prop("disabled",!0)):(e.state.enabled=!0,e.elements.outerWrapper.removeClass(e.classes.disabled),e.$li=e.elements.items.removeAttr("style").find("li"),e.bindEvents()),e.utils.triggerCallback("Activate",e)},getClassNames:function(){var t=this,s=t.options.customClass,i={};return e.each("Input Items Open Disabled TempShow HideSelect Wrapper Focus Hover Responsive Above Scroll Group GroupLabel".split(" "),function(e,l){var n=s.prefix+l;i[l.toLowerCase()]=s.camelCase?n:t.utils.toDash(n)}),i.prefix=s.prefix,i},setLabel:function(){var t=this,s=t.options.labelBuilder;if(t.state.multiple){var i=e.isArray(t.state.currValue)?t.state.currValue:[t.state.currValue];i=0===i.length?[0]:i;var l=e.map(i,function(s){return e.grep(t.lookupItems,function(e){return e.index===s})[0]});l=e.grep(l,function(t){return l.length>1||0===l.length?""!==e.trim(t.value):t}),l=e.map(l,function(i){return e.isFunction(s)?s(i):t.utils.format(s,i)}),t.options.multiple.maxLabelEntries&&(l.length>=t.options.multiple.maxLabelEntries+1?(l=l.slice(0,t.options.multiple.maxLabelEntries)).push(e.isFunction(s)?s({text:"..."}):t.utils.format(s,{text:"..."})):l.slice(l.length-1)),t.elements.label.html(l.join(t.options.multiple.separator))}else{var n=t.lookupItems[t.state.currValue];t.elements.label.html(e.isFunction(s)?s(n):t.utils.format(s,n))}},populate:function(){var t=this,s=t.$element.children(),i=t.$element.find("option"),l=i.filter(":selected"),n=i.index(l),a=0,o=t.state.multiple?[]:0;l.length>1&&t.state.multiple&&(n=[],l.each(function(){n.push(e(this).index())})),t.state.currValue=~n?n:o,t.state.selectedIdx=t.state.currValue,t.state.highlightedIdx=t.state.currValue,t.items=[],t.lookupItems=[],s.length&&(s.each(function(s){var i=e(this);if(i.is("optgroup")){var l={element:i,label:i.prop("label"),groupDisabled:i.prop("disabled"),items:[]};i.children().each(function(s){var i=e(this);l.items[s]=t.getItemData(a,i,l.groupDisabled||i.prop("disabled")),t.lookupItems[a]=l.items[s],a++}),t.items[s]=l}else t.items[s]=t.getItemData(a,i,i.prop("disabled")),t.lookupItems[a]=t.items[s],a++}),t.setLabel(),t.elements.items.append(t.elements.itemsScroll.html(t.getItemsMarkup(t.items))))},getItemData:function(t,s,i){return{index:t,element:s,value:s.val(),className:s.prop("class"),text:s.html(),slug:e.trim(this.utils.replaceDiacritics(s.html())),selected:s.prop("selected"),disabled:i}},getItemsMarkup:function(t){var s=this,i="<ul>";return e.isFunction(s.options.listBuilder)&&s.options.listBuilder&&(t=s.options.listBuilder(t)),e.each(t,function(t,l){void 0!==l.label?(i+=s.utils.format('<ul class="{1}"><li class="{2}">{3}</li>',s.utils.arrayToClassname([s.classes.group,l.groupDisabled?"disabled":"",l.element.prop("class")]),s.classes.grouplabel,l.element.prop("label")),e.each(l.items,function(e,t){i+=s.getItemMarkup(t.index,t)}),i+="</ul>"):i+=s.getItemMarkup(l.index,l)}),i+"</ul>"},getItemMarkup:function(t,s){var i=this,l=i.options.optionsItemBuilder,n={value:s.value,text:s.text,slug:s.slug,index:s.index};return i.utils.format('<li data-index="{1}" class="{2}">{3}</li>',t,i.utils.arrayToClassname([s.className,t===i.items.length-1?"last":"",s.disabled?"disabled":"",s.selected?"selected":""]),e.isFunction(l)?i.utils.format(l(s),s):i.utils.format(l,n))},unbindEvents:function(){this.elements.wrapper.add(this.$element).add(this.elements.outerWrapper).add(this.elements.input).off(l)},bindEvents:function(){var t=this;t.elements.outerWrapper.on("mouseenter.sl mouseleave"+l,function(s){e(this).toggleClass(t.classes.hover,"mouseenter"===s.type),t.options.openOnHover&&(clearTimeout(t.closeTimer),"mouseleave"===s.type?t.closeTimer=setTimeout(e.proxy(t.close,t),t.options.hoverIntentTimeout):t.open())}),t.elements.wrapper.on("click"+l,function(e){t.state.opened?t.close():t.open(e)}),t.options.nativeOnMobile&&t.utils.isMobile()||(t.$element.on("focus"+l,function(){t.elements.input.focus()}),t.elements.input.prop({tabindex:t.originalTabindex,disabled:!1}).on("keydown"+l,e.proxy(t.handleKeys,t)).on("focusin"+l,function(e){t.elements.outerWrapper.addClass(t.classes.focus),t.elements.input.one("blur",function(){t.elements.input.blur()}),t.options.openOnFocus&&!t.state.opened&&t.open(e)}).on("focusout"+l,function(){t.elements.outerWrapper.removeClass(t.classes.focus)}).on("input propertychange",function(){var s=t.elements.input.val(),i=new RegExp("^"+t.utils.escapeRegExp(s),"i");clearTimeout(t.resetStr),t.resetStr=setTimeout(function(){t.elements.input.val("")},t.options.keySearchTimeout),s.length&&e.each(t.items,function(e,s){(!s.disabled&&i.test(s.text)||i.test(s.slug))&&t.highlight(e)})})),t.$li.on({mousedown:function(e){e.preventDefault(),e.stopPropagation()},click:function(){return t.select(e(this).data("index")),!1}})},handleKeys:function(t){var s=this,i=t.which,l=s.options.keys,n=e.inArray(i,l.previous)>-1,a=e.inArray(i,l.next)>-1,o=e.inArray(i,l.select)>-1,r=e.inArray(i,l.open)>-1,p=s.state.highlightedIdx,u=n&&0===p||a&&p+1===s.items.length,c=0;if(13!==i&&32!==i||t.preventDefault(),n||a){if(!s.options.allowWrap&&u)return;n&&(c=s.utils.previousEnabledItem(s.lookupItems,p)),a&&(c=s.utils.nextEnabledItem(s.lookupItems,p)),s.highlight(c)}if(o&&s.state.opened)return s.select(p),void(s.state.multiple&&s.options.multiple.keepMenuOpen||s.close());r&&!s.state.opened&&s.open()},refresh:function(){this.populate(),this.activate(),this.utils.triggerCallback("Refresh",this)},setOptionsDimensions:function(){var e=this,t=e.elements.items.closest(":visible").children(":hidden").addClass(e.classes.tempshow),s=e.options.maxHeight,i=e.elements.items.outerWidth(),l=e.elements.wrapper.outerWidth()-(i-e.elements.items.width());!e.options.expandToItemText||l>i?e.finalWidth=l:(e.elements.items.css("overflow","scroll"),e.elements.outerWrapper.width(9e4),e.finalWidth=e.elements.items.width(),e.elements.items.css("overflow",""),e.elements.outerWrapper.width("")),e.elements.items.width(e.finalWidth).height()>s&&e.elements.items.height(s),t.removeClass(e.classes.tempshow)},isInViewport:function(){var e=this,t=s.scrollTop(),i=s.height(),l=e.elements.outerWrapper.offset().top,n=e.elements.outerWrapper.outerHeight(),a=l+n+e.itemsHeight<=t+i,o=l-e.itemsHeight>t,r=!a&&o;e.elements.outerWrapper.toggleClass(e.classes.above,r)},detectItemVisibility:function(t){var s=this,i=s.$li.filter("[data-index]");s.state.multiple&&(t=e.isArray(t)&&0===t.length?0:t,t=e.isArray(t)?Math.min.apply(Math,t):t);var l=i.eq(t).outerHeight(),n=i[t].offsetTop,a=s.elements.itemsScroll.scrollTop(),o=n+2*l;s.elements.itemsScroll.scrollTop(o>a+s.itemsHeight?o-s.itemsHeight:n-l<a?n-l:a)},open:function(s){var n=this;if(n.options.nativeOnMobile&&n.utils.isMobile())return!1;n.utils.triggerCallback("BeforeOpen",n),s&&(s.preventDefault(),n.options.stopPropagation&&s.stopPropagation()),n.state.enabled&&(n.setOptionsDimensions(),e("."+n.classes.hideselect,"."+n.classes.open).children()[i]("close"),n.state.opened=!0,n.itemsHeight=n.elements.items.outerHeight(),n.itemsInnerHeight=n.elements.items.height(),n.elements.outerWrapper.addClass(n.classes.open),n.elements.input.val(""),s&&"focusin"!==s.type&&n.elements.input.focus(),setTimeout(function(){t.on("click"+l,e.proxy(n.close,n)).on("scroll"+l,e.proxy(n.isInViewport,n))},1),n.isInViewport(),n.options.preventWindowScroll&&t.on("mousewheel.sl DOMMouseScroll"+l,"."+n.classes.scroll,function(t){var s=t.originalEvent,i=e(this).scrollTop(),l=0;"detail"in s&&(l=-1*s.detail),"wheelDelta"in s&&(l=s.wheelDelta),"wheelDeltaY"in s&&(l=s.wheelDeltaY),"deltaY"in s&&(l=-1*s.deltaY),(i===this.scrollHeight-n.itemsInnerHeight&&l<0||0===i&&l>0)&&t.preventDefault()}),n.detectItemVisibility(n.state.selectedIdx),n.highlight(n.state.multiple?-1:n.state.selectedIdx),n.utils.triggerCallback("Open",n))},close:function(){var e=this;e.utils.triggerCallback("BeforeClose",e),t.off(l),e.elements.outerWrapper.removeClass(e.classes.open),e.state.opened=!1,e.utils.triggerCallback("Close",e)},change:function(){var t=this;t.utils.triggerCallback("BeforeChange",t),t.state.multiple?(e.each(t.lookupItems,function(e){t.lookupItems[e].selected=!1,t.$element.find("option").prop("selected",!1)}),e.each(t.state.selectedIdx,function(e,s){t.lookupItems[s].selected=!0,t.$element.find("option").eq(s).prop("selected",!0)}),t.state.currValue=t.state.selectedIdx,t.setLabel(),t.utils.triggerCallback("Change",t)):t.state.currValue!==t.state.selectedIdx&&(t.$element.prop("selectedIndex",t.state.currValue=t.state.selectedIdx).data("value",t.lookupItems[t.state.selectedIdx].text),t.setLabel(),t.utils.triggerCallback("Change",t))},highlight:function(e){var t=this,s=t.$li.filter("[data-index]").removeClass("highlighted");t.utils.triggerCallback("BeforeHighlight",t),void 0===e||-1===e||t.lookupItems[e].disabled||(s.eq(t.state.highlightedIdx=e).addClass("highlighted"),t.detectItemVisibility(e),t.utils.triggerCallback("Highlight",t))},select:function(t){var s=this,i=s.$li.filter("[data-index]");if(s.utils.triggerCallback("BeforeSelect",s,t),void 0!==t&&-1!==t&&!s.lookupItems[t].disabled){if(s.state.multiple){s.state.selectedIdx=e.isArray(s.state.selectedIdx)?s.state.selectedIdx:[s.state.selectedIdx];var l=e.inArray(t,s.state.selectedIdx);-1!==l?s.state.selectedIdx.splice(l,1):s.state.selectedIdx.push(t),i.removeClass("selected").filter(function(t){return-1!==e.inArray(t,s.state.selectedIdx)}).addClass("selected")}else i.removeClass("selected").eq(s.state.selectedIdx=t).addClass("selected");s.state.multiple&&s.options.multiple.keepMenuOpen||s.close(),s.change(),s.utils.triggerCallback("Select",s,t)}},destroy:function(e){var t=this;t.state&&t.state.enabled&&(t.elements.items.add(t.elements.wrapper).add(t.elements.input).remove(),e||t.$element.removeData(i).removeData("value"),t.$element.prop("tabindex",t.originalTabindex).off(l).off(t.eventTriggers).unwrap().unwrap(),t.state.enabled=!1)}},e.fn[i]=function(t){return this.each(function(){var s=e.data(this,i);s&&!s.disableOnMobile?"string"==typeof t&&s[t]?s[t]():s.init(t):e.data(this,i,new o(this,t))})},e.fn[i].defaults={onChange:function(t){e(t).change()},maxHeight:300,keySearchTimeout:500,arrowButtonMarkup:'<b class="button">&#x25be;</b>',disableOnMobile:!1,nativeOnMobile:!0,openOnFocus:!0,openOnHover:!1,hoverIntentTimeout:500,expandToItemText:!1,responsive:!1,preventWindowScroll:!0,inheritOriginalWidth:!1,allowWrap:!0,stopPropagation:!0,optionsItemBuilder:"{text}",labelBuilder:"{text}",listBuilder:!1,keys:{previous:[37,38],next:[39,40],select:[9,13,27],open:[13,32,37,38,39,40],close:[9,27]},customClass:{prefix:i,camelCase:!1},multiple:{separator:", ",keepMenuOpen:!0,maxLabelEntries:!1}}}(jQuery);
 ;(function () {
-	'use strict';
-
-	/**
-	 * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
-	 *
-	 * @codingstandard ftlabs-jsv2
-	 * @copyright The Financial Times Limited [All Rights Reserved]
-	 * @license MIT License (see LICENSE.txt)
-	 */
-
-	/*jslint browser:true, node:true*/
-	/*global define, Event, Node*/
-
-
-	/**
-	 * Instantiate fast-clicking listeners on the specified layer.
-	 *
-	 * @constructor
-	 * @param {Element} layer The layer to listen on
-	 * @param {Object} [options={}] The options to override the defaults
-	 */
-	function FastClick(layer, options) {
-		var oldOnClick;
-
-		options = options || {};
-
-		/**
-		 * Whether a click is currently being tracked.
-		 *
-		 * @type boolean
-		 */
-		this.trackingClick = false;
-
-
-		/**
-		 * Timestamp for when click tracking started.
-		 *
-		 * @type number
-		 */
-		this.trackingClickStart = 0;
-
-
-		/**
-		 * The element being tracked for a click.
-		 *
-		 * @type EventTarget
-		 */
-		this.targetElement = null;
-
-
-		/**
-		 * X-coordinate of touch start event.
-		 *
-		 * @type number
-		 */
-		this.touchStartX = 0;
-
-
-		/**
-		 * Y-coordinate of touch start event.
-		 *
-		 * @type number
-		 */
-		this.touchStartY = 0;
-
-
-		/**
-		 * ID of the last touch, retrieved from Touch.identifier.
-		 *
-		 * @type number
-		 */
-		this.lastTouchIdentifier = 0;
-
-
-		/**
-		 * Touchmove boundary, beyond which a click will be cancelled.
-		 *
-		 * @type number
-		 */
-		this.touchBoundary = options.touchBoundary || 10;
-
-
-		/**
-		 * The FastClick layer.
-		 *
-		 * @type Element
-		 */
-		this.layer = layer;
-
-		/**
-		 * The minimum time between tap(touchstart and touchend) events
-		 *
-		 * @type number
-		 */
-		this.tapDelay = options.tapDelay || 200;
-
-		/**
-		 * The maximum time for a tap
-		 *
-		 * @type number
-		 */
-		this.tapTimeout = options.tapTimeout || 700;
-
-		if (FastClick.notNeeded(layer)) {
-			return;
-		}
-
-		// Some old versions of Android don't have Function.prototype.bind
-		function bind(method, context) {
-			return function() { return method.apply(context, arguments); };
-		}
-
-
-		var methods = ['onMouse', 'onClick', 'onTouchStart', 'onTouchMove', 'onTouchEnd', 'onTouchCancel'];
-		var context = this;
-		for (var i = 0, l = methods.length; i < l; i++) {
-			context[methods[i]] = bind(context[methods[i]], context);
-		}
-
-		// Set up event handlers as required
-		if (deviceIsAndroid) {
-			layer.addEventListener('mouseover', this.onMouse, true);
-			layer.addEventListener('mousedown', this.onMouse, true);
-			layer.addEventListener('mouseup', this.onMouse, true);
-		}
-
-		layer.addEventListener('click', this.onClick, true);
-		layer.addEventListener('touchstart', this.onTouchStart, false);
-		layer.addEventListener('touchmove', this.onTouchMove, false);
-		layer.addEventListener('touchend', this.onTouchEnd, false);
-		layer.addEventListener('touchcancel', this.onTouchCancel, false);
-
-		// Hack is required for browsers that don't support Event#stopImmediatePropagation (e.g. Android 2)
-		// which is how FastClick normally stops click events bubbling to callbacks registered on the FastClick
-		// layer when they are cancelled.
-		if (!Event.prototype.stopImmediatePropagation) {
-			layer.removeEventListener = function(type, callback, capture) {
-				var rmv = Node.prototype.removeEventListener;
-				if (type === 'click') {
-					rmv.call(layer, type, callback.hijacked || callback, capture);
-				} else {
-					rmv.call(layer, type, callback, capture);
-				}
-			};
-
-			layer.addEventListener = function(type, callback, capture) {
-				var adv = Node.prototype.addEventListener;
-				if (type === 'click') {
-					adv.call(layer, type, callback.hijacked || (callback.hijacked = function(event) {
-						if (!event.propagationStopped) {
-							callback(event);
-						}
-					}), capture);
-				} else {
-					adv.call(layer, type, callback, capture);
-				}
-			};
-		}
-
-		// If a handler is already declared in the element's onclick attribute, it will be fired before
-		// FastClick's onClick handler. Fix this by pulling out the user-defined handler function and
-		// adding it as listener.
-		if (typeof layer.onclick === 'function') {
-
-			// Android browser on at least 3.2 requires a new reference to the function in layer.onclick
-			// - the old one won't work if passed to addEventListener directly.
-			oldOnClick = layer.onclick;
-			layer.addEventListener('click', function(event) {
-				oldOnClick(event);
-			}, false);
-			layer.onclick = null;
-		}
-	}
-
-	/**
-	* Windows Phone 8.1 fakes user agent string to look like Android and iPhone.
-	*
-	* @type boolean
-	*/
-	var deviceIsWindowsPhone = navigator.userAgent.indexOf("Windows Phone") >= 0;
-
-	/**
-	 * Android requires exceptions.
-	 *
-	 * @type boolean
-	 */
-	var deviceIsAndroid = navigator.userAgent.indexOf('Android') > 0 && !deviceIsWindowsPhone;
-
-
-	/**
-	 * iOS requires exceptions.
-	 *
-	 * @type boolean
-	 */
-	var deviceIsIOS = /iP(ad|hone|od)/.test(navigator.userAgent) && !deviceIsWindowsPhone;
-
-
-	/**
-	 * iOS 4 requires an exception for select elements.
-	 *
-	 * @type boolean
-	 */
-	var deviceIsIOS4 = deviceIsIOS && (/OS 4_\d(_\d)?/).test(navigator.userAgent);
-
-
-	/**
-	 * iOS 6.0-7.* requires the target element to be manually derived
-	 *
-	 * @type boolean
-	 */
-	var deviceIsIOSWithBadTarget = deviceIsIOS && (/OS [6-7]_\d/).test(navigator.userAgent);
-
-	/**
-	 * BlackBerry requires exceptions.
-	 *
-	 * @type boolean
-	 */
-	var deviceIsBlackBerry10 = navigator.userAgent.indexOf('BB10') > 0;
-
-	/**
-	 * Determine whether a given element requires a native click.
-	 *
-	 * @param {EventTarget|Element} target Target DOM element
-	 * @returns {boolean} Returns true if the element needs a native click
-	 */
-	FastClick.prototype.needsClick = function(target) {
-		switch (target.nodeName.toLowerCase()) {
-
-		// Don't send a synthetic click to disabled inputs (issue #62)
-		case 'button':
-		case 'select':
-		case 'textarea':
-			if (target.disabled) {
-				return true;
-			}
-
-			break;
-		case 'input':
-
-			// File inputs need real clicks on iOS 6 due to a browser bug (issue #68)
-			if ((deviceIsIOS && target.type === 'file') || target.disabled) {
-				return true;
-			}
-
-			break;
-		case 'label':
-		case 'iframe': // iOS8 homescreen apps can prevent events bubbling into frames
-		case 'video':
-			return true;
-		}
-
-		return (/\bneedsclick\b/).test(target.className);
-	};
-
-
-	/**
-	 * Determine whether a given element requires a call to focus to simulate click into element.
-	 *
-	 * @param {EventTarget|Element} target Target DOM element
-	 * @returns {boolean} Returns true if the element requires a call to focus to simulate native click.
-	 */
-	FastClick.prototype.needsFocus = function(target) {
-		switch (target.nodeName.toLowerCase()) {
-		case 'textarea':
-			return true;
-		case 'select':
-			return !deviceIsAndroid;
-		case 'input':
-			switch (target.type) {
-			case 'button':
-			case 'checkbox':
-			case 'file':
-			case 'image':
-			case 'radio':
-			case 'submit':
-				return false;
-			}
-
-			// No point in attempting to focus disabled inputs
-			return !target.disabled && !target.readOnly;
-		default:
-			return (/\bneedsfocus\b/).test(target.className);
-		}
-	};
-
-
-	/**
-	 * Send a click event to the specified element.
-	 *
-	 * @param {EventTarget|Element} targetElement
-	 * @param {Event} event
-	 */
-	FastClick.prototype.sendClick = function(targetElement, event) {
-		var clickEvent, touch;
-
-		// On some Android devices activeElement needs to be blurred otherwise the synthetic click will have no effect (#24)
-		if (document.activeElement && document.activeElement !== targetElement) {
-			document.activeElement.blur();
-		}
-
-		touch = event.changedTouches[0];
-
-		// Synthesise a click event, with an extra attribute so it can be tracked
-		clickEvent = document.createEvent('MouseEvents');
-		clickEvent.initMouseEvent(this.determineEventType(targetElement), true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null);
-		clickEvent.forwardedTouchEvent = true;
-		targetElement.dispatchEvent(clickEvent);
-	};
-
-	FastClick.prototype.determineEventType = function(targetElement) {
-
-		//Issue #159: Android Chrome Select Box does not open with a synthetic click event
-		if (deviceIsAndroid && targetElement.tagName.toLowerCase() === 'select') {
-			return 'mousedown';
-		}
-
-		return 'click';
-	};
-
-
-	/**
-	 * @param {EventTarget|Element} targetElement
-	 */
-	FastClick.prototype.focus = function(targetElement) {
-		var length;
-
-		// Issue #160: on iOS 7, some input elements (e.g. date datetime month) throw a vague TypeError on setSelectionRange. These elements don't have an integer value for the selectionStart and selectionEnd properties, but unfortunately that can't be used for detection because accessing the properties also throws a TypeError. Just check the type instead. Filed as Apple bug #15122724.
-		if (deviceIsIOS && targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month' && targetElement.type !== 'email') {
-			length = targetElement.value.length;
-			targetElement.setSelectionRange(length, length);
-		} else {
-			targetElement.focus();
-		}
-	};
-
-
-	/**
-	 * Check whether the given target element is a child of a scrollable layer and if so, set a flag on it.
-	 *
-	 * @param {EventTarget|Element} targetElement
-	 */
-	FastClick.prototype.updateScrollParent = function(targetElement) {
-		var scrollParent, parentElement;
-
-		scrollParent = targetElement.fastClickScrollParent;
-
-		// Attempt to discover whether the target element is contained within a scrollable layer. Re-check if the
-		// target element was moved to another parent.
-		if (!scrollParent || !scrollParent.contains(targetElement)) {
-			parentElement = targetElement;
-			do {
-				if (parentElement.scrollHeight > parentElement.offsetHeight) {
-					scrollParent = parentElement;
-					targetElement.fastClickScrollParent = parentElement;
-					break;
-				}
-
-				parentElement = parentElement.parentElement;
-			} while (parentElement);
-		}
-
-		// Always update the scroll top tracker if possible.
-		if (scrollParent) {
-			scrollParent.fastClickLastScrollTop = scrollParent.scrollTop;
-		}
-	};
-
-
-	/**
-	 * @param {EventTarget} targetElement
-	 * @returns {Element|EventTarget}
-	 */
-	FastClick.prototype.getTargetElementFromEventTarget = function(eventTarget) {
-
-		// On some older browsers (notably Safari on iOS 4.1 - see issue #56) the event target may be a text node.
-		if (eventTarget.nodeType === Node.TEXT_NODE) {
-			return eventTarget.parentNode;
-		}
-
-		return eventTarget;
-	};
-
-
-	/**
-	 * On touch start, record the position and scroll offset.
-	 *
-	 * @param {Event} event
-	 * @returns {boolean}
-	 */
-	FastClick.prototype.onTouchStart = function(event) {
-		var targetElement, touch, selection;
-
-		// Ignore multiple touches, otherwise pinch-to-zoom is prevented if both fingers are on the FastClick element (issue #111).
-		if (event.targetTouches.length > 1) {
-			return true;
-		}
-
-		targetElement = this.getTargetElementFromEventTarget(event.target);
-		touch = event.targetTouches[0];
-
-		if (deviceIsIOS) {
-
-			// Only trusted events will deselect text on iOS (issue #49)
-			selection = window.getSelection();
-			if (selection.rangeCount && !selection.isCollapsed) {
-				return true;
-			}
-
-			if (!deviceIsIOS4) {
-
-				// Weird things happen on iOS when an alert or confirm dialog is opened from a click event callback (issue #23):
-				// when the user next taps anywhere else on the page, new touchstart and touchend events are dispatched
-				// with the same identifier as the touch event that previously triggered the click that triggered the alert.
-				// Sadly, there is an issue on iOS 4 that causes some normal touch events to have the same identifier as an
-				// immediately preceeding touch event (issue #52), so this fix is unavailable on that platform.
-				// Issue 120: touch.identifier is 0 when Chrome dev tools 'Emulate touch events' is set with an iOS device UA string,
-				// which causes all touch events to be ignored. As this block only applies to iOS, and iOS identifiers are always long,
-				// random integers, it's safe to to continue if the identifier is 0 here.
-				if (touch.identifier && touch.identifier === this.lastTouchIdentifier) {
-					event.preventDefault();
-					return false;
-				}
-
-				this.lastTouchIdentifier = touch.identifier;
-
-				// If the target element is a child of a scrollable layer (using -webkit-overflow-scrolling: touch) and:
-				// 1) the user does a fling scroll on the scrollable layer
-				// 2) the user stops the fling scroll with another tap
-				// then the event.target of the last 'touchend' event will be the element that was under the user's finger
-				// when the fling scroll was started, causing FastClick to send a click event to that layer - unless a check
-				// is made to ensure that a parent layer was not scrolled before sending a synthetic click (issue #42).
-				this.updateScrollParent(targetElement);
-			}
-		}
-
-		this.trackingClick = true;
-		this.trackingClickStart = event.timeStamp;
-		this.targetElement = targetElement;
-
-		this.touchStartX = touch.pageX;
-		this.touchStartY = touch.pageY;
-
-		// Prevent phantom clicks on fast double-tap (issue #36)
-		if ((event.timeStamp - this.lastClickTime) < this.tapDelay) {
-			event.preventDefault();
-		}
-
-		return true;
-	};
-
-
-	/**
-	 * Based on a touchmove event object, check whether the touch has moved past a boundary since it started.
-	 *
-	 * @param {Event} event
-	 * @returns {boolean}
-	 */
-	FastClick.prototype.touchHasMoved = function(event) {
-		var touch = event.changedTouches[0], boundary = this.touchBoundary;
-
-		if (Math.abs(touch.pageX - this.touchStartX) > boundary || Math.abs(touch.pageY - this.touchStartY) > boundary) {
-			return true;
-		}
-
-		return false;
-	};
-
-
-	/**
-	 * Update the last position.
-	 *
-	 * @param {Event} event
-	 * @returns {boolean}
-	 */
-	FastClick.prototype.onTouchMove = function(event) {
-		if (!this.trackingClick) {
-			return true;
-		}
-
-		// If the touch has moved, cancel the click tracking
-		if (this.targetElement !== this.getTargetElementFromEventTarget(event.target) || this.touchHasMoved(event)) {
-			this.trackingClick = false;
-			this.targetElement = null;
-		}
-
-		return true;
-	};
-
-
-	/**
-	 * Attempt to find the labelled control for the given label element.
-	 *
-	 * @param {EventTarget|HTMLLabelElement} labelElement
-	 * @returns {Element|null}
-	 */
-	FastClick.prototype.findControl = function(labelElement) {
-
-		// Fast path for newer browsers supporting the HTML5 control attribute
-		if (labelElement.control !== undefined) {
-			return labelElement.control;
-		}
-
-		// All browsers under test that support touch events also support the HTML5 htmlFor attribute
-		if (labelElement.htmlFor) {
-			return document.getElementById(labelElement.htmlFor);
-		}
-
-		// If no for attribute exists, attempt to retrieve the first labellable descendant element
-		// the list of which is defined here: http://www.w3.org/TR/html5/forms.html#category-label
-		return labelElement.querySelector('button, input:not([type=hidden]), keygen, meter, output, progress, select, textarea');
-	};
-
-
-	/**
-	 * On touch end, determine whether to send a click event at once.
-	 *
-	 * @param {Event} event
-	 * @returns {boolean}
-	 */
-	FastClick.prototype.onTouchEnd = function(event) {
-		var forElement, trackingClickStart, targetTagName, scrollParent, touch, targetElement = this.targetElement;
-
-		if (!this.trackingClick) {
-			return true;
-		}
-
-		// Prevent phantom clicks on fast double-tap (issue #36)
-		if ((event.timeStamp - this.lastClickTime) < this.tapDelay) {
-			this.cancelNextClick = true;
-			return true;
-		}
-
-		if ((event.timeStamp - this.trackingClickStart) > this.tapTimeout) {
-			return true;
-		}
-
-		// Reset to prevent wrong click cancel on input (issue #156).
-		this.cancelNextClick = false;
-
-		this.lastClickTime = event.timeStamp;
-
-		trackingClickStart = this.trackingClickStart;
-		this.trackingClick = false;
-		this.trackingClickStart = 0;
-
-		// On some iOS devices, the targetElement supplied with the event is invalid if the layer
-		// is performing a transition or scroll, and has to be re-detected manually. Note that
-		// for this to function correctly, it must be called *after* the event target is checked!
-		// See issue #57; also filed as rdar://13048589 .
-		if (deviceIsIOSWithBadTarget) {
-			touch = event.changedTouches[0];
-
-			// In certain cases arguments of elementFromPoint can be negative, so prevent setting targetElement to null
-			targetElement = document.elementFromPoint(touch.pageX - window.pageXOffset, touch.pageY - window.pageYOffset) || targetElement;
-			targetElement.fastClickScrollParent = this.targetElement.fastClickScrollParent;
-		}
-
-		targetTagName = targetElement.tagName.toLowerCase();
-		if (targetTagName === 'label') {
-			forElement = this.findControl(targetElement);
-			if (forElement) {
-				this.focus(targetElement);
-				if (deviceIsAndroid) {
-					return false;
-				}
-
-				targetElement = forElement;
-			}
-		} else if (this.needsFocus(targetElement)) {
-
-			// Case 1: If the touch started a while ago (best guess is 100ms based on tests for issue #36) then focus will be triggered anyway. Return early and unset the target element reference so that the subsequent click will be allowed through.
-			// Case 2: Without this exception for input elements tapped when the document is contained in an iframe, then any inputted text won't be visible even though the value attribute is updated as the user types (issue #37).
-			if ((event.timeStamp - trackingClickStart) > 100 || (deviceIsIOS && window.top !== window && targetTagName === 'input')) {
-				this.targetElement = null;
-				return false;
-			}
-
-			this.focus(targetElement);
-			this.sendClick(targetElement, event);
-
-			// Select elements need the event to go through on iOS 4, otherwise the selector menu won't open.
-			// Also this breaks opening selects when VoiceOver is active on iOS6, iOS7 (and possibly others)
-			if (!deviceIsIOS || targetTagName !== 'select') {
-				this.targetElement = null;
-				event.preventDefault();
-			}
-
-			return false;
-		}
-
-		if (deviceIsIOS && !deviceIsIOS4) {
-
-			// Don't send a synthetic click event if the target element is contained within a parent layer that was scrolled
-			// and this tap is being used to stop the scrolling (usually initiated by a fling - issue #42).
-			scrollParent = targetElement.fastClickScrollParent;
-			if (scrollParent && scrollParent.fastClickLastScrollTop !== scrollParent.scrollTop) {
-				return true;
-			}
-		}
-
-		// Prevent the actual click from going though - unless the target node is marked as requiring
-		// real clicks or if it is in the whitelist in which case only non-programmatic clicks are permitted.
-		if (!this.needsClick(targetElement)) {
-			event.preventDefault();
-			this.sendClick(targetElement, event);
-		}
-
-		return false;
-	};
-
-
-	/**
-	 * On touch cancel, stop tracking the click.
-	 *
-	 * @returns {void}
-	 */
-	FastClick.prototype.onTouchCancel = function() {
-		this.trackingClick = false;
-		this.targetElement = null;
-	};
-
-
-	/**
-	 * Determine mouse events which should be permitted.
-	 *
-	 * @param {Event} event
-	 * @returns {boolean}
-	 */
-	FastClick.prototype.onMouse = function(event) {
-
-		// If a target element was never set (because a touch event was never fired) allow the event
-		if (!this.targetElement) {
-			return true;
-		}
-
-		if (event.forwardedTouchEvent) {
-			return true;
-		}
-
-		// Programmatically generated events targeting a specific element should be permitted
-		if (!event.cancelable) {
-			return true;
-		}
-
-		// Derive and check the target element to see whether the mouse event needs to be permitted;
-		// unless explicitly enabled, prevent non-touch click events from triggering actions,
-		// to prevent ghost/doubleclicks.
-		if (!this.needsClick(this.targetElement) || this.cancelNextClick) {
-
-			// Prevent any user-added listeners declared on FastClick element from being fired.
-			if (event.stopImmediatePropagation) {
-				event.stopImmediatePropagation();
-			} else {
-
-				// Part of the hack for browsers that don't support Event#stopImmediatePropagation (e.g. Android 2)
-				event.propagationStopped = true;
-			}
-
-			// Cancel the event
-			event.stopPropagation();
-			event.preventDefault();
-
-			return false;
-		}
-
-		// If the mouse event is permitted, return true for the action to go through.
-		return true;
-	};
-
-
-	/**
-	 * On actual clicks, determine whether this is a touch-generated click, a click action occurring
-	 * naturally after a delay after a touch (which needs to be cancelled to avoid duplication), or
-	 * an actual click which should be permitted.
-	 *
-	 * @param {Event} event
-	 * @returns {boolean}
-	 */
-	FastClick.prototype.onClick = function(event) {
-		var permitted;
-
-		// It's possible for another FastClick-like library delivered with third-party code to fire a click event before FastClick does (issue #44). In that case, set the click-tracking flag back to false and return early. This will cause onTouchEnd to return early.
-		if (this.trackingClick) {
-			this.targetElement = null;
-			this.trackingClick = false;
-			return true;
-		}
-
-		// Very odd behaviour on iOS (issue #18): if a submit element is present inside a form and the user hits enter in the iOS simulator or clicks the Go button on the pop-up OS keyboard the a kind of 'fake' click event will be triggered with the submit-type input element as the target.
-		if (event.target.type === 'submit' && event.detail === 0) {
-			return true;
-		}
-
-		permitted = this.onMouse(event);
-
-		// Only unset targetElement if the click is not permitted. This will ensure that the check for !targetElement in onMouse fails and the browser's click doesn't go through.
-		if (!permitted) {
-			this.targetElement = null;
-		}
-
-		// If clicks are permitted, return true for the action to go through.
-		return permitted;
-	};
-
-
-	/**
-	 * Remove all FastClick's event listeners.
-	 *
-	 * @returns {void}
-	 */
-	FastClick.prototype.destroy = function() {
-		var layer = this.layer;
-
-		if (deviceIsAndroid) {
-			layer.removeEventListener('mouseover', this.onMouse, true);
-			layer.removeEventListener('mousedown', this.onMouse, true);
-			layer.removeEventListener('mouseup', this.onMouse, true);
-		}
-
-		layer.removeEventListener('click', this.onClick, true);
-		layer.removeEventListener('touchstart', this.onTouchStart, false);
-		layer.removeEventListener('touchmove', this.onTouchMove, false);
-		layer.removeEventListener('touchend', this.onTouchEnd, false);
-		layer.removeEventListener('touchcancel', this.onTouchCancel, false);
-	};
-
-
-	/**
-	 * Check whether FastClick is needed.
-	 *
-	 * @param {Element} layer The layer to listen on
-	 */
-	FastClick.notNeeded = function(layer) {
-		var metaViewport;
-		var chromeVersion;
-		var blackberryVersion;
-		var firefoxVersion;
-
-		// Devices that don't support touch don't need FastClick
-		if (typeof window.ontouchstart === 'undefined') {
-			return true;
-		}
-
-		// Chrome version - zero for other browsers
-		chromeVersion = +(/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [,0])[1];
-
-		if (chromeVersion) {
-
-			if (deviceIsAndroid) {
-				metaViewport = document.querySelector('meta[name=viewport]');
-
-				if (metaViewport) {
-					// Chrome on Android with user-scalable="no" doesn't need FastClick (issue #89)
-					if (metaViewport.content.indexOf('user-scalable=no') !== -1) {
-						return true;
-					}
-					// Chrome 32 and above with width=device-width or less don't need FastClick
-					if (chromeVersion > 31 && document.documentElement.scrollWidth <= window.outerWidth) {
-						return true;
-					}
-				}
-
-			// Chrome desktop doesn't need FastClick (issue #15)
-			} else {
-				return true;
-			}
-		}
-
-		if (deviceIsBlackBerry10) {
-			blackberryVersion = navigator.userAgent.match(/Version\/([0-9]*)\.([0-9]*)/);
-
-			// BlackBerry 10.3+ does not require Fastclick library.
-			// https://github.com/ftlabs/fastclick/issues/251
-			if (blackberryVersion[1] >= 10 && blackberryVersion[2] >= 3) {
-				metaViewport = document.querySelector('meta[name=viewport]');
-
-				if (metaViewport) {
-					// user-scalable=no eliminates click delay.
-					if (metaViewport.content.indexOf('user-scalable=no') !== -1) {
-						return true;
-					}
-					// width=device-width (or less than device-width) eliminates click delay.
-					if (document.documentElement.scrollWidth <= window.outerWidth) {
-						return true;
-					}
-				}
-			}
-		}
-
-		// IE10 with -ms-touch-action: none or manipulation, which disables double-tap-to-zoom (issue #97)
-		if (layer.style.msTouchAction === 'none' || layer.style.touchAction === 'manipulation') {
-			return true;
-		}
-
-		// Firefox version - zero for other browsers
-		firefoxVersion = +(/Firefox\/([0-9]+)/.exec(navigator.userAgent) || [,0])[1];
-
-		if (firefoxVersion >= 27) {
-			// Firefox 27+ does not have tap delay if the content is not zoomable - https://bugzilla.mozilla.org/show_bug.cgi?id=922896
-
-			metaViewport = document.querySelector('meta[name=viewport]');
-			if (metaViewport && (metaViewport.content.indexOf('user-scalable=no') !== -1 || document.documentElement.scrollWidth <= window.outerWidth)) {
-				return true;
-			}
-		}
-
-		// IE11: prefixed -ms-touch-action is no longer supported and it's recomended to use non-prefixed version
-		// http://msdn.microsoft.com/en-us/library/windows/apps/Hh767313.aspx
-		if (layer.style.touchAction === 'none' || layer.style.touchAction === 'manipulation') {
-			return true;
-		}
-
-		return false;
-	};
-
-
-	/**
-	 * Factory method for creating a FastClick object
-	 *
-	 * @param {Element} layer The layer to listen on
-	 * @param {Object} [options={}] The options to override the defaults
-	 */
-	FastClick.attach = function(layer, options) {
-		return new FastClick(layer, options);
-	};
-
-
-	if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
-
-		// AMD. Register as an anonymous module.
-		define(function() {
-			return FastClick;
-		});
-	} else if (typeof module !== 'undefined' && module.exports) {
-		module.exports = FastClick.attach;
-		module.exports.FastClick = FastClick;
-	} else {
-		window.FastClick = FastClick;
-	}
+    'use strict';
+
+    /**
+     * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
+     *
+     * @codingstandard ftlabs-jsv2
+     * @copyright The Financial Times Limited [All Rights Reserved]
+     * @license MIT License (see LICENSE.txt)
+     */
+
+    /*jslint browser:true, node:true*/
+    /*global define, Event, Node*/
+
+
+    /**
+     * Instantiate fast-clicking listeners on the specified layer.
+     *
+     * @constructor
+     * @param {Element} layer The layer to listen on
+     * @param {Object} [options={}] The options to override the defaults
+     */
+    function FastClick(layer, options) {
+        var oldOnClick;
+
+        options = options || {};
+
+        /**
+         * Whether a click is currently being tracked.
+         *
+         * @type boolean
+         */
+        this.trackingClick = false;
+
+
+        /**
+         * Timestamp for when click tracking started.
+         *
+         * @type number
+         */
+        this.trackingClickStart = 0;
+
+
+        /**
+         * The element being tracked for a click.
+         *
+         * @type EventTarget
+         */
+        this.targetElement = null;
+
+
+        /**
+         * X-coordinate of touch start event.
+         *
+         * @type number
+         */
+        this.touchStartX = 0;
+
+
+        /**
+         * Y-coordinate of touch start event.
+         *
+         * @type number
+         */
+        this.touchStartY = 0;
+
+
+        /**
+         * ID of the last touch, retrieved from Touch.identifier.
+         *
+         * @type number
+         */
+        this.lastTouchIdentifier = 0;
+
+
+        /**
+         * Touchmove boundary, beyond which a click will be cancelled.
+         *
+         * @type number
+         */
+        this.touchBoundary = options.touchBoundary || 10;
+
+
+        /**
+         * The FastClick layer.
+         *
+         * @type Element
+         */
+        this.layer = layer;
+
+        /**
+         * The minimum time between tap(touchstart and touchend) events
+         *
+         * @type number
+         */
+        this.tapDelay = options.tapDelay || 200;
+
+        /**
+         * The maximum time for a tap
+         *
+         * @type number
+         */
+        this.tapTimeout = options.tapTimeout || 700;
+
+        if (FastClick.notNeeded(layer)) {
+            return;
+        }
+
+        // Some old versions of Android don't have Function.prototype.bind
+        function bind(method, context) {
+            return function() { return method.apply(context, arguments); };
+        }
+
+
+        var methods = ['onMouse', 'onClick', 'onTouchStart', 'onTouchMove', 'onTouchEnd', 'onTouchCancel'];
+        var context = this;
+        for (var i = 0, l = methods.length; i < l; i++) {
+            context[methods[i]] = bind(context[methods[i]], context);
+        }
+
+        // Set up event handlers as required
+        if (deviceIsAndroid) {
+            layer.addEventListener('mouseover', this.onMouse, true);
+            layer.addEventListener('mousedown', this.onMouse, true);
+            layer.addEventListener('mouseup', this.onMouse, true);
+        }
+
+        layer.addEventListener('click', this.onClick, true);
+        layer.addEventListener('touchstart', this.onTouchStart, false);
+        layer.addEventListener('touchmove', this.onTouchMove, false);
+        layer.addEventListener('touchend', this.onTouchEnd, false);
+        layer.addEventListener('touchcancel', this.onTouchCancel, false);
+
+        // Hack is required for browsers that don't support Event#stopImmediatePropagation (e.g. Android 2)
+        // which is how FastClick normally stops click events bubbling to callbacks registered on the FastClick
+        // layer when they are cancelled.
+        if (!Event.prototype.stopImmediatePropagation) {
+            layer.removeEventListener = function(type, callback, capture) {
+                var rmv = Node.prototype.removeEventListener;
+                if (type === 'click') {
+                    rmv.call(layer, type, callback.hijacked || callback, capture);
+                } else {
+                    rmv.call(layer, type, callback, capture);
+                }
+            };
+
+            layer.addEventListener = function(type, callback, capture) {
+                var adv = Node.prototype.addEventListener;
+                if (type === 'click') {
+                    adv.call(layer, type, callback.hijacked || (callback.hijacked = function(event) {
+                        if (!event.propagationStopped) {
+                            callback(event);
+                        }
+                    }), capture);
+                } else {
+                    adv.call(layer, type, callback, capture);
+                }
+            };
+        }
+
+        // If a handler is already declared in the element's onclick attribute, it will be fired before
+        // FastClick's onClick handler. Fix this by pulling out the user-defined handler function and
+        // adding it as listener.
+        if (typeof layer.onclick === 'function') {
+
+            // Android browser on at least 3.2 requires a new reference to the function in layer.onclick
+            // - the old one won't work if passed to addEventListener directly.
+            oldOnClick = layer.onclick;
+            layer.addEventListener('click', function(event) {
+                oldOnClick(event);
+            }, false);
+            layer.onclick = null;
+        }
+    }
+
+    /**
+     * Windows Phone 8.1 fakes user agent string to look like Android and iPhone.
+     *
+     * @type boolean
+     */
+    var deviceIsWindowsPhone = navigator.userAgent.indexOf("Windows Phone") >= 0;
+
+    /**
+     * Android requires exceptions.
+     *
+     * @type boolean
+     */
+    var deviceIsAndroid = navigator.userAgent.indexOf('Android') > 0 && !deviceIsWindowsPhone;
+
+
+    /**
+     * iOS requires exceptions.
+     *
+     * @type boolean
+     */
+    var deviceIsIOS = /iP(ad|hone|od)/.test(navigator.userAgent) && !deviceIsWindowsPhone;
+
+
+    /**
+     * iOS 4 requires an exception for select elements.
+     *
+     * @type boolean
+     */
+    var deviceIsIOS4 = deviceIsIOS && (/OS 4_\d(_\d)?/).test(navigator.userAgent);
+
+
+    /**
+     * iOS 6.0-7.* requires the target element to be manually derived
+     *
+     * @type boolean
+     */
+    var deviceIsIOSWithBadTarget = deviceIsIOS && (/OS [6-7]_\d/).test(navigator.userAgent);
+
+    /**
+     * BlackBerry requires exceptions.
+     *
+     * @type boolean
+     */
+    var deviceIsBlackBerry10 = navigator.userAgent.indexOf('BB10') > 0;
+
+    /**
+     * Determine whether a given element requires a native click.
+     *
+     * @param {EventTarget|Element} target Target DOM element
+     * @returns {boolean} Returns true if the element needs a native click
+     */
+    FastClick.prototype.needsClick = function(target) {
+        switch (target.nodeName.toLowerCase()) {
+
+            // Don't send a synthetic click to disabled inputs (issue #62)
+            case 'button':
+            case 'select':
+            case 'textarea':
+                if (target.disabled) {
+                    return true;
+                }
+
+                break;
+            case 'input':
+
+                // File inputs need real clicks on iOS 6 due to a browser bug (issue #68)
+                if ((deviceIsIOS && target.type === 'file') || target.disabled) {
+                    return true;
+                }
+
+                break;
+            case 'label':
+            case 'iframe': // iOS8 homescreen apps can prevent events bubbling into frames
+            case 'video':
+                return true;
+        }
+
+        return (/\bneedsclick\b/).test(target.className);
+    };
+
+
+    /**
+     * Determine whether a given element requires a call to focus to simulate click into element.
+     *
+     * @param {EventTarget|Element} target Target DOM element
+     * @returns {boolean} Returns true if the element requires a call to focus to simulate native click.
+     */
+    FastClick.prototype.needsFocus = function(target) {
+        switch (target.nodeName.toLowerCase()) {
+            case 'textarea':
+                return true;
+            case 'select':
+                return !deviceIsAndroid;
+            case 'input':
+                switch (target.type) {
+                    case 'button':
+                    case 'checkbox':
+                    case 'file':
+                    case 'image':
+                    case 'radio':
+                    case 'submit':
+                        return false;
+                }
+
+                // No point in attempting to focus disabled inputs
+                return !target.disabled && !target.readOnly;
+            default:
+                return (/\bneedsfocus\b/).test(target.className);
+        }
+    };
+
+
+    /**
+     * Send a click event to the specified element.
+     *
+     * @param {EventTarget|Element} targetElement
+     * @param {Event} event
+     */
+    FastClick.prototype.sendClick = function(targetElement, event) {
+        var clickEvent, touch;
+
+        // On some Android devices activeElement needs to be blurred otherwise the synthetic click will have no effect (#24)
+        if (document.activeElement && document.activeElement !== targetElement) {
+            document.activeElement.blur();
+        }
+
+        touch = event.changedTouches[0];
+
+        // Synthesise a click event, with an extra attribute so it can be tracked
+        clickEvent = document.createEvent('MouseEvents');
+        clickEvent.initMouseEvent(this.determineEventType(targetElement), true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null);
+        clickEvent.forwardedTouchEvent = true;
+        targetElement.dispatchEvent(clickEvent);
+    };
+
+    FastClick.prototype.determineEventType = function(targetElement) {
+
+        //Issue #159: Android Chrome Select Box does not open with a synthetic click event
+        if (deviceIsAndroid && targetElement.tagName.toLowerCase() === 'select') {
+            return 'mousedown';
+        }
+
+        return 'click';
+    };
+
+
+    /**
+     * @param {EventTarget|Element} targetElement
+     */
+    FastClick.prototype.focus = function(targetElement) {
+        var length;
+
+        // Issue #160: on iOS 7, some input elements (e.g. date datetime month) throw a vague TypeError on setSelectionRange. These elements don't have an integer value for the selectionStart and selectionEnd properties, but unfortunately that can't be used for detection because accessing the properties also throws a TypeError. Just check the type instead. Filed as Apple bug #15122724.
+        if (deviceIsIOS && targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month' && targetElement.type !== 'email') {
+            length = targetElement.value.length;
+            targetElement.setSelectionRange(length, length);
+        } else {
+            targetElement.focus();
+        }
+    };
+
+
+    /**
+     * Check whether the given target element is a child of a scrollable layer and if so, set a flag on it.
+     *
+     * @param {EventTarget|Element} targetElement
+     */
+    FastClick.prototype.updateScrollParent = function(targetElement) {
+        var scrollParent, parentElement;
+
+        scrollParent = targetElement.fastClickScrollParent;
+
+        // Attempt to discover whether the target element is contained within a scrollable layer. Re-check if the
+        // target element was moved to another parent.
+        if (!scrollParent || !scrollParent.contains(targetElement)) {
+            parentElement = targetElement;
+            do {
+                if (parentElement.scrollHeight > parentElement.offsetHeight) {
+                    scrollParent = parentElement;
+                    targetElement.fastClickScrollParent = parentElement;
+                    break;
+                }
+
+                parentElement = parentElement.parentElement;
+            } while (parentElement);
+        }
+
+        // Always update the scroll top tracker if possible.
+        if (scrollParent) {
+            scrollParent.fastClickLastScrollTop = scrollParent.scrollTop;
+        }
+    };
+
+
+    /**
+     * @param {EventTarget} targetElement
+     * @returns {Element|EventTarget}
+     */
+    FastClick.prototype.getTargetElementFromEventTarget = function(eventTarget) {
+
+        // On some older browsers (notably Safari on iOS 4.1 - see issue #56) the event target may be a text node.
+        if (eventTarget.nodeType === Node.TEXT_NODE) {
+            return eventTarget.parentNode;
+        }
+
+        return eventTarget;
+    };
+
+
+    /**
+     * On touch start, record the position and scroll offset.
+     *
+     * @param {Event} event
+     * @returns {boolean}
+     */
+    FastClick.prototype.onTouchStart = function(event) {
+        var targetElement, touch, selection;
+
+        // Ignore multiple touches, otherwise pinch-to-zoom is prevented if both fingers are on the FastClick element (issue #111).
+        if (event.targetTouches.length > 1) {
+            return true;
+        }
+
+        targetElement = this.getTargetElementFromEventTarget(event.target);
+        touch = event.targetTouches[0];
+
+        if (deviceIsIOS) {
+
+            // Only trusted events will deselect text on iOS (issue #49)
+            selection = window.getSelection();
+            if (selection.rangeCount && !selection.isCollapsed) {
+                return true;
+            }
+
+            if (!deviceIsIOS4) {
+
+                // Weird things happen on iOS when an alert or confirm dialog is opened from a click event callback (issue #23):
+                // when the user next taps anywhere else on the page, new touchstart and touchend events are dispatched
+                // with the same identifier as the touch event that previously triggered the click that triggered the alert.
+                // Sadly, there is an issue on iOS 4 that causes some normal touch events to have the same identifier as an
+                // immediately preceeding touch event (issue #52), so this fix is unavailable on that platform.
+                // Issue 120: touch.identifier is 0 when Chrome dev tools 'Emulate touch events' is set with an iOS device UA string,
+                // which causes all touch events to be ignored. As this block only applies to iOS, and iOS identifiers are always long,
+                // random integers, it's safe to to continue if the identifier is 0 here.
+                if (touch.identifier && touch.identifier === this.lastTouchIdentifier) {
+                    event.preventDefault();
+                    return false;
+                }
+
+                this.lastTouchIdentifier = touch.identifier;
+
+                // If the target element is a child of a scrollable layer (using -webkit-overflow-scrolling: touch) and:
+                // 1) the user does a fling scroll on the scrollable layer
+                // 2) the user stops the fling scroll with another tap
+                // then the event.target of the last 'touchend' event will be the element that was under the user's finger
+                // when the fling scroll was started, causing FastClick to send a click event to that layer - unless a check
+                // is made to ensure that a parent layer was not scrolled before sending a synthetic click (issue #42).
+                this.updateScrollParent(targetElement);
+            }
+        }
+
+        this.trackingClick = true;
+        this.trackingClickStart = event.timeStamp;
+        this.targetElement = targetElement;
+
+        this.touchStartX = touch.pageX;
+        this.touchStartY = touch.pageY;
+
+        // Prevent phantom clicks on fast double-tap (issue #36)
+        if ((event.timeStamp - this.lastClickTime) < this.tapDelay) {
+            event.preventDefault();
+        }
+
+        return true;
+    };
+
+
+    /**
+     * Based on a touchmove event object, check whether the touch has moved past a boundary since it started.
+     *
+     * @param {Event} event
+     * @returns {boolean}
+     */
+    FastClick.prototype.touchHasMoved = function(event) {
+        var touch = event.changedTouches[0], boundary = this.touchBoundary;
+
+        if (Math.abs(touch.pageX - this.touchStartX) > boundary || Math.abs(touch.pageY - this.touchStartY) > boundary) {
+            return true;
+        }
+
+        return false;
+    };
+
+
+    /**
+     * Update the last position.
+     *
+     * @param {Event} event
+     * @returns {boolean}
+     */
+    FastClick.prototype.onTouchMove = function(event) {
+        if (!this.trackingClick) {
+            return true;
+        }
+
+        // If the touch has moved, cancel the click tracking
+        if (this.targetElement !== this.getTargetElementFromEventTarget(event.target) || this.touchHasMoved(event)) {
+            this.trackingClick = false;
+            this.targetElement = null;
+        }
+
+        return true;
+    };
+
+
+    /**
+     * Attempt to find the labelled control for the given label element.
+     *
+     * @param {EventTarget|HTMLLabelElement} labelElement
+     * @returns {Element|null}
+     */
+    FastClick.prototype.findControl = function(labelElement) {
+
+        // Fast path for newer browsers supporting the HTML5 control attribute
+        if (labelElement.control !== undefined) {
+            return labelElement.control;
+        }
+
+        // All browsers under test that support touch events also support the HTML5 htmlFor attribute
+        if (labelElement.htmlFor) {
+            return document.getElementById(labelElement.htmlFor);
+        }
+
+        // If no for attribute exists, attempt to retrieve the first labellable descendant element
+        // the list of which is defined here: http://www.w3.org/TR/html5/forms.html#category-label
+        return labelElement.querySelector('button, input:not([type=hidden]), keygen, meter, output, progress, select, textarea');
+    };
+
+
+    /**
+     * On touch end, determine whether to send a click event at once.
+     *
+     * @param {Event} event
+     * @returns {boolean}
+     */
+    FastClick.prototype.onTouchEnd = function(event) {
+        var forElement, trackingClickStart, targetTagName, scrollParent, touch, targetElement = this.targetElement;
+
+        if (!this.trackingClick) {
+            return true;
+        }
+
+        // Prevent phantom clicks on fast double-tap (issue #36)
+        if ((event.timeStamp - this.lastClickTime) < this.tapDelay) {
+            this.cancelNextClick = true;
+            return true;
+        }
+
+        if ((event.timeStamp - this.trackingClickStart) > this.tapTimeout) {
+            return true;
+        }
+
+        // Reset to prevent wrong click cancel on input (issue #156).
+        this.cancelNextClick = false;
+
+        this.lastClickTime = event.timeStamp;
+
+        trackingClickStart = this.trackingClickStart;
+        this.trackingClick = false;
+        this.trackingClickStart = 0;
+
+        // On some iOS devices, the targetElement supplied with the event is invalid if the layer
+        // is performing a transition or scroll, and has to be re-detected manually. Note that
+        // for this to function correctly, it must be called *after* the event target is checked!
+        // See issue #57; also filed as rdar://13048589 .
+        if (deviceIsIOSWithBadTarget) {
+            touch = event.changedTouches[0];
+
+            // In certain cases arguments of elementFromPoint can be negative, so prevent setting targetElement to null
+            targetElement = document.elementFromPoint(touch.pageX - window.pageXOffset, touch.pageY - window.pageYOffset) || targetElement;
+            targetElement.fastClickScrollParent = this.targetElement.fastClickScrollParent;
+        }
+
+        targetTagName = targetElement.tagName.toLowerCase();
+        if (targetTagName === 'label') {
+            forElement = this.findControl(targetElement);
+            if (forElement) {
+                this.focus(targetElement);
+                if (deviceIsAndroid) {
+                    return false;
+                }
+
+                targetElement = forElement;
+            }
+        } else if (this.needsFocus(targetElement)) {
+
+            // Case 1: If the touch started a while ago (best guess is 100ms based on tests for issue #36) then focus will be triggered anyway. Return early and unset the target element reference so that the subsequent click will be allowed through.
+            // Case 2: Without this exception for input elements tapped when the document is contained in an iframe, then any inputted text won't be visible even though the value attribute is updated as the user types (issue #37).
+            if ((event.timeStamp - trackingClickStart) > 100 || (deviceIsIOS && window.top !== window && targetTagName === 'input')) {
+                this.targetElement = null;
+                return false;
+            }
+
+            this.focus(targetElement);
+            this.sendClick(targetElement, event);
+
+            // Select elements need the event to go through on iOS 4, otherwise the selector menu won't open.
+            // Also this breaks opening selects when VoiceOver is active on iOS6, iOS7 (and possibly others)
+            if (!deviceIsIOS || targetTagName !== 'select') {
+                this.targetElement = null;
+                event.preventDefault();
+            }
+
+            return false;
+        }
+
+        if (deviceIsIOS && !deviceIsIOS4) {
+
+            // Don't send a synthetic click event if the target element is contained within a parent layer that was scrolled
+            // and this tap is being used to stop the scrolling (usually initiated by a fling - issue #42).
+            scrollParent = targetElement.fastClickScrollParent;
+            if (scrollParent && scrollParent.fastClickLastScrollTop !== scrollParent.scrollTop) {
+                return true;
+            }
+        }
+
+        // Prevent the actual click from going though - unless the target node is marked as requiring
+        // real clicks or if it is in the whitelist in which case only non-programmatic clicks are permitted.
+        if (!this.needsClick(targetElement)) {
+            event.preventDefault();
+            this.sendClick(targetElement, event);
+        }
+
+        return false;
+    };
+
+
+    /**
+     * On touch cancel, stop tracking the click.
+     *
+     * @returns {void}
+     */
+    FastClick.prototype.onTouchCancel = function() {
+        this.trackingClick = false;
+        this.targetElement = null;
+    };
+
+
+    /**
+     * Determine mouse events which should be permitted.
+     *
+     * @param {Event} event
+     * @returns {boolean}
+     */
+    FastClick.prototype.onMouse = function(event) {
+
+        // If a target element was never set (because a touch event was never fired) allow the event
+        if (!this.targetElement) {
+            return true;
+        }
+
+        if (event.forwardedTouchEvent) {
+            return true;
+        }
+
+        // Programmatically generated events targeting a specific element should be permitted
+        if (!event.cancelable) {
+            return true;
+        }
+
+        // Derive and check the target element to see whether the mouse event needs to be permitted;
+        // unless explicitly enabled, prevent non-touch click events from triggering actions,
+        // to prevent ghost/doubleclicks.
+        if (!this.needsClick(this.targetElement) || this.cancelNextClick) {
+
+            // Prevent any user-added listeners declared on FastClick element from being fired.
+            if (event.stopImmediatePropagation) {
+                event.stopImmediatePropagation();
+            } else {
+
+                // Part of the hack for browsers that don't support Event#stopImmediatePropagation (e.g. Android 2)
+                event.propagationStopped = true;
+            }
+
+            // Cancel the event
+            event.stopPropagation();
+            event.preventDefault();
+
+            return false;
+        }
+
+        // If the mouse event is permitted, return true for the action to go through.
+        return true;
+    };
+
+
+    /**
+     * On actual clicks, determine whether this is a touch-generated click, a click action occurring
+     * naturally after a delay after a touch (which needs to be cancelled to avoid duplication), or
+     * an actual click which should be permitted.
+     *
+     * @param {Event} event
+     * @returns {boolean}
+     */
+    FastClick.prototype.onClick = function(event) {
+        var permitted;
+
+        // It's possible for another FastClick-like library delivered with third-party code to fire a click event before FastClick does (issue #44). In that case, set the click-tracking flag back to false and return early. This will cause onTouchEnd to return early.
+        if (this.trackingClick) {
+            this.targetElement = null;
+            this.trackingClick = false;
+            return true;
+        }
+
+        // Very odd behaviour on iOS (issue #18): if a submit element is present inside a form and the user hits enter in the iOS simulator or clicks the Go button on the pop-up OS keyboard the a kind of 'fake' click event will be triggered with the submit-type input element as the target.
+        if (event.target.type === 'submit' && event.detail === 0) {
+            return true;
+        }
+
+        permitted = this.onMouse(event);
+
+        // Only unset targetElement if the click is not permitted. This will ensure that the check for !targetElement in onMouse fails and the browser's click doesn't go through.
+        if (!permitted) {
+            this.targetElement = null;
+        }
+
+        // If clicks are permitted, return true for the action to go through.
+        return permitted;
+    };
+
+
+    /**
+     * Remove all FastClick's event listeners.
+     *
+     * @returns {void}
+     */
+    FastClick.prototype.destroy = function() {
+        var layer = this.layer;
+
+        if (deviceIsAndroid) {
+            layer.removeEventListener('mouseover', this.onMouse, true);
+            layer.removeEventListener('mousedown', this.onMouse, true);
+            layer.removeEventListener('mouseup', this.onMouse, true);
+        }
+
+        layer.removeEventListener('click', this.onClick, true);
+        layer.removeEventListener('touchstart', this.onTouchStart, false);
+        layer.removeEventListener('touchmove', this.onTouchMove, false);
+        layer.removeEventListener('touchend', this.onTouchEnd, false);
+        layer.removeEventListener('touchcancel', this.onTouchCancel, false);
+    };
+
+
+    /**
+     * Check whether FastClick is needed.
+     *
+     * @param {Element} layer The layer to listen on
+     */
+    FastClick.notNeeded = function(layer) {
+        var metaViewport;
+        var chromeVersion;
+        var blackberryVersion;
+        var firefoxVersion;
+
+        // Devices that don't support touch don't need FastClick
+        if (typeof window.ontouchstart === 'undefined') {
+            return true;
+        }
+
+        // Chrome version - zero for other browsers
+        chromeVersion = +(/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [,0])[1];
+
+        if (chromeVersion) {
+
+            if (deviceIsAndroid) {
+                metaViewport = document.querySelector('meta[name=viewport]');
+
+                if (metaViewport) {
+                    // Chrome on Android with user-scalable="no" doesn't need FastClick (issue #89)
+                    if (metaViewport.content.indexOf('user-scalable=no') !== -1) {
+                        return true;
+                    }
+                    // Chrome 32 and above with width=device-width or less don't need FastClick
+                    if (chromeVersion > 31 && document.documentElement.scrollWidth <= window.outerWidth) {
+                        return true;
+                    }
+                }
+
+                // Chrome desktop doesn't need FastClick (issue #15)
+            } else {
+                return true;
+            }
+        }
+
+        if (deviceIsBlackBerry10) {
+            blackberryVersion = navigator.userAgent.match(/Version\/([0-9]*)\.([0-9]*)/);
+
+            // BlackBerry 10.3+ does not require Fastclick library.
+            // https://github.com/ftlabs/fastclick/issues/251
+            if (blackberryVersion[1] >= 10 && blackberryVersion[2] >= 3) {
+                metaViewport = document.querySelector('meta[name=viewport]');
+
+                if (metaViewport) {
+                    // user-scalable=no eliminates click delay.
+                    if (metaViewport.content.indexOf('user-scalable=no') !== -1) {
+                        return true;
+                    }
+                    // width=device-width (or less than device-width) eliminates click delay.
+                    if (document.documentElement.scrollWidth <= window.outerWidth) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        // IE10 with -ms-touch-action: none or manipulation, which disables double-tap-to-zoom (issue #97)
+        if (layer.style.msTouchAction === 'none' || layer.style.touchAction === 'manipulation') {
+            return true;
+        }
+
+        // Firefox version - zero for other browsers
+        firefoxVersion = +(/Firefox\/([0-9]+)/.exec(navigator.userAgent) || [,0])[1];
+
+        if (firefoxVersion >= 27) {
+            // Firefox 27+ does not have tap delay if the content is not zoomable - https://bugzilla.mozilla.org/show_bug.cgi?id=922896
+
+            metaViewport = document.querySelector('meta[name=viewport]');
+            if (metaViewport && (metaViewport.content.indexOf('user-scalable=no') !== -1 || document.documentElement.scrollWidth <= window.outerWidth)) {
+                return true;
+            }
+        }
+
+        // IE11: prefixed -ms-touch-action is no longer supported and it's recomended to use non-prefixed version
+        // http://msdn.microsoft.com/en-us/library/windows/apps/Hh767313.aspx
+        if (layer.style.touchAction === 'none' || layer.style.touchAction === 'manipulation') {
+            return true;
+        }
+
+        return false;
+    };
+
+
+    /**
+     * Factory method for creating a FastClick object
+     *
+     * @param {Element} layer The layer to listen on
+     * @param {Object} [options={}] The options to override the defaults
+     */
+    FastClick.attach = function(layer, options) {
+        return new FastClick(layer, options);
+    };
+
+
+    if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
+
+        // AMD. Register as an anonymous module.
+        define(function() {
+            return FastClick;
+        });
+    } else if (typeof module !== 'undefined' && module.exports) {
+        module.exports = FastClick.attach;
+        module.exports.FastClick = FastClick;
+    } else {
+        window.FastClick = FastClick;
+    }
 }());
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var t;t="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,t.flexibility=e()}}(function(){return function e(t,r,l){function n(f,i){if(!r[f]){if(!t[f]){var s="function"==typeof require&&require;if(!i&&s)return s(f,!0);if(o)return o(f,!0);var a=new Error("Cannot find module '"+f+"'");throw a.code="MODULE_NOT_FOUND",a}var c=r[f]={exports:{}};t[f][0].call(c.exports,function(e){var r=t[f][1][e];return n(r?r:e)},c,c.exports,e,t,r,l)}return r[f].exports}for(var o="function"==typeof require&&require,f=0;f<l.length;f++)n(l[f]);return n}({1:[function(e,t,r){t.exports=function(e){var t,r,l,n=-1;if(e.lines.length>1&&"flex-start"===e.style.alignContent)for(t=0;l=e.lines[++n];)l.crossStart=t,t+=l.cross;else if(e.lines.length>1&&"flex-end"===e.style.alignContent)for(t=e.flexStyle.crossSpace;l=e.lines[++n];)l.crossStart=t,t+=l.cross;else if(e.lines.length>1&&"center"===e.style.alignContent)for(t=e.flexStyle.crossSpace/2;l=e.lines[++n];)l.crossStart=t,t+=l.cross;else if(e.lines.length>1&&"space-between"===e.style.alignContent)for(r=e.flexStyle.crossSpace/(e.lines.length-1),t=0;l=e.lines[++n];)l.crossStart=t,t+=l.cross+r;else if(e.lines.length>1&&"space-around"===e.style.alignContent)for(r=2*e.flexStyle.crossSpace/(2*e.lines.length),t=r/2;l=e.lines[++n];)l.crossStart=t,t+=l.cross+r;else for(r=e.flexStyle.crossSpace/e.lines.length,t=e.flexStyle.crossInnerBefore;l=e.lines[++n];)l.crossStart=t,l.cross+=r,t+=l.cross}},{}],2:[function(e,t,r){t.exports=function(e){for(var t,r=-1;line=e.lines[++r];)for(t=-1;child=line.children[++t];){var l=child.style.alignSelf;"auto"===l&&(l=e.style.alignItems),"flex-start"===l?child.flexStyle.crossStart=line.crossStart:"flex-end"===l?child.flexStyle.crossStart=line.crossStart+line.cross-child.flexStyle.crossOuter:"center"===l?child.flexStyle.crossStart=line.crossStart+(line.cross-child.flexStyle.crossOuter)/2:(child.flexStyle.crossStart=line.crossStart,child.flexStyle.crossOuter=line.cross,child.flexStyle.cross=child.flexStyle.crossOuter-child.flexStyle.crossBefore-child.flexStyle.crossAfter)}}},{}],3:[function(e,t,r){t.exports=function l(e,l){var t="row"===l||"row-reverse"===l,r=e.mainAxis;if(r){var n=t&&"inline"===r||!t&&"block"===r;n||(e.flexStyle={main:e.flexStyle.cross,cross:e.flexStyle.main,mainOffset:e.flexStyle.crossOffset,crossOffset:e.flexStyle.mainOffset,mainBefore:e.flexStyle.crossBefore,mainAfter:e.flexStyle.crossAfter,crossBefore:e.flexStyle.mainBefore,crossAfter:e.flexStyle.mainAfter,mainInnerBefore:e.flexStyle.crossInnerBefore,mainInnerAfter:e.flexStyle.crossInnerAfter,crossInnerBefore:e.flexStyle.mainInnerBefore,crossInnerAfter:e.flexStyle.mainInnerAfter,mainBorderBefore:e.flexStyle.crossBorderBefore,mainBorderAfter:e.flexStyle.crossBorderAfter,crossBorderBefore:e.flexStyle.mainBorderBefore,crossBorderAfter:e.flexStyle.mainBorderAfter})}else t?e.flexStyle={main:e.style.width,cross:e.style.height,mainOffset:e.style.offsetWidth,crossOffset:e.style.offsetHeight,mainBefore:e.style.marginLeft,mainAfter:e.style.marginRight,crossBefore:e.style.marginTop,crossAfter:e.style.marginBottom,mainInnerBefore:e.style.paddingLeft,mainInnerAfter:e.style.paddingRight,crossInnerBefore:e.style.paddingTop,crossInnerAfter:e.style.paddingBottom,mainBorderBefore:e.style.borderLeftWidth,mainBorderAfter:e.style.borderRightWidth,crossBorderBefore:e.style.borderTopWidth,crossBorderAfter:e.style.borderBottomWidth}:e.flexStyle={main:e.style.height,cross:e.style.width,mainOffset:e.style.offsetHeight,crossOffset:e.style.offsetWidth,mainBefore:e.style.marginTop,mainAfter:e.style.marginBottom,crossBefore:e.style.marginLeft,crossAfter:e.style.marginRight,mainInnerBefore:e.style.paddingTop,mainInnerAfter:e.style.paddingBottom,crossInnerBefore:e.style.paddingLeft,crossInnerAfter:e.style.paddingRight,mainBorderBefore:e.style.borderTopWidth,mainBorderAfter:e.style.borderBottomWidth,crossBorderBefore:e.style.borderLeftWidth,crossBorderAfter:e.style.borderRightWidth},"content-box"===e.style.boxSizing&&("number"==typeof e.flexStyle.main&&(e.flexStyle.main+=e.flexStyle.mainInnerBefore+e.flexStyle.mainInnerAfter+e.flexStyle.mainBorderBefore+e.flexStyle.mainBorderAfter),"number"==typeof e.flexStyle.cross&&(e.flexStyle.cross+=e.flexStyle.crossInnerBefore+e.flexStyle.crossInnerAfter+e.flexStyle.crossBorderBefore+e.flexStyle.crossBorderAfter));e.mainAxis=t?"inline":"block",e.crossAxis=t?"block":"inline","number"==typeof e.style.flexBasis&&(e.flexStyle.main=e.style.flexBasis+e.flexStyle.mainInnerBefore+e.flexStyle.mainInnerAfter+e.flexStyle.mainBorderBefore+e.flexStyle.mainBorderAfter),e.flexStyle.mainOuter=e.flexStyle.main,e.flexStyle.crossOuter=e.flexStyle.cross,"auto"===e.flexStyle.mainOuter&&(e.flexStyle.mainOuter=e.flexStyle.mainOffset),"auto"===e.flexStyle.crossOuter&&(e.flexStyle.crossOuter=e.flexStyle.crossOffset),"number"==typeof e.flexStyle.mainBefore&&(e.flexStyle.mainOuter+=e.flexStyle.mainBefore),"number"==typeof e.flexStyle.mainAfter&&(e.flexStyle.mainOuter+=e.flexStyle.mainAfter),"number"==typeof e.flexStyle.crossBefore&&(e.flexStyle.crossOuter+=e.flexStyle.crossBefore),"number"==typeof e.flexStyle.crossAfter&&(e.flexStyle.crossOuter+=e.flexStyle.crossAfter)}},{}],4:[function(e,t,r){var l=e("../reduce");t.exports=function(e){if(e.mainSpace>0){var t=l(e.children,function(e,t){return e+parseFloat(t.style.flexGrow)},0);t>0&&(e.main=l(e.children,function(r,l){return"auto"===l.flexStyle.main?l.flexStyle.main=l.flexStyle.mainOffset+parseFloat(l.style.flexGrow)/t*e.mainSpace:l.flexStyle.main+=parseFloat(l.style.flexGrow)/t*e.mainSpace,l.flexStyle.mainOuter=l.flexStyle.main+l.flexStyle.mainBefore+l.flexStyle.mainAfter,r+l.flexStyle.mainOuter},0),e.mainSpace=0)}}},{"../reduce":12}],5:[function(e,t,r){var l=e("../reduce");t.exports=function(e){if(e.mainSpace<0){var t=l(e.children,function(e,t){return e+parseFloat(t.style.flexShrink)},0);t>0&&(e.main=l(e.children,function(r,l){return l.flexStyle.main+=parseFloat(l.style.flexShrink)/t*e.mainSpace,l.flexStyle.mainOuter=l.flexStyle.main+l.flexStyle.mainBefore+l.flexStyle.mainAfter,r+l.flexStyle.mainOuter},0),e.mainSpace=0)}}},{"../reduce":12}],6:[function(e,t,r){var l=e("../reduce");t.exports=function(e){var t;e.lines=[t={main:0,cross:0,children:[]}];for(var r,n=-1;r=e.children[++n];)"nowrap"===e.style.flexWrap||0===t.children.length||"auto"===e.flexStyle.main||e.flexStyle.main-e.flexStyle.mainInnerBefore-e.flexStyle.mainInnerAfter-e.flexStyle.mainBorderBefore-e.flexStyle.mainBorderAfter>=t.main+r.flexStyle.mainOuter?(t.main+=r.flexStyle.mainOuter,t.cross=Math.max(t.cross,r.flexStyle.crossOuter)):e.lines.push(t={main:r.flexStyle.mainOuter,cross:r.flexStyle.crossOuter,children:[]}),t.children.push(r);e.flexStyle.mainLines=l(e.lines,function(e,t){return Math.max(e,t.main)},0),e.flexStyle.crossLines=l(e.lines,function(e,t){return e+t.cross},0),"auto"===e.flexStyle.main&&(e.flexStyle.main=Math.max(e.flexStyle.mainOffset,e.flexStyle.mainLines+e.flexStyle.mainInnerBefore+e.flexStyle.mainInnerAfter+e.flexStyle.mainBorderBefore+e.flexStyle.mainBorderAfter)),"auto"===e.flexStyle.cross&&(e.flexStyle.cross=Math.max(e.flexStyle.crossOffset,e.flexStyle.crossLines+e.flexStyle.crossInnerBefore+e.flexStyle.crossInnerAfter+e.flexStyle.crossBorderBefore+e.flexStyle.crossBorderAfter)),e.flexStyle.crossSpace=e.flexStyle.cross-e.flexStyle.crossInnerBefore-e.flexStyle.crossInnerAfter-e.flexStyle.crossBorderBefore-e.flexStyle.crossBorderAfter-e.flexStyle.crossLines,e.flexStyle.mainOuter=e.flexStyle.main+e.flexStyle.mainBefore+e.flexStyle.mainAfter,e.flexStyle.crossOuter=e.flexStyle.cross+e.flexStyle.crossBefore+e.flexStyle.crossAfter}},{"../reduce":12}],7:[function(e,t,r){function l(t){for(var r,l=-1;r=t.children[++l];)e("./flex-direction")(r,t.style.flexDirection);e("./flex-direction")(t,t.style.flexDirection),e("./order")(t),e("./flexbox-lines")(t),e("./align-content")(t),l=-1;for(var n;n=t.lines[++l];)n.mainSpace=t.flexStyle.main-t.flexStyle.mainInnerBefore-t.flexStyle.mainInnerAfter-t.flexStyle.mainBorderBefore-t.flexStyle.mainBorderAfter-n.main,e("./flex-grow")(n),e("./flex-shrink")(n),e("./margin-main")(n),e("./margin-cross")(n),e("./justify-content")(n,t.style.justifyContent,t);e("./align-items")(t)}t.exports=l},{"./align-content":1,"./align-items":2,"./flex-direction":3,"./flex-grow":4,"./flex-shrink":5,"./flexbox-lines":6,"./justify-content":8,"./margin-cross":9,"./margin-main":10,"./order":11}],8:[function(e,t,r){t.exports=function(e,t,r){var l,n,o,f=r.flexStyle.mainInnerBefore,i=-1;if("flex-end"===t)for(l=e.mainSpace,l+=f;o=e.children[++i];)o.flexStyle.mainStart=l,l+=o.flexStyle.mainOuter;else if("center"===t)for(l=e.mainSpace/2,l+=f;o=e.children[++i];)o.flexStyle.mainStart=l,l+=o.flexStyle.mainOuter;else if("space-between"===t)for(n=e.mainSpace/(e.children.length-1),l=0,l+=f;o=e.children[++i];)o.flexStyle.mainStart=l,l+=o.flexStyle.mainOuter+n;else if("space-around"===t)for(n=2*e.mainSpace/(2*e.children.length),l=n/2,l+=f;o=e.children[++i];)o.flexStyle.mainStart=l,l+=o.flexStyle.mainOuter+n;else for(l=0,l+=f;o=e.children[++i];)o.flexStyle.mainStart=l,l+=o.flexStyle.mainOuter}},{}],9:[function(e,t,r){t.exports=function(e){for(var t,r=-1;t=e.children[++r];){var l=0;"auto"===t.flexStyle.crossBefore&&++l,"auto"===t.flexStyle.crossAfter&&++l;var n=e.cross-t.flexStyle.crossOuter;"auto"===t.flexStyle.crossBefore&&(t.flexStyle.crossBefore=n/l),"auto"===t.flexStyle.crossAfter&&(t.flexStyle.crossAfter=n/l),"auto"===t.flexStyle.cross?t.flexStyle.crossOuter=t.flexStyle.crossOffset+t.flexStyle.crossBefore+t.flexStyle.crossAfter:t.flexStyle.crossOuter=t.flexStyle.cross+t.flexStyle.crossBefore+t.flexStyle.crossAfter}}},{}],10:[function(e,t,r){t.exports=function(e){for(var t,r=0,l=-1;t=e.children[++l];)"auto"===t.flexStyle.mainBefore&&++r,"auto"===t.flexStyle.mainAfter&&++r;if(r>0){for(l=-1;t=e.children[++l];)"auto"===t.flexStyle.mainBefore&&(t.flexStyle.mainBefore=e.mainSpace/r),"auto"===t.flexStyle.mainAfter&&(t.flexStyle.mainAfter=e.mainSpace/r),"auto"===t.flexStyle.main?t.flexStyle.mainOuter=t.flexStyle.mainOffset+t.flexStyle.mainBefore+t.flexStyle.mainAfter:t.flexStyle.mainOuter=t.flexStyle.main+t.flexStyle.mainBefore+t.flexStyle.mainAfter;e.mainSpace=0}}},{}],11:[function(e,t,r){var l=/^(column|row)-reverse$/;t.exports=function(e){e.children.sort(function(e,t){return e.style.order-t.style.order||e.index-t.index}),l.test(e.style.flexDirection)&&e.children.reverse()}},{}],12:[function(e,t,r){function l(e,t,r){for(var l=e.length,n=-1;++n<l;)n in e&&(r=t(r,e[n],n));return r}t.exports=l},{}],13:[function(e,t,r){function l(e){i(f(e))}var n=e("./read"),o=e("./write"),f=e("./readAll"),i=e("./writeAll");t.exports=l,t.exports.read=n,t.exports.write=o,t.exports.readAll=f,t.exports.writeAll=i},{"./read":15,"./readAll":16,"./write":17,"./writeAll":18}],14:[function(e,t,r){function l(e,t,r){var l=e[t],f=String(l).match(o);if(!f){var a=t.match(s);if(a){var c=e["border"+a[1]+"Style"];return"none"===c?0:i[l]||0}return l}var y=f[1],x=f[2];return"px"===x?1*y:"cm"===x?.3937*y*96:"in"===x?96*y:"mm"===x?.3937*y*96/10:"pc"===x?12*y*96/72:"pt"===x?96*y/72:"rem"===x?16*y:n(l,r)}function n(e,t){f.style.cssText="border:none!important;clip:rect(0 0 0 0)!important;display:block!important;font-size:1em!important;height:0!important;margin:0!important;padding:0!important;position:relative!important;width:"+e+"!important",t.parentNode.insertBefore(f,t.nextSibling);var r=f.offsetWidth;return t.parentNode.removeChild(f),r}t.exports=l;var o=/^([-+]?\d*\.?\d+)(%|[a-z]+)$/,f=document.createElement("div"),i={medium:4,none:0,thick:6,thin:2},s=/^border(Bottom|Left|Right|Top)Width$/},{}],15:[function(e,t,r){function l(e){var t={alignContent:"stretch",alignItems:"stretch",alignSelf:"auto",borderBottomStyle:"none",borderBottomWidth:0,borderLeftStyle:"none",borderLeftWidth:0,borderRightStyle:"none",borderRightWidth:0,borderTopStyle:"none",borderTopWidth:0,boxSizing:"content-box",display:"inline",flexBasis:"auto",flexDirection:"row",flexGrow:0,flexShrink:1,flexWrap:"nowrap",justifyContent:"flex-start",height:"auto",marginTop:0,marginRight:0,marginLeft:0,marginBottom:0,paddingTop:0,paddingRight:0,paddingLeft:0,paddingBottom:0,maxHeight:"none",maxWidth:"none",minHeight:0,minWidth:0,order:0,position:"static",width:"auto"},r=e instanceof Element;if(r){var l=e.hasAttribute("data-style"),i=l?e.getAttribute("data-style"):e.getAttribute("style")||"";l||e.setAttribute("data-style",i);var s=window.getComputedStyle&&getComputedStyle(e)||{};f(t,s);var c=e.currentStyle||{};n(t,c),o(t,i);for(var y in t)t[y]=a(t,y,e);var x=e.getBoundingClientRect();t.offsetHeight=x.height||e.offsetHeight,t.offsetWidth=x.width||e.offsetWidth}var S={element:e,style:t};return S}function n(e,t){for(var r in e){var l=r in t;if(l)e[r]=t[r];else{var n=r.replace(/[A-Z]/g,"-$&").toLowerCase(),o=n in t;o&&(e[r]=t[n])}}var f="-js-display"in t;f&&(e.display=t["-js-display"])}function o(e,t){for(var r;r=i.exec(t);){var l=r[1].toLowerCase().replace(/-[a-z]/g,function(e){return e.slice(1).toUpperCase()});e[l]=r[2]}}function f(e,t){for(var r in e){var l=r in t;l&&!s.test(r)&&(e[r]=t[r])}}t.exports=l;var i=/([^\s:;]+)\s*:\s*([^;]+?)\s*(;|$)/g,s=/^(alignSelf|height|width)$/,a=e("./getComputedLength")},{"./getComputedLength":14}],16:[function(e,t,r){function l(e){var t=[];return n(e,t),t}function n(e,t){for(var r,l=o(e),i=[],s=-1;r=e.childNodes[++s];){var a=3===r.nodeType&&!/^\s*$/.test(r.nodeValue);if(l&&a){var c=r;r=e.insertBefore(document.createElement("flex-item"),c),r.appendChild(c)}var y=r instanceof Element;if(y){var x=n(r,t);if(l){var S=r.style;S.display="inline-block",S.position="absolute",x.style=f(r).style,i.push(x)}}}var m={element:e,children:i};return l&&(m.style=f(e).style,t.push(m)),m}function o(e){var t=e instanceof Element,r=t&&e.getAttribute("data-style"),l=t&&e.currentStyle&&e.currentStyle["-js-display"],n=i.test(r)||s.test(l);return n}t.exports=l;var f=e("../read"),i=/(^|;)\s*display\s*:\s*(inline-)?flex\s*(;|$)/i,s=/^(inline-)?flex$/i},{"../read":15}],17:[function(e,t,r){function l(e){o(e);var t=e.element.style,r="inline"===e.mainAxis?["main","cross"]:["cross","main"];t.boxSizing="content-box",t.display="block",t.position="relative",t.width=n(e.flexStyle[r[0]]-e.flexStyle[r[0]+"InnerBefore"]-e.flexStyle[r[0]+"InnerAfter"]-e.flexStyle[r[0]+"BorderBefore"]-e.flexStyle[r[0]+"BorderAfter"]),t.height=n(e.flexStyle[r[1]]-e.flexStyle[r[1]+"InnerBefore"]-e.flexStyle[r[1]+"InnerAfter"]-e.flexStyle[r[1]+"BorderBefore"]-e.flexStyle[r[1]+"BorderAfter"]);for(var l,f=-1;l=e.children[++f];){var i=l.element.style,s="inline"===l.mainAxis?["main","cross"]:["cross","main"];i.boxSizing="content-box",i.display="block",i.position="absolute","auto"!==l.flexStyle[s[0]]&&(i.width=n(l.flexStyle[s[0]]-l.flexStyle[s[0]+"InnerBefore"]-l.flexStyle[s[0]+"InnerAfter"]-l.flexStyle[s[0]+"BorderBefore"]-l.flexStyle[s[0]+"BorderAfter"])),"auto"!==l.flexStyle[s[1]]&&(i.height=n(l.flexStyle[s[1]]-l.flexStyle[s[1]+"InnerBefore"]-l.flexStyle[s[1]+"InnerAfter"]-l.flexStyle[s[1]+"BorderBefore"]-l.flexStyle[s[1]+"BorderAfter"])),i.top=n(l.flexStyle[s[1]+"Start"]),i.left=n(l.flexStyle[s[0]+"Start"]),i.marginTop=n(l.flexStyle[s[1]+"Before"]),i.marginRight=n(l.flexStyle[s[0]+"After"]),i.marginBottom=n(l.flexStyle[s[1]+"After"]),i.marginLeft=n(l.flexStyle[s[0]+"Before"])}}function n(e){return"string"==typeof e?e:Math.max(e,0)+"px"}t.exports=l;var o=e("../flexbox")},{"../flexbox":7}],18:[function(e,t,r){function l(e){for(var t,r=-1;t=e[++r];)n(t)}t.exports=l;var n=e("../write")},{"../write":17}]},{},[13])(13)});
 /*! lazysizes - v5.2.0 */
@@ -9593,7 +9593,7 @@
         // if we have a mix of positive and negative values, bubble down first
         // check: https://github.com/moment/moment/issues/2166
         if (!((milliseconds >= 0 && days >= 0 && months >= 0) ||
-                (milliseconds <= 0 && days <= 0 && months <= 0))) {
+            (milliseconds <= 0 && days <= 0 && months <= 0))) {
             milliseconds += absCeil(monthsToDays(months) + days) * 864e5;
             days = 0;
             months = 0;
@@ -10166,8 +10166,8 @@ var objectFitImages = (function () {
         // apply fix to all
         for (var i = 0; i < imgs.length; i++) {
             imgs[i][OFI] = imgs[i][OFI] || {
-                    skipTest: opts.skipTest
-                };
+                skipTest: opts.skipTest
+            };
             fixOne(imgs[i]);
         }
 
@@ -10218,1682 +10218,1682 @@ var objectFitImages = (function () {
  */
 ;(function($, window, document, undefined) {
 
-	/**
-	 * Creates a carousel.
-	 * @class The Owl Carousel.
-	 * @public
-	 * @param {HTMLElement|jQuery} element - The element to create the carousel for.
-	 * @param {Object} [options] - The options
-	 */
-	function Owl(element, options) {
-
-		/**
-		 * Current settings for the carousel.
-		 * @public
-		 */
-		this.settings = null;
-
-		/**
-		 * Current options set by the caller including defaults.
-		 * @public
-		 */
-		this.options = $.extend({}, Owl.Defaults, options);
-
-		/**
-		 * Plugin element.
-		 * @public
-		 */
-		this.$element = $(element);
-
-		/**
-		 * Proxied event handlers.
-		 * @protected
-		 */
-		this._handlers = {};
-
-		/**
-		 * References to the running plugins of this carousel.
-		 * @protected
-		 */
-		this._plugins = {};
-
-		/**
-		 * Currently suppressed events to prevent them from beeing retriggered.
-		 * @protected
-		 */
-		this._supress = {};
-
-		/**
-		 * Absolute current position.
-		 * @protected
-		 */
-		this._current = null;
-
-		/**
-		 * Animation speed in milliseconds.
-		 * @protected
-		 */
-		this._speed = null;
-
-		/**
-		 * Coordinates of all items in pixel.
-		 * @todo The name of this member is missleading.
-		 * @protected
-		 */
-		this._coordinates = [];
-
-		/**
-		 * Current breakpoint.
-		 * @todo Real media queries would be nice.
-		 * @protected
-		 */
-		this._breakpoint = null;
-
-		/**
-		 * Current width of the plugin element.
-		 */
-		this._width = null;
-
-		/**
-		 * All real items.
-		 * @protected
-		 */
-		this._items = [];
-
-		/**
-		 * All cloned items.
-		 * @protected
-		 */
-		this._clones = [];
-
-		/**
-		 * Merge values of all items.
-		 * @todo Maybe this could be part of a plugin.
-		 * @protected
-		 */
-		this._mergers = [];
-
-		/**
-		 * Widths of all items.
-		 */
-		this._widths = [];
-
-		/**
-		 * Invalidated parts within the update process.
-		 * @protected
-		 */
-		this._invalidated = {};
-
-		/**
-		 * Ordered list of workers for the update process.
-		 * @protected
-		 */
-		this._pipe = [];
-
-		/**
-		 * Current state information for the drag operation.
-		 * @todo #261
-		 * @protected
-		 */
-		this._drag = {
-			time: null,
-			target: null,
-			pointer: null,
-			stage: {
-				start: null,
-				current: null
-			},
-			direction: null
-		};
-
-		/**
-		 * Current state information and their tags.
-		 * @type {Object}
-		 * @protected
-		 */
-		this._states = {
-			current: {},
-			tags: {
-				'initializing': [ 'busy' ],
-				'animating': [ 'busy' ],
-				'dragging': [ 'interacting' ]
-			}
-		};
-
-		$.each([ 'onResize', 'onThrottledResize' ], $.proxy(function(i, handler) {
-			this._handlers[handler] = $.proxy(this[handler], this);
-		}, this));
-
-		$.each(Owl.Plugins, $.proxy(function(key, plugin) {
-			this._plugins[key.charAt(0).toLowerCase() + key.slice(1)]
-				= new plugin(this);
-		}, this));
-
-		$.each(Owl.Workers, $.proxy(function(priority, worker) {
-			this._pipe.push({
-				'filter': worker.filter,
-				'run': $.proxy(worker.run, this)
-			});
-		}, this));
-
-		this.setup();
-		this.initialize();
-	}
-
-	/**
-	 * Default options for the carousel.
-	 * @public
-	 */
-	Owl.Defaults = {
-		items: 3,
-		loop: false,
-		center: false,
-		rewind: false,
-
-		mouseDrag: true,
-		touchDrag: true,
-		pullDrag: true,
-		freeDrag: false,
-
-		margin: 0,
-		stagePadding: 0,
-
-		merge: false,
-		mergeFit: true,
-		autoWidth: false,
-
-		startPosition: 0,
-		rtl: false,
-
-		smartSpeed: 250,
-		fluidSpeed: false,
-		dragEndSpeed: false,
-
-		responsive: {},
-		responsiveRefreshRate: 200,
-		responsiveBaseElement: window,
-
-		fallbackEasing: 'swing',
-
-		info: false,
-
-		nestedItemSelector: false,
-		itemElement: 'div',
-		stageElement: 'div',
-
-		refreshClass: 'owl-refresh',
-		loadedClass: 'owl-loaded',
-		loadingClass: 'owl-loading',
-		rtlClass: 'owl-rtl',
-		responsiveClass: 'owl-responsive',
-		dragClass: 'owl-drag',
-		itemClass: 'owl-item',
-		stageClass: 'owl-stage',
-		stageOuterClass: 'owl-stage-outer',
-		grabClass: 'owl-grab'
-	};
-
-	/**
-	 * Enumeration for width.
-	 * @public
-	 * @readonly
-	 * @enum {String}
-	 */
-	Owl.Width = {
-		Default: 'default',
-		Inner: 'inner',
-		Outer: 'outer'
-	};
-
-	/**
-	 * Enumeration for types.
-	 * @public
-	 * @readonly
-	 * @enum {String}
-	 */
-	Owl.Type = {
-		Event: 'event',
-		State: 'state'
-	};
-
-	/**
-	 * Contains all registered plugins.
-	 * @public
-	 */
-	Owl.Plugins = {};
-
-	/**
-	 * List of workers involved in the update process.
-	 */
-	Owl.Workers = [ {
-		filter: [ 'width', 'settings' ],
-		run: function() {
-			this._width = this.$element.width();
-		}
-	}, {
-		filter: [ 'width', 'items', 'settings' ],
-		run: function(cache) {
-			cache.current = this._items && this._items[this.relative(this._current)];
-		}
-	}, {
-		filter: [ 'items', 'settings' ],
-		run: function() {
-			this.$stage.children('.cloned').remove();
-		}
-	}, {
-		filter: [ 'width', 'items', 'settings' ],
-		run: function(cache) {
-			var margin = this.settings.margin || '',
-				grid = !this.settings.autoWidth,
-				rtl = this.settings.rtl,
-				css = {
-					'width': 'auto',
-					'margin-left': rtl ? margin : '',
-					'margin-right': rtl ? '' : margin
-				};
-
-			!grid && this.$stage.children().css(css);
-
-			cache.css = css;
-		}
-	}, {
-		filter: [ 'width', 'items', 'settings' ],
-		run: function(cache) {
-			var width = (this.width() / this.settings.items).toFixed(3) - this.settings.margin,
-				merge = null,
-				iterator = this._items.length,
-				grid = !this.settings.autoWidth,
-				widths = [];
-
-			cache.items = {
-				merge: false,
-				width: width
-			};
-
-			while (iterator--) {
-				merge = this._mergers[iterator];
-				merge = this.settings.mergeFit && Math.min(merge, this.settings.items) || merge;
-
-				cache.items.merge = merge > 1 || cache.items.merge;
-
-				widths[iterator] = !grid ? this._items[iterator].width() : width * merge;
-			}
-
-			this._widths = widths;
-		}
-	}, {
-		filter: [ 'items', 'settings' ],
-		run: function() {
-			var clones = [],
-				items = this._items,
-				settings = this.settings,
-				// TODO: Should be computed from number of min width items in stage
-				view = Math.max(settings.items * 2, 4),
-				size = Math.ceil(items.length / 2) * 2,
-				repeat = settings.loop && items.length ? settings.rewind ? view : Math.max(view, size) : 0,
-				append = '',
-				prepend = '';
-
-			repeat /= 2;
-
-			while (repeat--) {
-				// Switch to only using appended clones
-				clones.push(this.normalize(clones.length / 2, true));
-				append = append + items[clones[clones.length - 1]][0].outerHTML;
-				clones.push(this.normalize(items.length - 1 - (clones.length - 1) / 2, true));
-				prepend = items[clones[clones.length - 1]][0].outerHTML + prepend;
-			}
-
-			this._clones = clones;
-
-			$(append).addClass('cloned').appendTo(this.$stage);
-			$(prepend).addClass('cloned').prependTo(this.$stage);
-		}
-	}, {
-		filter: [ 'width', 'items', 'settings' ],
-		run: function() {
-			var rtl = this.settings.rtl ? 1 : -1,
-				size = this._clones.length + this._items.length,
-				iterator = -1,
-				previous = 0,
-				current = 0,
-				coordinates = [];
-
-			while (++iterator < size) {
-				previous = coordinates[iterator - 1] || 0;
-				current = this._widths[this.relative(iterator)] + this.settings.margin;
-				coordinates.push(previous + current * rtl);
-			}
-
-			this._coordinates = coordinates;
-		}
-	}, {
-		filter: [ 'width', 'items', 'settings' ],
-		run: function() {
-			var padding = this.settings.stagePadding,
-				coordinates = this._coordinates,
-				css = {
-					'width': Math.ceil(Math.abs(coordinates[coordinates.length - 1])) + padding * 2,
-					'padding-left': padding || '',
-					'padding-right': padding || ''
-				};
-
-			this.$stage.css(css);
-		}
-	}, {
-		filter: [ 'width', 'items', 'settings' ],
-		run: function(cache) {
-			var iterator = this._coordinates.length,
-				grid = !this.settings.autoWidth,
-				items = this.$stage.children();
-
-			if (grid && cache.items.merge) {
-				while (iterator--) {
-					cache.css.width = this._widths[this.relative(iterator)];
-					items.eq(iterator).css(cache.css);
-				}
-			} else if (grid) {
-				cache.css.width = cache.items.width;
-				items.css(cache.css);
-			}
-		}
-	}, {
-		filter: [ 'items' ],
-		run: function() {
-			this._coordinates.length < 1 && this.$stage.removeAttr('style');
-		}
-	}, {
-		filter: [ 'width', 'items', 'settings' ],
-		run: function(cache) {
-			cache.current = cache.current ? this.$stage.children().index(cache.current) : 0;
-			cache.current = Math.max(this.minimum(), Math.min(this.maximum(), cache.current));
-			this.reset(cache.current);
-		}
-	}, {
-		filter: [ 'position' ],
-		run: function() {
-			this.animate(this.coordinates(this._current));
-		}
-	}, {
-		filter: [ 'width', 'position', 'items', 'settings' ],
-		run: function() {
-			var rtl = this.settings.rtl ? 1 : -1,
-				padding = this.settings.stagePadding * 2,
-				begin = this.coordinates(this.current()) + padding,
-				end = begin + this.width() * rtl,
-				inner, outer, matches = [], i, n;
-
-			for (i = 0, n = this._coordinates.length; i < n; i++) {
-				inner = this._coordinates[i - 1] || 0;
-				outer = Math.abs(this._coordinates[i]) + padding * rtl;
-
-				if ((this.op(inner, '<=', begin) && (this.op(inner, '>', end)))
-					|| (this.op(outer, '<', begin) && this.op(outer, '>', end))) {
-					matches.push(i);
-				}
-			}
-
-			this.$stage.children('.active').removeClass('active');
-			this.$stage.children(':eq(' + matches.join('), :eq(') + ')').addClass('active');
-
-			if (this.settings.center) {
-				this.$stage.children('.center').removeClass('center');
-				this.$stage.children().eq(this.current()).addClass('center');
-			}
-		}
-	} ];
-
-	/**
-	 * Initializes the carousel.
-	 * @protected
-	 */
-	Owl.prototype.initialize = function() {
-		this.enter('initializing');
-		this.trigger('initialize');
-
-		this.$element.toggleClass(this.settings.rtlClass, this.settings.rtl);
-
-		if (this.settings.autoWidth && !this.is('pre-loading')) {
-			var imgs, nestedSelector, width;
-			imgs = this.$element.find('img');
-			nestedSelector = this.settings.nestedItemSelector ? '.' + this.settings.nestedItemSelector : undefined;
-			width = this.$element.children(nestedSelector).width();
-
-			if (imgs.length && width <= 0) {
-				this.preloadAutoWidthImages(imgs);
-			}
-		}
-
-		this.$element.addClass(this.options.loadingClass);
-
-		// create stage
-		this.$stage = $('<' + this.settings.stageElement + ' class="' + this.settings.stageClass + '"/>')
-			.wrap('<div class="' + this.settings.stageOuterClass + '"/>');
-
-		// append stage
-		this.$element.append(this.$stage.parent());
-
-		// append content
-		this.replace(this.$element.children().not(this.$stage.parent()));
-
-		// check visibility
-		if (this.$element.is(':visible')) {
-			// update view
-			this.refresh();
-		} else {
-			// invalidate width
-			this.invalidate('width');
-		}
-
-		this.$element
-			.removeClass(this.options.loadingClass)
-			.addClass(this.options.loadedClass);
-
-		// register event handlers
-		this.registerEventHandlers();
-
-		this.leave('initializing');
-		this.trigger('initialized');
-	};
-
-	/**
-	 * Setups the current settings.
-	 * @todo Remove responsive classes. Why should adaptive designs be brought into IE8?
-	 * @todo Support for media queries by using `matchMedia` would be nice.
-	 * @public
-	 */
-	Owl.prototype.setup = function() {
-		var viewport = this.viewport(),
-			overwrites = this.options.responsive,
-			match = -1,
-			settings = null;
-
-		if (!overwrites) {
-			settings = $.extend({}, this.options);
-		} else {
-			$.each(overwrites, function(breakpoint) {
-				if (breakpoint <= viewport && breakpoint > match) {
-					match = Number(breakpoint);
-				}
-			});
-
-			settings = $.extend({}, this.options, overwrites[match]);
-			if (typeof settings.stagePadding === 'function') {
-				settings.stagePadding = settings.stagePadding();
-			}
-			delete settings.responsive;
-
-			// responsive class
-			if (settings.responsiveClass) {
-				this.$element.attr('class',
-					this.$element.attr('class').replace(new RegExp('(' + this.options.responsiveClass + '-)\\S+\\s', 'g'), '$1' + match)
-				);
-			}
-		}
-
-		this.trigger('change', { property: { name: 'settings', value: settings } });
-		this._breakpoint = match;
-		this.settings = settings;
-		this.invalidate('settings');
-		this.trigger('changed', { property: { name: 'settings', value: this.settings } });
-	};
-
-	/**
-	 * Updates option logic if necessery.
-	 * @protected
-	 */
-	Owl.prototype.optionsLogic = function() {
-		if (this.settings.autoWidth) {
-			this.settings.stagePadding = false;
-			this.settings.merge = false;
-		}
-	};
-
-	/**
-	 * Prepares an item before add.
-	 * @todo Rename event parameter `content` to `item`.
-	 * @protected
-	 * @returns {jQuery|HTMLElement} - The item container.
-	 */
-	Owl.prototype.prepare = function(item) {
-		var event = this.trigger('prepare', { content: item });
-
-		if (!event.data) {
-			event.data = $('<' + this.settings.itemElement + '/>')
-				.addClass(this.options.itemClass).append(item)
-		}
-
-		this.trigger('prepared', { content: event.data });
-
-		return event.data;
-	};
-
-	/**
-	 * Updates the view.
-	 * @public
-	 */
-	Owl.prototype.update = function() {
-		var i = 0,
-			n = this._pipe.length,
-			filter = $.proxy(function(p) { return this[p] }, this._invalidated),
-			cache = {};
-
-		while (i < n) {
-			if (this._invalidated.all || $.grep(this._pipe[i].filter, filter).length > 0) {
-				this._pipe[i].run(cache);
-			}
-			i++;
-		}
-
-		this._invalidated = {};
-
-		!this.is('valid') && this.enter('valid');
-	};
-
-	/**
-	 * Gets the width of the view.
-	 * @public
-	 * @param {Owl.Width} [dimension=Owl.Width.Default] - The dimension to return.
-	 * @returns {Number} - The width of the view in pixel.
-	 */
-	Owl.prototype.width = function(dimension) {
-		dimension = dimension || Owl.Width.Default;
-		switch (dimension) {
-			case Owl.Width.Inner:
-			case Owl.Width.Outer:
-				return this._width;
-			default:
-				return this._width - this.settings.stagePadding * 2 + this.settings.margin;
-		}
-	};
-
-	/**
-	 * Refreshes the carousel primarily for adaptive purposes.
-	 * @public
-	 */
-	Owl.prototype.refresh = function() {
-		this.enter('refreshing');
-		this.trigger('refresh');
-
-		this.setup();
-
-		this.optionsLogic();
-
-		this.$element.addClass(this.options.refreshClass);
-
-		this.update();
-
-		this.$element.removeClass(this.options.refreshClass);
-
-		this.leave('refreshing');
-		this.trigger('refreshed');
-	};
-
-	/**
-	 * Checks window `resize` event.
-	 * @protected
-	 */
-	Owl.prototype.onThrottledResize = function() {
-		window.clearTimeout(this.resizeTimer);
-		this.resizeTimer = window.setTimeout(this._handlers.onResize, this.settings.responsiveRefreshRate);
-	};
-
-	/**
-	 * Checks window `resize` event.
-	 * @protected
-	 */
-	Owl.prototype.onResize = function() {
-		if (!this._items.length) {
-			return false;
-		}
-
-		if (this._width === this.$element.width()) {
-			return false;
-		}
-
-		if (!this.$element.is(':visible')) {
-			return false;
-		}
-
-		this.enter('resizing');
-
-		if (this.trigger('resize').isDefaultPrevented()) {
-			this.leave('resizing');
-			return false;
-		}
-
-		this.invalidate('width');
-
-		this.refresh();
-
-		this.leave('resizing');
-		this.trigger('resized');
-	};
-
-	/**
-	 * Registers event handlers.
-	 * @todo Check `msPointerEnabled`
-	 * @todo #261
-	 * @protected
-	 */
-	Owl.prototype.registerEventHandlers = function() {
-		if ($.support.transition) {
-			this.$stage.on($.support.transition.end + '.owl.core', $.proxy(this.onTransitionEnd, this));
-		}
-
-		if (this.settings.responsive !== false) {
-			this.on(window, 'resize', this._handlers.onThrottledResize);
-		}
-
-		if (this.settings.mouseDrag) {
-			this.$element.addClass(this.options.dragClass);
-			this.$stage.on('mousedown.owl.core', $.proxy(this.onDragStart, this));
-			this.$stage.on('dragstart.owl.core selectstart.owl.core', function() { return false });
-		}
-
-		if (this.settings.touchDrag){
-			this.$stage.on('touchstart.owl.core', $.proxy(this.onDragStart, this));
-			this.$stage.on('touchcancel.owl.core', $.proxy(this.onDragEnd, this));
-		}
-	};
-
-	/**
-	 * Handles `touchstart` and `mousedown` events.
-	 * @todo Horizontal swipe threshold as option
-	 * @todo #261
-	 * @protected
-	 * @param {Event} event - The event arguments.
-	 */
-	Owl.prototype.onDragStart = function(event) {
-		var stage = null;
-
-		if (event.which === 3) {
-			return;
-		}
-
-		if ($.support.transform) {
-			stage = this.$stage.css('transform').replace(/.*\(|\)| /g, '').split(',');
-			stage = {
-				x: stage[stage.length === 16 ? 12 : 4],
-				y: stage[stage.length === 16 ? 13 : 5]
-			};
-		} else {
-			stage = this.$stage.position();
-			stage = {
-				x: this.settings.rtl ?
-					stage.left + this.$stage.width() - this.width() + this.settings.margin :
-					stage.left,
-				y: stage.top
-			};
-		}
-
-		if (this.is('animating')) {
-			$.support.transform ? this.animate(stage.x) : this.$stage.stop()
-			this.invalidate('position');
-		}
-
-		this.$element.toggleClass(this.options.grabClass, event.type === 'mousedown');
-
-		this.speed(0);
-
-		this._drag.time = new Date().getTime();
-		this._drag.target = $(event.target);
-		this._drag.stage.start = stage;
-		this._drag.stage.current = stage;
-		this._drag.pointer = this.pointer(event);
-
-		$(document).on('mouseup.owl.core touchend.owl.core', $.proxy(this.onDragEnd, this));
-
-		$(document).one('mousemove.owl.core touchmove.owl.core', $.proxy(function(event) {
-			var delta = this.difference(this._drag.pointer, this.pointer(event));
-
-			$(document).on('mousemove.owl.core touchmove.owl.core', $.proxy(this.onDragMove, this));
-
-			if (Math.abs(delta.x) < Math.abs(delta.y) && this.is('valid')) {
-				return;
-			}
-
-			event.preventDefault();
-
-			this.enter('dragging');
-			this.trigger('drag');
-		}, this));
-	};
-
-	/**
-	 * Handles the `touchmove` and `mousemove` events.
-	 * @todo #261
-	 * @protected
-	 * @param {Event} event - The event arguments.
-	 */
-	Owl.prototype.onDragMove = function(event) {
-		var minimum = null,
-			maximum = null,
-			pull = null,
-			delta = this.difference(this._drag.pointer, this.pointer(event)),
-			stage = this.difference(this._drag.stage.start, delta);
-
-		if (!this.is('dragging')) {
-			return;
-		}
-
-		event.preventDefault();
-
-		if (this.settings.loop) {
-			minimum = this.coordinates(this.minimum());
-			maximum = this.coordinates(this.maximum() + 1) - minimum;
-			stage.x = (((stage.x - minimum) % maximum + maximum) % maximum) + minimum;
-		} else {
-			minimum = this.settings.rtl ? this.coordinates(this.maximum()) : this.coordinates(this.minimum());
-			maximum = this.settings.rtl ? this.coordinates(this.minimum()) : this.coordinates(this.maximum());
-			pull = this.settings.pullDrag ? -1 * delta.x / 5 : 0;
-			stage.x = Math.max(Math.min(stage.x, minimum + pull), maximum + pull);
-		}
-
-		this._drag.stage.current = stage;
-
-		this.animate(stage.x);
-	};
-
-	/**
-	 * Handles the `touchend` and `mouseup` events.
-	 * @todo #261
-	 * @todo Threshold for click event
-	 * @protected
-	 * @param {Event} event - The event arguments.
-	 */
-	Owl.prototype.onDragEnd = function(event) {
-		var delta = this.difference(this._drag.pointer, this.pointer(event)),
-			stage = this._drag.stage.current,
-			direction = delta.x > 0 ^ this.settings.rtl ? 'left' : 'right';
-
-		$(document).off('.owl.core');
-
-		this.$element.removeClass(this.options.grabClass);
-
-		if (delta.x !== 0 && this.is('dragging') || !this.is('valid')) {
-			this.speed(this.settings.dragEndSpeed || this.settings.smartSpeed);
-			this.current(this.closest(stage.x, delta.x !== 0 ? direction : this._drag.direction));
-			this.invalidate('position');
-			this.update();
-
-			this._drag.direction = direction;
-
-			if (Math.abs(delta.x) > 3 || new Date().getTime() - this._drag.time > 300) {
-				this._drag.target.one('click.owl.core', function() { return false; });
-			}
-		}
-
-		if (!this.is('dragging')) {
-			return;
-		}
-
-		this.leave('dragging');
-		this.trigger('dragged');
-	};
-
-	/**
-	 * Gets absolute position of the closest item for a coordinate.
-	 * @todo Setting `freeDrag` makes `closest` not reusable. See #165.
-	 * @protected
-	 * @param {Number} coordinate - The coordinate in pixel.
-	 * @param {String} direction - The direction to check for the closest item. Ether `left` or `right`.
-	 * @return {Number} - The absolute position of the closest item.
-	 */
-	Owl.prototype.closest = function(coordinate, direction) {
-		var position = -1,
-			pull = 30,
-			width = this.width(),
-			coordinates = this.coordinates();
-
-		if (!this.settings.freeDrag) {
-			// check closest item
-			$.each(coordinates, $.proxy(function(index, value) {
-				// on a left pull, check on current index
-				if (direction === 'left' && coordinate > value - pull && coordinate < value + pull) {
-					position = index;
-				// on a right pull, check on previous index
-				// to do so, subtract width from value and set position = index + 1
-				} else if (direction === 'right' && coordinate > value - width - pull && coordinate < value - width + pull) {
-					position = index + 1;
-				} else if (this.op(coordinate, '<', value)
-					&& this.op(coordinate, '>', coordinates[index + 1] || value - width)) {
-					position = direction === 'left' ? index + 1 : index;
-				}
-				return position === -1;
-			}, this));
-		}
-
-		if (!this.settings.loop) {
-			// non loop boundries
-			if (this.op(coordinate, '>', coordinates[this.minimum()])) {
-				position = coordinate = this.minimum();
-			} else if (this.op(coordinate, '<', coordinates[this.maximum()])) {
-				position = coordinate = this.maximum();
-			}
-		}
-
-		return position;
-	};
-
-	/**
-	 * Animates the stage.
-	 * @todo #270
-	 * @public
-	 * @param {Number} coordinate - The coordinate in pixels.
-	 */
-	Owl.prototype.animate = function(coordinate) {
-		var animate = this.speed() > 0;
-
-		this.is('animating') && this.onTransitionEnd();
-
-		if (animate) {
-			this.enter('animating');
-			this.trigger('translate');
-		}
-
-		if ($.support.transform3d && $.support.transition) {
-			this.$stage.css({
-				transform: 'translate3d(' + coordinate + 'px,0px,0px)',
-				transition: (this.speed() / 1000) + 's'
-			});
-		} else if (animate) {
-			this.$stage.animate({
-				left: coordinate + 'px'
-			}, this.speed(), this.settings.fallbackEasing, $.proxy(this.onTransitionEnd, this));
-		} else {
-			this.$stage.css({
-				left: coordinate + 'px'
-			});
-		}
-	};
-
-	/**
-	 * Checks whether the carousel is in a specific state or not.
-	 * @param {String} state - The state to check.
-	 * @returns {Boolean} - The flag which indicates if the carousel is busy.
-	 */
-	Owl.prototype.is = function(state) {
-		return this._states.current[state] && this._states.current[state] > 0;
-	};
-
-	/**
-	 * Sets the absolute position of the current item.
-	 * @public
-	 * @param {Number} [position] - The new absolute position or nothing to leave it unchanged.
-	 * @returns {Number} - The absolute position of the current item.
-	 */
-	Owl.prototype.current = function(position) {
-		if (position === undefined) {
-			return this._current;
-		}
-
-		if (this._items.length === 0) {
-			return undefined;
-		}
-
-		position = this.normalize(position);
-
-		if (this._current !== position) {
-			var event = this.trigger('change', { property: { name: 'position', value: position } });
-
-			if (event.data !== undefined) {
-				position = this.normalize(event.data);
-			}
-
-			this._current = position;
-
-			this.invalidate('position');
-
-			this.trigger('changed', { property: { name: 'position', value: this._current } });
-		}
-
-		return this._current;
-	};
-
-	/**
-	 * Invalidates the given part of the update routine.
-	 * @param {String} [part] - The part to invalidate.
-	 * @returns {Array.<String>} - The invalidated parts.
-	 */
-	Owl.prototype.invalidate = function(part) {
-		if ($.type(part) === 'string') {
-			this._invalidated[part] = true;
-			this.is('valid') && this.leave('valid');
-		}
-		return $.map(this._invalidated, function(v, i) { return i });
-	};
-
-	/**
-	 * Resets the absolute position of the current item.
-	 * @public
-	 * @param {Number} position - The absolute position of the new item.
-	 */
-	Owl.prototype.reset = function(position) {
-		position = this.normalize(position);
-
-		if (position === undefined) {
-			return;
-		}
-
-		this._speed = 0;
-		this._current = position;
-
-		this.suppress([ 'translate', 'translated' ]);
-
-		this.animate(this.coordinates(position));
-
-		this.release([ 'translate', 'translated' ]);
-	};
-
-	/**
-	 * Normalizes an absolute or a relative position of an item.
-	 * @public
-	 * @param {Number} position - The absolute or relative position to normalize.
-	 * @param {Boolean} [relative=false] - Whether the given position is relative or not.
-	 * @returns {Number} - The normalized position.
-	 */
-	Owl.prototype.normalize = function(position, relative) {
-		var n = this._items.length,
-			m = relative ? 0 : this._clones.length;
-
-		if (!this.isNumeric(position) || n < 1) {
-			position = undefined;
-		} else if (position < 0 || position >= n + m) {
-			position = ((position - m / 2) % n + n) % n + m / 2;
-		}
-
-		return position;
-	};
-
-	/**
-	 * Converts an absolute position of an item into a relative one.
-	 * @public
-	 * @param {Number} position - The absolute position to convert.
-	 * @returns {Number} - The converted position.
-	 */
-	Owl.prototype.relative = function(position) {
-		position -= this._clones.length / 2;
-		return this.normalize(position, true);
-	};
-
-	/**
-	 * Gets the maximum position for the current item.
-	 * @public
-	 * @param {Boolean} [relative=false] - Whether to return an absolute position or a relative position.
-	 * @returns {Number}
-	 */
-	Owl.prototype.maximum = function(relative) {
-		var settings = this.settings,
-			maximum = this._coordinates.length,
-			iterator,
-			reciprocalItemsWidth,
-			elementWidth;
-
-		if (settings.loop) {
-			maximum = this._clones.length / 2 + this._items.length - 1;
-		} else if (settings.autoWidth || settings.merge) {
-			iterator = this._items.length;
-			reciprocalItemsWidth = this._items[--iterator].width();
-			elementWidth = this.$element.width();
-			while (iterator--) {
-				reciprocalItemsWidth += this._items[iterator].width() + this.settings.margin;
-				if (reciprocalItemsWidth > elementWidth) {
-					break;
-				}
-			}
-			maximum = iterator + 1;
-		} else if (settings.center) {
-			maximum = this._items.length - 1;
-		} else {
-			maximum = this._items.length - settings.items;
-		}
-
-		if (relative) {
-			maximum -= this._clones.length / 2;
-		}
-
-		return Math.max(maximum, 0);
-	};
-
-	/**
-	 * Gets the minimum position for the current item.
-	 * @public
-	 * @param {Boolean} [relative=false] - Whether to return an absolute position or a relative position.
-	 * @returns {Number}
-	 */
-	Owl.prototype.minimum = function(relative) {
-		return relative ? 0 : this._clones.length / 2;
-	};
-
-	/**
-	 * Gets an item at the specified relative position.
-	 * @public
-	 * @param {Number} [position] - The relative position of the item.
-	 * @return {jQuery|Array.<jQuery>} - The item at the given position or all items if no position was given.
-	 */
-	Owl.prototype.items = function(position) {
-		if (position === undefined) {
-			return this._items.slice();
-		}
-
-		position = this.normalize(position, true);
-		return this._items[position];
-	};
-
-	/**
-	 * Gets an item at the specified relative position.
-	 * @public
-	 * @param {Number} [position] - The relative position of the item.
-	 * @return {jQuery|Array.<jQuery>} - The item at the given position or all items if no position was given.
-	 */
-	Owl.prototype.mergers = function(position) {
-		if (position === undefined) {
-			return this._mergers.slice();
-		}
-
-		position = this.normalize(position, true);
-		return this._mergers[position];
-	};
-
-	/**
-	 * Gets the absolute positions of clones for an item.
-	 * @public
-	 * @param {Number} [position] - The relative position of the item.
-	 * @returns {Array.<Number>} - The absolute positions of clones for the item or all if no position was given.
-	 */
-	Owl.prototype.clones = function(position) {
-		var odd = this._clones.length / 2,
-			even = odd + this._items.length,
-			map = function(index) { return index % 2 === 0 ? even + index / 2 : odd - (index + 1) / 2 };
-
-		if (position === undefined) {
-			return $.map(this._clones, function(v, i) { return map(i) });
-		}
-
-		return $.map(this._clones, function(v, i) { return v === position ? map(i) : null });
-	};
-
-	/**
-	 * Sets the current animation speed.
-	 * @public
-	 * @param {Number} [speed] - The animation speed in milliseconds or nothing to leave it unchanged.
-	 * @returns {Number} - The current animation speed in milliseconds.
-	 */
-	Owl.prototype.speed = function(speed) {
-		if (speed !== undefined) {
-			this._speed = speed;
-		}
-
-		return this._speed;
-	};
-
-	/**
-	 * Gets the coordinate of an item.
-	 * @todo The name of this method is missleanding.
-	 * @public
-	 * @param {Number} position - The absolute position of the item within `minimum()` and `maximum()`.
-	 * @returns {Number|Array.<Number>} - The coordinate of the item in pixel or all coordinates.
-	 */
-	Owl.prototype.coordinates = function(position) {
-		var multiplier = 1,
-			newPosition = position - 1,
-			coordinate;
-
-		if (position === undefined) {
-			return $.map(this._coordinates, $.proxy(function(coordinate, index) {
-				return this.coordinates(index);
-			}, this));
-		}
-
-		if (this.settings.center) {
-			if (this.settings.rtl) {
-				multiplier = -1;
-				newPosition = position + 1;
-			}
-
-			coordinate = this._coordinates[position];
-			coordinate += (this.width() - coordinate + (this._coordinates[newPosition] || 0)) / 2 * multiplier;
-		} else {
-			coordinate = this._coordinates[newPosition] || 0;
-		}
-
-		coordinate = Math.ceil(coordinate);
-
-		return coordinate;
-	};
-
-	/**
-	 * Calculates the speed for a translation.
-	 * @protected
-	 * @param {Number} from - The absolute position of the start item.
-	 * @param {Number} to - The absolute position of the target item.
-	 * @param {Number} [factor=undefined] - The time factor in milliseconds.
-	 * @returns {Number} - The time in milliseconds for the translation.
-	 */
-	Owl.prototype.duration = function(from, to, factor) {
-		if (factor === 0) {
-			return 0;
-		}
-
-		return Math.min(Math.max(Math.abs(to - from), 1), 6) * Math.abs((factor || this.settings.smartSpeed));
-	};
-
-	/**
-	 * Slides to the specified item.
-	 * @public
-	 * @param {Number} position - The position of the item.
-	 * @param {Number} [speed] - The time in milliseconds for the transition.
-	 */
-	Owl.prototype.to = function(position, speed) {
-		var current = this.current(),
-			revert = null,
-			distance = position - this.relative(current),
-			direction = (distance > 0) - (distance < 0),
-			items = this._items.length,
-			minimum = this.minimum(),
-			maximum = this.maximum();
-
-		if (this.settings.loop) {
-			if (!this.settings.rewind && Math.abs(distance) > items / 2) {
-				distance += direction * -1 * items;
-			}
-
-			position = current + distance;
-			revert = ((position - minimum) % items + items) % items + minimum;
-
-			if (revert !== position && revert - distance <= maximum && revert - distance > 0) {
-				current = revert - distance;
-				position = revert;
-				this.reset(current);
-			}
-		} else if (this.settings.rewind) {
-			maximum += 1;
-			position = (position % maximum + maximum) % maximum;
-		} else {
-			position = Math.max(minimum, Math.min(maximum, position));
-		}
-
-		this.speed(this.duration(current, position, speed));
-		this.current(position);
-
-		if (this.$element.is(':visible')) {
-			this.update();
-		}
-	};
-
-	/**
-	 * Slides to the next item.
-	 * @public
-	 * @param {Number} [speed] - The time in milliseconds for the transition.
-	 */
-	Owl.prototype.next = function(speed) {
-		speed = speed || false;
-		this.to(this.relative(this.current()) + 1, speed);
-	};
-
-	/**
-	 * Slides to the previous item.
-	 * @public
-	 * @param {Number} [speed] - The time in milliseconds for the transition.
-	 */
-	Owl.prototype.prev = function(speed) {
-		speed = speed || false;
-		this.to(this.relative(this.current()) - 1, speed);
-	};
-
-	/**
-	 * Handles the end of an animation.
-	 * @protected
-	 * @param {Event} event - The event arguments.
-	 */
-	Owl.prototype.onTransitionEnd = function(event) {
-
-		// if css2 animation then event object is undefined
-		if (event !== undefined) {
-			event.stopPropagation();
-
-			// Catch only owl-stage transitionEnd event
-			if ((event.target || event.srcElement || event.originalTarget) !== this.$stage.get(0)) {
-				return false;
-			}
-		}
-
-		this.leave('animating');
-		this.trigger('translated');
-	};
-
-	/**
-	 * Gets viewport width.
-	 * @protected
-	 * @return {Number} - The width in pixel.
-	 */
-	Owl.prototype.viewport = function() {
-		var width;
-		if (this.options.responsiveBaseElement !== window) {
-			width = $(this.options.responsiveBaseElement).width();
-		} else if (window.innerWidth) {
-			width = window.innerWidth;
-		} else if (document.documentElement && document.documentElement.clientWidth) {
-			width = document.documentElement.clientWidth;
-		} else {
-			console.warn('Can not detect viewport width.');
-		}
-		return width;
-	};
-
-	/**
-	 * Replaces the current content.
-	 * @public
-	 * @param {HTMLElement|jQuery|String} content - The new content.
-	 */
-	Owl.prototype.replace = function(content) {
-		this.$stage.empty();
-		this._items = [];
-
-		if (content) {
-			content = (content instanceof jQuery) ? content : $(content);
-		}
-
-		if (this.settings.nestedItemSelector) {
-			content = content.find('.' + this.settings.nestedItemSelector);
-		}
-
-		content.filter(function() {
-			return this.nodeType === 1;
-		}).each($.proxy(function(index, item) {
-			item = this.prepare(item);
-			this.$stage.append(item);
-			this._items.push(item);
-			this._mergers.push(item.find('[data-merge]').addBack('[data-merge]').attr('data-merge') * 1 || 1);
-		}, this));
-
-		this.reset(this.isNumeric(this.settings.startPosition) ? this.settings.startPosition : 0);
-
-		this.invalidate('items');
-	};
-
-	/**
-	 * Adds an item.
-	 * @todo Use `item` instead of `content` for the event arguments.
-	 * @public
-	 * @param {HTMLElement|jQuery|String} content - The item content to add.
-	 * @param {Number} [position] - The relative position at which to insert the item otherwise the item will be added to the end.
-	 */
-	Owl.prototype.add = function(content, position) {
-		var current = this.relative(this._current);
-
-		position = position === undefined ? this._items.length : this.normalize(position, true);
-		content = content instanceof jQuery ? content : $(content);
-
-		this.trigger('add', { content: content, position: position });
-
-		content = this.prepare(content);
-
-		if (this._items.length === 0 || position === this._items.length) {
-			this._items.length === 0 && this.$stage.append(content);
-			this._items.length !== 0 && this._items[position - 1].after(content);
-			this._items.push(content);
-			this._mergers.push(content.find('[data-merge]').addBack('[data-merge]').attr('data-merge') * 1 || 1);
-		} else {
-			this._items[position].before(content);
-			this._items.splice(position, 0, content);
-			this._mergers.splice(position, 0, content.find('[data-merge]').addBack('[data-merge]').attr('data-merge') * 1 || 1);
-		}
-
-		this._items[current] && this.reset(this._items[current].index());
-
-		this.invalidate('items');
-
-		this.trigger('added', { content: content, position: position });
-	};
-
-	/**
-	 * Removes an item by its position.
-	 * @todo Use `item` instead of `content` for the event arguments.
-	 * @public
-	 * @param {Number} position - The relative position of the item to remove.
-	 */
-	Owl.prototype.remove = function(position) {
-		position = this.normalize(position, true);
-
-		if (position === undefined) {
-			return;
-		}
-
-		this.trigger('remove', { content: this._items[position], position: position });
-
-		this._items[position].remove();
-		this._items.splice(position, 1);
-		this._mergers.splice(position, 1);
-
-		this.invalidate('items');
-
-		this.trigger('removed', { content: null, position: position });
-	};
-
-	/**
-	 * Preloads images with auto width.
-	 * @todo Replace by a more generic approach
-	 * @protected
-	 */
-	Owl.prototype.preloadAutoWidthImages = function(images) {
-		images.each($.proxy(function(i, element) {
-			this.enter('pre-loading');
-			element = $(element);
-			$(new Image()).one('load', $.proxy(function(e) {
-				element.attr('src', e.target.src);
-				element.css('opacity', 1);
-				this.leave('pre-loading');
-				!this.is('pre-loading') && !this.is('initializing') && this.refresh();
-			}, this)).attr('src', element.attr('src') || element.attr('data-src') || element.attr('data-src-retina'));
-		}, this));
-	};
-
-	/**
-	 * Destroys the carousel.
-	 * @public
-	 */
-	Owl.prototype.destroy = function() {
-
-		this.$element.off('.owl.core');
-		this.$stage.off('.owl.core');
-		$(document).off('.owl.core');
-
-		if (this.settings.responsive !== false) {
-			window.clearTimeout(this.resizeTimer);
-			this.off(window, 'resize', this._handlers.onThrottledResize);
-		}
-
-		for (var i in this._plugins) {
-			this._plugins[i].destroy();
-		}
-
-		this.$stage.children('.cloned').remove();
-
-		this.$stage.unwrap();
-		this.$stage.children().contents().unwrap();
-		this.$stage.children().unwrap();
-
-		this.$element
-			.removeClass(this.options.refreshClass)
-			.removeClass(this.options.loadingClass)
-			.removeClass(this.options.loadedClass)
-			.removeClass(this.options.rtlClass)
-			.removeClass(this.options.dragClass)
-			.removeClass(this.options.grabClass)
-			.attr('class', this.$element.attr('class').replace(new RegExp(this.options.responsiveClass + '-\\S+\\s', 'g'), ''))
-			.removeData('owl.carousel');
-	};
-
-	/**
-	 * Operators to calculate right-to-left and left-to-right.
-	 * @protected
-	 * @param {Number} [a] - The left side operand.
-	 * @param {String} [o] - The operator.
-	 * @param {Number} [b] - The right side operand.
-	 */
-	Owl.prototype.op = function(a, o, b) {
-		var rtl = this.settings.rtl;
-		switch (o) {
-			case '<':
-				return rtl ? a > b : a < b;
-			case '>':
-				return rtl ? a < b : a > b;
-			case '>=':
-				return rtl ? a <= b : a >= b;
-			case '<=':
-				return rtl ? a >= b : a <= b;
-			default:
-				break;
-		}
-	};
-
-	/**
-	 * Attaches to an internal event.
-	 * @protected
-	 * @param {HTMLElement} element - The event source.
-	 * @param {String} event - The event name.
-	 * @param {Function} listener - The event handler to attach.
-	 * @param {Boolean} capture - Wether the event should be handled at the capturing phase or not.
-	 */
-	Owl.prototype.on = function(element, event, listener, capture) {
-		if (element.addEventListener) {
-			element.addEventListener(event, listener, capture);
-		} else if (element.attachEvent) {
-			element.attachEvent('on' + event, listener);
-		}
-	};
-
-	/**
-	 * Detaches from an internal event.
-	 * @protected
-	 * @param {HTMLElement} element - The event source.
-	 * @param {String} event - The event name.
-	 * @param {Function} listener - The attached event handler to detach.
-	 * @param {Boolean} capture - Wether the attached event handler was registered as a capturing listener or not.
-	 */
-	Owl.prototype.off = function(element, event, listener, capture) {
-		if (element.removeEventListener) {
-			element.removeEventListener(event, listener, capture);
-		} else if (element.detachEvent) {
-			element.detachEvent('on' + event, listener);
-		}
-	};
-
-	/**
-	 * Triggers a public event.
-	 * @todo Remove `status`, `relatedTarget` should be used instead.
-	 * @protected
-	 * @param {String} name - The event name.
-	 * @param {*} [data=null] - The event data.
-	 * @param {String} [namespace=carousel] - The event namespace.
-	 * @param {String} [state] - The state which is associated with the event.
-	 * @param {Boolean} [enter=false] - Indicates if the call enters the specified state or not.
-	 * @returns {Event} - The event arguments.
-	 */
-	Owl.prototype.trigger = function(name, data, namespace, state, enter) {
-		var status = {
-			item: { count: this._items.length, index: this.current() }
-		}, handler = $.camelCase(
-			$.grep([ 'on', name, namespace ], function(v) { return v })
-				.join('-').toLowerCase()
-		), event = $.Event(
-			[ name, 'owl', namespace || 'carousel' ].join('.').toLowerCase(),
-			$.extend({ relatedTarget: this }, status, data)
-		);
-
-		if (!this._supress[name]) {
-			$.each(this._plugins, function(name, plugin) {
-				if (plugin.onTrigger) {
-					plugin.onTrigger(event);
-				}
-			});
-
-			this.register({ type: Owl.Type.Event, name: name });
-			this.$element.trigger(event);
-
-			if (this.settings && typeof this.settings[handler] === 'function') {
-				this.settings[handler].call(this, event);
-			}
-		}
-
-		return event;
-	};
-
-	/**
-	 * Enters a state.
-	 * @param name - The state name.
-	 */
-	Owl.prototype.enter = function(name) {
-		$.each([ name ].concat(this._states.tags[name] || []), $.proxy(function(i, name) {
-			if (this._states.current[name] === undefined) {
-				this._states.current[name] = 0;
-			}
-
-			this._states.current[name]++;
-		}, this));
-	};
-
-	/**
-	 * Leaves a state.
-	 * @param name - The state name.
-	 */
-	Owl.prototype.leave = function(name) {
-		$.each([ name ].concat(this._states.tags[name] || []), $.proxy(function(i, name) {
-			this._states.current[name]--;
-		}, this));
-	};
-
-	/**
-	 * Registers an event or state.
-	 * @public
-	 * @param {Object} object - The event or state to register.
-	 */
-	Owl.prototype.register = function(object) {
-		if (object.type === Owl.Type.Event) {
-			if (!$.event.special[object.name]) {
-				$.event.special[object.name] = {};
-			}
-
-			if (!$.event.special[object.name].owl) {
-				var _default = $.event.special[object.name]._default;
-				$.event.special[object.name]._default = function(e) {
-					if (_default && _default.apply && (!e.namespace || e.namespace.indexOf('owl') === -1)) {
-						return _default.apply(this, arguments);
-					}
-					return e.namespace && e.namespace.indexOf('owl') > -1;
-				};
-				$.event.special[object.name].owl = true;
-			}
-		} else if (object.type === Owl.Type.State) {
-			if (!this._states.tags[object.name]) {
-				this._states.tags[object.name] = object.tags;
-			} else {
-				this._states.tags[object.name] = this._states.tags[object.name].concat(object.tags);
-			}
-
-			this._states.tags[object.name] = $.grep(this._states.tags[object.name], $.proxy(function(tag, i) {
-				return $.inArray(tag, this._states.tags[object.name]) === i;
-			}, this));
-		}
-	};
-
-	/**
-	 * Suppresses events.
-	 * @protected
-	 * @param {Array.<String>} events - The events to suppress.
-	 */
-	Owl.prototype.suppress = function(events) {
-		$.each(events, $.proxy(function(index, event) {
-			this._supress[event] = true;
-		}, this));
-	};
-
-	/**
-	 * Releases suppressed events.
-	 * @protected
-	 * @param {Array.<String>} events - The events to release.
-	 */
-	Owl.prototype.release = function(events) {
-		$.each(events, $.proxy(function(index, event) {
-			delete this._supress[event];
-		}, this));
-	};
-
-	/**
-	 * Gets unified pointer coordinates from event.
-	 * @todo #261
-	 * @protected
-	 * @param {Event} - The `mousedown` or `touchstart` event.
-	 * @returns {Object} - Contains `x` and `y` coordinates of current pointer position.
-	 */
-	Owl.prototype.pointer = function(event) {
-		var result = { x: null, y: null };
-
-		event = event.originalEvent || event || window.event;
-
-		event = event.touches && event.touches.length ?
-			event.touches[0] : event.changedTouches && event.changedTouches.length ?
-				event.changedTouches[0] : event;
-
-		if (event.pageX) {
-			result.x = event.pageX;
-			result.y = event.pageY;
-		} else {
-			result.x = event.clientX;
-			result.y = event.clientY;
-		}
-
-		return result;
-	};
-
-	/**
-	 * Determines if the input is a Number or something that can be coerced to a Number
-	 * @protected
-	 * @param {Number|String|Object|Array|Boolean|RegExp|Function|Symbol} - The input to be tested
-	 * @returns {Boolean} - An indication if the input is a Number or can be coerced to a Number
-	 */
-	Owl.prototype.isNumeric = function(number) {
-		return !isNaN(parseFloat(number));
-	};
-
-	/**
-	 * Gets the difference of two vectors.
-	 * @todo #261
-	 * @protected
-	 * @param {Object} - The first vector.
-	 * @param {Object} - The second vector.
-	 * @returns {Object} - The difference.
-	 */
-	Owl.prototype.difference = function(first, second) {
-		return {
-			x: first.x - second.x,
-			y: first.y - second.y
-		};
-	};
-
-	/**
-	 * The jQuery Plugin for the Owl Carousel
-	 * @todo Navigation plugin `next` and `prev`
-	 * @public
-	 */
-	$.fn.owlCarousel = function(option) {
-		var args = Array.prototype.slice.call(arguments, 1);
-
-		return this.each(function() {
-			var $this = $(this),
-				data = $this.data('owl.carousel');
-
-			if (!data) {
-				data = new Owl(this, typeof option == 'object' && option);
-				$this.data('owl.carousel', data);
-
-				$.each([
-					'next', 'prev', 'to', 'destroy', 'refresh', 'replace', 'add', 'remove'
-				], function(i, event) {
-					data.register({ type: Owl.Type.Event, name: event });
-					data.$element.on(event + '.owl.carousel.core', $.proxy(function(e) {
-						if (e.namespace && e.relatedTarget !== this) {
-							this.suppress([ event ]);
-							data[event].apply(this, [].slice.call(arguments, 1));
-							this.release([ event ]);
-						}
-					}, data));
-				});
-			}
-
-			if (typeof option == 'string' && option.charAt(0) !== '_') {
-				data[option].apply(data, args);
-			}
-		});
-	};
-
-	/**
-	 * The constructor for the jQuery Plugin
-	 * @public
-	 */
-	$.fn.owlCarousel.Constructor = Owl;
+    /**
+     * Creates a carousel.
+     * @class The Owl Carousel.
+     * @public
+     * @param {HTMLElement|jQuery} element - The element to create the carousel for.
+     * @param {Object} [options] - The options
+     */
+    function Owl(element, options) {
+
+        /**
+         * Current settings for the carousel.
+         * @public
+         */
+        this.settings = null;
+
+        /**
+         * Current options set by the caller including defaults.
+         * @public
+         */
+        this.options = $.extend({}, Owl.Defaults, options);
+
+        /**
+         * Plugin element.
+         * @public
+         */
+        this.$element = $(element);
+
+        /**
+         * Proxied event handlers.
+         * @protected
+         */
+        this._handlers = {};
+
+        /**
+         * References to the running plugins of this carousel.
+         * @protected
+         */
+        this._plugins = {};
+
+        /**
+         * Currently suppressed events to prevent them from beeing retriggered.
+         * @protected
+         */
+        this._supress = {};
+
+        /**
+         * Absolute current position.
+         * @protected
+         */
+        this._current = null;
+
+        /**
+         * Animation speed in milliseconds.
+         * @protected
+         */
+        this._speed = null;
+
+        /**
+         * Coordinates of all items in pixel.
+         * @todo The name of this member is missleading.
+         * @protected
+         */
+        this._coordinates = [];
+
+        /**
+         * Current breakpoint.
+         * @todo Real media queries would be nice.
+         * @protected
+         */
+        this._breakpoint = null;
+
+        /**
+         * Current width of the plugin element.
+         */
+        this._width = null;
+
+        /**
+         * All real items.
+         * @protected
+         */
+        this._items = [];
+
+        /**
+         * All cloned items.
+         * @protected
+         */
+        this._clones = [];
+
+        /**
+         * Merge values of all items.
+         * @todo Maybe this could be part of a plugin.
+         * @protected
+         */
+        this._mergers = [];
+
+        /**
+         * Widths of all items.
+         */
+        this._widths = [];
+
+        /**
+         * Invalidated parts within the update process.
+         * @protected
+         */
+        this._invalidated = {};
+
+        /**
+         * Ordered list of workers for the update process.
+         * @protected
+         */
+        this._pipe = [];
+
+        /**
+         * Current state information for the drag operation.
+         * @todo #261
+         * @protected
+         */
+        this._drag = {
+            time: null,
+            target: null,
+            pointer: null,
+            stage: {
+                start: null,
+                current: null
+            },
+            direction: null
+        };
+
+        /**
+         * Current state information and their tags.
+         * @type {Object}
+         * @protected
+         */
+        this._states = {
+            current: {},
+            tags: {
+                'initializing': [ 'busy' ],
+                'animating': [ 'busy' ],
+                'dragging': [ 'interacting' ]
+            }
+        };
+
+        $.each([ 'onResize', 'onThrottledResize' ], $.proxy(function(i, handler) {
+            this._handlers[handler] = $.proxy(this[handler], this);
+        }, this));
+
+        $.each(Owl.Plugins, $.proxy(function(key, plugin) {
+            this._plugins[key.charAt(0).toLowerCase() + key.slice(1)]
+                = new plugin(this);
+        }, this));
+
+        $.each(Owl.Workers, $.proxy(function(priority, worker) {
+            this._pipe.push({
+                'filter': worker.filter,
+                'run': $.proxy(worker.run, this)
+            });
+        }, this));
+
+        this.setup();
+        this.initialize();
+    }
+
+    /**
+     * Default options for the carousel.
+     * @public
+     */
+    Owl.Defaults = {
+        items: 3,
+        loop: false,
+        center: false,
+        rewind: false,
+
+        mouseDrag: true,
+        touchDrag: true,
+        pullDrag: true,
+        freeDrag: false,
+
+        margin: 0,
+        stagePadding: 0,
+
+        merge: false,
+        mergeFit: true,
+        autoWidth: false,
+
+        startPosition: 0,
+        rtl: false,
+
+        smartSpeed: 250,
+        fluidSpeed: false,
+        dragEndSpeed: false,
+
+        responsive: {},
+        responsiveRefreshRate: 200,
+        responsiveBaseElement: window,
+
+        fallbackEasing: 'swing',
+
+        info: false,
+
+        nestedItemSelector: false,
+        itemElement: 'div',
+        stageElement: 'div',
+
+        refreshClass: 'owl-refresh',
+        loadedClass: 'owl-loaded',
+        loadingClass: 'owl-loading',
+        rtlClass: 'owl-rtl',
+        responsiveClass: 'owl-responsive',
+        dragClass: 'owl-drag',
+        itemClass: 'owl-item',
+        stageClass: 'owl-stage',
+        stageOuterClass: 'owl-stage-outer',
+        grabClass: 'owl-grab'
+    };
+
+    /**
+     * Enumeration for width.
+     * @public
+     * @readonly
+     * @enum {String}
+     */
+    Owl.Width = {
+        Default: 'default',
+        Inner: 'inner',
+        Outer: 'outer'
+    };
+
+    /**
+     * Enumeration for types.
+     * @public
+     * @readonly
+     * @enum {String}
+     */
+    Owl.Type = {
+        Event: 'event',
+        State: 'state'
+    };
+
+    /**
+     * Contains all registered plugins.
+     * @public
+     */
+    Owl.Plugins = {};
+
+    /**
+     * List of workers involved in the update process.
+     */
+    Owl.Workers = [ {
+        filter: [ 'width', 'settings' ],
+        run: function() {
+            this._width = this.$element.width();
+        }
+    }, {
+        filter: [ 'width', 'items', 'settings' ],
+        run: function(cache) {
+            cache.current = this._items && this._items[this.relative(this._current)];
+        }
+    }, {
+        filter: [ 'items', 'settings' ],
+        run: function() {
+            this.$stage.children('.cloned').remove();
+        }
+    }, {
+        filter: [ 'width', 'items', 'settings' ],
+        run: function(cache) {
+            var margin = this.settings.margin || '',
+                grid = !this.settings.autoWidth,
+                rtl = this.settings.rtl,
+                css = {
+                    'width': 'auto',
+                    'margin-left': rtl ? margin : '',
+                    'margin-right': rtl ? '' : margin
+                };
+
+            !grid && this.$stage.children().css(css);
+
+            cache.css = css;
+        }
+    }, {
+        filter: [ 'width', 'items', 'settings' ],
+        run: function(cache) {
+            var width = (this.width() / this.settings.items).toFixed(3) - this.settings.margin,
+                merge = null,
+                iterator = this._items.length,
+                grid = !this.settings.autoWidth,
+                widths = [];
+
+            cache.items = {
+                merge: false,
+                width: width
+            };
+
+            while (iterator--) {
+                merge = this._mergers[iterator];
+                merge = this.settings.mergeFit && Math.min(merge, this.settings.items) || merge;
+
+                cache.items.merge = merge > 1 || cache.items.merge;
+
+                widths[iterator] = !grid ? this._items[iterator].width() : width * merge;
+            }
+
+            this._widths = widths;
+        }
+    }, {
+        filter: [ 'items', 'settings' ],
+        run: function() {
+            var clones = [],
+                items = this._items,
+                settings = this.settings,
+                // TODO: Should be computed from number of min width items in stage
+                view = Math.max(settings.items * 2, 4),
+                size = Math.ceil(items.length / 2) * 2,
+                repeat = settings.loop && items.length ? settings.rewind ? view : Math.max(view, size) : 0,
+                append = '',
+                prepend = '';
+
+            repeat /= 2;
+
+            while (repeat--) {
+                // Switch to only using appended clones
+                clones.push(this.normalize(clones.length / 2, true));
+                append = append + items[clones[clones.length - 1]][0].outerHTML;
+                clones.push(this.normalize(items.length - 1 - (clones.length - 1) / 2, true));
+                prepend = items[clones[clones.length - 1]][0].outerHTML + prepend;
+            }
+
+            this._clones = clones;
+
+            $(append).addClass('cloned').appendTo(this.$stage);
+            $(prepend).addClass('cloned').prependTo(this.$stage);
+        }
+    }, {
+        filter: [ 'width', 'items', 'settings' ],
+        run: function() {
+            var rtl = this.settings.rtl ? 1 : -1,
+                size = this._clones.length + this._items.length,
+                iterator = -1,
+                previous = 0,
+                current = 0,
+                coordinates = [];
+
+            while (++iterator < size) {
+                previous = coordinates[iterator - 1] || 0;
+                current = this._widths[this.relative(iterator)] + this.settings.margin;
+                coordinates.push(previous + current * rtl);
+            }
+
+            this._coordinates = coordinates;
+        }
+    }, {
+        filter: [ 'width', 'items', 'settings' ],
+        run: function() {
+            var padding = this.settings.stagePadding,
+                coordinates = this._coordinates,
+                css = {
+                    'width': Math.ceil(Math.abs(coordinates[coordinates.length - 1])) + padding * 2,
+                    'padding-left': padding || '',
+                    'padding-right': padding || ''
+                };
+
+            this.$stage.css(css);
+        }
+    }, {
+        filter: [ 'width', 'items', 'settings' ],
+        run: function(cache) {
+            var iterator = this._coordinates.length,
+                grid = !this.settings.autoWidth,
+                items = this.$stage.children();
+
+            if (grid && cache.items.merge) {
+                while (iterator--) {
+                    cache.css.width = this._widths[this.relative(iterator)];
+                    items.eq(iterator).css(cache.css);
+                }
+            } else if (grid) {
+                cache.css.width = cache.items.width;
+                items.css(cache.css);
+            }
+        }
+    }, {
+        filter: [ 'items' ],
+        run: function() {
+            this._coordinates.length < 1 && this.$stage.removeAttr('style');
+        }
+    }, {
+        filter: [ 'width', 'items', 'settings' ],
+        run: function(cache) {
+            cache.current = cache.current ? this.$stage.children().index(cache.current) : 0;
+            cache.current = Math.max(this.minimum(), Math.min(this.maximum(), cache.current));
+            this.reset(cache.current);
+        }
+    }, {
+        filter: [ 'position' ],
+        run: function() {
+            this.animate(this.coordinates(this._current));
+        }
+    }, {
+        filter: [ 'width', 'position', 'items', 'settings' ],
+        run: function() {
+            var rtl = this.settings.rtl ? 1 : -1,
+                padding = this.settings.stagePadding * 2,
+                begin = this.coordinates(this.current()) + padding,
+                end = begin + this.width() * rtl,
+                inner, outer, matches = [], i, n;
+
+            for (i = 0, n = this._coordinates.length; i < n; i++) {
+                inner = this._coordinates[i - 1] || 0;
+                outer = Math.abs(this._coordinates[i]) + padding * rtl;
+
+                if ((this.op(inner, '<=', begin) && (this.op(inner, '>', end)))
+                    || (this.op(outer, '<', begin) && this.op(outer, '>', end))) {
+                    matches.push(i);
+                }
+            }
+
+            this.$stage.children('.active').removeClass('active');
+            this.$stage.children(':eq(' + matches.join('), :eq(') + ')').addClass('active');
+
+            if (this.settings.center) {
+                this.$stage.children('.center').removeClass('center');
+                this.$stage.children().eq(this.current()).addClass('center');
+            }
+        }
+    } ];
+
+    /**
+     * Initializes the carousel.
+     * @protected
+     */
+    Owl.prototype.initialize = function() {
+        this.enter('initializing');
+        this.trigger('initialize');
+
+        this.$element.toggleClass(this.settings.rtlClass, this.settings.rtl);
+
+        if (this.settings.autoWidth && !this.is('pre-loading')) {
+            var imgs, nestedSelector, width;
+            imgs = this.$element.find('img');
+            nestedSelector = this.settings.nestedItemSelector ? '.' + this.settings.nestedItemSelector : undefined;
+            width = this.$element.children(nestedSelector).width();
+
+            if (imgs.length && width <= 0) {
+                this.preloadAutoWidthImages(imgs);
+            }
+        }
+
+        this.$element.addClass(this.options.loadingClass);
+
+        // create stage
+        this.$stage = $('<' + this.settings.stageElement + ' class="' + this.settings.stageClass + '"/>')
+            .wrap('<div class="' + this.settings.stageOuterClass + '"/>');
+
+        // append stage
+        this.$element.append(this.$stage.parent());
+
+        // append content
+        this.replace(this.$element.children().not(this.$stage.parent()));
+
+        // check visibility
+        if (this.$element.is(':visible')) {
+            // update view
+            this.refresh();
+        } else {
+            // invalidate width
+            this.invalidate('width');
+        }
+
+        this.$element
+            .removeClass(this.options.loadingClass)
+            .addClass(this.options.loadedClass);
+
+        // register event handlers
+        this.registerEventHandlers();
+
+        this.leave('initializing');
+        this.trigger('initialized');
+    };
+
+    /**
+     * Setups the current settings.
+     * @todo Remove responsive classes. Why should adaptive designs be brought into IE8?
+     * @todo Support for media queries by using `matchMedia` would be nice.
+     * @public
+     */
+    Owl.prototype.setup = function() {
+        var viewport = this.viewport(),
+            overwrites = this.options.responsive,
+            match = -1,
+            settings = null;
+
+        if (!overwrites) {
+            settings = $.extend({}, this.options);
+        } else {
+            $.each(overwrites, function(breakpoint) {
+                if (breakpoint <= viewport && breakpoint > match) {
+                    match = Number(breakpoint);
+                }
+            });
+
+            settings = $.extend({}, this.options, overwrites[match]);
+            if (typeof settings.stagePadding === 'function') {
+                settings.stagePadding = settings.stagePadding();
+            }
+            delete settings.responsive;
+
+            // responsive class
+            if (settings.responsiveClass) {
+                this.$element.attr('class',
+                    this.$element.attr('class').replace(new RegExp('(' + this.options.responsiveClass + '-)\\S+\\s', 'g'), '$1' + match)
+                );
+            }
+        }
+
+        this.trigger('change', { property: { name: 'settings', value: settings } });
+        this._breakpoint = match;
+        this.settings = settings;
+        this.invalidate('settings');
+        this.trigger('changed', { property: { name: 'settings', value: this.settings } });
+    };
+
+    /**
+     * Updates option logic if necessery.
+     * @protected
+     */
+    Owl.prototype.optionsLogic = function() {
+        if (this.settings.autoWidth) {
+            this.settings.stagePadding = false;
+            this.settings.merge = false;
+        }
+    };
+
+    /**
+     * Prepares an item before add.
+     * @todo Rename event parameter `content` to `item`.
+     * @protected
+     * @returns {jQuery|HTMLElement} - The item container.
+     */
+    Owl.prototype.prepare = function(item) {
+        var event = this.trigger('prepare', { content: item });
+
+        if (!event.data) {
+            event.data = $('<' + this.settings.itemElement + '/>')
+                .addClass(this.options.itemClass).append(item)
+        }
+
+        this.trigger('prepared', { content: event.data });
+
+        return event.data;
+    };
+
+    /**
+     * Updates the view.
+     * @public
+     */
+    Owl.prototype.update = function() {
+        var i = 0,
+            n = this._pipe.length,
+            filter = $.proxy(function(p) { return this[p] }, this._invalidated),
+            cache = {};
+
+        while (i < n) {
+            if (this._invalidated.all || $.grep(this._pipe[i].filter, filter).length > 0) {
+                this._pipe[i].run(cache);
+            }
+            i++;
+        }
+
+        this._invalidated = {};
+
+        !this.is('valid') && this.enter('valid');
+    };
+
+    /**
+     * Gets the width of the view.
+     * @public
+     * @param {Owl.Width} [dimension=Owl.Width.Default] - The dimension to return.
+     * @returns {Number} - The width of the view in pixel.
+     */
+    Owl.prototype.width = function(dimension) {
+        dimension = dimension || Owl.Width.Default;
+        switch (dimension) {
+            case Owl.Width.Inner:
+            case Owl.Width.Outer:
+                return this._width;
+            default:
+                return this._width - this.settings.stagePadding * 2 + this.settings.margin;
+        }
+    };
+
+    /**
+     * Refreshes the carousel primarily for adaptive purposes.
+     * @public
+     */
+    Owl.prototype.refresh = function() {
+        this.enter('refreshing');
+        this.trigger('refresh');
+
+        this.setup();
+
+        this.optionsLogic();
+
+        this.$element.addClass(this.options.refreshClass);
+
+        this.update();
+
+        this.$element.removeClass(this.options.refreshClass);
+
+        this.leave('refreshing');
+        this.trigger('refreshed');
+    };
+
+    /**
+     * Checks window `resize` event.
+     * @protected
+     */
+    Owl.prototype.onThrottledResize = function() {
+        window.clearTimeout(this.resizeTimer);
+        this.resizeTimer = window.setTimeout(this._handlers.onResize, this.settings.responsiveRefreshRate);
+    };
+
+    /**
+     * Checks window `resize` event.
+     * @protected
+     */
+    Owl.prototype.onResize = function() {
+        if (!this._items.length) {
+            return false;
+        }
+
+        if (this._width === this.$element.width()) {
+            return false;
+        }
+
+        if (!this.$element.is(':visible')) {
+            return false;
+        }
+
+        this.enter('resizing');
+
+        if (this.trigger('resize').isDefaultPrevented()) {
+            this.leave('resizing');
+            return false;
+        }
+
+        this.invalidate('width');
+
+        this.refresh();
+
+        this.leave('resizing');
+        this.trigger('resized');
+    };
+
+    /**
+     * Registers event handlers.
+     * @todo Check `msPointerEnabled`
+     * @todo #261
+     * @protected
+     */
+    Owl.prototype.registerEventHandlers = function() {
+        if ($.support.transition) {
+            this.$stage.on($.support.transition.end + '.owl.core', $.proxy(this.onTransitionEnd, this));
+        }
+
+        if (this.settings.responsive !== false) {
+            this.on(window, 'resize', this._handlers.onThrottledResize);
+        }
+
+        if (this.settings.mouseDrag) {
+            this.$element.addClass(this.options.dragClass);
+            this.$stage.on('mousedown.owl.core', $.proxy(this.onDragStart, this));
+            this.$stage.on('dragstart.owl.core selectstart.owl.core', function() { return false });
+        }
+
+        if (this.settings.touchDrag){
+            this.$stage.on('touchstart.owl.core', $.proxy(this.onDragStart, this));
+            this.$stage.on('touchcancel.owl.core', $.proxy(this.onDragEnd, this));
+        }
+    };
+
+    /**
+     * Handles `touchstart` and `mousedown` events.
+     * @todo Horizontal swipe threshold as option
+     * @todo #261
+     * @protected
+     * @param {Event} event - The event arguments.
+     */
+    Owl.prototype.onDragStart = function(event) {
+        var stage = null;
+
+        if (event.which === 3) {
+            return;
+        }
+
+        if ($.support.transform) {
+            stage = this.$stage.css('transform').replace(/.*\(|\)| /g, '').split(',');
+            stage = {
+                x: stage[stage.length === 16 ? 12 : 4],
+                y: stage[stage.length === 16 ? 13 : 5]
+            };
+        } else {
+            stage = this.$stage.position();
+            stage = {
+                x: this.settings.rtl ?
+                    stage.left + this.$stage.width() - this.width() + this.settings.margin :
+                    stage.left,
+                y: stage.top
+            };
+        }
+
+        if (this.is('animating')) {
+            $.support.transform ? this.animate(stage.x) : this.$stage.stop()
+            this.invalidate('position');
+        }
+
+        this.$element.toggleClass(this.options.grabClass, event.type === 'mousedown');
+
+        this.speed(0);
+
+        this._drag.time = new Date().getTime();
+        this._drag.target = $(event.target);
+        this._drag.stage.start = stage;
+        this._drag.stage.current = stage;
+        this._drag.pointer = this.pointer(event);
+
+        $(document).on('mouseup.owl.core touchend.owl.core', $.proxy(this.onDragEnd, this));
+
+        $(document).one('mousemove.owl.core touchmove.owl.core', $.proxy(function(event) {
+            var delta = this.difference(this._drag.pointer, this.pointer(event));
+
+            $(document).on('mousemove.owl.core touchmove.owl.core', $.proxy(this.onDragMove, this));
+
+            if (Math.abs(delta.x) < Math.abs(delta.y) && this.is('valid')) {
+                return;
+            }
+
+            event.preventDefault();
+
+            this.enter('dragging');
+            this.trigger('drag');
+        }, this));
+    };
+
+    /**
+     * Handles the `touchmove` and `mousemove` events.
+     * @todo #261
+     * @protected
+     * @param {Event} event - The event arguments.
+     */
+    Owl.prototype.onDragMove = function(event) {
+        var minimum = null,
+            maximum = null,
+            pull = null,
+            delta = this.difference(this._drag.pointer, this.pointer(event)),
+            stage = this.difference(this._drag.stage.start, delta);
+
+        if (!this.is('dragging')) {
+            return;
+        }
+
+        event.preventDefault();
+
+        if (this.settings.loop) {
+            minimum = this.coordinates(this.minimum());
+            maximum = this.coordinates(this.maximum() + 1) - minimum;
+            stage.x = (((stage.x - minimum) % maximum + maximum) % maximum) + minimum;
+        } else {
+            minimum = this.settings.rtl ? this.coordinates(this.maximum()) : this.coordinates(this.minimum());
+            maximum = this.settings.rtl ? this.coordinates(this.minimum()) : this.coordinates(this.maximum());
+            pull = this.settings.pullDrag ? -1 * delta.x / 5 : 0;
+            stage.x = Math.max(Math.min(stage.x, minimum + pull), maximum + pull);
+        }
+
+        this._drag.stage.current = stage;
+
+        this.animate(stage.x);
+    };
+
+    /**
+     * Handles the `touchend` and `mouseup` events.
+     * @todo #261
+     * @todo Threshold for click event
+     * @protected
+     * @param {Event} event - The event arguments.
+     */
+    Owl.prototype.onDragEnd = function(event) {
+        var delta = this.difference(this._drag.pointer, this.pointer(event)),
+            stage = this._drag.stage.current,
+            direction = delta.x > 0 ^ this.settings.rtl ? 'left' : 'right';
+
+        $(document).off('.owl.core');
+
+        this.$element.removeClass(this.options.grabClass);
+
+        if (delta.x !== 0 && this.is('dragging') || !this.is('valid')) {
+            this.speed(this.settings.dragEndSpeed || this.settings.smartSpeed);
+            this.current(this.closest(stage.x, delta.x !== 0 ? direction : this._drag.direction));
+            this.invalidate('position');
+            this.update();
+
+            this._drag.direction = direction;
+
+            if (Math.abs(delta.x) > 3 || new Date().getTime() - this._drag.time > 300) {
+                this._drag.target.one('click.owl.core', function() { return false; });
+            }
+        }
+
+        if (!this.is('dragging')) {
+            return;
+        }
+
+        this.leave('dragging');
+        this.trigger('dragged');
+    };
+
+    /**
+     * Gets absolute position of the closest item for a coordinate.
+     * @todo Setting `freeDrag` makes `closest` not reusable. See #165.
+     * @protected
+     * @param {Number} coordinate - The coordinate in pixel.
+     * @param {String} direction - The direction to check for the closest item. Ether `left` or `right`.
+     * @return {Number} - The absolute position of the closest item.
+     */
+    Owl.prototype.closest = function(coordinate, direction) {
+        var position = -1,
+            pull = 30,
+            width = this.width(),
+            coordinates = this.coordinates();
+
+        if (!this.settings.freeDrag) {
+            // check closest item
+            $.each(coordinates, $.proxy(function(index, value) {
+                // on a left pull, check on current index
+                if (direction === 'left' && coordinate > value - pull && coordinate < value + pull) {
+                    position = index;
+                    // on a right pull, check on previous index
+                    // to do so, subtract width from value and set position = index + 1
+                } else if (direction === 'right' && coordinate > value - width - pull && coordinate < value - width + pull) {
+                    position = index + 1;
+                } else if (this.op(coordinate, '<', value)
+                    && this.op(coordinate, '>', coordinates[index + 1] || value - width)) {
+                    position = direction === 'left' ? index + 1 : index;
+                }
+                return position === -1;
+            }, this));
+        }
+
+        if (!this.settings.loop) {
+            // non loop boundries
+            if (this.op(coordinate, '>', coordinates[this.minimum()])) {
+                position = coordinate = this.minimum();
+            } else if (this.op(coordinate, '<', coordinates[this.maximum()])) {
+                position = coordinate = this.maximum();
+            }
+        }
+
+        return position;
+    };
+
+    /**
+     * Animates the stage.
+     * @todo #270
+     * @public
+     * @param {Number} coordinate - The coordinate in pixels.
+     */
+    Owl.prototype.animate = function(coordinate) {
+        var animate = this.speed() > 0;
+
+        this.is('animating') && this.onTransitionEnd();
+
+        if (animate) {
+            this.enter('animating');
+            this.trigger('translate');
+        }
+
+        if ($.support.transform3d && $.support.transition) {
+            this.$stage.css({
+                transform: 'translate3d(' + coordinate + 'px,0px,0px)',
+                transition: (this.speed() / 1000) + 's'
+            });
+        } else if (animate) {
+            this.$stage.animate({
+                left: coordinate + 'px'
+            }, this.speed(), this.settings.fallbackEasing, $.proxy(this.onTransitionEnd, this));
+        } else {
+            this.$stage.css({
+                left: coordinate + 'px'
+            });
+        }
+    };
+
+    /**
+     * Checks whether the carousel is in a specific state or not.
+     * @param {String} state - The state to check.
+     * @returns {Boolean} - The flag which indicates if the carousel is busy.
+     */
+    Owl.prototype.is = function(state) {
+        return this._states.current[state] && this._states.current[state] > 0;
+    };
+
+    /**
+     * Sets the absolute position of the current item.
+     * @public
+     * @param {Number} [position] - The new absolute position or nothing to leave it unchanged.
+     * @returns {Number} - The absolute position of the current item.
+     */
+    Owl.prototype.current = function(position) {
+        if (position === undefined) {
+            return this._current;
+        }
+
+        if (this._items.length === 0) {
+            return undefined;
+        }
+
+        position = this.normalize(position);
+
+        if (this._current !== position) {
+            var event = this.trigger('change', { property: { name: 'position', value: position } });
+
+            if (event.data !== undefined) {
+                position = this.normalize(event.data);
+            }
+
+            this._current = position;
+
+            this.invalidate('position');
+
+            this.trigger('changed', { property: { name: 'position', value: this._current } });
+        }
+
+        return this._current;
+    };
+
+    /**
+     * Invalidates the given part of the update routine.
+     * @param {String} [part] - The part to invalidate.
+     * @returns {Array.<String>} - The invalidated parts.
+     */
+    Owl.prototype.invalidate = function(part) {
+        if ($.type(part) === 'string') {
+            this._invalidated[part] = true;
+            this.is('valid') && this.leave('valid');
+        }
+        return $.map(this._invalidated, function(v, i) { return i });
+    };
+
+    /**
+     * Resets the absolute position of the current item.
+     * @public
+     * @param {Number} position - The absolute position of the new item.
+     */
+    Owl.prototype.reset = function(position) {
+        position = this.normalize(position);
+
+        if (position === undefined) {
+            return;
+        }
+
+        this._speed = 0;
+        this._current = position;
+
+        this.suppress([ 'translate', 'translated' ]);
+
+        this.animate(this.coordinates(position));
+
+        this.release([ 'translate', 'translated' ]);
+    };
+
+    /**
+     * Normalizes an absolute or a relative position of an item.
+     * @public
+     * @param {Number} position - The absolute or relative position to normalize.
+     * @param {Boolean} [relative=false] - Whether the given position is relative or not.
+     * @returns {Number} - The normalized position.
+     */
+    Owl.prototype.normalize = function(position, relative) {
+        var n = this._items.length,
+            m = relative ? 0 : this._clones.length;
+
+        if (!this.isNumeric(position) || n < 1) {
+            position = undefined;
+        } else if (position < 0 || position >= n + m) {
+            position = ((position - m / 2) % n + n) % n + m / 2;
+        }
+
+        return position;
+    };
+
+    /**
+     * Converts an absolute position of an item into a relative one.
+     * @public
+     * @param {Number} position - The absolute position to convert.
+     * @returns {Number} - The converted position.
+     */
+    Owl.prototype.relative = function(position) {
+        position -= this._clones.length / 2;
+        return this.normalize(position, true);
+    };
+
+    /**
+     * Gets the maximum position for the current item.
+     * @public
+     * @param {Boolean} [relative=false] - Whether to return an absolute position or a relative position.
+     * @returns {Number}
+     */
+    Owl.prototype.maximum = function(relative) {
+        var settings = this.settings,
+            maximum = this._coordinates.length,
+            iterator,
+            reciprocalItemsWidth,
+            elementWidth;
+
+        if (settings.loop) {
+            maximum = this._clones.length / 2 + this._items.length - 1;
+        } else if (settings.autoWidth || settings.merge) {
+            iterator = this._items.length;
+            reciprocalItemsWidth = this._items[--iterator].width();
+            elementWidth = this.$element.width();
+            while (iterator--) {
+                reciprocalItemsWidth += this._items[iterator].width() + this.settings.margin;
+                if (reciprocalItemsWidth > elementWidth) {
+                    break;
+                }
+            }
+            maximum = iterator + 1;
+        } else if (settings.center) {
+            maximum = this._items.length - 1;
+        } else {
+            maximum = this._items.length - settings.items;
+        }
+
+        if (relative) {
+            maximum -= this._clones.length / 2;
+        }
+
+        return Math.max(maximum, 0);
+    };
+
+    /**
+     * Gets the minimum position for the current item.
+     * @public
+     * @param {Boolean} [relative=false] - Whether to return an absolute position or a relative position.
+     * @returns {Number}
+     */
+    Owl.prototype.minimum = function(relative) {
+        return relative ? 0 : this._clones.length / 2;
+    };
+
+    /**
+     * Gets an item at the specified relative position.
+     * @public
+     * @param {Number} [position] - The relative position of the item.
+     * @return {jQuery|Array.<jQuery>} - The item at the given position or all items if no position was given.
+     */
+    Owl.prototype.items = function(position) {
+        if (position === undefined) {
+            return this._items.slice();
+        }
+
+        position = this.normalize(position, true);
+        return this._items[position];
+    };
+
+    /**
+     * Gets an item at the specified relative position.
+     * @public
+     * @param {Number} [position] - The relative position of the item.
+     * @return {jQuery|Array.<jQuery>} - The item at the given position or all items if no position was given.
+     */
+    Owl.prototype.mergers = function(position) {
+        if (position === undefined) {
+            return this._mergers.slice();
+        }
+
+        position = this.normalize(position, true);
+        return this._mergers[position];
+    };
+
+    /**
+     * Gets the absolute positions of clones for an item.
+     * @public
+     * @param {Number} [position] - The relative position of the item.
+     * @returns {Array.<Number>} - The absolute positions of clones for the item or all if no position was given.
+     */
+    Owl.prototype.clones = function(position) {
+        var odd = this._clones.length / 2,
+            even = odd + this._items.length,
+            map = function(index) { return index % 2 === 0 ? even + index / 2 : odd - (index + 1) / 2 };
+
+        if (position === undefined) {
+            return $.map(this._clones, function(v, i) { return map(i) });
+        }
+
+        return $.map(this._clones, function(v, i) { return v === position ? map(i) : null });
+    };
+
+    /**
+     * Sets the current animation speed.
+     * @public
+     * @param {Number} [speed] - The animation speed in milliseconds or nothing to leave it unchanged.
+     * @returns {Number} - The current animation speed in milliseconds.
+     */
+    Owl.prototype.speed = function(speed) {
+        if (speed !== undefined) {
+            this._speed = speed;
+        }
+
+        return this._speed;
+    };
+
+    /**
+     * Gets the coordinate of an item.
+     * @todo The name of this method is missleanding.
+     * @public
+     * @param {Number} position - The absolute position of the item within `minimum()` and `maximum()`.
+     * @returns {Number|Array.<Number>} - The coordinate of the item in pixel or all coordinates.
+     */
+    Owl.prototype.coordinates = function(position) {
+        var multiplier = 1,
+            newPosition = position - 1,
+            coordinate;
+
+        if (position === undefined) {
+            return $.map(this._coordinates, $.proxy(function(coordinate, index) {
+                return this.coordinates(index);
+            }, this));
+        }
+
+        if (this.settings.center) {
+            if (this.settings.rtl) {
+                multiplier = -1;
+                newPosition = position + 1;
+            }
+
+            coordinate = this._coordinates[position];
+            coordinate += (this.width() - coordinate + (this._coordinates[newPosition] || 0)) / 2 * multiplier;
+        } else {
+            coordinate = this._coordinates[newPosition] || 0;
+        }
+
+        coordinate = Math.ceil(coordinate);
+
+        return coordinate;
+    };
+
+    /**
+     * Calculates the speed for a translation.
+     * @protected
+     * @param {Number} from - The absolute position of the start item.
+     * @param {Number} to - The absolute position of the target item.
+     * @param {Number} [factor=undefined] - The time factor in milliseconds.
+     * @returns {Number} - The time in milliseconds for the translation.
+     */
+    Owl.prototype.duration = function(from, to, factor) {
+        if (factor === 0) {
+            return 0;
+        }
+
+        return Math.min(Math.max(Math.abs(to - from), 1), 6) * Math.abs((factor || this.settings.smartSpeed));
+    };
+
+    /**
+     * Slides to the specified item.
+     * @public
+     * @param {Number} position - The position of the item.
+     * @param {Number} [speed] - The time in milliseconds for the transition.
+     */
+    Owl.prototype.to = function(position, speed) {
+        var current = this.current(),
+            revert = null,
+            distance = position - this.relative(current),
+            direction = (distance > 0) - (distance < 0),
+            items = this._items.length,
+            minimum = this.minimum(),
+            maximum = this.maximum();
+
+        if (this.settings.loop) {
+            if (!this.settings.rewind && Math.abs(distance) > items / 2) {
+                distance += direction * -1 * items;
+            }
+
+            position = current + distance;
+            revert = ((position - minimum) % items + items) % items + minimum;
+
+            if (revert !== position && revert - distance <= maximum && revert - distance > 0) {
+                current = revert - distance;
+                position = revert;
+                this.reset(current);
+            }
+        } else if (this.settings.rewind) {
+            maximum += 1;
+            position = (position % maximum + maximum) % maximum;
+        } else {
+            position = Math.max(minimum, Math.min(maximum, position));
+        }
+
+        this.speed(this.duration(current, position, speed));
+        this.current(position);
+
+        if (this.$element.is(':visible')) {
+            this.update();
+        }
+    };
+
+    /**
+     * Slides to the next item.
+     * @public
+     * @param {Number} [speed] - The time in milliseconds for the transition.
+     */
+    Owl.prototype.next = function(speed) {
+        speed = speed || false;
+        this.to(this.relative(this.current()) + 1, speed);
+    };
+
+    /**
+     * Slides to the previous item.
+     * @public
+     * @param {Number} [speed] - The time in milliseconds for the transition.
+     */
+    Owl.prototype.prev = function(speed) {
+        speed = speed || false;
+        this.to(this.relative(this.current()) - 1, speed);
+    };
+
+    /**
+     * Handles the end of an animation.
+     * @protected
+     * @param {Event} event - The event arguments.
+     */
+    Owl.prototype.onTransitionEnd = function(event) {
+
+        // if css2 animation then event object is undefined
+        if (event !== undefined) {
+            event.stopPropagation();
+
+            // Catch only owl-stage transitionEnd event
+            if ((event.target || event.srcElement || event.originalTarget) !== this.$stage.get(0)) {
+                return false;
+            }
+        }
+
+        this.leave('animating');
+        this.trigger('translated');
+    };
+
+    /**
+     * Gets viewport width.
+     * @protected
+     * @return {Number} - The width in pixel.
+     */
+    Owl.prototype.viewport = function() {
+        var width;
+        if (this.options.responsiveBaseElement !== window) {
+            width = $(this.options.responsiveBaseElement).width();
+        } else if (window.innerWidth) {
+            width = window.innerWidth;
+        } else if (document.documentElement && document.documentElement.clientWidth) {
+            width = document.documentElement.clientWidth;
+        } else {
+            console.warn('Can not detect viewport width.');
+        }
+        return width;
+    };
+
+    /**
+     * Replaces the current content.
+     * @public
+     * @param {HTMLElement|jQuery|String} content - The new content.
+     */
+    Owl.prototype.replace = function(content) {
+        this.$stage.empty();
+        this._items = [];
+
+        if (content) {
+            content = (content instanceof jQuery) ? content : $(content);
+        }
+
+        if (this.settings.nestedItemSelector) {
+            content = content.find('.' + this.settings.nestedItemSelector);
+        }
+
+        content.filter(function() {
+            return this.nodeType === 1;
+        }).each($.proxy(function(index, item) {
+            item = this.prepare(item);
+            this.$stage.append(item);
+            this._items.push(item);
+            this._mergers.push(item.find('[data-merge]').addBack('[data-merge]').attr('data-merge') * 1 || 1);
+        }, this));
+
+        this.reset(this.isNumeric(this.settings.startPosition) ? this.settings.startPosition : 0);
+
+        this.invalidate('items');
+    };
+
+    /**
+     * Adds an item.
+     * @todo Use `item` instead of `content` for the event arguments.
+     * @public
+     * @param {HTMLElement|jQuery|String} content - The item content to add.
+     * @param {Number} [position] - The relative position at which to insert the item otherwise the item will be added to the end.
+     */
+    Owl.prototype.add = function(content, position) {
+        var current = this.relative(this._current);
+
+        position = position === undefined ? this._items.length : this.normalize(position, true);
+        content = content instanceof jQuery ? content : $(content);
+
+        this.trigger('add', { content: content, position: position });
+
+        content = this.prepare(content);
+
+        if (this._items.length === 0 || position === this._items.length) {
+            this._items.length === 0 && this.$stage.append(content);
+            this._items.length !== 0 && this._items[position - 1].after(content);
+            this._items.push(content);
+            this._mergers.push(content.find('[data-merge]').addBack('[data-merge]').attr('data-merge') * 1 || 1);
+        } else {
+            this._items[position].before(content);
+            this._items.splice(position, 0, content);
+            this._mergers.splice(position, 0, content.find('[data-merge]').addBack('[data-merge]').attr('data-merge') * 1 || 1);
+        }
+
+        this._items[current] && this.reset(this._items[current].index());
+
+        this.invalidate('items');
+
+        this.trigger('added', { content: content, position: position });
+    };
+
+    /**
+     * Removes an item by its position.
+     * @todo Use `item` instead of `content` for the event arguments.
+     * @public
+     * @param {Number} position - The relative position of the item to remove.
+     */
+    Owl.prototype.remove = function(position) {
+        position = this.normalize(position, true);
+
+        if (position === undefined) {
+            return;
+        }
+
+        this.trigger('remove', { content: this._items[position], position: position });
+
+        this._items[position].remove();
+        this._items.splice(position, 1);
+        this._mergers.splice(position, 1);
+
+        this.invalidate('items');
+
+        this.trigger('removed', { content: null, position: position });
+    };
+
+    /**
+     * Preloads images with auto width.
+     * @todo Replace by a more generic approach
+     * @protected
+     */
+    Owl.prototype.preloadAutoWidthImages = function(images) {
+        images.each($.proxy(function(i, element) {
+            this.enter('pre-loading');
+            element = $(element);
+            $(new Image()).one('load', $.proxy(function(e) {
+                element.attr('src', e.target.src);
+                element.css('opacity', 1);
+                this.leave('pre-loading');
+                !this.is('pre-loading') && !this.is('initializing') && this.refresh();
+            }, this)).attr('src', element.attr('src') || element.attr('data-src') || element.attr('data-src-retina'));
+        }, this));
+    };
+
+    /**
+     * Destroys the carousel.
+     * @public
+     */
+    Owl.prototype.destroy = function() {
+
+        this.$element.off('.owl.core');
+        this.$stage.off('.owl.core');
+        $(document).off('.owl.core');
+
+        if (this.settings.responsive !== false) {
+            window.clearTimeout(this.resizeTimer);
+            this.off(window, 'resize', this._handlers.onThrottledResize);
+        }
+
+        for (var i in this._plugins) {
+            this._plugins[i].destroy();
+        }
+
+        this.$stage.children('.cloned').remove();
+
+        this.$stage.unwrap();
+        this.$stage.children().contents().unwrap();
+        this.$stage.children().unwrap();
+
+        this.$element
+            .removeClass(this.options.refreshClass)
+            .removeClass(this.options.loadingClass)
+            .removeClass(this.options.loadedClass)
+            .removeClass(this.options.rtlClass)
+            .removeClass(this.options.dragClass)
+            .removeClass(this.options.grabClass)
+            .attr('class', this.$element.attr('class').replace(new RegExp(this.options.responsiveClass + '-\\S+\\s', 'g'), ''))
+            .removeData('owl.carousel');
+    };
+
+    /**
+     * Operators to calculate right-to-left and left-to-right.
+     * @protected
+     * @param {Number} [a] - The left side operand.
+     * @param {String} [o] - The operator.
+     * @param {Number} [b] - The right side operand.
+     */
+    Owl.prototype.op = function(a, o, b) {
+        var rtl = this.settings.rtl;
+        switch (o) {
+            case '<':
+                return rtl ? a > b : a < b;
+            case '>':
+                return rtl ? a < b : a > b;
+            case '>=':
+                return rtl ? a <= b : a >= b;
+            case '<=':
+                return rtl ? a >= b : a <= b;
+            default:
+                break;
+        }
+    };
+
+    /**
+     * Attaches to an internal event.
+     * @protected
+     * @param {HTMLElement} element - The event source.
+     * @param {String} event - The event name.
+     * @param {Function} listener - The event handler to attach.
+     * @param {Boolean} capture - Wether the event should be handled at the capturing phase or not.
+     */
+    Owl.prototype.on = function(element, event, listener, capture) {
+        if (element.addEventListener) {
+            element.addEventListener(event, listener, capture);
+        } else if (element.attachEvent) {
+            element.attachEvent('on' + event, listener);
+        }
+    };
+
+    /**
+     * Detaches from an internal event.
+     * @protected
+     * @param {HTMLElement} element - The event source.
+     * @param {String} event - The event name.
+     * @param {Function} listener - The attached event handler to detach.
+     * @param {Boolean} capture - Wether the attached event handler was registered as a capturing listener or not.
+     */
+    Owl.prototype.off = function(element, event, listener, capture) {
+        if (element.removeEventListener) {
+            element.removeEventListener(event, listener, capture);
+        } else if (element.detachEvent) {
+            element.detachEvent('on' + event, listener);
+        }
+    };
+
+    /**
+     * Triggers a public event.
+     * @todo Remove `status`, `relatedTarget` should be used instead.
+     * @protected
+     * @param {String} name - The event name.
+     * @param {*} [data=null] - The event data.
+     * @param {String} [namespace=carousel] - The event namespace.
+     * @param {String} [state] - The state which is associated with the event.
+     * @param {Boolean} [enter=false] - Indicates if the call enters the specified state or not.
+     * @returns {Event} - The event arguments.
+     */
+    Owl.prototype.trigger = function(name, data, namespace, state, enter) {
+        var status = {
+            item: { count: this._items.length, index: this.current() }
+        }, handler = $.camelCase(
+            $.grep([ 'on', name, namespace ], function(v) { return v })
+                .join('-').toLowerCase()
+        ), event = $.Event(
+            [ name, 'owl', namespace || 'carousel' ].join('.').toLowerCase(),
+            $.extend({ relatedTarget: this }, status, data)
+        );
+
+        if (!this._supress[name]) {
+            $.each(this._plugins, function(name, plugin) {
+                if (plugin.onTrigger) {
+                    plugin.onTrigger(event);
+                }
+            });
+
+            this.register({ type: Owl.Type.Event, name: name });
+            this.$element.trigger(event);
+
+            if (this.settings && typeof this.settings[handler] === 'function') {
+                this.settings[handler].call(this, event);
+            }
+        }
+
+        return event;
+    };
+
+    /**
+     * Enters a state.
+     * @param name - The state name.
+     */
+    Owl.prototype.enter = function(name) {
+        $.each([ name ].concat(this._states.tags[name] || []), $.proxy(function(i, name) {
+            if (this._states.current[name] === undefined) {
+                this._states.current[name] = 0;
+            }
+
+            this._states.current[name]++;
+        }, this));
+    };
+
+    /**
+     * Leaves a state.
+     * @param name - The state name.
+     */
+    Owl.prototype.leave = function(name) {
+        $.each([ name ].concat(this._states.tags[name] || []), $.proxy(function(i, name) {
+            this._states.current[name]--;
+        }, this));
+    };
+
+    /**
+     * Registers an event or state.
+     * @public
+     * @param {Object} object - The event or state to register.
+     */
+    Owl.prototype.register = function(object) {
+        if (object.type === Owl.Type.Event) {
+            if (!$.event.special[object.name]) {
+                $.event.special[object.name] = {};
+            }
+
+            if (!$.event.special[object.name].owl) {
+                var _default = $.event.special[object.name]._default;
+                $.event.special[object.name]._default = function(e) {
+                    if (_default && _default.apply && (!e.namespace || e.namespace.indexOf('owl') === -1)) {
+                        return _default.apply(this, arguments);
+                    }
+                    return e.namespace && e.namespace.indexOf('owl') > -1;
+                };
+                $.event.special[object.name].owl = true;
+            }
+        } else if (object.type === Owl.Type.State) {
+            if (!this._states.tags[object.name]) {
+                this._states.tags[object.name] = object.tags;
+            } else {
+                this._states.tags[object.name] = this._states.tags[object.name].concat(object.tags);
+            }
+
+            this._states.tags[object.name] = $.grep(this._states.tags[object.name], $.proxy(function(tag, i) {
+                return $.inArray(tag, this._states.tags[object.name]) === i;
+            }, this));
+        }
+    };
+
+    /**
+     * Suppresses events.
+     * @protected
+     * @param {Array.<String>} events - The events to suppress.
+     */
+    Owl.prototype.suppress = function(events) {
+        $.each(events, $.proxy(function(index, event) {
+            this._supress[event] = true;
+        }, this));
+    };
+
+    /**
+     * Releases suppressed events.
+     * @protected
+     * @param {Array.<String>} events - The events to release.
+     */
+    Owl.prototype.release = function(events) {
+        $.each(events, $.proxy(function(index, event) {
+            delete this._supress[event];
+        }, this));
+    };
+
+    /**
+     * Gets unified pointer coordinates from event.
+     * @todo #261
+     * @protected
+     * @param {Event} - The `mousedown` or `touchstart` event.
+     * @returns {Object} - Contains `x` and `y` coordinates of current pointer position.
+     */
+    Owl.prototype.pointer = function(event) {
+        var result = { x: null, y: null };
+
+        event = event.originalEvent || event || window.event;
+
+        event = event.touches && event.touches.length ?
+            event.touches[0] : event.changedTouches && event.changedTouches.length ?
+                event.changedTouches[0] : event;
+
+        if (event.pageX) {
+            result.x = event.pageX;
+            result.y = event.pageY;
+        } else {
+            result.x = event.clientX;
+            result.y = event.clientY;
+        }
+
+        return result;
+    };
+
+    /**
+     * Determines if the input is a Number or something that can be coerced to a Number
+     * @protected
+     * @param {Number|String|Object|Array|Boolean|RegExp|Function|Symbol} - The input to be tested
+     * @returns {Boolean} - An indication if the input is a Number or can be coerced to a Number
+     */
+    Owl.prototype.isNumeric = function(number) {
+        return !isNaN(parseFloat(number));
+    };
+
+    /**
+     * Gets the difference of two vectors.
+     * @todo #261
+     * @protected
+     * @param {Object} - The first vector.
+     * @param {Object} - The second vector.
+     * @returns {Object} - The difference.
+     */
+    Owl.prototype.difference = function(first, second) {
+        return {
+            x: first.x - second.x,
+            y: first.y - second.y
+        };
+    };
+
+    /**
+     * The jQuery Plugin for the Owl Carousel
+     * @todo Navigation plugin `next` and `prev`
+     * @public
+     */
+    $.fn.owlCarousel = function(option) {
+        var args = Array.prototype.slice.call(arguments, 1);
+
+        return this.each(function() {
+            var $this = $(this),
+                data = $this.data('owl.carousel');
+
+            if (!data) {
+                data = new Owl(this, typeof option == 'object' && option);
+                $this.data('owl.carousel', data);
+
+                $.each([
+                    'next', 'prev', 'to', 'destroy', 'refresh', 'replace', 'add', 'remove'
+                ], function(i, event) {
+                    data.register({ type: Owl.Type.Event, name: event });
+                    data.$element.on(event + '.owl.carousel.core', $.proxy(function(e) {
+                        if (e.namespace && e.relatedTarget !== this) {
+                            this.suppress([ event ]);
+                            data[event].apply(this, [].slice.call(arguments, 1));
+                            this.release([ event ]);
+                        }
+                    }, data));
+                });
+            }
+
+            if (typeof option == 'string' && option.charAt(0) !== '_') {
+                data[option].apply(data, args);
+            }
+        });
+    };
+
+    /**
+     * The constructor for the jQuery Plugin
+     * @public
+     */
+    $.fn.owlCarousel.Constructor = Owl;
 
 })(window.Zepto || window.jQuery, window, document);
 
@@ -11906,106 +11906,106 @@ var objectFitImages = (function () {
  */
 ;(function($, window, document, undefined) {
 
-	/**
-	 * Creates the auto refresh plugin.
-	 * @class The Auto Refresh Plugin
-	 * @param {Owl} carousel - The Owl Carousel
-	 */
-	var AutoRefresh = function(carousel) {
-		/**
-		 * Reference to the core.
-		 * @protected
-		 * @type {Owl}
-		 */
-		this._core = carousel;
+    /**
+     * Creates the auto refresh plugin.
+     * @class The Auto Refresh Plugin
+     * @param {Owl} carousel - The Owl Carousel
+     */
+    var AutoRefresh = function(carousel) {
+        /**
+         * Reference to the core.
+         * @protected
+         * @type {Owl}
+         */
+        this._core = carousel;
 
-		/**
-		 * Refresh interval.
-		 * @protected
-		 * @type {number}
-		 */
-		this._interval = null;
+        /**
+         * Refresh interval.
+         * @protected
+         * @type {number}
+         */
+        this._interval = null;
 
-		/**
-		 * Whether the element is currently visible or not.
-		 * @protected
-		 * @type {Boolean}
-		 */
-		this._visible = null;
+        /**
+         * Whether the element is currently visible or not.
+         * @protected
+         * @type {Boolean}
+         */
+        this._visible = null;
 
-		/**
-		 * All event handlers.
-		 * @protected
-		 * @type {Object}
-		 */
-		this._handlers = {
-			'initialized.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && this._core.settings.autoRefresh) {
-					this.watch();
-				}
-			}, this)
-		};
+        /**
+         * All event handlers.
+         * @protected
+         * @type {Object}
+         */
+        this._handlers = {
+            'initialized.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && this._core.settings.autoRefresh) {
+                    this.watch();
+                }
+            }, this)
+        };
 
-		// set default options
-		this._core.options = $.extend({}, AutoRefresh.Defaults, this._core.options);
+        // set default options
+        this._core.options = $.extend({}, AutoRefresh.Defaults, this._core.options);
 
-		// register event handlers
-		this._core.$element.on(this._handlers);
-	};
+        // register event handlers
+        this._core.$element.on(this._handlers);
+    };
 
-	/**
-	 * Default options.
-	 * @public
-	 */
-	AutoRefresh.Defaults = {
-		autoRefresh: true,
-		autoRefreshInterval: 500
-	};
+    /**
+     * Default options.
+     * @public
+     */
+    AutoRefresh.Defaults = {
+        autoRefresh: true,
+        autoRefreshInterval: 500
+    };
 
-	/**
-	 * Watches the element.
-	 */
-	AutoRefresh.prototype.watch = function() {
-		if (this._interval) {
-			return;
-		}
+    /**
+     * Watches the element.
+     */
+    AutoRefresh.prototype.watch = function() {
+        if (this._interval) {
+            return;
+        }
 
-		this._visible = this._core.$element.is(':visible');
-		this._interval = window.setInterval($.proxy(this.refresh, this), this._core.settings.autoRefreshInterval);
-	};
+        this._visible = this._core.$element.is(':visible');
+        this._interval = window.setInterval($.proxy(this.refresh, this), this._core.settings.autoRefreshInterval);
+    };
 
-	/**
-	 * Refreshes the element.
-	 */
-	AutoRefresh.prototype.refresh = function() {
-		if (this._core.$element.is(':visible') === this._visible) {
-			return;
-		}
+    /**
+     * Refreshes the element.
+     */
+    AutoRefresh.prototype.refresh = function() {
+        if (this._core.$element.is(':visible') === this._visible) {
+            return;
+        }
 
-		this._visible = !this._visible;
+        this._visible = !this._visible;
 
-		this._core.$element.toggleClass('owl-hidden', !this._visible);
+        this._core.$element.toggleClass('owl-hidden', !this._visible);
 
-		this._visible && (this._core.invalidate('width') && this._core.refresh());
-	};
+        this._visible && (this._core.invalidate('width') && this._core.refresh());
+    };
 
-	/**
-	 * Destroys the plugin.
-	 */
-	AutoRefresh.prototype.destroy = function() {
-		var handler, property;
+    /**
+     * Destroys the plugin.
+     */
+    AutoRefresh.prototype.destroy = function() {
+        var handler, property;
 
-		window.clearInterval(this._interval);
+        window.clearInterval(this._interval);
 
-		for (handler in this._handlers) {
-			this._core.$element.off(handler, this._handlers[handler]);
-		}
-		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
-		}
-	};
+        for (handler in this._handlers) {
+            this._core.$element.off(handler, this._handlers[handler]);
+        }
+        for (property in Object.getOwnPropertyNames(this)) {
+            typeof this[property] != 'function' && (this[property] = null);
+        }
+    };
 
-	$.fn.owlCarousel.Constructor.Plugins.AutoRefresh = AutoRefresh;
+    $.fn.owlCarousel.Constructor.Plugins.AutoRefresh = AutoRefresh;
 
 })(window.Zepto || window.jQuery, window, document);
 
@@ -12018,130 +12018,130 @@ var objectFitImages = (function () {
  */
 ;(function($, window, document, undefined) {
 
-	/**
-	 * Creates the lazy plugin.
-	 * @class The Lazy Plugin
-	 * @param {Owl} carousel - The Owl Carousel
-	 */
-	var Lazy = function(carousel) {
+    /**
+     * Creates the lazy plugin.
+     * @class The Lazy Plugin
+     * @param {Owl} carousel - The Owl Carousel
+     */
+    var Lazy = function(carousel) {
 
-		/**
-		 * Reference to the core.
-		 * @protected
-		 * @type {Owl}
-		 */
-		this._core = carousel;
+        /**
+         * Reference to the core.
+         * @protected
+         * @type {Owl}
+         */
+        this._core = carousel;
 
-		/**
-		 * Already loaded items.
-		 * @protected
-		 * @type {Array.<jQuery>}
-		 */
-		this._loaded = [];
+        /**
+         * Already loaded items.
+         * @protected
+         * @type {Array.<jQuery>}
+         */
+        this._loaded = [];
 
-		/**
-		 * Event handlers.
-		 * @protected
-		 * @type {Object}
-		 */
-		this._handlers = {
-			'initialized.owl.carousel change.owl.carousel resized.owl.carousel': $.proxy(function(e) {
-				if (!e.namespace) {
-					return;
-				}
+        /**
+         * Event handlers.
+         * @protected
+         * @type {Object}
+         */
+        this._handlers = {
+            'initialized.owl.carousel change.owl.carousel resized.owl.carousel': $.proxy(function(e) {
+                if (!e.namespace) {
+                    return;
+                }
 
-				if (!this._core.settings || !this._core.settings.lazyLoad) {
-					return;
-				}
+                if (!this._core.settings || !this._core.settings.lazyLoad) {
+                    return;
+                }
 
-				if ((e.property && e.property.name == 'position') || e.type == 'initialized') {
-					var settings = this._core.settings,
-						n = (settings.center && Math.ceil(settings.items / 2) || settings.items),
-						i = ((settings.center && n * -1) || 0),
-						position = (e.property && e.property.value !== undefined ? e.property.value : this._core.current()) + i,
-						clones = this._core.clones().length,
-						load = $.proxy(function(i, v) { this.load(v) }, this);
+                if ((e.property && e.property.name == 'position') || e.type == 'initialized') {
+                    var settings = this._core.settings,
+                        n = (settings.center && Math.ceil(settings.items / 2) || settings.items),
+                        i = ((settings.center && n * -1) || 0),
+                        position = (e.property && e.property.value !== undefined ? e.property.value : this._core.current()) + i,
+                        clones = this._core.clones().length,
+                        load = $.proxy(function(i, v) { this.load(v) }, this);
 
-					while (i++ < n) {
-						this.load(clones / 2 + this._core.relative(position));
-						clones && $.each(this._core.clones(this._core.relative(position)), load);
-						position++;
-					}
-				}
-			}, this)
-		};
+                    while (i++ < n) {
+                        this.load(clones / 2 + this._core.relative(position));
+                        clones && $.each(this._core.clones(this._core.relative(position)), load);
+                        position++;
+                    }
+                }
+            }, this)
+        };
 
-		// set the default options
-		this._core.options = $.extend({}, Lazy.Defaults, this._core.options);
+        // set the default options
+        this._core.options = $.extend({}, Lazy.Defaults, this._core.options);
 
-		// register event handler
-		this._core.$element.on(this._handlers);
-	};
+        // register event handler
+        this._core.$element.on(this._handlers);
+    };
 
-	/**
-	 * Default options.
-	 * @public
-	 */
-	Lazy.Defaults = {
-		lazyLoad: false
-	};
+    /**
+     * Default options.
+     * @public
+     */
+    Lazy.Defaults = {
+        lazyLoad: false
+    };
 
-	/**
-	 * Loads all resources of an item at the specified position.
-	 * @param {Number} position - The absolute position of the item.
-	 * @protected
-	 */
-	Lazy.prototype.load = function(position) {
-		var $item = this._core.$stage.children().eq(position),
-			$elements = $item && $item.find('.owl-lazy');
+    /**
+     * Loads all resources of an item at the specified position.
+     * @param {Number} position - The absolute position of the item.
+     * @protected
+     */
+    Lazy.prototype.load = function(position) {
+        var $item = this._core.$stage.children().eq(position),
+            $elements = $item && $item.find('.owl-lazy');
 
-		if (!$elements || $.inArray($item.get(0), this._loaded) > -1) {
-			return;
-		}
+        if (!$elements || $.inArray($item.get(0), this._loaded) > -1) {
+            return;
+        }
 
-		$elements.each($.proxy(function(index, element) {
-			var $element = $(element), image,
-				url = (window.devicePixelRatio > 1 && $element.attr('data-src-retina')) || $element.attr('data-src');
+        $elements.each($.proxy(function(index, element) {
+            var $element = $(element), image,
+                url = (window.devicePixelRatio > 1 && $element.attr('data-src-retina')) || $element.attr('data-src');
 
-			this._core.trigger('load', { element: $element, url: url }, 'lazy');
+            this._core.trigger('load', { element: $element, url: url }, 'lazy');
 
-			if ($element.is('img')) {
-				$element.one('load.owl.lazy', $.proxy(function() {
-					$element.css('opacity', 1);
-					this._core.trigger('loaded', { element: $element, url: url }, 'lazy');
-				}, this)).attr('src', url);
-			} else {
-				image = new Image();
-				image.onload = $.proxy(function() {
-					$element.css({
-						'background-image': 'url("' + url + '")',
-						'opacity': '1'
-					});
-					this._core.trigger('loaded', { element: $element, url: url }, 'lazy');
-				}, this);
-				image.src = url;
-			}
-		}, this));
+            if ($element.is('img')) {
+                $element.one('load.owl.lazy', $.proxy(function() {
+                    $element.css('opacity', 1);
+                    this._core.trigger('loaded', { element: $element, url: url }, 'lazy');
+                }, this)).attr('src', url);
+            } else {
+                image = new Image();
+                image.onload = $.proxy(function() {
+                    $element.css({
+                        'background-image': 'url("' + url + '")',
+                        'opacity': '1'
+                    });
+                    this._core.trigger('loaded', { element: $element, url: url }, 'lazy');
+                }, this);
+                image.src = url;
+            }
+        }, this));
 
-		this._loaded.push($item.get(0));
-	};
+        this._loaded.push($item.get(0));
+    };
 
-	/**
-	 * Destroys the plugin.
-	 * @public
-	 */
-	Lazy.prototype.destroy = function() {
-		var handler, property;
+    /**
+     * Destroys the plugin.
+     * @public
+     */
+    Lazy.prototype.destroy = function() {
+        var handler, property;
 
-		for (handler in this.handlers) {
-			this._core.$element.off(handler, this.handlers[handler]);
-		}
-		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
-		}
-	};
+        for (handler in this.handlers) {
+            this._core.$element.off(handler, this.handlers[handler]);
+        }
+        for (property in Object.getOwnPropertyNames(this)) {
+            typeof this[property] != 'function' && (this[property] = null);
+        }
+    };
 
-	$.fn.owlCarousel.Constructor.Plugins.Lazy = Lazy;
+    $.fn.owlCarousel.Constructor.Plugins.Lazy = Lazy;
 
 })(window.Zepto || window.jQuery, window, document);
 
@@ -12154,92 +12154,92 @@ var objectFitImages = (function () {
  */
 ;(function($, window, document, undefined) {
 
-	/**
-	 * Creates the auto height plugin.
-	 * @class The Auto Height Plugin
-	 * @param {Owl} carousel - The Owl Carousel
-	 */
-	var AutoHeight = function(carousel) {
-		/**
-		 * Reference to the core.
-		 * @protected
-		 * @type {Owl}
-		 */
-		this._core = carousel;
+    /**
+     * Creates the auto height plugin.
+     * @class The Auto Height Plugin
+     * @param {Owl} carousel - The Owl Carousel
+     */
+    var AutoHeight = function(carousel) {
+        /**
+         * Reference to the core.
+         * @protected
+         * @type {Owl}
+         */
+        this._core = carousel;
 
-		/**
-		 * All event handlers.
-		 * @protected
-		 * @type {Object}
-		 */
-		this._handlers = {
-			'initialized.owl.carousel refreshed.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && this._core.settings.autoHeight) {
-					this.update();
-				}
-			}, this),
-			'changed.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && this._core.settings.autoHeight && e.property.name == 'position'){
-					this.update();
-				}
-			}, this),
-			'loaded.owl.lazy': $.proxy(function(e) {
-				if (e.namespace && this._core.settings.autoHeight
-					&& e.element.closest('.' + this._core.settings.itemClass).index() === this._core.current()) {
-					this.update();
-				}
-			}, this)
-		};
+        /**
+         * All event handlers.
+         * @protected
+         * @type {Object}
+         */
+        this._handlers = {
+            'initialized.owl.carousel refreshed.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && this._core.settings.autoHeight) {
+                    this.update();
+                }
+            }, this),
+            'changed.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && this._core.settings.autoHeight && e.property.name == 'position'){
+                    this.update();
+                }
+            }, this),
+            'loaded.owl.lazy': $.proxy(function(e) {
+                if (e.namespace && this._core.settings.autoHeight
+                    && e.element.closest('.' + this._core.settings.itemClass).index() === this._core.current()) {
+                    this.update();
+                }
+            }, this)
+        };
 
-		// set default options
-		this._core.options = $.extend({}, AutoHeight.Defaults, this._core.options);
+        // set default options
+        this._core.options = $.extend({}, AutoHeight.Defaults, this._core.options);
 
-		// register event handlers
-		this._core.$element.on(this._handlers);
-	};
+        // register event handlers
+        this._core.$element.on(this._handlers);
+    };
 
-	/**
-	 * Default options.
-	 * @public
-	 */
-	AutoHeight.Defaults = {
-		autoHeight: false,
-		autoHeightClass: 'owl-height'
-	};
+    /**
+     * Default options.
+     * @public
+     */
+    AutoHeight.Defaults = {
+        autoHeight: false,
+        autoHeightClass: 'owl-height'
+    };
 
-	/**
-	 * Updates the view.
-	 */
-	AutoHeight.prototype.update = function() {
-		var start = this._core._current,
-			end = start + this._core.settings.items,
-			visible = this._core.$stage.children().toArray().slice(start, end),
-			heights = [],
-			maxheight = 0;
+    /**
+     * Updates the view.
+     */
+    AutoHeight.prototype.update = function() {
+        var start = this._core._current,
+            end = start + this._core.settings.items,
+            visible = this._core.$stage.children().toArray().slice(start, end),
+            heights = [],
+            maxheight = 0;
 
-		$.each(visible, function(index, item) {
-			heights.push($(item).height());
-		});
+        $.each(visible, function(index, item) {
+            heights.push($(item).height());
+        });
 
-		maxheight = Math.max.apply(null, heights);
+        maxheight = Math.max.apply(null, heights);
 
-		this._core.$stage.parent()
-			.height(maxheight)
-			.addClass(this._core.settings.autoHeightClass);
-	};
+        this._core.$stage.parent()
+            .height(maxheight)
+            .addClass(this._core.settings.autoHeightClass);
+    };
 
-	AutoHeight.prototype.destroy = function() {
-		var handler, property;
+    AutoHeight.prototype.destroy = function() {
+        var handler, property;
 
-		for (handler in this._handlers) {
-			this._core.$element.off(handler, this._handlers[handler]);
-		}
-		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
-		}
-	};
+        for (handler in this._handlers) {
+            this._core.$element.off(handler, this._handlers[handler]);
+        }
+        for (property in Object.getOwnPropertyNames(this)) {
+            typeof this[property] != 'function' && (this[property] = null);
+        }
+    };
 
-	$.fn.owlCarousel.Constructor.Plugins.AutoHeight = AutoHeight;
+    $.fn.owlCarousel.Constructor.Plugins.AutoHeight = AutoHeight;
 
 })(window.Zepto || window.jQuery, window, document);
 
@@ -12252,119 +12252,119 @@ var objectFitImages = (function () {
  */
 ;(function($, window, document, undefined) {
 
-	/**
-	 * Creates the video plugin.
-	 * @class The Video Plugin
-	 * @param {Owl} carousel - The Owl Carousel
-	 */
-	var Video = function(carousel) {
-		/**
-		 * Reference to the core.
-		 * @protected
-		 * @type {Owl}
-		 */
-		this._core = carousel;
+    /**
+     * Creates the video plugin.
+     * @class The Video Plugin
+     * @param {Owl} carousel - The Owl Carousel
+     */
+    var Video = function(carousel) {
+        /**
+         * Reference to the core.
+         * @protected
+         * @type {Owl}
+         */
+        this._core = carousel;
 
-		/**
-		 * Cache all video URLs.
-		 * @protected
-		 * @type {Object}
-		 */
-		this._videos = {};
+        /**
+         * Cache all video URLs.
+         * @protected
+         * @type {Object}
+         */
+        this._videos = {};
 
-		/**
-		 * Current playing item.
-		 * @protected
-		 * @type {jQuery}
-		 */
-		this._playing = null;
+        /**
+         * Current playing item.
+         * @protected
+         * @type {jQuery}
+         */
+        this._playing = null;
 
-		/**
-		 * All event handlers.
-		 * @todo The cloned content removale is too late
-		 * @protected
-		 * @type {Object}
-		 */
-		this._handlers = {
-			'initialized.owl.carousel': $.proxy(function(e) {
-				if (e.namespace) {
-					this._core.register({ type: 'state', name: 'playing', tags: [ 'interacting' ] });
-				}
-			}, this),
-			'resize.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && this._core.settings.video && this.isInFullScreen()) {
-					e.preventDefault();
-				}
-			}, this),
-			'refreshed.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && this._core.is('resizing')) {
-					this._core.$stage.find('.cloned .owl-video-frame').remove();
-				}
-			}, this),
-			'changed.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && e.property.name === 'position' && this._playing) {
-					this.stop();
-				}
-			}, this),
-			'prepared.owl.carousel': $.proxy(function(e) {
-				if (!e.namespace) {
-					return;
-				}
+        /**
+         * All event handlers.
+         * @todo The cloned content removale is too late
+         * @protected
+         * @type {Object}
+         */
+        this._handlers = {
+            'initialized.owl.carousel': $.proxy(function(e) {
+                if (e.namespace) {
+                    this._core.register({ type: 'state', name: 'playing', tags: [ 'interacting' ] });
+                }
+            }, this),
+            'resize.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && this._core.settings.video && this.isInFullScreen()) {
+                    e.preventDefault();
+                }
+            }, this),
+            'refreshed.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && this._core.is('resizing')) {
+                    this._core.$stage.find('.cloned .owl-video-frame').remove();
+                }
+            }, this),
+            'changed.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && e.property.name === 'position' && this._playing) {
+                    this.stop();
+                }
+            }, this),
+            'prepared.owl.carousel': $.proxy(function(e) {
+                if (!e.namespace) {
+                    return;
+                }
 
-				var $element = $(e.content).find('.owl-video');
+                var $element = $(e.content).find('.owl-video');
 
-				if ($element.length) {
-					$element.css('display', 'none');
-					this.fetch($element, $(e.content));
-				}
-			}, this)
-		};
+                if ($element.length) {
+                    $element.css('display', 'none');
+                    this.fetch($element, $(e.content));
+                }
+            }, this)
+        };
 
-		// set default options
-		this._core.options = $.extend({}, Video.Defaults, this._core.options);
+        // set default options
+        this._core.options = $.extend({}, Video.Defaults, this._core.options);
 
-		// register event handlers
-		this._core.$element.on(this._handlers);
+        // register event handlers
+        this._core.$element.on(this._handlers);
 
-		this._core.$element.on('click.owl.video', '.owl-video-play-icon', $.proxy(function(e) {
-			this.play(e);
-		}, this));
-	};
+        this._core.$element.on('click.owl.video', '.owl-video-play-icon', $.proxy(function(e) {
+            this.play(e);
+        }, this));
+    };
 
-	/**
-	 * Default options.
-	 * @public
-	 */
-	Video.Defaults = {
-		video: false,
-		videoHeight: false,
-		videoWidth: false
-	};
+    /**
+     * Default options.
+     * @public
+     */
+    Video.Defaults = {
+        video: false,
+        videoHeight: false,
+        videoWidth: false
+    };
 
-	/**
-	 * Gets the video ID and the type (YouTube/Vimeo/vzaar only).
-	 * @protected
-	 * @param {jQuery} target - The target containing the video data.
-	 * @param {jQuery} item - The item containing the video.
-	 */
-	Video.prototype.fetch = function(target, item) {
-			var type = (function() {
-					if (target.attr('data-vimeo-id')) {
-						return 'vimeo';
-					} else if (target.attr('data-vzaar-id')) {
-						return 'vzaar'
-					} else {
-						return 'youtube';
-					}
-				})(),
-				id = target.attr('data-vimeo-id') || target.attr('data-youtube-id') || target.attr('data-vzaar-id'),
-				width = target.attr('data-width') || this._core.settings.videoWidth,
-				height = target.attr('data-height') || this._core.settings.videoHeight,
-				url = target.attr('href');
+    /**
+     * Gets the video ID and the type (YouTube/Vimeo/vzaar only).
+     * @protected
+     * @param {jQuery} target - The target containing the video data.
+     * @param {jQuery} item - The item containing the video.
+     */
+    Video.prototype.fetch = function(target, item) {
+        var type = (function() {
+                if (target.attr('data-vimeo-id')) {
+                    return 'vimeo';
+                } else if (target.attr('data-vzaar-id')) {
+                    return 'vzaar'
+                } else {
+                    return 'youtube';
+                }
+            })(),
+            id = target.attr('data-vimeo-id') || target.attr('data-youtube-id') || target.attr('data-vzaar-id'),
+            width = target.attr('data-width') || this._core.settings.videoWidth,
+            height = target.attr('data-height') || this._core.settings.videoHeight,
+            url = target.attr('href');
 
-		if (url) {
+        if (url) {
 
-			/*
+            /*
 					Parses the id's out of the following urls (and probably more):
 					https://www.youtube.com/watch?v=:id
 					https://youtu.be/:id
@@ -12376,190 +12376,190 @@ var objectFitImages = (function () {
 					Visual example: https://regexper.com/#(http%3A%7Chttps%3A%7C)%5C%2F%5C%2F(player.%7Cwww.%7Capp.)%3F(vimeo%5C.com%7Cyoutu(be%5C.com%7C%5C.be%7Cbe%5C.googleapis%5C.com)%7Cvzaar%5C.com)%5C%2F(video%5C%2F%7Cvideos%5C%2F%7Cembed%5C%2F%7Cchannels%5C%2F.%2B%5C%2F%7Cgroups%5C%2F.%2B%5C%2F%7Cwatch%5C%3Fv%3D%7Cv%5C%2F)%3F(%5BA-Za-z0-9._%25-%5D*)(%5C%26%5CS%2B)%3F
 			*/
 
-			id = url.match(/(http:|https:|)\/\/(player.|www.|app.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com)|vzaar\.com)\/(video\/|videos\/|embed\/|channels\/.+\/|groups\/.+\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/);
+            id = url.match(/(http:|https:|)\/\/(player.|www.|app.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com)|vzaar\.com)\/(video\/|videos\/|embed\/|channels\/.+\/|groups\/.+\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/);
 
-			if (id[3].indexOf('youtu') > -1) {
-				type = 'youtube';
-			} else if (id[3].indexOf('vimeo') > -1) {
-				type = 'vimeo';
-			} else if (id[3].indexOf('vzaar') > -1) {
-				type = 'vzaar';
-			} else {
-				throw new Error('Video URL not supported.');
-			}
-			id = id[6];
-		} else {
-			throw new Error('Missing video URL.');
-		}
+            if (id[3].indexOf('youtu') > -1) {
+                type = 'youtube';
+            } else if (id[3].indexOf('vimeo') > -1) {
+                type = 'vimeo';
+            } else if (id[3].indexOf('vzaar') > -1) {
+                type = 'vzaar';
+            } else {
+                throw new Error('Video URL not supported.');
+            }
+            id = id[6];
+        } else {
+            throw new Error('Missing video URL.');
+        }
 
-		this._videos[url] = {
-			type: type,
-			id: id,
-			width: width,
-			height: height
-		};
+        this._videos[url] = {
+            type: type,
+            id: id,
+            width: width,
+            height: height
+        };
 
-		item.attr('data-video', url);
+        item.attr('data-video', url);
 
-		this.thumbnail(target, this._videos[url]);
-	};
+        this.thumbnail(target, this._videos[url]);
+    };
 
-	/**
-	 * Creates video thumbnail.
-	 * @protected
-	 * @param {jQuery} target - The target containing the video data.
-	 * @param {Object} info - The video info object.
-	 * @see `fetch`
-	 */
-	Video.prototype.thumbnail = function(target, video) {
-		var tnLink,
-			icon,
-			path,
-			dimensions = video.width && video.height ? 'style="width:' + video.width + 'px;height:' + video.height + 'px;"' : '',
-			customTn = target.find('img'),
-			srcType = 'src',
-			lazyClass = '',
-			settings = this._core.settings,
-			create = function(path) {
-				icon = '<div class="owl-video-play-icon"></div>';
+    /**
+     * Creates video thumbnail.
+     * @protected
+     * @param {jQuery} target - The target containing the video data.
+     * @param {Object} info - The video info object.
+     * @see `fetch`
+     */
+    Video.prototype.thumbnail = function(target, video) {
+        var tnLink,
+            icon,
+            path,
+            dimensions = video.width && video.height ? 'style="width:' + video.width + 'px;height:' + video.height + 'px;"' : '',
+            customTn = target.find('img'),
+            srcType = 'src',
+            lazyClass = '',
+            settings = this._core.settings,
+            create = function(path) {
+                icon = '<div class="owl-video-play-icon"></div>';
 
-				if (settings.lazyLoad) {
-					tnLink = '<div class="owl-video-tn ' + lazyClass + '" ' + srcType + '="' + path + '"></div>';
-				} else {
-					tnLink = '<div class="owl-video-tn" style="opacity:1;background-image:url(' + path + ')"></div>';
-				}
-				target.after(tnLink);
-				target.after(icon);
-			};
+                if (settings.lazyLoad) {
+                    tnLink = '<div class="owl-video-tn ' + lazyClass + '" ' + srcType + '="' + path + '"></div>';
+                } else {
+                    tnLink = '<div class="owl-video-tn" style="opacity:1;background-image:url(' + path + ')"></div>';
+                }
+                target.after(tnLink);
+                target.after(icon);
+            };
 
-		// wrap video content into owl-video-wrapper div
-		target.wrap('<div class="owl-video-wrapper"' + dimensions + '></div>');
+        // wrap video content into owl-video-wrapper div
+        target.wrap('<div class="owl-video-wrapper"' + dimensions + '></div>');
 
-		if (this._core.settings.lazyLoad) {
-			srcType = 'data-src';
-			lazyClass = 'owl-lazy';
-		}
+        if (this._core.settings.lazyLoad) {
+            srcType = 'data-src';
+            lazyClass = 'owl-lazy';
+        }
 
-		// custom thumbnail
-		if (customTn.length) {
-			create(customTn.attr(srcType));
-			customTn.remove();
-			return false;
-		}
+        // custom thumbnail
+        if (customTn.length) {
+            create(customTn.attr(srcType));
+            customTn.remove();
+            return false;
+        }
 
-		if (video.type === 'youtube') {
-			path = "//img.youtube.com/vi/" + video.id + "/hqdefault.jpg";
-			create(path);
-		} else if (video.type === 'vimeo') {
-			$.ajax({
-				type: 'GET',
-				url: '//vimeo.com/api/v2/video/' + video.id + '.json',
-				jsonp: 'callback',
-				dataType: 'jsonp',
-				success: function(data) {
-					path = data[0].thumbnail_large;
-					create(path);
-				}
-			});
-		} else if (video.type === 'vzaar') {
-			$.ajax({
-				type: 'GET',
-				url: '//vzaar.com/api/videos/' + video.id + '.json',
-				jsonp: 'callback',
-				dataType: 'jsonp',
-				success: function(data) {
-					path = data.framegrab_url;
-					create(path);
-				}
-			});
-		}
-	};
+        if (video.type === 'youtube') {
+            path = "//img.youtube.com/vi/" + video.id + "/hqdefault.jpg";
+            create(path);
+        } else if (video.type === 'vimeo') {
+            $.ajax({
+                type: 'GET',
+                url: '//vimeo.com/api/v2/video/' + video.id + '.json',
+                jsonp: 'callback',
+                dataType: 'jsonp',
+                success: function(data) {
+                    path = data[0].thumbnail_large;
+                    create(path);
+                }
+            });
+        } else if (video.type === 'vzaar') {
+            $.ajax({
+                type: 'GET',
+                url: '//vzaar.com/api/videos/' + video.id + '.json',
+                jsonp: 'callback',
+                dataType: 'jsonp',
+                success: function(data) {
+                    path = data.framegrab_url;
+                    create(path);
+                }
+            });
+        }
+    };
 
-	/**
-	 * Stops the current video.
-	 * @public
-	 */
-	Video.prototype.stop = function() {
-		this._core.trigger('stop', null, 'video');
-		this._playing.find('.owl-video-frame').remove();
-		this._playing.removeClass('owl-video-playing');
-		this._playing = null;
-		this._core.leave('playing');
-		this._core.trigger('stopped', null, 'video');
-	};
+    /**
+     * Stops the current video.
+     * @public
+     */
+    Video.prototype.stop = function() {
+        this._core.trigger('stop', null, 'video');
+        this._playing.find('.owl-video-frame').remove();
+        this._playing.removeClass('owl-video-playing');
+        this._playing = null;
+        this._core.leave('playing');
+        this._core.trigger('stopped', null, 'video');
+    };
 
-	/**
-	 * Starts the current video.
-	 * @public
-	 * @param {Event} event - The event arguments.
-	 */
-	Video.prototype.play = function(event) {
-		var target = $(event.target),
-			item = target.closest('.' + this._core.settings.itemClass),
-			video = this._videos[item.attr('data-video')],
-			width = video.width || '100%',
-			height = video.height || this._core.$stage.height(),
-			html;
+    /**
+     * Starts the current video.
+     * @public
+     * @param {Event} event - The event arguments.
+     */
+    Video.prototype.play = function(event) {
+        var target = $(event.target),
+            item = target.closest('.' + this._core.settings.itemClass),
+            video = this._videos[item.attr('data-video')],
+            width = video.width || '100%',
+            height = video.height || this._core.$stage.height(),
+            html;
 
-		if (this._playing) {
-			return;
-		}
+        if (this._playing) {
+            return;
+        }
 
-		this._core.enter('playing');
-		this._core.trigger('play', null, 'video');
+        this._core.enter('playing');
+        this._core.trigger('play', null, 'video');
 
-		item = this._core.items(this._core.relative(item.index()));
+        item = this._core.items(this._core.relative(item.index()));
 
-		this._core.reset(item.index());
+        this._core.reset(item.index());
 
-		if (video.type === 'youtube') {
-			html = '<iframe width="' + width + '" height="' + height + '" src="//www.youtube.com/embed/' +
-				video.id + '?autoplay=1&rel=0&v=' + video.id + '" frameborder="0" allowfullscreen></iframe>';
-		} else if (video.type === 'vimeo') {
-			html = '<iframe src="//player.vimeo.com/video/' + video.id +
-				'?autoplay=1" width="' + width + '" height="' + height +
-				'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
-		} else if (video.type === 'vzaar') {
-			html = '<iframe frameborder="0"' + 'height="' + height + '"' + 'width="' + width +
-				'" allowfullscreen mozallowfullscreen webkitAllowFullScreen ' +
-				'src="//view.vzaar.com/' + video.id + '/player?autoplay=true"></iframe>';
-		}
+        if (video.type === 'youtube') {
+            html = '<iframe width="' + width + '" height="' + height + '" src="//www.youtube.com/embed/' +
+                video.id + '?autoplay=1&rel=0&v=' + video.id + '" frameborder="0" allowfullscreen></iframe>';
+        } else if (video.type === 'vimeo') {
+            html = '<iframe src="//player.vimeo.com/video/' + video.id +
+                '?autoplay=1" width="' + width + '" height="' + height +
+                '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+        } else if (video.type === 'vzaar') {
+            html = '<iframe frameborder="0"' + 'height="' + height + '"' + 'width="' + width +
+                '" allowfullscreen mozallowfullscreen webkitAllowFullScreen ' +
+                'src="//view.vzaar.com/' + video.id + '/player?autoplay=true"></iframe>';
+        }
 
-		$('<div class="owl-video-frame">' + html + '</div>').insertAfter(item.find('.owl-video'));
+        $('<div class="owl-video-frame">' + html + '</div>').insertAfter(item.find('.owl-video'));
 
-		this._playing = item.addClass('owl-video-playing');
-	};
+        this._playing = item.addClass('owl-video-playing');
+    };
 
-	/**
-	 * Checks whether an video is currently in full screen mode or not.
-	 * @todo Bad style because looks like a readonly method but changes members.
-	 * @protected
-	 * @returns {Boolean}
-	 */
-	Video.prototype.isInFullScreen = function() {
-		var element = document.fullscreenElement || document.mozFullScreenElement ||
-				document.webkitFullscreenElement;
+    /**
+     * Checks whether an video is currently in full screen mode or not.
+     * @todo Bad style because looks like a readonly method but changes members.
+     * @protected
+     * @returns {Boolean}
+     */
+    Video.prototype.isInFullScreen = function() {
+        var element = document.fullscreenElement || document.mozFullScreenElement ||
+            document.webkitFullscreenElement;
 
-		return element && $(element).parent().hasClass('owl-video-frame');
-	};
+        return element && $(element).parent().hasClass('owl-video-frame');
+    };
 
-	/**
-	 * Destroys the plugin.
-	 */
-	Video.prototype.destroy = function() {
-		var handler, property;
+    /**
+     * Destroys the plugin.
+     */
+    Video.prototype.destroy = function() {
+        var handler, property;
 
-		this._core.$element.off('click.owl.video');
+        this._core.$element.off('click.owl.video');
 
-		for (handler in this._handlers) {
-			this._core.$element.off(handler, this._handlers[handler]);
-		}
-		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
-		}
-	};
+        for (handler in this._handlers) {
+            this._core.$element.off(handler, this._handlers[handler]);
+        }
+        for (property in Object.getOwnPropertyNames(this)) {
+            typeof this[property] != 'function' && (this[property] = null);
+        }
+    };
 
-	$.fn.owlCarousel.Constructor.Plugins.Video = Video;
+    $.fn.owlCarousel.Constructor.Plugins.Video = Video;
 
 })(window.Zepto || window.jQuery, window, document);
 
@@ -12572,116 +12572,116 @@ var objectFitImages = (function () {
  */
 ;(function($, window, document, undefined) {
 
-	/**
-	 * Creates the animate plugin.
-	 * @class The Navigation Plugin
-	 * @param {Owl} scope - The Owl Carousel
-	 */
-	var Animate = function(scope) {
-		this.core = scope;
-		this.core.options = $.extend({}, Animate.Defaults, this.core.options);
-		this.swapping = true;
-		this.previous = undefined;
-		this.next = undefined;
+    /**
+     * Creates the animate plugin.
+     * @class The Navigation Plugin
+     * @param {Owl} scope - The Owl Carousel
+     */
+    var Animate = function(scope) {
+        this.core = scope;
+        this.core.options = $.extend({}, Animate.Defaults, this.core.options);
+        this.swapping = true;
+        this.previous = undefined;
+        this.next = undefined;
 
-		this.handlers = {
-			'change.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && e.property.name == 'position') {
-					this.previous = this.core.current();
-					this.next = e.property.value;
-				}
-			}, this),
-			'drag.owl.carousel dragged.owl.carousel translated.owl.carousel': $.proxy(function(e) {
-				if (e.namespace) {
-					this.swapping = e.type == 'translated';
-				}
-			}, this),
-			'translate.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && this.swapping && (this.core.options.animateOut || this.core.options.animateIn)) {
-					this.swap();
-				}
-			}, this)
-		};
+        this.handlers = {
+            'change.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && e.property.name == 'position') {
+                    this.previous = this.core.current();
+                    this.next = e.property.value;
+                }
+            }, this),
+            'drag.owl.carousel dragged.owl.carousel translated.owl.carousel': $.proxy(function(e) {
+                if (e.namespace) {
+                    this.swapping = e.type == 'translated';
+                }
+            }, this),
+            'translate.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && this.swapping && (this.core.options.animateOut || this.core.options.animateIn)) {
+                    this.swap();
+                }
+            }, this)
+        };
 
-		this.core.$element.on(this.handlers);
-	};
+        this.core.$element.on(this.handlers);
+    };
 
-	/**
-	 * Default options.
-	 * @public
-	 */
-	Animate.Defaults = {
-		animateOut: false,
-		animateIn: false
-	};
+    /**
+     * Default options.
+     * @public
+     */
+    Animate.Defaults = {
+        animateOut: false,
+        animateIn: false
+    };
 
-	/**
-	 * Toggles the animation classes whenever an translations starts.
-	 * @protected
-	 * @returns {Boolean|undefined}
-	 */
-	Animate.prototype.swap = function() {
+    /**
+     * Toggles the animation classes whenever an translations starts.
+     * @protected
+     * @returns {Boolean|undefined}
+     */
+    Animate.prototype.swap = function() {
 
-		if (this.core.settings.items !== 1) {
-			return;
-		}
+        if (this.core.settings.items !== 1) {
+            return;
+        }
 
-		if (!$.support.animation || !$.support.transition) {
-			return;
-		}
+        if (!$.support.animation || !$.support.transition) {
+            return;
+        }
 
-		this.core.speed(0);
+        this.core.speed(0);
 
-		var left,
-			clear = $.proxy(this.clear, this),
-			previous = this.core.$stage.children().eq(this.previous),
-			next = this.core.$stage.children().eq(this.next),
-			incoming = this.core.settings.animateIn,
-			outgoing = this.core.settings.animateOut;
+        var left,
+            clear = $.proxy(this.clear, this),
+            previous = this.core.$stage.children().eq(this.previous),
+            next = this.core.$stage.children().eq(this.next),
+            incoming = this.core.settings.animateIn,
+            outgoing = this.core.settings.animateOut;
 
-		if (this.core.current() === this.previous) {
-			return;
-		}
+        if (this.core.current() === this.previous) {
+            return;
+        }
 
-		if (outgoing) {
-			left = this.core.coordinates(this.previous) - this.core.coordinates(this.next);
-			previous.one($.support.animation.end, clear)
-				.css( { 'left': left + 'px' } )
-				.addClass('animated owl-animated-out')
-				.addClass(outgoing);
-		}
+        if (outgoing) {
+            left = this.core.coordinates(this.previous) - this.core.coordinates(this.next);
+            previous.one($.support.animation.end, clear)
+                .css( { 'left': left + 'px' } )
+                .addClass('animated owl-animated-out')
+                .addClass(outgoing);
+        }
 
-		if (incoming) {
-			next.one($.support.animation.end, clear)
-				.addClass('animated owl-animated-in')
-				.addClass(incoming);
-		}
-	};
+        if (incoming) {
+            next.one($.support.animation.end, clear)
+                .addClass('animated owl-animated-in')
+                .addClass(incoming);
+        }
+    };
 
-	Animate.prototype.clear = function(e) {
-		$(e.target).css( { 'left': '' } )
-			.removeClass('animated owl-animated-out owl-animated-in')
-			.removeClass(this.core.settings.animateIn)
-			.removeClass(this.core.settings.animateOut);
-		this.core.onTransitionEnd();
-	};
+    Animate.prototype.clear = function(e) {
+        $(e.target).css( { 'left': '' } )
+            .removeClass('animated owl-animated-out owl-animated-in')
+            .removeClass(this.core.settings.animateIn)
+            .removeClass(this.core.settings.animateOut);
+        this.core.onTransitionEnd();
+    };
 
-	/**
-	 * Destroys the plugin.
-	 * @public
-	 */
-	Animate.prototype.destroy = function() {
-		var handler, property;
+    /**
+     * Destroys the plugin.
+     * @public
+     */
+    Animate.prototype.destroy = function() {
+        var handler, property;
 
-		for (handler in this.handlers) {
-			this.core.$element.off(handler, this.handlers[handler]);
-		}
-		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
-		}
-	};
+        for (handler in this.handlers) {
+            this.core.$element.off(handler, this.handlers[handler]);
+        }
+        for (property in Object.getOwnPropertyNames(this)) {
+            typeof this[property] != 'function' && (this[property] = null);
+        }
+    };
 
-	$.fn.owlCarousel.Constructor.Plugins.Animate = Animate;
+    $.fn.owlCarousel.Constructor.Plugins.Animate = Animate;
 
 })(window.Zepto || window.jQuery, window, document);
 
@@ -12695,193 +12695,193 @@ var objectFitImages = (function () {
  */
 ;(function($, window, document, undefined) {
 
-	/**
-	 * Creates the autoplay plugin.
-	 * @class The Autoplay Plugin
-	 * @param {Owl} scope - The Owl Carousel
-	 */
-	var Autoplay = function(carousel) {
-		/**
-		 * Reference to the core.
-		 * @protected
-		 * @type {Owl}
-		 */
-		this._core = carousel;
+    /**
+     * Creates the autoplay plugin.
+     * @class The Autoplay Plugin
+     * @param {Owl} scope - The Owl Carousel
+     */
+    var Autoplay = function(carousel) {
+        /**
+         * Reference to the core.
+         * @protected
+         * @type {Owl}
+         */
+        this._core = carousel;
 
-		/**
-		 * The autoplay timeout.
-		 * @type {Timeout}
-		 */
-		this._timeout = null;
+        /**
+         * The autoplay timeout.
+         * @type {Timeout}
+         */
+        this._timeout = null;
 
-		/**
-		 * Indicates whenever the autoplay is paused.
-		 * @type {Boolean}
-		 */
-		this._paused = false;
+        /**
+         * Indicates whenever the autoplay is paused.
+         * @type {Boolean}
+         */
+        this._paused = false;
 
-		/**
-		 * All event handlers.
-		 * @protected
-		 * @type {Object}
-		 */
-		this._handlers = {
-			'changed.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && e.property.name === 'settings') {
-					if (this._core.settings.autoplay) {
-						this.play();
-					} else {
-						this.stop();
-					}
-				} else if (e.namespace && e.property.name === 'position') {
-					//console.log('play?', e);
-					if (this._core.settings.autoplay) {
-						this._setAutoPlayInterval();
-					}
-				}
-			}, this),
-			'initialized.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && this._core.settings.autoplay) {
-					this.play();
-				}
-			}, this),
-			'play.owl.autoplay': $.proxy(function(e, t, s) {
-				if (e.namespace) {
-					this.play(t, s);
-				}
-			}, this),
-			'stop.owl.autoplay': $.proxy(function(e) {
-				if (e.namespace) {
-					this.stop();
-				}
-			}, this),
-			'mouseover.owl.autoplay': $.proxy(function() {
-				if (this._core.settings.autoplayHoverPause && this._core.is('rotating')) {
-					this.pause();
-				}
-			}, this),
-			'mouseleave.owl.autoplay': $.proxy(function() {
-				if (this._core.settings.autoplayHoverPause && this._core.is('rotating')) {
-					this.play();
-				}
-			}, this),
-			'touchstart.owl.core': $.proxy(function() {
-				if (this._core.settings.autoplayHoverPause && this._core.is('rotating')) {
-					this.pause();
-				}
-			}, this),
-			'touchend.owl.core': $.proxy(function() {
-				if (this._core.settings.autoplayHoverPause) {
-					this.play();
-				}
-			}, this)
-		};
+        /**
+         * All event handlers.
+         * @protected
+         * @type {Object}
+         */
+        this._handlers = {
+            'changed.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && e.property.name === 'settings') {
+                    if (this._core.settings.autoplay) {
+                        this.play();
+                    } else {
+                        this.stop();
+                    }
+                } else if (e.namespace && e.property.name === 'position') {
+                    //console.log('play?', e);
+                    if (this._core.settings.autoplay) {
+                        this._setAutoPlayInterval();
+                    }
+                }
+            }, this),
+            'initialized.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && this._core.settings.autoplay) {
+                    this.play();
+                }
+            }, this),
+            'play.owl.autoplay': $.proxy(function(e, t, s) {
+                if (e.namespace) {
+                    this.play(t, s);
+                }
+            }, this),
+            'stop.owl.autoplay': $.proxy(function(e) {
+                if (e.namespace) {
+                    this.stop();
+                }
+            }, this),
+            'mouseover.owl.autoplay': $.proxy(function() {
+                if (this._core.settings.autoplayHoverPause && this._core.is('rotating')) {
+                    this.pause();
+                }
+            }, this),
+            'mouseleave.owl.autoplay': $.proxy(function() {
+                if (this._core.settings.autoplayHoverPause && this._core.is('rotating')) {
+                    this.play();
+                }
+            }, this),
+            'touchstart.owl.core': $.proxy(function() {
+                if (this._core.settings.autoplayHoverPause && this._core.is('rotating')) {
+                    this.pause();
+                }
+            }, this),
+            'touchend.owl.core': $.proxy(function() {
+                if (this._core.settings.autoplayHoverPause) {
+                    this.play();
+                }
+            }, this)
+        };
 
-		// register event handlers
-		this._core.$element.on(this._handlers);
+        // register event handlers
+        this._core.$element.on(this._handlers);
 
-		// set default options
-		this._core.options = $.extend({}, Autoplay.Defaults, this._core.options);
-	};
+        // set default options
+        this._core.options = $.extend({}, Autoplay.Defaults, this._core.options);
+    };
 
-	/**
-	 * Default options.
-	 * @public
-	 */
-	Autoplay.Defaults = {
-		autoplay: false,
-		autoplayTimeout: 5000,
-		autoplayHoverPause: false,
-		autoplaySpeed: false
-	};
+    /**
+     * Default options.
+     * @public
+     */
+    Autoplay.Defaults = {
+        autoplay: false,
+        autoplayTimeout: 5000,
+        autoplayHoverPause: false,
+        autoplaySpeed: false
+    };
 
-	/**
-	 * Starts the autoplay.
-	 * @public
-	 * @param {Number} [timeout] - The interval before the next animation starts.
-	 * @param {Number} [speed] - The animation speed for the animations.
-	 */
-	Autoplay.prototype.play = function(timeout, speed) {
-		this._paused = false;
+    /**
+     * Starts the autoplay.
+     * @public
+     * @param {Number} [timeout] - The interval before the next animation starts.
+     * @param {Number} [speed] - The animation speed for the animations.
+     */
+    Autoplay.prototype.play = function(timeout, speed) {
+        this._paused = false;
 
-		if (this._core.is('rotating')) {
-			return;
-		}
+        if (this._core.is('rotating')) {
+            return;
+        }
 
-		this._core.enter('rotating');
+        this._core.enter('rotating');
 
-		this._setAutoPlayInterval();
-	};
+        this._setAutoPlayInterval();
+    };
 
-	/**
-	 * Gets a new timeout
-	 * @private
-	 * @param {Number} [timeout] - The interval before the next animation starts.
-	 * @param {Number} [speed] - The animation speed for the animations.
-	 * @return {Timeout}
-	 */
-	Autoplay.prototype._getNextTimeout = function(timeout, speed) {
-		if ( this._timeout ) {
-			window.clearTimeout(this._timeout);
-		}
-		return window.setTimeout($.proxy(function() {
-			if (this._paused || this._core.is('busy') || this._core.is('interacting') || document.hidden) {
-				return;
-			}
-			this._core.next(speed || this._core.settings.autoplaySpeed);
-		}, this), timeout || this._core.settings.autoplayTimeout);
-	};
+    /**
+     * Gets a new timeout
+     * @private
+     * @param {Number} [timeout] - The interval before the next animation starts.
+     * @param {Number} [speed] - The animation speed for the animations.
+     * @return {Timeout}
+     */
+    Autoplay.prototype._getNextTimeout = function(timeout, speed) {
+        if ( this._timeout ) {
+            window.clearTimeout(this._timeout);
+        }
+        return window.setTimeout($.proxy(function() {
+            if (this._paused || this._core.is('busy') || this._core.is('interacting') || document.hidden) {
+                return;
+            }
+            this._core.next(speed || this._core.settings.autoplaySpeed);
+        }, this), timeout || this._core.settings.autoplayTimeout);
+    };
 
-	/**
-	 * Sets autoplay in motion.
-	 * @private
-	 */
-	Autoplay.prototype._setAutoPlayInterval = function() {
-		this._timeout = this._getNextTimeout();
-	};
+    /**
+     * Sets autoplay in motion.
+     * @private
+     */
+    Autoplay.prototype._setAutoPlayInterval = function() {
+        this._timeout = this._getNextTimeout();
+    };
 
-	/**
-	 * Stops the autoplay.
-	 * @public
-	 */
-	Autoplay.prototype.stop = function() {
-		if (!this._core.is('rotating')) {
-			return;
-		}
+    /**
+     * Stops the autoplay.
+     * @public
+     */
+    Autoplay.prototype.stop = function() {
+        if (!this._core.is('rotating')) {
+            return;
+        }
 
-		window.clearTimeout(this._timeout);
-		this._core.leave('rotating');
-	};
+        window.clearTimeout(this._timeout);
+        this._core.leave('rotating');
+    };
 
-	/**
-	 * Stops the autoplay.
-	 * @public
-	 */
-	Autoplay.prototype.pause = function() {
-		if (!this._core.is('rotating')) {
-			return;
-		}
+    /**
+     * Stops the autoplay.
+     * @public
+     */
+    Autoplay.prototype.pause = function() {
+        if (!this._core.is('rotating')) {
+            return;
+        }
 
-		this._paused = true;
-	};
+        this._paused = true;
+    };
 
-	/**
-	 * Destroys the plugin.
-	 */
-	Autoplay.prototype.destroy = function() {
-		var handler, property;
+    /**
+     * Destroys the plugin.
+     */
+    Autoplay.prototype.destroy = function() {
+        var handler, property;
 
-		this.stop();
+        this.stop();
 
-		for (handler in this._handlers) {
-			this._core.$element.off(handler, this._handlers[handler]);
-		}
-		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
-		}
-	};
+        for (handler in this._handlers) {
+            this._core.$element.off(handler, this._handlers[handler]);
+        }
+        for (property in Object.getOwnPropertyNames(this)) {
+            typeof this[property] != 'function' && (this[property] = null);
+        }
+    };
 
-	$.fn.owlCarousel.Constructor.Plugins.autoplay = Autoplay;
+    $.fn.owlCarousel.Constructor.Plugins.autoplay = Autoplay;
 
 })(window.Zepto || window.jQuery, window, document);
 
@@ -12893,378 +12893,378 @@ var objectFitImages = (function () {
  * @license The MIT License (MIT)
  */
 ;(function($, window, document, undefined) {
-	'use strict';
+    'use strict';
 
-	/**
-	 * Creates the navigation plugin.
-	 * @class The Navigation Plugin
-	 * @param {Owl} carousel - The Owl Carousel.
-	 */
-	var Navigation = function(carousel) {
-		/**
-		 * Reference to the core.
-		 * @protected
-		 * @type {Owl}
-		 */
-		this._core = carousel;
+    /**
+     * Creates the navigation plugin.
+     * @class The Navigation Plugin
+     * @param {Owl} carousel - The Owl Carousel.
+     */
+    var Navigation = function(carousel) {
+        /**
+         * Reference to the core.
+         * @protected
+         * @type {Owl}
+         */
+        this._core = carousel;
 
-		/**
-		 * Indicates whether the plugin is initialized or not.
-		 * @protected
-		 * @type {Boolean}
-		 */
-		this._initialized = false;
+        /**
+         * Indicates whether the plugin is initialized or not.
+         * @protected
+         * @type {Boolean}
+         */
+        this._initialized = false;
 
-		/**
-		 * The current paging indexes.
-		 * @protected
-		 * @type {Array}
-		 */
-		this._pages = [];
+        /**
+         * The current paging indexes.
+         * @protected
+         * @type {Array}
+         */
+        this._pages = [];
 
-		/**
-		 * All DOM elements of the user interface.
-		 * @protected
-		 * @type {Object}
-		 */
-		this._controls = {};
+        /**
+         * All DOM elements of the user interface.
+         * @protected
+         * @type {Object}
+         */
+        this._controls = {};
 
-		/**
-		 * Markup for an indicator.
-		 * @protected
-		 * @type {Array.<String>}
-		 */
-		this._templates = [];
+        /**
+         * Markup for an indicator.
+         * @protected
+         * @type {Array.<String>}
+         */
+        this._templates = [];
 
-		/**
-		 * The carousel element.
-		 * @type {jQuery}
-		 */
-		this.$element = this._core.$element;
+        /**
+         * The carousel element.
+         * @type {jQuery}
+         */
+        this.$element = this._core.$element;
 
-		/**
-		 * Overridden methods of the carousel.
-		 * @protected
-		 * @type {Object}
-		 */
-		this._overrides = {
-			next: this._core.next,
-			prev: this._core.prev,
-			to: this._core.to
-		};
+        /**
+         * Overridden methods of the carousel.
+         * @protected
+         * @type {Object}
+         */
+        this._overrides = {
+            next: this._core.next,
+            prev: this._core.prev,
+            to: this._core.to
+        };
 
-		/**
-		 * All event handlers.
-		 * @protected
-		 * @type {Object}
-		 */
-		this._handlers = {
-			'prepared.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && this._core.settings.dotsData) {
-					this._templates.push('<div class="' + this._core.settings.dotClass + '">' +
-						$(e.content).find('[data-dot]').addBack('[data-dot]').attr('data-dot') + '</div>');
-				}
-			}, this),
-			'added.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && this._core.settings.dotsData) {
-					this._templates.splice(e.position, 0, this._templates.pop());
-				}
-			}, this),
-			'remove.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && this._core.settings.dotsData) {
-					this._templates.splice(e.position, 1);
-				}
-			}, this),
-			'changed.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && e.property.name == 'position') {
-					this.draw();
-				}
-			}, this),
-			'initialized.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && !this._initialized) {
-					this._core.trigger('initialize', null, 'navigation');
-					this.initialize();
-					this.update();
-					this.draw();
-					this._initialized = true;
-					this._core.trigger('initialized', null, 'navigation');
-				}
-			}, this),
-			'refreshed.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && this._initialized) {
-					this._core.trigger('refresh', null, 'navigation');
-					this.update();
-					this.draw();
-					this._core.trigger('refreshed', null, 'navigation');
-				}
-			}, this)
-		};
+        /**
+         * All event handlers.
+         * @protected
+         * @type {Object}
+         */
+        this._handlers = {
+            'prepared.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && this._core.settings.dotsData) {
+                    this._templates.push('<div class="' + this._core.settings.dotClass + '">' +
+                        $(e.content).find('[data-dot]').addBack('[data-dot]').attr('data-dot') + '</div>');
+                }
+            }, this),
+            'added.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && this._core.settings.dotsData) {
+                    this._templates.splice(e.position, 0, this._templates.pop());
+                }
+            }, this),
+            'remove.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && this._core.settings.dotsData) {
+                    this._templates.splice(e.position, 1);
+                }
+            }, this),
+            'changed.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && e.property.name == 'position') {
+                    this.draw();
+                }
+            }, this),
+            'initialized.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && !this._initialized) {
+                    this._core.trigger('initialize', null, 'navigation');
+                    this.initialize();
+                    this.update();
+                    this.draw();
+                    this._initialized = true;
+                    this._core.trigger('initialized', null, 'navigation');
+                }
+            }, this),
+            'refreshed.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && this._initialized) {
+                    this._core.trigger('refresh', null, 'navigation');
+                    this.update();
+                    this.draw();
+                    this._core.trigger('refreshed', null, 'navigation');
+                }
+            }, this)
+        };
 
-		// set default options
-		this._core.options = $.extend({}, Navigation.Defaults, this._core.options);
+        // set default options
+        this._core.options = $.extend({}, Navigation.Defaults, this._core.options);
 
-		// register event handlers
-		this.$element.on(this._handlers);
-	};
+        // register event handlers
+        this.$element.on(this._handlers);
+    };
 
-	/**
-	 * Default options.
-	 * @public
-	 * @todo Rename `slideBy` to `navBy`
-	 */
-	Navigation.Defaults = {
-		nav: false,
-		navText: [ 'prev', 'next' ],
-		navSpeed: false,
-		navElement: 'div',
-		navContainer: false,
-		navContainerClass: 'owl-nav',
-		navClass: [ 'owl-prev', 'owl-next' ],
-		slideBy: 1,
-		dotClass: 'owl-dot',
-		dotsClass: 'owl-dots',
-		dots: true,
-		dotsEach: false,
-		dotsData: false,
-		dotsSpeed: false,
-		dotsContainer: false
-	};
+    /**
+     * Default options.
+     * @public
+     * @todo Rename `slideBy` to `navBy`
+     */
+    Navigation.Defaults = {
+        nav: false,
+        navText: [ 'prev', 'next' ],
+        navSpeed: false,
+        navElement: 'div',
+        navContainer: false,
+        navContainerClass: 'owl-nav',
+        navClass: [ 'owl-prev', 'owl-next' ],
+        slideBy: 1,
+        dotClass: 'owl-dot',
+        dotsClass: 'owl-dots',
+        dots: true,
+        dotsEach: false,
+        dotsData: false,
+        dotsSpeed: false,
+        dotsContainer: false
+    };
 
-	/**
-	 * Initializes the layout of the plugin and extends the carousel.
-	 * @protected
-	 */
-	Navigation.prototype.initialize = function() {
-		var override,
-			settings = this._core.settings;
+    /**
+     * Initializes the layout of the plugin and extends the carousel.
+     * @protected
+     */
+    Navigation.prototype.initialize = function() {
+        var override,
+            settings = this._core.settings;
 
-		// create DOM structure for relative navigation
-		this._controls.$relative = (settings.navContainer ? $(settings.navContainer)
-			: $('<div>').addClass(settings.navContainerClass).appendTo(this.$element)).addClass('disabled');
+        // create DOM structure for relative navigation
+        this._controls.$relative = (settings.navContainer ? $(settings.navContainer)
+            : $('<div>').addClass(settings.navContainerClass).appendTo(this.$element)).addClass('disabled');
 
-		this._controls.$previous = $('<' + settings.navElement + '>')
-			.addClass(settings.navClass[0])
-			.html(settings.navText[0])
-			.prependTo(this._controls.$relative)
-			.on('click', $.proxy(function(e) {
-				this.prev(settings.navSpeed);
-			}, this));
-		this._controls.$next = $('<' + settings.navElement + '>')
-			.addClass(settings.navClass[1])
-			.html(settings.navText[1])
-			.appendTo(this._controls.$relative)
-			.on('click', $.proxy(function(e) {
-				this.next(settings.navSpeed);
-			}, this));
+        this._controls.$previous = $('<' + settings.navElement + '>')
+            .addClass(settings.navClass[0])
+            .html(settings.navText[0])
+            .prependTo(this._controls.$relative)
+            .on('click', $.proxy(function(e) {
+                this.prev(settings.navSpeed);
+            }, this));
+        this._controls.$next = $('<' + settings.navElement + '>')
+            .addClass(settings.navClass[1])
+            .html(settings.navText[1])
+            .appendTo(this._controls.$relative)
+            .on('click', $.proxy(function(e) {
+                this.next(settings.navSpeed);
+            }, this));
 
-		// create DOM structure for absolute navigation
-		if (!settings.dotsData) {
-			this._templates = [ $('<div>')
-				.addClass(settings.dotClass)
-				.append($('<span>'))
-				.prop('outerHTML') ];
-		}
+        // create DOM structure for absolute navigation
+        if (!settings.dotsData) {
+            this._templates = [ $('<div>')
+                .addClass(settings.dotClass)
+                .append($('<span>'))
+                .prop('outerHTML') ];
+        }
 
-		this._controls.$absolute = (settings.dotsContainer ? $(settings.dotsContainer)
-			: $('<div>').addClass(settings.dotsClass).appendTo(this.$element)).addClass('disabled');
+        this._controls.$absolute = (settings.dotsContainer ? $(settings.dotsContainer)
+            : $('<div>').addClass(settings.dotsClass).appendTo(this.$element)).addClass('disabled');
 
-		this._controls.$absolute.on('click', 'div', $.proxy(function(e) {
-			var index = $(e.target).parent().is(this._controls.$absolute)
-				? $(e.target).index() : $(e.target).parent().index();
+        this._controls.$absolute.on('click', 'div', $.proxy(function(e) {
+            var index = $(e.target).parent().is(this._controls.$absolute)
+                ? $(e.target).index() : $(e.target).parent().index();
 
-			e.preventDefault();
+            e.preventDefault();
 
-			this.to(index, settings.dotsSpeed);
-		}, this));
+            this.to(index, settings.dotsSpeed);
+        }, this));
 
-		// override public methods of the carousel
-		for (override in this._overrides) {
-			this._core[override] = $.proxy(this[override], this);
-		}
-	};
+        // override public methods of the carousel
+        for (override in this._overrides) {
+            this._core[override] = $.proxy(this[override], this);
+        }
+    };
 
-	/**
-	 * Destroys the plugin.
-	 * @protected
-	 */
-	Navigation.prototype.destroy = function() {
-		var handler, control, property, override;
+    /**
+     * Destroys the plugin.
+     * @protected
+     */
+    Navigation.prototype.destroy = function() {
+        var handler, control, property, override;
 
-		for (handler in this._handlers) {
-			this.$element.off(handler, this._handlers[handler]);
-		}
-		for (control in this._controls) {
-			this._controls[control].remove();
-		}
-		for (override in this.overides) {
-			this._core[override] = this._overrides[override];
-		}
-		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
-		}
-	};
+        for (handler in this._handlers) {
+            this.$element.off(handler, this._handlers[handler]);
+        }
+        for (control in this._controls) {
+            this._controls[control].remove();
+        }
+        for (override in this.overides) {
+            this._core[override] = this._overrides[override];
+        }
+        for (property in Object.getOwnPropertyNames(this)) {
+            typeof this[property] != 'function' && (this[property] = null);
+        }
+    };
 
-	/**
-	 * Updates the internal state.
-	 * @protected
-	 */
-	Navigation.prototype.update = function() {
-		var i, j, k,
-			lower = this._core.clones().length / 2,
-			upper = lower + this._core.items().length,
-			maximum = this._core.maximum(true),
-			settings = this._core.settings,
-			size = settings.center || settings.autoWidth || settings.dotsData
-				? 1 : settings.dotsEach || settings.items;
+    /**
+     * Updates the internal state.
+     * @protected
+     */
+    Navigation.prototype.update = function() {
+        var i, j, k,
+            lower = this._core.clones().length / 2,
+            upper = lower + this._core.items().length,
+            maximum = this._core.maximum(true),
+            settings = this._core.settings,
+            size = settings.center || settings.autoWidth || settings.dotsData
+                ? 1 : settings.dotsEach || settings.items;
 
-		if (settings.slideBy !== 'page') {
-			settings.slideBy = Math.min(settings.slideBy, settings.items);
-		}
+        if (settings.slideBy !== 'page') {
+            settings.slideBy = Math.min(settings.slideBy, settings.items);
+        }
 
-		if (settings.dots || settings.slideBy == 'page') {
-			this._pages = [];
+        if (settings.dots || settings.slideBy == 'page') {
+            this._pages = [];
 
-			for (i = lower, j = 0, k = 0; i < upper; i++) {
-				if (j >= size || j === 0) {
-					this._pages.push({
-						start: Math.min(maximum, i - lower),
-						end: i - lower + size - 1
-					});
-					if (Math.min(maximum, i - lower) === maximum) {
-						break;
-					}
-					j = 0, ++k;
-				}
-				j += this._core.mergers(this._core.relative(i));
-			}
-		}
-	};
+            for (i = lower, j = 0, k = 0; i < upper; i++) {
+                if (j >= size || j === 0) {
+                    this._pages.push({
+                        start: Math.min(maximum, i - lower),
+                        end: i - lower + size - 1
+                    });
+                    if (Math.min(maximum, i - lower) === maximum) {
+                        break;
+                    }
+                    j = 0, ++k;
+                }
+                j += this._core.mergers(this._core.relative(i));
+            }
+        }
+    };
 
-	/**
-	 * Draws the user interface.
-	 * @todo The option `dotsData` wont work.
-	 * @protected
-	 */
-	Navigation.prototype.draw = function() {
-		var difference,
-			settings = this._core.settings,
-			disabled = this._core.items().length <= settings.items,
-			index = this._core.relative(this._core.current()),
-			loop = settings.loop || settings.rewind;
+    /**
+     * Draws the user interface.
+     * @todo The option `dotsData` wont work.
+     * @protected
+     */
+    Navigation.prototype.draw = function() {
+        var difference,
+            settings = this._core.settings,
+            disabled = this._core.items().length <= settings.items,
+            index = this._core.relative(this._core.current()),
+            loop = settings.loop || settings.rewind;
 
-		this._controls.$relative.toggleClass('disabled', !settings.nav || disabled);
+        this._controls.$relative.toggleClass('disabled', !settings.nav || disabled);
 
-		if (settings.nav) {
-			this._controls.$previous.toggleClass('disabled', !loop && index <= this._core.minimum(true));
-			this._controls.$next.toggleClass('disabled', !loop && index >= this._core.maximum(true));
-		}
+        if (settings.nav) {
+            this._controls.$previous.toggleClass('disabled', !loop && index <= this._core.minimum(true));
+            this._controls.$next.toggleClass('disabled', !loop && index >= this._core.maximum(true));
+        }
 
-		this._controls.$absolute.toggleClass('disabled', !settings.dots || disabled);
+        this._controls.$absolute.toggleClass('disabled', !settings.dots || disabled);
 
-		if (settings.dots) {
-			difference = this._pages.length - this._controls.$absolute.children().length;
+        if (settings.dots) {
+            difference = this._pages.length - this._controls.$absolute.children().length;
 
-			if (settings.dotsData && difference !== 0) {
-				this._controls.$absolute.html(this._templates.join(''));
-			} else if (difference > 0) {
-				this._controls.$absolute.append(new Array(difference + 1).join(this._templates[0]));
-			} else if (difference < 0) {
-				this._controls.$absolute.children().slice(difference).remove();
-			}
+            if (settings.dotsData && difference !== 0) {
+                this._controls.$absolute.html(this._templates.join(''));
+            } else if (difference > 0) {
+                this._controls.$absolute.append(new Array(difference + 1).join(this._templates[0]));
+            } else if (difference < 0) {
+                this._controls.$absolute.children().slice(difference).remove();
+            }
 
-			this._controls.$absolute.find('.active').removeClass('active');
-			this._controls.$absolute.children().eq($.inArray(this.current(), this._pages)).addClass('active');
-		}
-	};
+            this._controls.$absolute.find('.active').removeClass('active');
+            this._controls.$absolute.children().eq($.inArray(this.current(), this._pages)).addClass('active');
+        }
+    };
 
-	/**
-	 * Extends event data.
-	 * @protected
-	 * @param {Event} event - The event object which gets thrown.
-	 */
-	Navigation.prototype.onTrigger = function(event) {
-		var settings = this._core.settings;
+    /**
+     * Extends event data.
+     * @protected
+     * @param {Event} event - The event object which gets thrown.
+     */
+    Navigation.prototype.onTrigger = function(event) {
+        var settings = this._core.settings;
 
-		event.page = {
-			index: $.inArray(this.current(), this._pages),
-			count: this._pages.length,
-			size: settings && (settings.center || settings.autoWidth || settings.dotsData
-				? 1 : settings.dotsEach || settings.items)
-		};
-	};
+        event.page = {
+            index: $.inArray(this.current(), this._pages),
+            count: this._pages.length,
+            size: settings && (settings.center || settings.autoWidth || settings.dotsData
+                ? 1 : settings.dotsEach || settings.items)
+        };
+    };
 
-	/**
-	 * Gets the current page position of the carousel.
-	 * @protected
-	 * @returns {Number}
-	 */
-	Navigation.prototype.current = function() {
-		var current = this._core.relative(this._core.current());
-		return $.grep(this._pages, $.proxy(function(page, index) {
-			return page.start <= current && page.end >= current;
-		}, this)).pop();
-	};
+    /**
+     * Gets the current page position of the carousel.
+     * @protected
+     * @returns {Number}
+     */
+    Navigation.prototype.current = function() {
+        var current = this._core.relative(this._core.current());
+        return $.grep(this._pages, $.proxy(function(page, index) {
+            return page.start <= current && page.end >= current;
+        }, this)).pop();
+    };
 
-	/**
-	 * Gets the current succesor/predecessor position.
-	 * @protected
-	 * @returns {Number}
-	 */
-	Navigation.prototype.getPosition = function(successor) {
-		var position, length,
-			settings = this._core.settings;
+    /**
+     * Gets the current succesor/predecessor position.
+     * @protected
+     * @returns {Number}
+     */
+    Navigation.prototype.getPosition = function(successor) {
+        var position, length,
+            settings = this._core.settings;
 
-		if (settings.slideBy == 'page') {
-			position = $.inArray(this.current(), this._pages);
-			length = this._pages.length;
-			successor ? ++position : --position;
-			position = this._pages[((position % length) + length) % length].start;
-		} else {
-			position = this._core.relative(this._core.current());
-			length = this._core.items().length;
-			successor ? position += settings.slideBy : position -= settings.slideBy;
-		}
+        if (settings.slideBy == 'page') {
+            position = $.inArray(this.current(), this._pages);
+            length = this._pages.length;
+            successor ? ++position : --position;
+            position = this._pages[((position % length) + length) % length].start;
+        } else {
+            position = this._core.relative(this._core.current());
+            length = this._core.items().length;
+            successor ? position += settings.slideBy : position -= settings.slideBy;
+        }
 
-		return position;
-	};
+        return position;
+    };
 
-	/**
-	 * Slides to the next item or page.
-	 * @public
-	 * @param {Number} [speed=false] - The time in milliseconds for the transition.
-	 */
-	Navigation.prototype.next = function(speed) {
-		$.proxy(this._overrides.to, this._core)(this.getPosition(true), speed);
-	};
+    /**
+     * Slides to the next item or page.
+     * @public
+     * @param {Number} [speed=false] - The time in milliseconds for the transition.
+     */
+    Navigation.prototype.next = function(speed) {
+        $.proxy(this._overrides.to, this._core)(this.getPosition(true), speed);
+    };
 
-	/**
-	 * Slides to the previous item or page.
-	 * @public
-	 * @param {Number} [speed=false] - The time in milliseconds for the transition.
-	 */
-	Navigation.prototype.prev = function(speed) {
-		$.proxy(this._overrides.to, this._core)(this.getPosition(false), speed);
-	};
+    /**
+     * Slides to the previous item or page.
+     * @public
+     * @param {Number} [speed=false] - The time in milliseconds for the transition.
+     */
+    Navigation.prototype.prev = function(speed) {
+        $.proxy(this._overrides.to, this._core)(this.getPosition(false), speed);
+    };
 
-	/**
-	 * Slides to the specified item or page.
-	 * @public
-	 * @param {Number} position - The position of the item or page.
-	 * @param {Number} [speed] - The time in milliseconds for the transition.
-	 * @param {Boolean} [standard=false] - Whether to use the standard behaviour or not.
-	 */
-	Navigation.prototype.to = function(position, speed, standard) {
-		var length;
+    /**
+     * Slides to the specified item or page.
+     * @public
+     * @param {Number} position - The position of the item or page.
+     * @param {Number} [speed] - The time in milliseconds for the transition.
+     * @param {Boolean} [standard=false] - Whether to use the standard behaviour or not.
+     */
+    Navigation.prototype.to = function(position, speed, standard) {
+        var length;
 
-		if (!standard && this._pages.length) {
-			length = this._pages.length;
-			$.proxy(this._overrides.to, this._core)(this._pages[((position % length) + length) % length].start, speed);
-		} else {
-			$.proxy(this._overrides.to, this._core)(position, speed);
-		}
-	};
+        if (!standard && this._pages.length) {
+            length = this._pages.length;
+            $.proxy(this._overrides.to, this._core)(this._pages[((position % length) + length) % length].start, speed);
+        } else {
+            $.proxy(this._overrides.to, this._core)(position, speed);
+        }
+    };
 
-	$.fn.owlCarousel.Constructor.Plugins.Navigation = Navigation;
+    $.fn.owlCarousel.Constructor.Plugins.Navigation = Navigation;
 
 })(window.Zepto || window.jQuery, window, document);
 
@@ -13276,118 +13276,118 @@ var objectFitImages = (function () {
  * @license The MIT License (MIT)
  */
 ;(function($, window, document, undefined) {
-	'use strict';
+    'use strict';
 
-	/**
-	 * Creates the hash plugin.
-	 * @class The Hash Plugin
-	 * @param {Owl} carousel - The Owl Carousel
-	 */
-	var Hash = function(carousel) {
-		/**
-		 * Reference to the core.
-		 * @protected
-		 * @type {Owl}
-		 */
-		this._core = carousel;
+    /**
+     * Creates the hash plugin.
+     * @class The Hash Plugin
+     * @param {Owl} carousel - The Owl Carousel
+     */
+    var Hash = function(carousel) {
+        /**
+         * Reference to the core.
+         * @protected
+         * @type {Owl}
+         */
+        this._core = carousel;
 
-		/**
-		 * Hash index for the items.
-		 * @protected
-		 * @type {Object}
-		 */
-		this._hashes = {};
+        /**
+         * Hash index for the items.
+         * @protected
+         * @type {Object}
+         */
+        this._hashes = {};
 
-		/**
-		 * The carousel element.
-		 * @type {jQuery}
-		 */
-		this.$element = this._core.$element;
+        /**
+         * The carousel element.
+         * @type {jQuery}
+         */
+        this.$element = this._core.$element;
 
-		/**
-		 * All event handlers.
-		 * @protected
-		 * @type {Object}
-		 */
-		this._handlers = {
-			'initialized.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && this._core.settings.startPosition === 'URLHash') {
-					$(window).trigger('hashchange.owl.navigation');
-				}
-			}, this),
-			'prepared.owl.carousel': $.proxy(function(e) {
-				if (e.namespace) {
-					var hash = $(e.content).find('[data-hash]').addBack('[data-hash]').attr('data-hash');
+        /**
+         * All event handlers.
+         * @protected
+         * @type {Object}
+         */
+        this._handlers = {
+            'initialized.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && this._core.settings.startPosition === 'URLHash') {
+                    $(window).trigger('hashchange.owl.navigation');
+                }
+            }, this),
+            'prepared.owl.carousel': $.proxy(function(e) {
+                if (e.namespace) {
+                    var hash = $(e.content).find('[data-hash]').addBack('[data-hash]').attr('data-hash');
 
-					if (!hash) {
-						return;
-					}
+                    if (!hash) {
+                        return;
+                    }
 
-					this._hashes[hash] = e.content;
-				}
-			}, this),
-			'changed.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && e.property.name === 'position') {
-					var current = this._core.items(this._core.relative(this._core.current())),
-						hash = $.map(this._hashes, function(item, hash) {
-							return item === current ? hash : null;
-						}).join();
+                    this._hashes[hash] = e.content;
+                }
+            }, this),
+            'changed.owl.carousel': $.proxy(function(e) {
+                if (e.namespace && e.property.name === 'position') {
+                    var current = this._core.items(this._core.relative(this._core.current())),
+                        hash = $.map(this._hashes, function(item, hash) {
+                            return item === current ? hash : null;
+                        }).join();
 
-					if (!hash || window.location.hash.slice(1) === hash) {
-						return;
-					}
+                    if (!hash || window.location.hash.slice(1) === hash) {
+                        return;
+                    }
 
-					window.location.hash = hash;
-				}
-			}, this)
-		};
+                    window.location.hash = hash;
+                }
+            }, this)
+        };
 
-		// set default options
-		this._core.options = $.extend({}, Hash.Defaults, this._core.options);
+        // set default options
+        this._core.options = $.extend({}, Hash.Defaults, this._core.options);
 
-		// register the event handlers
-		this.$element.on(this._handlers);
+        // register the event handlers
+        this.$element.on(this._handlers);
 
-		// register event listener for hash navigation
-		$(window).on('hashchange.owl.navigation', $.proxy(function(e) {
-			var hash = window.location.hash.substring(1),
-				items = this._core.$stage.children(),
-				position = this._hashes[hash] && items.index(this._hashes[hash]);
+        // register event listener for hash navigation
+        $(window).on('hashchange.owl.navigation', $.proxy(function(e) {
+            var hash = window.location.hash.substring(1),
+                items = this._core.$stage.children(),
+                position = this._hashes[hash] && items.index(this._hashes[hash]);
 
-			if (position === undefined || position === this._core.current()) {
-				return;
-			}
+            if (position === undefined || position === this._core.current()) {
+                return;
+            }
 
-			this._core.to(this._core.relative(position), false, true);
-		}, this));
-	};
+            this._core.to(this._core.relative(position), false, true);
+        }, this));
+    };
 
-	/**
-	 * Default options.
-	 * @public
-	 */
-	Hash.Defaults = {
-		URLhashListener: false
-	};
+    /**
+     * Default options.
+     * @public
+     */
+    Hash.Defaults = {
+        URLhashListener: false
+    };
 
-	/**
-	 * Destroys the plugin.
-	 * @public
-	 */
-	Hash.prototype.destroy = function() {
-		var handler, property;
+    /**
+     * Destroys the plugin.
+     * @public
+     */
+    Hash.prototype.destroy = function() {
+        var handler, property;
 
-		$(window).off('hashchange.owl.navigation');
+        $(window).off('hashchange.owl.navigation');
 
-		for (handler in this._handlers) {
-			this._core.$element.off(handler, this._handlers[handler]);
-		}
-		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
-		}
-	};
+        for (handler in this._handlers) {
+            this._core.$element.off(handler, this._handlers[handler]);
+        }
+        for (property in Object.getOwnPropertyNames(this)) {
+            typeof this[property] != 'function' && (this[property] = null);
+        }
+    };
 
-	$.fn.owlCarousel.Constructor.Plugins.Hash = Hash;
+    $.fn.owlCarousel.Constructor.Plugins.Hash = Hash;
 
 })(window.Zepto || window.jQuery, window, document);
 
@@ -13402,76 +13402,76 @@ var objectFitImages = (function () {
  */
 ;(function($, window, document, undefined) {
 
-	var style = $('<support>').get(0).style,
-		prefixes = 'Webkit Moz O ms'.split(' '),
-		events = {
-			transition: {
-				end: {
-					WebkitTransition: 'webkitTransitionEnd',
-					MozTransition: 'transitionend',
-					OTransition: 'oTransitionEnd',
-					transition: 'transitionend'
-				}
-			},
-			animation: {
-				end: {
-					WebkitAnimation: 'webkitAnimationEnd',
-					MozAnimation: 'animationend',
-					OAnimation: 'oAnimationEnd',
-					animation: 'animationend'
-				}
-			}
-		},
-		tests = {
-			csstransforms: function() {
-				return !!test('transform');
-			},
-			csstransforms3d: function() {
-				return !!test('perspective');
-			},
-			csstransitions: function() {
-				return !!test('transition');
-			},
-			cssanimations: function() {
-				return !!test('animation');
-			}
-		};
+    var style = $('<support>').get(0).style,
+        prefixes = 'Webkit Moz O ms'.split(' '),
+        events = {
+            transition: {
+                end: {
+                    WebkitTransition: 'webkitTransitionEnd',
+                    MozTransition: 'transitionend',
+                    OTransition: 'oTransitionEnd',
+                    transition: 'transitionend'
+                }
+            },
+            animation: {
+                end: {
+                    WebkitAnimation: 'webkitAnimationEnd',
+                    MozAnimation: 'animationend',
+                    OAnimation: 'oAnimationEnd',
+                    animation: 'animationend'
+                }
+            }
+        },
+        tests = {
+            csstransforms: function() {
+                return !!test('transform');
+            },
+            csstransforms3d: function() {
+                return !!test('perspective');
+            },
+            csstransitions: function() {
+                return !!test('transition');
+            },
+            cssanimations: function() {
+                return !!test('animation');
+            }
+        };
 
-	function test(property, prefixed) {
-		var result = false,
-			upper = property.charAt(0).toUpperCase() + property.slice(1);
+    function test(property, prefixed) {
+        var result = false,
+            upper = property.charAt(0).toUpperCase() + property.slice(1);
 
-		$.each((property + ' ' + prefixes.join(upper + ' ') + upper).split(' '), function(i, property) {
-			if (style[property] !== undefined) {
-				result = prefixed ? property : true;
-				return false;
-			}
-		});
+        $.each((property + ' ' + prefixes.join(upper + ' ') + upper).split(' '), function(i, property) {
+            if (style[property] !== undefined) {
+                result = prefixed ? property : true;
+                return false;
+            }
+        });
 
-		return result;
-	}
+        return result;
+    }
 
-	function prefixed(property) {
-		return test(property, true);
-	}
+    function prefixed(property) {
+        return test(property, true);
+    }
 
-	if (tests.csstransitions()) {
-		/* jshint -W053 */
-		$.support.transition = new String(prefixed('transition'))
-		$.support.transition.end = events.transition.end[ $.support.transition ];
-	}
+    if (tests.csstransitions()) {
+        /* jshint -W053 */
+        $.support.transition = new String(prefixed('transition'))
+        $.support.transition.end = events.transition.end[ $.support.transition ];
+    }
 
-	if (tests.cssanimations()) {
-		/* jshint -W053 */
-		$.support.animation = new String(prefixed('animation'))
-		$.support.animation.end = events.animation.end[ $.support.animation ];
-	}
+    if (tests.cssanimations()) {
+        /* jshint -W053 */
+        $.support.animation = new String(prefixed('animation'))
+        $.support.animation.end = events.animation.end[ $.support.animation ];
+    }
 
-	if (tests.csstransforms()) {
-		/* jshint -W053 */
-		$.support.transform = new String(prefixed('transform'));
-		$.support.transform3d = tests.csstransforms3d();
-	}
+    if (tests.csstransforms()) {
+        /* jshint -W053 */
+        $.support.transform = new String(prefixed('transform'));
+        $.support.transform3d = tests.csstransforms3d();
+    }
 
 })(window.Zepto || window.jQuery, window, document);
 
@@ -13491,649 +13491,649 @@ var objectFitImages = (function () {
 
 }(this, function (moment)
 {
-    'use strict';    
+    'use strict';
 
     /**
      * feature detection and helper functions
      */
     var hasMoment = typeof moment === 'function',
 
-    hasEventListeners = !!window.addEventListener,
+        hasEventListeners = !!window.addEventListener,
 
-    document = window.document,
+        document = window.document,
 
-    sto = window.setTimeout,
+        sto = window.setTimeout,
 
-    addEvent = function(el, e, callback, capture)
-    {
-        if (hasEventListeners) {
-            el.addEventListener(e, callback, !!capture);
-        } else {
-            el.attachEvent('on' + e, callback);
-        }
-    },
-
-    removeEvent = function(el, e, callback, capture)
-    {
-        if (hasEventListeners) {
-            el.removeEventListener(e, callback, !!capture);
-        } else {
-            el.detachEvent('on' + e, callback);
-        }
-    },
-
-    trim = function(str)
-    {
-        return str.trim ? str.trim() : str.replace(/^\s+|\s+$/g,'');
-    },
-
-    hasClass = function(el, cn)
-    {
-        return (' ' + el.className + ' ').indexOf(' ' + cn + ' ') !== -1;
-    },
-
-    addClass = function(el, cn)
-    {
-        if (!hasClass(el, cn)) {
-            el.className = (el.className === '') ? cn : el.className + ' ' + cn;
-        }
-    },
-
-    removeClass = function(el, cn)
-    {
-        el.className = trim((' ' + el.className + ' ').replace(' ' + cn + ' ', ' '));
-    },
-
-    isArray = function(obj)
-    {
-        return (/Array/).test(Object.prototype.toString.call(obj));
-    },
-
-    isDate = function(obj)
-    {
-        return (/Date/).test(Object.prototype.toString.call(obj)) && !isNaN(obj.getTime());
-    },
-
-    isWeekend = function(date)
-    {
-        var day = date.getDay();
-        return day === 0 || day === 6;
-    },
-
-    isLeapYear = function(year)
-    {
-        // solution by Matti Virkkunen: http://stackoverflow.com/a/4881951
-        return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
-    },
-
-    getDaysInMonth = function(year, month)
-    {
-        return [31, isLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
-    },
-
-    setToStartOfDay = function(date)
-    {
-        if (isDate(date)) date.setHours(0,0,0,0);
-    },
-
-    compareDates = function(a,b)
-    {
-        // weak date comparison (use setToStartOfDay(date) to ensure correct result)
-        return a.getTime() === b.getTime();
-    },
-
-    extend = function(to, from, overwrite)
-    {
-        var prop, hasProp;
-        for (prop in from) {
-            hasProp = to[prop] !== undefined;
-            if (hasProp && typeof from[prop] === 'object' && from[prop] !== null && from[prop].nodeName === undefined) {
-                if (isDate(from[prop])) {
-                    if (overwrite) {
-                        to[prop] = new Date(from[prop].getTime());
-                    }
-                }
-                else if (isArray(from[prop])) {
-                    if (overwrite) {
-                        to[prop] = from[prop].slice(0);
-                    }
-                } else {
-                    to[prop] = extend({}, from[prop], overwrite);
-                }
-            } else if (overwrite || !hasProp) {
-                to[prop] = from[prop];
+        addEvent = function(el, e, callback, capture)
+        {
+            if (hasEventListeners) {
+                el.addEventListener(e, callback, !!capture);
+            } else {
+                el.attachEvent('on' + e, callback);
             }
-        }
-        return to;
-    },
-
-    fireEvent = function(el, eventName, data)
-    {
-        var ev;
-
-        if (document.createEvent) {
-            ev = document.createEvent('HTMLEvents');
-            ev.initEvent(eventName, true, false);
-            ev = extend(ev, data);
-            el.dispatchEvent(ev);
-        } else if (document.createEventObject) {
-            ev = document.createEventObject();
-            ev = extend(ev, data);
-            el.fireEvent('on' + eventName, ev);
-        }
-    },
-
-    adjustCalendar = function(calendar) {
-        if (calendar.month < 0) {
-            calendar.year -= Math.ceil(Math.abs(calendar.month)/12);
-            calendar.month += 12;
-        }
-        if (calendar.month > 11) {
-            calendar.year += Math.floor(Math.abs(calendar.month)/12);
-            calendar.month -= 12;
-        }
-        return calendar;
-    },
-
-    /**
-     * defaults and localisation
-     */
-    defaults = {
-
-        // bind the picker to a form field
-        field: null,
-
-        // automatically show/hide the picker on `field` focus (default `true` if `field` is set)
-        bound: undefined,
-
-        // data-attribute on the input field with an aria assistance tekst (only applied when `bound` is set)
-        ariaLabel: 'Use the arrow keys to pick a date',
-
-        // position of the datepicker, relative to the field (default to bottom & left)
-        // ('bottom' & 'left' keywords are not used, 'top' & 'right' are modifier on the bottom/left position)
-        position: 'bottom left',
-
-        // automatically fit in the viewport even if it means repositioning from the position option
-        reposition: true,
-
-        // the default output format for `.toString()` and `field` value
-        format: 'YYYY-MM-DD',
-
-        // the toString function which gets passed a current date object and format
-        // and returns a string
-        toString: null,
-
-        // used to create date object from current input string
-        parse: null,
-
-        // the initial date to view when first opened
-        defaultDate: null,
-
-        // make the `defaultDate` the initial selected value
-        setDefaultDate: false,
-
-        // first day of week (0: Sunday, 1: Monday etc)
-        firstDay: 0,
-
-        // the default flag for moment's strict date parsing
-        formatStrict: false,
-
-        // the minimum/earliest date that can be selected
-        minDate: null,
-        // the maximum/latest date that can be selected
-        maxDate: null,
-
-        // number of years either side, or array of upper/lower range
-        yearRange: 10,
-
-        // show week numbers at head of row
-        showWeekNumber: false,
-
-        // Week picker mode
-        pickWholeWeek: false,
-
-        // used internally (don't config outside)
-        minYear: 0,
-        maxYear: 9999,
-        minMonth: undefined,
-        maxMonth: undefined,
-
-        startRange: null,
-        endRange: null,
-
-        isRTL: false,
-
-        // Additional text to append to the year in the calendar title
-        yearSuffix: '',
-
-        // Render the month after year in the calendar title
-        showMonthAfterYear: false,
-
-        // Render days of the calendar grid that fall in the next or previous month
-        showDaysInNextAndPreviousMonths: false,
-
-        // Allows user to select days that fall in the next or previous month
-        enableSelectionDaysInNextAndPreviousMonths: false,
-
-        // how many months are visible
-        numberOfMonths: 1,
-
-        // when numberOfMonths is used, this will help you to choose where the main calendar will be (default `left`, can be set to `right`)
-        // only used for the first display or when a selected date is not visible
-        mainCalendar: 'left',
-
-        // Specify a DOM element to render the calendar in
-        container: undefined,
-
-        // Blur field when date is selected
-        blurFieldOnSelect : true,
-
-        // internationalization
-        i18n: {
-            previousMonth : 'Mois précédent',
-            nextMonth     : 'Mois suivant',
-            months        : ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Decembre'],
-            weekdays      : ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
-            weekdaysShort : ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam']
         },
 
-        // Theme Classname
-        theme: null,
+        removeEvent = function(el, e, callback, capture)
+        {
+            if (hasEventListeners) {
+                el.removeEventListener(e, callback, !!capture);
+            } else {
+                el.detachEvent('on' + e, callback);
+            }
+        },
 
-        // events array
-        events: [],
+        trim = function(str)
+        {
+            return str.trim ? str.trim() : str.replace(/^\s+|\s+$/g,'');
+        },
 
-        // callback function
-        onSelect: null,
-        onOpen: null,
-        onClose: null,
-        onDraw: null,
+        hasClass = function(el, cn)
+        {
+            return (' ' + el.className + ' ').indexOf(' ' + cn + ' ') !== -1;
+        },
 
-        // Enable keyboard input
-        keyboardInput: true
-    },
+        addClass = function(el, cn)
+        {
+            if (!hasClass(el, cn)) {
+                el.className = (el.className === '') ? cn : el.className + ' ' + cn;
+            }
+        },
+
+        removeClass = function(el, cn)
+        {
+            el.className = trim((' ' + el.className + ' ').replace(' ' + cn + ' ', ' '));
+        },
+
+        isArray = function(obj)
+        {
+            return (/Array/).test(Object.prototype.toString.call(obj));
+        },
+
+        isDate = function(obj)
+        {
+            return (/Date/).test(Object.prototype.toString.call(obj)) && !isNaN(obj.getTime());
+        },
+
+        isWeekend = function(date)
+        {
+            var day = date.getDay();
+            return day === 0 || day === 6;
+        },
+
+        isLeapYear = function(year)
+        {
+            // solution by Matti Virkkunen: http://stackoverflow.com/a/4881951
+            return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
+        },
+
+        getDaysInMonth = function(year, month)
+        {
+            return [31, isLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+        },
+
+        setToStartOfDay = function(date)
+        {
+            if (isDate(date)) date.setHours(0,0,0,0);
+        },
+
+        compareDates = function(a,b)
+        {
+            // weak date comparison (use setToStartOfDay(date) to ensure correct result)
+            return a.getTime() === b.getTime();
+        },
+
+        extend = function(to, from, overwrite)
+        {
+            var prop, hasProp;
+            for (prop in from) {
+                hasProp = to[prop] !== undefined;
+                if (hasProp && typeof from[prop] === 'object' && from[prop] !== null && from[prop].nodeName === undefined) {
+                    if (isDate(from[prop])) {
+                        if (overwrite) {
+                            to[prop] = new Date(from[prop].getTime());
+                        }
+                    }
+                    else if (isArray(from[prop])) {
+                        if (overwrite) {
+                            to[prop] = from[prop].slice(0);
+                        }
+                    } else {
+                        to[prop] = extend({}, from[prop], overwrite);
+                    }
+                } else if (overwrite || !hasProp) {
+                    to[prop] = from[prop];
+                }
+            }
+            return to;
+        },
+
+        fireEvent = function(el, eventName, data)
+        {
+            var ev;
+
+            if (document.createEvent) {
+                ev = document.createEvent('HTMLEvents');
+                ev.initEvent(eventName, true, false);
+                ev = extend(ev, data);
+                el.dispatchEvent(ev);
+            } else if (document.createEventObject) {
+                ev = document.createEventObject();
+                ev = extend(ev, data);
+                el.fireEvent('on' + eventName, ev);
+            }
+        },
+
+        adjustCalendar = function(calendar) {
+            if (calendar.month < 0) {
+                calendar.year -= Math.ceil(Math.abs(calendar.month)/12);
+                calendar.month += 12;
+            }
+            if (calendar.month > 11) {
+                calendar.year += Math.floor(Math.abs(calendar.month)/12);
+                calendar.month -= 12;
+            }
+            return calendar;
+        },
+
+        /**
+         * defaults and localisation
+         */
+        defaults = {
+
+            // bind the picker to a form field
+            field: null,
+
+            // automatically show/hide the picker on `field` focus (default `true` if `field` is set)
+            bound: undefined,
+
+            // data-attribute on the input field with an aria assistance tekst (only applied when `bound` is set)
+            ariaLabel: 'Use the arrow keys to pick a date',
+
+            // position of the datepicker, relative to the field (default to bottom & left)
+            // ('bottom' & 'left' keywords are not used, 'top' & 'right' are modifier on the bottom/left position)
+            position: 'bottom left',
+
+            // automatically fit in the viewport even if it means repositioning from the position option
+            reposition: true,
+
+            // the default output format for `.toString()` and `field` value
+            format: 'YYYY-MM-DD',
+
+            // the toString function which gets passed a current date object and format
+            // and returns a string
+            toString: null,
+
+            // used to create date object from current input string
+            parse: null,
+
+            // the initial date to view when first opened
+            defaultDate: null,
+
+            // make the `defaultDate` the initial selected value
+            setDefaultDate: false,
+
+            // first day of week (0: Sunday, 1: Monday etc)
+            firstDay: 0,
+
+            // the default flag for moment's strict date parsing
+            formatStrict: false,
+
+            // the minimum/earliest date that can be selected
+            minDate: null,
+            // the maximum/latest date that can be selected
+            maxDate: null,
+
+            // number of years either side, or array of upper/lower range
+            yearRange: 10,
+
+            // show week numbers at head of row
+            showWeekNumber: false,
+
+            // Week picker mode
+            pickWholeWeek: false,
+
+            // used internally (don't config outside)
+            minYear: 0,
+            maxYear: 9999,
+            minMonth: undefined,
+            maxMonth: undefined,
+
+            startRange: null,
+            endRange: null,
+
+            isRTL: false,
+
+            // Additional text to append to the year in the calendar title
+            yearSuffix: '',
+
+            // Render the month after year in the calendar title
+            showMonthAfterYear: false,
+
+            // Render days of the calendar grid that fall in the next or previous month
+            showDaysInNextAndPreviousMonths: false,
+
+            // Allows user to select days that fall in the next or previous month
+            enableSelectionDaysInNextAndPreviousMonths: false,
+
+            // how many months are visible
+            numberOfMonths: 1,
+
+            // when numberOfMonths is used, this will help you to choose where the main calendar will be (default `left`, can be set to `right`)
+            // only used for the first display or when a selected date is not visible
+            mainCalendar: 'left',
+
+            // Specify a DOM element to render the calendar in
+            container: undefined,
+
+            // Blur field when date is selected
+            blurFieldOnSelect : true,
+
+            // internationalization
+            i18n: {
+                previousMonth : 'Mois précédent',
+                nextMonth     : 'Mois suivant',
+                months        : ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Decembre'],
+                weekdays      : ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+                weekdaysShort : ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam']
+            },
+
+            // Theme Classname
+            theme: null,
+
+            // events array
+            events: [],
+
+            // callback function
+            onSelect: null,
+            onOpen: null,
+            onClose: null,
+            onDraw: null,
+
+            // Enable keyboard input
+            keyboardInput: true
+        },
 
 
-    /**
-     * templating functions to abstract HTML rendering
-     */
-    renderDayName = function(opts, day, abbr)
-    {
-        day += opts.firstDay;
-        while (day >= 7) {
-            day -= 7;
-        }
-        return abbr ? opts.i18n.weekdaysShort[day] : opts.i18n.weekdays[day];
-    },
+        /**
+         * templating functions to abstract HTML rendering
+         */
+        renderDayName = function(opts, day, abbr)
+        {
+            day += opts.firstDay;
+            while (day >= 7) {
+                day -= 7;
+            }
+            return abbr ? opts.i18n.weekdaysShort[day] : opts.i18n.weekdays[day];
+        },
 
-    renderDay = function(opts)
-    {
-        var arr = [];
-        var ariaSelected = 'false';
-        if (opts.isEmpty) {
-            if (opts.showDaysInNextAndPreviousMonths) {
-                arr.push('is-outside-current-month');
+        renderDay = function(opts)
+        {
+            var arr = [];
+            var ariaSelected = 'false';
+            if (opts.isEmpty) {
+                if (opts.showDaysInNextAndPreviousMonths) {
+                    arr.push('is-outside-current-month');
 
-                if(!opts.enableSelectionDaysInNextAndPreviousMonths) {
-                    arr.push('is-selection-disabled');
+                    if(!opts.enableSelectionDaysInNextAndPreviousMonths) {
+                        arr.push('is-selection-disabled');
+                    }
+
+                } else {
+                    return '<td class="is-empty"></td>';
+                }
+            }
+            if (opts.isDisabled) {
+                arr.push('is-disabled');
+            }
+            if (opts.isToday) {
+                arr.push('is-today');
+            }
+            if (opts.isSelected) {
+                arr.push('is-selected');
+                ariaSelected = 'true';
+            }
+            if (opts.hasEvent) {
+                arr.push('has-event');
+            }
+            if (opts.isInRange) {
+                arr.push('is-inrange');
+            }
+            if (opts.isStartRange) {
+                arr.push('is-startrange');
+            }
+            if (opts.isEndRange) {
+                arr.push('is-endrange');
+            }
+            return '<td data-day="' + opts.day + '" class="' + arr.join(' ') + '" aria-selected="' + ariaSelected + '">' +
+                '<button class="pika-button pika-day" type="button" ' +
+                'data-pika-year="' + opts.year + '" data-pika-month="' + opts.month + '" data-pika-day="' + opts.day + '">' +
+                opts.day +
+                '</button>' +
+                '</td>';
+        },
+
+        renderWeek = function (d, m, y) {
+            // Lifted from http://javascript.about.com/library/blweekyear.htm, lightly modified.
+            var onejan = new Date(y, 0, 1),
+                weekNum = Math.ceil((((new Date(y, m, d) - onejan) / 86400000) + onejan.getDay()+1)/7);
+            return '<td class="pika-week">' + weekNum + '</td>';
+        },
+
+        renderRow = function(days, isRTL, pickWholeWeek, isRowSelected)
+        {
+            return '<tr class="pika-row' + (pickWholeWeek ? ' pick-whole-week' : '') + (isRowSelected ? ' is-selected' : '') + '">' + (isRTL ? days.reverse() : days).join('') + '</tr>';
+        },
+
+        renderBody = function(rows)
+        {
+            return '<tbody>' + rows.join('') + '</tbody>';
+        },
+
+        renderHead = function(opts)
+        {
+            var i, arr = [];
+            if (opts.showWeekNumber) {
+                arr.push('<th></th>');
+            }
+            for (i = 0; i < 7; i++) {
+                arr.push('<th scope="col"><abbr title="' + renderDayName(opts, i) + '">' + renderDayName(opts, i, true) + '</abbr></th>');
+            }
+            return '<thead><tr>' + (opts.isRTL ? arr.reverse() : arr).join('') + '</tr></thead>';
+        },
+
+        renderTitle = function(instance, c, year, month, refYear, randId)
+        {
+            var i, j, arr,
+                opts = instance._o,
+                isMinYear = year === opts.minYear,
+                isMaxYear = year === opts.maxYear,
+                html = '<div id="' + randId + '" class="pika-title" role="heading" aria-live="assertive">',
+                monthHtml,
+                yearHtml,
+                prev = true,
+                next = true;
+
+            for (arr = [], i = 0; i < 12; i++) {
+                arr.push('<option value="' + (year === refYear ? i - c : 12 + i - c) + '"' +
+                    (i === month ? ' selected="selected"': '') +
+                    ((isMinYear && i < opts.minMonth) || (isMaxYear && i > opts.maxMonth) ? 'disabled="disabled"' : '') + '>' +
+                    opts.i18n.months[i] + '</option>');
+            }
+
+            monthHtml = '<div class="pika-label">' + opts.i18n.months[month] + '<select class="pika-select pika-select-month" tabindex="-1">' + arr.join('') + '</select></div>';
+
+            if (isArray(opts.yearRange)) {
+                i = opts.yearRange[0];
+                j = opts.yearRange[1] + 1;
+            } else {
+                i = year - opts.yearRange;
+                j = 1 + year + opts.yearRange;
+            }
+
+            for (arr = []; i < j && i <= opts.maxYear; i++) {
+                if (i >= opts.minYear) {
+                    arr.push('<option value="' + i + '"' + (i === year ? ' selected="selected"': '') + '>' + (i) + '</option>');
+                }
+            }
+            yearHtml = '<div class="pika-label">' + year + opts.yearSuffix + '<select class="pika-select pika-select-year" tabindex="-1">' + arr.join('') + '</select></div>';
+
+            if (opts.showMonthAfterYear) {
+                html += yearHtml + monthHtml;
+            } else {
+                html += monthHtml + yearHtml;
+            }
+
+            if (isMinYear && (month === 0 || opts.minMonth >= month)) {
+                prev = false;
+            }
+
+            if (isMaxYear && (month === 11 || opts.maxMonth <= month)) {
+                next = false;
+            }
+
+            if (c === 0) {
+                html += '<button class="pika-prev' + (prev ? '' : ' is-disabled') + '" type="button">' + opts.i18n.previousMonth + '</button>';
+            }
+            if (c === (instance._o.numberOfMonths - 1) ) {
+                html += '<button class="pika-next' + (next ? '' : ' is-disabled') + '" type="button">' + opts.i18n.nextMonth + '</button>';
+            }
+
+            return html += '</div>';
+        },
+
+        renderTable = function(opts, data, randId)
+        {
+            return '<table cellpadding="0" cellspacing="0" class="pika-table" role="grid" aria-labelledby="' + randId + '">' + renderHead(opts) + renderBody(data) + '</table>';
+        },
+
+
+        /**
+         * Pikaday constructor
+         */
+        Pikaday = function(options)
+        {
+            var self = this,
+                opts = self.config(options);
+
+            self._onMouseDown = function(e)
+            {
+                if (!self._v) {
+                    return;
+                }
+                e = e || window.event;
+                var target = e.target || e.srcElement;
+                if (!target) {
+                    return;
                 }
 
-            } else {
-                return '<td class="is-empty"></td>';
-            }
-        }
-        if (opts.isDisabled) {
-            arr.push('is-disabled');
-        }
-        if (opts.isToday) {
-            arr.push('is-today');
-        }
-        if (opts.isSelected) {
-            arr.push('is-selected');
-            ariaSelected = 'true';
-        }
-        if (opts.hasEvent) {
-            arr.push('has-event');
-        }
-        if (opts.isInRange) {
-            arr.push('is-inrange');
-        }
-        if (opts.isStartRange) {
-            arr.push('is-startrange');
-        }
-        if (opts.isEndRange) {
-            arr.push('is-endrange');
-        }
-        return '<td data-day="' + opts.day + '" class="' + arr.join(' ') + '" aria-selected="' + ariaSelected + '">' +
-                 '<button class="pika-button pika-day" type="button" ' +
-                    'data-pika-year="' + opts.year + '" data-pika-month="' + opts.month + '" data-pika-day="' + opts.day + '">' +
-                        opts.day +
-                 '</button>' +
-               '</td>';
-    },
-
-    renderWeek = function (d, m, y) {
-        // Lifted from http://javascript.about.com/library/blweekyear.htm, lightly modified.
-        var onejan = new Date(y, 0, 1),
-            weekNum = Math.ceil((((new Date(y, m, d) - onejan) / 86400000) + onejan.getDay()+1)/7);
-        return '<td class="pika-week">' + weekNum + '</td>';
-    },
-
-    renderRow = function(days, isRTL, pickWholeWeek, isRowSelected)
-    {
-        return '<tr class="pika-row' + (pickWholeWeek ? ' pick-whole-week' : '') + (isRowSelected ? ' is-selected' : '') + '">' + (isRTL ? days.reverse() : days).join('') + '</tr>';
-    },
-
-    renderBody = function(rows)
-    {
-        return '<tbody>' + rows.join('') + '</tbody>';
-    },
-
-    renderHead = function(opts)
-    {
-        var i, arr = [];
-        if (opts.showWeekNumber) {
-            arr.push('<th></th>');
-        }
-        for (i = 0; i < 7; i++) {
-            arr.push('<th scope="col"><abbr title="' + renderDayName(opts, i) + '">' + renderDayName(opts, i, true) + '</abbr></th>');
-        }
-        return '<thead><tr>' + (opts.isRTL ? arr.reverse() : arr).join('') + '</tr></thead>';
-    },
-
-    renderTitle = function(instance, c, year, month, refYear, randId)
-    {
-        var i, j, arr,
-            opts = instance._o,
-            isMinYear = year === opts.minYear,
-            isMaxYear = year === opts.maxYear,
-            html = '<div id="' + randId + '" class="pika-title" role="heading" aria-live="assertive">',
-            monthHtml,
-            yearHtml,
-            prev = true,
-            next = true;
-
-        for (arr = [], i = 0; i < 12; i++) {
-            arr.push('<option value="' + (year === refYear ? i - c : 12 + i - c) + '"' +
-                (i === month ? ' selected="selected"': '') +
-                ((isMinYear && i < opts.minMonth) || (isMaxYear && i > opts.maxMonth) ? 'disabled="disabled"' : '') + '>' +
-                opts.i18n.months[i] + '</option>');
-        }
-
-        monthHtml = '<div class="pika-label">' + opts.i18n.months[month] + '<select class="pika-select pika-select-month" tabindex="-1">' + arr.join('') + '</select></div>';
-
-        if (isArray(opts.yearRange)) {
-            i = opts.yearRange[0];
-            j = opts.yearRange[1] + 1;
-        } else {
-            i = year - opts.yearRange;
-            j = 1 + year + opts.yearRange;
-        }
-
-        for (arr = []; i < j && i <= opts.maxYear; i++) {
-            if (i >= opts.minYear) {
-                arr.push('<option value="' + i + '"' + (i === year ? ' selected="selected"': '') + '>' + (i) + '</option>');
-            }
-        }
-        yearHtml = '<div class="pika-label">' + year + opts.yearSuffix + '<select class="pika-select pika-select-year" tabindex="-1">' + arr.join('') + '</select></div>';
-
-        if (opts.showMonthAfterYear) {
-            html += yearHtml + monthHtml;
-        } else {
-            html += monthHtml + yearHtml;
-        }
-
-        if (isMinYear && (month === 0 || opts.minMonth >= month)) {
-            prev = false;
-        }
-
-        if (isMaxYear && (month === 11 || opts.maxMonth <= month)) {
-            next = false;
-        }
-
-        if (c === 0) {
-            html += '<button class="pika-prev' + (prev ? '' : ' is-disabled') + '" type="button">' + opts.i18n.previousMonth + '</button>';
-        }
-        if (c === (instance._o.numberOfMonths - 1) ) {
-            html += '<button class="pika-next' + (next ? '' : ' is-disabled') + '" type="button">' + opts.i18n.nextMonth + '</button>';
-        }
-
-        return html += '</div>';
-    },
-
-    renderTable = function(opts, data, randId)
-    {
-        return '<table cellpadding="0" cellspacing="0" class="pika-table" role="grid" aria-labelledby="' + randId + '">' + renderHead(opts) + renderBody(data) + '</table>';
-    },
-
-
-    /**
-     * Pikaday constructor
-     */
-    Pikaday = function(options)
-    {
-        var self = this,
-            opts = self.config(options);
-
-        self._onMouseDown = function(e)
-        {
-            if (!self._v) {
-                return;
-            }
-            e = e || window.event;
-            var target = e.target || e.srcElement;
-            if (!target) {
-                return;
-            }
-
-            if (!hasClass(target, 'is-disabled')) {
-                if (hasClass(target, 'pika-button') && !hasClass(target, 'is-empty') && !hasClass(target.parentNode, 'is-disabled')) {
-                    self.setDate(new Date(target.getAttribute('data-pika-year'), target.getAttribute('data-pika-month'), target.getAttribute('data-pika-day')));
-                    if (opts.bound) {
-                        sto(function() {
-                            self.hide();
-                            if (opts.blurFieldOnSelect && opts.field) {
-                                opts.field.blur();
-                            }
-                        }, 100);
+                if (!hasClass(target, 'is-disabled')) {
+                    if (hasClass(target, 'pika-button') && !hasClass(target, 'is-empty') && !hasClass(target.parentNode, 'is-disabled')) {
+                        self.setDate(new Date(target.getAttribute('data-pika-year'), target.getAttribute('data-pika-month'), target.getAttribute('data-pika-day')));
+                        if (opts.bound) {
+                            sto(function() {
+                                self.hide();
+                                if (opts.blurFieldOnSelect && opts.field) {
+                                    opts.field.blur();
+                                }
+                            }, 100);
+                        }
+                    }
+                    else if (hasClass(target, 'pika-prev')) {
+                        self.prevMonth();
+                    }
+                    else if (hasClass(target, 'pika-next')) {
+                        self.nextMonth();
                     }
                 }
-                else if (hasClass(target, 'pika-prev')) {
-                    self.prevMonth();
-                }
-                else if (hasClass(target, 'pika-next')) {
-                    self.nextMonth();
-                }
-            }
-            if (!hasClass(target, 'pika-select')) {
-                // if this is touch event prevent mouse events emulation
-                if (e.preventDefault) {
-                    e.preventDefault();
-                } else {
-                    e.returnValue = false;
-                    return false;
-                }
-            } else {
-                self._c = true;
-            }
-        };
-
-        self._onChange = function(e)
-        {
-            e = e || window.event;
-            var target = e.target || e.srcElement;
-            if (!target) {
-                return;
-            }
-            if (hasClass(target, 'pika-select-month')) {
-                self.gotoMonth(target.value);
-            }
-            else if (hasClass(target, 'pika-select-year')) {
-                self.gotoYear(target.value);
-            }
-        };
-
-        self._onKeyChange = function(e)
-        {
-            e = e || window.event;
-
-            if (self.isVisible()) {
-
-                switch(e.keyCode){
-                    case 13:
-                    case 27:
-                        if (opts.field) {
-                            opts.field.blur();
-                        }
-                        break;
-                    case 37:
+                if (!hasClass(target, 'pika-select')) {
+                    // if this is touch event prevent mouse events emulation
+                    if (e.preventDefault) {
                         e.preventDefault();
-                        self.adjustDate('subtract', 1);
-                        break;
-                    case 38:
-                        self.adjustDate('subtract', 7);
-                        break;
-                    case 39:
-                        self.adjustDate('add', 1);
-                        break;
-                    case 40:
-                        self.adjustDate('add', 7);
-                        break;
-                }
-            }
-        };
-
-        self._onInputChange = function(e)
-        {
-            var date;
-
-            if (e.firedBy === self) {
-                return;
-            }
-            if (opts.parse) {
-                date = opts.parse(opts.field.value, opts.format);
-            } else if (hasMoment) {
-                date = moment(opts.field.value, opts.format, opts.formatStrict);
-                date = (date && date.isValid()) ? date.toDate() : null;
-            }
-            else {
-                date = new Date(Date.parse(opts.field.value));
-            }
-            if (isDate(date)) {
-              self.setDate(date);
-            }
-            if (!self._v) {
-                self.show();
-            }
-        };
-
-        self._onInputFocus = function()
-        {
-            self.show();
-        };
-
-        self._onInputClick = function()
-        {
-            self.show();
-        };
-
-        self._onInputBlur = function()
-        {
-            // IE allows pika div to gain focus; catch blur the input field
-            var pEl = document.activeElement;
-            do {
-                if (hasClass(pEl, 'pika-single')) {
-                    return;
-                }
-            }
-            while ((pEl = pEl.parentNode));
-
-            if (!self._c) {
-                self._b = sto(function() {
-                    self.hide();
-                }, 50);
-            }
-            self._c = false;
-        };
-
-        self._onClick = function(e)
-        {
-            e = e || window.event;
-            var target = e.target || e.srcElement,
-                pEl = target;
-            if (!target) {
-                return;
-            }
-            if (!hasEventListeners && hasClass(target, 'pika-select')) {
-                if (!target.onchange) {
-                    target.setAttribute('onchange', 'return;');
-                    addEvent(target, 'change', self._onChange);
-                }
-            }
-            do {
-                if (hasClass(pEl, 'pika-single') || pEl === opts.trigger) {
-                    return;
-                }
-            }
-            while ((pEl = pEl.parentNode));
-            if (self._v && target !== opts.trigger && pEl !== opts.trigger) {
-                self.hide();
-            }
-        };
-
-        self.el = document.createElement('div');
-        self.el.className = 'pika-single' + (opts.isRTL ? ' is-rtl' : '') + (opts.theme ? ' ' + opts.theme : '');
-
-        addEvent(self.el, 'mousedown', self._onMouseDown, true);
-        addEvent(self.el, 'touchend', self._onMouseDown, true);
-        addEvent(self.el, 'change', self._onChange);
-
-        if (opts.keyboardInput) {
-            addEvent(document, 'keydown', self._onKeyChange);
-        }
-
-        if (opts.field) {
-            if (opts.container) {
-                opts.container.appendChild(self.el);
-            } else if (opts.bound) {
-                document.body.appendChild(self.el);
-            } else {
-                opts.field.parentNode.insertBefore(self.el, opts.field.nextSibling);
-            }
-            addEvent(opts.field, 'change', self._onInputChange);
-
-            if (!opts.defaultDate) {
-                if (hasMoment && opts.field.value) {
-                    opts.defaultDate = moment(opts.field.value, opts.format).toDate();
+                    } else {
+                        e.returnValue = false;
+                        return false;
+                    }
                 } else {
-                    opts.defaultDate = new Date(Date.parse(opts.field.value));
+                    self._c = true;
                 }
-                opts.setDefaultDate = true;
+            };
+
+            self._onChange = function(e)
+            {
+                e = e || window.event;
+                var target = e.target || e.srcElement;
+                if (!target) {
+                    return;
+                }
+                if (hasClass(target, 'pika-select-month')) {
+                    self.gotoMonth(target.value);
+                }
+                else if (hasClass(target, 'pika-select-year')) {
+                    self.gotoYear(target.value);
+                }
+            };
+
+            self._onKeyChange = function(e)
+            {
+                e = e || window.event;
+
+                if (self.isVisible()) {
+
+                    switch(e.keyCode){
+                        case 13:
+                        case 27:
+                            if (opts.field) {
+                                opts.field.blur();
+                            }
+                            break;
+                        case 37:
+                            e.preventDefault();
+                            self.adjustDate('subtract', 1);
+                            break;
+                        case 38:
+                            self.adjustDate('subtract', 7);
+                            break;
+                        case 39:
+                            self.adjustDate('add', 1);
+                            break;
+                        case 40:
+                            self.adjustDate('add', 7);
+                            break;
+                    }
+                }
+            };
+
+            self._onInputChange = function(e)
+            {
+                var date;
+
+                if (e.firedBy === self) {
+                    return;
+                }
+                if (opts.parse) {
+                    date = opts.parse(opts.field.value, opts.format);
+                } else if (hasMoment) {
+                    date = moment(opts.field.value, opts.format, opts.formatStrict);
+                    date = (date && date.isValid()) ? date.toDate() : null;
+                }
+                else {
+                    date = new Date(Date.parse(opts.field.value));
+                }
+                if (isDate(date)) {
+                    self.setDate(date);
+                }
+                if (!self._v) {
+                    self.show();
+                }
+            };
+
+            self._onInputFocus = function()
+            {
+                self.show();
+            };
+
+            self._onInputClick = function()
+            {
+                self.show();
+            };
+
+            self._onInputBlur = function()
+            {
+                // IE allows pika div to gain focus; catch blur the input field
+                var pEl = document.activeElement;
+                do {
+                    if (hasClass(pEl, 'pika-single')) {
+                        return;
+                    }
+                }
+                while ((pEl = pEl.parentNode));
+
+                if (!self._c) {
+                    self._b = sto(function() {
+                        self.hide();
+                    }, 50);
+                }
+                self._c = false;
+            };
+
+            self._onClick = function(e)
+            {
+                e = e || window.event;
+                var target = e.target || e.srcElement,
+                    pEl = target;
+                if (!target) {
+                    return;
+                }
+                if (!hasEventListeners && hasClass(target, 'pika-select')) {
+                    if (!target.onchange) {
+                        target.setAttribute('onchange', 'return;');
+                        addEvent(target, 'change', self._onChange);
+                    }
+                }
+                do {
+                    if (hasClass(pEl, 'pika-single') || pEl === opts.trigger) {
+                        return;
+                    }
+                }
+                while ((pEl = pEl.parentNode));
+                if (self._v && target !== opts.trigger && pEl !== opts.trigger) {
+                    self.hide();
+                }
+            };
+
+            self.el = document.createElement('div');
+            self.el.className = 'pika-single' + (opts.isRTL ? ' is-rtl' : '') + (opts.theme ? ' ' + opts.theme : '');
+
+            addEvent(self.el, 'mousedown', self._onMouseDown, true);
+            addEvent(self.el, 'touchend', self._onMouseDown, true);
+            addEvent(self.el, 'change', self._onChange);
+
+            if (opts.keyboardInput) {
+                addEvent(document, 'keydown', self._onKeyChange);
             }
-        }
 
-        var defDate = opts.defaultDate;
+            if (opts.field) {
+                if (opts.container) {
+                    opts.container.appendChild(self.el);
+                } else if (opts.bound) {
+                    document.body.appendChild(self.el);
+                } else {
+                    opts.field.parentNode.insertBefore(self.el, opts.field.nextSibling);
+                }
+                addEvent(opts.field, 'change', self._onInputChange);
 
-        if (isDate(defDate)) {
-            if (opts.setDefaultDate) {
-                self.setDate(defDate, true);
+                if (!opts.defaultDate) {
+                    if (hasMoment && opts.field.value) {
+                        opts.defaultDate = moment(opts.field.value, opts.format).toDate();
+                    } else {
+                        opts.defaultDate = new Date(Date.parse(opts.field.value));
+                    }
+                    opts.setDefaultDate = true;
+                }
+            }
+
+            var defDate = opts.defaultDate;
+
+            if (isDate(defDate)) {
+                if (opts.setDefaultDate) {
+                    self.setDate(defDate, true);
+                } else {
+                    self.gotoDate(defDate);
+                }
             } else {
-                self.gotoDate(defDate);
+                self.gotoDate(new Date());
             }
-        } else {
-            self.gotoDate(new Date());
-        }
 
-        if (opts.bound) {
-            this.hide();
-            self.el.className += ' is-bound';
-            addEvent(opts.trigger, 'click', self._onInputClick);
-            addEvent(opts.trigger, 'focus', self._onInputFocus);
-            addEvent(opts.trigger, 'blur', self._onInputBlur);
-        } else {
-            this.show();
-        }
-    };
+            if (opts.bound) {
+                this.hide();
+                self.el.className += ' is-bound';
+                addEvent(opts.trigger, 'click', self._onInputClick);
+                addEvent(opts.trigger, 'focus', self._onInputFocus);
+                addEvent(opts.trigger, 'blur', self._onInputBlur);
+            } else {
+                this.show();
+            }
+        };
 
 
     /**
@@ -14210,10 +14210,10 @@ var objectFitImages = (function () {
                 return '';
             }
             if (this._o.toString) {
-              return this._o.toString(this._d, format);
+                return this._o.toString(this._d, format);
             }
             if (hasMoment) {
-              return moment(this._d).format(format);
+                return moment(this._d).format(format);
             }
             return this._d.toDateString();
         },
@@ -14588,9 +14588,9 @@ var objectFitImages = (function () {
                     isEndRange = opts.endRange && compareDates(opts.endRange, day),
                     isInRange = opts.startRange && opts.endRange && opts.startRange < day && day < opts.endRange,
                     isDisabled = (opts.minDate && day < opts.minDate) ||
-                                 (opts.maxDate && day > opts.maxDate) ||
-                                 (opts.disableWeekends && isWeekend(day)) ||
-                                 (opts.disableDayFn && opts.disableDayFn(day));
+                        (opts.maxDate && day > opts.maxDate) ||
+                        (opts.disableWeekends && isWeekend(day)) ||
+                        (opts.disableDayFn && opts.disableDayFn(day));
 
                 if (isEmpty) {
                     if (i < before) {
@@ -14605,20 +14605,20 @@ var objectFitImages = (function () {
                 }
 
                 var dayConfig = {
-                        day: dayNumber,
-                        month: monthNumber,
-                        year: yearNumber,
-                        hasEvent: hasEvent,
-                        isSelected: isSelected,
-                        isToday: isToday,
-                        isDisabled: isDisabled,
-                        isEmpty: isEmpty,
-                        isStartRange: isStartRange,
-                        isEndRange: isEndRange,
-                        isInRange: isInRange,
-                        showDaysInNextAndPreviousMonths: opts.showDaysInNextAndPreviousMonths,
-                        enableSelectionDaysInNextAndPreviousMonths: opts.enableSelectionDaysInNextAndPreviousMonths
-                    };
+                    day: dayNumber,
+                    month: monthNumber,
+                    year: yearNumber,
+                    hasEvent: hasEvent,
+                    isSelected: isSelected,
+                    isToday: isToday,
+                    isDisabled: isDisabled,
+                    isEmpty: isEmpty,
+                    isStartRange: isStartRange,
+                    isEndRange: isEndRange,
+                    isInRange: isInRange,
+                    showDaysInNextAndPreviousMonths: opts.showDaysInNextAndPreviousMonths,
+                    enableSelectionDaysInNextAndPreviousMonths: opts.enableSelectionDaysInNextAndPreviousMonths
+                };
 
                 if (opts.pickWholeWeek && isSelected) {
                     isWeekSelected = true;
@@ -14720,477 +14720,477 @@ var objectFitImages = (function () {
  */
 
 (function (global, factory) {
-	(global.SimpleBar = factory()); 
+    (global.SimpleBar = factory());
 }(this, function () { 'use strict';
 
-	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-	function createCommonjsModule(fn, module) {
-		return module = { exports: {} }, fn(module, module.exports), module.exports;
-	}
-
-	var O = 'object';
-	var check = function (it) {
-	  return it && it.Math == Math && it;
-	};
-
-	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-	var global_1 =
-	  // eslint-disable-next-line no-undef
-	  check(typeof globalThis == O && globalThis) ||
-	  check(typeof window == O && window) ||
-	  check(typeof self == O && self) ||
-	  check(typeof commonjsGlobal == O && commonjsGlobal) ||
-	  // eslint-disable-next-line no-new-func
-	  Function('return this')();
-
-	var fails = function (exec) {
-	  try {
-	    return !!exec();
-	  } catch (error) {
-	    return true;
-	  }
-	};
-
-	// Thank's IE8 for his funny defineProperty
-	var descriptors = !fails(function () {
-	  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
-	});
-
-	var nativePropertyIsEnumerable = {}.propertyIsEnumerable;
-	var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-
-	// Nashorn ~ JDK8 bug
-	var NASHORN_BUG = getOwnPropertyDescriptor && !nativePropertyIsEnumerable.call({ 1: 2 }, 1);
-
-	// `Object.prototype.propertyIsEnumerable` method implementation
-	// https://tc39.github.io/ecma262/#sec-object.prototype.propertyisenumerable
-	var f = NASHORN_BUG ? function propertyIsEnumerable(V) {
-	  var descriptor = getOwnPropertyDescriptor(this, V);
-	  return !!descriptor && descriptor.enumerable;
-	} : nativePropertyIsEnumerable;
-
-	var objectPropertyIsEnumerable = {
-		f: f
-	};
-
-	var createPropertyDescriptor = function (bitmap, value) {
-	  return {
-	    enumerable: !(bitmap & 1),
-	    configurable: !(bitmap & 2),
-	    writable: !(bitmap & 4),
-	    value: value
-	  };
-	};
-
-	var toString = {}.toString;
-
-	var classofRaw = function (it) {
-	  return toString.call(it).slice(8, -1);
-	};
-
-	var split = ''.split;
-
-	// fallback for non-array-like ES3 and non-enumerable old V8 strings
-	var indexedObject = fails(function () {
-	  // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
-	  // eslint-disable-next-line no-prototype-builtins
-	  return !Object('z').propertyIsEnumerable(0);
-	}) ? function (it) {
-	  return classofRaw(it) == 'String' ? split.call(it, '') : Object(it);
-	} : Object;
-
-	// `RequireObjectCoercible` abstract operation
-	// https://tc39.github.io/ecma262/#sec-requireobjectcoercible
-	var requireObjectCoercible = function (it) {
-	  if (it == undefined) throw TypeError("Can't call method on " + it);
-	  return it;
-	};
-
-	// toObject with fallback for non-array-like ES3 strings
-
-
-
-	var toIndexedObject = function (it) {
-	  return indexedObject(requireObjectCoercible(it));
-	};
-
-	var isObject = function (it) {
-	  return typeof it === 'object' ? it !== null : typeof it === 'function';
-	};
-
-	// `ToPrimitive` abstract operation
-	// https://tc39.github.io/ecma262/#sec-toprimitive
-	// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-	// and the second argument - flag - preferred type is a string
-	var toPrimitive = function (input, PREFERRED_STRING) {
-	  if (!isObject(input)) return input;
-	  var fn, val;
-	  if (PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
-	  if (typeof (fn = input.valueOf) == 'function' && !isObject(val = fn.call(input))) return val;
-	  if (!PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
-	  throw TypeError("Can't convert object to primitive value");
-	};
-
-	var hasOwnProperty = {}.hasOwnProperty;
-
-	var has = function (it, key) {
-	  return hasOwnProperty.call(it, key);
-	};
-
-	var document$1 = global_1.document;
-	// typeof document.createElement is 'object' in old IE
-	var EXISTS = isObject(document$1) && isObject(document$1.createElement);
-
-	var documentCreateElement = function (it) {
-	  return EXISTS ? document$1.createElement(it) : {};
-	};
-
-	// Thank's IE8 for his funny defineProperty
-	var ie8DomDefine = !descriptors && !fails(function () {
-	  return Object.defineProperty(documentCreateElement('div'), 'a', {
-	    get: function () { return 7; }
-	  }).a != 7;
-	});
-
-	var nativeGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-
-	// `Object.getOwnPropertyDescriptor` method
-	// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptor
-	var f$1 = descriptors ? nativeGetOwnPropertyDescriptor : function getOwnPropertyDescriptor(O, P) {
-	  O = toIndexedObject(O);
-	  P = toPrimitive(P, true);
-	  if (ie8DomDefine) try {
-	    return nativeGetOwnPropertyDescriptor(O, P);
-	  } catch (error) { /* empty */ }
-	  if (has(O, P)) return createPropertyDescriptor(!objectPropertyIsEnumerable.f.call(O, P), O[P]);
-	};
-
-	var objectGetOwnPropertyDescriptor = {
-		f: f$1
-	};
-
-	var anObject = function (it) {
-	  if (!isObject(it)) {
-	    throw TypeError(String(it) + ' is not an object');
-	  } return it;
-	};
-
-	var nativeDefineProperty = Object.defineProperty;
-
-	// `Object.defineProperty` method
-	// https://tc39.github.io/ecma262/#sec-object.defineproperty
-	var f$2 = descriptors ? nativeDefineProperty : function defineProperty(O, P, Attributes) {
-	  anObject(O);
-	  P = toPrimitive(P, true);
-	  anObject(Attributes);
-	  if (ie8DomDefine) try {
-	    return nativeDefineProperty(O, P, Attributes);
-	  } catch (error) { /* empty */ }
-	  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported');
-	  if ('value' in Attributes) O[P] = Attributes.value;
-	  return O;
-	};
-
-	var objectDefineProperty = {
-		f: f$2
-	};
-
-	var hide = descriptors ? function (object, key, value) {
-	  return objectDefineProperty.f(object, key, createPropertyDescriptor(1, value));
-	} : function (object, key, value) {
-	  object[key] = value;
-	  return object;
-	};
-
-	var setGlobal = function (key, value) {
-	  try {
-	    hide(global_1, key, value);
-	  } catch (error) {
-	    global_1[key] = value;
-	  } return value;
-	};
-
-	var shared = createCommonjsModule(function (module) {
-	var SHARED = '__core-js_shared__';
-	var store = global_1[SHARED] || setGlobal(SHARED, {});
-
-	(module.exports = function (key, value) {
-	  return store[key] || (store[key] = value !== undefined ? value : {});
-	})('versions', []).push({
-	  version: '3.2.1',
-	  mode:  'global',
-	  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
-	});
-	});
-
-	var functionToString = shared('native-function-to-string', Function.toString);
-
-	var WeakMap$1 = global_1.WeakMap;
-
-	var nativeWeakMap = typeof WeakMap$1 === 'function' && /native code/.test(functionToString.call(WeakMap$1));
-
-	var id = 0;
-	var postfix = Math.random();
-
-	var uid = function (key) {
-	  return 'Symbol(' + String(key === undefined ? '' : key) + ')_' + (++id + postfix).toString(36);
-	};
-
-	var keys = shared('keys');
-
-	var sharedKey = function (key) {
-	  return keys[key] || (keys[key] = uid(key));
-	};
-
-	var hiddenKeys = {};
-
-	var WeakMap$2 = global_1.WeakMap;
-	var set, get, has$1;
-
-	var enforce = function (it) {
-	  return has$1(it) ? get(it) : set(it, {});
-	};
-
-	var getterFor = function (TYPE) {
-	  return function (it) {
-	    var state;
-	    if (!isObject(it) || (state = get(it)).type !== TYPE) {
-	      throw TypeError('Incompatible receiver, ' + TYPE + ' required');
-	    } return state;
-	  };
-	};
-
-	if (nativeWeakMap) {
-	  var store = new WeakMap$2();
-	  var wmget = store.get;
-	  var wmhas = store.has;
-	  var wmset = store.set;
-	  set = function (it, metadata) {
-	    wmset.call(store, it, metadata);
-	    return metadata;
-	  };
-	  get = function (it) {
-	    return wmget.call(store, it) || {};
-	  };
-	  has$1 = function (it) {
-	    return wmhas.call(store, it);
-	  };
-	} else {
-	  var STATE = sharedKey('state');
-	  hiddenKeys[STATE] = true;
-	  set = function (it, metadata) {
-	    hide(it, STATE, metadata);
-	    return metadata;
-	  };
-	  get = function (it) {
-	    return has(it, STATE) ? it[STATE] : {};
-	  };
-	  has$1 = function (it) {
-	    return has(it, STATE);
-	  };
-	}
-
-	var internalState = {
-	  set: set,
-	  get: get,
-	  has: has$1,
-	  enforce: enforce,
-	  getterFor: getterFor
-	};
-
-	var redefine = createCommonjsModule(function (module) {
-	var getInternalState = internalState.get;
-	var enforceInternalState = internalState.enforce;
-	var TEMPLATE = String(functionToString).split('toString');
-
-	shared('inspectSource', function (it) {
-	  return functionToString.call(it);
-	});
-
-	(module.exports = function (O, key, value, options) {
-	  var unsafe = options ? !!options.unsafe : false;
-	  var simple = options ? !!options.enumerable : false;
-	  var noTargetGet = options ? !!options.noTargetGet : false;
-	  if (typeof value == 'function') {
-	    if (typeof key == 'string' && !has(value, 'name')) hide(value, 'name', key);
-	    enforceInternalState(value).source = TEMPLATE.join(typeof key == 'string' ? key : '');
-	  }
-	  if (O === global_1) {
-	    if (simple) O[key] = value;
-	    else setGlobal(key, value);
-	    return;
-	  } else if (!unsafe) {
-	    delete O[key];
-	  } else if (!noTargetGet && O[key]) {
-	    simple = true;
-	  }
-	  if (simple) O[key] = value;
-	  else hide(O, key, value);
-	// add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
-	})(Function.prototype, 'toString', function toString() {
-	  return typeof this == 'function' && getInternalState(this).source || functionToString.call(this);
-	});
-	});
-
-	var path = global_1;
-
-	var aFunction = function (variable) {
-	  return typeof variable == 'function' ? variable : undefined;
-	};
-
-	var getBuiltIn = function (namespace, method) {
-	  return arguments.length < 2 ? aFunction(path[namespace]) || aFunction(global_1[namespace])
-	    : path[namespace] && path[namespace][method] || global_1[namespace] && global_1[namespace][method];
-	};
-
-	var ceil = Math.ceil;
-	var floor = Math.floor;
-
-	// `ToInteger` abstract operation
-	// https://tc39.github.io/ecma262/#sec-tointeger
-	var toInteger = function (argument) {
-	  return isNaN(argument = +argument) ? 0 : (argument > 0 ? floor : ceil)(argument);
-	};
-
-	var min = Math.min;
-
-	// `ToLength` abstract operation
-	// https://tc39.github.io/ecma262/#sec-tolength
-	var toLength = function (argument) {
-	  return argument > 0 ? min(toInteger(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
-	};
-
-	var max = Math.max;
-	var min$1 = Math.min;
-
-	// Helper for a popular repeating case of the spec:
-	// Let integer be ? ToInteger(index).
-	// If integer < 0, let result be max((length + integer), 0); else let result be min(length, length).
-	var toAbsoluteIndex = function (index, length) {
-	  var integer = toInteger(index);
-	  return integer < 0 ? max(integer + length, 0) : min$1(integer, length);
-	};
-
-	// `Array.prototype.{ indexOf, includes }` methods implementation
-	var createMethod = function (IS_INCLUDES) {
-	  return function ($this, el, fromIndex) {
-	    var O = toIndexedObject($this);
-	    var length = toLength(O.length);
-	    var index = toAbsoluteIndex(fromIndex, length);
-	    var value;
-	    // Array#includes uses SameValueZero equality algorithm
-	    // eslint-disable-next-line no-self-compare
-	    if (IS_INCLUDES && el != el) while (length > index) {
-	      value = O[index++];
-	      // eslint-disable-next-line no-self-compare
-	      if (value != value) return true;
-	    // Array#indexOf ignores holes, Array#includes - not
-	    } else for (;length > index; index++) {
-	      if ((IS_INCLUDES || index in O) && O[index] === el) return IS_INCLUDES || index || 0;
-	    } return !IS_INCLUDES && -1;
-	  };
-	};
-
-	var arrayIncludes = {
-	  // `Array.prototype.includes` method
-	  // https://tc39.github.io/ecma262/#sec-array.prototype.includes
-	  includes: createMethod(true),
-	  // `Array.prototype.indexOf` method
-	  // https://tc39.github.io/ecma262/#sec-array.prototype.indexof
-	  indexOf: createMethod(false)
-	};
-
-	var indexOf = arrayIncludes.indexOf;
-
-
-	var objectKeysInternal = function (object, names) {
-	  var O = toIndexedObject(object);
-	  var i = 0;
-	  var result = [];
-	  var key;
-	  for (key in O) !has(hiddenKeys, key) && has(O, key) && result.push(key);
-	  // Don't enum bug & hidden keys
-	  while (names.length > i) if (has(O, key = names[i++])) {
-	    ~indexOf(result, key) || result.push(key);
-	  }
-	  return result;
-	};
-
-	// IE8- don't enum bug keys
-	var enumBugKeys = [
-	  'constructor',
-	  'hasOwnProperty',
-	  'isPrototypeOf',
-	  'propertyIsEnumerable',
-	  'toLocaleString',
-	  'toString',
-	  'valueOf'
-	];
-
-	var hiddenKeys$1 = enumBugKeys.concat('length', 'prototype');
-
-	// `Object.getOwnPropertyNames` method
-	// https://tc39.github.io/ecma262/#sec-object.getownpropertynames
-	var f$3 = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-	  return objectKeysInternal(O, hiddenKeys$1);
-	};
-
-	var objectGetOwnPropertyNames = {
-		f: f$3
-	};
-
-	var f$4 = Object.getOwnPropertySymbols;
-
-	var objectGetOwnPropertySymbols = {
-		f: f$4
-	};
-
-	// all object keys, includes non-enumerable and symbols
-	var ownKeys = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
-	  var keys = objectGetOwnPropertyNames.f(anObject(it));
-	  var getOwnPropertySymbols = objectGetOwnPropertySymbols.f;
-	  return getOwnPropertySymbols ? keys.concat(getOwnPropertySymbols(it)) : keys;
-	};
-
-	var copyConstructorProperties = function (target, source) {
-	  var keys = ownKeys(source);
-	  var defineProperty = objectDefineProperty.f;
-	  var getOwnPropertyDescriptor = objectGetOwnPropertyDescriptor.f;
-	  for (var i = 0; i < keys.length; i++) {
-	    var key = keys[i];
-	    if (!has(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
-	  }
-	};
-
-	var replacement = /#|\.prototype\./;
-
-	var isForced = function (feature, detection) {
-	  var value = data[normalize(feature)];
-	  return value == POLYFILL ? true
-	    : value == NATIVE ? false
-	    : typeof detection == 'function' ? fails(detection)
-	    : !!detection;
-	};
-
-	var normalize = isForced.normalize = function (string) {
-	  return String(string).replace(replacement, '.').toLowerCase();
-	};
-
-	var data = isForced.data = {};
-	var NATIVE = isForced.NATIVE = 'N';
-	var POLYFILL = isForced.POLYFILL = 'P';
-
-	var isForced_1 = isForced;
-
-	var getOwnPropertyDescriptor$1 = objectGetOwnPropertyDescriptor.f;
-
-
-
-
-
-
-	/*
+    var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+    function createCommonjsModule(fn, module) {
+        return module = { exports: {} }, fn(module, module.exports), module.exports;
+    }
+
+    var O = 'object';
+    var check = function (it) {
+        return it && it.Math == Math && it;
+    };
+
+    // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+    var global_1 =
+        // eslint-disable-next-line no-undef
+        check(typeof globalThis == O && globalThis) ||
+        check(typeof window == O && window) ||
+        check(typeof self == O && self) ||
+        check(typeof commonjsGlobal == O && commonjsGlobal) ||
+        // eslint-disable-next-line no-new-func
+        Function('return this')();
+
+    var fails = function (exec) {
+        try {
+            return !!exec();
+        } catch (error) {
+            return true;
+        }
+    };
+
+    // Thank's IE8 for his funny defineProperty
+    var descriptors = !fails(function () {
+        return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
+    });
+
+    var nativePropertyIsEnumerable = {}.propertyIsEnumerable;
+    var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+
+    // Nashorn ~ JDK8 bug
+    var NASHORN_BUG = getOwnPropertyDescriptor && !nativePropertyIsEnumerable.call({ 1: 2 }, 1);
+
+    // `Object.prototype.propertyIsEnumerable` method implementation
+    // https://tc39.github.io/ecma262/#sec-object.prototype.propertyisenumerable
+    var f = NASHORN_BUG ? function propertyIsEnumerable(V) {
+        var descriptor = getOwnPropertyDescriptor(this, V);
+        return !!descriptor && descriptor.enumerable;
+    } : nativePropertyIsEnumerable;
+
+    var objectPropertyIsEnumerable = {
+        f: f
+    };
+
+    var createPropertyDescriptor = function (bitmap, value) {
+        return {
+            enumerable: !(bitmap & 1),
+            configurable: !(bitmap & 2),
+            writable: !(bitmap & 4),
+            value: value
+        };
+    };
+
+    var toString = {}.toString;
+
+    var classofRaw = function (it) {
+        return toString.call(it).slice(8, -1);
+    };
+
+    var split = ''.split;
+
+    // fallback for non-array-like ES3 and non-enumerable old V8 strings
+    var indexedObject = fails(function () {
+        // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
+        // eslint-disable-next-line no-prototype-builtins
+        return !Object('z').propertyIsEnumerable(0);
+    }) ? function (it) {
+        return classofRaw(it) == 'String' ? split.call(it, '') : Object(it);
+    } : Object;
+
+    // `RequireObjectCoercible` abstract operation
+    // https://tc39.github.io/ecma262/#sec-requireobjectcoercible
+    var requireObjectCoercible = function (it) {
+        if (it == undefined) throw TypeError("Can't call method on " + it);
+        return it;
+    };
+
+    // toObject with fallback for non-array-like ES3 strings
+
+
+
+    var toIndexedObject = function (it) {
+        return indexedObject(requireObjectCoercible(it));
+    };
+
+    var isObject = function (it) {
+        return typeof it === 'object' ? it !== null : typeof it === 'function';
+    };
+
+    // `ToPrimitive` abstract operation
+    // https://tc39.github.io/ecma262/#sec-toprimitive
+    // instead of the ES6 spec version, we didn't implement @@toPrimitive case
+    // and the second argument - flag - preferred type is a string
+    var toPrimitive = function (input, PREFERRED_STRING) {
+        if (!isObject(input)) return input;
+        var fn, val;
+        if (PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
+        if (typeof (fn = input.valueOf) == 'function' && !isObject(val = fn.call(input))) return val;
+        if (!PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
+        throw TypeError("Can't convert object to primitive value");
+    };
+
+    var hasOwnProperty = {}.hasOwnProperty;
+
+    var has = function (it, key) {
+        return hasOwnProperty.call(it, key);
+    };
+
+    var document$1 = global_1.document;
+    // typeof document.createElement is 'object' in old IE
+    var EXISTS = isObject(document$1) && isObject(document$1.createElement);
+
+    var documentCreateElement = function (it) {
+        return EXISTS ? document$1.createElement(it) : {};
+    };
+
+    // Thank's IE8 for his funny defineProperty
+    var ie8DomDefine = !descriptors && !fails(function () {
+        return Object.defineProperty(documentCreateElement('div'), 'a', {
+            get: function () { return 7; }
+        }).a != 7;
+    });
+
+    var nativeGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+
+    // `Object.getOwnPropertyDescriptor` method
+    // https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptor
+    var f$1 = descriptors ? nativeGetOwnPropertyDescriptor : function getOwnPropertyDescriptor(O, P) {
+        O = toIndexedObject(O);
+        P = toPrimitive(P, true);
+        if (ie8DomDefine) try {
+            return nativeGetOwnPropertyDescriptor(O, P);
+        } catch (error) { /* empty */ }
+        if (has(O, P)) return createPropertyDescriptor(!objectPropertyIsEnumerable.f.call(O, P), O[P]);
+    };
+
+    var objectGetOwnPropertyDescriptor = {
+        f: f$1
+    };
+
+    var anObject = function (it) {
+        if (!isObject(it)) {
+            throw TypeError(String(it) + ' is not an object');
+        } return it;
+    };
+
+    var nativeDefineProperty = Object.defineProperty;
+
+    // `Object.defineProperty` method
+    // https://tc39.github.io/ecma262/#sec-object.defineproperty
+    var f$2 = descriptors ? nativeDefineProperty : function defineProperty(O, P, Attributes) {
+        anObject(O);
+        P = toPrimitive(P, true);
+        anObject(Attributes);
+        if (ie8DomDefine) try {
+            return nativeDefineProperty(O, P, Attributes);
+        } catch (error) { /* empty */ }
+        if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported');
+        if ('value' in Attributes) O[P] = Attributes.value;
+        return O;
+    };
+
+    var objectDefineProperty = {
+        f: f$2
+    };
+
+    var hide = descriptors ? function (object, key, value) {
+        return objectDefineProperty.f(object, key, createPropertyDescriptor(1, value));
+    } : function (object, key, value) {
+        object[key] = value;
+        return object;
+    };
+
+    var setGlobal = function (key, value) {
+        try {
+            hide(global_1, key, value);
+        } catch (error) {
+            global_1[key] = value;
+        } return value;
+    };
+
+    var shared = createCommonjsModule(function (module) {
+        var SHARED = '__core-js_shared__';
+        var store = global_1[SHARED] || setGlobal(SHARED, {});
+
+        (module.exports = function (key, value) {
+            return store[key] || (store[key] = value !== undefined ? value : {});
+        })('versions', []).push({
+            version: '3.2.1',
+            mode:  'global',
+            copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
+        });
+    });
+
+    var functionToString = shared('native-function-to-string', Function.toString);
+
+    var WeakMap$1 = global_1.WeakMap;
+
+    var nativeWeakMap = typeof WeakMap$1 === 'function' && /native code/.test(functionToString.call(WeakMap$1));
+
+    var id = 0;
+    var postfix = Math.random();
+
+    var uid = function (key) {
+        return 'Symbol(' + String(key === undefined ? '' : key) + ')_' + (++id + postfix).toString(36);
+    };
+
+    var keys = shared('keys');
+
+    var sharedKey = function (key) {
+        return keys[key] || (keys[key] = uid(key));
+    };
+
+    var hiddenKeys = {};
+
+    var WeakMap$2 = global_1.WeakMap;
+    var set, get, has$1;
+
+    var enforce = function (it) {
+        return has$1(it) ? get(it) : set(it, {});
+    };
+
+    var getterFor = function (TYPE) {
+        return function (it) {
+            var state;
+            if (!isObject(it) || (state = get(it)).type !== TYPE) {
+                throw TypeError('Incompatible receiver, ' + TYPE + ' required');
+            } return state;
+        };
+    };
+
+    if (nativeWeakMap) {
+        var store = new WeakMap$2();
+        var wmget = store.get;
+        var wmhas = store.has;
+        var wmset = store.set;
+        set = function (it, metadata) {
+            wmset.call(store, it, metadata);
+            return metadata;
+        };
+        get = function (it) {
+            return wmget.call(store, it) || {};
+        };
+        has$1 = function (it) {
+            return wmhas.call(store, it);
+        };
+    } else {
+        var STATE = sharedKey('state');
+        hiddenKeys[STATE] = true;
+        set = function (it, metadata) {
+            hide(it, STATE, metadata);
+            return metadata;
+        };
+        get = function (it) {
+            return has(it, STATE) ? it[STATE] : {};
+        };
+        has$1 = function (it) {
+            return has(it, STATE);
+        };
+    }
+
+    var internalState = {
+        set: set,
+        get: get,
+        has: has$1,
+        enforce: enforce,
+        getterFor: getterFor
+    };
+
+    var redefine = createCommonjsModule(function (module) {
+        var getInternalState = internalState.get;
+        var enforceInternalState = internalState.enforce;
+        var TEMPLATE = String(functionToString).split('toString');
+
+        shared('inspectSource', function (it) {
+            return functionToString.call(it);
+        });
+
+        (module.exports = function (O, key, value, options) {
+            var unsafe = options ? !!options.unsafe : false;
+            var simple = options ? !!options.enumerable : false;
+            var noTargetGet = options ? !!options.noTargetGet : false;
+            if (typeof value == 'function') {
+                if (typeof key == 'string' && !has(value, 'name')) hide(value, 'name', key);
+                enforceInternalState(value).source = TEMPLATE.join(typeof key == 'string' ? key : '');
+            }
+            if (O === global_1) {
+                if (simple) O[key] = value;
+                else setGlobal(key, value);
+                return;
+            } else if (!unsafe) {
+                delete O[key];
+            } else if (!noTargetGet && O[key]) {
+                simple = true;
+            }
+            if (simple) O[key] = value;
+            else hide(O, key, value);
+            // add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
+        })(Function.prototype, 'toString', function toString() {
+            return typeof this == 'function' && getInternalState(this).source || functionToString.call(this);
+        });
+    });
+
+    var path = global_1;
+
+    var aFunction = function (variable) {
+        return typeof variable == 'function' ? variable : undefined;
+    };
+
+    var getBuiltIn = function (namespace, method) {
+        return arguments.length < 2 ? aFunction(path[namespace]) || aFunction(global_1[namespace])
+            : path[namespace] && path[namespace][method] || global_1[namespace] && global_1[namespace][method];
+    };
+
+    var ceil = Math.ceil;
+    var floor = Math.floor;
+
+    // `ToInteger` abstract operation
+    // https://tc39.github.io/ecma262/#sec-tointeger
+    var toInteger = function (argument) {
+        return isNaN(argument = +argument) ? 0 : (argument > 0 ? floor : ceil)(argument);
+    };
+
+    var min = Math.min;
+
+    // `ToLength` abstract operation
+    // https://tc39.github.io/ecma262/#sec-tolength
+    var toLength = function (argument) {
+        return argument > 0 ? min(toInteger(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
+    };
+
+    var max = Math.max;
+    var min$1 = Math.min;
+
+    // Helper for a popular repeating case of the spec:
+    // Let integer be ? ToInteger(index).
+    // If integer < 0, let result be max((length + integer), 0); else let result be min(length, length).
+    var toAbsoluteIndex = function (index, length) {
+        var integer = toInteger(index);
+        return integer < 0 ? max(integer + length, 0) : min$1(integer, length);
+    };
+
+    // `Array.prototype.{ indexOf, includes }` methods implementation
+    var createMethod = function (IS_INCLUDES) {
+        return function ($this, el, fromIndex) {
+            var O = toIndexedObject($this);
+            var length = toLength(O.length);
+            var index = toAbsoluteIndex(fromIndex, length);
+            var value;
+            // Array#includes uses SameValueZero equality algorithm
+            // eslint-disable-next-line no-self-compare
+            if (IS_INCLUDES && el != el) while (length > index) {
+                value = O[index++];
+                // eslint-disable-next-line no-self-compare
+                if (value != value) return true;
+                // Array#indexOf ignores holes, Array#includes - not
+            } else for (;length > index; index++) {
+                if ((IS_INCLUDES || index in O) && O[index] === el) return IS_INCLUDES || index || 0;
+            } return !IS_INCLUDES && -1;
+        };
+    };
+
+    var arrayIncludes = {
+        // `Array.prototype.includes` method
+        // https://tc39.github.io/ecma262/#sec-array.prototype.includes
+        includes: createMethod(true),
+        // `Array.prototype.indexOf` method
+        // https://tc39.github.io/ecma262/#sec-array.prototype.indexof
+        indexOf: createMethod(false)
+    };
+
+    var indexOf = arrayIncludes.indexOf;
+
+
+    var objectKeysInternal = function (object, names) {
+        var O = toIndexedObject(object);
+        var i = 0;
+        var result = [];
+        var key;
+        for (key in O) !has(hiddenKeys, key) && has(O, key) && result.push(key);
+        // Don't enum bug & hidden keys
+        while (names.length > i) if (has(O, key = names[i++])) {
+            ~indexOf(result, key) || result.push(key);
+        }
+        return result;
+    };
+
+    // IE8- don't enum bug keys
+    var enumBugKeys = [
+        'constructor',
+        'hasOwnProperty',
+        'isPrototypeOf',
+        'propertyIsEnumerable',
+        'toLocaleString',
+        'toString',
+        'valueOf'
+    ];
+
+    var hiddenKeys$1 = enumBugKeys.concat('length', 'prototype');
+
+    // `Object.getOwnPropertyNames` method
+    // https://tc39.github.io/ecma262/#sec-object.getownpropertynames
+    var f$3 = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+        return objectKeysInternal(O, hiddenKeys$1);
+    };
+
+    var objectGetOwnPropertyNames = {
+        f: f$3
+    };
+
+    var f$4 = Object.getOwnPropertySymbols;
+
+    var objectGetOwnPropertySymbols = {
+        f: f$4
+    };
+
+    // all object keys, includes non-enumerable and symbols
+    var ownKeys = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
+        var keys = objectGetOwnPropertyNames.f(anObject(it));
+        var getOwnPropertySymbols = objectGetOwnPropertySymbols.f;
+        return getOwnPropertySymbols ? keys.concat(getOwnPropertySymbols(it)) : keys;
+    };
+
+    var copyConstructorProperties = function (target, source) {
+        var keys = ownKeys(source);
+        var defineProperty = objectDefineProperty.f;
+        var getOwnPropertyDescriptor = objectGetOwnPropertyDescriptor.f;
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            if (!has(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
+        }
+    };
+
+    var replacement = /#|\.prototype\./;
+
+    var isForced = function (feature, detection) {
+        var value = data[normalize(feature)];
+        return value == POLYFILL ? true
+            : value == NATIVE ? false
+                : typeof detection == 'function' ? fails(detection)
+                    : !!detection;
+    };
+
+    var normalize = isForced.normalize = function (string) {
+        return String(string).replace(replacement, '.').toLowerCase();
+    };
+
+    var data = isForced.data = {};
+    var NATIVE = isForced.NATIVE = 'N';
+    var POLYFILL = isForced.POLYFILL = 'P';
+
+    var isForced_1 = isForced;
+
+    var getOwnPropertyDescriptor$1 = objectGetOwnPropertyDescriptor.f;
+
+
+
+
+
+
+    /*
 	  options.target      - name of the target object
 	  options.global      - target is the global object
 	  options.stat        - export as static methods of target
@@ -15204,5053 +15204,5053 @@ var objectFitImages = (function () {
 	  options.enumerable  - export as enumerable property
 	  options.noTargetGet - prevent calling a getter on target
 	*/
-	var _export = function (options, source) {
-	  var TARGET = options.target;
-	  var GLOBAL = options.global;
-	  var STATIC = options.stat;
-	  var FORCED, target, key, targetProperty, sourceProperty, descriptor;
-	  if (GLOBAL) {
-	    target = global_1;
-	  } else if (STATIC) {
-	    target = global_1[TARGET] || setGlobal(TARGET, {});
-	  } else {
-	    target = (global_1[TARGET] || {}).prototype;
-	  }
-	  if (target) for (key in source) {
-	    sourceProperty = source[key];
-	    if (options.noTargetGet) {
-	      descriptor = getOwnPropertyDescriptor$1(target, key);
-	      targetProperty = descriptor && descriptor.value;
-	    } else targetProperty = target[key];
-	    FORCED = isForced_1(GLOBAL ? key : TARGET + (STATIC ? '.' : '#') + key, options.forced);
-	    // contained in target
-	    if (!FORCED && targetProperty !== undefined) {
-	      if (typeof sourceProperty === typeof targetProperty) continue;
-	      copyConstructorProperties(sourceProperty, targetProperty);
-	    }
-	    // add a flag to not completely full polyfills
-	    if (options.sham || (targetProperty && targetProperty.sham)) {
-	      hide(sourceProperty, 'sham', true);
-	    }
-	    // extend global
-	    redefine(target, key, sourceProperty, options);
-	  }
-	};
-
-	var aFunction$1 = function (it) {
-	  if (typeof it != 'function') {
-	    throw TypeError(String(it) + ' is not a function');
-	  } return it;
-	};
-
-	// optional / simple context binding
-	var bindContext = function (fn, that, length) {
-	  aFunction$1(fn);
-	  if (that === undefined) return fn;
-	  switch (length) {
-	    case 0: return function () {
-	      return fn.call(that);
-	    };
-	    case 1: return function (a) {
-	      return fn.call(that, a);
-	    };
-	    case 2: return function (a, b) {
-	      return fn.call(that, a, b);
-	    };
-	    case 3: return function (a, b, c) {
-	      return fn.call(that, a, b, c);
-	    };
-	  }
-	  return function (/* ...args */) {
-	    return fn.apply(that, arguments);
-	  };
-	};
-
-	// `ToObject` abstract operation
-	// https://tc39.github.io/ecma262/#sec-toobject
-	var toObject = function (argument) {
-	  return Object(requireObjectCoercible(argument));
-	};
-
-	// `IsArray` abstract operation
-	// https://tc39.github.io/ecma262/#sec-isarray
-	var isArray = Array.isArray || function isArray(arg) {
-	  return classofRaw(arg) == 'Array';
-	};
-
-	var nativeSymbol = !!Object.getOwnPropertySymbols && !fails(function () {
-	  // Chrome 38 Symbol has incorrect toString conversion
-	  // eslint-disable-next-line no-undef
-	  return !String(Symbol());
-	});
-
-	var Symbol$1 = global_1.Symbol;
-	var store$1 = shared('wks');
-
-	var wellKnownSymbol = function (name) {
-	  return store$1[name] || (store$1[name] = nativeSymbol && Symbol$1[name]
-	    || (nativeSymbol ? Symbol$1 : uid)('Symbol.' + name));
-	};
-
-	var SPECIES = wellKnownSymbol('species');
-
-	// `ArraySpeciesCreate` abstract operation
-	// https://tc39.github.io/ecma262/#sec-arrayspeciescreate
-	var arraySpeciesCreate = function (originalArray, length) {
-	  var C;
-	  if (isArray(originalArray)) {
-	    C = originalArray.constructor;
-	    // cross-realm fallback
-	    if (typeof C == 'function' && (C === Array || isArray(C.prototype))) C = undefined;
-	    else if (isObject(C)) {
-	      C = C[SPECIES];
-	      if (C === null) C = undefined;
-	    }
-	  } return new (C === undefined ? Array : C)(length === 0 ? 0 : length);
-	};
-
-	var push = [].push;
-
-	// `Array.prototype.{ forEach, map, filter, some, every, find, findIndex }` methods implementation
-	var createMethod$1 = function (TYPE) {
-	  var IS_MAP = TYPE == 1;
-	  var IS_FILTER = TYPE == 2;
-	  var IS_SOME = TYPE == 3;
-	  var IS_EVERY = TYPE == 4;
-	  var IS_FIND_INDEX = TYPE == 6;
-	  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
-	  return function ($this, callbackfn, that, specificCreate) {
-	    var O = toObject($this);
-	    var self = indexedObject(O);
-	    var boundFunction = bindContext(callbackfn, that, 3);
-	    var length = toLength(self.length);
-	    var index = 0;
-	    var create = specificCreate || arraySpeciesCreate;
-	    var target = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
-	    var value, result;
-	    for (;length > index; index++) if (NO_HOLES || index in self) {
-	      value = self[index];
-	      result = boundFunction(value, index, O);
-	      if (TYPE) {
-	        if (IS_MAP) target[index] = result; // map
-	        else if (result) switch (TYPE) {
-	          case 3: return true;              // some
-	          case 5: return value;             // find
-	          case 6: return index;             // findIndex
-	          case 2: push.call(target, value); // filter
-	        } else if (IS_EVERY) return false;  // every
-	      }
-	    }
-	    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : target;
-	  };
-	};
-
-	var arrayIteration = {
-	  // `Array.prototype.forEach` method
-	  // https://tc39.github.io/ecma262/#sec-array.prototype.foreach
-	  forEach: createMethod$1(0),
-	  // `Array.prototype.map` method
-	  // https://tc39.github.io/ecma262/#sec-array.prototype.map
-	  map: createMethod$1(1),
-	  // `Array.prototype.filter` method
-	  // https://tc39.github.io/ecma262/#sec-array.prototype.filter
-	  filter: createMethod$1(2),
-	  // `Array.prototype.some` method
-	  // https://tc39.github.io/ecma262/#sec-array.prototype.some
-	  some: createMethod$1(3),
-	  // `Array.prototype.every` method
-	  // https://tc39.github.io/ecma262/#sec-array.prototype.every
-	  every: createMethod$1(4),
-	  // `Array.prototype.find` method
-	  // https://tc39.github.io/ecma262/#sec-array.prototype.find
-	  find: createMethod$1(5),
-	  // `Array.prototype.findIndex` method
-	  // https://tc39.github.io/ecma262/#sec-array.prototype.findIndex
-	  findIndex: createMethod$1(6)
-	};
-
-	var sloppyArrayMethod = function (METHOD_NAME, argument) {
-	  var method = [][METHOD_NAME];
-	  return !method || !fails(function () {
-	    // eslint-disable-next-line no-useless-call,no-throw-literal
-	    method.call(null, argument || function () { throw 1; }, 1);
-	  });
-	};
-
-	var $forEach = arrayIteration.forEach;
-
-
-	// `Array.prototype.forEach` method implementation
-	// https://tc39.github.io/ecma262/#sec-array.prototype.foreach
-	var arrayForEach = sloppyArrayMethod('forEach') ? function forEach(callbackfn /* , thisArg */) {
-	  return $forEach(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-	} : [].forEach;
-
-	// `Array.prototype.forEach` method
-	// https://tc39.github.io/ecma262/#sec-array.prototype.foreach
-	_export({ target: 'Array', proto: true, forced: [].forEach != arrayForEach }, {
-	  forEach: arrayForEach
-	});
-
-	// iterable DOM collections
-	// flag - `iterable` interface - 'entries', 'keys', 'values', 'forEach' methods
-	var domIterables = {
-	  CSSRuleList: 0,
-	  CSSStyleDeclaration: 0,
-	  CSSValueList: 0,
-	  ClientRectList: 0,
-	  DOMRectList: 0,
-	  DOMStringList: 0,
-	  DOMTokenList: 1,
-	  DataTransferItemList: 0,
-	  FileList: 0,
-	  HTMLAllCollection: 0,
-	  HTMLCollection: 0,
-	  HTMLFormElement: 0,
-	  HTMLSelectElement: 0,
-	  MediaList: 0,
-	  MimeTypeArray: 0,
-	  NamedNodeMap: 0,
-	  NodeList: 1,
-	  PaintRequestList: 0,
-	  Plugin: 0,
-	  PluginArray: 0,
-	  SVGLengthList: 0,
-	  SVGNumberList: 0,
-	  SVGPathSegList: 0,
-	  SVGPointList: 0,
-	  SVGStringList: 0,
-	  SVGTransformList: 0,
-	  SourceBufferList: 0,
-	  StyleSheetList: 0,
-	  TextTrackCueList: 0,
-	  TextTrackList: 0,
-	  TouchList: 0
-	};
-
-	for (var COLLECTION_NAME in domIterables) {
-	  var Collection = global_1[COLLECTION_NAME];
-	  var CollectionPrototype = Collection && Collection.prototype;
-	  // some Chrome versions have non-configurable methods on DOMTokenList
-	  if (CollectionPrototype && CollectionPrototype.forEach !== arrayForEach) try {
-	    hide(CollectionPrototype, 'forEach', arrayForEach);
-	  } catch (error) {
-	    CollectionPrototype.forEach = arrayForEach;
-	  }
-	}
-
-	var canUseDOM = !!(
-	  typeof window !== 'undefined' &&
-	  window.document &&
-	  window.document.createElement
-	);
-
-	var canUseDom = canUseDOM;
-
-	var SPECIES$1 = wellKnownSymbol('species');
-
-	var arrayMethodHasSpeciesSupport = function (METHOD_NAME) {
-	  return !fails(function () {
-	    var array = [];
-	    var constructor = array.constructor = {};
-	    constructor[SPECIES$1] = function () {
-	      return { foo: 1 };
-	    };
-	    return array[METHOD_NAME](Boolean).foo !== 1;
-	  });
-	};
-
-	var $filter = arrayIteration.filter;
-
-
-	// `Array.prototype.filter` method
-	// https://tc39.github.io/ecma262/#sec-array.prototype.filter
-	// with adding support of @@species
-	_export({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('filter') }, {
-	  filter: function filter(callbackfn /* , thisArg */) {
-	    return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-	  }
-	});
-
-	// `Object.keys` method
-	// https://tc39.github.io/ecma262/#sec-object.keys
-	var objectKeys = Object.keys || function keys(O) {
-	  return objectKeysInternal(O, enumBugKeys);
-	};
-
-	// `Object.defineProperties` method
-	// https://tc39.github.io/ecma262/#sec-object.defineproperties
-	var objectDefineProperties = descriptors ? Object.defineProperties : function defineProperties(O, Properties) {
-	  anObject(O);
-	  var keys = objectKeys(Properties);
-	  var length = keys.length;
-	  var index = 0;
-	  var key;
-	  while (length > index) objectDefineProperty.f(O, key = keys[index++], Properties[key]);
-	  return O;
-	};
-
-	var html = getBuiltIn('document', 'documentElement');
-
-	var IE_PROTO = sharedKey('IE_PROTO');
-
-	var PROTOTYPE = 'prototype';
-	var Empty = function () { /* empty */ };
-
-	// Create object with fake `null` prototype: use iframe Object with cleared prototype
-	var createDict = function () {
-	  // Thrash, waste and sodomy: IE GC bug
-	  var iframe = documentCreateElement('iframe');
-	  var length = enumBugKeys.length;
-	  var lt = '<';
-	  var script = 'script';
-	  var gt = '>';
-	  var js = 'java' + script + ':';
-	  var iframeDocument;
-	  iframe.style.display = 'none';
-	  html.appendChild(iframe);
-	  iframe.src = String(js);
-	  iframeDocument = iframe.contentWindow.document;
-	  iframeDocument.open();
-	  iframeDocument.write(lt + script + gt + 'document.F=Object' + lt + '/' + script + gt);
-	  iframeDocument.close();
-	  createDict = iframeDocument.F;
-	  while (length--) delete createDict[PROTOTYPE][enumBugKeys[length]];
-	  return createDict();
-	};
-
-	// `Object.create` method
-	// https://tc39.github.io/ecma262/#sec-object.create
-	var objectCreate = Object.create || function create(O, Properties) {
-	  var result;
-	  if (O !== null) {
-	    Empty[PROTOTYPE] = anObject(O);
-	    result = new Empty();
-	    Empty[PROTOTYPE] = null;
-	    // add "__proto__" for Object.getPrototypeOf polyfill
-	    result[IE_PROTO] = O;
-	  } else result = createDict();
-	  return Properties === undefined ? result : objectDefineProperties(result, Properties);
-	};
-
-	hiddenKeys[IE_PROTO] = true;
-
-	var UNSCOPABLES = wellKnownSymbol('unscopables');
-	var ArrayPrototype = Array.prototype;
-
-	// Array.prototype[@@unscopables]
-	// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
-	if (ArrayPrototype[UNSCOPABLES] == undefined) {
-	  hide(ArrayPrototype, UNSCOPABLES, objectCreate(null));
-	}
-
-	// add a key to Array.prototype[@@unscopables]
-	var addToUnscopables = function (key) {
-	  ArrayPrototype[UNSCOPABLES][key] = true;
-	};
-
-	var iterators = {};
-
-	var correctPrototypeGetter = !fails(function () {
-	  function F() { /* empty */ }
-	  F.prototype.constructor = null;
-	  return Object.getPrototypeOf(new F()) !== F.prototype;
-	});
-
-	var IE_PROTO$1 = sharedKey('IE_PROTO');
-	var ObjectPrototype = Object.prototype;
-
-	// `Object.getPrototypeOf` method
-	// https://tc39.github.io/ecma262/#sec-object.getprototypeof
-	var objectGetPrototypeOf = correctPrototypeGetter ? Object.getPrototypeOf : function (O) {
-	  O = toObject(O);
-	  if (has(O, IE_PROTO$1)) return O[IE_PROTO$1];
-	  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
-	    return O.constructor.prototype;
-	  } return O instanceof Object ? ObjectPrototype : null;
-	};
-
-	var ITERATOR = wellKnownSymbol('iterator');
-	var BUGGY_SAFARI_ITERATORS = false;
-
-	var returnThis = function () { return this; };
-
-	// `%IteratorPrototype%` object
-	// https://tc39.github.io/ecma262/#sec-%iteratorprototype%-object
-	var IteratorPrototype, PrototypeOfArrayIteratorPrototype, arrayIterator;
-
-	if ([].keys) {
-	  arrayIterator = [].keys();
-	  // Safari 8 has buggy iterators w/o `next`
-	  if (!('next' in arrayIterator)) BUGGY_SAFARI_ITERATORS = true;
-	  else {
-	    PrototypeOfArrayIteratorPrototype = objectGetPrototypeOf(objectGetPrototypeOf(arrayIterator));
-	    if (PrototypeOfArrayIteratorPrototype !== Object.prototype) IteratorPrototype = PrototypeOfArrayIteratorPrototype;
-	  }
-	}
-
-	if (IteratorPrototype == undefined) IteratorPrototype = {};
-
-	// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-	if ( !has(IteratorPrototype, ITERATOR)) hide(IteratorPrototype, ITERATOR, returnThis);
-
-	var iteratorsCore = {
-	  IteratorPrototype: IteratorPrototype,
-	  BUGGY_SAFARI_ITERATORS: BUGGY_SAFARI_ITERATORS
-	};
-
-	var defineProperty = objectDefineProperty.f;
-
-
-
-	var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-
-	var setToStringTag = function (it, TAG, STATIC) {
-	  if (it && !has(it = STATIC ? it : it.prototype, TO_STRING_TAG)) {
-	    defineProperty(it, TO_STRING_TAG, { configurable: true, value: TAG });
-	  }
-	};
-
-	var IteratorPrototype$1 = iteratorsCore.IteratorPrototype;
-
-
-
-
-
-	var returnThis$1 = function () { return this; };
-
-	var createIteratorConstructor = function (IteratorConstructor, NAME, next) {
-	  var TO_STRING_TAG = NAME + ' Iterator';
-	  IteratorConstructor.prototype = objectCreate(IteratorPrototype$1, { next: createPropertyDescriptor(1, next) });
-	  setToStringTag(IteratorConstructor, TO_STRING_TAG, false);
-	  iterators[TO_STRING_TAG] = returnThis$1;
-	  return IteratorConstructor;
-	};
-
-	var aPossiblePrototype = function (it) {
-	  if (!isObject(it) && it !== null) {
-	    throw TypeError("Can't set " + String(it) + ' as a prototype');
-	  } return it;
-	};
-
-	// `Object.setPrototypeOf` method
-	// https://tc39.github.io/ecma262/#sec-object.setprototypeof
-	// Works with __proto__ only. Old v8 can't work with null proto objects.
-	/* eslint-disable no-proto */
-	var objectSetPrototypeOf = Object.setPrototypeOf || ('__proto__' in {} ? function () {
-	  var CORRECT_SETTER = false;
-	  var test = {};
-	  var setter;
-	  try {
-	    setter = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;
-	    setter.call(test, []);
-	    CORRECT_SETTER = test instanceof Array;
-	  } catch (error) { /* empty */ }
-	  return function setPrototypeOf(O, proto) {
-	    anObject(O);
-	    aPossiblePrototype(proto);
-	    if (CORRECT_SETTER) setter.call(O, proto);
-	    else O.__proto__ = proto;
-	    return O;
-	  };
-	}() : undefined);
-
-	var IteratorPrototype$2 = iteratorsCore.IteratorPrototype;
-	var BUGGY_SAFARI_ITERATORS$1 = iteratorsCore.BUGGY_SAFARI_ITERATORS;
-	var ITERATOR$1 = wellKnownSymbol('iterator');
-	var KEYS = 'keys';
-	var VALUES = 'values';
-	var ENTRIES = 'entries';
-
-	var returnThis$2 = function () { return this; };
-
-	var defineIterator = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, IS_SET, FORCED) {
-	  createIteratorConstructor(IteratorConstructor, NAME, next);
-
-	  var getIterationMethod = function (KIND) {
-	    if (KIND === DEFAULT && defaultIterator) return defaultIterator;
-	    if (!BUGGY_SAFARI_ITERATORS$1 && KIND in IterablePrototype) return IterablePrototype[KIND];
-	    switch (KIND) {
-	      case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };
-	      case VALUES: return function values() { return new IteratorConstructor(this, KIND); };
-	      case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };
-	    } return function () { return new IteratorConstructor(this); };
-	  };
-
-	  var TO_STRING_TAG = NAME + ' Iterator';
-	  var INCORRECT_VALUES_NAME = false;
-	  var IterablePrototype = Iterable.prototype;
-	  var nativeIterator = IterablePrototype[ITERATOR$1]
-	    || IterablePrototype['@@iterator']
-	    || DEFAULT && IterablePrototype[DEFAULT];
-	  var defaultIterator = !BUGGY_SAFARI_ITERATORS$1 && nativeIterator || getIterationMethod(DEFAULT);
-	  var anyNativeIterator = NAME == 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;
-	  var CurrentIteratorPrototype, methods, KEY;
-
-	  // fix native
-	  if (anyNativeIterator) {
-	    CurrentIteratorPrototype = objectGetPrototypeOf(anyNativeIterator.call(new Iterable()));
-	    if (IteratorPrototype$2 !== Object.prototype && CurrentIteratorPrototype.next) {
-	      if ( objectGetPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype$2) {
-	        if (objectSetPrototypeOf) {
-	          objectSetPrototypeOf(CurrentIteratorPrototype, IteratorPrototype$2);
-	        } else if (typeof CurrentIteratorPrototype[ITERATOR$1] != 'function') {
-	          hide(CurrentIteratorPrototype, ITERATOR$1, returnThis$2);
-	        }
-	      }
-	      // Set @@toStringTag to native iterators
-	      setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, true);
-	    }
-	  }
-
-	  // fix Array#{values, @@iterator}.name in V8 / FF
-	  if (DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
-	    INCORRECT_VALUES_NAME = true;
-	    defaultIterator = function values() { return nativeIterator.call(this); };
-	  }
-
-	  // define iterator
-	  if ( IterablePrototype[ITERATOR$1] !== defaultIterator) {
-	    hide(IterablePrototype, ITERATOR$1, defaultIterator);
-	  }
-	  iterators[NAME] = defaultIterator;
-
-	  // export additional methods
-	  if (DEFAULT) {
-	    methods = {
-	      values: getIterationMethod(VALUES),
-	      keys: IS_SET ? defaultIterator : getIterationMethod(KEYS),
-	      entries: getIterationMethod(ENTRIES)
-	    };
-	    if (FORCED) for (KEY in methods) {
-	      if (BUGGY_SAFARI_ITERATORS$1 || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
-	        redefine(IterablePrototype, KEY, methods[KEY]);
-	      }
-	    } else _export({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS$1 || INCORRECT_VALUES_NAME }, methods);
-	  }
-
-	  return methods;
-	};
-
-	var ARRAY_ITERATOR = 'Array Iterator';
-	var setInternalState = internalState.set;
-	var getInternalState = internalState.getterFor(ARRAY_ITERATOR);
-
-	// `Array.prototype.entries` method
-	// https://tc39.github.io/ecma262/#sec-array.prototype.entries
-	// `Array.prototype.keys` method
-	// https://tc39.github.io/ecma262/#sec-array.prototype.keys
-	// `Array.prototype.values` method
-	// https://tc39.github.io/ecma262/#sec-array.prototype.values
-	// `Array.prototype[@@iterator]` method
-	// https://tc39.github.io/ecma262/#sec-array.prototype-@@iterator
-	// `CreateArrayIterator` internal method
-	// https://tc39.github.io/ecma262/#sec-createarrayiterator
-	var es_array_iterator = defineIterator(Array, 'Array', function (iterated, kind) {
-	  setInternalState(this, {
-	    type: ARRAY_ITERATOR,
-	    target: toIndexedObject(iterated), // target
-	    index: 0,                          // next index
-	    kind: kind                         // kind
-	  });
-	// `%ArrayIteratorPrototype%.next` method
-	// https://tc39.github.io/ecma262/#sec-%arrayiteratorprototype%.next
-	}, function () {
-	  var state = getInternalState(this);
-	  var target = state.target;
-	  var kind = state.kind;
-	  var index = state.index++;
-	  if (!target || index >= target.length) {
-	    state.target = undefined;
-	    return { value: undefined, done: true };
-	  }
-	  if (kind == 'keys') return { value: index, done: false };
-	  if (kind == 'values') return { value: target[index], done: false };
-	  return { value: [index, target[index]], done: false };
-	}, 'values');
-
-	// argumentsList[@@iterator] is %ArrayProto_values%
-	// https://tc39.github.io/ecma262/#sec-createunmappedargumentsobject
-	// https://tc39.github.io/ecma262/#sec-createmappedargumentsobject
-	iterators.Arguments = iterators.Array;
-
-	// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
-	addToUnscopables('keys');
-	addToUnscopables('values');
-	addToUnscopables('entries');
-
-	var nativeAssign = Object.assign;
-
-	// `Object.assign` method
-	// https://tc39.github.io/ecma262/#sec-object.assign
-	// should work with symbols and should have deterministic property order (V8 bug)
-	var objectAssign = !nativeAssign || fails(function () {
-	  var A = {};
-	  var B = {};
-	  // eslint-disable-next-line no-undef
-	  var symbol = Symbol();
-	  var alphabet = 'abcdefghijklmnopqrst';
-	  A[symbol] = 7;
-	  alphabet.split('').forEach(function (chr) { B[chr] = chr; });
-	  return nativeAssign({}, A)[symbol] != 7 || objectKeys(nativeAssign({}, B)).join('') != alphabet;
-	}) ? function assign(target, source) { // eslint-disable-line no-unused-vars
-	  var T = toObject(target);
-	  var argumentsLength = arguments.length;
-	  var index = 1;
-	  var getOwnPropertySymbols = objectGetOwnPropertySymbols.f;
-	  var propertyIsEnumerable = objectPropertyIsEnumerable.f;
-	  while (argumentsLength > index) {
-	    var S = indexedObject(arguments[index++]);
-	    var keys = getOwnPropertySymbols ? objectKeys(S).concat(getOwnPropertySymbols(S)) : objectKeys(S);
-	    var length = keys.length;
-	    var j = 0;
-	    var key;
-	    while (length > j) {
-	      key = keys[j++];
-	      if (!descriptors || propertyIsEnumerable.call(S, key)) T[key] = S[key];
-	    }
-	  } return T;
-	} : nativeAssign;
-
-	// `Object.assign` method
-	// https://tc39.github.io/ecma262/#sec-object.assign
-	_export({ target: 'Object', stat: true, forced: Object.assign !== objectAssign }, {
-	  assign: objectAssign
-	});
-
-	var TO_STRING_TAG$1 = wellKnownSymbol('toStringTag');
-	// ES3 wrong here
-	var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Arguments';
-
-	// fallback for IE11 Script Access Denied error
-	var tryGet = function (it, key) {
-	  try {
-	    return it[key];
-	  } catch (error) { /* empty */ }
-	};
-
-	// getting tag from ES6+ `Object.prototype.toString`
-	var classof = function (it) {
-	  var O, tag, result;
-	  return it === undefined ? 'Undefined' : it === null ? 'Null'
-	    // @@toStringTag case
-	    : typeof (tag = tryGet(O = Object(it), TO_STRING_TAG$1)) == 'string' ? tag
-	    // builtinTag case
-	    : CORRECT_ARGUMENTS ? classofRaw(O)
-	    // ES3 arguments fallback
-	    : (result = classofRaw(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : result;
-	};
-
-	var TO_STRING_TAG$2 = wellKnownSymbol('toStringTag');
-	var test = {};
-
-	test[TO_STRING_TAG$2] = 'z';
-
-	// `Object.prototype.toString` method implementation
-	// https://tc39.github.io/ecma262/#sec-object.prototype.tostring
-	var objectToString = String(test) !== '[object z]' ? function toString() {
-	  return '[object ' + classof(this) + ']';
-	} : test.toString;
-
-	var ObjectPrototype$1 = Object.prototype;
-
-	// `Object.prototype.toString` method
-	// https://tc39.github.io/ecma262/#sec-object.prototype.tostring
-	if (objectToString !== ObjectPrototype$1.toString) {
-	  redefine(ObjectPrototype$1, 'toString', objectToString, { unsafe: true });
-	}
-
-	// a string of all valid unicode whitespaces
-	// eslint-disable-next-line max-len
-	var whitespaces = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
-
-	var whitespace = '[' + whitespaces + ']';
-	var ltrim = RegExp('^' + whitespace + whitespace + '*');
-	var rtrim = RegExp(whitespace + whitespace + '*$');
-
-	// `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
-	var createMethod$2 = function (TYPE) {
-	  return function ($this) {
-	    var string = String(requireObjectCoercible($this));
-	    if (TYPE & 1) string = string.replace(ltrim, '');
-	    if (TYPE & 2) string = string.replace(rtrim, '');
-	    return string;
-	  };
-	};
-
-	var stringTrim = {
-	  // `String.prototype.{ trimLeft, trimStart }` methods
-	  // https://tc39.github.io/ecma262/#sec-string.prototype.trimstart
-	  start: createMethod$2(1),
-	  // `String.prototype.{ trimRight, trimEnd }` methods
-	  // https://tc39.github.io/ecma262/#sec-string.prototype.trimend
-	  end: createMethod$2(2),
-	  // `String.prototype.trim` method
-	  // https://tc39.github.io/ecma262/#sec-string.prototype.trim
-	  trim: createMethod$2(3)
-	};
-
-	var trim = stringTrim.trim;
-
-
-	var nativeParseInt = global_1.parseInt;
-	var hex = /^[+-]?0[Xx]/;
-	var FORCED = nativeParseInt(whitespaces + '08') !== 8 || nativeParseInt(whitespaces + '0x16') !== 22;
-
-	// `parseInt` method
-	// https://tc39.github.io/ecma262/#sec-parseint-string-radix
-	var _parseInt = FORCED ? function parseInt(string, radix) {
-	  var S = trim(String(string));
-	  return nativeParseInt(S, (radix >>> 0) || (hex.test(S) ? 16 : 10));
-	} : nativeParseInt;
-
-	// `parseInt` method
-	// https://tc39.github.io/ecma262/#sec-parseint-string-radix
-	_export({ global: true, forced: parseInt != _parseInt }, {
-	  parseInt: _parseInt
-	});
-
-	// `String.prototype.{ codePointAt, at }` methods implementation
-	var createMethod$3 = function (CONVERT_TO_STRING) {
-	  return function ($this, pos) {
-	    var S = String(requireObjectCoercible($this));
-	    var position = toInteger(pos);
-	    var size = S.length;
-	    var first, second;
-	    if (position < 0 || position >= size) return CONVERT_TO_STRING ? '' : undefined;
-	    first = S.charCodeAt(position);
-	    return first < 0xD800 || first > 0xDBFF || position + 1 === size
-	      || (second = S.charCodeAt(position + 1)) < 0xDC00 || second > 0xDFFF
-	        ? CONVERT_TO_STRING ? S.charAt(position) : first
-	        : CONVERT_TO_STRING ? S.slice(position, position + 2) : (first - 0xD800 << 10) + (second - 0xDC00) + 0x10000;
-	  };
-	};
-
-	var stringMultibyte = {
-	  // `String.prototype.codePointAt` method
-	  // https://tc39.github.io/ecma262/#sec-string.prototype.codepointat
-	  codeAt: createMethod$3(false),
-	  // `String.prototype.at` method
-	  // https://github.com/mathiasbynens/String.prototype.at
-	  charAt: createMethod$3(true)
-	};
-
-	var charAt = stringMultibyte.charAt;
-
-
-
-	var STRING_ITERATOR = 'String Iterator';
-	var setInternalState$1 = internalState.set;
-	var getInternalState$1 = internalState.getterFor(STRING_ITERATOR);
-
-	// `String.prototype[@@iterator]` method
-	// https://tc39.github.io/ecma262/#sec-string.prototype-@@iterator
-	defineIterator(String, 'String', function (iterated) {
-	  setInternalState$1(this, {
-	    type: STRING_ITERATOR,
-	    string: String(iterated),
-	    index: 0
-	  });
-	// `%StringIteratorPrototype%.next` method
-	// https://tc39.github.io/ecma262/#sec-%stringiteratorprototype%.next
-	}, function next() {
-	  var state = getInternalState$1(this);
-	  var string = state.string;
-	  var index = state.index;
-	  var point;
-	  if (index >= string.length) return { value: undefined, done: true };
-	  point = charAt(string, index);
-	  state.index += point.length;
-	  return { value: point, done: false };
-	});
-
-	var redefineAll = function (target, src, options) {
-	  for (var key in src) redefine(target, key, src[key], options);
-	  return target;
-	};
-
-	var freezing = !fails(function () {
-	  return Object.isExtensible(Object.preventExtensions({}));
-	});
-
-	var internalMetadata = createCommonjsModule(function (module) {
-	var defineProperty = objectDefineProperty.f;
-
-
-
-	var METADATA = uid('meta');
-	var id = 0;
-
-	var isExtensible = Object.isExtensible || function () {
-	  return true;
-	};
-
-	var setMetadata = function (it) {
-	  defineProperty(it, METADATA, { value: {
-	    objectID: 'O' + ++id, // object ID
-	    weakData: {}          // weak collections IDs
-	  } });
-	};
-
-	var fastKey = function (it, create) {
-	  // return a primitive with prefix
-	  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
-	  if (!has(it, METADATA)) {
-	    // can't set metadata to uncaught frozen object
-	    if (!isExtensible(it)) return 'F';
-	    // not necessary to add metadata
-	    if (!create) return 'E';
-	    // add missing metadata
-	    setMetadata(it);
-	  // return object ID
-	  } return it[METADATA].objectID;
-	};
-
-	var getWeakData = function (it, create) {
-	  if (!has(it, METADATA)) {
-	    // can't set metadata to uncaught frozen object
-	    if (!isExtensible(it)) return true;
-	    // not necessary to add metadata
-	    if (!create) return false;
-	    // add missing metadata
-	    setMetadata(it);
-	  // return the store of weak collections IDs
-	  } return it[METADATA].weakData;
-	};
-
-	// add metadata on freeze-family methods calling
-	var onFreeze = function (it) {
-	  if (freezing && meta.REQUIRED && isExtensible(it) && !has(it, METADATA)) setMetadata(it);
-	  return it;
-	};
-
-	var meta = module.exports = {
-	  REQUIRED: false,
-	  fastKey: fastKey,
-	  getWeakData: getWeakData,
-	  onFreeze: onFreeze
-	};
-
-	hiddenKeys[METADATA] = true;
-	});
-	var internalMetadata_1 = internalMetadata.REQUIRED;
-	var internalMetadata_2 = internalMetadata.fastKey;
-	var internalMetadata_3 = internalMetadata.getWeakData;
-	var internalMetadata_4 = internalMetadata.onFreeze;
-
-	var ITERATOR$2 = wellKnownSymbol('iterator');
-	var ArrayPrototype$1 = Array.prototype;
-
-	// check on default Array iterator
-	var isArrayIteratorMethod = function (it) {
-	  return it !== undefined && (iterators.Array === it || ArrayPrototype$1[ITERATOR$2] === it);
-	};
-
-	var ITERATOR$3 = wellKnownSymbol('iterator');
-
-	var getIteratorMethod = function (it) {
-	  if (it != undefined) return it[ITERATOR$3]
-	    || it['@@iterator']
-	    || iterators[classof(it)];
-	};
-
-	// call something on iterator step with safe closing on error
-	var callWithSafeIterationClosing = function (iterator, fn, value, ENTRIES) {
-	  try {
-	    return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
-	  // 7.4.6 IteratorClose(iterator, completion)
-	  } catch (error) {
-	    var returnMethod = iterator['return'];
-	    if (returnMethod !== undefined) anObject(returnMethod.call(iterator));
-	    throw error;
-	  }
-	};
-
-	var iterate_1 = createCommonjsModule(function (module) {
-	var Result = function (stopped, result) {
-	  this.stopped = stopped;
-	  this.result = result;
-	};
-
-	var iterate = module.exports = function (iterable, fn, that, AS_ENTRIES, IS_ITERATOR) {
-	  var boundFunction = bindContext(fn, that, AS_ENTRIES ? 2 : 1);
-	  var iterator, iterFn, index, length, result, step;
-
-	  if (IS_ITERATOR) {
-	    iterator = iterable;
-	  } else {
-	    iterFn = getIteratorMethod(iterable);
-	    if (typeof iterFn != 'function') throw TypeError('Target is not iterable');
-	    // optimisation for array iterators
-	    if (isArrayIteratorMethod(iterFn)) {
-	      for (index = 0, length = toLength(iterable.length); length > index; index++) {
-	        result = AS_ENTRIES
-	          ? boundFunction(anObject(step = iterable[index])[0], step[1])
-	          : boundFunction(iterable[index]);
-	        if (result && result instanceof Result) return result;
-	      } return new Result(false);
-	    }
-	    iterator = iterFn.call(iterable);
-	  }
-
-	  while (!(step = iterator.next()).done) {
-	    result = callWithSafeIterationClosing(iterator, boundFunction, step.value, AS_ENTRIES);
-	    if (result && result instanceof Result) return result;
-	  } return new Result(false);
-	};
-
-	iterate.stop = function (result) {
-	  return new Result(true, result);
-	};
-	});
-
-	var anInstance = function (it, Constructor, name) {
-	  if (!(it instanceof Constructor)) {
-	    throw TypeError('Incorrect ' + (name ? name + ' ' : '') + 'invocation');
-	  } return it;
-	};
-
-	var ITERATOR$4 = wellKnownSymbol('iterator');
-	var SAFE_CLOSING = false;
-
-	try {
-	  var called = 0;
-	  var iteratorWithReturn = {
-	    next: function () {
-	      return { done: !!called++ };
-	    },
-	    'return': function () {
-	      SAFE_CLOSING = true;
-	    }
-	  };
-	  iteratorWithReturn[ITERATOR$4] = function () {
-	    return this;
-	  };
-	  // eslint-disable-next-line no-throw-literal
-	  Array.from(iteratorWithReturn, function () { throw 2; });
-	} catch (error) { /* empty */ }
-
-	var checkCorrectnessOfIteration = function (exec, SKIP_CLOSING) {
-	  if (!SKIP_CLOSING && !SAFE_CLOSING) return false;
-	  var ITERATION_SUPPORT = false;
-	  try {
-	    var object = {};
-	    object[ITERATOR$4] = function () {
-	      return {
-	        next: function () {
-	          return { done: ITERATION_SUPPORT = true };
-	        }
-	      };
-	    };
-	    exec(object);
-	  } catch (error) { /* empty */ }
-	  return ITERATION_SUPPORT;
-	};
-
-	// makes subclassing work correct for wrapped built-ins
-	var inheritIfRequired = function ($this, dummy, Wrapper) {
-	  var NewTarget, NewTargetPrototype;
-	  if (
-	    // it can work only with native `setPrototypeOf`
-	    objectSetPrototypeOf &&
-	    // we haven't completely correct pre-ES6 way for getting `new.target`, so use this
-	    typeof (NewTarget = dummy.constructor) == 'function' &&
-	    NewTarget !== Wrapper &&
-	    isObject(NewTargetPrototype = NewTarget.prototype) &&
-	    NewTargetPrototype !== Wrapper.prototype
-	  ) objectSetPrototypeOf($this, NewTargetPrototype);
-	  return $this;
-	};
-
-	var collection = function (CONSTRUCTOR_NAME, wrapper, common, IS_MAP, IS_WEAK) {
-	  var NativeConstructor = global_1[CONSTRUCTOR_NAME];
-	  var NativePrototype = NativeConstructor && NativeConstructor.prototype;
-	  var Constructor = NativeConstructor;
-	  var ADDER = IS_MAP ? 'set' : 'add';
-	  var exported = {};
-
-	  var fixMethod = function (KEY) {
-	    var nativeMethod = NativePrototype[KEY];
-	    redefine(NativePrototype, KEY,
-	      KEY == 'add' ? function add(value) {
-	        nativeMethod.call(this, value === 0 ? 0 : value);
-	        return this;
-	      } : KEY == 'delete' ? function (key) {
-	        return IS_WEAK && !isObject(key) ? false : nativeMethod.call(this, key === 0 ? 0 : key);
-	      } : KEY == 'get' ? function get(key) {
-	        return IS_WEAK && !isObject(key) ? undefined : nativeMethod.call(this, key === 0 ? 0 : key);
-	      } : KEY == 'has' ? function has(key) {
-	        return IS_WEAK && !isObject(key) ? false : nativeMethod.call(this, key === 0 ? 0 : key);
-	      } : function set(key, value) {
-	        nativeMethod.call(this, key === 0 ? 0 : key, value);
-	        return this;
-	      }
-	    );
-	  };
-
-	  // eslint-disable-next-line max-len
-	  if (isForced_1(CONSTRUCTOR_NAME, typeof NativeConstructor != 'function' || !(IS_WEAK || NativePrototype.forEach && !fails(function () {
-	    new NativeConstructor().entries().next();
-	  })))) {
-	    // create collection constructor
-	    Constructor = common.getConstructor(wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER);
-	    internalMetadata.REQUIRED = true;
-	  } else if (isForced_1(CONSTRUCTOR_NAME, true)) {
-	    var instance = new Constructor();
-	    // early implementations not supports chaining
-	    var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) != instance;
-	    // V8 ~ Chromium 40- weak-collections throws on primitives, but should return false
-	    var THROWS_ON_PRIMITIVES = fails(function () { instance.has(1); });
-	    // most early implementations doesn't supports iterables, most modern - not close it correctly
-	    // eslint-disable-next-line no-new
-	    var ACCEPT_ITERABLES = checkCorrectnessOfIteration(function (iterable) { new NativeConstructor(iterable); });
-	    // for early implementations -0 and +0 not the same
-	    var BUGGY_ZERO = !IS_WEAK && fails(function () {
-	      // V8 ~ Chromium 42- fails only with 5+ elements
-	      var $instance = new NativeConstructor();
-	      var index = 5;
-	      while (index--) $instance[ADDER](index, index);
-	      return !$instance.has(-0);
-	    });
-
-	    if (!ACCEPT_ITERABLES) {
-	      Constructor = wrapper(function (dummy, iterable) {
-	        anInstance(dummy, Constructor, CONSTRUCTOR_NAME);
-	        var that = inheritIfRequired(new NativeConstructor(), dummy, Constructor);
-	        if (iterable != undefined) iterate_1(iterable, that[ADDER], that, IS_MAP);
-	        return that;
-	      });
-	      Constructor.prototype = NativePrototype;
-	      NativePrototype.constructor = Constructor;
-	    }
-
-	    if (THROWS_ON_PRIMITIVES || BUGGY_ZERO) {
-	      fixMethod('delete');
-	      fixMethod('has');
-	      IS_MAP && fixMethod('get');
-	    }
-
-	    if (BUGGY_ZERO || HASNT_CHAINING) fixMethod(ADDER);
-
-	    // weak collections should not contains .clear method
-	    if (IS_WEAK && NativePrototype.clear) delete NativePrototype.clear;
-	  }
-
-	  exported[CONSTRUCTOR_NAME] = Constructor;
-	  _export({ global: true, forced: Constructor != NativeConstructor }, exported);
-
-	  setToStringTag(Constructor, CONSTRUCTOR_NAME);
-
-	  if (!IS_WEAK) common.setStrong(Constructor, CONSTRUCTOR_NAME, IS_MAP);
-
-	  return Constructor;
-	};
-
-	var getWeakData = internalMetadata.getWeakData;
-
-
-
-
-
-
-
-
-	var setInternalState$2 = internalState.set;
-	var internalStateGetterFor = internalState.getterFor;
-	var find = arrayIteration.find;
-	var findIndex = arrayIteration.findIndex;
-	var id$1 = 0;
-
-	// fallback for uncaught frozen keys
-	var uncaughtFrozenStore = function (store) {
-	  return store.frozen || (store.frozen = new UncaughtFrozenStore());
-	};
-
-	var UncaughtFrozenStore = function () {
-	  this.entries = [];
-	};
-
-	var findUncaughtFrozen = function (store, key) {
-	  return find(store.entries, function (it) {
-	    return it[0] === key;
-	  });
-	};
-
-	UncaughtFrozenStore.prototype = {
-	  get: function (key) {
-	    var entry = findUncaughtFrozen(this, key);
-	    if (entry) return entry[1];
-	  },
-	  has: function (key) {
-	    return !!findUncaughtFrozen(this, key);
-	  },
-	  set: function (key, value) {
-	    var entry = findUncaughtFrozen(this, key);
-	    if (entry) entry[1] = value;
-	    else this.entries.push([key, value]);
-	  },
-	  'delete': function (key) {
-	    var index = findIndex(this.entries, function (it) {
-	      return it[0] === key;
-	    });
-	    if (~index) this.entries.splice(index, 1);
-	    return !!~index;
-	  }
-	};
-
-	var collectionWeak = {
-	  getConstructor: function (wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER) {
-	    var C = wrapper(function (that, iterable) {
-	      anInstance(that, C, CONSTRUCTOR_NAME);
-	      setInternalState$2(that, {
-	        type: CONSTRUCTOR_NAME,
-	        id: id$1++,
-	        frozen: undefined
-	      });
-	      if (iterable != undefined) iterate_1(iterable, that[ADDER], that, IS_MAP);
-	    });
-
-	    var getInternalState = internalStateGetterFor(CONSTRUCTOR_NAME);
-
-	    var define = function (that, key, value) {
-	      var state = getInternalState(that);
-	      var data = getWeakData(anObject(key), true);
-	      if (data === true) uncaughtFrozenStore(state).set(key, value);
-	      else data[state.id] = value;
-	      return that;
-	    };
-
-	    redefineAll(C.prototype, {
-	      // 23.3.3.2 WeakMap.prototype.delete(key)
-	      // 23.4.3.3 WeakSet.prototype.delete(value)
-	      'delete': function (key) {
-	        var state = getInternalState(this);
-	        if (!isObject(key)) return false;
-	        var data = getWeakData(key);
-	        if (data === true) return uncaughtFrozenStore(state)['delete'](key);
-	        return data && has(data, state.id) && delete data[state.id];
-	      },
-	      // 23.3.3.4 WeakMap.prototype.has(key)
-	      // 23.4.3.4 WeakSet.prototype.has(value)
-	      has: function has$1(key) {
-	        var state = getInternalState(this);
-	        if (!isObject(key)) return false;
-	        var data = getWeakData(key);
-	        if (data === true) return uncaughtFrozenStore(state).has(key);
-	        return data && has(data, state.id);
-	      }
-	    });
-
-	    redefineAll(C.prototype, IS_MAP ? {
-	      // 23.3.3.3 WeakMap.prototype.get(key)
-	      get: function get(key) {
-	        var state = getInternalState(this);
-	        if (isObject(key)) {
-	          var data = getWeakData(key);
-	          if (data === true) return uncaughtFrozenStore(state).get(key);
-	          return data ? data[state.id] : undefined;
-	        }
-	      },
-	      // 23.3.3.5 WeakMap.prototype.set(key, value)
-	      set: function set(key, value) {
-	        return define(this, key, value);
-	      }
-	    } : {
-	      // 23.4.3.1 WeakSet.prototype.add(value)
-	      add: function add(value) {
-	        return define(this, value, true);
-	      }
-	    });
-
-	    return C;
-	  }
-	};
-
-	var es_weakMap = createCommonjsModule(function (module) {
-
-
-
-
-
-
-	var enforceIternalState = internalState.enforce;
-
-
-	var IS_IE11 = !global_1.ActiveXObject && 'ActiveXObject' in global_1;
-	var isExtensible = Object.isExtensible;
-	var InternalWeakMap;
-
-	var wrapper = function (get) {
-	  return function WeakMap() {
-	    return get(this, arguments.length ? arguments[0] : undefined);
-	  };
-	};
-
-	// `WeakMap` constructor
-	// https://tc39.github.io/ecma262/#sec-weakmap-constructor
-	var $WeakMap = module.exports = collection('WeakMap', wrapper, collectionWeak, true, true);
-
-	// IE11 WeakMap frozen keys fix
-	// We can't use feature detection because it crash some old IE builds
-	// https://github.com/zloirock/core-js/issues/485
-	if (nativeWeakMap && IS_IE11) {
-	  InternalWeakMap = collectionWeak.getConstructor(wrapper, 'WeakMap', true);
-	  internalMetadata.REQUIRED = true;
-	  var WeakMapPrototype = $WeakMap.prototype;
-	  var nativeDelete = WeakMapPrototype['delete'];
-	  var nativeHas = WeakMapPrototype.has;
-	  var nativeGet = WeakMapPrototype.get;
-	  var nativeSet = WeakMapPrototype.set;
-	  redefineAll(WeakMapPrototype, {
-	    'delete': function (key) {
-	      if (isObject(key) && !isExtensible(key)) {
-	        var state = enforceIternalState(this);
-	        if (!state.frozen) state.frozen = new InternalWeakMap();
-	        return nativeDelete.call(this, key) || state.frozen['delete'](key);
-	      } return nativeDelete.call(this, key);
-	    },
-	    has: function has(key) {
-	      if (isObject(key) && !isExtensible(key)) {
-	        var state = enforceIternalState(this);
-	        if (!state.frozen) state.frozen = new InternalWeakMap();
-	        return nativeHas.call(this, key) || state.frozen.has(key);
-	      } return nativeHas.call(this, key);
-	    },
-	    get: function get(key) {
-	      if (isObject(key) && !isExtensible(key)) {
-	        var state = enforceIternalState(this);
-	        if (!state.frozen) state.frozen = new InternalWeakMap();
-	        return nativeHas.call(this, key) ? nativeGet.call(this, key) : state.frozen.get(key);
-	      } return nativeGet.call(this, key);
-	    },
-	    set: function set(key, value) {
-	      if (isObject(key) && !isExtensible(key)) {
-	        var state = enforceIternalState(this);
-	        if (!state.frozen) state.frozen = new InternalWeakMap();
-	        nativeHas.call(this, key) ? nativeSet.call(this, key, value) : state.frozen.set(key, value);
-	      } else nativeSet.call(this, key, value);
-	      return this;
-	    }
-	  });
-	}
-	});
-
-	var ITERATOR$5 = wellKnownSymbol('iterator');
-	var TO_STRING_TAG$3 = wellKnownSymbol('toStringTag');
-	var ArrayValues = es_array_iterator.values;
-
-	for (var COLLECTION_NAME$1 in domIterables) {
-	  var Collection$1 = global_1[COLLECTION_NAME$1];
-	  var CollectionPrototype$1 = Collection$1 && Collection$1.prototype;
-	  if (CollectionPrototype$1) {
-	    // some Chrome versions have non-configurable methods on DOMTokenList
-	    if (CollectionPrototype$1[ITERATOR$5] !== ArrayValues) try {
-	      hide(CollectionPrototype$1, ITERATOR$5, ArrayValues);
-	    } catch (error) {
-	      CollectionPrototype$1[ITERATOR$5] = ArrayValues;
-	    }
-	    if (!CollectionPrototype$1[TO_STRING_TAG$3]) hide(CollectionPrototype$1, TO_STRING_TAG$3, COLLECTION_NAME$1);
-	    if (domIterables[COLLECTION_NAME$1]) for (var METHOD_NAME in es_array_iterator) {
-	      // some Chrome versions have non-configurable methods on DOMTokenList
-	      if (CollectionPrototype$1[METHOD_NAME] !== es_array_iterator[METHOD_NAME]) try {
-	        hide(CollectionPrototype$1, METHOD_NAME, es_array_iterator[METHOD_NAME]);
-	      } catch (error) {
-	        CollectionPrototype$1[METHOD_NAME] = es_array_iterator[METHOD_NAME];
-	      }
-	    }
-	  }
-	}
-
-	/**
-	 * lodash (Custom Build) <https://lodash.com/>
-	 * Build: `lodash modularize exports="npm" -o ./`
-	 * Copyright jQuery Foundation and other contributors <https://jquery.org/>
-	 * Released under MIT license <https://lodash.com/license>
-	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-	 * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-	 */
-
-	/** Used as the `TypeError` message for "Functions" methods. */
-	var FUNC_ERROR_TEXT = 'Expected a function';
-
-	/** Used as references for various `Number` constants. */
-	var NAN = 0 / 0;
-
-	/** `Object#toString` result references. */
-	var symbolTag = '[object Symbol]';
-
-	/** Used to match leading and trailing whitespace. */
-	var reTrim = /^\s+|\s+$/g;
-
-	/** Used to detect bad signed hexadecimal string values. */
-	var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-	/** Used to detect binary string values. */
-	var reIsBinary = /^0b[01]+$/i;
-
-	/** Used to detect octal string values. */
-	var reIsOctal = /^0o[0-7]+$/i;
-
-	/** Built-in method references without a dependency on `root`. */
-	var freeParseInt = parseInt;
-
-	/** Detect free variable `global` from Node.js. */
-	var freeGlobal = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
-
-	/** Detect free variable `self`. */
-	var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-	/** Used as a reference to the global object. */
-	var root = freeGlobal || freeSelf || Function('return this')();
-
-	/** Used for built-in method references. */
-	var objectProto = Object.prototype;
-
-	/**
-	 * Used to resolve the
-	 * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
-	 * of values.
-	 */
-	var objectToString$1 = objectProto.toString;
-
-	/* Built-in method references for those with the same name as other `lodash` methods. */
-	var nativeMax = Math.max,
-	    nativeMin = Math.min;
-
-	/**
-	 * Gets the timestamp of the number of milliseconds that have elapsed since
-	 * the Unix epoch (1 January 1970 00:00:00 UTC).
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 2.4.0
-	 * @category Date
-	 * @returns {number} Returns the timestamp.
-	 * @example
-	 *
-	 * _.defer(function(stamp) {
-	 *   console.log(_.now() - stamp);
-	 * }, _.now());
-	 * // => Logs the number of milliseconds it took for the deferred invocation.
-	 */
-	var now = function() {
-	  return root.Date.now();
-	};
-
-	/**
-	 * Creates a debounced function that delays invoking `func` until after `wait`
-	 * milliseconds have elapsed since the last time the debounced function was
-	 * invoked. The debounced function comes with a `cancel` method to cancel
-	 * delayed `func` invocations and a `flush` method to immediately invoke them.
-	 * Provide `options` to indicate whether `func` should be invoked on the
-	 * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
-	 * with the last arguments provided to the debounced function. Subsequent
-	 * calls to the debounced function return the result of the last `func`
-	 * invocation.
-	 *
-	 * **Note:** If `leading` and `trailing` options are `true`, `func` is
-	 * invoked on the trailing edge of the timeout only if the debounced function
-	 * is invoked more than once during the `wait` timeout.
-	 *
-	 * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
-	 * until to the next tick, similar to `setTimeout` with a timeout of `0`.
-	 *
-	 * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
-	 * for details over the differences between `_.debounce` and `_.throttle`.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 0.1.0
-	 * @category Function
-	 * @param {Function} func The function to debounce.
-	 * @param {number} [wait=0] The number of milliseconds to delay.
-	 * @param {Object} [options={}] The options object.
-	 * @param {boolean} [options.leading=false]
-	 *  Specify invoking on the leading edge of the timeout.
-	 * @param {number} [options.maxWait]
-	 *  The maximum time `func` is allowed to be delayed before it's invoked.
-	 * @param {boolean} [options.trailing=true]
-	 *  Specify invoking on the trailing edge of the timeout.
-	 * @returns {Function} Returns the new debounced function.
-	 * @example
-	 *
-	 * // Avoid costly calculations while the window size is in flux.
-	 * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
-	 *
-	 * // Invoke `sendMail` when clicked, debouncing subsequent calls.
-	 * jQuery(element).on('click', _.debounce(sendMail, 300, {
-	 *   'leading': true,
-	 *   'trailing': false
-	 * }));
-	 *
-	 * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
-	 * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
-	 * var source = new EventSource('/stream');
-	 * jQuery(source).on('message', debounced);
-	 *
-	 * // Cancel the trailing debounced invocation.
-	 * jQuery(window).on('popstate', debounced.cancel);
-	 */
-	function debounce(func, wait, options) {
-	  var lastArgs,
-	      lastThis,
-	      maxWait,
-	      result,
-	      timerId,
-	      lastCallTime,
-	      lastInvokeTime = 0,
-	      leading = false,
-	      maxing = false,
-	      trailing = true;
-
-	  if (typeof func != 'function') {
-	    throw new TypeError(FUNC_ERROR_TEXT);
-	  }
-	  wait = toNumber(wait) || 0;
-	  if (isObject$1(options)) {
-	    leading = !!options.leading;
-	    maxing = 'maxWait' in options;
-	    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
-	    trailing = 'trailing' in options ? !!options.trailing : trailing;
-	  }
-
-	  function invokeFunc(time) {
-	    var args = lastArgs,
-	        thisArg = lastThis;
-
-	    lastArgs = lastThis = undefined;
-	    lastInvokeTime = time;
-	    result = func.apply(thisArg, args);
-	    return result;
-	  }
-
-	  function leadingEdge(time) {
-	    // Reset any `maxWait` timer.
-	    lastInvokeTime = time;
-	    // Start the timer for the trailing edge.
-	    timerId = setTimeout(timerExpired, wait);
-	    // Invoke the leading edge.
-	    return leading ? invokeFunc(time) : result;
-	  }
-
-	  function remainingWait(time) {
-	    var timeSinceLastCall = time - lastCallTime,
-	        timeSinceLastInvoke = time - lastInvokeTime,
-	        result = wait - timeSinceLastCall;
-
-	    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
-	  }
-
-	  function shouldInvoke(time) {
-	    var timeSinceLastCall = time - lastCallTime,
-	        timeSinceLastInvoke = time - lastInvokeTime;
-
-	    // Either this is the first call, activity has stopped and we're at the
-	    // trailing edge, the system time has gone backwards and we're treating
-	    // it as the trailing edge, or we've hit the `maxWait` limit.
-	    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
-	      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
-	  }
-
-	  function timerExpired() {
-	    var time = now();
-	    if (shouldInvoke(time)) {
-	      return trailingEdge(time);
-	    }
-	    // Restart the timer.
-	    timerId = setTimeout(timerExpired, remainingWait(time));
-	  }
-
-	  function trailingEdge(time) {
-	    timerId = undefined;
-
-	    // Only invoke if we have `lastArgs` which means `func` has been
-	    // debounced at least once.
-	    if (trailing && lastArgs) {
-	      return invokeFunc(time);
-	    }
-	    lastArgs = lastThis = undefined;
-	    return result;
-	  }
-
-	  function cancel() {
-	    if (timerId !== undefined) {
-	      clearTimeout(timerId);
-	    }
-	    lastInvokeTime = 0;
-	    lastArgs = lastCallTime = lastThis = timerId = undefined;
-	  }
-
-	  function flush() {
-	    return timerId === undefined ? result : trailingEdge(now());
-	  }
-
-	  function debounced() {
-	    var time = now(),
-	        isInvoking = shouldInvoke(time);
-
-	    lastArgs = arguments;
-	    lastThis = this;
-	    lastCallTime = time;
-
-	    if (isInvoking) {
-	      if (timerId === undefined) {
-	        return leadingEdge(lastCallTime);
-	      }
-	      if (maxing) {
-	        // Handle invocations in a tight loop.
-	        timerId = setTimeout(timerExpired, wait);
-	        return invokeFunc(lastCallTime);
-	      }
-	    }
-	    if (timerId === undefined) {
-	      timerId = setTimeout(timerExpired, wait);
-	    }
-	    return result;
-	  }
-	  debounced.cancel = cancel;
-	  debounced.flush = flush;
-	  return debounced;
-	}
-
-	/**
-	 * Creates a throttled function that only invokes `func` at most once per
-	 * every `wait` milliseconds. The throttled function comes with a `cancel`
-	 * method to cancel delayed `func` invocations and a `flush` method to
-	 * immediately invoke them. Provide `options` to indicate whether `func`
-	 * should be invoked on the leading and/or trailing edge of the `wait`
-	 * timeout. The `func` is invoked with the last arguments provided to the
-	 * throttled function. Subsequent calls to the throttled function return the
-	 * result of the last `func` invocation.
-	 *
-	 * **Note:** If `leading` and `trailing` options are `true`, `func` is
-	 * invoked on the trailing edge of the timeout only if the throttled function
-	 * is invoked more than once during the `wait` timeout.
-	 *
-	 * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
-	 * until to the next tick, similar to `setTimeout` with a timeout of `0`.
-	 *
-	 * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
-	 * for details over the differences between `_.throttle` and `_.debounce`.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 0.1.0
-	 * @category Function
-	 * @param {Function} func The function to throttle.
-	 * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
-	 * @param {Object} [options={}] The options object.
-	 * @param {boolean} [options.leading=true]
-	 *  Specify invoking on the leading edge of the timeout.
-	 * @param {boolean} [options.trailing=true]
-	 *  Specify invoking on the trailing edge of the timeout.
-	 * @returns {Function} Returns the new throttled function.
-	 * @example
-	 *
-	 * // Avoid excessively updating the position while scrolling.
-	 * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
-	 *
-	 * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
-	 * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
-	 * jQuery(element).on('click', throttled);
-	 *
-	 * // Cancel the trailing throttled invocation.
-	 * jQuery(window).on('popstate', throttled.cancel);
-	 */
-	function throttle(func, wait, options) {
-	  var leading = true,
-	      trailing = true;
-
-	  if (typeof func != 'function') {
-	    throw new TypeError(FUNC_ERROR_TEXT);
-	  }
-	  if (isObject$1(options)) {
-	    leading = 'leading' in options ? !!options.leading : leading;
-	    trailing = 'trailing' in options ? !!options.trailing : trailing;
-	  }
-	  return debounce(func, wait, {
-	    'leading': leading,
-	    'maxWait': wait,
-	    'trailing': trailing
-	  });
-	}
-
-	/**
-	 * Checks if `value` is the
-	 * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
-	 * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 0.1.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-	 * @example
-	 *
-	 * _.isObject({});
-	 * // => true
-	 *
-	 * _.isObject([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isObject(_.noop);
-	 * // => true
-	 *
-	 * _.isObject(null);
-	 * // => false
-	 */
-	function isObject$1(value) {
-	  var type = typeof value;
-	  return !!value && (type == 'object' || type == 'function');
-	}
-
-	/**
-	 * Checks if `value` is object-like. A value is object-like if it's not `null`
-	 * and has a `typeof` result of "object".
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-	 * @example
-	 *
-	 * _.isObjectLike({});
-	 * // => true
-	 *
-	 * _.isObjectLike([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isObjectLike(_.noop);
-	 * // => false
-	 *
-	 * _.isObjectLike(null);
-	 * // => false
-	 */
-	function isObjectLike(value) {
-	  return !!value && typeof value == 'object';
-	}
-
-	/**
-	 * Checks if `value` is classified as a `Symbol` primitive or object.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
-	 * @example
-	 *
-	 * _.isSymbol(Symbol.iterator);
-	 * // => true
-	 *
-	 * _.isSymbol('abc');
-	 * // => false
-	 */
-	function isSymbol(value) {
-	  return typeof value == 'symbol' ||
-	    (isObjectLike(value) && objectToString$1.call(value) == symbolTag);
-	}
-
-	/**
-	 * Converts `value` to a number.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to process.
-	 * @returns {number} Returns the number.
-	 * @example
-	 *
-	 * _.toNumber(3.2);
-	 * // => 3.2
-	 *
-	 * _.toNumber(Number.MIN_VALUE);
-	 * // => 5e-324
-	 *
-	 * _.toNumber(Infinity);
-	 * // => Infinity
-	 *
-	 * _.toNumber('3.2');
-	 * // => 3.2
-	 */
-	function toNumber(value) {
-	  if (typeof value == 'number') {
-	    return value;
-	  }
-	  if (isSymbol(value)) {
-	    return NAN;
-	  }
-	  if (isObject$1(value)) {
-	    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
-	    value = isObject$1(other) ? (other + '') : other;
-	  }
-	  if (typeof value != 'string') {
-	    return value === 0 ? value : +value;
-	  }
-	  value = value.replace(reTrim, '');
-	  var isBinary = reIsBinary.test(value);
-	  return (isBinary || reIsOctal.test(value))
-	    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-	    : (reIsBadHex.test(value) ? NAN : +value);
-	}
-
-	var lodash_throttle = throttle;
-
-	/**
-	 * lodash (Custom Build) <https://lodash.com/>
-	 * Build: `lodash modularize exports="npm" -o ./`
-	 * Copyright jQuery Foundation and other contributors <https://jquery.org/>
-	 * Released under MIT license <https://lodash.com/license>
-	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-	 * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-	 */
-
-	/** Used as the `TypeError` message for "Functions" methods. */
-	var FUNC_ERROR_TEXT$1 = 'Expected a function';
-
-	/** Used as references for various `Number` constants. */
-	var NAN$1 = 0 / 0;
-
-	/** `Object#toString` result references. */
-	var symbolTag$1 = '[object Symbol]';
-
-	/** Used to match leading and trailing whitespace. */
-	var reTrim$1 = /^\s+|\s+$/g;
-
-	/** Used to detect bad signed hexadecimal string values. */
-	var reIsBadHex$1 = /^[-+]0x[0-9a-f]+$/i;
-
-	/** Used to detect binary string values. */
-	var reIsBinary$1 = /^0b[01]+$/i;
-
-	/** Used to detect octal string values. */
-	var reIsOctal$1 = /^0o[0-7]+$/i;
-
-	/** Built-in method references without a dependency on `root`. */
-	var freeParseInt$1 = parseInt;
-
-	/** Detect free variable `global` from Node.js. */
-	var freeGlobal$1 = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
-
-	/** Detect free variable `self`. */
-	var freeSelf$1 = typeof self == 'object' && self && self.Object === Object && self;
-
-	/** Used as a reference to the global object. */
-	var root$1 = freeGlobal$1 || freeSelf$1 || Function('return this')();
-
-	/** Used for built-in method references. */
-	var objectProto$1 = Object.prototype;
-
-	/**
-	 * Used to resolve the
-	 * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
-	 * of values.
-	 */
-	var objectToString$2 = objectProto$1.toString;
-
-	/* Built-in method references for those with the same name as other `lodash` methods. */
-	var nativeMax$1 = Math.max,
-	    nativeMin$1 = Math.min;
-
-	/**
-	 * Gets the timestamp of the number of milliseconds that have elapsed since
-	 * the Unix epoch (1 January 1970 00:00:00 UTC).
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 2.4.0
-	 * @category Date
-	 * @returns {number} Returns the timestamp.
-	 * @example
-	 *
-	 * _.defer(function(stamp) {
-	 *   console.log(_.now() - stamp);
-	 * }, _.now());
-	 * // => Logs the number of milliseconds it took for the deferred invocation.
-	 */
-	var now$1 = function() {
-	  return root$1.Date.now();
-	};
-
-	/**
-	 * Creates a debounced function that delays invoking `func` until after `wait`
-	 * milliseconds have elapsed since the last time the debounced function was
-	 * invoked. The debounced function comes with a `cancel` method to cancel
-	 * delayed `func` invocations and a `flush` method to immediately invoke them.
-	 * Provide `options` to indicate whether `func` should be invoked on the
-	 * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
-	 * with the last arguments provided to the debounced function. Subsequent
-	 * calls to the debounced function return the result of the last `func`
-	 * invocation.
-	 *
-	 * **Note:** If `leading` and `trailing` options are `true`, `func` is
-	 * invoked on the trailing edge of the timeout only if the debounced function
-	 * is invoked more than once during the `wait` timeout.
-	 *
-	 * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
-	 * until to the next tick, similar to `setTimeout` with a timeout of `0`.
-	 *
-	 * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
-	 * for details over the differences between `_.debounce` and `_.throttle`.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 0.1.0
-	 * @category Function
-	 * @param {Function} func The function to debounce.
-	 * @param {number} [wait=0] The number of milliseconds to delay.
-	 * @param {Object} [options={}] The options object.
-	 * @param {boolean} [options.leading=false]
-	 *  Specify invoking on the leading edge of the timeout.
-	 * @param {number} [options.maxWait]
-	 *  The maximum time `func` is allowed to be delayed before it's invoked.
-	 * @param {boolean} [options.trailing=true]
-	 *  Specify invoking on the trailing edge of the timeout.
-	 * @returns {Function} Returns the new debounced function.
-	 * @example
-	 *
-	 * // Avoid costly calculations while the window size is in flux.
-	 * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
-	 *
-	 * // Invoke `sendMail` when clicked, debouncing subsequent calls.
-	 * jQuery(element).on('click', _.debounce(sendMail, 300, {
-	 *   'leading': true,
-	 *   'trailing': false
-	 * }));
-	 *
-	 * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
-	 * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
-	 * var source = new EventSource('/stream');
-	 * jQuery(source).on('message', debounced);
-	 *
-	 * // Cancel the trailing debounced invocation.
-	 * jQuery(window).on('popstate', debounced.cancel);
-	 */
-	function debounce$1(func, wait, options) {
-	  var lastArgs,
-	      lastThis,
-	      maxWait,
-	      result,
-	      timerId,
-	      lastCallTime,
-	      lastInvokeTime = 0,
-	      leading = false,
-	      maxing = false,
-	      trailing = true;
-
-	  if (typeof func != 'function') {
-	    throw new TypeError(FUNC_ERROR_TEXT$1);
-	  }
-	  wait = toNumber$1(wait) || 0;
-	  if (isObject$2(options)) {
-	    leading = !!options.leading;
-	    maxing = 'maxWait' in options;
-	    maxWait = maxing ? nativeMax$1(toNumber$1(options.maxWait) || 0, wait) : maxWait;
-	    trailing = 'trailing' in options ? !!options.trailing : trailing;
-	  }
-
-	  function invokeFunc(time) {
-	    var args = lastArgs,
-	        thisArg = lastThis;
-
-	    lastArgs = lastThis = undefined;
-	    lastInvokeTime = time;
-	    result = func.apply(thisArg, args);
-	    return result;
-	  }
-
-	  function leadingEdge(time) {
-	    // Reset any `maxWait` timer.
-	    lastInvokeTime = time;
-	    // Start the timer for the trailing edge.
-	    timerId = setTimeout(timerExpired, wait);
-	    // Invoke the leading edge.
-	    return leading ? invokeFunc(time) : result;
-	  }
-
-	  function remainingWait(time) {
-	    var timeSinceLastCall = time - lastCallTime,
-	        timeSinceLastInvoke = time - lastInvokeTime,
-	        result = wait - timeSinceLastCall;
-
-	    return maxing ? nativeMin$1(result, maxWait - timeSinceLastInvoke) : result;
-	  }
-
-	  function shouldInvoke(time) {
-	    var timeSinceLastCall = time - lastCallTime,
-	        timeSinceLastInvoke = time - lastInvokeTime;
-
-	    // Either this is the first call, activity has stopped and we're at the
-	    // trailing edge, the system time has gone backwards and we're treating
-	    // it as the trailing edge, or we've hit the `maxWait` limit.
-	    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
-	      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
-	  }
-
-	  function timerExpired() {
-	    var time = now$1();
-	    if (shouldInvoke(time)) {
-	      return trailingEdge(time);
-	    }
-	    // Restart the timer.
-	    timerId = setTimeout(timerExpired, remainingWait(time));
-	  }
-
-	  function trailingEdge(time) {
-	    timerId = undefined;
-
-	    // Only invoke if we have `lastArgs` which means `func` has been
-	    // debounced at least once.
-	    if (trailing && lastArgs) {
-	      return invokeFunc(time);
-	    }
-	    lastArgs = lastThis = undefined;
-	    return result;
-	  }
-
-	  function cancel() {
-	    if (timerId !== undefined) {
-	      clearTimeout(timerId);
-	    }
-	    lastInvokeTime = 0;
-	    lastArgs = lastCallTime = lastThis = timerId = undefined;
-	  }
-
-	  function flush() {
-	    return timerId === undefined ? result : trailingEdge(now$1());
-	  }
-
-	  function debounced() {
-	    var time = now$1(),
-	        isInvoking = shouldInvoke(time);
-
-	    lastArgs = arguments;
-	    lastThis = this;
-	    lastCallTime = time;
-
-	    if (isInvoking) {
-	      if (timerId === undefined) {
-	        return leadingEdge(lastCallTime);
-	      }
-	      if (maxing) {
-	        // Handle invocations in a tight loop.
-	        timerId = setTimeout(timerExpired, wait);
-	        return invokeFunc(lastCallTime);
-	      }
-	    }
-	    if (timerId === undefined) {
-	      timerId = setTimeout(timerExpired, wait);
-	    }
-	    return result;
-	  }
-	  debounced.cancel = cancel;
-	  debounced.flush = flush;
-	  return debounced;
-	}
-
-	/**
-	 * Checks if `value` is the
-	 * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
-	 * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 0.1.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-	 * @example
-	 *
-	 * _.isObject({});
-	 * // => true
-	 *
-	 * _.isObject([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isObject(_.noop);
-	 * // => true
-	 *
-	 * _.isObject(null);
-	 * // => false
-	 */
-	function isObject$2(value) {
-	  var type = typeof value;
-	  return !!value && (type == 'object' || type == 'function');
-	}
-
-	/**
-	 * Checks if `value` is object-like. A value is object-like if it's not `null`
-	 * and has a `typeof` result of "object".
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-	 * @example
-	 *
-	 * _.isObjectLike({});
-	 * // => true
-	 *
-	 * _.isObjectLike([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isObjectLike(_.noop);
-	 * // => false
-	 *
-	 * _.isObjectLike(null);
-	 * // => false
-	 */
-	function isObjectLike$1(value) {
-	  return !!value && typeof value == 'object';
-	}
-
-	/**
-	 * Checks if `value` is classified as a `Symbol` primitive or object.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
-	 * @example
-	 *
-	 * _.isSymbol(Symbol.iterator);
-	 * // => true
-	 *
-	 * _.isSymbol('abc');
-	 * // => false
-	 */
-	function isSymbol$1(value) {
-	  return typeof value == 'symbol' ||
-	    (isObjectLike$1(value) && objectToString$2.call(value) == symbolTag$1);
-	}
-
-	/**
-	 * Converts `value` to a number.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to process.
-	 * @returns {number} Returns the number.
-	 * @example
-	 *
-	 * _.toNumber(3.2);
-	 * // => 3.2
-	 *
-	 * _.toNumber(Number.MIN_VALUE);
-	 * // => 5e-324
-	 *
-	 * _.toNumber(Infinity);
-	 * // => Infinity
-	 *
-	 * _.toNumber('3.2');
-	 * // => 3.2
-	 */
-	function toNumber$1(value) {
-	  if (typeof value == 'number') {
-	    return value;
-	  }
-	  if (isSymbol$1(value)) {
-	    return NAN$1;
-	  }
-	  if (isObject$2(value)) {
-	    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
-	    value = isObject$2(other) ? (other + '') : other;
-	  }
-	  if (typeof value != 'string') {
-	    return value === 0 ? value : +value;
-	  }
-	  value = value.replace(reTrim$1, '');
-	  var isBinary = reIsBinary$1.test(value);
-	  return (isBinary || reIsOctal$1.test(value))
-	    ? freeParseInt$1(value.slice(2), isBinary ? 2 : 8)
-	    : (reIsBadHex$1.test(value) ? NAN$1 : +value);
-	}
-
-	var lodash_debounce = debounce$1;
-
-	/**
-	 * lodash (Custom Build) <https://lodash.com/>
-	 * Build: `lodash modularize exports="npm" -o ./`
-	 * Copyright jQuery Foundation and other contributors <https://jquery.org/>
-	 * Released under MIT license <https://lodash.com/license>
-	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-	 * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-	 */
-
-	/** Used as the `TypeError` message for "Functions" methods. */
-	var FUNC_ERROR_TEXT$2 = 'Expected a function';
-
-	/** Used to stand-in for `undefined` hash values. */
-	var HASH_UNDEFINED = '__lodash_hash_undefined__';
-
-	/** `Object#toString` result references. */
-	var funcTag = '[object Function]',
-	    genTag = '[object GeneratorFunction]';
-
-	/**
-	 * Used to match `RegExp`
-	 * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
-	 */
-	var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
-
-	/** Used to detect host constructors (Safari). */
-	var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-	/** Detect free variable `global` from Node.js. */
-	var freeGlobal$2 = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
-
-	/** Detect free variable `self`. */
-	var freeSelf$2 = typeof self == 'object' && self && self.Object === Object && self;
-
-	/** Used as a reference to the global object. */
-	var root$2 = freeGlobal$2 || freeSelf$2 || Function('return this')();
-
-	/**
-	 * Gets the value at `key` of `object`.
-	 *
-	 * @private
-	 * @param {Object} [object] The object to query.
-	 * @param {string} key The key of the property to get.
-	 * @returns {*} Returns the property value.
-	 */
-	function getValue(object, key) {
-	  return object == null ? undefined : object[key];
-	}
-
-	/**
-	 * Checks if `value` is a host object in IE < 9.
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
-	 */
-	function isHostObject(value) {
-	  // Many host objects are `Object` objects that can coerce to strings
-	  // despite having improperly defined `toString` methods.
-	  var result = false;
-	  if (value != null && typeof value.toString != 'function') {
-	    try {
-	      result = !!(value + '');
-	    } catch (e) {}
-	  }
-	  return result;
-	}
-
-	/** Used for built-in method references. */
-	var arrayProto = Array.prototype,
-	    funcProto = Function.prototype,
-	    objectProto$2 = Object.prototype;
-
-	/** Used to detect overreaching core-js shims. */
-	var coreJsData = root$2['__core-js_shared__'];
-
-	/** Used to detect methods masquerading as native. */
-	var maskSrcKey = (function() {
-	  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
-	  return uid ? ('Symbol(src)_1.' + uid) : '';
-	}());
-
-	/** Used to resolve the decompiled source of functions. */
-	var funcToString = funcProto.toString;
-
-	/** Used to check objects for own properties. */
-	var hasOwnProperty$1 = objectProto$2.hasOwnProperty;
-
-	/**
-	 * Used to resolve the
-	 * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
-	 * of values.
-	 */
-	var objectToString$3 = objectProto$2.toString;
-
-	/** Used to detect if a method is native. */
-	var reIsNative = RegExp('^' +
-	  funcToString.call(hasOwnProperty$1).replace(reRegExpChar, '\\$&')
-	  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-	);
-
-	/** Built-in value references. */
-	var splice = arrayProto.splice;
-
-	/* Built-in method references that are verified to be native. */
-	var Map$1 = getNative(root$2, 'Map'),
-	    nativeCreate = getNative(Object, 'create');
-
-	/**
-	 * Creates a hash object.
-	 *
-	 * @private
-	 * @constructor
-	 * @param {Array} [entries] The key-value pairs to cache.
-	 */
-	function Hash(entries) {
-	  var index = -1,
-	      length = entries ? entries.length : 0;
-
-	  this.clear();
-	  while (++index < length) {
-	    var entry = entries[index];
-	    this.set(entry[0], entry[1]);
-	  }
-	}
-
-	/**
-	 * Removes all key-value entries from the hash.
-	 *
-	 * @private
-	 * @name clear
-	 * @memberOf Hash
-	 */
-	function hashClear() {
-	  this.__data__ = nativeCreate ? nativeCreate(null) : {};
-	}
-
-	/**
-	 * Removes `key` and its value from the hash.
-	 *
-	 * @private
-	 * @name delete
-	 * @memberOf Hash
-	 * @param {Object} hash The hash to modify.
-	 * @param {string} key The key of the value to remove.
-	 * @returns {boolean} Returns `true` if the entry was removed, else `false`.
-	 */
-	function hashDelete(key) {
-	  return this.has(key) && delete this.__data__[key];
-	}
-
-	/**
-	 * Gets the hash value for `key`.
-	 *
-	 * @private
-	 * @name get
-	 * @memberOf Hash
-	 * @param {string} key The key of the value to get.
-	 * @returns {*} Returns the entry value.
-	 */
-	function hashGet(key) {
-	  var data = this.__data__;
-	  if (nativeCreate) {
-	    var result = data[key];
-	    return result === HASH_UNDEFINED ? undefined : result;
-	  }
-	  return hasOwnProperty$1.call(data, key) ? data[key] : undefined;
-	}
-
-	/**
-	 * Checks if a hash value for `key` exists.
-	 *
-	 * @private
-	 * @name has
-	 * @memberOf Hash
-	 * @param {string} key The key of the entry to check.
-	 * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
-	 */
-	function hashHas(key) {
-	  var data = this.__data__;
-	  return nativeCreate ? data[key] !== undefined : hasOwnProperty$1.call(data, key);
-	}
-
-	/**
-	 * Sets the hash `key` to `value`.
-	 *
-	 * @private
-	 * @name set
-	 * @memberOf Hash
-	 * @param {string} key The key of the value to set.
-	 * @param {*} value The value to set.
-	 * @returns {Object} Returns the hash instance.
-	 */
-	function hashSet(key, value) {
-	  var data = this.__data__;
-	  data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
-	  return this;
-	}
-
-	// Add methods to `Hash`.
-	Hash.prototype.clear = hashClear;
-	Hash.prototype['delete'] = hashDelete;
-	Hash.prototype.get = hashGet;
-	Hash.prototype.has = hashHas;
-	Hash.prototype.set = hashSet;
-
-	/**
-	 * Creates an list cache object.
-	 *
-	 * @private
-	 * @constructor
-	 * @param {Array} [entries] The key-value pairs to cache.
-	 */
-	function ListCache(entries) {
-	  var index = -1,
-	      length = entries ? entries.length : 0;
-
-	  this.clear();
-	  while (++index < length) {
-	    var entry = entries[index];
-	    this.set(entry[0], entry[1]);
-	  }
-	}
-
-	/**
-	 * Removes all key-value entries from the list cache.
-	 *
-	 * @private
-	 * @name clear
-	 * @memberOf ListCache
-	 */
-	function listCacheClear() {
-	  this.__data__ = [];
-	}
-
-	/**
-	 * Removes `key` and its value from the list cache.
-	 *
-	 * @private
-	 * @name delete
-	 * @memberOf ListCache
-	 * @param {string} key The key of the value to remove.
-	 * @returns {boolean} Returns `true` if the entry was removed, else `false`.
-	 */
-	function listCacheDelete(key) {
-	  var data = this.__data__,
-	      index = assocIndexOf(data, key);
-
-	  if (index < 0) {
-	    return false;
-	  }
-	  var lastIndex = data.length - 1;
-	  if (index == lastIndex) {
-	    data.pop();
-	  } else {
-	    splice.call(data, index, 1);
-	  }
-	  return true;
-	}
-
-	/**
-	 * Gets the list cache value for `key`.
-	 *
-	 * @private
-	 * @name get
-	 * @memberOf ListCache
-	 * @param {string} key The key of the value to get.
-	 * @returns {*} Returns the entry value.
-	 */
-	function listCacheGet(key) {
-	  var data = this.__data__,
-	      index = assocIndexOf(data, key);
-
-	  return index < 0 ? undefined : data[index][1];
-	}
-
-	/**
-	 * Checks if a list cache value for `key` exists.
-	 *
-	 * @private
-	 * @name has
-	 * @memberOf ListCache
-	 * @param {string} key The key of the entry to check.
-	 * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
-	 */
-	function listCacheHas(key) {
-	  return assocIndexOf(this.__data__, key) > -1;
-	}
-
-	/**
-	 * Sets the list cache `key` to `value`.
-	 *
-	 * @private
-	 * @name set
-	 * @memberOf ListCache
-	 * @param {string} key The key of the value to set.
-	 * @param {*} value The value to set.
-	 * @returns {Object} Returns the list cache instance.
-	 */
-	function listCacheSet(key, value) {
-	  var data = this.__data__,
-	      index = assocIndexOf(data, key);
-
-	  if (index < 0) {
-	    data.push([key, value]);
-	  } else {
-	    data[index][1] = value;
-	  }
-	  return this;
-	}
-
-	// Add methods to `ListCache`.
-	ListCache.prototype.clear = listCacheClear;
-	ListCache.prototype['delete'] = listCacheDelete;
-	ListCache.prototype.get = listCacheGet;
-	ListCache.prototype.has = listCacheHas;
-	ListCache.prototype.set = listCacheSet;
-
-	/**
-	 * Creates a map cache object to store key-value pairs.
-	 *
-	 * @private
-	 * @constructor
-	 * @param {Array} [entries] The key-value pairs to cache.
-	 */
-	function MapCache(entries) {
-	  var index = -1,
-	      length = entries ? entries.length : 0;
-
-	  this.clear();
-	  while (++index < length) {
-	    var entry = entries[index];
-	    this.set(entry[0], entry[1]);
-	  }
-	}
-
-	/**
-	 * Removes all key-value entries from the map.
-	 *
-	 * @private
-	 * @name clear
-	 * @memberOf MapCache
-	 */
-	function mapCacheClear() {
-	  this.__data__ = {
-	    'hash': new Hash,
-	    'map': new (Map$1 || ListCache),
-	    'string': new Hash
-	  };
-	}
-
-	/**
-	 * Removes `key` and its value from the map.
-	 *
-	 * @private
-	 * @name delete
-	 * @memberOf MapCache
-	 * @param {string} key The key of the value to remove.
-	 * @returns {boolean} Returns `true` if the entry was removed, else `false`.
-	 */
-	function mapCacheDelete(key) {
-	  return getMapData(this, key)['delete'](key);
-	}
-
-	/**
-	 * Gets the map value for `key`.
-	 *
-	 * @private
-	 * @name get
-	 * @memberOf MapCache
-	 * @param {string} key The key of the value to get.
-	 * @returns {*} Returns the entry value.
-	 */
-	function mapCacheGet(key) {
-	  return getMapData(this, key).get(key);
-	}
-
-	/**
-	 * Checks if a map value for `key` exists.
-	 *
-	 * @private
-	 * @name has
-	 * @memberOf MapCache
-	 * @param {string} key The key of the entry to check.
-	 * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
-	 */
-	function mapCacheHas(key) {
-	  return getMapData(this, key).has(key);
-	}
-
-	/**
-	 * Sets the map `key` to `value`.
-	 *
-	 * @private
-	 * @name set
-	 * @memberOf MapCache
-	 * @param {string} key The key of the value to set.
-	 * @param {*} value The value to set.
-	 * @returns {Object} Returns the map cache instance.
-	 */
-	function mapCacheSet(key, value) {
-	  getMapData(this, key).set(key, value);
-	  return this;
-	}
-
-	// Add methods to `MapCache`.
-	MapCache.prototype.clear = mapCacheClear;
-	MapCache.prototype['delete'] = mapCacheDelete;
-	MapCache.prototype.get = mapCacheGet;
-	MapCache.prototype.has = mapCacheHas;
-	MapCache.prototype.set = mapCacheSet;
-
-	/**
-	 * Gets the index at which the `key` is found in `array` of key-value pairs.
-	 *
-	 * @private
-	 * @param {Array} array The array to inspect.
-	 * @param {*} key The key to search for.
-	 * @returns {number} Returns the index of the matched value, else `-1`.
-	 */
-	function assocIndexOf(array, key) {
-	  var length = array.length;
-	  while (length--) {
-	    if (eq(array[length][0], key)) {
-	      return length;
-	    }
-	  }
-	  return -1;
-	}
-
-	/**
-	 * The base implementation of `_.isNative` without bad shim checks.
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a native function,
-	 *  else `false`.
-	 */
-	function baseIsNative(value) {
-	  if (!isObject$3(value) || isMasked(value)) {
-	    return false;
-	  }
-	  var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
-	  return pattern.test(toSource(value));
-	}
-
-	/**
-	 * Gets the data for `map`.
-	 *
-	 * @private
-	 * @param {Object} map The map to query.
-	 * @param {string} key The reference key.
-	 * @returns {*} Returns the map data.
-	 */
-	function getMapData(map, key) {
-	  var data = map.__data__;
-	  return isKeyable(key)
-	    ? data[typeof key == 'string' ? 'string' : 'hash']
-	    : data.map;
-	}
-
-	/**
-	 * Gets the native function at `key` of `object`.
-	 *
-	 * @private
-	 * @param {Object} object The object to query.
-	 * @param {string} key The key of the method to get.
-	 * @returns {*} Returns the function if it's native, else `undefined`.
-	 */
-	function getNative(object, key) {
-	  var value = getValue(object, key);
-	  return baseIsNative(value) ? value : undefined;
-	}
-
-	/**
-	 * Checks if `value` is suitable for use as unique object key.
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
-	 */
-	function isKeyable(value) {
-	  var type = typeof value;
-	  return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
-	    ? (value !== '__proto__')
-	    : (value === null);
-	}
-
-	/**
-	 * Checks if `func` has its source masked.
-	 *
-	 * @private
-	 * @param {Function} func The function to check.
-	 * @returns {boolean} Returns `true` if `func` is masked, else `false`.
-	 */
-	function isMasked(func) {
-	  return !!maskSrcKey && (maskSrcKey in func);
-	}
-
-	/**
-	 * Converts `func` to its source code.
-	 *
-	 * @private
-	 * @param {Function} func The function to process.
-	 * @returns {string} Returns the source code.
-	 */
-	function toSource(func) {
-	  if (func != null) {
-	    try {
-	      return funcToString.call(func);
-	    } catch (e) {}
-	    try {
-	      return (func + '');
-	    } catch (e) {}
-	  }
-	  return '';
-	}
-
-	/**
-	 * Creates a function that memoizes the result of `func`. If `resolver` is
-	 * provided, it determines the cache key for storing the result based on the
-	 * arguments provided to the memoized function. By default, the first argument
-	 * provided to the memoized function is used as the map cache key. The `func`
-	 * is invoked with the `this` binding of the memoized function.
-	 *
-	 * **Note:** The cache is exposed as the `cache` property on the memoized
-	 * function. Its creation may be customized by replacing the `_.memoize.Cache`
-	 * constructor with one whose instances implement the
-	 * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
-	 * method interface of `delete`, `get`, `has`, and `set`.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 0.1.0
-	 * @category Function
-	 * @param {Function} func The function to have its output memoized.
-	 * @param {Function} [resolver] The function to resolve the cache key.
-	 * @returns {Function} Returns the new memoized function.
-	 * @example
-	 *
-	 * var object = { 'a': 1, 'b': 2 };
-	 * var other = { 'c': 3, 'd': 4 };
-	 *
-	 * var values = _.memoize(_.values);
-	 * values(object);
-	 * // => [1, 2]
-	 *
-	 * values(other);
-	 * // => [3, 4]
-	 *
-	 * object.a = 2;
-	 * values(object);
-	 * // => [1, 2]
-	 *
-	 * // Modify the result cache.
-	 * values.cache.set(object, ['a', 'b']);
-	 * values(object);
-	 * // => ['a', 'b']
-	 *
-	 * // Replace `_.memoize.Cache`.
-	 * _.memoize.Cache = WeakMap;
-	 */
-	function memoize(func, resolver) {
-	  if (typeof func != 'function' || (resolver && typeof resolver != 'function')) {
-	    throw new TypeError(FUNC_ERROR_TEXT$2);
-	  }
-	  var memoized = function() {
-	    var args = arguments,
-	        key = resolver ? resolver.apply(this, args) : args[0],
-	        cache = memoized.cache;
-
-	    if (cache.has(key)) {
-	      return cache.get(key);
-	    }
-	    var result = func.apply(this, args);
-	    memoized.cache = cache.set(key, result);
-	    return result;
-	  };
-	  memoized.cache = new (memoize.Cache || MapCache);
-	  return memoized;
-	}
-
-	// Assign cache to `_.memoize`.
-	memoize.Cache = MapCache;
-
-	/**
-	 * Performs a
-	 * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
-	 * comparison between two values to determine if they are equivalent.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to compare.
-	 * @param {*} other The other value to compare.
-	 * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
-	 * @example
-	 *
-	 * var object = { 'a': 1 };
-	 * var other = { 'a': 1 };
-	 *
-	 * _.eq(object, object);
-	 * // => true
-	 *
-	 * _.eq(object, other);
-	 * // => false
-	 *
-	 * _.eq('a', 'a');
-	 * // => true
-	 *
-	 * _.eq('a', Object('a'));
-	 * // => false
-	 *
-	 * _.eq(NaN, NaN);
-	 * // => true
-	 */
-	function eq(value, other) {
-	  return value === other || (value !== value && other !== other);
-	}
-
-	/**
-	 * Checks if `value` is classified as a `Function` object.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 0.1.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a function, else `false`.
-	 * @example
-	 *
-	 * _.isFunction(_);
-	 * // => true
-	 *
-	 * _.isFunction(/abc/);
-	 * // => false
-	 */
-	function isFunction(value) {
-	  // The use of `Object#toString` avoids issues with the `typeof` operator
-	  // in Safari 8-9 which returns 'object' for typed array and other constructors.
-	  var tag = isObject$3(value) ? objectToString$3.call(value) : '';
-	  return tag == funcTag || tag == genTag;
-	}
-
-	/**
-	 * Checks if `value` is the
-	 * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
-	 * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 0.1.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-	 * @example
-	 *
-	 * _.isObject({});
-	 * // => true
-	 *
-	 * _.isObject([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isObject(_.noop);
-	 * // => true
-	 *
-	 * _.isObject(null);
-	 * // => false
-	 */
-	function isObject$3(value) {
-	  var type = typeof value;
-	  return !!value && (type == 'object' || type == 'function');
-	}
-
-	var lodash_memoize = memoize;
-
-	/**
-	 * A collection of shims that provide minimal functionality of the ES6 collections.
-	 *
-	 * These implementations are not meant to be used outside of the ResizeObserver
-	 * modules as they cover only a limited range of use cases.
-	 */
-	/* eslint-disable require-jsdoc, valid-jsdoc */
-	var MapShim = (function () {
-	    if (typeof Map !== 'undefined') {
-	        return Map;
-	    }
-	    /**
-	     * Returns index in provided array that matches the specified key.
-	     *
-	     * @param {Array<Array>} arr
-	     * @param {*} key
-	     * @returns {number}
-	     */
-	    function getIndex(arr, key) {
-	        var result = -1;
-	        arr.some(function (entry, index) {
-	            if (entry[0] === key) {
-	                result = index;
-	                return true;
-	            }
-	            return false;
-	        });
-	        return result;
-	    }
-	    return /** @class */ (function () {
-	        function class_1() {
-	            this.__entries__ = [];
-	        }
-	        Object.defineProperty(class_1.prototype, "size", {
-	            /**
-	             * @returns {boolean}
-	             */
-	            get: function () {
-	                return this.__entries__.length;
-	            },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        /**
-	         * @param {*} key
-	         * @returns {*}
-	         */
-	        class_1.prototype.get = function (key) {
-	            var index = getIndex(this.__entries__, key);
-	            var entry = this.__entries__[index];
-	            return entry && entry[1];
-	        };
-	        /**
-	         * @param {*} key
-	         * @param {*} value
-	         * @returns {void}
-	         */
-	        class_1.prototype.set = function (key, value) {
-	            var index = getIndex(this.__entries__, key);
-	            if (~index) {
-	                this.__entries__[index][1] = value;
-	            }
-	            else {
-	                this.__entries__.push([key, value]);
-	            }
-	        };
-	        /**
-	         * @param {*} key
-	         * @returns {void}
-	         */
-	        class_1.prototype.delete = function (key) {
-	            var entries = this.__entries__;
-	            var index = getIndex(entries, key);
-	            if (~index) {
-	                entries.splice(index, 1);
-	            }
-	        };
-	        /**
-	         * @param {*} key
-	         * @returns {void}
-	         */
-	        class_1.prototype.has = function (key) {
-	            return !!~getIndex(this.__entries__, key);
-	        };
-	        /**
-	         * @returns {void}
-	         */
-	        class_1.prototype.clear = function () {
-	            this.__entries__.splice(0);
-	        };
-	        /**
-	         * @param {Function} callback
-	         * @param {*} [ctx=null]
-	         * @returns {void}
-	         */
-	        class_1.prototype.forEach = function (callback, ctx) {
-	            if (ctx === void 0) { ctx = null; }
-	            for (var _i = 0, _a = this.__entries__; _i < _a.length; _i++) {
-	                var entry = _a[_i];
-	                callback.call(ctx, entry[1], entry[0]);
-	            }
-	        };
-	        return class_1;
-	    }());
-	})();
-
-	/**
-	 * Detects whether window and document objects are available in current environment.
-	 */
-	var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined' && window.document === document;
-
-	// Returns global object of a current environment.
-	var global$1 = (function () {
-	    if (typeof global !== 'undefined' && global.Math === Math) {
-	        return global;
-	    }
-	    if (typeof self !== 'undefined' && self.Math === Math) {
-	        return self;
-	    }
-	    if (typeof window !== 'undefined' && window.Math === Math) {
-	        return window;
-	    }
-	    // eslint-disable-next-line no-new-func
-	    return Function('return this')();
-	})();
-
-	/**
-	 * A shim for the requestAnimationFrame which falls back to the setTimeout if
-	 * first one is not supported.
-	 *
-	 * @returns {number} Requests' identifier.
-	 */
-	var requestAnimationFrame$1 = (function () {
-	    if (typeof requestAnimationFrame === 'function') {
-	        // It's required to use a bounded function because IE sometimes throws
-	        // an "Invalid calling object" error if rAF is invoked without the global
-	        // object on the left hand side.
-	        return requestAnimationFrame.bind(global$1);
-	    }
-	    return function (callback) { return setTimeout(function () { return callback(Date.now()); }, 1000 / 60); };
-	})();
-
-	// Defines minimum timeout before adding a trailing call.
-	var trailingTimeout = 2;
-	/**
-	 * Creates a wrapper function which ensures that provided callback will be
-	 * invoked only once during the specified delay period.
-	 *
-	 * @param {Function} callback - Function to be invoked after the delay period.
-	 * @param {number} delay - Delay after which to invoke callback.
-	 * @returns {Function}
-	 */
-	function throttle$1 (callback, delay) {
-	    var leadingCall = false, trailingCall = false, lastCallTime = 0;
-	    /**
-	     * Invokes the original callback function and schedules new invocation if
-	     * the "proxy" was called during current request.
-	     *
-	     * @returns {void}
-	     */
-	    function resolvePending() {
-	        if (leadingCall) {
-	            leadingCall = false;
-	            callback();
-	        }
-	        if (trailingCall) {
-	            proxy();
-	        }
-	    }
-	    /**
-	     * Callback invoked after the specified delay. It will further postpone
-	     * invocation of the original function delegating it to the
-	     * requestAnimationFrame.
-	     *
-	     * @returns {void}
-	     */
-	    function timeoutCallback() {
-	        requestAnimationFrame$1(resolvePending);
-	    }
-	    /**
-	     * Schedules invocation of the original function.
-	     *
-	     * @returns {void}
-	     */
-	    function proxy() {
-	        var timeStamp = Date.now();
-	        if (leadingCall) {
-	            // Reject immediately following calls.
-	            if (timeStamp - lastCallTime < trailingTimeout) {
-	                return;
-	            }
-	            // Schedule new call to be in invoked when the pending one is resolved.
-	            // This is important for "transitions" which never actually start
-	            // immediately so there is a chance that we might miss one if change
-	            // happens amids the pending invocation.
-	            trailingCall = true;
-	        }
-	        else {
-	            leadingCall = true;
-	            trailingCall = false;
-	            setTimeout(timeoutCallback, delay);
-	        }
-	        lastCallTime = timeStamp;
-	    }
-	    return proxy;
-	}
-
-	// Minimum delay before invoking the update of observers.
-	var REFRESH_DELAY = 20;
-	// A list of substrings of CSS properties used to find transition events that
-	// might affect dimensions of observed elements.
-	var transitionKeys = ['top', 'right', 'bottom', 'left', 'width', 'height', 'size', 'weight'];
-	// Check if MutationObserver is available.
-	var mutationObserverSupported = typeof MutationObserver !== 'undefined';
-	/**
-	 * Singleton controller class which handles updates of ResizeObserver instances.
-	 */
-	var ResizeObserverController = /** @class */ (function () {
-	    /**
-	     * Creates a new instance of ResizeObserverController.
-	     *
-	     * @private
-	     */
-	    function ResizeObserverController() {
-	        /**
-	         * Indicates whether DOM listeners have been added.
-	         *
-	         * @private {boolean}
-	         */
-	        this.connected_ = false;
-	        /**
-	         * Tells that controller has subscribed for Mutation Events.
-	         *
-	         * @private {boolean}
-	         */
-	        this.mutationEventsAdded_ = false;
-	        /**
-	         * Keeps reference to the instance of MutationObserver.
-	         *
-	         * @private {MutationObserver}
-	         */
-	        this.mutationsObserver_ = null;
-	        /**
-	         * A list of connected observers.
-	         *
-	         * @private {Array<ResizeObserverSPI>}
-	         */
-	        this.observers_ = [];
-	        this.onTransitionEnd_ = this.onTransitionEnd_.bind(this);
-	        this.refresh = throttle$1(this.refresh.bind(this), REFRESH_DELAY);
-	    }
-	    /**
-	     * Adds observer to observers list.
-	     *
-	     * @param {ResizeObserverSPI} observer - Observer to be added.
-	     * @returns {void}
-	     */
-	    ResizeObserverController.prototype.addObserver = function (observer) {
-	        if (!~this.observers_.indexOf(observer)) {
-	            this.observers_.push(observer);
-	        }
-	        // Add listeners if they haven't been added yet.
-	        if (!this.connected_) {
-	            this.connect_();
-	        }
-	    };
-	    /**
-	     * Removes observer from observers list.
-	     *
-	     * @param {ResizeObserverSPI} observer - Observer to be removed.
-	     * @returns {void}
-	     */
-	    ResizeObserverController.prototype.removeObserver = function (observer) {
-	        var observers = this.observers_;
-	        var index = observers.indexOf(observer);
-	        // Remove observer if it's present in registry.
-	        if (~index) {
-	            observers.splice(index, 1);
-	        }
-	        // Remove listeners if controller has no connected observers.
-	        if (!observers.length && this.connected_) {
-	            this.disconnect_();
-	        }
-	    };
-	    /**
-	     * Invokes the update of observers. It will continue running updates insofar
-	     * it detects changes.
-	     *
-	     * @returns {void}
-	     */
-	    ResizeObserverController.prototype.refresh = function () {
-	        var changesDetected = this.updateObservers_();
-	        // Continue running updates if changes have been detected as there might
-	        // be future ones caused by CSS transitions.
-	        if (changesDetected) {
-	            this.refresh();
-	        }
-	    };
-	    /**
-	     * Updates every observer from observers list and notifies them of queued
-	     * entries.
-	     *
-	     * @private
-	     * @returns {boolean} Returns "true" if any observer has detected changes in
-	     *      dimensions of it's elements.
-	     */
-	    ResizeObserverController.prototype.updateObservers_ = function () {
-	        // Collect observers that have active observations.
-	        var activeObservers = this.observers_.filter(function (observer) {
-	            return observer.gatherActive(), observer.hasActive();
-	        });
-	        // Deliver notifications in a separate cycle in order to avoid any
-	        // collisions between observers, e.g. when multiple instances of
-	        // ResizeObserver are tracking the same element and the callback of one
-	        // of them changes content dimensions of the observed target. Sometimes
-	        // this may result in notifications being blocked for the rest of observers.
-	        activeObservers.forEach(function (observer) { return observer.broadcastActive(); });
-	        return activeObservers.length > 0;
-	    };
-	    /**
-	     * Initializes DOM listeners.
-	     *
-	     * @private
-	     * @returns {void}
-	     */
-	    ResizeObserverController.prototype.connect_ = function () {
-	        // Do nothing if running in a non-browser environment or if listeners
-	        // have been already added.
-	        if (!isBrowser || this.connected_) {
-	            return;
-	        }
-	        // Subscription to the "Transitionend" event is used as a workaround for
-	        // delayed transitions. This way it's possible to capture at least the
-	        // final state of an element.
-	        document.addEventListener('transitionend', this.onTransitionEnd_);
-	        window.addEventListener('resize', this.refresh);
-	        if (mutationObserverSupported) {
-	            this.mutationsObserver_ = new MutationObserver(this.refresh);
-	            this.mutationsObserver_.observe(document, {
-	                attributes: true,
-	                childList: true,
-	                characterData: true,
-	                subtree: true
-	            });
-	        }
-	        else {
-	            document.addEventListener('DOMSubtreeModified', this.refresh);
-	            this.mutationEventsAdded_ = true;
-	        }
-	        this.connected_ = true;
-	    };
-	    /**
-	     * Removes DOM listeners.
-	     *
-	     * @private
-	     * @returns {void}
-	     */
-	    ResizeObserverController.prototype.disconnect_ = function () {
-	        // Do nothing if running in a non-browser environment or if listeners
-	        // have been already removed.
-	        if (!isBrowser || !this.connected_) {
-	            return;
-	        }
-	        document.removeEventListener('transitionend', this.onTransitionEnd_);
-	        window.removeEventListener('resize', this.refresh);
-	        if (this.mutationsObserver_) {
-	            this.mutationsObserver_.disconnect();
-	        }
-	        if (this.mutationEventsAdded_) {
-	            document.removeEventListener('DOMSubtreeModified', this.refresh);
-	        }
-	        this.mutationsObserver_ = null;
-	        this.mutationEventsAdded_ = false;
-	        this.connected_ = false;
-	    };
-	    /**
-	     * "Transitionend" event handler.
-	     *
-	     * @private
-	     * @param {TransitionEvent} event
-	     * @returns {void}
-	     */
-	    ResizeObserverController.prototype.onTransitionEnd_ = function (_a) {
-	        var _b = _a.propertyName, propertyName = _b === void 0 ? '' : _b;
-	        // Detect whether transition may affect dimensions of an element.
-	        var isReflowProperty = transitionKeys.some(function (key) {
-	            return !!~propertyName.indexOf(key);
-	        });
-	        if (isReflowProperty) {
-	            this.refresh();
-	        }
-	    };
-	    /**
-	     * Returns instance of the ResizeObserverController.
-	     *
-	     * @returns {ResizeObserverController}
-	     */
-	    ResizeObserverController.getInstance = function () {
-	        if (!this.instance_) {
-	            this.instance_ = new ResizeObserverController();
-	        }
-	        return this.instance_;
-	    };
-	    /**
-	     * Holds reference to the controller's instance.
-	     *
-	     * @private {ResizeObserverController}
-	     */
-	    ResizeObserverController.instance_ = null;
-	    return ResizeObserverController;
-	}());
-
-	/**
-	 * Defines non-writable/enumerable properties of the provided target object.
-	 *
-	 * @param {Object} target - Object for which to define properties.
-	 * @param {Object} props - Properties to be defined.
-	 * @returns {Object} Target object.
-	 */
-	var defineConfigurable = (function (target, props) {
-	    for (var _i = 0, _a = Object.keys(props); _i < _a.length; _i++) {
-	        var key = _a[_i];
-	        Object.defineProperty(target, key, {
-	            value: props[key],
-	            enumerable: false,
-	            writable: false,
-	            configurable: true
-	        });
-	    }
-	    return target;
-	});
-
-	/**
-	 * Returns the global object associated with provided element.
-	 *
-	 * @param {Object} target
-	 * @returns {Object}
-	 */
-	var getWindowOf = (function (target) {
-	    // Assume that the element is an instance of Node, which means that it
-	    // has the "ownerDocument" property from which we can retrieve a
-	    // corresponding global object.
-	    var ownerGlobal = target && target.ownerDocument && target.ownerDocument.defaultView;
-	    // Return the local global object if it's not possible extract one from
-	    // provided element.
-	    return ownerGlobal || global$1;
-	});
-
-	// Placeholder of an empty content rectangle.
-	var emptyRect = createRectInit(0, 0, 0, 0);
-	/**
-	 * Converts provided string to a number.
-	 *
-	 * @param {number|string} value
-	 * @returns {number}
-	 */
-	function toFloat(value) {
-	    return parseFloat(value) || 0;
-	}
-	/**
-	 * Extracts borders size from provided styles.
-	 *
-	 * @param {CSSStyleDeclaration} styles
-	 * @param {...string} positions - Borders positions (top, right, ...)
-	 * @returns {number}
-	 */
-	function getBordersSize(styles) {
-	    var positions = [];
-	    for (var _i = 1; _i < arguments.length; _i++) {
-	        positions[_i - 1] = arguments[_i];
-	    }
-	    return positions.reduce(function (size, position) {
-	        var value = styles['border-' + position + '-width'];
-	        return size + toFloat(value);
-	    }, 0);
-	}
-	/**
-	 * Extracts paddings sizes from provided styles.
-	 *
-	 * @param {CSSStyleDeclaration} styles
-	 * @returns {Object} Paddings box.
-	 */
-	function getPaddings(styles) {
-	    var positions = ['top', 'right', 'bottom', 'left'];
-	    var paddings = {};
-	    for (var _i = 0, positions_1 = positions; _i < positions_1.length; _i++) {
-	        var position = positions_1[_i];
-	        var value = styles['padding-' + position];
-	        paddings[position] = toFloat(value);
-	    }
-	    return paddings;
-	}
-	/**
-	 * Calculates content rectangle of provided SVG element.
-	 *
-	 * @param {SVGGraphicsElement} target - Element content rectangle of which needs
-	 *      to be calculated.
-	 * @returns {DOMRectInit}
-	 */
-	function getSVGContentRect(target) {
-	    var bbox = target.getBBox();
-	    return createRectInit(0, 0, bbox.width, bbox.height);
-	}
-	/**
-	 * Calculates content rectangle of provided HTMLElement.
-	 *
-	 * @param {HTMLElement} target - Element for which to calculate the content rectangle.
-	 * @returns {DOMRectInit}
-	 */
-	function getHTMLElementContentRect(target) {
-	    // Client width & height properties can't be
-	    // used exclusively as they provide rounded values.
-	    var clientWidth = target.clientWidth, clientHeight = target.clientHeight;
-	    // By this condition we can catch all non-replaced inline, hidden and
-	    // detached elements. Though elements with width & height properties less
-	    // than 0.5 will be discarded as well.
-	    //
-	    // Without it we would need to implement separate methods for each of
-	    // those cases and it's not possible to perform a precise and performance
-	    // effective test for hidden elements. E.g. even jQuery's ':visible' filter
-	    // gives wrong results for elements with width & height less than 0.5.
-	    if (!clientWidth && !clientHeight) {
-	        return emptyRect;
-	    }
-	    var styles = getWindowOf(target).getComputedStyle(target);
-	    var paddings = getPaddings(styles);
-	    var horizPad = paddings.left + paddings.right;
-	    var vertPad = paddings.top + paddings.bottom;
-	    // Computed styles of width & height are being used because they are the
-	    // only dimensions available to JS that contain non-rounded values. It could
-	    // be possible to utilize the getBoundingClientRect if only it's data wasn't
-	    // affected by CSS transformations let alone paddings, borders and scroll bars.
-	    var width = toFloat(styles.width), height = toFloat(styles.height);
-	    // Width & height include paddings and borders when the 'border-box' box
-	    // model is applied (except for IE).
-	    if (styles.boxSizing === 'border-box') {
-	        // Following conditions are required to handle Internet Explorer which
-	        // doesn't include paddings and borders to computed CSS dimensions.
-	        //
-	        // We can say that if CSS dimensions + paddings are equal to the "client"
-	        // properties then it's either IE, and thus we don't need to subtract
-	        // anything, or an element merely doesn't have paddings/borders styles.
-	        if (Math.round(width + horizPad) !== clientWidth) {
-	            width -= getBordersSize(styles, 'left', 'right') + horizPad;
-	        }
-	        if (Math.round(height + vertPad) !== clientHeight) {
-	            height -= getBordersSize(styles, 'top', 'bottom') + vertPad;
-	        }
-	    }
-	    // Following steps can't be applied to the document's root element as its
-	    // client[Width/Height] properties represent viewport area of the window.
-	    // Besides, it's as well not necessary as the <html> itself neither has
-	    // rendered scroll bars nor it can be clipped.
-	    if (!isDocumentElement(target)) {
-	        // In some browsers (only in Firefox, actually) CSS width & height
-	        // include scroll bars size which can be removed at this step as scroll
-	        // bars are the only difference between rounded dimensions + paddings
-	        // and "client" properties, though that is not always true in Chrome.
-	        var vertScrollbar = Math.round(width + horizPad) - clientWidth;
-	        var horizScrollbar = Math.round(height + vertPad) - clientHeight;
-	        // Chrome has a rather weird rounding of "client" properties.
-	        // E.g. for an element with content width of 314.2px it sometimes gives
-	        // the client width of 315px and for the width of 314.7px it may give
-	        // 314px. And it doesn't happen all the time. So just ignore this delta
-	        // as a non-relevant.
-	        if (Math.abs(vertScrollbar) !== 1) {
-	            width -= vertScrollbar;
-	        }
-	        if (Math.abs(horizScrollbar) !== 1) {
-	            height -= horizScrollbar;
-	        }
-	    }
-	    return createRectInit(paddings.left, paddings.top, width, height);
-	}
-	/**
-	 * Checks whether provided element is an instance of the SVGGraphicsElement.
-	 *
-	 * @param {Element} target - Element to be checked.
-	 * @returns {boolean}
-	 */
-	var isSVGGraphicsElement = (function () {
-	    // Some browsers, namely IE and Edge, don't have the SVGGraphicsElement
-	    // interface.
-	    if (typeof SVGGraphicsElement !== 'undefined') {
-	        return function (target) { return target instanceof getWindowOf(target).SVGGraphicsElement; };
-	    }
-	    // If it's so, then check that element is at least an instance of the
-	    // SVGElement and that it has the "getBBox" method.
-	    // eslint-disable-next-line no-extra-parens
-	    return function (target) { return (target instanceof getWindowOf(target).SVGElement &&
-	        typeof target.getBBox === 'function'); };
-	})();
-	/**
-	 * Checks whether provided element is a document element (<html>).
-	 *
-	 * @param {Element} target - Element to be checked.
-	 * @returns {boolean}
-	 */
-	function isDocumentElement(target) {
-	    return target === getWindowOf(target).document.documentElement;
-	}
-	/**
-	 * Calculates an appropriate content rectangle for provided html or svg element.
-	 *
-	 * @param {Element} target - Element content rectangle of which needs to be calculated.
-	 * @returns {DOMRectInit}
-	 */
-	function getContentRect(target) {
-	    if (!isBrowser) {
-	        return emptyRect;
-	    }
-	    if (isSVGGraphicsElement(target)) {
-	        return getSVGContentRect(target);
-	    }
-	    return getHTMLElementContentRect(target);
-	}
-	/**
-	 * Creates rectangle with an interface of the DOMRectReadOnly.
-	 * Spec: https://drafts.fxtf.org/geometry/#domrectreadonly
-	 *
-	 * @param {DOMRectInit} rectInit - Object with rectangle's x/y coordinates and dimensions.
-	 * @returns {DOMRectReadOnly}
-	 */
-	function createReadOnlyRect(_a) {
-	    var x = _a.x, y = _a.y, width = _a.width, height = _a.height;
-	    // If DOMRectReadOnly is available use it as a prototype for the rectangle.
-	    var Constr = typeof DOMRectReadOnly !== 'undefined' ? DOMRectReadOnly : Object;
-	    var rect = Object.create(Constr.prototype);
-	    // Rectangle's properties are not writable and non-enumerable.
-	    defineConfigurable(rect, {
-	        x: x, y: y, width: width, height: height,
-	        top: y,
-	        right: x + width,
-	        bottom: height + y,
-	        left: x
-	    });
-	    return rect;
-	}
-	/**
-	 * Creates DOMRectInit object based on the provided dimensions and the x/y coordinates.
-	 * Spec: https://drafts.fxtf.org/geometry/#dictdef-domrectinit
-	 *
-	 * @param {number} x - X coordinate.
-	 * @param {number} y - Y coordinate.
-	 * @param {number} width - Rectangle's width.
-	 * @param {number} height - Rectangle's height.
-	 * @returns {DOMRectInit}
-	 */
-	function createRectInit(x, y, width, height) {
-	    return { x: x, y: y, width: width, height: height };
-	}
-
-	/**
-	 * Class that is responsible for computations of the content rectangle of
-	 * provided DOM element and for keeping track of it's changes.
-	 */
-	var ResizeObservation = /** @class */ (function () {
-	    /**
-	     * Creates an instance of ResizeObservation.
-	     *
-	     * @param {Element} target - Element to be observed.
-	     */
-	    function ResizeObservation(target) {
-	        /**
-	         * Broadcasted width of content rectangle.
-	         *
-	         * @type {number}
-	         */
-	        this.broadcastWidth = 0;
-	        /**
-	         * Broadcasted height of content rectangle.
-	         *
-	         * @type {number}
-	         */
-	        this.broadcastHeight = 0;
-	        /**
-	         * Reference to the last observed content rectangle.
-	         *
-	         * @private {DOMRectInit}
-	         */
-	        this.contentRect_ = createRectInit(0, 0, 0, 0);
-	        this.target = target;
-	    }
-	    /**
-	     * Updates content rectangle and tells whether it's width or height properties
-	     * have changed since the last broadcast.
-	     *
-	     * @returns {boolean}
-	     */
-	    ResizeObservation.prototype.isActive = function () {
-	        var rect = getContentRect(this.target);
-	        this.contentRect_ = rect;
-	        return (rect.width !== this.broadcastWidth ||
-	            rect.height !== this.broadcastHeight);
-	    };
-	    /**
-	     * Updates 'broadcastWidth' and 'broadcastHeight' properties with a data
-	     * from the corresponding properties of the last observed content rectangle.
-	     *
-	     * @returns {DOMRectInit} Last observed content rectangle.
-	     */
-	    ResizeObservation.prototype.broadcastRect = function () {
-	        var rect = this.contentRect_;
-	        this.broadcastWidth = rect.width;
-	        this.broadcastHeight = rect.height;
-	        return rect;
-	    };
-	    return ResizeObservation;
-	}());
-
-	var ResizeObserverEntry = /** @class */ (function () {
-	    /**
-	     * Creates an instance of ResizeObserverEntry.
-	     *
-	     * @param {Element} target - Element that is being observed.
-	     * @param {DOMRectInit} rectInit - Data of the element's content rectangle.
-	     */
-	    function ResizeObserverEntry(target, rectInit) {
-	        var contentRect = createReadOnlyRect(rectInit);
-	        // According to the specification following properties are not writable
-	        // and are also not enumerable in the native implementation.
-	        //
-	        // Property accessors are not being used as they'd require to define a
-	        // private WeakMap storage which may cause memory leaks in browsers that
-	        // don't support this type of collections.
-	        defineConfigurable(this, { target: target, contentRect: contentRect });
-	    }
-	    return ResizeObserverEntry;
-	}());
-
-	var ResizeObserverSPI = /** @class */ (function () {
-	    /**
-	     * Creates a new instance of ResizeObserver.
-	     *
-	     * @param {ResizeObserverCallback} callback - Callback function that is invoked
-	     *      when one of the observed elements changes it's content dimensions.
-	     * @param {ResizeObserverController} controller - Controller instance which
-	     *      is responsible for the updates of observer.
-	     * @param {ResizeObserver} callbackCtx - Reference to the public
-	     *      ResizeObserver instance which will be passed to callback function.
-	     */
-	    function ResizeObserverSPI(callback, controller, callbackCtx) {
-	        /**
-	         * Collection of resize observations that have detected changes in dimensions
-	         * of elements.
-	         *
-	         * @private {Array<ResizeObservation>}
-	         */
-	        this.activeObservations_ = [];
-	        /**
-	         * Registry of the ResizeObservation instances.
-	         *
-	         * @private {Map<Element, ResizeObservation>}
-	         */
-	        this.observations_ = new MapShim();
-	        if (typeof callback !== 'function') {
-	            throw new TypeError('The callback provided as parameter 1 is not a function.');
-	        }
-	        this.callback_ = callback;
-	        this.controller_ = controller;
-	        this.callbackCtx_ = callbackCtx;
-	    }
-	    /**
-	     * Starts observing provided element.
-	     *
-	     * @param {Element} target - Element to be observed.
-	     * @returns {void}
-	     */
-	    ResizeObserverSPI.prototype.observe = function (target) {
-	        if (!arguments.length) {
-	            throw new TypeError('1 argument required, but only 0 present.');
-	        }
-	        // Do nothing if current environment doesn't have the Element interface.
-	        if (typeof Element === 'undefined' || !(Element instanceof Object)) {
-	            return;
-	        }
-	        if (!(target instanceof getWindowOf(target).Element)) {
-	            throw new TypeError('parameter 1 is not of type "Element".');
-	        }
-	        var observations = this.observations_;
-	        // Do nothing if element is already being observed.
-	        if (observations.has(target)) {
-	            return;
-	        }
-	        observations.set(target, new ResizeObservation(target));
-	        this.controller_.addObserver(this);
-	        // Force the update of observations.
-	        this.controller_.refresh();
-	    };
-	    /**
-	     * Stops observing provided element.
-	     *
-	     * @param {Element} target - Element to stop observing.
-	     * @returns {void}
-	     */
-	    ResizeObserverSPI.prototype.unobserve = function (target) {
-	        if (!arguments.length) {
-	            throw new TypeError('1 argument required, but only 0 present.');
-	        }
-	        // Do nothing if current environment doesn't have the Element interface.
-	        if (typeof Element === 'undefined' || !(Element instanceof Object)) {
-	            return;
-	        }
-	        if (!(target instanceof getWindowOf(target).Element)) {
-	            throw new TypeError('parameter 1 is not of type "Element".');
-	        }
-	        var observations = this.observations_;
-	        // Do nothing if element is not being observed.
-	        if (!observations.has(target)) {
-	            return;
-	        }
-	        observations.delete(target);
-	        if (!observations.size) {
-	            this.controller_.removeObserver(this);
-	        }
-	    };
-	    /**
-	     * Stops observing all elements.
-	     *
-	     * @returns {void}
-	     */
-	    ResizeObserverSPI.prototype.disconnect = function () {
-	        this.clearActive();
-	        this.observations_.clear();
-	        this.controller_.removeObserver(this);
-	    };
-	    /**
-	     * Collects observation instances the associated element of which has changed
-	     * it's content rectangle.
-	     *
-	     * @returns {void}
-	     */
-	    ResizeObserverSPI.prototype.gatherActive = function () {
-	        var _this = this;
-	        this.clearActive();
-	        this.observations_.forEach(function (observation) {
-	            if (observation.isActive()) {
-	                _this.activeObservations_.push(observation);
-	            }
-	        });
-	    };
-	    /**
-	     * Invokes initial callback function with a list of ResizeObserverEntry
-	     * instances collected from active resize observations.
-	     *
-	     * @returns {void}
-	     */
-	    ResizeObserverSPI.prototype.broadcastActive = function () {
-	        // Do nothing if observer doesn't have active observations.
-	        if (!this.hasActive()) {
-	            return;
-	        }
-	        var ctx = this.callbackCtx_;
-	        // Create ResizeObserverEntry instance for every active observation.
-	        var entries = this.activeObservations_.map(function (observation) {
-	            return new ResizeObserverEntry(observation.target, observation.broadcastRect());
-	        });
-	        this.callback_.call(ctx, entries, ctx);
-	        this.clearActive();
-	    };
-	    /**
-	     * Clears the collection of active observations.
-	     *
-	     * @returns {void}
-	     */
-	    ResizeObserverSPI.prototype.clearActive = function () {
-	        this.activeObservations_.splice(0);
-	    };
-	    /**
-	     * Tells whether observer has active observations.
-	     *
-	     * @returns {boolean}
-	     */
-	    ResizeObserverSPI.prototype.hasActive = function () {
-	        return this.activeObservations_.length > 0;
-	    };
-	    return ResizeObserverSPI;
-	}());
-
-	// Registry of internal observers. If WeakMap is not available use current shim
-	// for the Map collection as it has all required methods and because WeakMap
-	// can't be fully polyfilled anyway.
-	var observers = typeof WeakMap !== 'undefined' ? new WeakMap() : new MapShim();
-	/**
-	 * ResizeObserver API. Encapsulates the ResizeObserver SPI implementation
-	 * exposing only those methods and properties that are defined in the spec.
-	 */
-	var ResizeObserver = /** @class */ (function () {
-	    /**
-	     * Creates a new instance of ResizeObserver.
-	     *
-	     * @param {ResizeObserverCallback} callback - Callback that is invoked when
-	     *      dimensions of the observed elements change.
-	     */
-	    function ResizeObserver(callback) {
-	        if (!(this instanceof ResizeObserver)) {
-	            throw new TypeError('Cannot call a class as a function.');
-	        }
-	        if (!arguments.length) {
-	            throw new TypeError('1 argument required, but only 0 present.');
-	        }
-	        var controller = ResizeObserverController.getInstance();
-	        var observer = new ResizeObserverSPI(callback, controller, this);
-	        observers.set(this, observer);
-	    }
-	    return ResizeObserver;
-	}());
-	// Expose public methods of ResizeObserver.
-	[
-	    'observe',
-	    'unobserve',
-	    'disconnect'
-	].forEach(function (method) {
-	    ResizeObserver.prototype[method] = function () {
-	        var _a;
-	        return (_a = observers.get(this))[method].apply(_a, arguments);
-	    };
-	});
-
-	var index = (function () {
-	    // Export existing implementation if available.
-	    if (typeof global$1.ResizeObserver !== 'undefined') {
-	        return global$1.ResizeObserver;
-	    }
-	    return ResizeObserver;
-	})();
-
-	var cachedScrollbarWidth = null;
-	var cachedDevicePixelRatio = null;
-
-	if (canUseDom) {
-	  window.addEventListener('resize', function () {
-	    if (cachedDevicePixelRatio !== window.devicePixelRatio) {
-	      cachedDevicePixelRatio = window.devicePixelRatio;
-	      cachedScrollbarWidth = null;
-	    }
-	  });
-	}
-
-	function scrollbarWidth() {
-	  if (cachedScrollbarWidth === null) {
-	    if (typeof document === 'undefined') {
-	      cachedScrollbarWidth = 0;
-	      return cachedScrollbarWidth;
-	    }
-
-	    var body = document.body;
-	    var box = document.createElement('div');
-	    box.classList.add('simplebar-hide-scrollbar');
-	    body.appendChild(box);
-	    var width = box.getBoundingClientRect().right;
-	    body.removeChild(box);
-	    cachedScrollbarWidth = width;
-	  }
-
-	  return cachedScrollbarWidth;
-	}
-
-	// `Array.prototype.{ reduce, reduceRight }` methods implementation
-	var createMethod$4 = function (IS_RIGHT) {
-	  return function (that, callbackfn, argumentsLength, memo) {
-	    aFunction$1(callbackfn);
-	    var O = toObject(that);
-	    var self = indexedObject(O);
-	    var length = toLength(O.length);
-	    var index = IS_RIGHT ? length - 1 : 0;
-	    var i = IS_RIGHT ? -1 : 1;
-	    if (argumentsLength < 2) while (true) {
-	      if (index in self) {
-	        memo = self[index];
-	        index += i;
-	        break;
-	      }
-	      index += i;
-	      if (IS_RIGHT ? index < 0 : length <= index) {
-	        throw TypeError('Reduce of empty array with no initial value');
-	      }
-	    }
-	    for (;IS_RIGHT ? index >= 0 : length > index; index += i) if (index in self) {
-	      memo = callbackfn(memo, self[index], index, O);
-	    }
-	    return memo;
-	  };
-	};
-
-	var arrayReduce = {
-	  // `Array.prototype.reduce` method
-	  // https://tc39.github.io/ecma262/#sec-array.prototype.reduce
-	  left: createMethod$4(false),
-	  // `Array.prototype.reduceRight` method
-	  // https://tc39.github.io/ecma262/#sec-array.prototype.reduceright
-	  right: createMethod$4(true)
-	};
-
-	var $reduce = arrayReduce.left;
-
-
-	// `Array.prototype.reduce` method
-	// https://tc39.github.io/ecma262/#sec-array.prototype.reduce
-	_export({ target: 'Array', proto: true, forced: sloppyArrayMethod('reduce') }, {
-	  reduce: function reduce(callbackfn /* , initialValue */) {
-	    return $reduce(this, callbackfn, arguments.length, arguments.length > 1 ? arguments[1] : undefined);
-	  }
-	});
-
-	var defineProperty$1 = objectDefineProperty.f;
-
-	var FunctionPrototype = Function.prototype;
-	var FunctionPrototypeToString = FunctionPrototype.toString;
-	var nameRE = /^\s*function ([^ (]*)/;
-	var NAME = 'name';
-
-	// Function instances `.name` property
-	// https://tc39.github.io/ecma262/#sec-function-instances-name
-	if (descriptors && !(NAME in FunctionPrototype)) {
-	  defineProperty$1(FunctionPrototype, NAME, {
-	    configurable: true,
-	    get: function () {
-	      try {
-	        return FunctionPrototypeToString.call(this).match(nameRE)[1];
-	      } catch (error) {
-	        return '';
-	      }
-	    }
-	  });
-	}
-
-	// `RegExp.prototype.flags` getter implementation
-	// https://tc39.github.io/ecma262/#sec-get-regexp.prototype.flags
-	var regexpFlags = function () {
-	  var that = anObject(this);
-	  var result = '';
-	  if (that.global) result += 'g';
-	  if (that.ignoreCase) result += 'i';
-	  if (that.multiline) result += 'm';
-	  if (that.dotAll) result += 's';
-	  if (that.unicode) result += 'u';
-	  if (that.sticky) result += 'y';
-	  return result;
-	};
-
-	var nativeExec = RegExp.prototype.exec;
-	// This always refers to the native implementation, because the
-	// String#replace polyfill uses ./fix-regexp-well-known-symbol-logic.js,
-	// which loads this file before patching the method.
-	var nativeReplace = String.prototype.replace;
-
-	var patchedExec = nativeExec;
-
-	var UPDATES_LAST_INDEX_WRONG = (function () {
-	  var re1 = /a/;
-	  var re2 = /b*/g;
-	  nativeExec.call(re1, 'a');
-	  nativeExec.call(re2, 'a');
-	  return re1.lastIndex !== 0 || re2.lastIndex !== 0;
-	})();
-
-	// nonparticipating capturing group, copied from es5-shim's String#split patch.
-	var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
-
-	var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED;
-
-	if (PATCH) {
-	  patchedExec = function exec(str) {
-	    var re = this;
-	    var lastIndex, reCopy, match, i;
-
-	    if (NPCG_INCLUDED) {
-	      reCopy = new RegExp('^' + re.source + '$(?!\\s)', regexpFlags.call(re));
-	    }
-	    if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
-
-	    match = nativeExec.call(re, str);
-
-	    if (UPDATES_LAST_INDEX_WRONG && match) {
-	      re.lastIndex = re.global ? match.index + match[0].length : lastIndex;
-	    }
-	    if (NPCG_INCLUDED && match && match.length > 1) {
-	      // Fix browsers whose `exec` methods don't consistently return `undefined`
-	      // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
-	      nativeReplace.call(match[0], reCopy, function () {
-	        for (i = 1; i < arguments.length - 2; i++) {
-	          if (arguments[i] === undefined) match[i] = undefined;
-	        }
-	      });
-	    }
-
-	    return match;
-	  };
-	}
-
-	var regexpExec = patchedExec;
-
-	_export({ target: 'RegExp', proto: true, forced: /./.exec !== regexpExec }, {
-	  exec: regexpExec
-	});
-
-	var SPECIES$2 = wellKnownSymbol('species');
-
-	var REPLACE_SUPPORTS_NAMED_GROUPS = !fails(function () {
-	  // #replace needs built-in support for named groups.
-	  // #match works fine because it just return the exec results, even if it has
-	  // a "grops" property.
-	  var re = /./;
-	  re.exec = function () {
-	    var result = [];
-	    result.groups = { a: '7' };
-	    return result;
-	  };
-	  return ''.replace(re, '$<a>') !== '7';
-	});
-
-	// Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
-	// Weex JS has frozen built-in prototypes, so use try / catch wrapper
-	var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails(function () {
-	  var re = /(?:)/;
-	  var originalExec = re.exec;
-	  re.exec = function () { return originalExec.apply(this, arguments); };
-	  var result = 'ab'.split(re);
-	  return result.length !== 2 || result[0] !== 'a' || result[1] !== 'b';
-	});
-
-	var fixRegexpWellKnownSymbolLogic = function (KEY, length, exec, sham) {
-	  var SYMBOL = wellKnownSymbol(KEY);
-
-	  var DELEGATES_TO_SYMBOL = !fails(function () {
-	    // String methods call symbol-named RegEp methods
-	    var O = {};
-	    O[SYMBOL] = function () { return 7; };
-	    return ''[KEY](O) != 7;
-	  });
-
-	  var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails(function () {
-	    // Symbol-named RegExp methods call .exec
-	    var execCalled = false;
-	    var re = /a/;
-	    re.exec = function () { execCalled = true; return null; };
-
-	    if (KEY === 'split') {
-	      // RegExp[@@split] doesn't call the regex's exec method, but first creates
-	      // a new one. We need to return the patched regex when creating the new one.
-	      re.constructor = {};
-	      re.constructor[SPECIES$2] = function () { return re; };
-	    }
-
-	    re[SYMBOL]('');
-	    return !execCalled;
-	  });
-
-	  if (
-	    !DELEGATES_TO_SYMBOL ||
-	    !DELEGATES_TO_EXEC ||
-	    (KEY === 'replace' && !REPLACE_SUPPORTS_NAMED_GROUPS) ||
-	    (KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
-	  ) {
-	    var nativeRegExpMethod = /./[SYMBOL];
-	    var methods = exec(SYMBOL, ''[KEY], function (nativeMethod, regexp, str, arg2, forceStringMethod) {
-	      if (regexp.exec === regexpExec) {
-	        if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
-	          // The native String method already delegates to @@method (this
-	          // polyfilled function), leasing to infinite recursion.
-	          // We avoid it by directly calling the native @@method method.
-	          return { done: true, value: nativeRegExpMethod.call(regexp, str, arg2) };
-	        }
-	        return { done: true, value: nativeMethod.call(str, regexp, arg2) };
-	      }
-	      return { done: false };
-	    });
-	    var stringMethod = methods[0];
-	    var regexMethod = methods[1];
-
-	    redefine(String.prototype, KEY, stringMethod);
-	    redefine(RegExp.prototype, SYMBOL, length == 2
-	      // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
-	      // 21.2.5.11 RegExp.prototype[@@split](string, limit)
-	      ? function (string, arg) { return regexMethod.call(string, this, arg); }
-	      // 21.2.5.6 RegExp.prototype[@@match](string)
-	      // 21.2.5.9 RegExp.prototype[@@search](string)
-	      : function (string) { return regexMethod.call(string, this); }
-	    );
-	    if (sham) hide(RegExp.prototype[SYMBOL], 'sham', true);
-	  }
-	};
-
-	var charAt$1 = stringMultibyte.charAt;
-
-	// `AdvanceStringIndex` abstract operation
-	// https://tc39.github.io/ecma262/#sec-advancestringindex
-	var advanceStringIndex = function (S, index, unicode) {
-	  return index + (unicode ? charAt$1(S, index).length : 1);
-	};
-
-	// `RegExpExec` abstract operation
-	// https://tc39.github.io/ecma262/#sec-regexpexec
-	var regexpExecAbstract = function (R, S) {
-	  var exec = R.exec;
-	  if (typeof exec === 'function') {
-	    var result = exec.call(R, S);
-	    if (typeof result !== 'object') {
-	      throw TypeError('RegExp exec method returned something other than an Object or null');
-	    }
-	    return result;
-	  }
-
-	  if (classofRaw(R) !== 'RegExp') {
-	    throw TypeError('RegExp#exec called on incompatible receiver');
-	  }
-
-	  return regexpExec.call(R, S);
-	};
-
-	// @@match logic
-	fixRegexpWellKnownSymbolLogic('match', 1, function (MATCH, nativeMatch, maybeCallNative) {
-	  return [
-	    // `String.prototype.match` method
-	    // https://tc39.github.io/ecma262/#sec-string.prototype.match
-	    function match(regexp) {
-	      var O = requireObjectCoercible(this);
-	      var matcher = regexp == undefined ? undefined : regexp[MATCH];
-	      return matcher !== undefined ? matcher.call(regexp, O) : new RegExp(regexp)[MATCH](String(O));
-	    },
-	    // `RegExp.prototype[@@match]` method
-	    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@match
-	    function (regexp) {
-	      var res = maybeCallNative(nativeMatch, regexp, this);
-	      if (res.done) return res.value;
-
-	      var rx = anObject(regexp);
-	      var S = String(this);
-
-	      if (!rx.global) return regexpExecAbstract(rx, S);
-
-	      var fullUnicode = rx.unicode;
-	      rx.lastIndex = 0;
-	      var A = [];
-	      var n = 0;
-	      var result;
-	      while ((result = regexpExecAbstract(rx, S)) !== null) {
-	        var matchStr = String(result[0]);
-	        A[n] = matchStr;
-	        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
-	        n++;
-	      }
-	      return n === 0 ? null : A;
-	    }
-	  ];
-	});
-
-	var max$1 = Math.max;
-	var min$2 = Math.min;
-	var floor$1 = Math.floor;
-	var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d\d?|<[^>]*>)/g;
-	var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d\d?)/g;
-
-	var maybeToString = function (it) {
-	  return it === undefined ? it : String(it);
-	};
-
-	// @@replace logic
-	fixRegexpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, maybeCallNative) {
-	  return [
-	    // `String.prototype.replace` method
-	    // https://tc39.github.io/ecma262/#sec-string.prototype.replace
-	    function replace(searchValue, replaceValue) {
-	      var O = requireObjectCoercible(this);
-	      var replacer = searchValue == undefined ? undefined : searchValue[REPLACE];
-	      return replacer !== undefined
-	        ? replacer.call(searchValue, O, replaceValue)
-	        : nativeReplace.call(String(O), searchValue, replaceValue);
-	    },
-	    // `RegExp.prototype[@@replace]` method
-	    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@replace
-	    function (regexp, replaceValue) {
-	      var res = maybeCallNative(nativeReplace, regexp, this, replaceValue);
-	      if (res.done) return res.value;
-
-	      var rx = anObject(regexp);
-	      var S = String(this);
-
-	      var functionalReplace = typeof replaceValue === 'function';
-	      if (!functionalReplace) replaceValue = String(replaceValue);
-
-	      var global = rx.global;
-	      if (global) {
-	        var fullUnicode = rx.unicode;
-	        rx.lastIndex = 0;
-	      }
-	      var results = [];
-	      while (true) {
-	        var result = regexpExecAbstract(rx, S);
-	        if (result === null) break;
-
-	        results.push(result);
-	        if (!global) break;
-
-	        var matchStr = String(result[0]);
-	        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
-	      }
-
-	      var accumulatedResult = '';
-	      var nextSourcePosition = 0;
-	      for (var i = 0; i < results.length; i++) {
-	        result = results[i];
-
-	        var matched = String(result[0]);
-	        var position = max$1(min$2(toInteger(result.index), S.length), 0);
-	        var captures = [];
-	        // NOTE: This is equivalent to
-	        //   captures = result.slice(1).map(maybeToString)
-	        // but for some reason `nativeSlice.call(result, 1, result.length)` (called in
-	        // the slice polyfill when slicing native arrays) "doesn't work" in safari 9 and
-	        // causes a crash (https://pastebin.com/N21QzeQA) when trying to debug it.
-	        for (var j = 1; j < result.length; j++) captures.push(maybeToString(result[j]));
-	        var namedCaptures = result.groups;
-	        if (functionalReplace) {
-	          var replacerArgs = [matched].concat(captures, position, S);
-	          if (namedCaptures !== undefined) replacerArgs.push(namedCaptures);
-	          var replacement = String(replaceValue.apply(undefined, replacerArgs));
-	        } else {
-	          replacement = getSubstitution(matched, S, position, captures, namedCaptures, replaceValue);
-	        }
-	        if (position >= nextSourcePosition) {
-	          accumulatedResult += S.slice(nextSourcePosition, position) + replacement;
-	          nextSourcePosition = position + matched.length;
-	        }
-	      }
-	      return accumulatedResult + S.slice(nextSourcePosition);
-	    }
-	  ];
-
-	  // https://tc39.github.io/ecma262/#sec-getsubstitution
-	  function getSubstitution(matched, str, position, captures, namedCaptures, replacement) {
-	    var tailPos = position + matched.length;
-	    var m = captures.length;
-	    var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
-	    if (namedCaptures !== undefined) {
-	      namedCaptures = toObject(namedCaptures);
-	      symbols = SUBSTITUTION_SYMBOLS;
-	    }
-	    return nativeReplace.call(replacement, symbols, function (match, ch) {
-	      var capture;
-	      switch (ch.charAt(0)) {
-	        case '$': return '$';
-	        case '&': return matched;
-	        case '`': return str.slice(0, position);
-	        case "'": return str.slice(tailPos);
-	        case '<':
-	          capture = namedCaptures[ch.slice(1, -1)];
-	          break;
-	        default: // \d\d?
-	          var n = +ch;
-	          if (n === 0) return match;
-	          if (n > m) {
-	            var f = floor$1(n / 10);
-	            if (f === 0) return match;
-	            if (f <= m) return captures[f - 1] === undefined ? ch.charAt(1) : captures[f - 1] + ch.charAt(1);
-	            return match;
-	          }
-	          capture = captures[n - 1];
-	      }
-	      return capture === undefined ? '' : capture;
-	    });
-	  }
-	});
-
-	// Helper function to retrieve options from element attributes
-	var getOptions = function getOptions(obj) {
-	  var options = Array.prototype.reduce.call(obj, function (acc, attribute) {
-	    var option = attribute.name.match(/data-simplebar-(.+)/);
-
-	    if (option) {
-	      var key = option[1].replace(/\W+(.)/g, function (x, chr) {
-	        return chr.toUpperCase();
-	      });
-
-	      switch (attribute.value) {
-	        case 'true':
-	          acc[key] = true;
-	          break;
-
-	        case 'false':
-	          acc[key] = false;
-	          break;
-
-	        case undefined:
-	          acc[key] = true;
-	          break;
-
-	        default:
-	          acc[key] = attribute.value;
-	      }
-	    }
-
-	    return acc;
-	  }, {});
-	  return options;
-	};
-	function getElementWindow(element) {
-	  if (!element || !element.ownerDocument || !element.ownerDocument.defaultView) {
-	    return window;
-	  }
-
-	  return element.ownerDocument.defaultView;
-	}
-	function getElementDocument(element) {
-	  if (!element || !element.ownerDocument) {
-	    return document;
-	  }
-
-	  return element.ownerDocument;
-	}
-
-	var SimpleBar =
-	/*#__PURE__*/
-	function () {
-	  function SimpleBar(element, options) {
-	    var _this = this;
-
-	    this.onScroll = function () {
-	      var elWindow = getElementWindow(_this.el);
-
-	      if (!_this.scrollXTicking) {
-	        elWindow.requestAnimationFrame(_this.scrollX);
-	        _this.scrollXTicking = true;
-	      }
-
-	      if (!_this.scrollYTicking) {
-	        elWindow.requestAnimationFrame(_this.scrollY);
-	        _this.scrollYTicking = true;
-	      }
-	    };
-
-	    this.scrollX = function () {
-	      if (_this.axis.x.isOverflowing) {
-	        _this.showScrollbar('x');
-
-	        _this.positionScrollbar('x');
-	      }
-
-	      _this.scrollXTicking = false;
-	    };
-
-	    this.scrollY = function () {
-	      if (_this.axis.y.isOverflowing) {
-	        _this.showScrollbar('y');
-
-	        _this.positionScrollbar('y');
-	      }
-
-	      _this.scrollYTicking = false;
-	    };
-
-	    this.onMouseEnter = function () {
-	      _this.showScrollbar('x');
-
-	      _this.showScrollbar('y');
-	    };
-
-	    this.onMouseMove = function (e) {
-	      _this.mouseX = e.clientX;
-	      _this.mouseY = e.clientY;
-
-	      if (_this.axis.x.isOverflowing || _this.axis.x.forceVisible) {
-	        _this.onMouseMoveForAxis('x');
-	      }
-
-	      if (_this.axis.y.isOverflowing || _this.axis.y.forceVisible) {
-	        _this.onMouseMoveForAxis('y');
-	      }
-	    };
-
-	    this.onMouseLeave = function () {
-	      _this.onMouseMove.cancel();
-
-	      if (_this.axis.x.isOverflowing || _this.axis.x.forceVisible) {
-	        _this.onMouseLeaveForAxis('x');
-	      }
-
-	      if (_this.axis.y.isOverflowing || _this.axis.y.forceVisible) {
-	        _this.onMouseLeaveForAxis('y');
-	      }
-
-	      _this.mouseX = -1;
-	      _this.mouseY = -1;
-	    };
-
-	    this.onWindowResize = function () {
-	      // Recalculate scrollbarWidth in case it's a zoom
-	      _this.scrollbarWidth = _this.getScrollbarWidth();
-
-	      _this.hideNativeScrollbar();
-	    };
-
-	    this.hideScrollbars = function () {
-	      _this.axis.x.track.rect = _this.axis.x.track.el.getBoundingClientRect();
-	      _this.axis.y.track.rect = _this.axis.y.track.el.getBoundingClientRect();
-
-	      if (!_this.isWithinBounds(_this.axis.y.track.rect)) {
-	        _this.axis.y.scrollbar.el.classList.remove(_this.classNames.visible);
-
-	        _this.axis.y.isVisible = false;
-	      }
-
-	      if (!_this.isWithinBounds(_this.axis.x.track.rect)) {
-	        _this.axis.x.scrollbar.el.classList.remove(_this.classNames.visible);
-
-	        _this.axis.x.isVisible = false;
-	      }
-	    };
-
-	    this.onPointerEvent = function (e) {
-	      var isWithinTrackXBounds, isWithinTrackYBounds;
-	      _this.axis.x.track.rect = _this.axis.x.track.el.getBoundingClientRect();
-	      _this.axis.y.track.rect = _this.axis.y.track.el.getBoundingClientRect();
-
-	      if (_this.axis.x.isOverflowing || _this.axis.x.forceVisible) {
-	        isWithinTrackXBounds = _this.isWithinBounds(_this.axis.x.track.rect);
-	      }
-
-	      if (_this.axis.y.isOverflowing || _this.axis.y.forceVisible) {
-	        isWithinTrackYBounds = _this.isWithinBounds(_this.axis.y.track.rect);
-	      } // If any pointer event is called on the scrollbar
-
-
-	      if (isWithinTrackXBounds || isWithinTrackYBounds) {
-	        // Preventing the event's default action stops text being
-	        // selectable during the drag.
-	        e.preventDefault(); // Prevent event leaking
-
-	        e.stopPropagation();
-
-	        if (e.type === 'mousedown') {
-	          if (isWithinTrackXBounds) {
-	            _this.axis.x.scrollbar.rect = _this.axis.x.scrollbar.el.getBoundingClientRect();
-
-	            if (_this.isWithinBounds(_this.axis.x.scrollbar.rect)) {
-	              _this.onDragStart(e, 'x');
-	            } else {
-	              _this.onTrackClick(e, 'x');
-	            }
-	          }
-
-	          if (isWithinTrackYBounds) {
-	            _this.axis.y.scrollbar.rect = _this.axis.y.scrollbar.el.getBoundingClientRect();
-
-	            if (_this.isWithinBounds(_this.axis.y.scrollbar.rect)) {
-	              _this.onDragStart(e, 'y');
-	            } else {
-	              _this.onTrackClick(e, 'y');
-	            }
-	          }
-	        }
-	      }
-	    };
-
-	    this.drag = function (e) {
-	      var eventOffset;
-	      var track = _this.axis[_this.draggedAxis].track;
-	      var trackSize = track.rect[_this.axis[_this.draggedAxis].sizeAttr];
-	      var scrollbar = _this.axis[_this.draggedAxis].scrollbar;
-	      var contentSize = _this.contentWrapperEl[_this.axis[_this.draggedAxis].scrollSizeAttr];
-	      var hostSize = parseInt(_this.elStyles[_this.axis[_this.draggedAxis].sizeAttr], 10);
-	      e.preventDefault();
-	      e.stopPropagation();
-
-	      if (_this.draggedAxis === 'y') {
-	        eventOffset = e.pageY;
-	      } else {
-	        eventOffset = e.pageX;
-	      } // Calculate how far the user's mouse is from the top/left of the scrollbar (minus the dragOffset).
-
-
-	      var dragPos = eventOffset - track.rect[_this.axis[_this.draggedAxis].offsetAttr] - _this.axis[_this.draggedAxis].dragOffset; // Convert the mouse position into a percentage of the scrollbar height/width.
-
-	      var dragPerc = dragPos / (trackSize - scrollbar.size); // Scroll the content by the same percentage.
-
-	      var scrollPos = dragPerc * (contentSize - hostSize); // Fix browsers inconsistency on RTL
-
-	      if (_this.draggedAxis === 'x') {
-	        scrollPos = _this.isRtl && SimpleBar.getRtlHelpers().isRtlScrollbarInverted ? scrollPos - (trackSize + scrollbar.size) : scrollPos;
-	        scrollPos = _this.isRtl && SimpleBar.getRtlHelpers().isRtlScrollingInverted ? -scrollPos : scrollPos;
-	      }
-
-	      _this.contentWrapperEl[_this.axis[_this.draggedAxis].scrollOffsetAttr] = scrollPos;
-	    };
-
-	    this.onEndDrag = function (e) {
-	      var elDocument = getElementDocument(_this.el);
-	      var elWindow = getElementWindow(_this.el);
-	      e.preventDefault();
-	      e.stopPropagation();
-
-	      _this.el.classList.remove(_this.classNames.dragging);
-
-	      elDocument.removeEventListener('mousemove', _this.drag, true);
-	      elDocument.removeEventListener('mouseup', _this.onEndDrag, true);
-	      _this.removePreventClickId = elWindow.setTimeout(function () {
-	        // Remove these asynchronously so we still suppress click events
-	        // generated simultaneously with mouseup.
-	        elDocument.removeEventListener('click', _this.preventClick, true);
-	        elDocument.removeEventListener('dblclick', _this.preventClick, true);
-	        _this.removePreventClickId = null;
-	      });
-	    };
-
-	    this.preventClick = function (e) {
-	      e.preventDefault();
-	      e.stopPropagation();
-	    };
-
-	    this.el = element;
-	    this.minScrollbarWidth = 20;
-	    this.options = Object.assign({}, SimpleBar.defaultOptions, {}, options);
-	    this.classNames = Object.assign({}, SimpleBar.defaultOptions.classNames, {}, this.options.classNames);
-	    this.axis = {
-	      x: {
-	        scrollOffsetAttr: 'scrollLeft',
-	        sizeAttr: 'width',
-	        scrollSizeAttr: 'scrollWidth',
-	        offsetSizeAttr: 'offsetWidth',
-	        offsetAttr: 'left',
-	        overflowAttr: 'overflowX',
-	        dragOffset: 0,
-	        isOverflowing: true,
-	        isVisible: false,
-	        forceVisible: false,
-	        track: {},
-	        scrollbar: {}
-	      },
-	      y: {
-	        scrollOffsetAttr: 'scrollTop',
-	        sizeAttr: 'height',
-	        scrollSizeAttr: 'scrollHeight',
-	        offsetSizeAttr: 'offsetHeight',
-	        offsetAttr: 'top',
-	        overflowAttr: 'overflowY',
-	        dragOffset: 0,
-	        isOverflowing: true,
-	        isVisible: false,
-	        forceVisible: false,
-	        track: {},
-	        scrollbar: {}
-	      }
-	    };
-	    this.removePreventClickId = null; // Don't re-instantiate over an existing one
-
-	    if (SimpleBar.instances.has(this.el)) {
-	      return;
-	    }
-
-	    this.recalculate = lodash_throttle(this.recalculate.bind(this), 64);
-	    this.onMouseMove = lodash_throttle(this.onMouseMove.bind(this), 64);
-	    this.hideScrollbars = lodash_debounce(this.hideScrollbars.bind(this), this.options.timeout);
-	    this.onWindowResize = lodash_debounce(this.onWindowResize.bind(this), 64, {
-	      leading: true
-	    });
-	    SimpleBar.getRtlHelpers = lodash_memoize(SimpleBar.getRtlHelpers);
-	    this.init();
-	  }
-	  /**
-	   * Static properties
-	   */
-
-	  /**
-	   * Helper to fix browsers inconsistency on RTL:
-	   *  - Firefox inverts the scrollbar initial position
-	   *  - IE11 inverts both scrollbar position and scrolling offset
-	   * Directly inspired by @KingSora's OverlayScrollbars https://github.com/KingSora/OverlayScrollbars/blob/master/js/OverlayScrollbars.js#L1634
-	   */
-
-
-	  SimpleBar.getRtlHelpers = function getRtlHelpers() {
-	    var dummyDiv = document.createElement('div');
-	    dummyDiv.innerHTML = '<div class="hs-dummy-scrollbar-size"><div style="height: 200%; width: 200%; margin: 10px 0;"></div></div>';
-	    var scrollbarDummyEl = dummyDiv.firstElementChild;
-	    document.body.appendChild(scrollbarDummyEl);
-	    var dummyContainerChild = scrollbarDummyEl.firstElementChild;
-	    scrollbarDummyEl.scrollLeft = 0;
-	    var dummyContainerOffset = SimpleBar.getOffset(scrollbarDummyEl);
-	    var dummyContainerChildOffset = SimpleBar.getOffset(dummyContainerChild);
-	    scrollbarDummyEl.scrollLeft = 999;
-	    var dummyContainerScrollOffsetAfterScroll = SimpleBar.getOffset(dummyContainerChild);
-	    return {
-	      // determines if the scrolling is responding with negative values
-	      isRtlScrollingInverted: dummyContainerOffset.left !== dummyContainerChildOffset.left && dummyContainerChildOffset.left - dummyContainerScrollOffsetAfterScroll.left !== 0,
-	      // determines if the origin scrollbar position is inverted or not (positioned on left or right)
-	      isRtlScrollbarInverted: dummyContainerOffset.left !== dummyContainerChildOffset.left
-	    };
-	  };
-
-	  SimpleBar.getOffset = function getOffset(el) {
-	    var rect = el.getBoundingClientRect();
-	    var elDocument = getElementDocument(el);
-	    var elWindow = getElementWindow(el);
-	    return {
-	      top: rect.top + (elWindow.pageYOffset || elDocument.documentElement.scrollTop),
-	      left: rect.left + (elWindow.pageXOffset || elDocument.documentElement.scrollLeft)
-	    };
-	  };
-
-	  var _proto = SimpleBar.prototype;
-
-	  _proto.init = function init() {
-	    // Save a reference to the instance, so we know this DOM node has already been instancied
-	    SimpleBar.instances.set(this.el, this); // We stop here on server-side
-
-	    if (canUseDom) {
-	      this.initDOM();
-	      this.scrollbarWidth = this.getScrollbarWidth();
-	      this.recalculate();
-	      this.initListeners();
-	    }
-	  };
-
-	  _proto.initDOM = function initDOM() {
-	    var _this2 = this;
-
-	    // make sure this element doesn't have the elements yet
-	    if (Array.prototype.filter.call(this.el.children, function (child) {
-	      return child.classList.contains(_this2.classNames.wrapper);
-	    }).length) {
-	      // assume that element has his DOM already initiated
-	      this.wrapperEl = this.el.querySelector("." + this.classNames.wrapper);
-	      this.contentWrapperEl = this.options.scrollableNode || this.el.querySelector("." + this.classNames.contentWrapper);
-	      this.contentEl = this.options.contentNode || this.el.querySelector("." + this.classNames.contentEl);
-	      this.offsetEl = this.el.querySelector("." + this.classNames.offset);
-	      this.maskEl = this.el.querySelector("." + this.classNames.mask);
-	      this.placeholderEl = this.findChild(this.wrapperEl, "." + this.classNames.placeholder);
-	      this.heightAutoObserverWrapperEl = this.el.querySelector("." + this.classNames.heightAutoObserverWrapperEl);
-	      this.heightAutoObserverEl = this.el.querySelector("." + this.classNames.heightAutoObserverEl);
-	      this.axis.x.track.el = this.findChild(this.el, "." + this.classNames.track + "." + this.classNames.horizontal);
-	      this.axis.y.track.el = this.findChild(this.el, "." + this.classNames.track + "." + this.classNames.vertical);
-	    } else {
-	      // Prepare DOM
-	      this.wrapperEl = document.createElement('div');
-	      this.contentWrapperEl = document.createElement('div');
-	      this.offsetEl = document.createElement('div');
-	      this.maskEl = document.createElement('div');
-	      this.contentEl = document.createElement('div');
-	      this.placeholderEl = document.createElement('div');
-	      this.heightAutoObserverWrapperEl = document.createElement('div');
-	      this.heightAutoObserverEl = document.createElement('div');
-	      this.wrapperEl.classList.add(this.classNames.wrapper);
-	      this.contentWrapperEl.classList.add(this.classNames.contentWrapper);
-	      this.offsetEl.classList.add(this.classNames.offset);
-	      this.maskEl.classList.add(this.classNames.mask);
-	      this.contentEl.classList.add(this.classNames.contentEl);
-	      this.placeholderEl.classList.add(this.classNames.placeholder);
-	      this.heightAutoObserverWrapperEl.classList.add(this.classNames.heightAutoObserverWrapperEl);
-	      this.heightAutoObserverEl.classList.add(this.classNames.heightAutoObserverEl);
-
-	      while (this.el.firstChild) {
-	        this.contentEl.appendChild(this.el.firstChild);
-	      }
-
-	      this.contentWrapperEl.appendChild(this.contentEl);
-	      this.offsetEl.appendChild(this.contentWrapperEl);
-	      this.maskEl.appendChild(this.offsetEl);
-	      this.heightAutoObserverWrapperEl.appendChild(this.heightAutoObserverEl);
-	      this.wrapperEl.appendChild(this.heightAutoObserverWrapperEl);
-	      this.wrapperEl.appendChild(this.maskEl);
-	      this.wrapperEl.appendChild(this.placeholderEl);
-	      this.el.appendChild(this.wrapperEl);
-	    }
-
-	    if (!this.axis.x.track.el || !this.axis.y.track.el) {
-	      var track = document.createElement('div');
-	      var scrollbar = document.createElement('div');
-	      track.classList.add(this.classNames.track);
-	      scrollbar.classList.add(this.classNames.scrollbar);
-	      track.appendChild(scrollbar);
-	      this.axis.x.track.el = track.cloneNode(true);
-	      this.axis.x.track.el.classList.add(this.classNames.horizontal);
-	      this.axis.y.track.el = track.cloneNode(true);
-	      this.axis.y.track.el.classList.add(this.classNames.vertical);
-	      this.el.appendChild(this.axis.x.track.el);
-	      this.el.appendChild(this.axis.y.track.el);
-	    }
-
-	    this.axis.x.scrollbar.el = this.axis.x.track.el.querySelector("." + this.classNames.scrollbar);
-	    this.axis.y.scrollbar.el = this.axis.y.track.el.querySelector("." + this.classNames.scrollbar);
-
-	    if (!this.options.autoHide) {
-	      this.axis.x.scrollbar.el.classList.add(this.classNames.visible);
-	      this.axis.y.scrollbar.el.classList.add(this.classNames.visible);
-	    }
-
-	    this.el.setAttribute('data-simplebar', 'init');
-	  };
-
-	  _proto.initListeners = function initListeners() {
-	    var _this3 = this;
-
-	    var elWindow = getElementWindow(this.el); // Event listeners
-
-	    if (this.options.autoHide) {
-	      this.el.addEventListener('mouseenter', this.onMouseEnter);
-	    }
-
-	    ['mousedown', 'click', 'dblclick'].forEach(function (e) {
-	      _this3.el.addEventListener(e, _this3.onPointerEvent, true);
-	    });
-	    ['touchstart', 'touchend', 'touchmove'].forEach(function (e) {
-	      _this3.el.addEventListener(e, _this3.onPointerEvent, {
-	        capture: true,
-	        passive: true
-	      });
-	    });
-	    this.el.addEventListener('mousemove', this.onMouseMove);
-	    this.el.addEventListener('mouseleave', this.onMouseLeave);
-	    this.contentWrapperEl.addEventListener('scroll', this.onScroll); // Browser zoom triggers a window resize
-
-	    elWindow.addEventListener('resize', this.onWindowResize); // Hack for https://github.com/WICG/ResizeObserver/issues/38
-
-	    var resizeObserverStarted = false;
-	    var resizeObserver = elWindow.ResizeObserver || index;
-	    this.resizeObserver = new resizeObserver(function () {
-	      if (!resizeObserverStarted) return;
-
-	      _this3.recalculate();
-	    });
-	    this.resizeObserver.observe(this.el);
-	    this.resizeObserver.observe(this.contentEl);
-	    elWindow.requestAnimationFrame(function () {
-	      resizeObserverStarted = true;
-	    }); // This is required to detect horizontal scroll. Vertical scroll only needs the resizeObserver.
-
-	    this.mutationObserver = new elWindow.MutationObserver(this.recalculate);
-	    this.mutationObserver.observe(this.contentEl, {
-	      childList: true,
-	      subtree: true,
-	      characterData: true
-	    });
-	  };
-
-	  _proto.recalculate = function recalculate() {
-	    var elWindow = getElementWindow(this.el);
-	    this.elStyles = elWindow.getComputedStyle(this.el);
-	    this.isRtl = this.elStyles.direction === 'rtl';
-	    var isHeightAuto = this.heightAutoObserverEl.offsetHeight <= 1;
-	    var isWidthAuto = this.heightAutoObserverEl.offsetWidth <= 1;
-	    var contentElOffsetWidth = this.contentEl.offsetWidth;
-	    var contentWrapperElOffsetWidth = this.contentWrapperEl.offsetWidth;
-	    var elOverflowX = this.elStyles.overflowX;
-	    var elOverflowY = this.elStyles.overflowY;
-	    this.contentEl.style.padding = this.elStyles.paddingTop + " " + this.elStyles.paddingRight + " " + this.elStyles.paddingBottom + " " + this.elStyles.paddingLeft;
-	    this.wrapperEl.style.margin = "-" + this.elStyles.paddingTop + " -" + this.elStyles.paddingRight + " -" + this.elStyles.paddingBottom + " -" + this.elStyles.paddingLeft;
-	    var contentElScrollHeight = this.contentEl.scrollHeight;
-	    var contentElScrollWidth = this.contentEl.scrollWidth;
-	    this.contentWrapperEl.style.height = isHeightAuto ? 'auto' : '100%'; // Determine placeholder size
-
-	    this.placeholderEl.style.width = isWidthAuto ? contentElOffsetWidth + "px" : 'auto';
-	    this.placeholderEl.style.height = contentElScrollHeight + "px";
-	    var contentWrapperElOffsetHeight = this.contentWrapperEl.offsetHeight;
-	    this.axis.x.isOverflowing = contentElScrollWidth > contentElOffsetWidth;
-	    this.axis.y.isOverflowing = contentElScrollHeight > contentWrapperElOffsetHeight; // Set isOverflowing to false if user explicitely set hidden overflow
-
-	    this.axis.x.isOverflowing = elOverflowX === 'hidden' ? false : this.axis.x.isOverflowing;
-	    this.axis.y.isOverflowing = elOverflowY === 'hidden' ? false : this.axis.y.isOverflowing;
-	    this.axis.x.forceVisible = this.options.forceVisible === 'x' || this.options.forceVisible === true;
-	    this.axis.y.forceVisible = this.options.forceVisible === 'y' || this.options.forceVisible === true;
-	    this.hideNativeScrollbar(); // Set isOverflowing to false if scrollbar is not necessary (content is shorter than offset)
-
-	    var offsetForXScrollbar = this.axis.x.isOverflowing ? this.scrollbarWidth : 0;
-	    var offsetForYScrollbar = this.axis.y.isOverflowing ? this.scrollbarWidth : 0;
-	    this.axis.x.isOverflowing = this.axis.x.isOverflowing && contentElScrollWidth > contentWrapperElOffsetWidth - offsetForYScrollbar;
-	    this.axis.y.isOverflowing = this.axis.y.isOverflowing && contentElScrollHeight > contentWrapperElOffsetHeight - offsetForXScrollbar;
-	    this.axis.x.scrollbar.size = this.getScrollbarSize('x');
-	    this.axis.y.scrollbar.size = this.getScrollbarSize('y');
-	    this.axis.x.scrollbar.el.style.width = this.axis.x.scrollbar.size + "px";
-	    this.axis.y.scrollbar.el.style.height = this.axis.y.scrollbar.size + "px";
-	    this.positionScrollbar('x');
-	    this.positionScrollbar('y');
-	    this.toggleTrackVisibility('x');
-	    this.toggleTrackVisibility('y');
-	  }
-	  /**
-	   * Calculate scrollbar size
-	   */
-	  ;
-
-	  _proto.getScrollbarSize = function getScrollbarSize(axis) {
-	    if (axis === void 0) {
-	      axis = 'y';
-	    }
-
-	    if (!this.axis[axis].isOverflowing) {
-	      return 0;
-	    }
-
-	    var contentSize = this.contentEl[this.axis[axis].scrollSizeAttr];
-	    var trackSize = this.axis[axis].track.el[this.axis[axis].offsetSizeAttr];
-	    var scrollbarSize;
-	    var scrollbarRatio = trackSize / contentSize; // Calculate new height/position of drag handle.
-
-	    scrollbarSize = Math.max(~~(scrollbarRatio * trackSize), this.options.scrollbarMinSize);
-
-	    if (this.options.scrollbarMaxSize) {
-	      scrollbarSize = Math.min(scrollbarSize, this.options.scrollbarMaxSize);
-	    }
-
-	    return scrollbarSize;
-	  };
-
-	  _proto.positionScrollbar = function positionScrollbar(axis) {
-	    if (axis === void 0) {
-	      axis = 'y';
-	    }
-
-	    if (!this.axis[axis].isOverflowing) {
-	      return;
-	    }
-
-	    var contentSize = this.contentWrapperEl[this.axis[axis].scrollSizeAttr];
-	    var trackSize = this.axis[axis].track.el[this.axis[axis].offsetSizeAttr];
-	    var hostSize = parseInt(this.elStyles[this.axis[axis].sizeAttr], 10);
-	    var scrollbar = this.axis[axis].scrollbar;
-	    var scrollOffset = this.contentWrapperEl[this.axis[axis].scrollOffsetAttr];
-	    scrollOffset = axis === 'x' && this.isRtl && SimpleBar.getRtlHelpers().isRtlScrollingInverted ? -scrollOffset : scrollOffset;
-	    var scrollPourcent = scrollOffset / (contentSize - hostSize);
-	    var handleOffset = ~~((trackSize - scrollbar.size) * scrollPourcent);
-	    handleOffset = axis === 'x' && this.isRtl && SimpleBar.getRtlHelpers().isRtlScrollbarInverted ? handleOffset + (trackSize - scrollbar.size) : handleOffset;
-	    scrollbar.el.style.transform = axis === 'x' ? "translate3d(" + handleOffset + "px, 0, 0)" : "translate3d(0, " + handleOffset + "px, 0)";
-	  };
-
-	  _proto.toggleTrackVisibility = function toggleTrackVisibility(axis) {
-	    if (axis === void 0) {
-	      axis = 'y';
-	    }
-
-	    var track = this.axis[axis].track.el;
-	    var scrollbar = this.axis[axis].scrollbar.el;
-
-	    if (this.axis[axis].isOverflowing || this.axis[axis].forceVisible) {
-	      track.style.visibility = 'visible';
-	      this.contentWrapperEl.style[this.axis[axis].overflowAttr] = 'scroll';
-	    } else {
-	      track.style.visibility = 'hidden';
-	      this.contentWrapperEl.style[this.axis[axis].overflowAttr] = 'hidden';
-	    } // Even if forceVisible is enabled, scrollbar itself should be hidden
-
-
-	    if (this.axis[axis].isOverflowing) {
-	      scrollbar.style.display = 'block';
-	    } else {
-	      scrollbar.style.display = 'none';
-	    }
-	  };
-
-	  _proto.hideNativeScrollbar = function hideNativeScrollbar() {
-	    this.offsetEl.style[this.isRtl ? 'left' : 'right'] = this.axis.y.isOverflowing || this.axis.y.forceVisible ? "-" + this.scrollbarWidth + "px" : 0;
-	    this.offsetEl.style.bottom = this.axis.x.isOverflowing || this.axis.x.forceVisible ? "-" + this.scrollbarWidth + "px" : 0;
-	  }
-	  /**
-	   * On scroll event handling
-	   */
-	  ;
-
-	  _proto.onMouseMoveForAxis = function onMouseMoveForAxis(axis) {
-	    if (axis === void 0) {
-	      axis = 'y';
-	    }
-
-	    this.axis[axis].track.rect = this.axis[axis].track.el.getBoundingClientRect();
-	    this.axis[axis].scrollbar.rect = this.axis[axis].scrollbar.el.getBoundingClientRect();
-	    var isWithinScrollbarBoundsX = this.isWithinBounds(this.axis[axis].scrollbar.rect);
-
-	    if (isWithinScrollbarBoundsX) {
-	      this.axis[axis].scrollbar.el.classList.add(this.classNames.hover);
-	    } else {
-	      this.axis[axis].scrollbar.el.classList.remove(this.classNames.hover);
-	    }
-
-	    if (this.isWithinBounds(this.axis[axis].track.rect)) {
-	      this.showScrollbar(axis);
-	      this.axis[axis].track.el.classList.add(this.classNames.hover);
-	    } else {
-	      this.axis[axis].track.el.classList.remove(this.classNames.hover);
-	    }
-	  };
-
-	  _proto.onMouseLeaveForAxis = function onMouseLeaveForAxis(axis) {
-	    if (axis === void 0) {
-	      axis = 'y';
-	    }
-
-	    this.axis[axis].track.el.classList.remove(this.classNames.hover);
-	    this.axis[axis].scrollbar.el.classList.remove(this.classNames.hover);
-	  };
-
-	  /**
-	   * Show scrollbar
-	   */
-	  _proto.showScrollbar = function showScrollbar(axis) {
-	    if (axis === void 0) {
-	      axis = 'y';
-	    }
-
-	    var scrollbar = this.axis[axis].scrollbar.el;
-
-	    if (!this.axis[axis].isVisible) {
-	      scrollbar.classList.add(this.classNames.visible);
-	      this.axis[axis].isVisible = true;
-	    }
-
-	    if (this.options.autoHide) {
-	      this.hideScrollbars();
-	    }
-	  }
-	  /**
-	   * Hide Scrollbar
-	   */
-	  ;
-
-	  /**
-	   * on scrollbar handle drag movement starts
-	   */
-	  _proto.onDragStart = function onDragStart(e, axis) {
-	    if (axis === void 0) {
-	      axis = 'y';
-	    }
-
-	    var elDocument = getElementDocument(this.el);
-	    var elWindow = getElementWindow(this.el);
-	    var scrollbar = this.axis[axis].scrollbar; // Measure how far the user's mouse is from the top of the scrollbar drag handle.
-
-	    var eventOffset = axis === 'y' ? e.pageY : e.pageX;
-	    this.axis[axis].dragOffset = eventOffset - scrollbar.rect[this.axis[axis].offsetAttr];
-	    this.draggedAxis = axis;
-	    this.el.classList.add(this.classNames.dragging);
-	    elDocument.addEventListener('mousemove', this.drag, true);
-	    elDocument.addEventListener('mouseup', this.onEndDrag, true);
-
-	    if (this.removePreventClickId === null) {
-	      elDocument.addEventListener('click', this.preventClick, true);
-	      elDocument.addEventListener('dblclick', this.preventClick, true);
-	    } else {
-	      elWindow.clearTimeout(this.removePreventClickId);
-	      this.removePreventClickId = null;
-	    }
-	  }
-	  /**
-	   * Drag scrollbar handle
-	   */
-	  ;
-
-	  _proto.onTrackClick = function onTrackClick(e, axis) {
-	    var _this4 = this;
-
-	    if (axis === void 0) {
-	      axis = 'y';
-	    }
-
-	    if (!this.options.clickOnTrack) return;
-	    var elWindow = getElementWindow(this.el);
-	    this.axis[axis].scrollbar.rect = this.axis[axis].scrollbar.el.getBoundingClientRect();
-	    var scrollbar = this.axis[axis].scrollbar;
-	    var scrollbarOffset = scrollbar.rect[this.axis[axis].offsetAttr];
-	    var hostSize = parseInt(this.elStyles[this.axis[axis].sizeAttr], 10);
-	    var scrolled = this.contentWrapperEl[this.axis[axis].scrollOffsetAttr];
-	    var t = axis === 'y' ? this.mouseY - scrollbarOffset : this.mouseX - scrollbarOffset;
-	    var dir = t < 0 ? -1 : 1;
-	    var scrollSize = dir === -1 ? scrolled - hostSize : scrolled + hostSize;
-
-	    var scrollTo = function scrollTo() {
-	      if (dir === -1) {
-	        if (scrolled > scrollSize) {
-	          var _this4$contentWrapper;
-
-	          scrolled -= _this4.options.clickOnTrackSpeed;
-
-	          _this4.contentWrapperEl.scrollTo((_this4$contentWrapper = {}, _this4$contentWrapper[_this4.axis[axis].offsetAttr] = scrolled, _this4$contentWrapper));
-
-	          elWindow.requestAnimationFrame(scrollTo);
-	        }
-	      } else {
-	        if (scrolled < scrollSize) {
-	          var _this4$contentWrapper2;
-
-	          scrolled += _this4.options.clickOnTrackSpeed;
-
-	          _this4.contentWrapperEl.scrollTo((_this4$contentWrapper2 = {}, _this4$contentWrapper2[_this4.axis[axis].offsetAttr] = scrolled, _this4$contentWrapper2));
-
-	          elWindow.requestAnimationFrame(scrollTo);
-	        }
-	      }
-	    };
-
-	    scrollTo();
-	  }
-	  /**
-	   * Getter for content element
-	   */
-	  ;
-
-	  _proto.getContentElement = function getContentElement() {
-	    return this.contentEl;
-	  }
-	  /**
-	   * Getter for original scrolling element
-	   */
-	  ;
-
-	  _proto.getScrollElement = function getScrollElement() {
-	    return this.contentWrapperEl;
-	  };
-
-	  _proto.getScrollbarWidth = function getScrollbarWidth() {
-	    // Try/catch for FF 56 throwing on undefined computedStyles
-	    try {
-	      // Detect browsers supporting CSS scrollbar styling and do not calculate
-	      if (getComputedStyle(this.contentWrapperEl, '::-webkit-scrollbar').display === 'none' || 'scrollbarWidth' in document.documentElement.style || '-ms-overflow-style' in document.documentElement.style) {
-	        return 0;
-	      } else {
-	        return scrollbarWidth();
-	      }
-	    } catch (e) {
-	      return scrollbarWidth();
-	    }
-	  };
-
-	  _proto.removeListeners = function removeListeners() {
-	    var _this5 = this;
-
-	    var elWindow = getElementWindow(this.el); // Event listeners
-
-	    if (this.options.autoHide) {
-	      this.el.removeEventListener('mouseenter', this.onMouseEnter);
-	    }
-
-	    ['mousedown', 'click', 'dblclick'].forEach(function (e) {
-	      _this5.el.removeEventListener(e, _this5.onPointerEvent, true);
-	    });
-	    ['touchstart', 'touchend', 'touchmove'].forEach(function (e) {
-	      _this5.el.removeEventListener(e, _this5.onPointerEvent, {
-	        capture: true,
-	        passive: true
-	      });
-	    });
-	    this.el.removeEventListener('mousemove', this.onMouseMove);
-	    this.el.removeEventListener('mouseleave', this.onMouseLeave);
-
-	    if (this.contentWrapperEl) {
-	      this.contentWrapperEl.removeEventListener('scroll', this.onScroll);
-	    }
-
-	    elWindow.removeEventListener('resize', this.onWindowResize);
-
-	    if (this.mutationObserver) {
-	      this.mutationObserver.disconnect();
-	    }
-
-	    if (this.resizeObserver) {
-	      this.resizeObserver.disconnect();
-	    } // Cancel all debounced functions
-
-
-	    this.recalculate.cancel();
-	    this.onMouseMove.cancel();
-	    this.hideScrollbars.cancel();
-	    this.onWindowResize.cancel();
-	  }
-	  /**
-	   * UnMount mutation observer and delete SimpleBar instance from DOM element
-	   */
-	  ;
-
-	  _proto.unMount = function unMount() {
-	    this.removeListeners();
-	    SimpleBar.instances.delete(this.el);
-	  }
-	  /**
-	   * Check if mouse is within bounds
-	   */
-	  ;
-
-	  _proto.isWithinBounds = function isWithinBounds(bbox) {
-	    return this.mouseX >= bbox.left && this.mouseX <= bbox.left + bbox.width && this.mouseY >= bbox.top && this.mouseY <= bbox.top + bbox.height;
-	  }
-	  /**
-	   * Find element children matches query
-	   */
-	  ;
-
-	  _proto.findChild = function findChild(el, query) {
-	    var matches = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
-	    return Array.prototype.filter.call(el.children, function (child) {
-	      return matches.call(child, query);
-	    })[0];
-	  };
-
-	  return SimpleBar;
-	}();
-
-	SimpleBar.defaultOptions = {
-	  autoHide: true,
-	  forceVisible: false,
-	  clickOnTrack: true,
-	  clickOnTrackSpeed: 40,
-	  classNames: {
-	    contentEl: 'simplebar-content',
-	    contentWrapper: 'simplebar-content-wrapper',
-	    offset: 'simplebar-offset',
-	    mask: 'simplebar-mask',
-	    wrapper: 'simplebar-wrapper',
-	    placeholder: 'simplebar-placeholder',
-	    scrollbar: 'simplebar-scrollbar',
-	    track: 'simplebar-track',
-	    heightAutoObserverWrapperEl: 'simplebar-height-auto-observer-wrapper',
-	    heightAutoObserverEl: 'simplebar-height-auto-observer',
-	    visible: 'simplebar-visible',
-	    horizontal: 'simplebar-horizontal',
-	    vertical: 'simplebar-vertical',
-	    hover: 'simplebar-hover',
-	    dragging: 'simplebar-dragging'
-	  },
-	  scrollbarMinSize: 25,
-	  scrollbarMaxSize: 0,
-	  timeout: 1000
-	};
-	SimpleBar.instances = new WeakMap();
-
-	SimpleBar.initDOMLoadedElements = function () {
-	  document.removeEventListener('DOMContentLoaded', this.initDOMLoadedElements);
-	  window.removeEventListener('load', this.initDOMLoadedElements);
-	  Array.prototype.forEach.call(document.querySelectorAll('[data-simplebar]'), function (el) {
-	    if (el.getAttribute('data-simplebar') !== 'init' && !SimpleBar.instances.has(el)) new SimpleBar(el, getOptions(el.attributes));
-	  });
-	};
-
-	SimpleBar.removeObserver = function () {
-	  this.globalObserver.disconnect();
-	};
-
-	SimpleBar.initHtmlApi = function () {
-	  this.initDOMLoadedElements = this.initDOMLoadedElements.bind(this); // MutationObserver is IE11+
-
-	  if (typeof MutationObserver !== 'undefined') {
-	    // Mutation observer to observe dynamically added elements
-	    this.globalObserver = new MutationObserver(SimpleBar.handleMutations);
-	    this.globalObserver.observe(document, {
-	      childList: true,
-	      subtree: true
-	    });
-	  } // Taken from jQuery `ready` function
-	  // Instantiate elements already present on the page
-
-
-	  if (document.readyState === 'complete' || document.readyState !== 'loading' && !document.documentElement.doScroll) {
-	    // Handle it asynchronously to allow scripts the opportunity to delay init
-	    window.setTimeout(this.initDOMLoadedElements);
-	  } else {
-	    document.addEventListener('DOMContentLoaded', this.initDOMLoadedElements);
-	    window.addEventListener('load', this.initDOMLoadedElements);
-	  }
-	};
-
-	SimpleBar.handleMutations = function (mutations) {
-	  mutations.forEach(function (mutation) {
-	    Array.prototype.forEach.call(mutation.addedNodes, function (addedNode) {
-	      if (addedNode.nodeType === 1) {
-	        if (addedNode.hasAttribute('data-simplebar')) {
-	          !SimpleBar.instances.has(addedNode) && new SimpleBar(addedNode, getOptions(addedNode.attributes));
-	        } else {
-	          Array.prototype.forEach.call(addedNode.querySelectorAll('[data-simplebar]'), function (el) {
-	            if (el.getAttribute('data-simplebar') !== 'init' && !SimpleBar.instances.has(el)) new SimpleBar(el, getOptions(el.attributes));
-	          });
-	        }
-	      }
-	    });
-	    Array.prototype.forEach.call(mutation.removedNodes, function (removedNode) {
-	      if (removedNode.nodeType === 1) {
-	        if (removedNode.hasAttribute('[data-simplebar="init"]')) {
-	          SimpleBar.instances.has(removedNode) && SimpleBar.instances.get(removedNode).unMount();
-	        } else {
-	          Array.prototype.forEach.call(removedNode.querySelectorAll('[data-simplebar="init"]'), function (el) {
-	            SimpleBar.instances.has(el) && SimpleBar.instances.get(el).unMount();
-	          });
-	        }
-	      }
-	    });
-	  });
-	};
-
-	SimpleBar.getOptions = getOptions;
-	/**
-	 * HTML API
-	 * Called only in a browser env.
-	 */
-
-	if (canUseDom) {
-	  SimpleBar.initHtmlApi();
-	}
-
-	return SimpleBar;
+    var _export = function (options, source) {
+        var TARGET = options.target;
+        var GLOBAL = options.global;
+        var STATIC = options.stat;
+        var FORCED, target, key, targetProperty, sourceProperty, descriptor;
+        if (GLOBAL) {
+            target = global_1;
+        } else if (STATIC) {
+            target = global_1[TARGET] || setGlobal(TARGET, {});
+        } else {
+            target = (global_1[TARGET] || {}).prototype;
+        }
+        if (target) for (key in source) {
+            sourceProperty = source[key];
+            if (options.noTargetGet) {
+                descriptor = getOwnPropertyDescriptor$1(target, key);
+                targetProperty = descriptor && descriptor.value;
+            } else targetProperty = target[key];
+            FORCED = isForced_1(GLOBAL ? key : TARGET + (STATIC ? '.' : '#') + key, options.forced);
+            // contained in target
+            if (!FORCED && targetProperty !== undefined) {
+                if (typeof sourceProperty === typeof targetProperty) continue;
+                copyConstructorProperties(sourceProperty, targetProperty);
+            }
+            // add a flag to not completely full polyfills
+            if (options.sham || (targetProperty && targetProperty.sham)) {
+                hide(sourceProperty, 'sham', true);
+            }
+            // extend global
+            redefine(target, key, sourceProperty, options);
+        }
+    };
+
+    var aFunction$1 = function (it) {
+        if (typeof it != 'function') {
+            throw TypeError(String(it) + ' is not a function');
+        } return it;
+    };
+
+    // optional / simple context binding
+    var bindContext = function (fn, that, length) {
+        aFunction$1(fn);
+        if (that === undefined) return fn;
+        switch (length) {
+            case 0: return function () {
+                return fn.call(that);
+            };
+            case 1: return function (a) {
+                return fn.call(that, a);
+            };
+            case 2: return function (a, b) {
+                return fn.call(that, a, b);
+            };
+            case 3: return function (a, b, c) {
+                return fn.call(that, a, b, c);
+            };
+        }
+        return function (/* ...args */) {
+            return fn.apply(that, arguments);
+        };
+    };
+
+    // `ToObject` abstract operation
+    // https://tc39.github.io/ecma262/#sec-toobject
+    var toObject = function (argument) {
+        return Object(requireObjectCoercible(argument));
+    };
+
+    // `IsArray` abstract operation
+    // https://tc39.github.io/ecma262/#sec-isarray
+    var isArray = Array.isArray || function isArray(arg) {
+        return classofRaw(arg) == 'Array';
+    };
+
+    var nativeSymbol = !!Object.getOwnPropertySymbols && !fails(function () {
+        // Chrome 38 Symbol has incorrect toString conversion
+        // eslint-disable-next-line no-undef
+        return !String(Symbol());
+    });
+
+    var Symbol$1 = global_1.Symbol;
+    var store$1 = shared('wks');
+
+    var wellKnownSymbol = function (name) {
+        return store$1[name] || (store$1[name] = nativeSymbol && Symbol$1[name]
+            || (nativeSymbol ? Symbol$1 : uid)('Symbol.' + name));
+    };
+
+    var SPECIES = wellKnownSymbol('species');
+
+    // `ArraySpeciesCreate` abstract operation
+    // https://tc39.github.io/ecma262/#sec-arrayspeciescreate
+    var arraySpeciesCreate = function (originalArray, length) {
+        var C;
+        if (isArray(originalArray)) {
+            C = originalArray.constructor;
+            // cross-realm fallback
+            if (typeof C == 'function' && (C === Array || isArray(C.prototype))) C = undefined;
+            else if (isObject(C)) {
+                C = C[SPECIES];
+                if (C === null) C = undefined;
+            }
+        } return new (C === undefined ? Array : C)(length === 0 ? 0 : length);
+    };
+
+    var push = [].push;
+
+    // `Array.prototype.{ forEach, map, filter, some, every, find, findIndex }` methods implementation
+    var createMethod$1 = function (TYPE) {
+        var IS_MAP = TYPE == 1;
+        var IS_FILTER = TYPE == 2;
+        var IS_SOME = TYPE == 3;
+        var IS_EVERY = TYPE == 4;
+        var IS_FIND_INDEX = TYPE == 6;
+        var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
+        return function ($this, callbackfn, that, specificCreate) {
+            var O = toObject($this);
+            var self = indexedObject(O);
+            var boundFunction = bindContext(callbackfn, that, 3);
+            var length = toLength(self.length);
+            var index = 0;
+            var create = specificCreate || arraySpeciesCreate;
+            var target = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
+            var value, result;
+            for (;length > index; index++) if (NO_HOLES || index in self) {
+                value = self[index];
+                result = boundFunction(value, index, O);
+                if (TYPE) {
+                    if (IS_MAP) target[index] = result; // map
+                    else if (result) switch (TYPE) {
+                        case 3: return true;              // some
+                        case 5: return value;             // find
+                        case 6: return index;             // findIndex
+                        case 2: push.call(target, value); // filter
+                    } else if (IS_EVERY) return false;  // every
+                }
+            }
+            return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : target;
+        };
+    };
+
+    var arrayIteration = {
+        // `Array.prototype.forEach` method
+        // https://tc39.github.io/ecma262/#sec-array.prototype.foreach
+        forEach: createMethod$1(0),
+        // `Array.prototype.map` method
+        // https://tc39.github.io/ecma262/#sec-array.prototype.map
+        map: createMethod$1(1),
+        // `Array.prototype.filter` method
+        // https://tc39.github.io/ecma262/#sec-array.prototype.filter
+        filter: createMethod$1(2),
+        // `Array.prototype.some` method
+        // https://tc39.github.io/ecma262/#sec-array.prototype.some
+        some: createMethod$1(3),
+        // `Array.prototype.every` method
+        // https://tc39.github.io/ecma262/#sec-array.prototype.every
+        every: createMethod$1(4),
+        // `Array.prototype.find` method
+        // https://tc39.github.io/ecma262/#sec-array.prototype.find
+        find: createMethod$1(5),
+        // `Array.prototype.findIndex` method
+        // https://tc39.github.io/ecma262/#sec-array.prototype.findIndex
+        findIndex: createMethod$1(6)
+    };
+
+    var sloppyArrayMethod = function (METHOD_NAME, argument) {
+        var method = [][METHOD_NAME];
+        return !method || !fails(function () {
+            // eslint-disable-next-line no-useless-call,no-throw-literal
+            method.call(null, argument || function () { throw 1; }, 1);
+        });
+    };
+
+    var $forEach = arrayIteration.forEach;
+
+
+    // `Array.prototype.forEach` method implementation
+    // https://tc39.github.io/ecma262/#sec-array.prototype.foreach
+    var arrayForEach = sloppyArrayMethod('forEach') ? function forEach(callbackfn /* , thisArg */) {
+        return $forEach(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+    } : [].forEach;
+
+    // `Array.prototype.forEach` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.foreach
+    _export({ target: 'Array', proto: true, forced: [].forEach != arrayForEach }, {
+        forEach: arrayForEach
+    });
+
+    // iterable DOM collections
+    // flag - `iterable` interface - 'entries', 'keys', 'values', 'forEach' methods
+    var domIterables = {
+        CSSRuleList: 0,
+        CSSStyleDeclaration: 0,
+        CSSValueList: 0,
+        ClientRectList: 0,
+        DOMRectList: 0,
+        DOMStringList: 0,
+        DOMTokenList: 1,
+        DataTransferItemList: 0,
+        FileList: 0,
+        HTMLAllCollection: 0,
+        HTMLCollection: 0,
+        HTMLFormElement: 0,
+        HTMLSelectElement: 0,
+        MediaList: 0,
+        MimeTypeArray: 0,
+        NamedNodeMap: 0,
+        NodeList: 1,
+        PaintRequestList: 0,
+        Plugin: 0,
+        PluginArray: 0,
+        SVGLengthList: 0,
+        SVGNumberList: 0,
+        SVGPathSegList: 0,
+        SVGPointList: 0,
+        SVGStringList: 0,
+        SVGTransformList: 0,
+        SourceBufferList: 0,
+        StyleSheetList: 0,
+        TextTrackCueList: 0,
+        TextTrackList: 0,
+        TouchList: 0
+    };
+
+    for (var COLLECTION_NAME in domIterables) {
+        var Collection = global_1[COLLECTION_NAME];
+        var CollectionPrototype = Collection && Collection.prototype;
+        // some Chrome versions have non-configurable methods on DOMTokenList
+        if (CollectionPrototype && CollectionPrototype.forEach !== arrayForEach) try {
+            hide(CollectionPrototype, 'forEach', arrayForEach);
+        } catch (error) {
+            CollectionPrototype.forEach = arrayForEach;
+        }
+    }
+
+    var canUseDOM = !!(
+        typeof window !== 'undefined' &&
+        window.document &&
+        window.document.createElement
+    );
+
+    var canUseDom = canUseDOM;
+
+    var SPECIES$1 = wellKnownSymbol('species');
+
+    var arrayMethodHasSpeciesSupport = function (METHOD_NAME) {
+        return !fails(function () {
+            var array = [];
+            var constructor = array.constructor = {};
+            constructor[SPECIES$1] = function () {
+                return { foo: 1 };
+            };
+            return array[METHOD_NAME](Boolean).foo !== 1;
+        });
+    };
+
+    var $filter = arrayIteration.filter;
+
+
+    // `Array.prototype.filter` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.filter
+    // with adding support of @@species
+    _export({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('filter') }, {
+        filter: function filter(callbackfn /* , thisArg */) {
+            return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+        }
+    });
+
+    // `Object.keys` method
+    // https://tc39.github.io/ecma262/#sec-object.keys
+    var objectKeys = Object.keys || function keys(O) {
+        return objectKeysInternal(O, enumBugKeys);
+    };
+
+    // `Object.defineProperties` method
+    // https://tc39.github.io/ecma262/#sec-object.defineproperties
+    var objectDefineProperties = descriptors ? Object.defineProperties : function defineProperties(O, Properties) {
+        anObject(O);
+        var keys = objectKeys(Properties);
+        var length = keys.length;
+        var index = 0;
+        var key;
+        while (length > index) objectDefineProperty.f(O, key = keys[index++], Properties[key]);
+        return O;
+    };
+
+    var html = getBuiltIn('document', 'documentElement');
+
+    var IE_PROTO = sharedKey('IE_PROTO');
+
+    var PROTOTYPE = 'prototype';
+    var Empty = function () { /* empty */ };
+
+    // Create object with fake `null` prototype: use iframe Object with cleared prototype
+    var createDict = function () {
+        // Thrash, waste and sodomy: IE GC bug
+        var iframe = documentCreateElement('iframe');
+        var length = enumBugKeys.length;
+        var lt = '<';
+        var script = 'script';
+        var gt = '>';
+        var js = 'java' + script + ':';
+        var iframeDocument;
+        iframe.style.display = 'none';
+        html.appendChild(iframe);
+        iframe.src = String(js);
+        iframeDocument = iframe.contentWindow.document;
+        iframeDocument.open();
+        iframeDocument.write(lt + script + gt + 'document.F=Object' + lt + '/' + script + gt);
+        iframeDocument.close();
+        createDict = iframeDocument.F;
+        while (length--) delete createDict[PROTOTYPE][enumBugKeys[length]];
+        return createDict();
+    };
+
+    // `Object.create` method
+    // https://tc39.github.io/ecma262/#sec-object.create
+    var objectCreate = Object.create || function create(O, Properties) {
+        var result;
+        if (O !== null) {
+            Empty[PROTOTYPE] = anObject(O);
+            result = new Empty();
+            Empty[PROTOTYPE] = null;
+            // add "__proto__" for Object.getPrototypeOf polyfill
+            result[IE_PROTO] = O;
+        } else result = createDict();
+        return Properties === undefined ? result : objectDefineProperties(result, Properties);
+    };
+
+    hiddenKeys[IE_PROTO] = true;
+
+    var UNSCOPABLES = wellKnownSymbol('unscopables');
+    var ArrayPrototype = Array.prototype;
+
+    // Array.prototype[@@unscopables]
+    // https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
+    if (ArrayPrototype[UNSCOPABLES] == undefined) {
+        hide(ArrayPrototype, UNSCOPABLES, objectCreate(null));
+    }
+
+    // add a key to Array.prototype[@@unscopables]
+    var addToUnscopables = function (key) {
+        ArrayPrototype[UNSCOPABLES][key] = true;
+    };
+
+    var iterators = {};
+
+    var correctPrototypeGetter = !fails(function () {
+        function F() { /* empty */ }
+        F.prototype.constructor = null;
+        return Object.getPrototypeOf(new F()) !== F.prototype;
+    });
+
+    var IE_PROTO$1 = sharedKey('IE_PROTO');
+    var ObjectPrototype = Object.prototype;
+
+    // `Object.getPrototypeOf` method
+    // https://tc39.github.io/ecma262/#sec-object.getprototypeof
+    var objectGetPrototypeOf = correctPrototypeGetter ? Object.getPrototypeOf : function (O) {
+        O = toObject(O);
+        if (has(O, IE_PROTO$1)) return O[IE_PROTO$1];
+        if (typeof O.constructor == 'function' && O instanceof O.constructor) {
+            return O.constructor.prototype;
+        } return O instanceof Object ? ObjectPrototype : null;
+    };
+
+    var ITERATOR = wellKnownSymbol('iterator');
+    var BUGGY_SAFARI_ITERATORS = false;
+
+    var returnThis = function () { return this; };
+
+    // `%IteratorPrototype%` object
+    // https://tc39.github.io/ecma262/#sec-%iteratorprototype%-object
+    var IteratorPrototype, PrototypeOfArrayIteratorPrototype, arrayIterator;
+
+    if ([].keys) {
+        arrayIterator = [].keys();
+        // Safari 8 has buggy iterators w/o `next`
+        if (!('next' in arrayIterator)) BUGGY_SAFARI_ITERATORS = true;
+        else {
+            PrototypeOfArrayIteratorPrototype = objectGetPrototypeOf(objectGetPrototypeOf(arrayIterator));
+            if (PrototypeOfArrayIteratorPrototype !== Object.prototype) IteratorPrototype = PrototypeOfArrayIteratorPrototype;
+        }
+    }
+
+    if (IteratorPrototype == undefined) IteratorPrototype = {};
+
+    // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+    if ( !has(IteratorPrototype, ITERATOR)) hide(IteratorPrototype, ITERATOR, returnThis);
+
+    var iteratorsCore = {
+        IteratorPrototype: IteratorPrototype,
+        BUGGY_SAFARI_ITERATORS: BUGGY_SAFARI_ITERATORS
+    };
+
+    var defineProperty = objectDefineProperty.f;
+
+
+
+    var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+
+    var setToStringTag = function (it, TAG, STATIC) {
+        if (it && !has(it = STATIC ? it : it.prototype, TO_STRING_TAG)) {
+            defineProperty(it, TO_STRING_TAG, { configurable: true, value: TAG });
+        }
+    };
+
+    var IteratorPrototype$1 = iteratorsCore.IteratorPrototype;
+
+
+
+
+
+    var returnThis$1 = function () { return this; };
+
+    var createIteratorConstructor = function (IteratorConstructor, NAME, next) {
+        var TO_STRING_TAG = NAME + ' Iterator';
+        IteratorConstructor.prototype = objectCreate(IteratorPrototype$1, { next: createPropertyDescriptor(1, next) });
+        setToStringTag(IteratorConstructor, TO_STRING_TAG, false);
+        iterators[TO_STRING_TAG] = returnThis$1;
+        return IteratorConstructor;
+    };
+
+    var aPossiblePrototype = function (it) {
+        if (!isObject(it) && it !== null) {
+            throw TypeError("Can't set " + String(it) + ' as a prototype');
+        } return it;
+    };
+
+    // `Object.setPrototypeOf` method
+    // https://tc39.github.io/ecma262/#sec-object.setprototypeof
+    // Works with __proto__ only. Old v8 can't work with null proto objects.
+    /* eslint-disable no-proto */
+    var objectSetPrototypeOf = Object.setPrototypeOf || ('__proto__' in {} ? function () {
+        var CORRECT_SETTER = false;
+        var test = {};
+        var setter;
+        try {
+            setter = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;
+            setter.call(test, []);
+            CORRECT_SETTER = test instanceof Array;
+        } catch (error) { /* empty */ }
+        return function setPrototypeOf(O, proto) {
+            anObject(O);
+            aPossiblePrototype(proto);
+            if (CORRECT_SETTER) setter.call(O, proto);
+            else O.__proto__ = proto;
+            return O;
+        };
+    }() : undefined);
+
+    var IteratorPrototype$2 = iteratorsCore.IteratorPrototype;
+    var BUGGY_SAFARI_ITERATORS$1 = iteratorsCore.BUGGY_SAFARI_ITERATORS;
+    var ITERATOR$1 = wellKnownSymbol('iterator');
+    var KEYS = 'keys';
+    var VALUES = 'values';
+    var ENTRIES = 'entries';
+
+    var returnThis$2 = function () { return this; };
+
+    var defineIterator = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, IS_SET, FORCED) {
+        createIteratorConstructor(IteratorConstructor, NAME, next);
+
+        var getIterationMethod = function (KIND) {
+            if (KIND === DEFAULT && defaultIterator) return defaultIterator;
+            if (!BUGGY_SAFARI_ITERATORS$1 && KIND in IterablePrototype) return IterablePrototype[KIND];
+            switch (KIND) {
+                case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };
+                case VALUES: return function values() { return new IteratorConstructor(this, KIND); };
+                case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };
+            } return function () { return new IteratorConstructor(this); };
+        };
+
+        var TO_STRING_TAG = NAME + ' Iterator';
+        var INCORRECT_VALUES_NAME = false;
+        var IterablePrototype = Iterable.prototype;
+        var nativeIterator = IterablePrototype[ITERATOR$1]
+            || IterablePrototype['@@iterator']
+            || DEFAULT && IterablePrototype[DEFAULT];
+        var defaultIterator = !BUGGY_SAFARI_ITERATORS$1 && nativeIterator || getIterationMethod(DEFAULT);
+        var anyNativeIterator = NAME == 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;
+        var CurrentIteratorPrototype, methods, KEY;
+
+        // fix native
+        if (anyNativeIterator) {
+            CurrentIteratorPrototype = objectGetPrototypeOf(anyNativeIterator.call(new Iterable()));
+            if (IteratorPrototype$2 !== Object.prototype && CurrentIteratorPrototype.next) {
+                if ( objectGetPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype$2) {
+                    if (objectSetPrototypeOf) {
+                        objectSetPrototypeOf(CurrentIteratorPrototype, IteratorPrototype$2);
+                    } else if (typeof CurrentIteratorPrototype[ITERATOR$1] != 'function') {
+                        hide(CurrentIteratorPrototype, ITERATOR$1, returnThis$2);
+                    }
+                }
+                // Set @@toStringTag to native iterators
+                setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, true);
+            }
+        }
+
+        // fix Array#{values, @@iterator}.name in V8 / FF
+        if (DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
+            INCORRECT_VALUES_NAME = true;
+            defaultIterator = function values() { return nativeIterator.call(this); };
+        }
+
+        // define iterator
+        if ( IterablePrototype[ITERATOR$1] !== defaultIterator) {
+            hide(IterablePrototype, ITERATOR$1, defaultIterator);
+        }
+        iterators[NAME] = defaultIterator;
+
+        // export additional methods
+        if (DEFAULT) {
+            methods = {
+                values: getIterationMethod(VALUES),
+                keys: IS_SET ? defaultIterator : getIterationMethod(KEYS),
+                entries: getIterationMethod(ENTRIES)
+            };
+            if (FORCED) for (KEY in methods) {
+                if (BUGGY_SAFARI_ITERATORS$1 || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
+                    redefine(IterablePrototype, KEY, methods[KEY]);
+                }
+            } else _export({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS$1 || INCORRECT_VALUES_NAME }, methods);
+        }
+
+        return methods;
+    };
+
+    var ARRAY_ITERATOR = 'Array Iterator';
+    var setInternalState = internalState.set;
+    var getInternalState = internalState.getterFor(ARRAY_ITERATOR);
+
+    // `Array.prototype.entries` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.entries
+    // `Array.prototype.keys` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.keys
+    // `Array.prototype.values` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.values
+    // `Array.prototype[@@iterator]` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype-@@iterator
+    // `CreateArrayIterator` internal method
+    // https://tc39.github.io/ecma262/#sec-createarrayiterator
+    var es_array_iterator = defineIterator(Array, 'Array', function (iterated, kind) {
+        setInternalState(this, {
+            type: ARRAY_ITERATOR,
+            target: toIndexedObject(iterated), // target
+            index: 0,                          // next index
+            kind: kind                         // kind
+        });
+        // `%ArrayIteratorPrototype%.next` method
+        // https://tc39.github.io/ecma262/#sec-%arrayiteratorprototype%.next
+    }, function () {
+        var state = getInternalState(this);
+        var target = state.target;
+        var kind = state.kind;
+        var index = state.index++;
+        if (!target || index >= target.length) {
+            state.target = undefined;
+            return { value: undefined, done: true };
+        }
+        if (kind == 'keys') return { value: index, done: false };
+        if (kind == 'values') return { value: target[index], done: false };
+        return { value: [index, target[index]], done: false };
+    }, 'values');
+
+    // argumentsList[@@iterator] is %ArrayProto_values%
+    // https://tc39.github.io/ecma262/#sec-createunmappedargumentsobject
+    // https://tc39.github.io/ecma262/#sec-createmappedargumentsobject
+    iterators.Arguments = iterators.Array;
+
+    // https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
+    addToUnscopables('keys');
+    addToUnscopables('values');
+    addToUnscopables('entries');
+
+    var nativeAssign = Object.assign;
+
+    // `Object.assign` method
+    // https://tc39.github.io/ecma262/#sec-object.assign
+    // should work with symbols and should have deterministic property order (V8 bug)
+    var objectAssign = !nativeAssign || fails(function () {
+        var A = {};
+        var B = {};
+        // eslint-disable-next-line no-undef
+        var symbol = Symbol();
+        var alphabet = 'abcdefghijklmnopqrst';
+        A[symbol] = 7;
+        alphabet.split('').forEach(function (chr) { B[chr] = chr; });
+        return nativeAssign({}, A)[symbol] != 7 || objectKeys(nativeAssign({}, B)).join('') != alphabet;
+    }) ? function assign(target, source) { // eslint-disable-line no-unused-vars
+        var T = toObject(target);
+        var argumentsLength = arguments.length;
+        var index = 1;
+        var getOwnPropertySymbols = objectGetOwnPropertySymbols.f;
+        var propertyIsEnumerable = objectPropertyIsEnumerable.f;
+        while (argumentsLength > index) {
+            var S = indexedObject(arguments[index++]);
+            var keys = getOwnPropertySymbols ? objectKeys(S).concat(getOwnPropertySymbols(S)) : objectKeys(S);
+            var length = keys.length;
+            var j = 0;
+            var key;
+            while (length > j) {
+                key = keys[j++];
+                if (!descriptors || propertyIsEnumerable.call(S, key)) T[key] = S[key];
+            }
+        } return T;
+    } : nativeAssign;
+
+    // `Object.assign` method
+    // https://tc39.github.io/ecma262/#sec-object.assign
+    _export({ target: 'Object', stat: true, forced: Object.assign !== objectAssign }, {
+        assign: objectAssign
+    });
+
+    var TO_STRING_TAG$1 = wellKnownSymbol('toStringTag');
+    // ES3 wrong here
+    var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Arguments';
+
+    // fallback for IE11 Script Access Denied error
+    var tryGet = function (it, key) {
+        try {
+            return it[key];
+        } catch (error) { /* empty */ }
+    };
+
+    // getting tag from ES6+ `Object.prototype.toString`
+    var classof = function (it) {
+        var O, tag, result;
+        return it === undefined ? 'Undefined' : it === null ? 'Null'
+            // @@toStringTag case
+            : typeof (tag = tryGet(O = Object(it), TO_STRING_TAG$1)) == 'string' ? tag
+                // builtinTag case
+                : CORRECT_ARGUMENTS ? classofRaw(O)
+                    // ES3 arguments fallback
+                    : (result = classofRaw(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : result;
+    };
+
+    var TO_STRING_TAG$2 = wellKnownSymbol('toStringTag');
+    var test = {};
+
+    test[TO_STRING_TAG$2] = 'z';
+
+    // `Object.prototype.toString` method implementation
+    // https://tc39.github.io/ecma262/#sec-object.prototype.tostring
+    var objectToString = String(test) !== '[object z]' ? function toString() {
+        return '[object ' + classof(this) + ']';
+    } : test.toString;
+
+    var ObjectPrototype$1 = Object.prototype;
+
+    // `Object.prototype.toString` method
+    // https://tc39.github.io/ecma262/#sec-object.prototype.tostring
+    if (objectToString !== ObjectPrototype$1.toString) {
+        redefine(ObjectPrototype$1, 'toString', objectToString, { unsafe: true });
+    }
+
+    // a string of all valid unicode whitespaces
+    // eslint-disable-next-line max-len
+    var whitespaces = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+    var whitespace = '[' + whitespaces + ']';
+    var ltrim = RegExp('^' + whitespace + whitespace + '*');
+    var rtrim = RegExp(whitespace + whitespace + '*$');
+
+    // `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
+    var createMethod$2 = function (TYPE) {
+        return function ($this) {
+            var string = String(requireObjectCoercible($this));
+            if (TYPE & 1) string = string.replace(ltrim, '');
+            if (TYPE & 2) string = string.replace(rtrim, '');
+            return string;
+        };
+    };
+
+    var stringTrim = {
+        // `String.prototype.{ trimLeft, trimStart }` methods
+        // https://tc39.github.io/ecma262/#sec-string.prototype.trimstart
+        start: createMethod$2(1),
+        // `String.prototype.{ trimRight, trimEnd }` methods
+        // https://tc39.github.io/ecma262/#sec-string.prototype.trimend
+        end: createMethod$2(2),
+        // `String.prototype.trim` method
+        // https://tc39.github.io/ecma262/#sec-string.prototype.trim
+        trim: createMethod$2(3)
+    };
+
+    var trim = stringTrim.trim;
+
+
+    var nativeParseInt = global_1.parseInt;
+    var hex = /^[+-]?0[Xx]/;
+    var FORCED = nativeParseInt(whitespaces + '08') !== 8 || nativeParseInt(whitespaces + '0x16') !== 22;
+
+    // `parseInt` method
+    // https://tc39.github.io/ecma262/#sec-parseint-string-radix
+    var _parseInt = FORCED ? function parseInt(string, radix) {
+        var S = trim(String(string));
+        return nativeParseInt(S, (radix >>> 0) || (hex.test(S) ? 16 : 10));
+    } : nativeParseInt;
+
+    // `parseInt` method
+    // https://tc39.github.io/ecma262/#sec-parseint-string-radix
+    _export({ global: true, forced: parseInt != _parseInt }, {
+        parseInt: _parseInt
+    });
+
+    // `String.prototype.{ codePointAt, at }` methods implementation
+    var createMethod$3 = function (CONVERT_TO_STRING) {
+        return function ($this, pos) {
+            var S = String(requireObjectCoercible($this));
+            var position = toInteger(pos);
+            var size = S.length;
+            var first, second;
+            if (position < 0 || position >= size) return CONVERT_TO_STRING ? '' : undefined;
+            first = S.charCodeAt(position);
+            return first < 0xD800 || first > 0xDBFF || position + 1 === size
+            || (second = S.charCodeAt(position + 1)) < 0xDC00 || second > 0xDFFF
+                ? CONVERT_TO_STRING ? S.charAt(position) : first
+                : CONVERT_TO_STRING ? S.slice(position, position + 2) : (first - 0xD800 << 10) + (second - 0xDC00) + 0x10000;
+        };
+    };
+
+    var stringMultibyte = {
+        // `String.prototype.codePointAt` method
+        // https://tc39.github.io/ecma262/#sec-string.prototype.codepointat
+        codeAt: createMethod$3(false),
+        // `String.prototype.at` method
+        // https://github.com/mathiasbynens/String.prototype.at
+        charAt: createMethod$3(true)
+    };
+
+    var charAt = stringMultibyte.charAt;
+
+
+
+    var STRING_ITERATOR = 'String Iterator';
+    var setInternalState$1 = internalState.set;
+    var getInternalState$1 = internalState.getterFor(STRING_ITERATOR);
+
+    // `String.prototype[@@iterator]` method
+    // https://tc39.github.io/ecma262/#sec-string.prototype-@@iterator
+    defineIterator(String, 'String', function (iterated) {
+        setInternalState$1(this, {
+            type: STRING_ITERATOR,
+            string: String(iterated),
+            index: 0
+        });
+        // `%StringIteratorPrototype%.next` method
+        // https://tc39.github.io/ecma262/#sec-%stringiteratorprototype%.next
+    }, function next() {
+        var state = getInternalState$1(this);
+        var string = state.string;
+        var index = state.index;
+        var point;
+        if (index >= string.length) return { value: undefined, done: true };
+        point = charAt(string, index);
+        state.index += point.length;
+        return { value: point, done: false };
+    });
+
+    var redefineAll = function (target, src, options) {
+        for (var key in src) redefine(target, key, src[key], options);
+        return target;
+    };
+
+    var freezing = !fails(function () {
+        return Object.isExtensible(Object.preventExtensions({}));
+    });
+
+    var internalMetadata = createCommonjsModule(function (module) {
+        var defineProperty = objectDefineProperty.f;
+
+
+
+        var METADATA = uid('meta');
+        var id = 0;
+
+        var isExtensible = Object.isExtensible || function () {
+            return true;
+        };
+
+        var setMetadata = function (it) {
+            defineProperty(it, METADATA, { value: {
+                    objectID: 'O' + ++id, // object ID
+                    weakData: {}          // weak collections IDs
+                } });
+        };
+
+        var fastKey = function (it, create) {
+            // return a primitive with prefix
+            if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+            if (!has(it, METADATA)) {
+                // can't set metadata to uncaught frozen object
+                if (!isExtensible(it)) return 'F';
+                // not necessary to add metadata
+                if (!create) return 'E';
+                // add missing metadata
+                setMetadata(it);
+                // return object ID
+            } return it[METADATA].objectID;
+        };
+
+        var getWeakData = function (it, create) {
+            if (!has(it, METADATA)) {
+                // can't set metadata to uncaught frozen object
+                if (!isExtensible(it)) return true;
+                // not necessary to add metadata
+                if (!create) return false;
+                // add missing metadata
+                setMetadata(it);
+                // return the store of weak collections IDs
+            } return it[METADATA].weakData;
+        };
+
+        // add metadata on freeze-family methods calling
+        var onFreeze = function (it) {
+            if (freezing && meta.REQUIRED && isExtensible(it) && !has(it, METADATA)) setMetadata(it);
+            return it;
+        };
+
+        var meta = module.exports = {
+            REQUIRED: false,
+            fastKey: fastKey,
+            getWeakData: getWeakData,
+            onFreeze: onFreeze
+        };
+
+        hiddenKeys[METADATA] = true;
+    });
+    var internalMetadata_1 = internalMetadata.REQUIRED;
+    var internalMetadata_2 = internalMetadata.fastKey;
+    var internalMetadata_3 = internalMetadata.getWeakData;
+    var internalMetadata_4 = internalMetadata.onFreeze;
+
+    var ITERATOR$2 = wellKnownSymbol('iterator');
+    var ArrayPrototype$1 = Array.prototype;
+
+    // check on default Array iterator
+    var isArrayIteratorMethod = function (it) {
+        return it !== undefined && (iterators.Array === it || ArrayPrototype$1[ITERATOR$2] === it);
+    };
+
+    var ITERATOR$3 = wellKnownSymbol('iterator');
+
+    var getIteratorMethod = function (it) {
+        if (it != undefined) return it[ITERATOR$3]
+            || it['@@iterator']
+            || iterators[classof(it)];
+    };
+
+    // call something on iterator step with safe closing on error
+    var callWithSafeIterationClosing = function (iterator, fn, value, ENTRIES) {
+        try {
+            return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
+            // 7.4.6 IteratorClose(iterator, completion)
+        } catch (error) {
+            var returnMethod = iterator['return'];
+            if (returnMethod !== undefined) anObject(returnMethod.call(iterator));
+            throw error;
+        }
+    };
+
+    var iterate_1 = createCommonjsModule(function (module) {
+        var Result = function (stopped, result) {
+            this.stopped = stopped;
+            this.result = result;
+        };
+
+        var iterate = module.exports = function (iterable, fn, that, AS_ENTRIES, IS_ITERATOR) {
+            var boundFunction = bindContext(fn, that, AS_ENTRIES ? 2 : 1);
+            var iterator, iterFn, index, length, result, step;
+
+            if (IS_ITERATOR) {
+                iterator = iterable;
+            } else {
+                iterFn = getIteratorMethod(iterable);
+                if (typeof iterFn != 'function') throw TypeError('Target is not iterable');
+                // optimisation for array iterators
+                if (isArrayIteratorMethod(iterFn)) {
+                    for (index = 0, length = toLength(iterable.length); length > index; index++) {
+                        result = AS_ENTRIES
+                            ? boundFunction(anObject(step = iterable[index])[0], step[1])
+                            : boundFunction(iterable[index]);
+                        if (result && result instanceof Result) return result;
+                    } return new Result(false);
+                }
+                iterator = iterFn.call(iterable);
+            }
+
+            while (!(step = iterator.next()).done) {
+                result = callWithSafeIterationClosing(iterator, boundFunction, step.value, AS_ENTRIES);
+                if (result && result instanceof Result) return result;
+            } return new Result(false);
+        };
+
+        iterate.stop = function (result) {
+            return new Result(true, result);
+        };
+    });
+
+    var anInstance = function (it, Constructor, name) {
+        if (!(it instanceof Constructor)) {
+            throw TypeError('Incorrect ' + (name ? name + ' ' : '') + 'invocation');
+        } return it;
+    };
+
+    var ITERATOR$4 = wellKnownSymbol('iterator');
+    var SAFE_CLOSING = false;
+
+    try {
+        var called = 0;
+        var iteratorWithReturn = {
+            next: function () {
+                return { done: !!called++ };
+            },
+            'return': function () {
+                SAFE_CLOSING = true;
+            }
+        };
+        iteratorWithReturn[ITERATOR$4] = function () {
+            return this;
+        };
+        // eslint-disable-next-line no-throw-literal
+        Array.from(iteratorWithReturn, function () { throw 2; });
+    } catch (error) { /* empty */ }
+
+    var checkCorrectnessOfIteration = function (exec, SKIP_CLOSING) {
+        if (!SKIP_CLOSING && !SAFE_CLOSING) return false;
+        var ITERATION_SUPPORT = false;
+        try {
+            var object = {};
+            object[ITERATOR$4] = function () {
+                return {
+                    next: function () {
+                        return { done: ITERATION_SUPPORT = true };
+                    }
+                };
+            };
+            exec(object);
+        } catch (error) { /* empty */ }
+        return ITERATION_SUPPORT;
+    };
+
+    // makes subclassing work correct for wrapped built-ins
+    var inheritIfRequired = function ($this, dummy, Wrapper) {
+        var NewTarget, NewTargetPrototype;
+        if (
+            // it can work only with native `setPrototypeOf`
+            objectSetPrototypeOf &&
+            // we haven't completely correct pre-ES6 way for getting `new.target`, so use this
+            typeof (NewTarget = dummy.constructor) == 'function' &&
+            NewTarget !== Wrapper &&
+            isObject(NewTargetPrototype = NewTarget.prototype) &&
+            NewTargetPrototype !== Wrapper.prototype
+        ) objectSetPrototypeOf($this, NewTargetPrototype);
+        return $this;
+    };
+
+    var collection = function (CONSTRUCTOR_NAME, wrapper, common, IS_MAP, IS_WEAK) {
+        var NativeConstructor = global_1[CONSTRUCTOR_NAME];
+        var NativePrototype = NativeConstructor && NativeConstructor.prototype;
+        var Constructor = NativeConstructor;
+        var ADDER = IS_MAP ? 'set' : 'add';
+        var exported = {};
+
+        var fixMethod = function (KEY) {
+            var nativeMethod = NativePrototype[KEY];
+            redefine(NativePrototype, KEY,
+                KEY == 'add' ? function add(value) {
+                    nativeMethod.call(this, value === 0 ? 0 : value);
+                    return this;
+                } : KEY == 'delete' ? function (key) {
+                    return IS_WEAK && !isObject(key) ? false : nativeMethod.call(this, key === 0 ? 0 : key);
+                } : KEY == 'get' ? function get(key) {
+                    return IS_WEAK && !isObject(key) ? undefined : nativeMethod.call(this, key === 0 ? 0 : key);
+                } : KEY == 'has' ? function has(key) {
+                    return IS_WEAK && !isObject(key) ? false : nativeMethod.call(this, key === 0 ? 0 : key);
+                } : function set(key, value) {
+                    nativeMethod.call(this, key === 0 ? 0 : key, value);
+                    return this;
+                }
+            );
+        };
+
+        // eslint-disable-next-line max-len
+        if (isForced_1(CONSTRUCTOR_NAME, typeof NativeConstructor != 'function' || !(IS_WEAK || NativePrototype.forEach && !fails(function () {
+            new NativeConstructor().entries().next();
+        })))) {
+            // create collection constructor
+            Constructor = common.getConstructor(wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER);
+            internalMetadata.REQUIRED = true;
+        } else if (isForced_1(CONSTRUCTOR_NAME, true)) {
+            var instance = new Constructor();
+            // early implementations not supports chaining
+            var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) != instance;
+            // V8 ~ Chromium 40- weak-collections throws on primitives, but should return false
+            var THROWS_ON_PRIMITIVES = fails(function () { instance.has(1); });
+            // most early implementations doesn't supports iterables, most modern - not close it correctly
+            // eslint-disable-next-line no-new
+            var ACCEPT_ITERABLES = checkCorrectnessOfIteration(function (iterable) { new NativeConstructor(iterable); });
+            // for early implementations -0 and +0 not the same
+            var BUGGY_ZERO = !IS_WEAK && fails(function () {
+                // V8 ~ Chromium 42- fails only with 5+ elements
+                var $instance = new NativeConstructor();
+                var index = 5;
+                while (index--) $instance[ADDER](index, index);
+                return !$instance.has(-0);
+            });
+
+            if (!ACCEPT_ITERABLES) {
+                Constructor = wrapper(function (dummy, iterable) {
+                    anInstance(dummy, Constructor, CONSTRUCTOR_NAME);
+                    var that = inheritIfRequired(new NativeConstructor(), dummy, Constructor);
+                    if (iterable != undefined) iterate_1(iterable, that[ADDER], that, IS_MAP);
+                    return that;
+                });
+                Constructor.prototype = NativePrototype;
+                NativePrototype.constructor = Constructor;
+            }
+
+            if (THROWS_ON_PRIMITIVES || BUGGY_ZERO) {
+                fixMethod('delete');
+                fixMethod('has');
+                IS_MAP && fixMethod('get');
+            }
+
+            if (BUGGY_ZERO || HASNT_CHAINING) fixMethod(ADDER);
+
+            // weak collections should not contains .clear method
+            if (IS_WEAK && NativePrototype.clear) delete NativePrototype.clear;
+        }
+
+        exported[CONSTRUCTOR_NAME] = Constructor;
+        _export({ global: true, forced: Constructor != NativeConstructor }, exported);
+
+        setToStringTag(Constructor, CONSTRUCTOR_NAME);
+
+        if (!IS_WEAK) common.setStrong(Constructor, CONSTRUCTOR_NAME, IS_MAP);
+
+        return Constructor;
+    };
+
+    var getWeakData = internalMetadata.getWeakData;
+
+
+
+
+
+
+
+
+    var setInternalState$2 = internalState.set;
+    var internalStateGetterFor = internalState.getterFor;
+    var find = arrayIteration.find;
+    var findIndex = arrayIteration.findIndex;
+    var id$1 = 0;
+
+    // fallback for uncaught frozen keys
+    var uncaughtFrozenStore = function (store) {
+        return store.frozen || (store.frozen = new UncaughtFrozenStore());
+    };
+
+    var UncaughtFrozenStore = function () {
+        this.entries = [];
+    };
+
+    var findUncaughtFrozen = function (store, key) {
+        return find(store.entries, function (it) {
+            return it[0] === key;
+        });
+    };
+
+    UncaughtFrozenStore.prototype = {
+        get: function (key) {
+            var entry = findUncaughtFrozen(this, key);
+            if (entry) return entry[1];
+        },
+        has: function (key) {
+            return !!findUncaughtFrozen(this, key);
+        },
+        set: function (key, value) {
+            var entry = findUncaughtFrozen(this, key);
+            if (entry) entry[1] = value;
+            else this.entries.push([key, value]);
+        },
+        'delete': function (key) {
+            var index = findIndex(this.entries, function (it) {
+                return it[0] === key;
+            });
+            if (~index) this.entries.splice(index, 1);
+            return !!~index;
+        }
+    };
+
+    var collectionWeak = {
+        getConstructor: function (wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER) {
+            var C = wrapper(function (that, iterable) {
+                anInstance(that, C, CONSTRUCTOR_NAME);
+                setInternalState$2(that, {
+                    type: CONSTRUCTOR_NAME,
+                    id: id$1++,
+                    frozen: undefined
+                });
+                if (iterable != undefined) iterate_1(iterable, that[ADDER], that, IS_MAP);
+            });
+
+            var getInternalState = internalStateGetterFor(CONSTRUCTOR_NAME);
+
+            var define = function (that, key, value) {
+                var state = getInternalState(that);
+                var data = getWeakData(anObject(key), true);
+                if (data === true) uncaughtFrozenStore(state).set(key, value);
+                else data[state.id] = value;
+                return that;
+            };
+
+            redefineAll(C.prototype, {
+                // 23.3.3.2 WeakMap.prototype.delete(key)
+                // 23.4.3.3 WeakSet.prototype.delete(value)
+                'delete': function (key) {
+                    var state = getInternalState(this);
+                    if (!isObject(key)) return false;
+                    var data = getWeakData(key);
+                    if (data === true) return uncaughtFrozenStore(state)['delete'](key);
+                    return data && has(data, state.id) && delete data[state.id];
+                },
+                // 23.3.3.4 WeakMap.prototype.has(key)
+                // 23.4.3.4 WeakSet.prototype.has(value)
+                has: function has$1(key) {
+                    var state = getInternalState(this);
+                    if (!isObject(key)) return false;
+                    var data = getWeakData(key);
+                    if (data === true) return uncaughtFrozenStore(state).has(key);
+                    return data && has(data, state.id);
+                }
+            });
+
+            redefineAll(C.prototype, IS_MAP ? {
+                // 23.3.3.3 WeakMap.prototype.get(key)
+                get: function get(key) {
+                    var state = getInternalState(this);
+                    if (isObject(key)) {
+                        var data = getWeakData(key);
+                        if (data === true) return uncaughtFrozenStore(state).get(key);
+                        return data ? data[state.id] : undefined;
+                    }
+                },
+                // 23.3.3.5 WeakMap.prototype.set(key, value)
+                set: function set(key, value) {
+                    return define(this, key, value);
+                }
+            } : {
+                // 23.4.3.1 WeakSet.prototype.add(value)
+                add: function add(value) {
+                    return define(this, value, true);
+                }
+            });
+
+            return C;
+        }
+    };
+
+    var es_weakMap = createCommonjsModule(function (module) {
+
+
+
+
+
+
+        var enforceIternalState = internalState.enforce;
+
+
+        var IS_IE11 = !global_1.ActiveXObject && 'ActiveXObject' in global_1;
+        var isExtensible = Object.isExtensible;
+        var InternalWeakMap;
+
+        var wrapper = function (get) {
+            return function WeakMap() {
+                return get(this, arguments.length ? arguments[0] : undefined);
+            };
+        };
+
+        // `WeakMap` constructor
+        // https://tc39.github.io/ecma262/#sec-weakmap-constructor
+        var $WeakMap = module.exports = collection('WeakMap', wrapper, collectionWeak, true, true);
+
+        // IE11 WeakMap frozen keys fix
+        // We can't use feature detection because it crash some old IE builds
+        // https://github.com/zloirock/core-js/issues/485
+        if (nativeWeakMap && IS_IE11) {
+            InternalWeakMap = collectionWeak.getConstructor(wrapper, 'WeakMap', true);
+            internalMetadata.REQUIRED = true;
+            var WeakMapPrototype = $WeakMap.prototype;
+            var nativeDelete = WeakMapPrototype['delete'];
+            var nativeHas = WeakMapPrototype.has;
+            var nativeGet = WeakMapPrototype.get;
+            var nativeSet = WeakMapPrototype.set;
+            redefineAll(WeakMapPrototype, {
+                'delete': function (key) {
+                    if (isObject(key) && !isExtensible(key)) {
+                        var state = enforceIternalState(this);
+                        if (!state.frozen) state.frozen = new InternalWeakMap();
+                        return nativeDelete.call(this, key) || state.frozen['delete'](key);
+                    } return nativeDelete.call(this, key);
+                },
+                has: function has(key) {
+                    if (isObject(key) && !isExtensible(key)) {
+                        var state = enforceIternalState(this);
+                        if (!state.frozen) state.frozen = new InternalWeakMap();
+                        return nativeHas.call(this, key) || state.frozen.has(key);
+                    } return nativeHas.call(this, key);
+                },
+                get: function get(key) {
+                    if (isObject(key) && !isExtensible(key)) {
+                        var state = enforceIternalState(this);
+                        if (!state.frozen) state.frozen = new InternalWeakMap();
+                        return nativeHas.call(this, key) ? nativeGet.call(this, key) : state.frozen.get(key);
+                    } return nativeGet.call(this, key);
+                },
+                set: function set(key, value) {
+                    if (isObject(key) && !isExtensible(key)) {
+                        var state = enforceIternalState(this);
+                        if (!state.frozen) state.frozen = new InternalWeakMap();
+                        nativeHas.call(this, key) ? nativeSet.call(this, key, value) : state.frozen.set(key, value);
+                    } else nativeSet.call(this, key, value);
+                    return this;
+                }
+            });
+        }
+    });
+
+    var ITERATOR$5 = wellKnownSymbol('iterator');
+    var TO_STRING_TAG$3 = wellKnownSymbol('toStringTag');
+    var ArrayValues = es_array_iterator.values;
+
+    for (var COLLECTION_NAME$1 in domIterables) {
+        var Collection$1 = global_1[COLLECTION_NAME$1];
+        var CollectionPrototype$1 = Collection$1 && Collection$1.prototype;
+        if (CollectionPrototype$1) {
+            // some Chrome versions have non-configurable methods on DOMTokenList
+            if (CollectionPrototype$1[ITERATOR$5] !== ArrayValues) try {
+                hide(CollectionPrototype$1, ITERATOR$5, ArrayValues);
+            } catch (error) {
+                CollectionPrototype$1[ITERATOR$5] = ArrayValues;
+            }
+            if (!CollectionPrototype$1[TO_STRING_TAG$3]) hide(CollectionPrototype$1, TO_STRING_TAG$3, COLLECTION_NAME$1);
+            if (domIterables[COLLECTION_NAME$1]) for (var METHOD_NAME in es_array_iterator) {
+                // some Chrome versions have non-configurable methods on DOMTokenList
+                if (CollectionPrototype$1[METHOD_NAME] !== es_array_iterator[METHOD_NAME]) try {
+                    hide(CollectionPrototype$1, METHOD_NAME, es_array_iterator[METHOD_NAME]);
+                } catch (error) {
+                    CollectionPrototype$1[METHOD_NAME] = es_array_iterator[METHOD_NAME];
+                }
+            }
+        }
+    }
+
+    /**
+     * lodash (Custom Build) <https://lodash.com/>
+     * Build: `lodash modularize exports="npm" -o ./`
+     * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+     * Released under MIT license <https://lodash.com/license>
+     * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+     * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+     */
+
+    /** Used as the `TypeError` message for "Functions" methods. */
+    var FUNC_ERROR_TEXT = 'Expected a function';
+
+    /** Used as references for various `Number` constants. */
+    var NAN = 0 / 0;
+
+    /** `Object#toString` result references. */
+    var symbolTag = '[object Symbol]';
+
+    /** Used to match leading and trailing whitespace. */
+    var reTrim = /^\s+|\s+$/g;
+
+    /** Used to detect bad signed hexadecimal string values. */
+    var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+    /** Used to detect binary string values. */
+    var reIsBinary = /^0b[01]+$/i;
+
+    /** Used to detect octal string values. */
+    var reIsOctal = /^0o[0-7]+$/i;
+
+    /** Built-in method references without a dependency on `root`. */
+    var freeParseInt = parseInt;
+
+    /** Detect free variable `global` from Node.js. */
+    var freeGlobal = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
+
+    /** Detect free variable `self`. */
+    var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+    /** Used as a reference to the global object. */
+    var root = freeGlobal || freeSelf || Function('return this')();
+
+    /** Used for built-in method references. */
+    var objectProto = Object.prototype;
+
+    /**
+     * Used to resolve the
+     * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+     * of values.
+     */
+    var objectToString$1 = objectProto.toString;
+
+    /* Built-in method references for those with the same name as other `lodash` methods. */
+    var nativeMax = Math.max,
+        nativeMin = Math.min;
+
+    /**
+     * Gets the timestamp of the number of milliseconds that have elapsed since
+     * the Unix epoch (1 January 1970 00:00:00 UTC).
+     *
+     * @static
+     * @memberOf _
+     * @since 2.4.0
+     * @category Date
+     * @returns {number} Returns the timestamp.
+     * @example
+     *
+     * _.defer(function(stamp) {
+     *   console.log(_.now() - stamp);
+     * }, _.now());
+     * // => Logs the number of milliseconds it took for the deferred invocation.
+     */
+    var now = function() {
+        return root.Date.now();
+    };
+
+    /**
+     * Creates a debounced function that delays invoking `func` until after `wait`
+     * milliseconds have elapsed since the last time the debounced function was
+     * invoked. The debounced function comes with a `cancel` method to cancel
+     * delayed `func` invocations and a `flush` method to immediately invoke them.
+     * Provide `options` to indicate whether `func` should be invoked on the
+     * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+     * with the last arguments provided to the debounced function. Subsequent
+     * calls to the debounced function return the result of the last `func`
+     * invocation.
+     *
+     * **Note:** If `leading` and `trailing` options are `true`, `func` is
+     * invoked on the trailing edge of the timeout only if the debounced function
+     * is invoked more than once during the `wait` timeout.
+     *
+     * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+     * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+     *
+     * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+     * for details over the differences between `_.debounce` and `_.throttle`.
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Function
+     * @param {Function} func The function to debounce.
+     * @param {number} [wait=0] The number of milliseconds to delay.
+     * @param {Object} [options={}] The options object.
+     * @param {boolean} [options.leading=false]
+     *  Specify invoking on the leading edge of the timeout.
+     * @param {number} [options.maxWait]
+     *  The maximum time `func` is allowed to be delayed before it's invoked.
+     * @param {boolean} [options.trailing=true]
+     *  Specify invoking on the trailing edge of the timeout.
+     * @returns {Function} Returns the new debounced function.
+     * @example
+     *
+     * // Avoid costly calculations while the window size is in flux.
+     * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+     *
+     * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+     * jQuery(element).on('click', _.debounce(sendMail, 300, {
+     *   'leading': true,
+     *   'trailing': false
+     * }));
+     *
+     * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+     * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+     * var source = new EventSource('/stream');
+     * jQuery(source).on('message', debounced);
+     *
+     * // Cancel the trailing debounced invocation.
+     * jQuery(window).on('popstate', debounced.cancel);
+     */
+    function debounce(func, wait, options) {
+        var lastArgs,
+            lastThis,
+            maxWait,
+            result,
+            timerId,
+            lastCallTime,
+            lastInvokeTime = 0,
+            leading = false,
+            maxing = false,
+            trailing = true;
+
+        if (typeof func != 'function') {
+            throw new TypeError(FUNC_ERROR_TEXT);
+        }
+        wait = toNumber(wait) || 0;
+        if (isObject$1(options)) {
+            leading = !!options.leading;
+            maxing = 'maxWait' in options;
+            maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+            trailing = 'trailing' in options ? !!options.trailing : trailing;
+        }
+
+        function invokeFunc(time) {
+            var args = lastArgs,
+                thisArg = lastThis;
+
+            lastArgs = lastThis = undefined;
+            lastInvokeTime = time;
+            result = func.apply(thisArg, args);
+            return result;
+        }
+
+        function leadingEdge(time) {
+            // Reset any `maxWait` timer.
+            lastInvokeTime = time;
+            // Start the timer for the trailing edge.
+            timerId = setTimeout(timerExpired, wait);
+            // Invoke the leading edge.
+            return leading ? invokeFunc(time) : result;
+        }
+
+        function remainingWait(time) {
+            var timeSinceLastCall = time - lastCallTime,
+                timeSinceLastInvoke = time - lastInvokeTime,
+                result = wait - timeSinceLastCall;
+
+            return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+        }
+
+        function shouldInvoke(time) {
+            var timeSinceLastCall = time - lastCallTime,
+                timeSinceLastInvoke = time - lastInvokeTime;
+
+            // Either this is the first call, activity has stopped and we're at the
+            // trailing edge, the system time has gone backwards and we're treating
+            // it as the trailing edge, or we've hit the `maxWait` limit.
+            return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+                (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+        }
+
+        function timerExpired() {
+            var time = now();
+            if (shouldInvoke(time)) {
+                return trailingEdge(time);
+            }
+            // Restart the timer.
+            timerId = setTimeout(timerExpired, remainingWait(time));
+        }
+
+        function trailingEdge(time) {
+            timerId = undefined;
+
+            // Only invoke if we have `lastArgs` which means `func` has been
+            // debounced at least once.
+            if (trailing && lastArgs) {
+                return invokeFunc(time);
+            }
+            lastArgs = lastThis = undefined;
+            return result;
+        }
+
+        function cancel() {
+            if (timerId !== undefined) {
+                clearTimeout(timerId);
+            }
+            lastInvokeTime = 0;
+            lastArgs = lastCallTime = lastThis = timerId = undefined;
+        }
+
+        function flush() {
+            return timerId === undefined ? result : trailingEdge(now());
+        }
+
+        function debounced() {
+            var time = now(),
+                isInvoking = shouldInvoke(time);
+
+            lastArgs = arguments;
+            lastThis = this;
+            lastCallTime = time;
+
+            if (isInvoking) {
+                if (timerId === undefined) {
+                    return leadingEdge(lastCallTime);
+                }
+                if (maxing) {
+                    // Handle invocations in a tight loop.
+                    timerId = setTimeout(timerExpired, wait);
+                    return invokeFunc(lastCallTime);
+                }
+            }
+            if (timerId === undefined) {
+                timerId = setTimeout(timerExpired, wait);
+            }
+            return result;
+        }
+        debounced.cancel = cancel;
+        debounced.flush = flush;
+        return debounced;
+    }
+
+    /**
+     * Creates a throttled function that only invokes `func` at most once per
+     * every `wait` milliseconds. The throttled function comes with a `cancel`
+     * method to cancel delayed `func` invocations and a `flush` method to
+     * immediately invoke them. Provide `options` to indicate whether `func`
+     * should be invoked on the leading and/or trailing edge of the `wait`
+     * timeout. The `func` is invoked with the last arguments provided to the
+     * throttled function. Subsequent calls to the throttled function return the
+     * result of the last `func` invocation.
+     *
+     * **Note:** If `leading` and `trailing` options are `true`, `func` is
+     * invoked on the trailing edge of the timeout only if the throttled function
+     * is invoked more than once during the `wait` timeout.
+     *
+     * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+     * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+     *
+     * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+     * for details over the differences between `_.throttle` and `_.debounce`.
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Function
+     * @param {Function} func The function to throttle.
+     * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
+     * @param {Object} [options={}] The options object.
+     * @param {boolean} [options.leading=true]
+     *  Specify invoking on the leading edge of the timeout.
+     * @param {boolean} [options.trailing=true]
+     *  Specify invoking on the trailing edge of the timeout.
+     * @returns {Function} Returns the new throttled function.
+     * @example
+     *
+     * // Avoid excessively updating the position while scrolling.
+     * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
+     *
+     * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
+     * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
+     * jQuery(element).on('click', throttled);
+     *
+     * // Cancel the trailing throttled invocation.
+     * jQuery(window).on('popstate', throttled.cancel);
+     */
+    function throttle(func, wait, options) {
+        var leading = true,
+            trailing = true;
+
+        if (typeof func != 'function') {
+            throw new TypeError(FUNC_ERROR_TEXT);
+        }
+        if (isObject$1(options)) {
+            leading = 'leading' in options ? !!options.leading : leading;
+            trailing = 'trailing' in options ? !!options.trailing : trailing;
+        }
+        return debounce(func, wait, {
+            'leading': leading,
+            'maxWait': wait,
+            'trailing': trailing
+        });
+    }
+
+    /**
+     * Checks if `value` is the
+     * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+     * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+     * @example
+     *
+     * _.isObject({});
+     * // => true
+     *
+     * _.isObject([1, 2, 3]);
+     * // => true
+     *
+     * _.isObject(_.noop);
+     * // => true
+     *
+     * _.isObject(null);
+     * // => false
+     */
+    function isObject$1(value) {
+        var type = typeof value;
+        return !!value && (type == 'object' || type == 'function');
+    }
+
+    /**
+     * Checks if `value` is object-like. A value is object-like if it's not `null`
+     * and has a `typeof` result of "object".
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+     * @example
+     *
+     * _.isObjectLike({});
+     * // => true
+     *
+     * _.isObjectLike([1, 2, 3]);
+     * // => true
+     *
+     * _.isObjectLike(_.noop);
+     * // => false
+     *
+     * _.isObjectLike(null);
+     * // => false
+     */
+    function isObjectLike(value) {
+        return !!value && typeof value == 'object';
+    }
+
+    /**
+     * Checks if `value` is classified as a `Symbol` primitive or object.
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+     * @example
+     *
+     * _.isSymbol(Symbol.iterator);
+     * // => true
+     *
+     * _.isSymbol('abc');
+     * // => false
+     */
+    function isSymbol(value) {
+        return typeof value == 'symbol' ||
+            (isObjectLike(value) && objectToString$1.call(value) == symbolTag);
+    }
+
+    /**
+     * Converts `value` to a number.
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to process.
+     * @returns {number} Returns the number.
+     * @example
+     *
+     * _.toNumber(3.2);
+     * // => 3.2
+     *
+     * _.toNumber(Number.MIN_VALUE);
+     * // => 5e-324
+     *
+     * _.toNumber(Infinity);
+     * // => Infinity
+     *
+     * _.toNumber('3.2');
+     * // => 3.2
+     */
+    function toNumber(value) {
+        if (typeof value == 'number') {
+            return value;
+        }
+        if (isSymbol(value)) {
+            return NAN;
+        }
+        if (isObject$1(value)) {
+            var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+            value = isObject$1(other) ? (other + '') : other;
+        }
+        if (typeof value != 'string') {
+            return value === 0 ? value : +value;
+        }
+        value = value.replace(reTrim, '');
+        var isBinary = reIsBinary.test(value);
+        return (isBinary || reIsOctal.test(value))
+            ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+            : (reIsBadHex.test(value) ? NAN : +value);
+    }
+
+    var lodash_throttle = throttle;
+
+    /**
+     * lodash (Custom Build) <https://lodash.com/>
+     * Build: `lodash modularize exports="npm" -o ./`
+     * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+     * Released under MIT license <https://lodash.com/license>
+     * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+     * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+     */
+
+    /** Used as the `TypeError` message for "Functions" methods. */
+    var FUNC_ERROR_TEXT$1 = 'Expected a function';
+
+    /** Used as references for various `Number` constants. */
+    var NAN$1 = 0 / 0;
+
+    /** `Object#toString` result references. */
+    var symbolTag$1 = '[object Symbol]';
+
+    /** Used to match leading and trailing whitespace. */
+    var reTrim$1 = /^\s+|\s+$/g;
+
+    /** Used to detect bad signed hexadecimal string values. */
+    var reIsBadHex$1 = /^[-+]0x[0-9a-f]+$/i;
+
+    /** Used to detect binary string values. */
+    var reIsBinary$1 = /^0b[01]+$/i;
+
+    /** Used to detect octal string values. */
+    var reIsOctal$1 = /^0o[0-7]+$/i;
+
+    /** Built-in method references without a dependency on `root`. */
+    var freeParseInt$1 = parseInt;
+
+    /** Detect free variable `global` from Node.js. */
+    var freeGlobal$1 = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
+
+    /** Detect free variable `self`. */
+    var freeSelf$1 = typeof self == 'object' && self && self.Object === Object && self;
+
+    /** Used as a reference to the global object. */
+    var root$1 = freeGlobal$1 || freeSelf$1 || Function('return this')();
+
+    /** Used for built-in method references. */
+    var objectProto$1 = Object.prototype;
+
+    /**
+     * Used to resolve the
+     * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+     * of values.
+     */
+    var objectToString$2 = objectProto$1.toString;
+
+    /* Built-in method references for those with the same name as other `lodash` methods. */
+    var nativeMax$1 = Math.max,
+        nativeMin$1 = Math.min;
+
+    /**
+     * Gets the timestamp of the number of milliseconds that have elapsed since
+     * the Unix epoch (1 January 1970 00:00:00 UTC).
+     *
+     * @static
+     * @memberOf _
+     * @since 2.4.0
+     * @category Date
+     * @returns {number} Returns the timestamp.
+     * @example
+     *
+     * _.defer(function(stamp) {
+     *   console.log(_.now() - stamp);
+     * }, _.now());
+     * // => Logs the number of milliseconds it took for the deferred invocation.
+     */
+    var now$1 = function() {
+        return root$1.Date.now();
+    };
+
+    /**
+     * Creates a debounced function that delays invoking `func` until after `wait`
+     * milliseconds have elapsed since the last time the debounced function was
+     * invoked. The debounced function comes with a `cancel` method to cancel
+     * delayed `func` invocations and a `flush` method to immediately invoke them.
+     * Provide `options` to indicate whether `func` should be invoked on the
+     * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+     * with the last arguments provided to the debounced function. Subsequent
+     * calls to the debounced function return the result of the last `func`
+     * invocation.
+     *
+     * **Note:** If `leading` and `trailing` options are `true`, `func` is
+     * invoked on the trailing edge of the timeout only if the debounced function
+     * is invoked more than once during the `wait` timeout.
+     *
+     * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+     * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+     *
+     * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+     * for details over the differences between `_.debounce` and `_.throttle`.
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Function
+     * @param {Function} func The function to debounce.
+     * @param {number} [wait=0] The number of milliseconds to delay.
+     * @param {Object} [options={}] The options object.
+     * @param {boolean} [options.leading=false]
+     *  Specify invoking on the leading edge of the timeout.
+     * @param {number} [options.maxWait]
+     *  The maximum time `func` is allowed to be delayed before it's invoked.
+     * @param {boolean} [options.trailing=true]
+     *  Specify invoking on the trailing edge of the timeout.
+     * @returns {Function} Returns the new debounced function.
+     * @example
+     *
+     * // Avoid costly calculations while the window size is in flux.
+     * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+     *
+     * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+     * jQuery(element).on('click', _.debounce(sendMail, 300, {
+     *   'leading': true,
+     *   'trailing': false
+     * }));
+     *
+     * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+     * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+     * var source = new EventSource('/stream');
+     * jQuery(source).on('message', debounced);
+     *
+     * // Cancel the trailing debounced invocation.
+     * jQuery(window).on('popstate', debounced.cancel);
+     */
+    function debounce$1(func, wait, options) {
+        var lastArgs,
+            lastThis,
+            maxWait,
+            result,
+            timerId,
+            lastCallTime,
+            lastInvokeTime = 0,
+            leading = false,
+            maxing = false,
+            trailing = true;
+
+        if (typeof func != 'function') {
+            throw new TypeError(FUNC_ERROR_TEXT$1);
+        }
+        wait = toNumber$1(wait) || 0;
+        if (isObject$2(options)) {
+            leading = !!options.leading;
+            maxing = 'maxWait' in options;
+            maxWait = maxing ? nativeMax$1(toNumber$1(options.maxWait) || 0, wait) : maxWait;
+            trailing = 'trailing' in options ? !!options.trailing : trailing;
+        }
+
+        function invokeFunc(time) {
+            var args = lastArgs,
+                thisArg = lastThis;
+
+            lastArgs = lastThis = undefined;
+            lastInvokeTime = time;
+            result = func.apply(thisArg, args);
+            return result;
+        }
+
+        function leadingEdge(time) {
+            // Reset any `maxWait` timer.
+            lastInvokeTime = time;
+            // Start the timer for the trailing edge.
+            timerId = setTimeout(timerExpired, wait);
+            // Invoke the leading edge.
+            return leading ? invokeFunc(time) : result;
+        }
+
+        function remainingWait(time) {
+            var timeSinceLastCall = time - lastCallTime,
+                timeSinceLastInvoke = time - lastInvokeTime,
+                result = wait - timeSinceLastCall;
+
+            return maxing ? nativeMin$1(result, maxWait - timeSinceLastInvoke) : result;
+        }
+
+        function shouldInvoke(time) {
+            var timeSinceLastCall = time - lastCallTime,
+                timeSinceLastInvoke = time - lastInvokeTime;
+
+            // Either this is the first call, activity has stopped and we're at the
+            // trailing edge, the system time has gone backwards and we're treating
+            // it as the trailing edge, or we've hit the `maxWait` limit.
+            return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+                (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+        }
+
+        function timerExpired() {
+            var time = now$1();
+            if (shouldInvoke(time)) {
+                return trailingEdge(time);
+            }
+            // Restart the timer.
+            timerId = setTimeout(timerExpired, remainingWait(time));
+        }
+
+        function trailingEdge(time) {
+            timerId = undefined;
+
+            // Only invoke if we have `lastArgs` which means `func` has been
+            // debounced at least once.
+            if (trailing && lastArgs) {
+                return invokeFunc(time);
+            }
+            lastArgs = lastThis = undefined;
+            return result;
+        }
+
+        function cancel() {
+            if (timerId !== undefined) {
+                clearTimeout(timerId);
+            }
+            lastInvokeTime = 0;
+            lastArgs = lastCallTime = lastThis = timerId = undefined;
+        }
+
+        function flush() {
+            return timerId === undefined ? result : trailingEdge(now$1());
+        }
+
+        function debounced() {
+            var time = now$1(),
+                isInvoking = shouldInvoke(time);
+
+            lastArgs = arguments;
+            lastThis = this;
+            lastCallTime = time;
+
+            if (isInvoking) {
+                if (timerId === undefined) {
+                    return leadingEdge(lastCallTime);
+                }
+                if (maxing) {
+                    // Handle invocations in a tight loop.
+                    timerId = setTimeout(timerExpired, wait);
+                    return invokeFunc(lastCallTime);
+                }
+            }
+            if (timerId === undefined) {
+                timerId = setTimeout(timerExpired, wait);
+            }
+            return result;
+        }
+        debounced.cancel = cancel;
+        debounced.flush = flush;
+        return debounced;
+    }
+
+    /**
+     * Checks if `value` is the
+     * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+     * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+     * @example
+     *
+     * _.isObject({});
+     * // => true
+     *
+     * _.isObject([1, 2, 3]);
+     * // => true
+     *
+     * _.isObject(_.noop);
+     * // => true
+     *
+     * _.isObject(null);
+     * // => false
+     */
+    function isObject$2(value) {
+        var type = typeof value;
+        return !!value && (type == 'object' || type == 'function');
+    }
+
+    /**
+     * Checks if `value` is object-like. A value is object-like if it's not `null`
+     * and has a `typeof` result of "object".
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+     * @example
+     *
+     * _.isObjectLike({});
+     * // => true
+     *
+     * _.isObjectLike([1, 2, 3]);
+     * // => true
+     *
+     * _.isObjectLike(_.noop);
+     * // => false
+     *
+     * _.isObjectLike(null);
+     * // => false
+     */
+    function isObjectLike$1(value) {
+        return !!value && typeof value == 'object';
+    }
+
+    /**
+     * Checks if `value` is classified as a `Symbol` primitive or object.
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+     * @example
+     *
+     * _.isSymbol(Symbol.iterator);
+     * // => true
+     *
+     * _.isSymbol('abc');
+     * // => false
+     */
+    function isSymbol$1(value) {
+        return typeof value == 'symbol' ||
+            (isObjectLike$1(value) && objectToString$2.call(value) == symbolTag$1);
+    }
+
+    /**
+     * Converts `value` to a number.
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to process.
+     * @returns {number} Returns the number.
+     * @example
+     *
+     * _.toNumber(3.2);
+     * // => 3.2
+     *
+     * _.toNumber(Number.MIN_VALUE);
+     * // => 5e-324
+     *
+     * _.toNumber(Infinity);
+     * // => Infinity
+     *
+     * _.toNumber('3.2');
+     * // => 3.2
+     */
+    function toNumber$1(value) {
+        if (typeof value == 'number') {
+            return value;
+        }
+        if (isSymbol$1(value)) {
+            return NAN$1;
+        }
+        if (isObject$2(value)) {
+            var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+            value = isObject$2(other) ? (other + '') : other;
+        }
+        if (typeof value != 'string') {
+            return value === 0 ? value : +value;
+        }
+        value = value.replace(reTrim$1, '');
+        var isBinary = reIsBinary$1.test(value);
+        return (isBinary || reIsOctal$1.test(value))
+            ? freeParseInt$1(value.slice(2), isBinary ? 2 : 8)
+            : (reIsBadHex$1.test(value) ? NAN$1 : +value);
+    }
+
+    var lodash_debounce = debounce$1;
+
+    /**
+     * lodash (Custom Build) <https://lodash.com/>
+     * Build: `lodash modularize exports="npm" -o ./`
+     * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+     * Released under MIT license <https://lodash.com/license>
+     * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+     * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+     */
+
+    /** Used as the `TypeError` message for "Functions" methods. */
+    var FUNC_ERROR_TEXT$2 = 'Expected a function';
+
+    /** Used to stand-in for `undefined` hash values. */
+    var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+    /** `Object#toString` result references. */
+    var funcTag = '[object Function]',
+        genTag = '[object GeneratorFunction]';
+
+    /**
+     * Used to match `RegExp`
+     * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+     */
+    var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+    /** Used to detect host constructors (Safari). */
+    var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+    /** Detect free variable `global` from Node.js. */
+    var freeGlobal$2 = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
+
+    /** Detect free variable `self`. */
+    var freeSelf$2 = typeof self == 'object' && self && self.Object === Object && self;
+
+    /** Used as a reference to the global object. */
+    var root$2 = freeGlobal$2 || freeSelf$2 || Function('return this')();
+
+    /**
+     * Gets the value at `key` of `object`.
+     *
+     * @private
+     * @param {Object} [object] The object to query.
+     * @param {string} key The key of the property to get.
+     * @returns {*} Returns the property value.
+     */
+    function getValue(object, key) {
+        return object == null ? undefined : object[key];
+    }
+
+    /**
+     * Checks if `value` is a host object in IE < 9.
+     *
+     * @private
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+     */
+    function isHostObject(value) {
+        // Many host objects are `Object` objects that can coerce to strings
+        // despite having improperly defined `toString` methods.
+        var result = false;
+        if (value != null && typeof value.toString != 'function') {
+            try {
+                result = !!(value + '');
+            } catch (e) {}
+        }
+        return result;
+    }
+
+    /** Used for built-in method references. */
+    var arrayProto = Array.prototype,
+        funcProto = Function.prototype,
+        objectProto$2 = Object.prototype;
+
+    /** Used to detect overreaching core-js shims. */
+    var coreJsData = root$2['__core-js_shared__'];
+
+    /** Used to detect methods masquerading as native. */
+    var maskSrcKey = (function() {
+        var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+        return uid ? ('Symbol(src)_1.' + uid) : '';
+    }());
+
+    /** Used to resolve the decompiled source of functions. */
+    var funcToString = funcProto.toString;
+
+    /** Used to check objects for own properties. */
+    var hasOwnProperty$1 = objectProto$2.hasOwnProperty;
+
+    /**
+     * Used to resolve the
+     * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+     * of values.
+     */
+    var objectToString$3 = objectProto$2.toString;
+
+    /** Used to detect if a method is native. */
+    var reIsNative = RegExp('^' +
+        funcToString.call(hasOwnProperty$1).replace(reRegExpChar, '\\$&')
+            .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+    );
+
+    /** Built-in value references. */
+    var splice = arrayProto.splice;
+
+    /* Built-in method references that are verified to be native. */
+    var Map$1 = getNative(root$2, 'Map'),
+        nativeCreate = getNative(Object, 'create');
+
+    /**
+     * Creates a hash object.
+     *
+     * @private
+     * @constructor
+     * @param {Array} [entries] The key-value pairs to cache.
+     */
+    function Hash(entries) {
+        var index = -1,
+            length = entries ? entries.length : 0;
+
+        this.clear();
+        while (++index < length) {
+            var entry = entries[index];
+            this.set(entry[0], entry[1]);
+        }
+    }
+
+    /**
+     * Removes all key-value entries from the hash.
+     *
+     * @private
+     * @name clear
+     * @memberOf Hash
+     */
+    function hashClear() {
+        this.__data__ = nativeCreate ? nativeCreate(null) : {};
+    }
+
+    /**
+     * Removes `key` and its value from the hash.
+     *
+     * @private
+     * @name delete
+     * @memberOf Hash
+     * @param {Object} hash The hash to modify.
+     * @param {string} key The key of the value to remove.
+     * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+     */
+    function hashDelete(key) {
+        return this.has(key) && delete this.__data__[key];
+    }
+
+    /**
+     * Gets the hash value for `key`.
+     *
+     * @private
+     * @name get
+     * @memberOf Hash
+     * @param {string} key The key of the value to get.
+     * @returns {*} Returns the entry value.
+     */
+    function hashGet(key) {
+        var data = this.__data__;
+        if (nativeCreate) {
+            var result = data[key];
+            return result === HASH_UNDEFINED ? undefined : result;
+        }
+        return hasOwnProperty$1.call(data, key) ? data[key] : undefined;
+    }
+
+    /**
+     * Checks if a hash value for `key` exists.
+     *
+     * @private
+     * @name has
+     * @memberOf Hash
+     * @param {string} key The key of the entry to check.
+     * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+     */
+    function hashHas(key) {
+        var data = this.__data__;
+        return nativeCreate ? data[key] !== undefined : hasOwnProperty$1.call(data, key);
+    }
+
+    /**
+     * Sets the hash `key` to `value`.
+     *
+     * @private
+     * @name set
+     * @memberOf Hash
+     * @param {string} key The key of the value to set.
+     * @param {*} value The value to set.
+     * @returns {Object} Returns the hash instance.
+     */
+    function hashSet(key, value) {
+        var data = this.__data__;
+        data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+        return this;
+    }
+
+    // Add methods to `Hash`.
+    Hash.prototype.clear = hashClear;
+    Hash.prototype['delete'] = hashDelete;
+    Hash.prototype.get = hashGet;
+    Hash.prototype.has = hashHas;
+    Hash.prototype.set = hashSet;
+
+    /**
+     * Creates an list cache object.
+     *
+     * @private
+     * @constructor
+     * @param {Array} [entries] The key-value pairs to cache.
+     */
+    function ListCache(entries) {
+        var index = -1,
+            length = entries ? entries.length : 0;
+
+        this.clear();
+        while (++index < length) {
+            var entry = entries[index];
+            this.set(entry[0], entry[1]);
+        }
+    }
+
+    /**
+     * Removes all key-value entries from the list cache.
+     *
+     * @private
+     * @name clear
+     * @memberOf ListCache
+     */
+    function listCacheClear() {
+        this.__data__ = [];
+    }
+
+    /**
+     * Removes `key` and its value from the list cache.
+     *
+     * @private
+     * @name delete
+     * @memberOf ListCache
+     * @param {string} key The key of the value to remove.
+     * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+     */
+    function listCacheDelete(key) {
+        var data = this.__data__,
+            index = assocIndexOf(data, key);
+
+        if (index < 0) {
+            return false;
+        }
+        var lastIndex = data.length - 1;
+        if (index == lastIndex) {
+            data.pop();
+        } else {
+            splice.call(data, index, 1);
+        }
+        return true;
+    }
+
+    /**
+     * Gets the list cache value for `key`.
+     *
+     * @private
+     * @name get
+     * @memberOf ListCache
+     * @param {string} key The key of the value to get.
+     * @returns {*} Returns the entry value.
+     */
+    function listCacheGet(key) {
+        var data = this.__data__,
+            index = assocIndexOf(data, key);
+
+        return index < 0 ? undefined : data[index][1];
+    }
+
+    /**
+     * Checks if a list cache value for `key` exists.
+     *
+     * @private
+     * @name has
+     * @memberOf ListCache
+     * @param {string} key The key of the entry to check.
+     * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+     */
+    function listCacheHas(key) {
+        return assocIndexOf(this.__data__, key) > -1;
+    }
+
+    /**
+     * Sets the list cache `key` to `value`.
+     *
+     * @private
+     * @name set
+     * @memberOf ListCache
+     * @param {string} key The key of the value to set.
+     * @param {*} value The value to set.
+     * @returns {Object} Returns the list cache instance.
+     */
+    function listCacheSet(key, value) {
+        var data = this.__data__,
+            index = assocIndexOf(data, key);
+
+        if (index < 0) {
+            data.push([key, value]);
+        } else {
+            data[index][1] = value;
+        }
+        return this;
+    }
+
+    // Add methods to `ListCache`.
+    ListCache.prototype.clear = listCacheClear;
+    ListCache.prototype['delete'] = listCacheDelete;
+    ListCache.prototype.get = listCacheGet;
+    ListCache.prototype.has = listCacheHas;
+    ListCache.prototype.set = listCacheSet;
+
+    /**
+     * Creates a map cache object to store key-value pairs.
+     *
+     * @private
+     * @constructor
+     * @param {Array} [entries] The key-value pairs to cache.
+     */
+    function MapCache(entries) {
+        var index = -1,
+            length = entries ? entries.length : 0;
+
+        this.clear();
+        while (++index < length) {
+            var entry = entries[index];
+            this.set(entry[0], entry[1]);
+        }
+    }
+
+    /**
+     * Removes all key-value entries from the map.
+     *
+     * @private
+     * @name clear
+     * @memberOf MapCache
+     */
+    function mapCacheClear() {
+        this.__data__ = {
+            'hash': new Hash,
+            'map': new (Map$1 || ListCache),
+            'string': new Hash
+        };
+    }
+
+    /**
+     * Removes `key` and its value from the map.
+     *
+     * @private
+     * @name delete
+     * @memberOf MapCache
+     * @param {string} key The key of the value to remove.
+     * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+     */
+    function mapCacheDelete(key) {
+        return getMapData(this, key)['delete'](key);
+    }
+
+    /**
+     * Gets the map value for `key`.
+     *
+     * @private
+     * @name get
+     * @memberOf MapCache
+     * @param {string} key The key of the value to get.
+     * @returns {*} Returns the entry value.
+     */
+    function mapCacheGet(key) {
+        return getMapData(this, key).get(key);
+    }
+
+    /**
+     * Checks if a map value for `key` exists.
+     *
+     * @private
+     * @name has
+     * @memberOf MapCache
+     * @param {string} key The key of the entry to check.
+     * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+     */
+    function mapCacheHas(key) {
+        return getMapData(this, key).has(key);
+    }
+
+    /**
+     * Sets the map `key` to `value`.
+     *
+     * @private
+     * @name set
+     * @memberOf MapCache
+     * @param {string} key The key of the value to set.
+     * @param {*} value The value to set.
+     * @returns {Object} Returns the map cache instance.
+     */
+    function mapCacheSet(key, value) {
+        getMapData(this, key).set(key, value);
+        return this;
+    }
+
+    // Add methods to `MapCache`.
+    MapCache.prototype.clear = mapCacheClear;
+    MapCache.prototype['delete'] = mapCacheDelete;
+    MapCache.prototype.get = mapCacheGet;
+    MapCache.prototype.has = mapCacheHas;
+    MapCache.prototype.set = mapCacheSet;
+
+    /**
+     * Gets the index at which the `key` is found in `array` of key-value pairs.
+     *
+     * @private
+     * @param {Array} array The array to inspect.
+     * @param {*} key The key to search for.
+     * @returns {number} Returns the index of the matched value, else `-1`.
+     */
+    function assocIndexOf(array, key) {
+        var length = array.length;
+        while (length--) {
+            if (eq(array[length][0], key)) {
+                return length;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * The base implementation of `_.isNative` without bad shim checks.
+     *
+     * @private
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a native function,
+     *  else `false`.
+     */
+    function baseIsNative(value) {
+        if (!isObject$3(value) || isMasked(value)) {
+            return false;
+        }
+        var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+        return pattern.test(toSource(value));
+    }
+
+    /**
+     * Gets the data for `map`.
+     *
+     * @private
+     * @param {Object} map The map to query.
+     * @param {string} key The reference key.
+     * @returns {*} Returns the map data.
+     */
+    function getMapData(map, key) {
+        var data = map.__data__;
+        return isKeyable(key)
+            ? data[typeof key == 'string' ? 'string' : 'hash']
+            : data.map;
+    }
+
+    /**
+     * Gets the native function at `key` of `object`.
+     *
+     * @private
+     * @param {Object} object The object to query.
+     * @param {string} key The key of the method to get.
+     * @returns {*} Returns the function if it's native, else `undefined`.
+     */
+    function getNative(object, key) {
+        var value = getValue(object, key);
+        return baseIsNative(value) ? value : undefined;
+    }
+
+    /**
+     * Checks if `value` is suitable for use as unique object key.
+     *
+     * @private
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+     */
+    function isKeyable(value) {
+        var type = typeof value;
+        return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
+            ? (value !== '__proto__')
+            : (value === null);
+    }
+
+    /**
+     * Checks if `func` has its source masked.
+     *
+     * @private
+     * @param {Function} func The function to check.
+     * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+     */
+    function isMasked(func) {
+        return !!maskSrcKey && (maskSrcKey in func);
+    }
+
+    /**
+     * Converts `func` to its source code.
+     *
+     * @private
+     * @param {Function} func The function to process.
+     * @returns {string} Returns the source code.
+     */
+    function toSource(func) {
+        if (func != null) {
+            try {
+                return funcToString.call(func);
+            } catch (e) {}
+            try {
+                return (func + '');
+            } catch (e) {}
+        }
+        return '';
+    }
+
+    /**
+     * Creates a function that memoizes the result of `func`. If `resolver` is
+     * provided, it determines the cache key for storing the result based on the
+     * arguments provided to the memoized function. By default, the first argument
+     * provided to the memoized function is used as the map cache key. The `func`
+     * is invoked with the `this` binding of the memoized function.
+     *
+     * **Note:** The cache is exposed as the `cache` property on the memoized
+     * function. Its creation may be customized by replacing the `_.memoize.Cache`
+     * constructor with one whose instances implement the
+     * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
+     * method interface of `delete`, `get`, `has`, and `set`.
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Function
+     * @param {Function} func The function to have its output memoized.
+     * @param {Function} [resolver] The function to resolve the cache key.
+     * @returns {Function} Returns the new memoized function.
+     * @example
+     *
+     * var object = { 'a': 1, 'b': 2 };
+     * var other = { 'c': 3, 'd': 4 };
+     *
+     * var values = _.memoize(_.values);
+     * values(object);
+     * // => [1, 2]
+     *
+     * values(other);
+     * // => [3, 4]
+     *
+     * object.a = 2;
+     * values(object);
+     * // => [1, 2]
+     *
+     * // Modify the result cache.
+     * values.cache.set(object, ['a', 'b']);
+     * values(object);
+     * // => ['a', 'b']
+     *
+     * // Replace `_.memoize.Cache`.
+     * _.memoize.Cache = WeakMap;
+     */
+    function memoize(func, resolver) {
+        if (typeof func != 'function' || (resolver && typeof resolver != 'function')) {
+            throw new TypeError(FUNC_ERROR_TEXT$2);
+        }
+        var memoized = function() {
+            var args = arguments,
+                key = resolver ? resolver.apply(this, args) : args[0],
+                cache = memoized.cache;
+
+            if (cache.has(key)) {
+                return cache.get(key);
+            }
+            var result = func.apply(this, args);
+            memoized.cache = cache.set(key, result);
+            return result;
+        };
+        memoized.cache = new (memoize.Cache || MapCache);
+        return memoized;
+    }
+
+    // Assign cache to `_.memoize`.
+    memoize.Cache = MapCache;
+
+    /**
+     * Performs a
+     * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+     * comparison between two values to determine if they are equivalent.
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to compare.
+     * @param {*} other The other value to compare.
+     * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+     * @example
+     *
+     * var object = { 'a': 1 };
+     * var other = { 'a': 1 };
+     *
+     * _.eq(object, object);
+     * // => true
+     *
+     * _.eq(object, other);
+     * // => false
+     *
+     * _.eq('a', 'a');
+     * // => true
+     *
+     * _.eq('a', Object('a'));
+     * // => false
+     *
+     * _.eq(NaN, NaN);
+     * // => true
+     */
+    function eq(value, other) {
+        return value === other || (value !== value && other !== other);
+    }
+
+    /**
+     * Checks if `value` is classified as a `Function` object.
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+     * @example
+     *
+     * _.isFunction(_);
+     * // => true
+     *
+     * _.isFunction(/abc/);
+     * // => false
+     */
+    function isFunction(value) {
+        // The use of `Object#toString` avoids issues with the `typeof` operator
+        // in Safari 8-9 which returns 'object' for typed array and other constructors.
+        var tag = isObject$3(value) ? objectToString$3.call(value) : '';
+        return tag == funcTag || tag == genTag;
+    }
+
+    /**
+     * Checks if `value` is the
+     * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+     * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+     * @example
+     *
+     * _.isObject({});
+     * // => true
+     *
+     * _.isObject([1, 2, 3]);
+     * // => true
+     *
+     * _.isObject(_.noop);
+     * // => true
+     *
+     * _.isObject(null);
+     * // => false
+     */
+    function isObject$3(value) {
+        var type = typeof value;
+        return !!value && (type == 'object' || type == 'function');
+    }
+
+    var lodash_memoize = memoize;
+
+    /**
+     * A collection of shims that provide minimal functionality of the ES6 collections.
+     *
+     * These implementations are not meant to be used outside of the ResizeObserver
+     * modules as they cover only a limited range of use cases.
+     */
+    /* eslint-disable require-jsdoc, valid-jsdoc */
+    var MapShim = (function () {
+        if (typeof Map !== 'undefined') {
+            return Map;
+        }
+        /**
+         * Returns index in provided array that matches the specified key.
+         *
+         * @param {Array<Array>} arr
+         * @param {*} key
+         * @returns {number}
+         */
+        function getIndex(arr, key) {
+            var result = -1;
+            arr.some(function (entry, index) {
+                if (entry[0] === key) {
+                    result = index;
+                    return true;
+                }
+                return false;
+            });
+            return result;
+        }
+        return /** @class */ (function () {
+            function class_1() {
+                this.__entries__ = [];
+            }
+            Object.defineProperty(class_1.prototype, "size", {
+                /**
+                 * @returns {boolean}
+                 */
+                get: function () {
+                    return this.__entries__.length;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            /**
+             * @param {*} key
+             * @returns {*}
+             */
+            class_1.prototype.get = function (key) {
+                var index = getIndex(this.__entries__, key);
+                var entry = this.__entries__[index];
+                return entry && entry[1];
+            };
+            /**
+             * @param {*} key
+             * @param {*} value
+             * @returns {void}
+             */
+            class_1.prototype.set = function (key, value) {
+                var index = getIndex(this.__entries__, key);
+                if (~index) {
+                    this.__entries__[index][1] = value;
+                }
+                else {
+                    this.__entries__.push([key, value]);
+                }
+            };
+            /**
+             * @param {*} key
+             * @returns {void}
+             */
+            class_1.prototype.delete = function (key) {
+                var entries = this.__entries__;
+                var index = getIndex(entries, key);
+                if (~index) {
+                    entries.splice(index, 1);
+                }
+            };
+            /**
+             * @param {*} key
+             * @returns {void}
+             */
+            class_1.prototype.has = function (key) {
+                return !!~getIndex(this.__entries__, key);
+            };
+            /**
+             * @returns {void}
+             */
+            class_1.prototype.clear = function () {
+                this.__entries__.splice(0);
+            };
+            /**
+             * @param {Function} callback
+             * @param {*} [ctx=null]
+             * @returns {void}
+             */
+            class_1.prototype.forEach = function (callback, ctx) {
+                if (ctx === void 0) { ctx = null; }
+                for (var _i = 0, _a = this.__entries__; _i < _a.length; _i++) {
+                    var entry = _a[_i];
+                    callback.call(ctx, entry[1], entry[0]);
+                }
+            };
+            return class_1;
+        }());
+    })();
+
+    /**
+     * Detects whether window and document objects are available in current environment.
+     */
+    var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined' && window.document === document;
+
+    // Returns global object of a current environment.
+    var global$1 = (function () {
+        if (typeof global !== 'undefined' && global.Math === Math) {
+            return global;
+        }
+        if (typeof self !== 'undefined' && self.Math === Math) {
+            return self;
+        }
+        if (typeof window !== 'undefined' && window.Math === Math) {
+            return window;
+        }
+        // eslint-disable-next-line no-new-func
+        return Function('return this')();
+    })();
+
+    /**
+     * A shim for the requestAnimationFrame which falls back to the setTimeout if
+     * first one is not supported.
+     *
+     * @returns {number} Requests' identifier.
+     */
+    var requestAnimationFrame$1 = (function () {
+        if (typeof requestAnimationFrame === 'function') {
+            // It's required to use a bounded function because IE sometimes throws
+            // an "Invalid calling object" error if rAF is invoked without the global
+            // object on the left hand side.
+            return requestAnimationFrame.bind(global$1);
+        }
+        return function (callback) { return setTimeout(function () { return callback(Date.now()); }, 1000 / 60); };
+    })();
+
+    // Defines minimum timeout before adding a trailing call.
+    var trailingTimeout = 2;
+    /**
+     * Creates a wrapper function which ensures that provided callback will be
+     * invoked only once during the specified delay period.
+     *
+     * @param {Function} callback - Function to be invoked after the delay period.
+     * @param {number} delay - Delay after which to invoke callback.
+     * @returns {Function}
+     */
+    function throttle$1 (callback, delay) {
+        var leadingCall = false, trailingCall = false, lastCallTime = 0;
+        /**
+         * Invokes the original callback function and schedules new invocation if
+         * the "proxy" was called during current request.
+         *
+         * @returns {void}
+         */
+        function resolvePending() {
+            if (leadingCall) {
+                leadingCall = false;
+                callback();
+            }
+            if (trailingCall) {
+                proxy();
+            }
+        }
+        /**
+         * Callback invoked after the specified delay. It will further postpone
+         * invocation of the original function delegating it to the
+         * requestAnimationFrame.
+         *
+         * @returns {void}
+         */
+        function timeoutCallback() {
+            requestAnimationFrame$1(resolvePending);
+        }
+        /**
+         * Schedules invocation of the original function.
+         *
+         * @returns {void}
+         */
+        function proxy() {
+            var timeStamp = Date.now();
+            if (leadingCall) {
+                // Reject immediately following calls.
+                if (timeStamp - lastCallTime < trailingTimeout) {
+                    return;
+                }
+                // Schedule new call to be in invoked when the pending one is resolved.
+                // This is important for "transitions" which never actually start
+                // immediately so there is a chance that we might miss one if change
+                // happens amids the pending invocation.
+                trailingCall = true;
+            }
+            else {
+                leadingCall = true;
+                trailingCall = false;
+                setTimeout(timeoutCallback, delay);
+            }
+            lastCallTime = timeStamp;
+        }
+        return proxy;
+    }
+
+    // Minimum delay before invoking the update of observers.
+    var REFRESH_DELAY = 20;
+    // A list of substrings of CSS properties used to find transition events that
+    // might affect dimensions of observed elements.
+    var transitionKeys = ['top', 'right', 'bottom', 'left', 'width', 'height', 'size', 'weight'];
+    // Check if MutationObserver is available.
+    var mutationObserverSupported = typeof MutationObserver !== 'undefined';
+    /**
+     * Singleton controller class which handles updates of ResizeObserver instances.
+     */
+    var ResizeObserverController = /** @class */ (function () {
+        /**
+         * Creates a new instance of ResizeObserverController.
+         *
+         * @private
+         */
+        function ResizeObserverController() {
+            /**
+             * Indicates whether DOM listeners have been added.
+             *
+             * @private {boolean}
+             */
+            this.connected_ = false;
+            /**
+             * Tells that controller has subscribed for Mutation Events.
+             *
+             * @private {boolean}
+             */
+            this.mutationEventsAdded_ = false;
+            /**
+             * Keeps reference to the instance of MutationObserver.
+             *
+             * @private {MutationObserver}
+             */
+            this.mutationsObserver_ = null;
+            /**
+             * A list of connected observers.
+             *
+             * @private {Array<ResizeObserverSPI>}
+             */
+            this.observers_ = [];
+            this.onTransitionEnd_ = this.onTransitionEnd_.bind(this);
+            this.refresh = throttle$1(this.refresh.bind(this), REFRESH_DELAY);
+        }
+        /**
+         * Adds observer to observers list.
+         *
+         * @param {ResizeObserverSPI} observer - Observer to be added.
+         * @returns {void}
+         */
+        ResizeObserverController.prototype.addObserver = function (observer) {
+            if (!~this.observers_.indexOf(observer)) {
+                this.observers_.push(observer);
+            }
+            // Add listeners if they haven't been added yet.
+            if (!this.connected_) {
+                this.connect_();
+            }
+        };
+        /**
+         * Removes observer from observers list.
+         *
+         * @param {ResizeObserverSPI} observer - Observer to be removed.
+         * @returns {void}
+         */
+        ResizeObserverController.prototype.removeObserver = function (observer) {
+            var observers = this.observers_;
+            var index = observers.indexOf(observer);
+            // Remove observer if it's present in registry.
+            if (~index) {
+                observers.splice(index, 1);
+            }
+            // Remove listeners if controller has no connected observers.
+            if (!observers.length && this.connected_) {
+                this.disconnect_();
+            }
+        };
+        /**
+         * Invokes the update of observers. It will continue running updates insofar
+         * it detects changes.
+         *
+         * @returns {void}
+         */
+        ResizeObserverController.prototype.refresh = function () {
+            var changesDetected = this.updateObservers_();
+            // Continue running updates if changes have been detected as there might
+            // be future ones caused by CSS transitions.
+            if (changesDetected) {
+                this.refresh();
+            }
+        };
+        /**
+         * Updates every observer from observers list and notifies them of queued
+         * entries.
+         *
+         * @private
+         * @returns {boolean} Returns "true" if any observer has detected changes in
+         *      dimensions of it's elements.
+         */
+        ResizeObserverController.prototype.updateObservers_ = function () {
+            // Collect observers that have active observations.
+            var activeObservers = this.observers_.filter(function (observer) {
+                return observer.gatherActive(), observer.hasActive();
+            });
+            // Deliver notifications in a separate cycle in order to avoid any
+            // collisions between observers, e.g. when multiple instances of
+            // ResizeObserver are tracking the same element and the callback of one
+            // of them changes content dimensions of the observed target. Sometimes
+            // this may result in notifications being blocked for the rest of observers.
+            activeObservers.forEach(function (observer) { return observer.broadcastActive(); });
+            return activeObservers.length > 0;
+        };
+        /**
+         * Initializes DOM listeners.
+         *
+         * @private
+         * @returns {void}
+         */
+        ResizeObserverController.prototype.connect_ = function () {
+            // Do nothing if running in a non-browser environment or if listeners
+            // have been already added.
+            if (!isBrowser || this.connected_) {
+                return;
+            }
+            // Subscription to the "Transitionend" event is used as a workaround for
+            // delayed transitions. This way it's possible to capture at least the
+            // final state of an element.
+            document.addEventListener('transitionend', this.onTransitionEnd_);
+            window.addEventListener('resize', this.refresh);
+            if (mutationObserverSupported) {
+                this.mutationsObserver_ = new MutationObserver(this.refresh);
+                this.mutationsObserver_.observe(document, {
+                    attributes: true,
+                    childList: true,
+                    characterData: true,
+                    subtree: true
+                });
+            }
+            else {
+                document.addEventListener('DOMSubtreeModified', this.refresh);
+                this.mutationEventsAdded_ = true;
+            }
+            this.connected_ = true;
+        };
+        /**
+         * Removes DOM listeners.
+         *
+         * @private
+         * @returns {void}
+         */
+        ResizeObserverController.prototype.disconnect_ = function () {
+            // Do nothing if running in a non-browser environment or if listeners
+            // have been already removed.
+            if (!isBrowser || !this.connected_) {
+                return;
+            }
+            document.removeEventListener('transitionend', this.onTransitionEnd_);
+            window.removeEventListener('resize', this.refresh);
+            if (this.mutationsObserver_) {
+                this.mutationsObserver_.disconnect();
+            }
+            if (this.mutationEventsAdded_) {
+                document.removeEventListener('DOMSubtreeModified', this.refresh);
+            }
+            this.mutationsObserver_ = null;
+            this.mutationEventsAdded_ = false;
+            this.connected_ = false;
+        };
+        /**
+         * "Transitionend" event handler.
+         *
+         * @private
+         * @param {TransitionEvent} event
+         * @returns {void}
+         */
+        ResizeObserverController.prototype.onTransitionEnd_ = function (_a) {
+            var _b = _a.propertyName, propertyName = _b === void 0 ? '' : _b;
+            // Detect whether transition may affect dimensions of an element.
+            var isReflowProperty = transitionKeys.some(function (key) {
+                return !!~propertyName.indexOf(key);
+            });
+            if (isReflowProperty) {
+                this.refresh();
+            }
+        };
+        /**
+         * Returns instance of the ResizeObserverController.
+         *
+         * @returns {ResizeObserverController}
+         */
+        ResizeObserverController.getInstance = function () {
+            if (!this.instance_) {
+                this.instance_ = new ResizeObserverController();
+            }
+            return this.instance_;
+        };
+        /**
+         * Holds reference to the controller's instance.
+         *
+         * @private {ResizeObserverController}
+         */
+        ResizeObserverController.instance_ = null;
+        return ResizeObserverController;
+    }());
+
+    /**
+     * Defines non-writable/enumerable properties of the provided target object.
+     *
+     * @param {Object} target - Object for which to define properties.
+     * @param {Object} props - Properties to be defined.
+     * @returns {Object} Target object.
+     */
+    var defineConfigurable = (function (target, props) {
+        for (var _i = 0, _a = Object.keys(props); _i < _a.length; _i++) {
+            var key = _a[_i];
+            Object.defineProperty(target, key, {
+                value: props[key],
+                enumerable: false,
+                writable: false,
+                configurable: true
+            });
+        }
+        return target;
+    });
+
+    /**
+     * Returns the global object associated with provided element.
+     *
+     * @param {Object} target
+     * @returns {Object}
+     */
+    var getWindowOf = (function (target) {
+        // Assume that the element is an instance of Node, which means that it
+        // has the "ownerDocument" property from which we can retrieve a
+        // corresponding global object.
+        var ownerGlobal = target && target.ownerDocument && target.ownerDocument.defaultView;
+        // Return the local global object if it's not possible extract one from
+        // provided element.
+        return ownerGlobal || global$1;
+    });
+
+    // Placeholder of an empty content rectangle.
+    var emptyRect = createRectInit(0, 0, 0, 0);
+    /**
+     * Converts provided string to a number.
+     *
+     * @param {number|string} value
+     * @returns {number}
+     */
+    function toFloat(value) {
+        return parseFloat(value) || 0;
+    }
+    /**
+     * Extracts borders size from provided styles.
+     *
+     * @param {CSSStyleDeclaration} styles
+     * @param {...string} positions - Borders positions (top, right, ...)
+     * @returns {number}
+     */
+    function getBordersSize(styles) {
+        var positions = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            positions[_i - 1] = arguments[_i];
+        }
+        return positions.reduce(function (size, position) {
+            var value = styles['border-' + position + '-width'];
+            return size + toFloat(value);
+        }, 0);
+    }
+    /**
+     * Extracts paddings sizes from provided styles.
+     *
+     * @param {CSSStyleDeclaration} styles
+     * @returns {Object} Paddings box.
+     */
+    function getPaddings(styles) {
+        var positions = ['top', 'right', 'bottom', 'left'];
+        var paddings = {};
+        for (var _i = 0, positions_1 = positions; _i < positions_1.length; _i++) {
+            var position = positions_1[_i];
+            var value = styles['padding-' + position];
+            paddings[position] = toFloat(value);
+        }
+        return paddings;
+    }
+    /**
+     * Calculates content rectangle of provided SVG element.
+     *
+     * @param {SVGGraphicsElement} target - Element content rectangle of which needs
+     *      to be calculated.
+     * @returns {DOMRectInit}
+     */
+    function getSVGContentRect(target) {
+        var bbox = target.getBBox();
+        return createRectInit(0, 0, bbox.width, bbox.height);
+    }
+    /**
+     * Calculates content rectangle of provided HTMLElement.
+     *
+     * @param {HTMLElement} target - Element for which to calculate the content rectangle.
+     * @returns {DOMRectInit}
+     */
+    function getHTMLElementContentRect(target) {
+        // Client width & height properties can't be
+        // used exclusively as they provide rounded values.
+        var clientWidth = target.clientWidth, clientHeight = target.clientHeight;
+        // By this condition we can catch all non-replaced inline, hidden and
+        // detached elements. Though elements with width & height properties less
+        // than 0.5 will be discarded as well.
+        //
+        // Without it we would need to implement separate methods for each of
+        // those cases and it's not possible to perform a precise and performance
+        // effective test for hidden elements. E.g. even jQuery's ':visible' filter
+        // gives wrong results for elements with width & height less than 0.5.
+        if (!clientWidth && !clientHeight) {
+            return emptyRect;
+        }
+        var styles = getWindowOf(target).getComputedStyle(target);
+        var paddings = getPaddings(styles);
+        var horizPad = paddings.left + paddings.right;
+        var vertPad = paddings.top + paddings.bottom;
+        // Computed styles of width & height are being used because they are the
+        // only dimensions available to JS that contain non-rounded values. It could
+        // be possible to utilize the getBoundingClientRect if only it's data wasn't
+        // affected by CSS transformations let alone paddings, borders and scroll bars.
+        var width = toFloat(styles.width), height = toFloat(styles.height);
+        // Width & height include paddings and borders when the 'border-box' box
+        // model is applied (except for IE).
+        if (styles.boxSizing === 'border-box') {
+            // Following conditions are required to handle Internet Explorer which
+            // doesn't include paddings and borders to computed CSS dimensions.
+            //
+            // We can say that if CSS dimensions + paddings are equal to the "client"
+            // properties then it's either IE, and thus we don't need to subtract
+            // anything, or an element merely doesn't have paddings/borders styles.
+            if (Math.round(width + horizPad) !== clientWidth) {
+                width -= getBordersSize(styles, 'left', 'right') + horizPad;
+            }
+            if (Math.round(height + vertPad) !== clientHeight) {
+                height -= getBordersSize(styles, 'top', 'bottom') + vertPad;
+            }
+        }
+        // Following steps can't be applied to the document's root element as its
+        // client[Width/Height] properties represent viewport area of the window.
+        // Besides, it's as well not necessary as the <html> itself neither has
+        // rendered scroll bars nor it can be clipped.
+        if (!isDocumentElement(target)) {
+            // In some browsers (only in Firefox, actually) CSS width & height
+            // include scroll bars size which can be removed at this step as scroll
+            // bars are the only difference between rounded dimensions + paddings
+            // and "client" properties, though that is not always true in Chrome.
+            var vertScrollbar = Math.round(width + horizPad) - clientWidth;
+            var horizScrollbar = Math.round(height + vertPad) - clientHeight;
+            // Chrome has a rather weird rounding of "client" properties.
+            // E.g. for an element with content width of 314.2px it sometimes gives
+            // the client width of 315px and for the width of 314.7px it may give
+            // 314px. And it doesn't happen all the time. So just ignore this delta
+            // as a non-relevant.
+            if (Math.abs(vertScrollbar) !== 1) {
+                width -= vertScrollbar;
+            }
+            if (Math.abs(horizScrollbar) !== 1) {
+                height -= horizScrollbar;
+            }
+        }
+        return createRectInit(paddings.left, paddings.top, width, height);
+    }
+    /**
+     * Checks whether provided element is an instance of the SVGGraphicsElement.
+     *
+     * @param {Element} target - Element to be checked.
+     * @returns {boolean}
+     */
+    var isSVGGraphicsElement = (function () {
+        // Some browsers, namely IE and Edge, don't have the SVGGraphicsElement
+        // interface.
+        if (typeof SVGGraphicsElement !== 'undefined') {
+            return function (target) { return target instanceof getWindowOf(target).SVGGraphicsElement; };
+        }
+        // If it's so, then check that element is at least an instance of the
+        // SVGElement and that it has the "getBBox" method.
+        // eslint-disable-next-line no-extra-parens
+        return function (target) { return (target instanceof getWindowOf(target).SVGElement &&
+            typeof target.getBBox === 'function'); };
+    })();
+    /**
+     * Checks whether provided element is a document element (<html>).
+     *
+     * @param {Element} target - Element to be checked.
+     * @returns {boolean}
+     */
+    function isDocumentElement(target) {
+        return target === getWindowOf(target).document.documentElement;
+    }
+    /**
+     * Calculates an appropriate content rectangle for provided html or svg element.
+     *
+     * @param {Element} target - Element content rectangle of which needs to be calculated.
+     * @returns {DOMRectInit}
+     */
+    function getContentRect(target) {
+        if (!isBrowser) {
+            return emptyRect;
+        }
+        if (isSVGGraphicsElement(target)) {
+            return getSVGContentRect(target);
+        }
+        return getHTMLElementContentRect(target);
+    }
+    /**
+     * Creates rectangle with an interface of the DOMRectReadOnly.
+     * Spec: https://drafts.fxtf.org/geometry/#domrectreadonly
+     *
+     * @param {DOMRectInit} rectInit - Object with rectangle's x/y coordinates and dimensions.
+     * @returns {DOMRectReadOnly}
+     */
+    function createReadOnlyRect(_a) {
+        var x = _a.x, y = _a.y, width = _a.width, height = _a.height;
+        // If DOMRectReadOnly is available use it as a prototype for the rectangle.
+        var Constr = typeof DOMRectReadOnly !== 'undefined' ? DOMRectReadOnly : Object;
+        var rect = Object.create(Constr.prototype);
+        // Rectangle's properties are not writable and non-enumerable.
+        defineConfigurable(rect, {
+            x: x, y: y, width: width, height: height,
+            top: y,
+            right: x + width,
+            bottom: height + y,
+            left: x
+        });
+        return rect;
+    }
+    /**
+     * Creates DOMRectInit object based on the provided dimensions and the x/y coordinates.
+     * Spec: https://drafts.fxtf.org/geometry/#dictdef-domrectinit
+     *
+     * @param {number} x - X coordinate.
+     * @param {number} y - Y coordinate.
+     * @param {number} width - Rectangle's width.
+     * @param {number} height - Rectangle's height.
+     * @returns {DOMRectInit}
+     */
+    function createRectInit(x, y, width, height) {
+        return { x: x, y: y, width: width, height: height };
+    }
+
+    /**
+     * Class that is responsible for computations of the content rectangle of
+     * provided DOM element and for keeping track of it's changes.
+     */
+    var ResizeObservation = /** @class */ (function () {
+        /**
+         * Creates an instance of ResizeObservation.
+         *
+         * @param {Element} target - Element to be observed.
+         */
+        function ResizeObservation(target) {
+            /**
+             * Broadcasted width of content rectangle.
+             *
+             * @type {number}
+             */
+            this.broadcastWidth = 0;
+            /**
+             * Broadcasted height of content rectangle.
+             *
+             * @type {number}
+             */
+            this.broadcastHeight = 0;
+            /**
+             * Reference to the last observed content rectangle.
+             *
+             * @private {DOMRectInit}
+             */
+            this.contentRect_ = createRectInit(0, 0, 0, 0);
+            this.target = target;
+        }
+        /**
+         * Updates content rectangle and tells whether it's width or height properties
+         * have changed since the last broadcast.
+         *
+         * @returns {boolean}
+         */
+        ResizeObservation.prototype.isActive = function () {
+            var rect = getContentRect(this.target);
+            this.contentRect_ = rect;
+            return (rect.width !== this.broadcastWidth ||
+                rect.height !== this.broadcastHeight);
+        };
+        /**
+         * Updates 'broadcastWidth' and 'broadcastHeight' properties with a data
+         * from the corresponding properties of the last observed content rectangle.
+         *
+         * @returns {DOMRectInit} Last observed content rectangle.
+         */
+        ResizeObservation.prototype.broadcastRect = function () {
+            var rect = this.contentRect_;
+            this.broadcastWidth = rect.width;
+            this.broadcastHeight = rect.height;
+            return rect;
+        };
+        return ResizeObservation;
+    }());
+
+    var ResizeObserverEntry = /** @class */ (function () {
+        /**
+         * Creates an instance of ResizeObserverEntry.
+         *
+         * @param {Element} target - Element that is being observed.
+         * @param {DOMRectInit} rectInit - Data of the element's content rectangle.
+         */
+        function ResizeObserverEntry(target, rectInit) {
+            var contentRect = createReadOnlyRect(rectInit);
+            // According to the specification following properties are not writable
+            // and are also not enumerable in the native implementation.
+            //
+            // Property accessors are not being used as they'd require to define a
+            // private WeakMap storage which may cause memory leaks in browsers that
+            // don't support this type of collections.
+            defineConfigurable(this, { target: target, contentRect: contentRect });
+        }
+        return ResizeObserverEntry;
+    }());
+
+    var ResizeObserverSPI = /** @class */ (function () {
+        /**
+         * Creates a new instance of ResizeObserver.
+         *
+         * @param {ResizeObserverCallback} callback - Callback function that is invoked
+         *      when one of the observed elements changes it's content dimensions.
+         * @param {ResizeObserverController} controller - Controller instance which
+         *      is responsible for the updates of observer.
+         * @param {ResizeObserver} callbackCtx - Reference to the public
+         *      ResizeObserver instance which will be passed to callback function.
+         */
+        function ResizeObserverSPI(callback, controller, callbackCtx) {
+            /**
+             * Collection of resize observations that have detected changes in dimensions
+             * of elements.
+             *
+             * @private {Array<ResizeObservation>}
+             */
+            this.activeObservations_ = [];
+            /**
+             * Registry of the ResizeObservation instances.
+             *
+             * @private {Map<Element, ResizeObservation>}
+             */
+            this.observations_ = new MapShim();
+            if (typeof callback !== 'function') {
+                throw new TypeError('The callback provided as parameter 1 is not a function.');
+            }
+            this.callback_ = callback;
+            this.controller_ = controller;
+            this.callbackCtx_ = callbackCtx;
+        }
+        /**
+         * Starts observing provided element.
+         *
+         * @param {Element} target - Element to be observed.
+         * @returns {void}
+         */
+        ResizeObserverSPI.prototype.observe = function (target) {
+            if (!arguments.length) {
+                throw new TypeError('1 argument required, but only 0 present.');
+            }
+            // Do nothing if current environment doesn't have the Element interface.
+            if (typeof Element === 'undefined' || !(Element instanceof Object)) {
+                return;
+            }
+            if (!(target instanceof getWindowOf(target).Element)) {
+                throw new TypeError('parameter 1 is not of type "Element".');
+            }
+            var observations = this.observations_;
+            // Do nothing if element is already being observed.
+            if (observations.has(target)) {
+                return;
+            }
+            observations.set(target, new ResizeObservation(target));
+            this.controller_.addObserver(this);
+            // Force the update of observations.
+            this.controller_.refresh();
+        };
+        /**
+         * Stops observing provided element.
+         *
+         * @param {Element} target - Element to stop observing.
+         * @returns {void}
+         */
+        ResizeObserverSPI.prototype.unobserve = function (target) {
+            if (!arguments.length) {
+                throw new TypeError('1 argument required, but only 0 present.');
+            }
+            // Do nothing if current environment doesn't have the Element interface.
+            if (typeof Element === 'undefined' || !(Element instanceof Object)) {
+                return;
+            }
+            if (!(target instanceof getWindowOf(target).Element)) {
+                throw new TypeError('parameter 1 is not of type "Element".');
+            }
+            var observations = this.observations_;
+            // Do nothing if element is not being observed.
+            if (!observations.has(target)) {
+                return;
+            }
+            observations.delete(target);
+            if (!observations.size) {
+                this.controller_.removeObserver(this);
+            }
+        };
+        /**
+         * Stops observing all elements.
+         *
+         * @returns {void}
+         */
+        ResizeObserverSPI.prototype.disconnect = function () {
+            this.clearActive();
+            this.observations_.clear();
+            this.controller_.removeObserver(this);
+        };
+        /**
+         * Collects observation instances the associated element of which has changed
+         * it's content rectangle.
+         *
+         * @returns {void}
+         */
+        ResizeObserverSPI.prototype.gatherActive = function () {
+            var _this = this;
+            this.clearActive();
+            this.observations_.forEach(function (observation) {
+                if (observation.isActive()) {
+                    _this.activeObservations_.push(observation);
+                }
+            });
+        };
+        /**
+         * Invokes initial callback function with a list of ResizeObserverEntry
+         * instances collected from active resize observations.
+         *
+         * @returns {void}
+         */
+        ResizeObserverSPI.prototype.broadcastActive = function () {
+            // Do nothing if observer doesn't have active observations.
+            if (!this.hasActive()) {
+                return;
+            }
+            var ctx = this.callbackCtx_;
+            // Create ResizeObserverEntry instance for every active observation.
+            var entries = this.activeObservations_.map(function (observation) {
+                return new ResizeObserverEntry(observation.target, observation.broadcastRect());
+            });
+            this.callback_.call(ctx, entries, ctx);
+            this.clearActive();
+        };
+        /**
+         * Clears the collection of active observations.
+         *
+         * @returns {void}
+         */
+        ResizeObserverSPI.prototype.clearActive = function () {
+            this.activeObservations_.splice(0);
+        };
+        /**
+         * Tells whether observer has active observations.
+         *
+         * @returns {boolean}
+         */
+        ResizeObserverSPI.prototype.hasActive = function () {
+            return this.activeObservations_.length > 0;
+        };
+        return ResizeObserverSPI;
+    }());
+
+    // Registry of internal observers. If WeakMap is not available use current shim
+    // for the Map collection as it has all required methods and because WeakMap
+    // can't be fully polyfilled anyway.
+    var observers = typeof WeakMap !== 'undefined' ? new WeakMap() : new MapShim();
+    /**
+     * ResizeObserver API. Encapsulates the ResizeObserver SPI implementation
+     * exposing only those methods and properties that are defined in the spec.
+     */
+    var ResizeObserver = /** @class */ (function () {
+        /**
+         * Creates a new instance of ResizeObserver.
+         *
+         * @param {ResizeObserverCallback} callback - Callback that is invoked when
+         *      dimensions of the observed elements change.
+         */
+        function ResizeObserver(callback) {
+            if (!(this instanceof ResizeObserver)) {
+                throw new TypeError('Cannot call a class as a function.');
+            }
+            if (!arguments.length) {
+                throw new TypeError('1 argument required, but only 0 present.');
+            }
+            var controller = ResizeObserverController.getInstance();
+            var observer = new ResizeObserverSPI(callback, controller, this);
+            observers.set(this, observer);
+        }
+        return ResizeObserver;
+    }());
+    // Expose public methods of ResizeObserver.
+    [
+        'observe',
+        'unobserve',
+        'disconnect'
+    ].forEach(function (method) {
+        ResizeObserver.prototype[method] = function () {
+            var _a;
+            return (_a = observers.get(this))[method].apply(_a, arguments);
+        };
+    });
+
+    var index = (function () {
+        // Export existing implementation if available.
+        if (typeof global$1.ResizeObserver !== 'undefined') {
+            return global$1.ResizeObserver;
+        }
+        return ResizeObserver;
+    })();
+
+    var cachedScrollbarWidth = null;
+    var cachedDevicePixelRatio = null;
+
+    if (canUseDom) {
+        window.addEventListener('resize', function () {
+            if (cachedDevicePixelRatio !== window.devicePixelRatio) {
+                cachedDevicePixelRatio = window.devicePixelRatio;
+                cachedScrollbarWidth = null;
+            }
+        });
+    }
+
+    function scrollbarWidth() {
+        if (cachedScrollbarWidth === null) {
+            if (typeof document === 'undefined') {
+                cachedScrollbarWidth = 0;
+                return cachedScrollbarWidth;
+            }
+
+            var body = document.body;
+            var box = document.createElement('div');
+            box.classList.add('simplebar-hide-scrollbar');
+            body.appendChild(box);
+            var width = box.getBoundingClientRect().right;
+            body.removeChild(box);
+            cachedScrollbarWidth = width;
+        }
+
+        return cachedScrollbarWidth;
+    }
+
+    // `Array.prototype.{ reduce, reduceRight }` methods implementation
+    var createMethod$4 = function (IS_RIGHT) {
+        return function (that, callbackfn, argumentsLength, memo) {
+            aFunction$1(callbackfn);
+            var O = toObject(that);
+            var self = indexedObject(O);
+            var length = toLength(O.length);
+            var index = IS_RIGHT ? length - 1 : 0;
+            var i = IS_RIGHT ? -1 : 1;
+            if (argumentsLength < 2) while (true) {
+                if (index in self) {
+                    memo = self[index];
+                    index += i;
+                    break;
+                }
+                index += i;
+                if (IS_RIGHT ? index < 0 : length <= index) {
+                    throw TypeError('Reduce of empty array with no initial value');
+                }
+            }
+            for (;IS_RIGHT ? index >= 0 : length > index; index += i) if (index in self) {
+                memo = callbackfn(memo, self[index], index, O);
+            }
+            return memo;
+        };
+    };
+
+    var arrayReduce = {
+        // `Array.prototype.reduce` method
+        // https://tc39.github.io/ecma262/#sec-array.prototype.reduce
+        left: createMethod$4(false),
+        // `Array.prototype.reduceRight` method
+        // https://tc39.github.io/ecma262/#sec-array.prototype.reduceright
+        right: createMethod$4(true)
+    };
+
+    var $reduce = arrayReduce.left;
+
+
+    // `Array.prototype.reduce` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.reduce
+    _export({ target: 'Array', proto: true, forced: sloppyArrayMethod('reduce') }, {
+        reduce: function reduce(callbackfn /* , initialValue */) {
+            return $reduce(this, callbackfn, arguments.length, arguments.length > 1 ? arguments[1] : undefined);
+        }
+    });
+
+    var defineProperty$1 = objectDefineProperty.f;
+
+    var FunctionPrototype = Function.prototype;
+    var FunctionPrototypeToString = FunctionPrototype.toString;
+    var nameRE = /^\s*function ([^ (]*)/;
+    var NAME = 'name';
+
+    // Function instances `.name` property
+    // https://tc39.github.io/ecma262/#sec-function-instances-name
+    if (descriptors && !(NAME in FunctionPrototype)) {
+        defineProperty$1(FunctionPrototype, NAME, {
+            configurable: true,
+            get: function () {
+                try {
+                    return FunctionPrototypeToString.call(this).match(nameRE)[1];
+                } catch (error) {
+                    return '';
+                }
+            }
+        });
+    }
+
+    // `RegExp.prototype.flags` getter implementation
+    // https://tc39.github.io/ecma262/#sec-get-regexp.prototype.flags
+    var regexpFlags = function () {
+        var that = anObject(this);
+        var result = '';
+        if (that.global) result += 'g';
+        if (that.ignoreCase) result += 'i';
+        if (that.multiline) result += 'm';
+        if (that.dotAll) result += 's';
+        if (that.unicode) result += 'u';
+        if (that.sticky) result += 'y';
+        return result;
+    };
+
+    var nativeExec = RegExp.prototype.exec;
+    // This always refers to the native implementation, because the
+    // String#replace polyfill uses ./fix-regexp-well-known-symbol-logic.js,
+    // which loads this file before patching the method.
+    var nativeReplace = String.prototype.replace;
+
+    var patchedExec = nativeExec;
+
+    var UPDATES_LAST_INDEX_WRONG = (function () {
+        var re1 = /a/;
+        var re2 = /b*/g;
+        nativeExec.call(re1, 'a');
+        nativeExec.call(re2, 'a');
+        return re1.lastIndex !== 0 || re2.lastIndex !== 0;
+    })();
+
+    // nonparticipating capturing group, copied from es5-shim's String#split patch.
+    var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
+
+    var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED;
+
+    if (PATCH) {
+        patchedExec = function exec(str) {
+            var re = this;
+            var lastIndex, reCopy, match, i;
+
+            if (NPCG_INCLUDED) {
+                reCopy = new RegExp('^' + re.source + '$(?!\\s)', regexpFlags.call(re));
+            }
+            if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
+
+            match = nativeExec.call(re, str);
+
+            if (UPDATES_LAST_INDEX_WRONG && match) {
+                re.lastIndex = re.global ? match.index + match[0].length : lastIndex;
+            }
+            if (NPCG_INCLUDED && match && match.length > 1) {
+                // Fix browsers whose `exec` methods don't consistently return `undefined`
+                // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
+                nativeReplace.call(match[0], reCopy, function () {
+                    for (i = 1; i < arguments.length - 2; i++) {
+                        if (arguments[i] === undefined) match[i] = undefined;
+                    }
+                });
+            }
+
+            return match;
+        };
+    }
+
+    var regexpExec = patchedExec;
+
+    _export({ target: 'RegExp', proto: true, forced: /./.exec !== regexpExec }, {
+        exec: regexpExec
+    });
+
+    var SPECIES$2 = wellKnownSymbol('species');
+
+    var REPLACE_SUPPORTS_NAMED_GROUPS = !fails(function () {
+        // #replace needs built-in support for named groups.
+        // #match works fine because it just return the exec results, even if it has
+        // a "grops" property.
+        var re = /./;
+        re.exec = function () {
+            var result = [];
+            result.groups = { a: '7' };
+            return result;
+        };
+        return ''.replace(re, '$<a>') !== '7';
+    });
+
+    // Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
+    // Weex JS has frozen built-in prototypes, so use try / catch wrapper
+    var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails(function () {
+        var re = /(?:)/;
+        var originalExec = re.exec;
+        re.exec = function () { return originalExec.apply(this, arguments); };
+        var result = 'ab'.split(re);
+        return result.length !== 2 || result[0] !== 'a' || result[1] !== 'b';
+    });
+
+    var fixRegexpWellKnownSymbolLogic = function (KEY, length, exec, sham) {
+        var SYMBOL = wellKnownSymbol(KEY);
+
+        var DELEGATES_TO_SYMBOL = !fails(function () {
+            // String methods call symbol-named RegEp methods
+            var O = {};
+            O[SYMBOL] = function () { return 7; };
+            return ''[KEY](O) != 7;
+        });
+
+        var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails(function () {
+            // Symbol-named RegExp methods call .exec
+            var execCalled = false;
+            var re = /a/;
+            re.exec = function () { execCalled = true; return null; };
+
+            if (KEY === 'split') {
+                // RegExp[@@split] doesn't call the regex's exec method, but first creates
+                // a new one. We need to return the patched regex when creating the new one.
+                re.constructor = {};
+                re.constructor[SPECIES$2] = function () { return re; };
+            }
+
+            re[SYMBOL]('');
+            return !execCalled;
+        });
+
+        if (
+            !DELEGATES_TO_SYMBOL ||
+            !DELEGATES_TO_EXEC ||
+            (KEY === 'replace' && !REPLACE_SUPPORTS_NAMED_GROUPS) ||
+            (KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
+        ) {
+            var nativeRegExpMethod = /./[SYMBOL];
+            var methods = exec(SYMBOL, ''[KEY], function (nativeMethod, regexp, str, arg2, forceStringMethod) {
+                if (regexp.exec === regexpExec) {
+                    if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
+                        // The native String method already delegates to @@method (this
+                        // polyfilled function), leasing to infinite recursion.
+                        // We avoid it by directly calling the native @@method method.
+                        return { done: true, value: nativeRegExpMethod.call(regexp, str, arg2) };
+                    }
+                    return { done: true, value: nativeMethod.call(str, regexp, arg2) };
+                }
+                return { done: false };
+            });
+            var stringMethod = methods[0];
+            var regexMethod = methods[1];
+
+            redefine(String.prototype, KEY, stringMethod);
+            redefine(RegExp.prototype, SYMBOL, length == 2
+                // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
+                // 21.2.5.11 RegExp.prototype[@@split](string, limit)
+                ? function (string, arg) { return regexMethod.call(string, this, arg); }
+                // 21.2.5.6 RegExp.prototype[@@match](string)
+                // 21.2.5.9 RegExp.prototype[@@search](string)
+                : function (string) { return regexMethod.call(string, this); }
+            );
+            if (sham) hide(RegExp.prototype[SYMBOL], 'sham', true);
+        }
+    };
+
+    var charAt$1 = stringMultibyte.charAt;
+
+    // `AdvanceStringIndex` abstract operation
+    // https://tc39.github.io/ecma262/#sec-advancestringindex
+    var advanceStringIndex = function (S, index, unicode) {
+        return index + (unicode ? charAt$1(S, index).length : 1);
+    };
+
+    // `RegExpExec` abstract operation
+    // https://tc39.github.io/ecma262/#sec-regexpexec
+    var regexpExecAbstract = function (R, S) {
+        var exec = R.exec;
+        if (typeof exec === 'function') {
+            var result = exec.call(R, S);
+            if (typeof result !== 'object') {
+                throw TypeError('RegExp exec method returned something other than an Object or null');
+            }
+            return result;
+        }
+
+        if (classofRaw(R) !== 'RegExp') {
+            throw TypeError('RegExp#exec called on incompatible receiver');
+        }
+
+        return regexpExec.call(R, S);
+    };
+
+    // @@match logic
+    fixRegexpWellKnownSymbolLogic('match', 1, function (MATCH, nativeMatch, maybeCallNative) {
+        return [
+            // `String.prototype.match` method
+            // https://tc39.github.io/ecma262/#sec-string.prototype.match
+            function match(regexp) {
+                var O = requireObjectCoercible(this);
+                var matcher = regexp == undefined ? undefined : regexp[MATCH];
+                return matcher !== undefined ? matcher.call(regexp, O) : new RegExp(regexp)[MATCH](String(O));
+            },
+            // `RegExp.prototype[@@match]` method
+            // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@match
+            function (regexp) {
+                var res = maybeCallNative(nativeMatch, regexp, this);
+                if (res.done) return res.value;
+
+                var rx = anObject(regexp);
+                var S = String(this);
+
+                if (!rx.global) return regexpExecAbstract(rx, S);
+
+                var fullUnicode = rx.unicode;
+                rx.lastIndex = 0;
+                var A = [];
+                var n = 0;
+                var result;
+                while ((result = regexpExecAbstract(rx, S)) !== null) {
+                    var matchStr = String(result[0]);
+                    A[n] = matchStr;
+                    if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
+                    n++;
+                }
+                return n === 0 ? null : A;
+            }
+        ];
+    });
+
+    var max$1 = Math.max;
+    var min$2 = Math.min;
+    var floor$1 = Math.floor;
+    var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d\d?|<[^>]*>)/g;
+    var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d\d?)/g;
+
+    var maybeToString = function (it) {
+        return it === undefined ? it : String(it);
+    };
+
+    // @@replace logic
+    fixRegexpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, maybeCallNative) {
+        return [
+            // `String.prototype.replace` method
+            // https://tc39.github.io/ecma262/#sec-string.prototype.replace
+            function replace(searchValue, replaceValue) {
+                var O = requireObjectCoercible(this);
+                var replacer = searchValue == undefined ? undefined : searchValue[REPLACE];
+                return replacer !== undefined
+                    ? replacer.call(searchValue, O, replaceValue)
+                    : nativeReplace.call(String(O), searchValue, replaceValue);
+            },
+            // `RegExp.prototype[@@replace]` method
+            // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@replace
+            function (regexp, replaceValue) {
+                var res = maybeCallNative(nativeReplace, regexp, this, replaceValue);
+                if (res.done) return res.value;
+
+                var rx = anObject(regexp);
+                var S = String(this);
+
+                var functionalReplace = typeof replaceValue === 'function';
+                if (!functionalReplace) replaceValue = String(replaceValue);
+
+                var global = rx.global;
+                if (global) {
+                    var fullUnicode = rx.unicode;
+                    rx.lastIndex = 0;
+                }
+                var results = [];
+                while (true) {
+                    var result = regexpExecAbstract(rx, S);
+                    if (result === null) break;
+
+                    results.push(result);
+                    if (!global) break;
+
+                    var matchStr = String(result[0]);
+                    if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
+                }
+
+                var accumulatedResult = '';
+                var nextSourcePosition = 0;
+                for (var i = 0; i < results.length; i++) {
+                    result = results[i];
+
+                    var matched = String(result[0]);
+                    var position = max$1(min$2(toInteger(result.index), S.length), 0);
+                    var captures = [];
+                    // NOTE: This is equivalent to
+                    //   captures = result.slice(1).map(maybeToString)
+                    // but for some reason `nativeSlice.call(result, 1, result.length)` (called in
+                    // the slice polyfill when slicing native arrays) "doesn't work" in safari 9 and
+                    // causes a crash (https://pastebin.com/N21QzeQA) when trying to debug it.
+                    for (var j = 1; j < result.length; j++) captures.push(maybeToString(result[j]));
+                    var namedCaptures = result.groups;
+                    if (functionalReplace) {
+                        var replacerArgs = [matched].concat(captures, position, S);
+                        if (namedCaptures !== undefined) replacerArgs.push(namedCaptures);
+                        var replacement = String(replaceValue.apply(undefined, replacerArgs));
+                    } else {
+                        replacement = getSubstitution(matched, S, position, captures, namedCaptures, replaceValue);
+                    }
+                    if (position >= nextSourcePosition) {
+                        accumulatedResult += S.slice(nextSourcePosition, position) + replacement;
+                        nextSourcePosition = position + matched.length;
+                    }
+                }
+                return accumulatedResult + S.slice(nextSourcePosition);
+            }
+        ];
+
+        // https://tc39.github.io/ecma262/#sec-getsubstitution
+        function getSubstitution(matched, str, position, captures, namedCaptures, replacement) {
+            var tailPos = position + matched.length;
+            var m = captures.length;
+            var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
+            if (namedCaptures !== undefined) {
+                namedCaptures = toObject(namedCaptures);
+                symbols = SUBSTITUTION_SYMBOLS;
+            }
+            return nativeReplace.call(replacement, symbols, function (match, ch) {
+                var capture;
+                switch (ch.charAt(0)) {
+                    case '$': return '$';
+                    case '&': return matched;
+                    case '`': return str.slice(0, position);
+                    case "'": return str.slice(tailPos);
+                    case '<':
+                        capture = namedCaptures[ch.slice(1, -1)];
+                        break;
+                    default: // \d\d?
+                        var n = +ch;
+                        if (n === 0) return match;
+                        if (n > m) {
+                            var f = floor$1(n / 10);
+                            if (f === 0) return match;
+                            if (f <= m) return captures[f - 1] === undefined ? ch.charAt(1) : captures[f - 1] + ch.charAt(1);
+                            return match;
+                        }
+                        capture = captures[n - 1];
+                }
+                return capture === undefined ? '' : capture;
+            });
+        }
+    });
+
+    // Helper function to retrieve options from element attributes
+    var getOptions = function getOptions(obj) {
+        var options = Array.prototype.reduce.call(obj, function (acc, attribute) {
+            var option = attribute.name.match(/data-simplebar-(.+)/);
+
+            if (option) {
+                var key = option[1].replace(/\W+(.)/g, function (x, chr) {
+                    return chr.toUpperCase();
+                });
+
+                switch (attribute.value) {
+                    case 'true':
+                        acc[key] = true;
+                        break;
+
+                    case 'false':
+                        acc[key] = false;
+                        break;
+
+                    case undefined:
+                        acc[key] = true;
+                        break;
+
+                    default:
+                        acc[key] = attribute.value;
+                }
+            }
+
+            return acc;
+        }, {});
+        return options;
+    };
+    function getElementWindow(element) {
+        if (!element || !element.ownerDocument || !element.ownerDocument.defaultView) {
+            return window;
+        }
+
+        return element.ownerDocument.defaultView;
+    }
+    function getElementDocument(element) {
+        if (!element || !element.ownerDocument) {
+            return document;
+        }
+
+        return element.ownerDocument;
+    }
+
+    var SimpleBar =
+        /*#__PURE__*/
+        function () {
+            function SimpleBar(element, options) {
+                var _this = this;
+
+                this.onScroll = function () {
+                    var elWindow = getElementWindow(_this.el);
+
+                    if (!_this.scrollXTicking) {
+                        elWindow.requestAnimationFrame(_this.scrollX);
+                        _this.scrollXTicking = true;
+                    }
+
+                    if (!_this.scrollYTicking) {
+                        elWindow.requestAnimationFrame(_this.scrollY);
+                        _this.scrollYTicking = true;
+                    }
+                };
+
+                this.scrollX = function () {
+                    if (_this.axis.x.isOverflowing) {
+                        _this.showScrollbar('x');
+
+                        _this.positionScrollbar('x');
+                    }
+
+                    _this.scrollXTicking = false;
+                };
+
+                this.scrollY = function () {
+                    if (_this.axis.y.isOverflowing) {
+                        _this.showScrollbar('y');
+
+                        _this.positionScrollbar('y');
+                    }
+
+                    _this.scrollYTicking = false;
+                };
+
+                this.onMouseEnter = function () {
+                    _this.showScrollbar('x');
+
+                    _this.showScrollbar('y');
+                };
+
+                this.onMouseMove = function (e) {
+                    _this.mouseX = e.clientX;
+                    _this.mouseY = e.clientY;
+
+                    if (_this.axis.x.isOverflowing || _this.axis.x.forceVisible) {
+                        _this.onMouseMoveForAxis('x');
+                    }
+
+                    if (_this.axis.y.isOverflowing || _this.axis.y.forceVisible) {
+                        _this.onMouseMoveForAxis('y');
+                    }
+                };
+
+                this.onMouseLeave = function () {
+                    _this.onMouseMove.cancel();
+
+                    if (_this.axis.x.isOverflowing || _this.axis.x.forceVisible) {
+                        _this.onMouseLeaveForAxis('x');
+                    }
+
+                    if (_this.axis.y.isOverflowing || _this.axis.y.forceVisible) {
+                        _this.onMouseLeaveForAxis('y');
+                    }
+
+                    _this.mouseX = -1;
+                    _this.mouseY = -1;
+                };
+
+                this.onWindowResize = function () {
+                    // Recalculate scrollbarWidth in case it's a zoom
+                    _this.scrollbarWidth = _this.getScrollbarWidth();
+
+                    _this.hideNativeScrollbar();
+                };
+
+                this.hideScrollbars = function () {
+                    _this.axis.x.track.rect = _this.axis.x.track.el.getBoundingClientRect();
+                    _this.axis.y.track.rect = _this.axis.y.track.el.getBoundingClientRect();
+
+                    if (!_this.isWithinBounds(_this.axis.y.track.rect)) {
+                        _this.axis.y.scrollbar.el.classList.remove(_this.classNames.visible);
+
+                        _this.axis.y.isVisible = false;
+                    }
+
+                    if (!_this.isWithinBounds(_this.axis.x.track.rect)) {
+                        _this.axis.x.scrollbar.el.classList.remove(_this.classNames.visible);
+
+                        _this.axis.x.isVisible = false;
+                    }
+                };
+
+                this.onPointerEvent = function (e) {
+                    var isWithinTrackXBounds, isWithinTrackYBounds;
+                    _this.axis.x.track.rect = _this.axis.x.track.el.getBoundingClientRect();
+                    _this.axis.y.track.rect = _this.axis.y.track.el.getBoundingClientRect();
+
+                    if (_this.axis.x.isOverflowing || _this.axis.x.forceVisible) {
+                        isWithinTrackXBounds = _this.isWithinBounds(_this.axis.x.track.rect);
+                    }
+
+                    if (_this.axis.y.isOverflowing || _this.axis.y.forceVisible) {
+                        isWithinTrackYBounds = _this.isWithinBounds(_this.axis.y.track.rect);
+                    } // If any pointer event is called on the scrollbar
+
+
+                    if (isWithinTrackXBounds || isWithinTrackYBounds) {
+                        // Preventing the event's default action stops text being
+                        // selectable during the drag.
+                        e.preventDefault(); // Prevent event leaking
+
+                        e.stopPropagation();
+
+                        if (e.type === 'mousedown') {
+                            if (isWithinTrackXBounds) {
+                                _this.axis.x.scrollbar.rect = _this.axis.x.scrollbar.el.getBoundingClientRect();
+
+                                if (_this.isWithinBounds(_this.axis.x.scrollbar.rect)) {
+                                    _this.onDragStart(e, 'x');
+                                } else {
+                                    _this.onTrackClick(e, 'x');
+                                }
+                            }
+
+                            if (isWithinTrackYBounds) {
+                                _this.axis.y.scrollbar.rect = _this.axis.y.scrollbar.el.getBoundingClientRect();
+
+                                if (_this.isWithinBounds(_this.axis.y.scrollbar.rect)) {
+                                    _this.onDragStart(e, 'y');
+                                } else {
+                                    _this.onTrackClick(e, 'y');
+                                }
+                            }
+                        }
+                    }
+                };
+
+                this.drag = function (e) {
+                    var eventOffset;
+                    var track = _this.axis[_this.draggedAxis].track;
+                    var trackSize = track.rect[_this.axis[_this.draggedAxis].sizeAttr];
+                    var scrollbar = _this.axis[_this.draggedAxis].scrollbar;
+                    var contentSize = _this.contentWrapperEl[_this.axis[_this.draggedAxis].scrollSizeAttr];
+                    var hostSize = parseInt(_this.elStyles[_this.axis[_this.draggedAxis].sizeAttr], 10);
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (_this.draggedAxis === 'y') {
+                        eventOffset = e.pageY;
+                    } else {
+                        eventOffset = e.pageX;
+                    } // Calculate how far the user's mouse is from the top/left of the scrollbar (minus the dragOffset).
+
+
+                    var dragPos = eventOffset - track.rect[_this.axis[_this.draggedAxis].offsetAttr] - _this.axis[_this.draggedAxis].dragOffset; // Convert the mouse position into a percentage of the scrollbar height/width.
+
+                    var dragPerc = dragPos / (trackSize - scrollbar.size); // Scroll the content by the same percentage.
+
+                    var scrollPos = dragPerc * (contentSize - hostSize); // Fix browsers inconsistency on RTL
+
+                    if (_this.draggedAxis === 'x') {
+                        scrollPos = _this.isRtl && SimpleBar.getRtlHelpers().isRtlScrollbarInverted ? scrollPos - (trackSize + scrollbar.size) : scrollPos;
+                        scrollPos = _this.isRtl && SimpleBar.getRtlHelpers().isRtlScrollingInverted ? -scrollPos : scrollPos;
+                    }
+
+                    _this.contentWrapperEl[_this.axis[_this.draggedAxis].scrollOffsetAttr] = scrollPos;
+                };
+
+                this.onEndDrag = function (e) {
+                    var elDocument = getElementDocument(_this.el);
+                    var elWindow = getElementWindow(_this.el);
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    _this.el.classList.remove(_this.classNames.dragging);
+
+                    elDocument.removeEventListener('mousemove', _this.drag, true);
+                    elDocument.removeEventListener('mouseup', _this.onEndDrag, true);
+                    _this.removePreventClickId = elWindow.setTimeout(function () {
+                        // Remove these asynchronously so we still suppress click events
+                        // generated simultaneously with mouseup.
+                        elDocument.removeEventListener('click', _this.preventClick, true);
+                        elDocument.removeEventListener('dblclick', _this.preventClick, true);
+                        _this.removePreventClickId = null;
+                    });
+                };
+
+                this.preventClick = function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                };
+
+                this.el = element;
+                this.minScrollbarWidth = 20;
+                this.options = Object.assign({}, SimpleBar.defaultOptions, {}, options);
+                this.classNames = Object.assign({}, SimpleBar.defaultOptions.classNames, {}, this.options.classNames);
+                this.axis = {
+                    x: {
+                        scrollOffsetAttr: 'scrollLeft',
+                        sizeAttr: 'width',
+                        scrollSizeAttr: 'scrollWidth',
+                        offsetSizeAttr: 'offsetWidth',
+                        offsetAttr: 'left',
+                        overflowAttr: 'overflowX',
+                        dragOffset: 0,
+                        isOverflowing: true,
+                        isVisible: false,
+                        forceVisible: false,
+                        track: {},
+                        scrollbar: {}
+                    },
+                    y: {
+                        scrollOffsetAttr: 'scrollTop',
+                        sizeAttr: 'height',
+                        scrollSizeAttr: 'scrollHeight',
+                        offsetSizeAttr: 'offsetHeight',
+                        offsetAttr: 'top',
+                        overflowAttr: 'overflowY',
+                        dragOffset: 0,
+                        isOverflowing: true,
+                        isVisible: false,
+                        forceVisible: false,
+                        track: {},
+                        scrollbar: {}
+                    }
+                };
+                this.removePreventClickId = null; // Don't re-instantiate over an existing one
+
+                if (SimpleBar.instances.has(this.el)) {
+                    return;
+                }
+
+                this.recalculate = lodash_throttle(this.recalculate.bind(this), 64);
+                this.onMouseMove = lodash_throttle(this.onMouseMove.bind(this), 64);
+                this.hideScrollbars = lodash_debounce(this.hideScrollbars.bind(this), this.options.timeout);
+                this.onWindowResize = lodash_debounce(this.onWindowResize.bind(this), 64, {
+                    leading: true
+                });
+                SimpleBar.getRtlHelpers = lodash_memoize(SimpleBar.getRtlHelpers);
+                this.init();
+            }
+            /**
+             * Static properties
+             */
+
+            /**
+             * Helper to fix browsers inconsistency on RTL:
+             *  - Firefox inverts the scrollbar initial position
+             *  - IE11 inverts both scrollbar position and scrolling offset
+             * Directly inspired by @KingSora's OverlayScrollbars https://github.com/KingSora/OverlayScrollbars/blob/master/js/OverlayScrollbars.js#L1634
+             */
+
+
+            SimpleBar.getRtlHelpers = function getRtlHelpers() {
+                var dummyDiv = document.createElement('div');
+                dummyDiv.innerHTML = '<div class="hs-dummy-scrollbar-size"><div style="height: 200%; width: 200%; margin: 10px 0;"></div></div>';
+                var scrollbarDummyEl = dummyDiv.firstElementChild;
+                document.body.appendChild(scrollbarDummyEl);
+                var dummyContainerChild = scrollbarDummyEl.firstElementChild;
+                scrollbarDummyEl.scrollLeft = 0;
+                var dummyContainerOffset = SimpleBar.getOffset(scrollbarDummyEl);
+                var dummyContainerChildOffset = SimpleBar.getOffset(dummyContainerChild);
+                scrollbarDummyEl.scrollLeft = 999;
+                var dummyContainerScrollOffsetAfterScroll = SimpleBar.getOffset(dummyContainerChild);
+                return {
+                    // determines if the scrolling is responding with negative values
+                    isRtlScrollingInverted: dummyContainerOffset.left !== dummyContainerChildOffset.left && dummyContainerChildOffset.left - dummyContainerScrollOffsetAfterScroll.left !== 0,
+                    // determines if the origin scrollbar position is inverted or not (positioned on left or right)
+                    isRtlScrollbarInverted: dummyContainerOffset.left !== dummyContainerChildOffset.left
+                };
+            };
+
+            SimpleBar.getOffset = function getOffset(el) {
+                var rect = el.getBoundingClientRect();
+                var elDocument = getElementDocument(el);
+                var elWindow = getElementWindow(el);
+                return {
+                    top: rect.top + (elWindow.pageYOffset || elDocument.documentElement.scrollTop),
+                    left: rect.left + (elWindow.pageXOffset || elDocument.documentElement.scrollLeft)
+                };
+            };
+
+            var _proto = SimpleBar.prototype;
+
+            _proto.init = function init() {
+                // Save a reference to the instance, so we know this DOM node has already been instancied
+                SimpleBar.instances.set(this.el, this); // We stop here on server-side
+
+                if (canUseDom) {
+                    this.initDOM();
+                    this.scrollbarWidth = this.getScrollbarWidth();
+                    this.recalculate();
+                    this.initListeners();
+                }
+            };
+
+            _proto.initDOM = function initDOM() {
+                var _this2 = this;
+
+                // make sure this element doesn't have the elements yet
+                if (Array.prototype.filter.call(this.el.children, function (child) {
+                    return child.classList.contains(_this2.classNames.wrapper);
+                }).length) {
+                    // assume that element has his DOM already initiated
+                    this.wrapperEl = this.el.querySelector("." + this.classNames.wrapper);
+                    this.contentWrapperEl = this.options.scrollableNode || this.el.querySelector("." + this.classNames.contentWrapper);
+                    this.contentEl = this.options.contentNode || this.el.querySelector("." + this.classNames.contentEl);
+                    this.offsetEl = this.el.querySelector("." + this.classNames.offset);
+                    this.maskEl = this.el.querySelector("." + this.classNames.mask);
+                    this.placeholderEl = this.findChild(this.wrapperEl, "." + this.classNames.placeholder);
+                    this.heightAutoObserverWrapperEl = this.el.querySelector("." + this.classNames.heightAutoObserverWrapperEl);
+                    this.heightAutoObserverEl = this.el.querySelector("." + this.classNames.heightAutoObserverEl);
+                    this.axis.x.track.el = this.findChild(this.el, "." + this.classNames.track + "." + this.classNames.horizontal);
+                    this.axis.y.track.el = this.findChild(this.el, "." + this.classNames.track + "." + this.classNames.vertical);
+                } else {
+                    // Prepare DOM
+                    this.wrapperEl = document.createElement('div');
+                    this.contentWrapperEl = document.createElement('div');
+                    this.offsetEl = document.createElement('div');
+                    this.maskEl = document.createElement('div');
+                    this.contentEl = document.createElement('div');
+                    this.placeholderEl = document.createElement('div');
+                    this.heightAutoObserverWrapperEl = document.createElement('div');
+                    this.heightAutoObserverEl = document.createElement('div');
+                    this.wrapperEl.classList.add(this.classNames.wrapper);
+                    this.contentWrapperEl.classList.add(this.classNames.contentWrapper);
+                    this.offsetEl.classList.add(this.classNames.offset);
+                    this.maskEl.classList.add(this.classNames.mask);
+                    this.contentEl.classList.add(this.classNames.contentEl);
+                    this.placeholderEl.classList.add(this.classNames.placeholder);
+                    this.heightAutoObserverWrapperEl.classList.add(this.classNames.heightAutoObserverWrapperEl);
+                    this.heightAutoObserverEl.classList.add(this.classNames.heightAutoObserverEl);
+
+                    while (this.el.firstChild) {
+                        this.contentEl.appendChild(this.el.firstChild);
+                    }
+
+                    this.contentWrapperEl.appendChild(this.contentEl);
+                    this.offsetEl.appendChild(this.contentWrapperEl);
+                    this.maskEl.appendChild(this.offsetEl);
+                    this.heightAutoObserverWrapperEl.appendChild(this.heightAutoObserverEl);
+                    this.wrapperEl.appendChild(this.heightAutoObserverWrapperEl);
+                    this.wrapperEl.appendChild(this.maskEl);
+                    this.wrapperEl.appendChild(this.placeholderEl);
+                    this.el.appendChild(this.wrapperEl);
+                }
+
+                if (!this.axis.x.track.el || !this.axis.y.track.el) {
+                    var track = document.createElement('div');
+                    var scrollbar = document.createElement('div');
+                    track.classList.add(this.classNames.track);
+                    scrollbar.classList.add(this.classNames.scrollbar);
+                    track.appendChild(scrollbar);
+                    this.axis.x.track.el = track.cloneNode(true);
+                    this.axis.x.track.el.classList.add(this.classNames.horizontal);
+                    this.axis.y.track.el = track.cloneNode(true);
+                    this.axis.y.track.el.classList.add(this.classNames.vertical);
+                    this.el.appendChild(this.axis.x.track.el);
+                    this.el.appendChild(this.axis.y.track.el);
+                }
+
+                this.axis.x.scrollbar.el = this.axis.x.track.el.querySelector("." + this.classNames.scrollbar);
+                this.axis.y.scrollbar.el = this.axis.y.track.el.querySelector("." + this.classNames.scrollbar);
+
+                if (!this.options.autoHide) {
+                    this.axis.x.scrollbar.el.classList.add(this.classNames.visible);
+                    this.axis.y.scrollbar.el.classList.add(this.classNames.visible);
+                }
+
+                this.el.setAttribute('data-simplebar', 'init');
+            };
+
+            _proto.initListeners = function initListeners() {
+                var _this3 = this;
+
+                var elWindow = getElementWindow(this.el); // Event listeners
+
+                if (this.options.autoHide) {
+                    this.el.addEventListener('mouseenter', this.onMouseEnter);
+                }
+
+                ['mousedown', 'click', 'dblclick'].forEach(function (e) {
+                    _this3.el.addEventListener(e, _this3.onPointerEvent, true);
+                });
+                ['touchstart', 'touchend', 'touchmove'].forEach(function (e) {
+                    _this3.el.addEventListener(e, _this3.onPointerEvent, {
+                        capture: true,
+                        passive: true
+                    });
+                });
+                this.el.addEventListener('mousemove', this.onMouseMove);
+                this.el.addEventListener('mouseleave', this.onMouseLeave);
+                this.contentWrapperEl.addEventListener('scroll', this.onScroll); // Browser zoom triggers a window resize
+
+                elWindow.addEventListener('resize', this.onWindowResize); // Hack for https://github.com/WICG/ResizeObserver/issues/38
+
+                var resizeObserverStarted = false;
+                var resizeObserver = elWindow.ResizeObserver || index;
+                this.resizeObserver = new resizeObserver(function () {
+                    if (!resizeObserverStarted) return;
+
+                    _this3.recalculate();
+                });
+                this.resizeObserver.observe(this.el);
+                this.resizeObserver.observe(this.contentEl);
+                elWindow.requestAnimationFrame(function () {
+                    resizeObserverStarted = true;
+                }); // This is required to detect horizontal scroll. Vertical scroll only needs the resizeObserver.
+
+                this.mutationObserver = new elWindow.MutationObserver(this.recalculate);
+                this.mutationObserver.observe(this.contentEl, {
+                    childList: true,
+                    subtree: true,
+                    characterData: true
+                });
+            };
+
+            _proto.recalculate = function recalculate() {
+                var elWindow = getElementWindow(this.el);
+                this.elStyles = elWindow.getComputedStyle(this.el);
+                this.isRtl = this.elStyles.direction === 'rtl';
+                var isHeightAuto = this.heightAutoObserverEl.offsetHeight <= 1;
+                var isWidthAuto = this.heightAutoObserverEl.offsetWidth <= 1;
+                var contentElOffsetWidth = this.contentEl.offsetWidth;
+                var contentWrapperElOffsetWidth = this.contentWrapperEl.offsetWidth;
+                var elOverflowX = this.elStyles.overflowX;
+                var elOverflowY = this.elStyles.overflowY;
+                this.contentEl.style.padding = this.elStyles.paddingTop + " " + this.elStyles.paddingRight + " " + this.elStyles.paddingBottom + " " + this.elStyles.paddingLeft;
+                this.wrapperEl.style.margin = "-" + this.elStyles.paddingTop + " -" + this.elStyles.paddingRight + " -" + this.elStyles.paddingBottom + " -" + this.elStyles.paddingLeft;
+                var contentElScrollHeight = this.contentEl.scrollHeight;
+                var contentElScrollWidth = this.contentEl.scrollWidth;
+                this.contentWrapperEl.style.height = isHeightAuto ? 'auto' : '100%'; // Determine placeholder size
+
+                this.placeholderEl.style.width = isWidthAuto ? contentElOffsetWidth + "px" : 'auto';
+                this.placeholderEl.style.height = contentElScrollHeight + "px";
+                var contentWrapperElOffsetHeight = this.contentWrapperEl.offsetHeight;
+                this.axis.x.isOverflowing = contentElScrollWidth > contentElOffsetWidth;
+                this.axis.y.isOverflowing = contentElScrollHeight > contentWrapperElOffsetHeight; // Set isOverflowing to false if user explicitely set hidden overflow
+
+                this.axis.x.isOverflowing = elOverflowX === 'hidden' ? false : this.axis.x.isOverflowing;
+                this.axis.y.isOverflowing = elOverflowY === 'hidden' ? false : this.axis.y.isOverflowing;
+                this.axis.x.forceVisible = this.options.forceVisible === 'x' || this.options.forceVisible === true;
+                this.axis.y.forceVisible = this.options.forceVisible === 'y' || this.options.forceVisible === true;
+                this.hideNativeScrollbar(); // Set isOverflowing to false if scrollbar is not necessary (content is shorter than offset)
+
+                var offsetForXScrollbar = this.axis.x.isOverflowing ? this.scrollbarWidth : 0;
+                var offsetForYScrollbar = this.axis.y.isOverflowing ? this.scrollbarWidth : 0;
+                this.axis.x.isOverflowing = this.axis.x.isOverflowing && contentElScrollWidth > contentWrapperElOffsetWidth - offsetForYScrollbar;
+                this.axis.y.isOverflowing = this.axis.y.isOverflowing && contentElScrollHeight > contentWrapperElOffsetHeight - offsetForXScrollbar;
+                this.axis.x.scrollbar.size = this.getScrollbarSize('x');
+                this.axis.y.scrollbar.size = this.getScrollbarSize('y');
+                this.axis.x.scrollbar.el.style.width = this.axis.x.scrollbar.size + "px";
+                this.axis.y.scrollbar.el.style.height = this.axis.y.scrollbar.size + "px";
+                this.positionScrollbar('x');
+                this.positionScrollbar('y');
+                this.toggleTrackVisibility('x');
+                this.toggleTrackVisibility('y');
+            }
+            /**
+             * Calculate scrollbar size
+             */
+            ;
+
+            _proto.getScrollbarSize = function getScrollbarSize(axis) {
+                if (axis === void 0) {
+                    axis = 'y';
+                }
+
+                if (!this.axis[axis].isOverflowing) {
+                    return 0;
+                }
+
+                var contentSize = this.contentEl[this.axis[axis].scrollSizeAttr];
+                var trackSize = this.axis[axis].track.el[this.axis[axis].offsetSizeAttr];
+                var scrollbarSize;
+                var scrollbarRatio = trackSize / contentSize; // Calculate new height/position of drag handle.
+
+                scrollbarSize = Math.max(~~(scrollbarRatio * trackSize), this.options.scrollbarMinSize);
+
+                if (this.options.scrollbarMaxSize) {
+                    scrollbarSize = Math.min(scrollbarSize, this.options.scrollbarMaxSize);
+                }
+
+                return scrollbarSize;
+            };
+
+            _proto.positionScrollbar = function positionScrollbar(axis) {
+                if (axis === void 0) {
+                    axis = 'y';
+                }
+
+                if (!this.axis[axis].isOverflowing) {
+                    return;
+                }
+
+                var contentSize = this.contentWrapperEl[this.axis[axis].scrollSizeAttr];
+                var trackSize = this.axis[axis].track.el[this.axis[axis].offsetSizeAttr];
+                var hostSize = parseInt(this.elStyles[this.axis[axis].sizeAttr], 10);
+                var scrollbar = this.axis[axis].scrollbar;
+                var scrollOffset = this.contentWrapperEl[this.axis[axis].scrollOffsetAttr];
+                scrollOffset = axis === 'x' && this.isRtl && SimpleBar.getRtlHelpers().isRtlScrollingInverted ? -scrollOffset : scrollOffset;
+                var scrollPourcent = scrollOffset / (contentSize - hostSize);
+                var handleOffset = ~~((trackSize - scrollbar.size) * scrollPourcent);
+                handleOffset = axis === 'x' && this.isRtl && SimpleBar.getRtlHelpers().isRtlScrollbarInverted ? handleOffset + (trackSize - scrollbar.size) : handleOffset;
+                scrollbar.el.style.transform = axis === 'x' ? "translate3d(" + handleOffset + "px, 0, 0)" : "translate3d(0, " + handleOffset + "px, 0)";
+            };
+
+            _proto.toggleTrackVisibility = function toggleTrackVisibility(axis) {
+                if (axis === void 0) {
+                    axis = 'y';
+                }
+
+                var track = this.axis[axis].track.el;
+                var scrollbar = this.axis[axis].scrollbar.el;
+
+                if (this.axis[axis].isOverflowing || this.axis[axis].forceVisible) {
+                    track.style.visibility = 'visible';
+                    this.contentWrapperEl.style[this.axis[axis].overflowAttr] = 'scroll';
+                } else {
+                    track.style.visibility = 'hidden';
+                    this.contentWrapperEl.style[this.axis[axis].overflowAttr] = 'hidden';
+                } // Even if forceVisible is enabled, scrollbar itself should be hidden
+
+
+                if (this.axis[axis].isOverflowing) {
+                    scrollbar.style.display = 'block';
+                } else {
+                    scrollbar.style.display = 'none';
+                }
+            };
+
+            _proto.hideNativeScrollbar = function hideNativeScrollbar() {
+                this.offsetEl.style[this.isRtl ? 'left' : 'right'] = this.axis.y.isOverflowing || this.axis.y.forceVisible ? "-" + this.scrollbarWidth + "px" : 0;
+                this.offsetEl.style.bottom = this.axis.x.isOverflowing || this.axis.x.forceVisible ? "-" + this.scrollbarWidth + "px" : 0;
+            }
+            /**
+             * On scroll event handling
+             */
+            ;
+
+            _proto.onMouseMoveForAxis = function onMouseMoveForAxis(axis) {
+                if (axis === void 0) {
+                    axis = 'y';
+                }
+
+                this.axis[axis].track.rect = this.axis[axis].track.el.getBoundingClientRect();
+                this.axis[axis].scrollbar.rect = this.axis[axis].scrollbar.el.getBoundingClientRect();
+                var isWithinScrollbarBoundsX = this.isWithinBounds(this.axis[axis].scrollbar.rect);
+
+                if (isWithinScrollbarBoundsX) {
+                    this.axis[axis].scrollbar.el.classList.add(this.classNames.hover);
+                } else {
+                    this.axis[axis].scrollbar.el.classList.remove(this.classNames.hover);
+                }
+
+                if (this.isWithinBounds(this.axis[axis].track.rect)) {
+                    this.showScrollbar(axis);
+                    this.axis[axis].track.el.classList.add(this.classNames.hover);
+                } else {
+                    this.axis[axis].track.el.classList.remove(this.classNames.hover);
+                }
+            };
+
+            _proto.onMouseLeaveForAxis = function onMouseLeaveForAxis(axis) {
+                if (axis === void 0) {
+                    axis = 'y';
+                }
+
+                this.axis[axis].track.el.classList.remove(this.classNames.hover);
+                this.axis[axis].scrollbar.el.classList.remove(this.classNames.hover);
+            };
+
+            /**
+             * Show scrollbar
+             */
+            _proto.showScrollbar = function showScrollbar(axis) {
+                if (axis === void 0) {
+                    axis = 'y';
+                }
+
+                var scrollbar = this.axis[axis].scrollbar.el;
+
+                if (!this.axis[axis].isVisible) {
+                    scrollbar.classList.add(this.classNames.visible);
+                    this.axis[axis].isVisible = true;
+                }
+
+                if (this.options.autoHide) {
+                    this.hideScrollbars();
+                }
+            }
+            /**
+             * Hide Scrollbar
+             */
+            ;
+
+            /**
+             * on scrollbar handle drag movement starts
+             */
+            _proto.onDragStart = function onDragStart(e, axis) {
+                if (axis === void 0) {
+                    axis = 'y';
+                }
+
+                var elDocument = getElementDocument(this.el);
+                var elWindow = getElementWindow(this.el);
+                var scrollbar = this.axis[axis].scrollbar; // Measure how far the user's mouse is from the top of the scrollbar drag handle.
+
+                var eventOffset = axis === 'y' ? e.pageY : e.pageX;
+                this.axis[axis].dragOffset = eventOffset - scrollbar.rect[this.axis[axis].offsetAttr];
+                this.draggedAxis = axis;
+                this.el.classList.add(this.classNames.dragging);
+                elDocument.addEventListener('mousemove', this.drag, true);
+                elDocument.addEventListener('mouseup', this.onEndDrag, true);
+
+                if (this.removePreventClickId === null) {
+                    elDocument.addEventListener('click', this.preventClick, true);
+                    elDocument.addEventListener('dblclick', this.preventClick, true);
+                } else {
+                    elWindow.clearTimeout(this.removePreventClickId);
+                    this.removePreventClickId = null;
+                }
+            }
+            /**
+             * Drag scrollbar handle
+             */
+            ;
+
+            _proto.onTrackClick = function onTrackClick(e, axis) {
+                var _this4 = this;
+
+                if (axis === void 0) {
+                    axis = 'y';
+                }
+
+                if (!this.options.clickOnTrack) return;
+                var elWindow = getElementWindow(this.el);
+                this.axis[axis].scrollbar.rect = this.axis[axis].scrollbar.el.getBoundingClientRect();
+                var scrollbar = this.axis[axis].scrollbar;
+                var scrollbarOffset = scrollbar.rect[this.axis[axis].offsetAttr];
+                var hostSize = parseInt(this.elStyles[this.axis[axis].sizeAttr], 10);
+                var scrolled = this.contentWrapperEl[this.axis[axis].scrollOffsetAttr];
+                var t = axis === 'y' ? this.mouseY - scrollbarOffset : this.mouseX - scrollbarOffset;
+                var dir = t < 0 ? -1 : 1;
+                var scrollSize = dir === -1 ? scrolled - hostSize : scrolled + hostSize;
+
+                var scrollTo = function scrollTo() {
+                    if (dir === -1) {
+                        if (scrolled > scrollSize) {
+                            var _this4$contentWrapper;
+
+                            scrolled -= _this4.options.clickOnTrackSpeed;
+
+                            _this4.contentWrapperEl.scrollTo((_this4$contentWrapper = {}, _this4$contentWrapper[_this4.axis[axis].offsetAttr] = scrolled, _this4$contentWrapper));
+
+                            elWindow.requestAnimationFrame(scrollTo);
+                        }
+                    } else {
+                        if (scrolled < scrollSize) {
+                            var _this4$contentWrapper2;
+
+                            scrolled += _this4.options.clickOnTrackSpeed;
+
+                            _this4.contentWrapperEl.scrollTo((_this4$contentWrapper2 = {}, _this4$contentWrapper2[_this4.axis[axis].offsetAttr] = scrolled, _this4$contentWrapper2));
+
+                            elWindow.requestAnimationFrame(scrollTo);
+                        }
+                    }
+                };
+
+                scrollTo();
+            }
+            /**
+             * Getter for content element
+             */
+            ;
+
+            _proto.getContentElement = function getContentElement() {
+                return this.contentEl;
+            }
+            /**
+             * Getter for original scrolling element
+             */
+            ;
+
+            _proto.getScrollElement = function getScrollElement() {
+                return this.contentWrapperEl;
+            };
+
+            _proto.getScrollbarWidth = function getScrollbarWidth() {
+                // Try/catch for FF 56 throwing on undefined computedStyles
+                try {
+                    // Detect browsers supporting CSS scrollbar styling and do not calculate
+                    if (getComputedStyle(this.contentWrapperEl, '::-webkit-scrollbar').display === 'none' || 'scrollbarWidth' in document.documentElement.style || '-ms-overflow-style' in document.documentElement.style) {
+                        return 0;
+                    } else {
+                        return scrollbarWidth();
+                    }
+                } catch (e) {
+                    return scrollbarWidth();
+                }
+            };
+
+            _proto.removeListeners = function removeListeners() {
+                var _this5 = this;
+
+                var elWindow = getElementWindow(this.el); // Event listeners
+
+                if (this.options.autoHide) {
+                    this.el.removeEventListener('mouseenter', this.onMouseEnter);
+                }
+
+                ['mousedown', 'click', 'dblclick'].forEach(function (e) {
+                    _this5.el.removeEventListener(e, _this5.onPointerEvent, true);
+                });
+                ['touchstart', 'touchend', 'touchmove'].forEach(function (e) {
+                    _this5.el.removeEventListener(e, _this5.onPointerEvent, {
+                        capture: true,
+                        passive: true
+                    });
+                });
+                this.el.removeEventListener('mousemove', this.onMouseMove);
+                this.el.removeEventListener('mouseleave', this.onMouseLeave);
+
+                if (this.contentWrapperEl) {
+                    this.contentWrapperEl.removeEventListener('scroll', this.onScroll);
+                }
+
+                elWindow.removeEventListener('resize', this.onWindowResize);
+
+                if (this.mutationObserver) {
+                    this.mutationObserver.disconnect();
+                }
+
+                if (this.resizeObserver) {
+                    this.resizeObserver.disconnect();
+                } // Cancel all debounced functions
+
+
+                this.recalculate.cancel();
+                this.onMouseMove.cancel();
+                this.hideScrollbars.cancel();
+                this.onWindowResize.cancel();
+            }
+            /**
+             * UnMount mutation observer and delete SimpleBar instance from DOM element
+             */
+            ;
+
+            _proto.unMount = function unMount() {
+                this.removeListeners();
+                SimpleBar.instances.delete(this.el);
+            }
+            /**
+             * Check if mouse is within bounds
+             */
+            ;
+
+            _proto.isWithinBounds = function isWithinBounds(bbox) {
+                return this.mouseX >= bbox.left && this.mouseX <= bbox.left + bbox.width && this.mouseY >= bbox.top && this.mouseY <= bbox.top + bbox.height;
+            }
+            /**
+             * Find element children matches query
+             */
+            ;
+
+            _proto.findChild = function findChild(el, query) {
+                var matches = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
+                return Array.prototype.filter.call(el.children, function (child) {
+                    return matches.call(child, query);
+                })[0];
+            };
+
+            return SimpleBar;
+        }();
+
+    SimpleBar.defaultOptions = {
+        autoHide: true,
+        forceVisible: false,
+        clickOnTrack: true,
+        clickOnTrackSpeed: 40,
+        classNames: {
+            contentEl: 'simplebar-content',
+            contentWrapper: 'simplebar-content-wrapper',
+            offset: 'simplebar-offset',
+            mask: 'simplebar-mask',
+            wrapper: 'simplebar-wrapper',
+            placeholder: 'simplebar-placeholder',
+            scrollbar: 'simplebar-scrollbar',
+            track: 'simplebar-track',
+            heightAutoObserverWrapperEl: 'simplebar-height-auto-observer-wrapper',
+            heightAutoObserverEl: 'simplebar-height-auto-observer',
+            visible: 'simplebar-visible',
+            horizontal: 'simplebar-horizontal',
+            vertical: 'simplebar-vertical',
+            hover: 'simplebar-hover',
+            dragging: 'simplebar-dragging'
+        },
+        scrollbarMinSize: 25,
+        scrollbarMaxSize: 0,
+        timeout: 1000
+    };
+    SimpleBar.instances = new WeakMap();
+
+    SimpleBar.initDOMLoadedElements = function () {
+        document.removeEventListener('DOMContentLoaded', this.initDOMLoadedElements);
+        window.removeEventListener('load', this.initDOMLoadedElements);
+        Array.prototype.forEach.call(document.querySelectorAll('[data-simplebar]'), function (el) {
+            if (el.getAttribute('data-simplebar') !== 'init' && !SimpleBar.instances.has(el)) new SimpleBar(el, getOptions(el.attributes));
+        });
+    };
+
+    SimpleBar.removeObserver = function () {
+        this.globalObserver.disconnect();
+    };
+
+    SimpleBar.initHtmlApi = function () {
+        this.initDOMLoadedElements = this.initDOMLoadedElements.bind(this); // MutationObserver is IE11+
+
+        if (typeof MutationObserver !== 'undefined') {
+            // Mutation observer to observe dynamically added elements
+            this.globalObserver = new MutationObserver(SimpleBar.handleMutations);
+            this.globalObserver.observe(document, {
+                childList: true,
+                subtree: true
+            });
+        } // Taken from jQuery `ready` function
+        // Instantiate elements already present on the page
+
+
+        if (document.readyState === 'complete' || document.readyState !== 'loading' && !document.documentElement.doScroll) {
+            // Handle it asynchronously to allow scripts the opportunity to delay init
+            window.setTimeout(this.initDOMLoadedElements);
+        } else {
+            document.addEventListener('DOMContentLoaded', this.initDOMLoadedElements);
+            window.addEventListener('load', this.initDOMLoadedElements);
+        }
+    };
+
+    SimpleBar.handleMutations = function (mutations) {
+        mutations.forEach(function (mutation) {
+            Array.prototype.forEach.call(mutation.addedNodes, function (addedNode) {
+                if (addedNode.nodeType === 1) {
+                    if (addedNode.hasAttribute('data-simplebar')) {
+                        !SimpleBar.instances.has(addedNode) && new SimpleBar(addedNode, getOptions(addedNode.attributes));
+                    } else {
+                        Array.prototype.forEach.call(addedNode.querySelectorAll('[data-simplebar]'), function (el) {
+                            if (el.getAttribute('data-simplebar') !== 'init' && !SimpleBar.instances.has(el)) new SimpleBar(el, getOptions(el.attributes));
+                        });
+                    }
+                }
+            });
+            Array.prototype.forEach.call(mutation.removedNodes, function (removedNode) {
+                if (removedNode.nodeType === 1) {
+                    if (removedNode.hasAttribute('[data-simplebar="init"]')) {
+                        SimpleBar.instances.has(removedNode) && SimpleBar.instances.get(removedNode).unMount();
+                    } else {
+                        Array.prototype.forEach.call(removedNode.querySelectorAll('[data-simplebar="init"]'), function (el) {
+                            SimpleBar.instances.has(el) && SimpleBar.instances.get(el).unMount();
+                        });
+                    }
+                }
+            });
+        });
+    };
+
+    SimpleBar.getOptions = getOptions;
+    /**
+     * HTML API
+     * Called only in a browser env.
+     */
+
+    if (canUseDom) {
+        SimpleBar.initHtmlApi();
+    }
+
+    return SimpleBar;
 
 }));
 Squire.prototype.testPresenceinSelection = function (name, action, format,
@@ -20486,9 +20486,9 @@ SquireUI = function (options) {
 }(this, function () {
     return function () {
         var t, e, o, i, n, s, r, l, h, a, p, f, u, d, c, g, m, b = {}.hasOwnProperty, v = [].indexOf || function (t) {
-                for (var e = 0, o = this.length; o > e; e++)if (e in this && this[e] === t)return e;
-                return -1
-            }, y = [].slice;
+            for (var e = 0, o = this.length; o > e; e++)if (e in this && this[e] === t)return e;
+            return -1
+        }, y = [].slice;
         null == this.Tether && (this.Tether = {modules: []}), p = function (t) {
             var e, o, i, n, s;
             if (o = getComputedStyle(t).position, "fixed" === o)return t;
@@ -20509,10 +20509,10 @@ SquireUI = function (options) {
         }(), m = {}, h = function (t) {
             var e, i, s, r, l;
             if (s = t._tetherZeroElement, null == s && (s = t.createElement("div"), s.setAttribute("data-tether-id", c()), n(s.style, {
-                    top: 0,
-                    left: 0,
-                    position: "absolute"
-                }), t.body.appendChild(s), t._tetherZeroElement = s), e = s.getAttribute("data-tether-id"), null == m[e]) {
+                top: 0,
+                left: 0,
+                position: "absolute"
+            }), t.body.appendChild(s), t._tetherZeroElement = s), e = s.getAttribute("data-tether-id"), null == m[e]) {
                 m[e] = {}, l = s.getBoundingClientRect();
                 for (i in l)r = l[i], m[e][i] = r;
                 o(function () {
@@ -20748,25 +20748,25 @@ SquireUI = function (options) {
                         width: z,
                         height: n
                     }), d = v(this.targetOffset, B), b = s(b, a), A = s(A, d), h = M.left + A.left - b.left, L = M.top + A.top - b.top, j = i.modules, F = 0, Y = j.length; Y > F; F++)if (g = j[F], T = g.position.call(this, {
-                            left: h,
-                            top: L,
-                            targetAttachment: S,
-                            targetPos: M,
-                            attachment: this.attachment,
-                            elementPos: e,
-                            offset: b,
-                            targetOffset: A,
-                            manualOffset: a,
-                            manualTargetOffset: d,
-                            scrollbarSize: _
-                        }), null != T && "object" == typeof T) {
+                        left: h,
+                        top: L,
+                        targetAttachment: S,
+                        targetPos: M,
+                        attachment: this.attachment,
+                        elementPos: e,
+                        offset: b,
+                        targetOffset: A,
+                        manualOffset: a,
+                        manualTargetOffset: d,
+                        scrollbarSize: _
+                    }), null != T && "object" == typeof T) {
                         if (T === !1)return !1;
                         L = T.top, h = T.left
                     }
                     if (m = {
-                            page: {top: L, left: h},
-                            viewport: {top: L - pageYOffset, bottom: pageYOffset - L - n + innerHeight, left: h - pageXOffset, right: pageXOffset - h - z + innerWidth}
-                        }, document.body.scrollWidth > window.innerWidth && (_ = this.cache("scrollbar-size", c), m.viewport.bottom -= _.height), document.body.scrollHeight > window.innerHeight && (_ = this.cache("scrollbar-size", c), m.viewport.right -= _.width), ("" !== (k = document.body.style.position) && "static" !== k || "" !== (D = document.body.parentElement.style.position) && "static" !== D) && (m.page.bottom = document.body.scrollHeight - L - n, m.page.right = document.body.scrollWidth - h - z), (null != (U = this.options.optimizations) ? U.moveElement : void 0) !== !1 && null == this.targetModifier) {
+                        page: {top: L, left: h},
+                        viewport: {top: L - pageYOffset, bottom: pageYOffset - L - n + innerHeight, left: h - pageXOffset, right: pageXOffset - h - z + innerWidth}
+                    }, document.body.scrollWidth > window.innerWidth && (_ = this.cache("scrollbar-size", c), m.viewport.bottom -= _.height), document.body.scrollHeight > window.innerHeight && (_ = this.cache("scrollbar-size", c), m.viewport.right -= _.width), ("" !== (k = document.body.style.position) && "static" !== k || "" !== (D = document.body.parentElement.style.position) && "static" !== D) && (m.page.bottom = document.body.scrollHeight - L - n, m.page.right = document.body.scrollWidth - h - z), (null != (U = this.options.optimizations) ? U.moveElement : void 0) !== !1 && null == this.targetModifier) {
                         for (w = this.cache("target-offsetparent", function () {
                             return u(q.target)
                         }), x = this.cache("target-offsetparent-bounds", function () {
@@ -20813,9 +20813,9 @@ SquireUI = function (options) {
         }(), i.position = C, this.Tether = a(_, i)
     }.call(this), function () {
         var t, e, o, i, n, s, r, l, h, a, p = [].indexOf || function (t) {
-                for (var e = 0, o = this.length; o > e; e++)if (e in this && this[e] === t)return e;
-                return -1
-            };
+            for (var e = 0, o = this.length; o > e; e++)if (e in this && this[e] === t)return e;
+            return -1
+        };
         a = this.Tether.Utils, r = a.getOuterSize, s = a.getBounds, l = a.getSize, i = a.extend, h = a.updateClasses, o = a.defer, e = {
             left: "right",
             right: "left",
@@ -20842,10 +20842,10 @@ SquireUI = function (options) {
                 for (H = 0, j = l.length; j > H; H++)for (c = l[H], J = ["left", "top", "right", "bottom"], Y = 0, k = J.length; k > Y; Y++)P = J[Y], l.push("" + c + "-" + P);
                 for (r = [], _ = i({}, W), m = i({}, this.attachment), K = this.options.constraints, N = 0, D = K.length; D > N; N++) {
                     if (g = K[N], B = g.to, a = g.attachment, O = g.pin, null == a && (a = ""), p.call(a, " ") >= 0 ? (Q = a.split(" "), d = Q[0], u = Q[1]) : u = d = a, f = n(this, B), ("target" === d || "both" === d) && (L < f[1] && "top" === _.top && (L += S, _.top = "bottom"), L + b > f[3] && "bottom" === _.top && (L -= S, _.top = "top")), "together" === d && (L < f[1] && "top" === _.top && ("bottom" === m.top ? (L += S, _.top = "bottom", L += b, m.top = "top") : "top" === m.top && (L += S, _.top = "bottom", L -= b, m.top = "bottom")), L + b > f[3] && "bottom" === _.top && ("top" === m.top ? (L -= S, _.top = "top", L -= b, m.top = "bottom") : "bottom" === m.top && (L -= S, _.top = "top", L += b, m.top = "top")), "middle" === _.top && (L + b > f[3] && "top" === m.top ? (L -= b, m.top = "bottom") : L < f[1] && "bottom" === m.top && (L += b, m.top = "top"))), ("target" === u || "both" === u) && (v < f[0] && "left" === _.left && (v += M, _.left = "right"), v + z > f[2] && "right" === _.left && (v -= M, _.left = "left")), "together" === u && (v < f[0] && "left" === _.left ? "right" === m.left ? (v += M, _.left = "right", v += z, m.left = "left") : "left" === m.left && (v += M, _.left = "right", v -= z, m.left = "right") : v + z > f[2] && "right" === _.left ? "left" === m.left ? (v -= M, _.left = "left", v -= z, m.left = "right") : "right" === m.left && (v -= M, _.left = "left", v += z, m.left = "left") : "center" === _.left && (v + z > f[2] && "left" === m.left ? (v -= z, m.left = "right") : v < f[0] && "right" === m.left && (v += z, m.left = "left"))), ("element" === d || "both" === d) && (L < f[1] && "bottom" === m.top && (L += b, m.top = "top"), L + b > f[3] && "top" === m.top && (L -= b, m.top = "bottom")), ("element" === u || "both" === u) && (v < f[0] && "right" === m.left && (v += z, m.left = "left"), v + z > f[2] && "left" === m.left && (v -= z, m.left = "right")), "string" == typeof O ? O = function () {
-                            var t, e, o, i;
-                            for (o = O.split(","), i = [], e = 0, t = o.length; t > e; e++)C = o[e], i.push(C.trim());
-                            return i
-                        }() : O === !0 && (O = ["top", "left", "right", "bottom"]), O || (O = []), x = [], y = [], L < f[1] && (p.call(O, "top") >= 0 ? (L = f[1], x.push("top")) : y.push("top")), L + b > f[3] && (p.call(O, "bottom") >= 0 ? (L = f[3] - b, x.push("bottom")) : y.push("bottom")), v < f[0] && (p.call(O, "left") >= 0 ? (v = f[0], x.push("left")) : y.push("left")), v + z > f[2] && (p.call(O, "right") >= 0 ? (v = f[2] - z, x.push("right")) : y.push("right")), x.length)for (T = null != (V = this.options.pinnedClass) ? V : this.getClass("pinned"), r.push(T), q = 0, U = x.length; U > q; q++)P = x[q], r.push("" + T + "-" + P);
+                        var t, e, o, i;
+                        for (o = O.split(","), i = [], e = 0, t = o.length; t > e; e++)C = o[e], i.push(C.trim());
+                        return i
+                    }() : O === !0 && (O = ["top", "left", "right", "bottom"]), O || (O = []), x = [], y = [], L < f[1] && (p.call(O, "top") >= 0 ? (L = f[1], x.push("top")) : y.push("top")), L + b > f[3] && (p.call(O, "bottom") >= 0 ? (L = f[3] - b, x.push("bottom")) : y.push("bottom")), v < f[0] && (p.call(O, "left") >= 0 ? (v = f[0], x.push("left")) : y.push("left")), v + z > f[2] && (p.call(O, "right") >= 0 ? (v = f[2] - z, x.push("right")) : y.push("right")), x.length)for (T = null != (V = this.options.pinnedClass) ? V : this.getClass("pinned"), r.push(T), q = 0, U = x.length; U > q; q++)P = x[q], r.push("" + T + "-" + P);
                     if (y.length)for (w = null != (te = this.options.outOfBoundsClass) ? te : this.getClass("out-of-bounds"), r.push(w), Z = 0, R = y.length; R > Z; Z++)P = y[Z], r.push("" + w + "-" + P);
                     (p.call(x, "left") >= 0 || p.call(x, "right") >= 0) && (m.left = _.left = !1), (p.call(x, "top") >= 0 || p.call(x, "bottom") >= 0) && (m.top = _.top = !1), (_.top !== W.top || _.left !== W.left || m.top !== this.attachment.top || m.left !== this.attachment.left) && this.updateAttachClasses(m, _)
                 }
@@ -20860,8 +20860,8 @@ SquireUI = function (options) {
             position: function (i) {
                 var n, s, r, l, h, a, p, f, u, d, c, g, m, b, v, y, w, C, O, x, T, E, P, _, W, S = this;
                 if (c = i.top, a = i.left, T = this.cache("element-bounds", function () {
-                        return e(S.element)
-                    }), h = T.height, g = T.width, d = this.getTargetBounds(), l = c + h, p = a + g, n = [], c <= d.bottom && l >= d.top)for (E = ["left", "right"], m = 0, w = E.length; w > m; m++)f = E[m], ((P = d[f]) === a || P === p) && n.push(f);
+                    return e(S.element)
+                }), h = T.height, g = T.width, d = this.getTargetBounds(), l = c + h, p = a + g, n = [], c <= d.bottom && l >= d.top)for (E = ["left", "right"], m = 0, w = E.length; w > m; m++)f = E[m], ((P = d[f]) === a || P === p) && n.push(f);
                 if (a <= d.right && p >= d.left)for (_ = ["top", "bottom"], b = 0, C = _.length; C > b; b++)f = _[b], ((W = d[f]) === c || W === l) && n.push(f);
                 for (r = [], s = [], u = ["left", "top", "right", "bottom"], r.push(this.getClass("abutted")), v = 0, O = u.length; O > v; v++)f = u[v], r.push("" + this.getClass("abutted") + "-" + f);
                 for (n.length && s.push(this.getClass("abutted")), y = 0, x = n.length; x > y; y++)f = n[y], s.push("" + this.getClass("abutted") + "-" + f);
@@ -20892,9 +20892,9 @@ SquireUI = function (options) {
         for (var i in e)v.call(e, i) && (t[i] = e[i]);
         return o.prototype = e.prototype, t.prototype = new o, t.__super__ = e.prototype, t
     }, w = [].indexOf || function (t) {
-            for (var e = 0, o = this.length; o > e; e++)if (e in this && this[e] === t)return e;
-            return -1
-        };
+        for (var e = 0, o = this.length; o > e; e++)if (e in this && this[e] === t)return e;
+        return -1
+    };
     b = Tether.Utils, l = b.extend, o = b.addClass, p = b.removeClass, h = b.hasClass, t = b.Evented, c = "ontouchstart" in document.documentElement, n = ["click"], c && n.push("touchstart"), m = {
         WebkitTransition: "webkitTransitionEnd",
         MozTransition: "transitionend",
@@ -21780,7 +21780,7 @@ var th_maps = {
 $('.pro-page-carte .pro-group').each(function(){
 
     $('.pro-item > input',this).on('click',function(){
-       $('.pro-switch',this).find('input').prop('checked',true);
+        $('.pro-switch',this).find('input').prop('checked',true);
     });
 
 
@@ -21795,7 +21795,7 @@ $('.pro-reponse').click(function(e){
 });
 /* DANS LES LISTING DE FACETTE DANS LES BARRES LATERALES, AU CLICK SUR EFFACER, ON DESELECTIONNE LES CHECKBOX ENFANTS ET LA VALEUR DE LA DATE DANS INPUT TEXT */
 $('.pro-remove').on('click',function(){
-   $(this).parents('.pro-group').find('input:checked').prop('checked',false);
+    $(this).parents('.pro-group').find('input:checked').prop('checked',false);
 
     $(this).parents('.pro-group').find('input:text').val('');
 
@@ -21904,37 +21904,37 @@ $('.bloc-iframe iframe').height(
 // Afficher une date
 
 $('.frm_date').each(function(){
-    var picker = new Pikaday({ 
-    	field: this,
-    	value : function(date,field){
-    	    var valueInput = field.value;
-    	    if (valueInput!==""){
-    	        var arrayDate = valueInput.split('/');
-    	        if (arrayDate.length ===3){
-    	             const day = parseInt(parts[0], 10);
-                     const month = parseInt(parts[1] - 1, 10);
-                     const year = parseInt(parts[1], 10);
-                     date = new Date(year, month, day);
-                     return date;
-    	        }
-    	    }
-    	},
-    	format: 'D/M/YYYY',
-    	toString: function(date, format) {
-	        const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate() ;
-	        const month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-	        const year = date.getFullYear();
-	        return day + '/' + month + '/' + year;
-	    },
-	    parse: function(dateString) {
-	        // dateString is the result of `toString` method
-	        const parts = dateString.split('/');
-	        const day = parseInt(parts[0], 10);
-	        const month = parseInt(parts[1] - 1, 10);
-	        const year = parseInt(parts[2], 10);
-	        return new Date(year, month, day);
-    	},	
-	    onSelect: function(date) {
+    var picker = new Pikaday({
+        field: this,
+        value : function(date,field){
+            var valueInput = field.value;
+            if (valueInput!==""){
+                var arrayDate = valueInput.split('/');
+                if (arrayDate.length ===3){
+                    const day = parseInt(parts[0], 10);
+                    const month = parseInt(parts[1] - 1, 10);
+                    const year = parseInt(parts[1], 10);
+                    date = new Date(year, month, day);
+                    return date;
+                }
+            }
+        },
+        format: 'D/M/YYYY',
+        toString: function(date, format) {
+            const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate() ;
+            const month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+            const year = date.getFullYear();
+            return day + '/' + month + '/' + year;
+        },
+        parse: function(dateString) {
+            // dateString is the result of `toString` method
+            const parts = dateString.split('/');
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1] - 1, 10);
+            const year = parseInt(parts[2], 10);
+            return new Date(year, month, day);
+        },
+        onSelect: function(date) {
             var name = picker._o.field.name;
             if ($('input[data-name="' + name + 'Day"').length) {
                 var dayInput = $('input[data-name="' + name + 'Day"');
@@ -21949,7 +21949,7 @@ $('.frm_date').each(function(){
                 // Renvoi la liste des entités demandées
                 getSelectedEntries();
             }
-	    }
+        }
     });
 });
 $('.pro-bloc-prefooter .pro-ico').on('click',function(e){
@@ -21994,33 +21994,33 @@ $('#quartiers').on('change', function () {
 // Bloc video
 $('.pro-bloc-video').each(function() {
 
-	var mask = $('.mask-video',this);
-	var vidContainer = $('.embed-container', this);
+    var mask = $('.mask-video',this);
+    var vidContainer = $('.embed-container', this);
 
-	var urlVideo = vidContainer.data("urlvideo");
+    var urlVideo = vidContainer.data("urlvideo");
 
-	if(urlVideo){
-		if(urlVideo.match(/\?/)){
-			urlVideo+='&autoplay=1';
-		}else{
-			urlVideo+='?autoplay=1';
-		}
-		var iframe  ='<iframe src="' + urlVideo + '" width="1280px"  height="auto"></iframe>';
+    if(urlVideo){
+        if(urlVideo.match(/\?/)){
+            urlVideo+='&autoplay=1';
+        }else{
+            urlVideo+='?autoplay=1';
+        }
+        var iframe  ='<iframe src="' + urlVideo + '" width="1280px"  height="auto"></iframe>';
 
 
-		$('.pro-btn-video, .btn-ytbe',this).click(function (e) {
-			e.preventDefault();
-			vidContainer.append(iframe);
+        $('.pro-btn-video, .btn-ytbe',this).click(function (e) {
+            e.preventDefault();
+            vidContainer.append(iframe);
 
-			setTimeout(function(){
-				mask.addClass('hide');
+            setTimeout(function(){
+                mask.addClass('hide');
 
-				setTimeout(function(){
-					mask.remove();
-				}, 500);
-			}, 200);
-		});
-	}
+                setTimeout(function(){
+                    mask.remove();
+                }, 500);
+            }, 200);
+        });
+    }
 
 });
 
@@ -22031,6 +22031,15 @@ $(document).on("click", "[name='#Need-connexion']", function(e) {
     e.preventDefault();
     e.stopPropagation();
     $("#myModal").modal();
+});
+
+/*
+* Demande d'action sur une proposition d'aide désactivée
+*/
+$(document).on("click", "[name='#inactive-help-proposal']", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $("#inactive-help-proposal-modal").modal();
 });
 
 /**
@@ -22061,8 +22070,8 @@ function getResult(searchPage, data) {
             }
 
             listing += createHelp(json.json);
-            
-			
+
+
         });
         listing += '</div>';
         $('.pro-listing-help').html(listing);
@@ -22072,24 +22081,24 @@ function getResult(searchPage, data) {
         selecteur = '';
         if(nbEntries > delta){
             selecteur =
-            '<form method="get">' +
+                '<form method="get">' +
                 '<select id="change-page" name="change-page">';
             var indexPage = 1;
             for (indexPage; indexPage <= nbEntries / delta; indexPage++) {
                 selecteur +=
                     '<option value="' + indexPage + '">' +
-                        'Page ' + indexPage + ' ( ' + (nbEntries < (indexPage * delta) ? nbEntries : delta) + ' )' +
+                    'Page ' + indexPage + ' ( ' + (nbEntries < (indexPage * delta) ? nbEntries : delta) + ' )' +
                     '</option>';
             }
             if((indexPage - 1) * delta < nbEntries){
                 selecteur +=
                     '<option value="' + indexPage + '">' +
-                        'Page ' + indexPage + ' ( ' + nbEntries + ' )' +
+                    'Page ' + indexPage + ' ( ' + nbEntries + ' )' +
                     '</option>';
             }
             selecteur +=
                 '</select>' +
-            '</form>';
+                '</form>';
         }
         selecteur += '<p class="hidden-xs"></p>';
         $('.pro-pagination .pull-left').html(selecteur);
@@ -22099,24 +22108,24 @@ function getResult(searchPage, data) {
         link = '';
         if(nbEntries > delta){
             link =
-            '<ul>' +
+                '<ul>' +
                 '<!-- Lien vers la premiere page -->' +
                 '<li class="pro-disabled" >' +
-                    '<a href="#go-to-top" class="hidden-sm hidden-xs pro-first" title="Lien vers la premiere page du Listing" data-action="first">Premier</a>' +
+                '<a href="#go-to-top" class="hidden-sm hidden-xs pro-first" title="Lien vers la premiere page du Listing" data-action="first">Premier</a>' +
                 '</li>' +
                 '<!-- Lien vers la page precedente page -->' +
                 '<li class="pro-disabled" >' +
-                    '<a href="#go-to-top" title="Lien vers la page precedente du Listing" data-action="prev">Précédent</a>' +
+                '<a href="#go-to-top" title="Lien vers la page precedente du Listing" data-action="prev">Précédent</a>' +
                 '</li>' +
                 '<!-- Lien vers la page suivante -->' +
                 '<li>' +
-                    '<a href="#go-to-top" title="Lien vers la page suivante du Listing" data-action="next">Suivant</a>' +
+                '<a href="#go-to-top" title="Lien vers la page suivante du Listing" data-action="next">Suivant</a>' +
                 '</li>' +
                 '<!-- Lien vers la derniere page -->' +
                 '<li>' +
-                    '<a href="#go-to-top" class="hidden-sm hidden-xs pro-last" title="Lien vers la derniere page du Listing" data-action="last">Dernier</a>' +
+                '<a href="#go-to-top" class="hidden-sm hidden-xs pro-last" title="Lien vers la derniere page du Listing" data-action="last">Dernier</a>' +
                 '</li>' +
-            '</ul>';
+                '</ul>';
         }
         $('.pro-pagination .pull-right').html(link);
     }
@@ -22124,40 +22133,40 @@ function getResult(searchPage, data) {
 }
 
 /**
-* Création de la vignette d'aide
-*/
+ * Création de la vignette d'aide
+ */
 function createHelp(help){
-    var vignette = 
+    var vignette =
         '<div class="item pro-bloc-card-help pro-theme-embryon vignette" data-linkall="a">' +
-            '<div class="wrapper-card-help">' +
-                (help.imageURL != "" ? 
-                    '<figure role="group" class="fit-cover">' +
-                        '<img src="' + help.imageURL + '?imagePreview=1" loading="lazy" width="240" height="250" alt="Photo d’illustration de ' + help.title + '"/>' +
-                    '</figure>'
-                    :
-                    ''
-                ) +
-                '<div>' +
-                    '<div class="pro-header-help">' +
-                        '<p>Aide proposée par : ' +
-                        '<strong>' + help.author + '</strong></p>' +
-                    '</div>' +
-                    '<div class="pro-content-help">' +
-                        '<div class="pro-wrapper-meta">' +
-                            '<div class="pro-meta">' +
-                                (help.localisationLabel != "" ? '<span>' + help.localisationLabel + '</span>' : '') +
-                                (help.helpProposalTypeLabel != "" ? '<span>' + help.helpProposalTypeLabel + '</span>' : '') +
-                            '</div>' +
-                        '</div>' +
-                        '<a href="' + homeURL + 'detail-aide/-/entity/id/' + help.id + '" title="lien de la page"><h3>' + help.title + '</h3>' +
-                        '<p>'+(help.description.replaceAll(/<[^>]*>/ig, '').length > 300?help.description.replaceAll(/<[^>]*>/ig, '').substr(0,300)+"...":help.description) + '</p></a>' +
-                    '</div>' +
-                '</div>' +
-            '</div>' +
-            '<div class="pro-footer-help">' +
-                '<p>Publiée le <time datetime="' + help.unformattedCreateDate + '">' + help.createDate + '</time> - ' +
-                'Mise à jour le <time datetime="' + help.unformattedCreateDate + '">' + help.createDate + '</time></p>' +
-            '</div>' +
+        '<div class="wrapper-card-help">' +
+        (help.imageURL != "" ?
+                '<figure role="group" class="fit-cover">' +
+                '<img src="' + help.imageURL + '?imagePreview=1" loading="lazy" width="240" height="250" alt="Image aide"/>' +
+                '</figure>'
+                :
+                ''
+        ) +
+        '<div>' +
+        '<div class="pro-header-help">' +
+        '<p>Aide proposée par : ' +
+        '<strong>' + help.author + '</strong></p>' +
+        '</div>' +
+        '<div class="pro-content-help">' +
+        '<div class="pro-wrapper-meta">' +
+        '<div class="pro-meta">' +
+        (help.localisationLabel != "" ? '<span>' + help.localisationLabel + '</span>' : '') +
+        (help.helpProposalTypeLabel != "" ? '<span>' + help.helpProposalTypeLabel + '</span>' : '') +
+        '</div>' +
+        '</div>' +
+        '<a href="' + homeURL + 'detail-aide/-/entity/id/' + help.id + '" title="lien de la page"><h3>' + help.title + '</h3>' +
+        '<p>'+(help.description.replaceAll(/<[^>]*>/ig, '').length > 300?help.description.replaceAll(/<[^>]*>/ig, '').substr(0,300)+"...":help.description) + '</p></a>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<div class="pro-footer-help">' +
+        '<p>Publiée le <time datetime="' + help.unformattedCreateDate + '">' + help.createDate + '</time> - ' +
+        'Mise à jour le <time datetime="' + help.unformattedCreateDate + '">' + help.createDate + '</time></p>' +
+        '</div>' +
         '</div>';
 
     return vignette;
@@ -22165,8 +22174,8 @@ function createHelp(help){
 
 
 /**
-* Création de la pagination
-*/
+ * Création de la pagination
+ */
 function buildPaginate(){
     $('.pro-search-listing').each(function(index, widget){
         var wi = {
@@ -22193,17 +22202,17 @@ function buildPaginate(){
             goToPage(wi, wi.page_count);
         });
         wi.$widget.find('#change-page').on('change', function(){
-            var target = $(this).val(); 
+            var target = $(this).val();
             goToPage(wi, target);
         })
     });
-	//Permet de recharger les liens des vignettes
+    //Permet de recharger les liens des vignettes
     th_linkAll();
 }
 
 /**
  * @description Récupère la page courante en se basant sur l'état de la pagination
- * @param {*} wi 
+ * @param {*} wi
  */
 function getCurrentPage(wi){
     var page = parseInt(wi.$widget.find('#change-page').val());
@@ -22245,16 +22254,16 @@ function goToPage(wi, index){
     // Gestion affichage du résultat de la pagination
     var indexDernierItemPage = index * delta;
     var pageResult = 'Affichage des résultats ' +
-                    (wi.items_count > 0 ? (index > 1 ? (indexDernierItemPage - 2) : '1') : '0') + ' - ' +
-                    (wi.items_count < indexDernierItemPage ? wi.items_count : indexDernierItemPage) +
-                    ' parmi ' + wi.items_count;
+        (wi.items_count > 0 ? (index > 1 ? (indexDernierItemPage - 2) : '1') : '0') + ' - ' +
+        (wi.items_count < indexDernierItemPage ? wi.items_count : indexDernierItemPage) +
+        ' parmi ' + wi.items_count;
     wi.$widget.find('.pro-pagination .pull-left .hidden-xs').text(pageResult);
-    
+
 }
 
 /* DANS LES LISTING DE FACETTE DANS LES BARRES LATERALES, AU CLICK SUR EFFACER, ON DESELECTIONNE LES CHECKBOX ENFANTS ET LA VALEUR DE LA DATE DANS INPUT TEXT */
 $('.pro-remove').on('click',function(){
-    
+
     // Utilisé pour les recherches ajax
     if($(this).hasClass('dynamic')){
         // Renvoi la liste des entités demandées
@@ -22264,7 +22273,7 @@ $('.pro-remove').on('click',function(){
 
 
 $(document).ready(function () {
-	
+
     $('.closefirstmodal').click(function () {
         $('#WarningClosePopup').modal('show');
     });
@@ -22273,7 +22282,7 @@ $(document).ready(function () {
         $('#WarningClosePopup').modal('hide');
         $('.pro-modal').modal('hide');
     });
-    
+
 });
 
 /**
@@ -22300,10 +22309,10 @@ $(document).on('change', "#change-page", function(e){
 function scrollToAnchor(anchorId) {
     // Le sélecteur $(html, body) permet de corriger un bug sur chrome et safari (webkit).
     $('html, body')
-       // On arrête toutes les animations en cours. 
-       .stop()
-       // On fait maintenant l'animation vers le haut (scrollTop) vers notre ancre target.
-       .animate({scrollTop: $(anchorId).offset().top}, 1000 );
+        // On arrête toutes les animations en cours.
+        .stop()
+        // On fait maintenant l'animation vers le haut (scrollTop) vers notre ancre target.
+        .animate({scrollTop: $(anchorId).offset().top}, 1000 );
 }
 (function (factory) {
     factory(window.L);
@@ -22468,1925 +22477,1925 @@ function scrollToAnchor(anchorId) {
  * (c) 2012-2017, Dave Leaver, smartrak
  */
 (function (global, factory) {
-	factory(window.L);
+    factory(window.L);
 }(this, (function (L) { 'use strict';
 
-/*
+    /*
  * L.MarkerClusterGroup extends L.FeatureGroup by clustering the markers contained within
  */
 
-var MarkerClusterGroup = L.MarkerClusterGroup = L.FeatureGroup.extend({
-
-	options: {
-		maxClusterRadius: 80, //A cluster will cover at most this many pixels from its center
-		iconCreateFunction: null,
-		clusterPane: L.Marker.prototype.options.pane,
-
-		spiderfyOnMaxZoom: true,
-		showCoverageOnHover: true,
-		zoomToBoundsOnClick: true,
-		singleMarkerMode: false,
-
-		disableClusteringAtZoom: null,
-
-		// Setting this to false prevents the removal of any clusters outside of the viewpoint, which
-		// is the default behaviour for performance reasons.
-		removeOutsideVisibleBounds: true,
-
-		// Set to false to disable all animations (zoom and spiderfy).
-		// If false, option animateAddingMarkers below has no effect.
-		// If L.DomUtil.TRANSITION is falsy, this option has no effect.
-		animate: true,
-
-		//Whether to animate adding markers after adding the MarkerClusterGroup to the map
-		// If you are adding individual markers set to true, if adding bulk markers leave false for massive performance gains.
-		animateAddingMarkers: false,
-
-		//Increase to increase the distance away that spiderfied markers appear from the center
-		spiderfyDistanceMultiplier: 1,
-
-		// Make it possible to specify a polyline options on a spider leg
-		spiderLegPolylineOptions: { weight: 1.5, color: '#222', opacity: 0.5 },
-
-		// When bulk adding layers, adds markers in chunks. Means addLayers may not add all the layers in the call, others will be loaded during setTimeouts
-		chunkedLoading: false,
-		chunkInterval: 200, // process markers for a maximum of ~ n milliseconds (then trigger the chunkProgress callback)
-		chunkDelay: 50, // at the end of each interval, give n milliseconds back to system/browser
-		chunkProgress: null, // progress callback: function(processed, total, elapsed) (e.g. for a progress indicator)
-
-		//Options to pass to the L.Polygon constructor
-		polygonOptions: {}
-	},
-
-	initialize: function (options) {
-		L.Util.setOptions(this, options);
-		if (!this.options.iconCreateFunction) {
-			this.options.iconCreateFunction = this._defaultIconCreateFunction;
-		}
-
-		this._featureGroup = L.featureGroup();
-		this._featureGroup.addEventParent(this);
-
-		this._nonPointGroup = L.featureGroup();
-		this._nonPointGroup.addEventParent(this);
-
-		this._inZoomAnimation = 0;
-		this._needsClustering = [];
-		this._needsRemoving = []; //Markers removed while we aren't on the map need to be kept track of
-		//The bounds of the currently shown area (from _getExpandedVisibleBounds) Updated on zoom/move
-		this._currentShownBounds = null;
-
-		this._queue = [];
-
-		this._childMarkerEventHandlers = {
-			'dragstart': this._childMarkerDragStart,
-			'move': this._childMarkerMoved,
-			'dragend': this._childMarkerDragEnd,
-		};
-
-		// Hook the appropriate animation methods.
-		var animate = L.DomUtil.TRANSITION && this.options.animate;
-		L.extend(this, animate ? this._withAnimation : this._noAnimation);
-		// Remember which MarkerCluster class to instantiate (animated or not).
-		this._markerCluster = animate ? L.MarkerCluster : L.MarkerClusterNonAnimated;
-	},
-
-	addLayer: function (layer) {
-
-		if (layer instanceof L.LayerGroup) {
-			return this.addLayers([layer]);
-		}
-
-		//Don't cluster non point data
-		if (!layer.getLatLng) {
-			this._nonPointGroup.addLayer(layer);
-			this.fire('layeradd', { layer: layer });
-			return this;
-		}
-
-		if (!this._map) {
-			this._needsClustering.push(layer);
-			this.fire('layeradd', { layer: layer });
-			return this;
-		}
-
-		if (this.hasLayer(layer)) {
-			return this;
-		}
-
-
-		//If we have already clustered we'll need to add this one to a cluster
-
-		if (this._unspiderfy) {
-			this._unspiderfy();
-		}
-
-		this._addLayer(layer, this._maxZoom);
-		this.fire('layeradd', { layer: layer });
-
-		// Refresh bounds and weighted positions.
-		this._topClusterLevel._recalculateBounds();
-
-		this._refreshClustersIcons();
-
-		//Work out what is visible
-		var visibleLayer = layer,
-		    currentZoom = this._zoom;
-		if (layer.__parent) {
-			while (visibleLayer.__parent._zoom >= currentZoom) {
-				visibleLayer = visibleLayer.__parent;
-			}
-		}
-
-		if (this._currentShownBounds.contains(visibleLayer.getLatLng())) {
-			if (this.options.animateAddingMarkers) {
-				this._animationAddLayer(layer, visibleLayer);
-			} else {
-				this._animationAddLayerNonAnimated(layer, visibleLayer);
-			}
-		}
-		return this;
-	},
-
-	removeLayer: function (layer) {
-
-		if (layer instanceof L.LayerGroup) {
-			return this.removeLayers([layer]);
-		}
-
-		//Non point layers
-		if (!layer.getLatLng) {
-			this._nonPointGroup.removeLayer(layer);
-			this.fire('layerremove', { layer: layer });
-			return this;
-		}
-
-		if (!this._map) {
-			if (!this._arraySplice(this._needsClustering, layer) && this.hasLayer(layer)) {
-				this._needsRemoving.push({ layer: layer, latlng: layer._latlng });
-			}
-			this.fire('layerremove', { layer: layer });
-			return this;
-		}
-
-		if (!layer.__parent) {
-			return this;
-		}
-
-		if (this._unspiderfy) {
-			this._unspiderfy();
-			this._unspiderfyLayer(layer);
-		}
-
-		//Remove the marker from clusters
-		this._removeLayer(layer, true);
-		this.fire('layerremove', { layer: layer });
-
-		// Refresh bounds and weighted positions.
-		this._topClusterLevel._recalculateBounds();
-
-		this._refreshClustersIcons();
-
-		layer.off(this._childMarkerEventHandlers, this);
-
-		if (this._featureGroup.hasLayer(layer)) {
-			this._featureGroup.removeLayer(layer);
-			if (layer.clusterShow) {
-				layer.clusterShow();
-			}
-		}
-
-		return this;
-	},
-
-	//Takes an array of markers and adds them in bulk
-	addLayers: function (layersArray, skipLayerAddEvent) {
-		if (!L.Util.isArray(layersArray)) {
-			return this.addLayer(layersArray);
-		}
-
-		var fg = this._featureGroup,
-		    npg = this._nonPointGroup,
-		    chunked = this.options.chunkedLoading,
-		    chunkInterval = this.options.chunkInterval,
-		    chunkProgress = this.options.chunkProgress,
-		    l = layersArray.length,
-		    offset = 0,
-		    originalArray = true,
-		    m;
-
-		if (this._map) {
-			var started = (new Date()).getTime();
-			var process = L.bind(function () {
-				var start = (new Date()).getTime();
-				for (; offset < l; offset++) {
-					if (chunked && offset % 200 === 0) {
-						// every couple hundred markers, instrument the time elapsed since processing started:
-						var elapsed = (new Date()).getTime() - start;
-						if (elapsed > chunkInterval) {
-							break; // been working too hard, time to take a break :-)
-						}
-					}
-
-					m = layersArray[offset];
-
-					// Group of layers, append children to layersArray and skip.
-					// Side effects:
-					// - Total increases, so chunkProgress ratio jumps backward.
-					// - Groups are not included in this group, only their non-group child layers (hasLayer).
-					// Changing array length while looping does not affect performance in current browsers:
-					// http://jsperf.com/for-loop-changing-length/6
-					if (m instanceof L.LayerGroup) {
-						if (originalArray) {
-							layersArray = layersArray.slice();
-							originalArray = false;
-						}
-						this._extractNonGroupLayers(m, layersArray);
-						l = layersArray.length;
-						continue;
-					}
-
-					//Not point data, can't be clustered
-					if (!m.getLatLng) {
-						npg.addLayer(m);
-						if (!skipLayerAddEvent) {
-							this.fire('layeradd', { layer: m });
-						}
-						continue;
-					}
-
-					if (this.hasLayer(m)) {
-						continue;
-					}
-
-					this._addLayer(m, this._maxZoom);
-					if (!skipLayerAddEvent) {
-						this.fire('layeradd', { layer: m });
-					}
-
-					//If we just made a cluster of size 2 then we need to remove the other marker from the map (if it is) or we never will
-					if (m.__parent) {
-						if (m.__parent.getChildCount() === 2) {
-							var markers = m.__parent.getAllChildMarkers(),
-							    otherMarker = markers[0] === m ? markers[1] : markers[0];
-							fg.removeLayer(otherMarker);
-						}
-					}
-				}
-
-				if (chunkProgress) {
-					// report progress and time elapsed:
-					chunkProgress(offset, l, (new Date()).getTime() - started);
-				}
-
-				// Completed processing all markers.
-				if (offset === l) {
-
-					// Refresh bounds and weighted positions.
-					this._topClusterLevel._recalculateBounds();
-
-					this._refreshClustersIcons();
-
-					this._topClusterLevel._recursivelyAddChildrenToMap(null, this._zoom, this._currentShownBounds);
-				} else {
-					setTimeout(process, this.options.chunkDelay);
-				}
-			}, this);
-
-			process();
-		} else {
-			var needsClustering = this._needsClustering;
-
-			for (; offset < l; offset++) {
-				m = layersArray[offset];
-
-				// Group of layers, append children to layersArray and skip.
-				if (m instanceof L.LayerGroup) {
-					if (originalArray) {
-						layersArray = layersArray.slice();
-						originalArray = false;
-					}
-					this._extractNonGroupLayers(m, layersArray);
-					l = layersArray.length;
-					continue;
-				}
-
-				//Not point data, can't be clustered
-				if (!m.getLatLng) {
-					npg.addLayer(m);
-					continue;
-				}
-
-				if (this.hasLayer(m)) {
-					continue;
-				}
-
-				needsClustering.push(m);
-			}
-		}
-		return this;
-	},
-
-	//Takes an array of markers and removes them in bulk
-	removeLayers: function (layersArray) {
-		var i, m,
-		    l = layersArray.length,
-		    fg = this._featureGroup,
-		    npg = this._nonPointGroup,
-		    originalArray = true;
-
-		if (!this._map) {
-			for (i = 0; i < l; i++) {
-				m = layersArray[i];
-
-				// Group of layers, append children to layersArray and skip.
-				if (m instanceof L.LayerGroup) {
-					if (originalArray) {
-						layersArray = layersArray.slice();
-						originalArray = false;
-					}
-					this._extractNonGroupLayers(m, layersArray);
-					l = layersArray.length;
-					continue;
-				}
-
-				this._arraySplice(this._needsClustering, m);
-				npg.removeLayer(m);
-				if (this.hasLayer(m)) {
-					this._needsRemoving.push({ layer: m, latlng: m._latlng });
-				}
-				this.fire('layerremove', { layer: m });
-			}
-			return this;
-		}
-
-		if (this._unspiderfy) {
-			this._unspiderfy();
-
-			// Work on a copy of the array, so that next loop is not affected.
-			var layersArray2 = layersArray.slice(),
-			    l2 = l;
-			for (i = 0; i < l2; i++) {
-				m = layersArray2[i];
-
-				// Group of layers, append children to layersArray and skip.
-				if (m instanceof L.LayerGroup) {
-					this._extractNonGroupLayers(m, layersArray2);
-					l2 = layersArray2.length;
-					continue;
-				}
-
-				this._unspiderfyLayer(m);
-			}
-		}
-
-		for (i = 0; i < l; i++) {
-			m = layersArray[i];
-
-			// Group of layers, append children to layersArray and skip.
-			if (m instanceof L.LayerGroup) {
-				if (originalArray) {
-					layersArray = layersArray.slice();
-					originalArray = false;
-				}
-				this._extractNonGroupLayers(m, layersArray);
-				l = layersArray.length;
-				continue;
-			}
-
-			if (!m.__parent) {
-				npg.removeLayer(m);
-				this.fire('layerremove', { layer: m });
-				continue;
-			}
-
-			this._removeLayer(m, true, true);
-			this.fire('layerremove', { layer: m });
-
-			if (fg.hasLayer(m)) {
-				fg.removeLayer(m);
-				if (m.clusterShow) {
-					m.clusterShow();
-				}
-			}
-		}
-
-		// Refresh bounds and weighted positions.
-		this._topClusterLevel._recalculateBounds();
-
-		this._refreshClustersIcons();
-
-		//Fix up the clusters and markers on the map
-		this._topClusterLevel._recursivelyAddChildrenToMap(null, this._zoom, this._currentShownBounds);
-
-		return this;
-	},
-
-	//Removes all layers from the MarkerClusterGroup
-	clearLayers: function () {
-		//Need our own special implementation as the LayerGroup one doesn't work for us
-
-		//If we aren't on the map (yet), blow away the markers we know of
-		if (!this._map) {
-			this._needsClustering = [];
-			delete this._gridClusters;
-			delete this._gridUnclustered;
-		}
-
-		if (this._noanimationUnspiderfy) {
-			this._noanimationUnspiderfy();
-		}
-
-		//Remove all the visible layers
-		this._featureGroup.clearLayers();
-		this._nonPointGroup.clearLayers();
-
-		this.eachLayer(function (marker) {
-			marker.off(this._childMarkerEventHandlers, this);
-			delete marker.__parent;
-		}, this);
-
-		if (this._map) {
-			//Reset _topClusterLevel and the DistanceGrids
-			this._generateInitialClusters();
-		}
-
-		return this;
-	},
-
-	//Override FeatureGroup.getBounds as it doesn't work
-	getBounds: function () {
-		var bounds = new L.LatLngBounds();
-
-		if (this._topClusterLevel) {
-			bounds.extend(this._topClusterLevel._bounds);
-		}
-
-		for (var i = this._needsClustering.length - 1; i >= 0; i--) {
-			bounds.extend(this._needsClustering[i].getLatLng());
-		}
-
-		bounds.extend(this._nonPointGroup.getBounds());
-
-		return bounds;
-	},
-
-	//Overrides LayerGroup.eachLayer
-	eachLayer: function (method, context) {
-		var markers = this._needsClustering.slice(),
-			needsRemoving = this._needsRemoving,
-			thisNeedsRemoving, i, j;
-
-		if (this._topClusterLevel) {
-			this._topClusterLevel.getAllChildMarkers(markers);
-		}
-
-		for (i = markers.length - 1; i >= 0; i--) {
-			thisNeedsRemoving = true;
-
-			for (j = needsRemoving.length - 1; j >= 0; j--) {
-				if (needsRemoving[j].layer === markers[i]) {
-					thisNeedsRemoving = false;
-					break;
-				}
-			}
-
-			if (thisNeedsRemoving) {
-				method.call(context, markers[i]);
-			}
-		}
-
-		this._nonPointGroup.eachLayer(method, context);
-	},
-
-	//Overrides LayerGroup.getLayers
-	getLayers: function () {
-		var layers = [];
-		this.eachLayer(function (l) {
-			layers.push(l);
-		});
-		return layers;
-	},
-
-	//Overrides LayerGroup.getLayer, WARNING: Really bad performance
-	getLayer: function (id) {
-		var result = null;
-
-		id = parseInt(id, 10);
-
-		this.eachLayer(function (l) {
-			if (L.stamp(l) === id) {
-				result = l;
-			}
-		});
-
-		return result;
-	},
-
-	//Returns true if the given layer is in this MarkerClusterGroup
-	hasLayer: function (layer) {
-		if (!layer) {
-			return false;
-		}
-
-		var i, anArray = this._needsClustering;
-
-		for (i = anArray.length - 1; i >= 0; i--) {
-			if (anArray[i] === layer) {
-				return true;
-			}
-		}
-
-		anArray = this._needsRemoving;
-		for (i = anArray.length - 1; i >= 0; i--) {
-			if (anArray[i].layer === layer) {
-				return false;
-			}
-		}
-
-		return !!(layer.__parent && layer.__parent._group === this) || this._nonPointGroup.hasLayer(layer);
-	},
-
-	//Zoom down to show the given layer (spiderfying if necessary) then calls the callback
-	zoomToShowLayer: function (layer, callback) {
-
-		if (typeof callback !== 'function') {
-			callback = function () {};
-		}
-
-		var showMarker = function () {
-			if ((layer._icon || layer.__parent._icon) && !this._inZoomAnimation) {
-				this._map.off('moveend', showMarker, this);
-				this.off('animationend', showMarker, this);
-
-				if (layer._icon) {
-					callback();
-				} else if (layer.__parent._icon) {
-					this.once('spiderfied', callback, this);
-					layer.__parent.spiderfy();
-				}
-			}
-		};
-
-		if (layer._icon && this._map.getBounds().contains(layer.getLatLng())) {
-			//Layer is visible ond on screen, immediate return
-			callback();
-		} else if (layer.__parent._zoom < Math.round(this._map._zoom)) {
-			//Layer should be visible at this zoom level. It must not be on screen so just pan over to it
-			this._map.on('moveend', showMarker, this);
-			this._map.panTo(layer.getLatLng());
-		} else {
-			this._map.on('moveend', showMarker, this);
-			this.on('animationend', showMarker, this);
-			layer.__parent.zoomToBounds();
-		}
-	},
-
-	//Overrides FeatureGroup.onAdd
-	onAdd: function (map) {
-		this._map = map;
-		var i, l, layer;
-
-		if (!isFinite(this._map.getMaxZoom())) {
-			throw "Map has no maxZoom specified";
-		}
-
-		this._featureGroup.addTo(map);
-		this._nonPointGroup.addTo(map);
-
-		if (!this._gridClusters) {
-			this._generateInitialClusters();
-		}
-
-		this._maxLat = map.options.crs.projection.MAX_LATITUDE;
-
-		//Restore all the positions as they are in the MCG before removing them
-		for (i = 0, l = this._needsRemoving.length; i < l; i++) {
-			layer = this._needsRemoving[i];
-			layer.newlatlng = layer.layer._latlng;
-			layer.layer._latlng = layer.latlng;
-		}
-		//Remove them, then restore their new positions
-		for (i = 0, l = this._needsRemoving.length; i < l; i++) {
-			layer = this._needsRemoving[i];
-			this._removeLayer(layer.layer, true);
-			layer.layer._latlng = layer.newlatlng;
-		}
-		this._needsRemoving = [];
-
-		//Remember the current zoom level and bounds
-		this._zoom = Math.round(this._map._zoom);
-		this._currentShownBounds = this._getExpandedVisibleBounds();
-
-		this._map.on('zoomend', this._zoomEnd, this);
-		this._map.on('moveend', this._moveEnd, this);
-
-		if (this._spiderfierOnAdd) { //TODO FIXME: Not sure how to have spiderfier add something on here nicely
-			this._spiderfierOnAdd();
-		}
-
-		this._bindEvents();
-
-		//Actually add our markers to the map:
-		l = this._needsClustering;
-		this._needsClustering = [];
-		this.addLayers(l, true);
-	},
-
-	//Overrides FeatureGroup.onRemove
-	onRemove: function (map) {
-		map.off('zoomend', this._zoomEnd, this);
-		map.off('moveend', this._moveEnd, this);
-
-		this._unbindEvents();
-
-		//In case we are in a cluster animation
-		this._map._mapPane.className = this._map._mapPane.className.replace(' leaflet-cluster-anim', '');
-
-		if (this._spiderfierOnRemove) { //TODO FIXME: Not sure how to have spiderfier add something on here nicely
-			this._spiderfierOnRemove();
-		}
-
-		delete this._maxLat;
-
-		//Clean up all the layers we added to the map
-		this._hideCoverage();
-		this._featureGroup.remove();
-		this._nonPointGroup.remove();
-
-		this._featureGroup.clearLayers();
-
-		this._map = null;
-	},
-
-	getVisibleParent: function (marker) {
-		var vMarker = marker;
-		while (vMarker && !vMarker._icon) {
-			vMarker = vMarker.__parent;
-		}
-		return vMarker || null;
-	},
-
-	//Remove the given object from the given array
-	_arraySplice: function (anArray, obj) {
-		for (var i = anArray.length - 1; i >= 0; i--) {
-			if (anArray[i] === obj) {
-				anArray.splice(i, 1);
-				return true;
-			}
-		}
-	},
-
-	/**
-	 * Removes a marker from all _gridUnclustered zoom levels, starting at the supplied zoom.
-	 * @param marker to be removed from _gridUnclustered.
-	 * @param z integer bottom start zoom level (included)
-	 * @private
-	 */
-	_removeFromGridUnclustered: function (marker, z) {
-		var map = this._map,
-		    gridUnclustered = this._gridUnclustered,
-			minZoom = Math.floor(this._map.getMinZoom());
-
-		for (; z >= minZoom; z--) {
-			if (!gridUnclustered[z].removeObject(marker, map.project(marker.getLatLng(), z))) {
-				break;
-			}
-		}
-	},
-
-	_childMarkerDragStart: function (e) {
-		e.target.__dragStart = e.target._latlng;
-	},
-
-	_childMarkerMoved: function (e) {
-		if (!this._ignoreMove && !e.target.__dragStart) {
-			var isPopupOpen = e.target._popup && e.target._popup.isOpen();
-
-			this._moveChild(e.target, e.oldLatLng, e.latlng);
-
-			if (isPopupOpen) {
-				e.target.openPopup();
-			}
-		}
-	},
-
-	_moveChild: function (layer, from, to) {
-		layer._latlng = from;
-		this.removeLayer(layer);
-
-		layer._latlng = to;
-		this.addLayer(layer);
-	},
-
-	_childMarkerDragEnd: function (e) {
-		if (e.target.__dragStart) {
-			this._moveChild(e.target, e.target.__dragStart, e.target._latlng);
-		}
-		delete e.target.__dragStart;
-	},
-
-
-	//Internal function for removing a marker from everything.
-	//dontUpdateMap: set to true if you will handle updating the map manually (for bulk functions)
-	_removeLayer: function (marker, removeFromDistanceGrid, dontUpdateMap) {
-		var gridClusters = this._gridClusters,
-			gridUnclustered = this._gridUnclustered,
-			fg = this._featureGroup,
-			map = this._map,
-			minZoom = Math.floor(this._map.getMinZoom());
-
-		//Remove the marker from distance clusters it might be in
-		if (removeFromDistanceGrid) {
-			this._removeFromGridUnclustered(marker, this._maxZoom);
-		}
-
-		//Work our way up the clusters removing them as we go if required
-		var cluster = marker.__parent,
-			markers = cluster._markers,
-			otherMarker;
-
-		//Remove the marker from the immediate parents marker list
-		this._arraySplice(markers, marker);
-
-		while (cluster) {
-			cluster._childCount--;
-			cluster._boundsNeedUpdate = true;
-
-			if (cluster._zoom < minZoom) {
-				//Top level, do nothing
-				break;
-			} else if (removeFromDistanceGrid && cluster._childCount <= 1) { //Cluster no longer required
-				//We need to push the other marker up to the parent
-				otherMarker = cluster._markers[0] === marker ? cluster._markers[1] : cluster._markers[0];
-
-				//Update distance grid
-				gridClusters[cluster._zoom].removeObject(cluster, map.project(cluster._cLatLng, cluster._zoom));
-				gridUnclustered[cluster._zoom].addObject(otherMarker, map.project(otherMarker.getLatLng(), cluster._zoom));
-
-				//Move otherMarker up to parent
-				this._arraySplice(cluster.__parent._childClusters, cluster);
-				cluster.__parent._markers.push(otherMarker);
-				otherMarker.__parent = cluster.__parent;
-
-				if (cluster._icon) {
-					//Cluster is currently on the map, need to put the marker on the map instead
-					fg.removeLayer(cluster);
-					if (!dontUpdateMap) {
-						fg.addLayer(otherMarker);
-					}
-				}
-			} else {
-				cluster._iconNeedsUpdate = true;
-			}
-
-			cluster = cluster.__parent;
-		}
-
-		delete marker.__parent;
-	},
-
-	_isOrIsParent: function (el, oel) {
-		while (oel) {
-			if (el === oel) {
-				return true;
-			}
-			oel = oel.parentNode;
-		}
-		return false;
-	},
-
-	//Override L.Evented.fire
-	fire: function (type, data, propagate) {
-		if (data && data.layer instanceof L.MarkerCluster) {
-			//Prevent multiple clustermouseover/off events if the icon is made up of stacked divs (Doesn't work in ie <= 8, no relatedTarget)
-			if (data.originalEvent && this._isOrIsParent(data.layer._icon, data.originalEvent.relatedTarget)) {
-				return;
-			}
-			type = 'cluster' + type;
-		}
-
-		L.FeatureGroup.prototype.fire.call(this, type, data, propagate);
-	},
-
-	//Override L.Evented.listens
-	listens: function (type, propagate) {
-		return L.FeatureGroup.prototype.listens.call(this, type, propagate) || L.FeatureGroup.prototype.listens.call(this, 'cluster' + type, propagate);
-	},
-
-	//Default functionality
-	_defaultIconCreateFunction: function (cluster) {
-		var childCount = cluster.getChildCount();
-
-		var c = ' marker-cluster-';
-		if (childCount < 10) {
-			c += 'small';
-		} else if (childCount < 100) {
-			c += 'medium';
-		} else {
-			c += 'large';
-		}
-
-		return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
-	},
-
-	_bindEvents: function () {
-		var map = this._map,
-		    spiderfyOnMaxZoom = this.options.spiderfyOnMaxZoom,
-		    showCoverageOnHover = this.options.showCoverageOnHover,
-		    zoomToBoundsOnClick = this.options.zoomToBoundsOnClick;
-
-		//Zoom on cluster click or spiderfy if we are at the lowest level
-		if (spiderfyOnMaxZoom || zoomToBoundsOnClick) {
-			this.on('clusterclick', this._zoomOrSpiderfy, this);
-		}
-
-		//Show convex hull (boundary) polygon on mouse over
-		if (showCoverageOnHover) {
-			this.on('clustermouseover', this._showCoverage, this);
-			this.on('clustermouseout', this._hideCoverage, this);
-			map.on('zoomend', this._hideCoverage, this);
-		}
-	},
-
-	_zoomOrSpiderfy: function (e) {
-		var cluster = e.layer,
-		    bottomCluster = cluster;
-
-		while (bottomCluster._childClusters.length === 1) {
-			bottomCluster = bottomCluster._childClusters[0];
-		}
-
-		if (bottomCluster._zoom === this._maxZoom &&
-			bottomCluster._childCount === cluster._childCount &&
-			this.options.spiderfyOnMaxZoom) {
-
-			// All child markers are contained in a single cluster from this._maxZoom to this cluster.
-			cluster.spiderfy();
-		} else if (this.options.zoomToBoundsOnClick) {
-			cluster.zoomToBounds();
-		}
-
-		// Focus the map again for keyboard users.
-		if (e.originalEvent && e.originalEvent.keyCode === 13) {
-			this._map._container.focus();
-		}
-	},
-
-	_showCoverage: function (e) {
-		var map = this._map;
-		if (this._inZoomAnimation) {
-			return;
-		}
-		if (this._shownPolygon) {
-			map.removeLayer(this._shownPolygon);
-		}
-		if (e.layer.getChildCount() > 2 && e.layer !== this._spiderfied) {
-			this._shownPolygon = new L.Polygon(e.layer.getConvexHull(), this.options.polygonOptions);
-			map.addLayer(this._shownPolygon);
-		}
-	},
-
-	_hideCoverage: function () {
-		if (this._shownPolygon) {
-			this._map.removeLayer(this._shownPolygon);
-			this._shownPolygon = null;
-		}
-	},
-
-	_unbindEvents: function () {
-		var spiderfyOnMaxZoom = this.options.spiderfyOnMaxZoom,
-			showCoverageOnHover = this.options.showCoverageOnHover,
-			zoomToBoundsOnClick = this.options.zoomToBoundsOnClick,
-			map = this._map;
-
-		if (spiderfyOnMaxZoom || zoomToBoundsOnClick) {
-			this.off('clusterclick', this._zoomOrSpiderfy, this);
-		}
-		if (showCoverageOnHover) {
-			this.off('clustermouseover', this._showCoverage, this);
-			this.off('clustermouseout', this._hideCoverage, this);
-			map.off('zoomend', this._hideCoverage, this);
-		}
-	},
-
-	_zoomEnd: function () {
-		if (!this._map) { //May have been removed from the map by a zoomEnd handler
-			return;
-		}
-		this._mergeSplitClusters();
-
-		this._zoom = Math.round(this._map._zoom);
-		this._currentShownBounds = this._getExpandedVisibleBounds();
-	},
-
-	_moveEnd: function () {
-		if (this._inZoomAnimation) {
-			return;
-		}
-
-		var newBounds = this._getExpandedVisibleBounds();
-
-		this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), this._zoom, newBounds);
-		this._topClusterLevel._recursivelyAddChildrenToMap(null, Math.round(this._map._zoom), newBounds);
-
-		this._currentShownBounds = newBounds;
-		return;
-	},
-
-	_generateInitialClusters: function () {
-		var maxZoom = Math.ceil(this._map.getMaxZoom()),
-			minZoom = Math.floor(this._map.getMinZoom()),
-			radius = this.options.maxClusterRadius,
-			radiusFn = radius;
-
-		//If we just set maxClusterRadius to a single number, we need to create
-		//a simple function to return that number. Otherwise, we just have to
-		//use the function we've passed in.
-		if (typeof radius !== "function") {
-			radiusFn = function () { return radius; };
-		}
-
-		if (this.options.disableClusteringAtZoom !== null) {
-			maxZoom = this.options.disableClusteringAtZoom - 1;
-		}
-		this._maxZoom = maxZoom;
-		this._gridClusters = {};
-		this._gridUnclustered = {};
-
-		//Set up DistanceGrids for each zoom
-		for (var zoom = maxZoom; zoom >= minZoom; zoom--) {
-			this._gridClusters[zoom] = new L.DistanceGrid(radiusFn(zoom));
-			this._gridUnclustered[zoom] = new L.DistanceGrid(radiusFn(zoom));
-		}
-
-		// Instantiate the appropriate L.MarkerCluster class (animated or not).
-		this._topClusterLevel = new this._markerCluster(this, minZoom - 1);
-	},
-
-	//Zoom: Zoom to start adding at (Pass this._maxZoom to start at the bottom)
-	_addLayer: function (layer, zoom) {
-		var gridClusters = this._gridClusters,
-		    gridUnclustered = this._gridUnclustered,
-			minZoom = Math.floor(this._map.getMinZoom()),
-		    markerPoint, z;
-
-		if (this.options.singleMarkerMode) {
-			this._overrideMarkerIcon(layer);
-		}
-
-		layer.on(this._childMarkerEventHandlers, this);
-
-		//Find the lowest zoom level to slot this one in
-		for (; zoom >= minZoom; zoom--) {
-			markerPoint = this._map.project(layer.getLatLng(), zoom); // calculate pixel position
-
-			//Try find a cluster close by
-			var closest = gridClusters[zoom].getNearObject(markerPoint);
-			if (closest) {
-				closest._addChild(layer);
-				layer.__parent = closest;
-				return;
-			}
-
-			//Try find a marker close by to form a new cluster with
-			closest = gridUnclustered[zoom].getNearObject(markerPoint);
-			if (closest) {
-				var parent = closest.__parent;
-				if (parent) {
-					this._removeLayer(closest, false);
-				}
-
-				//Create new cluster with these 2 in it
-
-				var newCluster = new this._markerCluster(this, zoom, closest, layer);
-				gridClusters[zoom].addObject(newCluster, this._map.project(newCluster._cLatLng, zoom));
-				closest.__parent = newCluster;
-				layer.__parent = newCluster;
-
-				//First create any new intermediate parent clusters that don't exist
-				var lastParent = newCluster;
-				for (z = zoom - 1; z > parent._zoom; z--) {
-					lastParent = new this._markerCluster(this, z, lastParent);
-					gridClusters[z].addObject(lastParent, this._map.project(closest.getLatLng(), z));
-				}
-				parent._addChild(lastParent);
-
-				//Remove closest from this zoom level and any above that it is in, replace with newCluster
-				this._removeFromGridUnclustered(closest, zoom);
-
-				return;
-			}
-
-			//Didn't manage to cluster in at this zoom, record us as a marker here and continue upwards
-			gridUnclustered[zoom].addObject(layer, markerPoint);
-		}
-
-		//Didn't get in anything, add us to the top
-		this._topClusterLevel._addChild(layer);
-		layer.__parent = this._topClusterLevel;
-		return;
-	},
-
-	/**
-	 * Refreshes the icon of all "dirty" visible clusters.
-	 * Non-visible "dirty" clusters will be updated when they are added to the map.
-	 * @private
-	 */
-	_refreshClustersIcons: function () {
-		this._featureGroup.eachLayer(function (c) {
-			if (c instanceof L.MarkerCluster && c._iconNeedsUpdate) {
-				c._updateIcon();
-			}
-		});
-	},
-
-	//Enqueue code to fire after the marker expand/contract has happened
-	_enqueue: function (fn) {
-		this._queue.push(fn);
-		if (!this._queueTimeout) {
-			this._queueTimeout = setTimeout(L.bind(this._processQueue, this), 300);
-		}
-	},
-	_processQueue: function () {
-		for (var i = 0; i < this._queue.length; i++) {
-			this._queue[i].call(this);
-		}
-		this._queue.length = 0;
-		clearTimeout(this._queueTimeout);
-		this._queueTimeout = null;
-	},
-
-	//Merge and split any existing clusters that are too big or small
-	_mergeSplitClusters: function () {
-		var mapZoom = Math.round(this._map._zoom);
-
-		//In case we are starting to split before the animation finished
-		this._processQueue();
-
-		if (this._zoom < mapZoom && this._currentShownBounds.intersects(this._getExpandedVisibleBounds())) { //Zoom in, split
-			this._animationStart();
-			//Remove clusters now off screen
-			this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), this._zoom, this._getExpandedVisibleBounds());
-
-			this._animationZoomIn(this._zoom, mapZoom);
-
-		} else if (this._zoom > mapZoom) { //Zoom out, merge
-			this._animationStart();
-
-			this._animationZoomOut(this._zoom, mapZoom);
-		} else {
-			this._moveEnd();
-		}
-	},
-
-	//Gets the maps visible bounds expanded in each direction by the size of the screen (so the user cannot see an area we do not cover in one pan)
-	_getExpandedVisibleBounds: function () {
-		if (!this.options.removeOutsideVisibleBounds) {
-			return this._mapBoundsInfinite;
-		} else if (L.Browser.mobile) {
-			return this._checkBoundsMaxLat(this._map.getBounds());
-		}
-
-		return this._checkBoundsMaxLat(this._map.getBounds().pad(1)); // Padding expands the bounds by its own dimensions but scaled with the given factor.
-	},
-
-	/**
-	 * Expands the latitude to Infinity (or -Infinity) if the input bounds reach the map projection maximum defined latitude
-	 * (in the case of Web/Spherical Mercator, it is 85.0511287798 / see https://en.wikipedia.org/wiki/Web_Mercator#Formulas).
-	 * Otherwise, the removeOutsideVisibleBounds option will remove markers beyond that limit, whereas the same markers without
-	 * this option (or outside MCG) will have their position floored (ceiled) by the projection and rendered at that limit,
-	 * making the user think that MCG "eats" them and never displays them again.
-	 * @param bounds L.LatLngBounds
-	 * @returns {L.LatLngBounds}
-	 * @private
-	 */
-	_checkBoundsMaxLat: function (bounds) {
-		var maxLat = this._maxLat;
-
-		if (maxLat !== undefined) {
-			if (bounds.getNorth() >= maxLat) {
-				bounds._northEast.lat = Infinity;
-			}
-			if (bounds.getSouth() <= -maxLat) {
-				bounds._southWest.lat = -Infinity;
-			}
-		}
-
-		return bounds;
-	},
-
-	//Shared animation code
-	_animationAddLayerNonAnimated: function (layer, newCluster) {
-		if (newCluster === layer) {
-			this._featureGroup.addLayer(layer);
-		} else if (newCluster._childCount === 2) {
-			newCluster._addToMap();
-
-			var markers = newCluster.getAllChildMarkers();
-			this._featureGroup.removeLayer(markers[0]);
-			this._featureGroup.removeLayer(markers[1]);
-		} else {
-			newCluster._updateIcon();
-		}
-	},
-
-	/**
-	 * Extracts individual (i.e. non-group) layers from a Layer Group.
-	 * @param group to extract layers from.
-	 * @param output {Array} in which to store the extracted layers.
-	 * @returns {*|Array}
-	 * @private
-	 */
-	_extractNonGroupLayers: function (group, output) {
-		var layers = group.getLayers(),
-		    i = 0,
-		    layer;
-
-		output = output || [];
-
-		for (; i < layers.length; i++) {
-			layer = layers[i];
-
-			if (layer instanceof L.LayerGroup) {
-				this._extractNonGroupLayers(layer, output);
-				continue;
-			}
-
-			output.push(layer);
-		}
-
-		return output;
-	},
-
-	/**
-	 * Implements the singleMarkerMode option.
-	 * @param layer Marker to re-style using the Clusters iconCreateFunction.
-	 * @returns {L.Icon} The newly created icon.
-	 * @private
-	 */
-	_overrideMarkerIcon: function (layer) {
-		var icon = layer.options.icon = this.options.iconCreateFunction({
-			getChildCount: function () {
-				return 1;
-			},
-			getAllChildMarkers: function () {
-				return [layer];
-			}
-		});
-
-		return icon;
-	}
-});
+    var MarkerClusterGroup = L.MarkerClusterGroup = L.FeatureGroup.extend({
+
+        options: {
+            maxClusterRadius: 80, //A cluster will cover at most this many pixels from its center
+            iconCreateFunction: null,
+            clusterPane: L.Marker.prototype.options.pane,
+
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: true,
+            zoomToBoundsOnClick: true,
+            singleMarkerMode: false,
+
+            disableClusteringAtZoom: null,
+
+            // Setting this to false prevents the removal of any clusters outside of the viewpoint, which
+            // is the default behaviour for performance reasons.
+            removeOutsideVisibleBounds: true,
+
+            // Set to false to disable all animations (zoom and spiderfy).
+            // If false, option animateAddingMarkers below has no effect.
+            // If L.DomUtil.TRANSITION is falsy, this option has no effect.
+            animate: true,
+
+            //Whether to animate adding markers after adding the MarkerClusterGroup to the map
+            // If you are adding individual markers set to true, if adding bulk markers leave false for massive performance gains.
+            animateAddingMarkers: false,
+
+            //Increase to increase the distance away that spiderfied markers appear from the center
+            spiderfyDistanceMultiplier: 1,
+
+            // Make it possible to specify a polyline options on a spider leg
+            spiderLegPolylineOptions: { weight: 1.5, color: '#222', opacity: 0.5 },
+
+            // When bulk adding layers, adds markers in chunks. Means addLayers may not add all the layers in the call, others will be loaded during setTimeouts
+            chunkedLoading: false,
+            chunkInterval: 200, // process markers for a maximum of ~ n milliseconds (then trigger the chunkProgress callback)
+            chunkDelay: 50, // at the end of each interval, give n milliseconds back to system/browser
+            chunkProgress: null, // progress callback: function(processed, total, elapsed) (e.g. for a progress indicator)
+
+            //Options to pass to the L.Polygon constructor
+            polygonOptions: {}
+        },
+
+        initialize: function (options) {
+            L.Util.setOptions(this, options);
+            if (!this.options.iconCreateFunction) {
+                this.options.iconCreateFunction = this._defaultIconCreateFunction;
+            }
+
+            this._featureGroup = L.featureGroup();
+            this._featureGroup.addEventParent(this);
+
+            this._nonPointGroup = L.featureGroup();
+            this._nonPointGroup.addEventParent(this);
+
+            this._inZoomAnimation = 0;
+            this._needsClustering = [];
+            this._needsRemoving = []; //Markers removed while we aren't on the map need to be kept track of
+            //The bounds of the currently shown area (from _getExpandedVisibleBounds) Updated on zoom/move
+            this._currentShownBounds = null;
+
+            this._queue = [];
+
+            this._childMarkerEventHandlers = {
+                'dragstart': this._childMarkerDragStart,
+                'move': this._childMarkerMoved,
+                'dragend': this._childMarkerDragEnd,
+            };
+
+            // Hook the appropriate animation methods.
+            var animate = L.DomUtil.TRANSITION && this.options.animate;
+            L.extend(this, animate ? this._withAnimation : this._noAnimation);
+            // Remember which MarkerCluster class to instantiate (animated or not).
+            this._markerCluster = animate ? L.MarkerCluster : L.MarkerClusterNonAnimated;
+        },
+
+        addLayer: function (layer) {
+
+            if (layer instanceof L.LayerGroup) {
+                return this.addLayers([layer]);
+            }
+
+            //Don't cluster non point data
+            if (!layer.getLatLng) {
+                this._nonPointGroup.addLayer(layer);
+                this.fire('layeradd', { layer: layer });
+                return this;
+            }
+
+            if (!this._map) {
+                this._needsClustering.push(layer);
+                this.fire('layeradd', { layer: layer });
+                return this;
+            }
+
+            if (this.hasLayer(layer)) {
+                return this;
+            }
+
+
+            //If we have already clustered we'll need to add this one to a cluster
+
+            if (this._unspiderfy) {
+                this._unspiderfy();
+            }
+
+            this._addLayer(layer, this._maxZoom);
+            this.fire('layeradd', { layer: layer });
+
+            // Refresh bounds and weighted positions.
+            this._topClusterLevel._recalculateBounds();
+
+            this._refreshClustersIcons();
+
+            //Work out what is visible
+            var visibleLayer = layer,
+                currentZoom = this._zoom;
+            if (layer.__parent) {
+                while (visibleLayer.__parent._zoom >= currentZoom) {
+                    visibleLayer = visibleLayer.__parent;
+                }
+            }
+
+            if (this._currentShownBounds.contains(visibleLayer.getLatLng())) {
+                if (this.options.animateAddingMarkers) {
+                    this._animationAddLayer(layer, visibleLayer);
+                } else {
+                    this._animationAddLayerNonAnimated(layer, visibleLayer);
+                }
+            }
+            return this;
+        },
+
+        removeLayer: function (layer) {
+
+            if (layer instanceof L.LayerGroup) {
+                return this.removeLayers([layer]);
+            }
+
+            //Non point layers
+            if (!layer.getLatLng) {
+                this._nonPointGroup.removeLayer(layer);
+                this.fire('layerremove', { layer: layer });
+                return this;
+            }
+
+            if (!this._map) {
+                if (!this._arraySplice(this._needsClustering, layer) && this.hasLayer(layer)) {
+                    this._needsRemoving.push({ layer: layer, latlng: layer._latlng });
+                }
+                this.fire('layerremove', { layer: layer });
+                return this;
+            }
+
+            if (!layer.__parent) {
+                return this;
+            }
+
+            if (this._unspiderfy) {
+                this._unspiderfy();
+                this._unspiderfyLayer(layer);
+            }
+
+            //Remove the marker from clusters
+            this._removeLayer(layer, true);
+            this.fire('layerremove', { layer: layer });
+
+            // Refresh bounds and weighted positions.
+            this._topClusterLevel._recalculateBounds();
+
+            this._refreshClustersIcons();
+
+            layer.off(this._childMarkerEventHandlers, this);
+
+            if (this._featureGroup.hasLayer(layer)) {
+                this._featureGroup.removeLayer(layer);
+                if (layer.clusterShow) {
+                    layer.clusterShow();
+                }
+            }
+
+            return this;
+        },
+
+        //Takes an array of markers and adds them in bulk
+        addLayers: function (layersArray, skipLayerAddEvent) {
+            if (!L.Util.isArray(layersArray)) {
+                return this.addLayer(layersArray);
+            }
+
+            var fg = this._featureGroup,
+                npg = this._nonPointGroup,
+                chunked = this.options.chunkedLoading,
+                chunkInterval = this.options.chunkInterval,
+                chunkProgress = this.options.chunkProgress,
+                l = layersArray.length,
+                offset = 0,
+                originalArray = true,
+                m;
+
+            if (this._map) {
+                var started = (new Date()).getTime();
+                var process = L.bind(function () {
+                    var start = (new Date()).getTime();
+                    for (; offset < l; offset++) {
+                        if (chunked && offset % 200 === 0) {
+                            // every couple hundred markers, instrument the time elapsed since processing started:
+                            var elapsed = (new Date()).getTime() - start;
+                            if (elapsed > chunkInterval) {
+                                break; // been working too hard, time to take a break :-)
+                            }
+                        }
+
+                        m = layersArray[offset];
+
+                        // Group of layers, append children to layersArray and skip.
+                        // Side effects:
+                        // - Total increases, so chunkProgress ratio jumps backward.
+                        // - Groups are not included in this group, only their non-group child layers (hasLayer).
+                        // Changing array length while looping does not affect performance in current browsers:
+                        // http://jsperf.com/for-loop-changing-length/6
+                        if (m instanceof L.LayerGroup) {
+                            if (originalArray) {
+                                layersArray = layersArray.slice();
+                                originalArray = false;
+                            }
+                            this._extractNonGroupLayers(m, layersArray);
+                            l = layersArray.length;
+                            continue;
+                        }
+
+                        //Not point data, can't be clustered
+                        if (!m.getLatLng) {
+                            npg.addLayer(m);
+                            if (!skipLayerAddEvent) {
+                                this.fire('layeradd', { layer: m });
+                            }
+                            continue;
+                        }
+
+                        if (this.hasLayer(m)) {
+                            continue;
+                        }
+
+                        this._addLayer(m, this._maxZoom);
+                        if (!skipLayerAddEvent) {
+                            this.fire('layeradd', { layer: m });
+                        }
+
+                        //If we just made a cluster of size 2 then we need to remove the other marker from the map (if it is) or we never will
+                        if (m.__parent) {
+                            if (m.__parent.getChildCount() === 2) {
+                                var markers = m.__parent.getAllChildMarkers(),
+                                    otherMarker = markers[0] === m ? markers[1] : markers[0];
+                                fg.removeLayer(otherMarker);
+                            }
+                        }
+                    }
+
+                    if (chunkProgress) {
+                        // report progress and time elapsed:
+                        chunkProgress(offset, l, (new Date()).getTime() - started);
+                    }
+
+                    // Completed processing all markers.
+                    if (offset === l) {
+
+                        // Refresh bounds and weighted positions.
+                        this._topClusterLevel._recalculateBounds();
+
+                        this._refreshClustersIcons();
+
+                        this._topClusterLevel._recursivelyAddChildrenToMap(null, this._zoom, this._currentShownBounds);
+                    } else {
+                        setTimeout(process, this.options.chunkDelay);
+                    }
+                }, this);
+
+                process();
+            } else {
+                var needsClustering = this._needsClustering;
+
+                for (; offset < l; offset++) {
+                    m = layersArray[offset];
+
+                    // Group of layers, append children to layersArray and skip.
+                    if (m instanceof L.LayerGroup) {
+                        if (originalArray) {
+                            layersArray = layersArray.slice();
+                            originalArray = false;
+                        }
+                        this._extractNonGroupLayers(m, layersArray);
+                        l = layersArray.length;
+                        continue;
+                    }
+
+                    //Not point data, can't be clustered
+                    if (!m.getLatLng) {
+                        npg.addLayer(m);
+                        continue;
+                    }
+
+                    if (this.hasLayer(m)) {
+                        continue;
+                    }
+
+                    needsClustering.push(m);
+                }
+            }
+            return this;
+        },
+
+        //Takes an array of markers and removes them in bulk
+        removeLayers: function (layersArray) {
+            var i, m,
+                l = layersArray.length,
+                fg = this._featureGroup,
+                npg = this._nonPointGroup,
+                originalArray = true;
+
+            if (!this._map) {
+                for (i = 0; i < l; i++) {
+                    m = layersArray[i];
+
+                    // Group of layers, append children to layersArray and skip.
+                    if (m instanceof L.LayerGroup) {
+                        if (originalArray) {
+                            layersArray = layersArray.slice();
+                            originalArray = false;
+                        }
+                        this._extractNonGroupLayers(m, layersArray);
+                        l = layersArray.length;
+                        continue;
+                    }
+
+                    this._arraySplice(this._needsClustering, m);
+                    npg.removeLayer(m);
+                    if (this.hasLayer(m)) {
+                        this._needsRemoving.push({ layer: m, latlng: m._latlng });
+                    }
+                    this.fire('layerremove', { layer: m });
+                }
+                return this;
+            }
+
+            if (this._unspiderfy) {
+                this._unspiderfy();
+
+                // Work on a copy of the array, so that next loop is not affected.
+                var layersArray2 = layersArray.slice(),
+                    l2 = l;
+                for (i = 0; i < l2; i++) {
+                    m = layersArray2[i];
+
+                    // Group of layers, append children to layersArray and skip.
+                    if (m instanceof L.LayerGroup) {
+                        this._extractNonGroupLayers(m, layersArray2);
+                        l2 = layersArray2.length;
+                        continue;
+                    }
+
+                    this._unspiderfyLayer(m);
+                }
+            }
+
+            for (i = 0; i < l; i++) {
+                m = layersArray[i];
+
+                // Group of layers, append children to layersArray and skip.
+                if (m instanceof L.LayerGroup) {
+                    if (originalArray) {
+                        layersArray = layersArray.slice();
+                        originalArray = false;
+                    }
+                    this._extractNonGroupLayers(m, layersArray);
+                    l = layersArray.length;
+                    continue;
+                }
+
+                if (!m.__parent) {
+                    npg.removeLayer(m);
+                    this.fire('layerremove', { layer: m });
+                    continue;
+                }
+
+                this._removeLayer(m, true, true);
+                this.fire('layerremove', { layer: m });
+
+                if (fg.hasLayer(m)) {
+                    fg.removeLayer(m);
+                    if (m.clusterShow) {
+                        m.clusterShow();
+                    }
+                }
+            }
+
+            // Refresh bounds and weighted positions.
+            this._topClusterLevel._recalculateBounds();
+
+            this._refreshClustersIcons();
+
+            //Fix up the clusters and markers on the map
+            this._topClusterLevel._recursivelyAddChildrenToMap(null, this._zoom, this._currentShownBounds);
+
+            return this;
+        },
+
+        //Removes all layers from the MarkerClusterGroup
+        clearLayers: function () {
+            //Need our own special implementation as the LayerGroup one doesn't work for us
+
+            //If we aren't on the map (yet), blow away the markers we know of
+            if (!this._map) {
+                this._needsClustering = [];
+                delete this._gridClusters;
+                delete this._gridUnclustered;
+            }
+
+            if (this._noanimationUnspiderfy) {
+                this._noanimationUnspiderfy();
+            }
+
+            //Remove all the visible layers
+            this._featureGroup.clearLayers();
+            this._nonPointGroup.clearLayers();
+
+            this.eachLayer(function (marker) {
+                marker.off(this._childMarkerEventHandlers, this);
+                delete marker.__parent;
+            }, this);
+
+            if (this._map) {
+                //Reset _topClusterLevel and the DistanceGrids
+                this._generateInitialClusters();
+            }
+
+            return this;
+        },
+
+        //Override FeatureGroup.getBounds as it doesn't work
+        getBounds: function () {
+            var bounds = new L.LatLngBounds();
+
+            if (this._topClusterLevel) {
+                bounds.extend(this._topClusterLevel._bounds);
+            }
+
+            for (var i = this._needsClustering.length - 1; i >= 0; i--) {
+                bounds.extend(this._needsClustering[i].getLatLng());
+            }
+
+            bounds.extend(this._nonPointGroup.getBounds());
+
+            return bounds;
+        },
+
+        //Overrides LayerGroup.eachLayer
+        eachLayer: function (method, context) {
+            var markers = this._needsClustering.slice(),
+                needsRemoving = this._needsRemoving,
+                thisNeedsRemoving, i, j;
+
+            if (this._topClusterLevel) {
+                this._topClusterLevel.getAllChildMarkers(markers);
+            }
+
+            for (i = markers.length - 1; i >= 0; i--) {
+                thisNeedsRemoving = true;
+
+                for (j = needsRemoving.length - 1; j >= 0; j--) {
+                    if (needsRemoving[j].layer === markers[i]) {
+                        thisNeedsRemoving = false;
+                        break;
+                    }
+                }
+
+                if (thisNeedsRemoving) {
+                    method.call(context, markers[i]);
+                }
+            }
+
+            this._nonPointGroup.eachLayer(method, context);
+        },
+
+        //Overrides LayerGroup.getLayers
+        getLayers: function () {
+            var layers = [];
+            this.eachLayer(function (l) {
+                layers.push(l);
+            });
+            return layers;
+        },
+
+        //Overrides LayerGroup.getLayer, WARNING: Really bad performance
+        getLayer: function (id) {
+            var result = null;
+
+            id = parseInt(id, 10);
+
+            this.eachLayer(function (l) {
+                if (L.stamp(l) === id) {
+                    result = l;
+                }
+            });
+
+            return result;
+        },
+
+        //Returns true if the given layer is in this MarkerClusterGroup
+        hasLayer: function (layer) {
+            if (!layer) {
+                return false;
+            }
+
+            var i, anArray = this._needsClustering;
+
+            for (i = anArray.length - 1; i >= 0; i--) {
+                if (anArray[i] === layer) {
+                    return true;
+                }
+            }
+
+            anArray = this._needsRemoving;
+            for (i = anArray.length - 1; i >= 0; i--) {
+                if (anArray[i].layer === layer) {
+                    return false;
+                }
+            }
+
+            return !!(layer.__parent && layer.__parent._group === this) || this._nonPointGroup.hasLayer(layer);
+        },
+
+        //Zoom down to show the given layer (spiderfying if necessary) then calls the callback
+        zoomToShowLayer: function (layer, callback) {
+
+            if (typeof callback !== 'function') {
+                callback = function () {};
+            }
+
+            var showMarker = function () {
+                if ((layer._icon || layer.__parent._icon) && !this._inZoomAnimation) {
+                    this._map.off('moveend', showMarker, this);
+                    this.off('animationend', showMarker, this);
+
+                    if (layer._icon) {
+                        callback();
+                    } else if (layer.__parent._icon) {
+                        this.once('spiderfied', callback, this);
+                        layer.__parent.spiderfy();
+                    }
+                }
+            };
+
+            if (layer._icon && this._map.getBounds().contains(layer.getLatLng())) {
+                //Layer is visible ond on screen, immediate return
+                callback();
+            } else if (layer.__parent._zoom < Math.round(this._map._zoom)) {
+                //Layer should be visible at this zoom level. It must not be on screen so just pan over to it
+                this._map.on('moveend', showMarker, this);
+                this._map.panTo(layer.getLatLng());
+            } else {
+                this._map.on('moveend', showMarker, this);
+                this.on('animationend', showMarker, this);
+                layer.__parent.zoomToBounds();
+            }
+        },
+
+        //Overrides FeatureGroup.onAdd
+        onAdd: function (map) {
+            this._map = map;
+            var i, l, layer;
+
+            if (!isFinite(this._map.getMaxZoom())) {
+                throw "Map has no maxZoom specified";
+            }
+
+            this._featureGroup.addTo(map);
+            this._nonPointGroup.addTo(map);
+
+            if (!this._gridClusters) {
+                this._generateInitialClusters();
+            }
+
+            this._maxLat = map.options.crs.projection.MAX_LATITUDE;
+
+            //Restore all the positions as they are in the MCG before removing them
+            for (i = 0, l = this._needsRemoving.length; i < l; i++) {
+                layer = this._needsRemoving[i];
+                layer.newlatlng = layer.layer._latlng;
+                layer.layer._latlng = layer.latlng;
+            }
+            //Remove them, then restore their new positions
+            for (i = 0, l = this._needsRemoving.length; i < l; i++) {
+                layer = this._needsRemoving[i];
+                this._removeLayer(layer.layer, true);
+                layer.layer._latlng = layer.newlatlng;
+            }
+            this._needsRemoving = [];
+
+            //Remember the current zoom level and bounds
+            this._zoom = Math.round(this._map._zoom);
+            this._currentShownBounds = this._getExpandedVisibleBounds();
+
+            this._map.on('zoomend', this._zoomEnd, this);
+            this._map.on('moveend', this._moveEnd, this);
+
+            if (this._spiderfierOnAdd) { //TODO FIXME: Not sure how to have spiderfier add something on here nicely
+                this._spiderfierOnAdd();
+            }
+
+            this._bindEvents();
+
+            //Actually add our markers to the map:
+            l = this._needsClustering;
+            this._needsClustering = [];
+            this.addLayers(l, true);
+        },
+
+        //Overrides FeatureGroup.onRemove
+        onRemove: function (map) {
+            map.off('zoomend', this._zoomEnd, this);
+            map.off('moveend', this._moveEnd, this);
+
+            this._unbindEvents();
+
+            //In case we are in a cluster animation
+            this._map._mapPane.className = this._map._mapPane.className.replace(' leaflet-cluster-anim', '');
+
+            if (this._spiderfierOnRemove) { //TODO FIXME: Not sure how to have spiderfier add something on here nicely
+                this._spiderfierOnRemove();
+            }
+
+            delete this._maxLat;
+
+            //Clean up all the layers we added to the map
+            this._hideCoverage();
+            this._featureGroup.remove();
+            this._nonPointGroup.remove();
+
+            this._featureGroup.clearLayers();
+
+            this._map = null;
+        },
+
+        getVisibleParent: function (marker) {
+            var vMarker = marker;
+            while (vMarker && !vMarker._icon) {
+                vMarker = vMarker.__parent;
+            }
+            return vMarker || null;
+        },
+
+        //Remove the given object from the given array
+        _arraySplice: function (anArray, obj) {
+            for (var i = anArray.length - 1; i >= 0; i--) {
+                if (anArray[i] === obj) {
+                    anArray.splice(i, 1);
+                    return true;
+                }
+            }
+        },
+
+        /**
+         * Removes a marker from all _gridUnclustered zoom levels, starting at the supplied zoom.
+         * @param marker to be removed from _gridUnclustered.
+         * @param z integer bottom start zoom level (included)
+         * @private
+         */
+        _removeFromGridUnclustered: function (marker, z) {
+            var map = this._map,
+                gridUnclustered = this._gridUnclustered,
+                minZoom = Math.floor(this._map.getMinZoom());
+
+            for (; z >= minZoom; z--) {
+                if (!gridUnclustered[z].removeObject(marker, map.project(marker.getLatLng(), z))) {
+                    break;
+                }
+            }
+        },
+
+        _childMarkerDragStart: function (e) {
+            e.target.__dragStart = e.target._latlng;
+        },
+
+        _childMarkerMoved: function (e) {
+            if (!this._ignoreMove && !e.target.__dragStart) {
+                var isPopupOpen = e.target._popup && e.target._popup.isOpen();
+
+                this._moveChild(e.target, e.oldLatLng, e.latlng);
+
+                if (isPopupOpen) {
+                    e.target.openPopup();
+                }
+            }
+        },
+
+        _moveChild: function (layer, from, to) {
+            layer._latlng = from;
+            this.removeLayer(layer);
+
+            layer._latlng = to;
+            this.addLayer(layer);
+        },
+
+        _childMarkerDragEnd: function (e) {
+            if (e.target.__dragStart) {
+                this._moveChild(e.target, e.target.__dragStart, e.target._latlng);
+            }
+            delete e.target.__dragStart;
+        },
+
+
+        //Internal function for removing a marker from everything.
+        //dontUpdateMap: set to true if you will handle updating the map manually (for bulk functions)
+        _removeLayer: function (marker, removeFromDistanceGrid, dontUpdateMap) {
+            var gridClusters = this._gridClusters,
+                gridUnclustered = this._gridUnclustered,
+                fg = this._featureGroup,
+                map = this._map,
+                minZoom = Math.floor(this._map.getMinZoom());
+
+            //Remove the marker from distance clusters it might be in
+            if (removeFromDistanceGrid) {
+                this._removeFromGridUnclustered(marker, this._maxZoom);
+            }
+
+            //Work our way up the clusters removing them as we go if required
+            var cluster = marker.__parent,
+                markers = cluster._markers,
+                otherMarker;
+
+            //Remove the marker from the immediate parents marker list
+            this._arraySplice(markers, marker);
+
+            while (cluster) {
+                cluster._childCount--;
+                cluster._boundsNeedUpdate = true;
+
+                if (cluster._zoom < minZoom) {
+                    //Top level, do nothing
+                    break;
+                } else if (removeFromDistanceGrid && cluster._childCount <= 1) { //Cluster no longer required
+                    //We need to push the other marker up to the parent
+                    otherMarker = cluster._markers[0] === marker ? cluster._markers[1] : cluster._markers[0];
+
+                    //Update distance grid
+                    gridClusters[cluster._zoom].removeObject(cluster, map.project(cluster._cLatLng, cluster._zoom));
+                    gridUnclustered[cluster._zoom].addObject(otherMarker, map.project(otherMarker.getLatLng(), cluster._zoom));
+
+                    //Move otherMarker up to parent
+                    this._arraySplice(cluster.__parent._childClusters, cluster);
+                    cluster.__parent._markers.push(otherMarker);
+                    otherMarker.__parent = cluster.__parent;
+
+                    if (cluster._icon) {
+                        //Cluster is currently on the map, need to put the marker on the map instead
+                        fg.removeLayer(cluster);
+                        if (!dontUpdateMap) {
+                            fg.addLayer(otherMarker);
+                        }
+                    }
+                } else {
+                    cluster._iconNeedsUpdate = true;
+                }
+
+                cluster = cluster.__parent;
+            }
+
+            delete marker.__parent;
+        },
+
+        _isOrIsParent: function (el, oel) {
+            while (oel) {
+                if (el === oel) {
+                    return true;
+                }
+                oel = oel.parentNode;
+            }
+            return false;
+        },
+
+        //Override L.Evented.fire
+        fire: function (type, data, propagate) {
+            if (data && data.layer instanceof L.MarkerCluster) {
+                //Prevent multiple clustermouseover/off events if the icon is made up of stacked divs (Doesn't work in ie <= 8, no relatedTarget)
+                if (data.originalEvent && this._isOrIsParent(data.layer._icon, data.originalEvent.relatedTarget)) {
+                    return;
+                }
+                type = 'cluster' + type;
+            }
+
+            L.FeatureGroup.prototype.fire.call(this, type, data, propagate);
+        },
+
+        //Override L.Evented.listens
+        listens: function (type, propagate) {
+            return L.FeatureGroup.prototype.listens.call(this, type, propagate) || L.FeatureGroup.prototype.listens.call(this, 'cluster' + type, propagate);
+        },
+
+        //Default functionality
+        _defaultIconCreateFunction: function (cluster) {
+            var childCount = cluster.getChildCount();
+
+            var c = ' marker-cluster-';
+            if (childCount < 10) {
+                c += 'small';
+            } else if (childCount < 100) {
+                c += 'medium';
+            } else {
+                c += 'large';
+            }
+
+            return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+        },
+
+        _bindEvents: function () {
+            var map = this._map,
+                spiderfyOnMaxZoom = this.options.spiderfyOnMaxZoom,
+                showCoverageOnHover = this.options.showCoverageOnHover,
+                zoomToBoundsOnClick = this.options.zoomToBoundsOnClick;
+
+            //Zoom on cluster click or spiderfy if we are at the lowest level
+            if (spiderfyOnMaxZoom || zoomToBoundsOnClick) {
+                this.on('clusterclick', this._zoomOrSpiderfy, this);
+            }
+
+            //Show convex hull (boundary) polygon on mouse over
+            if (showCoverageOnHover) {
+                this.on('clustermouseover', this._showCoverage, this);
+                this.on('clustermouseout', this._hideCoverage, this);
+                map.on('zoomend', this._hideCoverage, this);
+            }
+        },
+
+        _zoomOrSpiderfy: function (e) {
+            var cluster = e.layer,
+                bottomCluster = cluster;
+
+            while (bottomCluster._childClusters.length === 1) {
+                bottomCluster = bottomCluster._childClusters[0];
+            }
+
+            if (bottomCluster._zoom === this._maxZoom &&
+                bottomCluster._childCount === cluster._childCount &&
+                this.options.spiderfyOnMaxZoom) {
+
+                // All child markers are contained in a single cluster from this._maxZoom to this cluster.
+                cluster.spiderfy();
+            } else if (this.options.zoomToBoundsOnClick) {
+                cluster.zoomToBounds();
+            }
+
+            // Focus the map again for keyboard users.
+            if (e.originalEvent && e.originalEvent.keyCode === 13) {
+                this._map._container.focus();
+            }
+        },
+
+        _showCoverage: function (e) {
+            var map = this._map;
+            if (this._inZoomAnimation) {
+                return;
+            }
+            if (this._shownPolygon) {
+                map.removeLayer(this._shownPolygon);
+            }
+            if (e.layer.getChildCount() > 2 && e.layer !== this._spiderfied) {
+                this._shownPolygon = new L.Polygon(e.layer.getConvexHull(), this.options.polygonOptions);
+                map.addLayer(this._shownPolygon);
+            }
+        },
+
+        _hideCoverage: function () {
+            if (this._shownPolygon) {
+                this._map.removeLayer(this._shownPolygon);
+                this._shownPolygon = null;
+            }
+        },
+
+        _unbindEvents: function () {
+            var spiderfyOnMaxZoom = this.options.spiderfyOnMaxZoom,
+                showCoverageOnHover = this.options.showCoverageOnHover,
+                zoomToBoundsOnClick = this.options.zoomToBoundsOnClick,
+                map = this._map;
+
+            if (spiderfyOnMaxZoom || zoomToBoundsOnClick) {
+                this.off('clusterclick', this._zoomOrSpiderfy, this);
+            }
+            if (showCoverageOnHover) {
+                this.off('clustermouseover', this._showCoverage, this);
+                this.off('clustermouseout', this._hideCoverage, this);
+                map.off('zoomend', this._hideCoverage, this);
+            }
+        },
+
+        _zoomEnd: function () {
+            if (!this._map) { //May have been removed from the map by a zoomEnd handler
+                return;
+            }
+            this._mergeSplitClusters();
+
+            this._zoom = Math.round(this._map._zoom);
+            this._currentShownBounds = this._getExpandedVisibleBounds();
+        },
+
+        _moveEnd: function () {
+            if (this._inZoomAnimation) {
+                return;
+            }
+
+            var newBounds = this._getExpandedVisibleBounds();
+
+            this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), this._zoom, newBounds);
+            this._topClusterLevel._recursivelyAddChildrenToMap(null, Math.round(this._map._zoom), newBounds);
+
+            this._currentShownBounds = newBounds;
+            return;
+        },
+
+        _generateInitialClusters: function () {
+            var maxZoom = Math.ceil(this._map.getMaxZoom()),
+                minZoom = Math.floor(this._map.getMinZoom()),
+                radius = this.options.maxClusterRadius,
+                radiusFn = radius;
+
+            //If we just set maxClusterRadius to a single number, we need to create
+            //a simple function to return that number. Otherwise, we just have to
+            //use the function we've passed in.
+            if (typeof radius !== "function") {
+                radiusFn = function () { return radius; };
+            }
+
+            if (this.options.disableClusteringAtZoom !== null) {
+                maxZoom = this.options.disableClusteringAtZoom - 1;
+            }
+            this._maxZoom = maxZoom;
+            this._gridClusters = {};
+            this._gridUnclustered = {};
+
+            //Set up DistanceGrids for each zoom
+            for (var zoom = maxZoom; zoom >= minZoom; zoom--) {
+                this._gridClusters[zoom] = new L.DistanceGrid(radiusFn(zoom));
+                this._gridUnclustered[zoom] = new L.DistanceGrid(radiusFn(zoom));
+            }
+
+            // Instantiate the appropriate L.MarkerCluster class (animated or not).
+            this._topClusterLevel = new this._markerCluster(this, minZoom - 1);
+        },
+
+        //Zoom: Zoom to start adding at (Pass this._maxZoom to start at the bottom)
+        _addLayer: function (layer, zoom) {
+            var gridClusters = this._gridClusters,
+                gridUnclustered = this._gridUnclustered,
+                minZoom = Math.floor(this._map.getMinZoom()),
+                markerPoint, z;
+
+            if (this.options.singleMarkerMode) {
+                this._overrideMarkerIcon(layer);
+            }
+
+            layer.on(this._childMarkerEventHandlers, this);
+
+            //Find the lowest zoom level to slot this one in
+            for (; zoom >= minZoom; zoom--) {
+                markerPoint = this._map.project(layer.getLatLng(), zoom); // calculate pixel position
+
+                //Try find a cluster close by
+                var closest = gridClusters[zoom].getNearObject(markerPoint);
+                if (closest) {
+                    closest._addChild(layer);
+                    layer.__parent = closest;
+                    return;
+                }
+
+                //Try find a marker close by to form a new cluster with
+                closest = gridUnclustered[zoom].getNearObject(markerPoint);
+                if (closest) {
+                    var parent = closest.__parent;
+                    if (parent) {
+                        this._removeLayer(closest, false);
+                    }
+
+                    //Create new cluster with these 2 in it
+
+                    var newCluster = new this._markerCluster(this, zoom, closest, layer);
+                    gridClusters[zoom].addObject(newCluster, this._map.project(newCluster._cLatLng, zoom));
+                    closest.__parent = newCluster;
+                    layer.__parent = newCluster;
+
+                    //First create any new intermediate parent clusters that don't exist
+                    var lastParent = newCluster;
+                    for (z = zoom - 1; z > parent._zoom; z--) {
+                        lastParent = new this._markerCluster(this, z, lastParent);
+                        gridClusters[z].addObject(lastParent, this._map.project(closest.getLatLng(), z));
+                    }
+                    parent._addChild(lastParent);
+
+                    //Remove closest from this zoom level and any above that it is in, replace with newCluster
+                    this._removeFromGridUnclustered(closest, zoom);
+
+                    return;
+                }
+
+                //Didn't manage to cluster in at this zoom, record us as a marker here and continue upwards
+                gridUnclustered[zoom].addObject(layer, markerPoint);
+            }
+
+            //Didn't get in anything, add us to the top
+            this._topClusterLevel._addChild(layer);
+            layer.__parent = this._topClusterLevel;
+            return;
+        },
+
+        /**
+         * Refreshes the icon of all "dirty" visible clusters.
+         * Non-visible "dirty" clusters will be updated when they are added to the map.
+         * @private
+         */
+        _refreshClustersIcons: function () {
+            this._featureGroup.eachLayer(function (c) {
+                if (c instanceof L.MarkerCluster && c._iconNeedsUpdate) {
+                    c._updateIcon();
+                }
+            });
+        },
+
+        //Enqueue code to fire after the marker expand/contract has happened
+        _enqueue: function (fn) {
+            this._queue.push(fn);
+            if (!this._queueTimeout) {
+                this._queueTimeout = setTimeout(L.bind(this._processQueue, this), 300);
+            }
+        },
+        _processQueue: function () {
+            for (var i = 0; i < this._queue.length; i++) {
+                this._queue[i].call(this);
+            }
+            this._queue.length = 0;
+            clearTimeout(this._queueTimeout);
+            this._queueTimeout = null;
+        },
+
+        //Merge and split any existing clusters that are too big or small
+        _mergeSplitClusters: function () {
+            var mapZoom = Math.round(this._map._zoom);
+
+            //In case we are starting to split before the animation finished
+            this._processQueue();
+
+            if (this._zoom < mapZoom && this._currentShownBounds.intersects(this._getExpandedVisibleBounds())) { //Zoom in, split
+                this._animationStart();
+                //Remove clusters now off screen
+                this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), this._zoom, this._getExpandedVisibleBounds());
+
+                this._animationZoomIn(this._zoom, mapZoom);
+
+            } else if (this._zoom > mapZoom) { //Zoom out, merge
+                this._animationStart();
+
+                this._animationZoomOut(this._zoom, mapZoom);
+            } else {
+                this._moveEnd();
+            }
+        },
+
+        //Gets the maps visible bounds expanded in each direction by the size of the screen (so the user cannot see an area we do not cover in one pan)
+        _getExpandedVisibleBounds: function () {
+            if (!this.options.removeOutsideVisibleBounds) {
+                return this._mapBoundsInfinite;
+            } else if (L.Browser.mobile) {
+                return this._checkBoundsMaxLat(this._map.getBounds());
+            }
+
+            return this._checkBoundsMaxLat(this._map.getBounds().pad(1)); // Padding expands the bounds by its own dimensions but scaled with the given factor.
+        },
+
+        /**
+         * Expands the latitude to Infinity (or -Infinity) if the input bounds reach the map projection maximum defined latitude
+         * (in the case of Web/Spherical Mercator, it is 85.0511287798 / see https://en.wikipedia.org/wiki/Web_Mercator#Formulas).
+         * Otherwise, the removeOutsideVisibleBounds option will remove markers beyond that limit, whereas the same markers without
+         * this option (or outside MCG) will have their position floored (ceiled) by the projection and rendered at that limit,
+         * making the user think that MCG "eats" them and never displays them again.
+         * @param bounds L.LatLngBounds
+         * @returns {L.LatLngBounds}
+         * @private
+         */
+        _checkBoundsMaxLat: function (bounds) {
+            var maxLat = this._maxLat;
+
+            if (maxLat !== undefined) {
+                if (bounds.getNorth() >= maxLat) {
+                    bounds._northEast.lat = Infinity;
+                }
+                if (bounds.getSouth() <= -maxLat) {
+                    bounds._southWest.lat = -Infinity;
+                }
+            }
+
+            return bounds;
+        },
+
+        //Shared animation code
+        _animationAddLayerNonAnimated: function (layer, newCluster) {
+            if (newCluster === layer) {
+                this._featureGroup.addLayer(layer);
+            } else if (newCluster._childCount === 2) {
+                newCluster._addToMap();
+
+                var markers = newCluster.getAllChildMarkers();
+                this._featureGroup.removeLayer(markers[0]);
+                this._featureGroup.removeLayer(markers[1]);
+            } else {
+                newCluster._updateIcon();
+            }
+        },
+
+        /**
+         * Extracts individual (i.e. non-group) layers from a Layer Group.
+         * @param group to extract layers from.
+         * @param output {Array} in which to store the extracted layers.
+         * @returns {*|Array}
+         * @private
+         */
+        _extractNonGroupLayers: function (group, output) {
+            var layers = group.getLayers(),
+                i = 0,
+                layer;
+
+            output = output || [];
+
+            for (; i < layers.length; i++) {
+                layer = layers[i];
+
+                if (layer instanceof L.LayerGroup) {
+                    this._extractNonGroupLayers(layer, output);
+                    continue;
+                }
+
+                output.push(layer);
+            }
+
+            return output;
+        },
+
+        /**
+         * Implements the singleMarkerMode option.
+         * @param layer Marker to re-style using the Clusters iconCreateFunction.
+         * @returns {L.Icon} The newly created icon.
+         * @private
+         */
+        _overrideMarkerIcon: function (layer) {
+            var icon = layer.options.icon = this.options.iconCreateFunction({
+                getChildCount: function () {
+                    return 1;
+                },
+                getAllChildMarkers: function () {
+                    return [layer];
+                }
+            });
+
+            return icon;
+        }
+    });
 
 // Constant bounds used in case option "removeOutsideVisibleBounds" is set to false.
-L.MarkerClusterGroup.include({
-	_mapBoundsInfinite: new L.LatLngBounds(new L.LatLng(-Infinity, -Infinity), new L.LatLng(Infinity, Infinity))
-});
-
-L.MarkerClusterGroup.include({
-	_noAnimation: {
-		//Non Animated versions of everything
-		_animationStart: function () {
-			//Do nothing...
-		},
-		_animationZoomIn: function (previousZoomLevel, newZoomLevel) {
-			this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), previousZoomLevel);
-			this._topClusterLevel._recursivelyAddChildrenToMap(null, newZoomLevel, this._getExpandedVisibleBounds());
-
-			//We didn't actually animate, but we use this event to mean "clustering animations have finished"
-			this.fire('animationend');
-		},
-		_animationZoomOut: function (previousZoomLevel, newZoomLevel) {
-			this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), previousZoomLevel);
-			this._topClusterLevel._recursivelyAddChildrenToMap(null, newZoomLevel, this._getExpandedVisibleBounds());
-
-			//We didn't actually animate, but we use this event to mean "clustering animations have finished"
-			this.fire('animationend');
-		},
-		_animationAddLayer: function (layer, newCluster) {
-			this._animationAddLayerNonAnimated(layer, newCluster);
-		}
-	},
-
-	_withAnimation: {
-		//Animated versions here
-		_animationStart: function () {
-			this._map._mapPane.className += ' leaflet-cluster-anim';
-			this._inZoomAnimation++;
-		},
-
-		_animationZoomIn: function (previousZoomLevel, newZoomLevel) {
-			var bounds = this._getExpandedVisibleBounds(),
-			    fg = this._featureGroup,
-				minZoom = Math.floor(this._map.getMinZoom()),
-			    i;
-
-			this._ignoreMove = true;
-
-			//Add all children of current clusters to map and remove those clusters from map
-			this._topClusterLevel._recursively(bounds, previousZoomLevel, minZoom, function (c) {
-				var startPos = c._latlng,
-				    markers  = c._markers,
-				    m;
-
-				if (!bounds.contains(startPos)) {
-					startPos = null;
-				}
-
-				if (c._isSingleParent() && previousZoomLevel + 1 === newZoomLevel) { //Immediately add the new child and remove us
-					fg.removeLayer(c);
-					c._recursivelyAddChildrenToMap(null, newZoomLevel, bounds);
-				} else {
-					//Fade out old cluster
-					c.clusterHide();
-					c._recursivelyAddChildrenToMap(startPos, newZoomLevel, bounds);
-				}
-
-				//Remove all markers that aren't visible any more
-				//TODO: Do we actually need to do this on the higher levels too?
-				for (i = markers.length - 1; i >= 0; i--) {
-					m = markers[i];
-					if (!bounds.contains(m._latlng)) {
-						fg.removeLayer(m);
-					}
-				}
-
-			});
-
-			this._forceLayout();
-
-			//Update opacities
-			this._topClusterLevel._recursivelyBecomeVisible(bounds, newZoomLevel);
-			//TODO Maybe? Update markers in _recursivelyBecomeVisible
-			fg.eachLayer(function (n) {
-				if (!(n instanceof L.MarkerCluster) && n._icon) {
-					n.clusterShow();
-				}
-			});
-
-			//update the positions of the just added clusters/markers
-			this._topClusterLevel._recursively(bounds, previousZoomLevel, newZoomLevel, function (c) {
-				c._recursivelyRestoreChildPositions(newZoomLevel);
-			});
-
-			this._ignoreMove = false;
-
-			//Remove the old clusters and close the zoom animation
-			this._enqueue(function () {
-				//update the positions of the just added clusters/markers
-				this._topClusterLevel._recursively(bounds, previousZoomLevel, minZoom, function (c) {
-					fg.removeLayer(c);
-					c.clusterShow();
-				});
-
-				this._animationEnd();
-			});
-		},
-
-		_animationZoomOut: function (previousZoomLevel, newZoomLevel) {
-			this._animationZoomOutSingle(this._topClusterLevel, previousZoomLevel - 1, newZoomLevel);
-
-			//Need to add markers for those that weren't on the map before but are now
-			this._topClusterLevel._recursivelyAddChildrenToMap(null, newZoomLevel, this._getExpandedVisibleBounds());
-			//Remove markers that were on the map before but won't be now
-			this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), previousZoomLevel, this._getExpandedVisibleBounds());
-		},
-
-		_animationAddLayer: function (layer, newCluster) {
-			var me = this,
-			    fg = this._featureGroup;
-
-			fg.addLayer(layer);
-			if (newCluster !== layer) {
-				if (newCluster._childCount > 2) { //Was already a cluster
-
-					newCluster._updateIcon();
-					this._forceLayout();
-					this._animationStart();
-
-					layer._setPos(this._map.latLngToLayerPoint(newCluster.getLatLng()));
-					layer.clusterHide();
-
-					this._enqueue(function () {
-						fg.removeLayer(layer);
-						layer.clusterShow();
-
-						me._animationEnd();
-					});
-
-				} else { //Just became a cluster
-					this._forceLayout();
-
-					me._animationStart();
-					me._animationZoomOutSingle(newCluster, this._map.getMaxZoom(), this._zoom);
-				}
-			}
-		}
-	},
-
-	// Private methods for animated versions.
-	_animationZoomOutSingle: function (cluster, previousZoomLevel, newZoomLevel) {
-		var bounds = this._getExpandedVisibleBounds(),
-			minZoom = Math.floor(this._map.getMinZoom());
-
-		//Animate all of the markers in the clusters to move to their cluster center point
-		cluster._recursivelyAnimateChildrenInAndAddSelfToMap(bounds, minZoom, previousZoomLevel + 1, newZoomLevel);
-
-		var me = this;
-
-		//Update the opacity (If we immediately set it they won't animate)
-		this._forceLayout();
-		cluster._recursivelyBecomeVisible(bounds, newZoomLevel);
-
-		//TODO: Maybe use the transition timing stuff to make this more reliable
-		//When the animations are done, tidy up
-		this._enqueue(function () {
-
-			//This cluster stopped being a cluster before the timeout fired
-			if (cluster._childCount === 1) {
-				var m = cluster._markers[0];
-				//If we were in a cluster animation at the time then the opacity and position of our child could be wrong now, so fix it
-				this._ignoreMove = true;
-				m.setLatLng(m.getLatLng());
-				this._ignoreMove = false;
-				if (m.clusterShow) {
-					m.clusterShow();
-				}
-			} else {
-				cluster._recursively(bounds, newZoomLevel, minZoom, function (c) {
-					c._recursivelyRemoveChildrenFromMap(bounds, minZoom, previousZoomLevel + 1);
-				});
-			}
-			me._animationEnd();
-		});
-	},
-
-	_animationEnd: function () {
-		if (this._map) {
-			this._map._mapPane.className = this._map._mapPane.className.replace(' leaflet-cluster-anim', '');
-		}
-		this._inZoomAnimation--;
-		this.fire('animationend');
-	},
-
-	//Force a browser layout of stuff in the map
-	// Should apply the current opacity and location to all elements so we can update them again for an animation
-	_forceLayout: function () {
-		//In my testing this works, infact offsetWidth of any element seems to work.
-		//Could loop all this._layers and do this for each _icon if it stops working
-
-		L.Util.falseFn(document.body.offsetWidth);
-	}
-});
-
-L.markerClusterGroup = function (options) {
-	return new L.MarkerClusterGroup(options);
-};
-
-var MarkerCluster = L.MarkerCluster = L.Marker.extend({
-	options: L.Icon.prototype.options,
-
-	initialize: function (group, zoom, a, b) {
-
-		L.Marker.prototype.initialize.call(this, a ? (a._cLatLng || a.getLatLng()) : new L.LatLng(0, 0),
-            { icon: this, pane: group.options.clusterPane });
-
-		this._group = group;
-		this._zoom = zoom;
-
-		this._markers = [];
-		this._childClusters = [];
-		this._childCount = 0;
-		this._iconNeedsUpdate = true;
-		this._boundsNeedUpdate = true;
-
-		this._bounds = new L.LatLngBounds();
-
-		if (a) {
-			this._addChild(a);
-		}
-		if (b) {
-			this._addChild(b);
-		}
-	},
-
-	//Recursively retrieve all child markers of this cluster
-	getAllChildMarkers: function (storageArray) {
-		storageArray = storageArray || [];
-
-		for (var i = this._childClusters.length - 1; i >= 0; i--) {
-			this._childClusters[i].getAllChildMarkers(storageArray);
-		}
-
-		for (var j = this._markers.length - 1; j >= 0; j--) {
-			storageArray.push(this._markers[j]);
-		}
-
-		return storageArray;
-	},
-
-	//Returns the count of how many child markers we have
-	getChildCount: function () {
-		return this._childCount;
-	},
-
-	//Zoom to the minimum of showing all of the child markers, or the extents of this cluster
-	zoomToBounds: function (fitBoundsOptions) {
-		var childClusters = this._childClusters.slice(),
-			map = this._group._map,
-			boundsZoom = map.getBoundsZoom(this._bounds),
-			zoom = this._zoom + 1,
-			mapZoom = map.getZoom(),
-			i;
-
-		//calculate how far we need to zoom down to see all of the markers
-		while (childClusters.length > 0 && boundsZoom > zoom) {
-			zoom++;
-			var newClusters = [];
-			for (i = 0; i < childClusters.length; i++) {
-				newClusters = newClusters.concat(childClusters[i]._childClusters);
-			}
-			childClusters = newClusters;
-		}
-
-		if (boundsZoom > zoom) {
-			this._group._map.setView(this._latlng, zoom);
-		} else if (boundsZoom <= mapZoom) { //If fitBounds wouldn't zoom us down, zoom us down instead
-			this._group._map.setView(this._latlng, mapZoom + 1);
-		} else {
-			this._group._map.fitBounds(this._bounds, fitBoundsOptions);
-		}
-	},
-
-	getBounds: function () {
-		var bounds = new L.LatLngBounds();
-		bounds.extend(this._bounds);
-		return bounds;
-	},
-
-	_updateIcon: function () {
-		this._iconNeedsUpdate = true;
-		if (this._icon) {
-			this.setIcon(this);
-		}
-	},
-
-	//Cludge for Icon, we pretend to be an icon for performance
-	createIcon: function () {
-		if (this._iconNeedsUpdate) {
-			this._iconObj = this._group.options.iconCreateFunction(this);
-			this._iconNeedsUpdate = false;
-		}
-		return this._iconObj.createIcon();
-	},
-	createShadow: function () {
-		return this._iconObj.createShadow();
-	},
-
-
-	_addChild: function (new1, isNotificationFromChild) {
-
-		this._iconNeedsUpdate = true;
-
-		this._boundsNeedUpdate = true;
-		this._setClusterCenter(new1);
-
-		if (new1 instanceof L.MarkerCluster) {
-			if (!isNotificationFromChild) {
-				this._childClusters.push(new1);
-				new1.__parent = this;
-			}
-			this._childCount += new1._childCount;
-		} else {
-			if (!isNotificationFromChild) {
-				this._markers.push(new1);
-			}
-			this._childCount++;
-		}
-
-		if (this.__parent) {
-			this.__parent._addChild(new1, true);
-		}
-	},
-
-	/**
-	 * Makes sure the cluster center is set. If not, uses the child center if it is a cluster, or the marker position.
-	 * @param child L.MarkerCluster|L.Marker that will be used as cluster center if not defined yet.
-	 * @private
-	 */
-	_setClusterCenter: function (child) {
-		if (!this._cLatLng) {
-			// when clustering, take position of the first point as the cluster center
-			this._cLatLng = child._cLatLng || child._latlng;
-		}
-	},
-
-	/**
-	 * Assigns impossible bounding values so that the next extend entirely determines the new bounds.
-	 * This method avoids having to trash the previous L.LatLngBounds object and to create a new one, which is much slower for this class.
-	 * As long as the bounds are not extended, most other methods would probably fail, as they would with bounds initialized but not extended.
-	 * @private
-	 */
-	_resetBounds: function () {
-		var bounds = this._bounds;
-
-		if (bounds._southWest) {
-			bounds._southWest.lat = Infinity;
-			bounds._southWest.lng = Infinity;
-		}
-		if (bounds._northEast) {
-			bounds._northEast.lat = -Infinity;
-			bounds._northEast.lng = -Infinity;
-		}
-	},
-
-	_recalculateBounds: function () {
-		var markers = this._markers,
-		    childClusters = this._childClusters,
-		    latSum = 0,
-		    lngSum = 0,
-		    totalCount = this._childCount,
-		    i, child, childLatLng, childCount;
-
-		// Case where all markers are removed from the map and we are left with just an empty _topClusterLevel.
-		if (totalCount === 0) {
-			return;
-		}
-
-		// Reset rather than creating a new object, for performance.
-		this._resetBounds();
-
-		// Child markers.
-		for (i = 0; i < markers.length; i++) {
-			childLatLng = markers[i]._latlng;
-
-			this._bounds.extend(childLatLng);
-
-			latSum += childLatLng.lat;
-			lngSum += childLatLng.lng;
-		}
-
-		// Child clusters.
-		for (i = 0; i < childClusters.length; i++) {
-			child = childClusters[i];
-
-			// Re-compute child bounds and weighted position first if necessary.
-			if (child._boundsNeedUpdate) {
-				child._recalculateBounds();
-			}
-
-			this._bounds.extend(child._bounds);
-
-			childLatLng = child._wLatLng;
-			childCount = child._childCount;
-
-			latSum += childLatLng.lat * childCount;
-			lngSum += childLatLng.lng * childCount;
-		}
-
-		this._latlng = this._wLatLng = new L.LatLng(latSum / totalCount, lngSum / totalCount);
-
-		// Reset dirty flag.
-		this._boundsNeedUpdate = false;
-	},
-
-	//Set our markers position as given and add it to the map
-	_addToMap: function (startPos) {
-		if (startPos) {
-			this._backupLatlng = this._latlng;
-			this.setLatLng(startPos);
-		}
-		this._group._featureGroup.addLayer(this);
-	},
-
-	_recursivelyAnimateChildrenIn: function (bounds, center, maxZoom) {
-		this._recursively(bounds, this._group._map.getMinZoom(), maxZoom - 1,
-			function (c) {
-				var markers = c._markers,
-					i, m;
-				for (i = markers.length - 1; i >= 0; i--) {
-					m = markers[i];
-
-					//Only do it if the icon is still on the map
-					if (m._icon) {
-						m._setPos(center);
-						m.clusterHide();
-					}
-				}
-			},
-			function (c) {
-				var childClusters = c._childClusters,
-					j, cm;
-				for (j = childClusters.length - 1; j >= 0; j--) {
-					cm = childClusters[j];
-					if (cm._icon) {
-						cm._setPos(center);
-						cm.clusterHide();
-					}
-				}
-			}
-		);
-	},
-
-	_recursivelyAnimateChildrenInAndAddSelfToMap: function (bounds, mapMinZoom, previousZoomLevel, newZoomLevel) {
-		this._recursively(bounds, newZoomLevel, mapMinZoom,
-			function (c) {
-				c._recursivelyAnimateChildrenIn(bounds, c._group._map.latLngToLayerPoint(c.getLatLng()).round(), previousZoomLevel);
-
-				//TODO: depthToAnimateIn affects _isSingleParent, if there is a multizoom we may/may not be.
-				//As a hack we only do a animation free zoom on a single level zoom, if someone does multiple levels then we always animate
-				if (c._isSingleParent() && previousZoomLevel - 1 === newZoomLevel) {
-					c.clusterShow();
-					c._recursivelyRemoveChildrenFromMap(bounds, mapMinZoom, previousZoomLevel); //Immediately remove our children as we are replacing them. TODO previousBounds not bounds
-				} else {
-					c.clusterHide();
-				}
-
-				c._addToMap();
-			}
-		);
-	},
-
-	_recursivelyBecomeVisible: function (bounds, zoomLevel) {
-		this._recursively(bounds, this._group._map.getMinZoom(), zoomLevel, null, function (c) {
-			c.clusterShow();
-		});
-	},
-
-	_recursivelyAddChildrenToMap: function (startPos, zoomLevel, bounds) {
-		this._recursively(bounds, this._group._map.getMinZoom() - 1, zoomLevel,
-			function (c) {
-				if (zoomLevel === c._zoom) {
-					return;
-				}
-
-				//Add our child markers at startPos (so they can be animated out)
-				for (var i = c._markers.length - 1; i >= 0; i--) {
-					var nm = c._markers[i];
-
-					if (!bounds.contains(nm._latlng)) {
-						continue;
-					}
-
-					if (startPos) {
-						nm._backupLatlng = nm.getLatLng();
-
-						nm.setLatLng(startPos);
-						if (nm.clusterHide) {
-							nm.clusterHide();
-						}
-					}
-
-					c._group._featureGroup.addLayer(nm);
-				}
-			},
-			function (c) {
-				c._addToMap(startPos);
-			}
-		);
-	},
-
-	_recursivelyRestoreChildPositions: function (zoomLevel) {
-		//Fix positions of child markers
-		for (var i = this._markers.length - 1; i >= 0; i--) {
-			var nm = this._markers[i];
-			if (nm._backupLatlng) {
-				nm.setLatLng(nm._backupLatlng);
-				delete nm._backupLatlng;
-			}
-		}
-
-		if (zoomLevel - 1 === this._zoom) {
-			//Reposition child clusters
-			for (var j = this._childClusters.length - 1; j >= 0; j--) {
-				this._childClusters[j]._restorePosition();
-			}
-		} else {
-			for (var k = this._childClusters.length - 1; k >= 0; k--) {
-				this._childClusters[k]._recursivelyRestoreChildPositions(zoomLevel);
-			}
-		}
-	},
-
-	_restorePosition: function () {
-		if (this._backupLatlng) {
-			this.setLatLng(this._backupLatlng);
-			delete this._backupLatlng;
-		}
-	},
-
-	//exceptBounds: If set, don't remove any markers/clusters in it
-	_recursivelyRemoveChildrenFromMap: function (previousBounds, mapMinZoom, zoomLevel, exceptBounds) {
-		var m, i;
-		this._recursively(previousBounds, mapMinZoom - 1, zoomLevel - 1,
-			function (c) {
-				//Remove markers at every level
-				for (i = c._markers.length - 1; i >= 0; i--) {
-					m = c._markers[i];
-					if (!exceptBounds || !exceptBounds.contains(m._latlng)) {
-						c._group._featureGroup.removeLayer(m);
-						if (m.clusterShow) {
-							m.clusterShow();
-						}
-					}
-				}
-			},
-			function (c) {
-				//Remove child clusters at just the bottom level
-				for (i = c._childClusters.length - 1; i >= 0; i--) {
-					m = c._childClusters[i];
-					if (!exceptBounds || !exceptBounds.contains(m._latlng)) {
-						c._group._featureGroup.removeLayer(m);
-						if (m.clusterShow) {
-							m.clusterShow();
-						}
-					}
-				}
-			}
-		);
-	},
-
-	//Run the given functions recursively to this and child clusters
-	// boundsToApplyTo: a L.LatLngBounds representing the bounds of what clusters to recurse in to
-	// zoomLevelToStart: zoom level to start running functions (inclusive)
-	// zoomLevelToStop: zoom level to stop running functions (inclusive)
-	// runAtEveryLevel: function that takes an L.MarkerCluster as an argument that should be applied on every level
-	// runAtBottomLevel: function that takes an L.MarkerCluster as an argument that should be applied at only the bottom level
-	_recursively: function (boundsToApplyTo, zoomLevelToStart, zoomLevelToStop, runAtEveryLevel, runAtBottomLevel) {
-		var childClusters = this._childClusters,
-		    zoom = this._zoom,
-		    i, c;
-
-		if (zoomLevelToStart <= zoom) {
-			if (runAtEveryLevel) {
-				runAtEveryLevel(this);
-			}
-			if (runAtBottomLevel && zoom === zoomLevelToStop) {
-				runAtBottomLevel(this);
-			}
-		}
-
-		if (zoom < zoomLevelToStart || zoom < zoomLevelToStop) {
-			for (i = childClusters.length - 1; i >= 0; i--) {
-				c = childClusters[i];
-				if (boundsToApplyTo.intersects(c._bounds)) {
-					c._recursively(boundsToApplyTo, zoomLevelToStart, zoomLevelToStop, runAtEveryLevel, runAtBottomLevel);
-				}
-			}
-		}
-	},
-
-	//Returns true if we are the parent of only one cluster and that cluster is the same as us
-	_isSingleParent: function () {
-		//Don't need to check this._markers as the rest won't work if there are any
-		return this._childClusters.length > 0 && this._childClusters[0]._childCount === this._childCount;
-	}
-});
-
-/*
+    L.MarkerClusterGroup.include({
+        _mapBoundsInfinite: new L.LatLngBounds(new L.LatLng(-Infinity, -Infinity), new L.LatLng(Infinity, Infinity))
+    });
+
+    L.MarkerClusterGroup.include({
+        _noAnimation: {
+            //Non Animated versions of everything
+            _animationStart: function () {
+                //Do nothing...
+            },
+            _animationZoomIn: function (previousZoomLevel, newZoomLevel) {
+                this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), previousZoomLevel);
+                this._topClusterLevel._recursivelyAddChildrenToMap(null, newZoomLevel, this._getExpandedVisibleBounds());
+
+                //We didn't actually animate, but we use this event to mean "clustering animations have finished"
+                this.fire('animationend');
+            },
+            _animationZoomOut: function (previousZoomLevel, newZoomLevel) {
+                this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), previousZoomLevel);
+                this._topClusterLevel._recursivelyAddChildrenToMap(null, newZoomLevel, this._getExpandedVisibleBounds());
+
+                //We didn't actually animate, but we use this event to mean "clustering animations have finished"
+                this.fire('animationend');
+            },
+            _animationAddLayer: function (layer, newCluster) {
+                this._animationAddLayerNonAnimated(layer, newCluster);
+            }
+        },
+
+        _withAnimation: {
+            //Animated versions here
+            _animationStart: function () {
+                this._map._mapPane.className += ' leaflet-cluster-anim';
+                this._inZoomAnimation++;
+            },
+
+            _animationZoomIn: function (previousZoomLevel, newZoomLevel) {
+                var bounds = this._getExpandedVisibleBounds(),
+                    fg = this._featureGroup,
+                    minZoom = Math.floor(this._map.getMinZoom()),
+                    i;
+
+                this._ignoreMove = true;
+
+                //Add all children of current clusters to map and remove those clusters from map
+                this._topClusterLevel._recursively(bounds, previousZoomLevel, minZoom, function (c) {
+                    var startPos = c._latlng,
+                        markers  = c._markers,
+                        m;
+
+                    if (!bounds.contains(startPos)) {
+                        startPos = null;
+                    }
+
+                    if (c._isSingleParent() && previousZoomLevel + 1 === newZoomLevel) { //Immediately add the new child and remove us
+                        fg.removeLayer(c);
+                        c._recursivelyAddChildrenToMap(null, newZoomLevel, bounds);
+                    } else {
+                        //Fade out old cluster
+                        c.clusterHide();
+                        c._recursivelyAddChildrenToMap(startPos, newZoomLevel, bounds);
+                    }
+
+                    //Remove all markers that aren't visible any more
+                    //TODO: Do we actually need to do this on the higher levels too?
+                    for (i = markers.length - 1; i >= 0; i--) {
+                        m = markers[i];
+                        if (!bounds.contains(m._latlng)) {
+                            fg.removeLayer(m);
+                        }
+                    }
+
+                });
+
+                this._forceLayout();
+
+                //Update opacities
+                this._topClusterLevel._recursivelyBecomeVisible(bounds, newZoomLevel);
+                //TODO Maybe? Update markers in _recursivelyBecomeVisible
+                fg.eachLayer(function (n) {
+                    if (!(n instanceof L.MarkerCluster) && n._icon) {
+                        n.clusterShow();
+                    }
+                });
+
+                //update the positions of the just added clusters/markers
+                this._topClusterLevel._recursively(bounds, previousZoomLevel, newZoomLevel, function (c) {
+                    c._recursivelyRestoreChildPositions(newZoomLevel);
+                });
+
+                this._ignoreMove = false;
+
+                //Remove the old clusters and close the zoom animation
+                this._enqueue(function () {
+                    //update the positions of the just added clusters/markers
+                    this._topClusterLevel._recursively(bounds, previousZoomLevel, minZoom, function (c) {
+                        fg.removeLayer(c);
+                        c.clusterShow();
+                    });
+
+                    this._animationEnd();
+                });
+            },
+
+            _animationZoomOut: function (previousZoomLevel, newZoomLevel) {
+                this._animationZoomOutSingle(this._topClusterLevel, previousZoomLevel - 1, newZoomLevel);
+
+                //Need to add markers for those that weren't on the map before but are now
+                this._topClusterLevel._recursivelyAddChildrenToMap(null, newZoomLevel, this._getExpandedVisibleBounds());
+                //Remove markers that were on the map before but won't be now
+                this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), previousZoomLevel, this._getExpandedVisibleBounds());
+            },
+
+            _animationAddLayer: function (layer, newCluster) {
+                var me = this,
+                    fg = this._featureGroup;
+
+                fg.addLayer(layer);
+                if (newCluster !== layer) {
+                    if (newCluster._childCount > 2) { //Was already a cluster
+
+                        newCluster._updateIcon();
+                        this._forceLayout();
+                        this._animationStart();
+
+                        layer._setPos(this._map.latLngToLayerPoint(newCluster.getLatLng()));
+                        layer.clusterHide();
+
+                        this._enqueue(function () {
+                            fg.removeLayer(layer);
+                            layer.clusterShow();
+
+                            me._animationEnd();
+                        });
+
+                    } else { //Just became a cluster
+                        this._forceLayout();
+
+                        me._animationStart();
+                        me._animationZoomOutSingle(newCluster, this._map.getMaxZoom(), this._zoom);
+                    }
+                }
+            }
+        },
+
+        // Private methods for animated versions.
+        _animationZoomOutSingle: function (cluster, previousZoomLevel, newZoomLevel) {
+            var bounds = this._getExpandedVisibleBounds(),
+                minZoom = Math.floor(this._map.getMinZoom());
+
+            //Animate all of the markers in the clusters to move to their cluster center point
+            cluster._recursivelyAnimateChildrenInAndAddSelfToMap(bounds, minZoom, previousZoomLevel + 1, newZoomLevel);
+
+            var me = this;
+
+            //Update the opacity (If we immediately set it they won't animate)
+            this._forceLayout();
+            cluster._recursivelyBecomeVisible(bounds, newZoomLevel);
+
+            //TODO: Maybe use the transition timing stuff to make this more reliable
+            //When the animations are done, tidy up
+            this._enqueue(function () {
+
+                //This cluster stopped being a cluster before the timeout fired
+                if (cluster._childCount === 1) {
+                    var m = cluster._markers[0];
+                    //If we were in a cluster animation at the time then the opacity and position of our child could be wrong now, so fix it
+                    this._ignoreMove = true;
+                    m.setLatLng(m.getLatLng());
+                    this._ignoreMove = false;
+                    if (m.clusterShow) {
+                        m.clusterShow();
+                    }
+                } else {
+                    cluster._recursively(bounds, newZoomLevel, minZoom, function (c) {
+                        c._recursivelyRemoveChildrenFromMap(bounds, minZoom, previousZoomLevel + 1);
+                    });
+                }
+                me._animationEnd();
+            });
+        },
+
+        _animationEnd: function () {
+            if (this._map) {
+                this._map._mapPane.className = this._map._mapPane.className.replace(' leaflet-cluster-anim', '');
+            }
+            this._inZoomAnimation--;
+            this.fire('animationend');
+        },
+
+        //Force a browser layout of stuff in the map
+        // Should apply the current opacity and location to all elements so we can update them again for an animation
+        _forceLayout: function () {
+            //In my testing this works, infact offsetWidth of any element seems to work.
+            //Could loop all this._layers and do this for each _icon if it stops working
+
+            L.Util.falseFn(document.body.offsetWidth);
+        }
+    });
+
+    L.markerClusterGroup = function (options) {
+        return new L.MarkerClusterGroup(options);
+    };
+
+    var MarkerCluster = L.MarkerCluster = L.Marker.extend({
+        options: L.Icon.prototype.options,
+
+        initialize: function (group, zoom, a, b) {
+
+            L.Marker.prototype.initialize.call(this, a ? (a._cLatLng || a.getLatLng()) : new L.LatLng(0, 0),
+                { icon: this, pane: group.options.clusterPane });
+
+            this._group = group;
+            this._zoom = zoom;
+
+            this._markers = [];
+            this._childClusters = [];
+            this._childCount = 0;
+            this._iconNeedsUpdate = true;
+            this._boundsNeedUpdate = true;
+
+            this._bounds = new L.LatLngBounds();
+
+            if (a) {
+                this._addChild(a);
+            }
+            if (b) {
+                this._addChild(b);
+            }
+        },
+
+        //Recursively retrieve all child markers of this cluster
+        getAllChildMarkers: function (storageArray) {
+            storageArray = storageArray || [];
+
+            for (var i = this._childClusters.length - 1; i >= 0; i--) {
+                this._childClusters[i].getAllChildMarkers(storageArray);
+            }
+
+            for (var j = this._markers.length - 1; j >= 0; j--) {
+                storageArray.push(this._markers[j]);
+            }
+
+            return storageArray;
+        },
+
+        //Returns the count of how many child markers we have
+        getChildCount: function () {
+            return this._childCount;
+        },
+
+        //Zoom to the minimum of showing all of the child markers, or the extents of this cluster
+        zoomToBounds: function (fitBoundsOptions) {
+            var childClusters = this._childClusters.slice(),
+                map = this._group._map,
+                boundsZoom = map.getBoundsZoom(this._bounds),
+                zoom = this._zoom + 1,
+                mapZoom = map.getZoom(),
+                i;
+
+            //calculate how far we need to zoom down to see all of the markers
+            while (childClusters.length > 0 && boundsZoom > zoom) {
+                zoom++;
+                var newClusters = [];
+                for (i = 0; i < childClusters.length; i++) {
+                    newClusters = newClusters.concat(childClusters[i]._childClusters);
+                }
+                childClusters = newClusters;
+            }
+
+            if (boundsZoom > zoom) {
+                this._group._map.setView(this._latlng, zoom);
+            } else if (boundsZoom <= mapZoom) { //If fitBounds wouldn't zoom us down, zoom us down instead
+                this._group._map.setView(this._latlng, mapZoom + 1);
+            } else {
+                this._group._map.fitBounds(this._bounds, fitBoundsOptions);
+            }
+        },
+
+        getBounds: function () {
+            var bounds = new L.LatLngBounds();
+            bounds.extend(this._bounds);
+            return bounds;
+        },
+
+        _updateIcon: function () {
+            this._iconNeedsUpdate = true;
+            if (this._icon) {
+                this.setIcon(this);
+            }
+        },
+
+        //Cludge for Icon, we pretend to be an icon for performance
+        createIcon: function () {
+            if (this._iconNeedsUpdate) {
+                this._iconObj = this._group.options.iconCreateFunction(this);
+                this._iconNeedsUpdate = false;
+            }
+            return this._iconObj.createIcon();
+        },
+        createShadow: function () {
+            return this._iconObj.createShadow();
+        },
+
+
+        _addChild: function (new1, isNotificationFromChild) {
+
+            this._iconNeedsUpdate = true;
+
+            this._boundsNeedUpdate = true;
+            this._setClusterCenter(new1);
+
+            if (new1 instanceof L.MarkerCluster) {
+                if (!isNotificationFromChild) {
+                    this._childClusters.push(new1);
+                    new1.__parent = this;
+                }
+                this._childCount += new1._childCount;
+            } else {
+                if (!isNotificationFromChild) {
+                    this._markers.push(new1);
+                }
+                this._childCount++;
+            }
+
+            if (this.__parent) {
+                this.__parent._addChild(new1, true);
+            }
+        },
+
+        /**
+         * Makes sure the cluster center is set. If not, uses the child center if it is a cluster, or the marker position.
+         * @param child L.MarkerCluster|L.Marker that will be used as cluster center if not defined yet.
+         * @private
+         */
+        _setClusterCenter: function (child) {
+            if (!this._cLatLng) {
+                // when clustering, take position of the first point as the cluster center
+                this._cLatLng = child._cLatLng || child._latlng;
+            }
+        },
+
+        /**
+         * Assigns impossible bounding values so that the next extend entirely determines the new bounds.
+         * This method avoids having to trash the previous L.LatLngBounds object and to create a new one, which is much slower for this class.
+         * As long as the bounds are not extended, most other methods would probably fail, as they would with bounds initialized but not extended.
+         * @private
+         */
+        _resetBounds: function () {
+            var bounds = this._bounds;
+
+            if (bounds._southWest) {
+                bounds._southWest.lat = Infinity;
+                bounds._southWest.lng = Infinity;
+            }
+            if (bounds._northEast) {
+                bounds._northEast.lat = -Infinity;
+                bounds._northEast.lng = -Infinity;
+            }
+        },
+
+        _recalculateBounds: function () {
+            var markers = this._markers,
+                childClusters = this._childClusters,
+                latSum = 0,
+                lngSum = 0,
+                totalCount = this._childCount,
+                i, child, childLatLng, childCount;
+
+            // Case where all markers are removed from the map and we are left with just an empty _topClusterLevel.
+            if (totalCount === 0) {
+                return;
+            }
+
+            // Reset rather than creating a new object, for performance.
+            this._resetBounds();
+
+            // Child markers.
+            for (i = 0; i < markers.length; i++) {
+                childLatLng = markers[i]._latlng;
+
+                this._bounds.extend(childLatLng);
+
+                latSum += childLatLng.lat;
+                lngSum += childLatLng.lng;
+            }
+
+            // Child clusters.
+            for (i = 0; i < childClusters.length; i++) {
+                child = childClusters[i];
+
+                // Re-compute child bounds and weighted position first if necessary.
+                if (child._boundsNeedUpdate) {
+                    child._recalculateBounds();
+                }
+
+                this._bounds.extend(child._bounds);
+
+                childLatLng = child._wLatLng;
+                childCount = child._childCount;
+
+                latSum += childLatLng.lat * childCount;
+                lngSum += childLatLng.lng * childCount;
+            }
+
+            this._latlng = this._wLatLng = new L.LatLng(latSum / totalCount, lngSum / totalCount);
+
+            // Reset dirty flag.
+            this._boundsNeedUpdate = false;
+        },
+
+        //Set our markers position as given and add it to the map
+        _addToMap: function (startPos) {
+            if (startPos) {
+                this._backupLatlng = this._latlng;
+                this.setLatLng(startPos);
+            }
+            this._group._featureGroup.addLayer(this);
+        },
+
+        _recursivelyAnimateChildrenIn: function (bounds, center, maxZoom) {
+            this._recursively(bounds, this._group._map.getMinZoom(), maxZoom - 1,
+                function (c) {
+                    var markers = c._markers,
+                        i, m;
+                    for (i = markers.length - 1; i >= 0; i--) {
+                        m = markers[i];
+
+                        //Only do it if the icon is still on the map
+                        if (m._icon) {
+                            m._setPos(center);
+                            m.clusterHide();
+                        }
+                    }
+                },
+                function (c) {
+                    var childClusters = c._childClusters,
+                        j, cm;
+                    for (j = childClusters.length - 1; j >= 0; j--) {
+                        cm = childClusters[j];
+                        if (cm._icon) {
+                            cm._setPos(center);
+                            cm.clusterHide();
+                        }
+                    }
+                }
+            );
+        },
+
+        _recursivelyAnimateChildrenInAndAddSelfToMap: function (bounds, mapMinZoom, previousZoomLevel, newZoomLevel) {
+            this._recursively(bounds, newZoomLevel, mapMinZoom,
+                function (c) {
+                    c._recursivelyAnimateChildrenIn(bounds, c._group._map.latLngToLayerPoint(c.getLatLng()).round(), previousZoomLevel);
+
+                    //TODO: depthToAnimateIn affects _isSingleParent, if there is a multizoom we may/may not be.
+                    //As a hack we only do a animation free zoom on a single level zoom, if someone does multiple levels then we always animate
+                    if (c._isSingleParent() && previousZoomLevel - 1 === newZoomLevel) {
+                        c.clusterShow();
+                        c._recursivelyRemoveChildrenFromMap(bounds, mapMinZoom, previousZoomLevel); //Immediately remove our children as we are replacing them. TODO previousBounds not bounds
+                    } else {
+                        c.clusterHide();
+                    }
+
+                    c._addToMap();
+                }
+            );
+        },
+
+        _recursivelyBecomeVisible: function (bounds, zoomLevel) {
+            this._recursively(bounds, this._group._map.getMinZoom(), zoomLevel, null, function (c) {
+                c.clusterShow();
+            });
+        },
+
+        _recursivelyAddChildrenToMap: function (startPos, zoomLevel, bounds) {
+            this._recursively(bounds, this._group._map.getMinZoom() - 1, zoomLevel,
+                function (c) {
+                    if (zoomLevel === c._zoom) {
+                        return;
+                    }
+
+                    //Add our child markers at startPos (so they can be animated out)
+                    for (var i = c._markers.length - 1; i >= 0; i--) {
+                        var nm = c._markers[i];
+
+                        if (!bounds.contains(nm._latlng)) {
+                            continue;
+                        }
+
+                        if (startPos) {
+                            nm._backupLatlng = nm.getLatLng();
+
+                            nm.setLatLng(startPos);
+                            if (nm.clusterHide) {
+                                nm.clusterHide();
+                            }
+                        }
+
+                        c._group._featureGroup.addLayer(nm);
+                    }
+                },
+                function (c) {
+                    c._addToMap(startPos);
+                }
+            );
+        },
+
+        _recursivelyRestoreChildPositions: function (zoomLevel) {
+            //Fix positions of child markers
+            for (var i = this._markers.length - 1; i >= 0; i--) {
+                var nm = this._markers[i];
+                if (nm._backupLatlng) {
+                    nm.setLatLng(nm._backupLatlng);
+                    delete nm._backupLatlng;
+                }
+            }
+
+            if (zoomLevel - 1 === this._zoom) {
+                //Reposition child clusters
+                for (var j = this._childClusters.length - 1; j >= 0; j--) {
+                    this._childClusters[j]._restorePosition();
+                }
+            } else {
+                for (var k = this._childClusters.length - 1; k >= 0; k--) {
+                    this._childClusters[k]._recursivelyRestoreChildPositions(zoomLevel);
+                }
+            }
+        },
+
+        _restorePosition: function () {
+            if (this._backupLatlng) {
+                this.setLatLng(this._backupLatlng);
+                delete this._backupLatlng;
+            }
+        },
+
+        //exceptBounds: If set, don't remove any markers/clusters in it
+        _recursivelyRemoveChildrenFromMap: function (previousBounds, mapMinZoom, zoomLevel, exceptBounds) {
+            var m, i;
+            this._recursively(previousBounds, mapMinZoom - 1, zoomLevel - 1,
+                function (c) {
+                    //Remove markers at every level
+                    for (i = c._markers.length - 1; i >= 0; i--) {
+                        m = c._markers[i];
+                        if (!exceptBounds || !exceptBounds.contains(m._latlng)) {
+                            c._group._featureGroup.removeLayer(m);
+                            if (m.clusterShow) {
+                                m.clusterShow();
+                            }
+                        }
+                    }
+                },
+                function (c) {
+                    //Remove child clusters at just the bottom level
+                    for (i = c._childClusters.length - 1; i >= 0; i--) {
+                        m = c._childClusters[i];
+                        if (!exceptBounds || !exceptBounds.contains(m._latlng)) {
+                            c._group._featureGroup.removeLayer(m);
+                            if (m.clusterShow) {
+                                m.clusterShow();
+                            }
+                        }
+                    }
+                }
+            );
+        },
+
+        //Run the given functions recursively to this and child clusters
+        // boundsToApplyTo: a L.LatLngBounds representing the bounds of what clusters to recurse in to
+        // zoomLevelToStart: zoom level to start running functions (inclusive)
+        // zoomLevelToStop: zoom level to stop running functions (inclusive)
+        // runAtEveryLevel: function that takes an L.MarkerCluster as an argument that should be applied on every level
+        // runAtBottomLevel: function that takes an L.MarkerCluster as an argument that should be applied at only the bottom level
+        _recursively: function (boundsToApplyTo, zoomLevelToStart, zoomLevelToStop, runAtEveryLevel, runAtBottomLevel) {
+            var childClusters = this._childClusters,
+                zoom = this._zoom,
+                i, c;
+
+            if (zoomLevelToStart <= zoom) {
+                if (runAtEveryLevel) {
+                    runAtEveryLevel(this);
+                }
+                if (runAtBottomLevel && zoom === zoomLevelToStop) {
+                    runAtBottomLevel(this);
+                }
+            }
+
+            if (zoom < zoomLevelToStart || zoom < zoomLevelToStop) {
+                for (i = childClusters.length - 1; i >= 0; i--) {
+                    c = childClusters[i];
+                    if (boundsToApplyTo.intersects(c._bounds)) {
+                        c._recursively(boundsToApplyTo, zoomLevelToStart, zoomLevelToStop, runAtEveryLevel, runAtBottomLevel);
+                    }
+                }
+            }
+        },
+
+        //Returns true if we are the parent of only one cluster and that cluster is the same as us
+        _isSingleParent: function () {
+            //Don't need to check this._markers as the rest won't work if there are any
+            return this._childClusters.length > 0 && this._childClusters[0]._childCount === this._childCount;
+        }
+    });
+
+    /*
 * Extends L.Marker to include two extra methods: clusterHide and clusterShow.
-* 
+*
 * They work as setOpacity(0) and setOpacity(1) respectively, but
 * they will remember the marker's opacity when hiding and showing it again.
-* 
+*
 */
 
 
-L.Marker.include({
-	
-	clusterHide: function () {
-		this.options.opacityWhenUnclustered = this.options.opacity || 1;
-		return this.setOpacity(0);
-	},
-	
-	clusterShow: function () {
-		var ret = this.setOpacity(this.options.opacity || this.options.opacityWhenUnclustered);
-		delete this.options.opacityWhenUnclustered;
-		return ret;
-	}
-	
-});
+    L.Marker.include({
 
-L.DistanceGrid = function (cellSize) {
-	this._cellSize = cellSize;
-	this._sqCellSize = cellSize * cellSize;
-	this._grid = {};
-	this._objectPoint = { };
-};
+        clusterHide: function () {
+            this.options.opacityWhenUnclustered = this.options.opacity || 1;
+            return this.setOpacity(0);
+        },
 
-L.DistanceGrid.prototype = {
+        clusterShow: function () {
+            var ret = this.setOpacity(this.options.opacity || this.options.opacityWhenUnclustered);
+            delete this.options.opacityWhenUnclustered;
+            return ret;
+        }
 
-	addObject: function (obj, point) {
-		var x = this._getCoord(point.x),
-		    y = this._getCoord(point.y),
-		    grid = this._grid,
-		    row = grid[y] = grid[y] || {},
-		    cell = row[x] = row[x] || [],
-		    stamp = L.Util.stamp(obj);
+    });
 
-		this._objectPoint[stamp] = point;
+    L.DistanceGrid = function (cellSize) {
+        this._cellSize = cellSize;
+        this._sqCellSize = cellSize * cellSize;
+        this._grid = {};
+        this._objectPoint = { };
+    };
 
-		cell.push(obj);
-	},
+    L.DistanceGrid.prototype = {
 
-	updateObject: function (obj, point) {
-		this.removeObject(obj);
-		this.addObject(obj, point);
-	},
+        addObject: function (obj, point) {
+            var x = this._getCoord(point.x),
+                y = this._getCoord(point.y),
+                grid = this._grid,
+                row = grid[y] = grid[y] || {},
+                cell = row[x] = row[x] || [],
+                stamp = L.Util.stamp(obj);
 
-	//Returns true if the object was found
-	removeObject: function (obj, point) {
-		var x = this._getCoord(point.x),
-		    y = this._getCoord(point.y),
-		    grid = this._grid,
-		    row = grid[y] = grid[y] || {},
-		    cell = row[x] = row[x] || [],
-		    i, len;
+            this._objectPoint[stamp] = point;
 
-		delete this._objectPoint[L.Util.stamp(obj)];
+            cell.push(obj);
+        },
 
-		for (i = 0, len = cell.length; i < len; i++) {
-			if (cell[i] === obj) {
+        updateObject: function (obj, point) {
+            this.removeObject(obj);
+            this.addObject(obj, point);
+        },
 
-				cell.splice(i, 1);
+        //Returns true if the object was found
+        removeObject: function (obj, point) {
+            var x = this._getCoord(point.x),
+                y = this._getCoord(point.y),
+                grid = this._grid,
+                row = grid[y] = grid[y] || {},
+                cell = row[x] = row[x] || [],
+                i, len;
 
-				if (len === 1) {
-					delete row[x];
-				}
+            delete this._objectPoint[L.Util.stamp(obj)];
 
-				return true;
-			}
-		}
+            for (i = 0, len = cell.length; i < len; i++) {
+                if (cell[i] === obj) {
 
-	},
+                    cell.splice(i, 1);
 
-	eachObject: function (fn, context) {
-		var i, j, k, len, row, cell, removed,
-		    grid = this._grid;
+                    if (len === 1) {
+                        delete row[x];
+                    }
 
-		for (i in grid) {
-			row = grid[i];
+                    return true;
+                }
+            }
 
-			for (j in row) {
-				cell = row[j];
+        },
 
-				for (k = 0, len = cell.length; k < len; k++) {
-					removed = fn.call(context, cell[k]);
-					if (removed) {
-						k--;
-						len--;
-					}
-				}
-			}
-		}
-	},
+        eachObject: function (fn, context) {
+            var i, j, k, len, row, cell, removed,
+                grid = this._grid;
 
-	getNearObject: function (point) {
-		var x = this._getCoord(point.x),
-		    y = this._getCoord(point.y),
-		    i, j, k, row, cell, len, obj, dist,
-		    objectPoint = this._objectPoint,
-		    closestDistSq = this._sqCellSize,
-		    closest = null;
+            for (i in grid) {
+                row = grid[i];
 
-		for (i = y - 1; i <= y + 1; i++) {
-			row = this._grid[i];
-			if (row) {
+                for (j in row) {
+                    cell = row[j];
 
-				for (j = x - 1; j <= x + 1; j++) {
-					cell = row[j];
-					if (cell) {
+                    for (k = 0, len = cell.length; k < len; k++) {
+                        removed = fn.call(context, cell[k]);
+                        if (removed) {
+                            k--;
+                            len--;
+                        }
+                    }
+                }
+            }
+        },
 
-						for (k = 0, len = cell.length; k < len; k++) {
-							obj = cell[k];
-							dist = this._sqDist(objectPoint[L.Util.stamp(obj)], point);
-							if (dist < closestDistSq ||
-								dist <= closestDistSq && closest === null) {
-								closestDistSq = dist;
-								closest = obj;
-							}
-						}
-					}
-				}
-			}
-		}
-		return closest;
-	},
+        getNearObject: function (point) {
+            var x = this._getCoord(point.x),
+                y = this._getCoord(point.y),
+                i, j, k, row, cell, len, obj, dist,
+                objectPoint = this._objectPoint,
+                closestDistSq = this._sqCellSize,
+                closest = null;
 
-	_getCoord: function (x) {
-		var coord = Math.floor(x / this._cellSize);
-		return isFinite(coord) ? coord : x;
-	},
+            for (i = y - 1; i <= y + 1; i++) {
+                row = this._grid[i];
+                if (row) {
 
-	_sqDist: function (p, p2) {
-		var dx = p2.x - p.x,
-		    dy = p2.y - p.y;
-		return dx * dx + dy * dy;
-	}
-};
+                    for (j = x - 1; j <= x + 1; j++) {
+                        cell = row[j];
+                        if (cell) {
 
-/* Copyright (c) 2012 the authors listed at the following URL, and/or
+                            for (k = 0, len = cell.length; k < len; k++) {
+                                obj = cell[k];
+                                dist = this._sqDist(objectPoint[L.Util.stamp(obj)], point);
+                                if (dist < closestDistSq ||
+                                    dist <= closestDistSq && closest === null) {
+                                    closestDistSq = dist;
+                                    closest = obj;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return closest;
+        },
+
+        _getCoord: function (x) {
+            var coord = Math.floor(x / this._cellSize);
+            return isFinite(coord) ? coord : x;
+        },
+
+        _sqDist: function (p, p2) {
+            var dx = p2.x - p.x,
+                dy = p2.y - p.y;
+            return dx * dx + dy * dy;
+        }
+    };
+
+    /* Copyright (c) 2012 the authors listed at the following URL, and/or
 the authors of referenced articles or incorporated external code:
 http://en.literateprograms.org/Quickhull_(Javascript)?action=history&offset=20120410175256
 
@@ -24412,735 +24421,735 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Retrieved from: http://en.literateprograms.org/Quickhull_(Javascript)?oldid=18434
 */
 
-(function () {
-	L.QuickHull = {
+    (function () {
+        L.QuickHull = {
 
-		/*
+            /*
 		 * @param {Object} cpt a point to be measured from the baseline
 		 * @param {Array} bl the baseline, as represented by a two-element
 		 *   array of latlng objects.
 		 * @returns {Number} an approximate distance measure
 		 */
-		getDistant: function (cpt, bl) {
-			var vY = bl[1].lat - bl[0].lat,
-				vX = bl[0].lng - bl[1].lng;
-			return (vX * (cpt.lat - bl[0].lat) + vY * (cpt.lng - bl[0].lng));
-		},
+            getDistant: function (cpt, bl) {
+                var vY = bl[1].lat - bl[0].lat,
+                    vX = bl[0].lng - bl[1].lng;
+                return (vX * (cpt.lat - bl[0].lat) + vY * (cpt.lng - bl[0].lng));
+            },
 
-		/*
+            /*
 		 * @param {Array} baseLine a two-element array of latlng objects
 		 *   representing the baseline to project from
 		 * @param {Array} latLngs an array of latlng objects
 		 * @returns {Object} the maximum point and all new points to stay
 		 *   in consideration for the hull.
 		 */
-		findMostDistantPointFromBaseLine: function (baseLine, latLngs) {
-			var maxD = 0,
-				maxPt = null,
-				newPoints = [],
-				i, pt, d;
+            findMostDistantPointFromBaseLine: function (baseLine, latLngs) {
+                var maxD = 0,
+                    maxPt = null,
+                    newPoints = [],
+                    i, pt, d;
 
-			for (i = latLngs.length - 1; i >= 0; i--) {
-				pt = latLngs[i];
-				d = this.getDistant(pt, baseLine);
+                for (i = latLngs.length - 1; i >= 0; i--) {
+                    pt = latLngs[i];
+                    d = this.getDistant(pt, baseLine);
 
-				if (d > 0) {
-					newPoints.push(pt);
-				} else {
-					continue;
-				}
+                    if (d > 0) {
+                        newPoints.push(pt);
+                    } else {
+                        continue;
+                    }
 
-				if (d > maxD) {
-					maxD = d;
-					maxPt = pt;
-				}
-			}
+                    if (d > maxD) {
+                        maxD = d;
+                        maxPt = pt;
+                    }
+                }
 
-			return { maxPoint: maxPt, newPoints: newPoints };
-		},
+                return { maxPoint: maxPt, newPoints: newPoints };
+            },
 
 
-		/*
+            /*
 		 * Given a baseline, compute the convex hull of latLngs as an array
 		 * of latLngs.
 		 *
 		 * @param {Array} latLngs
 		 * @returns {Array}
 		 */
-		buildConvexHull: function (baseLine, latLngs) {
-			var convexHullBaseLines = [],
-				t = this.findMostDistantPointFromBaseLine(baseLine, latLngs);
+            buildConvexHull: function (baseLine, latLngs) {
+                var convexHullBaseLines = [],
+                    t = this.findMostDistantPointFromBaseLine(baseLine, latLngs);
 
-			if (t.maxPoint) { // if there is still a point "outside" the base line
-				convexHullBaseLines =
-					convexHullBaseLines.concat(
-						this.buildConvexHull([baseLine[0], t.maxPoint], t.newPoints)
-					);
-				convexHullBaseLines =
-					convexHullBaseLines.concat(
-						this.buildConvexHull([t.maxPoint, baseLine[1]], t.newPoints)
-					);
-				return convexHullBaseLines;
-			} else {  // if there is no more point "outside" the base line, the current base line is part of the convex hull
-				return [baseLine[0]];
-			}
-		},
+                if (t.maxPoint) { // if there is still a point "outside" the base line
+                    convexHullBaseLines =
+                        convexHullBaseLines.concat(
+                            this.buildConvexHull([baseLine[0], t.maxPoint], t.newPoints)
+                        );
+                    convexHullBaseLines =
+                        convexHullBaseLines.concat(
+                            this.buildConvexHull([t.maxPoint, baseLine[1]], t.newPoints)
+                        );
+                    return convexHullBaseLines;
+                } else {  // if there is no more point "outside" the base line, the current base line is part of the convex hull
+                    return [baseLine[0]];
+                }
+            },
 
-		/*
+            /*
 		 * Given an array of latlngs, compute a convex hull as an array
 		 * of latlngs
 		 *
 		 * @param {Array} latLngs
 		 * @returns {Array}
 		 */
-		getConvexHull: function (latLngs) {
-			// find first baseline
-			var maxLat = false, minLat = false,
-				maxLng = false, minLng = false,
-				maxLatPt = null, minLatPt = null,
-				maxLngPt = null, minLngPt = null,
-				maxPt = null, minPt = null,
-				i;
+            getConvexHull: function (latLngs) {
+                // find first baseline
+                var maxLat = false, minLat = false,
+                    maxLng = false, minLng = false,
+                    maxLatPt = null, minLatPt = null,
+                    maxLngPt = null, minLngPt = null,
+                    maxPt = null, minPt = null,
+                    i;
 
-			for (i = latLngs.length - 1; i >= 0; i--) {
-				var pt = latLngs[i];
-				if (maxLat === false || pt.lat > maxLat) {
-					maxLatPt = pt;
-					maxLat = pt.lat;
-				}
-				if (minLat === false || pt.lat < minLat) {
-					minLatPt = pt;
-					minLat = pt.lat;
-				}
-				if (maxLng === false || pt.lng > maxLng) {
-					maxLngPt = pt;
-					maxLng = pt.lng;
-				}
-				if (minLng === false || pt.lng < minLng) {
-					minLngPt = pt;
-					minLng = pt.lng;
-				}
-			}
-			
-			if (minLat !== maxLat) {
-				minPt = minLatPt;
-				maxPt = maxLatPt;
-			} else {
-				minPt = minLngPt;
-				maxPt = maxLngPt;
-			}
+                for (i = latLngs.length - 1; i >= 0; i--) {
+                    var pt = latLngs[i];
+                    if (maxLat === false || pt.lat > maxLat) {
+                        maxLatPt = pt;
+                        maxLat = pt.lat;
+                    }
+                    if (minLat === false || pt.lat < minLat) {
+                        minLatPt = pt;
+                        minLat = pt.lat;
+                    }
+                    if (maxLng === false || pt.lng > maxLng) {
+                        maxLngPt = pt;
+                        maxLng = pt.lng;
+                    }
+                    if (minLng === false || pt.lng < minLng) {
+                        minLngPt = pt;
+                        minLng = pt.lng;
+                    }
+                }
 
-			var ch = [].concat(this.buildConvexHull([minPt, maxPt], latLngs),
-								this.buildConvexHull([maxPt, minPt], latLngs));
-			return ch;
-		}
-	};
-}());
+                if (minLat !== maxLat) {
+                    minPt = minLatPt;
+                    maxPt = maxLatPt;
+                } else {
+                    minPt = minLngPt;
+                    maxPt = maxLngPt;
+                }
 
-L.MarkerCluster.include({
-	getConvexHull: function () {
-		var childMarkers = this.getAllChildMarkers(),
-			points = [],
-			p, i;
+                var ch = [].concat(this.buildConvexHull([minPt, maxPt], latLngs),
+                    this.buildConvexHull([maxPt, minPt], latLngs));
+                return ch;
+            }
+        };
+    }());
 
-		for (i = childMarkers.length - 1; i >= 0; i--) {
-			p = childMarkers[i].getLatLng();
-			points.push(p);
-		}
+    L.MarkerCluster.include({
+        getConvexHull: function () {
+            var childMarkers = this.getAllChildMarkers(),
+                points = [],
+                p, i;
 
-		return L.QuickHull.getConvexHull(points);
-	}
-});
+            for (i = childMarkers.length - 1; i >= 0; i--) {
+                p = childMarkers[i].getLatLng();
+                points.push(p);
+            }
+
+            return L.QuickHull.getConvexHull(points);
+        }
+    });
 
 //This code is 100% based on https://github.com/jawj/OverlappingMarkerSpiderfier-Leaflet
 //Huge thanks to jawj for implementing it first to make my job easy :-)
 
-L.MarkerCluster.include({
+    L.MarkerCluster.include({
 
-	_2PI: Math.PI * 2,
-	_circleFootSeparation: 25, //related to circumference of circle
-	_circleStartAngle: 0,
+        _2PI: Math.PI * 2,
+        _circleFootSeparation: 25, //related to circumference of circle
+        _circleStartAngle: 0,
 
-	_spiralFootSeparation:  28, //related to size of spiral (experiment!)
-	_spiralLengthStart: 11,
-	_spiralLengthFactor: 5,
+        _spiralFootSeparation:  28, //related to size of spiral (experiment!)
+        _spiralLengthStart: 11,
+        _spiralLengthFactor: 5,
 
-	_circleSpiralSwitchover: 9, //show spiral instead of circle from this marker count upwards.
-								// 0 -> always spiral; Infinity -> always circle
+        _circleSpiralSwitchover: 9, //show spiral instead of circle from this marker count upwards.
+                                    // 0 -> always spiral; Infinity -> always circle
 
-	spiderfy: function () {
-		if (this._group._spiderfied === this || this._group._inZoomAnimation) {
-			return;
-		}
+        spiderfy: function () {
+            if (this._group._spiderfied === this || this._group._inZoomAnimation) {
+                return;
+            }
 
-		var childMarkers = this.getAllChildMarkers(),
-			group = this._group,
-			map = group._map,
-			center = map.latLngToLayerPoint(this._latlng),
-			positions;
+            var childMarkers = this.getAllChildMarkers(),
+                group = this._group,
+                map = group._map,
+                center = map.latLngToLayerPoint(this._latlng),
+                positions;
 
-		this._group._unspiderfy();
-		this._group._spiderfied = this;
+            this._group._unspiderfy();
+            this._group._spiderfied = this;
 
-		//TODO Maybe: childMarkers order by distance to center
+            //TODO Maybe: childMarkers order by distance to center
 
-		if (childMarkers.length >= this._circleSpiralSwitchover) {
-			positions = this._generatePointsSpiral(childMarkers.length, center);
-		} else {
-			center.y += 10; // Otherwise circles look wrong => hack for standard blue icon, renders differently for other icons.
-			positions = this._generatePointsCircle(childMarkers.length, center);
-		}
+            if (childMarkers.length >= this._circleSpiralSwitchover) {
+                positions = this._generatePointsSpiral(childMarkers.length, center);
+            } else {
+                center.y += 10; // Otherwise circles look wrong => hack for standard blue icon, renders differently for other icons.
+                positions = this._generatePointsCircle(childMarkers.length, center);
+            }
 
-		this._animationSpiderfy(childMarkers, positions);
-	},
+            this._animationSpiderfy(childMarkers, positions);
+        },
 
-	unspiderfy: function (zoomDetails) {
-		/// <param Name="zoomDetails">Argument from zoomanim if being called in a zoom animation or null otherwise</param>
-		if (this._group._inZoomAnimation) {
-			return;
-		}
-		this._animationUnspiderfy(zoomDetails);
+        unspiderfy: function (zoomDetails) {
+            /// <param Name="zoomDetails">Argument from zoomanim if being called in a zoom animation or null otherwise</param>
+            if (this._group._inZoomAnimation) {
+                return;
+            }
+            this._animationUnspiderfy(zoomDetails);
 
-		this._group._spiderfied = null;
-	},
+            this._group._spiderfied = null;
+        },
 
-	_generatePointsCircle: function (count, centerPt) {
-		var circumference = this._group.options.spiderfyDistanceMultiplier * this._circleFootSeparation * (2 + count),
-			legLength = circumference / this._2PI,  //radius from circumference
-			angleStep = this._2PI / count,
-			res = [],
-			i, angle;
+        _generatePointsCircle: function (count, centerPt) {
+            var circumference = this._group.options.spiderfyDistanceMultiplier * this._circleFootSeparation * (2 + count),
+                legLength = circumference / this._2PI,  //radius from circumference
+                angleStep = this._2PI / count,
+                res = [],
+                i, angle;
 
-		legLength = Math.max(legLength, 35); // Minimum distance to get outside the cluster icon.
+            legLength = Math.max(legLength, 35); // Minimum distance to get outside the cluster icon.
 
-		res.length = count;
+            res.length = count;
 
-		for (i = 0; i < count; i++) { // Clockwise, like spiral.
-			angle = this._circleStartAngle + i * angleStep;
-			res[i] = new L.Point(centerPt.x + legLength * Math.cos(angle), centerPt.y + legLength * Math.sin(angle))._round();
-		}
+            for (i = 0; i < count; i++) { // Clockwise, like spiral.
+                angle = this._circleStartAngle + i * angleStep;
+                res[i] = new L.Point(centerPt.x + legLength * Math.cos(angle), centerPt.y + legLength * Math.sin(angle))._round();
+            }
 
-		return res;
-	},
+            return res;
+        },
 
-	_generatePointsSpiral: function (count, centerPt) {
-		var spiderfyDistanceMultiplier = this._group.options.spiderfyDistanceMultiplier,
-			legLength = spiderfyDistanceMultiplier * this._spiralLengthStart,
-			separation = spiderfyDistanceMultiplier * this._spiralFootSeparation,
-			lengthFactor = spiderfyDistanceMultiplier * this._spiralLengthFactor * this._2PI,
-			angle = 0,
-			res = [],
-			i;
+        _generatePointsSpiral: function (count, centerPt) {
+            var spiderfyDistanceMultiplier = this._group.options.spiderfyDistanceMultiplier,
+                legLength = spiderfyDistanceMultiplier * this._spiralLengthStart,
+                separation = spiderfyDistanceMultiplier * this._spiralFootSeparation,
+                lengthFactor = spiderfyDistanceMultiplier * this._spiralLengthFactor * this._2PI,
+                angle = 0,
+                res = [],
+                i;
 
-		res.length = count;
+            res.length = count;
 
-		// Higher index, closer position to cluster center.
-		for (i = count; i >= 0; i--) {
-			// Skip the first position, so that we are already farther from center and we avoid
-			// being under the default cluster icon (especially important for Circle Markers).
-			if (i < count) {
-				res[i] = new L.Point(centerPt.x + legLength * Math.cos(angle), centerPt.y + legLength * Math.sin(angle))._round();
-			}
-			angle += separation / legLength + i * 0.0005;
-			legLength += lengthFactor / angle;
-		}
-		return res;
-	},
+            // Higher index, closer position to cluster center.
+            for (i = count; i >= 0; i--) {
+                // Skip the first position, so that we are already farther from center and we avoid
+                // being under the default cluster icon (especially important for Circle Markers).
+                if (i < count) {
+                    res[i] = new L.Point(centerPt.x + legLength * Math.cos(angle), centerPt.y + legLength * Math.sin(angle))._round();
+                }
+                angle += separation / legLength + i * 0.0005;
+                legLength += lengthFactor / angle;
+            }
+            return res;
+        },
 
-	_noanimationUnspiderfy: function () {
-		var group = this._group,
-			map = group._map,
-			fg = group._featureGroup,
-			childMarkers = this.getAllChildMarkers(),
-			m, i;
+        _noanimationUnspiderfy: function () {
+            var group = this._group,
+                map = group._map,
+                fg = group._featureGroup,
+                childMarkers = this.getAllChildMarkers(),
+                m, i;
 
-		group._ignoreMove = true;
+            group._ignoreMove = true;
 
-		this.setOpacity(1);
-		for (i = childMarkers.length - 1; i >= 0; i--) {
-			m = childMarkers[i];
+            this.setOpacity(1);
+            for (i = childMarkers.length - 1; i >= 0; i--) {
+                m = childMarkers[i];
 
-			fg.removeLayer(m);
+                fg.removeLayer(m);
 
-			if (m._preSpiderfyLatlng) {
-				m.setLatLng(m._preSpiderfyLatlng);
-				delete m._preSpiderfyLatlng;
-			}
-			if (m.setZIndexOffset) {
-				m.setZIndexOffset(0);
-			}
+                if (m._preSpiderfyLatlng) {
+                    m.setLatLng(m._preSpiderfyLatlng);
+                    delete m._preSpiderfyLatlng;
+                }
+                if (m.setZIndexOffset) {
+                    m.setZIndexOffset(0);
+                }
 
-			if (m._spiderLeg) {
-				map.removeLayer(m._spiderLeg);
-				delete m._spiderLeg;
-			}
-		}
+                if (m._spiderLeg) {
+                    map.removeLayer(m._spiderLeg);
+                    delete m._spiderLeg;
+                }
+            }
 
-		group.fire('unspiderfied', {
-			cluster: this,
-			markers: childMarkers
-		});
-		group._ignoreMove = false;
-		group._spiderfied = null;
-	}
-});
+            group.fire('unspiderfied', {
+                cluster: this,
+                markers: childMarkers
+            });
+            group._ignoreMove = false;
+            group._spiderfied = null;
+        }
+    });
 
 //Non Animated versions of everything
-L.MarkerClusterNonAnimated = L.MarkerCluster.extend({
-	_animationSpiderfy: function (childMarkers, positions) {
-		var group = this._group,
-			map = group._map,
-			fg = group._featureGroup,
-			legOptions = this._group.options.spiderLegPolylineOptions,
-			i, m, leg, newPos;
+    L.MarkerClusterNonAnimated = L.MarkerCluster.extend({
+        _animationSpiderfy: function (childMarkers, positions) {
+            var group = this._group,
+                map = group._map,
+                fg = group._featureGroup,
+                legOptions = this._group.options.spiderLegPolylineOptions,
+                i, m, leg, newPos;
 
-		group._ignoreMove = true;
+            group._ignoreMove = true;
 
-		// Traverse in ascending order to make sure that inner circleMarkers are on top of further legs. Normal markers are re-ordered by newPosition.
-		// The reverse order trick no longer improves performance on modern browsers.
-		for (i = 0; i < childMarkers.length; i++) {
-			newPos = map.layerPointToLatLng(positions[i]);
-			m = childMarkers[i];
+            // Traverse in ascending order to make sure that inner circleMarkers are on top of further legs. Normal markers are re-ordered by newPosition.
+            // The reverse order trick no longer improves performance on modern browsers.
+            for (i = 0; i < childMarkers.length; i++) {
+                newPos = map.layerPointToLatLng(positions[i]);
+                m = childMarkers[i];
 
-			// Add the leg before the marker, so that in case the latter is a circleMarker, the leg is behind it.
-			leg = new L.Polyline([this._latlng, newPos], legOptions);
-			map.addLayer(leg);
-			m._spiderLeg = leg;
+                // Add the leg before the marker, so that in case the latter is a circleMarker, the leg is behind it.
+                leg = new L.Polyline([this._latlng, newPos], legOptions);
+                map.addLayer(leg);
+                m._spiderLeg = leg;
 
-			// Now add the marker.
-			m._preSpiderfyLatlng = m._latlng;
-			m.setLatLng(newPos);
-			if (m.setZIndexOffset) {
-				m.setZIndexOffset(1000000); //Make these appear on top of EVERYTHING
-			}
+                // Now add the marker.
+                m._preSpiderfyLatlng = m._latlng;
+                m.setLatLng(newPos);
+                if (m.setZIndexOffset) {
+                    m.setZIndexOffset(1000000); //Make these appear on top of EVERYTHING
+                }
 
-			fg.addLayer(m);
-		}
-		this.setOpacity(0.3);
+                fg.addLayer(m);
+            }
+            this.setOpacity(0.3);
 
-		group._ignoreMove = false;
-		group.fire('spiderfied', {
-			cluster: this,
-			markers: childMarkers
-		});
-	},
+            group._ignoreMove = false;
+            group.fire('spiderfied', {
+                cluster: this,
+                markers: childMarkers
+            });
+        },
 
-	_animationUnspiderfy: function () {
-		this._noanimationUnspiderfy();
-	}
-});
+        _animationUnspiderfy: function () {
+            this._noanimationUnspiderfy();
+        }
+    });
 
 //Animated versions here
-L.MarkerCluster.include({
-
-	_animationSpiderfy: function (childMarkers, positions) {
-		var me = this,
-			group = this._group,
-			map = group._map,
-			fg = group._featureGroup,
-			thisLayerLatLng = this._latlng,
-			thisLayerPos = map.latLngToLayerPoint(thisLayerLatLng),
-			svg = L.Path.SVG,
-			legOptions = L.extend({}, this._group.options.spiderLegPolylineOptions), // Copy the options so that we can modify them for animation.
-			finalLegOpacity = legOptions.opacity,
-			i, m, leg, legPath, legLength, newPos;
-
-		if (finalLegOpacity === undefined) {
-			finalLegOpacity = L.MarkerClusterGroup.prototype.options.spiderLegPolylineOptions.opacity;
-		}
-
-		if (svg) {
-			// If the initial opacity of the spider leg is not 0 then it appears before the animation starts.
-			legOptions.opacity = 0;
-
-			// Add the class for CSS transitions.
-			legOptions.className = (legOptions.className || '') + ' leaflet-cluster-spider-leg';
-		} else {
-			// Make sure we have a defined opacity.
-			legOptions.opacity = finalLegOpacity;
-		}
-
-		group._ignoreMove = true;
-
-		// Add markers and spider legs to map, hidden at our center point.
-		// Traverse in ascending order to make sure that inner circleMarkers are on top of further legs. Normal markers are re-ordered by newPosition.
-		// The reverse order trick no longer improves performance on modern browsers.
-		for (i = 0; i < childMarkers.length; i++) {
-			m = childMarkers[i];
-
-			newPos = map.layerPointToLatLng(positions[i]);
-
-			// Add the leg before the marker, so that in case the latter is a circleMarker, the leg is behind it.
-			leg = new L.Polyline([thisLayerLatLng, newPos], legOptions);
-			map.addLayer(leg);
-			m._spiderLeg = leg;
-
-			// Explanations: https://jakearchibald.com/2013/animated-line-drawing-svg/
-			// In our case the transition property is declared in the CSS file.
-			if (svg) {
-				legPath = leg._path;
-				legLength = legPath.getTotalLength() + 0.1; // Need a small extra length to avoid remaining dot in Firefox.
-				legPath.style.strokeDasharray = legLength; // Just 1 length is enough, it will be duplicated.
-				legPath.style.strokeDashoffset = legLength;
-			}
-
-			// If it is a marker, add it now and we'll animate it out
-			if (m.setZIndexOffset) {
-				m.setZIndexOffset(1000000); // Make normal markers appear on top of EVERYTHING
-			}
-			if (m.clusterHide) {
-				m.clusterHide();
-			}
-			
-			// Vectors just get immediately added
-			fg.addLayer(m);
-
-			if (m._setPos) {
-				m._setPos(thisLayerPos);
-			}
-		}
-
-		group._forceLayout();
-		group._animationStart();
-
-		// Reveal markers and spider legs.
-		for (i = childMarkers.length - 1; i >= 0; i--) {
-			newPos = map.layerPointToLatLng(positions[i]);
-			m = childMarkers[i];
-
-			//Move marker to new position
-			m._preSpiderfyLatlng = m._latlng;
-			m.setLatLng(newPos);
-			
-			if (m.clusterShow) {
-				m.clusterShow();
-			}
-
-			// Animate leg (animation is actually delegated to CSS transition).
-			if (svg) {
-				leg = m._spiderLeg;
-				legPath = leg._path;
-				legPath.style.strokeDashoffset = 0;
-				//legPath.style.strokeOpacity = finalLegOpacity;
-				leg.setStyle({opacity: finalLegOpacity});
-			}
-		}
-		this.setOpacity(0.3);
-
-		group._ignoreMove = false;
-
-		setTimeout(function () {
-			group._animationEnd();
-			group.fire('spiderfied', {
-				cluster: me,
-				markers: childMarkers
-			});
-		}, 200);
-	},
-
-	_animationUnspiderfy: function (zoomDetails) {
-		var me = this,
-			group = this._group,
-			map = group._map,
-			fg = group._featureGroup,
-			thisLayerPos = zoomDetails ? map._latLngToNewLayerPoint(this._latlng, zoomDetails.zoom, zoomDetails.center) : map.latLngToLayerPoint(this._latlng),
-			childMarkers = this.getAllChildMarkers(),
-			svg = L.Path.SVG,
-			m, i, leg, legPath, legLength, nonAnimatable;
-
-		group._ignoreMove = true;
-		group._animationStart();
-
-		//Make us visible and bring the child markers back in
-		this.setOpacity(1);
-		for (i = childMarkers.length - 1; i >= 0; i--) {
-			m = childMarkers[i];
-
-			//Marker was added to us after we were spiderfied
-			if (!m._preSpiderfyLatlng) {
-				continue;
-			}
-
-			//Close any popup on the marker first, otherwise setting the location of the marker will make the map scroll
-			m.closePopup();
-
-			//Fix up the location to the real one
-			m.setLatLng(m._preSpiderfyLatlng);
-			delete m._preSpiderfyLatlng;
-
-			//Hack override the location to be our center
-			nonAnimatable = true;
-			if (m._setPos) {
-				m._setPos(thisLayerPos);
-				nonAnimatable = false;
-			}
-			if (m.clusterHide) {
-				m.clusterHide();
-				nonAnimatable = false;
-			}
-			if (nonAnimatable) {
-				fg.removeLayer(m);
-			}
-
-			// Animate the spider leg back in (animation is actually delegated to CSS transition).
-			if (svg) {
-				leg = m._spiderLeg;
-				legPath = leg._path;
-				legLength = legPath.getTotalLength() + 0.1;
-				legPath.style.strokeDashoffset = legLength;
-				leg.setStyle({opacity: 0});
-			}
-		}
-
-		group._ignoreMove = false;
-
-		setTimeout(function () {
-			//If we have only <= one child left then that marker will be shown on the map so don't remove it!
-			var stillThereChildCount = 0;
-			for (i = childMarkers.length - 1; i >= 0; i--) {
-				m = childMarkers[i];
-				if (m._spiderLeg) {
-					stillThereChildCount++;
-				}
-			}
-
-
-			for (i = childMarkers.length - 1; i >= 0; i--) {
-				m = childMarkers[i];
-
-				if (!m._spiderLeg) { //Has already been unspiderfied
-					continue;
-				}
-
-				if (m.clusterShow) {
-					m.clusterShow();
-				}
-				if (m.setZIndexOffset) {
-					m.setZIndexOffset(0);
-				}
-
-				if (stillThereChildCount > 1) {
-					fg.removeLayer(m);
-				}
-
-				map.removeLayer(m._spiderLeg);
-				delete m._spiderLeg;
-			}
-			group._animationEnd();
-			group.fire('unspiderfied', {
-				cluster: me,
-				markers: childMarkers
-			});
-		}, 200);
-	}
-});
-
-
-L.MarkerClusterGroup.include({
-	//The MarkerCluster currently spiderfied (if any)
-	_spiderfied: null,
-
-	unspiderfy: function () {
-		this._unspiderfy.apply(this, arguments);
-	},
-
-	_spiderfierOnAdd: function () {
-		this._map.on('click', this._unspiderfyWrapper, this);
-
-		if (this._map.options.zoomAnimation) {
-			this._map.on('zoomstart', this._unspiderfyZoomStart, this);
-		}
-		//Browsers without zoomAnimation or a big zoom don't fire zoomstart
-		this._map.on('zoomend', this._noanimationUnspiderfy, this);
-
-		if (!L.Browser.touch) {
-			this._map.getRenderer(this);
-			//Needs to happen in the pageload, not after, or animations don't work in webkit
-			//  http://stackoverflow.com/questions/8455200/svg-animate-with-dynamically-added-elements
-			//Disable on touch browsers as the animation messes up on a touch zoom and isn't very noticable
-		}
-	},
-
-	_spiderfierOnRemove: function () {
-		this._map.off('click', this._unspiderfyWrapper, this);
-		this._map.off('zoomstart', this._unspiderfyZoomStart, this);
-		this._map.off('zoomanim', this._unspiderfyZoomAnim, this);
-		this._map.off('zoomend', this._noanimationUnspiderfy, this);
-
-		//Ensure that markers are back where they should be
-		// Use no animation to avoid a sticky leaflet-cluster-anim class on mapPane
-		this._noanimationUnspiderfy();
-	},
-
-	//On zoom start we add a zoomanim handler so that we are guaranteed to be last (after markers are animated)
-	//This means we can define the animation they do rather than Markers doing an animation to their actual location
-	_unspiderfyZoomStart: function () {
-		if (!this._map) { //May have been removed from the map by a zoomEnd handler
-			return;
-		}
-
-		this._map.on('zoomanim', this._unspiderfyZoomAnim, this);
-	},
-
-	_unspiderfyZoomAnim: function (zoomDetails) {
-		//Wait until the first zoomanim after the user has finished touch-zooming before running the animation
-		if (L.DomUtil.hasClass(this._map._mapPane, 'leaflet-touching')) {
-			return;
-		}
-
-		this._map.off('zoomanim', this._unspiderfyZoomAnim, this);
-		this._unspiderfy(zoomDetails);
-	},
-
-	_unspiderfyWrapper: function () {
-		/// <summary>_unspiderfy but passes no arguments</summary>
-		this._unspiderfy();
-	},
-
-	_unspiderfy: function (zoomDetails) {
-		if (this._spiderfied) {
-			this._spiderfied.unspiderfy(zoomDetails);
-		}
-	},
-
-	_noanimationUnspiderfy: function () {
-		if (this._spiderfied) {
-			this._spiderfied._noanimationUnspiderfy();
-		}
-	},
-
-	//If the given layer is currently being spiderfied then we unspiderfy it so it isn't on the map anymore etc
-	_unspiderfyLayer: function (layer) {
-		if (layer._spiderLeg) {
-			this._featureGroup.removeLayer(layer);
-
-			if (layer.clusterShow) {
-				layer.clusterShow();
-			}
-				//Position will be fixed up immediately in _animationUnspiderfy
-			if (layer.setZIndexOffset) {
-				layer.setZIndexOffset(0);
-			}
-
-			this._map.removeLayer(layer._spiderLeg);
-			delete layer._spiderLeg;
-		}
-	}
-});
-
-/**
- * Adds 1 public method to MCG and 1 to L.Marker to facilitate changing
- * markers' icon options and refreshing their icon and their parent clusters
- * accordingly (case where their iconCreateFunction uses data of childMarkers
- * to make up the cluster icon).
- */
-
-
-L.MarkerClusterGroup.include({
-	/**
-	 * Updates the icon of all clusters which are parents of the given marker(s).
-	 * In singleMarkerMode, also updates the given marker(s) icon.
-	 * @param layers L.MarkerClusterGroup|L.LayerGroup|Array(L.Marker)|Map(L.Marker)|
-	 * L.MarkerCluster|L.Marker (optional) list of markers (or single marker) whose parent
-	 * clusters need to be updated. If not provided, retrieves all child markers of this.
-	 * @returns {L.MarkerClusterGroup}
-	 */
-	refreshClusters: function (layers) {
-		if (!layers) {
-			layers = this._topClusterLevel.getAllChildMarkers();
-		} else if (layers instanceof L.MarkerClusterGroup) {
-			layers = layers._topClusterLevel.getAllChildMarkers();
-		} else if (layers instanceof L.LayerGroup) {
-			layers = layers._layers;
-		} else if (layers instanceof L.MarkerCluster) {
-			layers = layers.getAllChildMarkers();
-		} else if (layers instanceof L.Marker) {
-			layers = [layers];
-		} // else: must be an Array(L.Marker)|Map(L.Marker)
-		this._flagParentsIconsNeedUpdate(layers);
-		this._refreshClustersIcons();
-
-		// In case of singleMarkerMode, also re-draw the markers.
-		if (this.options.singleMarkerMode) {
-			this._refreshSingleMarkerModeMarkers(layers);
-		}
-
-		return this;
-	},
-
-	/**
-	 * Simply flags all parent clusters of the given markers as having a "dirty" icon.
-	 * @param layers Array(L.Marker)|Map(L.Marker) list of markers.
-	 * @private
-	 */
-	_flagParentsIconsNeedUpdate: function (layers) {
-		var id, parent;
-
-		// Assumes layers is an Array or an Object whose prototype is non-enumerable.
-		for (id in layers) {
-			// Flag parent clusters' icon as "dirty", all the way up.
-			// Dumb process that flags multiple times upper parents, but still
-			// much more efficient than trying to be smart and make short lists,
-			// at least in the case of a hierarchy following a power law:
-			// http://jsperf.com/flag-nodes-in-power-hierarchy/2
-			parent = layers[id].__parent;
-			while (parent) {
-				parent._iconNeedsUpdate = true;
-				parent = parent.__parent;
-			}
-		}
-	},
-
-	/**
-	 * Re-draws the icon of the supplied markers.
-	 * To be used in singleMarkerMode only.
-	 * @param layers Array(L.Marker)|Map(L.Marker) list of markers.
-	 * @private
-	 */
-	_refreshSingleMarkerModeMarkers: function (layers) {
-		var id, layer;
-
-		for (id in layers) {
-			layer = layers[id];
-
-			// Make sure we do not override markers that do not belong to THIS group.
-			if (this.hasLayer(layer)) {
-				// Need to re-create the icon first, then re-draw the marker.
-				layer.setIcon(this._overrideMarkerIcon(layer));
-			}
-		}
-	}
-});
-
-L.Marker.include({
-	/**
-	 * Updates the given options in the marker's icon and refreshes the marker.
-	 * @param options map object of icon options.
-	 * @param directlyRefreshClusters boolean (optional) true to trigger
-	 * MCG.refreshClustersOf() right away with this single marker.
-	 * @returns {L.Marker}
-	 */
-	refreshIconOptions: function (options, directlyRefreshClusters) {
-		var icon = this.options.icon;
-
-		L.setOptions(icon, options);
-
-		this.setIcon(icon);
-
-		// Shortcut to refresh the associated MCG clusters right away.
-		// To be used when refreshing a single marker.
-		// Otherwise, better use MCG.refreshClusters() once at the end with
-		// the list of modified markers.
-		if (directlyRefreshClusters && this.__parent) {
-			this.__parent._group.refreshClusters(this);
-		}
-
-		return this;
-	}
-});
-
-L.MarkerClusterGroup = MarkerClusterGroup;
-L.MarkerCluster = MarkerCluster;
+    L.MarkerCluster.include({
+
+        _animationSpiderfy: function (childMarkers, positions) {
+            var me = this,
+                group = this._group,
+                map = group._map,
+                fg = group._featureGroup,
+                thisLayerLatLng = this._latlng,
+                thisLayerPos = map.latLngToLayerPoint(thisLayerLatLng),
+                svg = L.Path.SVG,
+                legOptions = L.extend({}, this._group.options.spiderLegPolylineOptions), // Copy the options so that we can modify them for animation.
+                finalLegOpacity = legOptions.opacity,
+                i, m, leg, legPath, legLength, newPos;
+
+            if (finalLegOpacity === undefined) {
+                finalLegOpacity = L.MarkerClusterGroup.prototype.options.spiderLegPolylineOptions.opacity;
+            }
+
+            if (svg) {
+                // If the initial opacity of the spider leg is not 0 then it appears before the animation starts.
+                legOptions.opacity = 0;
+
+                // Add the class for CSS transitions.
+                legOptions.className = (legOptions.className || '') + ' leaflet-cluster-spider-leg';
+            } else {
+                // Make sure we have a defined opacity.
+                legOptions.opacity = finalLegOpacity;
+            }
+
+            group._ignoreMove = true;
+
+            // Add markers and spider legs to map, hidden at our center point.
+            // Traverse in ascending order to make sure that inner circleMarkers are on top of further legs. Normal markers are re-ordered by newPosition.
+            // The reverse order trick no longer improves performance on modern browsers.
+            for (i = 0; i < childMarkers.length; i++) {
+                m = childMarkers[i];
+
+                newPos = map.layerPointToLatLng(positions[i]);
+
+                // Add the leg before the marker, so that in case the latter is a circleMarker, the leg is behind it.
+                leg = new L.Polyline([thisLayerLatLng, newPos], legOptions);
+                map.addLayer(leg);
+                m._spiderLeg = leg;
+
+                // Explanations: https://jakearchibald.com/2013/animated-line-drawing-svg/
+                // In our case the transition property is declared in the CSS file.
+                if (svg) {
+                    legPath = leg._path;
+                    legLength = legPath.getTotalLength() + 0.1; // Need a small extra length to avoid remaining dot in Firefox.
+                    legPath.style.strokeDasharray = legLength; // Just 1 length is enough, it will be duplicated.
+                    legPath.style.strokeDashoffset = legLength;
+                }
+
+                // If it is a marker, add it now and we'll animate it out
+                if (m.setZIndexOffset) {
+                    m.setZIndexOffset(1000000); // Make normal markers appear on top of EVERYTHING
+                }
+                if (m.clusterHide) {
+                    m.clusterHide();
+                }
+
+                // Vectors just get immediately added
+                fg.addLayer(m);
+
+                if (m._setPos) {
+                    m._setPos(thisLayerPos);
+                }
+            }
+
+            group._forceLayout();
+            group._animationStart();
+
+            // Reveal markers and spider legs.
+            for (i = childMarkers.length - 1; i >= 0; i--) {
+                newPos = map.layerPointToLatLng(positions[i]);
+                m = childMarkers[i];
+
+                //Move marker to new position
+                m._preSpiderfyLatlng = m._latlng;
+                m.setLatLng(newPos);
+
+                if (m.clusterShow) {
+                    m.clusterShow();
+                }
+
+                // Animate leg (animation is actually delegated to CSS transition).
+                if (svg) {
+                    leg = m._spiderLeg;
+                    legPath = leg._path;
+                    legPath.style.strokeDashoffset = 0;
+                    //legPath.style.strokeOpacity = finalLegOpacity;
+                    leg.setStyle({opacity: finalLegOpacity});
+                }
+            }
+            this.setOpacity(0.3);
+
+            group._ignoreMove = false;
+
+            setTimeout(function () {
+                group._animationEnd();
+                group.fire('spiderfied', {
+                    cluster: me,
+                    markers: childMarkers
+                });
+            }, 200);
+        },
+
+        _animationUnspiderfy: function (zoomDetails) {
+            var me = this,
+                group = this._group,
+                map = group._map,
+                fg = group._featureGroup,
+                thisLayerPos = zoomDetails ? map._latLngToNewLayerPoint(this._latlng, zoomDetails.zoom, zoomDetails.center) : map.latLngToLayerPoint(this._latlng),
+                childMarkers = this.getAllChildMarkers(),
+                svg = L.Path.SVG,
+                m, i, leg, legPath, legLength, nonAnimatable;
+
+            group._ignoreMove = true;
+            group._animationStart();
+
+            //Make us visible and bring the child markers back in
+            this.setOpacity(1);
+            for (i = childMarkers.length - 1; i >= 0; i--) {
+                m = childMarkers[i];
+
+                //Marker was added to us after we were spiderfied
+                if (!m._preSpiderfyLatlng) {
+                    continue;
+                }
+
+                //Close any popup on the marker first, otherwise setting the location of the marker will make the map scroll
+                m.closePopup();
+
+                //Fix up the location to the real one
+                m.setLatLng(m._preSpiderfyLatlng);
+                delete m._preSpiderfyLatlng;
+
+                //Hack override the location to be our center
+                nonAnimatable = true;
+                if (m._setPos) {
+                    m._setPos(thisLayerPos);
+                    nonAnimatable = false;
+                }
+                if (m.clusterHide) {
+                    m.clusterHide();
+                    nonAnimatable = false;
+                }
+                if (nonAnimatable) {
+                    fg.removeLayer(m);
+                }
+
+                // Animate the spider leg back in (animation is actually delegated to CSS transition).
+                if (svg) {
+                    leg = m._spiderLeg;
+                    legPath = leg._path;
+                    legLength = legPath.getTotalLength() + 0.1;
+                    legPath.style.strokeDashoffset = legLength;
+                    leg.setStyle({opacity: 0});
+                }
+            }
+
+            group._ignoreMove = false;
+
+            setTimeout(function () {
+                //If we have only <= one child left then that marker will be shown on the map so don't remove it!
+                var stillThereChildCount = 0;
+                for (i = childMarkers.length - 1; i >= 0; i--) {
+                    m = childMarkers[i];
+                    if (m._spiderLeg) {
+                        stillThereChildCount++;
+                    }
+                }
+
+
+                for (i = childMarkers.length - 1; i >= 0; i--) {
+                    m = childMarkers[i];
+
+                    if (!m._spiderLeg) { //Has already been unspiderfied
+                        continue;
+                    }
+
+                    if (m.clusterShow) {
+                        m.clusterShow();
+                    }
+                    if (m.setZIndexOffset) {
+                        m.setZIndexOffset(0);
+                    }
+
+                    if (stillThereChildCount > 1) {
+                        fg.removeLayer(m);
+                    }
+
+                    map.removeLayer(m._spiderLeg);
+                    delete m._spiderLeg;
+                }
+                group._animationEnd();
+                group.fire('unspiderfied', {
+                    cluster: me,
+                    markers: childMarkers
+                });
+            }, 200);
+        }
+    });
+
+
+    L.MarkerClusterGroup.include({
+        //The MarkerCluster currently spiderfied (if any)
+        _spiderfied: null,
+
+        unspiderfy: function () {
+            this._unspiderfy.apply(this, arguments);
+        },
+
+        _spiderfierOnAdd: function () {
+            this._map.on('click', this._unspiderfyWrapper, this);
+
+            if (this._map.options.zoomAnimation) {
+                this._map.on('zoomstart', this._unspiderfyZoomStart, this);
+            }
+            //Browsers without zoomAnimation or a big zoom don't fire zoomstart
+            this._map.on('zoomend', this._noanimationUnspiderfy, this);
+
+            if (!L.Browser.touch) {
+                this._map.getRenderer(this);
+                //Needs to happen in the pageload, not after, or animations don't work in webkit
+                //  http://stackoverflow.com/questions/8455200/svg-animate-with-dynamically-added-elements
+                //Disable on touch browsers as the animation messes up on a touch zoom and isn't very noticable
+            }
+        },
+
+        _spiderfierOnRemove: function () {
+            this._map.off('click', this._unspiderfyWrapper, this);
+            this._map.off('zoomstart', this._unspiderfyZoomStart, this);
+            this._map.off('zoomanim', this._unspiderfyZoomAnim, this);
+            this._map.off('zoomend', this._noanimationUnspiderfy, this);
+
+            //Ensure that markers are back where they should be
+            // Use no animation to avoid a sticky leaflet-cluster-anim class on mapPane
+            this._noanimationUnspiderfy();
+        },
+
+        //On zoom start we add a zoomanim handler so that we are guaranteed to be last (after markers are animated)
+        //This means we can define the animation they do rather than Markers doing an animation to their actual location
+        _unspiderfyZoomStart: function () {
+            if (!this._map) { //May have been removed from the map by a zoomEnd handler
+                return;
+            }
+
+            this._map.on('zoomanim', this._unspiderfyZoomAnim, this);
+        },
+
+        _unspiderfyZoomAnim: function (zoomDetails) {
+            //Wait until the first zoomanim after the user has finished touch-zooming before running the animation
+            if (L.DomUtil.hasClass(this._map._mapPane, 'leaflet-touching')) {
+                return;
+            }
+
+            this._map.off('zoomanim', this._unspiderfyZoomAnim, this);
+            this._unspiderfy(zoomDetails);
+        },
+
+        _unspiderfyWrapper: function () {
+            /// <summary>_unspiderfy but passes no arguments</summary>
+            this._unspiderfy();
+        },
+
+        _unspiderfy: function (zoomDetails) {
+            if (this._spiderfied) {
+                this._spiderfied.unspiderfy(zoomDetails);
+            }
+        },
+
+        _noanimationUnspiderfy: function () {
+            if (this._spiderfied) {
+                this._spiderfied._noanimationUnspiderfy();
+            }
+        },
+
+        //If the given layer is currently being spiderfied then we unspiderfy it so it isn't on the map anymore etc
+        _unspiderfyLayer: function (layer) {
+            if (layer._spiderLeg) {
+                this._featureGroup.removeLayer(layer);
+
+                if (layer.clusterShow) {
+                    layer.clusterShow();
+                }
+                //Position will be fixed up immediately in _animationUnspiderfy
+                if (layer.setZIndexOffset) {
+                    layer.setZIndexOffset(0);
+                }
+
+                this._map.removeLayer(layer._spiderLeg);
+                delete layer._spiderLeg;
+            }
+        }
+    });
+
+    /**
+     * Adds 1 public method to MCG and 1 to L.Marker to facilitate changing
+     * markers' icon options and refreshing their icon and their parent clusters
+     * accordingly (case where their iconCreateFunction uses data of childMarkers
+     * to make up the cluster icon).
+     */
+
+
+    L.MarkerClusterGroup.include({
+        /**
+         * Updates the icon of all clusters which are parents of the given marker(s).
+         * In singleMarkerMode, also updates the given marker(s) icon.
+         * @param layers L.MarkerClusterGroup|L.LayerGroup|Array(L.Marker)|Map(L.Marker)|
+         * L.MarkerCluster|L.Marker (optional) list of markers (or single marker) whose parent
+         * clusters need to be updated. If not provided, retrieves all child markers of this.
+         * @returns {L.MarkerClusterGroup}
+         */
+        refreshClusters: function (layers) {
+            if (!layers) {
+                layers = this._topClusterLevel.getAllChildMarkers();
+            } else if (layers instanceof L.MarkerClusterGroup) {
+                layers = layers._topClusterLevel.getAllChildMarkers();
+            } else if (layers instanceof L.LayerGroup) {
+                layers = layers._layers;
+            } else if (layers instanceof L.MarkerCluster) {
+                layers = layers.getAllChildMarkers();
+            } else if (layers instanceof L.Marker) {
+                layers = [layers];
+            } // else: must be an Array(L.Marker)|Map(L.Marker)
+            this._flagParentsIconsNeedUpdate(layers);
+            this._refreshClustersIcons();
+
+            // In case of singleMarkerMode, also re-draw the markers.
+            if (this.options.singleMarkerMode) {
+                this._refreshSingleMarkerModeMarkers(layers);
+            }
+
+            return this;
+        },
+
+        /**
+         * Simply flags all parent clusters of the given markers as having a "dirty" icon.
+         * @param layers Array(L.Marker)|Map(L.Marker) list of markers.
+         * @private
+         */
+        _flagParentsIconsNeedUpdate: function (layers) {
+            var id, parent;
+
+            // Assumes layers is an Array or an Object whose prototype is non-enumerable.
+            for (id in layers) {
+                // Flag parent clusters' icon as "dirty", all the way up.
+                // Dumb process that flags multiple times upper parents, but still
+                // much more efficient than trying to be smart and make short lists,
+                // at least in the case of a hierarchy following a power law:
+                // http://jsperf.com/flag-nodes-in-power-hierarchy/2
+                parent = layers[id].__parent;
+                while (parent) {
+                    parent._iconNeedsUpdate = true;
+                    parent = parent.__parent;
+                }
+            }
+        },
+
+        /**
+         * Re-draws the icon of the supplied markers.
+         * To be used in singleMarkerMode only.
+         * @param layers Array(L.Marker)|Map(L.Marker) list of markers.
+         * @private
+         */
+        _refreshSingleMarkerModeMarkers: function (layers) {
+            var id, layer;
+
+            for (id in layers) {
+                layer = layers[id];
+
+                // Make sure we do not override markers that do not belong to THIS group.
+                if (this.hasLayer(layer)) {
+                    // Need to re-create the icon first, then re-draw the marker.
+                    layer.setIcon(this._overrideMarkerIcon(layer));
+                }
+            }
+        }
+    });
+
+    L.Marker.include({
+        /**
+         * Updates the given options in the marker's icon and refreshes the marker.
+         * @param options map object of icon options.
+         * @param directlyRefreshClusters boolean (optional) true to trigger
+         * MCG.refreshClustersOf() right away with this single marker.
+         * @returns {L.Marker}
+         */
+        refreshIconOptions: function (options, directlyRefreshClusters) {
+            var icon = this.options.icon;
+
+            L.setOptions(icon, options);
+
+            this.setIcon(icon);
+
+            // Shortcut to refresh the associated MCG clusters right away.
+            // To be used when refreshing a single marker.
+            // Otherwise, better use MCG.refreshClusters() once at the end with
+            // the list of modified markers.
+            if (directlyRefreshClusters && this.__parent) {
+                this.__parent._group.refreshClusters(this);
+            }
+
+            return this;
+        }
+    });
+
+    L.MarkerClusterGroup = MarkerClusterGroup;
+    L.MarkerCluster = MarkerCluster;
 
 })));
 //# sourceMappingURL=leaflet.markercluster-src.js.map
@@ -25608,84 +25617,84 @@ $('#pro-btn-menu-map').click(function () {
 })
 $(function()
 {
-	ar_menu();
+    ar_menu();
 });
 
 function ar_menu()
 {
-	// mobile sidebar menu
-	$('.th-menu').click(function () {
-		if (!$(this).hasClass('open')) {
-			$(this).addClass('open');
-			$('nav').addClass('show');
-			$('#pro-shadow-bg').addClass('pro-display-block');
-			$('#pro-header').addClass('menu-open');
-			$('.social-share').css('opacity','0');
-		}
-		else {
-			$('#pro-shadow-bg').removeClass('pro-display-block');
-			$(this).removeClass('open');
-			$('#pro-header').removeClass('menu-open');
-			$('.social-share').css('opacity','1');
-			setTimeout(function () {
-				$('nav').removeClass('show');
-			}, 150);
-		}
-	});
+    // mobile sidebar menu
+    $('.th-menu').click(function () {
+        if (!$(this).hasClass('open')) {
+            $(this).addClass('open');
+            $('nav').addClass('show');
+            $('#pro-shadow-bg').addClass('pro-display-block');
+            $('#pro-header').addClass('menu-open');
+            $('.social-share').css('opacity','0');
+        }
+        else {
+            $('#pro-shadow-bg').removeClass('pro-display-block');
+            $(this).removeClass('open');
+            $('#pro-header').removeClass('menu-open');
+            $('.social-share').css('opacity','1');
+            setTimeout(function () {
+                $('nav').removeClass('show');
+            }, 150);
+        }
+    });
 
-	$('#pro-shadow-bg').click(function () {
-		$(this).removeClass('pro-display-block');
-		$('nav').removeClass('show');
-		$('.th-menu').removeClass('open');
-		$('#pro-header').removeClass('menu-open');
-		$('#pro-header').removeClass('pro-wrapper-search-open');
-	});
+    $('#pro-shadow-bg').click(function () {
+        $(this).removeClass('pro-display-block');
+        $('nav').removeClass('show');
+        $('.th-menu').removeClass('open');
+        $('#pro-header').removeClass('menu-open');
+        $('#pro-header').removeClass('pro-wrapper-search-open');
+    });
 }
 
 
 $('.currentLang > a').on('focus',function(){
-	$('.is-focus-lang').removeClass('is-focus-lang');
-	$(this).parents().next().addClass('is-focus-lang');
+    $('.is-focus-lang').removeClass('is-focus-lang');
+    $(this).parents().next().addClass('is-focus-lang');
 });
 
 
 // Move Affiner la recherche on Tablet Portrait
 
 if ($(window).width() < 992) {
-	$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
-	$('.pro-wrapper-nav').append($('.pro-top-header'));
+    $(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
+    $('.pro-wrapper-nav').append($('.pro-top-header'));
 
-	$('.pro-affiner').on('click',function(){
-		$(this).next().toggleClass('is-display');
-		$(this).toggleClass('menu-is-display');
-	});
+    $('.pro-affiner').on('click',function(){
+        $(this).next().toggleClass('is-display');
+        $(this).toggleClass('menu-is-display');
+    });
 }
 
 var menuEmplacement = 0;
 var timeoutResizeMenuEmplacement = null;
 
 $(window).resize(function() {
-	clearTimeout(timeoutResizeMenuEmplacement);
-	timeoutResizeMenuEmplacement = setTimeout(moveMenuOnResize,500);
+    clearTimeout(timeoutResizeMenuEmplacement);
+    timeoutResizeMenuEmplacement = setTimeout(moveMenuOnResize,500);
 });
 
 document.addEventListener('orientationchange', function () {
-	clearTimeout(timeoutResizeMenuEmplacement);
-	timeoutResizeMenuEmplacement = setTimeout(moveMenuOnResize,500);
+    clearTimeout(timeoutResizeMenuEmplacement);
+    timeoutResizeMenuEmplacement = setTimeout(moveMenuOnResize,500);
 });
 
 function moveMenuOnResize(){
-	var wW = $(window).width();
-	if (wW < 992 && menuEmplacement == 0) {
-		menuEmplacement = 1;
-		$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
-		$('.pro-wrapper-nav').append($('.pro-top-header'));
-	}
-	if (wW >= 992 && menuEmplacement == 1) {
-		menuEmplacement = 0;
-		$('.pro-wrapper-aside').prepend($('.pro-bloc-facette-participation'));
-		$('.pro-wrapper-top-header').prepend($('.pro-top-header'));
-	}
+    var wW = $(window).width();
+    if (wW < 992 && menuEmplacement == 0) {
+        menuEmplacement = 1;
+        $(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
+        $('.pro-wrapper-nav').append($('.pro-top-header'));
+    }
+    if (wW >= 992 && menuEmplacement == 1) {
+        menuEmplacement = 0;
+        $('.pro-wrapper-aside').prepend($('.pro-bloc-facette-participation'));
+        $('.pro-wrapper-top-header').prepend($('.pro-top-header'));
+    }
 }
 
 /**
@@ -26454,13 +26463,6 @@ document.addEventListener('scroll', function () {
     lastscrolltop = st;
 });
 
-
-// Disabled CTA
-$('.pro-btn-disabled').on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-});
-
 // Pour les compteurs dans les pages de détail
 var textDiscover = $('.pro-compt').first().text();
 var textDiscoverWrapped = '';
@@ -26708,7 +26710,7 @@ $('.owl-timeline').each(function () {
             autoplay: false,
             autoplayTimeout: 4000
         }
-        ;
+    ;
 
     var data = _self.data();
 

@@ -133,10 +133,10 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
         // Verification de la validite des informations
         if (validate()) {
          	// Envoi de la demande
-            result = saveHelp(request);
+            result = saveHelpProposal(request);
             
             if(result)
-            	sendHelpMailConfirmation(request);
+            	sendHelpProposalMailConfirmation(request);
         }
         
         // Retour des informations de la requete en JSON
@@ -155,7 +155,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
         return result;
 	}
 	
-	private boolean saveHelp(ResourceRequest request) throws PortletException {
+	private boolean saveHelpProposal(ResourceRequest request) throws PortletException {
 		ServiceContext sc;
         HelpProposal helpProposal;
         
@@ -221,7 +221,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
 	/**
 	 * Envoi du mail de confirmation de soumission d'une initiative
 	 */
-    private void sendHelpMailConfirmation(ResourceRequest request) {
+    private void sendHelpProposalMailConfirmation(ResourceRequest request) {
     	
     	try {
 	    	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);

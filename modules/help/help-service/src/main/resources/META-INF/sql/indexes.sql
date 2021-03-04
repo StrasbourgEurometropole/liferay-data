@@ -1,5 +1,5 @@
 create index IX_1E063953 on help_HelpProposal (groupId);
-create index IX_C97DA3D7 on help_HelpProposal (publikId[$COLUMN_LENGTH:75$]);
+create index IX_94D0E999 on help_HelpProposal (publikId[$COLUMN_LENGTH:75$], helpProposalId);
 create index IX_512A42D on help_HelpProposal (status, groupId);
 create index IX_F411EB6B on help_HelpProposal (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_F56450AD on help_HelpProposal (uuid_[$COLUMN_LENGTH:75$], groupId);

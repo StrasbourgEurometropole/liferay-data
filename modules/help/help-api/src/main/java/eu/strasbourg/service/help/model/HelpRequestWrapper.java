@@ -62,7 +62,6 @@ public class HelpRequestWrapper
 		attributes.put("helpProposalId", getHelpProposalId());
 		attributes.put("phoneNumber", getPhoneNumber());
 		attributes.put("message", getMessage());
-		attributes.put("foodAllergies", getFoodAllergies());
 		attributes.put("studentCardImageId", getStudentCardImageId());
 
 		return attributes;
@@ -166,12 +165,6 @@ public class HelpRequestWrapper
 			setMessage(message);
 		}
 
-		String foodAllergies = (String)attributes.get("foodAllergies");
-
-		if (foodAllergies != null) {
-			setFoodAllergies(foodAllergies);
-		}
-
 		Long studentCardImageId = (Long)attributes.get("studentCardImageId");
 
 		if (studentCardImageId != null) {
@@ -231,16 +224,6 @@ public class HelpRequestWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
-	}
-
-	/**
-	 * Returns the food allergies of this help request.
-	 *
-	 * @return the food allergies of this help request
-	 */
-	@Override
-	public String getFoodAllergies() {
-		return model.getFoodAllergies();
 	}
 
 	/**
@@ -547,16 +530,6 @@ public class HelpRequestWrapper
 	@Override
 	public void setCreateDate(Date createDate) {
 		model.setCreateDate(createDate);
-	}
-
-	/**
-	 * Sets the food allergies of this help request.
-	 *
-	 * @param foodAllergies the food allergies of this help request
-	 */
-	@Override
-	public void setFoodAllergies(String foodAllergies) {
-		model.setFoodAllergies(foodAllergies);
 	}
 
 	/**

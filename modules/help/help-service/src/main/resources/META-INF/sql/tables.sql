@@ -42,6 +42,5 @@ create table help_HelpRequest (
 	helpProposalId LONG,
 	phoneNumber VARCHAR(75) null,
 	message TEXT null,
-	foodAllergies VARCHAR(400) null,
 	studentCardImageId LONG
 );

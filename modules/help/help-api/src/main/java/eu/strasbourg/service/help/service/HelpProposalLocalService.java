@@ -225,6 +225,13 @@ public interface HelpProposalLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<HelpProposal> getByPublikID(String publikId);
 
+	/**
+	 * Retourne la demande d'aide pour un utilisateur et une proposition donnee
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public HelpProposal getByPublikIdAndHelpProposalId(
+		String publikId, long helpProposalId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		PortletDataContext portletDataContext);
@@ -315,12 +322,6 @@ public interface HelpProposalLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
-
-	/**
-	 * Retourne toutes les helpProposal publiées d'un groupe
-	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<HelpProposal> getPublishedByGroupId(long groupId);
 
 	/**
 	 * Supprime une helpProposal

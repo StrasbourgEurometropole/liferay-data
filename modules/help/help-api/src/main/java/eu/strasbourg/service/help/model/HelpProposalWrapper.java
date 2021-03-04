@@ -226,9 +226,9 @@ public class HelpProposalWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory
-		getActivitStatusCategory() {
+		getActivityStatusCategory() {
 
-		return model.getActivitStatusCategory();
+		return model.getActivityStatusCategory();
 	}
 
 	/**
@@ -534,6 +534,16 @@ public class HelpProposalWrapper
 	@Override
 	public long getGroupId() {
 		return model.getGroupId();
+	}
+
+	/**
+	 * Retourne les types d'aidant de la proposition d'aide
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory
+		getHelpProposalHelperCategory() {
+
+		return model.getHelpProposalHelperCategory();
 	}
 
 	/**
@@ -965,6 +975,14 @@ public class HelpProposalWrapper
 	}
 
 	/**
+	 * Retourne si la catégorie statut activité est bien à "Active" sinon "Inactive"
+	 */
+	@Override
+	public boolean isActive() {
+		return model.isActive();
+	}
+
+	/**
 	 * Returns <code>true</code> if this help proposal is approved.
 	 *
 	 * @return <code>true</code> if this help proposal is approved; <code>false</code> otherwise
@@ -1042,6 +1060,17 @@ public class HelpProposalWrapper
 	@Override
 	public boolean isScheduled() {
 		return model.isScheduled();
+	}
+
+	/**
+	 * Est-ce l'utilisateur qui a crée la proposition ?
+	 *
+	 * @param publikUserId L'identifiant Publik de l'utilisateur
+	 * @return La verite
+	 */
+	@Override
+	public boolean isUserHelping(String publikUserId) {
+		return model.isUserHelping(publikUserId);
 	}
 
 	@Override

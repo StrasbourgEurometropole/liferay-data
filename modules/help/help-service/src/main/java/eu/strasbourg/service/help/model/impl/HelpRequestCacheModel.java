@@ -66,7 +66,7 @@ public class HelpRequestCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -100,8 +100,6 @@ public class HelpRequestCacheModel
 		sb.append(phoneNumber);
 		sb.append(", message=");
 		sb.append(message);
-		sb.append(", foodAllergies=");
-		sb.append(foodAllergies);
 		sb.append(", studentCardImageId=");
 		sb.append(studentCardImageId);
 		sb.append("}");
@@ -186,13 +184,6 @@ public class HelpRequestCacheModel
 			helpRequestImpl.setMessage(message);
 		}
 
-		if (foodAllergies == null) {
-			helpRequestImpl.setFoodAllergies("");
-		}
-		else {
-			helpRequestImpl.setFoodAllergies(foodAllergies);
-		}
-
 		helpRequestImpl.setStudentCardImageId(studentCardImageId);
 
 		helpRequestImpl.resetOriginalValues();
@@ -225,7 +216,6 @@ public class HelpRequestCacheModel
 		helpProposalId = objectInput.readLong();
 		phoneNumber = objectInput.readUTF();
 		message = objectInput.readUTF();
-		foodAllergies = objectInput.readUTF();
 
 		studentCardImageId = objectInput.readLong();
 	}
@@ -293,13 +283,6 @@ public class HelpRequestCacheModel
 			objectOutput.writeUTF(message);
 		}
 
-		if (foodAllergies == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(foodAllergies);
-		}
-
 		objectOutput.writeLong(studentCardImageId);
 	}
 
@@ -319,7 +302,6 @@ public class HelpRequestCacheModel
 	public long helpProposalId;
 	public String phoneNumber;
 	public String message;
-	public String foodAllergies;
 	public long studentCardImageId;
 
 }

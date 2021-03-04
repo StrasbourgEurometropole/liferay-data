@@ -346,21 +346,6 @@ public interface HelpRequestModel
 	public void setMessage(String message);
 
 	/**
-	 * Returns the food allergies of this help request.
-	 *
-	 * @return the food allergies of this help request
-	 */
-	@AutoEscape
-	public String getFoodAllergies();
-
-	/**
-	 * Sets the food allergies of this help request.
-	 *
-	 * @param foodAllergies the food allergies of this help request
-	 */
-	public void setFoodAllergies(String foodAllergies);
-
-	/**
 	 * Returns the student card image ID of this help request.
 	 *
 	 * @return the student card image ID of this help request

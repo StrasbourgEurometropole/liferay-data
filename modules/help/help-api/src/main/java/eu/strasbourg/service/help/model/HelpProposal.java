@@ -84,7 +84,12 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 	 * Retourne la catégorie statut activite proposition d'aide de l'aide
 	 */
 	public com.liferay.asset.kernel.model.AssetCategory
-		getActivitStatusCategory();
+		getActivityStatusCategory();
+
+	/**
+	 * Retourne si la catégorie statut activité est bien à "Active" sinon "Inactive"
+	 */
+	public boolean isActive();
 
 	/**
 	 * Retourne la class du statut de modération de la proposition d'aide (
@@ -112,6 +117,12 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 	 */
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getHelpProposalTypeCategories();
+
+	/**
+	 * Retourne les types d'aidant de la proposition d'aide
+	 */
+	public com.liferay.asset.kernel.model.AssetCategory
+		getHelpProposalHelperCategory();
 
 	/**
 	 * Retourne une chaine des localisations correspondant
@@ -181,6 +192,14 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 	 * Retourne le copyright de l'image principale
 	 */
 	public String getImageCopyright(java.util.Locale locale);
+
+	/**
+	 * Est-ce l'utilisateur qui a crée la proposition ?
+	 *
+	 * @param publikUserId L'identifiant Publik de l'utilisateur
+	 * @return La verite
+	 */
+	public boolean isUserHelping(String publikUserId);
 
 	/**
 	 * Retourne la version JSON de l'entité

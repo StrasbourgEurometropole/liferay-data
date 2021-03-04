@@ -1,7 +1,7 @@
 package eu.strasbourg.portlet.helppopup.resource;
 
-import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetCategoryModel;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
@@ -33,15 +33,16 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.help.model.HelpProposal;
+import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
+import eu.strasbourg.service.help.service.HelpRequestLocalService;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.MailHelper;
-import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.mail.internet.InternetAddress;
 import javax.portlet.PortletException;
@@ -53,69 +54,38 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Component(
     immediate = true,
     property = {
     	"javax.portlet.name=" + StrasbourgPortletKeys.HELP_POPUP_WEB,
-    	"mvc.command.name=submitHelp"
+    	"mvc.command.name=submitHelpRequest"
     },
     service = MVCResourceCommand.class
 )
 public class SubmitHelpResourceCommand implements MVCResourceCommand {
 	
 	// Id de recuperation des champs
-	private static final String TITLE = "title";
-	private static final String DESCRIPTION = "description";
-	private static final String IN_THE_NAME_OF = "inTheNameOf";
-	private static final String DISTRICT = "quartier";
-	private static final String THEMATIC = "theme";
-	private static final String PROJECT = "project";
-	private static final String PLACE = "place";
+    private static final String ENTRY_ID = "entryId";
+    private static final String PHONE_NUMBER = "phoneNumber";
+	private static final String MESSAGE = "message";
 	private static final String PHOTO = "photo";
-	private static final String VIDEO = "video";
-	private static final String BIRTHDAY = "birthday";
-    private static final String ADDRESS = "address";
-    private static final String CITY = "city";
-    private static final String POSTALCODE = "postalcode";
-    private static final String PHONE = "phone";
-    private static final String MOBILE = "mobile";
-    private static final String SAVEINFO = "saveinfo";
-    
-    // Pattern de recuperation des dates
-    private static final String PATTERN = "dd/MM/yyyy";
 	
 	// Champs
-	private String title;
-	private String description;
-	private String inTheNameOf;
-	private long districtId;
-	private long thematicId;
-	private long projectId;
-	private String place;
-	private String video;
-	private Date birthday;
-    private String address;
-    private String city;
-    private long postalcode;
-    private String phone;
-    private String mobile;
+    private long entryID;
+    private HelpProposal helpProposal;
+    private long helpRequestId;
+    private String phoneNumber;
+    private String message;
 
     // Gestion et contexte de la requete
     private String publikID;
     private PublikUser user;
-    private DateFormat dateFormat;
-    private String message;
+    private String messageResult;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	
@@ -124,61 +94,34 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
         
         // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour, format de date
         boolean result = false;
-        boolean savedInfo = false;
-        this.message = "";
-        this.dateFormat = new SimpleDateFormat(PATTERN);
-        
+        this.messageResult = "";
+
         // Recuperation de l'utilsiteur Publik ayant lance la demande
         this.publikID = getPublikID(request);
+
+        // Recuperation de la proposition d'aide correspondante
+        this.entryID = ParamUtil.getLong(request, ENTRY_ID);
         
         // Recuperation des informations du formulaire
-        this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, TITLE));
-        this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, DESCRIPTION));
-        this.districtId = ParamUtil.getLong(request, DISTRICT);
-        this.thematicId = ParamUtil.getLong(request, THEMATIC);
-        this.projectId = ParamUtil.getLong(request, PROJECT);
-        this.place = HtmlUtil.stripHtml(ParamUtil.getString(request, PLACE));
-        this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
-        this.birthday = ParamUtil.getDate(request, BIRTHDAY, this.dateFormat);
-        this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
-        this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
-        this.postalcode = ParamUtil.getLong(request, POSTALCODE);
-        this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
-        this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
-        this.inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
+        this.phoneNumber = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE_NUMBER));
+        this.message = HtmlUtil.stripHtml(ParamUtil.getString(request, MESSAGE));
 		
         // Verification de la validite des informations
-        if (validate(request)) {
-        
-        	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
-        	savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
-            if (savedInfo) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String dateNaiss = sdf.format(ParamUtil.getDate(request, BIRTHDAY, dateFormat));
-                PublikApiClient.setAllUserDetails(
-                        this.publikID,
-                        this.user.getLastName(),
-                        this.address,
-                        "" + this.postalcode,
-                        this.city,
-                        dateNaiss,
-                        this.phone,
-                        this.mobile
-                );
-            }
+        if (validate()) {
             
          	// Envoi de la demande
-            result = saveInitiative(request);
+            result = saveHelpRequest(request);
             
-            if(result)
-            	sendInitiativeMailConfirmation(request);
+            if(result) {
+                sendHelpRequestMail(request);
+                sendHelpRequestMailConfirmation(request);
+            }
         }
         
         // Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
-        jsonResponse.put("message", this.message);
-        jsonResponse.put("savedInfo", savedInfo);
+        jsonResponse.put("message", this.messageResult);
 
         // Recuperation de l'élément d'écriture de la réponse
         PrintWriter writer = null;
@@ -186,87 +129,65 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
             writer = response.getWriter();
             writer.print(jsonResponse.toString());
         } catch (IOException e) {
-            _log.error("erreur dans l'ecriture du budget : ", e);
+            _log.error("erreur dans l'enregistrement de la demande d'aide : ", e);
         }
         return result;
 	}
 	
-	private boolean saveInitiative(ResourceRequest request) throws PortletException {
+	private boolean saveHelpRequest(ResourceRequest request) throws PortletException {
 		ServiceContext sc;
-        HelpProposal initiative;
+        HelpRequest helpRequest;
         
         try {
             sc = ServiceContextFactory.getInstance(request);
-            sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
-            List<Long> identifiants = new ArrayList<>();
-            if (this.districtId == 0) {
-                List<AssetCategory> districts = null;
-                assert districts != null;
-                identifiants = districts.stream()
-                        .map(AssetCategoryModel::getCategoryId)
-                        .collect(Collectors.toList());
-            } else {
-                identifiants.add(districtId);
-            }
-            if (this.projectId != 0) {
-                identifiants.add(projectId);
-            }
-            if (this.thematicId != 0) {
-                identifiants.add(thematicId);
-            }
-            long[] ids = new long[identifiants.size()];
-            for (int i = 0; i < identifiants.size(); i++) {
-                ids[i] = identifiants.get(i);
-            }
-            sc.setAssetCategoryIds(ids);
+            helpRequest = _helpRequestLocalService.createHelpRequest(sc);
+            this.helpRequestId = helpRequest.getHelpRequestId();
 
-            initiative = HelpProposalLocalServiceUtil.createHelpProposal(sc);
-            
-            initiative.setTitle(this.title, Locale.FRANCE);
-            initiative.setDescription(this.description, Locale.FRANCE);
-            initiative.setInTheNameOf(this.inTheNameOf);
-            initiative.setPublikId(this.publikID);
-            initiative = uploadFile(initiative, request);
-            
-            initiative = HelpProposalLocalServiceUtil.updateHelpProposal(initiative, sc);
+            helpRequest.setPhoneNumber(this.phoneNumber);
+            helpRequest.setMessage(this.message);
+            helpRequest.setHelpProposalId(this.helpProposal.getHelpProposalId());
+            helpRequest.setPublikId(this.publikID);
+            helpRequest = uploadFile(helpRequest, request);
+
+           _helpRequestLocalService.updateHelpRequest(helpRequest);
             
         } catch (PortalException | IOException e) {
             _log.error(e);
             throw new PortletException(e);
         }
-        _log.info("Initiative cree : " + initiative);
+        _log.info("Demande d'aide cree : " + helpRequest);
         return true;
     }
-	
-	/**
-	 * Envoi du mail de confirmation de soumission d'une initiative
-	 */
-    private void sendInitiativeMailConfirmation(ResourceRequest request) {
-    	
-    	try {
-	    	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-	    	// récupération des images
-			StringBuilder hostUrl = new StringBuilder("https://");
-			hostUrl.append(request.getServerName());
-			StringBuilder headerImage = new StringBuilder(hostUrl)
-					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
-			StringBuilder btnImage = new StringBuilder(hostUrl)
-					.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
-	    	
-			// préparation du template de mail
-			Map<String, Object> context = new HashMap<>();
-			context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
-			context.put("headerImage", headerImage.toString());
-			context.put("footerImage", btnImage.toString());
-			context.put("Title", this.title);
-			context.put("Message", this.description);
+
+    /**
+     * Envoi du mail de confirmation de demande d'aide
+     */
+    private void sendHelpRequestMail(ResourceRequest request) {
+
+        try {
+            ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+            // récupération des images
+            StringBuilder hostUrl = new StringBuilder("https://");
+            hostUrl.append(request.getServerName());
+//			StringBuilder headerImage = new StringBuilder(hostUrl)
+//					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
+//			StringBuilder btnImage = new StringBuilder(hostUrl)
+//					.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
+
+            // préparation du template de mail
+            Map<String, Object> context = new HashMap<>();
+            context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
+//			context.put("headerImage", headerImage.toString());
+//			context.put("footerImage", btnImage.toString());
+            context.put("Phone", this.phoneNumber);
+            context.put("Message", this.message);
 
             StringWriter out = new StringWriter();
 
             //Chargement du template contenant le corps du mail
             TemplateResource templateResourceBody = new URLTemplateResource("0",
                     Objects.requireNonNull(this.getClass().getClassLoader()
-                            .getResource("META-INF/resources/templates/contact-mail-help-proposal-copy-body-fr_FR.ftl")));
+                            .getResource("META-INF/resources/templates/contact-mail-help-request-body-fr_FR.ftl")));
             Template bodyTemplate = TemplateManagerUtil.getTemplate(
                     TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
 
@@ -274,33 +195,90 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
             bodyTemplate.putAll(context);
             bodyTemplate.processTemplate(out);
             String mailBody = out.toString();
-			
-			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submit.initiative.mail.information");
-			
-			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
-					themeDisplay.getScopeGroup().getName(request.getLocale()));
-			
-			InternetAddress[] toAddresses = new InternetAddress[0];
-			InternetAddress address = new InternetAddress(this.user.getEmail());
-			toAddresses = ArrayUtil.append(toAddresses, address);
-			
-			// envoi du mail aux utilisateurs
-			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, mailBody);
-		} catch (Exception e) {
-			_log.error(e);
-			e.printStackTrace();
-		}
+
+            String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submit.help-request.mail.information");
+
+            InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
+                    themeDisplay.getScopeGroup().getName(request.getLocale()));
+
+            InternetAddress[] toAddresses = new InternetAddress[0];
+            PublikUser helper =  PublikUserLocalServiceUtil.getByPublikUserId(this.helpProposal.getPublikId());
+            if(helper != null) {
+                InternetAddress address = new InternetAddress(helper.getEmail());
+                toAddresses = ArrayUtil.append(toAddresses, address);
+            }
+
+            // envoi du mail aux utilisateurs
+            MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, mailBody);
+        } catch (Exception e) {
+            _log.error(e);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Envoi du mail de confirmation de demande d'aide
+     */
+    private void sendHelpRequestMailConfirmation(ResourceRequest request) {
+
+        try {
+            ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+            // récupération des images
+            StringBuilder hostUrl = new StringBuilder("https://");
+            hostUrl.append(request.getServerName());
+//			StringBuilder headerImage = new StringBuilder(hostUrl)
+//					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
+//			StringBuilder btnImage = new StringBuilder(hostUrl)
+//					.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
+
+            // préparation du template de mail
+            Map<String, Object> context = new HashMap<>();
+            context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
+//			context.put("headerImage", headerImage.toString());
+//			context.put("footerImage", btnImage.toString());
+            context.put("Phone", this.phoneNumber);
+            context.put("Message", this.message);
+
+            StringWriter out = new StringWriter();
+
+            //Chargement du template contenant le corps du mail
+            TemplateResource templateResourceBody = new URLTemplateResource("0",
+                    Objects.requireNonNull(this.getClass().getClassLoader()
+                            .getResource("META-INF/resources/templates/contact-mail-help-request-confirmation-body-fr_FR.ftl")));
+            Template bodyTemplate = TemplateManagerUtil.getTemplate(
+                    TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+            // Traitement du template corps
+            bodyTemplate.putAll(context);
+            bodyTemplate.processTemplate(out);
+            String mailBody = out.toString();
+
+            String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submit.help-request.mail.confirmation");
+
+            InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
+                    themeDisplay.getScopeGroup().getName(request.getLocale()));
+
+            InternetAddress[] toAddresses = new InternetAddress[0];
+            InternetAddress address = new InternetAddress(this.user.getEmail());
+            toAddresses = ArrayUtil.append(toAddresses, address);
+
+            // envoi du mail aux utilisateurs
+            MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, mailBody);
+        } catch (Exception e) {
+            _log.error(e);
+            e.printStackTrace();
+        }
     }
 	
 	 /**
      * Recuperer l'image uploadée par l'utilisateur.
      *
-     * @param initiative Entite concernee
-     * @return l'inititive avec l'imageId
+     * @param helpRequest Entite concernee
+     * @return l'la demande d'aide avec l'imageId
      * @throws IOException
      * @throws PortalException
      */
-    private HelpProposal uploadFile(HelpProposal initiative, ResourceRequest request) throws IOException, PortalException {
+    private HelpRequest uploadFile(HelpRequest helpRequest, ResourceRequest request) throws IOException, PortalException {
     	
     	// Recuperation du contexte de la requete
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -320,7 +298,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
                 // Dossier a la racine
                 DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
                         													DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
-                        													"Initiatives");
+                        													"Demande d'aide");
                 // Dossier d'upload de l'entite
                 DLFolder folder = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
                                 									folderparent.getFolderId(),
@@ -330,15 +308,15 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
                         sc.getUserId(), folder.getRepositoryId(),
                         folder.getFolderId(), photo.getName(),
                         MimeTypesUtil.getContentType(photo),
-                        photo.getName(), title,
+                        photo.getName(), this.helpProposal.getTitle(Locale.FRANCE),
                         "", imageBytes, sc);
                 // Lien de l'image a l'entite
-                initiative.setImageId(fileEntry.getFileEntryId());
+                helpRequest.setStudentCardImageId(fileEntry.getFileEntryId());
                 
                 _log.info("Photo initiative uploade : [" + photo + "]");
 
             }
-            return initiative;
+            return helpRequest;
             
         } else {
             throw new PortalException("le fichier n'est pas une image");
@@ -364,60 +342,42 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
 	 * Validation des champs de la requete (excpet photo)
 	 * @return Valide ou pas
 	 */
-	private boolean validate(PortletRequest request) {
+	private boolean validate() {
         
         // utilisateur 
         if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non reconnu";
+            this.messageResult = "Utilisateur non reconnu";
             return false;
         } else {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
-        	
-        	if (this.user.isBanned()) {
-        		this.message = "Vous ne pouvez soumettre une initiative";
-        		return false;
-        	} else if (this.user.getPactSignature() == null) {
-        		this.message = "Vous devez signer le Pacte pour soumettre une initiative";
-        		return false;
-        	}
         }
 
-        // title
-        if (Validator.isNull(this.title)) {
-        	this.message = "Titre non valide";
+        // HelpProposal
+        try {
+            AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(this.entryID);
+            this.helpProposal = HelpProposalLocalServiceUtil.getHelpProposal(assetEntry.getClassPK());
+
+            if (this.helpProposal == null) {
+                this.messageResult = "Erreur lors de la recherche de la proposition d'aide";
+                return false;
+            }
+        } catch (PortalException e1) {
+            _log.error(e1);
+            this.messageResult = "Erreur lors de la recherche de la proposition d'aide";
             return false;
         }
 
-        // description
-        if (Validator.isNull(this.description)) {
-        	this.message = "Description non valide";
+        // Téléphone
+        if (Validator.isNull(this.phoneNumber)) {
+            this.messageResult = "Téléphone non valide";
             return false;
         }
 
-        /** desactivation de la verification de certains champs obligatoires
-        // birthday
-        if (Validator.isNull(this.birthday)) {
-        	this.message = "Date de naissance non valide";
+        // Message
+        if (Validator.isNull(this.message)) {
+        	this.messageResult = "Message non valide";
             return false;
         }
-
-        // city
-        if (Validator.isNull(this.city)) {
-        	this.message = "Ville non valide";
-            return false;
-        }
-
-        // address
-        if (Validator.isNull(this.address)) {
-        	this.message = "Adresse non valide";
-        	return false;
-        }
-
-        // postalcode
-        if (Validator.isNull(this.postalcode)) {
-        	this.message = "Code postal non valide";
-            return false;
-        }**/
 
         return true;
     }
@@ -431,4 +391,10 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
         return SessionParamUtil.getString(originalRequest, "publik_internal_id");
     }
 
+    @Reference(unbind = "-")
+    protected void setHelpRequestLocalService(HelpRequestLocalService helpRequestLocalService) {
+        _helpRequestLocalService = helpRequestLocalService;
+    }
+
+    private HelpRequestLocalService _helpRequestLocalService;
 }

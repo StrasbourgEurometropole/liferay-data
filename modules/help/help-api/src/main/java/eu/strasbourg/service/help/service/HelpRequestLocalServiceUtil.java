@@ -242,16 +242,6 @@ public class HelpRequestLocalServiceUtil {
 		return getService().getByPublikId(publikId);
 	}
 
-	/**
-	 * Retourne la demande d'aide pour un utilisateur et une proposition donnee
-	 */
-	public static eu.strasbourg.service.help.model.HelpRequest
-		getByPublikIdAndHelpProposalId(String publikId, long helpProposalId) {
-
-		return getService().getByPublikIdAndHelpProposalId(
-			publikId, helpProposalId);
-	}
-
 	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(
 			com.liferay.exportimport.kernel.lar.PortletDataContext

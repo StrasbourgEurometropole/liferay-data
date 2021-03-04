@@ -25,6 +25,9 @@
                     <label>
                         <liferay-ui:message key="modal.show.info.desactivate.help"/>
                     </label>
+
+                    <%-- Champ cache : ID --%>
+                    <aui:input type="hidden" name="entryId" value="${entryId}"/>
                 </div>
 
                 <div class="pro-form-submit">
@@ -82,6 +85,9 @@
         </div>
     </div>
 </div>
+
+<!-- Inclusion de la modal d'alerte d'une propostion d'aide désactivée -->
+<jsp:include page="/include/inactive-help-proposal-modal.jsp"/>
 
 <script type="text/javascript">
 	
