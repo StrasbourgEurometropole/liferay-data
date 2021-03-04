@@ -32,13 +32,6 @@ document.addEventListener('scroll', function () {
     lastscrolltop = st;
 });
 
-
-// Disabled CTA
-$('.pro-btn-disabled').on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-});
-
 // Pour les compteurs dans les pages de détail
 var textDiscover = $('.pro-compt').first().text();
 var textDiscoverWrapped = '';
