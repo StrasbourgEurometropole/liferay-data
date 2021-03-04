@@ -56,20 +56,88 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
                 }
 
             }
-            // Tri par date de derniere demande
-            List<HelpSeeker> unsortedHelpSeekers = new ArrayList<>(helpSeekersMap.values());
-            Comparator<HelpSeeker> byDate = new Comparator<HelpSeeker>() {
-                @Override
-                public int compare(HelpSeeker c1, HelpSeeker c2) {
-                    return Long.valueOf(c1.getLastRequest().getCreateDate().getTime())
-                            .compareTo(c2.getLastRequest().getCreateDate().getTime());
-                }
-            };
-            _helpSeekers = ListUtil.sort(unsortedHelpSeekers, byDate.reversed());
+            // Tri par Keywords
+            List<HelpSeeker> unfilteredHelpSeekers = new ArrayList<>(helpSeekersMap.values());
+
+            // Ordonnancement (Date de derniere demande par defaut)
+            List<HelpSeeker> unsortedHelpSeekers = getFilteredHelpSeekers(unfilteredHelpSeekers);
+            Comparator<HelpSeeker> comp = this.getComparator();
+            if (this.getOrderByType().equals("desc")) {
+                _helpSeekers = ListUtil.sort(unsortedHelpSeekers, comp.reversed());
+            }
+            else {
+                _helpSeekers = ListUtil.sort(unsortedHelpSeekers, comp);
+            }
         }
         return _helpSeekers;
     }
 
+    private List<HelpSeeker> getFilteredHelpSeekers(List<HelpSeeker> unfilteredSeekers) {
+        List<HelpSeeker> filteredResults;
+        switch (this.getOrderByCol()) {
+            case "last-name":
+            case "first-name":
+            case "email":
+                filteredResults = new ArrayList<>();
+                List<PublikUser> users = PublikUserLocalServiceUtil.getPublikUsers(
+                        -1,
+                        -1,
+                        this.getKeywords(),
+                        this.getOrderByColSearchField(),
+                        "desc".equals(this.getOrderByType()));
+                for (HelpSeeker seeker : unfilteredSeekers) {
+                    for (PublikUser user : users) {
+                        if (seeker.getPublikUser().equals(user)) {
+                            filteredResults.add(seeker);
+                            break;
+                        }
+                    }
+                }
+
+                break;
+            case "nb-requests":
+                filteredResults = new ArrayList<>();
+                try {
+                    int requestNumber = Integer.parseInt(this.getKeywords());
+                    for (HelpSeeker seeker : unfilteredSeekers) {
+                        if (requestNumber == seeker.getRequestsNumber()) {
+                            filteredResults.add(seeker);
+                        }
+                    }
+                }
+                catch (Exception e) { }
+                break;
+            default:
+                filteredResults = unfilteredSeekers;
+        }
+        return filteredResults;
+    }
+
+    private Comparator<HelpSeeker> getComparator() {
+        Comparator<HelpSeeker> comparator;
+        switch (this.getOrderByCol()) {
+            case "last-name":
+                comparator = (c1, c2) -> String.valueOf(c1.getPublikUser().getLastName())
+                        .compareTo(c2.getPublikUser().getLastName());
+                break;
+            case "first-name":
+                comparator = (c1, c2) -> String.valueOf(c1.getPublikUser().getFirstName())
+                        .compareTo(c2.getPublikUser().getFirstName());
+                break;
+            case "email":
+                comparator = (c1, c2) -> String.valueOf(c1.getPublikUser().getEmail())
+                        .compareTo(c2.getPublikUser().getEmail());
+                break;
+            case "nb-requests":
+                comparator = (c1, c2) -> Integer.valueOf(c1.getRequestsNumber())
+                        .compareTo(c2.getRequestsNumber());
+                break;
+            default:
+                comparator = (c1, c2) -> Long.valueOf(c1.getLastRequest().getCreateDate().getTime())
+                        .compareTo(c2.getLastRequest().getCreateDate().getTime());
+        }
+        return comparator;
+    }
 
     /**
      * Retourne la liste des utilisateurs correspondant à la recherche lancée en ignorant la pagination
@@ -109,18 +177,18 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
      * Retourne la liste des PK de tous les demandeurs
      * @return liste de PK (ex: "1,5,7,8")
      */
-    /*
+
     public String getAllHelpSeekerIds() throws PortalException {
         StringBuilder helpSeekerIds = new StringBuilder();
-        for (PublikUser helpSeeker : this.getHelpSeekers()) {
+        for (HelpSeeker helpSeeker : this.getHelpSeekers()) {
             if (helpSeekerIds.length() > 0) {
                 helpSeekerIds.append(",");
             }
-            helpSeekerIds.append(helpSeeker.getPublikId());
+            helpSeekerIds.append(helpSeeker.getPublikUser().getPublikId());
         }
         return helpSeekerIds.toString();
     }
-    */
+
 
     public String getCurrentURL() {
         return PortalUtil.getCurrentURL(this._request);
@@ -148,8 +216,6 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
                 return "firstName";
             case "email":
                 return "email";
-            case "banish-date":
-                return "banishDate";
             default:
                 return "lastName";
         }

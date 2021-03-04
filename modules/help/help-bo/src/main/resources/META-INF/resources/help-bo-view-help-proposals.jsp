@@ -95,6 +95,13 @@
 					${helpProposal.authorNameLabel}
 				</liferay-ui:search-container-column-text>
 
+				<%-- Colonne : Date de modification --%>
+				<fmt:formatDate value="${helpProposal.modifiedDate}"
+								var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
+				<liferay-ui:search-container-column-text cssClass="content-column"
+														 name="modified-date" truncate="true" orderable="true"
+														 value="${formattedModifiedDate}" />
+
 				<%-- Colonne : Statut activité de l'aide --%>
 				<liferay-ui:search-container-column-text name="statusHelpActivity">
                     <span class="badge ${helpProposal.getActivityStatusClass()}">
@@ -107,19 +114,6 @@
 				    <span class="badge ${helpProposal.getModerationStatusClass()}">
 				        ${helpProposal.getModerationStatusTitle(locale)}
                     </span>
-				</liferay-ui:search-container-column-text>
-
-				<%-- Colonne : Date de modification --%>
-				<fmt:formatDate value="${helpProposal.modifiedDate}"
-					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true" orderable="true"
-					value="${formattedModifiedDate}" />
-
-				<%-- Colonne : Statut Liferay --%>
-				<liferay-ui:search-container-column-text name="statusLiferay">
-					<aui:workflow-status markupView="lexicon" showIcon="false"
-						showLabel="false" status="${helpProposal.status}" />
 				</liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Actions possibles --%>
@@ -140,10 +134,10 @@
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('CHANGE_ACTIVITY_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<c:if test="${helpProposal.getActivityStatusTitle(locale) == 'Active'}">
-								<liferay-ui:icon message="deactivate-help-proposal" url="${changeActivityHelpProposalURL}" />
+								<liferay-ui:icon-delete confirmation="help-deactivate-confirm" message="deactivate-help-proposal" url="${changeActivityHelpProposalURL}" />
 							</c:if>
 							<c:if test="${helpProposal.getActivityStatusTitle(locale) == 'Inactive'}">
-								<liferay-ui:icon message="reactivate-help-proposal" url="${changeActivityHelpProposalURL}" />
+								<liferay-ui:icon-delete confirmation="help-reactivate-confirm" message="reactivate-help-proposal" url="${changeActivityHelpProposalURL}" />
 							</c:if>
 						</c:if>
 
@@ -163,7 +157,7 @@
 							<portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('DELETE_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deleteHelpProposalURL}" />
+							<liferay-ui:icon-delete confirmation="help-delete-confirm" message="delete" url="${deleteHelpProposalURL}" />
 						</c:if>
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
@@ -250,6 +244,17 @@
 					'<portlet:namespace />allRowIds');
 
 			submitForm(form, '${unpublishSelectionURL}');
+		}
+	}
+	function <portlet:namespace />deleteHelp() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			var selectionIdsInput = document
+				.getElementsByName('<portlet:namespace />selectionIds')[0];
+			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
+				'<portlet:namespace />allRowIds');
+
+			submitForm(form, '${deleteSelectionURL}');
 		}
 	}
 </aui:script>

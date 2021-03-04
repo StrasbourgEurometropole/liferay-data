@@ -25,7 +25,7 @@
 
 		<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
 			orderByType="${dc.orderByType}"
-			orderColumns='<%= new String[] {"last-name", "first-name", "email", "banish-date", "nb-asks"} %>'
+			orderColumns='<%= new String[] {"last-name", "first-name", "email", "request-create-date", "nb-requests"} %>'
 			portletURL="${helpSeekersURL}" />
 	</liferay-frontend:management-bar-filters>
 
