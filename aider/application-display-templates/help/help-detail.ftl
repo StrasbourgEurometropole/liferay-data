@@ -105,15 +105,25 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 					<aside class="col-sm-4" style="diplay:none">
 						
 						<div class="pro-wrapper-links">
+							<#-- Si l'auteur est l'utilisateur courant -->
 							<#if isUserloggedIn && isUserHelping >
-								<a href="#showModalEditHelpProposal" class="pro-btn-yellow" id="buttonEditHelpProposal" data-toggle="modal" data-target="#modalEditHelpProposal"><@liferay_ui.message key="eu.help.update" /></a>
-                                <a href="#" class="pro-btn-yellow" id="buttonDesactivateHelp" data-toggle="modal" data-target="#modalDesactivateHelp"><@liferay_ui.message key="eu.help.desactivate" /></a>   
+								<a href="#showModalEditHelpProposal" class="pro-btn-yellow" id="buttonEditHelpProposal" data-toggle="modal" data-target="#modalEditHelpProposal">
+									<@liferay_ui.message key="eu.help.update" />
+								</a>
+                                <a href="#" class="pro-btn-yellow" id="buttonDesactivateHelp" data-toggle="modal" data-target="#modalDesactivateHelp">
+									<@liferay_ui.message key="eu.help.desactivate" />
+								</a>   
+							<#elseif isUserloggedIn>
+								<#-- Si l'utilisateur courant est connecté -->
+								<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpRequest" data-toggle="modal" data-target="#modalSubmitHelpRequest">
+									<@liferay_ui.message key="eu.help.do-request" />
+								</a>
+								<br>
 							<#else>
-								<#if isUserloggedIn >
-									<a href="#" class="pro-btn-yellow" id="buttonSubmitHelpRequest" data-toggle="modal" data-target="#modalSubmitHelpRequest"><@liferay_ui.message key="eu.help.do-request" /></a><br>
-								<#else>
-									<a name="#Need-connexion" href="" class="pro-btn-yellow" id="buttonNeedHelp"><@liferay_ui.message key="eu.help.do-request" /></a>
-								</#if>
+								<#-- Sinon demande de connexion -->
+								<a name="#Need-connexion" href="" class="pro-btn-yellow" id="buttonNeedHelp">
+									<@liferay_ui.message key="eu.help.do-request" />
+								</a>
 							</#if>
 
 						</div>
