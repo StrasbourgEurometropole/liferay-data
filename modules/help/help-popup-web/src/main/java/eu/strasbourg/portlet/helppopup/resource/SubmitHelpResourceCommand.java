@@ -209,14 +209,8 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
                 toAddresses = ArrayUtil.append(toAddresses, address);
             }
 
-            // Copie carbone invisible
-            InternetAddress bccAddress = null;
-            String bccProperties = StrasbourgPropsUtil.getEntraideUserSubmitBCCMail();
-            if (Validator.isNotNull(bccProperties))
-                bccAddress = new InternetAddress(bccProperties);
-
             // envoi du mail aux utilisateurs
-            MailHelper.sendMailWithHTML(fromAddress, toAddresses, bccAddress, subject, mailBody);
+            MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, mailBody);
         } catch (Exception e) {
             _log.error(e);
             e.printStackTrace();
