@@ -70,15 +70,21 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 							</div>
 						</div>
 						<div class="pro-header-auteur">
-							<p>Aide publiée le ${entry.createDate?date?string['dd/MM/yyyy']} par :</p>
+							<p><@liferay_ui.message key="eu.help.published-x" arguments="${entry.createDate?date?string['dd/MM/yyyy']}" /></p>
 							<p><strong>${entry.getAuthorLabel()}</strong></p>
 						</div>
+						<#if entry.getSpokenLanguages(locale)?has_content >
+							<div class="pro-header-language">
+								<p><@liferay_ui.message key="eu.help.another-languages" /> : ${entry.getSpokenLanguages(locale)}</p>
+							</div>
+						</#if>
 					</div>
+					<p>Pour bénéficier des aides proposées, la mise en relation avec les contributeurs sera disponible à partir du 12/03/2021.</p>
 
 					<div id="breadcrumb">
 					<span>
 						<span>
-							<a href="${homeURL}">Accueil</a>
+							<a href="${homeURL}"><@liferay_ui.message key="home" /></a>
 						<span class="breadcrumb_last">${entry.getTitle(locale)}</span>
 						</span>
 					</span>
@@ -97,7 +103,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 							</figure>
 						</div>
 						<div class="pro-bloc-texte">
-							<h2>Description</h2>
+							<h2><@liferay_ui.message key="eu.help.description" /></h2>
 							<p>${entry.getDescription(locale)}</p>
 						</div>
 					</div>
