@@ -74,41 +74,25 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
 
     private List<HelpSeeker> getFilteredHelpSeekers(List<HelpSeeker> unfilteredSeekers) {
         List<HelpSeeker> filteredResults;
-        switch (this.getOrderByCol()) {
-            case "last-name":
-            case "first-name":
-            case "email":
-                filteredResults = new ArrayList<>();
-                List<PublikUser> users = PublikUserLocalServiceUtil.getPublikUsers(
-                        -1,
-                        -1,
-                        this.getKeywords(),
-                        this.getOrderByColSearchField(),
-                        "desc".equals(this.getOrderByType()));
-                for (HelpSeeker seeker : unfilteredSeekers) {
-                    for (PublikUser user : users) {
-                        if (seeker.getPublikUser().equals(user)) {
-                            filteredResults.add(seeker);
-                            break;
-                        }
+        if (!this.getKeywords().equals("")) {
+            filteredResults = new ArrayList<>();
+            List<PublikUser> users = PublikUserLocalServiceUtil.getPublikUsers(
+                    -1,
+                    -1,
+                    this.getKeywords(),
+                    this.getOrderByColSearchField(),
+                    "desc".equals(this.getOrderByType()));
+            for (HelpSeeker seeker : unfilteredSeekers) {
+                for (PublikUser user : users) {
+                    if (seeker.getPublikUser().equals(user)) {
+                        filteredResults.add(seeker);
+                        break;
                     }
                 }
-
-                break;
-            case "nb-requests":
-                filteredResults = new ArrayList<>();
-                try {
-                    int requestNumber = Integer.parseInt(this.getKeywords());
-                    for (HelpSeeker seeker : unfilteredSeekers) {
-                        if (requestNumber == seeker.getRequestsNumber()) {
-                            filteredResults.add(seeker);
-                        }
-                    }
-                }
-                catch (Exception e) { }
-                break;
-            default:
-                filteredResults = unfilteredSeekers;
+            }
+        }
+        else {
+            filteredResults = unfilteredSeekers;
         }
         return filteredResults;
     }
