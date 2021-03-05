@@ -332,4 +332,14 @@ public class StrasbourgPropsUtil {
 	public static String getURLPorteDocument() {return PropsUtil.get("eu.strasbourg.url.porte.document");}
 	
 	public static String getDocLibResizeAndCompressEnabled() {return PropsUtil.get("eu.strasbourg.dlfileentry.service.wrapper.resizeandcompress.enable");}
+
+	public static String getEntraideUserSubmitBCCMail() {
+		String result;
+		try {
+			result = PropsUtil.get("eu.strasbourg.entraide.user.submit.bcc.mail");
+		} catch (Exception ignored) {
+			result = "";
+		}
+		return result;
+	}
 }
