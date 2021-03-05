@@ -5,20 +5,19 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.helppopup.configuration.HelpPopupConfiguration;
+import eu.strasbourg.service.help.model.HelpProposal;
+import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
@@ -92,7 +91,6 @@ public class HelpPopupPortlet extends MVCPortlet {
 						user.put(key, "");
 					}
 				}
-
 			}
 
 			long groupId = themeDisplay.getLayout().getGroupId();
@@ -112,8 +110,25 @@ public class HelpPopupPortlet extends MVCPortlet {
 			request.setAttribute("helpers", helpers);
 			request.setAttribute("types", types);
 
-			if (entryID != -1)
+			if (entryID != -1) {
 				request.setAttribute("entryId", entryID);
+				if (publikID != null && !publikID.isEmpty()) {
+					List<HelpProposal> proposals = HelpProposalLocalServiceUtil.getByPublikID(publikID);
+					for (HelpProposal proposal : proposals) {
+						if (proposal.getAssetEntry().getEntryId() == entryID) {
+							JSONObject proposalJSON = JSONFactoryUtil.getJSONFactory().createJSONObject();
+							proposalJSON.put("address", proposal.getAddress());
+							proposalJSON.put("city", proposal.getCity());
+							proposalJSON.put("zipcode", proposal.getPostalCode());
+							proposalJSON.put("phoneNumber", proposal.getPhoneNumber());
+							request.setAttribute("helpProposalData", proposalJSON);
+							break;
+						}
+					}
+				}
+			}
+
+
 			request.setAttribute("userConnected", user);
 
 			// URL de redirection pour le POST evitant les soumissions multiples

@@ -62,6 +62,11 @@ import static eu.strasbourg.portlet.helppopup.HelpPopupPortlet.REDIRECT_URL_PARA
 public class EditHelpProposalActionCommand implements MVCActionCommand {
 
     // Id de recuperation des champs
+    private static final String ADDRESS = "address";
+    private static final String CITY = "city";
+    private static final String POSTAL_CODE = "postalcode";
+    private static final String PHONE_NUMBER = "phoneNumber";
+
     private static final String TITLE = "title";
     private static final String TYPES = "types";
     private static final String DESCRIPTION = "helpproposaldescription";
@@ -73,6 +78,11 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
     private static final String DELETE_PHOTO = "deletePhoto";
 
     // Champs
+    private String address;
+    private String city;
+    private long postalcode;
+    private String phoneNumber;
+
     private String title;
     private String types;
     private String description;
@@ -101,6 +111,11 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
         String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
         
         // Recuperation des informations du budget participatif du formulaire
+        this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
+        this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
+        this.postalcode = ParamUtil.getLong(request, POSTAL_CODE);
+        this.phoneNumber = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE_NUMBER));
+
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, TITLE));
         this.types = ParamUtil.getString(request, TYPES);
         this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, DESCRIPTION));
@@ -166,6 +181,11 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
             }
 
             sc.setAssetCategoryIds(ids);
+
+            helpProposal.setAddress(this.address);
+            helpProposal.setCity(this.city);
+            helpProposal.setPostalCode(this.postalcode);
+            helpProposal.setPhoneNumber(this.phoneNumber);
 
             helpProposal.setTitle(this.title, Locale.FRANCE);
             helpProposal.setDescription(this.description, Locale.FRANCE);
