@@ -24981,7 +24981,7 @@ function createHelp(help){
             '<div class="wrapper-card-help">' +
                 (help.imageURL != "" ? 
                     '<figure role="group" class="fit-cover">' +
-                        '<img src="' + help.imageURL + '?imagePreview=1" loading="lazy" width="240" height="250" alt="Image aide"/>' +
+                        '<img src="' + help.imageURL + '?imagePreview=1" loading="lazy" width="240" height="250" alt="Photo d’illustration de ' + help.title + '"/>' +
                     '</figure>'
                     :
                     ''
@@ -25160,6 +25160,51 @@ function scrollToAnchor(anchorId) {
        // On fait maintenant l'animation vers le haut (scrollTop) vers notre ancre target.
        .animate({scrollTop: $(anchorId).offset().top}, 1000 );
 }
+
+/**
+ * Initialisation de tarteaucitron
+ */
+tarteaucitron.init({
+    "privacyUrl": "", /* Privacy policy url */
+
+    "hashtag": "#tarteaucitron", /* Open the panel with this hashtag */
+    "cookieName": "tarteaucitron", /* Cookie name */
+
+    "orientation": "bottom", /* Banner position (top - bottom) */
+                     
+    "showAlertSmall": false, /* Show the small banner on bottom right */
+    "cookieslist": false, /* Show the cookie list */
+                     
+    "closePopup": false, /* Show a close X on the banner */
+
+    "showIcon": false, /* Show cookie icon to manage cookies */
+    "iconPosition": "BottomRight", /* BottomRight, BottomLeft, TopRight and TopLeft */
+
+    "adblocker": false, /* Show a Warning if an adblocker is detected */
+                     
+    "DenyAllCta" : true, /* Show the deny all button */
+    "AcceptAllCta" : true, /* Show the accept all button when highPrivacy on */
+    "highPrivacy": true, /* HIGHLY RECOMMANDED Disable auto consent */
+                     
+    "handleBrowserDNTRequest": false, /* If Do Not Track == 1, disallow all */
+
+    "removeCredit": false, /* Remove credit link */
+    "moreInfoLink": false, /* Show more info link */
+
+    "useExternalCss": false, /* If false, the tarteaucitron.css file will be loaded */
+    "useExternalJs": false, /* If false, the tarteaucitron.js file will be loaded */
+
+    //"cookieDomain": ".my-multisite-domaine.fr", /* Shared cookie for multisite */
+                    
+    "readmoreLink": "", /* Change the default readmore link */
+
+    "mandatory": true, /* Show a message about mandatory cookies */
+});
+
+// Service Google Analytics (ga.js)
+tarteaucitron.user.gajsUa = 'G-RQF81GVH8X';
+tarteaucitron.user.gajsMore = function () { /* add here your optionnal _ga.push() */ };
+(tarteaucitron.job = tarteaucitron.job || []).push('gajs');
 if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
 
     var footer = $('footer').offset().top;
