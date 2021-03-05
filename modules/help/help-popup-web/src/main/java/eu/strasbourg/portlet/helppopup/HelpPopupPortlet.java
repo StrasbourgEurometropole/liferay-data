@@ -3,7 +3,9 @@ package eu.strasbourg.portlet.helppopup;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -12,9 +14,11 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.helppopup.configuration.HelpPopupConfiguration;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
@@ -78,8 +82,18 @@ public class HelpPopupPortlet extends MVCPortlet {
 			long entryID = this.getPortletAssetEntryId(request);
 
 			JSONObject user = null;
-			if (publikID != null && !publikID.isEmpty())
+			if (publikID != null && !publikID.isEmpty()) {
 				user = PublikApiClient.getUserDetails(publikID);
+
+				//For all keys, if null replace with ""
+				for (String key : user.keySet()) {
+					String value = user.getString(key);
+					if (value.equals("")) {
+						user.put(key, "");
+					}
+				}
+
+			}
 
 			long groupId = themeDisplay.getLayout().getGroupId();
 

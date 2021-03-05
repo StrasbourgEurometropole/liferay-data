@@ -389,7 +389,6 @@
             result = false;
         }else if(!regex.test(postalcode)){
             $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
-            alert("Merci de respecter la syntaxe d'un code postal");
             result = false;
         }else $("#<portlet:namespace />postalcode").css({ "box-shadow" : "" });
 
