@@ -25,8 +25,8 @@
 				<li><a>Filtrer par :</a></li>
 			</c:if>
 			<c:forEach var="vocabulary" items="${dc.vocabularies}">
-				<liferay-frontend:management-bar-filter 
-					managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}" 
+				<liferay-frontend:management-bar-filter
+					managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}"
 					value="${dc.getVocabularyFilterLabel(vocabulary)}" />
 			</c:forEach>
 
@@ -54,7 +54,7 @@
 				icon="trash" label="delete" />
 			</c:if>
 		</liferay-frontend:management-bar-action-buttons>
-		
+
 </liferay-frontend:management-bar>
 
 <%-- Composant : tableau de visualisation des entites --%>
@@ -68,7 +68,7 @@
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.help.model.HelpProposal" modelVar="helpProposal"
 				keyProperty="helpProposalId" rowIdProperty="helpProposalId">
-				
+
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionne --%>
 				<liferay-portlet:renderURL varImpl="editHelpProposalURL">
 					<portlet:param name="cmd" value="editHelpProposal" />
@@ -89,12 +89,19 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editHelpProposalURL}" name="title" truncate="true" orderable="true"
 					value="${helpProposal.titleCurrentValue}" />
-				
+
 				<%-- Colonne : Createur --%>
 				<liferay-ui:search-container-column-text name="user">
 					${helpProposal.authorNameLabel}
 				</liferay-ui:search-container-column-text>
-				
+
+				<%-- Colonne : Date de modification --%>
+				<fmt:formatDate value="${helpProposal.modifiedDate}"
+								var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
+				<liferay-ui:search-container-column-text cssClass="content-column"
+														 name="modified-date" truncate="true" orderable="true"
+														 value="${formattedModifiedDate}" />
+
 				<%-- Colonne : Statut activité de l'aide --%>
 				<liferay-ui:search-container-column-text name="statusHelpActivity">
                     <span class="badge ${helpProposal.getActivityStatusClass()}">
@@ -109,17 +116,9 @@
                     </span>
 				</liferay-ui:search-container-column-text>
 
-				<%-- Colonne : Date de modification --%>
-				<fmt:formatDate value="${helpProposal.modifiedDate}"
-					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true" orderable="true"
-					value="${formattedModifiedDate}" />
-
-				<%-- Colonne : Statut Liferay --%>
-				<liferay-ui:search-container-column-text name="statusLiferay">
-					<aui:workflow-status markupView="lexicon" showIcon="false"
-						showLabel="false" status="${helpProposal.status}" />
+				<%-- Colonne : Nombre de demandes --%>
+				<liferay-ui:search-container-column-text name="nb-requests">
+					${dc.helpRequestsByProposal[helpProposal.helpProposalId]}
 				</liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Actions possibles --%>
@@ -130,7 +129,10 @@
 						</c:if>
 
                         <%-- TODO : ajouter un checker sur les permissions VIEW des demandes d'aide --%>
-						<liferay-ui:icon message="view-help-requests" url="${viewProposalHelpRequestsURL}" />
+						<c:if test="${dc.hasPermission('VIEW') and empty themeDisplay.scopeGroup.getStagingGroup()
+							and dc.helpRequestsByProposal[helpProposal.helpProposalId] > 0}">
+							<liferay-ui:icon message="view-help-requests" url="${viewProposalHelpRequestsURL}" />
+						</c:if>
 
 						<%-- Deactivation de la proposition d'aide --%>
 						<liferay-portlet:actionURL name="changeActivityHelpProposal" var="changeActivityHelpProposalURL">
@@ -140,11 +142,21 @@
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('CHANGE_ACTIVITY_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<c:if test="${helpProposal.getActivityStatusTitle(locale) == 'Active'}">
-								<liferay-ui:icon message="deactivate-help-proposal" url="${changeActivityHelpProposalURL}" />
+								<liferay-ui:icon-delete confirmation="help-deactivate-confirm" message="deactivate-help-proposal" url="${changeActivityHelpProposalURL}" />
 							</c:if>
 							<c:if test="${helpProposal.getActivityStatusTitle(locale) == 'Inactive'}">
-								<liferay-ui:icon message="reactivate-help-proposal" url="${changeActivityHelpProposalURL}" />
+								<liferay-ui:icon-delete confirmation="help-reactivate-confirm" message="reactivate-help-proposal" url="${changeActivityHelpProposalURL}" />
 							</c:if>
+						</c:if>
+
+						<%-- URL : definit le lien vers l'action de modifier l'aide --%>
+						<liferay-portlet:actionURL name="readHelpProposal" var="readHelpProposalURL">
+							<portlet:param name="cmd" value="readHelpProposal" />
+							<portlet:param name="tab" value="helpProposals" />
+							<portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />
+						</liferay-portlet:actionURL>
+						<c:if test="${dc.hasPermission('EDIT_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<liferay-ui:icon message="setRead" url="${readHelpProposalURL}" />
 						</c:if>
 
 						<liferay-portlet:actionURL name="deleteHelpProposal" var="deleteHelpProposalURL">
@@ -153,7 +165,7 @@
 							<portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('DELETE_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deleteHelpProposalURL}" />
+							<liferay-ui:icon-delete confirmation="help-delete-confirm" message="delete" url="${deleteHelpProposalURL}" />
 						</c:if>
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
@@ -240,6 +252,17 @@
 					'<portlet:namespace />allRowIds');
 
 			submitForm(form, '${unpublishSelectionURL}');
+		}
+	}
+	function <portlet:namespace />deleteHelp() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			var selectionIdsInput = document
+				.getElementsByName('<portlet:namespace />selectionIds')[0];
+			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
+				'<portlet:namespace />allRowIds');
+
+			submitForm(form, '${deleteSelectionURL}');
 		}
 	}
 </aui:script>

@@ -37,19 +37,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component(
-    immediate = true,
-    property = {
-    	"javax.portlet.name=" + StrasbourgPortletKeys.HELP_POPUP_WEB,
-    	"mvc.command.name=desactivateHelp"
-    },
-    service = MVCResourceCommand.class
+        immediate = true,
+        property = {
+                "javax.portlet.name=" + StrasbourgPortletKeys.HELP_POPUP_WEB,
+                "mvc.command.name=desactivateHelp"
+        },
+        service = MVCResourceCommand.class
 )
 public class DesactivateHelpCommand implements MVCResourceCommand {
-	
-	// Id de recuperation des champs
+
+    // Id de recuperation des champs
     private static final String ENTRY_ID = "entryId";
 
-	// Champs
+    // Champs
     private long entryID;
     private HelpProposal helpProposal;
 
@@ -58,18 +58,18 @@ public class DesactivateHelpCommand implements MVCResourceCommand {
     private PublikUser user;
     private String message;
 
-	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-	
-	@Override
-	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
-        
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
+    @Override
+    public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
+
         // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour, format de date
         boolean result = false;
         this.message = "";
 
         // Recuperation de l'utilsiteur Publik ayant lance la demande
         this.publikID = getPublikID(request);
-        
+
         // Recuperation de l'aide
         this.entryID = ParamUtil.getLong(request, ENTRY_ID);
 
@@ -79,7 +79,7 @@ public class DesactivateHelpCommand implements MVCResourceCommand {
             // Envoi de la demande
             result = desactivateHelpProposal(request);
         }
-        
+
         // Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
@@ -94,7 +94,7 @@ public class DesactivateHelpCommand implements MVCResourceCommand {
             _log.error("erreur dans l'ecriture du budget : ", e);
         }
         return result;
-	}
+    }
 
     private boolean desactivateHelpProposal(ResourceRequest request) throws PortletException {
         ServiceContext sc;
@@ -124,14 +124,14 @@ public class DesactivateHelpCommand implements MVCResourceCommand {
         _log.info("Proposaition d'aide désactivée : " + this.helpProposal);
         return true;
     }
-	
-	/**
-	 * Validation des champs de la requete (excpet photo)
-	 * @return Valide ou pas
-	 */
-	private boolean validate() {
 
-        // utilisateur 
+    /**
+     * Validation des champs de la requete (excpet photo)
+     * @return Valide ou pas
+     */
+    private boolean validate() {
+
+        // utilisateur
         if (Validator.isNull(this.entryID)) {
             this.message = "Il manque l'entryId";
             return false;

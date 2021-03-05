@@ -1,0 +1,35 @@
+.help-bo {
+
+    .row-fields {
+        padding: 20px;
+    }
+
+    .main-content-card > h3 {
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        display: block;
+        padding: 10px 15px;
+        position: relative;
+        background: #37474F;
+        margin: 0 -21px;
+        margin-bottom: 20px;
+    }
+
+    // Ne pas mettre à la ligne les filtres après la checkbox globale
+    .management-bar .container-fluid-1280 {
+        display: flex;
+    }
+
+}
+
+// Centrer "Filtrer par" au même niveau que les sélecteurs suivants
+@media (min-width: 768px) {
+
+    .help-bo .management-bar-nav > li > a {
+        padding-bottom: 1.21875rem;
+        padding-top: 1.21875rem;
+    }
+
+}
+

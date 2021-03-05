@@ -20,17 +20,87 @@
 	data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+
+        	<%-- Top titre du modal --%>
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.edithelpproposal.title"/></h3>
                 <button type="button" class="close closefirstmodal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
 
-            <form id="uploadForm"  method="post" action="${editHelpProposalURL}" enctype="multipart/form-data">
+			<%-- Formulaire --%>
+                <form id="uploadForm"  method="post" action="${editHelpProposalURL}" enctype="multipart/form-data">
+
+                <%-- Groupe de champs : Information utilisateur --%>
                 <div class="pro-wrapper">
-                    <h4><liferay-ui:message key="modal.edithelpproposal.information"/></h4>
+
+                	<%-- Label : Informations utilisateur --%>
+                    <h4><liferay-ui:message key="modal.submit.help.user"/></h4>
+
+                    <%-- Groupe de champs : Informations generales --%>
+                    <div class="pro-row">
+
+                        <%-- Champ : Nom --%>
+                        <div class="form-group form-half">
+                            <aui:input name="lastname" disabled="true" label="modal.user.lastname" required="true" value="${userConnected.get('last_name')}"/>
+                        </div>
+
+                        <%-- Champ : Prenom --%>
+                        <div class="form-group form-half">
+                            <aui:input name="firstname" disabled="true" label="modal.user.firstname" required="true" value="${userConnected.get('first_name')}"/>
+                        </div>
+
+                    </div>
+
+                    <%-- Champ : Email --%>
+                    <div class="form-group">
+                        <aui:input name="mail" label="modal.user.mail" required="true" disabled="true" value="${userConnected.get('email')}"/>
+                    </div>
+
+                    <%-- Groupe de champs : Information adresse  --%>
+                    <div class="pro-row">
+
+                    	<%-- Champ : Adresse --%>
+                        <div class="form-group form-half">
+                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256"  value="${helpProposalData.get('address')}"/>
+                        </div>
+
+                        <%-- Groupe de champs : (note : utilise pour la sous division d'une meme ligne en plus petit champ) --%>
+                        <div class="form-group form-half">
+
+                        	<%-- Champ : Ville --%>
+                            <div class="form-city">
+                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256"  value="${helpProposalData.get('city')}"/>
+                            </div>
+
+                            <%-- Champ : Code postal --%>
+                            <div class="form-code">
+                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" value="${helpProposalData.get('zipcode')}"/>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <%-- Champ : Telephone --%>
+                    <div class="form-group">
+                        <aui:input name="phoneNumber" label="modal.user.phone" required="true" value="${helpProposalData.get('phoneNumber')}"/>
+                    </div>
+                </div>
+                    <%-- Groupe de champs : Information aide --%>
+                <div class="pro-wrapper">
+
+					<%-- Label : Informations aide --%>
+                    <h4 style="margin-bottom:0;"><liferay-ui:message key="modal.submit.help.proposal.information"/></h4>
+                    <label>
+                        <liferay-ui:message key="modal.show.info"/>
+                    </label><br><br>
+
+                    <%-- Champ : Titre --%>
                     <div class="form-group">
                         <aui:input id="title" name="title" label="modal.submit.help.information.title" required="true" maxlength="256" value=""/>
                     </div>
+
+                    <%-- Champ : Type de l'aide --%>
                     <div class="form-group">
                         <label>
                             <liferay-ui:message key="modal.submit.help.information.type"/>
@@ -50,11 +120,17 @@
                         </c:forEach>
                         <aui:input type="hidden"  name="types" />
                     </div>
+
+                    <%-- Champ : Présentation --%>
                     <div class="form-group">
                     	<aui:input id="helpproposaldescription" name="helpproposaldescription" type="hidden"/>
                         <aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" label="modal.submit.help.information.presentation"/>
                     </div>
+
+                    <%-- Groupe de champs : Je suis --%>
                     <div class="pro-row">
+
+                    	<%-- Champ : Je suis --%>
                         <div class="form-group form-half">
                             <aui:select required="true" name="helper" label="modal.submit.help.information.helper">
                                 <c:forEach var="helper" items="${helpers}">
@@ -62,13 +138,19 @@
                                 </c:forEach>
                             </aui:select>
                         </div>
+
+                        <%-- Champ : Au nom de --%>
                         <div class="form-group form-half">
                             <aui:input id="inTheNameOf" name="inTheNameOf" label="modal.submit.help.information.inTheNameOf" required="true" maxlength="400" value="${userConnected.get('first_name')} ${fn:substring(userConnected.get('last_name'),0,1)}"/>
                         </div>
                     </div>
+
+                    <%-- Champ : Langue --%>
                     <div class="form-group">
                         <aui:input id="language" name="language" label="modal.submit.help.information.language" maxlength="256" value=""/>
                     </div>
+
+                    <%-- Champ : Localisation --%>
                     <div class="form-group">
                         <aui:select required="true" name="localisation" label="modal.submit.help.information.territories">
                             <c:forEach var="localisation" items="${localisations}">
@@ -78,6 +160,8 @@
                             </c:forEach>
                         </aui:select>
                     </div>
+
+                    <%-- Champ : photo --%>
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
                         	<div id="HelpProposalPhotoID">
@@ -86,7 +170,6 @@
 	                                    cssClass="btn btn-default btn-choose">
 								        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
 	                                </aui:input>
-	                                <label style="color:#ff0000;font-weight:bold" id="photoMessageID"><liferay-ui:message key="modal.edithelpproposal.information.picture.edit.red.message.information"/></label>
 	                            </span>
                             </div>
                             <div id="editPhotoID">
@@ -98,11 +181,12 @@
                             </div>
                         </div>
                     </div>
+                        <p><liferay-ui:message key='submit-proposal-help-image-information'/></p>
                 </div>
-                <div class="pro-optin group-checkbox" >
-                    <label class="fontWhite">
-                        <liferay-ui:message key="modal.submit.help.information.legalage"/>
-                    </label>
+                <div class="pro-optin form-checkbox">
+                    <div class="fontWhite">
+                        <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_messageHelpProposal"/>
+                    </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
@@ -112,13 +196,7 @@
                         </label>
                     </div>
                 </div>
-
-                <div class="pro-optin group-checkbox" >
-                    <label class="fontWhite">
-                        <liferay-ui:message key="modal.submit.help.information.security"/>
-                    </label>
-                </div>
-                <div class="pro-optin form-checkbox" >
+                <div class="pro-optin form-checkbox">
                     <div>
                         <input type="checkbox" id="<portlet:namespace />security" value="security">
                         <label for="<portlet:namespace />security" class="fontWhite">
@@ -132,27 +210,18 @@
                         </label>
                     </div>
                 </div>
-
-                <div class="pro-optin group-checkbox" >
-                    <label class="fontWhite">
-                        <liferay-ui:message key="modal.submit.help.information.responsability"/>
-                    </label>
+                <div class="pro-info-supp">
+                    <p><liferay-ui:message key="modal.submit.help.information.delete"/></p>
                 </div>
-                <div class="pro-optin form-checkbox">
-                    <div>
-                        <input type="checkbox"  id="<portlet:namespace />responsability" value="responsability">
-                        <label for="<portlet:namespace />responsability" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_responsabilitySubmitHelp"/>
-                        </label>
-                    </div>
-                </div>
-                <div id="sendalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
+                <div id="<portlet:namespace />alert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
                 <!-- Champ cache : ID -->
                 <input type="hidden" id="<portlet:namespace />deletePhoto" name="<portlet:namespace />deletePhoto" value="false"/>
                 <input type="hidden" id="<portlet:namespace />entryId" name="<portlet:namespace />entryId" value="${entryId}"/>
-                <div class="pro-form-submit">
+                            <%-- Boutou de soumisson --%>
+                    <div class="pro-form-submit">
                     <button id="sendHelpProposal" type="button" class="btn btn-default"><liferay-ui:message key="modal.edithelpproposal.submit"/></button>
                 </div>
+
             </form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -261,6 +330,40 @@
             result = false;
         }else $("#<portlet:namespace />title").css({ "box-shadow" : "" });
 
+        var presentation = $("#<portlet:namespace />presentation").val();
+        if (presentation===null || presentation===""){
+            $("#<portlet:namespace />presentation").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />presentation").css({ "box-shadow" : "" });
+
+        var address = $("#<portlet:namespace />address").val();
+        if (address===null || address===""){
+            $("#<portlet:namespace />address").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />address").css({ "box-shadow" : "" });
+
+        var city = $("#<portlet:namespace />city").val();
+        if (city===null || city===""){
+            $("#<portlet:namespace />city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />city").css({ "box-shadow" : "" });
+
+        var postalcode = $("#<portlet:namespace />postalcode").val();
+        var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        if (postalcode===null || postalcode===""){
+            $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else if(!regex.test(postalcode)){
+            $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />postalcode").css({ "box-shadow" : "" });
+
+        var phoneNumber = $("#<portlet:namespace />phoneNumber").val();
+        if (phoneNumber===null || phoneNumber===""){
+            $("#<portlet:namespace />phoneNumber").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />phoneNumber").css({ "box-shadow" : "" });
+
         var types = "";
         $("input[id^='<portlet:namespace />type']").each(function( index ) {
             if(this.checked){
@@ -272,14 +375,6 @@
             $("input[id^='<portlet:namespace />type']").closest('.form-group').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("input[id^='<portlet:namespace />type']").closest('.form-group').css({ "box-shadow" : "" });
-
-        var iframe = $('.Squire-UI').next('iframe').first()[0];
-    	var editor = iframe.contentWindow.editor;
-        var helpproposaldescription = editor.getHTML();
-        if ($(helpproposaldescription).text()===null || $(helpproposaldescription).text()===""){
-            $(iframe).css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $(iframe).css({ "box-shadow" : "" });
 
         var helper = $("#<portlet:namespace />helper").val();
         if (helper===null || helper==="0"){
@@ -317,16 +412,10 @@
             result = false;
         }else $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "" });
 
-        var responsability = $("#<portlet:namespace />responsability").is(":checked");
-        if (!responsability){
-            $("#<portlet:namespace />responsability").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#<portlet:namespace />responsability").closest('div').css({ "box-shadow" : "" });
-
         if (!result)
-            $("#sendalert").removeClass("hidden");
+            $("#<portlet:namespace />alert").removeClass("hidden");
         else
-            $("#sendalert").addClass("hidden");
+            $("#<portlet:namespace />alert").addClass("hidden");
         
         return result;
     }

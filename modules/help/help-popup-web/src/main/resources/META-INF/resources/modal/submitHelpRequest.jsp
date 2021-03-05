@@ -74,19 +74,28 @@
                     </div>
                     
                     <%-- Champ : Image --%>
-                    <div class="pro-row">
-                        <div class="form-group form-two-tiers">
-                            <span class="browsePicture input-group-btn">
-                                <aui:input name="photo" type="file" label="modal.submit.help.information.card"
-                                    cssClass="btn btn-default btn-choose" required="true">
-							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
-                                </aui:input>
-                            </span>
+                        <div class="pro-row">
+                            <div class="form-group form-two-tiers">
+                                    <div id="HelpRequestPhotoID">
+                                        <span class="browsePicture input-group-btn">
+                                            <aui:input name="photo" type="file" label="modal.submit.help.request.information.card"
+                                                       cssClass="btn btn-default btn-choose" required="true">
+                                                <aui:validator name="acceptFiles">'jpg,png,jpeg,pdf'</aui:validator>
+                                            </aui:input>
+                                        </span>
+                                    </div>
+                                    <div id="EditPhotoID">
+                                        <span class="input-group-btn">
+                                            <aui:input name="editPhoto" type="button" value="Modifier"
+                                                       label="modal.submit.help.request.information.card.edit">
+                                            </aui:input>
+                                        </span>
+                                    </div>
+                            </div>
                         </div>
-                    </div>
-
                     <%-- Champ cache : ID --%>
                     <aui:input type="hidden" name="entryId" value="${entryId}"/>
+
 
                 </div>
 
@@ -160,7 +169,8 @@
                     	<liferay-ui:message key="modal.submit.help.request.submit"/>
                     </button>
                 </div>
-                
+                <input type="hidden" id="<portlet:namespace />studentCardImageEdited" name="<portlet:namespace />studentCardImageEdited" value="false"/>
+                <input type="hidden" id="<portlet:namespace />studentCardImageId" name="<portlet:namespace />studentCardImageId" value="${currentStudentCardImageId}"/>
             </aui:form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -221,6 +231,15 @@
     	resetValuesHelpRequest();
         $("#<portlet:namespace />modalConfirm").modal('hide');
         $("#<portlet:namespace />modalError").modal('hide');
+        if ('${hasStudentCardImage}') {
+            $("#HelpRequestPhotoID").hide();
+            $("#HelpRequestPhotoID").css({
+                "padding:":"5px"
+            });
+        }
+        else {
+            $("#EditPhotoID").hide();
+        }
     });
 
     /*
@@ -256,6 +275,12 @@
             request.send(new FormData(formElement[0]));
           
         }
+    });
+
+    $("#"+namespaceHelpRequest+"editPhoto").click(function(event){
+        $("#"+namespaceHelpRequest+"studentCardImageEdited").val("true");
+        $("#EditPhotoID").hide();
+        $("#HelpRequestPhotoID").show();
     });
 
     $("#<portlet:namespace />modalConfirm #<portlet:namespace />buttonConfirm").click(function(event){

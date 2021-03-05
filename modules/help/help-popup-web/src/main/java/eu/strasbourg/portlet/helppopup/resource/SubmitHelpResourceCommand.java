@@ -74,6 +74,8 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
     private static final String PHONE_NUMBER = "phoneNumber";
 	private static final String MESSAGE = "message";
 	private static final String PHOTO = "photo";
+    private static final String STUDENT_CARD_IMAGE_ID = "studentCardImageId";
+    private static final String PREVIOUS_IMAGE_EDITED = "studentCardImageEdited";
 	
 	// Champs
     private long entryID;
@@ -81,6 +83,8 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
     private long helpRequestId;
     private String phoneNumber;
     private String message;
+    private long studentCardImageId;
+    private boolean previousImageEdited;
 
     // Gestion et contexte de la requete
     private String publikID;
@@ -105,6 +109,10 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
         // Recuperation des informations du formulaire
         this.phoneNumber = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE_NUMBER));
         this.message = HtmlUtil.stripHtml(ParamUtil.getString(request, MESSAGE));
+
+        // Recuperation donnees justificatifs
+        this.studentCardImageId = ParamUtil.getLong(request, STUDENT_CARD_IMAGE_ID);
+        this.previousImageEdited = ParamUtil.getString(request, PREVIOUS_IMAGE_EDITED).equals("true") ? true : false;
 		
         // Verification de la validite des informations
         if (validate()) {
@@ -284,25 +292,26 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         ServiceContext sc = ServiceContextFactory.getInstance(request);
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
-        
+        boolean validFilename = validateFileName(request);
+
         // Verification du nom du fichier
-        if (validateFileName(request)) {
-        	
+        if ((studentCardImageId < 1 && validFilename) ||
+                (this.previousImageEdited == true && this.studentCardImageId > 1 && validFilename)) {
             File photo = uploadRequest.getFile(PHOTO);
-            
+
             // Verification de la bonne recuperation du contenu du fichier
             if (photo != null && photo.exists()) {
-            	
+
                 byte[] imageBytes = FileUtil.getBytes(photo);
-                
+
                 // Dossier a la racine
                 DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
-                        													DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
-                        													"Demande d'aide");
+                        DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+                        "Demande d'aide");
                 // Dossier d'upload de l'entite
                 DLFolder folder = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
-                                									folderparent.getFolderId(),
-                                									"Uploads");
+                        folderparent.getFolderId(),
+                        "Uploads");
                 // Ajout du fichier
                 FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
                         sc.getUserId(), folder.getRepositoryId(),
@@ -312,13 +321,17 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
                         "", imageBytes, sc);
                 // Lien de l'image a l'entite
                 helpRequest.setStudentCardImageId(fileEntry.getFileEntryId());
-                
+
                 _log.info("Photo initiative uploade : [" + photo + "]");
 
             }
             return helpRequest;
-            
-        } else {
+        }
+        else if (this.previousImageEdited == false && this.studentCardImageId > 1) {
+            helpRequest.setStudentCardImageId(this.studentCardImageId);
+            return helpRequest;
+        }
+        else {
             throw new PortalException("le fichier n'est pas une image");
         }
     }

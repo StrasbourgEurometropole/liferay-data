@@ -45,6 +45,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static eu.strasbourg.portlet.helppopup.HelpPopupPortlet.REDIRECT_URL_PARAM;
 
@@ -62,6 +64,11 @@ import static eu.strasbourg.portlet.helppopup.HelpPopupPortlet.REDIRECT_URL_PARA
 public class EditHelpProposalActionCommand implements MVCActionCommand {
 
     // Id de recuperation des champs
+    private static final String ADDRESS = "address";
+    private static final String CITY = "city";
+    private static final String POSTAL_CODE = "postalcode";
+    private static final String PHONE_NUMBER = "phoneNumber";
+
     private static final String TITLE = "title";
     private static final String TYPES = "types";
     private static final String DESCRIPTION = "helpproposaldescription";
@@ -73,6 +80,11 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
     private static final String DELETE_PHOTO = "deletePhoto";
 
     // Champs
+    private String address;
+    private String city;
+    private long postalcode;
+    private String phoneNumber;
+
     private String title;
     private String types;
     private String description;
@@ -101,6 +113,11 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
         String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
         
         // Recuperation des informations du budget participatif du formulaire
+        this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
+        this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
+        this.postalcode = ParamUtil.getLong(request, POSTAL_CODE);
+        this.phoneNumber = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE_NUMBER));
+
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, TITLE));
         this.types = ParamUtil.getString(request, TYPES);
         this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, DESCRIPTION));
@@ -166,6 +183,11 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
             }
 
             sc.setAssetCategoryIds(ids);
+
+            helpProposal.setAddress(this.address);
+            helpProposal.setCity(this.city);
+            helpProposal.setPostalCode(this.postalcode);
+            helpProposal.setPhoneNumber(this.phoneNumber);
 
             helpProposal.setTitle(this.title, Locale.FRANCE);
             helpProposal.setDescription(this.description, Locale.FRANCE);
@@ -262,7 +284,37 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
 	 * @return Valide ou pas
 	 */
 	private boolean validate() {
-        
+
+        // address
+        if (Validator.isNull(this.address)) {
+            this.messageKey = "Adresse non valide";
+            return false;
+        }
+
+        // city
+        if (Validator.isNull(this.city)) {
+            this.messageKey = "Ville non valide";
+            return false;
+        }
+
+        // postalcode
+        if (Validator.isNull(this.postalcode)) {
+            this.messageKey = "Code postal non valide";
+            return false;
+        }
+        Pattern p = Pattern.compile("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        Matcher m = p.matcher(String.valueOf(this.postalcode));
+        if (!m.matches()) {
+            this.messageKey = "Code postal non valide";
+            return false;
+        }
+
+        // Téléphone
+        if (Validator.isNull(this.phoneNumber)) {
+            this.messageKey = "Téléphone non valide";
+            return false;
+        }
+
         // utilisateur
         if (this.publikID == null || this.publikID.isEmpty()) {
             this.messageKey = "user";

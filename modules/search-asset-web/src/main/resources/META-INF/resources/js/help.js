@@ -7,9 +7,6 @@ var entityType = {
 	HELP_PROPOSAL_ACTIVITY_STATUS : 'vocabulary_2',
 }
 
-var sortField = "publishDate_sortable";
-var sortType = "asc";
-
 $(document).ready(function(){
     getSelectedEntries();
 });
@@ -69,7 +66,6 @@ function getSelectedEntries() {
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedHelpProposalActivityStatus : selectedHelpProposalActivityStatus,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedLocalisations : selectedLocalisations,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedHelpProposalTypes : selectedHelpProposalTypes,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_sortFieldAndType : sortField + ',' + sortType,
 			},
 			on: {
                 success: function(e) {
