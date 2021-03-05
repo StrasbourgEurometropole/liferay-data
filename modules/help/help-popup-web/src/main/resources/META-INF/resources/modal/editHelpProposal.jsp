@@ -27,7 +27,6 @@
 
             <form id="uploadForm"  method="post" action="${editHelpProposalURL}" enctype="multipart/form-data">
                 <div class="pro-wrapper">
-                    <h4><liferay-ui:message key="modal.edithelpproposal.information"/></h4>
                     <div class="form-group">
                         <aui:input id="title" name="title" label="modal.submit.help.information.title" required="true" maxlength="256" value=""/>
                     </div>
