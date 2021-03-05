@@ -213,7 +213,7 @@
                 <div class="pro-info-supp">
                     <p><liferay-ui:message key="modal.submit.help.information.delete"/></p>
                 </div>
-                <div id="sendalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
+                <div id="<portlet:namespace />alert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
                 <!-- Champ cache : ID -->
                 <input type="hidden" id="<portlet:namespace />deletePhoto" name="<portlet:namespace />deletePhoto" value="false"/>
                 <input type="hidden" id="<portlet:namespace />entryId" name="<portlet:namespace />entryId" value="${entryId}"/>

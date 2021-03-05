@@ -45,6 +45,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static eu.strasbourg.portlet.helppopup.HelpPopupPortlet.REDIRECT_URL_PARAM;
 
@@ -282,7 +284,37 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
 	 * @return Valide ou pas
 	 */
 	private boolean validate() {
-        
+
+        // address
+        if (Validator.isNull(this.address)) {
+            this.messageKey = "Adresse non valide";
+            return false;
+        }
+
+        // city
+        if (Validator.isNull(this.city)) {
+            this.messageKey = "Ville non valide";
+            return false;
+        }
+
+        // postalcode
+        if (Validator.isNull(this.postalcode)) {
+            this.messageKey = "Code postal non valide";
+            return false;
+        }
+        Pattern p = Pattern.compile("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        Matcher m = p.matcher(String.valueOf(this.postalcode));
+        if (!m.matches()) {
+            this.messageKey = "Code postal non valide";
+            return false;
+        }
+
+        // Téléphone
+        if (Validator.isNull(this.phoneNumber)) {
+            this.messageKey = "Téléphone non valide";
+            return false;
+        }
+
         // utilisateur
         if (this.publikID == null || this.publikID.isEmpty()) {
             this.messageKey = "user";
