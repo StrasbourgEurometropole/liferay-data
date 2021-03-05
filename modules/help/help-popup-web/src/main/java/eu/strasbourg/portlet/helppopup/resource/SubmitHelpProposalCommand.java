@@ -273,7 +273,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
                  bccAddress = new InternetAddress(bccProperties);
 			
 			// envoi du mail aux utilisateurs
-            MailHelper.sendMailWithHTML(fromAddress, toAddresses, bccAddress, subject, mailBody);
+            MailHelper.sendMailWithBCCWithHTML(fromAddress, toAddresses, bccAddress, subject, mailBody);
 		} catch (Exception e) {
 			_log.error(e);
 			e.printStackTrace();

@@ -172,8 +172,8 @@ public class MailHelper {
 	 *            Corps du mail
 	 * @return True si le mail a correctement été envoyé, false sinon
 	 */
-	public static boolean sendMailWithHTML(InternetAddress fromAddress, InternetAddress[] toAddresses,
-										   InternetAddress copyAdresse, String subject, String body) {
+	public static boolean sendMailWithBCCWithHTML(InternetAddress fromAddress, InternetAddress[] toAddresses,
+												  InternetAddress copyAdresse, String subject, String body) {
 		MailMessage mailMessage = new MailMessage();
 		mailMessage.setFrom(fromAddress);
 		mailMessage.setTo(toAddresses);

@@ -40,6 +40,7 @@ import eu.strasbourg.service.help.service.HelpRequestLocalService;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.MailHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -216,8 +217,14 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
                 toAddresses = ArrayUtil.append(toAddresses, address);
             }
 
+            // Copie carbone invisible
+            InternetAddress bccAddress = null;
+            String bccProperties = StrasbourgPropsUtil.getEntraideUserSubmitBCCMail();
+            if (Validator.isNotNull(bccProperties))
+                bccAddress = new InternetAddress(bccProperties);
+
             // envoi du mail aux utilisateurs
-            MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, mailBody);
+            MailHelper.sendMailWithBCCWithHTML(fromAddress, toAddresses, bccAddress, subject, mailBody);
         } catch (Exception e) {
             _log.error(e);
             e.printStackTrace();
@@ -270,8 +277,14 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
             InternetAddress address = new InternetAddress(this.user.getEmail());
             toAddresses = ArrayUtil.append(toAddresses, address);
 
+            // Copie carbone invisible
+            InternetAddress bccAddress = null;
+            String bccProperties = StrasbourgPropsUtil.getEntraideUserSubmitBCCMail();
+            if (Validator.isNotNull(bccProperties))
+                bccAddress = new InternetAddress(bccProperties);
+
             // envoi du mail aux utilisateurs
-            MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, mailBody);
+            MailHelper.sendMailWithBCCWithHTML(fromAddress, toAddresses, bccAddress,  subject, mailBody);
         } catch (Exception e) {
             _log.error(e);
             e.printStackTrace();
