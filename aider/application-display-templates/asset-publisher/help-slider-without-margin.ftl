@@ -17,7 +17,11 @@
 
     <div class="container">
         <div>
-            <h2>Mes propositions d'aide (${entries?size})</h2> 
+            <#if entries?has_content >
+                <h2>Mes propositions d'aide (${entries?size})</h2>
+            <#else>
+                <h2>Mes propositions d'aide </h2>
+            </#if>
             <#if isUserloggedIn >
                 <a id="buttonSubmitHelpProposal" href="" class="pro-btn" data-toggle="modal" data-target="#modalSubmitHelpProposal">Proposer une nouvelle aide</a>
             <#else>
@@ -26,7 +30,10 @@
         </div>
         <div>
             <div class="owl-carousel owl-opacify owl-theme owl-cards" >
-
+                
+                <#if !entries?has_content >
+                    <p><@liferay_ui.message key="eu.help.my.help.proposal.empty" /></p>
+                </#if>
                 <!-- Parcours des entites de l'asset publisher -->
                 <#list entries as curEntry>
 
