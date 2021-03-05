@@ -116,6 +116,11 @@
                     </span>
 				</liferay-ui:search-container-column-text>
 
+				<%-- Colonne : Nombre de demandes --%>
+				<liferay-ui:search-container-column-text name="nb-requests">
+					${dc.helpRequestsByProposal[helpProposal.helpProposalId]}
+				</liferay-ui:search-container-column-text>
+
 				<%-- Colonne : Actions possibles --%>
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
@@ -124,7 +129,10 @@
 						</c:if>
 
                         <%-- TODO : ajouter un checker sur les permissions VIEW des demandes d'aide --%>
-						<liferay-ui:icon message="view-help-requests" url="${viewProposalHelpRequestsURL}" />
+						<c:if test="${dc.hasPermission('VIEW') and empty themeDisplay.scopeGroup.getStagingGroup()
+							and dc.helpRequestsByProposal[helpProposal.helpProposalId] > 0}">
+							<liferay-ui:icon message="view-help-requests" url="${viewProposalHelpRequestsURL}" />
+						</c:if>
 
 						<%-- Deactivation de la proposition d'aide --%>
 						<liferay-portlet:actionURL name="changeActivityHelpProposal" var="changeActivityHelpProposalURL">
