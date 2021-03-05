@@ -78,7 +78,7 @@
                             <div class="form-group form-two-tiers">
                                     <div id="HelpRequestPhotoID">
                                         <span class="browsePicture input-group-btn">
-                                            <aui:input name="photo" type="file" label="modal.submit.help.information.card"
+                                            <aui:input name="photo" type="file" label="modal.submit.help.request.information.card"
                                                        cssClass="btn btn-default btn-choose" required="true">
                                                 <aui:validator name="acceptFiles">'jpg,png,jpeg,pdf'</aui:validator>
                                             </aui:input>
@@ -87,7 +87,7 @@
                                     <div id="EditPhotoID">
                                         <span class="input-group-btn">
                                             <aui:input name="editPhoto" type="button" value="Modifier"
-                                                       label="modal.edithelpproposal.information.picture.edit.message">
+                                                       label="modal.submit.help.request.information.card.edit">
                                             </aui:input>
                                         </span>
                                     </div>
@@ -233,6 +233,9 @@
         $("#<portlet:namespace />modalError").modal('hide');
         if ('${hasStudentCardImage}') {
             $("#HelpRequestPhotoID").hide();
+            $("#HelpRequestPhotoID").css({
+                "padding:":"5px"
+            });
         }
         else {
             $("#EditPhotoID").hide();
