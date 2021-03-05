@@ -10,6 +10,7 @@ import com.liferay.mail.kernel.service.MailServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 public class MailHelper {
 
@@ -145,6 +146,39 @@ public class MailHelper {
 		MailMessage mailMessage = new MailMessage();
 		mailMessage.setFrom(fromAddress);
 		mailMessage.setTo(toAddresses);
+		mailMessage.setSubject(subject);
+		mailMessage.setBody(body);
+		mailMessage.setHTMLFormat(true);
+		try {
+			MailServiceUtil.sendEmail(mailMessage);
+			return true;
+		} catch (Exception ex) {
+			log.error(ex);
+			return false;
+		}
+	}
+
+	/**
+	 *
+	 * @param fromAddress
+	 *            Adresse de l'expéditeur
+	 * @param toAddresses
+	 *            Addresses du ou des destinataires
+	 * @param copyAdresse
+	 * 	            Addresse de la copie cachée, équivalent à CCi ou BCC (peut être null)
+	 * @param subject
+	 *            Sujet du mail
+	 * @param body
+	 *            Corps du mail
+	 * @return True si le mail a correctement été envoyé, false sinon
+	 */
+	public static boolean sendMailWithHTML(InternetAddress fromAddress, InternetAddress[] toAddresses,
+										   InternetAddress copyAdresse, String subject, String body) {
+		MailMessage mailMessage = new MailMessage();
+		mailMessage.setFrom(fromAddress);
+		mailMessage.setTo(toAddresses);
+		if (Validator.isNotNull(copyAdresse))
+			mailMessage.setBCC(copyAdresse);
 		mailMessage.setSubject(subject);
 		mailMessage.setBody(body);
 		mailMessage.setHTMLFormat(true);
