@@ -170,7 +170,6 @@
 	                                    cssClass="btn btn-default btn-choose">
 								        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
 	                                </aui:input>
-	                                <label style="color:#ff0000;font-weight:bold" id="photoMessageID"><liferay-ui:message key="modal.edithelpproposal.information.picture.edit.red.message.information"/></label>
 	                            </span>
                             </div>
                             <div id="editPhotoID">
