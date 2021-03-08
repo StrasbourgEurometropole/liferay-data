@@ -8,7 +8,7 @@
 	data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-        
+
         	<%-- Top titre du modal --%>
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.submit.help.proposal.title"/></h3>
@@ -187,22 +187,32 @@
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox"  id="<portlet:namespace />legalage" value="legalage">
-                        <label for="<portlet:namespace />legalage" class="fontWhite">
+                        <input type="checkbox" id="<portlet:namespace />agreement1" name="<portlet:namespace />agreement1" value="agreement1">
+                        <label for="<portlet:namespace />agreement1" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageSubmitHelpProposal"/>
                         </label>
+                        <span class="reference-mark text-warning" id="agreement1_mark">
+                            <svg class="lexicon-icon lexicon-icon-asterisk" focusable="false" role="presentation" viewBox="0 0 512 512">
+                                <path class="lexicon-icon-outline" d="M323.6,190l146.7-48.8L512,263.9l-149.2,47.6l93.6,125.2l-104.9,76.3l-96.1-126.4l-93.6,126.4L56.9,435.3l92.3-123.9L0,263.8l40.4-122.6L188.4,190v-159h135.3L323.6,190L323.6,190z"></path>
+                            </svg>
+                        </span>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="<portlet:namespace />security" value="security">
-                        <label for="<portlet:namespace />security" class="fontWhite">
+                        <input type="checkbox" id="<portlet:namespace />agreement2" name="<portlet:namespace />agreement2" value="agreement2">
+                        <label for="<portlet:namespace />agreement2" cla    ss="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_securitySubmitHelp"/>
                         </label>
+                        <span class="reference-mark text-warning" id="agreement2_mark">
+                            <svg class="lexicon-icon lexicon-icon-asterisk" focusable="false" role="presentation" viewBox="0 0 512 512">
+                                <path class="lexicon-icon-outline" d="M323.6,190l146.7-48.8L512,263.9l-149.2,47.6l93.6,125.2l-104.9,76.3l-96.1-126.4l-93.6,126.4L56.9,435.3l92.3-123.9L0,263.8l40.4-122.6L188.4,190v-159h135.3L323.6,190L323.6,190z"></path>
+                            </svg>
+                        </span>
                     </div>
                     <div>
-                        <input type="checkbox" id="<portlet:namespace />security2" value="security2">
-                        <label for="<portlet:namespace />security2" class="fontWhite">
+                        <input type="checkbox" id="<portlet:namespace />agreement3" name="<portlet:namespace />agreement3" value="agreement3">
+                        <label for="<portlet:namespace />agreement3" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_security2SubmitHelp"/>
                         </label>
                     </div>
@@ -346,9 +356,9 @@
         $("#<portlet:namespace />photo").val("");
 
      	// Chebox de conditions et de sauvegade des informations
-        $("#<portlet:namespace />legalage").prop("checked", false);
-        $("#<portlet:namespace />security").prop("checked", false);
-        $("#<portlet:namespace />security2").prop("checked", false);
+        $("#<portlet:namespace />agreement1").prop("checked", false);
+        $("#<portlet:namespace />agreement2").prop("checked", false);
+        $("#<portlet:namespace />agreement3").prop("checked", false);
     }
 
     /*
@@ -428,23 +438,17 @@
             result = false;
         }else $("#<portlet:namespace />localisation").closest('.form-group').css({ "box-shadow" : "" });
 
-        var legalage = $("#<portlet:namespace />legalage").is(":checked");
-        if (!legalage){
-            $("#<portlet:namespace />legalage").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
+        var agreement1 = $("#<portlet:namespace />agreement1").is(":checked");
+        if (!agreement1){
+            $("#<portlet:namespace />agreement1").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#<portlet:namespace />legalage").closest('div').css({ "box-shadow" : "" });
+        }else $("#<portlet:namespace />agreement1").closest('div').css({ "box-shadow" : "" });
 
-        var security = $("#<portlet:namespace />security").is(":checked");
-        if (!security){
-            $("#<portlet:namespace />security").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
+        var agreement2 = $("#<portlet:namespace />agreement2").is(":checked");
+        if (!agreement2){
+            $("#<portlet:namespace />agreement2").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#<portlet:namespace />security").closest('div').css({ "box-shadow" : "" });
-
-        var security2 = $("#<portlet:namespace />security2").is(":checked");
-        if (!security2){
-            $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "" });
+        }else $("#<portlet:namespace />agreement2").closest('div').css({ "box-shadow" : "" });
 
         if (!result)
             $("#<portlet:namespace />alert").removeClass("hidden");

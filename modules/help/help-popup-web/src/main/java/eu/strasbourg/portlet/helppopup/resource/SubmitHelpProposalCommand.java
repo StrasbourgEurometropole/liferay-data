@@ -30,9 +30,11 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.helppopup.constants.HelpPopUpPortletConstants;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.service.HelpProposalLocalService;
 import eu.strasbourg.service.oidc.model.PublikUser;
@@ -60,6 +62,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,22 +75,8 @@ import java.util.regex.Pattern;
     service = MVCResourceCommand.class
 )
 public class SubmitHelpProposalCommand implements MVCResourceCommand {
-	
-	// Id de recuperation des champs
-    private static final String ADDRESS = "address";
-    private static final String CITY = "city";
-    private static final String POSTALCODE = "postalcode";
-    private static final String PHONE_NUMBER = "phoneNumber";
-	private static final String TITLE = "title";
-    private static final String TYPES = "types";
-	private static final String PRESENTATION = "presentation";
-    private static final String HELPER = "helper";
-	private static final String IN_THE_NAME_OF = "inTheNameOf";
-    private static final String LANGUAGE = "language";
-	private static final String LOCALISATION = "localisation";
-	private static final String PHOTO = "photo";
 
-	// Champs
+    // Champs
     private long helpProposalId;
     private String address;
     private String city;
@@ -100,6 +89,9 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
 	private String inTheNameOf;
     private String language;
 	private long localisationId;
+	private boolean agreement1;
+    private boolean agreement2;
+    private boolean agreement3;
 
     // Gestion et contexte de la requete
     private String publikID;
@@ -107,6 +99,9 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
     private String message;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
+    private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
+            this.getClass().getClassLoader());
 	
 	@Override
 	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
@@ -119,17 +114,23 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
         this.publikID = getPublikID(request);
         
         // Recuperation des informations du formulaire
-        this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
-        this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
-        this.postalcode = HtmlUtil.stripHtml(ParamUtil.getString(request, POSTALCODE));
-        this.phoneNumber = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE_NUMBER));
-        this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, TITLE));
-        this.types = ParamUtil.getString(request, TYPES);
-        this.presentation = HtmlUtil.stripHtml(ParamUtil.getString(request, PRESENTATION));
-        this.helperId = ParamUtil.getLong(request, HELPER);
-        this.inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
-        this.language = HtmlUtil.stripHtml(ParamUtil.getString(request, LANGUAGE));
-        this.localisationId = ParamUtil.getLong(request, LOCALISATION);
+        this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.ADDRESS));
+        this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.CITY));
+        this.postalcode = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.POSTALCODE));
+        this.phoneNumber = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.PHONE_NUMBER));
+        this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.TITLE));
+        this.types = ParamUtil.getString(request, HelpPopUpPortletConstants.TYPES);
+        this.presentation = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.PRESENTATION));
+        this.helperId = ParamUtil.getLong(request, HelpPopUpPortletConstants.HELPER);
+        this.inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.IN_THE_NAME_OF));
+        this.language = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.LANGUAGE));
+        this.localisationId = ParamUtil.getLong(request, HelpPopUpPortletConstants.LOCALISATION);
+        this.agreement1 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_1)
+                .equals(HelpPopUpPortletConstants.AGREEMENT_1);
+        this.agreement2 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_2)
+                .equals(HelpPopUpPortletConstants.AGREEMENT_2);
+        this.agreement3 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_3)
+                .equals(HelpPopUpPortletConstants.AGREEMENT_3);
 
         // Verification de la validite des informations
         if (validate()) {
@@ -146,7 +147,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
         jsonResponse.put("message", this.message);
 
         // Recuperation de l'élément d'écriture de la réponse
-        PrintWriter writer = null;
+        PrintWriter writer;
         try {
             writer = response.getWriter();
             writer.print(jsonResponse.toString());
@@ -165,7 +166,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
             List<Long> identifiants = new ArrayList<>();
             String[] typeIds = this.types.split("-");
             for (String typeId : typeIds) {
-                if (typeId != "-") {
+                if (!typeId.equals("-")) {
                     identifiants.add(Long.parseLong(typeId));
                 }
             }
@@ -206,6 +207,9 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
             helpProposal.setSpokenLanguages(this.language, Locale.FRANCE);
             helpProposal.setPublikId(this.publikID);
             helpProposal = uploadFile(helpProposal, request);
+            helpProposal.setAgreementSigned1(this.agreement1);
+            helpProposal.setAgreementSigned2(this.agreement2);
+            helpProposal.setAgreementSigned3(this.agreement3);
 
             _helpProposalLocalService.updateHelpProposal(helpProposal, sc);
             
@@ -285,8 +289,6 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
      *
      * @param helpProposal Entite concernee
      * @return l'aide avec l'imageId
-     * @throws IOException
-     * @throws PortalException
      */
     private HelpProposal uploadFile(HelpProposal helpProposal, ResourceRequest request) throws IOException, PortalException {
     	
@@ -298,7 +300,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
         // Verification du nom du fichier
         if (validateFileName(request)) {
         	
-            File photo = uploadRequest.getFile(PHOTO);
+            File photo = uploadRequest.getFile(HelpPopUpPortletConstants.PHOTO);
             
             // Verification de la bonne recuperation du contenu du fichier
             if (photo != null && photo.exists()) {
@@ -340,7 +342,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
 	private boolean validateFileName(ResourceRequest request) {
         boolean result = true;
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
-        String fileName = uploadRequest.getFileName(PHOTO);
+        String fileName = uploadRequest.getFileName(HelpPopUpPortletConstants.PHOTO);
         if (fileName != null && !fileName.isEmpty()) {
             String type = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
             result = type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
@@ -356,75 +358,81 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
         
         // utilisateur 
         if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non reconnu";
+            this.message = HelpPopUpPortletConstants.ERROR_USER_NO_FOUND;
             return false;
         } else {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
         }
 
+        // consentements
+        if (!this.agreement1 || !this.agreement2) {
+            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_AGREEMENTS);
+            return false;
+        }
+
         // title
         if (Validator.isNull(this.title)) {
-            this.message = "Titre non valide";
+            this.message =  LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_TITLE);
             return false;
         }
 
         // présentation
         if (Validator.isNull(this.presentation)) {
-            this.message = "Présentation non valide";
+            this.message = HelpPopUpPortletConstants.ERROR_PRESENTATION;
             return false;
         }
 
         // address
         if (Validator.isNull(this.address)) {
-            this.message = "Adresse non valide";
+            this.message = HelpPopUpPortletConstants.ERROR_ADDRESS;
             return false;
         }
 
         // city
         if (Validator.isNull(this.city)) {
-            this.message = "Ville non valide";
+            this.message = HelpPopUpPortletConstants.ERROR_CITY;
             return false;
         }
 
         // postalcode
         if (Validator.isNull(this.postalcode)) {
-            this.message = "Code postal non valide";
+            this.message = HelpPopUpPortletConstants.ERROR_POSTAL_CODE;
             return false;
         }
-        Pattern p = Pattern.compile("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        Pattern p = Pattern.compile(HelpPopUpPortletConstants.REGEX_PHONE_NUMBER);
         Matcher m = p.matcher(this.postalcode);
         if (!m.matches()) {
-            this.message = "Code postal non valide";
+            this.message = HelpPopUpPortletConstants.ERROR_POSTAL_CODE;
             return false;
         }
 
         // Téléphone
         if (Validator.isNull(this.phoneNumber)) {
-            this.message = "Téléphone non valide";
+            this.message = HelpPopUpPortletConstants.ERROR_PHONE_NUMBER;
             return false;
         }
 
         // Types d'aide
         if (Validator.isNull(this.types)) {
-            this.message = "Type d'aide non valide";
+            this.message = HelpPopUpPortletConstants.ERROR_HELP_TYPE;
             return false;
         }
 
         // type d'aidant
         if (Validator.isNull(this.helperId)) {
-            this.message = "Champ 'Je suis' non valide";
+            this.message = HelpPopUpPortletConstants.ERROR_HELPER_TYPE;
             return false;
         }
 
         // Déposé au nom de
         if (Validator.isNull(this.inTheNameOf)) {
-            this.message = "Champ 'Déposé au nom de' non valide";
+            this.message = HelpPopUpPortletConstants.ERROR_IN_THE_NAME_OF;
             return false;
         }
 
         // Localisation
         if (Validator.isNull(this.localisationId)) {
-            this.message = "Champ 'Localisation du retrait' non valide";
+            this.message = HelpPopUpPortletConstants.ERROR_TERRITORY;
             return false;
         }
 
@@ -437,7 +445,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
     private String getPublikID(PortletRequest request) {
         LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
         HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-        return SessionParamUtil.getString(originalRequest, "publik_internal_id");
+        return SessionParamUtil.getString(originalRequest, HelpPopUpPortletConstants.PUBLIK_INTERNAL_ID);
     }
 
     @Reference(unbind = "-")
