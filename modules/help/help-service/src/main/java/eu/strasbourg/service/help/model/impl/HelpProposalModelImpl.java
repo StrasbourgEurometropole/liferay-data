@@ -93,7 +93,9 @@ public class HelpProposalModelImpl
 		{"inTheNameOf", Types.VARCHAR}, {"address", Types.VARCHAR},
 		{"city", Types.VARCHAR}, {"postalCode", Types.BIGINT},
 		{"phoneNumber", Types.VARCHAR}, {"modifiedByUserDate", Types.TIMESTAMP},
-		{"spokenLanguages", Types.VARCHAR}, {"imageId", Types.BIGINT},
+		{"spokenLanguages", Types.VARCHAR}, {"agreementSigned1", Types.BOOLEAN},
+		{"agreementSigned2", Types.BOOLEAN},
+		{"agreementSigned3", Types.BOOLEAN}, {"imageId", Types.BIGINT},
 		{"publikId", Types.VARCHAR}, {"comment_", Types.CLOB}
 	};
 
@@ -122,13 +124,16 @@ public class HelpProposalModelImpl
 		TABLE_COLUMNS_MAP.put("phoneNumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("modifiedByUserDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("spokenLanguages", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("agreementSigned1", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("agreementSigned2", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("agreementSigned3", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("comment_", Types.CLOB);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table help_HelpProposal (uuid_ VARCHAR(75) null,helpProposalId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,description TEXT null,inTheNameOf VARCHAR(400) null,address VARCHAR(400) null,city VARCHAR(400) null,postalCode LONG,phoneNumber VARCHAR(75) null,modifiedByUserDate DATE null,spokenLanguages STRING null,imageId LONG,publikId VARCHAR(75) null,comment_ TEXT null)";
+		"create table help_HelpProposal (uuid_ VARCHAR(75) null,helpProposalId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,description TEXT null,inTheNameOf VARCHAR(400) null,address VARCHAR(400) null,city VARCHAR(400) null,postalCode LONG,phoneNumber VARCHAR(75) null,modifiedByUserDate DATE null,spokenLanguages STRING null,agreementSigned1 BOOLEAN,agreementSigned2 BOOLEAN,agreementSigned3 BOOLEAN,imageId LONG,publikId VARCHAR(75) null,comment_ TEXT null)";
 
 	public static final String TABLE_SQL_DROP = "drop table help_HelpProposal";
 
@@ -380,6 +385,24 @@ public class HelpProposalModelImpl
 		attributeSetterBiConsumers.put(
 			"spokenLanguages",
 			(BiConsumer<HelpProposal, String>)HelpProposal::setSpokenLanguages);
+		attributeGetterFunctions.put(
+			"agreementSigned1", HelpProposal::getAgreementSigned1);
+		attributeSetterBiConsumers.put(
+			"agreementSigned1",
+			(BiConsumer<HelpProposal, Boolean>)
+				HelpProposal::setAgreementSigned1);
+		attributeGetterFunctions.put(
+			"agreementSigned2", HelpProposal::getAgreementSigned2);
+		attributeSetterBiConsumers.put(
+			"agreementSigned2",
+			(BiConsumer<HelpProposal, Boolean>)
+				HelpProposal::setAgreementSigned2);
+		attributeGetterFunctions.put(
+			"agreementSigned3", HelpProposal::getAgreementSigned3);
+		attributeSetterBiConsumers.put(
+			"agreementSigned3",
+			(BiConsumer<HelpProposal, Boolean>)
+				HelpProposal::setAgreementSigned3);
 		attributeGetterFunctions.put("imageId", HelpProposal::getImageId);
 		attributeSetterBiConsumers.put(
 			"imageId",
@@ -1021,6 +1044,51 @@ public class HelpProposalModelImpl
 	}
 
 	@Override
+	public boolean getAgreementSigned1() {
+		return _agreementSigned1;
+	}
+
+	@Override
+	public boolean isAgreementSigned1() {
+		return _agreementSigned1;
+	}
+
+	@Override
+	public void setAgreementSigned1(boolean agreementSigned1) {
+		_agreementSigned1 = agreementSigned1;
+	}
+
+	@Override
+	public boolean getAgreementSigned2() {
+		return _agreementSigned2;
+	}
+
+	@Override
+	public boolean isAgreementSigned2() {
+		return _agreementSigned2;
+	}
+
+	@Override
+	public void setAgreementSigned2(boolean agreementSigned2) {
+		_agreementSigned2 = agreementSigned2;
+	}
+
+	@Override
+	public boolean getAgreementSigned3() {
+		return _agreementSigned3;
+	}
+
+	@Override
+	public boolean isAgreementSigned3() {
+		return _agreementSigned3;
+	}
+
+	@Override
+	public void setAgreementSigned3(boolean agreementSigned3) {
+		_agreementSigned3 = agreementSigned3;
+	}
+
+	@Override
 	public long getImageId() {
 		return _imageId;
 	}
@@ -1431,6 +1499,9 @@ public class HelpProposalModelImpl
 		helpProposalImpl.setPhoneNumber(getPhoneNumber());
 		helpProposalImpl.setModifiedByUserDate(getModifiedByUserDate());
 		helpProposalImpl.setSpokenLanguages(getSpokenLanguages());
+		helpProposalImpl.setAgreementSigned1(isAgreementSigned1());
+		helpProposalImpl.setAgreementSigned2(isAgreementSigned2());
+		helpProposalImpl.setAgreementSigned3(isAgreementSigned3());
 		helpProposalImpl.setImageId(getImageId());
 		helpProposalImpl.setPublikId(getPublikId());
 		helpProposalImpl.setComment(getComment());
@@ -1655,6 +1726,12 @@ public class HelpProposalModelImpl
 			helpProposalCacheModel.spokenLanguages = null;
 		}
 
+		helpProposalCacheModel.agreementSigned1 = isAgreementSigned1();
+
+		helpProposalCacheModel.agreementSigned2 = isAgreementSigned2();
+
+		helpProposalCacheModel.agreementSigned3 = isAgreementSigned3();
+
 		helpProposalCacheModel.imageId = getImageId();
 
 		helpProposalCacheModel.publikId = getPublikId();
@@ -1776,6 +1853,9 @@ public class HelpProposalModelImpl
 	private Date _modifiedByUserDate;
 	private String _spokenLanguages;
 	private String _spokenLanguagesCurrentLanguageId;
+	private boolean _agreementSigned1;
+	private boolean _agreementSigned2;
+	private boolean _agreementSigned3;
 	private long _imageId;
 	private String _publikId;
 	private String _originalPublikId;

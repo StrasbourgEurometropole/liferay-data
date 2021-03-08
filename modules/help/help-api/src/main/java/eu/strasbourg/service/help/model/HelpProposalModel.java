@@ -680,6 +680,69 @@ public interface HelpProposalModel
 		Map<Locale, String> spokenLanguagesMap, Locale defaultLocale);
 
 	/**
+	 * Returns the agreement signed1 of this help proposal.
+	 *
+	 * @return the agreement signed1 of this help proposal
+	 */
+	public boolean getAgreementSigned1();
+
+	/**
+	 * Returns <code>true</code> if this help proposal is agreement signed1.
+	 *
+	 * @return <code>true</code> if this help proposal is agreement signed1; <code>false</code> otherwise
+	 */
+	public boolean isAgreementSigned1();
+
+	/**
+	 * Sets whether this help proposal is agreement signed1.
+	 *
+	 * @param agreementSigned1 the agreement signed1 of this help proposal
+	 */
+	public void setAgreementSigned1(boolean agreementSigned1);
+
+	/**
+	 * Returns the agreement signed2 of this help proposal.
+	 *
+	 * @return the agreement signed2 of this help proposal
+	 */
+	public boolean getAgreementSigned2();
+
+	/**
+	 * Returns <code>true</code> if this help proposal is agreement signed2.
+	 *
+	 * @return <code>true</code> if this help proposal is agreement signed2; <code>false</code> otherwise
+	 */
+	public boolean isAgreementSigned2();
+
+	/**
+	 * Sets whether this help proposal is agreement signed2.
+	 *
+	 * @param agreementSigned2 the agreement signed2 of this help proposal
+	 */
+	public void setAgreementSigned2(boolean agreementSigned2);
+
+	/**
+	 * Returns the agreement signed3 of this help proposal.
+	 *
+	 * @return the agreement signed3 of this help proposal
+	 */
+	public boolean getAgreementSigned3();
+
+	/**
+	 * Returns <code>true</code> if this help proposal is agreement signed3.
+	 *
+	 * @return <code>true</code> if this help proposal is agreement signed3; <code>false</code> otherwise
+	 */
+	public boolean isAgreementSigned3();
+
+	/**
+	 * Sets whether this help proposal is agreement signed3.
+	 *
+	 * @param agreementSigned3 the agreement signed3 of this help proposal
+	 */
+	public void setAgreementSigned3(boolean agreementSigned3);
+
+	/**
 	 * Returns the image ID of this help proposal.
 	 *
 	 * @return the image ID of this help proposal
