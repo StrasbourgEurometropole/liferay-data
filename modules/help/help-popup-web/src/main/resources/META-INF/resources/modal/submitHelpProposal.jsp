@@ -440,12 +440,6 @@
             result = false;
         }else $("#<portlet:namespace />security").closest('div').css({ "box-shadow" : "" });
 
-        var security2 = $("#<portlet:namespace />security2").is(":checked");
-        if (!security2){
-            $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "" });
-
         if (!result)
             $("#<portlet:namespace />alert").removeClass("hidden");
         else
