@@ -60,6 +60,13 @@
                                     <div class="pro-header-help">
                                         <p><@liferay_ui.message key="eu.help.help-by" /> <strong>${entry.getAuthorLabel()?html}</strong></p>
                                     </div>
+                                    <#if !entry.isActive() >
+                                        <div class="pro-statut">
+                                            <span style="background : #${entry.getActivityStatusColor()};">
+                                                ${entry.getActivityStatusTitle(locale)}
+                                            </span>
+                                        </div>
+                                    </#if> 
                                     <div class="pro-content-help">
                                         <div class="pro-wrapper-meta">
                                             <div class="pro-meta">
@@ -82,16 +89,9 @@
                             </div>
                             <div class="pro-footer-help "> 
                                 <p>
-                                    <@liferay_ui.message key="eu.help.publication-help" /> <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time> - 
-                                    <@liferay_ui.message key="eu.help.update-help" /> <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time>
+                                    <span class="publication-date" ><@liferay_ui.message key="eu.help.publication-help" /> <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time> - </span>
+                                    <span ><@liferay_ui.message key="eu.help.update-help" /> <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time></span>
                                 </p>  
-                                <#if !entry.isActive() >
-                                    <div class="pro-statut">
-                                        <span style="background : #${entry.getActivityStatusColor()};">
-                                            ${entry.getActivityStatusTitle(locale)}
-                                        </span>
-                                    </div>
-                                </#if> 
                             </div>
                         </div>
                     </#list>
