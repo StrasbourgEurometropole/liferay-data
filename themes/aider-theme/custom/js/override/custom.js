@@ -296,8 +296,15 @@ function scrollToAnchor(anchorId) {
 }
 
 /**
- * Initialisation de tarteaucitron
+ * Tarteaucitron
  */
+
+// Définition du texte de la popup
+var tarteaucitronCustomText = {
+    "alertBigPrivacy": "Nous utilisons des cookies sur ce site pour notamment améliorer votre expérience d’utilisation, fournir des services via des contenus animés et interactifs de réseaux sociaux et vidéos, des messages de communication personnalisés ou encore effectuer des analyses de performance. Vous pouvez à tout moment faire part de vos choix :",
+};
+
+// Initialisation de tarteaucitron
 tarteaucitron.init({
     "privacyUrl": "", /* Privacy policy url */
 
@@ -305,17 +312,17 @@ tarteaucitron.init({
     "cookieName": "tarteaucitron", /* Cookie name */
 
     "orientation": "bottom", /* Banner position (top - bottom) */
-                     
+    
     "showAlertSmall": false, /* Show the small banner on bottom right */
     "cookieslist": false, /* Show the cookie list */
-                     
+    
     "closePopup": false, /* Show a close X on the banner */
 
     "showIcon": false, /* Show cookie icon to manage cookies */
     "iconPosition": "BottomRight", /* BottomRight, BottomLeft, TopRight and TopLeft */
 
     "adblocker": false, /* Show a Warning if an adblocker is detected */
-                     
+    
     "DenyAllCta" : true, /* Show the deny all button */
     "AcceptAllCta" : true, /* Show the accept all button when highPrivacy on */
     "highPrivacy": true, /* HIGHLY RECOMMANDED Disable auto consent */
@@ -333,4 +340,10 @@ tarteaucitron.init({
     "readmoreLink": "", /* Change the default readmore link */
 
     "mandatory": true, /* Show a message about mandatory cookies */
+
+    "alertBigPrivacy": "Nous utilisons des cookies sur ce site pour notamment améliorer votre expérience d’utilisation, fournir des services via des contenus animés et interactifs de réseaux sociaux et vidéos, des messages de communication personnalisés ou encore effectuer des analyses de performance. Vous pouvez à tout moment faire part de vos choix :",
 });
+
+/**
+ * END : Tarteaucitron
+ */
