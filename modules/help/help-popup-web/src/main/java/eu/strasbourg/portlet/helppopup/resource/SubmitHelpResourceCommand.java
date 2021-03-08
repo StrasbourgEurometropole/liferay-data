@@ -162,7 +162,8 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
             
         } catch (PortalException | IOException e) {
             _log.error(e);
-            throw new PortletException(e);
+            this.messageResult = e.getMessage();
+            return false;
         }
         _log.info("Demande d'aide cree : " + helpRequest);
         return true;
@@ -358,7 +359,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         String fileName = uploadRequest.getFileName(PHOTO);
         if (fileName != null && !fileName.isEmpty()) {
-            String type = fileName.substring(fileName.lastIndexOf("."));
+            String type = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
             result = type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
         }
         return result;

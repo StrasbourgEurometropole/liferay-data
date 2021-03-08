@@ -121,6 +121,12 @@
 					${dc.helpRequestsByProposal[helpProposal.helpProposalId]}
 				</liferay-ui:search-container-column-text>
 
+				<%-- Colonne : Statut de publication de l'aide --%>
+				<liferay-ui:search-container-column-text name="statusHelpPublication">
+					<aui:workflow-status markupView="lexicon" showIcon="false"
+						showLabel="false" status="${helpProposal.status}" />
+				</liferay-ui:search-container-column-text>
+
 				<%-- Colonne : Actions possibles --%>
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
@@ -157,6 +163,28 @@
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('EDIT_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="setRead" url="${readHelpProposalURL}" />
+						</c:if>
+
+						<%-- Mise en dépublié/publié de la proposition d'aide --%>
+						<liferay-portlet:actionURL name="changeStatusHelpProposal" var="publishHelpProposalURL">
+							<portlet:param name="cmd" value="changeStatusHelpProposal" />
+							<portlet:param name="tab" value="helpProposals" />
+							<portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />
+							<portlet:param name="status" value="0" />
+						</liferay-portlet:actionURL>
+						<liferay-portlet:actionURL name="changeStatusHelpProposal" var="unpublishHelpProposalURL">
+							<portlet:param name="cmd" value="changeStatusHelpProposal" />
+							<portlet:param name="tab" value="helpProposals" />
+							<portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />
+							<portlet:param name="status" value="2" />
+						</liferay-portlet:actionURL>
+						<c:if test="${dc.hasPermission('EDIT_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<c:if test="${helpProposal.status == '0'}">
+								<liferay-ui:icon-delete confirmation="help-unpublish-confirm" message="unpublish-help-proposal" url="${unpublishHelpProposalURL}" />
+							</c:if>
+							<c:if test="${helpProposal.status == '2'}">
+								<liferay-ui:icon-delete confirmation="help-publish-confirm" message="publish-help-proposal" url="${publishHelpProposalURL}" />
+							</c:if>
 						</c:if>
 
 						<liferay-portlet:actionURL name="deleteHelpProposal" var="deleteHelpProposalURL">
