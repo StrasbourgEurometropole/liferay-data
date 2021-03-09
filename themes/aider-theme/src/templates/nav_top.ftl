@@ -1,5 +1,6 @@
 <nav class="nav-top">
-    <header id="pro-header" class="menu-no-header">
+    <#assign isHome = layout.getFriendlyURL() == "/accueil" />
+    <header id="pro-header" class="menu-no-header <#if isHome> home-menu </#if>">
 
         <@liferay_portlet["runtime"]
         portletProviderAction=portletProviderAction.VIEW

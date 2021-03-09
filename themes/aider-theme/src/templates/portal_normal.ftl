@@ -98,7 +98,8 @@
 	<#include "${full_templates_path}/modal_connexion.ftl" />
 	<#include "${full_templates_path}/modal_banned.ftl" />
 
-	<main id="content" class="pro-overflow-visible">
+  <#assign isHome = layout.getFriendlyURL() == "/accueil" />
+	<main id="content" class="pro-overflow-visible <#if isHome> home-menu </#if>">
 		<h1 class="hide-accessible">${the_title}</h1>
 
 		<#if selectable>
