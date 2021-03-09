@@ -406,7 +406,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
 
         // consentements
         if (!this.agreement1 || !this.agreement2 || !this.agreement3) {
-            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_AGREEMENTS);
+            this.messageResult = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_AGREEMENTS);
             return false;
         }
 

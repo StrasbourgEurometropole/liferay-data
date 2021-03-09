@@ -114,7 +114,7 @@
 
                 <div class="pro-optin form-checkbox" >
                     <div>
-                        <input type="checkbox" id="<portlet:namespace />agreement2" name="<portlet:namespace />agreement1" value="agreement2">
+                        <input type="checkbox" id="<portlet:namespace />agreement2" name="<portlet:namespace />agreement2" value="agreement2">
                         <label for="<portlet:namespace />agreement2" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_SubmitHelpRequestAgreement2"/>
                         </label>
