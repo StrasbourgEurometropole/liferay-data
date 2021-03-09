@@ -393,7 +393,7 @@
         }else $("#<portlet:namespace />city").css({ "box-shadow" : "" });
 
         var postalcode = $("#<portlet:namespace />postalcode").val();
-        var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        var regex = new RegExp("[0-9]{5}");
         if (postalcode===null || postalcode===""){
             $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;

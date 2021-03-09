@@ -6,14 +6,19 @@
 <portlet:actionURL name="editHelpProposal" var="editHelpProposalURL">
 	<portlet:param name="redirectURL" value="${redirectURL}"/>
 </portlet:actionURL>
-<liferay-ui:error key="user" message="modal.edithelpproposal.error.user-unknow" />
-<liferay-ui:error key="title" message="modal.edithelpproposal.error.title" />
-<liferay-ui:error key="types" message="modal.edithelpproposal.error.types" />
-<liferay-ui:error key="description" message="modal.edithelpproposal.error.description" />
-<liferay-ui:error key="helper" message="modal.edithelpproposal.error.helper" />
-<liferay-ui:error key="name" message="modal.edithelpproposal.error.name" />
-<liferay-ui:error key="localisation" message="modal.edithelpproposal.error.localisation" />
-<liferay-ui:error key="extension" message="modal.edithelpproposal.error.extension" />
+<liferay-ui:error key="error-address" message="error-address" />
+<liferay-ui:error key="error-city" message="error-city" />
+<liferay-ui:error key="error-postal-code" message="error-postal-code" />
+<liferay-ui:error key="error-phone-number" message="error-phone-number" />
+<liferay-ui:error key="error-user-not-found" message="error-user-not-found" />
+<liferay-ui:error key="error-title" message="error-title" />
+<liferay-ui:error key="error-help-type" message="error-help-type" />
+<liferay-ui:error key="error-presentation" message="error-presentation" />
+<liferay-ui:error key="error-helper-type" message="error-helper-type" />
+<liferay-ui:error key="error-in-the-name-of" message="error-in-the-name-of" />
+<liferay-ui:error key="error-territory" message="error-territory" />
+<liferay-ui:error key="error-agreements" message="error-agreements" />
+<liferay-ui:error key="error-extension" message="error-extension" />
 
 <!-- MODIFIER UNE PROPOSAITION D'AIDE' -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalEditHelpProposal" tabindex="-1" role="dialog" aria-labelledby="modalEditHelpProposal"
@@ -124,7 +129,7 @@
                     <%-- Champ : Présentation --%>
                     <div class="form-group">
                     	<aui:input id="helpproposaldescription" name="helpproposaldescription" type="hidden"/>
-                        <aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" label="modal.submit.help.information.presentation"/>
+                        <aui:input id="presentation" type="textarea" name="presentation" required="true" label="modal.submit.help.information.presentation"/>
                     </div>
 
                     <%-- Groupe de champs : Je suis --%>
@@ -190,22 +195,32 @@
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox"  id="<portlet:namespace />legalage" value="legalage">
-                        <label for="<portlet:namespace />legalage" class="fontWhite">
+                        <input type="checkbox" id="<portlet:namespace />agreement1" name="<portlet:namespace />agreement1" value="agreement1">
+                        <label for="<portlet:namespace />agreement1" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageSubmitHelpProposal"/>
                         </label>
+                        <span class="reference-mark text-warning" id="agreement1_mark">
+                            <svg class="lexicon-icon lexicon-icon-asterisk" focusable="false" role="presentation" viewBox="0 0 512 512">
+                                <path class="lexicon-icon-outline" d="M323.6,190l146.7-48.8L512,263.9l-149.2,47.6l93.6,125.2l-104.9,76.3l-96.1-126.4l-93.6,126.4L56.9,435.3l92.3-123.9L0,263.8l40.4-122.6L188.4,190v-159h135.3L323.6,190L323.6,190z"></path>
+                            </svg>
+                        </span>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="<portlet:namespace />security" value="security">
-                        <label for="<portlet:namespace />security" class="fontWhite">
+                        <input type="checkbox" id="<portlet:namespace />agreement2" name="<portlet:namespace />agreement2" value="agreement2">
+                        <label for="<portlet:namespace />agreement2" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_securitySubmitHelp"/>
                         </label>
+                        <span class="reference-mark text-warning" id="agreement2_mark">
+                            <svg class="lexicon-icon lexicon-icon-asterisk" focusable="false" role="presentation" viewBox="0 0 512 512">
+                                <path class="lexicon-icon-outline" d="M323.6,190l146.7-48.8L512,263.9l-149.2,47.6l93.6,125.2l-104.9,76.3l-96.1-126.4l-93.6,126.4L56.9,435.3l92.3-123.9L0,263.8l40.4-122.6L188.4,190v-159h135.3L323.6,190L323.6,190z"></path>
+                            </svg>
+                        </span>
                     </div>
                     <div>
-                        <input type="checkbox" id="<portlet:namespace />security2" value="security2">
-                        <label for="<portlet:namespace />security2" class="fontWhite">
+                        <input type="checkbox" id="<portlet:namespace />agreement3" name="<portlet:namespace />agreement3" value="agreement3">
+                        <label for="<portlet:namespace />agreement3" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_security2SubmitHelp"/>
                         </label>
                     </div>
@@ -242,12 +257,6 @@
 		event.preventDefault();
 		var entryId = $("#"+namespaceEditHelpProposal+"entryId").val();
 
-     	// Chebox de conditions et de sauvegade des informations
-        $("#<portlet:namespace />legalage").prop("checked", false);
-        $("#<portlet:namespace />security").prop("checked", false);
-        $("#<portlet:namespace />security2").prop("checked", false);
-        $("#<portlet:namespace />responsability").prop("checked", false);
-		
 		AUI().use('aui-io-request', function(A) {
             try {
                 A.io.request('${getHelpProposalURL}', {
@@ -268,9 +277,7 @@
                                 else
                                     $(this).prop("checked", false);
                             });
-                            var iframe = $('.Squire-UI').next('iframe').first()[0];
-                            var editor = iframe.contentWindow.editor;
-                            editor.setHTML(data.description);
+                            $("#"+namespaceEditHelpProposal+"presentation").val(data.description);
                             $("#"+namespaceEditHelpProposal+"helper").val(data.helperId).change().selectric('refresh');
                             $("#"+namespaceEditHelpProposal+"inTheNameOf").val(data.inTheNameOf);
                             $("#"+namespaceEditHelpProposal+"language").val(data.languages);
@@ -285,6 +292,10 @@
                                 $("#photoMessageID").hide();
                                 $("#HelpProposalPhotoID").show();
                             }
+
+                            $("#<portlet:namespace />agreement1").prop("checked", data.agreement1);
+                            $("#<portlet:namespace />agreement2").prop("checked", data.agreement2);
+                            $("#<portlet:namespace />agreement3").prop("checked", data.agreement3);
                         }
                      }
                 });
@@ -304,15 +315,12 @@
     $("#sendHelpProposal").click(function(event){
         var response = validateFormEditHelpProposal();
         if (response){
-        	var iframe = $('.Squire-UI').next('iframe').first()[0];
-        	var editor = iframe.contentWindow.editor;
-        	$("#"+namespaceEditHelpProposal+"helpproposaldescription").val(editor.getHTML());
         	$("#uploadForm").submit();
         }
     });
 	
     /*
-	* Lors du click sur le bouton de pour modifier ou supprimer la photo
+	* Lors du click sur le bouton pour modifier ou supprimer la photo
 	*/
     $("#"+namespaceEditHelpProposal+"editPhoto").click(function(event){
     	$("#"+namespaceEditHelpProposal+"deletePhoto").val("true");
@@ -349,7 +357,7 @@
         }else $("#<portlet:namespace />city").css({ "box-shadow" : "" });
 
         var postalcode = $("#<portlet:namespace />postalcode").val();
-        var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        var regex = new RegExp("[0-9]{5}");
         if (postalcode===null || postalcode===""){
             $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
@@ -394,23 +402,17 @@
             result = false;
         }else $("#<portlet:namespace />localisation").closest('.form-group').css({ "box-shadow" : "" });
 
-        var legalage = $("#<portlet:namespace />legalage").is(":checked");
-        if (!legalage){
-            $("#<portlet:namespace />legalage").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
+        var agreement1 = $("#<portlet:namespace />agreement1").is(":checked");
+        if (!agreement1){
+            $("#<portlet:namespace />agreement1").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#<portlet:namespace />legalage").closest('div').css({ "box-shadow" : "" });
+        }else $("#<portlet:namespace />agreement1").closest('div').css({ "box-shadow" : "" });
 
-        var security = $("#<portlet:namespace />security").is(":checked");
-        if (!security){
-            $("#<portlet:namespace />security").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
+        var agreement2 = $("#<portlet:namespace />agreement2").is(":checked");
+        if (!agreement2){
+            $("#<portlet:namespace />agreement2").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#<portlet:namespace />security").closest('div').css({ "box-shadow" : "" });
-
-        var security2 = $("#<portlet:namespace />security2").is(":checked");
-        if (!security2){
-            $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#<portlet:namespace />security2").closest('div').css({ "box-shadow" : "" });
+        }else $("#<portlet:namespace />agreement2").closest('div').css({ "box-shadow" : "" });
 
         if (!result)
             $("#<portlet:namespace />alert").removeClass("hidden");

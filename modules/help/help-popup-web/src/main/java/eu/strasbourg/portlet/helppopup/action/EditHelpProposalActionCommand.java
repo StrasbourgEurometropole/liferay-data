@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.helppopup.constants.HelpPopUpPortletConstants;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.service.HelpProposalLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -50,9 +51,6 @@ import java.util.regex.Pattern;
 
 import static eu.strasbourg.portlet.helppopup.HelpPopupPortlet.REDIRECT_URL_PARAM;
 
-/**
- * @author romain.vergnais
- */
 @Component(
         immediate = true,
         property = {
@@ -63,42 +61,27 @@ import static eu.strasbourg.portlet.helppopup.HelpPopupPortlet.REDIRECT_URL_PARA
 )
 public class EditHelpProposalActionCommand implements MVCActionCommand {
 
-    // Id de recuperation des champs
-    private static final String ADDRESS = "address";
-    private static final String CITY = "city";
-    private static final String POSTAL_CODE = "postalcode";
-    private static final String PHONE_NUMBER = "phoneNumber";
-
-    private static final String TITLE = "title";
-    private static final String TYPES = "types";
-    private static final String DESCRIPTION = "helpproposaldescription";
-    private static final String HELPER = "helper";
-    private static final String IN_THE_NAME_OF = "inTheNameOf";
-    private static final String LANGUAGE = "language";
-    private static final String LOCALISATION = "localisation";
-    private static final String PHOTO = "photo";
-    private static final String DELETE_PHOTO = "deletePhoto";
-
     // Champs
     private String address;
     private String city;
     private long postalcode;
     private String phoneNumber;
-
     private String title;
     private String types;
-    private String description;
+    private String presentation;
     private long helperId;
     private String inTheNameOf;
     private String language;
     private long localisationId;
     private boolean deletePhoto;
     private long entryId;
+    private boolean agreement1;
+    private boolean agreement2;
+    private boolean agreement3;
 
     // Gestion et contexte de la requete
     private String publikID;
     private String messageKey;
-
 
     @Override
 	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
@@ -113,19 +96,24 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
         String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
         
         // Recuperation des informations du budget participatif du formulaire
-        this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
-        this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
-        this.postalcode = ParamUtil.getLong(request, POSTAL_CODE);
-        this.phoneNumber = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE_NUMBER));
-
-        this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, TITLE));
-        this.types = ParamUtil.getString(request, TYPES);
-        this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, DESCRIPTION));
-        this.helperId = ParamUtil.getLong(request, HELPER);
-        this.inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
-        this.language = HtmlUtil.stripHtml(ParamUtil.getString(request, LANGUAGE));
-        this.localisationId = ParamUtil.getLong(request, LOCALISATION);
-        this.deletePhoto = ParamUtil.getString(request, DELETE_PHOTO).equals("true") ? true : false;
+        this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.ADDRESS));
+        this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.CITY));
+        this.postalcode = ParamUtil.getLong(request, HelpPopUpPortletConstants.POSTALCODE);
+        this.phoneNumber = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.PHONE_NUMBER));
+        this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.TITLE));
+        this.types = ParamUtil.getString(request, HelpPopUpPortletConstants.TYPES);
+        this.presentation = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.PRESENTATION));
+        this.helperId = ParamUtil.getLong(request, HelpPopUpPortletConstants.HELPER);
+        this.inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.IN_THE_NAME_OF));
+        this.language = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.LANGUAGE));
+        this.localisationId = ParamUtil.getLong(request, HelpPopUpPortletConstants.LOCALISATION);
+        this.deletePhoto = ParamUtil.getString(request, HelpPopUpPortletConstants.DELETE_PHOTO).equals("true") ? true : false;
+        this.agreement1 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_1)
+                .equals(HelpPopUpPortletConstants.AGREEMENT_1);
+        this.agreement2 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_2)
+                .equals(HelpPopUpPortletConstants.AGREEMENT_2);
+        this.agreement3 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_3)
+                .equals(HelpPopUpPortletConstants.AGREEMENT_3);
 
         // Verification de la validite des informations
         if (validate()) {
@@ -188,15 +176,17 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
             helpProposal.setCity(this.city);
             helpProposal.setPostalCode(this.postalcode);
             helpProposal.setPhoneNumber(this.phoneNumber);
-
             helpProposal.setTitle(this.title, Locale.FRANCE);
-            helpProposal.setDescription(this.description, Locale.FRANCE);
+            helpProposal.setDescription(this.presentation, Locale.FRANCE);
             helpProposal.setInTheNameOf(this.inTheNameOf);
             helpProposal.setSpokenLanguages(this.language, Locale.FRANCE);
             helpProposal.setModifiedByUserDate(new Date());
+            helpProposal.setAgreementSigned1(this.agreement1);
+            helpProposal.setAgreementSigned2(this.agreement2);
+            helpProposal.setAgreementSigned3(this.agreement3);
             
             UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
-            String fileName = uploadRequest.getFileName("photo");
+            String fileName = uploadRequest.getFileName(HelpPopUpPortletConstants.PHOTO);
             if(this.deletePhoto && (fileName == null || fileName.isEmpty()))
                 helpProposal.setImageId(0);
             else
@@ -233,7 +223,7 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
         // Verification du nom du fichier
         if (validateFileName(request)) {
         	
-            File photo = uploadRequest.getFile(PHOTO);
+            File photo = uploadRequest.getFile(HelpPopUpPortletConstants.PHOTO);
             
             // Verification de la bonne recuperation du contenu du fichier
             if (photo != null && photo.exists()) {
@@ -261,7 +251,7 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
 
             }
         } else {
-            this.messageKey = "extension";
+            this.messageKey = HelpPopUpPortletConstants.ERROR_EXTENSION;
             return false;
         }
 
@@ -271,7 +261,7 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
    private boolean validateFileName(ActionRequest request) {
         boolean result = true;
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
-        String fileName = uploadRequest.getFileName(PHOTO);
+        String fileName = uploadRequest.getFileName(HelpPopUpPortletConstants.PHOTO);
         if (fileName != null && !fileName.isEmpty()) {
             String type = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
             result = type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
@@ -287,73 +277,79 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
 
         // address
         if (Validator.isNull(this.address)) {
-            this.messageKey = "Adresse non valide";
+            this.messageKey = HelpPopUpPortletConstants.ERROR_ADDRESS;
             return false;
         }
 
         // city
         if (Validator.isNull(this.city)) {
-            this.messageKey = "Ville non valide";
+            this.messageKey = HelpPopUpPortletConstants.ERROR_CITY;
             return false;
         }
 
         // postalcode
         if (Validator.isNull(this.postalcode)) {
-            this.messageKey = "Code postal non valide";
+            this.messageKey = HelpPopUpPortletConstants.ERROR_POSTAL_CODE;
             return false;
         }
-        Pattern p = Pattern.compile("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        Pattern p = Pattern.compile(HelpPopUpPortletConstants.REGEX_POSTAL_CODE);
         Matcher m = p.matcher(String.valueOf(this.postalcode));
         if (!m.matches()) {
-            this.messageKey = "Code postal non valide";
+            this.messageKey = HelpPopUpPortletConstants.ERROR_POSTAL_CODE;
             return false;
         }
 
         // Téléphone
         if (Validator.isNull(this.phoneNumber)) {
-            this.messageKey = "Téléphone non valide";
+            this.messageKey = HelpPopUpPortletConstants.ERROR_PHONE_NUMBER;
             return false;
         }
 
         // utilisateur
         if (this.publikID == null || this.publikID.isEmpty()) {
-            this.messageKey = "user";
+            this.messageKey = HelpPopUpPortletConstants.ERROR_USER_NO_FOUND;
             return false;
         }
 
         // title
         if (Validator.isNull(this.title)) {
-            this.messageKey = "title";
+            this.messageKey = HelpPopUpPortletConstants.ERROR_TITLE;
             return false;
         }
 
         // Types d'aide
         if (Validator.isNull(this.types)) {
-            this.messageKey = "types";
+            this.messageKey = HelpPopUpPortletConstants.ERROR_HELP_TYPE;
             return false;
         }
 
         // Description
-        if (Validator.isNull(this.description)) {
-            this.messageKey = "description";
+        if (Validator.isNull(this.presentation)) {
+            this.messageKey = HelpPopUpPortletConstants.ERROR_PRESENTATION;
             return false;
         }
 
         // type d'aidant
         if (Validator.isNull(this.helperId)) {
-            this.messageKey = "helper";
+            this.messageKey = HelpPopUpPortletConstants.ERROR_HELPER_TYPE;
             return false;
         }
 
         // Déposé au nom de
         if (Validator.isNull(this.inTheNameOf)) {
-            this.messageKey = "name";
+            this.messageKey = HelpPopUpPortletConstants.ERROR_IN_THE_NAME_OF;
             return false;
         }
 
         // Localisation
         if (Validator.isNull(this.localisationId)) {
-            this.messageKey = "localisation";
+            this.messageKey = HelpPopUpPortletConstants.ERROR_TERRITORY;
+            return false;
+        }
+
+        // consentements
+        if (!this.agreement1 || !this.agreement2) {
+            this.messageKey = HelpPopUpPortletConstants.ERROR_AGREEMENTS;
             return false;
         }
 
