@@ -82,15 +82,18 @@
                                         </div>
                                         <a href="${homeURL}detail-aide/-/entity/id/${entry.helpProposalId}" title="lien de la page">
                                             <h3>${entry.getTitle(locale)?html}</h3>
-                                            <p>${(entry.getDescription(locale)?replace("<[^>]*>", "", "r")?length>50)?then(entry.getDescription(locale)?replace("<[^>]*>", "", "r")[0..*50]+"...", entry.getDescription(locale))}</p>
+                                            <div><p>${(entry.getDescription(locale)?replace("\n", "<br>")?replace("<[^>]*>", "", "r")?length>50)?then(entry.getDescription(locale)?replace("<[^>]*>", "", "r")[0..*50]+"...", entry.getDescription(locale))}</p></div>
                                         </a>
                                     </div>
                                 </div>
                             </div>
                             <div class="pro-footer-help "> 
                                 <p>
-                                    <span class="publication-date" ><@liferay_ui.message key="eu.help.publication-help" /> <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time> - </span>
-                                    <span ><@liferay_ui.message key="eu.help.update-help" /> <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time></span>
+                                    <span class="publication-date" ><@liferay_ui.message key="eu.help.publication-help" /> <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time></span>
+                                    <#if entry.getPublicationDateFr() != entry.getModifiedByUserDateFr()>
+                                        - 
+                                        <span ><@liferay_ui.message key="eu.help.update-help" /> <time datetime="${entry.getModifiedByUserDateFr()}">${entry.getModifiedByUserDateFr()}</time></span>
+                                    </#if>
                                 </p>  
                             </div>
                         </div>
