@@ -57,6 +57,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -196,7 +197,7 @@ public class SubmitHelpProposalResourceCommand implements MVCResourceCommand {
             helpProposal = _helpProposalLocalService.createHelpProposal(sc);
             this.helpProposalId = helpProposal.getHelpProposalId();
 
-
+            helpProposal.setModifiedByUserDate(new Date());
             helpProposal.setAddress(this.address);
             helpProposal.setCity(this.city);
             helpProposal.setPostalCode(Long.parseLong(this.postalcode));
