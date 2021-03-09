@@ -425,7 +425,6 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		jsonHelpProposal.put("address", this.getAddress());
 		jsonHelpProposal.put("city", this.getCity());
 		jsonHelpProposal.put("postalCode", this.getPostalCode());
-		jsonHelpProposal.put("modifiedByUserDate", this.getModifiedByUserDate());
 		jsonHelpProposal.put("spokenLanguages", HtmlUtil.stripHtml(HtmlUtil.escape(this.getSpokenLanguages(locale))));
 
 		// Champs : Médias
