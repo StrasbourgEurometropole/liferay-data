@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
         },
         service = MVCResourceCommand.class
 )
-public class DesactivateHelpCommand implements MVCResourceCommand {
+public class DesactivateHelpResourceCommand implements MVCResourceCommand {
 
     // Id de recuperation des champs
     private static final String ENTRY_ID = "entryId";
