@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.helppopup.constants.HelpPopUpPortletConstants;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
@@ -69,16 +70,8 @@ import java.util.Objects;
     service = MVCResourceCommand.class
 )
 public class SubmitHelpResourceCommand implements MVCResourceCommand {
-	
-	// Id de recuperation des champs
-    private static final String ENTRY_ID = "entryId";
-    private static final String PHONE_NUMBER = "phoneNumber";
-	private static final String MESSAGE = "message";
-	private static final String PHOTO = "photo";
-    private static final String STUDENT_CARD_IMAGE_ID = "studentCardImageId";
-    private static final String PREVIOUS_IMAGE_EDITED = "studentCardImageEdited";
-	
-	// Champs
+
+    // Champs
     private long entryID;
     private HelpProposal helpProposal;
     private long helpRequestId;
@@ -105,15 +98,15 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
         this.publikID = getPublikID(request);
 
         // Recuperation de la proposition d'aide correspondante
-        this.entryID = ParamUtil.getLong(request, ENTRY_ID);
+        this.entryID = ParamUtil.getLong(request, HelpPopUpPortletConstants.ENTRY_ID);
         
         // Recuperation des informations du formulaire
-        this.phoneNumber = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE_NUMBER));
-        this.message = HtmlUtil.stripHtml(ParamUtil.getString(request, MESSAGE));
+        this.phoneNumber = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.PHONE_NUMBER));
+        this.message = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.MESSAGE));
 
         // Recuperation donnees justificatifs
-        this.studentCardImageId = ParamUtil.getLong(request, STUDENT_CARD_IMAGE_ID);
-        this.previousImageEdited = ParamUtil.getString(request, PREVIOUS_IMAGE_EDITED).equals("true") ? true : false;
+        this.studentCardImageId = ParamUtil.getLong(request, HelpPopUpPortletConstants.STUDENT_CARD_IMAGE_ID);
+        this.previousImageEdited = ParamUtil.getString(request, HelpPopUpPortletConstants.PREVIOUS_IMAGE_EDITED).equals("true") ? true : false;
 		
         // Verification de la validite des informations
         if (validate()) {
@@ -311,7 +304,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
         // Verification du nom du fichier
         if ((studentCardImageId < 1 && validFilename) ||
                 (this.previousImageEdited == true && this.studentCardImageId > 1 && validFilename)) {
-            File photo = uploadRequest.getFile(PHOTO);
+            File photo = uploadRequest.getFile(HelpPopUpPortletConstants.PHOTO);
 
             // Verification de la bonne recuperation du contenu du fichier
             if (photo != null && photo.exists()) {
@@ -357,7 +350,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
 	private boolean validateFileName(ResourceRequest request) throws PortalException {
         boolean result = true;
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
-        String fileName = uploadRequest.getFileName(PHOTO);
+        String fileName = uploadRequest.getFileName(HelpPopUpPortletConstants.PHOTO);
         if (fileName != null && !fileName.isEmpty()) {
             String type = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
             result = type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
@@ -373,7 +366,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
         
         // utilisateur 
         if (this.publikID == null || this.publikID.isEmpty()) {
-            this.messageResult = "Utilisateur non reconnu";
+            this.messageResult = HelpPopUpPortletConstants.ERROR_USER_NO_FOUND;;
             return false;
         } else {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
@@ -385,24 +378,24 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
             this.helpProposal = HelpProposalLocalServiceUtil.getHelpProposal(assetEntry.getClassPK());
 
             if (this.helpProposal == null) {
-                this.messageResult = "Erreur lors de la recherche de la proposition d'aide";
+                this.messageResult = HelpPopUpPortletConstants.ERROR_DURING_HELP_PROPOSAL_RESEARCH;
                 return false;
             }
         } catch (PortalException e1) {
             _log.error(e1);
-            this.messageResult = "Erreur lors de la recherche de la proposition d'aide";
+            this.messageResult = HelpPopUpPortletConstants.ERROR_DURING_HELP_PROPOSAL_RESEARCH;
             return false;
         }
 
         // Téléphone
         if (Validator.isNull(this.phoneNumber)) {
-            this.messageResult = "Téléphone non valide";
+            this.messageResult = HelpPopUpPortletConstants.ERROR_PHONE_NUMBER;
             return false;
         }
 
         // Message
         if (Validator.isNull(this.message)) {
-        	this.messageResult = "Message non valide";
+        	this.messageResult = HelpPopUpPortletConstants.ERROR_MESSAGE;
             return false;
         }
 
@@ -415,7 +408,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
     private String getPublikID(PortletRequest request) {
         LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
         HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-        return SessionParamUtil.getString(originalRequest, "publik_internal_id");
+        return SessionParamUtil.getString(originalRequest, HelpPopUpPortletConstants.PUBLIK_INTERNAL_ID);
     }
 
     @Reference(unbind = "-")
