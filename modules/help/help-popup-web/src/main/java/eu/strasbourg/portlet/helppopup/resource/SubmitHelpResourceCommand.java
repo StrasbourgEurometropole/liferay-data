@@ -170,7 +170,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
     }
 
     /**
-     * Envoi du mail de confirmation de demande d'aide
+     * Envoi du mail  de demande d'aide à l'utilisateur qui a proposé son aide
      */
     private void sendHelpRequestMail(ResourceRequest request) {
 
@@ -191,6 +191,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
 //			context.put("footerImage", btnImage.toString());
             context.put("Phone", this.phoneNumber);
             context.put("Message", this.message);
+            context.put("domaine", themeDisplay.getScopeGroup().getDisplayURL(themeDisplay));
 
             StringWriter out = new StringWriter();
 
@@ -206,7 +207,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
             bodyTemplate.processTemplate(out);
             String mailBody = out.toString();
 
-            String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submit.help-request.mail.information");
+            String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submit.help-request.mail.information") + this.helpProposal.getTitleCurrentValue();
 
             InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
                     themeDisplay.getScopeGroup().getName(request.getLocale()));
@@ -233,7 +234,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
     }
 
     /**
-     * Envoi du mail de confirmation de demande d'aide
+     * Envoi du mail de confirmation de demande d'aide à l'utilisateur qui en fait la demande
      */
     private void sendHelpRequestMailConfirmation(ResourceRequest request) {
 
@@ -249,11 +250,10 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
 
             // préparation du template de mail
             Map<String, Object> context = new HashMap<>();
-            context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
 //			context.put("headerImage", headerImage.toString());
 //			context.put("footerImage", btnImage.toString());
-            context.put("Phone", this.phoneNumber);
-            context.put("Message", this.message);
+            context.put("title", this.helpProposal.getTitleCurrentValue());
+            context.put("domaine", themeDisplay.getScopeGroup().getDisplayURL(themeDisplay));
 
             StringWriter out = new StringWriter();
 
@@ -269,7 +269,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
             bodyTemplate.processTemplate(out);
             String mailBody = out.toString();
 
-            String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submit.help-request.mail.confirmation");
+            String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submit.help-request.mail.confirmation") + this.helpProposal.getTitleCurrentValue();
 
             InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
                     themeDisplay.getScopeGroup().getName(request.getLocale()));
