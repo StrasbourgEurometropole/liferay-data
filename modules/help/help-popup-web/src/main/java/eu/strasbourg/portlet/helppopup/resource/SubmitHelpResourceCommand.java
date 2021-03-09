@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -60,6 +61,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 @Component(
     immediate = true,
@@ -79,6 +81,9 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
     private String message;
     private long studentCardImageId;
     private boolean previousImageEdited;
+    private boolean agreement1;
+    private boolean agreement2;
+    private boolean agreement3;
 
     // Gestion et contexte de la requete
     private String publikID;
@@ -86,6 +91,9 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
     private String messageResult;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
+    private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
+            this.getClass().getClassLoader());
 	
 	@Override
 	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
@@ -107,6 +115,14 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
         // Recuperation donnees justificatifs
         this.studentCardImageId = ParamUtil.getLong(request, HelpPopUpPortletConstants.STUDENT_CARD_IMAGE_ID);
         this.previousImageEdited = ParamUtil.getString(request, HelpPopUpPortletConstants.PREVIOUS_IMAGE_EDITED).equals("true") ? true : false;
+
+        // Signature des consentements
+        this.agreement1 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_1)
+                .equals(HelpPopUpPortletConstants.AGREEMENT_1);
+        this.agreement2 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_2)
+                .equals(HelpPopUpPortletConstants.AGREEMENT_2);
+        this.agreement3 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_3)
+                .equals(HelpPopUpPortletConstants.AGREEMENT_3);
 		
         // Verification de la validite des informations
         if (validate()) {
@@ -150,6 +166,9 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
             helpRequest.setHelpProposalId(this.helpProposal.getHelpProposalId());
             helpRequest.setPublikId(this.publikID);
             helpRequest = uploadFile(helpRequest, request);
+            helpRequest.setAgreementSigned1(this.agreement1);
+            helpRequest.setAgreementSigned2(this.agreement2);
+            helpRequest.setAgreementSigned3(this.agreement3);
 
            _helpRequestLocalService.updateHelpRequest(helpRequest);
             
@@ -384,6 +403,12 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
         } catch (PortalException e1) {
             _log.error(e1);
             this.messageResult = HelpPopUpPortletConstants.ERROR_DURING_HELP_PROPOSAL_RESEARCH;
+            return false;
+        }
+
+        // consentements
+        if (!this.agreement1 || !this.agreement2 || !this.agreement3) {
+            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_AGREEMENTS);
             return false;
         }
 
