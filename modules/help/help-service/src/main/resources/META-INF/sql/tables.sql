@@ -45,5 +45,8 @@ create table help_HelpRequest (
 	helpProposalId LONG,
 	phoneNumber VARCHAR(75) null,
 	message TEXT null,
-	studentCardImageId LONG
+	studentCardImageId LONG,
+	agreementSigned1 BOOLEAN,
+	agreementSigned2 BOOLEAN,
+	agreementSigned3 BOOLEAN
 );

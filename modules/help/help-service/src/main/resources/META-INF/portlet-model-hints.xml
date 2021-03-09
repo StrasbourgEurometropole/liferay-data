@@ -62,5 +62,8 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="studentCardImageId" type="long" />
+		<field name="agreementSigned1" type="boolean" />
+		<field name="agreementSigned2" type="boolean" />
+		<field name="agreementSigned3" type="boolean" />
 	</model>
 </model-hints>

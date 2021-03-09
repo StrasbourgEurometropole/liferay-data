@@ -63,6 +63,9 @@ public class HelpRequestWrapper
 		attributes.put("phoneNumber", getPhoneNumber());
 		attributes.put("message", getMessage());
 		attributes.put("studentCardImageId", getStudentCardImageId());
+		attributes.put("agreementSigned1", isAgreementSigned1());
+		attributes.put("agreementSigned2", isAgreementSigned2());
+		attributes.put("agreementSigned3", isAgreementSigned3());
 
 		return attributes;
 	}
@@ -170,6 +173,54 @@ public class HelpRequestWrapper
 		if (studentCardImageId != null) {
 			setStudentCardImageId(studentCardImageId);
 		}
+
+		Boolean agreementSigned1 = (Boolean)attributes.get("agreementSigned1");
+
+		if (agreementSigned1 != null) {
+			setAgreementSigned1(agreementSigned1);
+		}
+
+		Boolean agreementSigned2 = (Boolean)attributes.get("agreementSigned2");
+
+		if (agreementSigned2 != null) {
+			setAgreementSigned2(agreementSigned2);
+		}
+
+		Boolean agreementSigned3 = (Boolean)attributes.get("agreementSigned3");
+
+		if (agreementSigned3 != null) {
+			setAgreementSigned3(agreementSigned3);
+		}
+	}
+
+	/**
+	 * Returns the agreement signed1 of this help request.
+	 *
+	 * @return the agreement signed1 of this help request
+	 */
+	@Override
+	public boolean getAgreementSigned1() {
+		return model.getAgreementSigned1();
+	}
+
+	/**
+	 * Returns the agreement signed2 of this help request.
+	 *
+	 * @return the agreement signed2 of this help request
+	 */
+	@Override
+	public boolean getAgreementSigned2() {
+		return model.getAgreementSigned2();
+	}
+
+	/**
+	 * Returns the agreement signed3 of this help request.
+	 *
+	 * @return the agreement signed3 of this help request
+	 */
+	@Override
+	public boolean getAgreementSigned3() {
+		return model.getAgreementSigned3();
 	}
 
 	/**
@@ -428,6 +479,36 @@ public class HelpRequestWrapper
 	}
 
 	/**
+	 * Returns <code>true</code> if this help request is agreement signed1.
+	 *
+	 * @return <code>true</code> if this help request is agreement signed1; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isAgreementSigned1() {
+		return model.isAgreementSigned1();
+	}
+
+	/**
+	 * Returns <code>true</code> if this help request is agreement signed2.
+	 *
+	 * @return <code>true</code> if this help request is agreement signed2; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isAgreementSigned2() {
+		return model.isAgreementSigned2();
+	}
+
+	/**
+	 * Returns <code>true</code> if this help request is agreement signed3.
+	 *
+	 * @return <code>true</code> if this help request is agreement signed3; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isAgreementSigned3() {
+		return model.isAgreementSigned3();
+	}
+
+	/**
 	 * Returns <code>true</code> if this help request is approved.
 	 *
 	 * @return <code>true</code> if this help request is approved; <code>false</code> otherwise
@@ -510,6 +591,36 @@ public class HelpRequestWrapper
 	@Override
 	public void persist() {
 		model.persist();
+	}
+
+	/**
+	 * Sets whether this help request is agreement signed1.
+	 *
+	 * @param agreementSigned1 the agreement signed1 of this help request
+	 */
+	@Override
+	public void setAgreementSigned1(boolean agreementSigned1) {
+		model.setAgreementSigned1(agreementSigned1);
+	}
+
+	/**
+	 * Sets whether this help request is agreement signed2.
+	 *
+	 * @param agreementSigned2 the agreement signed2 of this help request
+	 */
+	@Override
+	public void setAgreementSigned2(boolean agreementSigned2) {
+		model.setAgreementSigned2(agreementSigned2);
+	}
+
+	/**
+	 * Sets whether this help request is agreement signed3.
+	 *
+	 * @param agreementSigned3 the agreement signed3 of this help request
+	 */
+	@Override
+	public void setAgreementSigned3(boolean agreementSigned3) {
+		model.setAgreementSigned3(agreementSigned3);
 	}
 
 	/**
