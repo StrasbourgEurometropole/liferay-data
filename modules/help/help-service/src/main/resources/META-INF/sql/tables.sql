@@ -20,6 +20,9 @@ create table help_HelpProposal (
 	phoneNumber VARCHAR(75) null,
 	modifiedByUserDate DATE null,
 	spokenLanguages STRING null,
+	agreementSigned1 BOOLEAN,
+	agreementSigned2 BOOLEAN,
+	agreementSigned3 BOOLEAN,
 	imageId LONG,
 	publikId VARCHAR(75) null,
 	comment_ TEXT null

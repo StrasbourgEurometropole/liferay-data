@@ -55,6 +55,9 @@ public class HelpProposalSoap implements Serializable {
 		soapModel.setPhoneNumber(model.getPhoneNumber());
 		soapModel.setModifiedByUserDate(model.getModifiedByUserDate());
 		soapModel.setSpokenLanguages(model.getSpokenLanguages());
+		soapModel.setAgreementSigned1(model.isAgreementSigned1());
+		soapModel.setAgreementSigned2(model.isAgreementSigned2());
+		soapModel.setAgreementSigned3(model.isAgreementSigned3());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setPublikId(model.getPublikId());
 		soapModel.setComment(model.getComment());
@@ -279,6 +282,42 @@ public class HelpProposalSoap implements Serializable {
 		_spokenLanguages = spokenLanguages;
 	}
 
+	public boolean getAgreementSigned1() {
+		return _agreementSigned1;
+	}
+
+	public boolean isAgreementSigned1() {
+		return _agreementSigned1;
+	}
+
+	public void setAgreementSigned1(boolean agreementSigned1) {
+		_agreementSigned1 = agreementSigned1;
+	}
+
+	public boolean getAgreementSigned2() {
+		return _agreementSigned2;
+	}
+
+	public boolean isAgreementSigned2() {
+		return _agreementSigned2;
+	}
+
+	public void setAgreementSigned2(boolean agreementSigned2) {
+		_agreementSigned2 = agreementSigned2;
+	}
+
+	public boolean getAgreementSigned3() {
+		return _agreementSigned3;
+	}
+
+	public boolean isAgreementSigned3() {
+		return _agreementSigned3;
+	}
+
+	public void setAgreementSigned3(boolean agreementSigned3) {
+		_agreementSigned3 = agreementSigned3;
+	}
+
 	public long getImageId() {
 		return _imageId;
 	}
@@ -324,6 +363,9 @@ public class HelpProposalSoap implements Serializable {
 	private String _phoneNumber;
 	private Date _modifiedByUserDate;
 	private String _spokenLanguages;
+	private boolean _agreementSigned1;
+	private boolean _agreementSigned2;
+	private boolean _agreementSigned3;
 	private long _imageId;
 	private String _publikId;
 	private String _comment;

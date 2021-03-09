@@ -35,6 +35,9 @@
 		<column name="phoneNumber" type="String" />
 		<column name="modifiedByUserDate" type="Date"/>
 		<column name="spokenLanguages" type="String" localized="true" />
+		<column name="agreementSigned1" type="boolean" />
+		<column name="agreementSigned2" type="boolean" />
+		<column name="agreementSigned3" type="boolean" />
 
 		<!-- Medias -->
 		<column name="imageId" type="long" />

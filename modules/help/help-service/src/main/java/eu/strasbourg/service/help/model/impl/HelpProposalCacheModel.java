@@ -66,7 +66,7 @@ public class HelpProposalCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(49);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -110,6 +110,12 @@ public class HelpProposalCacheModel
 		sb.append(modifiedByUserDate);
 		sb.append(", spokenLanguages=");
 		sb.append(spokenLanguages);
+		sb.append(", agreementSigned1=");
+		sb.append(agreementSigned1);
+		sb.append(", agreementSigned2=");
+		sb.append(agreementSigned2);
+		sb.append(", agreementSigned3=");
+		sb.append(agreementSigned3);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append(", publikId=");
@@ -234,6 +240,9 @@ public class HelpProposalCacheModel
 			helpProposalImpl.setSpokenLanguages(spokenLanguages);
 		}
 
+		helpProposalImpl.setAgreementSigned1(agreementSigned1);
+		helpProposalImpl.setAgreementSigned2(agreementSigned2);
+		helpProposalImpl.setAgreementSigned3(agreementSigned3);
 		helpProposalImpl.setImageId(imageId);
 
 		if (publikId == null) {
@@ -285,6 +294,12 @@ public class HelpProposalCacheModel
 		phoneNumber = objectInput.readUTF();
 		modifiedByUserDate = objectInput.readLong();
 		spokenLanguages = objectInput.readUTF();
+
+		agreementSigned1 = objectInput.readBoolean();
+
+		agreementSigned2 = objectInput.readBoolean();
+
+		agreementSigned3 = objectInput.readBoolean();
 
 		imageId = objectInput.readLong();
 		publikId = objectInput.readUTF();
@@ -384,6 +399,12 @@ public class HelpProposalCacheModel
 			objectOutput.writeUTF(spokenLanguages);
 		}
 
+		objectOutput.writeBoolean(agreementSigned1);
+
+		objectOutput.writeBoolean(agreementSigned2);
+
+		objectOutput.writeBoolean(agreementSigned3);
+
 		objectOutput.writeLong(imageId);
 
 		if (publikId == null) {
@@ -422,6 +443,9 @@ public class HelpProposalCacheModel
 	public String phoneNumber;
 	public long modifiedByUserDate;
 	public String spokenLanguages;
+	public boolean agreementSigned1;
+	public boolean agreementSigned2;
+	public boolean agreementSigned3;
 	public long imageId;
 	public String publikId;
 	public String comment;
