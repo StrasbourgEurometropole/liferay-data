@@ -226,6 +226,12 @@ aside .leaflet-map {
 }
 
 // affichage des petites étoiles dans les project-popup
+.pro-modal .fontWhite + .text-warning {
+    position: absolute;
+    top: -2px;
+    margin-left: 3px;
+    vertical-align: super;
+}
 .pro-modal .text-warning {
 	font-size: 35%;
     top: -3px;

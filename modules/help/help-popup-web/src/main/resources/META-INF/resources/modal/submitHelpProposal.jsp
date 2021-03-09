@@ -201,7 +201,7 @@
                 <div class="pro-optin form-checkbox">
                     <div>
                         <input type="checkbox" id="<portlet:namespace />agreement2" name="<portlet:namespace />agreement2" value="agreement2">
-                        <label for="<portlet:namespace />agreement2" cla    ss="fontWhite">
+                        <label for="<portlet:namespace />agreement2" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_securitySubmitHelp"/>
                         </label>
                         <span class="reference-mark text-warning" id="agreement2_mark">
