@@ -114,7 +114,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
 
         // Recuperation donnees justificatifs
         this.studentCardImageId = ParamUtil.getLong(request, HelpPopUpPortletConstants.STUDENT_CARD_IMAGE_ID);
-        this.previousImageEdited = ParamUtil.getString(request, HelpPopUpPortletConstants.PREVIOUS_IMAGE_EDITED).equals("true") ? true : false;
+        this.previousImageEdited = ParamUtil.getString(request, HelpPopUpPortletConstants.PREVIOUS_IMAGE_EDITED).equals("true");
 
         // Signature des consentements
         this.agreement1 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_1)
@@ -142,7 +142,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
         jsonResponse.put("message", this.messageResult);
 
         // Recuperation de l'élément d'écriture de la réponse
-        PrintWriter writer = null;
+        PrintWriter writer;
         try {
             writer = response.getWriter();
             writer.print(jsonResponse.toString());
