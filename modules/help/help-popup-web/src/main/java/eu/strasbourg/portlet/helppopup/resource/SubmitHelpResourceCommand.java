@@ -336,7 +336,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
                 // Lien de l'image a l'entite
                 helpRequest.setStudentCardImageId(fileEntry.getFileEntryId());
 
-                _log.info("Photo initiative uploade : [" + photo + "]");
+                _log.info("Photo demande d'aide uploade : [" + photo + "]");
 
             }
             return helpRequest;
@@ -402,7 +402,13 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
 
         // Message
         if (Validator.isNull(this.message)) {
-        	this.messageResult = "Message non valide";
+            this.messageResult = "Message non valide";
+            return false;
+        }
+
+        // Photo
+        if (Validator.isNull(this.studentCardImageId)) {
+            this.messageResult = "Image non valide";
             return false;
         }
 
