@@ -74,7 +74,7 @@ import java.util.regex.Pattern;
     },
     service = MVCResourceCommand.class
 )
-public class SubmitHelpProposalCommand implements MVCResourceCommand {
+public class SubmitHelpProposalResourceCommand implements MVCResourceCommand {
 
     // Champs
     private long helpProposalId;

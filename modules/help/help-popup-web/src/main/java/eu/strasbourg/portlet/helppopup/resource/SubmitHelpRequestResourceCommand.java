@@ -71,7 +71,7 @@ import java.util.ResourceBundle;
     },
     service = MVCResourceCommand.class
 )
-public class SubmitHelpResourceCommand implements MVCResourceCommand {
+public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
 
     // Champs
     private long entryID;
