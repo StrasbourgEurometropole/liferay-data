@@ -1,12 +1,24 @@
-<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+<p>Bonjour,<br><br>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+Votre demande d'aide a bien été envoyée pour : ${title}.<br><br>
 
-<p class=MsoNormal style='mso-margin-top-alt:auto;margin-bottom:12.0pt'><span style='font-size:11.0pt;font-family:"Calibri Light",sans-serif'>Votre demande d'aide a bien été envoyée.
-</span><o:p></o:p></p>
+Bien cordialement,<br><br>
 
-<p class=MsoNormal style='mso-margin-top-alt:auto;margin-bottom:12.0pt'><span
-style='mso-bookmark:_MailOriginal'><span style='font-size:10.5pt;font-family:
-"Calibri Light",sans-serif;color:black'>${Message}</span></span></p>
+Ville et Eurométropole de Strasbourg <br>
+----------------------------------------------------<br>
+Ce courriel a été envoyé automatiquement. Merci de ne pas y répondre.<br>
+Pour nous contacter, veuillez utiliser le lien suivant : ${domaine}/nous-contacter<br>
+---------------------------------------------------- <br><br>
 
-        </body>
+Ce message est établi à usage exclusif de son destinataire.<br>
+Toute utilisation ou diffusion, partielle ou totale, doit être<br>
+préalablement autorisée.<br><br>
+
+Tout message électronique est susceptible d'altération et son intégrité<br>
+ne peut être assurée. L'expéditeur décline toute responsabilité au titre<br>
+de ce message s'il a été modifié ou falsifié.<br><br>
+
+Si vous n'êtes pas destinataire de ce message, merci de le détruire et<br>
+d'avertir l'expéditeur.<br>
+-----------------------------------------------------------------------
+</p>

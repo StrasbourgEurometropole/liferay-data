@@ -6,7 +6,7 @@ public class HelpPopUpPortletConstants {
      * Pop-up : Général
      */
     public static final String PUBLIK_INTERNAL_ID = "publik_internal_id";
-    public static final String REGEX_PHONE_NUMBER = "^(([0-8][0-9])|(9[0-5]))[0-9]{3}$";
+    public static final String REGEX_POSTAL_CODE = "[0-9]{5}";
 
     /**
      * Pop-up : Paramètres
@@ -27,6 +27,7 @@ public class HelpPopUpPortletConstants {
     public static final String MESSAGE = "message";
     public static final String STUDENT_CARD_IMAGE_ID = "studentCardImageId";
     public static final String PREVIOUS_IMAGE_EDITED = "studentCardImageEdited";
+    public static final String DELETE_PHOTO = "deletePhoto";
     public static final String AGREEMENT_1 = "agreement1";
     public static final String AGREEMENT_2 = "agreement2";
     public static final String AGREEMENT_3 = "agreement3";
@@ -48,5 +49,6 @@ public class HelpPopUpPortletConstants {
     public static final String ERROR_TERRITORY = "error-territory";
     public static final String ERROR_MESSAGE = "error-message";
     public static final String ERROR_DURING_HELP_PROPOSAL_RESEARCH = "error-during-help-proposal-research";
+    public static final String ERROR_EXTENSION = "error-extension";
 
 }

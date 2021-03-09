@@ -15,6 +15,9 @@
 //Pour afficher le header du thème en mode admin
 .has-control-menu #th-global #pro-header{
 	top: 56px;
+    @include mobile {
+        top: 48px;
+    }
 }
 
 //Force l'affichage du header de configuration des portlet en mode admin
@@ -223,6 +226,12 @@ aside .leaflet-map {
 }
 
 // affichage des petites étoiles dans les project-popup
+.pro-modal .fontWhite + .text-warning {
+    position: absolute;
+    top: -2px;
+    margin-left: 3px;
+    vertical-align: super;
+}
 .pro-modal .text-warning {
 	font-size: 35%;
     top: -3px;

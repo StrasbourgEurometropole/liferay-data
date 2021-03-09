@@ -307,9 +307,12 @@
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
             if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
-            $("#<portlet:namespace />photo").css({ "box-shadow" : "0 0 10px #CC0000" });
+                $("#<portlet:namespace />photo").css({ "box-shadow" : "0 0 10px #CC0000" });
                 result = false;
             }else $("#<portlet:namespace />photo").css({ "box-shadow" : "" });
+        }else{
+            $("#<portlet:namespace />photo").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
         }
 
         var agreement1 = $("#<portlet:namespace />agreement1").is(":checked");

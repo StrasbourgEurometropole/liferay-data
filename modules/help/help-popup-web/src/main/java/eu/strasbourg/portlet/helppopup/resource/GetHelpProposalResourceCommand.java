@@ -88,6 +88,12 @@ public class GetHelpProposalResourceCommand implements MVCResourceCommand {
 					jsonResponse.put("localisationId", idslocalisations[0]);
 
 					jsonResponse.put("hasImage", helpProposal.getImageId() != 0 ? true : false);
+
+					jsonResponse.put("agreement1", helpProposal.isAgreementSigned1());
+
+					jsonResponse.put("agreement2", helpProposal.isAgreementSigned2());
+
+					jsonResponse.put("agreement3", helpProposal.isAgreementSigned3());
 				}
 			}
 

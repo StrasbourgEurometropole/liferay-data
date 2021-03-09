@@ -47,7 +47,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<!-- CONFIRMATION NOUVELLE AIDE -->
+<!-- CONFIRMATION DESACTIVATION -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="<portlet:namespace />modalConfirm" tabindex="-1" role="dialog" aria-labelledby="<portlet:namespace />modalConfirm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -66,7 +66,7 @@
 </div>
 
 
-<!-- ERREUR NOUVELLE AIDE -->
+<!-- ERREUR DESACTIVATION -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="<portlet:namespace />modalError" tabindex="-1" role="dialog" aria-labelledby="<portlet:namespace />modalError">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -133,7 +133,7 @@
     });
 
     $("#<portlet:namespace />modalConfirm #<portlet:namespace />buttonConfirm").click(function(event){
-        $("#<portlet:namespace />modalConfirm").modal('hide');
+		window.location.reload();
     });
 
     $("#<portlet:namespace />modalError #<portlet:namespace />buttonConfirm").click(function(event){

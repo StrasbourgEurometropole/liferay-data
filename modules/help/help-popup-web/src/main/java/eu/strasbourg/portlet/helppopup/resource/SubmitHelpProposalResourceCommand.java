@@ -332,7 +332,7 @@ public class SubmitHelpProposalResourceCommand implements MVCResourceCommand {
             return helpProposal;
             
         } else {
-            throw new PortalException("le fichier n'est pas une image");
+            throw new PortalException(LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_EXTENSION));
         }
     }
 	
@@ -400,7 +400,7 @@ public class SubmitHelpProposalResourceCommand implements MVCResourceCommand {
             this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_POSTAL_CODE);
             return false;
         }
-        Pattern p = Pattern.compile(HelpPopUpPortletConstants.REGEX_PHONE_NUMBER);
+        Pattern p = Pattern.compile(LanguageUtil.get(bundle, HelpPopUpPortletConstants.REGEX_POSTAL_CODE));
         Matcher m = p.matcher(this.postalcode);
         if (!m.matches()) {
             this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_POSTAL_CODE);

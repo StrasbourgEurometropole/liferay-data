@@ -189,6 +189,11 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 	public String getPublicationDateFr();
 
 	/**
+	 * @return La date de modification utilisateur au format français jj/mm/aaaa
+	 */
+	public String getModifiedByUserDateFr();
+
+	/**
 	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
 	public String getImageURL();
