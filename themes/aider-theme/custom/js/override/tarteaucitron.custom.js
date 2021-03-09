@@ -8,9 +8,9 @@ switch (window.tarteaucitronForceLanguage) {
             "alertBigPrivacy": "Nous utilisons des cookies sur ce site pour notamment améliorer votre expérience d’utilisation, fournir des services via des contenus animés et interactifs de réseaux sociaux et vidéos, des messages de communication personnalisés ou encore effectuer des analyses de performance. Vous pouvez à tout moment faire part de vos choix :",
             "acceptAll" : "ACCEPTER TOUS LES COOKIES",
             "allowAll" : "ACCEPTER TOUS LES COOKIES",
-            "denyAll " : "REFUSER TOUS LES COOKIES",
-            "personalize " : "En savoir plus et personnaliser",
-            "privacyUrl " : "En savoir plus sur la gestion des cookies",
+            "denyAll" : "REFUSER TOUS LES COOKIES",
+            "personalize" : "En savoir plus et personnaliser",
+            "privacyUrl" : "En savoir plus sur la gestion des cookies",
         };
         break;
     case 'de':
@@ -18,9 +18,9 @@ switch (window.tarteaucitronForceLanguage) {
             "alertBigPrivacy": "Diese Website verwendet Cookies, um die Benutzererfahrung zu gewährleisten, Dienstleistungen über animierte und interaktive soziale Netzwerke und Videos, personalisierte Informationen und Benachrichtigungen bereitzustellen, oder Leistungsanalysen durchzuführen.  Sie können jederzeit Ihre Wünsche bezüglich Cookies äußern und ändern, und zwar auf folgende Weise:",
             "acceptAll" : "Cookies zulassen",
             "allowAll" : "Cookies zulassen",
-            "denyAll " : "Cookies ablehnen",
-            "personalize " : "Mehr Informationen & Cookies-Einstellungen",
-            "privacyUrl " : "",
+            "denyAll" : "Cookies ablehnen",
+            "personalize" : "Mehr Informationen & Cookies-Einstellungen",
+            "privacyUrl" : "",
         };
         break;
     case 'en':
@@ -29,9 +29,9 @@ switch (window.tarteaucitronForceLanguage) {
             "alertBigPrivacy": "We use cookies on this website to give you the best possible experience, provide services via animated and interactive social network and video content, personalized communication messages, and for performance analysis. You can select/change/modify your cookie settings at any time:",
             "acceptAll" : "ACCEPT ALL COOKIES",
             "allowAll" : "ACCEPT ALL COOKIES",
-            "denyAll " : "DECLINE ALL COOKIES",
-            "personalize " : "Learn more & settings",
-            "privacyUrl " : "Learn more about coookie management",
+            "denyAll" : "DECLINE ALL COOKIES",
+            "personalize" : "Learn more & settings",
+            "privacyUrl" : "Learn more about coookie management",
         };
 }
 
