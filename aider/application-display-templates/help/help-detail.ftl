@@ -104,7 +104,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 						</div>
 						<div class="pro-bloc-texte">
 							<h2><@liferay_ui.message key="eu.help.description" /></h2>
-							<p>${entry.getDescription(locale)}</p>
+							<p>${entry.getDescription(locale)?replace("\n", "<br>")}</p>
 						</div>
 					</div>
 
