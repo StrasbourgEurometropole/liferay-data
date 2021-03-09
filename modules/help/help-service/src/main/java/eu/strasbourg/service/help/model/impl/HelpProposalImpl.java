@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
@@ -359,6 +360,18 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	}
 
 	/**
+	 *
+	 * @return La date de modification utilisateur au format français jj/mm/aaaa
+	 */
+	public String getModifiedByUserDateFr(){
+		Date date = this.getModifiedByUserDate();
+		if(Validator.isNull(date))
+			return getPublicationDateFr();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(date);
+	}
+
+	/**
 	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
 	@Override
@@ -400,6 +413,9 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		jsonHelpProposal.put("id", this.getHelpProposalId());
 		jsonHelpProposal.put("createDate", dateFormat.format(this.getCreateDate()));
 		jsonHelpProposal.put("unformattedCreateDate", unformattedDateFormat.format(this.getCreateDate()));
+		Date modifiedByUserDate = Validator.isNotNull(this.getModifiedByUserDate())?this.getModifiedByUserDate():this.getCreateDate();
+		jsonHelpProposal.put("modifiedByUserDate", dateFormat.format(modifiedByUserDate));
+		jsonHelpProposal.put("unformattedModifiedByUserDate", unformattedDateFormat.format(modifiedByUserDate));
 		jsonHelpProposal.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
 
 		// Champs : Generaux
