@@ -309,8 +309,6 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
      *
      * @param helpRequest Entite concernee
      * @return l'la demande d'aide avec l'imageId
-     * @throws IOException
-     * @throws PortalException
      */
     private HelpRequest uploadFile(HelpRequest helpRequest, ResourceRequest request) throws IOException, PortalException {
     	
@@ -322,7 +320,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
 
         // Verification du nom du fichier
         if ((studentCardImageId < 1 && validFilename) ||
-                (this.previousImageEdited == true && this.studentCardImageId > 1 && validFilename)) {
+                (this.previousImageEdited && this.studentCardImageId > 1 && validFilename)) {
             File photo = uploadRequest.getFile(HelpPopUpPortletConstants.PHOTO);
 
             // Verification de la bonne recuperation du contenu du fichier
@@ -353,7 +351,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
             }
             return helpRequest;
         }
-        else if (this.previousImageEdited == false && this.studentCardImageId > 1) {
+        else if (!this.previousImageEdited && this.studentCardImageId > 1) {
             helpRequest.setStudentCardImageId(this.studentCardImageId);
             return helpRequest;
         }
@@ -385,7 +383,7 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
         
         // utilisateur 
         if (this.publikID == null || this.publikID.isEmpty()) {
-            this.messageResult = HelpPopUpPortletConstants.ERROR_USER_NO_FOUND;;
+            this.messageResult = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_USER_NO_FOUND);
             return false;
         } else {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
@@ -397,12 +395,12 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
             this.helpProposal = HelpProposalLocalServiceUtil.getHelpProposal(assetEntry.getClassPK());
 
             if (this.helpProposal == null) {
-                this.messageResult = HelpPopUpPortletConstants.ERROR_DURING_HELP_PROPOSAL_RESEARCH;
+                this.messageResult = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_DURING_HELP_PROPOSAL_RESEARCH);
                 return false;
             }
         } catch (PortalException e1) {
             _log.error(e1);
-            this.messageResult = HelpPopUpPortletConstants.ERROR_DURING_HELP_PROPOSAL_RESEARCH;
+            this.messageResult = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_DURING_HELP_PROPOSAL_RESEARCH);
             return false;
         }
 
@@ -414,13 +412,13 @@ public class SubmitHelpResourceCommand implements MVCResourceCommand {
 
         // Téléphone
         if (Validator.isNull(this.phoneNumber)) {
-            this.messageResult = HelpPopUpPortletConstants.ERROR_PHONE_NUMBER;
+            this.messageResult = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_PHONE_NUMBER);
             return false;
         }
 
         // Message
         if (Validator.isNull(this.message)) {
-        	this.messageResult = HelpPopUpPortletConstants.ERROR_MESSAGE;
+        	this.messageResult = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_MESSAGE);
             return false;
         }
 

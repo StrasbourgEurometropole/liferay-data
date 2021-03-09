@@ -358,7 +358,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
         
         // utilisateur 
         if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = HelpPopUpPortletConstants.ERROR_USER_NO_FOUND;
+            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_USER_NO_FOUND);
             return false;
         } else {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
@@ -378,61 +378,61 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
 
         // présentation
         if (Validator.isNull(this.presentation)) {
-            this.message = HelpPopUpPortletConstants.ERROR_PRESENTATION;
+            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_PRESENTATION);
             return false;
         }
 
         // address
         if (Validator.isNull(this.address)) {
-            this.message = HelpPopUpPortletConstants.ERROR_ADDRESS;
+            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_ADDRESS);
             return false;
         }
 
         // city
         if (Validator.isNull(this.city)) {
-            this.message = HelpPopUpPortletConstants.ERROR_CITY;
+            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_CITY);
             return false;
         }
 
         // postalcode
         if (Validator.isNull(this.postalcode)) {
-            this.message = HelpPopUpPortletConstants.ERROR_POSTAL_CODE;
+            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_POSTAL_CODE);
             return false;
         }
         Pattern p = Pattern.compile(HelpPopUpPortletConstants.REGEX_PHONE_NUMBER);
         Matcher m = p.matcher(this.postalcode);
         if (!m.matches()) {
-            this.message = HelpPopUpPortletConstants.ERROR_POSTAL_CODE;
+            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_POSTAL_CODE);
             return false;
         }
 
         // Téléphone
         if (Validator.isNull(this.phoneNumber)) {
-            this.message = HelpPopUpPortletConstants.ERROR_PHONE_NUMBER;
+            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_PHONE_NUMBER);
             return false;
         }
 
         // Types d'aide
         if (Validator.isNull(this.types)) {
-            this.message = HelpPopUpPortletConstants.ERROR_HELP_TYPE;
+            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_HELP_TYPE);
             return false;
         }
 
         // type d'aidant
         if (Validator.isNull(this.helperId)) {
-            this.message = HelpPopUpPortletConstants.ERROR_HELPER_TYPE;
+            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_HELPER_TYPE);
             return false;
         }
 
         // Déposé au nom de
         if (Validator.isNull(this.inTheNameOf)) {
-            this.message = HelpPopUpPortletConstants.ERROR_IN_THE_NAME_OF;
+            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_IN_THE_NAME_OF);
             return false;
         }
 
         // Localisation
         if (Validator.isNull(this.localisationId)) {
-            this.message = HelpPopUpPortletConstants.ERROR_TERRITORY;
+            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_TERRITORY);
             return false;
         }
 
