@@ -64,12 +64,12 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 @Component(
-    immediate = true,
-    property = {
-    	"javax.portlet.name=" + StrasbourgPortletKeys.HELP_POPUP_WEB,
-    	"mvc.command.name=submitHelpRequest"
-    },
-    service = MVCResourceCommand.class
+        immediate = true,
+        property = {
+                "javax.portlet.name=" + StrasbourgPortletKeys.HELP_POPUP_WEB,
+                "mvc.command.name=submitHelpRequest"
+        },
+        service = MVCResourceCommand.class
 )
 public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
 
@@ -79,8 +79,6 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
     private long helpRequestId;
     private String phoneNumber;
     private String message;
-    private long studentCardImageId;
-    private boolean previousImageEdited;
     private boolean agreement1;
     private boolean agreement2;
     private boolean agreement3;
@@ -90,14 +88,14 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
     private PublikUser user;
     private String messageResult;
 
-	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
     private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
             this.getClass().getClassLoader());
-	
-	@Override
-	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
-        
+
+    @Override
+    public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
+
         // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour, format de date
         boolean result = false;
         this.messageResult = "";
@@ -107,14 +105,10 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
 
         // Recuperation de la proposition d'aide correspondante
         this.entryID = ParamUtil.getLong(request, HelpPopUpPortletConstants.ENTRY_ID);
-        
+
         // Recuperation des informations du formulaire
         this.phoneNumber = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.PHONE_NUMBER));
         this.message = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.MESSAGE));
-
-        // Recuperation donnees justificatifs
-        this.studentCardImageId = ParamUtil.getLong(request, HelpPopUpPortletConstants.STUDENT_CARD_IMAGE_ID);
-        this.previousImageEdited = ParamUtil.getString(request, HelpPopUpPortletConstants.PREVIOUS_IMAGE_EDITED).equals("true");
 
         // Signature des consentements
         this.agreement1 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_1)
@@ -123,19 +117,19 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
                 .equals(HelpPopUpPortletConstants.AGREEMENT_2);
         this.agreement3 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_3)
                 .equals(HelpPopUpPortletConstants.AGREEMENT_3);
-		
+
         // Verification de la validite des informations
         if (validate()) {
-            
-         	// Envoi de la demande
+
+            // Envoi de la demande
             result = saveHelpRequest(request);
-            
+
             if(result) {
                 sendHelpRequestMail(request);
                 sendHelpRequestMailConfirmation(request);
             }
         }
-        
+
         // Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
@@ -150,12 +144,12 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
             _log.error("erreur dans l'enregistrement de la demande d'aide : ", e);
         }
         return result;
-	}
-	
-	private boolean saveHelpRequest(ResourceRequest request) throws PortletException {
-		ServiceContext sc;
+    }
+
+    private boolean saveHelpRequest(ResourceRequest request) throws PortletException {
+        ServiceContext sc;
         HelpRequest helpRequest;
-        
+
         try {
             sc = ServiceContextFactory.getInstance(request);
             helpRequest = _helpRequestLocalService.createHelpRequest(sc);
@@ -170,8 +164,8 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
             helpRequest.setAgreementSigned2(this.agreement2);
             helpRequest.setAgreementSigned3(this.agreement3);
 
-           _helpRequestLocalService.updateHelpRequest(helpRequest);
-            
+            _helpRequestLocalService.updateHelpRequest(helpRequest);
+
         } catch (PortalException | IOException e) {
             _log.error(e);
             this.messageResult = e.getMessage();
@@ -303,24 +297,22 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
             e.printStackTrace();
         }
     }
-	
-	 /**
+
+    /**
      * Recuperer l'image uploadée par l'utilisateur.
      *
      * @param helpRequest Entite concernee
      * @return l'la demande d'aide avec l'imageId
      */
     private HelpRequest uploadFile(HelpRequest helpRequest, ResourceRequest request) throws IOException, PortalException {
-    	
-    	// Recuperation du contexte de la requete
+
+        // Recuperation du contexte de la requete
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         ServiceContext sc = ServiceContextFactory.getInstance(request);
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
-        boolean validFilename = validateFileName(request);
 
         // Verification du nom du fichier
-        if ((studentCardImageId < 1 && validFilename) ||
-                (this.previousImageEdited && this.studentCardImageId > 1 && validFilename)) {
+        if (validateFileName(request)) {
             File photo = uploadRequest.getFile(HelpPopUpPortletConstants.PHOTO);
 
             // Verification de la bonne recuperation du contenu du fichier
@@ -350,21 +342,16 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
 
             }
             return helpRequest;
-        }
-        else if (!this.previousImageEdited && this.studentCardImageId > 1) {
-            helpRequest.setStudentCardImageId(this.studentCardImageId);
-            return helpRequest;
-        }
-        else {
+        } else {
             throw new PortalException("le fichier n'est pas une image");
         }
     }
-	
-	/**
-	 * Validation du nom du fichier photo
-	 * @return Valide ou pas
-	 */
-	private boolean validateFileName(ResourceRequest request) throws PortalException {
+
+    /**
+     * Validation du nom du fichier photo
+     * @return Valide ou pas
+     */
+    private boolean validateFileName(ResourceRequest request) throws PortalException {
         boolean result = true;
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         String fileName = uploadRequest.getFileName(HelpPopUpPortletConstants.PHOTO);
@@ -374,19 +361,19 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
         }
         return result;
     }
-	
-	/**
-	 * Validation des champs de la requete (excpet photo)
-	 * @return Valide ou pas
-	 */
-	private boolean validate() {
-        
+
+    /**
+     * Validation des champs de la requete (excpet photo)
+     * @return Valide ou pas
+     */
+    private boolean validate() {
+
         // utilisateur 
         if (this.publikID == null || this.publikID.isEmpty()) {
             this.messageResult = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_USER_NO_FOUND);
             return false;
         } else {
-        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
+            this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
         }
 
         // HelpProposal
@@ -418,13 +405,7 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
 
         // Message
         if (Validator.isNull(this.message)) {
-        	this.messageResult = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_MESSAGE);
-            return false;
-        }
-
-        // Photo
-        if (Validator.isNull(this.studentCardImageId)) {
-            this.messageResult = "Image non valide";
+            this.messageResult = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_MESSAGE);
             return false;
         }
 

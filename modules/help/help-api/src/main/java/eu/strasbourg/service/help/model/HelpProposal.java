@@ -173,8 +173,6 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 
 	/**
 	 * Retourne l'utilisateur Publik depositaire
-	 *
-	 * @return
 	 */
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthor();
 
@@ -213,10 +211,8 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 
 	/**
 	 * Retourne la version JSON de l'entité
-	 *
 	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
-			java.util.Locale locale)
-		throws com.liferay.portal.kernel.exception.PortalException;
+		java.util.Locale locale);
 
 }

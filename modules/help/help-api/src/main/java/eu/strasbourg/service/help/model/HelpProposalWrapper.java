@@ -325,8 +325,6 @@ public class HelpProposalWrapper
 
 	/**
 	 * Retourne l'utilisateur Publik depositaire
-	 *
-	 * @return
 	 */
 	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthor() {
@@ -1716,12 +1714,10 @@ public class HelpProposalWrapper
 
 	/**
 	 * Retourne la version JSON de l'entité
-	 *
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
-			java.util.Locale locale)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		java.util.Locale locale) {
 
 		return model.toJSON(locale);
 	}
