@@ -90,7 +90,7 @@
 			varStatus="catStatus">
 			<aui:input type="checkbox" name="vocabulary_2"
 				value="${category.categoryId}"
-				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
+				checked="${fn:contains(dc.filterActivityCategoriesIdsString, category.categoryId)}"
 				id="vocabulary_2_${catStatus.index}"
 				label="${category.getTitle(locale)}"
 				cssClass="move-to-grand-parent" />
