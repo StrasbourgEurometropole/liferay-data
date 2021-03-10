@@ -82,7 +82,7 @@
                                         </div>
                                         <a href="${homeURL}detail-aide/-/entity/id/${entry.helpProposalId}" title="lien de la page">
                                             <h3>${entry.getTitle(locale)?html}</h3>
-                                            <div><p>${(entry.getDescription(locale)?replace("\n", "<br>")?replace("<[^>]*>", "", "r")?length>50)?then(entry.getDescription(locale)?replace("<[^>]*>", "", "r")[0..*50]+"...", entry.getDescription(locale))}</p></div>
+                                            <div class="description"><p>${entry.getDescription(locale)?replace("\n", "<br>")}</p></div>
                                         </a>
                                     </div>
                                 </div>
