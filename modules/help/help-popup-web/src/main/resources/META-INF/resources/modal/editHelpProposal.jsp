@@ -187,11 +187,6 @@
                     </div>
                         <p><liferay-ui:message key='submit-proposal-help-image-information'/></p>
                 </div>
-                <div class="pro-optin form-checkbox">
-                    <div class="fontWhite">
-                        <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_messageHelpProposal"/>
-                    </div>
-                </div>
                 <div class="pro-info-supp">
                     <p><liferay-ui:message key="modal.submit.help.information.delete"/></p>
                 </div>
