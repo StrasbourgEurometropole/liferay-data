@@ -14,7 +14,7 @@ Ville et Eurométropole de Strasbourg <br><br>
 
 Ce courriel a été envoyé automatiquement. Merci de ne pas y répondre.<br><br>
 
-Pour nous contacter, veuillez utiliser le lien suivant : ${domain}/nous-contacter<br><br>
+Pour nous contacter, veuillez utiliser le lien suivant : ${domaine}/nous-contacter<br><br>
 
 ---------------------------------------------------- <br><br>
 
