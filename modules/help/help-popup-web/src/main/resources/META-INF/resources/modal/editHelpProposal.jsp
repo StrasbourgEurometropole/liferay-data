@@ -197,7 +197,7 @@
                     <div>
                         <input type="checkbox" id="<portlet:namespace />agreement1" name="<portlet:namespace />agreement1" value="agreement1">
                         <label for="<portlet:namespace />agreement1" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageSubmitHelpProposal"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_SubmitHelpProposalAgreement1"/>
                         </label>
                         <span class="reference-mark text-warning" id="agreement1_mark">
                             <svg class="lexicon-icon lexicon-icon-asterisk" focusable="false" role="presentation" viewBox="0 0 512 512">
@@ -210,7 +210,7 @@
                     <div>
                         <input type="checkbox" id="<portlet:namespace />agreement2" name="<portlet:namespace />agreement2" value="agreement2">
                         <label for="<portlet:namespace />agreement2" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_securitySubmitHelp"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_SubmitHelpProposalAgreement2"/>
                         </label>
                         <span class="reference-mark text-warning" id="agreement2_mark">
                             <svg class="lexicon-icon lexicon-icon-asterisk" focusable="false" role="presentation" viewBox="0 0 512 512">
@@ -221,7 +221,7 @@
                     <div>
                         <input type="checkbox" id="<portlet:namespace />agreement3" name="<portlet:namespace />agreement3" value="agreement3">
                         <label for="<portlet:namespace />agreement3" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_security2SubmitHelp"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_SubmitHelpProposalAgreement3"/>
                         </label>
                     </div>
                 </div>
