@@ -137,12 +137,19 @@
 				@include ft($f_hx, 1.875em, 700, $c_txt, 1.15em);
 				margin-bottom: 15px;
 				height: 35px;
-				overflow: hidden;
+				overflow: hidden;				
+				text-overflow: ellipsis;
 				@include mobile{
 					font-size: 22px;
 					line-height: 28px;
 					height: auto;
 				}
+			}
+
+			.description{
+				/* $height = (nbLigne + 1) x line-height du contenu x font-size du contenu
+					(3 + 1) x 1.6em x 0.938em */
+				@include multiLineEllipsis(6.0032em, $c_white); 
 			}
 
 			.pro-time {

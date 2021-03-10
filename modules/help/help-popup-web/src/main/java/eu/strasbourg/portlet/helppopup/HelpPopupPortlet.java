@@ -12,9 +12,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.helppopup.configuration.HelpPopupConfiguration;
 import eu.strasbourg.service.help.model.HelpProposal;
-import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
-import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.PublikApiClient;
@@ -87,12 +85,12 @@ public class HelpPopupPortlet extends MVCPortlet {
 				user = PublikApiClient.getUserDetails(publikID);
 
 				//For all keys, if null replace with ""
-				for (String key : user.keySet()) {
+				/*for (String key : user.keySet()) {
 					String value = user.getString(key);
 					if (value.equals("")) {
 						user.put(key, "");
 					}
-				}
+				}*/
 			}
 
 			long groupId = themeDisplay.getLayout().getGroupId();
@@ -118,7 +116,6 @@ public class HelpPopupPortlet extends MVCPortlet {
 				if (publikID != null && !publikID.isEmpty()) {
 					// On recupere les infos de la proposition d'aide si elle apppartient au PublikUser connecte
 					List<HelpProposal> proposals = HelpProposalLocalServiceUtil.getByPublikID(publikID);
-					boolean helpSeeker = true;
 					for (HelpProposal proposal : proposals) {
 						if (proposal.getAssetEntry().getEntryId() == entryID) {
 							JSONObject proposalJSON = JSONFactoryUtil.getJSONFactory().createJSONObject();
@@ -127,27 +124,7 @@ public class HelpPopupPortlet extends MVCPortlet {
 							proposalJSON.put("zipcode", proposal.getPostalCode());
 							proposalJSON.put("phoneNumber", proposal.getPhoneNumber());
 							request.setAttribute("helpProposalData", proposalJSON);
-							helpSeeker = false;
 							break;
-						}
-					}
-					// On recupere les infos de l'image
-					if (helpSeeker) {
-						List<HelpRequest> helpRequestsByUser = HelpRequestLocalServiceUtil.getByPublikId(publikID);
-						HelpRequest latestRequestWithImage = null;
-						for (HelpRequest helpRequest : helpRequestsByUser) {
-							if (latestRequestWithImage == null && helpRequest.getStudentCardImageId() > 1) {
-								latestRequestWithImage = helpRequest;
-							}
-							else if (helpRequest.getStudentCardImageId() > 1 &&
-									helpRequest.getCreateDate().getTime() >
-									latestRequestWithImage.getCreateDate().getTime()) {
-								latestRequestWithImage = helpRequest;
-							}
-						}
-						if (latestRequestWithImage != null) {
-							request.setAttribute("currentStudentCardImageId", latestRequestWithImage.getStudentCardImageId());
-							request.setAttribute("hasStudentCardImage", true);
 						}
 					}
 				}

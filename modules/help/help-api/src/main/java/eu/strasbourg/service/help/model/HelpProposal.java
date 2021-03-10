@@ -173,8 +173,6 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 
 	/**
 	 * Retourne l'utilisateur Publik depositaire
-	 *
-	 * @return
 	 */
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthor();
 
@@ -184,12 +182,12 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 	public int getNbHelpRequests();
 
 	/**
-	 * @return La date de publication au format français jj/mm/aaaa
+	 * @return La date de création au format français jj/mm/aaaa
 	 */
-	public String getPublicationDateFr();
+	public String getCreatedDateFr();
 
 	/**
-	 * @return La date de modification utilisateur au format français jj/mm/aaaa
+	 * @return La date de modification utilisateur au format français jj/mm/aaaa si != de la date de création
 	 */
 	public String getModifiedByUserDateFr();
 
@@ -213,11 +211,8 @@ public interface HelpProposal extends HelpProposalModel, PersistedModel {
 
 	/**
 	 * Retourne la version JSON de l'entité
-	 *
-	 * @throws PortalException
 	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
-			java.util.Locale locale)
-		throws com.liferay.portal.kernel.exception.PortalException;
+		java.util.Locale locale);
 
 }

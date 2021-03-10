@@ -243,14 +243,14 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	@Override
 	public List<AssetCategory> getCityCategories() {
 		List<AssetCategory> territories = this.getTerritoryCategories();
-		List<AssetCategory> cities = new ArrayList<AssetCategory>();
+		List<AssetCategory> cities = new ArrayList<>();
 		for (AssetCategory territory : territories) {
 			try {
 				if (territory.getAncestors().size() == 1) {
 					cities.add(territory);
 				}
 			} catch (PortalException e) {
-				continue;
+				e.printStackTrace();
 			}
 		}
 		return cities;
@@ -263,14 +263,14 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	@Override
 	public List<AssetCategory> getDistrictCategories() {
 		List<AssetCategory> territories = this.getTerritoryCategories();
-		List<AssetCategory> districts = new ArrayList<AssetCategory>();
+		List<AssetCategory> districts = new ArrayList<>();
 		for (AssetCategory territory : territories) {
 			try {
 				if (territory.getAncestors().size() == 2) {
 					districts.add(territory);
 				}
 			} catch (PortalException e) {
-				continue;
+				e.printStackTrace();
 			}
 		}
 		return districts;
@@ -291,7 +291,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	@Override
 	public String getAuthorLabel() {
 		PublikUser author = this.getAuthor();
-		if (this.getInTheNameOf() != "" && this.getInTheNameOf() != null) {
+		if (Validator.isNotNull(this.getInTheNameOf())) {
 			return this.getInTheNameOf();
 		}
 		else if (author != null) {
@@ -334,7 +334,6 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 
 	/**
 	 * Retourne l'utilisateur Publik depositaire
-	 * @return
 	 */
 	public PublikUser getAuthor() {
 		return PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikId());
@@ -351,24 +350,27 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 
 	/**
 	 *
-	 * @return La date de publication au format français jj/mm/aaaa
+	 * @return La date de création au format français jj/mm/aaaa
 	 */
-	public String getPublicationDateFr(){
-		Date date = this.getAssetEntry().getPublishDate();
+	public String getCreatedDateFr(){
+		Date date = this.getCreateDate();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		return sdf.format(date);
 	}
 
 	/**
 	 *
-	 * @return La date de modification utilisateur au format français jj/mm/aaaa
+	 * @return La date de modification utilisateur au format français jj/mm/aaaa si != de la date de création
 	 */
 	public String getModifiedByUserDateFr(){
 		Date date = this.getModifiedByUserDate();
 		if(Validator.isNull(date))
-			return getPublicationDateFr();
+			return "";
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		return sdf.format(date);
+		String dateString = sdf.format(date);
+		if(dateString.equals(getCreatedDateFr()))
+			return "";
+		return dateString;
 	}
 
 	/**
@@ -400,10 +402,9 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 	/**
 	 * Retourne la version JSON de l'entité
 	 *
-	 * @throws PortalException
 	 */
 	@Override
-	public JSONObject toJSON(Locale locale) throws PortalException {
+	public JSONObject toJSON(Locale locale) {
 		// Initialisation des variables tempons et résultantes
 		JSONObject jsonHelpProposal = JSONFactoryUtil.createJSONObject();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -413,9 +414,8 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 		jsonHelpProposal.put("id", this.getHelpProposalId());
 		jsonHelpProposal.put("createDate", dateFormat.format(this.getCreateDate()));
 		jsonHelpProposal.put("unformattedCreateDate", unformattedDateFormat.format(this.getCreateDate()));
-		Date modifiedByUserDate = Validator.isNotNull(this.getModifiedByUserDate())?this.getModifiedByUserDate():this.getCreateDate();
-		jsonHelpProposal.put("modifiedByUserDate", dateFormat.format(modifiedByUserDate));
-		jsonHelpProposal.put("unformattedModifiedByUserDate", unformattedDateFormat.format(modifiedByUserDate));
+		jsonHelpProposal.put("modifiedByUserDate", Validator.isNotNull(getModifiedByUserDateFr())?dateFormat.format(this.getModifiedByUserDate()):"");
+		jsonHelpProposal.put("unformattedModifiedByUserDate", Validator.isNotNull(getModifiedByUserDateFr())?unformattedDateFormat.format(this.getModifiedByUserDate()):"");
 		jsonHelpProposal.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
 
 		// Champs : Generaux

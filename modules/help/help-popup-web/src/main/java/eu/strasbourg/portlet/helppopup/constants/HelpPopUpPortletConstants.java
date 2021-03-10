@@ -25,8 +25,6 @@ public class HelpPopUpPortletConstants {
     public static final String PHOTO = "photo";
     public static final String ENTRY_ID = "entryId";
     public static final String MESSAGE = "message";
-    public static final String STUDENT_CARD_IMAGE_ID = "studentCardImageId";
-    public static final String PREVIOUS_IMAGE_EDITED = "studentCardImageEdited";
     public static final String DELETE_PHOTO = "deletePhoto";
     public static final String AGREEMENT_1 = "agreement1";
     public static final String AGREEMENT_2 = "agreement2";
