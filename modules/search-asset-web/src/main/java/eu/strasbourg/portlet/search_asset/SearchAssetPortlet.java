@@ -702,6 +702,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         List<Long> categoriesIds = new ArrayList<>();
 
         // On récupère les états s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long state : states) {
             if (state > 0) {
                 categoriesIds.add(state);
@@ -712,6 +713,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // On récupère les statuts s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long statut : statuts) {
             if (statut > 0) {
                 categoriesIds.add(statut);
@@ -722,6 +724,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
         
         // On recupere les statuts BP s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long bpStatu : bpStatus) {
             if (bpStatu > 0) {
                 categoriesIds.add(bpStatu);
@@ -732,6 +735,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
         
         // On recupere les statuts initiative s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long initiativeStatu : initiativeStatus) {
         	if (initiativeStatu > 0) {
         		categoriesIds.add(initiativeStatu);
@@ -742,6 +746,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // On récupère les projets s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long project : projects) {
             if (project > 0) {
                 categoriesIds.add(project);
@@ -774,6 +779,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // On récupère les types s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long type : types) {
             if (type > 0) {
                 categoriesIds.add(type);
@@ -784,6 +790,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // On recupere les types d'aide s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long helpProposalType : helpProposalTypes) {
             if (helpProposalType > 0) {
                 categoriesIds.add(helpProposalType);
@@ -794,6 +801,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // On récupère l'état d'activité s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long helpProposalActivity : helpProposalActivityStatus) {
             if (helpProposalActivity > 0) {
                 categoriesIds.add(helpProposalActivity);
@@ -804,6 +812,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // On récupère les localisation s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long localisation : localisations) {
             if (localisation > 0) {
                 categoriesIds.add(localisation);
