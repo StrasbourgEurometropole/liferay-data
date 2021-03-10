@@ -221,6 +221,12 @@
 			}
 		}
 
+		.description{
+			/* $height = (nbLigne + 1) x line-height du contenu x font-size du contenu 
+				(2 + 1) x 1.6em x 0.938em */
+			@include multiLineEllipsis(4.5024em, $c_white); 
+		}
+
 		a {
 			&:focus {
 				h3 {

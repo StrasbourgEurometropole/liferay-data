@@ -25005,13 +25005,13 @@ function createHelp(help){
                             '</div>' +
                         '</div>' +
                         '<a href="' + homeURL + 'detail-aide/-/entity/id/' + help.id + '" title="lien de la page"><h3>' + help.title + '</h3>' +
-                        '<div><p>'+(help.description.replaceAll('\n', '<br>').replaceAll(/<[^>]*>/ig, '').length > 300?help.description.replaceAll('\n', '<br>').replaceAll(/<[^>]*>/ig, '').substr(0,300)+"...":help.description.replaceAll('\n', '<br>')) + '</p></div></a>' +
+                        '<div class="description" ><p>'+ help.description.replaceAll('\n', '<br>') + '</p></div></a>' +
                     '</div>' +
                 '</div>' +
             '</div>' +
             '<div class="pro-footer-help">' +
                 '<p>Publiée le <time datetime="' + help.unformattedCreateDate + '">' + help.createDate + '</time>'; 
-                if(help.createDate != help.modifiedByUserDate){
+                if(help.modifiedByUserDate != ""){
                     vignette += ' - ' +
                     'Mise à jour le <time datetime="' + help.unformattedModifiedByUserDate + '">' + help.modifiedByUserDate + '</time></p>';
                 }

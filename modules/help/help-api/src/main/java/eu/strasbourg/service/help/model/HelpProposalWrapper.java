@@ -17,12 +17,11 @@ package eu.strasbourg.service.help.model;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -492,6 +491,14 @@ public class HelpProposalWrapper
 		return model.getCreateDate();
 	}
 
+	/**
+	 * @return La date de création au format français jj/mm/aaaa
+	 */
+	@Override
+	public String getCreatedDateFr() {
+		return model.getCreatedDateFr();
+	}
+
 	@Override
 	public String getDefaultLanguageId() {
 		return model.getDefaultLanguageId();
@@ -714,7 +721,7 @@ public class HelpProposalWrapper
 	}
 
 	/**
-	 * @return La date de modification utilisateur au format français jj/mm/aaaa
+	 * @return La date de modification utilisateur au format français jj/mm/aaaa si != de la date de création
 	 */
 	@Override
 	public String getModifiedByUserDateFr() {
@@ -767,14 +774,6 @@ public class HelpProposalWrapper
 	@Override
 	public long getPrimaryKey() {
 		return model.getPrimaryKey();
-	}
-
-	/**
-	 * @return La date de publication au format français jj/mm/aaaa
-	 */
-	@Override
-	public String getPublicationDateFr() {
-		return model.getPublicationDateFr();
 	}
 
 	/**
@@ -1718,7 +1717,6 @@ public class HelpProposalWrapper
 	/**
 	 * Retourne la version JSON de l'entité
 	 *
-	 * @throws PortalException
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
