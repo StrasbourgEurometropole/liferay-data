@@ -57,6 +57,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -101,6 +103,7 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
         // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour, format de date
         boolean result = false;
         this.messageResult = "";
+        HelpRequest helpRequest;
 
         // Recuperation de l'utilsiteur Publik ayant lance la demande
         this.publikID = getPublikID(request);
@@ -128,10 +131,11 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
         if (validate()) {
             
          	// Envoi de la demande
-            result = saveHelpRequest(request);
+            helpRequest = saveHelpRequest(request);
             
-            if(result) {
-                sendHelpRequestMail(request);
+            if(Validator.isNotNull(helpRequest)) {
+                result = true;
+                sendHelpRequestMail(request, helpRequest);
                 sendHelpRequestMailConfirmation(request);
             }
         }
@@ -152,7 +156,7 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
         return result;
 	}
 	
-	private boolean saveHelpRequest(ResourceRequest request) throws PortletException {
+	private HelpRequest saveHelpRequest(ResourceRequest request) throws PortletException {
 		ServiceContext sc;
         HelpRequest helpRequest;
         
@@ -175,35 +179,40 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
         } catch (PortalException | IOException e) {
             _log.error(e);
             this.messageResult = e.getMessage();
-            return false;
+            helpRequest = null;
         }
         _log.info("Demande d'aide cree : " + helpRequest);
-        return true;
+        return helpRequest;
     }
 
     /**
      * Envoi du mail  de demande d'aide à l'utilisateur qui a proposé son aide
      */
-    private void sendHelpRequestMail(ResourceRequest request) {
+    private void sendHelpRequestMail(ResourceRequest request, HelpRequest helpRequest) {
 
         try {
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
             // récupération des images
             StringBuilder hostUrl = new StringBuilder("https://");
             hostUrl.append(request.getServerName());
-//			StringBuilder headerImage = new StringBuilder(hostUrl)
-//					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
-//			StringBuilder btnImage = new StringBuilder(hostUrl)
-//					.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
+
+            // Formatage
+            String pattern = "dd-MM-yyyy HH:mm";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            String helpRequestCreateDate = simpleDateFormat.format(helpRequest.getCreateDate());
 
             // préparation du template de mail
             Map<String, Object> context = new HashMap<>();
-            context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
-//			context.put("headerImage", headerImage.toString());
-//			context.put("footerImage", btnImage.toString());
-            context.put("Phone", this.phoneNumber);
-            context.put("Message", this.message);
-            context.put("domaine", themeDisplay.getScopeGroup().getDisplayURL(themeDisplay));
+            context.put("helpProposalTitle", helpRequest.getHelpProposal().getTitle(themeDisplay.getLocale()));
+            context.put("helpRequestMessage", helpRequest.getMessage());
+            context.put("helpRequestCreateDate", helpRequestCreateDate);
+            context.put("helpSeekerLastName", helpRequest.getAuthor().getLastName());
+            context.put("helpSeekerFirstName", helpRequest.getAuthor().getFirstName());
+            context.put("helpSeekerEmail", helpRequest.getAuthorEmail());
+            context.put("helpSeekerPhone", helpRequest.getPhoneNumber());
+
+            context.put("domain", themeDisplay.getScopeGroup().getDisplayURL(themeDisplay));
+            context.put("detailURL", "/detail-aide/-/entity/id/" + helpRequest.getHelpProposalId());
 
             StringWriter out = new StringWriter();
 
@@ -419,12 +428,6 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
         // Message
         if (Validator.isNull(this.message)) {
         	this.messageResult = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_MESSAGE);
-            return false;
-        }
-
-        // Photo
-        if (Validator.isNull(this.studentCardImageId)) {
-            this.messageResult = "Image non valide";
             return false;
         }
 
