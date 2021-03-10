@@ -21,6 +21,7 @@ import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -30,7 +31,8 @@ import java.util.Map;
 public class HelpProposalIndexer extends BaseIndexer<HelpProposal> {
 
 	public static final String CLASS_NAME = HelpProposal.class.getName();
-	
+	public static final String INDEX_DATES = "dates";
+
 	public HelpProposalIndexer() {
 		setFilterSearch(true);
 		setPermissionAware(true);
@@ -64,17 +66,19 @@ public class HelpProposalIndexer extends BaseIndexer<HelpProposal> {
 		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 			assetCategories);
 		
-		Map<Locale, String> titleFieldMap = new HashMap<Locale, String>();
+		Map<Locale, String> titleFieldMap = new HashMap<>();
 		titleFieldMap.put(Locale.FRANCE, helpProposal.getTitle());
 		titleFieldMap.put(Locale.GERMANY, helpProposal.getTitle());
 		titleFieldMap.put(Locale.ENGLISH, helpProposal.getTitle());
 		document.addLocalizedText(Field.TITLE, titleFieldMap);
 		
-		Map<Locale, String> descriptionFieldMap = new HashMap<Locale, String>();
+		Map<Locale, String> descriptionFieldMap = new HashMap<>();
 		descriptionFieldMap.put(Locale.FRANCE, helpProposal.getDescription());
 		descriptionFieldMap.put(Locale.GERMANY, helpProposal.getDescription());
 		descriptionFieldMap.put(Locale.ENGLISH, helpProposal.getDescription());
 		document.addLocalizedText(Field.DESCRIPTION, descriptionFieldMap);
+
+		document.addDateSortable(INDEX_DATES, new Date[]{helpProposal.getModifiedByUserDate()});
 		
 		document.addNumber(Field.STATUS, helpProposal.getStatus());
 		

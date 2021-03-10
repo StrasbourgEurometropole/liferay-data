@@ -51,6 +51,9 @@ public class HelpRequestSoap implements Serializable {
 		soapModel.setPhoneNumber(model.getPhoneNumber());
 		soapModel.setMessage(model.getMessage());
 		soapModel.setStudentCardImageId(model.getStudentCardImageId());
+		soapModel.setAgreementSigned1(model.isAgreementSigned1());
+		soapModel.setAgreementSigned2(model.isAgreementSigned2());
+		soapModel.setAgreementSigned3(model.isAgreementSigned3());
 
 		return soapModel;
 	}
@@ -240,6 +243,42 @@ public class HelpRequestSoap implements Serializable {
 		_studentCardImageId = studentCardImageId;
 	}
 
+	public boolean getAgreementSigned1() {
+		return _agreementSigned1;
+	}
+
+	public boolean isAgreementSigned1() {
+		return _agreementSigned1;
+	}
+
+	public void setAgreementSigned1(boolean agreementSigned1) {
+		_agreementSigned1 = agreementSigned1;
+	}
+
+	public boolean getAgreementSigned2() {
+		return _agreementSigned2;
+	}
+
+	public boolean isAgreementSigned2() {
+		return _agreementSigned2;
+	}
+
+	public void setAgreementSigned2(boolean agreementSigned2) {
+		_agreementSigned2 = agreementSigned2;
+	}
+
+	public boolean getAgreementSigned3() {
+		return _agreementSigned3;
+	}
+
+	public boolean isAgreementSigned3() {
+		return _agreementSigned3;
+	}
+
+	public void setAgreementSigned3(boolean agreementSigned3) {
+		_agreementSigned3 = agreementSigned3;
+	}
+
 	private String _uuid;
 	private long _helpRequestId;
 	private long _groupId;
@@ -257,5 +296,8 @@ public class HelpRequestSoap implements Serializable {
 	private String _phoneNumber;
 	private String _message;
 	private long _studentCardImageId;
+	private boolean _agreementSigned1;
+	private boolean _agreementSigned2;
+	private boolean _agreementSigned3;
 
 }

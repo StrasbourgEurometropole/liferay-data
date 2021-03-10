@@ -66,7 +66,7 @@ public class HelpRequestCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -102,6 +102,12 @@ public class HelpRequestCacheModel
 		sb.append(message);
 		sb.append(", studentCardImageId=");
 		sb.append(studentCardImageId);
+		sb.append(", agreementSigned1=");
+		sb.append(agreementSigned1);
+		sb.append(", agreementSigned2=");
+		sb.append(agreementSigned2);
+		sb.append(", agreementSigned3=");
+		sb.append(agreementSigned3);
 		sb.append("}");
 
 		return sb.toString();
@@ -185,6 +191,9 @@ public class HelpRequestCacheModel
 		}
 
 		helpRequestImpl.setStudentCardImageId(studentCardImageId);
+		helpRequestImpl.setAgreementSigned1(agreementSigned1);
+		helpRequestImpl.setAgreementSigned2(agreementSigned2);
+		helpRequestImpl.setAgreementSigned3(agreementSigned3);
 
 		helpRequestImpl.resetOriginalValues();
 
@@ -218,6 +227,12 @@ public class HelpRequestCacheModel
 		message = objectInput.readUTF();
 
 		studentCardImageId = objectInput.readLong();
+
+		agreementSigned1 = objectInput.readBoolean();
+
+		agreementSigned2 = objectInput.readBoolean();
+
+		agreementSigned3 = objectInput.readBoolean();
 	}
 
 	@Override
@@ -284,6 +299,12 @@ public class HelpRequestCacheModel
 		}
 
 		objectOutput.writeLong(studentCardImageId);
+
+		objectOutput.writeBoolean(agreementSigned1);
+
+		objectOutput.writeBoolean(agreementSigned2);
+
+		objectOutput.writeBoolean(agreementSigned3);
 	}
 
 	public String uuid;
@@ -303,5 +324,8 @@ public class HelpRequestCacheModel
 	public String phoneNumber;
 	public String message;
 	public long studentCardImageId;
+	public boolean agreementSigned1;
+	public boolean agreementSigned2;
+	public boolean agreementSigned3;
 
 }

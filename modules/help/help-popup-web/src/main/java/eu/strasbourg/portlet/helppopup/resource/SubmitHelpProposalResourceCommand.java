@@ -57,6 +57,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -74,7 +75,7 @@ import java.util.regex.Pattern;
     },
     service = MVCResourceCommand.class
 )
-public class SubmitHelpProposalCommand implements MVCResourceCommand {
+public class SubmitHelpProposalResourceCommand implements MVCResourceCommand {
 
     // Champs
     private long helpProposalId;
@@ -196,7 +197,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
             helpProposal = _helpProposalLocalService.createHelpProposal(sc);
             this.helpProposalId = helpProposal.getHelpProposalId();
 
-
+            helpProposal.setModifiedByUserDate(new Date());
             helpProposal.setAddress(this.address);
             helpProposal.setCity(this.city);
             helpProposal.setPostalCode(Long.parseLong(this.postalcode));
@@ -358,7 +359,7 @@ public class SubmitHelpProposalCommand implements MVCResourceCommand {
         
         // utilisateur 
         if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = HelpPopUpPortletConstants.ERROR_USER_NO_FOUND;
+            this.message = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_USER_NO_FOUND);
             return false;
         } else {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);

@@ -483,7 +483,7 @@ div#tarteaucitronRoot .tarteaucitronCross {
 /* Conteneur Bandeau cookies */
 div#tarteaucitronRoot #tarteaucitronAlertBig {
     background: #3a3a3a;
-    display: flex !important;
+    display: flex;
     padding: 20px calc(50% - 600px);
     flex-wrap: wrap;
     justify-content: space-between;

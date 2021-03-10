@@ -6,11 +6,11 @@ public class HelpPopUpPortletConstants {
      * Pop-up : Général
      */
     public static final String PUBLIK_INTERNAL_ID = "publik_internal_id";
+    public static final String REGEX_POSTAL_CODE = "[0-9]{5}";
 
     /**
-     * Pop-up : nouvelle proposition d'aide et modification d'aide
+     * Pop-up : Paramètres
      */
-    // Paramètres
     public static final String ADDRESS = "address";
     public static final String CITY = "city";
     public static final String POSTALCODE = "postalcode";
@@ -23,11 +23,18 @@ public class HelpPopUpPortletConstants {
     public static final String LANGUAGE = "language";
     public static final String LOCALISATION = "localisation";
     public static final String PHOTO = "photo";
+    public static final String ENTRY_ID = "entryId";
+    public static final String MESSAGE = "message";
+    public static final String STUDENT_CARD_IMAGE_ID = "studentCardImageId";
+    public static final String PREVIOUS_IMAGE_EDITED = "studentCardImageEdited";
     public static final String DELETE_PHOTO = "deletePhoto";
     public static final String AGREEMENT_1 = "agreement1";
     public static final String AGREEMENT_2 = "agreement2";
     public static final String AGREEMENT_3 = "agreement3";
-    // Erreurs
+
+    /**
+     * Pop-up : Code d'erreurs
+     */
     public static final String ERROR_USER_NO_FOUND = "error-user-not-found";
     public static final String ERROR_AGREEMENTS = "error-agreements";
     public static final String ERROR_TITLE = "error-title";
@@ -40,8 +47,8 @@ public class HelpPopUpPortletConstants {
     public static final String ERROR_HELPER_TYPE = "error-helper-type";
     public static final String ERROR_IN_THE_NAME_OF = "error-in-the-name-of";
     public static final String ERROR_TERRITORY = "error-territory";
+    public static final String ERROR_MESSAGE = "error-message";
+    public static final String ERROR_DURING_HELP_PROPOSAL_RESEARCH = "error-during-help-proposal-research";
     public static final String ERROR_EXTENSION = "error-extension";
-    // REGEX
-    public static final String REGEX_POSTAL_CODE = "[0-9]{5}";
 
 }

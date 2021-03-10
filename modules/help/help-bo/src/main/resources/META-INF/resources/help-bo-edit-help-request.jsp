@@ -51,6 +51,20 @@
 
 			</aui:fieldset>
 
+			<%-- Groupe de champs : Consentements --%>
+            <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="agreements">
+
+                <%-- Champ : Consentement 1 --%>
+                <aui:input name="agreementSigned1" disabled="true" required="false"/>
+
+                <%-- Champ : Consentement 2 --%>
+                <aui:input name="agreementSigned2" disabled="true" required="false"/>
+
+                <%-- Champ : Consentement 3 --%>
+                <aui:input name="agreementSigned3" disabled="true" required="false"/>
+
+            </aui:fieldset>
+
 		</aui:fieldset-group>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
