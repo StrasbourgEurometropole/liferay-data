@@ -88,14 +88,14 @@
                 <%-- Colonne : Actions possibles --%>
                 <liferay-ui:search-container-column-text>
                     <liferay-ui:icon-menu markupView="lexicon">
+						<%-- Voir les demandes d'aide --%>
                         <liferay-ui:icon message="view-help-requests" url="${viewSeekerHelpRequestsURL}" />
 
-						<%--
+						<%-- Voir le profil du demandeur d'aide --%>
 						<c:set value="${helpSeeker.publikUser.publikUserLiferayId}" var="publikId" />
 						<c:if test="${dc.hasPermissionOIDC('EDIT_PUBLIKUSER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="view-user-profil" url="${dc.getPublikUserEditURL(publikId)}" />
 						</c:if>
-						--%>
 
 						<%-- Suppression des justificatifs de l'etudiant --%>
 						<liferay-portlet:actionURL name="deleteStudentCardImages" var="deleteStudentCardImagesURL">
