@@ -96,6 +96,14 @@
 							<liferay-ui:icon message="view-user-profil" url="${dc.getPublikUserEditURL(publikId)}" />
 						</c:if>
 						--%>
+
+						<%-- Suppression des justificatifs de l'etudiant --%>
+						<liferay-portlet:actionURL name="deleteStudentCardImages" var="deleteStudentCardImagesURL">
+							<portlet:param name="cmd" value="deleteStudentCardImages" />
+							<portlet:param name="tab" value="helpSeekers" />
+							<portlet:param name="studentPublikId" value="${helpSeeker.publikUser.publikId}" />
+						</liferay-portlet:actionURL>
+						<liferay-ui:icon message="${helpSeeker.imagesCount}" url="${deleteStudentCardImagesURL}"/>
                     </liferay-ui:icon-menu>
                 </liferay-ui:search-container-column-text>
 

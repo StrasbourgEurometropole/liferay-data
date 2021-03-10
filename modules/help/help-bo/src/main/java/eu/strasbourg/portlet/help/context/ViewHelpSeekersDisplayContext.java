@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.help.context;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -37,15 +38,23 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
             // Recuperation de toutes les requetes d'aide
             List<HelpRequest> helpRequests = HelpRequestLocalServiceUtil.getHelpRequests(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
             HashMap<String, HelpSeeker> helpSeekersMap =  new HashMap<>();
+            HashSet<Long> studentImagesIds = new HashSet<>();
 
             for (HelpRequest request : helpRequests) {
                 String helpSeekerId = request.getPublikId();
                 // On a deja des requetes pour cet utilisateur
                 if (helpSeekersMap.containsKey(helpSeekerId)) {
+                    HelpSeeker seeker = helpSeekersMap.get(helpSeekerId);
                     // Mise a jour nbre requetes
-                    helpSeekersMap.get(helpSeekerId).incrementRequestsNumber();
+                    seeker.incrementRequestsNumber();
                     // Mise a jour derniere requete en date si necessaire
-                    helpSeekersMap.get(helpSeekerId).updateRequest(request);
+                    seeker.updateRequest(request);
+                    // Mise a jour nombre de justificatifs si necessaire
+                    long studentCardImageId = request.getStudentCardImageId();
+                    if (studentCardImageId > 0 && !studentImagesIds.contains(studentCardImageId)) {
+                        seeker.incrementStudentImageCount();
+                        studentImagesIds.add(studentCardImageId);
+                    }
                 }
                 // Premiere requete trouvee de cet utilisateur
                 else {
@@ -53,6 +62,11 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
                     HelpSeeker helpSeeker = new HelpSeeker(PublikUserLocalServiceUtil.getByPublikUserId(helpSeekerId),
                                                             request);
                     helpSeekersMap.put( helpSeekerId, helpSeeker);
+                    long studentCardImageId = request.getStudentCardImageId();
+                    if (studentCardImageId > 0) {
+                        helpSeeker.incrementStudentImageCount();
+                        studentImagesIds.add(studentCardImageId);
+                    }
                 }
 
             }
@@ -123,57 +137,6 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
         return comparator;
     }
 
-    /**
-     * Retourne la liste des utilisateurs correspondant à la recherche lancée en ignorant la pagination
-     */
-    /*
-    public List<PublikUser> getAllHelpSeekers() throws PortalException {
-        if (helpSeekers == null) {
-            helpSeekers = new ArrayList<>();
-            helpRequestNumbers = new HashMap<>();
-
-            List<PublikUser> userHits = PublikUserLocalServiceUtil.getPublikUsers(
-                    -1,
-                    -1,
-                    this.getKeywords(),
-                    this.getOrderByColSearchField(),
-                    "desc".equals(this.getOrderByType()));
-            // On trie pour garder uniquement les utilisateurs ayant au moins une aide
-
-            for (PublikUser user : userHits) {
-                List<HelpRequest> requestsByUser = HelpRequestLocalServiceUtil.getByPublikId(user.getPublikId());
-                if ( requestsByUser != null) {
-                    helpSeekers.add(user);
-                    long publikId = user.getPublikUserLiferayId();
-                    helpRequestNumbers.put(publikId, requestsByUser.size());
-                }
-            }
-
-
-        }
-        return helpSeekers;
-    }
-    */
-
-
-
-    /**
-     * Retourne la liste des PK de tous les demandeurs
-     * @return liste de PK (ex: "1,5,7,8")
-     */
-
-    public String getAllHelpSeekerIds() throws PortalException {
-        StringBuilder helpSeekerIds = new StringBuilder();
-        for (HelpSeeker helpSeeker : this.getHelpSeekers()) {
-            if (helpSeekerIds.length() > 0) {
-                helpSeekerIds.append(",");
-            }
-            helpSeekerIds.append(helpSeeker.getPublikUser().getPublikId());
-        }
-        return helpSeekerIds.toString();
-    }
-
-
     public String getCurrentURL() {
         return PortalUtil.getCurrentURL(this._request);
     }
@@ -229,6 +192,7 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
         private PublikUser _user = null;
         private HelpRequest _lastRequest = null;
         private int _requestsNumber = 1;
+        private int _studentIdImagesCount = 0;
 
         public HelpSeeker(PublikUser user, HelpRequest request) {
             _user = user;
@@ -256,6 +220,13 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
 
         public int getRequestsNumber() {
             return _requestsNumber;
+        }
+
+        public String getImagesCount() { return LanguageUtil.get(Locale.FRANCE,
+                "eu.help.delete.student.card.images") +" ("+_studentIdImagesCount+")"; }
+
+        public void incrementStudentImageCount() {
+            _studentIdImagesCount++;
         }
     }
 
