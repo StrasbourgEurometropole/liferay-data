@@ -89,8 +89,8 @@
                             </div>
                             <div class="pro-footer-help "> 
                                 <p>
-                                    <span class="publication-date" ><@liferay_ui.message key="eu.help.publication-help" /> <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time></span>
-                                    <#if entry.getPublicationDateFr() != entry.getModifiedByUserDateFr()>
+                                    <span class="publication-date" ><@liferay_ui.message key="eu.help.publication-help" /> <time datetime="${entry.getCreatedDateFr()}">${entry.getCreatedDateFr()}</time></span>
+                                    <#if entry.getModifiedByUserDateFr()?has_content>
                                         - 
                                         <span ><@liferay_ui.message key="eu.help.update-help" /> <time datetime="${entry.getModifiedByUserDateFr()}">${entry.getModifiedByUserDateFr()}</time></span>
                                     </#if>
