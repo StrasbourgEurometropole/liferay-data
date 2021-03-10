@@ -8,6 +8,7 @@ Si vous ne recevez pas de réponse favorable (la personne ne pouvant pas répond
 En espérant que votre demande obtienne une suite favorable, nous restons à votre disposition pour toute question complémentaire.<br><br><br>
 
 Bien cordialement,<br><br>
+
 Ville et Eurométropole de Strasbourg<br><br>
 
 ----------------------------------------------------<br><br>
