@@ -87,12 +87,13 @@
 
 				<%-- Colonne : Titre --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editHelpProposalURL}" name="title" truncate="true" orderable="true"
-					value="${helpProposal.titleCurrentValue}" />
+					href="${editHelpProposalURL}" name="title" truncate="true" orderable="true">
+					<c:out value="${helpProposal.titleCurrentValue}" escapeXml='true'/>
+                </liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Createur --%>
 				<liferay-ui:search-container-column-text name="user">
-					${helpProposal.authorNameLabel}
+					<c:out value="${helpProposal.authorNameLabel}" escapeXml='true'/>
 				</liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Date de modification --%>

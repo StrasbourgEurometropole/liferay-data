@@ -46,11 +46,11 @@
 											 keyProperty="helpRequestId" rowIdProperty="helpRequestId">
 				<%-- Colonne : Auteur de la demande --%>
 				<liferay-ui:search-container-column-text name="request-author">
-					${helpRequest.authorLabel}
+				    <c:out value="${helpRequest.authorLabel}" escapeXml='true'/>
 				</liferay-ui:search-container-column-text>
 				<%-- Colonne : Message de la demande --%>
 				<liferay-ui:search-container-column-text name="description">
-					${helpRequest.message}
+				    <c:out value="${helpRequest.message}" escapeXml='true'/>
 				</liferay-ui:search-container-column-text>
 				<%-- Colonne : Date de depot de la demande --%>
 				<fmt:formatDate value="${helpRequest.createDate}"

@@ -45,14 +45,12 @@
                 </liferay-portlet:renderURL>
 
 				<%-- Colonne : Auteur de la demande --%>
-				<liferay-ui:search-container-column-text name="help-proposal-title"
-                                                         href="${editHelpRequestURL}">
-					${helpRequest.helpProposal.getTitle(locale)}
+				<liferay-ui:search-container-column-text name="help-proposal-title" href="${editHelpRequestURL}">
+					<c:out value="${helpRequest.helpProposal.getTitle(locale)}" escapeXml='true'/>
 				</liferay-ui:search-container-column-text>
 				<%-- Colonne : Message de la demande --%>
-				<liferay-ui:search-container-column-text name="helper-name"
-                                                         href="${editHelpRequestURL}">
-					${helpRequest.helpProposal.authorNameLabel}
+				<liferay-ui:search-container-column-text name="helper-name" href="${editHelpRequestURL}">
+				    <c:out value="${helpRequest.helpProposal.authorNameLabel}" escapeXml='true'/>
 				</liferay-ui:search-container-column-text>
 				<%-- Colonne : Statut activite de l'aide --%>
 				<liferay-ui:search-container-column-text name="statusHelpActivity"

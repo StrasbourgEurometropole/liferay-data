@@ -53,18 +53,21 @@
 
                 <%-- Colonne : Nom --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
-                    href="${viewSeekerHelpRequestsURL}" name="last-name" truncate="true" orderable="true"
-                    value="${helpSeeker.publikUser.lastName}" />
+                    href="${viewSeekerHelpRequestsURL}" name="last-name" truncate="true" orderable="true">
+                    <c:out value="${helpSeeker.publikUser.lastName}" escapeXml='true'/>
+                </liferay-ui:search-container-column-text>
 
                 <%-- Colonne : Prenom --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
-                    href="${viewSeekerHelpRequestsURL}" name="first-name" truncate="true" orderable="true"
-                    value="${helpSeeker.publikUser.firstName}" />
+                    href="${viewSeekerHelpRequestsURL}" name="first-name" truncate="true" orderable="true">
+                    <c:out value="${helpSeeker.publikUser.firstName}" escapeXml='true'/>
+                </liferay-ui:search-container-column-text>
 
                 <%-- Colonne : Email --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
-                    href="${viewSeekerHelpRequestsURL}" name="email" truncate="true" orderable="true"
-                    value="${helpSeeker.publikUser.email}" />
+                    href="${viewSeekerHelpRequestsURL}" name="email" truncate="true" orderable="true">
+                    <c:out value="${helpSeeker.publikUser.email}" escapeXml='true'/>
+                </liferay-ui:search-container-column-text>
 
                 <%-- Colonne : Nombre de demandes de l'utilisateur --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
