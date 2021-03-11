@@ -14,10 +14,13 @@
 
 package eu.strasbourg.service.help.model.impl;
 
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.help.model.HelpProposal;
+import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -41,6 +44,15 @@ public class HelpRequestImpl extends HelpRequestBaseImpl {
 	 * Never reference this class directly. All methods that expect a help request model instance should use the {@link eu.strasbourg.service.help.model.HelpRequest} interface instead.
 	 */
 	public HelpRequestImpl() {
+	}
+
+	/**
+	 * Retourne l'AssetEntry rattaché a cette proposition d'aide
+	 */
+	@Override
+	public AssetEntry getAssetEntry() {
+		return AssetEntryLocalServiceUtil.fetchEntry(HelpRequest.class.getName(),
+				this.getHelpRequestId());
 	}
 
 	/**
@@ -68,7 +80,22 @@ public class HelpRequestImpl extends HelpRequestBaseImpl {
 	}
 
 	/**
-	 * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	 * Retourne le nom prenom du depositaire s'il existe
+	 */
+	@Override
+	public String getAuthorNameLabel() {
+		PublikUser author = this.getAuthor();
+		if (author != null) {
+			return author.getFirstName()
+					+ " "
+					+  author.getLastName();
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * Retourne l'email du demandeur d'aide
 	 */
 	@Override
 	public String getAuthorEmail() {

@@ -218,6 +218,22 @@ public class HelpRequestLocalServiceUtil {
 		return getService().fetchHelpRequestByUuidAndGroupId(uuid, groupId);
 	}
 
+	/**
+	 * Recherche par mot clés
+	 */
+	public static java.util.List<eu.strasbourg.service.help.model.HelpRequest>
+		findByKeyword(String keyword, long groupId, int start, int end) {
+
+		return getService().findByKeyword(keyword, groupId, start, end);
+	}
+
+	/**
+	 * Recherche par mot clés (compte)
+	 */
+	public static long findByKeywordCount(String keyword, long groupId) {
+		return getService().findByKeywordCount(keyword, groupId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
@@ -362,13 +378,20 @@ public class HelpRequestLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
+	public static void reindexById(long helpRequestId)
+		throws com.liferay.portal.kernel.search.SearchException {
+
+		getService().reindexById(helpRequestId);
+	}
+
 	/**
 	 * Supprimer une demande d'aide
 	 *
 	 * @param helpRequestId Id de la demande d'aide
 	 */
 	public static eu.strasbourg.service.help.model.HelpRequest
-		removeHelpRequest(long helpRequestId) {
+			removeHelpRequest(long helpRequestId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().removeHelpRequest(helpRequestId);
 	}
@@ -384,6 +407,44 @@ public class HelpRequestLocalServiceUtil {
 			eu.strasbourg.service.help.model.HelpRequest helpRequest) {
 
 		return getService().updateHelpRequest(helpRequest);
+	}
+
+	/**
+	 * Met à jour une helpProposal et l'enregistre en base de données
+	 *
+	 * @throws IOException
+	 */
+	public static eu.strasbourg.service.help.model.HelpRequest
+			updateHelpRequest(
+				eu.strasbourg.service.help.model.HelpRequest helpRequest,
+				com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().updateHelpRequest(helpRequest, sc);
+	}
+
+	/**
+	 * Met à jour le statut de la helpProposal "manuellement" (pas via le workflow)
+	 */
+	public static void updateStatus(
+			eu.strasbourg.service.help.model.HelpRequest helpRequest,
+			int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		getService().updateStatus(helpRequest, status);
+	}
+
+	/**
+	 * Met à jour le statut de la helpProposal par le framework workflow
+	 */
+	public static eu.strasbourg.service.help.model.HelpRequest updateStatus(
+			long userId, long entryId, int status,
+			com.liferay.portal.kernel.service.ServiceContext sc,
+			java.util.Map<String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().updateStatus(
+			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static HelpRequestLocalService getService() {

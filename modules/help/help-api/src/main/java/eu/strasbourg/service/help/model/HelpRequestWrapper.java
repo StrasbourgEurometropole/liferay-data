@@ -224,6 +224,14 @@ public class HelpRequestWrapper
 	}
 
 	/**
+	 * Retourne l'AssetEntry rattaché a cette proposition d'aide
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return model.getAssetEntry();
+	}
+
+	/**
 	 * Retourne l'utilisateur Publik depositaire
 	 *
 	 * @return
@@ -234,7 +242,7 @@ public class HelpRequestWrapper
 	}
 
 	/**
-	 * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	 * Retourne l'email du demandeur d'aide
 	 */
 	@Override
 	public String getAuthorEmail() {
@@ -255,6 +263,14 @@ public class HelpRequestWrapper
 	@Override
 	public String getAuthorLabel() {
 		return model.getAuthorLabel();
+	}
+
+	/**
+	 * Retourne le nom prenom du depositaire s'il existe
+	 */
+	@Override
+	public String getAuthorNameLabel() {
+		return model.getAuthorNameLabel();
 	}
 
 	/**
