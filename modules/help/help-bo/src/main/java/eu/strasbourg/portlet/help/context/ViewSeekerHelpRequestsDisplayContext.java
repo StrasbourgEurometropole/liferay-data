@@ -52,7 +52,12 @@ public class ViewSeekerHelpRequestsDisplayContext extends ViewListBaseDisplayCon
             else {
                 List<HelpRequest> unsortedHelpRequests = HelpRequestLocalServiceUtil.getByPublikId(helpSeekerId);
                 // Tri par requete la plus recente
-                Comparator<HelpRequest> byDate = (c1, c2) -> Long.valueOf(c1.getCreateDate().getTime()).compareTo(c2.getCreateDate().getTime());
+                Comparator<HelpRequest> byDate = new Comparator<HelpRequest>() {
+                    @Override
+                    public int compare(HelpRequest c1, HelpRequest c2) {
+                        return Long.valueOf(c1.getCreateDate().getTime()).compareTo(c2.getCreateDate().getTime());
+                    }
+                };
                 this._helpRequests = ListUtil.sort(unsortedHelpRequests, byDate.reversed());
             }
         }
