@@ -398,3 +398,15 @@
 
 }
 // Fin correctifs d'affichage des liens après renouvellement de charte grahique de fin 2020
+
+/* permettre l'accès à la checkbox se souvenir de moi */
+.portlet-login fieldset {
+	> div {
+		input {
+			display: block;
+		}
+		label:before {
+			content: none;
+		}
+	}
+}
