@@ -90,6 +90,12 @@
                 </div>
 
                 <div class="pro-optin form-checkbox">
+                    <div class="fontWhite">
+                        <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_messageHelpProposal"/>
+                    </div>
+                </div>
+
+                <div class="pro-optin form-checkbox">
                     <div>
                         <input type="checkbox" id="<portlet:namespace />agreement1" name="<portlet:namespace />agreement1" value="agreement1">
                         <label for="<portlet:namespace />agreement1" class="fontWhite">
@@ -124,6 +130,10 @@
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_SubmitHelpRequestAgreement3"/>
                         </label>
                     </div>
+                </div>
+
+                <div class="pro-info-supp">
+                    <p><liferay-ui:message key="modal.submit.help.information.delete"/></p>
                 </div>
                 
                 <div id="<portlet:namespace />alert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
