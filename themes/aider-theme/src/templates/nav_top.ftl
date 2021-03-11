@@ -1,6 +1,7 @@
 <nav class="nav-top">
     <#assign isHome = layout.getFriendlyURL() == "/accueil" />
-    <header id="pro-header" class="menu-no-header <#if isHome> home-menu </#if>">
+    <#assign layoutImage = layout.expandoBridge.getAttribute('image') />
+    <header id="pro-header" class="menu-no-header <#if isHome> home-menu </#if>" <#if isHome && layoutImage?has_content>style="background-image: url(${layoutImage})"</#if>>
 
         <@liferay_portlet["runtime"]
         portletProviderAction=portletProviderAction.VIEW
