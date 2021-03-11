@@ -332,7 +332,7 @@
     });
 
     $("#<portlet:namespace />modalConfirm #<portlet:namespace />buttonConfirm").click(function(event){
-        $("#<portlet:namespace />modalConfirm").modal('hide');
+        window.location.reload();
     });
 
     $("#<portlet:namespace />modalError #<portlet:namespace />buttonConfirm").click(function(event){
