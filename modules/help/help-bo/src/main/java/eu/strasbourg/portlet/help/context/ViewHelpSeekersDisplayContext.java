@@ -146,7 +146,7 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
         myPortletURL.setWindowState(WindowState.MAXIMIZED);
         myPortletURL.setPortletMode(PortletMode.VIEW);
 
-        myPortletURL.setParameter("cmd", "editPublikUser");
+        myPortletURL.setParameter("cmd", "editHelpSeeker");
         myPortletURL.setParameter("publikUserLiferayId", publikUserId);
         myPortletURL.setParameter("returnURL", PortalUtil.getCurrentURL(this._request));
         myPortletURL.setParameter("mvcPath", "/oidc-bo-edit-publikuser.jsp");
