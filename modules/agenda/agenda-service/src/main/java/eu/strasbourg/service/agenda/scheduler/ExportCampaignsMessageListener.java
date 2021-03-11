@@ -33,7 +33,7 @@ public class ExportCampaignsMessageListener
 		// Call service to be sure they are "awake"
 		this._campaignLocalService.getClass();
 
-		// Maintenant + 2 min pour ne pas lancer le scheduler au Startup du module
+		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
 		Calendar now = Calendar.getInstance();
 		now.add(Calendar.MINUTE, 5);
 		Date fiveMinutesFromNow = now.getTime();

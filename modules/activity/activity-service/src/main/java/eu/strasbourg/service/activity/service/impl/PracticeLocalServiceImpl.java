@@ -364,20 +364,20 @@ public class PracticeLocalServiceImpl extends PracticeLocalServiceBaseImpl {
 
 	private String query = "SELECT *," +
 			"                (SELECT GROUP_CONCAT(DISTINCT category.title SEPARATOR '||')" +
-			"                FROM AssetEntries_AssetCategories AS entrycateg" +
-			"                INNER JOIN AssetCategory AS category ON category.categoryId = entrycateg.categoryId" +
+			"                FROM AssetEntryAssetCategoryRel AS entrycateg" +
+			"                INNER JOIN AssetCategory AS category ON category.categoryId = entrycateg.assetCategoryId" +
 			"                INNER JOIN AssetVocabulary AS publicVocabulary ON category.vocabularyId = publicVocabulary.vocabularyId AND publicVocabulary.name = 'public de pratique'" +
-			"                WHERE entrycateg.entryId = pratique.entryId) as publics," +
+			"                WHERE entrycateg.assetEntryId = pratique.entryId) as publics," +
 			"                (SELECT GROUP_CONCAT(DISTINCT category.title SEPARATOR '||')" +
-			"                FROM AssetEntries_AssetCategories AS entrycateg" +
-			"                INNER JOIN AssetCategory AS category ON category.categoryId = entrycateg.categoryId" +
+			"                FROM AssetEntryAssetCategoryRel AS entrycateg" +
+			"                INNER JOIN AssetCategory AS category ON category.categoryId = entrycateg.assetCategoryId" +
 			"                INNER JOIN AssetVocabulary AS districtVocabulary ON category.vocabularyId = districtVocabulary.vocabularyId AND districtVocabulary.name = 'territoire'" +
-			"                WHERE entrycateg.entryId = pratique.entryId) as districts," +
+			"                WHERE entrycateg.assetEntryId = pratique.entryId) as districts," +
 			"                (SELECT GROUP_CONCAT(DISTINCT category.title SEPARATOR '||')" +
-			"                FROM AssetEntries_AssetCategories AS entrycateg" +
-			"                INNER JOIN AssetCategory AS category ON category.categoryId = entrycateg.categoryId" +
+			"                FROM AssetEntryAssetCategoryRel AS entrycateg" +
+			"                INNER JOIN AssetCategory AS category ON category.categoryId = entrycateg.assetCategoryId" +
 			"                INNER JOIN AssetVocabulary AS accessibilityVocabulary ON category.vocabularyId = accessibilityVocabulary.vocabularyId AND accessibilityVocabulary.name = 'accessibilite de pratique'" +
-			"                WHERE entrycateg.entryId = pratique.entryId) as accessibilities" +
+			"                WHERE entrycateg.assetEntryId = pratique.entryId) as accessibilities" +
 			"            FROM (SELECT entry.entryId, " +
 			"                       CASE WHEN parent.parentCategoryId = 0 THEN parent.title ELSE CASE WHEN gdparent.parentCategoryId = 0 THEN gdparent.title ELSE agdparent.title END END as domaine," +
 			"                       CASE WHEN parent.parentCategoryId = 0 THEN category.title ELSE CASE WHEN gdparent.parentCategoryId = 0 THEN parent.title ELSE gdparent.title END END as specialite," +
@@ -386,8 +386,8 @@ public class PracticeLocalServiceImpl extends PracticeLocalServiceBaseImpl {
 			"                       category.name as pratique" +
 			"                FROM activity_Practice AS practice" +
 			"                INNER JOIN AssetEntry AS entry ON entry.classPK = practice.practiceId" +
-			"                INNER JOIN AssetEntries_AssetCategories AS entrycateg ON entrycateg.entryId = entry.entryId" +
-			"                INNER JOIN AssetCategory AS category ON category.categoryId = entrycateg.categoryId" +
+			"                INNER JOIN AssetEntryAssetCategoryRel AS entrycateg ON entrycateg.assetEntryId = entry.entryId" +
+			"                INNER JOIN AssetCategory AS category ON category.categoryId = entrycateg.assetCategoryId" +
 			"                INNER JOIN AssetVocabulary AS practiceVocabulary ON category.vocabularyId = practiceVocabulary.vocabularyId AND practiceVocabulary.name = 'domaine de pratique'" +
 			"                INNER JOIN AssetCategory AS parent ON parent.categoryId = category.parentCategoryId" +
 			"                LEFT JOIN AssetCategory AS gdparent ON gdparent.categoryId = parent.parentCategoryId" +

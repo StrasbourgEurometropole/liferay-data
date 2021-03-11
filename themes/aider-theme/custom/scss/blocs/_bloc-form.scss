@@ -1,0 +1,710 @@
+.pro-form-search {
+	position: relative;
+	height: 250px;
+	background: $c_dark;
+	margin-top: -100px;
+
+	.container {
+		position: absolute;
+		bottom: 30px;
+		left: 0;
+		right: 0;
+	}
+
+	form {
+		position: relative;
+		&.input-is-focus {
+			&:before {
+				content: none;
+			}
+		}
+		&:before {
+			content: "\e90c";
+			@include font();
+			float: left;
+			display: block;
+			line-height: 70px;
+			position: absolute;
+			left: 25px;
+			font-size: 2em;
+			animation: blink 1s infinite steps(1);
+			@include mobile {
+				content: none;
+			}
+		}
+		input {
+			@include ft($f_hx, 1.750em, 400, $c_txt, 36px);
+			@extend %appearance;
+			width: calc(100% - 66px);
+			background: $c_white;
+			padding: 17px 35px;
+			text-transform: uppercase;
+			&::placeholder {
+				color: rgba($c_txt, 0.7);
+			}
+			&:focus {
+				outline: 1px dashed $c_dark;
+			}
+			@include mobile {
+				font-size: 1em;
+				line-height: 25px;
+				padding: 20px 15px;
+			}
+		}
+
+		button {
+			@extend %appearance;
+			position: absolute;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			background: $c_main;
+			padding: 0 20px;
+			font-size: 25px;
+			@include addTransitionCurve();
+			&:hover, &:focus {
+				color: $c_white;
+			}
+		}
+	}
+}
+
+.pro-form-select {
+
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 5px;
+	@include tablet_landscape {
+		margin-left: 0;
+		display: block;
+	}
+	.selectric-wrapper {
+		position: relative;
+		@include tablet_landscape {
+			display: inline-block;
+		}
+		@include tablet_portrait {
+			margin-bottom: 15px;
+		}
+		&:after {
+			content: "\e902";
+			@include font();
+			float: right;
+			font-size: 16px;
+			position: absolute;
+			right: -35px;
+			top: 50%;
+			margin-top: -8px;
+			@include tablet_portrait {
+				right: -35px;
+				top: calc(50% - 5px);
+			}
+			@include mobile{
+				font-size: 12px;
+				margin-top: -6px;
+			}
+		}
+		.selectric {
+			background: none;
+			border: none;
+			height: 74px;
+			@include tablet_portrait {
+				height: 100%;
+			}
+			.label {
+				@include ft($f_hx, 2.5em, 400, $c_txt, 1.600em);
+				text-transform: uppercase;
+				height: 100%;
+				padding: 7px 0;
+				margin: 0;
+				border-radius: 0;
+				border: none;
+				@include tablet_portrait {
+					text-align: left;
+					padding: 0;
+				}
+				@include mobile {
+					font-size: 1.5em;
+				}
+				@include mobile_small {
+					font-size: 1.3em;
+				}
+				&:after {
+					content: '';
+					position: absolute;
+					bottom: 18px;
+					left: 0;
+					right: 0;
+					height: 10px;
+					width: 100%;
+					z-index: -1;
+					background: $c_main;
+					@include addTransitionCurve();
+					@include tablet_portrait {
+						position: relative;
+						bottom: 0;
+						display: block;
+					}
+				}
+				&:hover {
+					&:after {
+						height: 20px;
+					}
+				}
+			}
+			.button {
+				display: none;
+			}
+		}
+		.selectric-items {
+			background: $c_white;
+			box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.20);
+			border: none;
+			width: 335px !important;
+			ul {
+				li {
+					@include ft($f_hx, 1.5em, 400, $c_txt, 1.600em);
+					padding: 10px 20px;
+					@include addTransition();
+				}
+			}
+		}
+	}
+
+}
+
+
+form{
+	input[type="submit"]{
+		@include btn($c_main, $c_txt, 2, $f_hx, $s_p);
+		@extend %appearance;
+		text-transform: uppercase;
+		font-weight: 700;
+		border: 2px solid $c_main;
+		line-height: 22px;
+		width: 100%;
+		display: block;
+		text-align: center;
+		position: relative;
+		padding: 12px 0;
+		margin-bottom: 30px;
+		@include addTransition();
+		&:hover, &:focus {
+			background: $c_dark;
+			border-color: $c_dark;
+			color: $c_main;
+		}
+	}
+}
+
+.pro-bloc-pcs-form {
+	&.pro-form-page-contact{
+		.pro-wrapper{
+			padding: 20px 0 30px 0;
+
+			p{
+				color: $c_main;
+				font-weight: 700;
+				font-size: 1.25em;
+			}
+		}
+		.form-checkbox.pro-optin{
+			> div{
+				max-width: 900px;
+			}
+		}
+	}
+
+	.pro-wrapper{
+		padding: 20px 20px 10px 20px;
+		border-bottom: 1px solid #c9cbcd;
+		h4{
+			@include ft($f_hx, 	0.938em, 700, $c_txt, 1.600em);
+			text-transform: uppercase;
+		}
+	}
+	input, textarea {
+		@include ft($f_txt, 0.875em, 400, $c_txt, 20px);
+		@extend %appearance;
+		height: 100%;
+		padding: 10px 15px;
+		border: 1px solid #b2b2b2;
+		border-radius: 4px;
+		background: $c_white;
+		@include addTransition();
+		&:hover, &:focus {
+			border-color: $c_dark;
+			outline: none;
+			box-shadow: none;
+		}
+	}
+	textarea.form-control{
+		height: 280px;
+		resize: none;
+		padding: 10px 15px;
+		margin-bottom: 0;
+
+		&.allergie{
+			height: 65px;
+		}
+		&.pro-textarea-small{
+			height: 130px;
+		}
+	}
+
+	iframe{
+		@include ft($f_txt, 0.875em, 400, $c_txt, 20px);
+		//padding: 10px 15px;
+		width: 100%;
+		height: 280px;
+		border: 1px solid #b2b2b2;
+		border-radius: 4px;
+		background: $c_white;
+		&:hover, &:focus {
+			border-color: $c_dark;
+			outline: none;
+			box-shadow: none;
+		}
+	}
+
+	.form-group {
+		clear: both;
+		margin-bottom: 10px;
+		@include clearfix();
+		&.pro-form-error{
+			input{
+				border-color: #ff0000;
+			}
+		}
+		label {
+			position: relative;
+			display: block;
+			margin-bottom: 5px;
+		}
+
+		&.frm_opt_container{
+			.label{
+				@include ft($f_txt, 0.875em, 400, #4c4c4c, 1.571em);
+				display: block;
+				padding: 0;
+				margin-bottom: 5px;
+			}
+			> div {
+				display: inline-block;
+				vertical-align: middle;
+				margin-right: 40px;
+			}
+			&.form-inline{
+				margin-top: 15px;
+				> div{
+					margin-right: 20px;
+				}
+			}
+		}
+
+
+
+		/* Style for Radio */
+		input[type="radio"] {
+			display: none;
+		}
+		input[type="radio"] + span {
+			background-color: $c_white;
+			border: 1px solid $c_sub;
+			border-radius: 50px;
+			display: inline-block;
+			float: left;
+			margin-right: 7px;
+			padding: 7px;
+			position: relative;
+			top: 2px;
+			-webkit-appearance: none;
+		}
+
+		input[type="radio"]:checked + span {
+			color: $c_sub;
+		}
+		input[type="radio"]:checked + span:after {
+			background: $c_sub;
+			border-radius: 50px;
+			content: " ";
+			height: 10px;
+			left: 2px;
+			position: absolute;
+			top: 2px;
+			width: 10px;
+		}
+	}
+
+
+	.pro-form-submit{
+		padding: 25px 20px;
+		text-align: center;
+		background: $c_dark;
+		border-top: 1px solid rgba($c_white,0.2);
+		button{
+			@include ft($f_hx, 0.938em, 700, $c_white, 22px);
+			@extend %appearance;
+			background: $c_main;
+			border-radius: 4px;
+			display: inline-block;
+			padding: 12px 90px;
+			border: 2px solid $c_main;
+			text-transform: uppercase;
+			@include addTransition();
+			@include mobile{
+				width: 100%;
+			}
+			&:hover, &:focus{
+				background: transparent;
+				color: $c_main;
+			}
+		}
+	}
+
+	.checkbox-inline + .checkbox-inline{
+		margin: 0;
+		margin-left: 20px;
+		@include mobile{
+			margin: 5px 0 0 0;
+		}
+	}
+
+	label, .label {
+		@include ft($f_txt, 0.875em, 400, #4c4c4c, 1.571em);
+		text-align: left;
+		clear: both;
+		user-select: none;
+		span {
+			color: #ff0000;
+		}
+	}
+
+	.pro-optin{
+		background: $c_dark;
+		padding: 20px;
+		margin-bottom: 0;
+		label, label p{
+			color: $c_white;
+		}
+		&.group-checkbox{
+			padding-bottom: 0;
+		}
+	}
+
+	.form-checkbox {
+		position: relative;
+		clear: both;
+		&.pro-optin{
+			input{
+				&:focus{
+					+ label{
+						color: $c_main;
+					}
+				}
+			}
+			label{
+				&:hover{
+					color: $c_main;
+				}
+				a{
+					color: $c_white;
+					text-decoration: underline;
+					&:hover{
+						color: $c_main;
+					}
+				}
+			}
+		}
+
+		& + .pro-optin{
+			padding-top: 0;
+		}
+
+		&.form-inline{
+			margin-top: 20px;
+			@include clearfix();
+			div{
+				float: left;
+				margin-right: 20px;
+
+			}
+		}
+
+		> div{
+			position: relative;
+			padding: 0;
+			margin-bottom: 10px;
+			@include mobile{
+				display: block;
+			}
+		}
+		.label {
+			display: block;
+			margin-bottom: 5px;
+			padding: 0;
+		}
+		@include clearfix();
+		input[type="checkbox"]:checked + label:after, input[type="radio"]:checked + label:after {
+			opacity: 1;
+			transform: scale(1);
+		}
+		input {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			opacity: 0;
+			margin: 0;
+			&:focus {
+				& + label {
+					color: $c_dark;
+				}
+			}
+		}
+		label {
+			padding: 0 0 0 30px;
+			&:hover{
+				color: $c_dark;
+				cursor: pointer;
+			}
+			&:before {
+				content: '';
+				position: absolute;
+				float: left;
+				margin-right: 10px;
+				transform: none;
+				text-align: left;
+				width: 20px;
+				height: 20px;
+				border: 1px solid #a6a6a6;
+				border-radius: 2px;
+				background: #fff;
+				cursor: pointer;
+				left: 0;
+				top: 1px;
+			}
+			&:after {
+				content: "\e91a";
+				@include font();
+				text-shadow: 1px 1px 0 $c_white, 0px -2px 0 $c_white;
+				font-size: 16px;
+				position: absolute;
+				left: 5px;
+				top: 1px;
+				transform: translateY(-50%);
+				transform: translate3d(0, -50%, 0);
+				cursor: pointer;
+				color: $c_txt;
+				transition: all .2s;
+				background: none;
+				opacity: 0;
+				transform: scale(0);
+				@include addTransitionCurve();
+			}
+		}
+	}
+
+	.pro-info-supp{
+		background: $c_dark;
+		padding: 5px 20px 15px 20px;
+		> * {
+			&:last-child{
+				margin: 0;
+			}
+		}
+		p{
+			@include ft($f_txt, 0.875em, 400, rgba($c_white,0.5), 1.429em);
+			margin-bottom: 15px;
+			i{
+				font-style: italic;
+			}
+		}
+	}
+
+
+	.form-city{
+		width: calc(100% - 105px);
+		float: left;
+	}
+
+	.form-code{
+		width: 90px;
+		float: right;
+	}
+
+
+	.pro-txt-form{
+		p{
+			@include ft($f_txt, 0.875em, 700, $c_txt, 1.571em);
+			margin: 5px 0;
+			padding-right: 20px;
+			display: inline-block;
+			&:after{
+				content: "\e931";
+				@include font();
+				position: absolute;
+				top: 50%;
+				right: 0;
+				font-size: 1.4em;
+				transform: translateY(-50%);
+			}
+		}
+	}
+
+	.pro-txt-intro{
+		p{
+			@include ft($f_txt, 0.875em, 400, $c_txt, 1.571em);
+			margin-bottom: 10px;
+		}
+		.pro-link-form{
+			@include ft($f_txt, 0.875em, 700, $c_txt, 1.571em);
+			text-decoration: underline;
+			display: block;
+			margin-bottom: 10px;
+			text-transform: uppercase;
+			@include addTransition();
+			&:hover, &:focus{
+				color: $c_main;
+			}
+		}
+	}
+
+
+	.selectric-wrapper{
+		&:hover{
+			.selectric{
+				.label{
+					border-color: $c_dark;
+				}
+			}
+		}
+		.selectric{
+			border: none;
+			.label{
+				@include ft($f_txt, 0.875em, 400, $c_txt, 38px);
+				display: block;
+				width: 100%;
+				height: 41px;
+				padding: 0 25px 0 15px;
+				margin: 0;
+				background: $c_white;
+				border: 1px solid #b2b2b2;;
+				border-radius: 4px;
+				box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+				transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+				&:after{
+					content: "\e930";
+					@include font();
+					position: absolute;
+					top: 50%;
+					right: 10px;
+					font-size: 20px;
+					margin-top: -10px;
+				}
+			}
+			.button{
+				display: none;
+			}
+		}
+
+		.selectric-items{
+			top: calc(100% + 5px);
+			border-radius: 4px;
+			border-color: #B2B2B2;
+			ul{
+				font-size: 1em;
+				margin: 0;
+				li{
+					@include ft($f_txt, 0.875em, 400, $c_txt, 1.429em);
+					padding: 8px 15px;
+					&:before{
+						content: none;
+					}
+				}
+			}
+		}
+	}
+
+
+
+	.input-file{
+		input{
+			&:hover, &:focus{
+				border-color: #B2B2B2;
+			}
+		}
+	}
+
+	.input-ghost{
+		display: none;
+	}
+
+	.input-group-btn{
+		font-size: 1em;
+		.btn{
+			@include ft($f_hx, 0.813em, 700, $c_white, normal);
+			text-align: center;
+			border-color: #B2B2B2;
+			text-transform: uppercase;
+			padding: 0 15px;
+			height: 40px;
+			border-radius: 0;
+			margin-top: 0;
+			background: $c_main;
+			@include addTransition();
+			&:hover, &:focus{
+				background: $c_dark;
+				border-color: $c_dark;
+				color: $c_main;
+				outline: none;
+			}
+		}
+	}
+
+
+	.pro-row{
+		position: relative;
+		margin-left: -7.5px;
+		margin-right: -7.5px;
+		@include clearfix();
+	}
+
+	.form-half {
+		width: 50%;
+		float: left;
+		clear: none;
+		padding: 0 7.5px;
+		@include mobile{
+			width: 100%;
+			float: none;
+		}
+	}
+
+	.form-triple {
+		width: 33.3333%;
+		float: left;
+		margin-bottom: 10px;
+		clear: none;
+		padding: 0 7.5px;
+		@include mobile{
+			width: 100%;
+			float: none;
+		}
+	}
+
+	.form-two-tiers{
+		width: 66.66%;
+		float: left;
+		margin-bottom: 10px;
+		clear: none;
+		padding: 0 7.5px;
+		@include mobile{
+			width: 100%;
+			float: none;
+		}
+	}
+
+}

@@ -16,16 +16,31 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import eu.strasbourg.portlet.search_asset.action.ExportPDF;
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset.display.context.SearchAssetDisplayContext;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.help.model.HelpProposal;
+import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
@@ -33,25 +48,48 @@ import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
-import eu.strasbourg.service.project.service.*;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeLocalService;
+import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
+import eu.strasbourg.service.project.service.ParticipationLocalService;
+import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
+import eu.strasbourg.service.project.service.PetitionLocalService;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
+import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
-import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.LayoutHelper;
+import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
-
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.*;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component(
@@ -79,6 +117,7 @@ public class SearchAssetPortlet extends MVCPortlet {
     public final static String PARTICIPATION = "eu.strasbourg.service.project.model.Participation";
     public final static String BUDGET = "eu.strasbourg.service.project.model.BudgetParticipatif";
     public final static String INITIATIVE = "eu.strasbourg.service.project.model.Initiative";
+    public final static String AIDE = "eu.strasbourg.service.help.model.HelpProposal";
 
     @Override
     public void render(RenderRequest renderRequest, RenderResponse renderResponse) {
@@ -320,12 +359,20 @@ public class SearchAssetPortlet extends MVCPortlet {
                             jsonEntries.put(jsonBudget);
                             break;
                         case "eu.strasbourg.service.project.model.Initiative":
-                        	Initiative initiative = InitiativeLocalServiceUtil.fetchInitiative(entry.getClassPK());
-                        	JSONObject jsonInitiative = JSONFactoryUtil.createJSONObject();
-                        	jsonInitiative.put("class", className);
-                        	jsonInitiative.put("json", initiative.toJSON());
-                        	jsonEntries.put(jsonInitiative);
-                        	break;
+                            Initiative initiative = InitiativeLocalServiceUtil.fetchInitiative(entry.getClassPK());
+                            JSONObject jsonInitiative = JSONFactoryUtil.createJSONObject();
+                            jsonInitiative.put("class", className);
+                            jsonInitiative.put("json", initiative.toJSON());
+                            jsonEntries.put(jsonInitiative);
+                            break;
+                        case "eu.strasbourg.service.help.model.HelpProposal":
+                            HelpProposal helpProposal = HelpProposalLocalServiceUtil.fetchHelpProposal(entry.getClassPK());
+                            JSONObject jsonHelpProposal = JSONFactoryUtil.createJSONObject();
+                            jsonHelpProposal.put("class", className);
+                            Locale locale = themeDisplay.getLocale();
+                            jsonHelpProposal.put("json", helpProposal.toJSON(locale));
+                            jsonEntries.put(jsonHelpProposal);
+                            break;
                         case "eu.strasbourg.service.video.model.Video":
                             Video video = VideoLocalServiceUtil.fetchVideo(entry.getClassPK());
                             JSONObject jsonVideo = JSONFactoryUtil.createJSONObject();
@@ -410,6 +457,9 @@ public class SearchAssetPortlet extends MVCPortlet {
         long[] statuts = new long[]{};
         long[] bpStatus  = new long[]{};
         long[] initiativeStatus = new long[]{};
+        long[] helpProposalActivityStatus = new long[]{};
+        long[] helpProposalTypes = new long[]{};
+        long[] localisations = new long[]{};
         long[] projects = new long[]{};
         long[] districts = new long[]{};
         long[] thematics = new long[]{};
@@ -509,6 +559,20 @@ public class SearchAssetPortlet extends MVCPortlet {
             sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
         }
 
+        if (resourceID.equals("entrySelectionHelpProposal")) {
+            keywords = ParamUtil.getString(request, "selectedKeyWords");
+            startDay = ParamUtil.getInteger(request, "selectedStartDay");
+            startMonth = ParamUtil.getString(request, "selectedStartMonth");
+            startYear = ParamUtil.getInteger(request, "selectedStartYear");
+            endDay = ParamUtil.getInteger(request, "selectedEndDay");
+            endMonth = ParamUtil.getString(request, "selectedEndMonth");
+            endYear = ParamUtil.getInteger(request, "selectedEndYear");
+            helpProposalTypes = ParamUtil.getLongValues(request, "selectedHelpProposalTypes");
+            helpProposalActivityStatus = ParamUtil.getLongValues(request, "selectedHelpProposalActivityStatus");
+            localisations = ParamUtil.getLongValues(request, "selectedLocalisations");
+            sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+        }
+
         if (resourceID.equals("entrySelectionNews")) {
             keywords = null;
             startDay = ParamUtil.getInteger(request, "selectedStartDay");
@@ -535,7 +599,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 
         // Catégories sélectionnées par l'utilisateur
         List<Long[]> categoriesIds = this.getFilterCategoriesIds(
-                states, statuts, bpStatus, initiativeStatus, projects, districts, thematics, types
+                states, statuts, bpStatus, initiativeStatus, projects, districts, thematics, types, helpProposalTypes, helpProposalActivityStatus, localisations
         );
 
         // Préfiltre catégories
@@ -632,11 +696,13 @@ public class SearchAssetPortlet extends MVCPortlet {
      * entries. L'opérateur entre chaque id de catégorie d'un array est un "OU", celui entre chaque liste d'array est un "ET"
      */
     private List<Long[]> getFilterCategoriesIds(long[] states, long[] statuts, long[] bpStatus, long[] initiativeStatus,
-                                                long[] projects, long [] districts, long[] thematics, long[] types) {
+                                                long[] projects, long [] districts, long[] thematics, long[] types,
+                                                long[] helpProposalTypes, long[] helpProposalActivityStatus, long[] localisations) {
         List<Long[]> filterCategoriesIds = new ArrayList<>();
         List<Long> categoriesIds = new ArrayList<>();
 
         // On récupère les états s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long state : states) {
             if (state > 0) {
                 categoriesIds.add(state);
@@ -647,6 +713,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // On récupère les statuts s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long statut : statuts) {
             if (statut > 0) {
                 categoriesIds.add(statut);
@@ -657,6 +724,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
         
         // On recupere les statuts BP s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long bpStatu : bpStatus) {
             if (bpStatu > 0) {
                 categoriesIds.add(bpStatu);
@@ -667,6 +735,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
         
         // On recupere les statuts initiative s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long initiativeStatu : initiativeStatus) {
         	if (initiativeStatu > 0) {
         		categoriesIds.add(initiativeStatu);
@@ -677,6 +746,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // On récupère les projets s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long project : projects) {
             if (project > 0) {
                 categoriesIds.add(project);
@@ -709,9 +779,43 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // On récupère les types s'il y en a
+        categoriesIds = new ArrayList<>();
         for (long type : types) {
             if (type > 0) {
                 categoriesIds.add(type);
+            }
+        }
+        if (categoriesIds.size() > 0) {
+            filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+        }
+
+        // On recupere les types d'aide s'il y en a
+        categoriesIds = new ArrayList<>();
+        for (long helpProposalType : helpProposalTypes) {
+            if (helpProposalType > 0) {
+                categoriesIds.add(helpProposalType);
+            }
+        }
+        if (categoriesIds.size() > 0) {
+            filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+        }
+
+        // On récupère l'état d'activité s'il y en a
+        categoriesIds = new ArrayList<>();
+        for (long helpProposalActivity : helpProposalActivityStatus) {
+            if (helpProposalActivity > 0) {
+                categoriesIds.add(helpProposalActivity);
+            }
+        }
+        if (categoriesIds.size() > 0) {
+            filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+        }
+
+        // On récupère les localisation s'il y en a
+        categoriesIds = new ArrayList<>();
+        for (long localisation : localisations) {
+            if (localisation > 0) {
+                categoriesIds.add(localisation);
             }
         }
         if (categoriesIds.size() > 0) {

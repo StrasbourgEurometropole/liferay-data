@@ -344,4 +344,14 @@ public class StrasbourgPropsUtil {
 	public static String getCSMAPPublikRedirectURI() {
 		return PropsUtil.get("eu.strasbourg.csmap.publik.redirect.uri");
 	}
+	
+	public static String getEntraideUserSubmitBCCMail() {
+		String result;
+		try {
+			result = PropsUtil.get("eu.strasbourg.entraide.user.submit.bcc.mail");
+		} catch (Exception ignored) {
+			result = "";
+		}
+		return result;
+	}
 }

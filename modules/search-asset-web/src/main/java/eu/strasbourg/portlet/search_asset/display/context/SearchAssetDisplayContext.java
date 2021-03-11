@@ -341,6 +341,29 @@ public class SearchAssetDisplayContext {
 		return this._filterCategoriesIdString;
 	}
 
+	public String getFilterActivityCategoriesIdsString() {
+		if (Validator.isNull(this._filterCategoriesIdString)) {
+			String filterCategoriesIdsString = "";
+			if(this.getFilterCategoriesIds().isEmpty()){
+				// on récupère la catégorie active du statut de modération de l'aide
+				long groupId = this._themeDisplay.getScopeGroupId();
+				AssetCategory active = AssetVocabularyHelper.getCategory("Active", groupId);
+				filterCategoriesIdsString = ""+active.getCategoryId();
+			}else {
+				for (Long[] filterCategoriesForVoc : this.getFilterCategoriesIds()) {
+					for (long filterCategoryId : filterCategoriesForVoc) {
+						if (filterCategoriesIdsString.length() > 0) {
+							filterCategoriesIdsString += ",";
+						}
+						filterCategoriesIdsString += filterCategoryId;
+					}
+				}
+			}
+			this._filterCategoriesIdString = filterCategoriesIdsString;
+		}
+		return this._filterCategoriesIdString;
+	}
+
 	/**
 	 * Renvoie la liste des types d'entités sur lesquels on souhaite rechercher
 	 * les entries

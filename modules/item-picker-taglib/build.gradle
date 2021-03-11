@@ -32,5 +32,6 @@ dependencies {
 	compile project(":modules:article-web")
 	compile project(":modules:gtfs-web")
 	compile project(":modules:ejob-web")
+	compile project(":modules:help:help-web")
 	compile project(":modules:utils")
 }
