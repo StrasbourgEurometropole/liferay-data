@@ -326,8 +326,6 @@ public class HelpProposalWrapper
 
 	/**
 	 * Retourne l'utilisateur Publik depositaire
-	 *
-	 * @return
 	 */
 	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthor() {
@@ -490,6 +488,14 @@ public class HelpProposalWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
+	}
+
+	/**
+	 * @return La date de création au format français jj/mm/aaaa
+	 */
+	@Override
+	public String getCreatedDateFr() {
+		return model.getCreatedDateFr();
 	}
 
 	@Override
@@ -714,7 +720,7 @@ public class HelpProposalWrapper
 	}
 
 	/**
-	 * @return La date de modification utilisateur au format français jj/mm/aaaa
+	 * @return La date de modification utilisateur au format français jj/mm/aaaa si != de la date de création
 	 */
 	@Override
 	public String getModifiedByUserDateFr() {
@@ -767,14 +773,6 @@ public class HelpProposalWrapper
 	@Override
 	public long getPrimaryKey() {
 		return model.getPrimaryKey();
-	}
-
-	/**
-	 * @return La date de publication au format français jj/mm/aaaa
-	 */
-	@Override
-	public String getPublicationDateFr() {
-		return model.getPublicationDateFr();
 	}
 
 	/**
@@ -1717,13 +1715,10 @@ public class HelpProposalWrapper
 
 	/**
 	 * Retourne la version JSON de l'entité
-	 *
-	 * @throws PortalException
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
-			java.util.Locale locale)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		java.util.Locale locale) {
 
 		return model.toJSON(locale);
 	}

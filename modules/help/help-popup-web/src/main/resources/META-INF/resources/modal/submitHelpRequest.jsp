@@ -74,28 +74,25 @@
                     </div>
                     
                     <%-- Champ : Image --%>
-                        <div class="pro-row">
-                            <div class="form-group form-two-tiers">
-                                    <div id="HelpRequestPhotoID">
-                                        <span class="browsePicture input-group-btn">
-                                            <aui:input name="photo" type="file" label="modal.submit.help.request.information.card"
-                                                       cssClass="btn btn-default btn-choose" required="true">
-                                                <aui:validator name="acceptFiles">'jpg,png,jpeg,pdf'</aui:validator>
-                                            </aui:input>
-                                        </span>
-                                    </div>
-                                    <div id="EditPhotoID">
-                                        <span class="input-group-btn">
-                                            <aui:input name="editPhoto" type="button" value="Modifier"
-                                                       label="modal.submit.help.request.information.card.edit">
-                                            </aui:input>
-                                        </span>
-                                    </div>
-                            </div>
+                    <div class="pro-row">
+                        <div class="form-group form-two-tiers">
+                            <span class="browsePicture input-group-btn">
+                                <aui:input name="photo" type="file" label="modal.submit.help.information.card"
+                                    cssClass="btn btn-default btn-choose" required="true">
+							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
+                                </aui:input>
+                            </span>
                         </div>
+                    </div>
                     <%-- Champ cache : ID --%>
                     <aui:input type="hidden" name="entryId" value="${entryId}"/>
 
+                </div>
+
+                <div class="pro-optin form-checkbox">
+                    <div class="fontWhite">
+                        <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_messageHelpProposal"/>
+                    </div>
                 </div>
 
                 <div class="pro-optin form-checkbox">
@@ -132,12 +129,11 @@
                         <label for="<portlet:namespace />agreement3" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_SubmitHelpRequestAgreement3"/>
                         </label>
-                        <span class="reference-mark text-warning" id="agreement3_mark">
-                            <svg class="lexicon-icon lexicon-icon-asterisk" focusable="false" role="presentation" viewBox="0 0 512 512">
-                                <path class="lexicon-icon-outline" d="M323.6,190l146.7-48.8L512,263.9l-149.2,47.6l93.6,125.2l-104.9,76.3l-96.1-126.4l-93.6,126.4L56.9,435.3l92.3-123.9L0,263.8l40.4-122.6L188.4,190v-159h135.3L323.6,190L323.6,190z"></path>
-                            </svg>
-                        </span>
                     </div>
+                </div>
+
+                <div class="pro-info-supp">
+                    <p><liferay-ui:message key="modal.submit.help.information.delete"/></p>
                 </div>
                 
                 <div id="<portlet:namespace />alert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
@@ -148,8 +144,6 @@
                     	<liferay-ui:message key="modal.submit.help.request.submit"/>
                     </button>
                 </div>
-                <input type="hidden" id="<portlet:namespace />studentCardImageEdited" name="<portlet:namespace />studentCardImageEdited" value="false"/>
-                <input type="hidden" id="<portlet:namespace />studentCardImageId" name="<portlet:namespace />studentCardImageId" value="${currentStudentCardImageId}"/>
             </aui:form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -210,15 +204,6 @@
     	resetValuesHelpRequest();
         $("#<portlet:namespace />modalConfirm").modal('hide');
         $("#<portlet:namespace />modalError").modal('hide');
-        if ('${hasStudentCardImage}') {
-            $("#HelpRequestPhotoID").hide();
-            $("#HelpRequestPhotoID").css({
-                "padding:":"5px"
-            });
-        }
-        else {
-            $("#EditPhotoID").hide();
-        }
     });
 
     /*
@@ -254,12 +239,6 @@
             request.send(new FormData(formElement[0]));
           
         }
-    });
-
-    $("#"+namespaceHelpRequest+"editPhoto").click(function(event){
-        $("#"+namespaceHelpRequest+"studentCardImageEdited").val("true");
-        $("#EditPhotoID").hide();
-        $("#HelpRequestPhotoID").show();
     });
 
     $("#<portlet:namespace />modalConfirm #<portlet:namespace />buttonConfirm").click(function(event){
@@ -326,12 +305,6 @@
             $("#<portlet:namespace />agreement2").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#<portlet:namespace />agreement2").closest('div').css({ "box-shadow" : "" });
-
-        var agreement3 = $("#<portlet:namespace />agreement3").is(":checked");
-        if (!agreement3){
-            $("#<portlet:namespace />agreement3").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#<portlet:namespace />agreement3").closest('div').css({ "box-shadow" : "" });
 
         if (!result)
             $("#<portlet:namespace />alert").removeClass("hidden");

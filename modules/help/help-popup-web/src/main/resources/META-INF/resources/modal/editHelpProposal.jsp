@@ -17,7 +17,6 @@
 <liferay-ui:error key="error-helper-type" message="error-helper-type" />
 <liferay-ui:error key="error-in-the-name-of" message="error-in-the-name-of" />
 <liferay-ui:error key="error-territory" message="error-territory" />
-<liferay-ui:error key="error-agreements" message="error-agreements" />
 <liferay-ui:error key="error-extension" message="error-extension" />
 
 <!-- MODIFIER UNE PROPOSAITION D'AIDE' -->
@@ -188,43 +187,6 @@
                     </div>
                         <p><liferay-ui:message key='submit-proposal-help-image-information'/></p>
                 </div>
-                <div class="pro-optin form-checkbox">
-                    <div class="fontWhite">
-                        <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_messageHelpProposal"/>
-                    </div>
-                </div>
-                <div class="pro-optin form-checkbox">
-                    <div>
-                        <input type="checkbox" id="<portlet:namespace />agreement1" name="<portlet:namespace />agreement1" value="agreement1">
-                        <label for="<portlet:namespace />agreement1" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageSubmitHelpProposal"/>
-                        </label>
-                        <span class="reference-mark text-warning" id="agreement1_mark">
-                            <svg class="lexicon-icon lexicon-icon-asterisk" focusable="false" role="presentation" viewBox="0 0 512 512">
-                                <path class="lexicon-icon-outline" d="M323.6,190l146.7-48.8L512,263.9l-149.2,47.6l93.6,125.2l-104.9,76.3l-96.1-126.4l-93.6,126.4L56.9,435.3l92.3-123.9L0,263.8l40.4-122.6L188.4,190v-159h135.3L323.6,190L323.6,190z"></path>
-                            </svg>
-                        </span>
-                    </div>
-                </div>
-                <div class="pro-optin form-checkbox">
-                    <div>
-                        <input type="checkbox" id="<portlet:namespace />agreement2" name="<portlet:namespace />agreement2" value="agreement2">
-                        <label for="<portlet:namespace />agreement2" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_securitySubmitHelp"/>
-                        </label>
-                        <span class="reference-mark text-warning" id="agreement2_mark">
-                            <svg class="lexicon-icon lexicon-icon-asterisk" focusable="false" role="presentation" viewBox="0 0 512 512">
-                                <path class="lexicon-icon-outline" d="M323.6,190l146.7-48.8L512,263.9l-149.2,47.6l93.6,125.2l-104.9,76.3l-96.1-126.4l-93.6,126.4L56.9,435.3l92.3-123.9L0,263.8l40.4-122.6L188.4,190v-159h135.3L323.6,190L323.6,190z"></path>
-                            </svg>
-                        </span>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="<portlet:namespace />agreement3" name="<portlet:namespace />agreement3" value="agreement3">
-                        <label for="<portlet:namespace />agreement3" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_security2SubmitHelp"/>
-                        </label>
-                    </div>
-                </div>
                 <div class="pro-info-supp">
                     <p><liferay-ui:message key="modal.submit.help.information.delete"/></p>
                 </div>
@@ -293,9 +255,6 @@
                                 $("#HelpProposalPhotoID").show();
                             }
 
-                            $("#<portlet:namespace />agreement1").prop("checked", data.agreement1);
-                            $("#<portlet:namespace />agreement2").prop("checked", data.agreement2);
-                            $("#<portlet:namespace />agreement3").prop("checked", data.agreement3);
                         }
                      }
                 });
@@ -401,18 +360,6 @@
             $("#<portlet:namespace />localisation").closest('.form-group').css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#<portlet:namespace />localisation").closest('.form-group').css({ "box-shadow" : "" });
-
-        var agreement1 = $("#<portlet:namespace />agreement1").is(":checked");
-        if (!agreement1){
-            $("#<portlet:namespace />agreement1").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#<portlet:namespace />agreement1").closest('div').css({ "box-shadow" : "" });
-
-        var agreement2 = $("#<portlet:namespace />agreement2").is(":checked");
-        if (!agreement2){
-            $("#<portlet:namespace />agreement2").closest('div').css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#<portlet:namespace />agreement2").closest('div').css({ "box-shadow" : "" });
 
         if (!result)
             $("#<portlet:namespace />alert").removeClass("hidden");

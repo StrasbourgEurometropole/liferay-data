@@ -75,9 +75,6 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
     private long localisationId;
     private boolean deletePhoto;
     private long entryId;
-    private boolean agreement1;
-    private boolean agreement2;
-    private boolean agreement3;
 
     // Gestion et contexte de la requete
     private String publikID;
@@ -108,12 +105,6 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
         this.language = HtmlUtil.stripHtml(ParamUtil.getString(request, HelpPopUpPortletConstants.LANGUAGE));
         this.localisationId = ParamUtil.getLong(request, HelpPopUpPortletConstants.LOCALISATION);
         this.deletePhoto = ParamUtil.getString(request, HelpPopUpPortletConstants.DELETE_PHOTO).equals("true") ? true : false;
-        this.agreement1 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_1)
-                .equals(HelpPopUpPortletConstants.AGREEMENT_1);
-        this.agreement2 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_2)
-                .equals(HelpPopUpPortletConstants.AGREEMENT_2);
-        this.agreement3 = ParamUtil.getString(request, HelpPopUpPortletConstants.AGREEMENT_3)
-                .equals(HelpPopUpPortletConstants.AGREEMENT_3);
 
         // Verification de la validite des informations
         if (validate()) {
@@ -181,9 +172,6 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
             helpProposal.setInTheNameOf(this.inTheNameOf);
             helpProposal.setSpokenLanguages(this.language, Locale.FRANCE);
             helpProposal.setModifiedByUserDate(new Date());
-            helpProposal.setAgreementSigned1(this.agreement1);
-            helpProposal.setAgreementSigned2(this.agreement2);
-            helpProposal.setAgreementSigned3(this.agreement3);
             
             UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
             String fileName = uploadRequest.getFileName(HelpPopUpPortletConstants.PHOTO);
@@ -344,12 +332,6 @@ public class EditHelpProposalActionCommand implements MVCActionCommand {
         // Localisation
         if (Validator.isNull(this.localisationId)) {
             this.messageKey = HelpPopUpPortletConstants.ERROR_TERRITORY;
-            return false;
-        }
-
-        // consentements
-        if (!this.agreement1 || !this.agreement2) {
-            this.messageKey = HelpPopUpPortletConstants.ERROR_AGREEMENTS;
             return false;
         }
 

@@ -158,3 +158,31 @@
 	font-size: $size;
 	font-size: calculateRem($size);
 }
+
+/* mixin for multiline */
+@mixin multiLineEllipsis($height, $bgColor){
+	overflow: hidden;
+	position: relative;
+	/* $height = (nbLigne + 1) x line-height du contenu x font-size du contenu */
+	height: $height; 
+	padding-bottom: 20px;
+	&:before {
+	  content: '...';
+	  position: absolute;
+	  bottom: 0;
+	  color: initial;
+	  font-size: 1.5em;
+	  width: 100%;
+	  background: $bgColor;
+	  height: 1em;
+	  z-index: 1;
+	}
+	&:after {
+	  content: '';
+	  position: absolute;
+	  width: 100%;
+	  height: 3em;
+	  background: $bgColor;
+	  z-index: 1;
+	}
+  }
