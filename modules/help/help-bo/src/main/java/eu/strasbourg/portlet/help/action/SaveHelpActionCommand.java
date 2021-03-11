@@ -151,6 +151,7 @@ public class SaveHelpActionCommand implements MVCActionCommand {
 					idsLong.add(lu.getCategoryId());
 
 				sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
+				ids = sc.getAssetCategoryIds();
 			}
 
 			// Mise de la ville de strasbourg si c'est un quartier
