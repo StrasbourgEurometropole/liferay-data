@@ -5,29 +5,6 @@
 
 	<namespace>csmap</namespace>
 
-	<entity local-service="true" cache-enabled="true" name="Nonce" remote-service="false" uuid="true">
-
-		<!-- PK fields -->
-		<column name="nonceId" primary="true" type="long" />
-
-
-		<column name="createDate" type="Date" />
-
-		<!-- Other fields -->
-		<column name="value" type="String" />
-
-		<!-- Order -->
-		<order by="asc">
-			<order-column name="createDate" />
-		</order>
-
-		<!-- Finder methods -->
-		<finder name="Value" return-type="Nonce">
-			<finder-column name="value" />
-		</finder>
-
-	</entity>
-
 	<entity local-service="true" cache-enabled="true" name="RefreshToken" remote-service="false" uuid="true">
 
 		<!-- PK fields -->

@@ -39,7 +39,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.service.RefreshTokenLocalService;
-import eu.strasbourg.service.csmap.service.persistence.NoncePersistence;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
 
 import java.io.Serializable;
@@ -384,9 +383,6 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 			throw new SystemException(e);
 		}
 	}
-
-	@Reference
-	protected NoncePersistence noncePersistence;
 
 	protected RefreshTokenLocalService refreshTokenLocalService;
 

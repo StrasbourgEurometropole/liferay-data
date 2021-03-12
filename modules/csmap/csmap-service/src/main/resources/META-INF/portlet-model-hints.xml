@@ -1,14 +1,6 @@
 <?xml version="1.0"?>
 
 <model-hints>
-	<model name="eu.strasbourg.service.csmap.model.Nonce">
-		<field name="uuid" type="String" />
-		<field name="nonceId" type="long" />
-		<field name="createDate" type="Date" />
-		<field name="value" type="String">
-			<hint name="max-length">255</hint>
-		</field>
-	</model>
 	<model name="eu.strasbourg.service.csmap.model.RefreshToken">
 		<field name="uuid" type="String" />
 		<field name="refreshTokenId" type="long" />
