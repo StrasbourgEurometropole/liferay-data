@@ -50,6 +50,14 @@ public class RefreshTokenLocalServiceWrapper
 	}
 
 	/**
+	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public eu.strasbourg.service.csmap.model.RefreshToken createRefreshToken() {
+		return _refreshTokenLocalService.createRefreshToken();
+	}
+
+	/**
 	 * Creates a new refresh token with the primary key. Does not add the refresh token to the database.
 	 *
 	 * @param refreshTokenId the primary key for the new refresh token
@@ -60,17 +68,6 @@ public class RefreshTokenLocalServiceWrapper
 		long refreshTokenId) {
 
 		return _refreshTokenLocalService.createRefreshToken(refreshTokenId);
-	}
-
-	/**
-	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
-	 */
-	@Override
-	public eu.strasbourg.service.csmap.model.RefreshToken createRefreshToken(
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _refreshTokenLocalService.createRefreshToken(sc);
 	}
 
 	/**
@@ -202,6 +199,17 @@ public class RefreshTokenLocalServiceWrapper
 			dynamicQuery, projection);
 	}
 
+	/**
+	 * Retrouve un refresh token par sa valeur et l'ID de l'utilisateur Publik (null si non retrouvé)
+	 */
+	@Override
+	public eu.strasbourg.service.csmap.model.RefreshToken
+		fetchByValueAndPublikId(String value, String publikId) {
+
+		return _refreshTokenLocalService.fetchByValueAndPublikId(
+			value, publikId);
+	}
+
 	@Override
 	public eu.strasbourg.service.csmap.model.RefreshToken fetchRefreshToken(
 		long refreshTokenId) {
@@ -282,6 +290,18 @@ public class RefreshTokenLocalServiceWrapper
 	@Override
 	public int getRefreshTokensCount() {
 		return _refreshTokenLocalService.getRefreshTokensCount();
+	}
+
+	/**
+	 * Supprime une entité
+	 */
+	@Override
+	public eu.strasbourg.service.csmap.model.RefreshToken removeRefreshToken(
+			long refreshTokenId)
+		throws eu.strasbourg.service.csmap.exception.
+			NoSuchRefreshTokenException {
+
+		return _refreshTokenLocalService.removeRefreshToken(refreshTokenId);
 	}
 
 	/**

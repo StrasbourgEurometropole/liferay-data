@@ -54,6 +54,15 @@ public class RefreshTokenLocalServiceUtil {
 	}
 
 	/**
+	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 */
+	public static eu.strasbourg.service.csmap.model.RefreshToken
+		createRefreshToken() {
+
+		return getService().createRefreshToken();
+	}
+
+	/**
 	 * Creates a new refresh token with the primary key. Does not add the refresh token to the database.
 	 *
 	 * @param refreshTokenId the primary key for the new refresh token
@@ -63,17 +72,6 @@ public class RefreshTokenLocalServiceUtil {
 		createRefreshToken(long refreshTokenId) {
 
 		return getService().createRefreshToken(refreshTokenId);
-	}
-
-	/**
-	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
-	 */
-	public static eu.strasbourg.service.csmap.model.RefreshToken
-			createRefreshToken(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return getService().createRefreshToken(sc);
 	}
 
 	/**
@@ -199,6 +197,15 @@ public class RefreshTokenLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	/**
+	 * Retrouve un refresh token par sa valeur et l'ID de l'utilisateur Publik (null si non retrouvé)
+	 */
+	public static eu.strasbourg.service.csmap.model.RefreshToken
+		fetchByValueAndPublikId(String value, String publikId) {
+
+		return getService().fetchByValueAndPublikId(value, publikId);
+	}
+
 	public static eu.strasbourg.service.csmap.model.RefreshToken
 		fetchRefreshToken(long refreshTokenId) {
 
@@ -272,6 +279,17 @@ public class RefreshTokenLocalServiceUtil {
 	 */
 	public static int getRefreshTokensCount() {
 		return getService().getRefreshTokensCount();
+	}
+
+	/**
+	 * Supprime une entité
+	 */
+	public static eu.strasbourg.service.csmap.model.RefreshToken
+			removeRefreshToken(long refreshTokenId)
+		throws eu.strasbourg.service.csmap.exception.
+			NoSuchRefreshTokenException {
+
+		return getService().removeRefreshToken(refreshTokenId);
 	}
 
 	/**
