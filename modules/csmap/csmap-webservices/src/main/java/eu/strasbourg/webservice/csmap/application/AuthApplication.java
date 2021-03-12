@@ -41,17 +41,6 @@ public class AuthApplication extends Application {
     }
 
     @GET
-    @Path("/get-nonce")
-    public String getNonce() {
-        JSONObject jsonResponse = WSResponseUtil.initializeResponse();
-
-        String nonce = StringUtil.randomString(32);
-        jsonResponse.put("nonce", nonce);
-
-        return jsonResponse.toString();
-    }
-
-    @GET
     @Path("/authentication/{code}")
     public String authentication(
             @PathParam("code") String code) {
