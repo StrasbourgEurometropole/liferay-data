@@ -635,33 +635,29 @@ public class RefreshTokenPersistenceImpl
 	private static final String _FINDER_COLUMN_UUID_UUID_3 =
 		"(refreshToken.uuid IS NULL OR refreshToken.uuid = '')";
 
-	private FinderPath _finderPathFetchByValueAndPublikId;
-	private FinderPath _finderPathCountByValueAndPublikId;
+	private FinderPath _finderPathFetchByValue;
+	private FinderPath _finderPathCountByValue;
 
 	/**
-	 * Returns the refresh token where value = &#63; and publikId = &#63; or throws a <code>NoSuchRefreshTokenException</code> if it could not be found.
+	 * Returns the refresh token where value = &#63; or throws a <code>NoSuchRefreshTokenException</code> if it could not be found.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @return the matching refresh token
 	 * @throws NoSuchRefreshTokenException if a matching refresh token could not be found
 	 */
 	@Override
-	public RefreshToken findByValueAndPublikId(String value, String publikId)
+	public RefreshToken findByValue(String value)
 		throws NoSuchRefreshTokenException {
 
-		RefreshToken refreshToken = fetchByValueAndPublikId(value, publikId);
+		RefreshToken refreshToken = fetchByValue(value);
 
 		if (refreshToken == null) {
-			StringBundler msg = new StringBundler(6);
+			StringBundler msg = new StringBundler(4);
 
 			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
 			msg.append("value=");
 			msg.append(value);
-
-			msg.append(", publikId=");
-			msg.append(publikId);
 
 			msg.append("}");
 
@@ -676,76 +672,58 @@ public class RefreshTokenPersistenceImpl
 	}
 
 	/**
-	 * Returns the refresh token where value = &#63; and publikId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 * Returns the refresh token where value = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @return the matching refresh token, or <code>null</code> if a matching refresh token could not be found
 	 */
 	@Override
-	public RefreshToken fetchByValueAndPublikId(String value, String publikId) {
-		return fetchByValueAndPublikId(value, publikId, true);
+	public RefreshToken fetchByValue(String value) {
+		return fetchByValue(value, true);
 	}
 
 	/**
-	 * Returns the refresh token where value = &#63; and publikId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 * Returns the refresh token where value = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @param retrieveFromCache whether to retrieve from the finder cache
 	 * @return the matching refresh token, or <code>null</code> if a matching refresh token could not be found
 	 */
 	@Override
-	public RefreshToken fetchByValueAndPublikId(
-		String value, String publikId, boolean retrieveFromCache) {
-
+	public RefreshToken fetchByValue(String value, boolean retrieveFromCache) {
 		value = Objects.toString(value, "");
-		publikId = Objects.toString(publikId, "");
 
-		Object[] finderArgs = new Object[] {value, publikId};
+		Object[] finderArgs = new Object[] {value};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
 			result = finderCache.getResult(
-				_finderPathFetchByValueAndPublikId, finderArgs, this);
+				_finderPathFetchByValue, finderArgs, this);
 		}
 
 		if (result instanceof RefreshToken) {
 			RefreshToken refreshToken = (RefreshToken)result;
 
-			if (!Objects.equals(value, refreshToken.getValue()) ||
-				!Objects.equals(publikId, refreshToken.getPublikId())) {
-
+			if (!Objects.equals(value, refreshToken.getValue())) {
 				result = null;
 			}
 		}
 
 		if (result == null) {
-			StringBundler query = new StringBundler(4);
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_SELECT_REFRESHTOKEN_WHERE);
 
 			boolean bindValue = false;
 
 			if (value.isEmpty()) {
-				query.append(_FINDER_COLUMN_VALUEANDPUBLIKID_VALUE_3);
+				query.append(_FINDER_COLUMN_VALUE_VALUE_3);
 			}
 			else {
 				bindValue = true;
 
-				query.append(_FINDER_COLUMN_VALUEANDPUBLIKID_VALUE_2);
-			}
-
-			boolean bindPublikId = false;
-
-			if (publikId.isEmpty()) {
-				query.append(_FINDER_COLUMN_VALUEANDPUBLIKID_PUBLIKID_3);
-			}
-			else {
-				bindPublikId = true;
-
-				query.append(_FINDER_COLUMN_VALUEANDPUBLIKID_PUBLIKID_2);
+				query.append(_FINDER_COLUMN_VALUE_VALUE_2);
 			}
 
 			String sql = query.toString();
@@ -763,15 +741,11 @@ public class RefreshTokenPersistenceImpl
 					qPos.add(value);
 				}
 
-				if (bindPublikId) {
-					qPos.add(publikId);
-				}
-
 				List<RefreshToken> list = q.list();
 
 				if (list.isEmpty()) {
 					finderCache.putResult(
-						_finderPathFetchByValueAndPublikId, finderArgs, list);
+						_finderPathFetchByValue, finderArgs, list);
 				}
 				else {
 					if (list.size() > 1) {
@@ -779,7 +753,7 @@ public class RefreshTokenPersistenceImpl
 
 						if (_log.isWarnEnabled()) {
 							_log.warn(
-								"RefreshTokenPersistenceImpl.fetchByValueAndPublikId(String, String, boolean) with parameters (" +
+								"RefreshTokenPersistenceImpl.fetchByValue(String, boolean) with parameters (" +
 									StringUtil.merge(finderArgs) +
 										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
 						}
@@ -793,8 +767,7 @@ public class RefreshTokenPersistenceImpl
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(
-					_finderPathFetchByValueAndPublikId, finderArgs);
+				finderCache.removeResult(_finderPathFetchByValue, finderArgs);
 
 				throw processException(e);
 			}
@@ -812,64 +785,50 @@ public class RefreshTokenPersistenceImpl
 	}
 
 	/**
-	 * Removes the refresh token where value = &#63; and publikId = &#63; from the database.
+	 * Removes the refresh token where value = &#63; from the database.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @return the refresh token that was removed
 	 */
 	@Override
-	public RefreshToken removeByValueAndPublikId(String value, String publikId)
+	public RefreshToken removeByValue(String value)
 		throws NoSuchRefreshTokenException {
 
-		RefreshToken refreshToken = findByValueAndPublikId(value, publikId);
+		RefreshToken refreshToken = findByValue(value);
 
 		return remove(refreshToken);
 	}
 
 	/**
-	 * Returns the number of refresh tokens where value = &#63; and publikId = &#63;.
+	 * Returns the number of refresh tokens where value = &#63;.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @return the number of matching refresh tokens
 	 */
 	@Override
-	public int countByValueAndPublikId(String value, String publikId) {
+	public int countByValue(String value) {
 		value = Objects.toString(value, "");
-		publikId = Objects.toString(publikId, "");
 
-		FinderPath finderPath = _finderPathCountByValueAndPublikId;
+		FinderPath finderPath = _finderPathCountByValue;
 
-		Object[] finderArgs = new Object[] {value, publikId};
+		Object[] finderArgs = new Object[] {value};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(3);
+			StringBundler query = new StringBundler(2);
 
 			query.append(_SQL_COUNT_REFRESHTOKEN_WHERE);
 
 			boolean bindValue = false;
 
 			if (value.isEmpty()) {
-				query.append(_FINDER_COLUMN_VALUEANDPUBLIKID_VALUE_3);
+				query.append(_FINDER_COLUMN_VALUE_VALUE_3);
 			}
 			else {
 				bindValue = true;
 
-				query.append(_FINDER_COLUMN_VALUEANDPUBLIKID_VALUE_2);
-			}
-
-			boolean bindPublikId = false;
-
-			if (publikId.isEmpty()) {
-				query.append(_FINDER_COLUMN_VALUEANDPUBLIKID_PUBLIKID_3);
-			}
-			else {
-				bindPublikId = true;
-
-				query.append(_FINDER_COLUMN_VALUEANDPUBLIKID_PUBLIKID_2);
+				query.append(_FINDER_COLUMN_VALUE_VALUE_2);
 			}
 
 			String sql = query.toString();
@@ -885,10 +844,6 @@ public class RefreshTokenPersistenceImpl
 
 				if (bindValue) {
 					qPos.add(value);
-				}
-
-				if (bindPublikId) {
-					qPos.add(publikId);
 				}
 
 				count = (Long)q.uniqueResult();
@@ -908,17 +863,11 @@ public class RefreshTokenPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_VALUEANDPUBLIKID_VALUE_2 =
-		"refreshToken.value = ? AND ";
+	private static final String _FINDER_COLUMN_VALUE_VALUE_2 =
+		"refreshToken.value = ?";
 
-	private static final String _FINDER_COLUMN_VALUEANDPUBLIKID_VALUE_3 =
-		"(refreshToken.value IS NULL OR refreshToken.value = '') AND ";
-
-	private static final String _FINDER_COLUMN_VALUEANDPUBLIKID_PUBLIKID_2 =
-		"refreshToken.publikId = ?";
-
-	private static final String _FINDER_COLUMN_VALUEANDPUBLIKID_PUBLIKID_3 =
-		"(refreshToken.publikId IS NULL OR refreshToken.publikId = '')";
+	private static final String _FINDER_COLUMN_VALUE_VALUE_3 =
+		"(refreshToken.value IS NULL OR refreshToken.value = '')";
 
 	public RefreshTokenPersistenceImpl() {
 		setModelClass(RefreshToken.class);
@@ -945,8 +894,7 @@ public class RefreshTokenPersistenceImpl
 			refreshToken.getPrimaryKey(), refreshToken);
 
 		finderCache.putResult(
-			_finderPathFetchByValueAndPublikId,
-			new Object[] {refreshToken.getValue(), refreshToken.getPublikId()},
+			_finderPathFetchByValue, new Object[] {refreshToken.getValue()},
 			refreshToken);
 
 		refreshToken.resetOriginalValues();
@@ -1024,41 +972,33 @@ public class RefreshTokenPersistenceImpl
 	protected void cacheUniqueFindersCache(
 		RefreshTokenModelImpl refreshTokenModelImpl) {
 
-		Object[] args = new Object[] {
-			refreshTokenModelImpl.getValue(),
-			refreshTokenModelImpl.getPublikId()
-		};
+		Object[] args = new Object[] {refreshTokenModelImpl.getValue()};
 
 		finderCache.putResult(
-			_finderPathCountByValueAndPublikId, args, Long.valueOf(1), false);
+			_finderPathCountByValue, args, Long.valueOf(1), false);
 		finderCache.putResult(
-			_finderPathFetchByValueAndPublikId, args, refreshTokenModelImpl,
-			false);
+			_finderPathFetchByValue, args, refreshTokenModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
 		RefreshTokenModelImpl refreshTokenModelImpl, boolean clearCurrent) {
 
 		if (clearCurrent) {
-			Object[] args = new Object[] {
-				refreshTokenModelImpl.getValue(),
-				refreshTokenModelImpl.getPublikId()
-			};
+			Object[] args = new Object[] {refreshTokenModelImpl.getValue()};
 
-			finderCache.removeResult(_finderPathCountByValueAndPublikId, args);
-			finderCache.removeResult(_finderPathFetchByValueAndPublikId, args);
+			finderCache.removeResult(_finderPathCountByValue, args);
+			finderCache.removeResult(_finderPathFetchByValue, args);
 		}
 
 		if ((refreshTokenModelImpl.getColumnBitmask() &
-			 _finderPathFetchByValueAndPublikId.getColumnBitmask()) != 0) {
+			 _finderPathFetchByValue.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				refreshTokenModelImpl.getOriginalValue(),
-				refreshTokenModelImpl.getOriginalPublikId()
+				refreshTokenModelImpl.getOriginalValue()
 			};
 
-			finderCache.removeResult(_finderPathCountByValueAndPublikId, args);
-			finderCache.removeResult(_finderPathFetchByValueAndPublikId, args);
+			finderCache.removeResult(_finderPathCountByValue, args);
+			finderCache.removeResult(_finderPathFetchByValue, args);
 		}
 	}
 
@@ -1578,18 +1518,16 @@ public class RefreshTokenPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
-		_finderPathFetchByValueAndPublikId = new FinderPath(
+		_finderPathFetchByValue = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, RefreshTokenImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByValueAndPublikId",
-			new String[] {String.class.getName(), String.class.getName()},
-			RefreshTokenModelImpl.VALUE_COLUMN_BITMASK |
-			RefreshTokenModelImpl.PUBLIKID_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_ENTITY, "fetchByValue",
+			new String[] {String.class.getName()},
+			RefreshTokenModelImpl.VALUE_COLUMN_BITMASK);
 
-		_finderPathCountByValueAndPublikId = new FinderPath(
+		_finderPathCountByValue = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByValueAndPublikId",
-			new String[] {String.class.getName(), String.class.getName()});
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByValue",
+			new String[] {String.class.getName()});
 	}
 
 	@Deactivate

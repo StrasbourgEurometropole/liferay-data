@@ -1,29 +1,33 @@
 package eu.strasbourg.webservice.csmap.service;
 
-import com.liferay.portal.kernel.json.JSONException;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
+import eu.strasbourg.service.csmap.model.RefreshToken;
+import eu.strasbourg.service.csmap.service.RefreshTokenLocalService;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.webservice.csmap.exception.RefreshTokenExpiredException;
+import eu.strasbourg.webservice.csmap.utils.WSTokenUtil;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Date;
 
 /**
  * Service s'occuppant de valider l'authentification entre l'application CSMAP et Authentik
  */
 @Component(
         immediate = true,
-        property = {},
         service = WSAuthenticator.class
 )
 public class WSAuthenticator {
@@ -66,34 +70,61 @@ public class WSAuthenticator {
         // Résultat
         try {
             InputStream is = connection.getInputStream();
-            return readJsonFromInputStream(is);
+            return WSTokenUtil.readJsonFromInputStream(is);
         } catch (Exception ex) {
             BufferedReader rd = new BufferedReader(
                     new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8));
-            String str = readAll(rd);
+            String str = WSTokenUtil.readAll(rd);
             System.out.println(str);
             return null;
         }
 
     }
 
-    private JSONObject readJsonFromInputStream(InputStream is) throws IOException, JSONException {
-        try {
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-            String jsonText = readAll(rd);
-            return JSONFactoryUtil.createJSONObject(jsonText);
-        } finally {
-            is.close();
-        }
+    /**
+     * Génére et enregistre un refresh token pour un utilisateur Publik
+     * @param publikId ID de l'utilisateur à qui générer le refresh token
+     */
+    public RefreshToken generateAndSaveRefreshTokenForUser(String publikId) {
+        RefreshToken refreshToken = refreshTokenLocalService.createRefreshToken();
+
+        refreshToken.setCreateDate(new Date());
+        refreshToken.setPublikId(publikId);
+        refreshToken.setValue(WSTokenUtil.generateRandomToken(255));
+
+        return refreshTokenLocalService.updateRefreshToken(refreshToken);
     }
 
-    private String readAll(Reader rd) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        int cp;
-        while ((cp = rd.read()) != -1) {
-            sb.append((char) cp);
+    /**
+     * Recherche le refresh token en base, vérifie sa validité
+     * Supprime le refresh token trouvé si ce dernier n'est plus valide
+     *
+     * @param refreshTokenValue la valeur du refresh token (le token en lui-même et non l'objet du service)
+     * @return le refresh token valide trouvé en base
+     * @throws NoSuchRefreshTokenException Le refresh token n'existe pas en base
+     * @throws RefreshTokenExpiredException Le refresh token trouvé en base est expiré
+     */
+    public RefreshToken controlRefreshToken(String refreshTokenValue)
+            throws NoSuchRefreshTokenException, RefreshTokenExpiredException {
+        RefreshToken refreshToken = refreshTokenLocalService.fetchByValue(refreshTokenValue);
+
+        if (Validator.isNull(refreshToken))
+            throw new NoSuchRefreshTokenException();
+
+        if (!WSTokenUtil.isRefreshTokensDateValid(refreshToken.getCreateDate(),30)) {
+            refreshTokenLocalService.removeRefreshToken(refreshToken.getRefreshTokenId());
+            throw new RefreshTokenExpiredException();
         }
-        return sb.toString();
+
+        return refreshToken;
     }
+
+    @Reference(unbind = "-")
+    protected void setRefreshTokenLocalService(RefreshTokenLocalService refreshTokenLocalService) {
+        this.refreshTokenLocalService = refreshTokenLocalService;
+    }
+
+    @Reference
+    protected RefreshTokenLocalService refreshTokenLocalService;
 
 }

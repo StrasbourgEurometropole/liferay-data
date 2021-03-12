@@ -102,13 +102,11 @@ public class RefreshTokenModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long PUBLIKID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long UUID_COLUMN_BITMASK = 2L;
+	public static final long VALUE_COLUMN_BITMASK = 2L;
 
-	public static final long VALUE_COLUMN_BITMASK = 4L;
-
-	public static final long CREATEDATE_COLUMN_BITMASK = 8L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 4L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -353,17 +351,7 @@ public class RefreshTokenModelImpl
 
 	@Override
 	public void setPublikId(String publikId) {
-		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
-
-		if (_originalPublikId == null) {
-			_originalPublikId = _publikId;
-		}
-
 		_publikId = publikId;
-	}
-
-	public String getOriginalPublikId() {
-		return GetterUtil.getString(_originalPublikId);
 	}
 
 	public long getColumnBitmask() {
@@ -466,9 +454,6 @@ public class RefreshTokenModelImpl
 		refreshTokenModelImpl._originalUuid = refreshTokenModelImpl._uuid;
 
 		refreshTokenModelImpl._originalValue = refreshTokenModelImpl._value;
-
-		refreshTokenModelImpl._originalPublikId =
-			refreshTokenModelImpl._publikId;
 
 		refreshTokenModelImpl._columnBitmask = 0;
 	}
@@ -591,7 +576,6 @@ public class RefreshTokenModelImpl
 	private String _value;
 	private String _originalValue;
 	private String _publikId;
-	private String _originalPublikId;
 	private long _columnBitmask;
 	private RefreshToken _escapedModel;
 

@@ -198,12 +198,12 @@ public class RefreshTokenLocalServiceUtil {
 	}
 
 	/**
-	 * Retrouve un refresh token par sa valeur et l'ID de l'utilisateur Publik (null si non retrouvé)
+	 * Retrouve un refresh token par sa valeur
 	 */
-	public static eu.strasbourg.service.csmap.model.RefreshToken
-		fetchByValueAndPublikId(String value, String publikId) {
+	public static eu.strasbourg.service.csmap.model.RefreshToken fetchByValue(
+		String value) {
 
-		return getService().fetchByValueAndPublikId(value, publikId);
+		return getService().fetchByValue(value);
 	}
 
 	public static eu.strasbourg.service.csmap.model.RefreshToken

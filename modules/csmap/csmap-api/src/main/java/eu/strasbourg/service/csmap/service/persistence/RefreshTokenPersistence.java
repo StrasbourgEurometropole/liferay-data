@@ -185,54 +185,48 @@ public interface RefreshTokenPersistence extends BasePersistence<RefreshToken> {
 	public int countByUuid(String uuid);
 
 	/**
-	 * Returns the refresh token where value = &#63; and publikId = &#63; or throws a <code>NoSuchRefreshTokenException</code> if it could not be found.
+	 * Returns the refresh token where value = &#63; or throws a <code>NoSuchRefreshTokenException</code> if it could not be found.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @return the matching refresh token
 	 * @throws NoSuchRefreshTokenException if a matching refresh token could not be found
 	 */
-	public RefreshToken findByValueAndPublikId(String value, String publikId)
+	public RefreshToken findByValue(String value)
 		throws NoSuchRefreshTokenException;
 
 	/**
-	 * Returns the refresh token where value = &#63; and publikId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 * Returns the refresh token where value = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @return the matching refresh token, or <code>null</code> if a matching refresh token could not be found
 	 */
-	public RefreshToken fetchByValueAndPublikId(String value, String publikId);
+	public RefreshToken fetchByValue(String value);
 
 	/**
-	 * Returns the refresh token where value = &#63; and publikId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 * Returns the refresh token where value = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @param retrieveFromCache whether to retrieve from the finder cache
 	 * @return the matching refresh token, or <code>null</code> if a matching refresh token could not be found
 	 */
-	public RefreshToken fetchByValueAndPublikId(
-		String value, String publikId, boolean retrieveFromCache);
+	public RefreshToken fetchByValue(String value, boolean retrieveFromCache);
 
 	/**
-	 * Removes the refresh token where value = &#63; and publikId = &#63; from the database.
+	 * Removes the refresh token where value = &#63; from the database.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @return the refresh token that was removed
 	 */
-	public RefreshToken removeByValueAndPublikId(String value, String publikId)
+	public RefreshToken removeByValue(String value)
 		throws NoSuchRefreshTokenException;
 
 	/**
-	 * Returns the number of refresh tokens where value = &#63; and publikId = &#63;.
+	 * Returns the number of refresh tokens where value = &#63;.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @return the number of matching refresh tokens
 	 */
-	public int countByValueAndPublikId(String value, String publikId);
+	public int countByValue(String value);
 
 	/**
 	 * Caches the refresh token in the entity cache if it is enabled.

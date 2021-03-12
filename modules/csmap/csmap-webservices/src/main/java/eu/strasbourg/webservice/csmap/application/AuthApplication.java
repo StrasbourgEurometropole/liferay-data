@@ -1,11 +1,13 @@
 package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.util.StringUtil;
+import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
+import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.utils.JWTUtils;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
+import eu.strasbourg.webservice.csmap.exception.RefreshTokenExpiredException;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
@@ -67,10 +69,10 @@ public class AuthApplication extends Application {
 
             String csmapJWT = JWTUtils.createJWT(sub, 3600);
 
-            // TODO : Implement refresh token creation
+            RefreshToken refreshToken = authenticator.generateAndSaveRefreshTokenForUser(sub);
 
             jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
-            jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, "");
+            jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, refreshToken.getValue());
 
         } catch (InvalidJWTException e) {
             jsonResponse = WSResponseUtil.initializeServerError("Invalid token receives during authentication : " + e);
@@ -84,17 +86,28 @@ public class AuthApplication extends Application {
     @GET
     @Path("/get-new-jwt/{refreshToken}")
     public String getNewJWT(
-            @PathParam("refreshToken") String refreshToken) {
+            @PathParam("refreshToken") String refreshTokenvalue) {
         JSONObject jsonResponse = WSResponseUtil.initializeResponse();
 
-        jsonResponse.put("TODO", "Implement getNewJWT");
+        try {
+            RefreshToken validRefreshToken = authenticator.controlRefreshToken(refreshTokenvalue);
 
-        jsonResponse.put(WSConstants.JSON_JWT_CSM, "");
+            String csmapJWT = JWTUtils.createJWT(validRefreshToken.getPublikId(), 3600);
+
+            jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
+
+        } catch (NoSuchRefreshTokenException e) {
+            jsonResponse = WSResponseUtil.initializeServerError("An error occurs refresh token validation : " + e);
+        } catch (RefreshTokenExpiredException e) {
+            jsonResponse = WSResponseUtil.initializeServerError("Refresh token is not longer valid : " + e);
+        }
 
         return jsonResponse.toString();
     }
 
     @Reference
     protected WSAuthenticator authenticator;
+
+
 
 }

@@ -23,9 +23,8 @@
 		</order>
 
 		<!-- Finder methods -->
-		<finder name="ValueAndPublikId" return-type="RefreshToken">
+		<finder name="Value" return-type="RefreshToken">
 			<finder-column name="value" />
-			<finder-column name="publikId" />
 		</finder>
 
 	</entity>

@@ -73,11 +73,11 @@ public class RefreshTokenLocalServiceImpl extends RefreshTokenLocalServiceBaseIm
 	}
 
 	/**
-	 * Retrouve un refresh token par sa valeur et l'ID de l'utilisateur Publik (null si non retrouvé)
+	 * Retrouve un refresh token par sa valeur
 	 */
 	@Override
-	public RefreshToken fetchByValueAndPublikId(String value, String publikId) {
-		return refreshTokenPersistence.fetchByValueAndPublikId(value, publikId);
+	public RefreshToken fetchByValue(String value) {
+		return refreshTokenPersistence.fetchByValue(value);
 	}
 
 }

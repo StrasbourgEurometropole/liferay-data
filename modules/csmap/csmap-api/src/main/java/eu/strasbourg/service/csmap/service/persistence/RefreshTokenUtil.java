@@ -294,73 +294,63 @@ public class RefreshTokenUtil {
 	}
 
 	/**
-	 * Returns the refresh token where value = &#63; and publikId = &#63; or throws a <code>NoSuchRefreshTokenException</code> if it could not be found.
+	 * Returns the refresh token where value = &#63; or throws a <code>NoSuchRefreshTokenException</code> if it could not be found.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @return the matching refresh token
 	 * @throws NoSuchRefreshTokenException if a matching refresh token could not be found
 	 */
-	public static RefreshToken findByValueAndPublikId(
-			String value, String publikId)
+	public static RefreshToken findByValue(String value)
 		throws eu.strasbourg.service.csmap.exception.
 			NoSuchRefreshTokenException {
 
-		return getPersistence().findByValueAndPublikId(value, publikId);
+		return getPersistence().findByValue(value);
 	}
 
 	/**
-	 * Returns the refresh token where value = &#63; and publikId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 * Returns the refresh token where value = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @return the matching refresh token, or <code>null</code> if a matching refresh token could not be found
 	 */
-	public static RefreshToken fetchByValueAndPublikId(
-		String value, String publikId) {
-
-		return getPersistence().fetchByValueAndPublikId(value, publikId);
+	public static RefreshToken fetchByValue(String value) {
+		return getPersistence().fetchByValue(value);
 	}
 
 	/**
-	 * Returns the refresh token where value = &#63; and publikId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 * Returns the refresh token where value = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @param retrieveFromCache whether to retrieve from the finder cache
 	 * @return the matching refresh token, or <code>null</code> if a matching refresh token could not be found
 	 */
-	public static RefreshToken fetchByValueAndPublikId(
-		String value, String publikId, boolean retrieveFromCache) {
+	public static RefreshToken fetchByValue(
+		String value, boolean retrieveFromCache) {
 
-		return getPersistence().fetchByValueAndPublikId(
-			value, publikId, retrieveFromCache);
+		return getPersistence().fetchByValue(value, retrieveFromCache);
 	}
 
 	/**
-	 * Removes the refresh token where value = &#63; and publikId = &#63; from the database.
+	 * Removes the refresh token where value = &#63; from the database.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @return the refresh token that was removed
 	 */
-	public static RefreshToken removeByValueAndPublikId(
-			String value, String publikId)
+	public static RefreshToken removeByValue(String value)
 		throws eu.strasbourg.service.csmap.exception.
 			NoSuchRefreshTokenException {
 
-		return getPersistence().removeByValueAndPublikId(value, publikId);
+		return getPersistence().removeByValue(value);
 	}
 
 	/**
-	 * Returns the number of refresh tokens where value = &#63; and publikId = &#63;.
+	 * Returns the number of refresh tokens where value = &#63;.
 	 *
 	 * @param value the value
-	 * @param publikId the publik ID
 	 * @return the number of matching refresh tokens
 	 */
-	public static int countByValueAndPublikId(String value, String publikId) {
-		return getPersistence().countByValueAndPublikId(value, publikId);
+	public static int countByValue(String value) {
+		return getPersistence().countByValue(value);
 	}
 
 	/**
