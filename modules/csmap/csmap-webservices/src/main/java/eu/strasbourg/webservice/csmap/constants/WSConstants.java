@@ -11,6 +11,15 @@ public class WSConstants {
     public static final String APP_PROFILE_BASE = "/auth";
     public static final String APP_PROFILE_NAME = "CSMAP.Profile.Rest";
 
+    /** Publik */
+    public static final String ID_TOKEN = "id_token";
+    public static final String SUB = "sub";
+
+    /** Token config */
+    public static final int TOKEN_LENGTH = 255;
+    public static final int REFRESH_TOKEN_VALIDITY_DAYS = 30;
+    public static final int JWT_VALIDITY_SECONDS = 3600;
+
     /** JSON de réponse */
     // Global
     public static final String JSON_RESPONSE_CODE = "responseCode";
@@ -33,5 +42,13 @@ public class WSConstants {
     public static final String JSON_POSTAL_CODE = "postalCode";
     public static final String JSON_CITY = "city";
     public static final String JSON_IMAGE_URL = "imageURL";
+
+    /** Erreurs */
+    // Auth
+    public static final String ERROR_INVALID_TOKEN = "Invalid token receives during authentication : ";
+    public static final String ERROR_AUTHENTICATION = "An error occurs during Authentik authentication : ";
+    public static final String ERROR_REFRESH_TOKEN_VALIDATION_FAILED = "An error occurs refresh token validation : ";
+    public static final String ERROR_REFRESH_TOKEN_INVALID = "Refresh token is not longer valid : ";
+
 
 }

@@ -7,6 +7,7 @@ import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.service.RefreshTokenLocalService;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.RefreshTokenExpiredException;
 import eu.strasbourg.webservice.csmap.utils.WSTokenUtil;
 import org.osgi.service.component.annotations.Component;
@@ -58,7 +59,6 @@ public class WSAuthenticator {
         connection.setDoOutput(true);
         connection.setInstanceFollowRedirects(false);
         connection.setUseCaches(false);
-        connection.setRequestMethod("POST");
 
         connection.setRequestProperty("Content-Type", ContentTypes.APPLICATION_X_WWW_FORM_URLENCODED);
         connection.setRequestProperty("charset", "utf-8");
@@ -90,7 +90,7 @@ public class WSAuthenticator {
 
         refreshToken.setCreateDate(new Date());
         refreshToken.setPublikId(publikId);
-        refreshToken.setValue(WSTokenUtil.generateRandomToken(255));
+        refreshToken.setValue(WSTokenUtil.generateRandomToken(WSConstants.TOKEN_LENGTH));
 
         return refreshTokenLocalService.updateRefreshToken(refreshToken);
     }
@@ -111,7 +111,7 @@ public class WSAuthenticator {
         if (Validator.isNull(refreshToken))
             throw new NoSuchRefreshTokenException();
 
-        if (!WSTokenUtil.isRefreshTokensDateValid(refreshToken.getCreateDate(),30)) {
+        if (!WSTokenUtil.isRefreshTokensDateValid(refreshToken.getCreateDate(), WSConstants.REFRESH_TOKEN_VALIDITY_DAYS)) {
             refreshTokenLocalService.removeRefreshToken(refreshToken.getRefreshTokenId());
             throw new RefreshTokenExpiredException();
         }

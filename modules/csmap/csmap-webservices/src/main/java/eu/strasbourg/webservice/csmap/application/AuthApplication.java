@@ -52,7 +52,7 @@ public class AuthApplication extends Application {
 
             JSONObject authentikJSON = authenticator.sendTokenRequest(code);
 
-            String authentikJWT = authentikJSON.getString("id_token");
+            String authentikJWT = authentikJSON.getString(WSConstants.ID_TOKEN);
 
             boolean isJwtValid = JWTUtils.checkJWT(
                     authentikJWT,
@@ -63,7 +63,7 @@ public class AuthApplication extends Application {
                 throw new InvalidJWTException();
 
             String sub = JWTUtils.getJWTClaim(
-                    authentikJWT, "sub",
+                    authentikJWT, WSConstants.SUB,
                     StrasbourgPropsUtil.getCSMAPPublikClientSecret(),
                     StrasbourgPropsUtil.getPublikIssuer());
 
@@ -75,9 +75,9 @@ public class AuthApplication extends Application {
             jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, refreshToken.getValue());
 
         } catch (InvalidJWTException e) {
-            jsonResponse = WSResponseUtil.initializeServerError("Invalid token receives during authentication : " + e);
+            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_INVALID_TOKEN + e);
         } catch (IOException e) {
-            jsonResponse = WSResponseUtil.initializeServerError("An error occurs during Authentik authentication : " + e);
+            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_AUTHENTICATION + e);
         }
 
         return jsonResponse.toString();
@@ -92,14 +92,15 @@ public class AuthApplication extends Application {
         try {
             RefreshToken validRefreshToken = authenticator.controlRefreshToken(refreshTokenvalue);
 
-            String csmapJWT = JWTUtils.createJWT(validRefreshToken.getPublikId(), 3600);
+            String csmapJWT = JWTUtils.createJWT(
+                    validRefreshToken.getPublikId(), WSConstants.JWT_VALIDITY_SECONDS);
 
             jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
 
         } catch (NoSuchRefreshTokenException e) {
-            jsonResponse = WSResponseUtil.initializeServerError("An error occurs refresh token validation : " + e);
+            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_REFRESH_TOKEN_VALIDATION_FAILED + e);
         } catch (RefreshTokenExpiredException e) {
-            jsonResponse = WSResponseUtil.initializeServerError("Refresh token is not longer valid : " + e);
+            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_REFRESH_TOKEN_INVALID + e);
         }
 
         return jsonResponse.toString();
@@ -107,7 +108,5 @@ public class AuthApplication extends Application {
 
     @Reference
     protected WSAuthenticator authenticator;
-
-
 
 }
