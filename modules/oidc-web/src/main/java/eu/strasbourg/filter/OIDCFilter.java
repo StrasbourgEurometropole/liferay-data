@@ -180,7 +180,9 @@ public class OIDCFilter extends BaseFilter {
 
                     // On crée un nouveau jwt signé internalement pour y mettre
                     // l'id utilisateur
-                    String internalJwtToken = JWTUtils.createJWT(internalId, 60 * 60 * 24);
+                    String internalJwtToken = JWTUtils.createJWT(
+                            internalId, 60 * 60 * 24,
+                            StrasbourgPropsUtil.getInternalSecret());
                     // On l'enregistre dans un cookie
                     createCookie(request, response, "jwt_" + StrasbourgPropsUtil.getEnvironment(), internalJwtToken);
 

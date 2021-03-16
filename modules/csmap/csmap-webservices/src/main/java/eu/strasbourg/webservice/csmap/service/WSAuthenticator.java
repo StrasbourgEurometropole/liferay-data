@@ -12,6 +12,7 @@ import eu.strasbourg.utils.ServiceContextHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.RefreshTokenExpiredException;
+import eu.strasbourg.webservice.csmap.exception.RefreshTokenCreationFailedException;
 import eu.strasbourg.webservice.csmap.utils.WSTokenUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -90,16 +91,20 @@ public class WSAuthenticator {
      * Génére et enregistre un refresh token pour un utilisateur Publik
      * @param publikId ID de l'utilisateur à qui générer le refresh token
      */
-    public RefreshToken generateAndSaveRefreshTokenForUser(String publikId) throws PortalException {
-        ServiceContext sc = ServiceContextHelper.generateGlobalServiceContext();
+    public RefreshToken generateAndSaveRefreshTokenForUser(String publikId) throws RefreshTokenCreationFailedException {
+        try {
+            ServiceContext sc = ServiceContextHelper.generateGlobalServiceContext();
 
-        RefreshToken refreshToken = refreshTokenLocalService.createRefreshToken(sc);
+            RefreshToken refreshToken = refreshTokenLocalService.createRefreshToken(sc);
 
-        refreshToken.setCreateDate(new Date());
-        refreshToken.setPublikId(publikId);
-        refreshToken.setValue(WSTokenUtil.generateRandomToken(WSConstants.TOKEN_LENGTH));
+            refreshToken.setCreateDate(new Date());
+            refreshToken.setPublikId(publikId);
+            refreshToken.setValue(WSTokenUtil.generateRandomToken(WSConstants.TOKEN_LENGTH));
 
-        return refreshTokenLocalService.updateRefreshToken(refreshToken, sc);
+            return refreshTokenLocalService.updateRefreshToken(refreshToken, sc);
+        } catch (PortalException e) {
+            throw new RefreshTokenCreationFailedException(e);
+        }
     }
 
     /**

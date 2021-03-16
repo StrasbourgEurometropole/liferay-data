@@ -47,7 +47,8 @@ public class WSConstants {
     // Auth
     public static final String ERROR_INVALID_TOKEN = "Invalid token receives during authentication : ";
     public static final String ERROR_AUTHENTICATION = "An error occurs during Authentik authentication : ";
-    public static final String ERROR_REFRESH_TOKEN_VALIDATION_FAILED = "An error occurs refresh token validation : ";
+    public static final String ERROR_REFRESH_TOKEN_VALIDATION_FAILED = "An error occurs during refresh token validation : ";
     public static final String ERROR_REFRESH_TOKEN_INVALID = "Refresh token is not longer valid : ";
+    public static final String ERROR_REFREH_TOKEN_CREATION = "An error occurs during refresh token creation : : ";
 
 }

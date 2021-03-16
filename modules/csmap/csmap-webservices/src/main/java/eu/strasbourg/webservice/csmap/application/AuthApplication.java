@@ -12,6 +12,7 @@ import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.AuthenticationFailedException;
 import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
 import eu.strasbourg.webservice.csmap.exception.RefreshTokenExpiredException;
+import eu.strasbourg.webservice.csmap.exception.RefreshTokenCreationFailedException;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
@@ -90,6 +91,9 @@ public class AuthApplication extends Application {
             log.error(e);
         } catch (IOException | AuthenticationFailedException e) {
             jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_AUTHENTICATION);
+            log.error(e);
+        } catch (RefreshTokenCreationFailedException e) {
+            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_REFREH_TOKEN_CREATION);
             log.error(e);
         }
 

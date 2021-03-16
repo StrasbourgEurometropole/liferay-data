@@ -14,7 +14,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class JWTUtils {
 
-	public static String createJWT(String subClaimValue, int secondsBeforeExpiration) {
+	public static String createJWT(String subClaimValue, int secondsBeforeExpiration, String secret) {
 		try {
 			Date now = new Date();
 			Calendar c = Calendar.getInstance();
@@ -22,7 +22,7 @@ public class JWTUtils {
 	        c.add(Calendar.SECOND, secondsBeforeExpiration);
 	        Date expiresAt = c.getTime();
 
-		    Algorithm algorithm = Algorithm.HMAC256(StrasbourgPropsUtil.getInternalSecret());
+		    Algorithm algorithm = Algorithm.HMAC256(secret);
 		    String token = JWT.create()
 		        .withIssuer(StrasbourgPropsUtil.getInternalIssuer())
 		        .withClaim("sub", subClaimValue)
