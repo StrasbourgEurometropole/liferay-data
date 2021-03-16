@@ -86,7 +86,7 @@ public class RefreshTokenModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table csmap_RefreshToken (uuid_ VARCHAR(75) null,refreshTokenId LONG not null primary key,createDate DATE null,value VARCHAR(255) null,publikId VARCHAR(200) null)";
+		"create table csmap_RefreshToken (uuid_ VARCHAR(75) null,refreshTokenId LONG not null primary key,createDate DATE null,value VARCHAR(300) null,publikId VARCHAR(200) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table csmap_RefreshToken";
 

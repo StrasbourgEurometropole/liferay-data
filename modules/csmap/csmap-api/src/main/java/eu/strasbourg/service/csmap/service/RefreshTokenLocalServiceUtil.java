@@ -54,15 +54,6 @@ public class RefreshTokenLocalServiceUtil {
 	}
 
 	/**
-	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
-	 */
-	public static eu.strasbourg.service.csmap.model.RefreshToken
-		createRefreshToken() {
-
-		return getService().createRefreshToken();
-	}
-
-	/**
 	 * Creates a new refresh token with the primary key. Does not add the refresh token to the database.
 	 *
 	 * @param refreshTokenId the primary key for the new refresh token
@@ -72,6 +63,16 @@ public class RefreshTokenLocalServiceUtil {
 		createRefreshToken(long refreshTokenId) {
 
 		return getService().createRefreshToken(refreshTokenId);
+	}
+
+	/**
+	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 */
+	public static eu.strasbourg.service.csmap.model.RefreshToken
+		createRefreshToken(
+			com.liferay.portal.kernel.service.ServiceContext sc) {
+
+		return getService().createRefreshToken(sc);
 	}
 
 	/**
@@ -303,6 +304,17 @@ public class RefreshTokenLocalServiceUtil {
 			eu.strasbourg.service.csmap.model.RefreshToken refreshToken) {
 
 		return getService().updateRefreshToken(refreshToken);
+	}
+
+	/**
+	 * Met à jour une entité et l'enregistre en base de données
+	 */
+	public static eu.strasbourg.service.csmap.model.RefreshToken
+		updateRefreshToken(
+			eu.strasbourg.service.csmap.model.RefreshToken refreshToken,
+			com.liferay.portal.kernel.service.ServiceContext sc) {
+
+		return getService().updateRefreshToken(refreshToken, sc);
 	}
 
 	public static RefreshTokenLocalService getService() {

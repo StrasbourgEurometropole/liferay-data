@@ -1,11 +1,15 @@
 package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.utils.JWTUtils;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.exception.AuthenticationFailedException;
 import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
 import eu.strasbourg.webservice.csmap.exception.RefreshTokenExpiredException;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
@@ -42,6 +46,8 @@ public class AuthApplication extends Application {
         return Collections.singleton(this);
     }
 
+    private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
+
     @GET
     @Path("/authentication/{code}")
     public String authentication(
@@ -51,6 +57,9 @@ public class AuthApplication extends Application {
         try {
 
             JSONObject authentikJSON = authenticator.sendTokenRequest(code);
+
+            if (Validator.isNull(authentikJSON))
+                throw new AuthenticationFailedException();
 
             String authentikJWT = authentikJSON.getString(WSConstants.ID_TOKEN);
 
@@ -67,7 +76,9 @@ public class AuthApplication extends Application {
                     StrasbourgPropsUtil.getCSMAPPublikClientSecret(),
                     StrasbourgPropsUtil.getPublikIssuer());
 
-            String csmapJWT = JWTUtils.createJWT(sub, 3600);
+            String csmapJWT = JWTUtils.createJWT(
+                    sub, WSConstants.JWT_VALIDITY_SECONDS,
+                    StrasbourgPropsUtil.getCSMAPInternalSecret());
 
             RefreshToken refreshToken = authenticator.generateAndSaveRefreshTokenForUser(sub);
 
@@ -75,9 +86,11 @@ public class AuthApplication extends Application {
             jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, refreshToken.getValue());
 
         } catch (InvalidJWTException e) {
-            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_INVALID_TOKEN + e);
-        } catch (IOException e) {
-            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_AUTHENTICATION + e);
+            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_INVALID_TOKEN);
+            log.error(e);
+        } catch (IOException | AuthenticationFailedException e) {
+            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_AUTHENTICATION);
+            log.error(e);
         }
 
         return jsonResponse.toString();
@@ -93,17 +106,25 @@ public class AuthApplication extends Application {
             RefreshToken validRefreshToken = authenticator.controlRefreshToken(refreshTokenvalue);
 
             String csmapJWT = JWTUtils.createJWT(
-                    validRefreshToken.getPublikId(), WSConstants.JWT_VALIDITY_SECONDS);
+                    validRefreshToken.getPublikId(), WSConstants.JWT_VALIDITY_SECONDS,
+                    StrasbourgPropsUtil.getCSMAPInternalSecret());
 
             jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
 
         } catch (NoSuchRefreshTokenException e) {
-            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_REFRESH_TOKEN_VALIDATION_FAILED + e);
+            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_REFRESH_TOKEN_VALIDATION_FAILED);
+            log.error(e);
         } catch (RefreshTokenExpiredException e) {
-            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_REFRESH_TOKEN_INVALID + e);
+            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_REFRESH_TOKEN_INVALID);
+            log.error(e);
         }
 
         return jsonResponse.toString();
+    }
+
+    @Reference(unbind = "-")
+    protected void setWSAuthenticator(WSAuthenticator authenticator) {
+        this.authenticator = authenticator;
     }
 
     @Reference

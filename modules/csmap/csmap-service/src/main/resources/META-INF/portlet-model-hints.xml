@@ -6,7 +6,7 @@
 		<field name="refreshTokenId" type="long" />
 		<field name="createDate" type="Date" />
 		<field name="value" type="String">
-			<hint name="max-length">255</hint>
+			<hint name="max-length">300</hint>
 		</field>
 		<field name="publikId" type="String">
 			<hint name="max-length">200</hint>

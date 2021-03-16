@@ -20,6 +20,7 @@ import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.service.base.RefreshTokenLocalServiceBaseImpl;
 
+import com.liferay.portal.kernel.service.ServiceContext;
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -51,7 +52,7 @@ public class RefreshTokenLocalServiceImpl extends RefreshTokenLocalServiceBaseIm
 	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
 	 */
 	@Override
-	public RefreshToken createRefreshToken() {
+	public RefreshToken createRefreshToken(ServiceContext sc) {
 		long pk = counterLocalService.increment();
 		return refreshTokenLocalService.createRefreshToken(pk);
 	}
@@ -60,7 +61,7 @@ public class RefreshTokenLocalServiceImpl extends RefreshTokenLocalServiceBaseIm
 	 * Met à jour une entité et l'enregistre en base de données
 	 */
 	@Override
-	public RefreshToken updateRefreshToken(RefreshToken refreshToken) {
+	public RefreshToken updateRefreshToken(RefreshToken refreshToken, ServiceContext sc) {
 		return refreshTokenLocalService.updateRefreshToken(refreshToken);
 	}
 

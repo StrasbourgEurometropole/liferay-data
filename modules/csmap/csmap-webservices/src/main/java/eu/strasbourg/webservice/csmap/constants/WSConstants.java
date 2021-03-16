@@ -8,16 +8,16 @@ public class WSConstants {
     public static final String APP_AUTH_NAME = "CSMAP.Auth.Rest";
     public static final String APP_PLACE_BASE = "/place";
     public static final String APP_PLACE_NAME = "CSMAP.Place.Rest";
-    public static final String APP_PROFILE_BASE = "/auth";
+    public static final String APP_PROFILE_BASE = "/profile";
     public static final String APP_PROFILE_NAME = "CSMAP.Profile.Rest";
 
     /** Publik */
+    public static final String REDIRECT_URI = "http://localhost:8080/static.html";
     public static final String ID_TOKEN = "id_token";
     public static final String SUB = "sub";
 
     /** Token config */
     public static final int TOKEN_LENGTH = 255;
-    public static final int REFRESH_TOKEN_VALIDITY_DAYS = 30;
     public static final int JWT_VALIDITY_SECONDS = 3600;
 
     /** JSON de réponse */
@@ -49,6 +49,5 @@ public class WSConstants {
     public static final String ERROR_AUTHENTICATION = "An error occurs during Authentik authentication : ";
     public static final String ERROR_REFRESH_TOKEN_VALIDATION_FAILED = "An error occurs refresh token validation : ";
     public static final String ERROR_REFRESH_TOKEN_INVALID = "Refresh token is not longer valid : ";
-
 
 }

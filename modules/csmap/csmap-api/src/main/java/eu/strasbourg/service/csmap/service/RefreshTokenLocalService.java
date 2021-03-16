@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -73,11 +74,6 @@ public interface RefreshTokenLocalService
 	public RefreshToken addRefreshToken(RefreshToken refreshToken);
 
 	/**
-	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
-	 */
-	public RefreshToken createRefreshToken();
-
-	/**
 	 * Creates a new refresh token with the primary key. Does not add the refresh token to the database.
 	 *
 	 * @param refreshTokenId the primary key for the new refresh token
@@ -85,6 +81,11 @@ public interface RefreshTokenLocalService
 	 */
 	@Transactional(enabled = false)
 	public RefreshToken createRefreshToken(long refreshTokenId);
+
+	/**
+	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 */
+	public RefreshToken createRefreshToken(ServiceContext sc);
 
 	/**
 	 * @throws PortalException
@@ -253,5 +254,11 @@ public interface RefreshTokenLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public RefreshToken updateRefreshToken(RefreshToken refreshToken);
+
+	/**
+	 * Met à jour une entité et l'enregistre en base de données
+	 */
+	public RefreshToken updateRefreshToken(
+		RefreshToken refreshToken, ServiceContext sc);
 
 }

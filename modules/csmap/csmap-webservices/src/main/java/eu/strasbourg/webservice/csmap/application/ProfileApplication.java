@@ -49,7 +49,7 @@ public class ProfileApplication extends Application {
             return WSResponseUtil.initializeError("Il manque le paramètre JWT").toString();
 
         // On vérifie sa validité
-        boolean isJwtValid = JWTUtils.checkJWT(jwt, StrasbourgPropsUtil.getPublikClientSecret(),
+        boolean isJwtValid = JWTUtils.checkJWT(jwt, StrasbourgPropsUtil.getCSMAPPublikClientSecret(),
                 StrasbourgPropsUtil.getPublikIssuer());
         if (!isJwtValid)
             return WSResponseUtil.initializeError("JWT invalide").toString();

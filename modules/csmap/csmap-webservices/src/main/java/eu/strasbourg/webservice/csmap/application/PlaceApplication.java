@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
 import eu.strasbourg.service.place.model.CacheJson;
 import eu.strasbourg.service.place.model.Historic;
 import eu.strasbourg.service.place.service.CacheJsonLocalServiceUtil;
@@ -17,8 +18,11 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.exception.RefreshTokenExpiredException;
+import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
 import javax.ws.rs.GET;
@@ -57,6 +61,11 @@ public class PlaceApplication extends Application {
 	@Path("/get-places/{last_update_time}")
 	public String getPlaces(
 			@PathParam("last_update_time") String lastUpdateTimeString) {
+		try {
+			authenticator.controlRefreshToken("gffgsfgs");
+		} catch (NoSuchRefreshTokenException | RefreshTokenExpiredException e) {
+			e.printStackTrace();
+		}
 
 		// On vérifie que lastUpdateTimeString est renseigné
 		if (Validator.isNull(lastUpdateTimeString))
@@ -221,5 +230,13 @@ public class PlaceApplication extends Application {
 		}
 		return json.toString();
 	}
+
+	@Reference(unbind = "-")
+	protected void setWSAuthenticator(WSAuthenticator authenticator) {
+		this.authenticator = authenticator;
+	}
+
+	@Reference
+	protected WSAuthenticator authenticator;
 
 }

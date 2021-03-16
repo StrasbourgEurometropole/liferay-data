@@ -1,11 +1,14 @@
 package eu.strasbourg.webservice.csmap.service;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.service.RefreshTokenLocalService;
+import eu.strasbourg.utils.ServiceContextHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.RefreshTokenExpiredException;
@@ -29,6 +32,7 @@ import java.util.Date;
  */
 @Component(
         immediate = true,
+        property = {},
         service = WSAuthenticator.class
 )
 public class WSAuthenticator {
@@ -39,7 +43,7 @@ public class WSAuthenticator {
     public JSONObject sendTokenRequest(String code) throws IOException {
         // Récupération des URL/URI configurables
         String authURL = StrasbourgPropsUtil.getPublikTokenURL();
-        String redirectURI = StrasbourgPropsUtil.getCSMAPPublikRedirectURI();
+        String redirectURI = WSConstants.REDIRECT_URI;
 
         // Initialisation de la requête
         HttpURLConnection connection = (HttpURLConnection) new URL(authURL).openConnection();
@@ -59,6 +63,7 @@ public class WSAuthenticator {
         connection.setDoOutput(true);
         connection.setInstanceFollowRedirects(false);
         connection.setUseCaches(false);
+        connection.setRequestMethod("POST");
 
         connection.setRequestProperty("Content-Type", ContentTypes.APPLICATION_X_WWW_FORM_URLENCODED);
         connection.setRequestProperty("charset", "utf-8");
@@ -85,14 +90,16 @@ public class WSAuthenticator {
      * Génére et enregistre un refresh token pour un utilisateur Publik
      * @param publikId ID de l'utilisateur à qui générer le refresh token
      */
-    public RefreshToken generateAndSaveRefreshTokenForUser(String publikId) {
-        RefreshToken refreshToken = refreshTokenLocalService.createRefreshToken();
+    public RefreshToken generateAndSaveRefreshTokenForUser(String publikId) throws PortalException {
+        ServiceContext sc = ServiceContextHelper.generateGlobalServiceContext();
+
+        RefreshToken refreshToken = refreshTokenLocalService.createRefreshToken(sc);
 
         refreshToken.setCreateDate(new Date());
         refreshToken.setPublikId(publikId);
         refreshToken.setValue(WSTokenUtil.generateRandomToken(WSConstants.TOKEN_LENGTH));
 
-        return refreshTokenLocalService.updateRefreshToken(refreshToken);
+        return refreshTokenLocalService.updateRefreshToken(refreshToken, sc);
     }
 
     /**
@@ -111,7 +118,8 @@ public class WSAuthenticator {
         if (Validator.isNull(refreshToken))
             throw new NoSuchRefreshTokenException();
 
-        if (!WSTokenUtil.isRefreshTokensDateValid(refreshToken.getCreateDate(), WSConstants.REFRESH_TOKEN_VALIDITY_DAYS)) {
+        if (!WSTokenUtil.isRefreshTokensDateValid(refreshToken.getCreateDate(),
+                StrasbourgPropsUtil.getCSMAPRefreshTokenNbValidityDays())) {
             refreshTokenLocalService.removeRefreshToken(refreshToken.getRefreshTokenId());
             throw new RefreshTokenExpiredException();
         }
