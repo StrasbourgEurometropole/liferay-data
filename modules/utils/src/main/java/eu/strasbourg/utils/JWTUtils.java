@@ -38,11 +38,11 @@ public class JWTUtils {
 		}
 	}
 
-	public static boolean checkJWT(String token, String secret, String issuer, int secondsBeforeExpiration) {
+	public static boolean checkJWT(String token, String secret, String issuer, int leeway) {
 		try {
 			Algorithm algorithm = Algorithm.HMAC256(secret);
 			JWTVerifier verifier = JWT.require(algorithm)
-					.acceptExpiresAt(secondsBeforeExpiration).withIssuer(issuer)
+					.acceptExpiresAt(leeway).withIssuer(issuer)
 					.build();
 			verifier.verify(token);
 			return true;
