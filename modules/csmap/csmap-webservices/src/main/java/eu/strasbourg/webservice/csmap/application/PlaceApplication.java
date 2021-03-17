@@ -24,6 +24,7 @@ import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class PlaceApplication extends Application {
 	}
 
 	@GET
+	@Produces("application/json")
 	@Path("/get-places/{last_update_time}")
 	public String getPlaces(
 			@PathParam("last_update_time") String lastUpdateTimeString) {
@@ -112,6 +114,7 @@ public class PlaceApplication extends Application {
 	}
 
 	@GET
+	@Produces("application/json")
 	@Path("/get-hours/{sigid}")
 	public String getHours(
 			@PathParam("sigid") String sigid) {
@@ -138,6 +141,7 @@ public class PlaceApplication extends Application {
 	}
 
 	@GET
+	@Produces("application/json")
 	@Path("/get-categories/{last_update_time}/{ids_category}")
 	public String getCategories(
 			@PathParam("last_update_time") String lastUpdateTimeString,

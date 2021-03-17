@@ -22,6 +22,7 @@ import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import java.io.IOException;
 import java.util.Collections;
@@ -50,6 +51,7 @@ public class AuthApplication extends Application {
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
     @GET
+    @Produces("application/json")
     @Path("/authentication/{code}")
     public String authentication(
             @PathParam("code") String code) {
@@ -98,6 +100,7 @@ public class AuthApplication extends Application {
     }
 
     @GET
+    @Produces("application/json")
     @Path("/get-new-jwt/{refreshToken}")
     public String getNewJWT(
             @PathParam("refreshToken") String refreshTokenvalue) {

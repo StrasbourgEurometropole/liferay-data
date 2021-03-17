@@ -19,6 +19,7 @@ import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -48,6 +49,7 @@ public class ProfileApplication extends Application {
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
     @GET
+    @Produces("application/json")
     @Path("/get-profile")
     public String getProfile(
             @Context HttpHeaders httpHeaders) {
