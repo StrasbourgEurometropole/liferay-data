@@ -191,7 +191,7 @@ public class OIDCFilter extends BaseFilter {
                             internalId, email, hasPactSigned, isBanish, photo);
 
                     // Et on update la base
-                    updateUserInfoInDatabase(internalId, accessToken, givenName,
+                    PublikUserLocalServiceUtil.updateUserInfoInDatabase(internalId, accessToken, givenName,
                             familyName, email, photo);
                 }
             }
