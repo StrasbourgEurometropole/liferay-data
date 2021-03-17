@@ -20,10 +20,11 @@ public class WSConstants {
     public static final String FAMILY_NAME = "family_name";
     public static final String EMAIL = "email";
 
-
     /** Token config */
     public static final int TOKEN_LENGTH = 255;
     public static final int JWT_VALIDITY_SECONDS = 3600;
+    public static final int JWT_VALIDITY_LEEWAY = 10;
+    public static final String JWT_HEADER_NAME = "JWT_CSM";
 
     /** JSON de réponse */
     // Global

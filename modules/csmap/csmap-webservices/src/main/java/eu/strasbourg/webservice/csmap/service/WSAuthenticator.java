@@ -153,19 +153,19 @@ public class WSAuthenticator {
     public PublikUser validateUserInJWTHeader(HttpHeaders httpHeaders)
             throws NoJWTInHeaderException, InvalidJWTException, NoSubInJWTException, NoSuchPublikUserException {
         // Le JWT est renseigné ?
-        String jwt = httpHeaders.getHeaderString("jwt");
+        String jwt = httpHeaders.getHeaderString(WSConstants.JWT_HEADER_NAME);
         if (Validator.isNull(jwt))
             throw new NoJWTInHeaderException(WSConstants.ERROR_NO_JWT_IN_HEADER);
 
         // Le JWT est valide ?
-        boolean isJwtValid = JWTUtils.checkJWT(jwt,
-                StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+        boolean isJwtValid = JWTUtils.checkJWT(jwt, StrasbourgPropsUtil.getCSMAPInternalSecret(),
+                StrasbourgPropsUtil.getInternalIssuer(), WSConstants.JWT_VALIDITY_LEEWAY);
         if (!isJwtValid)
             throw new InvalidJWTException(WSConstants.ERROR_INVALID_TOKEN);
 
         // L'identifiant utilisateur Publik (sub) est renseigné ?
-        String publikId = JWTUtils.getJWTClaim(jwt, "sub", StrasbourgPropsUtil.getPublikClientSecret(),
-                StrasbourgPropsUtil.getPublikIssuer());
+        String publikId = JWTUtils.getJWTClaim(jwt, WSConstants.SUB,
+                StrasbourgPropsUtil.getCSMAPInternalSecret(), StrasbourgPropsUtil.getInternalIssuer());
         if (Validator.isNull(publikId))
             throw new NoSubInJWTException(WSConstants.ERROR_NO_SUB_IN_JWT);
 

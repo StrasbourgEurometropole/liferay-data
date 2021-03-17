@@ -50,7 +50,7 @@ public class ProfileApplication extends Application {
 
     @GET
     @Produces("application/json")
-    @Path("/get-profile")
+    @Path("get-profile")
     public String getProfile(
             @Context HttpHeaders httpHeaders) {
         JSONObject jsonResponse = WSResponseUtil.initializeResponse();
@@ -85,7 +85,7 @@ public class ProfileApplication extends Application {
             }
         } catch (NoJWTInHeaderException | InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
             jsonResponse = WSResponseUtil.initializeError(e.getMessage());
-            log.error(e);
+            log.error(e.getMessage());
         }
 
         return jsonResponse.toString();
