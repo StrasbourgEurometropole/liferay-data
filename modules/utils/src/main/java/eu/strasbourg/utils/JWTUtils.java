@@ -38,11 +38,11 @@ public class JWTUtils {
 		}
 	}
 
-	public static boolean checkJWT(String token, String secret, String issuer) {
+	public static boolean checkJWT(String token, String secret, String issuer, int secondsBeforeExpiration) {
 		try {
 			Algorithm algorithm = Algorithm.HMAC256(secret);
 			JWTVerifier verifier = JWT.require(algorithm)
-					.acceptExpiresAt(60 * 60 * 24).withIssuer(issuer)
+					.acceptExpiresAt(secondsBeforeExpiration).withIssuer(issuer)
 					.build();
 			verifier.verify(token);
 			return true;
@@ -53,6 +53,10 @@ public class JWTUtils {
 			// Invalid signature/claims
 			return false;
 		}
+	}
+
+	public static boolean checkJWT(String token, String secret, String issuer) {
+		return checkJWT(token, secret, issuer, 60 * 60 * 24);
 	}
 
 	public static String getJWTClaim(String token, String claim, String secret, String issuer) {
