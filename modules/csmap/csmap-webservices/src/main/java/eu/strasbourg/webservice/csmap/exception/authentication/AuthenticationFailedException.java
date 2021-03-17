@@ -1,4 +1,4 @@
-package eu.strasbourg.webservice.csmap.exception;
+package eu.strasbourg.webservice.csmap.exception.authentication;
 
 /**
  * Exception levé lors après l'echec d'authentification à Publik

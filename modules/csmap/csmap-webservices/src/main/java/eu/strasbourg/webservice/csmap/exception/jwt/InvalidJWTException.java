@@ -1,4 +1,4 @@
-package eu.strasbourg.webservice.csmap.exception;
+package eu.strasbourg.webservice.csmap.exception.jwt;
 
 /**
  * Exception levé lors de la vérification d'un JWT non valide

@@ -9,10 +9,10 @@ import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.utils.JWTUtils;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.exception.AuthenticationFailedException;
-import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
-import eu.strasbourg.webservice.csmap.exception.RefreshTokenExpiredException;
-import eu.strasbourg.webservice.csmap.exception.RefreshTokenCreationFailedException;
+import eu.strasbourg.webservice.csmap.exception.authentication.AuthenticationFailedException;
+import eu.strasbourg.webservice.csmap.exception.jwt.InvalidJWTException;
+import eu.strasbourg.webservice.csmap.exception.refreshtoken.RefreshTokenExpiredException;
+import eu.strasbourg.webservice.csmap.exception.refreshtoken.RefreshTokenCreationFailedException;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
@@ -60,9 +60,10 @@ public class AuthApplication extends Application {
             JSONObject authentikJSON = authenticator.sendTokenRequest(code);
 
             if (Validator.isNull(authentikJSON))
-                throw new AuthenticationFailedException();
+                throw new AuthenticationFailedException(WSConstants.ERROR_AUTHENTICATION);
 
             String authentikJWT = authentikJSON.getString(WSConstants.ID_TOKEN);
+            String accessToken = authentikJSON.getString(WSConstants.ACCESS_TOKEN);
 
             boolean isJwtValid = JWTUtils.checkJWT(
                     authentikJWT,
@@ -70,30 +71,26 @@ public class AuthApplication extends Application {
                     StrasbourgPropsUtil.getPublikIssuer());
 
             if (!isJwtValid)
-                throw new InvalidJWTException();
+                throw new InvalidJWTException(WSConstants.ERROR_INVALID_TOKEN);
 
-            String sub = JWTUtils.getJWTClaim(
-                    authentikJWT, WSConstants.SUB,
-                    StrasbourgPropsUtil.getCSMAPPublikClientSecret(),
-                    StrasbourgPropsUtil.getPublikIssuer());
+            String sub = JWTUtils.getJWTClaim(authentikJWT, WSConstants.SUB,
+                    StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+
+            authenticator.updateUserFromAuthentikInDatabase(authentikJWT, accessToken);
 
             String csmapJWT = JWTUtils.createJWT(
                     sub, WSConstants.JWT_VALIDITY_SECONDS,
                     StrasbourgPropsUtil.getCSMAPInternalSecret());
-
             RefreshToken refreshToken = authenticator.generateAndSaveRefreshTokenForUser(sub);
 
             jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
             jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, refreshToken.getValue());
 
-        } catch (InvalidJWTException e) {
-            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_INVALID_TOKEN);
-            log.error(e);
-        } catch (IOException | AuthenticationFailedException e) {
-            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_AUTHENTICATION);
+        } catch (InvalidJWTException | IOException | AuthenticationFailedException e) {
+            jsonResponse = WSResponseUtil.initializeError(e.getMessage());
             log.error(e);
         } catch (RefreshTokenCreationFailedException e) {
-            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_REFREH_TOKEN_CREATION);
+            jsonResponse = WSResponseUtil.initializeServerError(e.getMessage());
             log.error(e);
         }
 
@@ -115,12 +112,9 @@ public class AuthApplication extends Application {
 
             jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
 
-        } catch (NoSuchRefreshTokenException e) {
-            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_REFRESH_TOKEN_VALIDATION_FAILED);
-            log.error(e);
-        } catch (RefreshTokenExpiredException e) {
-            jsonResponse = WSResponseUtil.initializeServerError(WSConstants.ERROR_REFRESH_TOKEN_INVALID);
-            log.error(e);
+        } catch (NoSuchRefreshTokenException | RefreshTokenExpiredException e) {
+            jsonResponse = WSResponseUtil.initializeServerError(e.getMessage());
+            log.error(e.getMessage() + " : " + refreshTokenvalue);
         }
 
         return jsonResponse.toString();

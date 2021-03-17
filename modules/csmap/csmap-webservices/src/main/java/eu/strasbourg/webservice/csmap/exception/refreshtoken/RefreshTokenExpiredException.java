@@ -1,4 +1,4 @@
-package eu.strasbourg.webservice.csmap.exception;
+package eu.strasbourg.webservice.csmap.exception.refreshtoken;
 
 /**
  * Exception levé lors de la vérification d'un

@@ -8,15 +8,24 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.service.RefreshTokenLocalService;
+import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalService;
+import eu.strasbourg.utils.JWTUtils;
+import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.ServiceContextHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.exception.RefreshTokenExpiredException;
-import eu.strasbourg.webservice.csmap.exception.RefreshTokenCreationFailedException;
+import eu.strasbourg.webservice.csmap.exception.jwt.InvalidJWTException;
+import eu.strasbourg.webservice.csmap.exception.jwt.NoJWTInHeaderException;
+import eu.strasbourg.webservice.csmap.exception.jwt.NoSubInJWTException;
+import eu.strasbourg.webservice.csmap.exception.refreshtoken.RefreshTokenExpiredException;
+import eu.strasbourg.webservice.csmap.exception.refreshtoken.RefreshTokenCreationFailedException;
 import eu.strasbourg.webservice.csmap.utils.WSTokenUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import javax.ws.rs.core.HttpHeaders;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -33,7 +42,6 @@ import java.util.Date;
  */
 @Component(
         immediate = true,
-        property = {},
         service = WSAuthenticator.class
 )
 public class WSAuthenticator {
@@ -84,7 +92,6 @@ public class WSAuthenticator {
             System.out.println(str);
             return null;
         }
-
     }
 
     /**
@@ -103,7 +110,7 @@ public class WSAuthenticator {
 
             return refreshTokenLocalService.updateRefreshToken(refreshToken, sc);
         } catch (PortalException e) {
-            throw new RefreshTokenCreationFailedException(e);
+            throw new RefreshTokenCreationFailedException(WSConstants.ERROR_REFREH_TOKEN_CREATION, e);
         }
     }
 
@@ -121,15 +128,73 @@ public class WSAuthenticator {
         RefreshToken refreshToken = refreshTokenLocalService.fetchByValue(refreshTokenValue);
 
         if (Validator.isNull(refreshToken))
-            throw new NoSuchRefreshTokenException();
+            throw new NoSuchRefreshTokenException(WSConstants.ERROR_REFRESH_TOKEN_INVALID);
 
         if (!WSTokenUtil.isRefreshTokensDateValid(refreshToken.getCreateDate(),
                 StrasbourgPropsUtil.getCSMAPRefreshTokenNbValidityDays())) {
             refreshTokenLocalService.removeRefreshToken(refreshToken.getRefreshTokenId());
-            throw new RefreshTokenExpiredException();
+            throw new RefreshTokenExpiredException(WSConstants.ERROR_REFRESH_TOKEN_EXPIRED);
         }
 
         return refreshToken;
+    }
+
+    /**
+     * Vérifie la validité du JWT_CSM contenu dans le Header du requête et retourne l'utilisateur Publik associé
+     * @note À utiliser au début de toutes les fonctions du WS ncéssitant une authentification
+     *
+     * @param httpHeaders Header de la requête HTTP accèdant à un service nécessitant une authentification
+     * @return L'utilisateur Publik accèdant au service
+     * @throws NoJWTInHeaderException Le JWT n'est pas présent dans le Header HTTP
+     * @throws InvalidJWTException Le JWT trouvé n'est pas valide
+     * @throws NoSubInJWTException Le JWT n'a pas de paramètre sub renseigné
+     * @throws NoSuchPublikUserException Le "sub" renseigné de correspond à aucun utilisateur Publik
+     */
+    public PublikUser validateUserInJWTHeader(HttpHeaders httpHeaders)
+            throws NoJWTInHeaderException, InvalidJWTException, NoSubInJWTException, NoSuchPublikUserException {
+        // Le JWT est renseigné ?
+        String jwt = httpHeaders.getHeaderString("jwt");
+        if (Validator.isNull(jwt))
+            throw new NoJWTInHeaderException(WSConstants.ERROR_NO_JWT_IN_HEADER);
+
+        // Le JWT est valide ?
+        boolean isJwtValid = JWTUtils.checkJWT(jwt,
+                StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+        if (!isJwtValid)
+            throw new InvalidJWTException(WSConstants.ERROR_INVALID_TOKEN);
+
+        // L'identifiant utilisateur Publik (sub) est renseigné ?
+        String publikId = JWTUtils.getJWTClaim(jwt, "sub", StrasbourgPropsUtil.getPublikClientSecret(),
+                StrasbourgPropsUtil.getPublikIssuer());
+        if (Validator.isNull(publikId))
+            throw new NoSubInJWTException(WSConstants.ERROR_NO_SUB_IN_JWT);
+
+        PublikUser publikUser = publikUserLocalService.getByPublikUserId(publikId);
+        if (Validator.isNull(publikUser))
+            throw new NoSuchPublikUserException(WSConstants.ERROR_SUB_NOT_RECOGNISE);
+
+        return publikUser;
+    }
+
+    /**
+     * Met à jour un utilisateur Publik ou le crée s'il n'existe pas en base
+     *
+     * @param jwt JWT reçu lors de la demande de token à Authentik (appelé "id_token")
+     * @param accessToken Token reçu lors de la demande de token à Authentik (appelé "access_token")
+     */
+    public void updateUserFromAuthentikInDatabase(String jwt, String accessToken) {
+        String givenName = JWTUtils.getJWTClaim(jwt, WSConstants.GIVEN_NAME,
+                StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+        String familyName = JWTUtils.getJWTClaim(jwt, WSConstants.FAMILY_NAME,
+                StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+        String internalId = JWTUtils.getJWTClaim(jwt, WSConstants.SUB,
+                StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+        String email = JWTUtils.getJWTClaim(jwt, WSConstants.EMAIL,
+                StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+        String photo = PublikApiClient.getUserPhoto(internalId);
+
+        publikUserLocalService.updateUserInfoInDatabase(
+                internalId, accessToken, givenName, familyName, email, photo);
     }
 
     @Reference(unbind = "-")
@@ -137,7 +202,15 @@ public class WSAuthenticator {
         this.refreshTokenLocalService = refreshTokenLocalService;
     }
 
+    @Reference(unbind = "-")
+    protected void setPublikUserLocalService(PublikUserLocalService publikUserLocalService) {
+        this.publikUserLocalService = publikUserLocalService;
+    }
+
     @Reference
     protected RefreshTokenLocalService refreshTokenLocalService;
+
+    @Reference
+    protected PublikUserLocalService publikUserLocalService;
 
 }
