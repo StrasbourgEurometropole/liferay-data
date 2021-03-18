@@ -112,6 +112,27 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	public PublikUser getByPublikUserId(String publikUserId) {
 		return this.publikUserPersistence.fetchByPublikId(publikUserId);
 	}
+
+	/**
+	 * Enregistre ou update l'utilisateur en base
+	 */
+	@Override
+	public void updateUserInfoInDatabase(String internalId, String accessToken, String givenName,
+										  String familyName, String email, String photo) {
+		if (internalId != null && internalId.length() > 0) {
+			PublikUser user = publikUserLocalService.getByPublikUserId(internalId);
+			if (user == null) {
+				user = publikUserLocalService.createPublikUser();
+				user.setPublikId(internalId);
+			}
+			user.setAccessToken(accessToken);
+			user.setFirstName(givenName);
+			user.setLastName(familyName);
+			user.setEmail(email);
+			user.setImageURL(photo);
+			publikUserLocalService.updatePublikUser(user);
+		}
+	}
 	
 	/**
 	 * Rechercher tous les utilisateurs Publik directement via l'outil de persistance

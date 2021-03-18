@@ -333,6 +333,29 @@ public class StrasbourgPropsUtil {
 	
 	public static String getDocLibResizeAndCompressEnabled() {return PropsUtil.get("eu.strasbourg.dlfileentry.service.wrapper.resizeandcompress.enable");}
 
+	public static String getCSMAPPublikClientId() {
+		return PropsUtil.get("eu.strasbourg.csmap.publik.client.id");
+	}
+
+	public static String getCSMAPPublikClientSecret() {
+		return PropsUtil.get("eu.strasbourg.csmap.publik.client.secret");
+	}
+
+	public static String getCSMAPInternalSecret() {
+		return PropsUtil.get("eu.strasbourg.csmap.internal.secret");
+	}
+
+	public static int getCSMAPRefreshTokenNbValidityDays() {
+		int result;
+		try {
+			String property = PropsUtil.get("eu.strasbourg.entraide.user.submit.bcc.mail");
+			result = Integer.parseInt(property);
+		} catch (Exception ignored) {
+			result = 90;
+		}
+		return result;
+	}
+	
 	public static String getEntraideUserSubmitBCCMail() {
 		String result;
 		try {

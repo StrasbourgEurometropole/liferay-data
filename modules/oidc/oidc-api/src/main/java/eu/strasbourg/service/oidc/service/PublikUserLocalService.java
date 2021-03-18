@@ -337,4 +337,11 @@ public interface PublikUserLocalService
 	public PublikUser updatePublikUser(PublikUser publikUser, ServiceContext sc)
 		throws PortalException;
 
+	/**
+	 * Enregistre ou update l'utilisateur en base
+	 */
+	public void updateUserInfoInDatabase(
+		String internalId, String accessToken, String givenName,
+		String familyName, String email, String photo);
+
 }
