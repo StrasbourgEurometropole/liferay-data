@@ -2,39 +2,46 @@ package eu.strasbourg.webservice.csmap.utils;
 
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+
+import javax.ws.rs.core.Response;
 
 public class WSResponseUtil {
 
-    public static JSONObject initializeResponse() {
-        return generateResponse(200, null);
+    public static Response buildErrorResponse(Exception exception) {
+        int statusCode = WSExceptionUtil.getStatusCodeFromException(exception);
+
+        return buildErrorResponse(statusCode, exception.getMessage());
     }
 
-    public static JSONObject initializeError(String error) {
-        return generateResponse(400, error);
+    public static Response buildErrorResponse(int statusCode, String errorDescription) {
+        Response response;
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        editJsonResponseCode(json, statusCode);
+        editJsonErrorDescription(json, errorDescription);
+
+        if (statusCode < 500)
+            response = Response.status(statusCode).entity(json.toString()).build();
+        else
+            response = Response.serverError().entity(json.toString()).build();
+
+        return response;
     }
 
-    public static JSONObject initializeServerError(String error) {
-        return generateResponse(500, error);
+    public static Response buildOkResponse(JSONObject json) {
+        editJsonResponseCode(json, 200);
+        return Response.ok(json.toString()).build();
     }
 
-    public static JSONObject generateResponse(int responseCode, String errorDescription) {
-        JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
-        editResponseCode(jsonResponse, responseCode);
-        if(Validator.isNotNull(errorDescription))
-            editErrorDescription(jsonResponse, errorDescription);
-        return jsonResponse;
+    public static JSONObject editJsonResponseCode(JSONObject json, int responseCode) {
+        json.put(WSConstants.JSON_RESPONSE_CODE, responseCode);
+        return json;
     }
 
-    public static JSONObject editResponseCode(JSONObject jsonResponse, int responseCode) {
-        jsonResponse.put(WSConstants.JSON_RESPONSE_CODE, responseCode);
-        return jsonResponse;
-    }
-
-    public static JSONObject editErrorDescription(JSONObject jsonResponse, String errorDescription) {
-        jsonResponse.put(WSConstants.JSON_ERROR_DESCRIPTION, errorDescription);
-        return jsonResponse;
+    public static JSONObject editJsonErrorDescription(JSONObject json, String errorDescription) {
+        json.put(WSConstants.JSON_ERROR_DESCRIPTION, errorDescription);
+        return json;
     }
 
 }

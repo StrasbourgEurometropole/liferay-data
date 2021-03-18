@@ -26,6 +26,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,12 +58,12 @@ public class PlaceApplication extends Application {
 	@GET
 	@Produces("application/json")
 	@Path("/get-places/{last_update_time}")
-	public String getPlaces(
+	public Response getPlaces(
 			@PathParam("last_update_time") String lastUpdateTimeString) {
 
 		// On vérifie que lastUpdateTimeString est renseigné
 		if (Validator.isNull(lastUpdateTimeString))
-			return WSResponseUtil.initializeError("Il manque le paramètre last_update_time").toString();
+			return WSResponseUtil.buildErrorResponse(400,"Il manque le paramètre last_update_time");
 
 		// On transforme la date string en date
 		Date lastUpdateTime;
@@ -70,10 +71,10 @@ public class PlaceApplication extends Application {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
 			lastUpdateTime = sdf.parse(lastUpdateTimeString);
 		}catch (Exception e) {
-			return WSResponseUtil.initializeError("Format de date incorrect").toString();
+			return WSResponseUtil.buildErrorResponse(400,"Format de date incorrect");
 		}
 
-		JSONObject json = WSResponseUtil.initializeResponse();
+		JSONObject json = JSONFactoryUtil.createJSONObject();
 
 		try {
 			// On récupère tous les lieux qui ont été ajoutés
@@ -107,23 +108,23 @@ public class PlaceApplication extends Application {
 			json.put(WSConstants.JSON_DELETE, jsonSuppr);
 		} catch (JSONException e) {
 			e.printStackTrace();
-			return WSResponseUtil.initializeServerError(e.getMessage()).toString();
+			return WSResponseUtil.buildErrorResponse(500, e.getMessage());
 		}
 
-		return json.toString();
+		return WSResponseUtil.buildOkResponse(json);
 	}
 
 	@GET
 	@Produces("application/json")
 	@Path("/get-hours/{sigid}")
-	public String getHours(
+	public Response getHours(
 			@PathParam("sigid") String sigid) {
 
 		// On vérifie que le sigid est renseigné
 		if (Validator.isNull(sigid))
-			return WSResponseUtil.initializeError("Il manque le sigid").toString();
+			return WSResponseUtil.buildErrorResponse(400, "Il manque le sigid");
 
-		JSONObject json = WSResponseUtil.initializeResponse();
+		JSONObject json = JSONFactoryUtil.createJSONObject();
 
 		// On récupère le cache horaires du lieu
 		CacheJson cache = CacheJsonLocalServiceUtil.fetchCacheJson(sigid);
@@ -133,23 +134,24 @@ public class PlaceApplication extends Application {
 				json.put(WSConstants.JSON_RESPONSE_CODE, 200);
 			} catch (JSONException e) {
 				e.printStackTrace();
-				return WSResponseUtil.initializeServerError(e.getMessage()).toString();
+				return WSResponseUtil.buildErrorResponse(500, e.getMessage());
 			}
 		}
 
-		return json.toString();
+		return WSResponseUtil.buildOkResponse(json);
 	}
 
 	@GET
 	@Produces("application/json")
 	@Path("/get-categories/{last_update_time}/{ids_category}")
-	public String getCategories(
+	public Response getCategories(
 			@PathParam("last_update_time") String lastUpdateTimeString,
 			@PathParam("ids_category") String ids) {
 
 		// On vérifie que lastUpdateTimeString est renseigné
 		if (Validator.isNull(lastUpdateTimeString))
-			return WSResponseUtil.initializeError("Il manque le paramètre last_update_time").toString();
+			return WSResponseUtil.buildErrorResponse(400,
+					"Il manque le paramètre last_update_time");
 
 		// On transforme la date string en date
 		Date lastUpdateTime;
@@ -157,22 +159,22 @@ public class PlaceApplication extends Application {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
 			lastUpdateTime = sdf.parse(lastUpdateTimeString);
 		}catch (Exception e) {
-			return WSResponseUtil.initializeError("Format de date incorrect").toString();
+			return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
 		}
 
 		// On vérifie que les ids sont renseignés
 		if (Validator.isNull(ids))
-			return WSResponseUtil.initializeError("Il manque le paramètre ids_category").toString();
+			return WSResponseUtil.buildErrorResponse(400, "Il manque le paramètre ids_category");
 
 		// On vérifie le format de ids_category
 		JSONArray idsJson;
 		try {
 			idsJson = JSONFactoryUtil.createJSONArray(ids);
 		}catch (Exception e) {
-			return WSResponseUtil.initializeError("Format json de ids_category incorrect").toString();
+			return WSResponseUtil.buildErrorResponse(400, "Format json de ids_category incorrect");
 		}
 
-		JSONObject json = WSResponseUtil.initializeResponse();
+		JSONObject json = JSONFactoryUtil.createJSONObject();
 
 		try {
 			// On récupère les pictos du vocabulaire
@@ -221,9 +223,9 @@ public class PlaceApplication extends Application {
 			json.put(WSConstants.JSON_DELETE, jsonSuppr);
 		} catch (PortalException e) {
 			e.printStackTrace();
-			return WSResponseUtil.initializeServerError(e.getMessage()).toString();
+			return WSResponseUtil.buildErrorResponse(500, e.getMessage());
 		}
-		return json.toString();
+		return WSResponseUtil.buildOkResponse(json);
 	}
 
 }

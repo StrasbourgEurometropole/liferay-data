@@ -128,12 +128,12 @@ public class WSAuthenticator {
         RefreshToken refreshToken = refreshTokenLocalService.fetchByValue(refreshTokenValue);
 
         if (Validator.isNull(refreshToken))
-            throw new NoSuchRefreshTokenException(WSConstants.ERROR_REFRESH_TOKEN_INVALID);
+            throw new NoSuchRefreshTokenException(WSConstants.ERROR_REFRESH_TOKEN_INVALID + " : " + refreshTokenValue);
 
         if (!WSTokenUtil.isRefreshTokensDateValid(refreshToken.getCreateDate(),
                 StrasbourgPropsUtil.getCSMAPRefreshTokenNbValidityDays())) {
             refreshTokenLocalService.removeRefreshToken(refreshToken.getRefreshTokenId());
-            throw new RefreshTokenExpiredException(WSConstants.ERROR_REFRESH_TOKEN_EXPIRED);
+            throw new RefreshTokenExpiredException(refreshTokenValue);
         }
 
         return refreshToken;

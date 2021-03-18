@@ -1,5 +1,6 @@
 package eu.strasbourg.webservice.csmap.application;
 
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -24,6 +25,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
@@ -53,16 +55,16 @@ public class AuthApplication extends Application {
     @GET
     @Produces("application/json")
     @Path("/authentication/{code}")
-    public String authentication(
+    public Response authentication(
             @PathParam("code") String code) {
-        JSONObject jsonResponse = WSResponseUtil.initializeResponse();
+        JSONObject jsonResponse =JSONFactoryUtil.createJSONObject();
 
         try {
 
             JSONObject authentikJSON = authenticator.sendTokenRequest(code);
 
             if (Validator.isNull(authentikJSON))
-                throw new AuthenticationFailedException(WSConstants.ERROR_AUTHENTICATION);
+                throw new AuthenticationFailedException();
 
             String authentikJWT = authentikJSON.getString(WSConstants.ID_TOKEN);
             String accessToken = authentikJSON.getString(WSConstants.ACCESS_TOKEN);
@@ -73,7 +75,7 @@ public class AuthApplication extends Application {
                     StrasbourgPropsUtil.getPublikIssuer());
 
             if (!isJwtValid)
-                throw new InvalidJWTException(WSConstants.ERROR_INVALID_TOKEN);
+                throw new InvalidJWTException();
 
             String sub = JWTUtils.getJWTClaim(authentikJWT, WSConstants.SUB,
                     StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
@@ -88,23 +90,21 @@ public class AuthApplication extends Application {
             jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
             jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, refreshToken.getValue());
 
-        } catch (InvalidJWTException | IOException | AuthenticationFailedException e) {
-            jsonResponse = WSResponseUtil.initializeError(e.getMessage());
+        } catch (InvalidJWTException | IOException | AuthenticationFailedException |
+                RefreshTokenCreationFailedException e) {
             log.error(e);
-        } catch (RefreshTokenCreationFailedException e) {
-            jsonResponse = WSResponseUtil.initializeServerError(e.getMessage());
-            log.error(e);
+            return WSResponseUtil.buildErrorResponse(e);
         }
 
-        return jsonResponse.toString();
+        return WSResponseUtil.buildOkResponse(jsonResponse);
     }
 
     @GET
     @Produces("application/json")
     @Path("/get-new-jwt/{refreshToken}")
-    public String getNewJWT(
+    public Response getNewJWT(
             @PathParam("refreshToken") String refreshTokenvalue) {
-        JSONObject jsonResponse = WSResponseUtil.initializeResponse();
+        JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
 
         try {
             RefreshToken validRefreshToken = authenticator.controlRefreshToken(refreshTokenvalue);
@@ -116,11 +116,11 @@ public class AuthApplication extends Application {
             jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
 
         } catch (NoSuchRefreshTokenException | RefreshTokenExpiredException e) {
-            jsonResponse = WSResponseUtil.initializeServerError(e.getMessage());
-            log.error(e.getMessage() + " : " + refreshTokenvalue);
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(e);
         }
 
-        return jsonResponse.toString();
+        return WSResponseUtil.buildOkResponse(jsonResponse);
     }
 
     @Reference(unbind = "-")
