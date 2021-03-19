@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.help.model.impl;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -24,7 +25,12 @@ import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.annotation.versioning.ProviderType;
+
+import java.util.List;
+import java.util.Locale;
 
 /**
  * The extended model implementation for the HelpRequest service. Represents a row in the &quot;help_HelpRequest&quot; database table, with each column mapped to a property of this class.
@@ -140,6 +146,56 @@ public class HelpRequestImpl extends HelpRequestBaseImpl {
 			return HelpProposalLocalServiceUtil.getHelpProposal(this.getHelpProposalId());
 		} catch (PortalException e) {
 			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cette proposition d'aide (via
+	 * l'assetEntry)
+	 */
+	@Override
+	public List<AssetCategory> getCategories() {
+		return AssetVocabularyHelper
+				.getAssetEntryCategories(this.getAssetEntry());
+	}
+
+	/**
+	 * Retourne la class du statut de modération de la demande d'aide (
+	 */
+	@Override
+	public String getModerationStatusClass() {
+		AssetCategory ModerationStatusCategory = this.getModerationStatusCategory();
+		if (ModerationStatusCategory != null) {
+			return AssetVocabularyHelper.getCategoryProperty(ModerationStatusCategory.getCategoryId(), "class");
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * Retourne le statut de modération de la demande d'aide
+	 */
+	@Override
+	public String getModerationStatusTitle(Locale locale) {
+		AssetCategory ModerationStatusCategory = this.getModerationStatusCategory();
+		if (ModerationStatusCategory != null) {
+			return ModerationStatusCategory.getTitle(locale);
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * Retourne la catégorie statut moderation demande d'aide
+	 */
+	@Override
+	public AssetCategory getModerationStatusCategory() {
+		List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.HELP_REQUEST_MODERATION_STATUS);
+		if (assetCategories.size() > 0) {
+			return assetCategories.get(0);
+		} else {
 			return null;
 		}
 	}

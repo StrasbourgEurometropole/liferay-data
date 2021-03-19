@@ -25,7 +25,7 @@
 
         <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
                                               orderByType="${dc.orderByType}"
-                                              orderColumns='<%= new String[] {"help-request-message", "request-author", "request-create-date"} %>'
+                                              orderColumns='<%= new String[] {"create-date", "modified-date" } %>'
                                               portletURL="${helpRequestsURL}" />
     </liferay-frontend:management-bar-filters>
 
@@ -68,17 +68,6 @@
                     <portlet:param name="mvcPath" value="/help-bo-edit-help-request.jsp" />
                 </liferay-portlet:renderURL>
 
-                <%-- Colonne : Message --%>
-                <liferay-ui:search-container-column-text cssClass="content-column"
-                                                         href="${editHelpRequestURL}" name="help-request-message" truncate="true" orderable="true">
-                    <c:out value="${helpRequest.message}" escapeXml='true'/>
-                </liferay-ui:search-container-column-text>
-
-                <%-- Colonne : Demandeur d'aide --%>
-                <liferay-ui:search-container-column-text name="request-author">
-                    <c:out value="${helpRequest.authorNameLabel}" escapeXml='true'/>
-                </liferay-ui:search-container-column-text>
-
                 <%-- Colonne : Date de creation --%>
                 <fmt:formatDate value="${helpRequest.createDate}"
                                 var="formattedCreateDate" type="date" pattern="dd/MM/yyyy HH:mm" />
@@ -92,12 +81,33 @@
                     <c:out value="${helpRequest.helpProposal.titleCurrentValue}" escapeXml='true'/>
                 </liferay-ui:search-container-column-text>
 
-                <%-- Colonne : Aidant --%>
-                <liferay-ui:search-container-column-text name="helper-name">
-                    <c:out value="${helpRequest.helpProposal.authorNameLabel}" escapeXml='true'/>
+                <%-- Colonne : Identifiant --%>
+                <liferay-ui:search-container-column-text name="id">
+                    <c:out value="${helpRequest.helpRequestId}" escapeXml='true'/>
                 </liferay-ui:search-container-column-text>
 
+                <%-- Colonne : Demandeur d'aide --%>
+                <liferay-ui:search-container-column-text name="request-author">
+                    <c:out value="${helpRequest.authorNameLabel}" escapeXml='true'/>
+                </liferay-ui:search-container-column-text>
 
+                <%-- Colonne : Statut modération de la demande --%>
+                <liferay-ui:search-container-column-text name="statusHelpModeration">
+				    <span class="badge ${helpRequest.getModerationStatusClass()}">
+                            ${helpRequest.getModerationStatusTitle(locale)}
+                    </span>
+                </liferay-ui:search-container-column-text>
+
+                <%-- Colonne : Consentement a etre contacte--%>
+                <liferay-ui:search-container-column-text name="request-contact-consent">
+                    <c:if test="${helpRequest.agreementSigned3}">
+                        <liferay-ui:message key="yes"/>
+                    </c:if>
+                    <c:if test="${not helpRequest.agreementSigned3}">
+                        <liferay-ui:message key="no"/>
+                    </c:if>
+
+                </liferay-ui:search-container-column-text>
 
                 <%-- Colonne : Actions possibles --%>
                 <liferay-ui:search-container-column-text>

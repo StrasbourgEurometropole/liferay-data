@@ -48,5 +48,6 @@ create table help_HelpRequest (
 	studentCardImageId LONG,
 	agreementSigned1 BOOLEAN,
 	agreementSigned2 BOOLEAN,
-	agreementSigned3 BOOLEAN
+	agreementSigned3 BOOLEAN,
+	comment_ TEXT null
 );

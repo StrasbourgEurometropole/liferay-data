@@ -1,5 +1,6 @@
 package eu.strasbourg.service.help.search;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -10,6 +11,7 @@ import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -36,17 +38,25 @@ public class HelpRequestIndexer extends BaseIndexer<HelpRequest> {
     protected Document doGetDocument(HelpRequest helpRequest) throws Exception {
         Document document = getBaseModelDocument(CLASS_NAME, helpRequest);
 
-        Map<Locale, String> MessageMap = new HashMap<>();
-        MessageMap.put(Locale.FRANCE, helpRequest.getMessage());
-        MessageMap.put(Locale.GERMANY, helpRequest.getMessage());
-        MessageMap.put(Locale.ENGLISH, helpRequest.getMessage());
-        document.addLocalizedText(Field.TITLE, MessageMap);
+        long[] assetCategoryIds = AssetVocabularyHelper
+                .getFullHierarchyCategoriesIds(helpRequest.getCategories());
+        List<AssetCategory> assetCategories = AssetVocabularyHelper
+                .getFullHierarchyCategories(helpRequest.getCategories());
+        document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
+        addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+                assetCategories);
 
-        document.addTextSortable("helpSeeker", helpRequest.getAuthorNameLabel());
+        Map<Locale, String> helpProposalTitle = new HashMap<>();
+        helpProposalTitle.put(Locale.FRANCE, helpRequest.getHelpProposal().getTitle());
+        helpProposalTitle.put(Locale.GERMANY, helpRequest.getHelpProposal().getTitle());
+        helpProposalTitle.put(Locale.ENGLISH, helpRequest.getHelpProposal().getTitle());
+        document.addLocalizedText(Field.TITLE, helpProposalTitle);
 
-        document.addTextSortable("helper", helpRequest.getHelpProposal().getAuthorNameLabel());
-
-        document.addTextSortable(Field.DESCRIPTION, helpRequest.getHelpProposal().getTitle());
+        Map<Locale, String> helpSeeker = new HashMap<>();
+        helpSeeker.put(Locale.FRANCE, helpRequest.getAuthorNameLabel());
+        helpSeeker.put(Locale.GERMANY, helpRequest.getAuthorNameLabel());
+        helpSeeker.put(Locale.ENGLISH, helpRequest.getAuthorNameLabel());
+        document.addLocalizedText(Field.DESCRIPTION, helpSeeker);
 
         document.addDateSortable(Field.CREATE_DATE, new Date[]{helpRequest.getCreateDate()});
 

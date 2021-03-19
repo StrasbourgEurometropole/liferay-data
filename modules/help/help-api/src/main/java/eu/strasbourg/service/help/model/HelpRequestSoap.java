@@ -54,6 +54,7 @@ public class HelpRequestSoap implements Serializable {
 		soapModel.setAgreementSigned1(model.isAgreementSigned1());
 		soapModel.setAgreementSigned2(model.isAgreementSigned2());
 		soapModel.setAgreementSigned3(model.isAgreementSigned3());
+		soapModel.setComment(model.getComment());
 
 		return soapModel;
 	}
@@ -279,6 +280,14 @@ public class HelpRequestSoap implements Serializable {
 		_agreementSigned3 = agreementSigned3;
 	}
 
+	public String getComment() {
+		return _comment;
+	}
+
+	public void setComment(String comment) {
+		_comment = comment;
+	}
+
 	private String _uuid;
 	private long _helpRequestId;
 	private long _groupId;
@@ -299,5 +308,6 @@ public class HelpRequestSoap implements Serializable {
 	private boolean _agreementSigned1;
 	private boolean _agreementSigned2;
 	private boolean _agreementSigned3;
+	private String _comment;
 
 }

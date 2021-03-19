@@ -67,6 +67,26 @@ public class ViewHelpRequestsDisplayContext extends ViewListBaseDisplayContext<H
         return myPortletURL.toString();
     }
 
+    @Override
+    public String getOrderByColSearchField() {
+        switch (this.getOrderByCol()) {
+            case "title":
+            case "alias":
+                return "localized_title_fr_FR_sortable";
+            case "modified-date":
+                return "modified_sortable";
+            case "publication-date":
+                return "publishDate_sortable";
+            case "status":
+                return "status_sortable";
+            case "create-date":
+                return "createDate_sortable";
+            default:
+                return "createDate_sortable";
+        }
+    }
+
+
     /**
      * Wrapper autour du permission checker pour les permissions de module
      */

@@ -212,7 +212,7 @@ public class HelpRequestLocalServiceImpl
 				sc.getScopeGroupId(), // Group ID
 				helpRequest.getCreateDate(), // Date of creation
 				helpRequest.getModifiedDate(), // Date of modification
-				HelpProposal.class.getName(), // Class name
+				HelpRequest.class.getName(), // Class name
 				helpRequest.getPrimaryKey(), // Class PK
 				helpRequest.getUuid(), // UUID
 				0, // Class type ID
