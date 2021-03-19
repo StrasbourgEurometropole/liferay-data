@@ -1,0 +1,51 @@
+/* ------------------
+--- MIXINS ---
+------------------ */
+
+@mixin ft($family:"", $size:"", $weight:"", $color:"", $lineheight:"") // define font
+{
+	@if $family != "" {
+		font-family: $family;
+	}
+	@if $size != "" {
+		font-size: $size;
+	}
+	@if $weight != "" {
+		font-weight: $weight;
+	}
+	@if $color != "" {
+		color: $color;
+	}
+	@if $lineheight != "" {
+		line-height: $lineheight;
+	}
+}
+
+@mixin clearfix() {
+	&::after {
+		display: block;
+		content: "";
+		clear: both;
+	}
+}
+
+
+// Mixin Aspect-ratio pour les images
+// ==========================================================================
+@mixin aspect-ratio($width, $height, $add: 0px) {
+	position: relative;
+	overflow: hidden;
+	&:before {
+		display: block;
+		content: "";
+		width: 100%;
+		padding-bottom: $add;
+		padding-top: ($height / $width) * 100%;
+	}
+}
+
+// Define default font size
+@function calculateRem($size) {
+	$remSize: $size / 10px;
+	@return $remSize * 1rem;
+}

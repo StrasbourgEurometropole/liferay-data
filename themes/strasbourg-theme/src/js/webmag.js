@@ -1834,7 +1834,7 @@ var notifManager;
     }
 
     $(document).ready(function(){
-        $('#trigger-account-menu').on('click', function(){
+        $('[name=trigger-account-menu]').on('click', function(){
             $(this).next('#account-menu').toggle();
         })
         
