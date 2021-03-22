@@ -25,7 +25,7 @@ function dot(){
 				$('.seu-header').removeClass('scrolled');
 				$('.seu-scrolled-search-engine').slideUp();
 			}
-			if($(window).scrollTop() > ($('#seu-banner').height())){
+			if($(window).scrollTop() > ($('#seu-banner').height() - $('.seu-nav-top').height() - ($('.control-menu-level-1').height()!= undefined? $('.control-menu-level-1').height() : 0))){
 				$('.seu-header').addClass('scrolled-hp');
 			}else{
 				$('.seu-header').removeClass('scrolled-hp');
@@ -36,7 +36,7 @@ function dot(){
 			$('.seu-header').addClass('scrolled-hp');
 		}
 	}
-	function manageMenuRwd(){
+	/*function manageMenuRwd(){
 		if(environment != 'desktop'){
 			$('#seu-main-menu').appendTo('.seu-menu-rwd-content');
 			$('.seu-nav-contact').appendTo('.seu-menu-rwd-content');
@@ -44,7 +44,7 @@ function dot(){
 			$('#seu-main-menu').appendTo('.seu-nav-bottom');
 			$('.seu-nav-contact').insertAfter('.seu-nav-account');
 		}
-	}
+	}*/
 	$(document).ready(function() {
 		// INIT
 		$('.seu-toCustomSelect, .SingleSelectHintWidget select').customSelect();
@@ -59,6 +59,10 @@ function dot(){
 		dot();
 		// Moteur de recherche dépliant
 		$('#seu-search-trigger').on('click', function(){
+			$('.seu-scrolled-search-engine').stop();
+			$('.seu-scrolled-search-engine').slideToggle();
+		});
+		$('#seu-search-trigger2').on('click', function(){
 			$('.seu-scrolled-search-engine').stop();
 			$('.seu-scrolled-search-engine').slideToggle();
 		});
@@ -97,7 +101,7 @@ function dot(){
 			$(window).resize(function(){
 				if (environmentChanged) {
 					dot();
-					manageMenuRwd();
+					//manageMenuRwd();
 					attachBigMenu();
 				}
 			});
@@ -106,7 +110,7 @@ function dot(){
 
 	$(window).on( "load",function(){
 		manageStickyHeader();
-		manageMenuRwd();
+		//manageMenuRwd();
 		$(window).scroll(function(){
 			manageStickyHeader();
 		});
