@@ -34,14 +34,12 @@ public class WSResponseUtil {
         return Response.ok(json.toString()).build();
     }
 
-    public static JSONObject editJsonResponseCode(JSONObject json, int responseCode) {
+    public static void editJsonResponseCode(JSONObject json, int responseCode) {
         json.put(WSConstants.JSON_RESPONSE_CODE, responseCode);
-        return json;
     }
 
-    public static JSONObject editJsonErrorDescription(JSONObject json, String errorDescription) {
+    public static void editJsonErrorDescription(JSONObject json, String errorDescription) {
         json.put(WSConstants.JSON_ERROR_DESCRIPTION, errorDescription);
-        return json;
     }
 
 }
