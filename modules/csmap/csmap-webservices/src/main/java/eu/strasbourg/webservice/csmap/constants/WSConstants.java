@@ -26,6 +26,10 @@ public class WSConstants {
     public static final int JWT_VALIDITY_LEEWAY = 10;
     public static final String JWT_HEADER_NAME = "JWT_CSM";
 
+    /** Paramètres */
+    // Place
+    public static final String PARAM_IDS_CATEGORY = "ids_category";
+
     /** JSON de réponse */
     // Global
     public static final String JSON_RESPONSE_CODE = "responseCode";

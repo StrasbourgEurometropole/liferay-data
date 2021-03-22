@@ -167,9 +167,11 @@ public class PlaceApplication extends Application {
 			return WSResponseUtil.buildErrorResponse(400, "Il manque le paramètre ids_category");
 
 		// On vérifie le format de ids_category
+		JSONObject idsCategoryParam;
 		JSONArray idsJson;
 		try {
-			idsJson = JSONFactoryUtil.createJSONArray(ids);
+			idsCategoryParam = JSONFactoryUtil.createJSONObject(ids);
+			idsJson = idsCategoryParam.getJSONArray(WSConstants.PARAM_IDS_CATEGORY);
 		}catch (Exception e) {
 			return WSResponseUtil.buildErrorResponse(400, "Format json de ids_category incorrect");
 		}
