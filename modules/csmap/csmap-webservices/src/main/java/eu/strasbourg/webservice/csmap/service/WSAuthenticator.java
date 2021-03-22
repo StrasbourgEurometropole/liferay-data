@@ -110,7 +110,7 @@ public class WSAuthenticator {
 
             return refreshTokenLocalService.updateRefreshToken(refreshToken, sc);
         } catch (PortalException e) {
-            throw new RefreshTokenCreationFailedException(WSConstants.ERROR_REFREH_TOKEN_CREATION, e);
+            throw new RefreshTokenCreationFailedException(e);
         }
     }
 
@@ -128,7 +128,7 @@ public class WSAuthenticator {
         RefreshToken refreshToken = refreshTokenLocalService.fetchByValue(refreshTokenValue);
 
         if (Validator.isNull(refreshToken))
-            throw new NoSuchRefreshTokenException(WSConstants.ERROR_REFRESH_TOKEN_INVALID + " : " + refreshTokenValue);
+            throw new NoSuchRefreshTokenException(refreshTokenValue);
 
         if (!WSTokenUtil.isRefreshTokensDateValid(refreshToken.getCreateDate(),
                 StrasbourgPropsUtil.getCSMAPRefreshTokenNbValidityDays())) {
@@ -155,23 +155,23 @@ public class WSAuthenticator {
         // Le JWT est renseigné ?
         String jwt = httpHeaders.getHeaderString(WSConstants.JWT_HEADER_NAME);
         if (Validator.isNull(jwt))
-            throw new NoJWTInHeaderException(WSConstants.ERROR_NO_JWT_IN_HEADER);
+            throw new NoJWTInHeaderException();
 
         // Le JWT est valide ?
         boolean isJwtValid = JWTUtils.checkJWT(jwt, StrasbourgPropsUtil.getCSMAPInternalSecret(),
                 StrasbourgPropsUtil.getInternalIssuer(), WSConstants.JWT_VALIDITY_LEEWAY);
         if (!isJwtValid)
-            throw new InvalidJWTException(WSConstants.ERROR_INVALID_TOKEN);
+            throw new InvalidJWTException();
 
         // L'identifiant utilisateur Publik (sub) est renseigné ?
         String publikId = JWTUtils.getJWTClaim(jwt, WSConstants.SUB,
                 StrasbourgPropsUtil.getCSMAPInternalSecret(), StrasbourgPropsUtil.getInternalIssuer());
         if (Validator.isNull(publikId))
-            throw new NoSubInJWTException(WSConstants.ERROR_NO_SUB_IN_JWT);
+            throw new NoSubInJWTException();
 
         PublikUser publikUser = publikUserLocalService.getByPublikUserId(publikId);
         if (Validator.isNull(publikUser))
-            throw new NoSuchPublikUserException(WSConstants.ERROR_SUB_NOT_RECOGNISE);
+            throw new NoSuchPublikUserException();
 
         return publikUser;
     }
