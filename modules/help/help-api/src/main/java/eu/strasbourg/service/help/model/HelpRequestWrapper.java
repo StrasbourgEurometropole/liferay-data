@@ -66,6 +66,7 @@ public class HelpRequestWrapper
 		attributes.put("agreementSigned1", isAgreementSigned1());
 		attributes.put("agreementSigned2", isAgreementSigned2());
 		attributes.put("agreementSigned3", isAgreementSigned3());
+		attributes.put("comment", getComment());
 
 		return attributes;
 	}
@@ -191,6 +192,12 @@ public class HelpRequestWrapper
 		if (agreementSigned3 != null) {
 			setAgreementSigned3(agreementSigned3);
 		}
+
+		String comment = (String)attributes.get("comment");
+
+		if (comment != null) {
+			setComment(comment);
+		}
 	}
 
 	/**
@@ -224,6 +231,14 @@ public class HelpRequestWrapper
 	}
 
 	/**
+	 * Retourne l'AssetEntry rattaché a cette proposition d'aide
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return model.getAssetEntry();
+	}
+
+	/**
 	 * Retourne l'utilisateur Publik depositaire
 	 *
 	 * @return
@@ -234,7 +249,7 @@ public class HelpRequestWrapper
 	}
 
 	/**
-	 * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	 * Retourne l'email du demandeur d'aide
 	 */
 	@Override
 	public String getAuthorEmail() {
@@ -258,6 +273,106 @@ public class HelpRequestWrapper
 	}
 
 	/**
+	 * Retourne le nom prenom du depositaire s'il existe
+	 */
+	@Override
+	public String getAuthorNameLabel() {
+		return model.getAuthorNameLabel();
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
+	}
+
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cette proposition d'aide (via
+	 * l'assetEntry)
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories() {
+
+		return model.getCategories();
+	}
+
+	/**
+	 * Returns the comment of this help request.
+	 *
+	 * @return the comment of this help request
+	 */
+	@Override
+	public String getComment() {
+		return model.getComment();
+	}
+
+	/**
+	 * Returns the localized comment of this help request in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized comment of this help request
+	 */
+	@Override
+	public String getComment(java.util.Locale locale) {
+		return model.getComment(locale);
+	}
+
+	/**
+	 * Returns the localized comment of this help request in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized comment of this help request. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getComment(java.util.Locale locale, boolean useDefault) {
+		return model.getComment(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized comment of this help request in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized comment of this help request
+	 */
+	@Override
+	public String getComment(String languageId) {
+		return model.getComment(languageId);
+	}
+
+	/**
+	 * Returns the localized comment of this help request in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized comment of this help request
+	 */
+	@Override
+	public String getComment(String languageId, boolean useDefault) {
+		return model.getComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getCommentCurrentLanguageId() {
+		return model.getCommentCurrentLanguageId();
+	}
+
+	@Override
+	public String getCommentCurrentValue() {
+		return model.getCommentCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized comments of this help request.
+	 *
+	 * @return the locales and localized comments of this help request
+	 */
+	@Override
+	public Map<java.util.Locale, String> getCommentMap() {
+		return model.getCommentMap();
+	}
+
+	/**
 	 * Returns the company ID of this help request.
 	 *
 	 * @return the company ID of this help request
@@ -275,6 +390,11 @@ public class HelpRequestWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -336,6 +456,32 @@ public class HelpRequestWrapper
 	@Override
 	public String getMessage() {
 		return model.getMessage();
+	}
+
+	/**
+	 * Retourne la catégorie statut moderation demande d'aide
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory
+		getModerationStatusCategory() {
+
+		return model.getModerationStatusCategory();
+	}
+
+	/**
+	 * Retourne la class du statut de modération de la demande d'aide (
+	 */
+	@Override
+	public String getModerationStatusClass() {
+		return model.getModerationStatusClass();
+	}
+
+	/**
+	 * Retourne le statut de modération de la demande d'aide
+	 */
+	@Override
+	public String getModerationStatusTitle(java.util.Locale locale) {
+		return model.getModerationStatusTitle(locale);
 	}
 
 	/**
@@ -593,6 +739,21 @@ public class HelpRequestWrapper
 		model.persist();
 	}
 
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
 	/**
 	 * Sets whether this help request is agreement signed1.
 	 *
@@ -621,6 +782,71 @@ public class HelpRequestWrapper
 	@Override
 	public void setAgreementSigned3(boolean agreementSigned3) {
 		model.setAgreementSigned3(agreementSigned3);
+	}
+
+	/**
+	 * Sets the comment of this help request.
+	 *
+	 * @param comment the comment of this help request
+	 */
+	@Override
+	public void setComment(String comment) {
+		model.setComment(comment);
+	}
+
+	/**
+	 * Sets the localized comment of this help request in the language.
+	 *
+	 * @param comment the localized comment of this help request
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setComment(String comment, java.util.Locale locale) {
+		model.setComment(comment, locale);
+	}
+
+	/**
+	 * Sets the localized comment of this help request in the language, and sets the default locale.
+	 *
+	 * @param comment the localized comment of this help request
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setComment(
+		String comment, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setComment(comment, locale, defaultLocale);
+	}
+
+	@Override
+	public void setCommentCurrentLanguageId(String languageId) {
+		model.setCommentCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized comments of this help request from the map of locales and localized comments.
+	 *
+	 * @param commentMap the locales and localized comments of this help request
+	 */
+	@Override
+	public void setCommentMap(Map<java.util.Locale, String> commentMap) {
+		model.setCommentMap(commentMap);
+	}
+
+	/**
+	 * Sets the localized comments of this help request from the map of locales and localized comments, and sets the default locale.
+	 *
+	 * @param commentMap the locales and localized comments of this help request
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setCommentMap(
+		Map<java.util.Locale, String> commentMap,
+		java.util.Locale defaultLocale) {
+
+		model.setCommentMap(commentMap, defaultLocale);
 	}
 
 	/**

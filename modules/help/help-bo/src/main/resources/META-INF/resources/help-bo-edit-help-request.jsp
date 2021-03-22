@@ -23,6 +23,10 @@
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="helpRequestId" type="hidden" />
 
+			<%-- Champ : (cache) enriegistrement conform ou alerte --%>
+			<aui:input name="alert" type="hidden" value="0" />
+			<aui:input name="valid" type="hidden" value="0" />
+
 			<%-- Groupe de champs : Generalites --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="general">
 
@@ -65,6 +69,20 @@
 
             </aui:fieldset>
 
+			<%-- Groupe de champs : Autres --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="moderation">
+
+				<%-- Champ : Dernière modification faite par --%>
+				<aui:input name="statusByUserName" label="last-moderation-user-name" disabled="true" required="false" />
+
+				<%-- Champ : Dernière modification faite le --%>
+				<aui:input name="statusDate" label="last-moderation-date" disabled="true" required="false" helpMessage="help-last-moderation-date" />
+
+				<%-- Champ : Commentaire --%>
+				<aui:input name="comment" required="false" />
+
+			</aui:fieldset>
+
 		</aui:fieldset-group>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
@@ -79,6 +97,8 @@
 				</c:if>
 				<c:if test="${not dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" name="publish" value="save" />
+					<aui:button cssClass="btn-lg btn-valid" type="submit" name="save-is-valid" value="save-is-valid" />
+					<aui:button cssClass="btn-lg btn-alert" type="submit" name="save-is-alert" value="save-is-alert" />
 				</c:if>
 			</c:if>
 
@@ -100,3 +120,13 @@
 <liferay-util:html-bottom>
 	<script src="/o/helpbo/js/help-bo-edit-help-request.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
+
+<aui:script>
+	$("#<portlet:namespace />save-is-valid").click(function(event){
+	$("#<portlet:namespace />valid").val('1');
+	});
+
+	$("#<portlet:namespace />save-is-alert").click(function(event){
+	$("#<portlet:namespace />alert").val('1');
+	});
+</aui:script>

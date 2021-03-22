@@ -59,6 +59,11 @@ public interface HelpRequest extends HelpRequestModel, PersistedModel {
 		};
 
 	/**
+	 * Retourne l'AssetEntry rattaché a cette proposition d'aide
+	 */
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
+
+	/**
 	 * Retourne l'utilisateur Publik depositaire
 	 *
 	 * @return
@@ -71,7 +76,12 @@ public interface HelpRequest extends HelpRequestModel, PersistedModel {
 	public String getAuthorLabel();
 
 	/**
-	 * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	 * Retourne le nom prenom du depositaire s'il existe
+	 */
+	public String getAuthorNameLabel();
+
+	/**
+	 * Retourne l'email du demandeur d'aide
 	 */
 	public String getAuthorEmail();
 
@@ -94,5 +104,28 @@ public interface HelpRequest extends HelpRequestModel, PersistedModel {
 	 * @throws PortalException
 	 */
 	public eu.strasbourg.service.help.model.HelpProposal getHelpProposal();
+
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cette proposition d'aide (via
+	 * l'assetEntry)
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories();
+
+	/**
+	 * Retourne la class du statut de modération de la demande d'aide (
+	 */
+	public String getModerationStatusClass();
+
+	/**
+	 * Retourne le statut de modération de la demande d'aide
+	 */
+	public String getModerationStatusTitle(java.util.Locale locale);
+
+	/**
+	 * Retourne la catégorie statut moderation demande d'aide
+	 */
+	public com.liferay.asset.kernel.model.AssetCategory
+		getModerationStatusCategory();
 
 }

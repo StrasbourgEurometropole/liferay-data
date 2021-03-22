@@ -15,13 +15,17 @@
 package eu.strasbourg.service.help.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
 
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -38,7 +42,7 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface HelpRequestModel
-	extends BaseModel<HelpRequest>, GroupedModel, ShardedModel,
+	extends BaseModel<HelpRequest>, GroupedModel, LocalizedModel, ShardedModel,
 			StagedAuditedModel, WorkflowedModel {
 
 	/*
@@ -423,6 +427,106 @@ public interface HelpRequestModel
 	public void setAgreementSigned3(boolean agreementSigned3);
 
 	/**
+	 * Returns the comment of this help request.
+	 *
+	 * @return the comment of this help request
+	 */
+	public String getComment();
+
+	/**
+	 * Returns the localized comment of this help request in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized comment of this help request
+	 */
+	@AutoEscape
+	public String getComment(Locale locale);
+
+	/**
+	 * Returns the localized comment of this help request in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized comment of this help request. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getComment(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized comment of this help request in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized comment of this help request
+	 */
+	@AutoEscape
+	public String getComment(String languageId);
+
+	/**
+	 * Returns the localized comment of this help request in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized comment of this help request
+	 */
+	@AutoEscape
+	public String getComment(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getCommentCurrentLanguageId();
+
+	@AutoEscape
+	public String getCommentCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized comments of this help request.
+	 *
+	 * @return the locales and localized comments of this help request
+	 */
+	public Map<Locale, String> getCommentMap();
+
+	/**
+	 * Sets the comment of this help request.
+	 *
+	 * @param comment the comment of this help request
+	 */
+	public void setComment(String comment);
+
+	/**
+	 * Sets the localized comment of this help request in the language.
+	 *
+	 * @param comment the localized comment of this help request
+	 * @param locale the locale of the language
+	 */
+	public void setComment(String comment, Locale locale);
+
+	/**
+	 * Sets the localized comment of this help request in the language, and sets the default locale.
+	 *
+	 * @param comment the localized comment of this help request
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setComment(String comment, Locale locale, Locale defaultLocale);
+
+	public void setCommentCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized comments of this help request from the map of locales and localized comments.
+	 *
+	 * @param commentMap the locales and localized comments of this help request
+	 */
+	public void setCommentMap(Map<Locale, String> commentMap);
+
+	/**
+	 * Sets the localized comments of this help request from the map of locales and localized comments, and sets the default locale.
+	 *
+	 * @param commentMap the locales and localized comments of this help request
+	 * @param defaultLocale the default locale
+	 */
+	public void setCommentMap(
+		Map<Locale, String> commentMap, Locale defaultLocale);
+
+	/**
 	 * Returns <code>true</code> if this help request is approved.
 	 *
 	 * @return <code>true</code> if this help request is approved; <code>false</code> otherwise
@@ -485,5 +589,18 @@ public interface HelpRequestModel
 	 */
 	@Override
 	public boolean isScheduled();
+
+	@Override
+	public String[] getAvailableLanguageIds();
+
+	@Override
+	public String getDefaultLanguageId();
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException;
+
+	@Override
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException;
 
 }
