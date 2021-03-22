@@ -29,6 +29,7 @@ public class WSConstants {
     /** Paramètres */
     // Place
     public static final String PARAM_IDS_CATEGORY = "ids_category";
+    public static final String PARAM_LAST_UPDATE_TIME_DEFAULT = "2000-01-01";
 
     /** JSON de réponse */
     // Global

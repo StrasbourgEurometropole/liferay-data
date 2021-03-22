@@ -62,6 +62,13 @@ public class PlaceApplication extends Application {
 
 	@GET
 	@Produces("application/json")
+	@Path("/get-places")
+	public Response getPlaces() {
+		return getPlaces(WSConstants.PARAM_LAST_UPDATE_TIME_DEFAULT);
+	}
+
+	@GET
+	@Produces("application/json")
 	@Path("/get-places/{last_update_time}")
 	public Response getPlaces(
 			@PathParam("last_update_time") String lastUpdateTimeString) {
@@ -211,16 +218,17 @@ public class PlaceApplication extends Application {
 				picto = pictos.get(AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(),"SIG"));
 				boolean updatePicto = false;
 
-				if(picto != null) {
+				if (picto != null) {
 					pictoURL = FileEntryHelper.getFileEntryURL(picto);
 					updatePicto = lastUpdateTime.before(picto.getModifiedDate());
 				} else
 					pictoURL = pictoDefaultURL;
 
-				if(lastUpdateTime.before(categ.getCreateDate())
-						|| lastUpdateTime.before(categ.getModifiedDate())
-						|| updatePicto)
+				if (lastUpdateTime.before(categ.getCreateDate()))
+					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, true));
+				else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
 					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
+
 			}
 
 			json.put(WSConstants.JSON_ADD, jsonAjout);
