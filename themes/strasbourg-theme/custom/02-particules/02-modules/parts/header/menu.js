@@ -1249,6 +1249,11 @@ var th_overlay = {
             $(th_overlay.selector_overlay_shadow).addClass('open');
         }
 
+		// on change la valeur aria-expanded des menus et sous-menus déjà ouvert
+		$(menuOverlay._selector.overlayContainer + " li.th-active>a").each(function () {
+			this.setAttribute('aria-expanded', "true");
+		});
+
         if (doCallback == true) {
             $.each(th_overlay.callbackOpen, function (k, callback) {
                 callback(overlayId);
@@ -1280,6 +1285,11 @@ var th_overlay = {
                 $(th_overlay.selector_overlay_shadow).removeClass('open');
             }
         }
+
+		// on change la valeur aria-expanded des menus et sous-menus
+		$(menuOverlay._selector.overlayContainer + " [aria-expanded='true']").each(function () {
+			this.setAttribute('aria-expanded', "false");
+		});
 
         if (doCallback) {
             $.each(th_overlay.callbackClose, function (k, callback) {
@@ -1352,6 +1362,7 @@ var thVheight = {
 // Back Menu Niveau 1
 $('.back-level-1').on('click', function () {
     if (isTabletPortraitOrSmalller()) {
+		$('#th-overlay-nav nav > ul > li.th-has-submenu.th-active>a').get(0).setAttribute('aria-expanded', "false");
         $('#th-overlay-nav nav > ul > li.th-has-submenu.th-active').removeClass('th-active');
     }
 });
@@ -1359,6 +1370,7 @@ $('.back-level-1').on('click', function () {
 // Back Menu Niveau 1
 $('.back-level-2').on('click', function () {
     if (isTabletPortraitOrSmalller()) {
+        $('.th-hav-level-3.th-active>a').get(0).setAttribute('aria-expanded', "false");
         $('.th-hav-level-3.th-active').removeClass('th-active');
     }
 });
@@ -1439,6 +1451,11 @@ var menuOverlay = {
 					menuOverlay.setWrapper(correspondingMenu.parentNode.querySelector(".th-submenu"));
 
                     menuOverlay.setActiveElement(correspondingMenu, true);
+
+					// on change la valeur aria-expanded
+					correspondingMenu.setAttribute('aria-expanded', "true");
+					// on change la valeur aria-expanded de l'accès rapide du menu
+					correspondingMenu.parentNode.querySelector(".th-submenu .th-hav-level-3.th-active a").setAttribute('aria-expanded', "true");
                 }
             }
         })
@@ -1456,6 +1473,24 @@ var menuOverlay = {
 					menuOverlay.setWrapper(this.parentNode.querySelector(".th-submenu"));
 					
                     menuOverlay.setActiveElement(this, true);
+
+					// on change la valeur aria-expanded des menus
+					$(menuOverlay._selector.firstLvlClass, menuOverlay._selector.overlayContainer).each(function () {
+						if (this.getAttribute("aria-expanded") == "true") {
+							this.setAttribute('aria-expanded', "false");
+							// on change la valeur aria-expanded des sous-menu du menu
+							$(this.parentNode.querySelectorAll(".th-submenu .th-hav-level-3>a")).each(function () {
+								if (this.getAttribute("aria-expanded") == "true") {
+									this.setAttribute('aria-expanded', "false");
+								}
+							});
+						}
+					});
+					this.setAttribute('aria-expanded', "true");
+					// on change la valeur aria-expanded de l'accès rapide du menu
+					if(this.parentNode.querySelector(".th-submenu .th-hav-level-3.th-active a") != null){
+						this.parentNode.querySelector(".th-submenu .th-hav-level-3.th-active a").setAttribute('aria-expanded', "true");
+					}
                 });
             }
 
@@ -1473,6 +1508,14 @@ var menuOverlay = {
                     e.preventDefault();
 
                     menuOverlay.setActiveElementDeep(this);
+
+					// on change la valeur aria-expanded des menus
+					$(menuOverlay._selector.secondLvlClass, el).each(function () {
+						if (this.getAttribute("aria-expanded") == "true") {
+							this.setAttribute('aria-expanded', "false");
+						}
+					});
+					this.setAttribute('aria-expanded', "true");
                 })
             }
         })
@@ -1481,7 +1524,8 @@ var menuOverlay = {
 	setSecondLevel: function(el){		
         $(menuOverlay._selector.secondLvlData, el).each(function () {
 			var submenu = this;
-			submenu.innerHTML = '<a href="' + this.getAttribute("data-url") + '" class="th-level-2" ' + 
+			submenu.innerHTML = '<a aria-haspopup="true" href="' + this.getAttribute("data-url") + '" class="th-level-2" ' + 
+				(this.parentNode.classList.contains("th-hav-level-3")?'aria-haspopup="true" aria-expanded="false" ':'') + 
 				(this.getAttribute("data-type") == 1?'target="_blank" >':'>') +
 				this.getAttribute("data-name") + '</a>';
 
@@ -1493,6 +1537,14 @@ var menuOverlay = {
 					menuOverlay.setThirdLevel(this.parentNode.thirdLvlClass);
 
 					menuOverlay.setActiveElementDeep(this);
+
+					// on change la valeur aria-expanded des menus
+					$(menuOverlay._selector.secondLvlClass, el).each(function () {
+						if (this.getAttribute("aria-expanded") == "true") {
+							this.setAttribute('aria-expanded', "false");
+						}
+					});
+					this.setAttribute('aria-expanded', "true");
 				});
 			}
 			
@@ -1507,7 +1559,7 @@ var menuOverlay = {
 			var wrapper = this;
 			wrapper.innerHTML = '<a href="' + this.getAttribute("data-url") + '" class="th-menu-image ' + 
 				(this.getAttribute("data-type") == 1?'seu-external" target="_blank" >' : '" >') +
-				'<figure class="fit-cover"><img src="' + this.getAttribute("data-image") + '" width="350" height="224" alt=""/></figure>' + 
+				(this.getAttribute("data-image") != ''?'<figure class="fit-cover"><img src="' + this.getAttribute("data-image") + '" width="350" height="224" alt=""/></figure>':'<div class="th-no-photo"></div>') + 
 				'<div class="th-content"><span class="th-surtitre">' + this.getAttribute("data-name") + '</span>' + 
 				'<span class="th-titre">' + this.getAttribute("data-description") + '</span></div></a>';
 			var parent = this.parentNode;
@@ -1523,8 +1575,6 @@ var menuOverlay = {
 				(this.getAttribute("data-type") == 1? 'target="_blank" >':'>') +
 				this.getAttribute("data-name") + '</a>';
 			subsubmenu.classList.remove("data-level-3");
-			/*var parent = this.parentNode;
-			parent.append(subsubmenu);*/
         });
 	},
 

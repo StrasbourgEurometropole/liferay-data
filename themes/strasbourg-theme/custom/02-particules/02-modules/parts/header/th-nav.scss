@@ -798,14 +798,27 @@
             }
         }
 
-        h3 a{
-            @include ft($main-font, 18px, 400, $c_white, 30px);
+        .th-ssmenu-niveau-2 {
+            padding: 40px 60px;
+            
+            a{
+                @include ft($site-font, 14px, 600, $c_white, 18px);
+                text-transform: uppercase;
+                @include addTransition();
 
-            &:hover, &:focus {
-                body:not(.no-hover) & {
-                    color: $second-color;
-                    text-decoration: underline;
+                &:hover, &:focus {
+                    body:not(.no-hover) & {
+                        color: $second-color;
+                        font-weight: 800;
+                        text-decoration: underline;
+                    }
                 }
+            }
+
+            @include RWD(mobile) {
+                padding: 30px 30px;
+                font-size: calculateRem(13px);
+                line-height: calculateRem(16px);
             }
         }
 

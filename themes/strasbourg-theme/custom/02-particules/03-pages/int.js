@@ -62,6 +62,10 @@ function dot(){
 			$('.seu-scrolled-search-engine').stop();
 			$('.seu-scrolled-search-engine').slideToggle();
 		});
+		$('#seu-search-trigger2').on('click', function(){
+			$('.seu-scrolled-search-engine').stop();
+			$('.seu-scrolled-search-engine').slideToggle();
+		});
 		$('.seu-search-close').on('click', function(){
 			$('.seu-scrolled-search-engine').stop();
 			$('.seu-scrolled-search-engine').slideUp();
