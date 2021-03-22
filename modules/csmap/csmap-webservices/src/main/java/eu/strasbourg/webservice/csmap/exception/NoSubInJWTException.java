@@ -1,4 +1,6 @@
-package eu.strasbourg.webservice.csmap.exception.jwt;
+package eu.strasbourg.webservice.csmap.exception;
+
+import eu.strasbourg.webservice.csmap.constants.WSConstants;
 
 /**
  * Exception levé quand il n'existe pas de JWT dans le header quand une authentification est requise
@@ -6,18 +8,19 @@ package eu.strasbourg.webservice.csmap.exception.jwt;
 public class NoSubInJWTException extends Exception {
 
     public NoSubInJWTException() {
+        super(WSConstants.ERROR_NO_SUB_IN_JWT);
     }
 
     public NoSubInJWTException(String msg) {
-        super(msg);
+        super(WSConstants.ERROR_NO_SUB_IN_JWT + " : " + msg);
     }
 
     public NoSubInJWTException(String msg, Throwable cause) {
-        super(msg, cause);
+        super(WSConstants.ERROR_NO_SUB_IN_JWT + " : " + msg, cause);
     }
 
     public NoSubInJWTException(Throwable cause) {
-        super(cause);
+        super(WSConstants.ERROR_NO_SUB_IN_JWT, cause);
     }
 
 }

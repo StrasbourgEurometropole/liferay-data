@@ -16,11 +16,11 @@ import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.ServiceContextHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.exception.jwt.InvalidJWTException;
-import eu.strasbourg.webservice.csmap.exception.jwt.NoJWTInHeaderException;
-import eu.strasbourg.webservice.csmap.exception.jwt.NoSubInJWTException;
-import eu.strasbourg.webservice.csmap.exception.refreshtoken.RefreshTokenExpiredException;
-import eu.strasbourg.webservice.csmap.exception.refreshtoken.RefreshTokenCreationFailedException;
+import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
+import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
+import eu.strasbourg.webservice.csmap.exception.NoSubInJWTException;
+import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenExpiredException;
+import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenCreationFailedException;
 import eu.strasbourg.webservice.csmap.utils.WSTokenUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -110,7 +110,7 @@ public class WSAuthenticator {
 
             return refreshTokenLocalService.updateRefreshToken(refreshToken, sc);
         } catch (PortalException e) {
-            throw new RefreshTokenCreationFailedException(WSConstants.ERROR_REFREH_TOKEN_CREATION, e);
+            throw new RefreshTokenCreationFailedException(e);
         }
     }
 
@@ -128,12 +128,12 @@ public class WSAuthenticator {
         RefreshToken refreshToken = refreshTokenLocalService.fetchByValue(refreshTokenValue);
 
         if (Validator.isNull(refreshToken))
-            throw new NoSuchRefreshTokenException(WSConstants.ERROR_REFRESH_TOKEN_INVALID);
+            throw new NoSuchRefreshTokenException(refreshTokenValue);
 
         if (!WSTokenUtil.isRefreshTokensDateValid(refreshToken.getCreateDate(),
                 StrasbourgPropsUtil.getCSMAPRefreshTokenNbValidityDays())) {
             refreshTokenLocalService.removeRefreshToken(refreshToken.getRefreshTokenId());
-            throw new RefreshTokenExpiredException(WSConstants.ERROR_REFRESH_TOKEN_EXPIRED);
+            throw new RefreshTokenExpiredException(refreshTokenValue);
         }
 
         return refreshToken;
@@ -155,23 +155,23 @@ public class WSAuthenticator {
         // Le JWT est renseigné ?
         String jwt = httpHeaders.getHeaderString(WSConstants.JWT_HEADER_NAME);
         if (Validator.isNull(jwt))
-            throw new NoJWTInHeaderException(WSConstants.ERROR_NO_JWT_IN_HEADER);
+            throw new NoJWTInHeaderException();
 
         // Le JWT est valide ?
         boolean isJwtValid = JWTUtils.checkJWT(jwt, StrasbourgPropsUtil.getCSMAPInternalSecret(),
                 StrasbourgPropsUtil.getInternalIssuer(), WSConstants.JWT_VALIDITY_LEEWAY);
         if (!isJwtValid)
-            throw new InvalidJWTException(WSConstants.ERROR_INVALID_TOKEN);
+            throw new InvalidJWTException();
 
         // L'identifiant utilisateur Publik (sub) est renseigné ?
         String publikId = JWTUtils.getJWTClaim(jwt, WSConstants.SUB,
                 StrasbourgPropsUtil.getCSMAPInternalSecret(), StrasbourgPropsUtil.getInternalIssuer());
         if (Validator.isNull(publikId))
-            throw new NoSubInJWTException(WSConstants.ERROR_NO_SUB_IN_JWT);
+            throw new NoSubInJWTException();
 
         PublikUser publikUser = publikUserLocalService.getByPublikUserId(publikId);
         if (Validator.isNull(publikUser))
-            throw new NoSuchPublikUserException(WSConstants.ERROR_SUB_NOT_RECOGNISE);
+            throw new NoSuchPublikUserException();
 
         return publikUser;
     }

@@ -26,6 +26,11 @@ public class WSConstants {
     public static final int JWT_VALIDITY_LEEWAY = 10;
     public static final String JWT_HEADER_NAME = "JWT_CSM";
 
+    /** Paramètres */
+    // Place
+    public static final String PARAM_IDS_CATEGORY = "ids_category";
+    public static final String PARAM_LAST_UPDATE_TIME_DEFAULT = "2000-01-01";
+
     /** JSON de réponse */
     // Global
     public static final String JSON_RESPONSE_CODE = "responseCode";
@@ -57,5 +62,7 @@ public class WSConstants {
     public static final String ERROR_REFRESH_TOKEN_INVALID = "Refresh token invalid";
     public static final String ERROR_REFRESH_TOKEN_EXPIRED = "Refresh token is no longer valid";
     public static final String ERROR_REFREH_TOKEN_CREATION = "An error occurs during refresh token creation";
+    // Place
+    public static final String ERROR_NO_DEFAULT_PICTO = "No default picto available for this application";
 
 }

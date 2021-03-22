@@ -8,6 +8,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.place.model.CacheJson;
 import eu.strasbourg.service.place.model.Historic;
@@ -17,6 +19,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.exception.place.NoDefaultPictoException;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
@@ -26,6 +29,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,15 +58,24 @@ public class PlaceApplication extends Application {
 		return Collections.singleton(this);
 	}
 
+	private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
+
+	@GET
+	@Produces("application/json")
+	@Path("/get-places")
+	public Response getPlaces() {
+		return getPlaces(WSConstants.PARAM_LAST_UPDATE_TIME_DEFAULT);
+	}
+
 	@GET
 	@Produces("application/json")
 	@Path("/get-places/{last_update_time}")
-	public String getPlaces(
+	public Response getPlaces(
 			@PathParam("last_update_time") String lastUpdateTimeString) {
 
 		// On vérifie que lastUpdateTimeString est renseigné
 		if (Validator.isNull(lastUpdateTimeString))
-			return WSResponseUtil.initializeError("Il manque le paramètre last_update_time").toString();
+			return WSResponseUtil.buildErrorResponse(400,"Il manque le paramètre last_update_time");
 
 		// On transforme la date string en date
 		Date lastUpdateTime;
@@ -70,10 +83,10 @@ public class PlaceApplication extends Application {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
 			lastUpdateTime = sdf.parse(lastUpdateTimeString);
 		}catch (Exception e) {
-			return WSResponseUtil.initializeError("Format de date incorrect").toString();
+			return WSResponseUtil.buildErrorResponse(400,"Format de date incorrect");
 		}
 
-		JSONObject json = WSResponseUtil.initializeResponse();
+		JSONObject json = JSONFactoryUtil.createJSONObject();
 
 		try {
 			// On récupère tous les lieux qui ont été ajoutés
@@ -106,24 +119,24 @@ public class PlaceApplication extends Application {
 			}
 			json.put(WSConstants.JSON_DELETE, jsonSuppr);
 		} catch (JSONException e) {
-			e.printStackTrace();
-			return WSResponseUtil.initializeServerError(e.getMessage()).toString();
+			log.error(e);
+			return WSResponseUtil.buildErrorResponse(500, e.getMessage());
 		}
 
-		return json.toString();
+		return WSResponseUtil.buildOkResponse(json);
 	}
 
 	@GET
 	@Produces("application/json")
 	@Path("/get-hours/{sigid}")
-	public String getHours(
+	public Response getHours(
 			@PathParam("sigid") String sigid) {
 
 		// On vérifie que le sigid est renseigné
 		if (Validator.isNull(sigid))
-			return WSResponseUtil.initializeError("Il manque le sigid").toString();
+			return WSResponseUtil.buildErrorResponse(400, "Il manque le sigid");
 
-		JSONObject json = WSResponseUtil.initializeResponse();
+		JSONObject json = JSONFactoryUtil.createJSONObject();
 
 		// On récupère le cache horaires du lieu
 		CacheJson cache = CacheJsonLocalServiceUtil.fetchCacheJson(sigid);
@@ -132,24 +145,25 @@ public class PlaceApplication extends Application {
 				json = JSONFactoryUtil.createJSONObject(cache.getJsonHoraire());
 				json.put(WSConstants.JSON_RESPONSE_CODE, 200);
 			} catch (JSONException e) {
-				e.printStackTrace();
-				return WSResponseUtil.initializeServerError(e.getMessage()).toString();
+				log.error(e);
+				return WSResponseUtil.buildErrorResponse(500, e.getMessage());
 			}
 		}
 
-		return json.toString();
+		return WSResponseUtil.buildOkResponse(json);
 	}
 
 	@GET
 	@Produces("application/json")
 	@Path("/get-categories/{last_update_time}/{ids_category}")
-	public String getCategories(
+	public Response getCategories(
 			@PathParam("last_update_time") String lastUpdateTimeString,
 			@PathParam("ids_category") String ids) {
 
 		// On vérifie que lastUpdateTimeString est renseigné
 		if (Validator.isNull(lastUpdateTimeString))
-			return WSResponseUtil.initializeError("Il manque le paramètre last_update_time").toString();
+			return WSResponseUtil.buildErrorResponse(400,
+					"Il manque le paramètre last_update_time");
 
 		// On transforme la date string en date
 		Date lastUpdateTime;
@@ -157,31 +171,35 @@ public class PlaceApplication extends Application {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
 			lastUpdateTime = sdf.parse(lastUpdateTimeString);
 		}catch (Exception e) {
-			return WSResponseUtil.initializeError("Format de date incorrect").toString();
+			return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
 		}
 
 		// On vérifie que les ids sont renseignés
 		if (Validator.isNull(ids))
-			return WSResponseUtil.initializeError("Il manque le paramètre ids_category").toString();
+			return WSResponseUtil.buildErrorResponse(400, "Il manque le paramètre ids_category");
 
 		// On vérifie le format de ids_category
+		JSONObject idsCategoryParam;
 		JSONArray idsJson;
 		try {
-			idsJson = JSONFactoryUtil.createJSONArray(ids);
+			idsCategoryParam = JSONFactoryUtil.createJSONObject(ids);
+			idsJson = idsCategoryParam.getJSONArray(WSConstants.PARAM_IDS_CATEGORY);
 		}catch (Exception e) {
-			return WSResponseUtil.initializeError("Format json de ids_category incorrect").toString();
+			return WSResponseUtil.buildErrorResponse(400, "Format json de ids_category incorrect");
 		}
 
-		JSONObject json = WSResponseUtil.initializeResponse();
+		JSONObject json = JSONFactoryUtil.createJSONObject();
 
 		try {
 			// On récupère les pictos du vocabulaire
 			Map<String, DLFileEntry> pictos = FileEntryHelper.getPictoForVocabulary(VocabularyNames.PLACE_TYPE, "CSMap");
+
 			// On récupère l'URL du picto par défaut
 			String pictoDefaultURL = "";
 			DLFileEntry picto = pictos.get("Defaut");
-			if(picto != null)
-				pictoDefaultURL = FileEntryHelper.getFileEntryURL(picto);
+			if (Validator.isNull(picto))
+				throw new NoDefaultPictoException();
+			pictoDefaultURL = FileEntryHelper.getFileEntryURL(picto);
 
 			// On récupère les catégories du vocabulaire des lieux
 			AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
@@ -193,21 +211,26 @@ public class PlaceApplication extends Application {
 			// On récupère toutes les catégories qui ont été ajoutées ou modifiées
 			JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
 			JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+
 			for (AssetCategory categ: categories) {
 				// récupère l'URL du picto de la catégorie
-				String pictoURL = "";
+				String pictoURL;
 				picto = pictos.get(AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(),"SIG"));
-				if(picto != null)
+				boolean updatePicto = false;
+
+				if (picto != null) {
 					pictoURL = FileEntryHelper.getFileEntryURL(picto);
-				else
+					updatePicto = lastUpdateTime.before(picto.getModifiedDate());
+				} else
 					pictoURL = pictoDefaultURL;
-				if(lastUpdateTime.before(categ.getCreateDate()))
-					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, false));
-				else{
-					if(lastUpdateTime.before(categ.getModifiedDate()) || (picto != null && lastUpdateTime.before(picto.getModifiedDate())))
-						jsonModif.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, false));
-				}
+
+				if (lastUpdateTime.before(categ.getCreateDate()))
+					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, true));
+				else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
+					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
+
 			}
+
 			json.put(WSConstants.JSON_ADD, jsonAjout);
 			json.put(WSConstants.JSON_UPDATE, jsonModif);
 
@@ -219,11 +242,12 @@ public class PlaceApplication extends Application {
 						jsonSuppr.put(idsJson.get(i));
 				}
 			json.put(WSConstants.JSON_DELETE, jsonSuppr);
-		} catch (PortalException e) {
-			e.printStackTrace();
-			return WSResponseUtil.initializeServerError(e.getMessage()).toString();
+		} catch (PortalException | NoDefaultPictoException e) {
+			log.error(e);
+			return WSResponseUtil.buildErrorResponse(500, e.getMessage());
 		}
-		return json.toString();
+
+		return WSResponseUtil.buildOkResponse(json);
 	}
 
 }

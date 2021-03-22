@@ -1,5 +1,6 @@
 package eu.strasbourg.webservice.csmap.application;
 
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -8,9 +9,9 @@ import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.exception.jwt.InvalidJWTException;
-import eu.strasbourg.webservice.csmap.exception.jwt.NoJWTInHeaderException;
-import eu.strasbourg.webservice.csmap.exception.jwt.NoSubInJWTException;
+import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
+import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
+import eu.strasbourg.webservice.csmap.exception.NoSubInJWTException;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
@@ -23,6 +24,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.Set;
 
@@ -51,9 +53,9 @@ public class ProfileApplication extends Application {
     @GET
     @Produces("application/json")
     @Path("get-profile")
-    public String getProfile(
+    public Response getProfile(
             @Context HttpHeaders httpHeaders) {
-        JSONObject jsonResponse = WSResponseUtil.initializeResponse();
+        JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
 
         try {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
@@ -83,12 +85,15 @@ public class ProfileApplication extends Application {
                 if (Validator.isNotNull(jsonPublikUser.getString("photo")))
                     jsonResponse.put(WSConstants.JSON_IMAGE_URL, jsonPublikUser.getString("photo"));
             }
-        } catch (NoJWTInHeaderException | InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
-            jsonResponse = WSResponseUtil.initializeError(e.getMessage());
+        } catch (NoJWTInHeaderException e) {
             log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         }
 
-        return jsonResponse.toString();
+        return WSResponseUtil.buildOkResponse(jsonResponse);
     }
 
     @Reference(unbind = "-")
