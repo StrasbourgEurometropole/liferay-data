@@ -1,4 +1,4 @@
-package eu.strasbourg.webservice.csmap.exception.authentication;
+package eu.strasbourg.webservice.csmap.exception.auth;
 
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 

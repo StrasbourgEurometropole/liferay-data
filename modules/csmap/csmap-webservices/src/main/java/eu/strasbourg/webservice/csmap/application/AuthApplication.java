@@ -10,10 +10,10 @@ import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.utils.JWTUtils;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.exception.authentication.AuthenticationFailedException;
-import eu.strasbourg.webservice.csmap.exception.jwt.InvalidJWTException;
-import eu.strasbourg.webservice.csmap.exception.refreshtoken.RefreshTokenExpiredException;
-import eu.strasbourg.webservice.csmap.exception.refreshtoken.RefreshTokenCreationFailedException;
+import eu.strasbourg.webservice.csmap.exception.auth.AuthenticationFailedException;
+import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
+import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenExpiredException;
+import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenCreationFailedException;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
@@ -90,10 +90,12 @@ public class AuthApplication extends Application {
             jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
             jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, refreshToken.getValue());
 
-        } catch (InvalidJWTException | IOException | AuthenticationFailedException |
-                RefreshTokenCreationFailedException e) {
+        } catch (InvalidJWTException | IOException | AuthenticationFailedException e) {
             log.error(e);
-            return WSResponseUtil.buildErrorResponse(e);
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        } catch (RefreshTokenCreationFailedException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
 
         return WSResponseUtil.buildOkResponse(jsonResponse);
@@ -117,7 +119,7 @@ public class AuthApplication extends Application {
 
         } catch (NoSuchRefreshTokenException | RefreshTokenExpiredException e) {
             log.error(e.getMessage());
-            return WSResponseUtil.buildErrorResponse(e);
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         }
 
         return WSResponseUtil.buildOkResponse(jsonResponse);

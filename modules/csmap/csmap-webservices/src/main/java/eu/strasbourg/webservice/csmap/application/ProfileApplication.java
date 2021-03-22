@@ -9,9 +9,9 @@ import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.exception.jwt.InvalidJWTException;
-import eu.strasbourg.webservice.csmap.exception.jwt.NoJWTInHeaderException;
-import eu.strasbourg.webservice.csmap.exception.jwt.NoSubInJWTException;
+import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
+import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
+import eu.strasbourg.webservice.csmap.exception.NoSubInJWTException;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
@@ -85,9 +85,12 @@ public class ProfileApplication extends Application {
                 if (Validator.isNotNull(jsonPublikUser.getString("photo")))
                     jsonResponse.put(WSConstants.JSON_IMAGE_URL, jsonPublikUser.getString("photo"));
             }
-        } catch (NoJWTInHeaderException | InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
+        } catch (NoJWTInHeaderException e) {
             log.error(e.getMessage());
-            return WSResponseUtil.buildErrorResponse(e);
+            return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         }
 
         return WSResponseUtil.buildOkResponse(jsonResponse);

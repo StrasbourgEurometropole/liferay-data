@@ -1,6 +1,7 @@
 package eu.strasbourg.utils;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import eu.strasbourg.utils.api.FileEntryHelperService;
 import org.osgi.service.component.annotations.Component;
@@ -68,7 +69,8 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 	}
 
 	@Override
-	public Map<String, DLFileEntry> getPictoForVocabulary(String nomRepertoireVocabulaire, String nomRepertoire)    {
+	public Map<String, DLFileEntry> getPictoForVocabulary(String nomRepertoireVocabulaire, String nomRepertoire)
+			throws PortalException {
 		return FileEntryHelper.getPictoForVocabulary(nomRepertoireVocabulaire, nomRepertoire);
 	}
 

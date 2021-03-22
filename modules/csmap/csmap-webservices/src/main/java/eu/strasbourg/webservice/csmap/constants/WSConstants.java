@@ -61,5 +61,7 @@ public class WSConstants {
     public static final String ERROR_REFRESH_TOKEN_INVALID = "Refresh token invalid";
     public static final String ERROR_REFRESH_TOKEN_EXPIRED = "Refresh token is no longer valid";
     public static final String ERROR_REFREH_TOKEN_CREATION = "An error occurs during refresh token creation";
+    // Place
+    public static final String ERROR_NO_DEFAULT_PICTO = "No default picto available for this application";
 
 }

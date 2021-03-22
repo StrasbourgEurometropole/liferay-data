@@ -1,4 +1,4 @@
-package eu.strasbourg.webservice.csmap.exception.jwt;
+package eu.strasbourg.webservice.csmap.exception;
 
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 

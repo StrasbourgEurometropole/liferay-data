@@ -8,6 +8,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.place.model.CacheJson;
 import eu.strasbourg.service.place.model.Historic;
@@ -17,6 +19,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.exception.place.NoDefaultPictoException;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
@@ -54,6 +57,8 @@ public class PlaceApplication extends Application {
 	public Set<Object> getSingletons() {
 		return Collections.singleton(this);
 	}
+
+	private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	@GET
 	@Produces("application/json")
@@ -107,7 +112,7 @@ public class PlaceApplication extends Application {
 			}
 			json.put(WSConstants.JSON_DELETE, jsonSuppr);
 		} catch (JSONException e) {
-			e.printStackTrace();
+			log.error(e);
 			return WSResponseUtil.buildErrorResponse(500, e.getMessage());
 		}
 
@@ -133,7 +138,7 @@ public class PlaceApplication extends Application {
 				json = JSONFactoryUtil.createJSONObject(cache.getJsonHoraire());
 				json.put(WSConstants.JSON_RESPONSE_CODE, 200);
 			} catch (JSONException e) {
-				e.printStackTrace();
+				log.error(e);
 				return WSResponseUtil.buildErrorResponse(500, e.getMessage());
 			}
 		}
@@ -181,11 +186,13 @@ public class PlaceApplication extends Application {
 		try {
 			// On récupère les pictos du vocabulaire
 			Map<String, DLFileEntry> pictos = FileEntryHelper.getPictoForVocabulary(VocabularyNames.PLACE_TYPE, "CSMap");
+
 			// On récupère l'URL du picto par défaut
 			String pictoDefaultURL = "";
 			DLFileEntry picto = pictos.get("Defaut");
-			if(picto != null)
-				pictoDefaultURL = FileEntryHelper.getFileEntryURL(picto);
+			if (Validator.isNull(picto))
+				throw new NoDefaultPictoException();
+			pictoDefaultURL = FileEntryHelper.getFileEntryURL(picto);
 
 			// On récupère les catégories du vocabulaire des lieux
 			AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
@@ -197,21 +204,25 @@ public class PlaceApplication extends Application {
 			// On récupère toutes les catégories qui ont été ajoutées ou modifiées
 			JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
 			JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+
 			for (AssetCategory categ: categories) {
 				// récupère l'URL du picto de la catégorie
-				String pictoURL = "";
+				String pictoURL;
 				picto = pictos.get(AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(),"SIG"));
-				if(picto != null)
+				boolean updatePicto = false;
+
+				if(picto != null) {
 					pictoURL = FileEntryHelper.getFileEntryURL(picto);
-				else
+					updatePicto = lastUpdateTime.before(picto.getModifiedDate());
+				} else
 					pictoURL = pictoDefaultURL;
-				if(lastUpdateTime.before(categ.getCreateDate()))
-					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, false));
-				else{
-					if(lastUpdateTime.before(categ.getModifiedDate()) || (picto != null && lastUpdateTime.before(picto.getModifiedDate())))
-						jsonModif.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, false));
-				}
+
+				if(lastUpdateTime.before(categ.getCreateDate())
+						|| lastUpdateTime.before(categ.getModifiedDate())
+						|| updatePicto)
+					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
 			}
+
 			json.put(WSConstants.JSON_ADD, jsonAjout);
 			json.put(WSConstants.JSON_UPDATE, jsonModif);
 
@@ -223,10 +234,11 @@ public class PlaceApplication extends Application {
 						jsonSuppr.put(idsJson.get(i));
 				}
 			json.put(WSConstants.JSON_DELETE, jsonSuppr);
-		} catch (PortalException e) {
-			e.printStackTrace();
+		} catch (PortalException | NoDefaultPictoException e) {
+			log.error(e);
 			return WSResponseUtil.buildErrorResponse(500, e.getMessage());
 		}
+
 		return WSResponseUtil.buildOkResponse(json);
 	}
 
