@@ -1454,7 +1454,7 @@ var menuOverlay = {
 
 					// on change la valeur aria-expanded
 					correspondingMenu.setAttribute('aria-expanded', "true");
-					// on change la valeur aria-expanded de l'accès rapide du menu
+					// on change la valeur aria-expanded du premier sous menu
 					correspondingMenu.parentNode.querySelector(".th-submenu .th-hav-level-3.th-active a").setAttribute('aria-expanded', "true");
                 }
             }
@@ -1487,7 +1487,7 @@ var menuOverlay = {
 						}
 					});
 					this.setAttribute('aria-expanded', "true");
-					// on change la valeur aria-expanded de l'accès rapide du menu
+					// on change la valeur aria-expanded du premier sous menu
 					if(this.parentNode.querySelector(".th-submenu .th-hav-level-3.th-active a") != null){
 						this.parentNode.querySelector(".th-submenu .th-hav-level-3.th-active a").setAttribute('aria-expanded', "true");
 					}
