@@ -28,7 +28,7 @@
             window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLApply()}";
         }else{
             window.createPopin(Liferay.Language.get('log-in-to-apply'),function() {
-                window.location = window.loginURL;
+                window.location = window.location + ( window.location.href.indexOf("?") > -1 ? '&' : '?') + 'auth=publik';
             },undefined,Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'));
         }
     };

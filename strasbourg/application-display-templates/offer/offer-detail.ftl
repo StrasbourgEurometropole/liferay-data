@@ -5,6 +5,7 @@
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)} 
 
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+<#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 
 <#if portletHelper.isUserAuthorizedToConsultOffer(entry.typePublication.getName())> 
     <div class="seu-page-offer">
@@ -173,7 +174,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLOfferApply()}?refposte=${entry.publicationId}&libposte=${entry.getPost(locale)?js_string}";
             }else{
                 window.createPopin(Liferay.Language.get('log-in-to-apply'),function() {
-                    window.location = window.loginURL;
+                    window.location = window.location + ((window.location.href.indexOf("?") > -1)? '&' : '?') + 'auth=publik';
                 },undefined,Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'));
             }
         };
