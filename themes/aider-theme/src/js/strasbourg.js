@@ -25244,6 +25244,15 @@ tarteaucitron.init({
 tarteaucitron.user.gtagUa = 'G-RQF81GVH8X';
 tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */ };
 (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+
+
+(tarteaucitron.job = tarteaucitron.job || []).push('youtube');
+(tarteaucitron.job = tarteaucitron.job || []).push('dailymotion');
+(tarteaucitron.job = tarteaucitron.job || []).push('vimeo');
+tarteaucitron.user.googlemapsKey = 'AIzaSyAZ_4b-Rip0JyK5Ti8yKOxXKjKpjfcBvdM';
+(tarteaucitron.job = tarteaucitron.job || []).push('googlemaps');
+(tarteaucitron.job = tarteaucitron.job || []).push('facebook');
+(tarteaucitron.job = tarteaucitron.job || []).push('twitter');
 if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
 
     var footer = $('footer').offset().top;
