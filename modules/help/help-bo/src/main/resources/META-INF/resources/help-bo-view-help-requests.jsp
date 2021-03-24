@@ -72,34 +72,39 @@
                 <fmt:formatDate value="${helpRequest.createDate}"
                                 var="formattedCreateDate" type="date" pattern="dd/MM/yyyy HH:mm" />
                 <liferay-ui:search-container-column-text cssClass="content-column"
+                                                         href="${editHelpRequestURL}"
                                                          name="request-create-date" truncate="true" orderable="true"
                                                          value="${formattedCreateDate}" />
 
                 <%-- Colonne : Titre de la proposition d'aide --%>
                 <liferay-ui:search-container-column-text cssClass="content-column"
-                                                         href="${editHelpProposalURL}" name="help-proposal-title" truncate="true" orderable="true">
+                                                         href="${editHelpRequestURL}" name="help-proposal-title" truncate="true" orderable="true">
                     <c:out value="${helpRequest.helpProposal.titleCurrentValue}" escapeXml='true'/>
                 </liferay-ui:search-container-column-text>
 
                 <%-- Colonne : Identifiant --%>
-                <liferay-ui:search-container-column-text name="id">
-                    <c:out value="${helpRequest.helpRequestId}" escapeXml='true'/>
+                <liferay-ui:search-container-column-text name="help-proposal-id"
+                                                         href="${editHelpRequestURL}">
+                    <c:out value="${helpRequest.helpProposalId}" escapeXml='true'/>
                 </liferay-ui:search-container-column-text>
 
                 <%-- Colonne : Demandeur d'aide --%>
-                <liferay-ui:search-container-column-text name="request-author">
+                <liferay-ui:search-container-column-text name="request-author"
+                                                         href="${editHelpRequestURL}">
                     <c:out value="${helpRequest.authorNameLabel}" escapeXml='true'/>
                 </liferay-ui:search-container-column-text>
 
                 <%-- Colonne : Statut modération de la demande --%>
-                <liferay-ui:search-container-column-text name="statusHelpModeration">
+                <liferay-ui:search-container-column-text name="statusHelpModeration"
+                                                         href="${editHelpRequestURL}">
 				    <span class="badge ${helpRequest.getModerationStatusClass()}">
                             ${helpRequest.getModerationStatusTitle(locale)}
                     </span>
                 </liferay-ui:search-container-column-text>
 
                 <%-- Colonne : Consentement a etre contacte--%>
-                <liferay-ui:search-container-column-text name="request-contact-consent">
+                <liferay-ui:search-container-column-text name="request-contact-consent"
+                                                         href="${editHelpRequestURL}">
                     <c:if test="${helpRequest.agreementSigned3}">
                         <liferay-ui:message key="yes"/>
                     </c:if>
