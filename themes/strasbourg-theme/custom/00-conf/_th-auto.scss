@@ -49,7 +49,7 @@ body {
 // ==========================================================================
 .th-v-mobile{
 	display: none !important;
-	@include RWD(mobile){
+	@include RWD(tablet_portrait){
 		display: block !important;
 	}
 }

@@ -239,6 +239,13 @@
             <span class="th-picto"></span>MonStrasbourg.eu
           </a>
         </#if>
+
+        <a href="/contact" class="${prefix}-nav-contact ${prefix}-nav-btn" title="contact">
+          <span class="${prefix}-flexbox">
+            <span class="${prefix}-picto"></span>
+            <span class="${prefix}-text"><@liferay.language key="contact" /></span>
+          </span>    
+        </a>
       </div>
   </div>
 </#macro>

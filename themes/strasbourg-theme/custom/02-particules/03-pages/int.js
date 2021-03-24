@@ -36,15 +36,6 @@ function dot(){
 			$('.seu-header').addClass('scrolled-hp');
 		}
 	}
-	/*function manageMenuRwd(){
-		if(environment != 'desktop'){
-			$('#seu-main-menu').appendTo('.seu-menu-rwd-content');
-			$('.seu-nav-contact').appendTo('.seu-menu-rwd-content');
-		}else{
-			$('#seu-main-menu').appendTo('.seu-nav-bottom');
-			$('.seu-nav-contact').insertAfter('.seu-nav-account');
-		}
-	}*/
 	$(document).ready(function() {
 		// INIT
 		$('.seu-toCustomSelect, .SingleSelectHintWidget select').customSelect();
