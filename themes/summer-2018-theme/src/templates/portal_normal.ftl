@@ -76,6 +76,7 @@
 
 		<!-- Magnific Popup core JS file -->
 		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js" charset="utf-8"></script> 
+  <script type="text/javascript" src="${javascript_folder}/libs/tarteaucitron/tarteaucitron.js"></script>
 
   </head>
 
