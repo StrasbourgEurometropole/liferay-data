@@ -44,35 +44,51 @@
                     <portlet:param name="returnURL" value="${dc.currentUrl}" />
                 </liferay-portlet:renderURL>
 
-				<%-- Colonne : Auteur de la demande --%>
-				<liferay-ui:search-container-column-text name="help-proposal-title" href="${editHelpRequestURL}">
-					<c:out value="${helpRequest.helpProposal.getTitle(locale)}" escapeXml='true'/>
+				<%-- Colonne : Date de creation --%>
+				<fmt:formatDate value="${helpRequest.createDate}"
+								var="formattedCreateDate" type="date" pattern="dd/MM/yyyy HH:mm" />
+				<liferay-ui:search-container-column-text cssClass="content-column"
+														 href="${editHelpRequestURL}"
+														 name="request-create-date" truncate="true" orderable="true"
+														 value="${formattedCreateDate}" />
+
+				<%-- Colonne : Titre de la proposition d'aide --%>
+				<liferay-ui:search-container-column-text cssClass="content-column"
+														 href="${editHelpRequestURL}" name="help-proposal-title" truncate="true" orderable="true">
+					<c:out value="${helpRequest.helpProposal.titleCurrentValue}" escapeXml='true'/>
 				</liferay-ui:search-container-column-text>
-				<%-- Colonne : Message de la demande --%>
-				<liferay-ui:search-container-column-text name="helper-name" href="${editHelpRequestURL}">
-				    <c:out value="${helpRequest.helpProposal.authorNameLabel}" escapeXml='true'/>
+
+				<%-- Colonne : Identifiant --%>
+				<liferay-ui:search-container-column-text name="help-proposal-id"
+														 href="${editHelpRequestURL}">
+					<c:out value="${helpRequest.helpProposalId}" escapeXml='true'/>
 				</liferay-ui:search-container-column-text>
-				<%-- Colonne : Statut activite de l'aide --%>
-				<liferay-ui:search-container-column-text name="statusHelpActivity"
-                                                         href="${editHelpRequestURL}">
-                    <span class="badge ${helpRequest.helpProposal.getActivityStatusClass()}">
-							${helpRequest.helpProposal.getActivityStatusTitle(locale)}
+
+				<%-- Colonne : Demandeur d'aide --%>
+				<liferay-ui:search-container-column-text name="request-author"
+														 href="${editHelpRequestURL}">
+					<c:out value="${helpRequest.authorNameLabel}" escapeXml='true'/>
+				</liferay-ui:search-container-column-text>
+
+				<%-- Colonne : Statut modération de la demande --%>
+				<liferay-ui:search-container-column-text name="statusHelpModeration"
+														 href="${editHelpRequestURL}">
+				    <span class="badge ${helpRequest.getModerationStatusClass()}">
+							${helpRequest.getModerationStatusTitle(locale)}
 					</span>
 				</liferay-ui:search-container-column-text>
 
-				<%-- Colonne : Statut moderation de l'aide --%>
-				<liferay-ui:search-container-column-text name="statusHelpModeration"
-                                                         href="${editHelpRequestURL}">
-				    <span class="badge ${helpRequest.helpProposal.getModerationStatusClass()}">
-							${helpRequest.helpProposal.getModerationStatusTitle(locale)}
-					</span>
+				<%-- Colonne : Consentement a etre contacte--%>
+				<liferay-ui:search-container-column-text name="request-contact-consent"
+														 href="${editHelpRequestURL}">
+					<c:if test="${helpRequest.agreementSigned3}">
+						<liferay-ui:message key="yes"/>
+					</c:if>
+					<c:if test="${not helpRequest.agreementSigned3}">
+						<liferay-ui:message key="no"/>
+					</c:if>
+
 				</liferay-ui:search-container-column-text>
-				<%-- Colonne : Date de depot de la demande --%>
-				<fmt:formatDate value="${helpRequest.createDate}"
-								var="formattedCreateDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column" href="${editHelpRequestURL}"
-														 name="request-create-date"
-														 value="${formattedCreateDate}" />
 				<%-- Colonne : Boutons --%>
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
