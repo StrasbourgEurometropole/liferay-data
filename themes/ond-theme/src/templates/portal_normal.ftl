@@ -52,6 +52,7 @@
 
 		<!-- Magnific Popup core JS file -->
 		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js" charset="utf-8"></script> 
+  <script type="text/javascript" src="${javascript_folder}/libs/tarteaucitron/tarteaucitron.js"></script>
 	</head>
 
 	<body class="ond ${css_class}<#if layout.getFriendlyURL() == '/accueil'> home</#if>">
@@ -184,6 +185,7 @@
 		<!-- <script src="${javascript_folder}/vendor/retina-1.1.0.min.js" charset="utf-8"></script>  -->
 	    <script src="${javascript_folder}/vendor/tooltip.js" charset="utf-8"></script>
 		<script src="${javascript_folder}/custom.js" charset="utf-8"></script>  
+		<script src="${javascript_folder}/tarteaucitron.custom.js" charset="utf-8"></script>  
 
 		<#if  propsUtil.get('eu.strasbourg.environment') == "PROD">
 			<!-- Global site tag (gtag.js) - Google Analytics -->
