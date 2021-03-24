@@ -1,0 +1,209 @@
+/* Police de caractères sur tous les éléments tarteaucitron */
+div#tarteaucitronRoot, .tac_activate {
+    * {
+        font-family: $f_hx !important;
+    }
+
+    /* Suppression icônes coche et croix sur boutons */
+    .tarteaucitronCheck,
+    .tarteaucitronCross {
+        display:none;
+    }
+
+    /* Conteneur Bandeau cookies */
+    #tarteaucitronAlertBig {
+        background: $c_grey;
+        padding: 20px calc(50% - 600px);
+        width: auto;
+    }
+    
+    #tarteaucitronDisclaimerAlert {
+        line-height: 1.8;
+        padding: 0px;
+        margin: 0 10px 20px 10px;
+    }
+
+    .tarteaucitronH1 {
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 1.7rem;
+    }
+
+    .tarteaucitronMainLine .tarteaucitronH2 {
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+}
+
+/* Commun aux boutons du bandeau, du pop-up de personnalisation et aux services bloqués */
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronPersonalize2,
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronAllDenied2,
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronCloseAlert,
+div#tarteaucitron #tarteaucitronServices .tarteaucitronLine .tarteaucitronAsk .tarteaucitronAllow,
+div#tarteaucitron #tarteaucitronServices #tarteaucitronAllAllowed.tarteaucitronIsSelected,
+div#tarteaucitron #tarteaucitronServices .tarteaucitronLine .tarteaucitronAsk .tarteaucitronDeny,
+div#tarteaucitron #tarteaucitronServices #tarteaucitronAllDenied.tarteaucitronIsSelected,
+div.tac_activate .tarteaucitronAllow{
+    font-size: 1.5rem !important;
+    font-weight: 700;
+    padding: 15px 20px;
+    margin: 0px 10px 25px 10px;
+    border-radius: 0;
+    text-transform: uppercase;
+}
+
+/* bandeau */
+#tarteaucitronRoot #tarteaucitronAlertBig {
+    /* Bouton accepter */
+    #tarteaucitronPersonalize2 {
+        background-color: $c_main;
+
+        &:hover {
+            background-color: $c_dark;
+            color: $c_white;
+        }
+    }
+    
+    /* Bouton refuser */
+    #tarteaucitronAllDenied2 {
+        background-color: $c_white;
+        color: $c_lightgrey;
+    
+        &:hover {
+            background-color: $c_lightgrey;
+            color: $c_white;
+        }
+    }
+    
+    /* Bouton personnaliser */
+    #tarteaucitronCloseAlert {
+        background-color: transparent;
+        color:$c_white;
+        text-decoration-line: underline;
+        text-transform: none;
+        padding: 0px;
+    
+        &:focus {
+            outline: 0;
+        }
+    
+        &:hover {
+            color: #C1C1C1;
+        }
+    }
+}
+
+/* Masquage URL confidentialité du bandeau */
+button#tarteaucitronPrivacyUrl {
+    display: none;
+}
+
+/* Panneau de personnalisation des cookies */
+div#tarteaucitron {
+    #tarteaucitronServices .tarteaucitronMainLine,
+    #tarteaucitronServices .tarteaucitronMainLine:hover,
+    #tarteaucitronInfo,
+    #tarteaucitronClosePanel {
+        border: none;
+        background: $c_grey;
+    }
+
+    .tarteaucitronBorder {
+        border: none;
+    }
+
+    #tarteaucitronInfo {
+        z-index: 2147483646;
+    }
+
+    #tarteaucitronInfo,
+    .tarteaucitronH2 {
+        font-size: 1.6rem !important;
+    }
+    
+    #tarteaucitronPrivacyUrlDialog {
+        background: transparent;
+        font-size: 1.2rem !important;
+        text-decoration-line: underline;
+    }
+
+    .tarteaucitronH3 {
+        font-size: 1.4rem;
+    }
+    
+    #tarteaucitronServices {
+        .tarteaucitronLine .tarteaucitronAsk {
+            margin-left: 12px;
+            margin-right: 12px;
+        }
+    
+        .tarteaucitronLine .tarteaucitronAsk .tarteaucitronAllow,
+        #tarteaucitronAllAllowed.tarteaucitronIsSelected {
+            background-color: $c_main;
+            color: $c_white;
+
+            &:hover {
+                background-color: $c_dark;
+                color: $c_white;
+            }
+        }
+        
+        .tarteaucitronLine .tarteaucitronAsk .tarteaucitronDeny,
+        #tarteaucitronAllDenied.tarteaucitronIsSelected {
+            background-color: $c_white;
+            color: $c_lightgrey;
+
+            &:hover {
+                background-color: $c_lightgrey;
+                color: $c_white;
+            }
+        }
+        
+        .tarteaucitronTitle button {
+            background-color: $c_grey;
+        }
+        
+        .tarteaucitronLine {
+            border-left: 0px;
+        }
+        
+        .tarteaucitronBorder .tarteaucitronLine:hover {
+            background: rgba(51, 51, 51, 0.1);
+        }
+        
+        .tarteaucitronHidden {
+            background: transparent;
+        }
+    }
+}
+div#tarteaucitronRoot .tarteaucitronH1,
+div#tarteaucitron #tarteaucitronClosePanel,
+div#tarteaucitron #tarteaucitronInfo,
+div#tarteaucitron #tarteaucitronPrivacyUrlDialog,
+#tarteaucitronRoot .tarteaucitronName .tarteaucitronH2 {
+    color: $c_white;
+}
+#tarteaucitronClosePanel {
+    transform: translate(-18px,21px);
+    z-index: 2147483647;
+
+    &:focus {
+        outline: 0;
+    }
+}
+
+/* Gestion affichage services bloqués */
+div.tac_activate {
+    background: #3a3a3a;
+    font-size: 15px;
+    padding-top: 25px;
+
+    .tac_float .tarteaucitronAllow{
+        background-color: $c_main;
+
+        &:hover {
+            background-color: $c_dark;
+            color: $c_white;
+        }
+    }
+}
