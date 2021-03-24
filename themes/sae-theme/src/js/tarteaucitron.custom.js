@@ -78,5 +78,3 @@ tarteaucitron.init({
 tarteaucitron.user.gtagUa = 'G-RQF81GVH8X';
 tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */ };
 (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
-(tarteaucitron.job = tarteaucitron.job || []).push('youtube');
-(tarteaucitron.job = tarteaucitron.job || []).push('facebook');
