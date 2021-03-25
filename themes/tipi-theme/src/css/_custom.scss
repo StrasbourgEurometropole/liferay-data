@@ -5,6 +5,9 @@
 
 /* This file allows you to override default styles in one central location for easier upgrade and maintenance. */
 
+
+@import "tarteaucitron";
+
 .wrapper h1:first-child, .wrapper h2:first-child, .wrapper h3:first-child {
     margin-top: 0.25em;
 }
