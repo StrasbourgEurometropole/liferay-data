@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.help.action;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -12,6 +13,7 @@ import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.service.HelpProposalLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -46,13 +48,23 @@ public class ReadHelpProposalActionCommand implements MVCActionCommand {
 					.mapToLong(AssetCategory::getCategoryId).toArray();
 			List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
 
-			AssetCategory nonLu = AssetVocabularyHelper.getCategory("Non Lue", sc.getScopeGroupId());
-			if (nonLu != null && idsLong.indexOf(nonLu.getCategoryId()) >= 0)
-				idsLong.remove(idsLong.indexOf(nonLu.getCategoryId()));
+			AssetVocabulary proposalModerationVocab =
+					AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_PROPOSAL_MODERATION_STATUS, sc.getScopeGroupId());
+			long readCategoryId = 0;
+			long currentCategoryId = 0;
+			for (AssetCategory category : proposalModerationVocab.getCategories()) {
+				if (idsLong.contains(category.getCategoryId())) {
+					currentCategoryId = category.getCategoryId();
+				}
+				if (category.getName().equalsIgnoreCase("Lue")) {
+					readCategoryId = category.getCategoryId();
+				}
+			}
+			if (readCategoryId != 0 && currentCategoryId != 0) {
+				idsLong.remove(idsLong.indexOf(currentCategoryId));
+				idsLong.add(readCategoryId);
+			}
 
-			AssetCategory lu = AssetVocabularyHelper.getCategory("Lue", sc.getScopeGroupId());
-			if (lu != null)
-				idsLong.add(lu.getCategoryId());
 			sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
 
 			_helpProposalLocalService.updateHelpProposal(helpProposal, sc);
