@@ -68,6 +68,33 @@
                     <portlet:param name="mvcPath" value="/help-bo-edit-help-request.jsp" />
                 </liferay-portlet:renderURL>
 
+                <%-- URL : definit le lien vers l'action de passage en Conforme --%>
+                <liferay-portlet:actionURL name="changeStatusHelpRequest" var="validHelpRequestURL">
+                    <portlet:param name="cmd" value="changeStatusHelpRequest" />
+                    <portlet:param name="tab" value="helpRequests" />
+                    <portlet:param name="returnURL" value="${dc.currentURL}" />
+                    <portlet:param name="requestModerationStatus" value="Conforme" />
+                    <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
+                </liferay-portlet:actionURL>
+
+                <%-- URL : definit le lien vers l'action de passage en Alerte --%>
+                <liferay-portlet:actionURL name="changeStatusHelpRequest" var="alertHelpRequestURL">
+                    <portlet:param name="cmd" value="changeStatusHelpRequest" />
+                    <portlet:param name="tab" value="helpRequests" />
+                    <portlet:param name="returnURL" value="${dc.currentURL}" />
+                    <portlet:param name="requestModerationStatus" value="Alerte" />
+                    <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
+                </liferay-portlet:actionURL>
+
+                <%-- URL : definit le lien vers l'action de passage en Non-conforme --%>
+                <liferay-portlet:actionURL name="changeStatusHelpRequest" var="notValidHelpRequestURL">
+                    <portlet:param name="cmd" value="changeStatusHelpRequest" />
+                    <portlet:param name="tab" value="helpRequests" />
+                    <portlet:param name="returnURL" value="${dc.currentURL}" />
+                    <portlet:param name="requestModerationStatus" value="Non-conforme" />
+                    <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
+                </liferay-portlet:actionURL>
+
                 <%-- Colonne : Date de creation --%>
                 <fmt:formatDate value="${helpRequest.createDate}"
                                 var="formattedCreateDate" type="date" pattern="dd/MM/yyyy HH:mm" />
@@ -122,6 +149,18 @@
                         </c:if>
                         <c:if test="${dc.hasPermission('EDIT_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
                             <liferay-ui:icon message="view-help-proposal" url="${editHelpProposalURL}" />
+                        </c:if>
+
+                        <c:if test="${dc.hasPermission('EDIT_HELP_REQUEST') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                            <c:if test="${helpRequest.getModerationStatusTitle(locale) != 'Conforme'}">
+                                <liferay-ui:icon-delete confirmation="set-valid-confirm" message="set-request-valid" url="${validHelpRequestURL}" />
+                            </c:if>
+                            <c:if test="${helpRequest.getModerationStatusTitle(locale) != 'Alerte'}">
+                                <liferay-ui:icon-delete confirmation="set-alert-confirm" message="set-request-alert" url="${alertHelpRequestURL}" />
+                            </c:if>
+                            <c:if test="${helpRequest.getModerationStatusTitle(locale) != 'Non-conforme'}">
+                                <liferay-ui:icon-delete confirmation="set-not-valid-confirm" message="set-request-not-valid" url="${notValidHelpRequestURL}" />
+                            </c:if>
                         </c:if>
                         <%--
 						<c:set value="${helpSeeker.publikUser.publikUserLiferayId}" var="publikId" />

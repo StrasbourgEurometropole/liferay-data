@@ -24,8 +24,7 @@
 			<aui:input name="helpRequestId" type="hidden" />
 
 			<%-- Champ : (cache) enriegistrement conform ou alerte --%>
-			<aui:input name="alert" type="hidden" value="0" />
-			<aui:input name="valid" type="hidden" value="0" />
+			<aui:input name="newStatus" type="hidden" value="" />
 
 			<%-- Groupe de champs : Generalites --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="general">
@@ -99,6 +98,7 @@
 					<aui:button cssClass="btn-lg" type="submit" name="publish" value="save" />
 					<aui:button cssClass="btn-lg btn-valid" type="submit" name="save-is-valid" value="save-is-valid" />
 					<aui:button cssClass="btn-lg btn-alert" type="submit" name="save-is-alert" value="save-is-alert" />
+					<aui:button cssClass="btn-lg btn-not-valid" type="submit" name="save-is-not-valid" value="save-is-not-valid" />
 				</c:if>
 			</c:if>
 
@@ -123,10 +123,14 @@
 
 <aui:script>
 	$("#<portlet:namespace />save-is-valid").click(function(event){
-	$("#<portlet:namespace />valid").val('1');
+	$("#<portlet:namespace />newStatus").val('Conforme');
 	});
 
 	$("#<portlet:namespace />save-is-alert").click(function(event){
-	$("#<portlet:namespace />alert").val('1');
+	$("#<portlet:namespace />newStatus").val('Alerte');
+	});
+
+	$("#<portlet:namespace />save-is-not-valid").click(function(event){
+	$("#<portlet:namespace />newStatus").val('Non-conforme');
 	});
 </aui:script>

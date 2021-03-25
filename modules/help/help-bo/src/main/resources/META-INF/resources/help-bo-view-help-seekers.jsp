@@ -90,7 +90,7 @@
 				</liferay-portlet:renderURL>
                 <%-- Colonne : Actions possibles --%>
                 <liferay-ui:search-container-column-text>
-                    <liferay-ui:icon-menu markupView="lexicon">
+                    <liferay-ui:icon-menu markupView="lexicon" showWhenSingleIcon="true">
                         <liferay-ui:icon message="view-help-requests" url="${viewSeekerHelpRequestsURL}" />
 
 						<%--
