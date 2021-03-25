@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.help.context;
 
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import eu.strasbourg.portlet.help.constants.HelpBOConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -14,13 +16,13 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 import javax.portlet.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 public class ViewHelpRequestsDisplayContext extends ViewListBaseDisplayContext<HelpRequest> {
 
     private List<HelpRequest> _helpRequests;
+    private HashMap<String, Integer> _studentImagesCount;
 
     public ViewHelpRequestsDisplayContext(RenderRequest request, RenderResponse response) {
         super(HelpRequest.class, request, response);
@@ -86,6 +88,40 @@ public class ViewHelpRequestsDisplayContext extends ViewListBaseDisplayContext<H
         }
     }
 
+    public String getImagesCount(String publikId) {
+        if (_studentImagesCount == null) {
+            _studentImagesCount = new HashMap<>();
+            // Recuperation de toutes les requetes d'aide
+            List<HelpRequest> helpRequests = HelpRequestLocalServiceUtil.getHelpRequests(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+            HashSet<Long> studentImagesIds = new HashSet<>();
+
+            for (HelpRequest helpRequest : helpRequests) {
+                String helpSeekerId = helpRequest.getPublikId();
+                // On a deja des requetes pour cet utilisateur
+                if (_studentImagesCount.containsKey(helpSeekerId)) {
+                    int seeker_count = this._studentImagesCount.get(helpSeekerId);
+                    // Mise a jour nombre de justificatifs si necessaire
+                    long studentCardImageId = helpRequest.getStudentCardImageId();
+                    if (studentCardImageId > 0 && !studentImagesIds.contains(studentCardImageId)) {
+                        this._studentImagesCount.put(helpSeekerId, seeker_count + 1);
+                        studentImagesIds.add(studentCardImageId);
+                    }
+                }
+                // Premiere requete trouvee de cet utilisateur
+                else {
+                    // Ajout dans la liste
+                    _studentImagesCount.put(helpSeekerId, 0);
+                    long studentCardImageId = helpRequest.getStudentCardImageId();
+                    if (studentCardImageId > 0) {
+                        this._studentImagesCount.put(helpSeekerId, 1);
+                        studentImagesIds.add(studentCardImageId);
+                    }
+                }
+
+            }
+        }
+        return LanguageUtil.get(Locale.FRANCE,
+            "eu.help.delete.student.card.images") +" ("+_studentImagesCount.get(publikId)+")"; }
 
     /**
      * Wrapper autour du permission checker pour les permissions de module

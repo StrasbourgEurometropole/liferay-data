@@ -162,6 +162,13 @@
                                 <liferay-ui:icon-delete confirmation="set-not-valid-confirm" message="set-request-not-valid" url="${notValidHelpRequestURL}" />
                             </c:if>
                         </c:if>
+                        <%-- Suppression des justificatifs de l'etudiant --%>
+                        <liferay-portlet:actionURL name="deleteStudentCardImages" var="deleteStudentCardImagesURL">
+                            <portlet:param name="cmd" value="deleteStudentCardImages" />
+                            <portlet:param name="tab" value="helpRequests" />
+                            <portlet:param name="studentPublikId" value="${helpRequest.publikId}" />
+                        </liferay-portlet:actionURL>
+                        <liferay-ui:icon message="${dc.getImagesCount(helpRequest.publikId)}" url="${deleteStudentCardImagesURL}"/>
                         <%--
 						<c:set value="${helpSeeker.publikUser.publikUserLiferayId}" var="publikId" />
 						<c:if test="${dc.hasPermissionOIDC('EDIT_PUBLIKUSER') and empty themeDisplay.scopeGroup.getStagingGroup()}">

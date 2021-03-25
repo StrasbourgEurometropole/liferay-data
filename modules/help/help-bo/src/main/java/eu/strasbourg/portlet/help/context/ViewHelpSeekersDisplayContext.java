@@ -40,17 +40,17 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
             HashMap<String, HelpSeeker> helpSeekersMap =  new HashMap<>();
             HashSet<Long> studentImagesIds = new HashSet<>();
 
-            for (HelpRequest request : helpRequests) {
-                String helpSeekerId = request.getPublikId();
+            for (HelpRequest helpRequest : helpRequests) {
+                String helpSeekerId = helpRequest.getPublikId();
                 // On a deja des requetes pour cet utilisateur
                 if (helpSeekersMap.containsKey(helpSeekerId)) {
                     HelpSeeker seeker = helpSeekersMap.get(helpSeekerId);
                     // Mise a jour nbre requetes
                     seeker.incrementRequestsNumber();
                     // Mise a jour derniere requete en date si necessaire
-                    seeker.updateRequest(request);
+                    seeker.updateRequest(helpRequest);
                     // Mise a jour nombre de justificatifs si necessaire
-                    long studentCardImageId = request.getStudentCardImageId();
+                    long studentCardImageId = helpRequest.getStudentCardImageId();
                     if (studentCardImageId > 0 && !studentImagesIds.contains(studentCardImageId)) {
                         seeker.incrementStudentImageCount();
                         studentImagesIds.add(studentCardImageId);
@@ -60,9 +60,9 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
                 else {
                     // Ajout dans la liste
                     HelpSeeker helpSeeker = new HelpSeeker(PublikUserLocalServiceUtil.getByPublikUserId(helpSeekerId),
-                                                            request);
+                                                            helpRequest);
                     helpSeekersMap.put( helpSeekerId, helpSeeker);
-                    long studentCardImageId = request.getStudentCardImageId();
+                    long studentCardImageId = helpRequest.getStudentCardImageId();
                     if (studentCardImageId > 0) {
                         helpSeeker.incrementStudentImageCount();
                         studentImagesIds.add(studentCardImageId);
