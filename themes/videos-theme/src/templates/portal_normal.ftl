@@ -19,6 +19,8 @@
 	<@liferay_util["include"] page=top_head_include />
 	<link rel="icon" type="image/png" href="${images_folder}/logo/favicon.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <script type="text/javascript" src="${javascript_folder}/libs/tarteaucitron/tarteaucitron.js"></script>
+  <script type="text/javascript" src="${javascript_folder}/tarteaucitron.custom.js"></script>
 </head>
 
 <body class="${css_class}">
