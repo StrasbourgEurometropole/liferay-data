@@ -229,6 +229,7 @@
         right: 0;
         bottom: 0;
         background: $c_main_dark;
+        text-align: center;
 
         &:before {
             content: '';
@@ -249,6 +250,7 @@
             text-align: center;
             padding: 20px;
             margin: 0 30px 30px 30px;
+            display: inline-block;
 
             .th-picto {
                 position: relative;
@@ -834,11 +836,11 @@
             }
             @include RWD(tablet_portrait) {
                 padding: 0;
-                height: calc(100% - 80px);
+                height: calc(100% - 178px);
                 overflow: auto;
             }
             @include RWD(mobile) {
-                height: calc(100% - 60px);
+                height: calc(100% - 138px);
             }
 
             &:after {
@@ -1453,5 +1455,25 @@
             }
         }
 
+    }
+}
+
+// contact en mode tablette et mobile
+
+        
+.seu header .overlay .th-v-mobile .seu-nav-contact{
+    margin-bottom: 10px;
+    padding: 20px;
+    display: block;
+    background-color: #FFFFFF;
+    height: unset;
+    .seu-picto{
+        margin-right: 10px;
+    }
+    .seu-text{
+        display: block;
+    }
+    @include RWD(mobile){
+        padding: 10px 40px;
     }
 }

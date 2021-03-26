@@ -170,7 +170,7 @@
         }
     }
     
-    .seu-nav-top .seu-nav-btn, .th-bar-header-touch-device .seu-nav-btn{
+    .seu-nav-top .seu-nav-btn, .th-bar-header-touch-device .seu-nav-btn, .overlay .th-v-mobile .seu-nav-btn{
         padding: 0 25px;
         font-size: 1.7rem;
         position: relative;
@@ -183,7 +183,7 @@
         }
 
         .seu-flexbox{
-            display: flex;
+            display: inline-flex;
             align-items: center;
             height: 100%;
         }

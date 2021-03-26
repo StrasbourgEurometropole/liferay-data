@@ -1454,7 +1454,7 @@ var menuOverlay = {
 
 					// on change la valeur aria-expanded
 					correspondingMenu.setAttribute('aria-expanded', "true");
-					// on change la valeur aria-expanded de l'accès rapide du menu
+					// on change la valeur aria-expanded du premier sous menu
 					correspondingMenu.parentNode.querySelector(".th-submenu .th-hav-level-3.th-active a").setAttribute('aria-expanded', "true");
                 }
             }
@@ -1487,7 +1487,7 @@ var menuOverlay = {
 						}
 					});
 					this.setAttribute('aria-expanded', "true");
-					// on change la valeur aria-expanded de l'accès rapide du menu
+					// on change la valeur aria-expanded du premier sous menu
 					if(this.parentNode.querySelector(".th-submenu .th-hav-level-3.th-active a") != null){
 						this.parentNode.querySelector(".th-submenu .th-hav-level-3.th-active a").setAttribute('aria-expanded', "true");
 					}
@@ -1559,7 +1559,7 @@ var menuOverlay = {
 			var wrapper = this;
 			wrapper.innerHTML = '<a href="' + this.getAttribute("data-url") + '" class="th-menu-image ' + 
 				(this.getAttribute("data-type") == 1?'seu-external" target="_blank" >' : '" >') +
-				(this.getAttribute("data-image") != ''?'<figure class="fit-cover"><img src="' + this.getAttribute("data-image") + '" width="350" height="224" alt=""/></figure>':'<div class="th-no-photo"></div>') + 
+				(this.getAttribute("data-image") != ''?'<figure class="fit-cover"><img src="' + this.getAttribute("data-image") + (this.getAttribute("data-image").includes("?")?'&imagePreview=1':'?imagePreview=1') + '" width="350" height="224" alt=""/></figure>':'<div class="th-no-photo"></div>') + 
 				'<div class="th-content"><span class="th-surtitre">' + this.getAttribute("data-name") + '</span>' + 
 				'<span class="th-titre">' + this.getAttribute("data-description") + '</span></div></a>';
 			var parent = this.parentNode;

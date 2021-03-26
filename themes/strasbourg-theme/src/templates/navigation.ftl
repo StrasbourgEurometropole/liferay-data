@@ -1,13 +1,13 @@
 <#macro subnavigation prefix>
   <!-- Barre de Menu Niveau 1 -->
-  <nav class="th-nav-level-1 th-bar-in-front">
+  <nav class="th-nav-level-1 th-bar-in-front" aria-label="<@liferay.language key='eu.strasbourg.menu.main-navigation' />">
     <ul class="th-menu-level-1">
       <!-- <li><button data-overlay-open="th-overlay-nav" class="th-cta-search"></button></li> -->
       <!-- Entrées principales -->
       <#list nav_items as nav_item>
         <#if nav_item.getName() != 'Accueil'>
           <li>
-            <a href="${nav_item.getURL()}" <#if !nav_item.layout.isTypeURL() && nav_item.hasChildren()> data-th-menu="${nav_item.getName()}"</#if> class="th-level-1" <#if nav_item.layout.isTypeURL()>target="_blank"</#if>>${nav_item.getName()}</a>
+            <a href="${nav_item.getURL()}" <#if !nav_item.layout.isTypeURL() && nav_item.hasChildren()> data-th-menu="${nav_item.getName()?html}"</#if> class="th-level-1" <#if nav_item.layout.isTypeURL()>target="_blank"</#if>>${nav_item.getName()}</a>
           </li>
         </#if>
       </#list>
@@ -99,13 +99,13 @@
           <button data-overlay-close="th-overlay-nav" class="th-cta-menu"></button>
       </div>
 
-      <nav class="th-nav-level-1" aria-label="<@liferay.language key='main-navigation' />">
+      <nav class="th-nav-level-1" aria-label="<@liferay.language key='eu.strasbourg.menu.main-navigation' />">
         <ul class="th-menu-level-1">
 
           <#list nav_items as nav_item>
             <#if nav_item.getName() != 'Accueil'>
               <li <#if !nav_item.layout.isTypeURL() && nav_item.hasChildren()>class="th-has-submenu"</#if>>
-                <a href="${nav_item.getURL()}" <#if !nav_item.layout.isTypeURL() && nav_item.hasChildren()>aria-haspopup="true" aria-expanded="false" data-th-menu="${nav_item.getName()}"</#if> class="th-level-1" <#if nav_item.layout.isTypeURL()>target="_blank"</#if>>${nav_item.getName()}</a>
+                <a href="${nav_item.getURL()}" <#if !nav_item.layout.isTypeURL() && nav_item.hasChildren()>aria-haspopup="true" aria-expanded="false" data-th-menu="${nav_item.getName()?html}"</#if> class="th-level-1" <#if nav_item.layout.isTypeURL()>target="_blank"</#if>>${nav_item.getName()}</a>
                 <!-- Sous-Menu -->
                 <#if !nav_item.layout.isTypeURL()>
                   <div class="th-submenu" <#if !nav_item.hasChildren()>style="background: green"</#if>>
@@ -115,44 +115,46 @@
                           <!--<button data-overlay-open="th-overlay-nav" class="th-cta-search"></button>-->
                           <div class="back back-level-1">
                             <span class="title-menu-niv-1">${nav_item.getName()}</span>
-                            <span class="back-txt">Retour</span>
+                            <span class="back-txt"><@liferay.language key="eu.strasbourg.menu.back" /></span>
                           </div>
                           <button data-overlay-close="th-overlay-nav" class="th-cta-menu"></button>
                         </div>
                         <ul class="th-menu-niveau-2">
-                          <li class="th-hav-level-3">
-                            <a href="#" aria-haspopup="true" aria-expanded="false" class="th-level-2 th-acces-rapide">Accès rapides</a>
-                            <div class="th-menu-niveau-3-images">
-                              <!-- Tablette Portrait + Mobile -->
-                              <div class="th-top-overlay-menu">
-                                <!--<button data-overlay-open="th-overlay-nav" class="th-cta-search"></button>-->
-                                <div class="back back-level-2">
-                                  <span class="title-menu-niv-1">Accès rapides</span>
-                                  <span class="back-txt">Retour</span>
+                          <#if layoutHelper.hasQuickAccess(nav_item)>
+                            <li class="th-hav-level-3">
+                              <a href="#" aria-haspopup="true" aria-expanded="false" class="th-level-2 th-acces-rapide"><@liferay.language key="eu.strasbourg.menu.quick-access" /></a>
+                              <div class="th-menu-niveau-3-images">
+                                <!-- Tablette Portrait + Mobile -->
+                                <div class="th-top-overlay-menu">
+                                  <!--<button data-overlay-open="th-overlay-nav" class="th-cta-search"></button>-->
+                                  <div class="back back-level-2">
+                                    <span class="title-menu-niv-1"><@liferay.language key="eu.strasbourg.menu.quick-access" /></span>
+                                    <span class="back-txt"><@liferay.language key="eu.strasbourg.menu.back" /></span>
+                                  </div>
+                                  <button data-overlay-close="th-overlay-nav" class="th-cta-menu"></button>
                                 </div>
-                                <button data-overlay-close="th-overlay-nav" class="th-cta-menu"></button>
-                              </div>
-                              <!-- Wrapper des images -->
-                              <div class="th-wrapper">
-                                <#list nav_item.getChildren() as nav_child>
-                                  <#if nav_child.getName() == 'Raccourcis' || nav_child.getName() == 'Accès rapides'>
-                                    <#if nav_child.hasChildren()>
-                                      <#list nav_child.getChildren() as nav_subchild>
-                                        <#assign description = '' />
-                                        <#assign introductionAttribute = nav_subchild.layout.expandoBridge.getAttribute('introduction') />
-                                        <#list introductionAttribute?keys as key> 
-                                          <#if key == locale>
-                                            <#assign description = introductionAttribute?values[key_index] />
-                                          </#if>
+                                <!-- Wrapper des images -->
+                                <div class="th-wrapper">
+                                  <#list nav_item.getChildren() as nav_child>
+                                    <#if nav_child.getName() == 'Raccourcis' || nav_child.getName() == 'Accès rapides'>
+                                      <#if nav_child.hasChildren()>
+                                        <#list nav_child.getChildren() as nav_subchild>
+                                          <#assign description = '' />
+                                          <#assign introductionAttribute = nav_subchild.layout.expandoBridge.getAttribute('introduction') />
+                                          <#list introductionAttribute?keys as key> 
+                                            <#if key == locale>
+                                              <#assign description = introductionAttribute?values[key_index] />
+                                            </#if>
+                                          </#list>
+                                          <div class="th-menu-image data-wrapper" data-url="${nav_subchild.getURL()}" data-type="${nav_subchild.layout.isTypeURL()?then(1,0)}" data-image="${nav_subchild.layout.expandoBridge.getAttribute('image')}" data-name="${nav_subchild.getName()}" data-description="${description}" ></div>
                                         </#list>
-                                        <div class="th-menu-image data-wrapper" data-url="${nav_subchild.getURL()}" data-type="${nav_subchild.layout.isTypeURL()?then(1,0)}" data-image="${nav_subchild.layout.expandoBridge.getAttribute('image')}" data-name="${nav_subchild.getName()}" data-description="${description}" ></div>
-                                      </#list>
+                                      </#if>
                                     </#if>
-                                  </#if>
-                                </#list>
+                                  </#list>
+                                </div>
                               </div>
-                            </div>
-                          </li>
+                            </li>
+                          </#if>
                           <!-- Sous menu niveau 1 -->
                           <#list nav_item.getChildren() as nav_child>
                             <#if nav_child.getName() != 'Raccourcis' && nav_child.getName() != 'Accès rapides'>
@@ -166,7 +168,7 @@
                                         <!--<button data-overlay-open="th-overlay-nav" class="th-cta-search"></button>-->
                                         <div class="back back-level-2">
                                           <span class="title-menu-niv-1">${nav_child.getName()}</span>
-                                          <span class="back-txt">Retour</span>
+                                          <span class="back-txt"><@liferay.language key="eu.strasbourg.menu.back" /></span>
                                         </div>
                                         <button data-overlay-close="th-overlay-nav" class="th-cta-menu"></button>
                                       </div>
@@ -237,6 +239,13 @@
             <span class="th-picto"></span>MonStrasbourg.eu
           </a>
         </#if>
+
+        <a href="/contact" class="${prefix}-nav-contact ${prefix}-nav-btn" title="contact">
+          <span class="${prefix}-flexbox">
+            <span class="${prefix}-picto"></span>
+            <span class="${prefix}-text"><@liferay.language key="contact" /></span>
+          </span>    
+        </a>
       </div>
   </div>
 </#macro>
