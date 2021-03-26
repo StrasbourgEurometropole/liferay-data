@@ -168,7 +168,7 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
             helpRequest.setAgreementSigned2(this.agreement2);
             helpRequest.setAgreementSigned3(this.agreement3);
 
-            _helpRequestLocalService.updateHelpRequest(helpRequest);
+            _helpRequestLocalService.updateHelpRequest(helpRequest, sc);
 
         } catch (PortalException | IOException e) {
             _log.error(e);
