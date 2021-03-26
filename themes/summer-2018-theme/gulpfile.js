@@ -27,7 +27,7 @@ gulp.task('css', function () {
         browsers: ["last 3 versions", "> 5%", "not explorer <= 8"]
     };
 
-    return gulp.src(source + '/t_main.scss')
+    return gulp.src([source + '/t_main.scss', source + 'override/*.scss'])
     .pipe(plugins.sass({outputStyle: 'compressed'}))
    // .pipe(plugins.autoprefixer(autoprefixer_options))
     .pipe(gulp.dest(destination));
@@ -37,7 +37,7 @@ gulp.task('js', function () {
     var source = './custom/js/';
     var destination = './src/js/';
 
-    return gulp.src([source + 'libs/*.js', source + '_t_*.js'])
+    return gulp.src([source + 'libs/*.js', source + '_t_*.js', source + 'override/*.js'])
     .pipe(plugins.concat('./t_main.js'))
     .pipe(gulp.dest(destination + './'))
     .pipe(plugins.uglify())
