@@ -193,30 +193,7 @@
 
       <div class="th-bottom-cta th-v-mobile">
         <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
-        <#if request.session.getAttribute("publik_logged_in")!false>
-          <#assign notificationService = serviceLocator.findService("eu.strasbourg.service.notification.service.UserNotificationStatusLocalService") />
-          <div class="seu-nav-account seu-nav-btn">
-            <button name="trigger-account-menu" class="trigger-account-menu" onClick="javascript: location='${layoutHelper.getDashboardURL()}';">
-              <span class="seu-flexbox">
-                <#assign notifCount = notificationService.getUnreadNotificationCount(request.session.getAttribute("publik_internal_id")) />
-                <span class="seu-picto">
-                    <#if (notifCount > 0)>
-                        <span class="notif-amount">${notifCount}</span>
-                    </#if>
-                </span>
-                <a href="${layoutHelper.getDashboardURL()}" style="text-decoration: none;" title="Mon tableau de bord">
-                  <span class="seu-text">${request.session.getAttribute("publik_given_name")?html}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]?html}.</span>
-                </a>
-                <span class="seu-arrow" style="display: none;"></span>
-              </span>
-            </button>
-            <!-- Menu connecté -->
-            <@liferay_portlet["runtime"]
-              portletProviderAction=portletProviderAction.VIEW
-              portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-              instanceId="loggedinmenu"
-              settingsScope="group" />
-          </div>
+        <#if request.session.getAttribute("publik_logged_in")!true>
         <#else>
           <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="th-nav-account" title="Connexion">
             <span class="th-picto"></span>MonStrasbourg.eu
