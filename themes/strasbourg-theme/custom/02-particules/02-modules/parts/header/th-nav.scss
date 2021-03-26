@@ -15,7 +15,7 @@
 
 // Style General - Overlay - All site
 // ==========================================================================
-header .overlay {
+.seu-header .overlay, .smag-header .overlay{
     position: fixed;
     top: -100%;
     right: 0;
@@ -1461,7 +1461,7 @@ header .overlay {
 // contact en mode tablette et mobile
 
         
-.seu header .overlay .th-v-mobile .seu-nav-contact{
+.seu header .overlay .th-v-mobile .seu-nav-contact, .smag-header .overlay .th-v-mobile .seu-nav-contact {
     margin-bottom: 10px;
     padding: 20px;
     display: block;

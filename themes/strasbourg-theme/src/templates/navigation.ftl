@@ -29,19 +29,19 @@
       <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
       <#if request.session.getAttribute("publik_logged_in")!false>
         <#assign notificationService = serviceLocator.findService("eu.strasbourg.service.notification.service.UserNotificationStatusLocalService") />
-        <div class="${prefix}-nav-account ${prefix}-nav-btn">
+        <div class="seu-nav-account seu-nav-btn">
           <button name="trigger-account-menu" class="trigger-account-menu" onClick="javascript: location='${layoutHelper.getDashboardURL()}';">
-            <span class="${prefix}-flexbox">
+            <span class="seu-flexbox">
               <#assign notifCount = notificationService.getUnreadNotificationCount(request.session.getAttribute("publik_internal_id")) />
-              <span class="${prefix}-picto">
+              <span class="seu-picto">
                   <#if (notifCount > 0)>
                       <span class="notif-amount">${notifCount}</span>
                   </#if>
               </span>
               <a href="${layoutHelper.getDashboardURL()}" style="text-decoration: none;" title="Mon tableau de bord">
-                <span class="${prefix}-text">${request.session.getAttribute("publik_given_name")?html}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]?html}.</span>
+                <span class="seu-text">${request.session.getAttribute("publik_given_name")?html}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]?html}.</span>
               </a>
-              <span class="${prefix}-arrow" style="display: none;"></span>
+              <span class="seu-arrow" style="display: none;"></span>
             </span>
           </button>
           <!-- Menu connecté -->
@@ -195,19 +195,19 @@
         <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
         <#if request.session.getAttribute("publik_logged_in")!false>
           <#assign notificationService = serviceLocator.findService("eu.strasbourg.service.notification.service.UserNotificationStatusLocalService") />
-          <div class="${prefix}-nav-account ${prefix}-nav-btn">
+          <div class="seu-nav-account seu-nav-btn">
             <button name="trigger-account-menu" class="trigger-account-menu" onClick="javascript: location='${layoutHelper.getDashboardURL()}';">
-              <span class="${prefix}-flexbox">
+              <span class="seu-flexbox">
                 <#assign notifCount = notificationService.getUnreadNotificationCount(request.session.getAttribute("publik_internal_id")) />
-                <span class="${prefix}-picto">
+                <span class="seu-picto">
                     <#if (notifCount > 0)>
                         <span class="notif-amount">${notifCount}</span>
                     </#if>
                 </span>
                 <a href="${layoutHelper.getDashboardURL()}" style="text-decoration: none;" title="Mon tableau de bord">
-                  <span class="${prefix}-text">${request.session.getAttribute("publik_given_name")?html}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]?html}.</span>
+                  <span class="seu-text">${request.session.getAttribute("publik_given_name")?html}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]?html}.</span>
                 </a>
-                <span class="${prefix}-arrow" style="display: none;"></span>
+                <span class="seu-arrow" style="display: none;"></span>
               </span>
             </button>
             <!-- Menu connecté -->
@@ -223,10 +223,10 @@
           </a>
         </#if>
 
-        <a href="/contact" class="${prefix}-nav-contact ${prefix}-nav-btn" title="contact">
-          <span class="${prefix}-flexbox">
-            <span class="${prefix}-picto"></span>
-            <span class="${prefix}-text"><@liferay.language key="contact" /></span>
+        <a href="/contact" class="seu-nav-contact seu-nav-btn" title="contact">
+          <span class="seu-flexbox">
+            <span class="seu-picto"></span>
+            <span class="seu-text"><@liferay.language key="contact" /></span>
           </span>    
         </a>
       </div>

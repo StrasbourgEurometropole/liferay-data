@@ -103,10 +103,6 @@
 		@include RWD(tablet_portrait) {
 			display: none;
 		}
-
-		.smag-header:not(.scrolled) & { 
-			background-color: rgba(44, 44, 44, 0.5); 
-		}
 	}
 	ul {
 		font-size: 0;
