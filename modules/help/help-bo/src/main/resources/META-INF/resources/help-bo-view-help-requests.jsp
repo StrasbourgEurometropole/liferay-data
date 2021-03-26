@@ -168,7 +168,9 @@
                             <portlet:param name="tab" value="helpRequests" />
                             <portlet:param name="studentPublikId" value="${helpRequest.publikId}" />
                         </liferay-portlet:actionURL>
-                        <liferay-ui:icon message="${dc.getImagesCount(helpRequest.publikId)}" url="${deleteStudentCardImagesURL}"/>
+                        <c:if test="${dc.hasPermission('EDIT_HELP_REQUEST') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                            <liferay-ui:icon-delete confirmation="delete-student-ids-confirm" message="${dc.getImagesCount(helpRequest.publikId)}" url="${deleteStudentCardImagesURL}" />
+                        </c:if>
                         <%--
 						<c:set value="${helpSeeker.publikUser.publikUserLiferayId}" var="publikId" />
 						<c:if test="${dc.hasPermissionOIDC('EDIT_PUBLIKUSER') and empty themeDisplay.scopeGroup.getStagingGroup()}">

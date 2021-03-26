@@ -106,7 +106,9 @@
 							<portlet:param name="tab" value="helpSeekers" />
 							<portlet:param name="studentPublikId" value="${helpSeeker.publikUser.publikId}" />
 						</liferay-portlet:actionURL>
-						<liferay-ui:icon message="${helpSeeker.imagesCount}" url="${deleteStudentCardImagesURL}"/>
+						<c:if test="${dc.hasPermission('EDIT_HELP_REQUEST') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<liferay-ui:icon-delete confirmation="delete-student-ids-confirm" message="${helpSeeker.imagesCount}" url="${deleteStudentCardImagesURL}" />
+						</c:if>
                     </liferay-ui:icon-menu>
                 </liferay-ui:search-container-column-text>
 

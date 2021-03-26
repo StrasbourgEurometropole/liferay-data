@@ -28,7 +28,7 @@
 
 <%-- Body --%>
 <%-- Composant : tableau de visualisation des entites --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="help-bo container-fluid-1280 main-content-body">
 	<aui:form method="post" name="fm">
 		<liferay-ui:search-container id="helpRequestsSearchContainer"
 									 searchContainer="${dc.searchContainer}">

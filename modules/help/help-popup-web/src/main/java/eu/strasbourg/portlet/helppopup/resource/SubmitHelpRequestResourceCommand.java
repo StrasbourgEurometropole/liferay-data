@@ -39,6 +39,7 @@ import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.help.service.HelpRequestLocalService;
+import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.MailHelper;
@@ -58,12 +59,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @Component(
         immediate = true,
@@ -84,6 +80,7 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
     private boolean agreement1;
     private boolean agreement2;
     private boolean agreement3;
+    private String title;
 
     // Gestion et contexte de la requete
     private String publikID;
@@ -137,6 +134,9 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
         // Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
+        if (this.title != null) {
+            jsonResponse.put("title", this.title);
+        }
         jsonResponse.put("message", this.messageResult);
 
         // Recuperation de l'élément d'écriture de la réponse
@@ -168,7 +168,7 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
             helpRequest.setAgreementSigned2(this.agreement2);
             helpRequest.setAgreementSigned3(this.agreement3);
 
-            _helpRequestLocalService.updateHelpRequest(helpRequest);
+            _helpRequestLocalService.updateHelpRequest(helpRequest, sc);
 
         } catch (PortalException | IOException e) {
             _log.error(e);
@@ -418,6 +418,21 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
             return false;
         }
 
+        // TODO A faire proprement avec un finder...
+        // Verification du nombre de demandes recentes (- de 7 jours)
+        List<HelpRequest> helpRequests = HelpRequestLocalServiceUtil.getByPublikId(this.publikID);
+        int nbRecentRequests = 0;
+        Date currentDate = new Date();
+        for (HelpRequest helpRequest : helpRequests) {
+            if (currentDate.getTime() - helpRequest.getCreateDate().getTime() < 1000 * 60 * 60 * 24 * 7) {
+                nbRecentRequests++;
+            }
+        }
+        if (nbRecentRequests >= 2) {
+            this.messageResult = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_NB_REQUESTS);
+            this.title = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_NB_REQUESTS_TITLE);
+            return false;
+        }
         return true;
     }
 
