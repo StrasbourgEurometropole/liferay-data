@@ -1791,7 +1791,7 @@ var notifManager;
             }
 		}
 	}
-	function manageMenuRwd(){
+	/*function manageMenuRwd(){
 		if(environment != 'desktop'){
 			$('#smag-main-menu').appendTo('.smag-menu-rwd-content');
 			$('.smag-nav-contact').appendTo('.smag-menu-rwd-content');
@@ -1799,7 +1799,7 @@ var notifManager;
 			$('#smag-main-menu').appendTo('.smag-nav-bottom');
 			$('.smag-nav-contact').insertAfter('.smag-nav-account');
 		}
-	}
+	}*/
     function openSubmenu($trigger){
         var text = $trigger.text();
         var $submenu = $trigger.next('.smag-menu-subitem');
@@ -1904,19 +1904,19 @@ var notifManager;
         attachBigMenu();
         
         $(document).on('environment:changed', function(){
-            manageMenuRwd();
+            //manageMenuRwd();
             attachBigMenu();
         });
 
     });
     $(document).ready(function(){
 		manageStickyheader();
-		manageMenuRwd();        
+		//manageMenuRwd();        
     })
 
     $(window).on('load', function(){
 		manageStickyheader();
-		manageMenuRwd();
+		//manageMenuRwd();
 		$(window).scroll(function(){
 			manageStickyheader();
 		});
