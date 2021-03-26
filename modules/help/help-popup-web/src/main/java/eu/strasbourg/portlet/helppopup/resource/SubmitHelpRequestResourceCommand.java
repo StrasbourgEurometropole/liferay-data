@@ -1,6 +1,8 @@
 package eu.strasbourg.portlet.helppopup.resource;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
@@ -42,9 +44,11 @@ import eu.strasbourg.service.help.service.HelpRequestLocalService;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -158,6 +162,25 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
             sc = ServiceContextFactory.getInstance(request);
             helpRequest = _helpRequestLocalService.createHelpRequest(sc);
             this.helpRequestId = helpRequest.getHelpRequestId();
+
+            // Ajout non lu
+            List<Long> identifiants = new ArrayList<>();
+            AssetCategory nonLu = AssetVocabularyHelper.getCategory("Non lu", sc.getScopeGroupId());
+            AssetVocabulary requestModerationVocab =
+                    AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_REQUEST_MODERATION_STATUS, sc.getScopeGroupId());
+            for (AssetCategory category : requestModerationVocab.getCategories()) {
+                if (category.getName().equalsIgnoreCase("Non lu")) {
+                    nonLu = category;
+                }
+            }
+            if (nonLu != null)
+                identifiants.add(nonLu.getCategoryId());
+            long[] ids = new long[identifiants.size()];
+            for (int i = 0; i < identifiants.size(); i++) {
+                ids[i] = identifiants.get(i);
+            }
+
+            sc.setAssetCategoryIds(ids);
 
             helpRequest.setPhoneNumber(this.phoneNumber);
             helpRequest.setMessage(this.message);
