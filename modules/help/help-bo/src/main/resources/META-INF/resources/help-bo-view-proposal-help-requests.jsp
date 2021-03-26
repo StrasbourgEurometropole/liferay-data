@@ -10,7 +10,7 @@
 
 
 <%-- Header --%>
-<div class="help-bo navbar navbar-default collapse-basic-search" id="iqzh">
+<div class="navbar navbar-default collapse-basic-search" id="iqzh">
 	<div class="container-fluid-1280">
 		<div class="navbar-header visible-xs">
 			<button class="collapsed navbar-toggle navbar-toggle-left navbar-toggle-page-name" data-target="#_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTag_1NavbarCollapse" data-toggle="collapse" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_NavbarBtn" type="button">
@@ -37,7 +37,7 @@
 
 <%-- Body --%>
 <%-- Composant : tableau de visualisation des entites --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="help-bo container-fluid-1280 main-content-body">
 	<aui:form method="post" name="fm">
 		<liferay-ui:search-container id="helpRequestsSearchContainer"
 									 searchContainer="${dc.searchContainer}">
