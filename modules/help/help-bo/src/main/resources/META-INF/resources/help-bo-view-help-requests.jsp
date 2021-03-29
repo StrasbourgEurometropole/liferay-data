@@ -55,8 +55,8 @@
                 <%-- URL : definit le lien vers la page d'edition de l'entite selectionne --%>
                 <liferay-portlet:renderURL varImpl="editHelpProposalURL">
                     <portlet:param name="cmd" value="editHelpProposal" />
-                    <portlet:param name="helpProposalId" value="${helpRequest.helpProposalId}" />
                     <portlet:param name="returnURL" value="${dc.currentURL}" />
+                    <portlet:param name="helpProposalId" value="${helpRequest.helpProposalId}" />
                     <portlet:param name="mvcPath" value="/help-bo-edit-help-proposal.jsp" />
                 </liferay-portlet:renderURL>
 
@@ -81,7 +81,6 @@
                 <liferay-portlet:actionURL name="changeStatusHelpRequest" var="alertHelpRequestURL">
                     <portlet:param name="cmd" value="changeStatusHelpRequest" />
                     <portlet:param name="tab" value="helpRequests" />
-                    <portlet:param name="returnURL" value="${dc.currentURL}" />
                     <portlet:param name="requestModerationStatus" value="Alerte" />
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
                 </liferay-portlet:actionURL>
@@ -90,7 +89,6 @@
                 <liferay-portlet:actionURL name="changeStatusHelpRequest" var="notValidHelpRequestURL">
                     <portlet:param name="cmd" value="changeStatusHelpRequest" />
                     <portlet:param name="tab" value="helpRequests" />
-                    <portlet:param name="returnURL" value="${dc.currentURL}" />
                     <portlet:param name="requestModerationStatus" value="Non-conforme" />
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
                 </liferay-portlet:actionURL>
