@@ -5,6 +5,7 @@
 <liferay-portlet:actionURL name="saveHelpRequest" varImpl="saveHelpRequestURL">
 	<portlet:param name="cmd" value="saveHelpRequest" />
 	<portlet:param name="tab" value="helpSeekers" />
+	<portlet:param name="redirectURL" value="${returnURL}" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>

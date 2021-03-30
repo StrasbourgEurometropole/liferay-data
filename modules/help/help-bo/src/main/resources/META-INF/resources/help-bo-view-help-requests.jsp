@@ -55,7 +55,7 @@
                 <%-- URL : definit le lien vers la page d'edition de l'entite selectionne --%>
                 <liferay-portlet:renderURL varImpl="editHelpProposalURL">
                     <portlet:param name="cmd" value="editHelpProposal" />
-                    <portlet:param name="returnURL" value="${dc.currentURL}" />
+                    <portlet:param name="returnURL" value="${helpRequestsURL}" />
                     <portlet:param name="helpProposalId" value="${helpRequest.helpProposalId}" />
                     <portlet:param name="mvcPath" value="/help-bo-edit-help-proposal.jsp" />
                 </liferay-portlet:renderURL>
@@ -64,7 +64,7 @@
                 <liferay-portlet:renderURL varImpl="editHelpRequestURL">
                     <portlet:param name="cmd" value="editHelpRequest" />
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
-                    <portlet:param name="returnURL" value="${dc.currentURL}" />
+                    <portlet:param name="returnURL" value="${helpRequestsURL}" />
                     <portlet:param name="mvcPath" value="/help-bo-edit-help-request.jsp" />
                 </liferay-portlet:renderURL>
 

@@ -20,6 +20,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.*;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -36,8 +37,10 @@ import java.util.stream.Collectors;
 )
 public class SaveRequestActionCommand implements MVCActionCommand {
 
+    private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
+
     @Override
-    public boolean processAction(ActionRequest request, ActionResponse actionResponse) throws PortletException {
+    public boolean processAction(ActionRequest request, ActionResponse response) {
 
         try {
             // Edition de la demande
@@ -76,8 +79,11 @@ public class SaveRequestActionCommand implements MVCActionCommand {
 
             _helpRequestLocalService.updateHelpRequest(helpRequest, sc);
 
-        } catch (PortalException e) {
-            e.printStackTrace();
+            String redirectURL =  ParamUtil.getString(request, HelpBOConstants.PARAM_REDIRECT_URL);
+            response.sendRedirect(redirectURL);
+
+        } catch (PortalException | IOException e) {
+            log.error(e);
         }
 
         return true;
@@ -91,5 +97,4 @@ public class SaveRequestActionCommand implements MVCActionCommand {
 
     private HelpRequestLocalService _helpRequestLocalService;
 
-    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

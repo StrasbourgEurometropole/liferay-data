@@ -57,6 +57,7 @@ public class HelpBOPortlet extends MVCPortlet {
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
 			portletDisplay.setURLBack(returnURL);
+			renderRequest.setAttribute(HelpBOConstants.PARAM_RETURN_URL, returnURL);
 		}
 
 		// On set le displayContext selon la page sur laquelle on est
