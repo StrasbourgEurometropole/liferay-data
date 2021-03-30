@@ -75,8 +75,6 @@
 @import "blocs/_t_bloc-modal";
 @import "blocs/_t_bloc-filtre";
 @import "blocs/_t_bloc-slider-instagram";
-@import "blocs/_t_bloc_cookie-consent";
-@import "blocs/_t_bloc_cookie-consent-custom";
 @import "blocs/_t_bloc-social-share";
 
 // Style du magnific popup
@@ -86,3 +84,5 @@
 @import "magnificPopup/lightbox";
 
 @import "_liferay-hacks";
+
+@import "override/_tarteaucitron";

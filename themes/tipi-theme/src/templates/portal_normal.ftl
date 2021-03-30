@@ -22,6 +22,8 @@
 	<link rel="stylesheet" href="${images_folder}/../css/sass_main.css">
 	<link rel="stylesheet" href="${images_folder}/../css/lr6/custom.css" />
 	<link rel="stylesheet" href="${images_folder}/../css/tipi-style.css" />
+  <script type="text/javascript" src="/o/tipi-theme/js/libs/tarteaucitron/tarteaucitron.js"></script>
+  <script type="text/javascript" src="/o/tipi-theme/js/tarteaucitron.custom.js"></script>
 
 
 	<@liferay_util["include"] page=top_head_include />

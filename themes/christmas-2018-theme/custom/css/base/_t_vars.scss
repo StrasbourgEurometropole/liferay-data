@@ -234,3 +234,9 @@ $svg-alert: '<svg xmlns="http://www.w3.org/2000/svg" fill="#D5383B" viewBox="0 0
 // BreakPoints
 $break-small: 767;
 $break-large: 1280; // Cette valeur doit être égale à la largeur du container + X pixel. Le passage en tablette se fera dont à X pixel de plus que la largeur du container principal, permettant de ne jamais avoir le contenu collé au bord de l'écran.
+
+// Cookies
+// ==========================================================================
+
+// Colors
+$c_lightgrey: #7E7E7E;

@@ -1,24 +1,17 @@
 // BreakPoints
-$breakpoint_mo_small: 320px;
 $break-small: 767;
 $break-large: 1280; // Cette valeur doit être égale à la largeur du container + X pixel. Le passage en tablette se fera dont à X pixel de plus que la largeur du container principal, permettant de ne jamais avoir le contenu collé au bord de l'écran.
-$breakpoint_portrait: 980px;
 $container-width: 1200;
 
 //~#COLORS
 	$core-color: #31455d;
 	$core-color-access: $core-color;
 	$core-color-light: lighten($core-color,65);
-	$c_main_dark: #2A3D53;
 	$second-color: #46cfc0;
 	$third-color: #fbb52d;
 	$text-basis-color: #5c5c5c;
-	$c_grey_txt: #505050;
 	$success: $core-color;   
 	$error: #ff1818;
-	$c_white: #FFFFFF;
-	$c_grey: #7E7E7E;
-	$c_dark: #000000;
 
 	$crowded-orange: #ff470f;
 	$crowded-green: #40a040;
@@ -58,6 +51,16 @@ $margin-h5-mobile: 10px;
 $icon-color: #595959;
 $icon-color-active: $second-color;
 
-// Width / Height / Spacing
+
+// Cookies
 // ==========================================================================
-$th-nav-height: 80px;
+// Font
+$f_hx: $site-font;
+
+// Colors
+$c_grey: #F5F5F5;  // fond
+$c_main: $second-color; // bouton accepter
+$c_dark: $core-color;  // bouton accepter:hover
+$c_black: #000000;
+$c_white: #FFFFFF;  // bouton refuser
+$c_lightgrey: #7E7E7E; // bouton refuser:hover
