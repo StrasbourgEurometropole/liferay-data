@@ -1,7 +1,11 @@
 /* Police de caractères sur tous les éléments tarteaucitron */
 div#tarteaucitronRoot, .tac_activate {
     * {
-        font-family: $f_hx !important;
+        font-family: $f_c_text !important;
+    }
+
+    button span:not(.tarteaucitronPlus) {
+        font-family: $f_c_btn !important;
     }
 
     /* Suppression icônes coche et croix sur boutons */
@@ -100,6 +104,8 @@ button#tarteaucitronPrivacyUrl {
 
 /* Panneau de personnalisation des cookies */
 div#tarteaucitron {
+    width: 930px;
+
     #tarteaucitronServices .tarteaucitronMainLine,
     #tarteaucitronServices .tarteaucitronMainLine:hover,
     #tarteaucitronInfo,
