@@ -1,5 +1,8 @@
 // Font
 $f_hx: "Helvetica Neue", Helvetica, Arial, sans-serif;
+// Fonts
+$f_c_text: $f_hx;
+$f_c_btn: $f_hx;
 
 // Colors
 $c_grey:  #E7E6D9; // fond
@@ -11,7 +14,11 @@ $c_lightgrey: #7E7E7E;  // bouton refuser:hover
 /* Police de caractères sur tous les éléments tarteaucitron */
 div#tarteaucitronRoot, .tac_activate {
     * {
-        font-family: $f_hx !important;
+        font-family: $f_c_text !important;
+    }
+
+    button span:not(.tarteaucitronPlus) {
+        font-family: $f_c_btn !important;
     }
 
     /* Suppression icônes coche et croix sur boutons */
@@ -117,6 +124,8 @@ button#tarteaucitronPrivacyUrl {
 
 /* Panneau de personnalisation des cookies */
 div#tarteaucitron {
+    width: 930px;
+
     #tarteaucitronServices .tarteaucitronMainLine,
     #tarteaucitronServices .tarteaucitronMainLine:hover,
     #tarteaucitronInfo,
