@@ -83,7 +83,7 @@
 
 		<!-- Magnific Popup core JS file -->
 		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js?languageId=${locale}" charset="utf-8"></script> 
-  <script type="text/javascript" src="${javascript_folder}/libs/tarteaucitron/tarteaucitron.js"></script>
+    <script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
 
     <meta name="twitter:card" content="summary" />
     <#list openGraph?keys as keyOG>
