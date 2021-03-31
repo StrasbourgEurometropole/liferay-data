@@ -21,6 +21,17 @@
         display: flex;
     }
 
+    .container-fluid-1280 .badge-warning {
+        background-color: orange;
+    }
+
+    .container-fluid-1280 .btn-valid .btn-primary.btn-default{
+        background-color: green;
+    }
+
+    .container-fluid-1280 .btn-alert .btn-primary.btn-default{
+        background-color: orange;
+    }
 }
 
 // Centrer "Filtrer par" au même niveau que les sélecteurs suivants

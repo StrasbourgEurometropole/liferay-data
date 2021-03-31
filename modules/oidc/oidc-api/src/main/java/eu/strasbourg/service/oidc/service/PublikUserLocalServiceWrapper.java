@@ -430,6 +430,18 @@ public class PublikUserLocalServiceWrapper
 		return _publikUserLocalService.updatePublikUser(publikUser, sc);
 	}
 
+	/**
+	 * Enregistre ou update l'utilisateur en base
+	 */
+	@Override
+	public void updateUserInfoInDatabase(
+		String internalId, String accessToken, String givenName,
+		String familyName, String email, String photo) {
+
+		_publikUserLocalService.updateUserInfoInDatabase(
+			internalId, accessToken, givenName, familyName, email, photo);
+	}
+
 	@Override
 	public PublikUserLocalService getWrappedService() {
 		return _publikUserLocalService;

@@ -226,6 +226,25 @@ public class HelpRequestLocalServiceWrapper
 			uuid, groupId);
 	}
 
+	/**
+	 * Recherche par mot clés
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.help.model.HelpRequest>
+		findByKeyword(String keyword, long groupId, int start, int end) {
+
+		return _helpRequestLocalService.findByKeyword(
+			keyword, groupId, start, end);
+	}
+
+	/**
+	 * Recherche par mot clés (compte)
+	 */
+	@Override
+	public long findByKeywordCount(String keyword, long groupId) {
+		return _helpRequestLocalService.findByKeywordCount(keyword, groupId);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
@@ -385,6 +404,13 @@ public class HelpRequestLocalServiceWrapper
 		return _helpRequestLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public void reindexById(long helpRequestId)
+		throws com.liferay.portal.kernel.search.SearchException {
+
+		_helpRequestLocalService.reindexById(helpRequestId);
+	}
+
 	/**
 	 * Supprimer une demande d'aide
 	 *
@@ -392,7 +418,8 @@ public class HelpRequestLocalServiceWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.help.model.HelpRequest removeHelpRequest(
-		long helpRequestId) {
+			long helpRequestId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _helpRequestLocalService.removeHelpRequest(helpRequestId);
 	}
@@ -408,6 +435,46 @@ public class HelpRequestLocalServiceWrapper
 		eu.strasbourg.service.help.model.HelpRequest helpRequest) {
 
 		return _helpRequestLocalService.updateHelpRequest(helpRequest);
+	}
+
+	/**
+	 * Met à jour une helpProposal et l'enregistre en base de données
+	 *
+	 * @throws IOException
+	 */
+	@Override
+	public eu.strasbourg.service.help.model.HelpRequest updateHelpRequest(
+			eu.strasbourg.service.help.model.HelpRequest helpRequest,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _helpRequestLocalService.updateHelpRequest(helpRequest, sc);
+	}
+
+	/**
+	 * Met à jour le statut de la helpProposal "manuellement" (pas via le workflow)
+	 */
+	@Override
+	public void updateStatus(
+			eu.strasbourg.service.help.model.HelpRequest helpRequest,
+			int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_helpRequestLocalService.updateStatus(helpRequest, status);
+	}
+
+	/**
+	 * Met à jour le statut de la helpProposal par le framework workflow
+	 */
+	@Override
+	public eu.strasbourg.service.help.model.HelpRequest updateStatus(
+			long userId, long entryId, int status,
+			com.liferay.portal.kernel.service.ServiceContext sc,
+			java.util.Map<String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _helpRequestLocalService.updateStatus(
+			userId, entryId, status, sc, workflowContext);
 	}
 
 	@Override

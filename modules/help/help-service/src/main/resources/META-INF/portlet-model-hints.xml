@@ -65,5 +65,8 @@
 		<field name="agreementSigned1" type="boolean" />
 		<field name="agreementSigned2" type="boolean" />
 		<field name="agreementSigned3" type="boolean" />
+		<field localized="true" name="comment" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 	</model>
 </model-hints>
