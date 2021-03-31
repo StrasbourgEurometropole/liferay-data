@@ -193,8 +193,7 @@
 
       <div class="th-bottom-cta th-v-mobile">
         <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
-        <#if request.session.getAttribute("publik_logged_in")!true>
-        <#else>
+        <#if !request.session.getAttribute("publik_logged_in")!false>
           <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="th-nav-account" title="Connexion">
             <span class="th-picto"></span>MonStrasbourg.eu
           </a>
