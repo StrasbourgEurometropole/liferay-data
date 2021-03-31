@@ -1,9 +1,11 @@
 package eu.strasbourg.utils;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -239,4 +241,14 @@ public class DateHelper {
 		result = spf_FORMAT_GTFS.parse(calendarGTFSDate);
 		return result;
 	}
+
+	/**
+	 * Converti un Timestamp Unix en Date
+	 */
+	public static Date getDateFromUnixTimestamp(long unixTimestamp) {
+		LocalDateTime localDate = LocalDateTime.ofInstant(
+				Instant.ofEpochMilli(unixTimestamp * 1000), ZoneId.systemDefault());
+		return Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant());
+	}
+
 }

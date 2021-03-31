@@ -10,12 +10,14 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.place.model.CacheJson;
 import eu.strasbourg.service.place.model.Historic;
 import eu.strasbourg.service.place.service.CacheJsonLocalServiceUtil;
 import eu.strasbourg.service.place.service.HistoricLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
@@ -64,7 +66,7 @@ public class PlaceApplication extends Application {
 	@Produces("application/json")
 	@Path("/get-places")
 	public Response getPlaces() {
-		return getPlaces(WSConstants.PARAM_LAST_UPDATE_TIME_DEFAULT);
+		return getPlaces("0");
 	}
 
 	@GET
@@ -80,8 +82,8 @@ public class PlaceApplication extends Application {
 		// On transforme la date string en date
 		Date lastUpdateTime;
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-			lastUpdateTime = sdf.parse(lastUpdateTimeString);
+			long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+			lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
 		}catch (Exception e) {
 			return WSResponseUtil.buildErrorResponse(400,"Format de date incorrect");
 		}
@@ -168,8 +170,8 @@ public class PlaceApplication extends Application {
 		// On transforme la date string en date
 		Date lastUpdateTime;
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-			lastUpdateTime = sdf.parse(lastUpdateTimeString);
+			long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+			lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
 		}catch (Exception e) {
 			return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
 		}
