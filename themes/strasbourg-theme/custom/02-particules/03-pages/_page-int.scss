@@ -96,13 +96,13 @@
                 background-size: 35px;
             }
         }
-        margin-bottom: 50px;
+        margin-bottom: 30px;
         @include RWD(mobile){
             margin-bottom: 30px;
         }
     }
     .hat{
-        margin-bottom: 50px;
+        margin-bottom: 30px;
         @include RWD(mobile){
             margin-bottom: 30px;
         }
