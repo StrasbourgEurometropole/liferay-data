@@ -19,7 +19,9 @@ import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.User;
@@ -27,8 +29,11 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.help.model.HelpRequest;
@@ -45,7 +50,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -84,7 +92,8 @@ public class HelpRequestModelImpl
 		{"phoneNumber", Types.VARCHAR}, {"message", Types.CLOB},
 		{"studentCardImageId", Types.BIGINT},
 		{"agreementSigned1", Types.BOOLEAN},
-		{"agreementSigned2", Types.BOOLEAN}, {"agreementSigned3", Types.BOOLEAN}
+		{"agreementSigned2", Types.BOOLEAN},
+		{"agreementSigned3", Types.BOOLEAN}, {"comment_", Types.CLOB}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -111,10 +120,11 @@ public class HelpRequestModelImpl
 		TABLE_COLUMNS_MAP.put("agreementSigned1", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("agreementSigned2", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("agreementSigned3", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("comment_", Types.CLOB);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table help_HelpRequest (uuid_ VARCHAR(75) null,helpRequestId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,publikId VARCHAR(75) null,helpProposalId LONG,phoneNumber VARCHAR(75) null,message TEXT null,studentCardImageId LONG,agreementSigned1 BOOLEAN,agreementSigned2 BOOLEAN,agreementSigned3 BOOLEAN)";
+		"create table help_HelpRequest (uuid_ VARCHAR(75) null,helpRequestId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,publikId VARCHAR(75) null,helpProposalId LONG,phoneNumber VARCHAR(75) null,message TEXT null,studentCardImageId LONG,agreementSigned1 BOOLEAN,agreementSigned2 BOOLEAN,agreementSigned3 BOOLEAN,comment_ TEXT null)";
 
 	public static final String TABLE_SQL_DROP = "drop table help_HelpRequest";
 
@@ -361,6 +371,10 @@ public class HelpRequestModelImpl
 		attributeSetterBiConsumers.put(
 			"agreementSigned3",
 			(BiConsumer<HelpRequest, Boolean>)HelpRequest::setAgreementSigned3);
+		attributeGetterFunctions.put("comment", HelpRequest::getComment);
+		attributeSetterBiConsumers.put(
+			"comment",
+			(BiConsumer<HelpRequest, String>)HelpRequest::setComment);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -708,6 +722,113 @@ public class HelpRequestModelImpl
 	}
 
 	@Override
+	public String getComment() {
+		if (_comment == null) {
+			return "";
+		}
+		else {
+			return _comment;
+		}
+	}
+
+	@Override
+	public String getComment(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getComment(languageId);
+	}
+
+	@Override
+	public String getComment(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getComment(String languageId) {
+		return LocalizationUtil.getLocalization(getComment(), languageId);
+	}
+
+	@Override
+	public String getComment(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getComment(), languageId, useDefault);
+	}
+
+	@Override
+	public String getCommentCurrentLanguageId() {
+		return _commentCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getCommentCurrentValue() {
+		Locale locale = getLocale(_commentCurrentLanguageId);
+
+		return getComment(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getCommentMap() {
+		return LocalizationUtil.getLocalizationMap(getComment());
+	}
+
+	@Override
+	public void setComment(String comment) {
+		_comment = comment;
+	}
+
+	@Override
+	public void setComment(String comment, Locale locale) {
+		setComment(comment, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setComment(
+		String comment, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(comment)) {
+			setComment(
+				LocalizationUtil.updateLocalization(
+					getComment(), "Comment", comment, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setComment(
+				LocalizationUtil.removeLocalization(
+					getComment(), "Comment", languageId));
+		}
+	}
+
+	@Override
+	public void setCommentCurrentLanguageId(String languageId) {
+		_commentCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setCommentMap(Map<Locale, String> commentMap) {
+		setCommentMap(commentMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setCommentMap(
+		Map<Locale, String> commentMap, Locale defaultLocale) {
+
+		if (commentMap == null) {
+			return;
+		}
+
+		setComment(
+			LocalizationUtil.updateLocalization(
+				commentMap, getComment(), "Comment",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
 			PortalUtil.getClassNameId(HelpRequest.class.getName()));
@@ -811,6 +932,72 @@ public class HelpRequestModelImpl
 	}
 
 	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> commentMap = getCommentMap();
+
+		for (Map.Entry<Locale, String> entry : commentMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getComment();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			HelpRequest.class.getName(), getPrimaryKey(), defaultLocale,
+			availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String comment = getComment(defaultLocale);
+
+		if (Validator.isNull(comment)) {
+			setComment(getComment(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setComment(getComment(defaultLocale), defaultLocale, defaultLocale);
+		}
+	}
+
+	@Override
 	public HelpRequest toEscapedModel() {
 		if (_escapedModel == null) {
 			_escapedModel = _escapedModelProxyProviderFunction.apply(
@@ -844,6 +1031,7 @@ public class HelpRequestModelImpl
 		helpRequestImpl.setAgreementSigned1(isAgreementSigned1());
 		helpRequestImpl.setAgreementSigned2(isAgreementSigned2());
 		helpRequestImpl.setAgreementSigned3(isAgreementSigned3());
+		helpRequestImpl.setComment(getComment());
 
 		helpRequestImpl.resetOriginalValues();
 
@@ -1031,6 +1219,14 @@ public class HelpRequestModelImpl
 
 		helpRequestCacheModel.agreementSigned3 = isAgreementSigned3();
 
+		helpRequestCacheModel.comment = getComment();
+
+		String comment = helpRequestCacheModel.comment;
+
+		if ((comment != null) && (comment.length() == 0)) {
+			helpRequestCacheModel.comment = null;
+		}
+
 		return helpRequestCacheModel;
 	}
 
@@ -1131,6 +1327,8 @@ public class HelpRequestModelImpl
 	private boolean _agreementSigned1;
 	private boolean _agreementSigned2;
 	private boolean _agreementSigned3;
+	private String _comment;
+	private String _commentCurrentLanguageId;
 	private long _columnBitmask;
 	private HelpRequest _escapedModel;
 

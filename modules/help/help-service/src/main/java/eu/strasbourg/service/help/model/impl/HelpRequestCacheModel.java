@@ -66,7 +66,7 @@ public class HelpRequestCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -108,6 +108,8 @@ public class HelpRequestCacheModel
 		sb.append(agreementSigned2);
 		sb.append(", agreementSigned3=");
 		sb.append(agreementSigned3);
+		sb.append(", comment=");
+		sb.append(comment);
 		sb.append("}");
 
 		return sb.toString();
@@ -195,6 +197,13 @@ public class HelpRequestCacheModel
 		helpRequestImpl.setAgreementSigned2(agreementSigned2);
 		helpRequestImpl.setAgreementSigned3(agreementSigned3);
 
+		if (comment == null) {
+			helpRequestImpl.setComment("");
+		}
+		else {
+			helpRequestImpl.setComment(comment);
+		}
+
 		helpRequestImpl.resetOriginalValues();
 
 		return helpRequestImpl;
@@ -233,6 +242,7 @@ public class HelpRequestCacheModel
 		agreementSigned2 = objectInput.readBoolean();
 
 		agreementSigned3 = objectInput.readBoolean();
+		comment = objectInput.readUTF();
 	}
 
 	@Override
@@ -305,6 +315,13 @@ public class HelpRequestCacheModel
 		objectOutput.writeBoolean(agreementSigned2);
 
 		objectOutput.writeBoolean(agreementSigned3);
+
+		if (comment == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(comment);
+		}
 	}
 
 	public String uuid;
@@ -327,5 +344,6 @@ public class HelpRequestCacheModel
 	public boolean agreementSigned1;
 	public boolean agreementSigned2;
 	public boolean agreementSigned3;
+	public String comment;
 
 }

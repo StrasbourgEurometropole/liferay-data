@@ -57,6 +57,7 @@ public class HelpBOPortlet extends MVCPortlet {
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
 			portletDisplay.setURLBack(returnURL);
+			renderRequest.setAttribute(HelpBOConstants.PARAM_RETURN_URL, returnURL);
 		}
 
 		// On set le displayContext selon la page sur laquelle on est
@@ -74,6 +75,9 @@ public class HelpBOPortlet extends MVCPortlet {
 			renderRequest.setAttribute("dc", dc);
 		} else if(tab.equals("helpSeekers")) {
 			ViewHelpSeekersDisplayContext dc = new ViewHelpSeekersDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+		} else if(tab.equals("helpRequests")) {
+			ViewHelpRequestsDisplayContext dc = new ViewHelpRequestsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else { // Else, we are on the main list page
 				title = "helpProposals";

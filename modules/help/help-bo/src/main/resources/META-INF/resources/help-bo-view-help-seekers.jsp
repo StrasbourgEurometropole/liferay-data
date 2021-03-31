@@ -90,7 +90,7 @@
 				</liferay-portlet:renderURL>
                 <%-- Colonne : Actions possibles --%>
                 <liferay-ui:search-container-column-text>
-                    <liferay-ui:icon-menu markupView="lexicon">
+                    <liferay-ui:icon-menu markupView="lexicon" showWhenSingleIcon="true">
                         <liferay-ui:icon message="view-help-requests" url="${viewSeekerHelpRequestsURL}" />
 
 						<%--
@@ -99,6 +99,16 @@
 							<liferay-ui:icon message="view-user-profil" url="${dc.getPublikUserEditURL(publikId)}" />
 						</c:if>
 						--%>
+
+						<%-- Suppression des justificatifs de l'etudiant --%>
+						<liferay-portlet:actionURL name="deleteStudentCardImages" var="deleteStudentCardImagesURL">
+							<portlet:param name="cmd" value="deleteStudentCardImages" />
+							<portlet:param name="tab" value="helpSeekers" />
+							<portlet:param name="studentPublikId" value="${helpSeeker.publikUser.publikId}" />
+						</liferay-portlet:actionURL>
+						<c:if test="${dc.hasPermission('EDIT_HELP_REQUEST') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<liferay-ui:icon-delete confirmation="delete-student-ids-confirm" message="${helpSeeker.imagesCount}" url="${deleteStudentCardImagesURL}" />
+						</c:if>
                     </liferay-ui:icon-menu>
                 </liferay-ui:search-container-column-text>
 

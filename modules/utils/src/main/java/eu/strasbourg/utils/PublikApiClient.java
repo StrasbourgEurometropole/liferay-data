@@ -25,7 +25,6 @@ public class PublikApiClient {
 	 *            Identifiant Publik de l'utilisateur
 	 * @param includeDrafts
 	 *            true pour inclure les formulaires "brouillon" de l'utilisateur
-	 * @return
 	 */
 	public static JSONObject getUserForms(String userPublikId, boolean includeDrafts) {
 		String endpoint = "/api/user/forms";
@@ -46,7 +45,6 @@ public class PublikApiClient {
 	 *
 	 * @param userPublikIds
 	 *            Identifiant Publik des utilisateurs
-	 * @return
 	 */
 	public static JSONObject getUsersDeleted(JSONArray userPublikIds) {
 		JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
@@ -220,6 +218,21 @@ public class PublikApiClient {
 			return false;
 		}
 
+	}
+
+	/**
+	 * Retourne l'url de l'image de profil d'un utilisateur
+	 *
+	 * @param userId Publik id
+	 * @return URL
+	 */
+	public static String getUserPhoto(String userId) {
+		if (userId != null && !userId.equals("")) {
+			JSONObject jsonUser = PublikApiClient.getUserDetails(userId);
+			return jsonUser != null ? jsonUser.getString("photo") : "";
+		} else {
+			return "";
+		}
 	}
 
 }

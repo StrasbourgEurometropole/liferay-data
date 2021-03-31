@@ -103,6 +103,9 @@
 		<column name="agreementSigned2" type="boolean" />
 		<column name="agreementSigned3" type="boolean" />
 
+		<!-- Others -->
+		<column name="comment" type="String" localized="true" />
+
 		<!-- Finder methods -->
 		<finder name="PublikId" return-type="Collection" db-index="true">
 			<finder-column name="publikId" />
@@ -118,3 +121,4 @@
 
 	</entity>
 </service-builder>
+

@@ -48,5 +48,7 @@ public class HelpPopUpPortletConstants {
     public static final String ERROR_MESSAGE = "error-message";
     public static final String ERROR_DURING_HELP_PROPOSAL_RESEARCH = "error-during-help-proposal-research";
     public static final String ERROR_EXTENSION = "error-extension";
+    public static final String ERROR_NB_REQUESTS = "error-nb-requests";
+    public static final String ERROR_NB_REQUESTS_TITLE = "error-nb-requests-title";
 
 }

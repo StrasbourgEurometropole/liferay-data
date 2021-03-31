@@ -51,6 +51,7 @@ public class VocabularyNames {
 	public static final String HELP_PROPOSAL_TYPE = "type proposition d'aide";
 	public static final String HELP_PROPOSAL_ACTIVITY_STATUS = "statut activite proposition d'aide";
 	public static final String HELP_PROPOSAL_MODERATION_STATUS = "statut moderation proposition d'aide";
+	public static final String HELP_REQUEST_MODERATION_STATUS = "statut moderation demande d'aide";
 
 	public static final String TYPE_NOEL = "type noel";
 	public static final String TAUX_NOEL = "taux noel";

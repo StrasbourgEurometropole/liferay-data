@@ -8,7 +8,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.model.HelpRequest;
-import eu.strasbourg.service.help.service.HelpProposalLocalService;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -16,7 +15,6 @@ import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
