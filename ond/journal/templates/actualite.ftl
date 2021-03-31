@@ -36,11 +36,11 @@
         <a href="${illustration.getData()}" class="magnific-popup">
       </#if>
       <#if editorialTitle?has_content && copyright?has_content>
-        <img src="${illustration.getData()}" alt="© ${copyright} " title="${editorialTitle}" />
+        <img src="${illustration.getData()}?imagePreview=1" loading="lazy" alt="© ${copyright} " title="${editorialTitle}" />
       <#elseif editorialTitle?has_content >
-        <img src="${illustration.getData()}"  title="${editorialTitle}" />
+        <img src="${illustration.getData()}?imagePreview=1" loading="lazy"  title="${editorialTitle}" />
       <#else>
-        <img src="${illustration.getData()}"  />
+        <img src="${illustration.getData()}?imagePreview=1" loading="lazy"  />
       </#if>
       </a>
       <div class="copyright-caption">
