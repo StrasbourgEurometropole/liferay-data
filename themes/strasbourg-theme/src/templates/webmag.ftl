@@ -41,8 +41,8 @@
 
   </script>
     
-  <header class="smag-header scrolled-hp">
-      <div class="smag-scrolled-search-engine">
+  <header class="smag-header scrolled-hp" id="th-header">
+      <div class="smag-scrolled-search-engine seu-scrolled-search-engine">
           <form action="${homeURL}recherche" method="get" class="smag-search smag-container">
               <button type="submit"></button>
               <label for="main_search_banner" class="sr-only">Rechercher</label>

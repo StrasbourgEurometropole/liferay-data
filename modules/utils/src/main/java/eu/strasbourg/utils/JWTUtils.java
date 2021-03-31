@@ -14,7 +14,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class JWTUtils {
 
-	public static String createJWT(String subClaimValue, int secondsBeforeExpiration) {
+	public static String createJWT(String subClaimValue, int secondsBeforeExpiration, String secret) {
 		try {
 			Date now = new Date();
 			Calendar c = Calendar.getInstance();
@@ -22,7 +22,7 @@ public class JWTUtils {
 	        c.add(Calendar.SECOND, secondsBeforeExpiration);
 	        Date expiresAt = c.getTime();
 
-		    Algorithm algorithm = Algorithm.HMAC256(StrasbourgPropsUtil.getInternalSecret());
+		    Algorithm algorithm = Algorithm.HMAC256(secret);
 		    String token = JWT.create()
 		        .withIssuer(StrasbourgPropsUtil.getInternalIssuer())
 		        .withClaim("sub", subClaimValue)
@@ -38,11 +38,11 @@ public class JWTUtils {
 		}
 	}
 
-	public static boolean checkJWT(String token, String secret, String issuer) {
+	public static boolean checkJWT(String token, String secret, String issuer, int leeway) {
 		try {
 			Algorithm algorithm = Algorithm.HMAC256(secret);
 			JWTVerifier verifier = JWT.require(algorithm)
-					.acceptExpiresAt(60 * 60 * 24).withIssuer(issuer)
+					.acceptExpiresAt(leeway).withIssuer(issuer)
 					.build();
 			verifier.verify(token);
 			return true;
@@ -53,6 +53,10 @@ public class JWTUtils {
 			// Invalid signature/claims
 			return false;
 		}
+	}
+
+	public static boolean checkJWT(String token, String secret, String issuer) {
+		return checkJWT(token, secret, issuer, 60 * 60 * 24);
 	}
 
 	public static String getJWTClaim(String token, String claim, String secret, String issuer) {

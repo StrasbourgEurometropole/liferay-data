@@ -213,3 +213,8 @@ ul, ol{
 .signed-out section .mb-2 {
  display: none;
 }
+
+/* accès au checkbox se souvenir de moi */
+.portlet-login input{
+  -webkit-appearance: auto;
+}

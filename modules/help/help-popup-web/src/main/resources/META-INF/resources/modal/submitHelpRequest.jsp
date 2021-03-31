@@ -173,7 +173,7 @@
 <div class="pro-modal pro-bloc-pcs-form fade" id="<portlet:namespace />modalError" tabindex="-1" role="dialog" aria-labelledby="<portlet:namespace />modalError">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="pro-modal-top">
+            <div class="pro-modal-top modal-error">
                 <h3><liferay-ui:message key='error-submit-request-help'/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 	<span aria-hidden="true"><span class="icon-multiply"></span></span>
@@ -229,6 +229,9 @@
                         resetValuesHelpRequest();
                     }else{
                         $("#<portlet:namespace />modalError h4").text(data.message);
+                        if (data.title){
+                            $("#<portlet:namespace />modalError h3").text(data.title);
+                        }
                         $("#<portlet:namespace />modalError").modal('show');
                     }
                 } else {

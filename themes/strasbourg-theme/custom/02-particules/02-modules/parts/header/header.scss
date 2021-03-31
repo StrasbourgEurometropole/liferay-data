@@ -1,4 +1,4 @@
-.seu header{
+.seu header, .smag-header{
     @extend %organism-header;
 }
 
@@ -7,9 +7,5 @@
 		.seu-nav-top .seu-menu-triggerBox{
         	display: none;
 		}
-
-		.seu-nav-bottom {
-		    display: block;
-    	}
     }
 }

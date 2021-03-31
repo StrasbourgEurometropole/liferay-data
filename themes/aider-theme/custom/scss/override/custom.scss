@@ -653,3 +653,15 @@ div#tarteaucitron #tarteaucitronServices .tarteaucitronHidden {
 /**
  * END : Tarteaucitron
  */
+ 
+/* permettre l'accès à la checkbox se souvenir de moi */
+.portlet-login fieldset {
+	> div {
+		input {
+			display: block;
+		}
+		label:before {
+			content: none;
+		}
+	}
+}

@@ -408,6 +408,17 @@ public class PublikUserLocalServiceUtil {
 		return getService().updatePublikUser(publikUser, sc);
 	}
 
+	/**
+	 * Enregistre ou update l'utilisateur en base
+	 */
+	public static void updateUserInfoInDatabase(
+		String internalId, String accessToken, String givenName,
+		String familyName, String email, String photo) {
+
+		getService().updateUserInfoInDatabase(
+			internalId, accessToken, givenName, familyName, email, photo);
+	}
+
 	public static PublikUserLocalService getService() {
 		return _serviceTracker.getService();
 	}

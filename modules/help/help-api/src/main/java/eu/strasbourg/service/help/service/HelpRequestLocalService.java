@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -38,6 +39,7 @@ import eu.strasbourg.service.help.model.HelpRequest;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -198,6 +200,17 @@ public interface HelpRequestLocalService
 	public HelpRequest fetchHelpRequestByUuidAndGroupId(
 		String uuid, long groupId);
 
+	/**
+	 * Recherche par mot clés
+	 */
+	public List<HelpRequest> findByKeyword(
+		String keyword, long groupId, int start, int end);
+
+	/**
+	 * Recherche par mot clés (compte)
+	 */
+	public long findByKeywordCount(String keyword, long groupId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -303,12 +316,16 @@ public interface HelpRequestLocalService
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public void reindexById(long helpRequestId) throws SearchException;
+
 	/**
 	 * Supprimer une demande d'aide
 	 *
 	 * @param helpRequestId Id de la demande d'aide
 	 */
-	public HelpRequest removeHelpRequest(long helpRequestId);
+	public HelpRequest removeHelpRequest(long helpRequestId)
+		throws PortalException;
 
 	/**
 	 * Updates the help request in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -318,5 +335,28 @@ public interface HelpRequestLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public HelpRequest updateHelpRequest(HelpRequest helpRequest);
+
+	/**
+	 * Met à jour une helpProposal et l'enregistre en base de données
+	 *
+	 * @throws IOException
+	 */
+	public HelpRequest updateHelpRequest(
+			HelpRequest helpRequest, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	 * Met à jour le statut de la helpProposal "manuellement" (pas via le workflow)
+	 */
+	public void updateStatus(HelpRequest helpRequest, int status)
+		throws PortalException;
+
+	/**
+	 * Met à jour le statut de la helpProposal par le framework workflow
+	 */
+	public HelpRequest updateStatus(
+			long userId, long entryId, int status, ServiceContext sc,
+			Map<String, Serializable> workflowContext)
+		throws PortalException;
 
 }
