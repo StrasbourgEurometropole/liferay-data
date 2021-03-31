@@ -74,7 +74,7 @@ tarteaucitron.init({
 
 });
 
-// Service Google Analytics (gtag.js)
-tarteaucitron.user.gtagUa = 'G-RQF81GVH8X';
-tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */ };
-(tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+// Service Google Analytics (universal)
+tarteaucitron.user.analyticsUa = 'UA-66778350-1'; // Ne pas oublier de vider le champ Identifiant Google Analytics dans les paramètres avancés du site
+tarteaucitron.user.analyticsMore = function () {  };
+(tarteaucitron.job = tarteaucitron.job || []).push('analytics');
