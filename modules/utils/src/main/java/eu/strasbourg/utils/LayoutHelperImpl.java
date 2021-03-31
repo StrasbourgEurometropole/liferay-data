@@ -1,5 +1,11 @@
 package eu.strasbourg.utils;
 
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.theme.NavItem;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import eu.strasbourg.utils.api.LayoutHelperService;
+import org.osgi.service.component.annotations.Component;
+
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -9,13 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.model.Layout;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-
-import eu.strasbourg.utils.api.LayoutHelperService;
 
 /**
  * Implémentation du service LayoutHelperService N'est qu'une couche accessible
@@ -105,4 +104,21 @@ public class LayoutHelperImpl implements LayoutHelperService {
     public String getPublikIssuerURL() {
         return StrasbourgPropsUtil.getPublikIssuer();
     }
+
+	/**
+	 * Retourne true si la page a des enfants visibles. False sinon.
+	 */
+	@Override
+	public Boolean hasQuickAccess(NavItem navItem) throws Exception {
+		boolean hasQuickAccess = false;
+
+		for (NavItem subLayout : navItem.getChildren()) {
+			if (subLayout.getName().equals("Raccourcis") || subLayout.getName().equals("Accès rapides")) {
+				hasQuickAccess = true;
+				break;
+			}
+		}
+
+		return hasQuickAccess;
+	}
 }

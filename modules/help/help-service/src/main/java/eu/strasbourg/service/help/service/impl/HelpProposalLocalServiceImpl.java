@@ -32,6 +32,8 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.help.model.HelpProposal;
+import eu.strasbourg.service.help.model.HelpRequest;
+import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.service.help.service.base.HelpProposalLocalServiceBaseImpl;
 import org.osgi.service.component.annotations.Component;
 
@@ -200,6 +202,12 @@ public class HelpProposalLocalServiceImpl
 	public HelpProposal removeHelpProposal(long helpProposalId) throws PortalException {
 		AssetEntry entry = AssetEntryLocalServiceUtil
 				.fetchEntry(HelpProposal.class.getName(), helpProposalId);
+
+		// Suppression des demandes associees
+		List<HelpRequest> proposalRequests = HelpRequestLocalServiceUtil.getByHelpProposalId(helpProposalId);
+		for (HelpRequest helpRequest : proposalRequests) {
+			HelpRequestLocalServiceUtil.removeHelpRequest(helpRequest.getHelpRequestId());
+		}
 
 		if (entry != null) {
 			// Delete the link with categories

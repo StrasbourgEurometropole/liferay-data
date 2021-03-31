@@ -85,12 +85,16 @@ public class HelpPopupPortlet extends MVCPortlet {
 				user = PublikApiClient.getUserDetails(publikID);
 
 				//For all keys, if null replace with ""
-				/*for (String key : user.keySet()) {
+				// Quand le JsonObject contient null il va renvoyer "" par getString
+				// Comme la JSP ne gere pas les valeurs à null dans le JSONObject,
+				// on remplace null par "" dans les champs, pour éviter que le formulaire
+				// soit prérempli avec "null".
+				for (String key : user.keySet()) {
 					String value = user.getString(key);
 					if (value.equals("")) {
 						user.put(key, "");
 					}
-				}*/
+				}
 			}
 
 			long groupId = themeDisplay.getLayout().getGroupId();

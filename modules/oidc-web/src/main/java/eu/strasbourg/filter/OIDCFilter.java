@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -21,10 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.liferay.portal.kernel.util.*;
+import eu.strasbourg.utils.JSONHelper;
 import org.osgi.service.component.annotations.Component;
 
-import com.liferay.portal.kernel.json.JSONException;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -169,7 +167,7 @@ public class OIDCFilter extends BaseFilter {
                             StrasbourgPropsUtil.getPublikIssuer());
                     email = JWTUtils.getJWTClaim(jwt, "email", StrasbourgPropsUtil.getPublikClientSecret(),
                             StrasbourgPropsUtil.getPublikIssuer());
-                    photo = this.getUserPhoto(internalId);
+                    photo = PublikApiClient.getUserPhoto(internalId);
 
                     // Recuperation des donnees inherantes a la plateforme participative
                     PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
@@ -180,7 +178,9 @@ public class OIDCFilter extends BaseFilter {
 
                     // On crée un nouveau jwt signé internalement pour y mettre
                     // l'id utilisateur
-                    String internalJwtToken = JWTUtils.createJWT(internalId, 60 * 60 * 24);
+                    String internalJwtToken = JWTUtils.createJWT(
+                            internalId, 60 * 60 * 24,
+                            StrasbourgPropsUtil.getInternalSecret());
                     // On l'enregistre dans un cookie
                     createCookie(request, response, "jwt_" + StrasbourgPropsUtil.getEnvironment(), internalJwtToken);
 
@@ -189,7 +189,7 @@ public class OIDCFilter extends BaseFilter {
                             internalId, email, hasPactSigned, isBanish, photo);
 
                     // Et on update la base
-                    updateUserInfoInDatabase(internalId, accessToken, givenName,
+                    PublikUserLocalServiceUtil.updateUserInfoInDatabase(internalId, accessToken, givenName,
                             familyName, email, photo);
                 }
             }
@@ -289,11 +289,11 @@ public class OIDCFilter extends BaseFilter {
         // Résultat
         try {
             InputStream is = connection.getInputStream();
-            return readJsonFromInputStream(is);
+            return JSONHelper.readJsonFromInputStream(is);
         } catch (Exception ex) {
             BufferedReader rd = new BufferedReader(
                     new InputStreamReader(connection.getErrorStream(), Charset.forName("UTF-8")));
-            String str = readAll(rd);
+            String str = JSONHelper.readAll(rd);
             System.out.println(str);
             return null;
         }
@@ -390,41 +390,6 @@ public class OIDCFilter extends BaseFilter {
             }
         }
         return cookieValue;
-    }
-
-    private JSONObject readJsonFromInputStream(InputStream is) throws IOException, JSONException {
-        try {
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-            String jsonText = readAll(rd);
-            JSONObject json = JSONFactoryUtil.createJSONObject(jsonText);
-            return json;
-        } finally {
-            is.close();
-        }
-    }
-
-    private String readAll(Reader rd) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        int cp;
-        while ((cp = rd.read()) != -1) {
-            sb.append((char) cp);
-        }
-        return sb.toString();
-    }
-
-    /**
-     * Retourne l'url de l'image de profil d'un utilisateur
-     *
-     * @param userId Publik id
-     * @return URL
-     */
-    private String getUserPhoto(String userId) {
-        if (userId != null && !userId.equals("")) {
-            JSONObject jsonUser = PublikApiClient.getUserDetails(userId);
-            return jsonUser != null ? jsonUser.getString("photo") : "";
-        } else {
-            return "";
-        }
     }
 
     /**

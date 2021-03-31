@@ -295,37 +295,33 @@ public class FileEntryHelper {
 	 * @param nomRepertoireVocabulaire ex: Catégorie de lieux
 	 * @param nomRepertoire ex: CSMap
 	 */
-	public static Map<String, DLFileEntry> getPictoForVocabulary( String nomRepertoireVocabulaire, String nomRepertoire){
+	public static Map<String, DLFileEntry> getPictoForVocabulary( String nomRepertoireVocabulaire, String nomRepertoire)
+			throws PortalException {
 
 		Map<String, DLFileEntry> map = new TreeMap<>();
 		if (nomRepertoireVocabulaire != null && nomRepertoire != null) {
-			try {
-				long companyId = PortalUtil.getDefaultCompanyId();
-				long companyGroupId = CompanyLocalServiceUtil.getCompany(companyId).getGroupId();
-				DLFolder pictosFolder = DLFolderLocalServiceUtil
-						.getFolder(companyGroupId, 0, "Pictos");
+			long companyId = PortalUtil.getDefaultCompanyId();
+			long companyGroupId = CompanyLocalServiceUtil.getCompany(companyId).getGroupId();
+			DLFolder pictosFolder = DLFolderLocalServiceUtil
+					.getFolder(companyGroupId, 0, "Pictos");
 
-				if (pictosFolder != null) {
-					DLFolder vocabularyFolder = DLFolderLocalServiceUtil
-							.getFolder(companyGroupId, pictosFolder.getFolderId(), nomRepertoireVocabulaire);
+			if (pictosFolder != null) {
+				DLFolder vocabularyFolder = DLFolderLocalServiceUtil
+						.getFolder(companyGroupId, pictosFolder.getFolderId(), nomRepertoireVocabulaire);
 
-					if (vocabularyFolder != null) {
-						DLFolder folder = DLFolderLocalServiceUtil
-								.getFolder(companyGroupId, vocabularyFolder.getFolderId(), nomRepertoire);
+				if (vocabularyFolder != null) {
+					DLFolder folder = DLFolderLocalServiceUtil
+							.getFolder(companyGroupId, vocabularyFolder.getFolderId(), nomRepertoire);
 
-						if (folder != null) {
-							// Ajoute les fichiers de la rubrique qui ne sont pas dans une sous rubrique
-							List<DLFileEntry> files = DLFileEntryLocalServiceUtil.getFileEntries(companyGroupId, folder.getFolderId());
+					if (folder != null) {
+						// Ajoute les fichiers de la rubrique qui ne sont pas dans une sous rubrique
+						List<DLFileEntry> files = DLFileEntryLocalServiceUtil.getFileEntries(companyGroupId, folder.getFolderId());
 
-							for (DLFileEntry file : files) {
-								map.put(file.getTitle(), file);
-							}
+						for (DLFileEntry file : files) {
+							map.put(file.getTitle(), file);
 						}
 					}
 				}
-
-			} catch (PortalException e) {
-				_log.error("Erreur pendant la récupération des répertoires des pictos", e);
 			}
 		}
 
