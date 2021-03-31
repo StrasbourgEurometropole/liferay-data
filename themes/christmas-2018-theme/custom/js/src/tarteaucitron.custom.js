@@ -90,3 +90,7 @@ tarteaucitron.user.analyticsMore = function () {  };
 // Service Facebook Pixel
 tarteaucitron.user.facebookpixelId = '1023621684487107'; tarteaucitron.user.facebookpixelMore = function () { /* add here your optionnal facebook pixel function */ };
 (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
+
+// Service reCAPTCHA
+tarteaucitron.user.recaptchaapi = '6LeGvPkSAAAAAFcWK3UVF6zPlAxGUKBq3xaR5Xi6';
+(tarteaucitron.job = tarteaucitron.job || []).push('recaptcha');
