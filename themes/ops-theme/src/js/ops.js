@@ -4991,11 +4991,11 @@ $('.ops-wrapper-video').each(function () {
                 elem = vidContainer.find('.' + plateforme + '_player');
                 elem = elem[0];
 
-                /*if (tarteaucitron.serviceAllowed(plateforme) == true) {
+                if (tarteaucitron.serviceAllowed(plateforme) == true) {
                     elem.innerHTML = tarteaucitron.services[plateforme].jsOnElement(elem);
                 } else {
                     tarteaucitron.services[plateforme].fallback();
-                }*/
+                }
 
                 setTimeout(function () {
                     mask.addClass('hide');
@@ -5011,11 +5011,11 @@ $('.ops-wrapper-video').each(function () {
             elem = vidContainer.find('.' + plateforme + '_player');
             elem = elem[0];
 
-            /*if (tarteaucitron.serviceAllowed(plateforme) == true) {
+            if (tarteaucitron.serviceAllowed(plateforme) == true) {
                 elem.innerHTML = tarteaucitron.services[plateforme].jsOnElement(elem);
             } else {
                 tarteaucitron.services[plateforme].fallback();
-            }*/
+            }
         }
     }
 });
@@ -5103,10 +5103,6 @@ tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */
 (tarteaucitron.job = tarteaucitron.job || []).push('youtube');
 (tarteaucitron.job = tarteaucitron.job || []).push('vimeo');
 (tarteaucitron.job = tarteaucitron.job || []).push('dailymotion');
-
-(tarteaucitron.job = tarteaucitron.job || []).push('facebook');
-
-
 
 function CitronVideoHtml(id, plateforme, autoplay, mute) {
     return '<div class="tac_player ' + plateforme + '_player" videoID="' + id + '" width="1280px" theme="dark" height="auto" showinfo="0" controls="0" rel="0" autoplay=' + autoplay +'" mute="' + mute + '"></div>';

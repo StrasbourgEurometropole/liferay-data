@@ -17,7 +17,7 @@
 	<@liferay_util["include"] page=top_head_include />
 
 	<link type="text/css" rel="stylesheet" href="/o/ops-theme/css/ops.css">
-  <script type="text/javascript" src="/o/ops-theme/js/libs/tarteaucitron/tarteaucitron.js"></script>
+  	<script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
 	<title>${the_title?replace('-', '|')}</title>
 	
 </head>
