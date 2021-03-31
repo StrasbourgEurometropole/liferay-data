@@ -164,6 +164,7 @@ $f_spe: 'latosemibold', Arial, sans-serif;
 $c_main: #00aeef;
 $c_sub: #32455c;
 $c_orange: #fbac28;
+$c_lightgrey: #7E7E7E;
 $c_grey: #3a3a3a;
 $c_darkgrey: #343433;
 $c_txt: #000;
@@ -211,3 +212,9 @@ $breakpoint_paysage: 1024px; // taille ipad
 $breakpoint_portrait: 992px;
 $breakpoint_mo: 767px;
 $breakpoint_mo_small: 360px;
+
+// Cookies
+// ==========================================================================
+// Fonts
+$f_c_text: $f_hx;
+$f_c_btn: $f_hx;

@@ -427,13 +427,13 @@ public class VideoImpl extends VideoBaseImpl {
             // vidéo embed youtube, dailymotion ou vimeo
             player = videoURL;
         } else {
-            String codeEmbed = getEmbedURL(site, videoURL);
+            String videoId = getVideoId(site, videoURL);
             if (site.equals("dailymotion")) {
-                player = "<iframe src=\"" + codeEmbed + "\" width=\"auto\" height=\"auto\" frameborder=\"0\" allowfullscreen></iframe>";
+                player = "<div class=\"dailymotion_player\" videoID=\"" + videoId + "\" autoplay=\"0\"></div>";
             } else if (site.equals("youtube")) {
-                player = "<iframe src=\"" + codeEmbed + "\" id=\"youtubePlayer\" width=\"auto\" height=\"auto\" frameborder=\"0\" allowfullscreen></iframe>";
+                player = "<div class=\"youtube_player\" videoID=\"" + videoId + "\"controls=\"1\" autoplay=\"0\" mute=\"0\"></div>";
             } else if (site.equals("vimeo")) {
-                player = "<iframe src=\"" + codeEmbed + "\" width=\"auto\" height=\"auto\" frameborder=\"0\" allowfullscreen></iframe>";
+                player = "<div class=\"vimeo_player\" videoID=\"" + videoId + "\"></div>";
             }
         }
 

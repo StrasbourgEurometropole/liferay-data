@@ -268,6 +268,8 @@
     <script type="text/javascript" src="${javascript_folder}/environment.js" charset="utf-8"></script>
     <script type="text/javascript" src="${javascript_folder}/social-share.js" charset="utf-8"></script>
     <script type="text/javascript" src="${javascript_folder}/based.js" charset="utf-8"></script>
+  	<script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
+    <script type="text/javascript" src="${javascript_folder}/tarteaucitron.custom.js" charset="utf-8"></script>
 
     <script type="text/javascript">
         window.onload = function(){

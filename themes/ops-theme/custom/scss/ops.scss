@@ -19,8 +19,6 @@
 @import "libs/selectric";
 @import "libs/selectric-custom";
 @import "libs/icomoon";
-@import "libs/tarteaucitron";
-@import "libs/tarteaucitron_custom";
 @import "libs/leaflet";
 
 
@@ -82,3 +80,4 @@
 // Style override
 // ==========================================================================
 @import "override/custom";
+@import "override/tarteaucitron";

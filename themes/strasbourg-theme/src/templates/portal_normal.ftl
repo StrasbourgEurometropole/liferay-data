@@ -19,6 +19,7 @@
 
     <!-- Magnific Popup core JS file -->
     <script type="text/javascript" src="/o/strasbourg-theme/js/lightbox.js" charset="utf-8"></script> 
+  	<script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
 
     <title>${the_title?replace('-', '|')}</title>
 

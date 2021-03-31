@@ -14,6 +14,8 @@
   <@liferay_util["include"] page=top_head_include />
   
   <link rel="Shortcut Icon" type="image/png" href="${themeDisplay.siteGroup.expandoBridge.getAttribute('Icone single-page-theme (bib, see, 5eme-lieu)')}" />
+  <script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
+  <script type="text/javascript" src="/o/single-page-theme/js/tarteaucitron.custom.js"></script>
 </head>
 <body class="${css_class}">
   <@liferay_ui["quick-access"] contentId="#main-content" />

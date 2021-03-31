@@ -143,3 +143,16 @@ $breakpoint_paysage: 1024px; // taille ipad
 $breakpoint_portrait: 980px;
 $breakpoint_mo: 599px;
 $breakpoint_mo_small: 320px;
+
+// Cookies
+// ==========================================================================
+// Font
+$f_c_text: $f_txt;
+$f_c_btn: $f_txt;
+
+// Colors
+$c_c_grey: $c_light;  // fond
+$c_c_main: $c_main;  // bouton accepter
+$c_c_dark: $c_dark;  // bouton accepter:hover
+$c_c_white: $c_white;  // bouton refuser
+$c_c_lightgrey: #7E7E7E  // bouton refuser:hover
