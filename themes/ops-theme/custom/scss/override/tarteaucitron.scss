@@ -16,7 +16,7 @@ div#tarteaucitronRoot, .tac_activate {
 
     /* Conteneur Bandeau cookies */
     #tarteaucitronAlertBig {
-        background: $c_grey;
+        background: $c_c_grey;
         padding: 20px calc(50% - 600px);
         width: auto;
     }
@@ -60,30 +60,30 @@ div.tac_activate .tarteaucitronAllow{
 #tarteaucitronRoot #tarteaucitronAlertBig {
     /* Bouton accepter */
     #tarteaucitronPersonalize2 {
-        background-color: $c_main;
-        color: $c_dark;
+        background-color: $c_c_main;
+        color: $c_c_dark;
 
         &:hover {
-            background-color: $c_dark;
-            color: $c_white;
+            background-color: $c_c_dark;
+            color: $c_c_white;
         }
     }
     
     /* Bouton refuser */
     #tarteaucitronAllDenied2 {
-        background-color: $c_white;
-        color: $c_lightgrey;
+        background-color: $c_c_white;
+        color: $c_c_lightgrey;
     
         &:hover {
-            background-color: $c_lightgrey;
-            color: $c_white;
+            background-color: $c_c_lightgrey;
+            color: $c_c_white;
         }
     }
     
     /* Bouton personnaliser */
     #tarteaucitronCloseAlert {
         background-color: transparent;
-        color:$c_dark;
+        color:$c_c_dark;
         text-decoration-line: underline;
         text-transform: none;
         padding: 0px;
@@ -93,7 +93,7 @@ div.tac_activate .tarteaucitronAllow{
         }
     
         &:hover {
-            color: $c_lightgrey;
+            color: c_lightgrey;
         }
     }
 
@@ -101,7 +101,7 @@ div.tac_activate .tarteaucitronAllow{
     #tarteaucitronPrivacyUrlDialog, 
     #tarteaucitronDisclaimerAlert, 
     #tarteaucitronDisclaimerAlert strong{
-        color: $c_dark;
+        color: $c_c_dark;
     }
 }
 
@@ -119,7 +119,7 @@ div#tarteaucitron {
     #tarteaucitronInfo,
     #tarteaucitronClosePanel {
         border: none;
-        background: $c_grey;
+        background: $c_c_grey;
     }
 
     .tarteaucitronBorder {
@@ -153,28 +153,28 @@ div#tarteaucitron {
     
         .tarteaucitronLine .tarteaucitronAsk .tarteaucitronAllow,
         #tarteaucitronAllAllowed.tarteaucitronIsSelected {
-            background-color: $c_main;
-            color: $c_dark;
+            background-color: $c_c_main;
+            color: $c_c_dark;
 
             &:hover {
-                background-color: $c_dark;
-                color: $c_white;
+                background-color: $c_c_dark;
+                color: $c_c_white;
             }
         }
         
         .tarteaucitronLine .tarteaucitronAsk .tarteaucitronDeny,
         #tarteaucitronAllDenied.tarteaucitronIsSelected {
-            background-color: $c_white;
-            color: $c_lightgrey;
+            background-color: $c_c_white;
+            color: $c_c_lightgrey;
 
             &:hover {
-                background-color: $c_lightgrey;
-                color: $c_white;
+                background-color: $c_c_lightgrey;
+                color: $c_c_white;
             }
         }
         
         .tarteaucitronTitle button {
-            background-color: $c_dark;
+            background-color: $c_c_dark;
         }
         
         .tarteaucitronLine {
@@ -195,7 +195,7 @@ div#tarteaucitron #tarteaucitronClosePanel,
 div#tarteaucitron #tarteaucitronInfo,
 div#tarteaucitron #tarteaucitronPrivacyUrlDialog,
 #tarteaucitronRoot .tarteaucitronName .tarteaucitronH2 {
-    color: $c_dark;
+    color: $c_c_dark;
 }
 #tarteaucitronClosePanel {
     transform: translate(-18px,21px);
@@ -213,12 +213,12 @@ div.tac_activate {
     padding-top: 25px;
 
     .tac_float .tarteaucitronAllow{
-        background-color: $c_main;
-        color: $c_dark;
+        background-color: $c_c_main;
+        color: $c_c_dark;
 
         &:hover {
-            background-color: $c_dark;
-            color: $c_white;
+            background-color: $c_c_dark;
+            color: $c_c_white;
         }
     }
 }

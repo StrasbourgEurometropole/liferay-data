@@ -5097,12 +5097,17 @@ tarteaucitron.init({
 });
 
 // Service Google Analytics (gtag.js)
-tarteaucitron.user.gtagUa = 'G-RQF81GVH8X';
-tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */ };
-(tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+/*tarteaucitron.user.gtagUa = 'UA-32590640-1';
+tarteaucitron.user.gtagMore = function () { };
+(tarteaucitron.job = tarteaucitron.job || []).push('gtag');*/
+
+// Service Google Analytics (universal)
+tarteaucitron.user.analyticsUa = 'UA-32590640-1'; // Ne pas oublier de vider le champ Identifiant Google Analytics dans les paramètres avancés du site
+tarteaucitron.user.analyticsMore = function () {  };
+(tarteaucitron.job = tarteaucitron.job || []).push('analytics');
+
+// Service Youtube
 (tarteaucitron.job = tarteaucitron.job || []).push('youtube');
-(tarteaucitron.job = tarteaucitron.job || []).push('vimeo');
-(tarteaucitron.job = tarteaucitron.job || []).push('dailymotion');
 
 function CitronVideoHtml(id, plateforme, autoplay, mute) {
     return '<div class="tac_player ' + plateforme + '_player" videoID="' + id + '" width="1280px" theme="dark" height="auto" showinfo="0" controls="0" rel="0" autoplay=' + autoplay +'" mute="' + mute + '"></div>';
