@@ -55,3 +55,18 @@ $margin-h5-mobile: 10px;
 // Map engine
 $icon-color: #595959;
 $icon-color-active: $second-color;
+
+
+// Cookies
+// ==========================================================================
+// Font
+$f_c_text: $site-font;
+$f_c_btn: $site-font;
+
+// Colors
+$c_c_grey: #F5F5F5;  // fond
+$c_c_main: $second-color; // bouton accepter
+$c_c_dark: $core-color;  // bouton accepter:hover
+$c_c_black: #000000;
+$c_c_white: #FFFFFF;  // bouton refuser
+$c_c_lightgrey: #7E7E7E; // bouton refuser:hover
