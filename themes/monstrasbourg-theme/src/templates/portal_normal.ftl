@@ -43,6 +43,7 @@
    
   <link type="text/css" rel="stylesheet" href="/o/monstrasbourg-theme/css/strasbourg.css">
   <script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
+  <script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
   <title>${the_title?replace('-', '|')}</title>
 </head>
 <#assign isHome = layout.getFriendlyURL() == "/accueil" />

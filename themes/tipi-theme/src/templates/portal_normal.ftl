@@ -23,6 +23,7 @@
 	<link rel="stylesheet" href="${images_folder}/../css/lr6/custom.css" />
 	<link rel="stylesheet" href="${images_folder}/../css/tipi-style.css" />
   	<script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
+  	<script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
   	<script type="text/javascript" src="/o/tipi-theme/js/tarteaucitron.custom.js"></script>
 
 

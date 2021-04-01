@@ -20,6 +20,7 @@
 	<link rel="icon" type="image/png" href="${images_folder}/logo/favicon.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   	<script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
+  	<script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
   	<script type="text/javascript" src="${javascript_folder}/tarteaucitron.custom.js"></script>
 </head>
 
