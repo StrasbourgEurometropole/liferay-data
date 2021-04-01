@@ -73,3 +73,5 @@ tarteaucitron.init({
     "mandatory": true, /* Show a message about mandatory cookies */
 
 });
+
+tarteaucitron.user.recaptchaapi = '6LeGvPkSAAAAAFcWK3UVF6zPlAxGUKBq3xaR5Xi6';
