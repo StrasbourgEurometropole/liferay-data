@@ -11,6 +11,8 @@ switch (window.tarteaucitronForceLanguage) {
             "denyAll" : "REFUSER TOUS LES COOKIES",
             "personalize" : "En savoir plus et personnaliser",
             "privacyUrl" : "En savoir plus sur la gestion des cookies",
+            "allow" : "Accepter",
+            "deny" : "Refuser",
         };
         break;
     case 'de':
@@ -21,6 +23,8 @@ switch (window.tarteaucitronForceLanguage) {
             "denyAll" : "Cookies ablehnen",
             "personalize" : "Mehr Informationen & Cookies-Einstellungen",
             "privacyUrl" : "Mehr Informationen über Cookies-Einstellungen",
+            "allow" : "Accept",
+            "deny" : "Decline",
         };
         break;
     case 'en':
@@ -32,6 +36,8 @@ switch (window.tarteaucitronForceLanguage) {
             "denyAll" : "DECLINE ALL COOKIES",
             "personalize" : "Learn more & settings",
             "privacyUrl" : "Learn more about cookie management",
+            "allow" : "Zulassen",
+            "deny" : "Ablehnen",
         };
 }
 
