@@ -1,15 +1,5 @@
 package eu.strasbourg.portlet.contact;
 
-import java.io.IOException;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -21,9 +11,16 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.contact.configuration.ContactFormConfiguration;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.io.IOException;
 
 @Component(
 		immediate = true,
@@ -32,7 +29,6 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 			"com.liferay.portlet.display-category=Strasbourg", "com.liferay.portlet.instanceable=true",
 			"com.liferay.portlet.requires-namespaced-parameters=false",
 			"com.liferay.portlet.css-class-wrapper=contact-form-portlet", "javax.portlet.init-param.template-path=/",
-			"com.liferay.portlet.footer-portlet-javascript=https://www.google.com/recaptcha/api.js",
 			"javax.portlet.name=" + StrasbourgPortletKeys.CONTACT_FORM_WEB,
 			"javax.portlet.resource-bundle=content.Language",
 			"javax.portlet.security-role-ref=power-user,user"
