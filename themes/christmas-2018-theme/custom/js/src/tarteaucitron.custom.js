@@ -16,5 +16,4 @@ tarteaucitron.user.facebookpixelId = '1023621684487107'; tarteaucitron.user.face
 (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
 
 // Service reCAPTCHA
-tarteaucitron.user.recaptchaapi = '6LeGvPkSAAAAAFcWK3UVF6zPlAxGUKBq3xaR5Xi6';
 (tarteaucitron.job = tarteaucitron.job || []).push('recaptcha');
