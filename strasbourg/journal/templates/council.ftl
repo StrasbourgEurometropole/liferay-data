@@ -15,7 +15,7 @@
     <#if videoUrl.getData()?has_content>
         <div class="seu-container">
             <div id="iframe-wrapper">
-                <div class="tac_iframecreacast" allowfullscreen="allowfullscreen" scrolling="yes" data-url="${videoUrl.getData()}" width="100%" height="1000px" frameborder="0"> </div>
+                <iframe  scrolling="yes" height="1000px" frameborder="0" allowfullscreen  src="${videoUrl.getData()}"></iframe>
             </div>
         </div>
     </#if>
