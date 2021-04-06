@@ -16,34 +16,4 @@ tarteaucitron.user.analyticsMore = function () {  };
 (tarteaucitron.job = tarteaucitron.job || []).push('recaptcha');
 
 // Service custom : Creacast
-tarteaucitron.services.iframecreacast = {
-    "key": "iframecreacast",
-    "type": "video",
-    "name": "Creacast",
-    "uri": "",
-    "needConsent": true,
-    "cookies": ['__utm*'],
-    "js": function () {
-      "use strict";
-      tarteaucitron.fallback(['tac_iframecreacast'], function (x) {
-          var video_url = x.getAttribute("videoURL"),
-              video_frame;
-  
-          if (video_url === undefined) {
-              return "";
-          }
-          video_frame = '<iframe  scrolling="yes" height="1000px" frameborder="0" allowfullscreen  src="' + video_url + '"></iframe>';
-          return video_frame;
-      });
-    },
-    "fallback": function () {
-      "use strict";
-      var id = 'iframecreacast';
-      tarteaucitron.fallback(['tac_iframecreacast'], function (elem) {
-          elem.style.width = elem.getAttribute('width') + 'px';
-          elem.style.height = elem.getAttribute('height') + 'px';
-          return tarteaucitron.engage(id);
-      });
-    }
-};
-  (tarteaucitron.job = tarteaucitron.job || []).push('iframecreacast');
+(tarteaucitron.job = tarteaucitron.job || []).push('iframecreacast');

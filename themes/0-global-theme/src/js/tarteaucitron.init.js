@@ -81,3 +81,67 @@ tarteaucitron.init({
 });
 
 tarteaucitron.user.recaptchaapi = '6LeGvPkSAAAAAFcWK3UVF6zPlAxGUKBq3xaR5Xi6';
+
+// Ajout des services supplémentaires
+tarteaucitron.services.iframelivechat = {
+    "key": "iframelivechat",
+    "type": "other",
+    "name": "Livechat",
+    "uri": "",
+    "needConsent": true,
+    "cookies": ['ssm_au_d', 'PHPSESSID'],
+    "js": function () {
+        "use strict";
+        tarteaucitron.fallback(['tac_iframelivechat'], function (x) {
+            var width = x.getAttribute("width"),
+                height = x.getAttribute("height"),
+                frameborder = x.getAttribute("frameborder"),
+                scrolling = x.getAttribute("scrolling"),
+                url = x.getAttribute("data-url");
+            return '<iframe src="' + url + '" width="' + width + '" height="' + height + '" frameborder="' + frameborder + '" scrolling="' + scrolling + '" allowtransparency allowfullscreen></iframe>';
+        });
+    },
+    "fallback": function () {
+        "use strict";
+        var id = 'iframelivechat';
+        tarteaucitron.fallback(['tac_iframelivechat'], function (elem) {
+            elem.style.width = elem.getAttribute('width') + 'px';
+            elem.style.height = elem.getAttribute('height') + 'px';
+            return tarteaucitron.engage(id);
+        });
+    }
+};
+
+tarteaucitron.services.iframecreacast = {
+    "key": "iframecreacast",
+    "type": "video",
+    "name": "Creacast",
+    "uri": "",
+    "needConsent": true,
+    "cookies": ['__utm*'],
+    "js": function () {
+      "use strict";
+      tarteaucitron.fallback(['tac_iframecreacast'], function (x) {
+        var width = x.getAttribute("width"),
+            height = x.getAttribute("height"),
+            frameborder = x.getAttribute("frameborder"),
+            scrolling = x.getAttribute("scrolling"),
+            url = x.getAttribute("data-url");
+  
+          if (url === undefined) {
+              return "";
+          }
+
+          return '<iframe src="' + url + '" width="' + width + '" height="' + height + '" frameborder="' + frameborder + '" scrolling="' + scrolling + '" allowtransparency allowfullscreen></iframe>';
+      });
+    },
+    "fallback": function () {
+      "use strict";
+      var id = 'iframecreacast';
+      tarteaucitron.fallback(['tac_iframecreacast'], function (elem) {
+          elem.style.width = elem.getAttribute('width') + 'px';
+          elem.style.height = elem.getAttribute('height') + 'px';
+          return tarteaucitron.engage(id);
+      });
+    }
+};
