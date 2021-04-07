@@ -15,6 +15,12 @@ tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */
 //<div class="calameo-canvas" data-id="bkcode" width="width" height="height"></div>
 (tarteaucitron.job = tarteaucitron.job || []).push('calameo');
 
-// Service Facebook Pixel
-tarteaucitron.user.facebookpixelId = '1023621684487107'; tarteaucitron.user.facebookpixelMore = function () { /* add here your optionnal facebook pixel function */ };
-(tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
+// Service SoundCloud
+//<div class="soundcloud_player" data-playable-id="track_or_playlist_id" data-playable-type="type (playlists|sets)" data-height="iframe_height" data-color="accent_color" data-auto-play="autoplay (true|false)" data-hide-related="hide related (true|false)" data-show-comments="show comment (true|false)" data-show-user="show user (true|false)" data-show-reposts="show repost (true|false)" data-show-teaser="show teaser (true|false)" data-visual="visual (true|false)" data-artwork="artwork (true|false)"></div>
+(tarteaucitron.job = tarteaucitron.job || []).push('soundcloud');
+
+// Service Twitter Widgets API
+(tarteaucitron.job = tarteaucitron.job || []).push('twitterwidgetsapi');
+
+// Service Custom Publications Facebook
+(tarteaucitron.job = tarteaucitron.job || []).push('iframepublicationsfacebook');
