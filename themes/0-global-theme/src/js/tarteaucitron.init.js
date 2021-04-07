@@ -43,7 +43,7 @@ switch (window.tarteaucitronForceLanguage) {
 
 // Initialisation de tarteaucitron
 tarteaucitron.init({
-    "privacyUrl": "https://www.strasbourg.eu/donnees-personnelles", /* Privacy policy url */
+    "privacyUrl": "/donnees-personnelles", /* Privacy policy url */
 
     "hashtag": "#tarteaucitron", /* Open the panel with this hashtag */
     "cookieName": "tarteaucitron", /* Cookie name */
@@ -80,4 +80,92 @@ tarteaucitron.init({
 
 });
 
-tarteaucitron.user.recaptchaapi = '6LeGvPkSAAAAAFcWK3UVF6zPlAxGUKBq3xaR5Xi6';
+// Ajout des services supplémentaires
+tarteaucitron.services.iframelivechat = {
+    "key": "iframelivechat",
+    "type": "other",
+    "name": "Livechat",
+    "uri": "",
+    "needConsent": true,
+    "cookies": ['ssm_au_d', 'PHPSESSID'],
+    "js": function () {
+        "use strict";
+        tarteaucitron.fallback(['tac_iframelivechat'], function (x) {
+            var width = x.getAttribute("width"),
+                height = x.getAttribute("height"),
+                frameborder = x.getAttribute("frameborder"),
+                scrolling = x.getAttribute("scrolling"),
+                url = x.getAttribute("data-url");
+            return '<iframe src="' + url + '" width="' + width + '" height="' + height + '" frameborder="' + frameborder + '" scrolling="' + scrolling + '" allowtransparency allowfullscreen></iframe>';
+        });
+    },
+    "fallback": function () {
+        "use strict";
+        var id = 'iframelivechat';
+        tarteaucitron.fallback(['tac_iframelivechat'], function (elem) {
+            elem.style.width = elem.getAttribute('width') + 'px';
+            elem.style.height = elem.getAttribute('height') + 'px';
+            return tarteaucitron.engage(id);
+        });
+    }
+};
+
+tarteaucitron.services.iframecreacast = {
+    "key": "iframecreacast",
+    "type": "video",
+    "name": "Creacast Vidéo",
+    "uri": "",
+    "needConsent": true,
+    "cookies": ['__utm*'],
+    "js": function () {
+      "use strict";
+      tarteaucitron.fallback(['tac_iframecreacast'], function (x) {
+        var width = x.getAttribute("width"),
+            height = x.getAttribute("height"),
+            frameborder = x.getAttribute("frameborder"),
+            scrolling = x.getAttribute("scrolling"),
+            url = x.getAttribute("data-url");
+  
+          if (url === undefined) {
+              return "";
+          }
+
+          return '<iframe src="' + url + '" width="' + width + '" height="' + height + '" frameborder="' + frameborder + '" scrolling="' + scrolling + '" allowtransparency allowfullscreen></iframe>';
+      });
+    },
+    "fallback": function () {
+      "use strict";
+      var id = 'iframecreacast';
+      tarteaucitron.fallback(['tac_iframecreacast'], function (elem) {
+          elem.style.width = elem.getAttribute('width') + 'px';
+          elem.style.height = elem.getAttribute('height') + 'px';
+          return tarteaucitron.engage(id);
+      });
+    }
+};
+
+tarteaucitron.services.iframepublicationsfacebook = {
+    "key": "iframepublicationsfacebook",
+    "type": "api",
+    "name": "Publications Facebook",
+    "uri": "",
+    "needConsent": true,
+    "cookies": ['__utm*'],
+    "js": function () {
+      "use strict";
+      tarteaucitron.fallback(['tac_iframepublicationsfacebook'], '');
+      tarteaucitron.addScript('https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v3.3&appId=341342126780735&autoLogAppEvents=1','','',true,"crossorigin","anonymous",false);
+      if (tarteaucitron.isAjax === true) {
+          if (typeof FB !== "undefined") {
+              FB.XFBML.parse();
+          }
+      }
+    },
+    "fallback": function () {
+      "use strict";
+      var id = 'iframepublicationsfacebook';
+      tarteaucitron.fallback(['tac_iframepublicationsfacebook'], function (elem) {
+          return tarteaucitron.engage(id);
+      });
+    }
+};

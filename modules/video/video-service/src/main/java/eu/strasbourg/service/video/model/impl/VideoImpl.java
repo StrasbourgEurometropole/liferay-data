@@ -429,11 +429,11 @@ public class VideoImpl extends VideoBaseImpl {
         } else {
             String videoId = getVideoId(site, videoURL);
             if (site.equals("dailymotion")) {
-                player = "<div class=\"dailymotion_player\" videoID=\"" + videoId + "\" autoplay=\"0\"></div>";
+                player = "<div class=\"dailymotion_player\" videoID=\"" + videoId + "\" autoplay=\"0\" width=\"100%\" height=\"100%\"></div>";
             } else if (site.equals("youtube")) {
-                player = "<div class=\"youtube_player\" videoID=\"" + videoId + "\"controls=\"1\" autoplay=\"0\" mute=\"0\"></div>";
+                player = "<div class=\"youtube_player\" videoID=\"" + videoId + "\"controls=\"1\" autoplay=\"0\" mute=\"0\" width=\"100%\" height=\"100%\"></div>";
             } else if (site.equals("vimeo")) {
-                player = "<div class=\"vimeo_player\" videoID=\"" + videoId + "\"></div>";
+                player = "<div class=\"vimeo_player\" videoID=\"" + videoId + "\" width=\"100%\" height=\"100%\"></div>";
             }
         }
 

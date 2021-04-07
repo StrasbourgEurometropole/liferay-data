@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.utils.MailHelper;
+import eu.strasbourg.utils.RecaptchaHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -122,13 +123,13 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 			mailBody = out.toString();
 
 			// Validation
-			//String gRecaptchaResponse = ParamUtil.getString(request, "g-recaptcha-response");
+			String gRecaptchaResponse = ParamUtil.getString(request, "g-recaptcha-response");
 			boolean hasError = false;
-		/*	if (!RecaptchaHelper.verify(gRecaptchaResponse)) { // Captcha
+			if (!RecaptchaHelper.verify(gRecaptchaResponse)) { // Captcha
 				SessionErrors.add(request, "recaptcha-error");
 				hasError = true;
 			}
-		*/	// Champs vides
+			// Champs vides
 			if (Validator.isNull(email) || Validator.isNull(to) || Validator.isNull(firstName)
 					|| Validator.isNull(lastName) || Validator.isNull(message)) { 
 				SessionErrors.add(request, "all-fields-required");
