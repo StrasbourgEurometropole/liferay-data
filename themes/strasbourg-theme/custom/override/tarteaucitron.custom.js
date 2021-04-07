@@ -14,6 +14,3 @@ tarteaucitron.user.analyticsMore = function () {  };
 
 // Service reCAPTCHA
 (tarteaucitron.job = tarteaucitron.job || []).push('recaptcha');
-
-// Service custom : Creacast
-(tarteaucitron.job = tarteaucitron.job || []).push('iframecreacast');
