@@ -146,33 +146,25 @@ tarteaucitron.services.iframecreacast = {
 
 tarteaucitron.services.iframepublicationsfacebook = {
     "key": "iframepublicationsfacebook",
-    "type": "video",
+    "type": "api",
     "name": "Publications Facebook",
     "uri": "",
     "needConsent": true,
     "cookies": ['__utm*'],
     "js": function () {
       "use strict";
-      tarteaucitron.fallback(['tac_iframepublicationsfacebook'], function (x) {
-        var width = x.getAttribute("width"),
-            height = x.getAttribute("height"),
-            frameborder = x.getAttribute("frameborder"),
-            scrolling = x.getAttribute("scrolling"),
-            url = x.getAttribute("data-url");
-  
-          if (url === undefined) {
-              return "";
+      tarteaucitron.fallback(['tac_iframepublicationsfacebook'], '');
+      tarteaucitron.addScript('https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v3.3&appId=341342126780735&autoLogAppEvents=1','','',true,"crossorigin","anonymous",false);
+      if (tarteaucitron.isAjax === true) {
+          if (typeof FB !== "undefined") {
+              FB.XFBML.parse();
           }
-
-          return '<iframe src="' + url + '" width="' + width + '" height="' + height + '" frameborder="' + frameborder + '" scrolling="' + scrolling + '" allowtransparency allowfullscreen></iframe>';
-      });
+      }
     },
     "fallback": function () {
       "use strict";
       var id = 'iframepublicationsfacebook';
       tarteaucitron.fallback(['tac_iframepublicationsfacebook'], function (elem) {
-          elem.style.width = elem.getAttribute('width') + 'px';
-          elem.style.height = elem.getAttribute('height') + 'px';
           return tarteaucitron.engage(id);
       });
     }
