@@ -26207,64 +26207,6 @@ function scrollToAnchor(anchorId) {
        // On fait maintenant l'animation vers le haut (scrollTop) vers notre ancre target.
        .animate({scrollTop: $(anchorId).offset().top}, 1000 );
 }
-tarteaucitron.services.iframelivechat = {
-    "key": "iframelivechat",
-    "type": "other",
-    "name": "Livechat",
-    "uri": "",
-    "needConsent": true,
-    "cookies": ['ssm_au_d', 'PHPSESSID'],
-    "js": function () {
-        "use strict";
-        tarteaucitron.fallback(['tac_iframelivechat'], function (x) {
-            var width = x.getAttribute("width"),
-                height = x.getAttribute("height"),
-                url = x.getAttribute("data-url");
-            return '<iframe src="' + url + '" width="' + width + '" height="' + height + '" frameborder="0" scrolling="no" allowtransparency allowfullscreen></iframe>';
-        });
-    },
-    "fallback": function () {
-        "use strict";
-        var id = 'iframelivechat';
-        tarteaucitron.fallback(['tac_iframelivechat'], function (elem) {
-            elem.style.width = elem.getAttribute('width') + 'px';
-            elem.style.height = elem.getAttribute('height') + 'px';
-            return tarteaucitron.engage(id);
-        });
-    }
-};
-
-tarteaucitron.services.iframecreacast = {
-    "key": "iframecreacast",
-    "type": "video",
-    "name": "Creacast",
-    "uri": "",
-    "needConsent": true,
-    "cookies": ['__utm*'],
-    "js": function () {
-      "use strict";
-      tarteaucitron.fallback(['tac_iframecreacast'], function (x) {
-          var video_url = x.getAttribute("videoURL"),
-              video_frame;
-  
-          if (video_url === undefined) {
-              return "";
-          }
-          video_frame = '<iframe  scrolling="yes" height="1000px" frameborder="0" allowfullscreen  src="' + video_url + '"></iframe>';
-          return video_frame;
-      });
-    },
-    "fallback": function () {
-      "use strict";
-      var id = 'iframecreacast';
-      tarteaucitron.fallback(['tac_iframecreacast'], function (elem) {
-          elem.style.width = elem.getAttribute('width') + 'px';
-          elem.style.height = elem.getAttribute('height') + 'px';
-          return tarteaucitron.engage(id);
-      });
-    }
-};
-
 // Service custom : Livechat Creacast
 (tarteaucitron.job = tarteaucitron.job || []).push('iframelivechat');
 
@@ -26282,7 +26224,7 @@ tarteaucitron.user.analyticsMore = function () {  };
 (tarteaucitron.job = tarteaucitron.job || []).push('dailymotion');
 
 // Service custom : Creacast
-  (tarteaucitron.job = tarteaucitron.job || []).push('iframecreacast');
+(tarteaucitron.job = tarteaucitron.job || []).push('iframecreacast');
   
 if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
 
