@@ -43,7 +43,7 @@ switch (window.tarteaucitronForceLanguage) {
 
 // Initialisation de tarteaucitron
 tarteaucitron.init({
-    "privacyUrl": "/donnees-personnelles", /* Privacy policy url */
+    "privacyUrl": "https://www.strasbourg.eu/donnees-personnelles", /* Privacy policy url */
 
     "hashtag": "#tarteaucitron", /* Open the panel with this hashtag */
     "cookieName": "tarteaucitron", /* Cookie name */
