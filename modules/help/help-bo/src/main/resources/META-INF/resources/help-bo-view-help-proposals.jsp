@@ -57,6 +57,16 @@
 
 </liferay-frontend:management-bar>
 
+<%-- Composant : Champ d'acces direct par reference de proposition --%>
+<div class="container-fluid-1280">
+	<div class="input-group">
+		<div class="input-group-prepend">
+			<span class="input-group-text"><liferay-ui:message key="go-directly-to-proposal-detail"/></span>
+		</div>
+		<input type="text" aria-label="Référence de la proposition" placeholder="Identifiant (ex : 354440815215)" class="form-control">
+	</div>
+</div>
+
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid-1280 main-content-body">
 	<aui:form method="post" name="fm">
