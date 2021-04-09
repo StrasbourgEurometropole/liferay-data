@@ -156,8 +156,6 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 				return;
 			}
 
-			_log.error("Valeurs ok");
-
 			// Recuperation des labels des champs du formulaire et des labels des valeurs reneignees
 			List<DDMFormField> formFieldsList = form.getDDMFormValues().getDDMForm().getDDMFormFields();
 			for (DDMFormField formField : formFieldsList) {
