@@ -42,9 +42,9 @@ public class OpenDataGeoAddressServiceImpl implements OpenDataGeoAddressService 
      * Retourne les coordonnées d'une adresse en JSon
      */
     @Override
-    public JSONArray getCoordinateForAddress(String address) throws Exception {
+    public JSONArray getCoordinateForAddress(String address, String zipCode, String city) throws Exception {
         JSONArray coordinates = null;
-        String url = getAddressesURL() + "&q=" + HtmlUtil.escapeURL(address);
+        String url = getAddressesURL() + "&q=" + HtmlUtil.escapeURL(address) + "+and+code_postal=" + HtmlUtil.escapeURL(zipCode) + "+and+nom_commune=" + HtmlUtil.escapeURL(city);
         JSONArray records = getRecord(url);
         if (records.length() > 0) {
             JSONObject fields = records.getJSONObject(0).getJSONObject("fields");

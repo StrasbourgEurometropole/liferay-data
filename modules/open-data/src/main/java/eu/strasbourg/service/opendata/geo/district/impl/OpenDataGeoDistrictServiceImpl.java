@@ -50,9 +50,9 @@ public class OpenDataGeoDistrictServiceImpl implements OpenDataGeoDistrictServic
      * Retourne la catégorie du quartier de l'utilisateur
      */
     @Override
-    public AssetCategory getDistrictByAddress(String address) throws Exception {
+    public AssetCategory getDistrictByAddress(String address, String zipCode, String city) throws Exception {
         AssetCategory district = null;
-        JSONArray coordinates = openDataGeoAddressService.getCoordinateForAddress(address);
+        JSONArray coordinates = openDataGeoAddressService.getCoordinateForAddress(address, zipCode, city);
         String sigId = getSigIdForCoordinates(coordinates.get(0).toString(),
                 coordinates.get(1).toString());
         if (Validator.isNotNull(sigId)) {

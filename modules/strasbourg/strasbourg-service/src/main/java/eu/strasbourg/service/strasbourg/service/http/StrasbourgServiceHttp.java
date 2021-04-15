@@ -62,7 +62,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getCopyright",
-				_getCopyrightParameterTypes2);
+				_getCopyrightParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupId, uuid, language);
@@ -93,7 +93,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getFileDetails",
-				_getFileDetailsParameterTypes3);
+				_getFileDetailsParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupId, uuid, language);
@@ -123,7 +123,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "searchStreets",
-				_searchStreetsParameterTypes4);
+				_searchStreetsParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, query);
 
@@ -152,7 +152,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "searchStreets",
-				_searchStreetsParameterTypes5);
+				_searchStreetsParameterTypes6);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, query, city);
@@ -182,7 +182,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getArticleHTMLContent",
-				_getArticleHTMLContentParameterTypes6);
+				_getArticleHTMLContentParameterTypes7);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupId, articleId);
@@ -212,7 +212,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getPois",
-				_getPoisParameterTypes7);
+				_getPoisParameterTypes8);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, interests, groupId);
@@ -243,7 +243,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getPois",
-				_getPoisParameterTypes8);
+				_getPoisParameterTypes9);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, interests, groupId, localeId);
@@ -273,7 +273,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getFavoritesPois",
-				_getFavoritesPoisParameterTypes9);
+				_getFavoritesPoisParameterTypes10);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId);
 
@@ -303,7 +303,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getPois",
-				_getPoisParameterTypes10);
+				_getPoisParameterTypes11);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, interests, categories, prefilters, groupId,
@@ -335,7 +335,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getPois",
-				_getPoisParameterTypes11);
+				_getPoisParameterTypes12);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, interests, categories, prefilters, groupId,
@@ -367,7 +367,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getPoisCategoryCount",
-				_getPoisCategoryCountParameterTypes12);
+				_getPoisCategoryCountParameterTypes13);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, idCategory, prefilters, groupId, typeContenu);
@@ -398,7 +398,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getPoisInterestCount",
-				_getPoisInterestCountParameterTypes13);
+				_getPoisInterestCountParameterTypes14);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, idCategory, groupId, typeContenu);
@@ -428,7 +428,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getFavoritesPois",
-				_getFavoritesPoisParameterTypes14);
+				_getFavoritesPoisParameterTypes15);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupId, typeContenu);
@@ -459,7 +459,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getFavoritesPois",
-				_getFavoritesPoisParameterTypes15);
+				_getFavoritesPoisParameterTypes16);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupId, typeContenu, localeId);
@@ -489,7 +489,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getFavoritesPoisCount",
-				_getFavoritesPoisCountParameterTypes16);
+				_getFavoritesPoisCountParameterTypes17);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupId, typeContenu);
@@ -519,7 +519,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "hidePortlet",
-				_hidePortletParameterTypes17);
+				_hidePortletParameterTypes18);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, portletId);
@@ -540,14 +540,17 @@ public class StrasbourgServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
-		getCoordinateForAddress(HttpPrincipal httpPrincipal, String address) {
+		getCoordinateForAddress(
+			HttpPrincipal httpPrincipal, String address, String zipCode,
+			String city) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getCoordinateForAddress",
-				_getCoordinateForAddressParameterTypes18);
+				_getCoordinateForAddressParameterTypes19);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, address);
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, address, zipCode, city);
 
 			Object returnObj = null;
 
@@ -574,7 +577,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getTraffic",
-				_getTrafficParameterTypes19);
+				_getTrafficParameterTypes20);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -603,7 +606,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getAlerts",
-				_getAlertsParameterTypes20);
+				_getAlertsParameterTypes21);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -632,7 +635,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "unfoldPortlet",
-				_unfoldPortletParameterTypes21);
+				_unfoldPortletParameterTypes22);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, portletId);
@@ -658,7 +661,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "foldPortlet",
-				_foldPortletParameterTypes22);
+				_foldPortletParameterTypes23);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, portletId);
@@ -686,7 +689,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getPracticeCategories",
-				_getPracticeCategoriesParameterTypes23);
+				_getPracticeCategoriesParameterTypes24);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, parentCategoryId, localeId);
@@ -718,7 +721,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "addDocument",
-				_addDocumentParameterTypes24);
+				_addDocumentParameterTypes25);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, fileContent, fileName, commissionName,
@@ -746,59 +749,59 @@ public class StrasbourgServiceHttp {
 	private static Log _log = LogFactoryUtil.getLog(
 		StrasbourgServiceHttp.class);
 
-	private static final Class<?>[] _getCopyrightParameterTypes2 = new Class[] {
+	private static final Class<?>[] _getCopyrightParameterTypes3 = new Class[] {
 		long.class, String.class, String.class
 	};
-	private static final Class<?>[] _getFileDetailsParameterTypes3 =
+	private static final Class<?>[] _getFileDetailsParameterTypes4 =
 		new Class[] {long.class, String.class, String.class};
-	private static final Class<?>[] _searchStreetsParameterTypes4 =
-		new Class[] {String.class};
 	private static final Class<?>[] _searchStreetsParameterTypes5 =
+		new Class[] {String.class};
+	private static final Class<?>[] _searchStreetsParameterTypes6 =
 		new Class[] {String.class, String.class};
-	private static final Class<?>[] _getArticleHTMLContentParameterTypes6 =
+	private static final Class<?>[] _getArticleHTMLContentParameterTypes7 =
 		new Class[] {long.class, String.class};
-	private static final Class<?>[] _getPoisParameterTypes7 = new Class[] {
+	private static final Class<?>[] _getPoisParameterTypes8 = new Class[] {
 		String.class, long.class
 	};
-	private static final Class<?>[] _getPoisParameterTypes8 = new Class[] {
+	private static final Class<?>[] _getPoisParameterTypes9 = new Class[] {
 		String.class, long.class, String.class
 	};
-	private static final Class<?>[] _getFavoritesPoisParameterTypes9 =
+	private static final Class<?>[] _getFavoritesPoisParameterTypes10 =
 		new Class[] {long.class};
-	private static final Class<?>[] _getPoisParameterTypes10 = new Class[] {
+	private static final Class<?>[] _getPoisParameterTypes11 = new Class[] {
 		String.class, String.class, String.class, long.class, String.class
 	};
-	private static final Class<?>[] _getPoisParameterTypes11 = new Class[] {
+	private static final Class<?>[] _getPoisParameterTypes12 = new Class[] {
 		String.class, String.class, String.class, long.class, String.class,
 		String.class
 	};
-	private static final Class<?>[] _getPoisCategoryCountParameterTypes12 =
+	private static final Class<?>[] _getPoisCategoryCountParameterTypes13 =
 		new Class[] {long.class, String.class, long.class, String.class};
-	private static final Class<?>[] _getPoisInterestCountParameterTypes13 =
+	private static final Class<?>[] _getPoisInterestCountParameterTypes14 =
 		new Class[] {long.class, long.class, String.class};
-	private static final Class<?>[] _getFavoritesPoisParameterTypes14 =
-		new Class[] {long.class, String.class};
 	private static final Class<?>[] _getFavoritesPoisParameterTypes15 =
-		new Class[] {long.class, String.class, String.class};
-	private static final Class<?>[] _getFavoritesPoisCountParameterTypes16 =
 		new Class[] {long.class, String.class};
-	private static final Class<?>[] _hidePortletParameterTypes17 = new Class[] {
+	private static final Class<?>[] _getFavoritesPoisParameterTypes16 =
+		new Class[] {long.class, String.class, String.class};
+	private static final Class<?>[] _getFavoritesPoisCountParameterTypes17 =
+		new Class[] {long.class, String.class};
+	private static final Class<?>[] _hidePortletParameterTypes18 = new Class[] {
 		String.class
 	};
-	private static final Class<?>[] _getCoordinateForAddressParameterTypes18 =
-		new Class[] {String.class};
-	private static final Class<?>[] _getTrafficParameterTypes19 = new Class[] {
+	private static final Class<?>[] _getCoordinateForAddressParameterTypes19 =
+		new Class[] {String.class, String.class, String.class};
+	private static final Class<?>[] _getTrafficParameterTypes20 = new Class[] {
 		
 	};
-	private static final Class<?>[] _getAlertsParameterTypes20 = new Class[] {};
-	private static final Class<?>[] _unfoldPortletParameterTypes21 =
+	private static final Class<?>[] _getAlertsParameterTypes21 = new Class[] {};
+	private static final Class<?>[] _unfoldPortletParameterTypes22 =
 		new Class[] {String.class};
-	private static final Class<?>[] _foldPortletParameterTypes22 = new Class[] {
+	private static final Class<?>[] _foldPortletParameterTypes23 = new Class[] {
 		String.class
 	};
-	private static final Class<?>[] _getPracticeCategoriesParameterTypes23 =
+	private static final Class<?>[] _getPracticeCategoriesParameterTypes24 =
 		new Class[] {long.class, String.class};
-	private static final Class<?>[] _addDocumentParameterTypes24 = new Class[] {
+	private static final Class<?>[] _addDocumentParameterTypes25 = new Class[] {
 		String.class, String.class, String.class, String.class, String.class,
 		String.class
 	};

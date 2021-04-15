@@ -18,6 +18,8 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <liferay-util:body-top>
     <aui:script>
         window.userAddress = '${fn:escapeXml(address)}';
+        window.zipCode = '${fn:escapeXml(zipCode)}';
+        window.city = '${fn:escapeXml(city)}';
         window.groupId = ${groupId};
         window.newTab = ${openInNewTab};
         window.typesContenu = "${typesContenu}";

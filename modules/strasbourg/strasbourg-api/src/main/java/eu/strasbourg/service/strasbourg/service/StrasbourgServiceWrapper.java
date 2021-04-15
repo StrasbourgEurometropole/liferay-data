@@ -73,9 +73,10 @@ public class StrasbourgServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getCoordinateForAddress(
-		String address) {
+		String address, String zipCode, String city) {
 
-		return _strasbourgService.getCoordinateForAddress(address);
+		return _strasbourgService.getCoordinateForAddress(
+			address, zipCode, city);
 	}
 
 	@Override

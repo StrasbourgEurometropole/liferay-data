@@ -327,12 +327,14 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static String getCoordinateForAddress(String address)
+	public static String getCoordinateForAddress(
+			String address, String zipCode, String city)
 		throws RemoteException {
 
 		try {
 			com.liferay.portal.kernel.json.JSONArray returnValue =
-				StrasbourgServiceUtil.getCoordinateForAddress(address);
+				StrasbourgServiceUtil.getCoordinateForAddress(
+					address, zipCode, city);
 
 			return returnValue.toString();
 		}

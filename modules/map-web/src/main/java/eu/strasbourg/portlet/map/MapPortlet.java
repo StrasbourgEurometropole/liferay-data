@@ -98,12 +98,16 @@ public class MapPortlet extends MVCPortlet {
 
             String address = "";
             String city = "";
+            String zipCode = "";
             if (Validator.isNotNull(internalId)) {
                 JSONObject userDetail = PublikApiClient.getUserDetails(internalId);
-                if (Validator.isNotNull(userDetail.get("address")) && Validator.isNotNull(userDetail.get("zipcode"))
-                        && Validator.isNotNull(userDetail.get("city"))) {
-                    address = userDetail.get("address") + " " + userDetail.get("zipcode") + " "
-                            + userDetail.get("city");
+                if (Validator.isNotNull(userDetail.get("address"))) {
+                    address = userDetail.get("address").toString();
+                }
+                if (Validator.isNotNull(userDetail.get("zipcode"))) {
+                    zipCode = userDetail.get("zipcode").toString();
+                }
+                if (Validator.isNotNull(userDetail.get("city"))) {
                     city = userDetail.get("city").toString();
                 }
             }
@@ -187,7 +191,7 @@ public class MapPortlet extends MVCPortlet {
                         if(Validator.isNotNull(city) && city.toLowerCase().equals("strasbourg")) {
                             if (Validator.isNotNull(address)) {
                                 try {
-                                    district = openDataGeoDistrictService.getDistrictByAddress(address);
+                                    district = openDataGeoDistrictService.getDistrictByAddress(address, zipCode, city);
                                 } catch (Exception e) {
                                     _log.error(e);
                                 }
@@ -415,6 +419,8 @@ public class MapPortlet extends MVCPortlet {
             request.setAttribute("trafficCategoryId", trafficCategoryId);
             request.setAttribute("trafficInterestId", trafficInterestId);
             request.setAttribute("address", address);
+            request.setAttribute("zipCode", zipCode);
+            request.setAttribute("city", city);
             request.setAttribute("internalId", internalId);
 
             // titre personnalisable en mode widget
