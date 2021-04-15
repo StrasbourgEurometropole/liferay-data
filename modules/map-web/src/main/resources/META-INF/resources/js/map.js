@@ -662,13 +662,13 @@
             });
 
             // Affichage de la zone
-            if (window.coordinateZone.geometry != undefined) {
+            if (window.coordinatesZone.coordinates != undefined) {
                 // Récupération des coordonnées de la zone
                 requestsInProgress++;
                 showLoadingIcon();
 
                 // Convertion des données geoJSON en polygon
-                var coordinates = L.geoJson(window.coordinateZone, {
+                var coordinates = L.geoJson(window.coordinatesZone, {
                     // Add invert: true to invert the geometries in the GeoJSON file
                     invert: true,
                     style: function (feature) { // Style option
@@ -683,7 +683,7 @@
 
                 // centrer la carte sur le quartier
                 var bounds = [];
-                window.coordinateZone.geometry.coordinates[0][0].forEach(function(e){bounds.push([e[1],e[0]]);});
+                window.coordinatesZone.coordinates[0].forEach(function(e){bounds.push([e[1],e[0]]);});
                 mymap.fitBounds(bounds);
                 requestsInProgress--;
                 maybeHideLoadingIcon();

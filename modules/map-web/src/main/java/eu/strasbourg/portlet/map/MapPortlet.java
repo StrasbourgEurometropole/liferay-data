@@ -18,13 +18,21 @@ import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.map.configuration.MapConfiguration;
-import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.service.opendata.geo.district.OpenDataGeoDistrictService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.PublikApiClient;
@@ -33,10 +41,25 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.*;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -73,15 +96,15 @@ public class MapPortlet extends MVCPortlet {
             // Récupération du publik ID avec la session
             String internalId = getPublikID(request);
 
-            String address = null;
-            String town = null;
+            String address = "";
+            String city = "";
             if (Validator.isNotNull(internalId)) {
                 JSONObject userDetail = PublikApiClient.getUserDetails(internalId);
                 if (Validator.isNotNull(userDetail.get("address")) && Validator.isNotNull(userDetail.get("zipcode"))
                         && Validator.isNotNull(userDetail.get("city"))) {
                     address = userDetail.get("address") + " " + userDetail.get("zipcode") + " "
                             + userDetail.get("city");
-                    town = userDetail.get("city").toString();
+                    city = userDetail.get("city").toString();
                 }
             }
 
@@ -112,7 +135,7 @@ public class MapPortlet extends MVCPortlet {
             List<AssetCategory> categories = null; // Les catégories actives
             List<Interest> interests = null; // Les intérêts actifs
             AssetCategory district = null;
-            JSONObject coordinateZone = JSONFactoryUtil.createJSONObject();
+            JSONObject coordinatesZone = JSONFactoryUtil.createJSONObject();
 
             // Est-ce que la config du portlet est défini ?
             if (configuration.hasConfig()) {
@@ -161,10 +184,10 @@ public class MapPortlet extends MVCPortlet {
                     categoriesDefaultsIdsString = configuration.categoriesDefaultsIds();
                     districtUser = configuration.districtUser();
                     if (districtUser) {
-                        if(town != null && town.toLowerCase().equals("strasbourg")) {
+                        if(Validator.isNotNull(city) && city.toLowerCase().equals("strasbourg")) {
                             if (Validator.isNotNull(address)) {
                                 try {
-                                    district = adictService.getDistrictByAddress(address);
+                                    district = openDataGeoDistrictService.getDistrictByAddress(address);
                                 } catch (Exception e) {
                                     _log.error(e);
                                 }
@@ -185,7 +208,7 @@ public class MapPortlet extends MVCPortlet {
                             }
                         }
                         if (district != null) {
-                            coordinateZone = adictService.getCoordinatesForDistrict(AssetVocabularyHelper.getExternalId(district));
+                            coordinatesZone = openDataGeoDistrictService.getCoordinatesForSigId(AssetVocabularyHelper.getExternalId(district));
                         }
                     }
 
@@ -384,7 +407,7 @@ public class MapPortlet extends MVCPortlet {
             request.setAttribute("categoriesCheckedIds", categoriesDefaultsIdsString);
             request.setAttribute("districtUser", districtUser);
             request.setAttribute("district", district);
-            request.setAttribute("coordinateZone", coordinateZone);
+            request.setAttribute("coordinatesZone", coordinatesZone);
             request.setAttribute("interestGroups", InterestGroupDisplay.getInterestGroups(interests));
             request.setAttribute("interestsCheckedIds", interestsDefaultsIdsString);
             request.setAttribute("showFavorites", showFavorites);
@@ -600,10 +623,10 @@ public class MapPortlet extends MVCPortlet {
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
-    private AdictService adictService;
+    private OpenDataGeoDistrictService openDataGeoDistrictService;
 
     @Reference(unbind = "-")
-    public void setAdictService(AdictService adictService) {
-        this.adictService = adictService;
+    public void setOpenDataGeoDistrictService(OpenDataGeoDistrictService openDataGeoDistrictService) {
+        this.openDataGeoDistrictService = openDataGeoDistrictService;
     }
 }
