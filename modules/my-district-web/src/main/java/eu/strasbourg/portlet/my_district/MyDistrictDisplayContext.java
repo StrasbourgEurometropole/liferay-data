@@ -120,7 +120,7 @@ public class MyDistrictDisplayContext {
 
     // récupération de l'adresse de l'utilisateureventservicelocal
     public String getAddress() {
-        return address;
+        return address + " " + zipCode + " " + city;
     }
 
     // récupération du texte à afficher si l'utilisateur n'a pas renseigné son
