@@ -12,10 +12,21 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.xml.Node;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
@@ -25,6 +36,7 @@ import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
+import eu.strasbourg.service.opendata.geo.district.OpenDataGeoDistrictService;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
@@ -32,6 +44,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
@@ -40,7 +53,11 @@ import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -52,16 +69,19 @@ public class MyDistrictDisplayContext {
     private MyDistrictConfiguration configuration;
     private Boolean hasError;
     private String address;
+    private String zipCode;
+    private String city;
     private Boolean isStrasbourg = false;
     private AssetCategory district;
     private AdictService adictService;
     private List<AssetEntry> actuAndWebMag;
     private List<AssetEntry> events;
 
-    public MyDistrictDisplayContext(ThemeDisplay themeDisplay, RenderRequest request, AdictService adict) {
+    public MyDistrictDisplayContext(ThemeDisplay themeDisplay, RenderRequest request, AdictService adict, OpenDataGeoDistrictService openDataGeoDistrictService) {
         this.themeDisplay = themeDisplay;
         this.request = request;
         this.adictService = adict;
+        this.openDataGeoDistrictService = openDataGeoDistrictService;
         try {
             this.configuration = themeDisplay.getPortletDisplay()
                     .getPortletInstanceConfiguration(MyDistrictConfiguration.class);
@@ -128,17 +148,19 @@ public class MyDistrictDisplayContext {
         String internalId = getPublikID(request);
         if (Validator.isNotNull(internalId)) {
             JSONObject userDetail = PublikApiClient.getUserDetails(internalId);
-            if (Validator.isNotNull(userDetail.get("address")) && Validator.isNotNull(userDetail.get("zipcode"))
-                    && Validator.isNotNull(userDetail.get("city")))
-                address = userDetail.get("address") + " " + userDetail.get("zipcode") + " "
-                        + userDetail.get("city");
-                if(userDetail.get("city").toString().toLowerCase().equals("strasbourg"))
-                    isStrasbourg = true;
+            if (Validator.isNotNull(userDetail.get("address")))
+                address = userDetail.get("address").toString();
+            if (Validator.isNotNull(userDetail.get("zipcode")))
+                zipCode = userDetail.get("zipcode").toString();
+            if (Validator.isNotNull(userDetail.get("city")))
+                city = userDetail.get("city").toString();
+            if(userDetail.get("city").toString().toLowerCase().equals("strasbourg"))
+                isStrasbourg = true;
         }
 
         if (isStrasbourg && district == null) {
             try {
-                district = adictService.getDistrictByAddress(address);
+                district = openDataGeoDistrictService.getDistrictByAddress(address, zipCode, city);
             } catch (Exception e) {
                 e.printStackTrace();
                 hasError = true;
@@ -308,7 +330,7 @@ public class MyDistrictDisplayContext {
         List<Place> sectorSchools = new ArrayList<Place>();
         if(isStrasbourg) {
             try {
-                List<String> sigIds = adictService.getSchoolsByAddress(address);
+                List<String> sigIds = adictService.getSchoolsByAddress(address +" " + zipCode + " " + city);
                 for (String sigId : sigIds) {
                     Place place = PlaceLocalServiceUtil.getPlaceBySIGId(sigId);
                     if (place != null && place.getStatus() == WorkflowConstants.STATUS_APPROVED) {
@@ -458,5 +480,25 @@ public class MyDistrictDisplayContext {
         LocalDate today = LocalDate.now();
         LocalDate publicationDate = entry.getPublishDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         return (int) Math.abs(ChronoUnit.DAYS.between(today, publicationDate));
+    }
+
+    /**
+     * Retourne les quartiers de strasbourg
+     */
+    public List<String[]> getAllDistricts() {
+        List<String[]> districts = new ArrayList<>();
+        for (AssetCategory categ : AssetVocabularyHelper.getAllDistrictsFromCity("Strasbourg")) {
+            String SIGId = AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(), "SIG");
+            String[] district = {categ.getTitleCurrentValue(), SIGId};
+            districts.add(district);
+        }
+        return districts;
+    }
+
+    private OpenDataGeoDistrictService openDataGeoDistrictService;
+
+    @Reference(unbind = "-")
+    public void setOpenDataGeoDistrictService(OpenDataGeoDistrictService openDataGeoDistrictService) {
+        this.openDataGeoDistrictService = openDataGeoDistrictService;
     }
 }
