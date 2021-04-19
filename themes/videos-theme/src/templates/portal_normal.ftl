@@ -98,19 +98,6 @@
 	<script src="${javascript_folder}/carrousel.js"></script>
     <script src="${images_folder}/../bower_components/owl.carousel.js/owl.carousel.min.js"></script>
     <script src="${images_folder}/../bower_components/retina.js/src/retina.js"></script>
-
-
-	<#if  propsUtil.get('eu.strasbourg.environment') == "PROD">
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-4"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
-
-		  gtag('config', 'UA-33301756-4');
-		</script>
-	</#if>
 </body>
 
 	<@liferay_util["include"] page=body_bottom_include />
