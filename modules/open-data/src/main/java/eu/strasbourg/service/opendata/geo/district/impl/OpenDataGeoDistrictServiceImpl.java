@@ -4,6 +4,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -73,7 +74,7 @@ public class OpenDataGeoDistrictServiceImpl implements OpenDataGeoDistrictServic
      */
     @Override
     public JSONObject getCoordinatesForSigId(String sigID) throws Exception {
-        JSONObject coordinatesZone = null;
+        JSONObject coordinatesZone = JSONFactoryUtil.createJSONObject();
         String url = getDistrictsURL() + "&refine.districtcode=" + HtmlUtil.escapeURL(sigID);
         JSONArray records = getRecord(url);
         if (records.length() > 0) {
