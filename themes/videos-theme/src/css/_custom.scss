@@ -395,3 +395,9 @@ input#_com_liferay_login_web_portlet_LoginPortlet_captchaText,input#_com_liferay
     }
   }
 }
+
+// Enleve les border autour des labels de contact
+.form-assembly-portlet form label.preField
+{
+	border-style: none;
+}
