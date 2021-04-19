@@ -32,6 +32,7 @@ import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.service.opendata.geo.city.OpenDataGeoCityService;
 import eu.strasbourg.service.opendata.geo.district.OpenDataGeoDistrictService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.PortletHelper;
@@ -139,7 +140,7 @@ public class MapPortlet extends MVCPortlet {
             List<AssetCategory> categories = null; // Les catégories actives
             List<Interest> interests = null; // Les intérêts actifs
             AssetCategory district = null;
-            JSONObject coordinatesZone = JSONFactoryUtil.createJSONObject();
+            JSONObject coordinatesZone = JSONFactoryUtil.createJSONObject(); // détourage d'une commune ou d'un quartier
 
             // Est-ce que la config du portlet est défini ?
             if (configuration.hasConfig()) {
@@ -211,8 +212,19 @@ public class MapPortlet extends MVCPortlet {
                                 }
                             }
                         }
-                        if (district != null) {
-                            coordinatesZone = openDataGeoDistrictService.getCoordinatesForSigId(AssetVocabularyHelper.getExternalId(district));
+                    }
+
+                    // Récupération de la zone de détourage s'il y a lieu
+                    if (district != null) {
+                        coordinatesZone = openDataGeoDistrictService.getCoordinatesForSigId(AssetVocabularyHelper.getExternalId(district));
+                    }else if (configuration.clippingTerritory() && Validator.isNotNull(configuration.clippingCategoryId())) {
+                        AssetCategory clipping = AssetCategoryLocalServiceUtil.getCategory(Long.parseLong(configuration.clippingCategoryId()));
+                        String sigId = AssetVocabularyHelper.getExternalId(clipping);
+                        if (sigId.startsWith("SQ_")) {
+                            coordinatesZone = openDataGeoDistrictService.getCoordinatesForSigId(sigId);
+                        }else {
+                            String number = sigId.split("C_")[1];
+                            coordinatesZone = openDataGeoCityService.getCoordinatesForNumCom(number);
                         }
                     }
 
@@ -634,5 +646,12 @@ public class MapPortlet extends MVCPortlet {
     @Reference(unbind = "-")
     public void setOpenDataGeoDistrictService(OpenDataGeoDistrictService openDataGeoDistrictService) {
         this.openDataGeoDistrictService = openDataGeoDistrictService;
+    }
+
+    private OpenDataGeoCityService openDataGeoCityService;
+
+    @Reference(unbind = "-")
+    public void setOpenDataGeoCityService(OpenDataGeoCityService openDataGeoCityService) {
+        this.openDataGeoCityService = openDataGeoCityService;
     }
 }

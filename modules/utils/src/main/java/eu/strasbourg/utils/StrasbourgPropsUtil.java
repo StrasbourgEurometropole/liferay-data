@@ -377,4 +377,8 @@ public class StrasbourgPropsUtil {
 	public static String getOpenDataDistricts() {
 		return PropsUtil.get("eu.strasbourg.opendata.districts");
 	}
+
+	public static String getOpenDataCities() {
+		return PropsUtil.get("eu.strasbourg.opendata.cities");
+	}
 }
