@@ -26223,8 +26223,6 @@ tarteaucitron.user.analyticsMore = function () {  };
 //<div class="dailymotion_player" videoID="video_id" width="width" height="height" showinfo="showinfo (1 | 0)" autoplay="autoplay (0 | 1)" embedType="embedType (video | playlist)"></div>
 (tarteaucitron.job = tarteaucitron.job || []).push('dailymotion');
 
-// Service custom : Creacast
-(tarteaucitron.job = tarteaucitron.job || []).push('iframecreacast');
   
 if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
 
