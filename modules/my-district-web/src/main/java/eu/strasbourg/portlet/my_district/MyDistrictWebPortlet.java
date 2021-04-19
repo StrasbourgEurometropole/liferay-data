@@ -1,27 +1,21 @@
 package eu.strasbourg.portlet.my_district;
 
-import java.io.IOException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.adict.AdictService;
+import eu.strasbourg.service.opendata.geo.district.OpenDataGeoDistrictService;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.WebKeys;
-
-import eu.strasbourg.service.adict.AdictService;
-import eu.strasbourg.utils.PortletHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import java.io.IOException;
 
 /**
  * @author angelique.champougny
@@ -39,7 +33,7 @@ public class MyDistrictWebPortlet extends MVCPortlet {
 	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-		MyDistrictDisplayContext dc = new MyDistrictDisplayContext(themeDisplay, request,adictService);
+		MyDistrictDisplayContext dc = new MyDistrictDisplayContext(themeDisplay, request, adictService, openDataGeoDistrictService);
 
 		request.setAttribute("dc", dc);
 		super.render(request, response);
@@ -49,4 +43,7 @@ public class MyDistrictWebPortlet extends MVCPortlet {
 
 	@Reference
 	private AdictService adictService;
+
+	@Reference
+	private OpenDataGeoDistrictService openDataGeoDistrictService;
 }

@@ -55,6 +55,8 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.AdictServiceTracker;
 import eu.strasbourg.service.adict.Street;
+import eu.strasbourg.service.opendata.geo.address.OpenDataGeoAddressService;
+import eu.strasbourg.service.opendata.geo.address.OpenDataGeoAddressServiceTracker;
 import eu.strasbourg.service.poi.PoiService;
 import eu.strasbourg.service.poi.PoiServiceTracker;
 import eu.strasbourg.service.strasbourg.service.base.StrasbourgServiceBaseImpl;
@@ -114,6 +116,18 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 			adictService = adictServiceTracker.getService();
 		}
 		return adictService;
+	}
+
+	private OpenDataGeoAddressService openDataGeoAddressService;
+	private OpenDataGeoAddressServiceTracker openDataGeoAddressServiceTracker;
+
+	private OpenDataGeoAddressService getOpenDataGeoAddressService() {
+		if (openDataGeoAddressService == null) {
+			openDataGeoAddressServiceTracker = new OpenDataGeoAddressServiceTracker(this);
+			openDataGeoAddressServiceTracker.open();
+			openDataGeoAddressService = openDataGeoAddressServiceTracker.getService();
+		}
+		return openDataGeoAddressService;
 	}
 
 	private PoiService poiService;
@@ -271,9 +285,9 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	}
 
 	@Override
-	public JSONArray getCoordinateForAddress(String address) {
+	public JSONArray getCoordinateForAddress(String address, String zipCode, String city) {
 		try {
-			return getAdictService().getCoordinateForAddress(address);
+			return getOpenDataGeoAddressService().getCoordinateForAddress(address, zipCode, city);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -85,7 +85,8 @@ public interface StrasbourgService extends BaseService {
 	public String getArticleHTMLContent(long groupId, String articleId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getCoordinateForAddress(String address);
+	public JSONArray getCoordinateForAddress(
+		String address, String zipCode, String city);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getCopyright(long groupId, String uuid, String language);
