@@ -1399,12 +1399,12 @@ var menuOverlay = {
             menuOverlay.el = el;
 
             menuOverlay.initEventsFirstLevelInOverlay();
-            //menuOverlay.initSearch();
+            menuOverlay.initSearch();
             menuOverlay.initEventsFirstLevel();
         }
     },
 
-    /*initSearch: function () {
+    initSearch: function () {
         $(menuOverlay._selector.searchBtn).on("click", function (e) {
             e.preventDefault();
 
@@ -1434,7 +1434,7 @@ var menuOverlay = {
                 document.querySelector(".th-dropdown-results").classList.add("th-active");
             }
         })
-    },*/
+    },
 
     initEventsFirstLevel: function () {
         $(menuOverlay._selector.firstLvlClass, menuOverlay._selector.headerContainer).on("click", function (e) {
