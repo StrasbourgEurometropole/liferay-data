@@ -10,7 +10,6 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.place.model.CacheJson;
 import eu.strasbourg.service.place.model.Historic;
@@ -27,12 +26,12 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -155,12 +154,12 @@ public class PlaceApplication extends Application {
 		return WSResponseUtil.buildOkResponse(json);
 	}
 
-	@GET
+	@PUT
 	@Produces("application/json")
-	@Path("/get-categories/{last_update_time}/{ids_category}")
+	@Path("/get-categories/{last_update_time}")
 	public Response getCategories(
 			@PathParam("last_update_time") String lastUpdateTimeString,
-			@PathParam("ids_category") String ids) {
+			String ids_category) {
 
 		// On vérifie que lastUpdateTimeString est renseigné
 		if (Validator.isNull(lastUpdateTimeString))
@@ -177,18 +176,8 @@ public class PlaceApplication extends Application {
 		}
 
 		// On vérifie que les ids sont renseignés
-		if (Validator.isNull(ids))
+		if (Validator.isNull(ids_category))
 			return WSResponseUtil.buildErrorResponse(400, "Il manque le paramètre ids_category");
-
-		// On vérifie le format de ids_category
-		JSONObject idsCategoryParam;
-		JSONArray idsJson;
-		try {
-			idsCategoryParam = JSONFactoryUtil.createJSONObject(ids);
-			idsJson = idsCategoryParam.getJSONArray(WSConstants.PARAM_IDS_CATEGORY);
-		}catch (Exception e) {
-			return WSResponseUtil.buildErrorResponse(400, "Format json de ids_category incorrect");
-		}
 
 		JSONObject json = JSONFactoryUtil.createJSONObject();
 
@@ -239,9 +228,9 @@ public class PlaceApplication extends Application {
 			// On récupère toutes les catégories qui ont été supprimées
 			JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 			if(Validator.isNotNull(placeTypeVocabulary))
-				for (int i = 0; i < idsJson.length(); i++) {
-					if(AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idsJson.get(i).toString()) == null)
-						jsonSuppr.put(idsJson.get(i));
+				for (String idCategory : ids_category.split(",")) {
+					if(AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null)
+						jsonSuppr.put(idCategory);
 				}
 			json.put(WSConstants.JSON_DELETE, jsonSuppr);
 		} catch (PortalException | NoDefaultPictoException e) {
