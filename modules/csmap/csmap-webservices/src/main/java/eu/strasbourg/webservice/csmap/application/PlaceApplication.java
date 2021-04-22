@@ -218,7 +218,7 @@ public class PlaceApplication extends Application {
 				if (lastUpdateTime.before(categ.getCreateDate()))
 					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, true));
 				else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
-					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
+					jsonModif.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
 
 			}
 
