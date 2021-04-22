@@ -1,5 +1,6 @@
 package eu.strasbourg.webservice.csmap.utils;
 
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
@@ -21,6 +22,13 @@ public class WSResponseUtil {
             response = Response.serverError().entity(json.toString()).build();
 
         return response;
+    }
+
+    public static Response buildOkResponse(JSONArray jsonArray) {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+        json.put(WSConstants.JSON_RESPONSE, jsonArray);
+        editJsonResponseCode(json, 200);
+        return Response.ok(json.toString()).build();
     }
 
     public static Response buildOkResponse(JSONObject json) {

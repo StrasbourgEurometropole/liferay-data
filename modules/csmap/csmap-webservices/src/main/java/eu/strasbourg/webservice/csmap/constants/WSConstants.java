@@ -10,6 +10,8 @@ public class WSConstants {
     public static final String APP_PLACE_NAME = "CSMAP.Place.Rest";
     public static final String APP_PROFILE_BASE = "/profile";
     public static final String APP_PROFILE_NAME = "CSMAP.Profile.Rest";
+    public static final String APP_ACCOUNT_DATA_BASE = "/account-data";
+    public static final String APP_ACCOUNT_DATA_NAME = "CSMAP.Account.Data.Rest";
 
     /** Publik */
     public static final String REDIRECT_URI = "http://localhost:8080/static.html";
@@ -33,6 +35,7 @@ public class WSConstants {
 
     /** JSON de réponse */
     // Global
+    public static final String JSON_RESPONSE = "response";
     public static final String JSON_RESPONSE_CODE = "responseCode";
     public static final String JSON_ERROR_DESCRIPTION = "errorDescription";
     // Auth
@@ -50,6 +53,10 @@ public class WSConstants {
     public static final String JSON_POSTAL_CODE = "postalCode";
     public static final String JSON_CITY = "city";
     public static final String JSON_IMAGE_URL = "imageURL";
+    // Account-Data
+    public static final String JSON_TITLE = "title";
+    public static final String JSON_STATUS = "status";
+    public static final String JSON_URL = "URL";
 
     /** Erreurs */
     // Global

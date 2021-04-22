@@ -1,20 +1,5 @@
 package eu.strasbourg.portlet.demarches.portlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import eu.strasbourg.utils.StrasbourgPropsUtil;
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -23,11 +8,22 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.demarches.configuration.DemarchesConfiguration;
 import eu.strasbourg.utils.PortletHelper;
-import eu.strasbourg.utils.PublikApiClient;
+import eu.strasbourg.utils.ProcedureHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.exception.NoUserFormException;
+import eu.strasbourg.utils.models.Procedure;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author angelique.champougny
@@ -52,24 +48,13 @@ public class DemarchesWebPortlet extends MVCPortlet {
 			renderRequest.setAttribute("idUser", idUser);
 
 			// récupération des démarches
-			List<Demarche> demarches = new ArrayList<Demarche>();
-			JSONObject userForms = PublikApiClient.getUserForms(idUser, true);
-			if (userForms.toString().equals("{}")) {
+			List<Procedure> procedures = new ArrayList();
+			try {
+				procedures = ProcedureHelper.getProcedures(idUser);
+			}catch (NoUserFormException e){
 				renderRequest.setAttribute("error", "publik");
-			} else {
-				JSONArray forms = userForms.getJSONArray("data");
-				if(forms != null){
-					for (int  i=0; i<forms.length(); i++) {
-						JSONObject form = forms.getJSONObject(i);
-						if(form.getString("form_status_is_endpoint").equals("false")){
-							Demarche demarche = new Demarche(form.getString("form_name"), form.getString("form_status"), form.getString("url"));
-							demarches.add(demarche);
-						}
-						if(demarches.size() == 3) break;
-					}
-				}
 			}
-			renderRequest.setAttribute("demarches", demarches);
+			renderRequest.setAttribute("demarches", procedures.subList(0,procedures.size()>3?3:procedures.size()));
 
 			// récupère l'url de la configuration
 			ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
