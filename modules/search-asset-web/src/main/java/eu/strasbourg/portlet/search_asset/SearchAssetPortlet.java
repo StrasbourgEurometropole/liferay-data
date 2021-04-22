@@ -99,6 +99,7 @@ import java.util.concurrent.ConcurrentHashMap;
             "com.liferay.portlet.display-category=Strasbourg",
             "com.liferay.portlet.instanceable=false",
             "com.liferay.portlet.css-class-wrapper=search-asset-portlet",
+            "com.liferay.portlet.header-portlet-css=/css/search-asset-web.css",
             "com.liferay.portlet.single-page-application=false",
             "javax.portlet.version=3.0",
             "javax.portlet.init-param.template-path=/",
