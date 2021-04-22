@@ -221,6 +221,7 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
             // préparation du template de mail
             Map<String, Object> context = new HashMap<>();
             context.put("helpProposalTitle", helpRequest.getHelpProposal().getTitle(themeDisplay.getLocale()));
+            context.put("helpProposalId", helpRequest.getHelpProposalId());
             context.put("helpRequestMessage", helpRequest.getMessage());
             context.put("helpRequestCreateDate", helpRequestCreateDate);
             context.put("helpSeekerLastName", helpRequest.getAuthor().getLastName());
