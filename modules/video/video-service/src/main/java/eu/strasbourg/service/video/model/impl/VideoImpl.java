@@ -429,11 +429,11 @@ public class VideoImpl extends VideoBaseImpl {
         } else {
             String videoId = getVideoId(site, videoURL);
             if (site.equals("dailymotion")) {
-                player = "<div class=\"dailymotion_player\" videoID=\"" + videoId + "\" autoplay=\"0\"></div>";
+                player = "<div class=\"dailymotion_player\" videoID=\"" + videoId + "\" autoplay=\"0\" width=\"100%\" height=\"100%\"></div>";
             } else if (site.equals("youtube")) {
-                player = "<div class=\"youtube_player\" videoID=\"" + videoId + "\"controls=\"1\" autoplay=\"0\" mute=\"0\"></div>";
+                player = "<div class=\"youtube_player\" videoID=\"" + videoId + "\"controls=\"1\" autoplay=\"0\" mute=\"0\" width=\"100%\" height=\"100%\"></div>";
             } else if (site.equals("vimeo")) {
-                player = "<div class=\"vimeo_player\" videoID=\"" + videoId + "\"></div>";
+                player = "<div class=\"vimeo_player\" videoID=\"" + videoId + "\" width=\"100%\" height=\"100%\"></div>";
             }
         }
 
@@ -450,19 +450,16 @@ public class VideoImpl extends VideoBaseImpl {
 		String videoUrl = this.getSource(locale);
 		if (videoUrl.contains("dailymotion.")) {
 			String[] videoUrlParts = videoUrl.split("/");
-			String videoId = videoUrlParts[videoUrlParts.length - 1];            
-			player = "<div id=\"player\" data-video-id=\""+videoId+"\"></div>";
+			String videoId = videoUrlParts[videoUrlParts.length - 1];
+            player = "<div class=\"dailymotion_player\" videoID=\"" + videoId + "\" autoplay=\"0\" width=\"100%\" height=\"100%\"></div>";
 		} else if (videoUrl.contains("youtube.")) {
 			String[] videoUrlParts = videoUrl.split("v=");
 			String videoId = videoUrlParts[videoUrlParts.length - 1];
-			player = "<iframe id=\"youtubePlayer\" width=\"auto\" height=\"auto\" src=\"https://www.youtube.com/embed/"
-					+ videoId
-					+ "?enablejsapi=1\" frameborder=\"0\" allowfullscreen></iframe>";
+            player = "<div class=\"youtube_player\" videoID=\"" + videoId + "\"controls=\"1\" autoplay=\"0\" mute=\"0\" width=\"100%\" height=\"100%\"></div>";
 		} else if (videoUrl.contains("vimeo.")) {
 			String[] videoUrlParts = videoUrl.split("/");
 			String videoId = videoUrlParts[videoUrlParts.length - 1];
-			player = "<iframe src=\"https://player.vimeo.com/video/" + videoId
-					+ "?title=0&byline=0&portrait=0&api=1\" width=\"auto\" height=\"auto\" frameborder=\"0\" allowfullscreen></iframe>";
+            player = "<div class=\"vimeo_player\" videoID=\"" + videoId + "\" width=\"100%\" height=\"100%\"></div>";
 		} else {
 			player = this.getSource(locale);
 		}

@@ -47,16 +47,9 @@
                 </c:if>
             </c:if>
             <ul style="list-style: disc; margin-top: 20px;">
-                <li><a href="${homeURL}mon-quartier?district=SQ_01">Centre - R&eacute;publique</a></li>
-                <li><a href="${homeURL}mon-quartier?district=SQ_02">Bourse - Esplanade - Krutenau</a></li>
-                <li><a href="${homeURL}mon-quartier?district=SQ_03">Centre - Gare</a></li>
-                <li><a href="${homeURL}mon-quartier?district=SQ_04">Conseil des XV - Rotterdam</a></li>
-                <li><a href="${homeURL}mon-quartier?district=SQ_05">Robertsau - Wacken</a></li>
-                <li><a href="${homeURL}mon-quartier?district=SQ_06">Cronenbourg - Hautepierre - Poteries - Hohberg</a></li>
-                <li><a href="${homeURL}mon-quartier?district=SQ_07">Meinau</a></li>
-                <li><a href="${homeURL}mon-quartier?district=SQ_08">Neudorf - Schluthfeld - Port du Rhin - Musau</a></li>
-                <li><a href="${homeURL}mon-quartier?district=SQ_09">Koenigshoffen - Montagne-Verte - Elsau</a></li>
-                <li><a href="${homeURL}mon-quartier?district=SQ_10">Neuhof - Stockfeld - Ganzau</a></li>
+                <c:forEach var="district" items="${dc.allDistricts}">
+                    <li><a href="${homeURL}mon-quartier?district=${district[1]}">${district[0]}</a></li>
+                </c:forEach>
             </ul>
         </div>
 	</div>

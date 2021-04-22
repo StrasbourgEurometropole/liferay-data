@@ -2,6 +2,12 @@
 @import 'lib/font-lineicons.css';
 @import 'lib/toastr.min.css';
 @import "tarteaucitron";
+
+// Enleve les border autour des labels de contact
+.form-assembly-portlet form label.preField
+{
+	border-style: none;
+}
 .see .fa,
 .see .gallery-thumb-link:after {
   text-rendering: auto;

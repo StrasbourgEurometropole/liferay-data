@@ -1103,18 +1103,42 @@ public class AgendaImporter {
 				JSONArray categoryArray = json.getJSONArray(field);
 				if (categoryArray != null) {
 					for (int i = 0; i < categoryArray.length(); i++) {
-						String externalId = categoryArray.getString(i);
+						String oldExternalId = categoryArray.getString(i);
 						AssetVocabulary fieldVocabulary = fieldVocabularies
-							.get(field);
-						AssetCategory category = AssetVocabularyHelper
-							.getCategoryByExternalId(fieldVocabulary,
-								externalId);
-						if (category == null) {
-							reportLine.error(LanguageUtil.format(bundle,
-								"wrong-category",
-								new String[] { String.valueOf(externalId) }));
-						} else {
-							categories.add(category);
+								.get(field);
+
+						// On transforme les anciens quartiers en nouveaux
+						Map<String, String> districtMapping = new HashMap<String, String>() {
+							{
+								put("SQ_01", "SQ_120,SQ_107");
+								put("SQ_02", "SQ_101,SQ_105");
+								put("SQ_03", "SQ_106,SQ_107");
+								put("SQ_04", "SQ_115");
+								put("SQ_05", "SQ_118,SQ_119");
+								put("SQ_06", "SQ_102,SQ_103,SQ_108,SQ_117");
+								put("SQ_07", "SQ_110");
+								put("SQ_08", "SQ_112,SQ_116");
+								put("SQ_09", "SQ_104,SQ_109,SQ_111");
+								put("SQ_10", "SQ_113,SQ_114");
+							}
+						};
+						String newExternalId = districtMapping.get(oldExternalId);
+						if(Validator.isNull(newExternalId)){
+							newExternalId = oldExternalId;
+						}
+
+						String[] externalsId = newExternalId.split(",");
+						for( String externalId : externalsId ) {
+							AssetCategory category = AssetVocabularyHelper
+									.getCategoryByExternalId(fieldVocabulary,
+											externalId);
+							if (category == null) {
+								reportLine.error(LanguageUtil.format(bundle,
+										"wrong-category",
+										new String[] { String.valueOf(oldExternalId) }));
+							} else {
+								categories.add(category);
+							}
 						}
 					}
 				}

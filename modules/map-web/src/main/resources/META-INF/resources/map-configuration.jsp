@@ -88,6 +88,27 @@
                     <div>
                         <aui:input type="checkbox" name="showPictos" value="${showPictos || !hasConfig}" label="show-pictos" />
                     </div>
+
+                    <!-- Détourage d'un quartier ou d'une commune -->
+                    <div class="clippingTerritory">
+                        <aui:input type="checkbox" name="clippingTerritory" value="${clippingTerritory || !hasConfig}" label="clipping-territory" />
+                    </div>
+
+                    <div class="clippingTerritoryChecked">
+
+                        <!-- Choix de la zone à détourer -->
+                        <label><liferay-ui:message key="choise-territory" /></label>
+                        <select class="toCustomSelect" id="clippingCategoryId" name="<portlet:namespace />clippingCategoryId">
+                            <aui:option value=""></aui:option>
+                            <c:forEach items="${territories}" var="territory">
+                                <aui:option value="${territory[0]}"
+                                    label="${territory[1]}"
+                                    selected="${territory[0] == clippingCategoryId}" />
+                            </c:forEach>
+                        </select>
+
+                    </div>
+
                 </aui:fieldset>
 
                 <!-- Carto normale -->
@@ -289,6 +310,14 @@
                        }
                     }
 
+                    var refreshConfigClipping = function() {
+                       if ($('.clippingTerritory input[type=checkbox]').is(":checked")) {
+                           $('.clippingTerritoryChecked').show();
+                       } else {
+                           $('.clippingTerritoryChecked').hide();
+                       }
+                    }
+
                     var refreshConfigTrafficDisplay = function() {
                        if ($('.infoTraffic input[type=checkbox]').is(":checked")) {
                            $('.infoTrafficChecked').show();
@@ -308,12 +337,17 @@
                        }
                     })
 
+                    $('.clippingTerritory input[type=checkbox]').on('change', function() {
+                        refreshConfigClipping();
+                    })
+
                     $('.infoTraffic input[type=checkbox]').on('change', function() {
                         refreshConfigTrafficDisplay();
                     })
 
                     $(function() {
                         refreshConfigDisplay();
+                        refreshConfigClipping();
                         refreshConfigTrafficDisplay();
                     })
                 </script>

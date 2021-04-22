@@ -146,18 +146,6 @@
 		<div class="closure"> <div class="center"> <a href="http://www.strasbourg.eu" target="_blank" title="Strasbourg.eu">Strasbourg.eu</a></div> </div>
 	</footer>
 </div>
-
-<#if  propsUtil.get('eu.strasbourg.environment') == "PROD">
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-8"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'UA-33301756-8');
-	</script>
-</#if>
 </body>
 
 	<@liferay_util["include"] page=body_bottom_include />

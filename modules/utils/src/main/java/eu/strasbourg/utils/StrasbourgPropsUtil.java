@@ -365,4 +365,20 @@ public class StrasbourgPropsUtil {
 		}
 		return result;
 	}
+
+	public static String getOpenDataBaseURL() {
+		return PropsUtil.get("eu.strasbourg.opendata.url");
+	}
+
+	public static String getOpenDataAddresses() {
+		return PropsUtil.get("eu.strasbourg.opendata.addresses");
+	}
+
+	public static String getOpenDataDistricts() {
+		return PropsUtil.get("eu.strasbourg.opendata.districts");
+	}
+
+	public static String getOpenDataCities() {
+		return PropsUtil.get("eu.strasbourg.opendata.cities");
+	}
 }

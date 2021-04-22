@@ -234,7 +234,10 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
  					placitPlace.setBudgetParticipatifId(budgetParticipatif.getBudgetParticipatifId());
 
  					// Mise à jour en base
- 					_placitPlaceLocalService.updatePlacitPlace(placitPlace, sc);
+					ServiceContext scPlacitPlace = (ServiceContext) sc.clone();
+					long[] ids = new long[0];
+					scPlacitPlace.setAssetCategoryIds(ids);
+ 					_placitPlaceLocalService.updatePlacitPlace(placitPlace, scPlacitPlace);
  				}
  			}
  			
