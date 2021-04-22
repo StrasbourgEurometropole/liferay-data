@@ -10,7 +10,6 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.place.model.CacheJson;
 import eu.strasbourg.service.place.model.Historic;
@@ -27,12 +26,12 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -155,94 +154,12 @@ public class PlaceApplication extends Application {
 		return WSResponseUtil.buildOkResponse(json);
 	}
 
-	@GET
+	@PUT
 	@Produces("application/json")
-	@Path("/get-emergencies/{last_update_time}")
-	public Response getEmergencies(@PathParam("last_update_time") String lastUpdateTimeString){
-
-		// On vérifie que lastUpdateTimeString est renseigné
-		if (Validator.isNull(lastUpdateTimeString))
-			return WSResponseUtil.buildErrorResponse(400,
-					"Il manque le paramètre last_update_time");
-
-		// On transforme la date string en date
-		Date lastUpdateTime;
-		try {
-			long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
-			lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
-		}catch (Exception e) {
-			return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
-		}
-
-		JSONObject json = JSONFactoryUtil.createJSONObject();
-
-		try {
-
-			// On récupère les pictos du vocabulaire
-			Map<String, DLFileEntry> pictos = FileEntryHelper.getPictoForVocabulary(VocabularyNames.PLACE_TYPE, "CSMap");
-
-			// On récupère l'URL du picto par défaut
-			String pictoDefaultURL = "";
-			DLFileEntry picto = pictos.get("Defaut");
-			if (Validator.isNull(picto))
-				throw new NoDefaultPictoException();
-			pictoDefaultURL = FileEntryHelper.getFileEntryURL(picto);
-
-			// On récupère les catégories du vocabulaire des lieux
-			AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
-					.getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
-			List<AssetCategory> categories = new ArrayList<>();
-			if(Validator.isNotNull(placeTypeVocabulary))
-				categories = placeTypeVocabulary.getCategories();
-
-			// On récupère toutes les catégories qui ont été ajoutées ou modifiées
-			JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
-			JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-
-			for (AssetCategory categ: categories) {
-				// récupère l'URL du picto de la catégorie
-				String pictoURL;
-				picto = pictos.get(AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(),"SIG"));
-				boolean updatePicto = false;
-
-				if (picto != null) {
-					pictoURL = FileEntryHelper.getFileEntryURL(picto);
-					updatePicto = lastUpdateTime.before(picto.getModifiedDate());
-				} else
-					pictoURL = pictoDefaultURL;
-
-				if (lastUpdateTime.before(categ.getCreateDate()))
-					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, true));
-				else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
-					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
-
-			}
-
-			json.put(WSConstants.JSON_ADD, jsonAjout);
-			json.put(WSConstants.JSON_UPDATE, jsonModif);
-
-			// On récupère toutes les catégories qui ont été supprimées
-			JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-			if(Validator.isNotNull(placeTypeVocabulary))
-				for (int i = 0; i < idsJson.length(); i++) {
-					if(AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idsJson.get(i).toString()) == null)
-						jsonSuppr.put(idsJson.get(i));
-				}
-			json.put(WSConstants.JSON_DELETE, jsonSuppr);
-		} catch (PortalException | NoDefaultPictoException e) {
-			log.error(e);
-			return WSResponseUtil.buildErrorResponse(500, e.getMessage());
-		}
-
-		return WSResponseUtil.buildOkResponse(json);
-	}
-
-	@GET
-	@Produces("application/json")
-	@Path("/get-categories/{last_update_time}/{ids_category}")
+	@Path("/get-categories/{last_update_time}")
 	public Response getCategories(
 			@PathParam("last_update_time") String lastUpdateTimeString,
-			@PathParam("ids_category") String ids) {
+			String ids_category) {
 
 		// On vérifie que lastUpdateTimeString est renseigné
 		if (Validator.isNull(lastUpdateTimeString))
@@ -259,18 +176,8 @@ public class PlaceApplication extends Application {
 		}
 
 		// On vérifie que les ids sont renseignés
-		if (Validator.isNull(ids))
+		if (Validator.isNull(ids_category))
 			return WSResponseUtil.buildErrorResponse(400, "Il manque le paramètre ids_category");
-
-		// On vérifie le format de ids_category
-		JSONObject idsCategoryParam;
-		JSONArray idsJson;
-		try {
-			idsCategoryParam = JSONFactoryUtil.createJSONObject(ids);
-			idsJson = idsCategoryParam.getJSONArray(WSConstants.PARAM_IDS_CATEGORY);
-		}catch (Exception e) {
-			return WSResponseUtil.buildErrorResponse(400, "Format json de ids_category incorrect");
-		}
 
 		JSONObject json = JSONFactoryUtil.createJSONObject();
 
@@ -311,7 +218,7 @@ public class PlaceApplication extends Application {
 				if (lastUpdateTime.before(categ.getCreateDate()))
 					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, true));
 				else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
-					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
+					jsonModif.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
 
 			}
 
@@ -321,9 +228,9 @@ public class PlaceApplication extends Application {
 			// On récupère toutes les catégories qui ont été supprimées
 			JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 			if(Validator.isNotNull(placeTypeVocabulary))
-				for (int i = 0; i < idsJson.length(); i++) {
-					if(AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idsJson.get(i).toString()) == null)
-						jsonSuppr.put(idsJson.get(i));
+				for (String idCategory : ids_category.split(",")) {
+					if(AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null)
+						jsonSuppr.put(idCategory);
 				}
 			json.put(WSConstants.JSON_DELETE, jsonSuppr);
 		} catch (PortalException | NoDefaultPictoException e) {
