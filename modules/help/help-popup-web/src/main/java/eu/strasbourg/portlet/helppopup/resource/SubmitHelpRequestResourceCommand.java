@@ -451,7 +451,7 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
                 nbRecentRequests++;
             }
         }
-        if (nbRecentRequests >= 2) {
+        if (nbRecentRequests >= 5) {
             this.messageResult = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_NB_REQUESTS);
             this.title = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_NB_REQUESTS_TITLE);
             return false;
