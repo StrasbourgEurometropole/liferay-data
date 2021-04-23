@@ -74,9 +74,24 @@ public class WSConstants {
     public static final String JSON_WC_ID = "id";
     public static final String JSON_DATE = "date";
     public static final String JSON_WC_TITLE = "title";
+    public static final String JSON_WC_ORDER = "order";
+    public static final String JSON_WC_NUMBER = "number";
+    public static final String JSON_WC_COLOR = "color";
+    public static final String JSON_WC_FONT_COLOR = "fontColor";
+    public static final String JSON_WC_BACKGROUND_COLOR = "backgroundColor";
+    public static final String JSON_WC_CATEGORY_ID = "categoryId";
+    public static final String JSON_WC_CATEGORY_ORDER = "categoryOrder";
+    public static final String JSON_WC_CATEGORY_TITLE = "categoryTitle";
+    public static final String JSON_WC_CATEGORY_CONTENT = "categoryContent";
+    public static final String JSON_WC_EMERGENCY_NUMBERS = "emergencyNumbers";
+    public static final String JSON_WC_EMERGENCY_HELPS = "emergencyHelps";
     public static final String JSON_SUBTITLE = "subtitle";
     public static final String JSON_DESCRIPTION = "description";
     public static final String JSON_WC_URL = "url";
+    public static final String GROUP_KEY = "CSMAP";
+    public static final String FOLDER_EMERGENCIES = "Urgences";
+    public static final String FOLDER_EMERGENCY_NUMBERS = "Num\u00e9ros urgence";
+    public static final String FOLDER_EMERGENCY_HELPS = "Aides urgence";
 
     /** Erreurs */
     // Global
