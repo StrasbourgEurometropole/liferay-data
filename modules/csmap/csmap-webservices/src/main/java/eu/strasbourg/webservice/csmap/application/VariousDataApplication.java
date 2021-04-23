@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
@@ -32,7 +33,6 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -103,9 +103,7 @@ public class VariousDataApplication extends Application {
             DDMStructure structure = DDMStructureLocalServiceUtil.getStructures(group.getGroupId()).stream().filter(s -> s.getName(Locale.FRANCE).equals("Breve")).findFirst().orElse(null);
             for (AssetEntry entry : entries) {
                 // récupération de la dernière version du journalArticle
-                // (JournalArticleLocalServiceUtil.getLatestArticle() retourne le dernier journaleArticle au status 0)
-                List<JournalArticle> journalArticles = JournalArticleLocalServiceUtil.getArticlesByResourcePrimKey(entry.getClassPK());
-                JournalArticle journalArticle = journalArticles.stream().max(Comparator.comparingDouble(JournalArticle::getVersion)).orElse(null);
+                JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(entry.getClassPK());
                 if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED)
                     breves.add(journalArticle);
             }

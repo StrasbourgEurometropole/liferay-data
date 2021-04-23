@@ -55,7 +55,7 @@ public class AccountDataApplication extends Application {
     @GET
     @Produces("application/json")
     @Path("/get-procedures")
-    public Response getProfile(
+    public Response getProcedures(
             @Context HttpHeaders httpHeaders) {
 
         JSONArray jsonProcedures = JSONFactoryUtil.createJSONArray();
