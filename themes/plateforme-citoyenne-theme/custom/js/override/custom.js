@@ -1282,7 +1282,7 @@ function goToPage(wi, index){
     // Gestion affichage du résultat de la pagination
     var indexDernierItemPage = index * delta;
     var pageResult = 'Affichage des résultats ' +
-                    (wi.items_count > 0 ? (index > 1 ? ((index-1)*delta) : '1') : '0') + ' - ' +
+                    (wi.items_count > 0 ? (index > 1 ? ((index-1)*delta+1) : '1') : '0') + ' - ' +
                     (wi.items_count < indexDernierItemPage ? wi.items_count : indexDernierItemPage) +
                     ' parmi ' + wi.items_count;
     wi.$widget.find('.pro-pagination .pull-left .hidden-xs').text(pageResult);
