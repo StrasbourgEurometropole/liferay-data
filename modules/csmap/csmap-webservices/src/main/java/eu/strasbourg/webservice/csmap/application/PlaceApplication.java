@@ -21,6 +21,7 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.place.NoDefaultPictoException;
+import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
@@ -159,7 +160,7 @@ public class PlaceApplication extends Application {
 	@Path("/get-categories/{last_update_time}")
 	public Response getCategories(
 			@PathParam("last_update_time") String lastUpdateTimeString,
-			String ids_category) {
+			String params) {
 
 		// On vérifie que lastUpdateTimeString est renseigné
 		if (Validator.isNull(lastUpdateTimeString))
@@ -176,7 +177,7 @@ public class PlaceApplication extends Application {
 		}
 
 		// On vérifie que les ids sont renseignés
-		if (Validator.isNull(ids_category))
+		if (Validator.isNull(params) || !params.contains("ids_category="))
 			return WSResponseUtil.buildErrorResponse(400, "Il manque le paramètre ids_category");
 
 		JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -216,9 +217,9 @@ public class PlaceApplication extends Application {
 					pictoURL = pictoDefaultURL;
 
 				if (lastUpdateTime.before(categ.getCreateDate()))
-					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, true));
+					jsonAjout.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, true));
 				else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
-					jsonModif.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
+					jsonModif.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
 
 			}
 
@@ -227,11 +228,15 @@ public class PlaceApplication extends Application {
 
 			// On récupère toutes les catégories qui ont été supprimées
 			JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-			if(Validator.isNotNull(placeTypeVocabulary))
-				for (String idCategory : ids_category.split(",")) {
-					if(AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null)
-						jsonSuppr.put(idCategory);
-				}
+
+			String[] paramsArray = params.split("ids_category=");
+			if(paramsArray.length > 1 ) {
+				if (Validator.isNotNull(placeTypeVocabulary))
+					for (String idCategory : paramsArray[1].split(",")) {
+						if (AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null)
+							jsonSuppr.put(idCategory);
+					}
+			}
 			json.put(WSConstants.JSON_DELETE, jsonSuppr);
 		} catch (PortalException | NoDefaultPictoException e) {
 			log.error(e);

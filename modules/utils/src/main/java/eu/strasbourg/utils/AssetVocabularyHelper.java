@@ -590,32 +590,6 @@ public class AssetVocabularyHelper {
 		return jsonCategory;
 	}
 
-	static public JSONObject categoryCSMapJSON(AssetCategory category, String urlPicto, boolean maj) throws PortalException {
-		JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
-		if (category != null) {
-			String externalId = AssetVocabularyHelper.getExternalId(category);
-			jsonCategory.put("id", externalId);
-			String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
-			if (Validator.isNotNull(parentExternalId)) {
-				jsonCategory.put("parentId", parentExternalId);
-			}
-			JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
-			nameJSON.put("fr_FR", category.getTitle(Locale.FRANCE));
-			if (Validator.isNotNull(category.getTitle(Locale.US))) {
-				nameJSON.put("en_US", category.getTitle(Locale.US));
-			}
-			if (Validator.isNotNull(category.getTitle(Locale.GERMANY))) {
-				nameJSON.put("de_DE", category.getTitle(Locale.GERMANY));
-			}
-			jsonCategory.put("name", nameJSON);
-			JSONObject jsonPicto = JSONFactoryUtil.createJSONObject();
-			jsonPicto.put("pictoURL", StrasbourgPropsUtil.getURL() + urlPicto);
-			jsonPicto.put("maj", maj);
-			jsonCategory.put("picto", jsonPicto);
-		}
-		return  jsonCategory;
-	}
-
 	/**
 	 * Retourne un JSONArray des externalIds d'une liste de catégories
 	 */

@@ -15,6 +15,7 @@ public class WSConstants {
     public static final String APP_VARIOUS_DATA_BASE = "/various-data";
     public static final String APP_VARIOUS_DATA_NAME = "CSMAP.Various.Data.Rest";
 
+
     /** Publik */
     public static final String REDIRECT_URI = "http://localhost:8080/static.html";
     public static final String ID_TOKEN = "id_token";
@@ -40,6 +41,9 @@ public class WSConstants {
     public static final String JSON_RESPONSE = "response";
     public static final String JSON_RESPONSE_CODE = "responseCode";
     public static final String JSON_ERROR_DESCRIPTION = "errorDescription";
+    public static final String JSON_LANGUAGE_FRANCE = "fr_FR";
+    public static final String JSON_LANGUAGE_GERMANY = "de_DE";
+    public static final String JSON_LANGUAGE_US = "en_US";
     // Auth
     public static final String JSON_REFRESH_TOKEN = "refreshToken";
     public static final String JSON_JWT_CSM = "JWT_CSM";
@@ -47,6 +51,13 @@ public class WSConstants {
     public static final String JSON_ADD = "ADD";
     public static final String JSON_UPDATE = "UPDATE";
     public static final String JSON_DELETE = "DELETE";
+    // Place catégories
+    public static final String JSON_CATEG_ID = "id";
+    public static final String JSON_PARENT_ID = "parentId";
+    public static final String JSON_NAME = "name";
+    public static final String JSON_PICTO = "picto";
+    public static final String JSON_PICTO_URL = "pictoURL";
+    public static final String JSON_MAJ = "maj";
     // Profil
     public static final String JSON_LAST_NAME = "lastname";
     public static final String JSON_FIRST_NAME = "firstname";
@@ -59,6 +70,13 @@ public class WSConstants {
     public static final String JSON_TITLE = "title";
     public static final String JSON_STATUS = "status";
     public static final String JSON_URL = "URL";
+    // Various-Data
+    public static final String JSON_WC_ID = "id";
+    public static final String JSON_DATE = "date";
+    public static final String JSON_WC_TITLE = "title";
+    public static final String JSON_SUBTITLE = "subtitle";
+    public static final String JSON_DESCRIPTION = "description";
+    public static final String JSON_WC_URL = "url";
 
     /** Erreurs */
     // Global
