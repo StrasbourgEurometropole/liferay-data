@@ -165,7 +165,12 @@ public class SaveHelpProposalActionCommand implements MVCActionCommand {
 				}
 			}
 
+			// Recuperation du status pour eviter une publication automatique lors de l'enregistrement
+			// -> Passage par le listing pour publier/depublier
+			// TODO Modifier le service pour que le comportement par defaut soit coherent ?
+			int helpProposalStatus = helpProposal.getStatus();
 			_helpProposalLocalService.updateHelpProposal(helpProposal, sc);
+			_helpProposalLocalService.updateStatus(helpProposal, helpProposalStatus);
 
 		} catch (PortalException e) {
 			_log.error(e);
