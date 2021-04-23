@@ -12,6 +12,8 @@ public class WSConstants {
     public static final String APP_PROFILE_NAME = "CSMAP.Profile.Rest";
     public static final String APP_ACCOUNT_DATA_BASE = "/account-data";
     public static final String APP_ACCOUNT_DATA_NAME = "CSMAP.Account.Data.Rest";
+    public static final String APP_VARIOUS_DATA_BASE = "/various-data";
+    public static final String APP_VARIOUS_DATA_NAME = "CSMAP.Various.Data.Rest";
 
     /** Publik */
     public static final String REDIRECT_URI = "http://localhost:8080/static.html";
