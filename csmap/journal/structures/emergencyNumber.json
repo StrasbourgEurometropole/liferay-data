@@ -20,7 +20,7 @@
             "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
-            "name": "titre",
+            "name": "title",
             "readOnly": false,
             "repeatable": false,
             "required": true,
