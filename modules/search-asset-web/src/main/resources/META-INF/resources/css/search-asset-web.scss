@@ -7,4 +7,12 @@
   #quartiers.quartiers-selector {
     margin-left: 35px;
   }
+
+  #districtToggleButton.district-toggle:focus{
+    box-shadow: none;
+  }
+
+  .help-pagination .selectric > span.label {
+    border-style: none;
+  }
 }

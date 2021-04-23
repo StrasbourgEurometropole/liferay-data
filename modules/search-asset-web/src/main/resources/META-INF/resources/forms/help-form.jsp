@@ -70,7 +70,7 @@
 				<c:when test="${dc.compare(category.getTitle(locale), 'Strasbourg')}">
 					<!-- Strasbourg -->
 					<div class="strasbourg-selector" id="strsbg" >
-						<button id="districtToggleButton" type="button" class="btn btn-light glyphicon-minus" style="outline: none"></button>
+						<button id="districtToggleButton" type="button" class="district-toggle btn glyphicon-minus"></button>
 						<aui:input type="checkbox" name="vocabulary_1"
 								   value="${category.categoryId}"
 								   checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
@@ -88,7 +88,7 @@
 							<aui:input type="checkbox" name="vocabulary_1"
 									   value="${quartier.categoryId}"
 									   checked="${fn:contains(dc.filterCategoriesIdsString, quartier.categoryId)}"
-									   id="vocabulary_1_${quartierStatus.index + catStatus.index}"
+									   id="vocabulary_1_${quartierStatus.index + catStatus.index + 1}"
 									   label="${quartier.getTitle(locale)}"
 									   cssClass="move-to-grand-parent" />
 						</c:forEach>

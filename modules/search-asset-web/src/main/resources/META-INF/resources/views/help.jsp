@@ -52,7 +52,7 @@
 	</div>
 	
 	<!-- Pagination -->
-	<div class="pro-pagination">
+	<div class="pro-pagination help-pagination">
 	    <div class="container">
 	        <div class="row">
 	            <div class="col-sm-6 col-xs-4 pull-left">
