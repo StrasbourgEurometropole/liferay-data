@@ -22,7 +22,7 @@ import javax.portlet.PortletException;
 	},
 	service = MVCActionCommand.class
 )
-public class DeleteHelpActionCommand implements MVCActionCommand {
+public class DeleteHelpProposalActionCommand implements MVCActionCommand {
 
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response)

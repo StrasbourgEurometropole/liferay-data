@@ -247,6 +247,7 @@ public class SubmitHelpProposalResourceCommand implements MVCResourceCommand {
             // Retourne l'URL de la page d'accueil
             context.put("domaine", themeDisplay.getScopeGroup().getDisplayURL(themeDisplay));
             context.put("detailURL", "/detail-aide/-/entity/id/" + this.helpProposalId);
+            context.put("helpProposalID", this.helpProposalId);
 
             StringWriter out = new StringWriter();
 

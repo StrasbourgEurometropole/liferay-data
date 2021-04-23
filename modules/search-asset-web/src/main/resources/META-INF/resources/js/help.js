@@ -96,3 +96,8 @@ $("fieldset[id='localisations_fieldset'] input").change(function() {
 $("fieldset[id='types_fieldset'] input").change(function() {
 	getSelectedEntries();
 });
+
+$('#districtToggleButton').click(function() {
+	$('#quartiers').toggle("slide");
+	$(this).toggleClass("glyphicon-minus glyphicon-plus");
+});

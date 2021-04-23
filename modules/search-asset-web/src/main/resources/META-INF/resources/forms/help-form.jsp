@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="aui" uri="http://liferay.com/tld/aui" %>
 <%@ include file="/search-asset-init.jsp"%>
 
 <portlet:resourceURL id="entrySelectionHelpProposal" var="helpsSelectionURL">
@@ -57,18 +59,58 @@
     </div>
     <fieldset id="localisations_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par localisation</legend>
-        
+        <c:set var="nbQuartiersStras" value="${dc.getStrasbourgDistricts().size()}" />
+		<c:set var="afterStrasbourg" value="${false}" />
         <c:set var="localisationVocabulary" value="${vocabularyAccessor.getTerritories()}" />
 		<c:forEach
 			items="${dc.getDropdownRootCategories(localisationVocabulary)}"
 			var="category"
 			varStatus="catStatus">
-			<aui:input type="checkbox" name="vocabulary_1"
-				value="${category.categoryId}"
-				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
-				id="vocabulary_1_${catStatus.index}"
-				label="${category.getTitle(locale)}"
-				cssClass="move-to-grand-parent" />
+			<c:choose>
+				<c:when test="${dc.compare(category.getTitle(locale), 'Strasbourg')}">
+					<!-- Strasbourg -->
+					<div class="strasbourg-selector" id="strsbg" >
+						<button id="districtToggleButton" type="button" class="district-toggle btn glyphicon-minus"></button>
+						<aui:input type="checkbox" name="vocabulary_1"
+								   value="${category.categoryId}"
+								   checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
+								   id="vocabulary_1_${catStatus.index}"
+								   label="${category.getTitle(locale)}"
+								   cssClass="move-to-grand-parent" />
+					</div>
+
+					<!-- Quartiers -->
+					<div id="quartiers" class="quartiers-selector">
+						<c:forEach
+								items="${dc.getStrasbourgDistricts()}"
+								var="quartier"
+								varStatus="quartierStatus">
+							<aui:input type="checkbox" name="vocabulary_1"
+									   value="${quartier.categoryId}"
+									   checked="${fn:contains(dc.filterCategoriesIdsString, quartier.categoryId)}"
+									   id="vocabulary_1_${quartierStatus.index + catStatus.index + 1}"
+									   label="${quartier.getTitle(locale)}"
+									   cssClass="move-to-grand-parent" />
+						</c:forEach>
+					</div>
+					<c:set var="afterStrasbourg" value="${true}" />
+				</c:when>
+				<c:otherwise>
+					<c:if test="${afterStrasbourg}">
+						<c:set var="catId" value="${catStatus.index + nbQuartiersStras}" />
+					</c:if>
+					<c:if test="${not afterStrasbourg}">
+						<c:set var="catId" value="${catStatus.index}" />
+					</c:if>
+					<aui:input type="checkbox" name="vocabulary_1"
+							   value="${category.categoryId}"
+							   checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
+							   id="vocabulary_1_${catId}"
+							   label="${category.getTitle(locale)}"
+							   cssClass="move-to-grand-parent" />
+				</c:otherwise>
+			</c:choose>
+
 		</c:forEach>
         
     </fieldset>

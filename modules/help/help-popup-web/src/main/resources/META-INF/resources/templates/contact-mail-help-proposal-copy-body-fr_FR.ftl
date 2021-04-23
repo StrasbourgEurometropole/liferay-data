@@ -4,6 +4,8 @@ Votre proposition d'aide a bien été publiée sur la plateforme et nous vous en
 
 Vous pouvez y accéder en cliquant <a href="${domaine}${detailURL}">ici</a>.<br><br>
 
+N° de référence : ${helpProposalID}<br><br>
+
 Vous recevrez par mail les coordonnées de tout-e étudiant-e intéressé-e par votre proposition afin que vous puissiez le/la contacter et convenir des modalités.<br><br><br>
 
 Bien cordialement,<br><br>
