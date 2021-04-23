@@ -12,14 +12,14 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-public class EditHelpDisplayContext {
+public class EditHelpProposalDisplayContext {
 	
 	private HelpProposal _helpProposal;
 	private final RenderRequest _request;
 	private final ThemeDisplay _themeDisplay;
 	
-	public EditHelpDisplayContext(RenderRequest request,
-								  RenderResponse response) {
+	public EditHelpProposalDisplayContext(RenderRequest request,
+										  RenderResponse response) {
 		this._request = request;
 		this._themeDisplay = (ThemeDisplay) request
 			.getAttribute(WebKeys.THEME_DISPLAY);
