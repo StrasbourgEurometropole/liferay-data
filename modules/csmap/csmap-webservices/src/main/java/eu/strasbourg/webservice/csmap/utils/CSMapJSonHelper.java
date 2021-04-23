@@ -43,7 +43,7 @@ public class CSMapJSonHelper {
         JSONObject jsonJournalArticle = JSONFactoryUtil.createJSONObject();
         if (breve != null) {
             // Various-Data
-            jsonJournalArticle.put(WSConstants.JSON_WC_ID, breve.getId());
+            jsonJournalArticle.put(WSConstants.JSON_WC_ID, breve.getResourcePrimKey());
             jsonJournalArticle.put(WSConstants.JSON_DATE, breve.getLastPublishDate());
             jsonJournalArticle.put(WSConstants.JSON_WC_URL, StrasbourgPropsUtil.getURL() + "/-/" + breve.getUrlTitle());
 

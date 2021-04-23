@@ -8,7 +8,6 @@ import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -17,6 +16,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
@@ -32,6 +32,7 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -84,58 +85,58 @@ public class VariousDataApplication extends Application {
 
         JSONObject json = JSONFactoryUtil.createJSONObject();
 
-        try {
-            // On récupère les contenu web de structure Brève ayant le tag csmap
-            List<JournalArticle> breves = new ArrayList<>();
-            // récupération du tag
-            Group group = GroupLocalServiceUtil.getGroups(-1, -1).stream().filter(g -> g.getGroupKey().equals("Strasbourg.eu")).findFirst().get();
+        // On récupère les contenu web de structure Brève ayant le tag csmap
+        List<JournalArticle> breves = new ArrayList<>();
+        // récupération du tag
+        Group group = GroupLocalServiceUtil.getGroups(-1, -1).stream().filter(g -> g.getGroupKey().equals("Strasbourg.eu")).findFirst().get();
 
-            // On récupère toutes les brèves qui ont été ajoutées ou modifiées
-            JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
-            JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-            AssetTag tag = AssetTagLocalServiceUtil.getGroupTags(group.getGroupId()).stream().filter(t -> t.getName().equals("csmap22")).findFirst().orElse(null);
+        // On récupère toutes les brèves qui ont été ajoutées ou modifiées
+        JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+        JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+        AssetTag tag = AssetTagLocalServiceUtil.getGroupTags(group.getGroupId()).stream().filter(t -> t.getName().equals("csmap")).findFirst().orElse(null);
 
-            if(tag != null) {
-                // récupération de l'assetEntry
-                List<AssetEntry> entries = AssetEntryLocalServiceUtil.getAssetTagAssetEntries(tag.getTagId());
+        if(tag != null) {
+            // récupération de l'assetEntry
+            List<AssetEntry> entries = AssetEntryLocalServiceUtil.getAssetTagAssetEntries(tag.getTagId());
 
-                // récupération de la structure
-                DDMStructure structure = DDMStructureLocalServiceUtil.getStructures(group.getGroupId()).stream().filter(s -> s.getName(Locale.FRANCE).equals("Breve")).findFirst().orElse(null);
-                for (AssetEntry entry : entries) {
-                    JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(entry.getClassPK());
-                    if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()))
-                        breves.add(journalArticle);
-                }
-
-                for (JournalArticle breve : breves) {
-                    JSONObject jsonWC = CSMapJSonHelper.getBreveCSMapJSON(breve);
-
-                    if (lastUpdateTime.before(breve.getCreateDate()))
-                        jsonAjout.put(jsonWC);
-                    else if (lastUpdateTime.before(breve.getModifiedDate()))
-                        jsonModif.put(jsonWC);
-
-                }
+            // récupération de la structure
+            DDMStructure structure = DDMStructureLocalServiceUtil.getStructures(group.getGroupId()).stream().filter(s -> s.getName(Locale.FRANCE).equals("Breve")).findFirst().orElse(null);
+            for (AssetEntry entry : entries) {
+                // récupération de la dernière version du journalArticle
+                // (JournalArticleLocalServiceUtil.getLatestArticle() retourne le dernier journaleArticle au status 0)
+                List<JournalArticle> journalArticles = JournalArticleLocalServiceUtil.getArticlesByResourcePrimKey(entry.getClassPK());
+                JournalArticle journalArticle = journalArticles.stream().max(Comparator.comparingDouble(JournalArticle::getVersion)).orElse(null);
+                if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED)
+                    breves.add(journalArticle);
             }
 
-            json.put(WSConstants.JSON_ADD, jsonAjout);
-            json.put(WSConstants.JSON_UPDATE, jsonModif);
+            for (JournalArticle breve : breves) {
+                JSONObject jsonWC = CSMapJSonHelper.getBreveCSMapJSON(breve);
 
+                if (lastUpdateTime.before(breve.getCreateDate()))
+                    jsonAjout.put(jsonWC);
+                else if (lastUpdateTime.before(breve.getModifiedDate()))
+                    jsonModif.put(jsonWC);
 
-            // On récupère toutes les news qui ont été supprimées
-            JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-            String[] paramsArray = params.split("ids_news=");
-            if(paramsArray.length > 1 ) {
-                for (String idNews : paramsArray[1].split(",")) {
-                    if (JournalArticleLocalServiceUtil.fetchArticle(Long.parseLong(idNews)) == null)
-                        jsonSuppr.put(idNews);
-                }
             }
-            json.put(WSConstants.JSON_DELETE, jsonSuppr);
-        } catch (PortalException e) {
-            log.error(e);
-            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
+
+        json.put(WSConstants.JSON_ADD, jsonAjout);
+        json.put(WSConstants.JSON_UPDATE, jsonModif);
+
+        // On récupère toutes les news qui ont été supprimées/dépubliées
+        JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
+        String[] paramsArray = params.split("ids_news=");
+        if(paramsArray.length > 1 ) {
+            for (String idNews : paramsArray[1].split(",")) {
+                JournalArticle journalArticle = JournalArticleLocalServiceUtil.fetchLatestArticle(Long.parseLong(idNews));
+                if (journalArticle == null)
+                    jsonSuppr.put(idNews);
+                else if(journalArticle.getStatus() != WorkflowConstants.STATUS_APPROVED)
+                    jsonSuppr.put(idNews);
+            }
+        }
+        json.put(WSConstants.JSON_DELETE, jsonSuppr);
 
         return WSResponseUtil.buildOkResponse(json);
     }
