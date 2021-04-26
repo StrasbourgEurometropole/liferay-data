@@ -65,6 +65,8 @@ public class AccountDataApplication extends Application {
 
             // On récupère toutes les procédures
             List<Procedure> procedures = ProcedureHelper.getProcedures(publikUser.getPublikId());
+            if(procedures.isEmpty())
+                return WSResponseUtil.buildOkResponse(jsonProcedures, 201);
             for (Procedure procedure: procedures) {
                 JSONObject jsonProcedure = JSONFactoryUtil.createJSONObject();
 
@@ -87,7 +89,7 @@ public class AccountDataApplication extends Application {
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         }   catch (NoUserFormException e){
             log.error(e);
-            return WSResponseUtil.buildErrorResponse(402, e.getMessage());
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
 
         return WSResponseUtil.buildOkResponse(jsonProcedures);
