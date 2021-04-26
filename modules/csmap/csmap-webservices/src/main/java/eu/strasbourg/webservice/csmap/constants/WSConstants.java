@@ -69,7 +69,7 @@ public class WSConstants {
     // Account-Data
     public static final String JSON_TITLE = "title";
     public static final String JSON_STATUS = "status";
-    public static final String JSON_URL = "URL";
+    public static final String JSON_URL = "url";
     // Various-Data
     public static final String JSON_WC_ID = "id";
     public static final String JSON_DATE = "date";
