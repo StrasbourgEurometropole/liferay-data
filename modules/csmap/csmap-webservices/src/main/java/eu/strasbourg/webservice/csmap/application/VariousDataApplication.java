@@ -231,8 +231,7 @@ public class VariousDataApplication extends Application {
             if(emergencyNumbersAdd.isEmpty() && emergencyNumbersUpdate.isEmpty() &&
                 emergencyHelpsMapAdd.isEmpty() && emergencyHelpsMapUpdate.isEmpty() &&
                 idEmergencyNumbers.isEmpty() && idEmergencyHelpCategorys.isEmpty()){
-                WSResponseUtil.editJsonResponseCode(json, 201);
-                return Response.ok(json.toString()).build();
+                    WSResponseUtil.buildOkResponse(json,201);
             }
 
             // Creation des differents JSON pour le resultat
