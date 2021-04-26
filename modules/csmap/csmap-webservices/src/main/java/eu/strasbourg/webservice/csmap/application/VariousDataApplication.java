@@ -1,42 +1,50 @@
 package eu.strasbourg.webservice.csmap.application;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetTag;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.*;
+import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.journal.service.JournalFolderLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.io.WriterOutputStream;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.service.WSEmergencies;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author angelique.champougny
@@ -103,9 +111,7 @@ public class VariousDataApplication extends Application {
             DDMStructure structure = DDMStructureLocalServiceUtil.getStructures(group.getGroupId()).stream().filter(s -> s.getName(Locale.FRANCE).equals("Breve")).findFirst().orElse(null);
             for (AssetEntry entry : entries) {
                 // récupération de la dernière version du journalArticle
-                // (JournalArticleLocalServiceUtil.getLatestArticle() retourne le dernier journaleArticle au status 0)
-                List<JournalArticle> journalArticles = JournalArticleLocalServiceUtil.getArticlesByResourcePrimKey(entry.getClassPK());
-                JournalArticle journalArticle = journalArticles.stream().max(Comparator.comparingDouble(JournalArticle::getVersion)).orElse(null);
+                JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(entry.getClassPK());
                 if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED)
                     breves.add(journalArticle);
             }
@@ -141,4 +147,116 @@ public class VariousDataApplication extends Application {
         return WSResponseUtil.buildOkResponse(json);
     }
 
+    @POST
+    @Produces("application/json")
+    @Path("/get-emergencies")
+    public Response getEmergencies() {
+        return getEmergencies("0", "ids_emergency_number=","ids_emergency_help_category=");
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("/get-emergencies/{last_update_time}")
+    public Response getEmergencies(
+            @PathParam("last_update_time") String lastUpdateTimeString,
+            @FormParam("ids_emergency_number") String ids_emergency_number,
+            @FormParam("ids_emergency_help_category") String ids_emergency_help_category){
+
+
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        // On transforme la date string en date
+        Date lastUpdateTime;
+        try {
+            long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+        }catch (Exception e) {
+            return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
+        }
+
+
+        // On vérifie que les ids sont renseignés
+        if (Validator.isNull(ids_emergency_number)) {
+            ids_emergency_number = "";
+        }
+
+        // On vérifie que les ids sont renseignés
+        if (Validator.isNull(ids_emergency_help_category)) {
+            ids_emergency_help_category = "";
+        }
+
+        try {
+            // Gestion des numeros urgence
+            Map<String,List<JournalArticle>> mapsEmergencyNumbers = new HashMap<String, List<JournalArticle>>(WSEmergencies.getMapEmergencyNumbers(lastUpdateTime,ids_emergency_number));
+            List<JournalArticle> emergencyNumbersAdd = new ArrayList<JournalArticle>(mapsEmergencyNumbers.get(WSConstants.JSON_ADD));
+            List<JournalArticle> emergencyNumbersUpdate = new ArrayList<JournalArticle>(mapsEmergencyNumbers.get(WSConstants.JSON_UPDATE));
+
+            // Gestion des aides urgence
+            Map<String,Map<AssetCategory, List<JournalArticle>>> mapsEmergencyHelps = new HashMap<String,Map<AssetCategory, List<JournalArticle>>>(WSEmergencies.getMapEmergencyHelps(lastUpdateTime,ids_emergency_help_category));
+            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapAdd = new HashMap<AssetCategory, List<JournalArticle>>(mapsEmergencyHelps.get(WSConstants.JSON_ADD));
+            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapUpdate = new HashMap<AssetCategory, List<JournalArticle>>(mapsEmergencyHelps.get(WSConstants.JSON_UPDATE));
+
+            // Gestion des deletes
+            JSONArray emergencyNumbersJSONDelete = JSONFactoryUtil.createJSONArray();
+            List<String> idEmergencyNumbers = new ArrayList<>(WSEmergencies.getJSONEmergencyNumbersDelete(ids_emergency_number));
+            if(Validator.isNotNull(idEmergencyNumbers)) {
+                for (String idEmergencyNumber : idEmergencyNumbers) {
+                    if (Validator.isNotNull(idEmergencyNumber)) {
+                        JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idEmergencyNumber));
+                        if (Validator.isNull(journalArticle) || journalArticle.getStatus() != WorkflowConstants.STATUS_APPROVED) {
+                            JSONObject emergencyNumberJSONDelete = JSONFactoryUtil.createJSONObject();
+                            emergencyNumberJSONDelete.put(WSConstants.JSON_WC_ID, idEmergencyNumber);
+                            emergencyNumbersJSONDelete.put(emergencyNumberJSONDelete);
+                        }
+                    }
+                }
+            }
+
+            JSONArray emergencyHelpsJSONDelete = JSONFactoryUtil.createJSONArray();
+            List<String> idEmergencyHelpCategorys = new ArrayList<>(WSEmergencies.getJSONEmergencyHelpsDelete(ids_emergency_help_category));
+            for (String idEmergencyHelpCategory : idEmergencyHelpCategorys) {
+                if(Validator.isNotNull(idEmergencyHelpCategory)) {
+                    Long idCategory = Long.parseLong(idEmergencyHelpCategory);
+                    if (Validator.isNull(AssetCategoryLocalServiceUtil.fetchAssetCategory(idCategory))) {
+                        JSONObject emergencyHelpJSONDelete = JSONFactoryUtil.createJSONObject();
+                        emergencyHelpJSONDelete.put(WSConstants.JSON_WC_ID,idEmergencyHelpCategory);
+                        emergencyHelpsJSONDelete.put(emergencyHelpJSONDelete);
+                    }
+                }
+            }
+            JSONObject emergencyJSONDelete = JSONFactoryUtil.createJSONObject();
+            emergencyJSONDelete.put(WSConstants.JSON_WC_EMERGENCY_NUMBERS,emergencyNumbersJSONDelete );
+            emergencyJSONDelete.put(WSConstants.JSON_WC_EMERGENCY_HELPS,emergencyHelpsJSONDelete );
+
+            if(emergencyNumbersAdd.isEmpty() && emergencyNumbersUpdate.isEmpty() &&
+                emergencyHelpsMapAdd.isEmpty() && emergencyHelpsMapUpdate.isEmpty() &&
+                idEmergencyNumbers.isEmpty() && idEmergencyHelpCategorys.isEmpty()){
+                    WSResponseUtil.buildOkResponse(json,201);
+            }
+
+            // Creation des differents JSON pour le resultat
+            JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+            JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+            JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
+
+             // Ajout dans la partie ADD
+            jsonAjout.put(CSMapJSonHelper.emergencyCSMapJSON(emergencyNumbersAdd, emergencyHelpsMapAdd, true));
+            // Ajout dans la partie UPDATE
+            jsonModif.put(CSMapJSonHelper.emergencyCSMapJSON(emergencyNumbersUpdate, emergencyHelpsMapUpdate, true));
+            // Ajout dans la partie DELETE
+            jsonSuppr.put(emergencyJSONDelete);
+            // Ajout de ADD dans le JSON final
+            json.put(WSConstants.JSON_ADD, jsonAjout);
+            // Ajout de UPDATE dans le JSON final
+            json.put(WSConstants.JSON_UPDATE, jsonModif);
+            // Ajout de DELETE dans le JSON final
+            json.put(WSConstants.JSON_DELETE, jsonSuppr);
+
+        }catch (PortalException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(json);
+
+    }
 }
