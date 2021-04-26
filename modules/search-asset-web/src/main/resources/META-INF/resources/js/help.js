@@ -9,6 +9,8 @@ var entityType = {
 
 $(document).ready(function(){
     getSelectedEntries();
+	$('#quartiers').toggle();
+	$('#districtToggleButton').toggleClass("glyphicon-minus glyphicon-plus");
 });
 
 /**
