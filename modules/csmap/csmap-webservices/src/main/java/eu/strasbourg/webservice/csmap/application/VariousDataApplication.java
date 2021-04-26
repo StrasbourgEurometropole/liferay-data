@@ -34,15 +34,13 @@ import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.service.WSEmergencies;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 import java.util.*;
@@ -149,183 +147,72 @@ public class VariousDataApplication extends Application {
         return WSResponseUtil.buildOkResponse(json);
     }
 
-    @PUT
+    @GET
+    @Produces("application/json")
+    @Path("/get-emergencies")
+    public Response getEmergencies() {
+        return getEmergencies("0", "ids_emergency_number=","ids_emergency_help_category=");
+    }
+
+    @POST
     @Produces("application/json")
     @Path("/get-emergencies/{last_update_time}")
     public Response getEmergencies(
             @PathParam("last_update_time") String lastUpdateTimeString,
-            String param){
+            @FormParam("ids_emergency_number") String ids_emergency_number,
+            @FormParam("ids_emergency_help_category") String ids_emergency_help_category){
 
 
         JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        // On transforme la date string en date
+        Date lastUpdateTime;
         try {
-            // On vérifie que lastUpdateTimeString est renseigné
-            if (Validator.isNull(lastUpdateTimeString)) {
-                return WSResponseUtil.buildErrorResponse(400,
-                        "Il manque le paramètre last_update_time");
-            }
+            long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+        }catch (Exception e) {
+            return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
+        }
 
-            // On transforme la date string en date
-            Date lastUpdateTime;
-            try {
-                long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
-                lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
-            }catch (Exception e) {
-                return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
-            }
 
-            // On vérifie que les ids sont renseignés
-            if (Validator.isNull(param)) {
-                return WSResponseUtil.buildErrorResponse(400, "Il manque les paramètres ids_emergency_number et ids_emergency_help_category");
-            }
+        // On vérifie que les ids sont renseignés
+        if (Validator.isNull(ids_emergency_number)) {
+            ids_emergency_number = "";
+        }
 
-            // On vérifie que les ids sont renseignés
-            if (!param.contains("ids_emergency_number") && !param.contains("ids_emergency_help_category")) {
-                return WSResponseUtil.buildErrorResponse(400, "Il manque l'un des paramètres ids_emergency_number ou ids_emergency_help_category");
-            }
+        // On vérifie que les ids sont renseignés
+        if (Validator.isNull(ids_emergency_help_category)) {
+            ids_emergency_help_category = "";
+        }
 
-            String ids_emergency_number = "";
-            String ids_emergency_help_category = "";
-            // On vérifie que les ids sont renseignés
-            String[] params = param.split("&");
-            for( String paramArray : params) {
-                if (paramArray.contains("ids_emergency_number")) {
-                    String[] paramsArrayNumber = paramArray.split("ids_emergency_number=");
-                    if (paramsArrayNumber.length > 1) {
-                        ids_emergency_number = paramsArrayNumber[1];
-                    }
-                } else if (paramArray.contains("ids_emergency_help_category")) {
-                    String[] paramsArrayHelp = paramArray.split("ids_emergency_help_category=");
-                    if (paramsArrayHelp.length > 1) {
-                        ids_emergency_help_category = paramsArrayHelp[1];
-                    }
-                }
-            }
+        try {
+            // Gestion des numeros urgence
+            Map<String,List<JournalArticle>> mapsEmergencyNumbers = new HashMap<String, List<JournalArticle>>(WSEmergencies.getMapEmergencyNumbers(lastUpdateTime,ids_emergency_number));
+            List<JournalArticle> emergencyNumbersAdd = new ArrayList<JournalArticle>(mapsEmergencyNumbers.get(WSConstants.JSON_ADD));
+            List<JournalArticle> emergencyNumbersUpdate = new ArrayList<JournalArticle>(mapsEmergencyNumbers.get(WSConstants.JSON_UPDATE));
+
+            // Gestion des aides urgence
+            Map<String,Map<AssetCategory, List<JournalArticle>>> mapsEmergencyHelps = new HashMap<String,Map<AssetCategory, List<JournalArticle>>>(WSEmergencies.getMapEmergencyHelps(lastUpdateTime,ids_emergency_help_category));
+            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapAdd = new HashMap<AssetCategory, List<JournalArticle>>(mapsEmergencyHelps.get(WSConstants.JSON_ADD));
+            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapUpdate = new HashMap<AssetCategory, List<JournalArticle>>(mapsEmergencyHelps.get(WSConstants.JSON_UPDATE));
+
+            // Gestion des deletes
+            JSONObject emergencyJSONDelete = JSONFactoryUtil.createJSONObject();
+            emergencyJSONDelete.put(WSConstants.JSON_WC_EMERGENCY_NUMBERS, WSEmergencies.getJSONEmergencyNumbersDelete(ids_emergency_number));
+            emergencyJSONDelete.put(WSConstants.JSON_WC_EMERGENCY_HELPS, WSEmergencies.getJSONEmergencyHelpsDelete(ids_emergency_help_category));
+
 
             // Creation des differents JSON pour le resultat
             JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
             JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-            JSONObject jsonSuppr = JSONFactoryUtil.createJSONObject();
+            JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 
-            JSONObject emergencyNumbersJSONDelete = JSONFactoryUtil.createJSONObject();
-            JSONObject emergencyHelpsJSONDelete = JSONFactoryUtil.createJSONObject();
-
-            Group csmapGroup = GroupLocalServiceUtil.getGroups(-1, -1).stream().filter(g -> g.getGroupKey().equals(WSConstants.GROUP_KEY)).findFirst().get();
-            long csmapGroupId = 0;
-            if (Validator.isNotNull(csmapGroup)) {
-                csmapGroupId = csmapGroup.getGroupId();
-            }
-
-            // Folder Urgences
-            JournalFolder emergenciesFolder = null;
-            // Folder Numéros urgence
-            JournalFolder emergencyNumbersFolder = null;
-            // Folder Aides urgence
-            JournalFolder emergencyHelpsFolder = null;
-            // Recuperation des folders
-            List<JournalFolder> folders = JournalFolderLocalServiceUtil.getFolders(csmapGroupId);
-            for (JournalFolder folder : folders) {
-                // Recuperation du folder Urgences
-                if (folder.getName().equals(WSConstants.FOLDER_EMERGENCIES)) {
-                    emergenciesFolder = folder;
-                }
-                else if (folder.getName().equals(WSConstants.FOLDER_EMERGENCY_NUMBERS)) {
-                    emergencyNumbersFolder = folder;
-                }
-                else if (folder.getName().equals(WSConstants.FOLDER_EMERGENCY_HELPS)){
-                    emergencyHelpsFolder = folder;
-                }
-            }
-
-            // Recuperation des JournalArticle dans le dossier Numeros urgence
-            List<JournalArticle> emergencyNumbers = new ArrayList<JournalArticle>();
-            // Recuperation des Numeros urgence a ADD et UPDATE
-            List<JournalArticle> emergencyNumbersAdd = new ArrayList<JournalArticle>();
-            List<JournalArticle> emergencyNumbersUpdate = new ArrayList<JournalArticle>();
-
-            // Verification des Numeros urgence si nouveau ou modifie
-            emergencyNumbers = JournalArticleLocalServiceUtil.getArticles(csmapGroupId, emergencyNumbersFolder.getFolderId());
-            for (JournalArticle emergencyNumber : emergencyNumbers) {
-                if(emergencyNumber.getStatus() == WorkflowConstants.STATUS_APPROVED) {
-                    if (lastUpdateTime.before(emergencyNumber.getCreateDate()) && !ids_emergency_number.contains(String.valueOf(emergencyNumber.getResourcePrimKey()))) {
-                        emergencyNumbersAdd.add(emergencyNumber);
-                    }
-                    else if(!ids_emergency_number.contains(String.valueOf(emergencyNumber.getResourcePrimKey()))){
-                        emergencyNumbersAdd.add(emergencyNumber);
-                    }
-                }
-                    else if (lastUpdateTime.before(emergencyNumber.getModifiedDate())) {
-                        emergencyNumbersUpdate.add(emergencyNumber);
-                    }
-            }
-
-            // On recupere les categories des urgences
-            AssetVocabulary emergenciesVocabulary = AssetVocabularyHelper.getVocabulary(VocabularyNames.CSMAP_URGENCES, csmapGroupId);
-
-            // Verification des categories urgences si nouveau ou modifie
-            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapAdd = new HashMap<AssetCategory, List<JournalArticle>>();
-            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapUpdate = new HashMap<AssetCategory, List<JournalArticle>>();
-            if (Validator.isNotNull(emergenciesVocabulary)) {
-                for (AssetCategory category : emergenciesVocabulary.getCategories()) {
-                    // Si la category a été modifie ou cree pas besoin de verifier les JournalArticles car doit tous les ajouter au JSON
-                    List<AssetEntry> emergencyHelpsAsset = AssetEntryLocalServiceUtil.getAssetEntries(-1,-1).stream().filter(e -> e.getCategories().contains(category)).collect(Collectors.toList());
-                    if (lastUpdateTime.before(category.getCreateDate()) && !ids_emergency_help_category.contains(String.valueOf(category.getCategoryId()))) {
-                        if(!emergencyHelpsMapAdd.keySet().contains(category)) {
-                            emergencyHelpsMapAdd = this.updateEmergencyMap(emergencyHelpsMapAdd, category, emergencyHelpsAsset);
-                        }
-                    } else if(!ids_emergency_help_category.contains(String.valueOf(category.getCategoryId()))){
-                        if(!emergencyHelpsMapAdd.keySet().contains(category)) {
-                            emergencyHelpsMapAdd = this.updateEmergencyMap(emergencyHelpsMapAdd, category, emergencyHelpsAsset);
-                        }
-                    } else if (lastUpdateTime.before(category.getModifiedDate())) {
-                        if(!emergencyHelpsMapUpdate.keySet().contains(category)) {
-                            emergencyHelpsMapUpdate = this.updateEmergencyMap(emergencyHelpsMapUpdate,category,emergencyHelpsAsset);
-                        }
-                    }
-                    // Si la category a pas ete modifie ou cree  besoin de verifier les JournalArticles car doit ajouter au JSON les changements
-                    else {
-                        for (AssetEntry emergencyHelpAsset : emergencyHelpsAsset) {
-                            JournalArticle emergencyHelp = JournalArticleHelper.getLatestArticleByResourcePrimKey(emergencyHelpAsset.getClassPK());
-                            if(Validator.isNotNull(emergencyHelp)) {
-                                if (lastUpdateTime.before(emergencyHelp.getModifiedDate())) {
-                                    if(!emergencyHelpsMapUpdate.keySet().contains(category)) {
-                                        emergencyHelpsMapUpdate = this.updateEmergencyMap(emergencyHelpsMapUpdate,category,emergencyHelpsAsset);
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Preparation des donnees de la partie DELETE
-            // On recupere tous les numeros urgence qui ont ete supprimes
-            if(Validator.isNotNull(emergencyNumbers)) {
-                for (String idEmergencyNumber : ids_emergency_number.split(",")) {
-                    JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idEmergencyNumber));
-                    if(Validator.isNull(journalArticle) || journalArticle.getStatus()!= WorkflowConstants.STATUS_APPROVED){
-                        emergencyNumbersJSONDelete.put(WSConstants.JSON_WC_ID, idEmergencyNumber);
-                    }
-                }
-            }
-
-            // Preparation des donnees de la partie DELETE
-            // On recupere tous les aides urgence qui ont ete supprimes
-            for (String idEmergencyHelpCategory : ids_emergency_help_category.split(",")) {
-                Long idCategory = Long.parseLong(idEmergencyHelpCategory);
-                if(Validator.isNull(AssetCategoryLocalServiceUtil.fetchAssetCategory(idCategory))){
-                    emergencyHelpsJSONDelete.put(WSConstants.JSON_WC_ID, idEmergencyHelpCategory);
-                }
-            }
-
-        // Ajout dans la partie ADD
+             // Ajout dans la partie ADD
             jsonAjout.put(CSMapJSonHelper.emergencyCSMapJSON(emergencyNumbersAdd, emergencyHelpsMapAdd, true));
             // Ajout dans la partie UPDATE
             jsonModif.put(CSMapJSonHelper.emergencyCSMapJSON(emergencyNumbersUpdate, emergencyHelpsMapUpdate, true));
             // Ajout dans la partie DELETE
-            jsonSuppr.put(WSConstants.JSON_WC_EMERGENCY_NUMBERS, emergencyNumbersJSONDelete);
-            jsonSuppr.put(WSConstants.JSON_WC_EMERGENCY_HELPS, emergencyHelpsJSONDelete);
+            jsonSuppr.put(emergencyJSONDelete);
             // Ajout de ADD dans le JSON final
             json.put(WSConstants.JSON_ADD, jsonAjout);
             // Ajout de UPDATE dans le JSON final
@@ -340,41 +227,4 @@ public class VariousDataApplication extends Application {
         return WSResponseUtil.buildOkResponse(json);
 
     }
-
-    // Fonction verifiant si pour une List de JournalArticle il y a un Article qui possede l'id passe en parametre
-    private static boolean listJournalArticleContainId(List<JournalArticle> journalArticleList, String id) throws PortalException {
-        boolean result = false;
-
-        for (JournalArticle journalArticle : journalArticleList){
-            if(journalArticle.getResourcePrimKey()== Long.parseLong(id)){
-                result = true;
-            }
-        }
-
-        return result;
-    }
-
-    private static Map<AssetCategory,List<JournalArticle>> updateEmergencyMap(Map<AssetCategory,List<JournalArticle>> emergencyHelpsMap, AssetCategory category, List<AssetEntry> emergencyHelpsAsset) throws PortalException {
-        for (AssetEntry emergencyHelpAsset : emergencyHelpsAsset) {
-            JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(emergencyHelpAsset.getClassPK());
-            if (Validator.isNotNull(journalArticle)) {
-                if (journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
-                    if(emergencyHelpsMap.keySet().contains(category)){
-                        List<JournalArticle> newValue = emergencyHelpsMap.get(category);
-                        newValue.add(journalArticle);
-                        emergencyHelpsMap.replace(category,
-                                emergencyHelpsMap.get(category),
-                                newValue);
-
-                    } else {
-                        List<JournalArticle> newValue = new ArrayList<>();
-                        newValue.add(journalArticle);
-                        emergencyHelpsMap.put(category, newValue);
-                    }
-                }
-            }
-        }
-        return emergencyHelpsMap;
-    }
-
 }
