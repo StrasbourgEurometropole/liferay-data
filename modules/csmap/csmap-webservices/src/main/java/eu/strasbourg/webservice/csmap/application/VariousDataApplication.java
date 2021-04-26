@@ -147,7 +147,7 @@ public class VariousDataApplication extends Application {
         return WSResponseUtil.buildOkResponse(json);
     }
 
-    @GET
+    @POST
     @Produces("application/json")
     @Path("/get-emergencies")
     public Response getEmergencies() {
@@ -197,10 +197,43 @@ public class VariousDataApplication extends Application {
             Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapUpdate = new HashMap<AssetCategory, List<JournalArticle>>(mapsEmergencyHelps.get(WSConstants.JSON_UPDATE));
 
             // Gestion des deletes
-            JSONObject emergencyJSONDelete = JSONFactoryUtil.createJSONObject();
-            emergencyJSONDelete.put(WSConstants.JSON_WC_EMERGENCY_NUMBERS, WSEmergencies.getJSONEmergencyNumbersDelete(ids_emergency_number));
-            emergencyJSONDelete.put(WSConstants.JSON_WC_EMERGENCY_HELPS, WSEmergencies.getJSONEmergencyHelpsDelete(ids_emergency_help_category));
+            JSONArray emergencyNumbersJSONDelete = JSONFactoryUtil.createJSONArray();
+            List<String> idEmergencyNumbers = new ArrayList<>(WSEmergencies.getJSONEmergencyNumbersDelete(ids_emergency_number));
+            if(Validator.isNotNull(idEmergencyNumbers)) {
+                for (String idEmergencyNumber : idEmergencyNumbers) {
+                    if (Validator.isNotNull(idEmergencyNumber)) {
+                        JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idEmergencyNumber));
+                        if (Validator.isNull(journalArticle) || journalArticle.getStatus() != WorkflowConstants.STATUS_APPROVED) {
+                            JSONObject emergencyNumberJSONDelete = JSONFactoryUtil.createJSONObject();
+                            emergencyNumberJSONDelete.put(WSConstants.JSON_WC_ID, idEmergencyNumber);
+                            emergencyNumbersJSONDelete.put(emergencyNumberJSONDelete);
+                        }
+                    }
+                }
+            }
 
+            JSONArray emergencyHelpsJSONDelete = JSONFactoryUtil.createJSONArray();
+            List<String> idEmergencyHelpCategorys = new ArrayList<>(WSEmergencies.getJSONEmergencyHelpsDelete(ids_emergency_help_category));
+            for (String idEmergencyHelpCategory : idEmergencyHelpCategorys) {
+                if(Validator.isNotNull(idEmergencyHelpCategory)) {
+                    Long idCategory = Long.parseLong(idEmergencyHelpCategory);
+                    if (Validator.isNull(AssetCategoryLocalServiceUtil.fetchAssetCategory(idCategory))) {
+                        JSONObject emergencyHelpJSONDelete = JSONFactoryUtil.createJSONObject();
+                        emergencyHelpJSONDelete.put(WSConstants.JSON_WC_ID,idEmergencyHelpCategory);
+                        emergencyHelpsJSONDelete.put(emergencyHelpJSONDelete);
+                    }
+                }
+            }
+            JSONObject emergencyJSONDelete = JSONFactoryUtil.createJSONObject();
+            emergencyJSONDelete.put(WSConstants.JSON_WC_EMERGENCY_NUMBERS,emergencyNumbersJSONDelete );
+            emergencyJSONDelete.put(WSConstants.JSON_WC_EMERGENCY_HELPS,emergencyHelpsJSONDelete );
+
+            if(emergencyNumbersAdd.isEmpty() && emergencyNumbersUpdate.isEmpty() &&
+                emergencyHelpsMapAdd.isEmpty() && emergencyHelpsMapUpdate.isEmpty() &&
+                idEmergencyNumbers.isEmpty() && idEmergencyHelpCategorys.isEmpty()){
+                WSResponseUtil.editJsonResponseCode(json, 201);
+                return Response.ok(json.toString()).build();
+            }
 
             // Creation des differents JSON pour le resultat
             JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();

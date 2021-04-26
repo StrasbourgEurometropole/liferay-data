@@ -176,34 +176,30 @@ public class WSEmergencies {
         return mapsEmergencyHelps;
     }
 
-    static public JSONArray getJSONEmergencyNumbersDelete(String ids_emergency_number){
+    static public List<String> getJSONEmergencyNumbersDelete(String ids_emergency_number){
         // Preparation des donnees de la partie DELETE
         // On recupere tous les numeros urgence qui ont ete supprimes
-        JSONArray emergencyNumbersJSONDelete = JSONFactoryUtil.createJSONArray();
+        List<String> emergencyNumbersJSONDelete = new ArrayList<>();
             for (String idEmergencyNumber : ids_emergency_number.split(",")) {
                 if(Validator.isNotNull(idEmergencyNumber)) {
                     JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idEmergencyNumber));
                     if (Validator.isNull(journalArticle) || journalArticle.getStatus() != WorkflowConstants.STATUS_APPROVED) {
-                        JSONObject emergencyNumberJSONDelete = JSONFactoryUtil.createJSONObject();
-                        emergencyNumberJSONDelete.put(WSConstants.JSON_WC_ID,idEmergencyNumber);
-                        emergencyNumbersJSONDelete.put(emergencyNumberJSONDelete);
+                        emergencyNumbersJSONDelete.add(idEmergencyNumber);
                     }
                 }
             }
         return emergencyNumbersJSONDelete;
     }
 
-    static public JSONArray getJSONEmergencyHelpsDelete(String ids_emergency_help_category){
+    static public List<String> getJSONEmergencyHelpsDelete(String ids_emergency_help_category){
         // Preparation des donnees de la partie DELETE
         // On recupere tous les aides urgence qui ont ete supprimes
-        JSONArray emergencyHelpsJSONDelete = JSONFactoryUtil.createJSONArray();
+        List<String> emergencyHelpsJSONDelete = new ArrayList<>();
         for (String idEmergencyHelpCategory : ids_emergency_help_category.split(",")) {
             if(Validator.isNotNull(idEmergencyHelpCategory)) {
                 Long idCategory = Long.parseLong(idEmergencyHelpCategory);
                 if (Validator.isNull(AssetCategoryLocalServiceUtil.fetchAssetCategory(idCategory))) {
-                    JSONObject emergencyHelpJSONDelete = JSONFactoryUtil.createJSONObject();
-                    emergencyHelpJSONDelete.put(WSConstants.JSON_WC_ID,idEmergencyHelpCategory);
-                    emergencyHelpsJSONDelete.put(emergencyHelpJSONDelete);
+                    emergencyHelpsJSONDelete.add(idEmergencyHelpCategory);
                 }
             }
         }
