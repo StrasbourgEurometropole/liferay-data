@@ -46,6 +46,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author angelique.champougny
@@ -246,11 +247,16 @@ public class VariousDataApplication extends Application {
             emergencyNumbers = JournalArticleLocalServiceUtil.getArticles(csmapGroupId, emergencyNumbersFolder.getFolderId());
             for (JournalArticle emergencyNumber : emergencyNumbers) {
                 if(emergencyNumber.getStatus() == WorkflowConstants.STATUS_APPROVED) {
-                    if (lastUpdateTime.before(emergencyNumber.getCreateDate()))
+                    if (lastUpdateTime.before(emergencyNumber.getCreateDate()) && !ids_emergency_number.contains(String.valueOf(emergencyNumber.getResourcePrimKey()))) {
                         emergencyNumbersAdd.add(emergencyNumber);
-                    else if (lastUpdateTime.before(emergencyNumber.getModifiedDate()))
+                    }
+                    else if(!ids_emergency_number.contains(String.valueOf(emergencyNumber.getResourcePrimKey()))){
                         emergencyNumbersAdd.add(emergencyNumber);
+                    }
                 }
+                    else if (lastUpdateTime.before(emergencyNumber.getModifiedDate())) {
+                        emergencyNumbersUpdate.add(emergencyNumber);
+                    }
             }
 
             // On recupere les categories des urgences
@@ -262,20 +268,31 @@ public class VariousDataApplication extends Application {
             if (Validator.isNotNull(emergenciesVocabulary)) {
                 for (AssetCategory category : emergenciesVocabulary.getCategories()) {
                     // Si la category a été modifie ou cree pas besoin de verifier les JournalArticles car doit tous les ajouter au JSON
-                    if (lastUpdateTime.before(category.getCreateDate())) {
-                        emergencyHelpsMapAdd = this.updateEmergencyMap(emergencyHelpsMapAdd,category);
+                    List<AssetEntry> emergencyHelpsAsset = AssetEntryLocalServiceUtil.getAssetEntries(-1,-1).stream().filter(e -> e.getCategories().contains(category)).collect(Collectors.toList());
+                    if (lastUpdateTime.before(category.getCreateDate()) && !ids_emergency_help_category.contains(String.valueOf(category.getCategoryId()))) {
+                        if(!emergencyHelpsMapAdd.keySet().contains(category)) {
+                            emergencyHelpsMapAdd = this.updateEmergencyMap(emergencyHelpsMapAdd, category, emergencyHelpsAsset);
+                        }
+                    } else if(!ids_emergency_help_category.contains(String.valueOf(category.getCategoryId()))){
+                        if(!emergencyHelpsMapAdd.keySet().contains(category)) {
+                            emergencyHelpsMapAdd = this.updateEmergencyMap(emergencyHelpsMapAdd, category, emergencyHelpsAsset);
+                        }
                     } else if (lastUpdateTime.before(category.getModifiedDate())) {
-                        emergencyHelpsMapUpdate = this.updateEmergencyMap(emergencyHelpsMapUpdate,category);
+                        if(!emergencyHelpsMapUpdate.keySet().contains(category)) {
+                            emergencyHelpsMapUpdate = this.updateEmergencyMap(emergencyHelpsMapUpdate,category,emergencyHelpsAsset);
+                        }
                     }
                     // Si la category a pas ete modifie ou cree  besoin de verifier les JournalArticles car doit ajouter au JSON les changements
                     else {
-                        List<AssetEntry> emergencyHelpsAsset = this.getAssetEntriesForCategory(category);
                         for (AssetEntry emergencyHelpAsset : emergencyHelpsAsset) {
-                            JournalArticle emergencyHelp = JournalArticleLocalServiceUtil.getArticle(emergencyHelpAsset.getClassPK());
-                            if (lastUpdateTime.before(emergencyHelp.getCreateDate())) {
-                                emergencyHelpsMapAdd = this.updateEmergencyMap(emergencyHelpsMapAdd,category, emergencyHelp);
-                            } else if (lastUpdateTime.before(emergencyHelp.getModifiedDate())) {
-                                emergencyHelpsMapUpdate = this.updateEmergencyMap(emergencyHelpsMapUpdate,category, emergencyHelp);
+                            JournalArticle emergencyHelp = JournalArticleHelper.getLatestArticleByResourcePrimKey(emergencyHelpAsset.getClassPK());
+                            if(Validator.isNotNull(emergencyHelp)) {
+                                if (lastUpdateTime.before(emergencyHelp.getModifiedDate())) {
+                                    if(!emergencyHelpsMapUpdate.keySet().contains(category)) {
+                                        emergencyHelpsMapUpdate = this.updateEmergencyMap(emergencyHelpsMapUpdate,category,emergencyHelpsAsset);
+                                    }
+                                }
+
                             }
                         }
                     }
@@ -286,7 +303,7 @@ public class VariousDataApplication extends Application {
             // On recupere tous les numeros urgence qui ont ete supprimes
             if(Validator.isNotNull(emergencyNumbers)) {
                 for (String idEmergencyNumber : ids_emergency_number.split(",")) {
-                    JournalArticle journalArticle = JournalArticleLocalServiceUtil.fetchLatestArticle(Long.parseLong(idEmergencyNumber));
+                    JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idEmergencyNumber));
                     if(Validator.isNull(journalArticle) || journalArticle.getStatus()!= WorkflowConstants.STATUS_APPROVED){
                         emergencyNumbersJSONDelete.put(WSConstants.JSON_WC_ID, idEmergencyNumber);
                     }
@@ -337,51 +354,27 @@ public class VariousDataApplication extends Application {
         return result;
     }
 
-    private static Map<AssetCategory,List<JournalArticle>> updateEmergencyMap(Map<AssetCategory,List<JournalArticle>> emergencyHelpsMap, AssetCategory category) throws PortalException {
-        List<AssetEntry> emergencyHelpsAsset = AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(category.getCategoryId());
+    private static Map<AssetCategory,List<JournalArticle>> updateEmergencyMap(Map<AssetCategory,List<JournalArticle>> emergencyHelpsMap, AssetCategory category, List<AssetEntry> emergencyHelpsAsset) throws PortalException {
         for (AssetEntry emergencyHelpAsset : emergencyHelpsAsset) {
-            JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(emergencyHelpAsset.getClassPK());
-            if(journalArticle.getStatus()==WorkflowConstants.STATUS_APPROVED) {
-                if (emergencyHelpsMap.containsKey(category)) {
-                    List<JournalArticle> newValue = emergencyHelpsMap.get(category);
-                    newValue.add(JournalArticleLocalServiceUtil.getArticle(emergencyHelpAsset.getClassPK()));
-                    emergencyHelpsMap.replace(category,
-                            emergencyHelpsMap.get(category),
-                            newValue);
-                } else {
-                    List<JournalArticle> newValue = new ArrayList<>();
-                    newValue.add(JournalArticleLocalServiceUtil.getArticle(emergencyHelpAsset.getClassPK()));
-                    emergencyHelpsMap.put(category, newValue);
+            JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(emergencyHelpAsset.getClassPK());
+            if (Validator.isNotNull(journalArticle)) {
+                if (journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                    if(emergencyHelpsMap.keySet().contains(category)){
+                        List<JournalArticle> newValue = emergencyHelpsMap.get(category);
+                        newValue.add(journalArticle);
+                        emergencyHelpsMap.replace(category,
+                                emergencyHelpsMap.get(category),
+                                newValue);
+
+                    } else {
+                        List<JournalArticle> newValue = new ArrayList<>();
+                        newValue.add(journalArticle);
+                        emergencyHelpsMap.put(category, newValue);
+                    }
                 }
             }
         }
         return emergencyHelpsMap;
-    }
-
-    private static Map<AssetCategory,List<JournalArticle>> updateEmergencyMap(Map<AssetCategory,List<JournalArticle>> emergencyHelpsMap, AssetCategory category, JournalArticle journalArticle) throws PortalException {
-        if(journalArticle.getStatus()==WorkflowConstants.STATUS_APPROVED) {
-            if (emergencyHelpsMap.containsKey(category)) {
-                List<JournalArticle> newValue = emergencyHelpsMap.get(category);
-                newValue.add(journalArticle);
-                emergencyHelpsMap.replace(category,
-                        emergencyHelpsMap.get(category),
-                        newValue);
-            } else {
-                List<JournalArticle> newValue = new ArrayList<>();
-                newValue.add(journalArticle);
-                emergencyHelpsMap.put(category, newValue);
-            }
-        }
-        return emergencyHelpsMap;
-    }
-
-    private static List<AssetEntry> getAssetEntriesForCategory(AssetCategory category) throws PortalException {
-        AssetEntryQuery aq = new AssetEntryQuery();
-        long[] categories = new long[1];
-        categories[0] = category.getCategoryId();
-        aq.setAllCategoryIds(categories);
-        List<AssetEntry> emergencyHelpsAsset = AssetEntryServiceUtil.getEntries(aq);
-        return emergencyHelpsAsset;
     }
 
 }

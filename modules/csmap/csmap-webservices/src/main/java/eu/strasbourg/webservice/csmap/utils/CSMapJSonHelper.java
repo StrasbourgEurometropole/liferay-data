@@ -115,13 +115,15 @@ public class CSMapJSonHelper {
                 categoryTitleJSON.put("de_DE", category.getTitle(Locale.GERMANY));
             }
             emergencyHelpJSON.put(WSConstants.JSON_WC_CATEGORY_TITLE, categoryTitleJSON);
-            JSONObject categoryContentJSON = JSONFactoryUtil.createJSONObject();
+            JSONArray categoryContentsJSON = JSONFactoryUtil.createJSONArray();
             for(JournalArticle emergencyHelp : emergencyHelps ) {
+                JSONObject categoryContentJSON = JSONFactoryUtil.createJSONObject();
                 categoryContentJSON.put(WSConstants.JSON_WC_TITLE, JournalArticleHelper.getJournalArticleFieldValue(emergencyHelp, WSConstants.JSON_WC_TITLE, Locale.FRANCE));
                 categoryContentJSON.put(WSConstants.JSON_WC_NUMBER, JournalArticleHelper.getJournalArticleFieldValue(emergencyHelp, WSConstants.JSON_WC_NUMBER, Locale.FRANCE));
                 categoryContentJSON.put(WSConstants.JSON_WC_ORDER, JournalArticleHelper.getJournalArticleFieldValue(emergencyHelp, WSConstants.JSON_WC_ORDER, Locale.FRANCE));
+                categoryContentsJSON.put(categoryContentJSON);
             }
-            emergencyHelpJSON.put(WSConstants.JSON_WC_CATEGORY_CONTENT, categoryContentJSON);
+            emergencyHelpJSON.put(WSConstants.JSON_WC_CATEGORY_CONTENT, categoryContentsJSON);
             emergencyHelpsJSON.put(emergencyHelpJSON);
         }
         jsonEmergency.put(WSConstants.JSON_WC_EMERGENCY_NUMBERS, emergencyNumbersJSON);
