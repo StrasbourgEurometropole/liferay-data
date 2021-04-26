@@ -25,14 +25,21 @@ public class WSResponseUtil {
     }
 
     public static Response buildOkResponse(JSONArray jsonArray) {
+        return buildOkResponse (jsonArray, 200);
+    }
+
+    public static Response buildOkResponse(JSONArray jsonArray, int responseCode) {
         JSONObject json = JSONFactoryUtil.createJSONObject();
         json.put(WSConstants.JSON_RESPONSE, jsonArray);
-        editJsonResponseCode(json, 200);
-        return Response.ok(json.toString()).build();
+        return buildOkResponse (json, responseCode);
     }
 
     public static Response buildOkResponse(JSONObject json) {
-        editJsonResponseCode(json, 200);
+        return buildOkResponse(json, 200);
+    }
+
+    public static Response buildOkResponse(JSONObject json, int responseCode) {
+        editJsonResponseCode(json, responseCode);
         return Response.ok(json.toString()).build();
     }
 
