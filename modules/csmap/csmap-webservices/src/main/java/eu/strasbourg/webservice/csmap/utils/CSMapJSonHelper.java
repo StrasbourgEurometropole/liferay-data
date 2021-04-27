@@ -142,7 +142,7 @@ public class CSMapJSonHelper {
             String picto = JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "picto", Locale.FRANCE);
             if(Validator.isNotNull(picto)) {
                 String pictoURL = AssetPublisherTemplateHelper.getDocumentUrl(picto);
-                jsonJournalArticle.put(WSConstants.JSON_WC_PICTO, StrasbourgPropsUtil.getURL() + pictoURL);
+                jsonJournalArticle.put(WSConstants.JSON_WC_PICTO, StrasbourgPropsUtil.getCSMAPURL() + pictoURL);
             }
 
             jsonJournalArticle.put(WSConstants.JSON_WC_COLOR, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "socialNetworkColor", Locale.FRANCE));
