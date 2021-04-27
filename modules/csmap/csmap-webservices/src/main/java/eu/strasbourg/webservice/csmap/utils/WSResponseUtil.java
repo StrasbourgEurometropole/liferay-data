@@ -51,4 +51,9 @@ public class WSResponseUtil {
         json.put(WSConstants.JSON_ERROR_DESCRIPTION, errorDescription);
     }
 
+    public static Response lastUpdateTimeFormatError() {
+        return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
+    }
+
+
 }

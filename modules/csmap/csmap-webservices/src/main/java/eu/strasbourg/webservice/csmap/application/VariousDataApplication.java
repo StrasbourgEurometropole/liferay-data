@@ -84,7 +84,7 @@ public class VariousDataApplication extends Application {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
         }catch (Exception e) {
-            return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
+            return WSResponseUtil.lastUpdateTimeFormatError();
         }
 
         // On vérifie que les ids sont renseignés
@@ -151,7 +151,7 @@ public class VariousDataApplication extends Application {
     @Produces("application/json")
     @Path("/get-emergencies")
     public Response getEmergencies() {
-        return getEmergencies("0", "ids_emergency_number=","ids_emergency_help_category=");
+        return getEmergencies("0", "","");
     }
 
     @POST
@@ -171,7 +171,7 @@ public class VariousDataApplication extends Application {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
         }catch (Exception e) {
-            return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
+            return WSResponseUtil.lastUpdateTimeFormatError();
         }
 
 
@@ -187,14 +187,14 @@ public class VariousDataApplication extends Application {
 
         try {
             // Gestion des numeros urgence
-            Map<String,List<JournalArticle>> mapsEmergencyNumbers = new HashMap<String, List<JournalArticle>>(WSEmergencies.getMapEmergencyNumbers(lastUpdateTime,ids_emergency_number));
-            List<JournalArticle> emergencyNumbersAdd = new ArrayList<JournalArticle>(mapsEmergencyNumbers.get(WSConstants.JSON_ADD));
-            List<JournalArticle> emergencyNumbersUpdate = new ArrayList<JournalArticle>(mapsEmergencyNumbers.get(WSConstants.JSON_UPDATE));
+            Map<String,List<JournalArticle>> mapsEmergencyNumbers = new HashMap<>(WSEmergencies.getMapEmergencyNumbers(lastUpdateTime,ids_emergency_number));
+            List<JournalArticle> emergencyNumbersAdd = new ArrayList<>(mapsEmergencyNumbers.get(WSConstants.JSON_ADD));
+            List<JournalArticle> emergencyNumbersUpdate = new ArrayList<>(mapsEmergencyNumbers.get(WSConstants.JSON_UPDATE));
 
             // Gestion des aides urgence
-            Map<String,Map<AssetCategory, List<JournalArticle>>> mapsEmergencyHelps = new HashMap<String,Map<AssetCategory, List<JournalArticle>>>(WSEmergencies.getMapEmergencyHelps(lastUpdateTime,ids_emergency_help_category));
-            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapAdd = new HashMap<AssetCategory, List<JournalArticle>>(mapsEmergencyHelps.get(WSConstants.JSON_ADD));
-            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapUpdate = new HashMap<AssetCategory, List<JournalArticle>>(mapsEmergencyHelps.get(WSConstants.JSON_UPDATE));
+            Map<String,Map<AssetCategory, List<JournalArticle>>> mapsEmergencyHelps = new HashMap<>(WSEmergencies.getMapEmergencyHelps(lastUpdateTime,ids_emergency_help_category));
+            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapAdd = new HashMap<>(mapsEmergencyHelps.get(WSConstants.JSON_ADD));
+            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapUpdate = new HashMap<>(mapsEmergencyHelps.get(WSConstants.JSON_UPDATE));
 
             // Gestion des deletes
             JSONArray emergencyNumbersJSONDelete = JSONFactoryUtil.createJSONArray();
@@ -213,11 +213,10 @@ public class VariousDataApplication extends Application {
             }
 
             JSONArray emergencyHelpsJSONDelete = JSONFactoryUtil.createJSONArray();
-            List<String> idEmergencyHelpCategorys = new ArrayList<>(WSEmergencies.getJSONEmergencyHelpsDelete(ids_emergency_help_category));
-            for (String idEmergencyHelpCategory : idEmergencyHelpCategorys) {
+            List<Long> idEmergencyHelpCategorys = new ArrayList<>(WSEmergencies.getJSONEmergencyHelpsDelete(ids_emergency_help_category));
+            for (long idEmergencyHelpCategory : idEmergencyHelpCategorys) {
                 if(Validator.isNotNull(idEmergencyHelpCategory)) {
-                    Long idCategory = Long.parseLong(idEmergencyHelpCategory);
-                    if (Validator.isNull(AssetCategoryLocalServiceUtil.fetchAssetCategory(idCategory))) {
+                    if (Validator.isNull(AssetCategoryLocalServiceUtil.fetchAssetCategory(idEmergencyHelpCategory))) {
                         JSONObject emergencyHelpJSONDelete = JSONFactoryUtil.createJSONObject();
                         emergencyHelpJSONDelete.put(WSConstants.JSON_WC_ID,idEmergencyHelpCategory);
                         emergencyHelpsJSONDelete.put(emergencyHelpJSONDelete);
@@ -231,7 +230,7 @@ public class VariousDataApplication extends Application {
             if(emergencyNumbersAdd.isEmpty() && emergencyNumbersUpdate.isEmpty() &&
                 emergencyHelpsMapAdd.isEmpty() && emergencyHelpsMapUpdate.isEmpty() &&
                 idEmergencyNumbers.isEmpty() && idEmergencyHelpCategorys.isEmpty()){
-                    WSResponseUtil.buildOkResponse(json,201);
+                    return WSResponseUtil.buildOkResponse(json,201);
             }
 
             // Creation des differents JSON pour le resultat
@@ -258,5 +257,39 @@ public class VariousDataApplication extends Application {
         }
         return WSResponseUtil.buildOkResponse(json);
 
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("/get-social-networks")
+    public Response getSocialNetworks() {
+        return getSocialNetworks("0", "");
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("/get-social-networks/{last_update_time}")
+    public Response getSocialNetworks(
+            @PathParam("last_update_time") String lastUpdateTimeString,
+            @FormParam("ids_social_network") String ids_social_network) {
+
+
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        // On transforme la date string en date
+        Date lastUpdateTime;
+        try {
+            long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+        } catch (Exception e) {
+            return WSResponseUtil.lastUpdateTimeFormatError();
+        }
+
+        // On vérifie que les ids sont renseignés
+        if (Validator.isNull(ids_social_network)) {
+            ids_social_network = "";
+        }
+
+        return WSResponseUtil.buildOkResponse(json);
     }
 }
