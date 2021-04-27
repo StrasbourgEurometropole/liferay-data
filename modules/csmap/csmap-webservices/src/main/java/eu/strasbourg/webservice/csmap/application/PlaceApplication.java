@@ -28,6 +28,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -166,8 +167,8 @@ public class PlaceApplication extends Application {
 	@Produces("application/json")
 	@Path("/get-categories")
 	public Response getCategories(
-			String params) {
-		return getCategories("0", params);
+			@FormParam("ids_category") String idsCategory) {
+		return getCategories("0", idsCategory);
 	}
 
 	@POST
@@ -175,7 +176,7 @@ public class PlaceApplication extends Application {
 	@Path("/get-categories/{last_update_time}")
 	public Response getCategories(
 			@PathParam("last_update_time") String lastUpdateTimeString,
-			String params) {
+			@FormParam("ids_category") String idsCategory) {
 
 		// On transforme la date string en date
 		Date lastUpdateTime;
@@ -209,7 +210,6 @@ public class PlaceApplication extends Application {
 			// On récupère toutes les catégories qui ont été ajoutées ou modifiées
 			JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
 			JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-			String[] paramsArray = params.split("ids_category=");
 
 			for (AssetCategory categ: categories) {
 				// récupère l'URL du picto de la catégorie
@@ -236,9 +236,9 @@ public class PlaceApplication extends Application {
 			// On récupère toutes les catégories qui ont été supprimées
 			JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 
-			if(paramsArray.length > 1 ) {
+			if(Validator.isNotNull(idsCategory)) {
 				if (Validator.isNotNull(placeTypeVocabulary))
-					for (String idCategory : paramsArray[1].split(",")) {
+					for (String idCategory : idsCategory.split(",")) {
 						if (AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null)
 							jsonSuppr.put(idCategory);
 					}
