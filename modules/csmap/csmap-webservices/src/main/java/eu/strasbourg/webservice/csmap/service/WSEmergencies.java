@@ -6,9 +6,7 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
-import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
-import com.liferay.journal.service.JournalFolderLocalServiceUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -17,9 +15,14 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.utils.WebContentHelper;
 import org.osgi.service.component.annotations.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Service s'occuppant de verifier si les urgences de l'utilisateur sont à jour.
@@ -32,7 +35,7 @@ public class WSEmergencies {
 
     static public long getGroupId(String groupKey){
 
-        Group csmapGroup = GroupLocalServiceUtil.getGroups(-1, -1).stream().filter(g -> g.getGroupKey().equals(groupKey)).findFirst().get();
+        Group csmapGroup = GroupLocalServiceUtil.getGroups(-1, -1).stream().filter(g -> g.getGroupKey().equals(groupKey)).findFirst().orElse(null);
         long groupId = 0;
         if (Validator.isNotNull(csmapGroup)) {
             groupId = csmapGroup.getGroupId();
@@ -40,26 +43,12 @@ public class WSEmergencies {
         return groupId;
     }
 
-    static public long getEmergencyFolderId(String folderName, long groupId){
-        // Folder Aides urgence
-        JournalFolder emergencyFolder = null;
-        // Recuperation des folders
-        List<JournalFolder> folders = JournalFolderLocalServiceUtil.getFolders(groupId);
-        for (JournalFolder folder : folders) {
-            if (folder.getName().equals(folderName)) {
-                emergencyFolder = folder;
-            }
-        }
-        assert emergencyFolder != null;
-        return emergencyFolder.getFolderId();
-    }
-
     static public Map<String,List<JournalArticle>> getMapEmergencyNumbers(Date lastUpdateTime, String ids_emergency_number){
 
         Map<String,List<JournalArticle>> mapEmergencyNumbers = new HashMap<>();
 
         long csmapGroupId = getGroupId(WSConstants.GROUP_KEY);
-        long  emergencyNumbersFolderId = getEmergencyFolderId(WSConstants.FOLDER_EMERGENCY_NUMBERS,csmapGroupId);
+        long  emergencyNumbersFolderId = WebContentHelper.getFolderId(WSConstants.FOLDER_EMERGENCY_NUMBERS,csmapGroupId);
 
         // Recuperation des JournalArticle dans le dossier Numeros urgence
         List<JournalArticle> emergencyNumbers = new ArrayList<>(JournalArticleLocalServiceUtil.getArticles(csmapGroupId, emergencyNumbersFolderId));
@@ -92,7 +81,7 @@ public class WSEmergencies {
         Map<String,Map<AssetCategory, List<JournalArticle>>> mapsEmergencyHelps = new HashMap<>();
 
         long csmapGroupId = getGroupId(WSConstants.GROUP_KEY);
-        long  emergencyHelpsFolderId = getEmergencyFolderId(WSConstants.FOLDER_EMERGENCY_HELPS,csmapGroupId);
+        long  emergencyHelpsFolderId = WebContentHelper.getFolderId(WSConstants.FOLDER_EMERGENCY_HELPS,csmapGroupId);
 
         Map<AssetCategory, List<JournalArticle>> emergencyHelpsMap = new HashMap<>();
         Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapAdd = new HashMap<>();

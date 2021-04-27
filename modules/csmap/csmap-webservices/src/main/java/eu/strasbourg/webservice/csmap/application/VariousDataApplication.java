@@ -2,13 +2,12 @@ package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetTag;
+import com.liferay.asset.kernel.model.AssetTagModel;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
-import com.liferay.asset.kernel.service.AssetTagLocalService;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -16,7 +15,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.utils.DateHelper;
@@ -24,7 +22,9 @@ import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.service.WSEmergencies;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
+import eu.strasbourg.webservice.csmap.utils.WSCSMapUtil;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
+import eu.strasbourg.webservice.csmap.utils.WebContentHelper;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
@@ -41,7 +41,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -92,22 +91,20 @@ public class VariousDataApplication extends Application {
         JSONObject json = JSONFactoryUtil.createJSONObject();
 
         // On récupère les contenu web de structure Brève ayant le tag csmap
-        List<JournalArticle> breves = new ArrayList<>();
+        AssetTagModel tag;
+        DDMStructure structure;
+        try {
+            // récupération du group
+            Group group = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY_STRAS);
 
-        // récupération du group
-        Group group = groupLocalService.getGroups(-1, -1).stream().filter(g -> g.getGroupKey().equals("Strasbourg.eu")).findFirst().orElse(null);
-        if (group == null)
-            return WSResponseUtil.buildErrorResponse(500, "Group Strasbourg.eu introuvable");
+            // récupération du tag
+            tag = WSCSMapUtil.getTagByGroupAndName(group.getGroupId(), WSConstants.TAG_CSMAP);
 
-        // récupération du tag
-        AssetTag tag = assetTagLocalService.getGroupTags(group.getGroupId()).stream().filter(t -> t.getName().equals("csmap")).findFirst().orElse(null);
-        if (tag == null)
-            return WSResponseUtil.buildErrorResponse(500, "Tag csmap introuvable");
-
-        // récupération de la structure
-        DDMStructure structure = ddmStructureLocalService.getStructures(group.getGroupId()).stream().filter(s -> s.getName(Locale.FRANCE).equals("Breve")).findFirst().orElse(null);
-        if(structure == null)
-            return WSResponseUtil.buildErrorResponse(500, "Structure Breve introuvable");
+            // récupération de la structure
+            structure = WSCSMapUtil.getStructureByGroupAndName(group.getGroupId(), WSConstants.STRUCTURE_BREVE);
+        }catch (Exception e){
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
 
         // On récupère toutes les brèves qui ont été ajoutées ou modifiées
         JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
@@ -118,18 +115,14 @@ public class VariousDataApplication extends Application {
         for (AssetEntry entry : entries) {
             // récupération de la dernière version du journalArticle
             JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(entry.getClassPK());
-            if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED)
-                breves.add(journalArticle);
-        }
+            if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                JSONObject jsonWC = CSMapJSonHelper.getBreveCSMapJSON(journalArticle);
 
-        for (JournalArticle breve : breves) {
-            JSONObject jsonWC = CSMapJSonHelper.getBreveCSMapJSON(breve);
-
-            if (lastUpdateTime.before(breve.getCreateDate()))
-                jsonAjout.put(jsonWC);
-            else if (lastUpdateTime.before(breve.getModifiedDate()))
-                jsonModif.put(jsonWC);
-
+                if (lastUpdateTime.before(journalArticle.getCreateDate()))
+                    jsonAjout.put(jsonWC);
+                else if (lastUpdateTime.before(journalArticle.getModifiedDate()))
+                    jsonModif.put(jsonWC);
+            }
         }
 
         json.put(WSConstants.JSON_ADD, jsonAjout);
@@ -269,8 +262,9 @@ public class VariousDataApplication extends Application {
     @POST
     @Produces("application/json")
     @Path("/get-social-networks")
-    public Response getSocialNetworks() {
-        return getSocialNetworks("0", "");
+    public Response getSocialNetworks(
+            @FormParam("ids_social_network") String idsSocialNetwork) {
+        return getSocialNetworks("0", idsSocialNetwork);
     }
 
     @POST
@@ -278,7 +272,7 @@ public class VariousDataApplication extends Application {
     @Path("/get-social-networks/{last_update_time}")
     public Response getSocialNetworks(
             @PathParam("last_update_time") String lastUpdateTimeString,
-            @FormParam("ids_social_network") String ids_social_network) {
+            @FormParam("ids_social_network") String idsSocialNetwork) {
 
 
         JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -292,14 +286,61 @@ public class VariousDataApplication extends Application {
             return WSResponseUtil.lastUpdateTimeFormatError();
         }
 
-        // On vérifie que les ids sont renseignés
-        if (Validator.isNull(ids_social_network)) {
-            ids_social_network = "";
+
+        Group group;
+        DDMStructure structure;
+        long folderId;
+        try {
+            // récupération du group CSMAP
+            group = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY);
+
+            // récupération du dossier
+            folderId = WebContentHelper.getFolderId(WSConstants.FOLDER_SOCIAL_NETWORK, group.getGroupId());
+
+            // récupération de la structure
+            structure = WSCSMapUtil.getStructureByGroupAndName(group.getGroupId(), WSConstants.STRUCTURE_SOCIAL_NETWORK);
+        }catch (Exception e){
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
+
+        // On récupère tous les réseaux sociaux qui ont été ajoutés ou modifiés
+        JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+        JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+
+        // On récupère les contenu web de structure social network du dossier Réseau sociaux
+        List<JournalArticle> journalArticles = JournalArticleLocalServiceUtil.getArticles(group.getGroupId(), folderId);
+        for (JournalArticle journalArticle : journalArticles) {
+            if(journalArticle.getDDMStructureKey().equals(structure.getStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                JSONObject jsonWC = CSMapJSonHelper.getSocialNetworkCSMapJSON(journalArticle);
+
+                if (lastUpdateTime.before(journalArticle.getCreateDate()))
+                    jsonAjout.put(jsonWC);
+                else if (lastUpdateTime.before(journalArticle.getModifiedDate()))
+                    jsonModif.put(jsonWC);
+            }
+        }
+
+        json.put(WSConstants.JSON_ADD, jsonAjout);
+        json.put(WSConstants.JSON_UPDATE, jsonModif);
+
+        // On récupère tous les réseaux sociaux qui ont été supprimées/dépubliées
+        JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
+        if(Validator.isNotNull(idsSocialNetwork)) {
+            for (String idSocialNetwork : idsSocialNetwork.split(",")) {
+                JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idSocialNetwork));
+                if (journalArticle == null)
+                    jsonSuppr.put(idSocialNetwork);
+                else if(journalArticle.getStatus() != WorkflowConstants.STATUS_APPROVED)
+                    jsonSuppr.put(idSocialNetwork);
+            }
+        }
+        json.put(WSConstants.JSON_DELETE, jsonSuppr);
+
+        if(jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+            return WSResponseUtil.buildOkResponse(json, 201);
 
         return WSResponseUtil.buildOkResponse(json);
     }
-
 
     @Reference(unbind = "-")
     protected void setAssetEntryLocalService(AssetEntryLocalService assetEntryLocalService) {
@@ -308,28 +349,4 @@ public class VariousDataApplication extends Application {
 
     @Reference
     protected AssetEntryLocalService assetEntryLocalService;
-
-    @Reference(unbind = "-")
-    protected void setAssetTagLocalService(AssetTagLocalService assetTagLocalService) {
-        this.assetTagLocalService = assetTagLocalService;
-    }
-
-    @Reference
-    protected AssetTagLocalService assetTagLocalService;
-
-    @Reference(unbind = "-")
-    protected void setDDMStructureLocalService(DDMStructureLocalService ddmStructureLocalService) {
-        this.ddmStructureLocalService = ddmStructureLocalService;
-    }
-
-    @Reference
-    protected DDMStructureLocalService ddmStructureLocalService;
-
-    @Reference(unbind = "-")
-    protected void setGroupLocalService(GroupLocalService groupLocalService) {
-        this.groupLocalService = groupLocalService;
-    }
-
-    @Reference
-    protected GroupLocalService groupLocalService;
 }

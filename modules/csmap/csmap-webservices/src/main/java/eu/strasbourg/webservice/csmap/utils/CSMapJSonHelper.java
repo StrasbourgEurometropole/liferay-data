@@ -52,19 +52,43 @@ public class CSMapJSonHelper {
             jsonJournalArticle.put(WSConstants.JSON_DATE, breve.getLastPublishDate());
             jsonJournalArticle.put(WSConstants.JSON_WC_URL, StrasbourgPropsUtil.getURL() + "/-/" + breve.getUrlTitle());
 
-            String titleFR = JournalArticleHelper.getJournalArticleFieldValue(breve, "title", Locale.FRANCE);
             JSONObject titles = JSONFactoryUtil.createJSONObject();
+            String titleFR = JournalArticleHelper.getJournalArticleFieldValue(breve, "title", Locale.FRANCE);
             titles.put(WSConstants.JSON_LANGUAGE_FRANCE, titleFR);
-            jsonJournalArticle.put(WSConstants.JSON_TITLE, titles);
+            String titleUS = JournalArticleHelper.getJournalArticleFieldValue(breve, "title", Locale.US);
+            if (Validator.isNotNull(titleUS)) {
+                titles.put("en_US", titleUS);
+            }
+            String titleDE = JournalArticleHelper.getJournalArticleFieldValue(breve, "title", Locale.GERMANY);
+            if (Validator.isNotNull(titleDE)) {
+                titles.put("de_DE", titleDE);
+            }
+            jsonJournalArticle.put(WSConstants.JSON_WC_TITLE, titles);
 
-            String subTitleFR = JournalArticleHelper.getJournalArticleFieldValue(breve, "chapo", Locale.FRANCE);
             JSONObject subTitles = JSONFactoryUtil.createJSONObject();
+            String subTitleFR = JournalArticleHelper.getJournalArticleFieldValue(breve, "chapo", Locale.FRANCE);
             subTitles.put(WSConstants.JSON_LANGUAGE_FRANCE, subTitleFR);
+            String subTitleUS = JournalArticleHelper.getJournalArticleFieldValue(breve, "chapo", Locale.US);
+            if (Validator.isNotNull(subTitleUS)) {
+                titles.put("en_US", subTitleUS);
+            }
+            String subTitleDE = JournalArticleHelper.getJournalArticleFieldValue(breve, "chapo", Locale.GERMANY);
+            if (Validator.isNotNull(subTitleDE)) {
+                titles.put("de_DE", subTitleDE);
+            }
             jsonJournalArticle.put(WSConstants.JSON_SUBTITLE, subTitles);
 
-            String descriptionFR = JournalArticleHelper.getJournalArticleFieldValue(breve, "content", Locale.FRANCE);
             JSONObject descriptions = JSONFactoryUtil.createJSONObject();
+            String descriptionFR = JournalArticleHelper.getJournalArticleFieldValue(breve, "content", Locale.FRANCE);
             descriptions.put(WSConstants.JSON_LANGUAGE_FRANCE, descriptionFR);
+            String descriptionUS = JournalArticleHelper.getJournalArticleFieldValue(breve, "content", Locale.US);
+            if (Validator.isNotNull(descriptionUS)) {
+                titles.put("en_US", descriptionUS);
+            }
+            String descriptionDE = JournalArticleHelper.getJournalArticleFieldValue(breve, "content", Locale.GERMANY);
+            if (Validator.isNotNull(descriptionDE)) {
+                titles.put("de_DE", descriptionDE);
+            }
             jsonJournalArticle.put(WSConstants.JSON_DESCRIPTION, descriptions);
         }
         return  jsonJournalArticle;
@@ -137,5 +161,36 @@ public class CSMapJSonHelper {
         jsonEmergency.put(WSConstants.JSON_WC_EMERGENCY_NUMBERS, emergencyNumbersJSON);
         jsonEmergency.put(WSConstants.JSON_WC_EMERGENCY_HELPS, emergencyHelpsJSON);
         return jsonEmergency;
+    }
+
+
+    public static JSONObject getSocialNetworkCSMapJSON(JournalArticle socialNetwork) {
+        JSONObject jsonJournalArticle = JSONFactoryUtil.createJSONObject();
+        if (socialNetwork != null) {
+            // Various-Data
+            jsonJournalArticle.put(WSConstants.JSON_WC_ID, socialNetwork.getResourcePrimKey());
+
+            JSONObject titles = JSONFactoryUtil.createJSONObject();
+            String titleFR = JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "title", Locale.FRANCE);
+            titles.put(WSConstants.JSON_LANGUAGE_FRANCE, titleFR);
+            String titleUS = JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "title", Locale.US);
+            if (Validator.isNotNull(titleUS)) {
+                titles.put("en_US", titleUS);
+            }
+            String titleDE = JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "title", Locale.GERMANY);
+            if (Validator.isNotNull(titleDE)) {
+                titles.put("de_DE", titleDE);
+            }
+            jsonJournalArticle.put(WSConstants.JSON_WC_TITLE, titles);
+
+            jsonJournalArticle.put(WSConstants.JSON_WC_ORDER, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "order", Locale.FRANCE));
+
+            jsonJournalArticle.put(WSConstants.JSON_WC_URL, StrasbourgPropsUtil.getURL() + "/-/" + socialNetwork.getUrlTitle());
+
+            jsonJournalArticle.put(WSConstants.JSON_WC_PICTO, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "picto", Locale.FRANCE));
+
+            jsonJournalArticle.put(WSConstants.JSON_WC_COLOR, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "color", Locale.FRANCE));
+        }
+        return  jsonJournalArticle;
     }
 }

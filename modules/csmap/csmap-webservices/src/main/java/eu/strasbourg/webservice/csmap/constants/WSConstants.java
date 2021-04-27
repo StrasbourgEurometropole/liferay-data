@@ -88,13 +88,19 @@ public class WSConstants {
     public static final String JSON_SUBTITLE = "subtitle";
     public static final String JSON_DESCRIPTION = "description";
     public static final String JSON_WC_URL = "url";
+    public static final String JSON_WC_PICTO = "picto";
 
     /** Config */
     // Various-Data
     public static final String GROUP_KEY = "CSMAP";
+    public static final String GROUP_KEY_STRAS = "Strasbourg.eu";
+    public static final String TAG_CSMAP = "csmap";
+    public static final String STRUCTURE_BREVE = "Breve";
+    public static final String STRUCTURE_SOCIAL_NETWORK = "social network";
     public static final String FOLDER_EMERGENCIES = "Urgences";
     public static final String FOLDER_EMERGENCY_NUMBERS = "Num\u00e9ros urgence";
     public static final String FOLDER_EMERGENCY_HELPS = "Aides urgence";
+    public static final String FOLDER_SOCIAL_NETWORK = "R\u00e9seaux sociaux";
 
     /** Erreurs */
     // Global
