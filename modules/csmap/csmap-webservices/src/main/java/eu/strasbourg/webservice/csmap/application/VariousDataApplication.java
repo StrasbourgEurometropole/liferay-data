@@ -7,6 +7,7 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -24,7 +25,6 @@ import eu.strasbourg.webservice.csmap.service.WSEmergencies;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSCSMapUtil;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
-import eu.strasbourg.webservice.csmap.utils.WebContentHelper;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
@@ -289,13 +289,13 @@ public class VariousDataApplication extends Application {
 
         Group group;
         DDMStructure structure;
-        long folderId;
+        JournalFolder folder;
         try {
             // récupération du group CSMAP
             group = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY);
 
             // récupération du dossier
-            folderId = WebContentHelper.getFolderId(WSConstants.FOLDER_SOCIAL_NETWORK, group.getGroupId());
+            folder = WSCSMapUtil.getJournalFolderByGroupAndName(group.getGroupId(), WSConstants.FOLDER_SOCIAL_NETWORK);
 
             // récupération de la structure
             structure = WSCSMapUtil.getStructureByGroupAndName(group.getGroupId(), WSConstants.STRUCTURE_SOCIAL_NETWORK);
@@ -308,7 +308,7 @@ public class VariousDataApplication extends Application {
         JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
 
         // On récupère les contenu web de structure social network du dossier Réseau sociaux
-        List<JournalArticle> journalArticles = JournalArticleLocalServiceUtil.getArticles(group.getGroupId(), folderId);
+        List<JournalArticle> journalArticles = JournalArticleLocalServiceUtil.getArticles(group.getGroupId(), folder.getFolderId());
         for (JournalArticle journalArticle : journalArticles) {
             if(journalArticle.getDDMStructureKey().equals(structure.getStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
                 JSONObject jsonWC = CSMapJSonHelper.getSocialNetworkCSMapJSON(journalArticle);
