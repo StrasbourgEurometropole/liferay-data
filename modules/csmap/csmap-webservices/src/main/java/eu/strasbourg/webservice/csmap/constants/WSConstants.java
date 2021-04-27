@@ -85,6 +85,8 @@ public class WSConstants {
     public static final String JSON_WC_CATEGORY_CONTENT = "categoryContent";
     public static final String JSON_WC_EMERGENCY_NUMBERS = "emergencyNumbers";
     public static final String JSON_WC_EMERGENCY_HELPS = "emergencyHelps";
+    public static final String JSON_WC_CONTENT = "content";
+    public static final String JSON_WC_TEXT = "text";
     public static final String JSON_SUBTITLE = "subtitle";
     public static final String JSON_DESCRIPTION = "description";
     public static final String JSON_WC_URL = "url";
@@ -95,6 +97,9 @@ public class WSConstants {
     public static final String FOLDER_EMERGENCIES = "Urgences";
     public static final String FOLDER_EMERGENCY_NUMBERS = "Num\u00e9ros urgence";
     public static final String FOLDER_EMERGENCY_HELPS = "Aides urgence";
+    public static final String STRUCTURE_EMERGENCY_NUMBER = "Num\u00e9ro d'urgence";
+    public static final String STRUCTURE_EMERGENCY_HELP = "Aide d'urgence";
+    public static final String FOLDER_GENERAL_CONDITIONS = "Mentions l\u00e9gales";
 
     /** Erreurs */
     // Global

@@ -150,8 +150,10 @@ public class VariousDataApplication extends Application {
     @POST
     @Produces("application/json")
     @Path("/get-emergencies")
-    public Response getEmergencies() {
-        return getEmergencies("0", "","");
+    public Response getEmergencies(
+            @FormParam("ids_emergency_number") String ids_emergency_number,
+            @FormParam("ids_emergency_help_category") String ids_emergency_help_category) {
+        return getEmergencies("0", ids_emergency_number,ids_emergency_help_category);
     }
 
     @POST
@@ -239,9 +241,9 @@ public class VariousDataApplication extends Application {
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 
              // Ajout dans la partie ADD
-            jsonAjout.put(CSMapJSonHelper.emergencyCSMapJSON(emergencyNumbersAdd, emergencyHelpsMapAdd, true));
+            jsonAjout.put(CSMapJSonHelper.emergencyCSMapJSON(emergencyNumbersAdd, emergencyHelpsMapAdd));
             // Ajout dans la partie UPDATE
-            jsonModif.put(CSMapJSonHelper.emergencyCSMapJSON(emergencyNumbersUpdate, emergencyHelpsMapUpdate, true));
+            jsonModif.put(CSMapJSonHelper.emergencyCSMapJSON(emergencyNumbersUpdate, emergencyHelpsMapUpdate));
             // Ajout dans la partie DELETE
             jsonSuppr.put(emergencyJSONDelete);
             // Ajout de ADD dans le JSON final
@@ -252,6 +254,9 @@ public class VariousDataApplication extends Application {
             json.put(WSConstants.JSON_DELETE, jsonSuppr);
 
         }catch (PortalException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }catch (Exception e) {
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
@@ -291,5 +296,82 @@ public class VariousDataApplication extends Application {
         }
 
         return WSResponseUtil.buildOkResponse(json);
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("/get-general-conditions")
+    public Response getGeneralConditions() {
+        return getGeneralConditions("0");
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("/get-general-conditions/{last_update_time}")
+    public Response getGeneralConditions(
+            @PathParam("last_update_time") String lastUpdateTimeString){
+
+
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        // On transforme la date string en date
+        Date lastUpdateTime;
+        try {
+            long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+        }catch (Exception e) {
+            return WSResponseUtil.lastUpdateTimeFormatError();
+        }
+
+        try {
+            long csmapGroupId = WSEmergencies.getGroupId(WSConstants.GROUP_KEY);
+            long  generalConditionsFolderId = WSEmergencies.getEmergencyFolderId(WSConstants.FOLDER_GENERAL_CONDITIONS,csmapGroupId);
+
+            // Recuperation des JournalArticle dans le dossier Numeros urgence
+            List<JournalArticle> generalConditions = new ArrayList<>(JournalArticleLocalServiceUtil.getArticles(csmapGroupId, generalConditionsFolderId));
+            // Recuperation des Numeros urgence a ADD et UPDATE
+            List<JournalArticle> generalConditionsAdd = new ArrayList<>();
+            List<JournalArticle> generalConditionsUpdate = new ArrayList<>();
+
+            // Verification des Numeros urgence si nouveau ou modifie
+            for (JournalArticle generalCondition : generalConditions) {
+                if(generalCondition.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                    if (lastUpdateTime.before(generalCondition.getCreateDate())) {
+                        generalConditionsAdd.add(generalCondition);
+                    }
+                    else if (lastUpdateTime.before(generalCondition.getModifiedDate())) {
+                        generalConditionsUpdate.add(generalCondition);
+                    }
+                }
+            }
+
+            if(generalConditionsAdd.isEmpty() && generalConditionsUpdate.isEmpty()){
+                return WSResponseUtil.buildOkResponse(json,201);
+            }
+
+            // Creation des differents JSON pour le resultat
+            JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+            JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+
+            // Ajout dans la partie ADD
+            jsonAjout.put(CSMapJSonHelper.generalConditionsCSMapJSON(generalConditionsAdd));
+            // Ajout dans la partie UPDATE
+            jsonModif.put(CSMapJSonHelper.generalConditionsCSMapJSON(generalConditionsUpdate));
+            // Ajout dans la partie DELETE
+            // Ajout de ADD dans le JSON final
+            json.put(WSConstants.JSON_ADD, jsonAjout);
+            // Ajout de UPDATE dans le JSON final
+            json.put(WSConstants.JSON_UPDATE, jsonModif);
+            // Ajout de DELETE dans le JSON final
+
+        }catch (PortalException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }catch (Exception e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(json);
+
     }
 }

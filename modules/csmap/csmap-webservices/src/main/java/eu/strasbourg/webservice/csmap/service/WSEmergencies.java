@@ -5,6 +5,8 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.model.DDMStructure;
+import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
@@ -67,9 +69,11 @@ public class WSEmergencies {
         List<JournalArticle> emergencyNumbersAdd = new ArrayList<>();
         List<JournalArticle> emergencyNumbersUpdate = new ArrayList<>();
 
+        DDMStructure structure = DDMStructureLocalServiceUtil.getStructures(csmapGroupId).stream().filter(s -> s.getName(Locale.FRANCE).equals(WSConstants.STRUCTURE_EMERGENCY_NUMBER)).findFirst().orElse(null);
+
         // Verification des Numeros urgence si nouveau ou modifie
         for (JournalArticle emergencyNumber : emergencyNumbers) {
-            if(emergencyNumber.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+            if(structure.getStructureKey().equals(emergencyNumber.getDDMStructureKey()) && emergencyNumber.getStatus() == WorkflowConstants.STATUS_APPROVED) {
                 if (lastUpdateTime.before(emergencyNumber.getCreateDate())) {
                     emergencyNumbersAdd.add(emergencyNumber);
                 }
@@ -98,7 +102,7 @@ public class WSEmergencies {
         Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapAdd = new HashMap<>();
         Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapUpdate = new HashMap<>();
 
-
+        DDMStructure structure = DDMStructureLocalServiceUtil.getStructures(csmapGroupId).stream().filter(s -> s.getName(Locale.FRANCE).equals(WSConstants.STRUCTURE_EMERGENCY_HELP)).findFirst().orElse(null);
 
         // On recupere les categories des urgences
         AssetVocabulary emergenciesVocabulary = AssetVocabularyHelper.getVocabulary(VocabularyNames.CSMAP_URGENCES, csmapGroupId);
@@ -112,7 +116,7 @@ public class WSEmergencies {
 
                 // Verification des Numeros urgence si nouveau ou modifie
                 for (JournalArticle emergencyHelp : emergencyHelps) {
-                    if(emergencyHelp.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                    if(structure.getStructureKey().equals(emergencyHelp.getDDMStructureKey()) && emergencyHelp.getStatus() == WorkflowConstants.STATUS_APPROVED) {
                         AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(), emergencyHelp.getResourcePrimKey());
                         if(assetEntry.getCategories().contains(category)) {
                             List<JournalArticle> newValue = emergencyHelpsMap.get(category);
