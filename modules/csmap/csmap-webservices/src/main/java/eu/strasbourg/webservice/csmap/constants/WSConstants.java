@@ -69,7 +69,7 @@ public class WSConstants {
     // Account-Data
     public static final String JSON_TITLE = "title";
     public static final String JSON_STATUS = "status";
-    public static final String JSON_URL = "URL";
+    public static final String JSON_URL = "url";
     // Various-Data
     public static final String JSON_WC_ID = "id";
     public static final String JSON_DATE = "date";
@@ -85,13 +85,27 @@ public class WSConstants {
     public static final String JSON_WC_CATEGORY_CONTENT = "categoryContent";
     public static final String JSON_WC_EMERGENCY_NUMBERS = "emergencyNumbers";
     public static final String JSON_WC_EMERGENCY_HELPS = "emergencyHelps";
+    public static final String JSON_WC_CONTENT = "content";
+    public static final String JSON_WC_TEXT = "text";
     public static final String JSON_SUBTITLE = "subtitle";
     public static final String JSON_DESCRIPTION = "description";
     public static final String JSON_WC_URL = "url";
+    public static final String JSON_WC_PICTO = "picto";
+
+    /** Config */
+    // Various-Data
     public static final String GROUP_KEY = "CSMAP";
+    public static final String GROUP_KEY_STRAS = "Strasbourg.eu";
+    public static final String TAG_CSMAP = "csmap";
+    public static final String STRUCTURE_BREVE = "Breve";
+    public static final String STRUCTURE_SOCIAL_NETWORK = "R\u00e9seaux sociaux";
+    public static final String STRUCTURE_EMERGENCY_NUMBER = "Num\u00e9ro d'urgence";
+    public static final String STRUCTURE_EMERGENCY_HELP = "Aide d'urgence";
+    public static final String FOLDER_GENERAL_CONDITIONS = "Mentions l\u00e9gales";
     public static final String FOLDER_EMERGENCIES = "Urgences";
     public static final String FOLDER_EMERGENCY_NUMBERS = "Num\u00e9ros urgence";
     public static final String FOLDER_EMERGENCY_HELPS = "Aides urgence";
+    public static final String FOLDER_SOCIAL_NETWORK = "R\u00e9seaux sociaux";
 
     /** Erreurs */
     // Global

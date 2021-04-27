@@ -8,6 +8,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
@@ -52,18 +53,18 @@ public class CSMapJSonHelper {
             jsonJournalArticle.put(WSConstants.JSON_DATE, breve.getLastPublishDate());
             jsonJournalArticle.put(WSConstants.JSON_WC_URL, StrasbourgPropsUtil.getURL() + "/-/" + breve.getUrlTitle());
 
-            String titleFR = JournalArticleHelper.getJournalArticleFieldValue(breve, "title", Locale.FRANCE);
             JSONObject titles = JSONFactoryUtil.createJSONObject();
+            String titleFR = JournalArticleHelper.getJournalArticleFieldValue(breve, "title", Locale.FRANCE);
             titles.put(WSConstants.JSON_LANGUAGE_FRANCE, titleFR);
-            jsonJournalArticle.put(WSConstants.JSON_TITLE, titles);
+            jsonJournalArticle.put(WSConstants.JSON_WC_TITLE, titles);
 
-            String subTitleFR = JournalArticleHelper.getJournalArticleFieldValue(breve, "chapo", Locale.FRANCE);
             JSONObject subTitles = JSONFactoryUtil.createJSONObject();
+            String subTitleFR = JournalArticleHelper.getJournalArticleFieldValue(breve, "chapo", Locale.FRANCE);
             subTitles.put(WSConstants.JSON_LANGUAGE_FRANCE, subTitleFR);
             jsonJournalArticle.put(WSConstants.JSON_SUBTITLE, subTitles);
 
-            String descriptionFR = JournalArticleHelper.getJournalArticleFieldValue(breve, "content", Locale.FRANCE);
             JSONObject descriptions = JSONFactoryUtil.createJSONObject();
+            String descriptionFR = JournalArticleHelper.getJournalArticleFieldValue(breve, "content", Locale.FRANCE);
             descriptions.put(WSConstants.JSON_LANGUAGE_FRANCE, descriptionFR);
             jsonJournalArticle.put(WSConstants.JSON_DESCRIPTION, descriptions);
         }
@@ -71,7 +72,7 @@ public class CSMapJSonHelper {
     }
 
     // Fonction permettant la creation des parties dans le JSON
-    public static JSONObject emergencyCSMapJSON(List<JournalArticle> emergencyNumbers, Map<AssetCategory, List<JournalArticle>> emergencyHelpsMap, boolean maj) throws PortalException {
+    public static JSONObject emergencyCSMapJSON(List<JournalArticle> emergencyNumbers, Map<AssetCategory, List<JournalArticle>> emergencyHelpsMap) throws PortalException {
         JSONObject jsonEmergency = JSONFactoryUtil.createJSONObject();
         JSONArray emergencyNumbersJSON = JSONFactoryUtil.createJSONArray();
         JSONArray emergencyHelpsJSON = JSONFactoryUtil.createJSONArray();
@@ -81,19 +82,13 @@ public class CSMapJSonHelper {
             // CategoryTitle en fonction des differentes langues
             JSONObject titleJSON = JSONFactoryUtil.createJSONObject();
             titleJSON.put("fr_FR", JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber, WSConstants.JSON_WC_TITLE, Locale.FRANCE));
-            if (Validator.isNotNull(JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber, WSConstants.JSON_WC_TITLE, Locale.US))) {
-                titleJSON.put("en_US", JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber, WSConstants.JSON_WC_TITLE, Locale.US));
-            }
-            if (Validator.isNotNull(JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber, WSConstants.JSON_WC_TITLE, Locale.GERMANY))) {
-                titleJSON.put("de_DE", JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber, WSConstants.JSON_WC_TITLE, Locale.GERMANY));
-            }
             emergencyNumberJson.put(WSConstants.JSON_WC_TITLE, titleJSON);
 
-            emergencyNumberJson.put(WSConstants.JSON_WC_ORDER, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,WSConstants.JSON_WC_ORDER,Locale.FRANCE));
-            emergencyNumberJson.put(WSConstants.JSON_WC_NUMBER, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,WSConstants.JSON_WC_NUMBER,Locale.FRANCE));
+            emergencyNumberJson.put(WSConstants.JSON_WC_ORDER, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"number",Locale.FRANCE));
+            emergencyNumberJson.put(WSConstants.JSON_WC_NUMBER, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"order",Locale.FRANCE));
             JSONObject colorJSON = JSONFactoryUtil.createJSONObject();
-            colorJSON.put(WSConstants.JSON_WC_FONT_COLOR, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,WSConstants.JSON_WC_FONT_COLOR,Locale.FRANCE));
-            colorJSON.put(WSConstants.JSON_WC_BACKGROUND_COLOR, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,WSConstants.JSON_WC_BACKGROUND_COLOR,Locale.FRANCE));
+            colorJSON.put(WSConstants.JSON_WC_FONT_COLOR, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"fontColor",Locale.FRANCE));
+            colorJSON.put(WSConstants.JSON_WC_BACKGROUND_COLOR, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"backgroundColor",Locale.FRANCE));
             emergencyNumberJson.put(WSConstants.JSON_WC_COLOR, colorJSON);
             emergencyNumbersJSON.put(emergencyNumberJson);
         }
@@ -108,27 +103,15 @@ public class CSMapJSonHelper {
             // CategoryTitle en fonction des differentes langues
             JSONObject categoryTitleJSON = JSONFactoryUtil.createJSONObject();
             categoryTitleJSON.put("fr_FR", category.getTitle(Locale.FRANCE));
-            if (Validator.isNotNull(category.getTitle(Locale.US))) {
-                categoryTitleJSON.put("en_US", category.getTitle(Locale.US));
-            }
-            if (Validator.isNotNull(category.getTitle(Locale.GERMANY))) {
-                categoryTitleJSON.put("de_DE", category.getTitle(Locale.GERMANY));
-            }
             emergencyHelpJSON.put(WSConstants.JSON_WC_CATEGORY_TITLE, categoryTitleJSON);
             JSONArray categoryContentsJSON = JSONFactoryUtil.createJSONArray();
             for(JournalArticle emergencyHelp : emergencyHelps ) {
                 JSONObject categoryContentJSON = JSONFactoryUtil.createJSONObject();
                 JSONObject titleJSON = JSONFactoryUtil.createJSONObject();
                 titleJSON.put("fr_FR", JournalArticleHelper.getJournalArticleFieldValue(emergencyHelp, WSConstants.JSON_WC_TITLE, Locale.FRANCE));
-                if (Validator.isNotNull(JournalArticleHelper.getJournalArticleFieldValue(emergencyHelp, WSConstants.JSON_WC_TITLE, Locale.US))) {
-                    titleJSON.put("en_US", JournalArticleHelper.getJournalArticleFieldValue(emergencyHelp, WSConstants.JSON_WC_TITLE, Locale.US));
-                }
-                if (Validator.isNotNull(JournalArticleHelper.getJournalArticleFieldValue(emergencyHelp, WSConstants.JSON_WC_TITLE, Locale.GERMANY))) {
-                    titleJSON.put("de_DE", JournalArticleHelper.getJournalArticleFieldValue(emergencyHelp, WSConstants.JSON_WC_TITLE, Locale.GERMANY));
-                }
                 categoryContentJSON.put(WSConstants.JSON_WC_TITLE, titleJSON);
-                categoryContentJSON.put(WSConstants.JSON_WC_NUMBER, JournalArticleHelper.getJournalArticleFieldValue(emergencyHelp, WSConstants.JSON_WC_NUMBER, Locale.FRANCE));
-                categoryContentJSON.put(WSConstants.JSON_WC_ORDER, JournalArticleHelper.getJournalArticleFieldValue(emergencyHelp, WSConstants.JSON_WC_ORDER, Locale.FRANCE));
+                categoryContentJSON.put(WSConstants.JSON_WC_NUMBER, JournalArticleHelper.getJournalArticleFieldValue(emergencyHelp, "number", Locale.FRANCE));
+                categoryContentJSON.put(WSConstants.JSON_WC_ORDER, JournalArticleHelper.getJournalArticleFieldValue(emergencyHelp, "order", Locale.FRANCE));
                 categoryContentsJSON.put(categoryContentJSON);
             }
             emergencyHelpJSON.put(WSConstants.JSON_WC_CATEGORY_CONTENT, categoryContentsJSON);
@@ -137,5 +120,44 @@ public class CSMapJSonHelper {
         jsonEmergency.put(WSConstants.JSON_WC_EMERGENCY_NUMBERS, emergencyNumbersJSON);
         jsonEmergency.put(WSConstants.JSON_WC_EMERGENCY_HELPS, emergencyHelpsJSON);
         return jsonEmergency;
+    }
+
+
+    public static JSONObject getSocialNetworkCSMapJSON(JournalArticle socialNetwork) {
+        JSONObject jsonJournalArticle = JSONFactoryUtil.createJSONObject();
+        if (socialNetwork != null) {
+            // Various-Data
+            jsonJournalArticle.put(WSConstants.JSON_WC_ID, socialNetwork.getResourcePrimKey());
+
+            JSONObject titles = JSONFactoryUtil.createJSONObject();
+            String titleFR = JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "title", Locale.FRANCE);
+            titles.put(WSConstants.JSON_LANGUAGE_FRANCE, titleFR);
+            jsonJournalArticle.put(WSConstants.JSON_WC_TITLE, titles);
+
+            jsonJournalArticle.put(WSConstants.JSON_WC_ORDER, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "order", Locale.FRANCE));
+
+            jsonJournalArticle.put(WSConstants.JSON_WC_URL, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "url", Locale.FRANCE));
+
+
+            String picto = JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "picto", Locale.FRANCE);
+            if(Validator.isNotNull(picto)) {
+                String pictoURL = AssetPublisherTemplateHelper.getDocumentUrl(picto);
+                jsonJournalArticle.put(WSConstants.JSON_WC_PICTO, StrasbourgPropsUtil.getCSMAPURL() + pictoURL);
+            }
+
+            jsonJournalArticle.put(WSConstants.JSON_WC_COLOR, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "socialNetworkColor", Locale.FRANCE));
+        }
+        return  jsonJournalArticle;
+    }
+
+    public static JSONObject generalConditionsCSMapJSON(List<JournalArticle> generalConditions) throws PortalException {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+        for (JournalArticle generalCondition : generalConditions) {
+            // CategoryTitle en fonction des differentes langues
+            JSONObject titleJSON = JSONFactoryUtil.createJSONObject();
+            titleJSON.put("fr_FR", JournalArticleHelper.getJournalArticleFieldValue(generalCondition, WSConstants.JSON_WC_CONTENT, Locale.FRANCE));
+            json.put(WSConstants.JSON_WC_TEXT, titleJSON);
+        }
+        return json;
     }
 }
