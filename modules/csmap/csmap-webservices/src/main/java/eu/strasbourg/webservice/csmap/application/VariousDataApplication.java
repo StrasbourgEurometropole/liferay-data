@@ -3,24 +3,36 @@ package eu.strasbourg.webservice.csmap.application;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetTag;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetEntryLocalService;
-import com.liferay.asset.kernel.service.AssetTagLocalService;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.*;
+import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
+import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.model.JournalFolder;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.journal.service.JournalFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.io.WriterOutputStream;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.repository.model.Folder;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.service.WSEmergencies;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
@@ -29,21 +41,11 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author angelique.champougny
@@ -65,15 +67,7 @@ public class VariousDataApplication extends Application {
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
-    @POST
-    @Produces("application/json")
-    @Path("/get-news")
-    public Response getNews(
-            String params) {
-        return getNews("0", params);
-    }
-
-    @POST
+    @PUT
     @Produces("application/json")
     @Path("/get-news/{last_update_time}")
     public Response getNews(
@@ -159,7 +153,7 @@ public class VariousDataApplication extends Application {
     @Produces("application/json")
     @Path("/get-emergencies")
     public Response getEmergencies() {
-        return getEmergencies("0", "ids_emergency_number=","ids_emergency_help_category=");
+        return getEmergencies("0", "","");
     }
 
     @POST
@@ -179,7 +173,7 @@ public class VariousDataApplication extends Application {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
         }catch (Exception e) {
-            return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
+            return WSResponseUtil.lastUpdateTimeFormatError();
         }
 
 
@@ -195,14 +189,14 @@ public class VariousDataApplication extends Application {
 
         try {
             // Gestion des numeros urgence
-            Map<String,List<JournalArticle>> mapsEmergencyNumbers = new HashMap<String, List<JournalArticle>>(WSEmergencies.getMapEmergencyNumbers(lastUpdateTime,ids_emergency_number));
-            List<JournalArticle> emergencyNumbersAdd = new ArrayList<JournalArticle>(mapsEmergencyNumbers.get(WSConstants.JSON_ADD));
-            List<JournalArticle> emergencyNumbersUpdate = new ArrayList<JournalArticle>(mapsEmergencyNumbers.get(WSConstants.JSON_UPDATE));
+            Map<String,List<JournalArticle>> mapsEmergencyNumbers = new HashMap<>(WSEmergencies.getMapEmergencyNumbers(lastUpdateTime,ids_emergency_number));
+            List<JournalArticle> emergencyNumbersAdd = new ArrayList<>(mapsEmergencyNumbers.get(WSConstants.JSON_ADD));
+            List<JournalArticle> emergencyNumbersUpdate = new ArrayList<>(mapsEmergencyNumbers.get(WSConstants.JSON_UPDATE));
 
             // Gestion des aides urgence
-            Map<String,Map<AssetCategory, List<JournalArticle>>> mapsEmergencyHelps = new HashMap<String,Map<AssetCategory, List<JournalArticle>>>(WSEmergencies.getMapEmergencyHelps(lastUpdateTime,ids_emergency_help_category));
-            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapAdd = new HashMap<AssetCategory, List<JournalArticle>>(mapsEmergencyHelps.get(WSConstants.JSON_ADD));
-            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapUpdate = new HashMap<AssetCategory, List<JournalArticle>>(mapsEmergencyHelps.get(WSConstants.JSON_UPDATE));
+            Map<String,Map<AssetCategory, List<JournalArticle>>> mapsEmergencyHelps = new HashMap<>(WSEmergencies.getMapEmergencyHelps(lastUpdateTime,ids_emergency_help_category));
+            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapAdd = new HashMap<>(mapsEmergencyHelps.get(WSConstants.JSON_ADD));
+            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapUpdate = new HashMap<>(mapsEmergencyHelps.get(WSConstants.JSON_UPDATE));
 
             // Gestion des deletes
             JSONArray emergencyNumbersJSONDelete = JSONFactoryUtil.createJSONArray();
@@ -221,11 +215,10 @@ public class VariousDataApplication extends Application {
             }
 
             JSONArray emergencyHelpsJSONDelete = JSONFactoryUtil.createJSONArray();
-            List<String> idEmergencyHelpCategorys = new ArrayList<>(WSEmergencies.getJSONEmergencyHelpsDelete(ids_emergency_help_category));
-            for (String idEmergencyHelpCategory : idEmergencyHelpCategorys) {
+            List<Long> idEmergencyHelpCategorys = new ArrayList<>(WSEmergencies.getJSONEmergencyHelpsDelete(ids_emergency_help_category));
+            for (long idEmergencyHelpCategory : idEmergencyHelpCategorys) {
                 if(Validator.isNotNull(idEmergencyHelpCategory)) {
-                    Long idCategory = Long.parseLong(idEmergencyHelpCategory);
-                    if (Validator.isNull(AssetCategoryLocalServiceUtil.fetchAssetCategory(idCategory))) {
+                    if (Validator.isNull(AssetCategoryLocalServiceUtil.fetchAssetCategory(idEmergencyHelpCategory))) {
                         JSONObject emergencyHelpJSONDelete = JSONFactoryUtil.createJSONObject();
                         emergencyHelpJSONDelete.put(WSConstants.JSON_WC_ID,idEmergencyHelpCategory);
                         emergencyHelpsJSONDelete.put(emergencyHelpJSONDelete);
@@ -237,9 +230,9 @@ public class VariousDataApplication extends Application {
             emergencyJSONDelete.put(WSConstants.JSON_WC_EMERGENCY_HELPS,emergencyHelpsJSONDelete );
 
             if(emergencyNumbersAdd.isEmpty() && emergencyNumbersUpdate.isEmpty() &&
-                    emergencyHelpsMapAdd.isEmpty() && emergencyHelpsMapUpdate.isEmpty() &&
-                    idEmergencyNumbers.isEmpty() && idEmergencyHelpCategorys.isEmpty()){
-                WSResponseUtil.buildOkResponse(json,201);
+                emergencyHelpsMapAdd.isEmpty() && emergencyHelpsMapUpdate.isEmpty() &&
+                idEmergencyNumbers.isEmpty() && idEmergencyHelpCategorys.isEmpty()){
+                    return WSResponseUtil.buildOkResponse(json,201);
             }
 
             // Creation des differents JSON pour le resultat
@@ -247,7 +240,7 @@ public class VariousDataApplication extends Application {
             JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 
-            // Ajout dans la partie ADD
+             // Ajout dans la partie ADD
             jsonAjout.put(CSMapJSonHelper.emergencyCSMapJSON(emergencyNumbersAdd, emergencyHelpsMapAdd, true));
             // Ajout dans la partie UPDATE
             jsonModif.put(CSMapJSonHelper.emergencyCSMapJSON(emergencyNumbersUpdate, emergencyHelpsMapUpdate, true));
@@ -266,6 +259,40 @@ public class VariousDataApplication extends Application {
         }
         return WSResponseUtil.buildOkResponse(json);
 
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("/get-social-networks")
+    public Response getSocialNetworks() {
+        return getSocialNetworks("0", "");
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("/get-social-networks/{last_update_time}")
+    public Response getSocialNetworks(
+            @PathParam("last_update_time") String lastUpdateTimeString,
+            @FormParam("ids_social_network") String ids_social_network) {
+
+
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        // On transforme la date string en date
+        Date lastUpdateTime;
+        try {
+            long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+        } catch (Exception e) {
+            return WSResponseUtil.lastUpdateTimeFormatError();
+        }
+
+        // On vérifie que les ids sont renseignés
+        if (Validator.isNull(ids_social_network)) {
+            ids_social_network = "";
+        }
+
+        return WSResponseUtil.buildOkResponse(json);
     }
 
 

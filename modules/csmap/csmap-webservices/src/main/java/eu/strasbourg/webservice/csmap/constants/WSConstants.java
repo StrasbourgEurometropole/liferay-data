@@ -88,6 +88,9 @@ public class WSConstants {
     public static final String JSON_SUBTITLE = "subtitle";
     public static final String JSON_DESCRIPTION = "description";
     public static final String JSON_WC_URL = "url";
+
+    /** Config */
+    // Various-Data
     public static final String GROUP_KEY = "CSMAP";
     public static final String FOLDER_EMERGENCIES = "Urgences";
     public static final String FOLDER_EMERGENCY_NUMBERS = "Num\u00e9ros urgence";
