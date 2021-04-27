@@ -172,7 +172,6 @@ public class VariousDataApplication extends Application {
             return WSResponseUtil.lastUpdateTimeFormatError();
         }
 
-
         // On vérifie que les ids sont renseignés
         if (Validator.isNull(ids_emergency_number)) {
             ids_emergency_number = "";
@@ -363,8 +362,6 @@ public class VariousDataApplication extends Application {
     @Path("/get-general-conditions/{last_update_time}")
     public Response getGeneralConditions(
             @PathParam("last_update_time") String lastUpdateTimeString){
-
-
         JSONObject json = JSONFactoryUtil.createJSONObject();
 
         // On transforme la date string en date
@@ -377,8 +374,10 @@ public class VariousDataApplication extends Application {
         }
 
         try {
-            long csmapGroupId = WSEmergencies.getGroupId(WSConstants.GROUP_KEY);
-            long  generalConditionsFolderId = WSEmergencies.getEmergencyFolderId(WSConstants.FOLDER_GENERAL_CONDITIONS,csmapGroupId);
+            Group csmapGroup = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY);
+            long csmapGroupId = csmapGroup.getGroupId();
+            JournalFolder generalConditionsFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId,WSConstants.FOLDER_GENERAL_CONDITIONS);
+            long generalConditionsFolderId = generalConditionsFolder.getFolderId();
 
             // Recuperation des JournalArticle dans le dossier Numeros urgence
             List<JournalArticle> generalConditions = new ArrayList<>(JournalArticleLocalServiceUtil.getArticles(csmapGroupId, generalConditionsFolderId));
@@ -402,19 +401,10 @@ public class VariousDataApplication extends Application {
                 return WSResponseUtil.buildOkResponse(json,201);
             }
 
-            // Creation des differents JSON pour le resultat
-            JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
-            JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-
-            // Ajout dans la partie ADD
-            jsonAjout.put(CSMapJSonHelper.generalConditionsCSMapJSON(generalConditionsAdd));
-            // Ajout dans la partie UPDATE
-            jsonModif.put(CSMapJSonHelper.generalConditionsCSMapJSON(generalConditionsUpdate));
-            // Ajout dans la partie DELETE
             // Ajout de ADD dans le JSON final
-            json.put(WSConstants.JSON_ADD, jsonAjout);
+            json.put(WSConstants.JSON_ADD, CSMapJSonHelper.generalConditionsCSMapJSON(generalConditionsAdd));
             // Ajout de UPDATE dans le JSON final
-            json.put(WSConstants.JSON_UPDATE, jsonModif);
+            json.put(WSConstants.JSON_UPDATE, CSMapJSonHelper.generalConditionsCSMapJSON(generalConditionsUpdate));
             // Ajout de DELETE dans le JSON final
 
         }catch (PortalException e) {

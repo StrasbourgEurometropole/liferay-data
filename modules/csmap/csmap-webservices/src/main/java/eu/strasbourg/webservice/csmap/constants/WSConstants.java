@@ -98,7 +98,7 @@ public class WSConstants {
     public static final String GROUP_KEY_STRAS = "Strasbourg.eu";
     public static final String TAG_CSMAP = "csmap";
     public static final String STRUCTURE_BREVE = "Breve";
-    public static final String STRUCTURE_SOCIAL_NETWORK = "social network";
+    public static final String STRUCTURE_SOCIAL_NETWORK = "R\u00e9seaux sociaux";
     public static final String STRUCTURE_EMERGENCY_NUMBER = "Num\u00e9ro d'urgence";
     public static final String STRUCTURE_EMERGENCY_HELP = "Aide d'urgence";
     public static final String FOLDER_GENERAL_CONDITIONS = "Mentions l\u00e9gales";

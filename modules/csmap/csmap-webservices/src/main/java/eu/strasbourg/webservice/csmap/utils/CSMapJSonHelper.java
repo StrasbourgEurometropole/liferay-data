@@ -139,21 +139,19 @@ public class CSMapJSonHelper {
 
             jsonJournalArticle.put(WSConstants.JSON_WC_PICTO, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "picto", Locale.FRANCE));
 
-            jsonJournalArticle.put(WSConstants.JSON_WC_COLOR, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "color", Locale.FRANCE));
+            jsonJournalArticle.put(WSConstants.JSON_WC_COLOR, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "socialNetworkColor", Locale.FRANCE));
         }
         return  jsonJournalArticle;
     }
 
     public static JSONObject generalConditionsCSMapJSON(List<JournalArticle> generalConditions) throws PortalException {
         JSONObject json = JSONFactoryUtil.createJSONObject();
-        JSONArray generalConditionJsonsJSON = JSONFactoryUtil.createJSONArray();
         for (JournalArticle generalCondition : generalConditions) {
             // CategoryTitle en fonction des differentes langues
             JSONObject titleJSON = JSONFactoryUtil.createJSONObject();
             titleJSON.put("fr_FR", JournalArticleHelper.getJournalArticleFieldValue(generalCondition, WSConstants.JSON_WC_CONTENT, Locale.FRANCE));
-            generalConditionJsonsJSON.put(titleJSON);
+            json.put(WSConstants.JSON_WC_TEXT, titleJSON);
         }
-        json.put(WSConstants.JSON_WC_TEXT, generalConditionJsonsJSON);
         return json;
     }
 }

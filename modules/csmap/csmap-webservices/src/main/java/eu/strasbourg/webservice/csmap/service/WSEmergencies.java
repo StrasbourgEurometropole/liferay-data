@@ -32,55 +32,57 @@ import java.util.*;
 )
 public class WSEmergencies {
 
-    static public Map<String,List<JournalArticle>> getMapEmergencyNumbers(Date lastUpdateTime, String ids_emergency_number){
+    static public Map<String,List<JournalArticle>> getMapEmergencyNumbers(Date lastUpdateTime, String ids_emergency_number) throws Exception {
+        Map<String, List<JournalArticle>> mapEmergencyNumbers = new HashMap<>();
+        try {
 
-        Map<String,List<JournalArticle>> mapEmergencyNumbers = new HashMap<>();
+            Group csmapGroup = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY);
+            long csmapGroupId = csmapGroup.getGroupId();
+            JournalFolder emergencyNumbersFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId, WSConstants.FOLDER_EMERGENCY_NUMBERS);
+            long emergencyNumbersFolderId = emergencyNumbersFolder.getFolderId();
 
-        long csmapGroupId = getGroupId(WSConstants.GROUP_KEY);
-        JournalFolder folder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId, WSConstants.FOLDER_EMERGENCY_NUMBERS);
-        long  emergencyNumbersFolderId = folder.getFolderId();
+            // Recuperation des JournalArticle dans le dossier Numeros urgence
+            List<JournalArticle> emergencyNumbers = new ArrayList<>(JournalArticleLocalServiceUtil.getArticles(csmapGroupId, emergencyNumbersFolderId));
+            // Recuperation des Numeros urgence a ADD et UPDATE
+            List<JournalArticle> emergencyNumbersAdd = new ArrayList<>();
+            List<JournalArticle> emergencyNumbersUpdate = new ArrayList<>();
 
-        // Recuperation des JournalArticle dans le dossier Numeros urgence
-        List<JournalArticle> emergencyNumbers = new ArrayList<>(JournalArticleLocalServiceUtil.getArticles(csmapGroupId, emergencyNumbersFolderId));
-        // Recuperation des Numeros urgence a ADD et UPDATE
-        List<JournalArticle> emergencyNumbersAdd = new ArrayList<>();
-        List<JournalArticle> emergencyNumbersUpdate = new ArrayList<>();
+            DDMStructure structure = WSCSMapUtil.getStructureByGroupAndName(csmapGroupId,WSConstants.STRUCTURE_EMERGENCY_NUMBER);
 
-        DDMStructure structure = DDMStructureLocalServiceUtil.getStructures(csmapGroupId).stream().filter(s -> s.getName(Locale.FRANCE).equals(WSConstants.STRUCTURE_EMERGENCY_NUMBER)).findFirst().orElse(null);
-
-        // Verification des Numeros urgence si nouveau ou modifie
-        for (JournalArticle emergencyNumber : emergencyNumbers) {
-            if(structure.getStructureKey().equals(emergencyNumber.getDDMStructureKey()) && emergencyNumber.getStatus() == WorkflowConstants.STATUS_APPROVED) {
-                if (lastUpdateTime.before(emergencyNumber.getCreateDate())) {
-                    emergencyNumbersAdd.add(emergencyNumber);
-                }
-                else if(!ids_emergency_number.contains(String.valueOf(emergencyNumber.getResourcePrimKey()))){
-                    emergencyNumbersAdd.add(emergencyNumber);
-                }
-                else if (lastUpdateTime.before(emergencyNumber.getModifiedDate())) {
-                    emergencyNumbersUpdate.add(emergencyNumber);
+            // Verification des Numeros urgence si nouveau ou modifie
+            for (JournalArticle emergencyNumber : emergencyNumbers) {
+                if (structure.getStructureKey().equals(emergencyNumber.getDDMStructureKey()) && emergencyNumber.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                    if (lastUpdateTime.before(emergencyNumber.getCreateDate())) {
+                        emergencyNumbersAdd.add(emergencyNumber);
+                    } else if (!ids_emergency_number.contains(String.valueOf(emergencyNumber.getResourcePrimKey()))) {
+                        emergencyNumbersAdd.add(emergencyNumber);
+                    } else if (lastUpdateTime.before(emergencyNumber.getModifiedDate())) {
+                        emergencyNumbersUpdate.add(emergencyNumber);
+                    }
                 }
             }
-        }
 
-        mapEmergencyNumbers.put(WSConstants.JSON_ADD,emergencyNumbersAdd);
-        mapEmergencyNumbers.put(WSConstants.JSON_UPDATE,emergencyNumbersUpdate);
+            mapEmergencyNumbers.put(WSConstants.JSON_ADD, emergencyNumbersAdd);
+            mapEmergencyNumbers.put(WSConstants.JSON_UPDATE, emergencyNumbersUpdate);
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
         return mapEmergencyNumbers;
     }
 
-    static public Map<String,Map<AssetCategory, List<JournalArticle>>> getMapEmergencyHelps(Date lastUpdateTime, String ids_emergency_help_category){
-
+    static public Map<String,Map<AssetCategory, List<JournalArticle>>> getMapEmergencyHelps(Date lastUpdateTime, String ids_emergency_help_category) throws Exception {
         Map<String,Map<AssetCategory, List<JournalArticle>>> mapsEmergencyHelps = new HashMap<>();
-
-        long csmapGroupId = getGroupId(WSConstants.GROUP_KEY);
-        JournalFolder folder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId, WSConstants.FOLDER_EMERGENCY_HELPS);
-        long  emergencyHelpsFolderId = folder.getFolderId();
+        try{
+        Group csmapGroup = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY);
+        long csmapGroupId = csmapGroup.getGroupId();
+        JournalFolder emergencyHelpsFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId,WSConstants.FOLDER_EMERGENCY_HELPS);
+        long emergencyHelpsFolderId = emergencyHelpsFolder.getFolderId();
 
         Map<AssetCategory, List<JournalArticle>> emergencyHelpsMap = new HashMap<>();
         Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapAdd = new HashMap<>();
         Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapUpdate = new HashMap<>();
 
-        DDMStructure structure = DDMStructureLocalServiceUtil.getStructures(csmapGroupId).stream().filter(s -> s.getName(Locale.FRANCE).equals(WSConstants.STRUCTURE_EMERGENCY_HELP)).findFirst().orElse(null);
+        DDMStructure structure = WSCSMapUtil.getStructureByGroupAndName(csmapGroupId,WSConstants.STRUCTURE_EMERGENCY_HELP);
 
         // On recupere les categories des urgences
         AssetVocabulary emergenciesVocabulary = AssetVocabularyHelper.getVocabulary(VocabularyNames.CSMAP_URGENCES, csmapGroupId);
@@ -146,6 +148,9 @@ public class WSEmergencies {
         }
         mapsEmergencyHelps.put(WSConstants.JSON_ADD,emergencyHelpsMapAdd);
         mapsEmergencyHelps.put(WSConstants.JSON_UPDATE,emergencyHelpsMapUpdate);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
         return mapsEmergencyHelps;
     }
 
