@@ -20,11 +20,7 @@ import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.utils.WebContentHelper;
 import org.osgi.service.component.annotations.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Service s'occuppant de verifier si les urgences de l'utilisateur sont à jour.
@@ -34,16 +30,6 @@ import java.util.Map;
         service = WSEmergencies.class
 )
 public class WSEmergencies {
-
-    static public long getGroupId(String groupKey){
-
-        Group csmapGroup = GroupLocalServiceUtil.getGroups(-1, -1).stream().filter(g -> g.getGroupKey().equals(groupKey)).findFirst().orElse(null);
-        long groupId = 0;
-        if (Validator.isNotNull(csmapGroup)) {
-            groupId = csmapGroup.getGroupId();
-        }
-        return groupId;
-    }
 
     static public Map<String,List<JournalArticle>> getMapEmergencyNumbers(Date lastUpdateTime, String ids_emergency_number){
 

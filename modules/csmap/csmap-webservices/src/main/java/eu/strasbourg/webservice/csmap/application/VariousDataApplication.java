@@ -29,11 +29,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -346,6 +342,14 @@ public class VariousDataApplication extends Application {
 
         return WSResponseUtil.buildOkResponse(json);
     }
+
+    @Reference(unbind = "-")
+    protected void setAssetEntryLocalService(AssetEntryLocalService assetEntryLocalService) {
+        this.assetEntryLocalService = assetEntryLocalService;
+    }
+
+    @Reference
+    protected AssetEntryLocalService assetEntryLocalService;
 
     @GET
     @Produces("application/json")

@@ -193,4 +193,17 @@ public class CSMapJSonHelper {
         }
         return  jsonJournalArticle;
     }
+
+    public static JSONObject generalConditionsCSMapJSON(List<JournalArticle> generalConditions) throws PortalException {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+        JSONArray generalConditionJsonsJSON = JSONFactoryUtil.createJSONArray();
+        for (JournalArticle generalCondition : generalConditions) {
+            // CategoryTitle en fonction des differentes langues
+            JSONObject titleJSON = JSONFactoryUtil.createJSONObject();
+            titleJSON.put("fr_FR", JournalArticleHelper.getJournalArticleFieldValue(generalCondition, WSConstants.JSON_WC_CONTENT, Locale.FRANCE));
+            generalConditionJsonsJSON.put(titleJSON);
+        }
+        json.put(WSConstants.JSON_WC_TEXT, generalConditionJsonsJSON);
+        return json;
+    }
 }
