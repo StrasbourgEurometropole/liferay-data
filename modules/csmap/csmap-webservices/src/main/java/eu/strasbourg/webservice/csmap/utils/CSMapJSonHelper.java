@@ -8,6 +8,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
@@ -135,9 +136,14 @@ public class CSMapJSonHelper {
 
             jsonJournalArticle.put(WSConstants.JSON_WC_ORDER, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "order", Locale.FRANCE));
 
-            jsonJournalArticle.put(WSConstants.JSON_WC_URL, StrasbourgPropsUtil.getURL() + "/-/" + socialNetwork.getUrlTitle());
+            jsonJournalArticle.put(WSConstants.JSON_WC_URL, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "url", Locale.FRANCE));
 
-            jsonJournalArticle.put(WSConstants.JSON_WC_PICTO, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "picto", Locale.FRANCE));
+
+            String picto = JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "picto", Locale.FRANCE);
+            if(Validator.isNotNull(picto)) {
+                String pictoURL = AssetPublisherTemplateHelper.getDocumentUrl(picto);
+                jsonJournalArticle.put(WSConstants.JSON_WC_PICTO, StrasbourgPropsUtil.getURL() + pictoURL);
+            }
 
             jsonJournalArticle.put(WSConstants.JSON_WC_COLOR, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "socialNetworkColor", Locale.FRANCE));
         }
