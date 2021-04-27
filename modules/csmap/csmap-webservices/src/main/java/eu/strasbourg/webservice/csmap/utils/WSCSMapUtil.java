@@ -4,6 +4,8 @@ import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
+import com.liferay.journal.model.JournalFolder;
+import com.liferay.journal.service.JournalFolderLocalServiceUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -35,5 +37,13 @@ public class WSCSMapUtil{
         if(Validator.isNull(structure))
             throw new NoSuchElementException("Structure " + name + " introuvable");
         return structure;
+    }
+
+    // récupération du dossier
+    static public JournalFolder getJournalFolderByGroupAndName(long groupId, String name){
+        JournalFolder folder = JournalFolderLocalServiceUtil.getFolders(groupId).stream().filter(f -> f.getName().equals(name)).findFirst().orElse(null);
+        if(Validator.isNull(folder))
+            throw new NoSuchElementException("Dossier " + name + " introuvable");
+        return folder;
     }
 }

@@ -8,6 +8,7 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -17,7 +18,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.utils.WebContentHelper;
+import eu.strasbourg.webservice.csmap.utils.WSCSMapUtil;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.*;
@@ -36,7 +37,8 @@ public class WSEmergencies {
         Map<String,List<JournalArticle>> mapEmergencyNumbers = new HashMap<>();
 
         long csmapGroupId = getGroupId(WSConstants.GROUP_KEY);
-        long  emergencyNumbersFolderId = WebContentHelper.getFolderId(WSConstants.FOLDER_EMERGENCY_NUMBERS,csmapGroupId);
+        JournalFolder folder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId, WSConstants.FOLDER_EMERGENCY_NUMBERS);
+        long  emergencyNumbersFolderId = folder.getFolderId();
 
         // Recuperation des JournalArticle dans le dossier Numeros urgence
         List<JournalArticle> emergencyNumbers = new ArrayList<>(JournalArticleLocalServiceUtil.getArticles(csmapGroupId, emergencyNumbersFolderId));
@@ -71,7 +73,8 @@ public class WSEmergencies {
         Map<String,Map<AssetCategory, List<JournalArticle>>> mapsEmergencyHelps = new HashMap<>();
 
         long csmapGroupId = getGroupId(WSConstants.GROUP_KEY);
-        long  emergencyHelpsFolderId = WebContentHelper.getFolderId(WSConstants.FOLDER_EMERGENCY_HELPS,csmapGroupId);
+        JournalFolder folder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId, WSConstants.FOLDER_EMERGENCY_HELPS);
+        long  emergencyHelpsFolderId = folder.getFolderId();
 
         Map<AssetCategory, List<JournalArticle>> emergencyHelpsMap = new HashMap<>();
         Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapAdd = new HashMap<>();
