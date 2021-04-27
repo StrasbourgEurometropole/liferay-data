@@ -2,49 +2,47 @@ package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetTag;
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.*;
-import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
-import com.liferay.document.library.kernel.model.DLFolder;
-import com.liferay.document.library.kernel.model.DLFolderConstants;
-import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
+import com.liferay.asset.kernel.model.AssetTagModel;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetEntryLocalService;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
-import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
-import com.liferay.journal.service.JournalFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.io.WriterOutputStream;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.repository.model.Folder;
-import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.DateHelper;
-import eu.strasbourg.utils.JournalArticleHelper;
-import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.service.WSEmergencies;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
+import eu.strasbourg.webservice.csmap.utils.WSCSMapUtil;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
+import eu.strasbourg.webservice.csmap.utils.WebContentHelper;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
-import javax.ws.rs.*;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author angelique.champougny
@@ -66,17 +64,20 @@ public class VariousDataApplication extends Application {
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
-    @PUT
+    @POST
+    @Produces("application/json")
+    @Path("/get-news")
+    public Response getNews(
+            @FormParam("ids_news") String idsNews) {
+        return getNews("0", idsNews);
+    }
+
+    @POST
     @Produces("application/json")
     @Path("/get-news/{last_update_time}")
     public Response getNews(
             @PathParam("last_update_time") String lastUpdateTimeString,
-            String params) {
-
-        // On vérifie que lastUpdateTimeString est renseigné
-        if (Validator.isNull(lastUpdateTimeString))
-            return WSResponseUtil.buildErrorResponse(400,
-                    "Il manque le paramètre last_update_time");
+            @FormParam("ids_news") String idsNews) {
 
         // On transforme la date string en date
         Date lastUpdateTime;
@@ -84,46 +85,43 @@ public class VariousDataApplication extends Application {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
         }catch (Exception e) {
-            return WSResponseUtil.lastUpdateTimeFormatError();
+            return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
         }
-
-        // On vérifie que les ids sont renseignés
-        if (Validator.isNull(params) || !params.contains("ids_news="))
-            return WSResponseUtil.buildErrorResponse(400, "Il manque le paramètre ids_news");
 
         JSONObject json = JSONFactoryUtil.createJSONObject();
 
         // On récupère les contenu web de structure Brève ayant le tag csmap
-        List<JournalArticle> breves = new ArrayList<>();
-        // récupération du tag
-        Group group = GroupLocalServiceUtil.getGroups(-1, -1).stream().filter(g -> g.getGroupKey().equals("Strasbourg.eu")).findFirst().get();
+        AssetTagModel tag;
+        DDMStructure structure;
+        try {
+            // récupération du group
+            Group group = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY_STRAS);
+
+            // récupération du tag
+            tag = WSCSMapUtil.getTagByGroupAndName(group.getGroupId(), WSConstants.TAG_CSMAP);
+
+            // récupération de la structure
+            structure = WSCSMapUtil.getStructureByGroupAndName(group.getGroupId(), WSConstants.STRUCTURE_BREVE);
+        }catch (Exception e){
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
 
         // On récupère toutes les brèves qui ont été ajoutées ou modifiées
         JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
         JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-        AssetTag tag = AssetTagLocalServiceUtil.getGroupTags(group.getGroupId()).stream().filter(t -> t.getName().equals("csmap")).findFirst().orElse(null);
 
-        if(tag != null) {
-            // récupération de l'assetEntry
-            List<AssetEntry> entries = AssetEntryLocalServiceUtil.getAssetTagAssetEntries(tag.getTagId());
+        // récupération des brèves
+        List<AssetEntry> entries = assetEntryLocalService.getAssetTagAssetEntries(tag.getTagId());
+        for (AssetEntry entry : entries) {
+            // récupération de la dernière version du journalArticle
+            JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(entry.getClassPK());
+            if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                JSONObject jsonWC = CSMapJSonHelper.getBreveCSMapJSON(journalArticle);
 
-            // récupération de la structure
-            DDMStructure structure = DDMStructureLocalServiceUtil.getStructures(group.getGroupId()).stream().filter(s -> s.getName(Locale.FRANCE).equals("Breve")).findFirst().orElse(null);
-            for (AssetEntry entry : entries) {
-                // récupération de la dernière version du journalArticle
-                JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(entry.getClassPK());
-                if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED)
-                    breves.add(journalArticle);
-            }
-
-            for (JournalArticle breve : breves) {
-                JSONObject jsonWC = CSMapJSonHelper.getBreveCSMapJSON(breve);
-
-                if (lastUpdateTime.before(breve.getCreateDate()))
+                if (lastUpdateTime.before(journalArticle.getCreateDate()))
                     jsonAjout.put(jsonWC);
-                else if (lastUpdateTime.before(breve.getModifiedDate()))
+                else if (lastUpdateTime.before(journalArticle.getModifiedDate()))
                     jsonModif.put(jsonWC);
-
             }
         }
 
@@ -132,10 +130,9 @@ public class VariousDataApplication extends Application {
 
         // On récupère toutes les news qui ont été supprimées/dépubliées
         JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-        String[] paramsArray = params.split("ids_news=");
-        if(paramsArray.length > 1 ) {
-            for (String idNews : paramsArray[1].split(",")) {
-                JournalArticle journalArticle = JournalArticleLocalServiceUtil.fetchLatestArticle(Long.parseLong(idNews));
+        if(Validator.isNotNull(idsNews)) {
+            for (String idNews : idsNews.split(",")) {
+                JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idNews));
                 if (journalArticle == null)
                     jsonSuppr.put(idNews);
                 else if(journalArticle.getStatus() != WorkflowConstants.STATUS_APPROVED)
@@ -143,6 +140,9 @@ public class VariousDataApplication extends Application {
             }
         }
         json.put(WSConstants.JSON_DELETE, jsonSuppr);
+
+        if(jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+            return WSResponseUtil.buildOkResponse(json, 201);
 
         return WSResponseUtil.buildOkResponse(json);
     }
@@ -267,8 +267,9 @@ public class VariousDataApplication extends Application {
     @POST
     @Produces("application/json")
     @Path("/get-social-networks")
-    public Response getSocialNetworks() {
-        return getSocialNetworks("0", "");
+    public Response getSocialNetworks(
+            @FormParam("ids_social_network") String idsSocialNetwork) {
+        return getSocialNetworks("0", idsSocialNetwork);
     }
 
     @POST
@@ -276,7 +277,7 @@ public class VariousDataApplication extends Application {
     @Path("/get-social-networks/{last_update_time}")
     public Response getSocialNetworks(
             @PathParam("last_update_time") String lastUpdateTimeString,
-            @FormParam("ids_social_network") String ids_social_network) {
+            @FormParam("ids_social_network") String idsSocialNetwork) {
 
 
         JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -290,10 +291,58 @@ public class VariousDataApplication extends Application {
             return WSResponseUtil.lastUpdateTimeFormatError();
         }
 
-        // On vérifie que les ids sont renseignés
-        if (Validator.isNull(ids_social_network)) {
-            ids_social_network = "";
+
+        Group group;
+        DDMStructure structure;
+        long folderId;
+        try {
+            // récupération du group CSMAP
+            group = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY);
+
+            // récupération du dossier
+            folderId = WebContentHelper.getFolderId(WSConstants.FOLDER_SOCIAL_NETWORK, group.getGroupId());
+
+            // récupération de la structure
+            structure = WSCSMapUtil.getStructureByGroupAndName(group.getGroupId(), WSConstants.STRUCTURE_SOCIAL_NETWORK);
+        }catch (Exception e){
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
+
+        // On récupère tous les réseaux sociaux qui ont été ajoutés ou modifiés
+        JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+        JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+
+        // On récupère les contenu web de structure social network du dossier Réseau sociaux
+        List<JournalArticle> journalArticles = JournalArticleLocalServiceUtil.getArticles(group.getGroupId(), folderId);
+        for (JournalArticle journalArticle : journalArticles) {
+            if(journalArticle.getDDMStructureKey().equals(structure.getStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                JSONObject jsonWC = CSMapJSonHelper.getSocialNetworkCSMapJSON(journalArticle);
+
+                if (lastUpdateTime.before(journalArticle.getCreateDate()))
+                    jsonAjout.put(jsonWC);
+                else if (lastUpdateTime.before(journalArticle.getModifiedDate()))
+                    jsonModif.put(jsonWC);
+            }
+        }
+
+        json.put(WSConstants.JSON_ADD, jsonAjout);
+        json.put(WSConstants.JSON_UPDATE, jsonModif);
+
+        // On récupère tous les réseaux sociaux qui ont été supprimées/dépubliées
+        JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
+        if(Validator.isNotNull(idsSocialNetwork)) {
+            for (String idSocialNetwork : idsSocialNetwork.split(",")) {
+                JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idSocialNetwork));
+                if (journalArticle == null)
+                    jsonSuppr.put(idSocialNetwork);
+                else if(journalArticle.getStatus() != WorkflowConstants.STATUS_APPROVED)
+                    jsonSuppr.put(idSocialNetwork);
+            }
+        }
+        json.put(WSConstants.JSON_DELETE, jsonSuppr);
+
+        if(jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+            return WSResponseUtil.buildOkResponse(json, 201);
 
         return WSResponseUtil.buildOkResponse(json);
     }

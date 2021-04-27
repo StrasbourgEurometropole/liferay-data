@@ -66,12 +66,18 @@ public class ProfileApplication extends Application {
             if (Validator.isNotNull(publikUser)) {
                 if (Validator.isNotNull(jsonPublikUser.getString("last_name")))
                     jsonResponse.put(WSConstants.JSON_LAST_NAME, jsonPublikUser.getString("last_name"));
+                else
+                    return WSResponseUtil.buildErrorResponse(500, "last-name introuvable");
 
                 if (Validator.isNotNull(jsonPublikUser.getString("first_name")))
                     jsonResponse.put(WSConstants.JSON_FIRST_NAME, jsonPublikUser.getString("first_name"));
+                else
+                    return WSResponseUtil.buildErrorResponse(500, "first-name introuvable");
 
                 if (Validator.isNotNull(jsonPublikUser.getString("last_name")))
                     jsonResponse.put(WSConstants.JSON_EMAIL, jsonPublikUser.getString("email"));
+                else
+                    return WSResponseUtil.buildErrorResponse(500, "email introuvable");
 
                 if (Validator.isNotNull(jsonPublikUser.getString("address")))
                     jsonResponse.put(WSConstants.JSON_ADDRESS, jsonPublikUser.getString("address"));
