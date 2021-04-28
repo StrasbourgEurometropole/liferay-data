@@ -10,6 +10,11 @@ public class WSConstants {
     public static final String APP_PLACE_NAME = "CSMAP.Place.Rest";
     public static final String APP_PROFILE_BASE = "/profile";
     public static final String APP_PROFILE_NAME = "CSMAP.Profile.Rest";
+    public static final String APP_ACCOUNT_DATA_BASE = "/account-data";
+    public static final String APP_ACCOUNT_DATA_NAME = "CSMAP.Account.Data.Rest";
+    public static final String APP_VARIOUS_DATA_BASE = "/various-data";
+    public static final String APP_VARIOUS_DATA_NAME = "CSMAP.Various.Data.Rest";
+
 
     /** Publik */
     public static final String REDIRECT_URI = "http://localhost:8080/static.html";
@@ -33,8 +38,12 @@ public class WSConstants {
 
     /** JSON de réponse */
     // Global
+    public static final String JSON_RESPONSE = "response";
     public static final String JSON_RESPONSE_CODE = "responseCode";
     public static final String JSON_ERROR_DESCRIPTION = "errorDescription";
+    public static final String JSON_LANGUAGE_FRANCE = "fr_FR";
+    public static final String JSON_LANGUAGE_GERMANY = "de_DE";
+    public static final String JSON_LANGUAGE_US = "en_US";
     // Auth
     public static final String JSON_REFRESH_TOKEN = "refreshToken";
     public static final String JSON_JWT_CSM = "JWT_CSM";
@@ -42,6 +51,13 @@ public class WSConstants {
     public static final String JSON_ADD = "ADD";
     public static final String JSON_UPDATE = "UPDATE";
     public static final String JSON_DELETE = "DELETE";
+    // Place catégories
+    public static final String JSON_CATEG_ID = "id";
+    public static final String JSON_PARENT_ID = "parentId";
+    public static final String JSON_NAME = "name";
+    public static final String JSON_PICTO = "picto";
+    public static final String JSON_PICTO_URL = "pictoURL";
+    public static final String JSON_MAJ = "maj";
     // Profil
     public static final String JSON_LAST_NAME = "lastname";
     public static final String JSON_FIRST_NAME = "firstname";
@@ -50,6 +66,46 @@ public class WSConstants {
     public static final String JSON_POSTAL_CODE = "postalCode";
     public static final String JSON_CITY = "city";
     public static final String JSON_IMAGE_URL = "imageURL";
+    // Account-Data
+    public static final String JSON_TITLE = "title";
+    public static final String JSON_STATUS = "status";
+    public static final String JSON_URL = "url";
+    // Various-Data
+    public static final String JSON_WC_ID = "id";
+    public static final String JSON_DATE = "date";
+    public static final String JSON_WC_TITLE = "title";
+    public static final String JSON_WC_ORDER = "order";
+    public static final String JSON_WC_NUMBER = "number";
+    public static final String JSON_WC_COLOR = "color";
+    public static final String JSON_WC_FONT_COLOR = "fontColor";
+    public static final String JSON_WC_BACKGROUND_COLOR = "backgroundColor";
+    public static final String JSON_WC_CATEGORY_ID = "categoryId";
+    public static final String JSON_WC_CATEGORY_ORDER = "categoryOrder";
+    public static final String JSON_WC_CATEGORY_TITLE = "categoryTitle";
+    public static final String JSON_WC_CATEGORY_CONTENT = "categoryContent";
+    public static final String JSON_WC_EMERGENCY_NUMBERS = "emergencyNumbers";
+    public static final String JSON_WC_EMERGENCY_HELPS = "emergencyHelps";
+    public static final String JSON_WC_CONTENT = "content";
+    public static final String JSON_WC_TEXT = "text";
+    public static final String JSON_SUBTITLE = "subtitle";
+    public static final String JSON_DESCRIPTION = "description";
+    public static final String JSON_WC_URL = "url";
+    public static final String JSON_WC_PICTO = "picto";
+
+    /** Config */
+    // Various-Data
+    public static final String GROUP_KEY = "CSMAP";
+    public static final String GROUP_KEY_STRAS = "Strasbourg.eu";
+    public static final String TAG_CSMAP = "csmap";
+    public static final String STRUCTURE_BREVE = "Breve";
+    public static final String STRUCTURE_SOCIAL_NETWORK = "R\u00e9seaux sociaux";
+    public static final String STRUCTURE_EMERGENCY_NUMBER = "Num\u00e9ro d'urgence";
+    public static final String STRUCTURE_EMERGENCY_HELP = "Aide d'urgence";
+    public static final String FOLDER_GENERAL_CONDITIONS = "Mentions l\u00e9gales";
+    public static final String FOLDER_EMERGENCIES = "Urgences";
+    public static final String FOLDER_EMERGENCY_NUMBERS = "Num\u00e9ros urgence";
+    public static final String FOLDER_EMERGENCY_HELPS = "Aides urgence";
+    public static final String FOLDER_SOCIAL_NETWORK = "R\u00e9seaux sociaux";
 
     /** Erreurs */
     // Global

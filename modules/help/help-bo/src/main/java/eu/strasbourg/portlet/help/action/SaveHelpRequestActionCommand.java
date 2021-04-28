@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
         },
         service = MVCActionCommand.class
 )
-public class SaveRequestActionCommand implements MVCActionCommand {
+public class SaveHelpRequestActionCommand implements MVCActionCommand {
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 

@@ -10,29 +10,32 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.place.model.CacheJson;
 import eu.strasbourg.service.place.model.Historic;
-import eu.strasbourg.service.place.service.CacheJsonLocalServiceUtil;
-import eu.strasbourg.service.place.service.HistoricLocalServiceUtil;
+import eu.strasbourg.service.place.service.CacheJsonLocalService;
+import eu.strasbourg.service.place.service.HistoricLocalService;
+import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.place.NoDefaultPictoException;
+import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -75,10 +78,6 @@ public class PlaceApplication extends Application {
 	public Response getPlaces(
 			@PathParam("last_update_time") String lastUpdateTimeString) {
 
-		// On vérifie que lastUpdateTimeString est renseigné
-		if (Validator.isNull(lastUpdateTimeString))
-			return WSResponseUtil.buildErrorResponse(400,"Il manque le paramètre last_update_time");
-
 		// On transforme la date string en date
 		Date lastUpdateTime;
 		try {
@@ -92,7 +91,7 @@ public class PlaceApplication extends Application {
 
 		try {
 			// On récupère tous les lieux qui ont été ajoutés
-			List<CacheJson> ajouts = CacheJsonLocalServiceUtil.getByCreatedDateAndIsActive(lastUpdateTime);
+			List<CacheJson> ajouts = cacheJsonLocalService.getByCreatedDateAndIsActive(lastUpdateTime);
 			JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
 			for (CacheJson cache: ajouts) {
 				jsonAjout.put(JSONFactoryUtil.createJSONObject(cache.getJsonLieu()));
@@ -100,7 +99,7 @@ public class PlaceApplication extends Application {
 			json.put(WSConstants.JSON_ADD, jsonAjout);
 
 			// On récupère tous les lieux qui ont été modifiés
-			List<CacheJson> modifications = CacheJsonLocalServiceUtil.getByCreatedDateAndModifiedDateAndIsActive(lastUpdateTime);
+			List<CacheJson> modifications = cacheJsonLocalService.getByCreatedDateAndModifiedDateAndIsActive(lastUpdateTime);
 			JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
 			for (CacheJson cache: modifications) {
 				jsonModif.put(JSONFactoryUtil.createJSONObject(cache.getJsonLieu()));
@@ -109,17 +108,20 @@ public class PlaceApplication extends Application {
 
 			JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 			// On récupère tous les lieux qui ont été dépubliés
-			List<CacheJson> depubications = CacheJsonLocalServiceUtil.getByModifiedDateAndIsNotActive(lastUpdateTime);
+			List<CacheJson> depubications = cacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
 			for (CacheJson cache: depubications) {
 				jsonSuppr.put(cache.getSigId());
 			}
 
 			// On récupère tous les lieux qui ont été supprimés
-			List<Historic> suppressions = HistoricLocalServiceUtil.getBySuppressionDate(lastUpdateTime);
+			List<Historic> suppressions = historicLocalService.getBySuppressionDate(lastUpdateTime);
 			for (Historic histo: suppressions) {
 				jsonSuppr.put(histo.getSigId());
 			}
 			json.put(WSConstants.JSON_DELETE, jsonSuppr);
+
+			if(jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+				return WSResponseUtil.buildOkResponse(json, 201);
 		} catch (JSONException e) {
 			log.error(e);
 			return WSResponseUtil.buildErrorResponse(500, e.getMessage());
@@ -134,38 +136,47 @@ public class PlaceApplication extends Application {
 	public Response getHours(
 			@PathParam("sigid") String sigid) {
 
-		// On vérifie que le sigid est renseigné
-		if (Validator.isNull(sigid))
-			return WSResponseUtil.buildErrorResponse(400, "Il manque le sigid");
-
 		JSONObject json = JSONFactoryUtil.createJSONObject();
 
 		// On récupère le cache horaires du lieu
-		CacheJson cache = CacheJsonLocalServiceUtil.fetchCacheJson(sigid);
+		CacheJson cache = cacheJsonLocalService.fetchCacheJson(sigid);
 		if(Validator.isNotNull(cache) && cache.getIsActive()) {
 			try {
-				json = JSONFactoryUtil.createJSONObject(cache.getJsonHoraire());
-				json.put(WSConstants.JSON_RESPONSE_CODE, 200);
+				if(cache.getJsonHoraire().equals("{}"))
+					return WSResponseUtil.buildOkResponse(json, 201);
+				else
+					json = JSONFactoryUtil.createJSONObject(cache.getJsonHoraire());
 			} catch (JSONException e) {
 				log.error(e);
 				return WSResponseUtil.buildErrorResponse(500, e.getMessage());
 			}
+		}else{
+			if(!cache.getIsActive())
+				return WSResponseUtil.buildErrorResponse(404, "Lieu introuvable");
+			else
+				if (Validator.isNotNull(placeLocalService.getPlaceBySIGId(sigid)))
+					return WSResponseUtil.buildErrorResponse(500, "Cache horaire introuvable");
+				else
+					return WSResponseUtil.buildErrorResponse(404, "Lieu introuvable");
 		}
 
 		return WSResponseUtil.buildOkResponse(json);
 	}
 
-	@GET
+	@POST
 	@Produces("application/json")
-	@Path("/get-categories/{last_update_time}/{ids_category}")
+	@Path("/get-categories")
+	public Response getCategories(
+			@FormParam("ids_category") String idsCategory) {
+		return getCategories("0", idsCategory);
+	}
+
+	@POST
+	@Produces("application/json")
+	@Path("/get-categories/{last_update_time}")
 	public Response getCategories(
 			@PathParam("last_update_time") String lastUpdateTimeString,
-			@PathParam("ids_category") String ids) {
-
-		// On vérifie que lastUpdateTimeString est renseigné
-		if (Validator.isNull(lastUpdateTimeString))
-			return WSResponseUtil.buildErrorResponse(400,
-					"Il manque le paramètre last_update_time");
+			@FormParam("ids_category") String idsCategory) {
 
 		// On transforme la date string en date
 		Date lastUpdateTime;
@@ -174,20 +185,6 @@ public class PlaceApplication extends Application {
 			lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
 		}catch (Exception e) {
 			return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
-		}
-
-		// On vérifie que les ids sont renseignés
-		if (Validator.isNull(ids))
-			return WSResponseUtil.buildErrorResponse(400, "Il manque le paramètre ids_category");
-
-		// On vérifie le format de ids_category
-		JSONObject idsCategoryParam;
-		JSONArray idsJson;
-		try {
-			idsCategoryParam = JSONFactoryUtil.createJSONObject(ids);
-			idsJson = idsCategoryParam.getJSONArray(WSConstants.PARAM_IDS_CATEGORY);
-		}catch (Exception e) {
-			return WSResponseUtil.buildErrorResponse(400, "Format json de ids_category incorrect");
 		}
 
 		JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -227,9 +224,9 @@ public class PlaceApplication extends Application {
 					pictoURL = pictoDefaultURL;
 
 				if (lastUpdateTime.before(categ.getCreateDate()))
-					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, true));
+					jsonAjout.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, true));
 				else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
-					jsonAjout.put(AssetVocabularyHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
+					jsonModif.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
 
 			}
 
@@ -238,12 +235,18 @@ public class PlaceApplication extends Application {
 
 			// On récupère toutes les catégories qui ont été supprimées
 			JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-			if(Validator.isNotNull(placeTypeVocabulary))
-				for (int i = 0; i < idsJson.length(); i++) {
-					if(AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idsJson.get(i).toString()) == null)
-						jsonSuppr.put(idsJson.get(i));
-				}
+
+			if(Validator.isNotNull(idsCategory)) {
+				if (Validator.isNotNull(placeTypeVocabulary))
+					for (String idCategory : idsCategory.split(",")) {
+						if (AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null)
+							jsonSuppr.put(idCategory);
+					}
+			}
 			json.put(WSConstants.JSON_DELETE, jsonSuppr);
+
+			if(jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+				return WSResponseUtil.buildOkResponse(json, 201);
 		} catch (PortalException | NoDefaultPictoException e) {
 			log.error(e);
 			return WSResponseUtil.buildErrorResponse(500, e.getMessage());
@@ -251,5 +254,29 @@ public class PlaceApplication extends Application {
 
 		return WSResponseUtil.buildOkResponse(json);
 	}
+
+	@Reference(unbind = "-")
+	protected void setPlaceLocalService(PlaceLocalService placeLocalService) {
+		this.placeLocalService = placeLocalService;
+	}
+
+	@Reference
+	protected PlaceLocalService placeLocalService;
+
+	@Reference(unbind = "-")
+	protected void setCacheJsonLocalService(CacheJsonLocalService cacheJsonLocalService) {
+		this.cacheJsonLocalService = cacheJsonLocalService;
+	}
+
+	@Reference
+	protected CacheJsonLocalService cacheJsonLocalService;
+
+	@Reference(unbind = "-")
+	protected void setHistoricLocalService(HistoricLocalService historicLocalService) {
+		this.historicLocalService = historicLocalService;
+	}
+
+	@Reference
+	protected eu.strasbourg.service.place.service.HistoricLocalService historicLocalService;
 
 }

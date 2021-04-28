@@ -25558,13 +25558,14 @@ function getResult(searchPage, data) {
             for (indexPage; indexPage <= nbEntries / delta; indexPage++) {
                 selecteur +=
                     '<option value="' + indexPage + '">' +
-                        'Page ' + indexPage + ' ( ' + (nbEntries < (indexPage * delta) ? nbEntries : delta) + ' )' +
+                        'Page ' + indexPage + ' ( ' + delta + ' )' +
                     '</option>';
             }
-            if((indexPage - 1) * delta < nbEntries){
+            var nbEntitesRestantes = (nbEntries - delta * (indexPage - 1));
+            if(nbEntitesRestantes > 0){
                 selecteur +=
                     '<option value="' + indexPage + '">' +
-                        'Page ' + indexPage + ' ( ' + nbEntries + ' )' +
+                        'Page ' + indexPage + ' ( ' + nbEntitesRestantes + ' )' +
                     '</option>';
             }
             selecteur +=
@@ -26147,7 +26148,7 @@ function goToPage(wi, index){
     // Gestion affichage du résultat de la pagination
     var indexDernierItemPage = index * delta;
     var pageResult = 'Affichage des résultats ' +
-                    (wi.items_count > 0 ? (index > 1 ? (indexDernierItemPage - 2) : '1') : '0') + ' - ' +
+                    (wi.items_count > 0 ? (index > 1 ? ((index-1)*delta) : '1') : '0') + ' - ' +
                     (wi.items_count < indexDernierItemPage ? wi.items_count : indexDernierItemPage) +
                     ' parmi ' + wi.items_count;
     wi.$widget.find('.pro-pagination .pull-left .hidden-xs').text(pageResult);

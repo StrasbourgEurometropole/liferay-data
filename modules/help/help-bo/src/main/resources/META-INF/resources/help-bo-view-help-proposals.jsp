@@ -57,6 +57,24 @@
 
 </liferay-frontend:management-bar>
 
+<%-- URL : definit le lien vers la page d'edition de l'entite selectionne --%>
+<liferay-portlet:actionURL name="redirectToHelpProposal" var="redirectToHelpProposalURL">
+	<portlet:param name="helpProposalId" value="TO_BE_REPLACED" />
+	<portlet:param name="returnURL" value="${helpProposalsURL}" />
+</liferay-portlet:actionURL>
+<%-- Composant : Champ d'acces direct par reference de proposition --%>
+<div class="container-fluid-1280">
+	<div class="input-group">
+		<div class="input-group-prepend">
+			<span class="input-group-text"><liferay-ui:message key="go-directly-to-proposal-detail"/></span>
+		</div>
+		<input type="text" id="proposal-id-input" aria-label="Référence de la proposition" placeholder="Identifiant (ex : 354440815215)" class="form-control">
+		<div class="input-group-append">
+			<button class="btn btn-outline-secondary"  type="button" id="direct-proposal-access-button">Valider</button>
+		</div>
+	</div>
+</div>
+
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid-1280 main-content-body">
 	<aui:form method="post" name="fm">
@@ -247,6 +265,23 @@
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
+
+<%-- Script : Permet d'accéeder directement la proposition par son identifiant--%>
+<script type="text/javascript">
+	/*
+	* Lors du click sur le bouton d'acces direct par reference
+	*/
+	$("#direct-proposal-access-button").click(function(event){
+		event.preventDefault();
+
+		var modifiedURL = "${redirectToHelpProposalURL}";
+		var helpProposalId = $("#proposal-id-input").val();
+		modifiedURL = modifiedURL.replace("TO_BE_REPLACED", helpProposalId);
+		window.location.assign(modifiedURL);
+
+	});
+
+</script>
 
 <%-- Script : permet l'affichage des alertes de validation d'action --%>
 <aui:script>

@@ -28,8 +28,6 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.kernel.xml.Node;
-import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import eu.strasbourg.portlet.my_district.configuration.MyDistrictConfiguration;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.agenda.model.Event;
@@ -41,6 +39,7 @@ import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -49,7 +48,6 @@ import org.osgi.service.component.annotations.Reference;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.servlet.http.HttpServletRequest;
-import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -120,7 +118,9 @@ public class MyDistrictDisplayContext {
 
     // récupération de l'adresse de l'utilisateureventservicelocal
     public String getAddress() {
-        return address + " " + zipCode + " " + city;
+        if(Validator.isNotNull(address) && Validator.isNotNull(zipCode) && Validator.isNotNull(city))
+            return address + " " + zipCode + " " + city;
+        return null;
     }
 
     // récupération du texte à afficher si l'utilisateur n'a pas renseigné son
@@ -392,35 +392,16 @@ public class MyDistrictDisplayContext {
         return actuAndWebMag;
     }
 
-    private String getJournalArticleFieldValue(JournalArticle article, String field, Locale locale) {
-        String content = article.getContentByLocale(locale.toString());
-
-        String value = "";
-
-        com.liferay.portal.kernel.xml.Document document = null;
-
-        try {
-            document = SAXReaderUtil.read(new StringReader(content));
-            Node node = document.selectSingleNode("/root/dynamic-element[@name='" + field + "']/dynamic-content");
-            if (node != null && node.getText().length() > 0) {
-                value = node.getText();
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return value;
-    }
-
     public String getJournalArticleTitle(JournalArticle article, Locale locale) {
-        return getJournalArticleFieldValue(article, "title", locale);
+        return JournalArticleHelper.getJournalArticleFieldValue(article, "title", locale);
     }
 
     public String getJournalArticleCatcher(JournalArticle article, Locale locale) {
-        return getJournalArticleFieldValue(article, "chapo", locale);
+        return JournalArticleHelper.getJournalArticleFieldValue(article, "chapo", locale);
     }
 
     public String getJournalArticleImage(JournalArticle article, Locale locale) {
-        String documentStructure = getJournalArticleFieldValue(article, "thumbnail", locale);
+        String documentStructure = JournalArticleHelper.getJournalArticleFieldValue(article, "thumbnail", locale);
         return AssetPublisherTemplateHelper.getDocumentUrl(documentStructure);
     }
 
