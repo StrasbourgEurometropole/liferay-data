@@ -1,4 +1,4 @@
-<!-- Adjoint de quartier -->
+<!-- Maire de la commune -->
 <#setting locale = locale />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
@@ -12,23 +12,13 @@
         <div class="seu-container">
             <h2 class="seu-section-title">
                 <span class="seu-title">
-                    <#if official.gender == 1>
-                        <@liferay_ui.message key="male-official-of-the-district" />
-                    <#else>
-                        <@liferay_ui.message key="female-official-of-the-district" />
-                    </#if>
+                    ${official.getName(official.fonctionTown, locale)} 
+                    <@liferay_ui.message key="eu.official.of" /> ${official.getTown().getTitle(locale)}
                 </span>
             </h2>
             <div class="seu-wi-content">
                 <div class="seu-wi-text">
                 <div class="seu-wi-title">${official.firstName} ${official.lastName}</div>
-                <p>
-                    <#if official.gender == 1>
-                        <@liferay_ui.message key="male-strasbourg-mayer-deputy" />
-                    <#else>
-                        <@liferay_ui.message key="female-strasbourg-mayer-deputy" />
-                    </#if>
-                </p>
                 </div>
             </div>
             <div class="seu-btn-line">
