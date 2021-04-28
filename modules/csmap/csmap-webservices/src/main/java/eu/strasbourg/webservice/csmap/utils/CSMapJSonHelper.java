@@ -1,6 +1,7 @@
 package eu.strasbourg.webservice.csmap.utils;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -30,17 +31,25 @@ public class CSMapJSonHelper {
             }
             JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
             nameJSON.put(WSConstants.JSON_LANGUAGE_FRANCE, category.getTitle(Locale.FRANCE));
-            if (Validator.isNotNull(category.getTitle(Locale.US))) {
-                nameJSON.put(WSConstants.JSON_LANGUAGE_US, category.getTitle(Locale.US));
-            }
-            if (Validator.isNotNull(category.getTitle(Locale.GERMANY))) {
-                nameJSON.put(WSConstants.JSON_LANGUAGE_GERMANY, category.getTitle(Locale.GERMANY));
-            }
             jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
             JSONObject jsonPicto = JSONFactoryUtil.createJSONObject();
             jsonPicto.put(WSConstants.JSON_PICTO_URL, StrasbourgPropsUtil.getURL() + urlPicto);
             jsonPicto.put(WSConstants.JSON_MAJ, maj);
             jsonCategory.put(WSConstants.JSON_PICTO, jsonPicto);
+            JSONObject colorJSON = JSONFactoryUtil.createJSONObject();
+            String gradient_start = "#939393";
+            String gradient_end = "#CECFCF";
+            try {
+                gradient_start = "#"+AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_start").getValue();
+            } catch(PortalException e){/* Using the default value */}
+            try {
+                gradient_end = "#"+AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_end").getValue();
+            } catch(PortalException e){/* Using the default value */}
+            colorJSON.put(WSConstants.JSON_COLOR_GRADIENT_START, gradient_start);
+            colorJSON.put(WSConstants.JSON_COLOR_GRADIENT_END, gradient_end);
+            jsonCategory.put(WSConstants.JSON_COLOR_GRADIENT, colorJSON);
+
+
         }
         return  jsonCategory;
     }
@@ -142,7 +151,7 @@ public class CSMapJSonHelper {
             String picto = JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "picto", Locale.FRANCE);
             if(Validator.isNotNull(picto)) {
                 String pictoURL = AssetPublisherTemplateHelper.getDocumentUrl(picto);
-                jsonJournalArticle.put(WSConstants.JSON_WC_PICTO, StrasbourgPropsUtil.getCSMAPURL() + pictoURL);
+                jsonJournalArticle.put(WSConstants.JSON_WC_PICTO, StrasbourgPropsUtil.getBaseURL() + pictoURL);
             }
 
             jsonJournalArticle.put(WSConstants.JSON_WC_COLOR, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "socialNetworkColor", Locale.FRANCE));

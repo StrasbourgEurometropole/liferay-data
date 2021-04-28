@@ -1890,12 +1890,6 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("types", jsonSigs);
         JSONObject names = JSONFactoryUtil.createJSONObject();
         names.put("fr_FR", this.getAlias(Locale.FRANCE));
-        if (Validator.isNotNull(this.getAlias(Locale.US))) {
-            names.put("en_US", this.getAlias(Locale.US));
-        }
-        if (Validator.isNotNull(this.getAlias(Locale.GERMANY))) {
-            names.put("de_DE", this.getAlias(Locale.GERMANY));
-        }
         jsonPlace.put("name", names);
         if (Validator.isNotNull(this.getAddressStreet())) {
             jsonPlace.put("street", this.getAddressStreet());
@@ -1922,12 +1916,6 @@ public class PlaceImpl extends PlaceBaseImpl {
         if (Validator.isNotNull(this.getPresentation(Locale.FRANCE))) {
             descriptions.put("fr_FR", this.getPresentation(Locale.FRANCE));
         }
-        if (Validator.isNotNull(this.getPresentation(Locale.US))) {
-            descriptions.put("en_US", this.getPresentation(Locale.US));
-        }
-        if (Validator.isNotNull(this.getPresentation(Locale.GERMANY))) {
-            descriptions.put("de_DE", this.getPresentation(Locale.GERMANY));
-        }
         if(descriptions.length() > 0)
             jsonPlace.put("description", descriptions);
         JSONArray scheduleExceptionsJSON = JSONFactoryUtil.createJSONArray();
@@ -1938,12 +1926,6 @@ public class PlaceImpl extends PlaceBaseImpl {
             JSONObject scheduleExceptionJSON = JSONFactoryUtil.createJSONObject();
             JSONObject exceptionalScheduleJSON = JSONFactoryUtil.createJSONObject();
             exceptionalScheduleJSON.put("fr_FR", this.getExceptionalSchedule(Locale.FRANCE));
-            if (Validator.isNotNull(this.getExceptionalSchedule(Locale.US))) {
-                exceptionalScheduleJSON.put("en_US", this.getExceptionalSchedule(Locale.US));
-            }
-            if (Validator.isNotNull(this.getExceptionalSchedule(Locale.GERMANY))) {
-                exceptionalScheduleJSON.put("de_DE", this.getExceptionalSchedule(Locale.GERMANY));
-            }
             scheduleExceptionJSON.put("description", exceptionalScheduleJSON);
             scheduleExceptionsJSON.put(scheduleExceptionJSON);
         }

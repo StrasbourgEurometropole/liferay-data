@@ -32,13 +32,7 @@ import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author angelique.champougny
@@ -376,7 +370,7 @@ public class VariousDataApplication extends Application {
         try {
             Group csmapGroup = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY);
             long csmapGroupId = csmapGroup.getGroupId();
-            JournalFolder generalConditionsFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId,WSConstants.FOLDER_GENERAL_CONDITIONS);
+            JournalFolder generalConditionsFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId,WSConstants.FOLDER_DIVERS);
             long generalConditionsFolderId = generalConditionsFolder.getFolderId();
 
             // Recuperation des JournalArticle dans le dossier Numeros urgence
@@ -387,7 +381,7 @@ public class VariousDataApplication extends Application {
 
             // Verification des Numeros urgence si nouveau ou modifie
             for (JournalArticle generalCondition : generalConditions) {
-                if(generalCondition.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                if(generalCondition.getTitle(Locale.FRANCE).equals(WSConstants.GENERAL_CONDITIONS) && generalCondition.getStatus() == WorkflowConstants.STATUS_APPROVED) {
                     if (lastUpdateTime.before(generalCondition.getCreateDate())) {
                         generalConditionsAdd.add(generalCondition);
                     }

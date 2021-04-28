@@ -345,8 +345,8 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.csmap.internal.secret");
 	}
 
-	public static String getCSMAPURL() {
-		return PropsUtil.get("eu.csmap.url");
+	public static String getBaseURL() {
+		return PropsUtil.get("eu.base.url");
 	}
 
 	public static int getCSMAPRefreshTokenNbValidityDays() {
