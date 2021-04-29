@@ -1,0 +1,18 @@
+.search-asset-portlet {
+  div#strsbg.strasbourg-selector {
+    display: flex;
+    margin-left: -10px
+  }
+
+  #quartiers.quartiers-selector {
+    margin-left: 50px;
+  }
+
+  #districtToggleButton.district-toggle:focus{
+    box-shadow: none;
+  }
+
+  .help-pagination .selectric > span.label {
+    border-style: none;
+  }
+}

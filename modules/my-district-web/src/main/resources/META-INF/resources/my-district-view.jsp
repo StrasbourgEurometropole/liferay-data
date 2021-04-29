@@ -28,17 +28,17 @@
             </c:if>
             <c:if test="${!error}">
                 <c:if test="${empty dc.address}">
-                        <p class="no-interests">${dc.getNoAddressText()}</p><br />
-                        <div align="center">
-                            <a href="${strasbourgPropsUtil.getPublikProfileURL()}" class="btn-square--bordered--core">
-                                <span class="flexbox">
-                                    <span class="btn-text"><liferay-ui:message key="modify-account" /></span>
-                                    <span class="btn-arrow"></span>
-                                </span>
-                            </a>
-                        </div>
+                    ${dc.getNoAddressText()}
+                    <div align="center">
+                        <a href="${strasbourgPropsUtil.getPublikProfileURL()}" class="btn-square--bordered--core">
+                            <span class="flexbox">
+                                <span class="btn-text"><liferay-ui:message key="modify-account" /></span>
+                                <span class="btn-arrow"></span>
+                            </span>
+                        </a>
+                    </div>
                 </c:if>
-                <c:if test="${!dc.address}">
+                <c:if test="${!empty dc.address}">
                     <p style="margin-top: 40px">
                         L'adresse renseign&eacute;e dans votre profil ne correspond pas &agrave; un quartier de Strasbourg.
                         <br>Vous pouvez voir les pages des quartiers de la ville en cliquant sur les liens ci-dessous.
@@ -46,6 +46,7 @@
                     </p>
                 </c:if>
             </c:if>
+            <br/>
             <ul style="list-style: disc; margin-top: 20px;">
                 <c:forEach var="district" items="${dc.allDistricts}">
                     <li><a href="${homeURL}mon-quartier?district=${district[1]}">${district[0]}</a></li>

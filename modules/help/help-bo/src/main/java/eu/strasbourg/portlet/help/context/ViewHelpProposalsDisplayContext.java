@@ -18,12 +18,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ViewHelpsDisplayContext extends ViewListBaseDisplayContext<HelpProposal> {
+public class ViewHelpProposalsDisplayContext extends ViewListBaseDisplayContext<HelpProposal> {
 
 	private List <HelpProposal> _helpProposals;
 	private HashMap<Long, Integer> _helpRequestsByProposal;
 
-	public ViewHelpsDisplayContext(RenderRequest request, RenderResponse response) {
+	public ViewHelpProposalsDisplayContext(RenderRequest request, RenderResponse response) {
 		super(HelpProposal.class, request, response);
 	}
 
