@@ -63,7 +63,11 @@ public class CSMapJSonHelper {
             DateFormat dateFormat = DateFormatFactoryUtil
                     .getSimpleDateFormat("dd/MM/yyyy");
             jsonJournalArticle.put(WSConstants.JSON_DATE, dateFormat.format(breve.getModifiedDate()));
-            jsonJournalArticle.put(WSConstants.JSON_WC_URL, StrasbourgPropsUtil.getURL() + "/-/" + breve.getUrlTitle());
+            String image = JournalArticleHelper.getJournalArticleFieldValue(breve, "image", Locale.FRANCE);
+            if(Validator.isNotNull(image)) {
+                String imageURL = AssetPublisherTemplateHelper.getDocumentUrl(image);
+                jsonJournalArticle.put(WSConstants.JSON_WC_URL, StrasbourgPropsUtil.getBaseURL() + imageURL);
+            }
 
             JSONObject titles = JSONFactoryUtil.createJSONObject();
             String titleFR = JournalArticleHelper.getJournalArticleFieldValue(breve, "title", Locale.FRANCE);
