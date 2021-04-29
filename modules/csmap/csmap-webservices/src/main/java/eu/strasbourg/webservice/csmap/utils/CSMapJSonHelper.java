@@ -1,13 +1,13 @@
 package eu.strasbourg.webservice.csmap.utils;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -15,6 +15,7 @@ import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 
+import java.text.DateFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -59,7 +60,9 @@ public class CSMapJSonHelper {
         if (breve != null) {
             // Various-Data
             jsonJournalArticle.put(WSConstants.JSON_WC_ID, breve.getResourcePrimKey());
-            jsonJournalArticle.put(WSConstants.JSON_DATE, breve.getLastPublishDate());
+            DateFormat dateFormat = DateFormatFactoryUtil
+                    .getSimpleDateFormat("dd/MM/yyyy");
+            jsonJournalArticle.put(WSConstants.JSON_DATE, dateFormat.format(breve.getModifiedDate()));
             jsonJournalArticle.put(WSConstants.JSON_WC_URL, StrasbourgPropsUtil.getURL() + "/-/" + breve.getUrlTitle());
 
             JSONObject titles = JSONFactoryUtil.createJSONObject();
