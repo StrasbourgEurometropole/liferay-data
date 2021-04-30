@@ -4,7 +4,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.List;
 import java.util.Locale;
@@ -47,20 +46,29 @@ public interface AssetVocabularyHelperService {
     AssetVocabulary getVocabulary(String vocabularyName, long groupId);
 
     /**
-     * méthode permettant de savoir si le nombre entré en parametre est égale au nombre de quartier total.
-     *
-     * @param listDistrictSizeToCompare le nombre de quartier présent dans l'asset.
-     * @return le boolean.
-     */
-    boolean isAllDistrict(int listDistrictSizeToCompare);
-
-    /**
      * méthode permettant de savoir si le nombre entré en parametre est égale au nombre de villes de France total.
      *
      * @param listCitySizeToCompare le nombre de ville présent dans l'asset.
      * @return le boolean.
      */
     boolean isAllFrenchCity(int listCitySizeToCompare);
+
+    /**
+     * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de
+     * l'entité
+     *
+     * @return : null si vide, sinon la liste des catégories
+     */
+    List<AssetCategory> getDistrictCategories(List<AssetCategory> territories);
+
+
+    /**
+     * Retourne les sous-catégories 'Territoire' correspondant aux villes de
+     * l'entité
+     *
+     * @return : null si vide, sinon la liste des catégories
+     */
+     List<AssetCategory> getCityCategories(List<AssetCategory> territories);
 
     /**
      * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la participation

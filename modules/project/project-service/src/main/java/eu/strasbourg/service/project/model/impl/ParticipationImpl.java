@@ -14,15 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -36,8 +28,6 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.comment.model.Comment;
@@ -51,6 +41,15 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static eu.strasbourg.service.project.constants.ParticiperCategories.FINISHED;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.IN_PROGRESS;
@@ -320,17 +319,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getCityCategories() {
-		List<AssetCategory> territories = this.getTerritoryCategories();
-		List<AssetCategory> cities = new ArrayList<AssetCategory>();
-		for (AssetCategory territory : territories) {
-			try {
-				if (territory.getAncestors().size() == 1) {
-					cities.add(territory);
-				}
-			} catch (PortalException e) {
-				continue;
-			}
-		}
+		List<AssetCategory> cities = AssetVocabularyHelper.getCityCategories(this.getTerritoryCategories());
 		return cities;
 	}
 
@@ -342,17 +331,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getDistrictCategories() {
-		List<AssetCategory> territories = this.getTerritoryCategories();
-		List<AssetCategory> districts = new ArrayList<AssetCategory>();
-		for (AssetCategory territory : territories) {
-			try {
-				if (territory.getAncestors().size() == 2) {
-					districts.add(territory);
-				}
-			} catch (PortalException e) {
-				continue;
-			}
-		}
+		List<AssetCategory> districts = AssetVocabularyHelper.getDistrictCategories(this.getTerritoryCategories());
 		return districts;
 	}
 
