@@ -1,3 +1,8 @@
+<%@ include file="/dynamic-search-asset-init.jsp" %>
+
+<portlet:resourceURL id="searchSubmit" var="searchSubmitURL">
+</portlet:resourceURL>
+
 <!-- Tablette Portrait + Mobile -->
 <div class="th-top-overlay-menu">
     <div class="back back-level-1">
@@ -20,28 +25,29 @@
             <li><a href="#">Sainte-<span>bar</span>be</a></li>
         </ul>
     </form>
-    <ul class="th-predef-tags">
-        <li><a href="#"><span>Covid-19 :</span> infos sur les services publics</a></li>
-        <li><a href="#">Déplacements et stationnement</a></li>
-        <li><a href="#">Piscines</a></li>
-        <li><a href="#">Collecte des déchets</a></li>
-        <li><a href="#"><span>Covid-19 :</span> services aux professionnels</a></li>
-        <li><a href="#">Démarches</a></li>
-    </ul>
+    <liferay-portlet:runtime
+        portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+        instanceId="search-links" />
 </div>
 
 <div class="th-search-results">
-    <p class="th-nb-results th-hide-tablet-p"><liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-result-search" /> <span class="th-result">192</span></p>
-    <p class="th-nb-results th-v-tablet-p"><liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-result" /> <span class="th-result">192</span></p>
+    <p class="th-nb-results th-hide-tablet-p"></p>
+    <p class="th-nb-results th-v-tablet-p"></p>
     <div class="th-all-results">
-        <a href="#" class="th-item-result">
-            <div class="th-metas-left">
-                <span class="th-picto th-picto-lieu"></span>
-                <span class="th-title">Le Code Bar</span>
-                <p>Bars et restaurants</p>
-                <span class="th-infos th-localisation">Strasbourg</span>
-            </div>
-            <span class="th-favoris">Ajouter à mes favoris</span>
-        </a>
     </div>
 </div>
+
+<liferay-util:html-top>
+	<script>
+		var homeURL = '${homeURL}';
+		var porletNamespace = '<portlet:namespace/>';
+		var dynamicSearch = ${dynamicSearch};
+		var language = "${locale}";
+
+		var searchSubmitURL = '${searchSubmitURL}';
+	</script>
+</liferay-util:html-top>
+
+<liferay-util:html-bottom>
+	<script src="/o/dynamicsearchassetweb/js/strasbourg.js"></script>
+</liferay-util:html-bottom>
