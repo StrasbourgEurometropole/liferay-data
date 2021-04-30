@@ -58,6 +58,10 @@
 					${report.errorEventsCount} <liferay-ui:message key="events" /><br>
 					${report.errorManifestationsCount} <liferay-ui:message key="manifestations" />
 				</liferay-ui:search-container-column-text>
+				<liferay-ui:search-container-column-text name="delets" cssClass="content-column table-cell-content">
+					${report.deletedEventsCount} <liferay-ui:message key="events" /><br>
+					${report.deletedManifestationsCount} <liferay-ui:message key="manifestations" />
+				</liferay-ui:search-container-column-text>
 			</liferay-ui:search-container-row>
 
 			<liferay-ui:search-iterator paginate="true" displayStyle="list"

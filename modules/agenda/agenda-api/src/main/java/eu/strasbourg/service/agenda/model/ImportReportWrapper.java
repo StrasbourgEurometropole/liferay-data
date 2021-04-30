@@ -68,6 +68,7 @@ public class ImportReportWrapper
 		attributes.put("modifiedEventsCount", getModifiedEventsCount());
 		attributes.put("errorEventsCount", getErrorEventsCount());
 		attributes.put("unmodifiedEventsCount", getUnmodifiedEventsCount());
+		attributes.put("deletedEventsCount", getDeletedEventsCount());
 		attributes.put("newManifestationsCount", getNewManifestationsCount());
 		attributes.put(
 			"modifiedManifestationsCount", getModifiedManifestationsCount());
@@ -76,6 +77,8 @@ public class ImportReportWrapper
 		attributes.put(
 			"unmodifiedManifestationsCount",
 			getUnmodifiedManifestationsCount());
+		attributes.put(
+			"deletedManifestationsCount", getDeletedManifestationsCount());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
 
@@ -145,6 +148,12 @@ public class ImportReportWrapper
 			setUnmodifiedEventsCount(unmodifiedEventsCount);
 		}
 
+		Long deletedEventsCount = (Long)attributes.get("deletedEventsCount");
+
+		if (deletedEventsCount != null) {
+			setDeletedEventsCount(deletedEventsCount);
+		}
+
 		Long newManifestationsCount = (Long)attributes.get(
 			"newManifestationsCount");
 
@@ -173,6 +182,13 @@ public class ImportReportWrapper
 			setUnmodifiedManifestationsCount(unmodifiedManifestationsCount);
 		}
 
+		Long deletedManifestationsCount = (Long)attributes.get(
+			"deletedManifestationsCount");
+
+		if (deletedManifestationsCount != null) {
+			setDeletedManifestationsCount(deletedManifestationsCount);
+		}
+
 		Date startDate = (Date)attributes.get("startDate");
 
 		if (startDate != null) {
@@ -196,6 +212,40 @@ public class ImportReportWrapper
 		eu.strasbourg.service.agenda.model.ImportReport importReport) {
 
 		return _importReport.compareTo(importReport);
+	}
+
+	/**
+	 * Returns the deleted events count of this import report.
+	 *
+	 * @return the deleted events count of this import report
+	 */
+	@Override
+	public long getDeletedEventsCount() {
+		return _importReport.getDeletedEventsCount();
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
+		getDeletedEventsLines() {
+
+		return _importReport.getDeletedEventsLines();
+	}
+
+	/**
+	 * Returns the deleted manifestations count of this import report.
+	 *
+	 * @return the deleted manifestations count of this import report
+	 */
+	@Override
+	public long getDeletedManifestationsCount() {
+		return _importReport.getDeletedManifestationsCount();
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
+		getDeletedManifestationsLines() {
+
+		return _importReport.getDeletedManifestationsLines();
 	}
 
 	/**
@@ -438,6 +488,16 @@ public class ImportReportWrapper
 	}
 
 	@Override
+	public void incrementDeletedEvents() {
+		_importReport.incrementDeletedEvents();
+	}
+
+	@Override
+	public void incrementDeletedManifestations() {
+		_importReport.incrementDeletedManifestations();
+	}
+
+	@Override
 	public void incrementErrorEvents() {
 		_importReport.incrementErrorEvents();
 	}
@@ -505,6 +565,26 @@ public class ImportReportWrapper
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_importReport.setCachedModel(cachedModel);
+	}
+
+	/**
+	 * Sets the deleted events count of this import report.
+	 *
+	 * @param deletedEventsCount the deleted events count of this import report
+	 */
+	@Override
+	public void setDeletedEventsCount(long deletedEventsCount) {
+		_importReport.setDeletedEventsCount(deletedEventsCount);
+	}
+
+	/**
+	 * Sets the deleted manifestations count of this import report.
+	 *
+	 * @param deletedManifestationsCount the deleted manifestations count of this import report
+	 */
+	@Override
+	public void setDeletedManifestationsCount(long deletedManifestationsCount) {
+		_importReport.setDeletedManifestationsCount(deletedManifestationsCount);
 	}
 
 	/**

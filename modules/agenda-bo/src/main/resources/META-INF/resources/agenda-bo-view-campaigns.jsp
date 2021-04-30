@@ -119,6 +119,14 @@
 							test="${dc.hasPermission('DELETE_CAMPAIGN') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="delete" url="${deleteCampaignURL}" />
 						</c:if>
+
+						<liferay-portlet:actionURL name="exportJsonToFolder"
+							var="exportJsonToFolderURL">
+							<portlet:param name="cmd" value="exportJsonToFolder" />
+							<portlet:param name="tab" value="campaigns" />
+							<portlet:param name="campaignId" value="${campaign.campaignId}" />
+						</liferay-portlet:actionURL>
+						<liferay-ui:icon message="export-json-to-folder" url="${exportJsonToFolderURL}" />
 						
 						<liferay-portlet:resourceURL id="exportJson"
 							var="exportJsonURL">

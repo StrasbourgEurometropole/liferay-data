@@ -32,6 +32,20 @@
 	${report.unmodifiedEventsCount} événement<#if (report.unmodifiedEventsCount > 1)>s</#if> non modifié<#if (report.unmodifiedEventsCount > 1)>s</#if>
 
 
+	${report.deletedEventsCount} événement<#if (report.deletedEventsCount > 1)>s</#if> supprimé<#if (report.deletedEventsCount > 1)>s</#if>
+
+	<#list report.deletedEventsLines as event>
+		- ${event.entityExternalId} - ${event.entityName}
+	</#list>
+
+
+	${report.deletedManifestationsCount} manifestation<#if (report.deletedManifestationsCount > 1)>s</#if> supprimé<#if (report.deletedManifestationsCount > 1)>s</#if>
+
+	<#list report.deletedManifestationsLines as manif>
+		- ${manif.entityExternalId} - ${manif.entityName}
+	</#list>
+
+
     ${report.newManifestationsCount} manifestation<#if (report.newManifestationsCount > 1)>s</#if> créée<#if (report.newManifestationsCount > 1)>s</#if>
 	
 	<#list report.newManifestationsLines as manif>

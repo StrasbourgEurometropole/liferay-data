@@ -226,10 +226,12 @@
 		<property name="modifiedEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="errorEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="unmodifiedEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="deletedEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="newManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="modifiedManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="errorManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="unmodifiedManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="deletedManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="startDate" type="org.hibernate.type.TimestampType" />
 		<property name="endDate" type="org.hibernate.type.TimestampType" />
 	</class>
