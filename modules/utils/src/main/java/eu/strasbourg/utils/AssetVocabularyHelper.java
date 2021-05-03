@@ -102,57 +102,48 @@ public class AssetVocabularyHelper {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Retourne les quartiers d'une ville
 	 * @param cityName Le nom de la ville
 	 * @return La liste des catégories quartier disponibles pour la ville demandée
 	 */
 	public static List<AssetCategory> getAllDistrictsFromCity(String cityName) {
-		
+
 		List<AssetCategory> cityDistricts = new ArrayList<AssetCategory>();
-		
-		try {			
+
+		try {
 			// Récupération du vocabulaire des teritoires
 			AssetVocabulary territoryVocabulary = getGlobalVocabulary(VocabularyNames.TERRITORY);
-			
+
 			List<AssetCategory> cities = territoryVocabulary.getCategories();
-			
+
 			// Parcours des villes
 			for (AssetCategory city : cities) {
 				if (city.getTitle(Locale.FRENCH).equals(cityName)) {
 					cityDistricts = getChild(city.getCategoryId());
 				}
 			}
-			
+
 		} catch (PortalException e) {
 			return null;
 		}
-		
+
 		return cityDistricts;
 	}
 
-	public static boolean isAllDistrict(int listDistrictSizeToCompare){
-        AssetVocabulary territoryVocabulary = null;
-        try {
-            territoryVocabulary = getGlobalVocabulary(VocabularyNames.TERRITORY);
-        } catch (PortalException ignored) {
-        }
-        assert territoryVocabulary != null;
-        List<AssetCategory> territories = territoryVocabulary.getCategories();
-	    int index = 0;
-	    if (territories!=null&&!territories.isEmpty()){
-            for (AssetCategory territory :territories) {
-                try {
-                    if (territory.getAncestors().size()==2){
-                        index++;
-                    }
-                } catch (PortalException ignored){
-                }
-            }
-        }
-        return index == listDistrictSizeToCompare;
-    }
+	public static boolean isAllDistrictOfCity(List<AssetCategory> listDistrictSizeToCompare, String city){
+		List<AssetCategory> districts = getAllDistrictsFromCity(city);
+		Boolean isAllDistrict = true;
+		if (Validator.isNotNull(districts)){
+			for (AssetCategory district : districts) {
+				if (!listDistrictSizeToCompare.contains(district)){
+					isAllDistrict = false;
+				}
+			}
+		}
+		return isAllDistrict;
+	}
 
 	public static boolean isAllFrenchCity(int listCitySizeToCompare){
 		AssetVocabulary territoryVocabulary = null;
@@ -179,7 +170,7 @@ public class AssetVocabularyHelper {
 	/**
 	 * Retourne le vocabulaire ayant le nom donné et faisant parti du groupe
 	 * donné
-	 * 
+	 *
 	 * @throws PortalException
 	 */
 	public static AssetVocabulary getGlobalVocabulary(String vocabularyName) throws PortalException {
@@ -213,7 +204,7 @@ public class AssetVocabularyHelper {
 	/**
 	 * Retourne la liste des catégories d'un vocabulaire spécifique rattachées
 	 * à un AssetEntry
-	 * 
+	 *
 	 */
 	static public List<AssetCategory> getAssetEntryCategoriesByVocabulary(AssetEntry entry, String vocabularyName) {
 		List<AssetCategory> results = new ArrayList<AssetCategory>();
@@ -404,23 +395,23 @@ public class AssetVocabularyHelper {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Ajoute une catégorie à un AssetEntry
 	 * @return
 	 */
 	public static void addCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
 		AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(
-			    entry.getEntryId(), category.getCategoryId());
+				entry.getEntryId(), category.getCategoryId());
 	}
-	
+
 	/**
 	 * Retire une catégorie à un AssetEntry
 	 * @return
 	 */
 	public static void removeCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
 		AssetCategoryLocalServiceUtil.deleteAssetEntryAssetCategory(
-			    entry.getEntryId(), category.getCategoryId());
+				entry.getEntryId(), category.getCategoryId());
 	}
 
 	/**
@@ -431,10 +422,10 @@ public class AssetVocabularyHelper {
 	public static List<AssetCategory> getCategoriesByExternalsId(AssetVocabulary vocabulary, List<String> externalsId) {
 		List<AssetCategory> categories = vocabulary.getCategories();
 		List<AssetCategory> categoriesResult = new ArrayList<AssetCategory>();
-		
+
 		for (String externalId : externalsId) {
 			for (AssetCategory category : categories) {
-		
+
 				String SIGIdProperty = AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), "SIG");
 				if (SIGIdProperty.equals(externalId)) {
 					categoriesResult.add(category);
@@ -450,11 +441,11 @@ public class AssetVocabularyHelper {
 		}
 		return categoriesResult;
 	}
-	
-		
+
+
 	/**
 	 * Vérifie si la catégorie est une piscine
-	 * 
+	 *
 	 * @throws PortalException
 	 */
 	public static Boolean isSwimmingPool(AssetCategory category) throws PortalException {
@@ -472,7 +463,7 @@ public class AssetVocabularyHelper {
 
 	/**
 	 * Vérifie si la catégorie est un parking
-	 * 
+	 *
 	 * @throws PortalException
 	 */
 	public static Boolean isParking(AssetCategory category) throws PortalException {
@@ -617,9 +608,49 @@ public class AssetVocabularyHelper {
 		return result.toString();
 	}
 
-	public static String getDistrictTitle(Locale locale, List<AssetCategory> assetDistrictCategories, List<AssetCategory> assetCityCategories) {
+	/**
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de
+	 * l'entité
+	 *
+	 * @return : null si vide, sinon la liste des catégories
+	 */
+	public static List<AssetCategory> getDistrictCategories(List<AssetCategory> territories) {
+		List<AssetCategory> districts = new ArrayList<>();
+		for (AssetCategory territory : territories) {
+			try {
+				if (territory.getAncestors().size() == 2) {
+					districts.add(territory);
+				}
+			} catch (PortalException e) {
+				continue;
+			}
+		}
+		return districts;
+	}
+
+	/**
+	 * Retourne les sous-catégories 'Territoire' correspondant aux villes de
+	 * l'entité
+	 *
+	 * @return : null si vide, sinon la liste des catégories
+	 */
+	public static List<AssetCategory> getCityCategories(List<AssetCategory> territories) {
+		List<AssetCategory> cities = new ArrayList<AssetCategory>();
+		for (AssetCategory territory : territories) {
+			try {
+				if (territory.getAncestors().size() == 1) {
+					cities.add(territory);
+				}
+			} catch (PortalException e) {
+				continue;
+			}
+		}
+		return cities;
+	}
+
+	public static String getDistrictTitleForCity(Locale locale, List<AssetCategory> assetDistrictCategories, List<AssetCategory> assetCityCategories, String city) {
 		StringBuilder result = new StringBuilder();
-		boolean isAllDistricts = AssetVocabularyHelper.isAllDistrict(assetDistrictCategories.size());
+		boolean isAllDistricts = AssetVocabularyHelper.isAllDistrictOfCity(assetDistrictCategories, city);
 		boolean isAllCities= AssetVocabularyHelper.isAllFrenchCity(assetCityCategories.size());
 
 		if ((assetCityCategories == null || assetCityCategories.isEmpty()) && (assetDistrictCategories == null || assetDistrictCategories.isEmpty())) {
@@ -627,42 +658,51 @@ public class AssetVocabularyHelper {
 		} else if (AssetVocabularyHelper.isAllFrenchCity(assetCityCategories.size())) {
 			result.append("Toutes les communes de l\u2019Eurom\u00e9tropole");
 		} else {
-			if (!isAllDistricts && !assetDistrictCategories.isEmpty()) {
+			if (!assetDistrictCategories.isEmpty()) {
 				long globalGroupId =0;
 				try {
 					Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
 					globalGroupId = defaultCompany.getGroup().getGroupId();
+					if(globalGroupId != 0) {
+						AssetCategory strasbourg = getCategory("Strasbourg", globalGroupId);
+						assetCityCategories.remove(strasbourg);
+						assetCityCategories.add(strasbourg);
+					}
 				} catch (PortalException e) {
 					_log.error("Le group Global n'a pas été trouvé");
-				}
-				if(globalGroupId != 0) {
-					AssetCategory strasbourg = getCategory("Strasbourg", globalGroupId);
-					assetCityCategories.remove(strasbourg);
-					assetCityCategories.add(strasbourg);
 				}
 			}
 
 			result.append(assetCityCategories.stream()
 					.map(assetCategory -> assetCategory.getTitle(locale))
 					.collect(Collectors.joining(" - ")));
+
+			if(!assetDistrictCategories.isEmpty()){
+				if(!isAllDistricts) {
+					result.append(" (");
+					result.append(assetDistrictCategories.stream()
+							.map(assetCategory -> assetCategory.getTitle(locale))
+							.collect(Collectors.joining(" - ")));
+					result.append(")");
+				}else{
+					result.append(" (Tous les quartiers)");
+				}
+			}
 		}
 
-		if(!isAllCities && !isAllDistricts && !assetDistrictCategories.isEmpty()) {
-			result.append(" (");
-			result.append(assetDistrictCategories.stream()
-					.map(assetCategory -> assetCategory.getTitle(locale))
-					.collect(Collectors.joining(" - ")));
-			result.append(")");
-		}
 		return result.toString();
 	}
 
-    /**
-     * méthode permettant de récupérer les titres des thématiques
-     * @param locale la locale
-     * @param assetCategories les thematiques
-     * @return les titres
-     */
+	public static String getDistrictTitle(Locale locale, List<AssetCategory> assetDistrictCategories, List<AssetCategory> assetCityCategories) {
+		return getDistrictTitleForCity(locale, assetDistrictCategories, assetCityCategories, "Strasbourg");
+	}
+
+	/**
+	 * méthode permettant de récupérer les titres des thématiques
+	 * @param locale la locale
+	 * @param assetCategories les thematiques
+	 * @return les titres
+	 */
 	public static String getThematicTitle(Locale locale,List<AssetCategory> assetCategories){
 		StringBuilder result = new StringBuilder();
 		if (assetCategories != null && !assetCategories.isEmpty()) {
@@ -672,7 +712,7 @@ public class AssetVocabularyHelper {
 		}
 		return result.toString();
 	}
-	
+
 	/**
 	 * Retourne la liste des catégories du vocabulaire passé en paramètre, sans
 	 * les catégories enfants triées par la valeur de la propriété "order" de

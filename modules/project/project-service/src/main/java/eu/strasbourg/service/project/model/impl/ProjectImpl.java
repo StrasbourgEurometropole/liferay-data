@@ -155,17 +155,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getCityCategories() {
-		List<AssetCategory> territories = this.getTerritoryCategories();
-		List<AssetCategory> cities = new ArrayList<AssetCategory>();
-		for (AssetCategory territory : territories) {
-			try {
-				if (territory.getAncestors().size() == 1) {
-					cities.add(territory);
-				}
-			} catch (PortalException e) {
-				continue;
-			}
-		}
+		List<AssetCategory> cities = AssetVocabularyHelper.getCityCategories(this.getTerritoryCategories());
 		return cities;
 	}
 
@@ -175,17 +165,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getDistrictCategories() {
-		List<AssetCategory> territories = this.getTerritoryCategories();
-		List<AssetCategory> districts = new ArrayList<>();
-		for (AssetCategory territory : territories) {
-			try {
-				if (territory.getAncestors().size() == 2) {
-					districts.add(territory);
-				}
-			} catch (PortalException e) {
-				continue;
-			}
-		}
+		List<AssetCategory> districts = AssetVocabularyHelper.getDistrictCategories(this.getTerritoryCategories());
 		return districts;
 	}
 
