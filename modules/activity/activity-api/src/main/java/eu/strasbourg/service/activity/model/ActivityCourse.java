@@ -180,4 +180,9 @@ public interface ActivityCourse extends ActivityCourseModel, PersistedModel {
 	public eu.strasbourg.service.activity.model.CourseAgenda getCourseAgenda(
 		long groupId, java.util.Locale locale);
 
+	/**
+	 * Retourne la version JSON de la course
+	 */
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
 }

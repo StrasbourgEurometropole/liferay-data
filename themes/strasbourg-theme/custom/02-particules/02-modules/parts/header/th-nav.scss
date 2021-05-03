@@ -906,7 +906,7 @@
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
-        height: 100%;
+        height: calc(100vh - 80px - 56px);
         padding: 40px 60px 40px 20px;
 
         &:before, &:after {

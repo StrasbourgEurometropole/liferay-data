@@ -56,7 +56,7 @@ function getSelectedClassNames() {
 function createArticleThumbnail(article) {
 	var articleThumbnail = 
 		'<div class="col-lg-4 col-sm-6 col-xs-12">' +
-		    '<a href="' + article.link + '" title="Lien vers la page : ' + article.title + '" class="pro-bloc-actu">' +
+		    '<a href="' + article.link + '" title="Lien vers la page : ' + article.title.fr_FR + '" class="pro-bloc-actu">' +
 		        '<div class="img">' +
 		            '<figure role="group">' +
 		                '<img src="' + article.imageURL + '" alt="Image article" width="360" height="174" class="fit-cover"/>' +
@@ -64,8 +64,8 @@ function createArticleThumbnail(article) {
 		        '</div>' +
 		        '<div class="content">' +
 		            '<span class="publication">Publiée le 04 décembre 2017</span>' +
-		            '<h3>' + article.title + '</h3>' +
-		            '<p>' + article.chapo.replace(/(<([^>]+)>)/ig,""); + '</p>' +
+		            '<h3>' + article.title.fr_FR + '</h3>' +
+		            '<p>' + article.chapo.fr_FR.replace(/(<([^>]+)>)/ig,""); + '</p>' +
 		            '<span class="link">Lire la suite</span>' +
 		        '</div>' +
 		    '</a>' +
