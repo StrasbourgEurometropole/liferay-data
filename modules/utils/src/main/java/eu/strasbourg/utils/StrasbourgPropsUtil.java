@@ -319,6 +319,8 @@ public class StrasbourgPropsUtil {
 
 	public static String getEJobURLOffer() {return PropsUtil.get("eu.strasbourg.ejob.url.offer");}
 
+	public static String getEJobURLOfferIntern() {return PropsUtil.get("eu.strasbourg.ejob.url.offer.intern");}
+
 	public static String getEJobFTPHost() {return PropsUtil.get("eu.strasbourg.ejob.ftp.host");}
 
 	public static String getEJobFTPPort() {return PropsUtil.get("eu.strasbourg.ejob.ftp.port");}
@@ -345,8 +347,8 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.csmap.internal.secret");
 	}
 
-	public static String getCSMAPURL() {
-		return PropsUtil.get("eu.csmap.url");
+	public static String getBaseURL() {
+		return PropsUtil.get("eu.base.url");
 	}
 
 	public static int getCSMAPRefreshTokenNbValidityDays() {

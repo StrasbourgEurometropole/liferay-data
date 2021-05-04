@@ -14,28 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_ACCEPTABLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_CANCELLED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_FEASIBLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_IN_PROGRESS;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_LAUREAT;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_ACCEPTABLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_FEASIBLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_SELECTED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_REALIZED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUSPENDED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUBMITTED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_MERGED;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Stream;
-
-import javax.servlet.http.HttpServletRequest;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -63,21 +42,47 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.constants.PhaseState;
-import eu.strasbourg.service.project.model.*;
-import eu.strasbourg.service.project.service.*;
-import eu.strasbourg.service.project.service.impl.BudgetParticipatifLocalServiceImpl;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.model.BudgetSupport;
+import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.ProjectTimeline;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
+import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
+import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Stream;
+
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_ACCEPTABLE;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_CANCELLED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_FEASIBLE;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_IN_PROGRESS;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_LAUREAT;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_MERGED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_ACCEPTABLE;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_FEASIBLE;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_SELECTED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_REALIZED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUBMITTED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUSPENDED;
 
 /**
  * The extended model implementation for the BudgetParticipatif service. Represents a row in the &quot;project_BudgetParticipatif&quot; database table, with each column mapped to a property of this class.
@@ -286,7 +291,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     public String getDistrictLabel(Locale locale) {
         List<AssetCategory> districts = getDistrictCategories();
 		List<AssetCategory> cities = getCityCategories();
-        return AssetVocabularyHelper.getDistrictTitle(locale, districts, cities);
+        return AssetVocabularyHelper.getDistrictTitleForCity(locale, districts, cities, "Strasbourg_old");
     }
 
     /**
@@ -295,16 +300,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
      */
     @Override
     public List<AssetCategory> getDistrictCategories() {
-        List<AssetCategory> territories = getTerritoryCategories();
-        List<AssetCategory> districts = new ArrayList<>();
-        for (AssetCategory territory : territories) {
-            try {
-                if (territory.getAncestors().size() == 2) {
-                    districts.add(territory);
-                }
-            } catch (PortalException ignored) {
-            }
-        }
+		List<AssetCategory> districts = AssetVocabularyHelper.getDistrictCategories(this.getTerritoryCategories());
         return districts;
     }
 
@@ -314,16 +310,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getCityCategories() {
-		List<AssetCategory> territories = getTerritoryCategories();
-		List<AssetCategory> cities = new ArrayList<>();
-		for (AssetCategory territory : territories) {
-			try {
-				if (territory.getAncestors().size() == 1) {
-					cities.add(territory);
-				}
-			} catch (PortalException ignored) {
-			}
-		}
+		List<AssetCategory> cities = AssetVocabularyHelper.getCityCategories(this.getTerritoryCategories());
 		return cities;
 	}
     

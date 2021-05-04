@@ -57,6 +57,9 @@ public class WSConstants {
     public static final String JSON_NAME = "name";
     public static final String JSON_PICTO = "picto";
     public static final String JSON_PICTO_URL = "pictoURL";
+    public static final String JSON_COLOR_GRADIENT = "color_gradient";
+    public static final String JSON_COLOR_GRADIENT_START = "start";
+    public static final String JSON_COLOR_GRADIENT_END = "end";
     public static final String JSON_MAJ = "maj";
     // Profil
     public static final String JSON_LAST_NAME = "lastname";
@@ -101,11 +104,11 @@ public class WSConstants {
     public static final String STRUCTURE_SOCIAL_NETWORK = "R\u00e9seaux sociaux";
     public static final String STRUCTURE_EMERGENCY_NUMBER = "Num\u00e9ro d'urgence";
     public static final String STRUCTURE_EMERGENCY_HELP = "Aide d'urgence";
-    public static final String FOLDER_GENERAL_CONDITIONS = "Mentions l\u00e9gales";
-    public static final String FOLDER_EMERGENCIES = "Urgences";
+    public static final String FOLDER_DIVERS = "Divers";
     public static final String FOLDER_EMERGENCY_NUMBERS = "Num\u00e9ros urgence";
     public static final String FOLDER_EMERGENCY_HELPS = "Aides urgence";
     public static final String FOLDER_SOCIAL_NETWORK = "R\u00e9seaux sociaux";
+    public static final String GENERAL_CONDITIONS = "Mentions l\u00e9gales";
 
     /** Erreurs */
     // Global

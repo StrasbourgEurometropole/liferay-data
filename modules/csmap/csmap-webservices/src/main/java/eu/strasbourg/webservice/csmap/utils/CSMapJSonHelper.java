@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -14,6 +15,7 @@ import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 
+import java.text.DateFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -30,17 +32,25 @@ public class CSMapJSonHelper {
             }
             JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
             nameJSON.put(WSConstants.JSON_LANGUAGE_FRANCE, category.getTitle(Locale.FRANCE));
-            if (Validator.isNotNull(category.getTitle(Locale.US))) {
-                nameJSON.put(WSConstants.JSON_LANGUAGE_US, category.getTitle(Locale.US));
-            }
-            if (Validator.isNotNull(category.getTitle(Locale.GERMANY))) {
-                nameJSON.put(WSConstants.JSON_LANGUAGE_GERMANY, category.getTitle(Locale.GERMANY));
-            }
             jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
             JSONObject jsonPicto = JSONFactoryUtil.createJSONObject();
             jsonPicto.put(WSConstants.JSON_PICTO_URL, StrasbourgPropsUtil.getURL() + urlPicto);
             jsonPicto.put(WSConstants.JSON_MAJ, maj);
             jsonCategory.put(WSConstants.JSON_PICTO, jsonPicto);
+            JSONObject colorJSON = JSONFactoryUtil.createJSONObject();
+            String gradient_start = "#939393";
+            String gradient_end = "#CECFCF";
+            try {
+                gradient_start = "#"+AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_start").getValue();
+            } catch(PortalException e){/* Using the default value */}
+            try {
+                gradient_end = "#"+AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_end").getValue();
+            } catch(PortalException e){/* Using the default value */}
+            colorJSON.put(WSConstants.JSON_COLOR_GRADIENT_START, gradient_start);
+            colorJSON.put(WSConstants.JSON_COLOR_GRADIENT_END, gradient_end);
+            jsonCategory.put(WSConstants.JSON_COLOR_GRADIENT, colorJSON);
+
+
         }
         return  jsonCategory;
     }
@@ -50,8 +60,14 @@ public class CSMapJSonHelper {
         if (breve != null) {
             // Various-Data
             jsonJournalArticle.put(WSConstants.JSON_WC_ID, breve.getResourcePrimKey());
-            jsonJournalArticle.put(WSConstants.JSON_DATE, breve.getLastPublishDate());
-            jsonJournalArticle.put(WSConstants.JSON_WC_URL, StrasbourgPropsUtil.getURL() + "/-/" + breve.getUrlTitle());
+            DateFormat dateFormat = DateFormatFactoryUtil
+                    .getSimpleDateFormat("dd/MM/yyyy");
+            jsonJournalArticle.put(WSConstants.JSON_DATE, dateFormat.format(breve.getModifiedDate()));
+            String image = JournalArticleHelper.getJournalArticleFieldValue(breve, "image", Locale.FRANCE);
+            if(Validator.isNotNull(image)) {
+                String imageURL = AssetPublisherTemplateHelper.getDocumentUrl(image);
+                jsonJournalArticle.put(WSConstants.JSON_WC_URL, StrasbourgPropsUtil.getBaseURL() + imageURL);
+            }
 
             JSONObject titles = JSONFactoryUtil.createJSONObject();
             String titleFR = JournalArticleHelper.getJournalArticleFieldValue(breve, "title", Locale.FRANCE);
@@ -142,7 +158,7 @@ public class CSMapJSonHelper {
             String picto = JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "picto", Locale.FRANCE);
             if(Validator.isNotNull(picto)) {
                 String pictoURL = AssetPublisherTemplateHelper.getDocumentUrl(picto);
-                jsonJournalArticle.put(WSConstants.JSON_WC_PICTO, StrasbourgPropsUtil.getCSMAPURL() + pictoURL);
+                jsonJournalArticle.put(WSConstants.JSON_WC_PICTO, StrasbourgPropsUtil.getBaseURL() + pictoURL);
             }
 
             jsonJournalArticle.put(WSConstants.JSON_WC_COLOR, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "socialNetworkColor", Locale.FRANCE));

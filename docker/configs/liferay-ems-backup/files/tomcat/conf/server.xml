@@ -120,6 +120,7 @@
                maxPostSize="8388608"
                keepAliveTimeout="30000"
                connectionTimeout="30000"
+               maxThreads="400"
                secretRequired="false"
                redirectPort="8443" URIEncoding="UTF-8" />
 
