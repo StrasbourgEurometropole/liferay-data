@@ -38,15 +38,26 @@ public class ImportEventsMessageListener
 		Date fiveMinutesFromNow = now.getTime();
 
 		// Création du trigger "Tous les jours à 4h"
-		 Trigger trigger = _triggerFactory.createTrigger(
+		Trigger firstTrigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
 				"0 0 4 * * ?");
 
-		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
-				listenerClass, trigger);
+		SchedulerEntry firstSchedulerEntry = new SchedulerEntryImpl(
+				listenerClass, firstTrigger);
 
 		_schedulerEngineHelper.register(
-				this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
+				this, firstSchedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
+
+		// Création du trigger "Tous les jours à 13h30"
+		Trigger secondTrigger = _triggerFactory.createTrigger(
+				listenerClass, listenerClass, fiveMinutesFromNow, null,
+				"0 30 13 * * ?");
+
+		SchedulerEntry secondSchedulerEntry = new SchedulerEntryImpl(
+				listenerClass, secondTrigger);
+
+		_schedulerEngineHelper.register(
+				this, secondSchedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
 
 		log.info("Finish import events scheduler activation");
 	}
