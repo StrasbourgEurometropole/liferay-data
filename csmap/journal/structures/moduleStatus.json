@@ -1,0 +1,521 @@
+{
+    "availableLanguageIds": [
+        "fr_FR"
+    ],
+    "defaultLanguageId": "fr_FR",
+    "fields": [
+        {
+            "label": {
+                "fr_FR": "Agenda"
+            },
+            "options": [
+                {
+                    "value": "agenda",
+                    "label": {
+                        "fr_FR": "agenda"
+                    }
+                }
+            ],
+            "predefinedValue": {
+                "fr_FR": [
+                    ""
+                ]
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "multiple": false,
+            "name": "code1",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "select"
+        },
+        {
+            "label": {
+                "fr_FR": "Activé"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "boolean1",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
+        },
+        {
+            "label": {
+                "fr_FR": "Agenda thématique"
+            },
+            "options": [
+                {
+                    "value": "agenda_thematique",
+                    "label": {
+                        "fr_FR": "agenda_thematique"
+                    }
+                }
+            ],
+            "predefinedValue": {
+                "fr_FR": [
+                    ""
+                ]
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "multiple": false,
+            "name": "code2",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "select"
+        },
+        {
+            "label": {
+                "fr_FR": "Activé"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "boolean2",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
+        },
+        {
+            "label": {
+                "fr_FR": "Infos du jour"
+            },
+            "options": [
+                {
+                    "value": "infos_du_jour",
+                    "label": {
+                        "fr_FR": "infos_du_jour"
+                    }
+                }
+            ],
+            "predefinedValue": {
+                "fr_FR": [
+                    ""
+                ]
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "multiple": false,
+            "name": "code3",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "select"
+        },
+        {
+            "label": {
+                "fr_FR": "Activé"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "boolean3",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
+        },
+        {
+            "label": {
+                "fr_FR": "Météo"
+            },
+            "options": [
+                {
+                    "value": "meteo",
+                    "label": {
+                        "fr_FR": "meteo"
+                    }
+                }
+            ],
+            "predefinedValue": {
+                "fr_FR": [
+                    ""
+                ]
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "multiple": false,
+            "name": "code4",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "select"
+        },
+        {
+            "label": {
+                "fr_FR": "Activé"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "boolean4",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
+        },
+        {
+            "label": {
+                "fr_FR": "Réseaux sociaux"
+            },
+            "options": [
+                {
+                    "value": "reseaux_sociaux",
+                    "label": {
+                        "fr_FR": "reseaux_sociaux"
+                    }
+                }
+            ],
+            "predefinedValue": {
+                "fr_FR": [
+                    ""
+                ]
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "multiple": false,
+            "name": "code5",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "select"
+        },
+        {
+            "label": {
+                "fr_FR": "Activé"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "boolean5",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
+        },
+        {
+            "label": {
+                "fr_FR": "Urgences"
+            },
+            "options": [
+                {
+                    "value": "urgences",
+                    "label": {
+                        "fr_FR": "urgences"
+                    }
+                }
+            ],
+            "predefinedValue": {
+                "fr_FR": [
+                    ""
+                ]
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "multiple": false,
+            "name": "code6",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "select"
+        },
+        {
+            "label": {
+                "fr_FR": "Activé"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "boolean6",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
+        },
+        {
+            "label": {
+                "fr_FR": "Démarches"
+            },
+            "options": [
+                {
+                    "value": "demarches",
+                    "label": {
+                        "fr_FR": "demarches"
+                    }
+                }
+            ],
+            "predefinedValue": {
+                "fr_FR": [
+                    ""
+                ]
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "multiple": false,
+            "name": "code7",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "select"
+        },
+        {
+            "label": {
+                "fr_FR": "Activé"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "boolean7",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
+        },
+        {
+            "label": {
+                "fr_FR": "Signalements"
+            },
+            "options": [
+                {
+                    "value": "signalements",
+                    "label": {
+                        "fr_FR": "signalements"
+                    }
+                }
+            ],
+            "predefinedValue": {
+                "fr_FR": [
+                    ""
+                ]
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "multiple": false,
+            "name": "code8",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "select"
+        },
+        {
+            "label": {
+                "fr_FR": "Activé"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "boolean8",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
+        },
+        {
+            "label": {
+                "fr_FR": "Visite guidée"
+            },
+            "options": [
+                {
+                    "value": "visite_guidee",
+                    "label": {
+                        "fr_FR": "visite_guidee"
+                    }
+                }
+            ],
+            "predefinedValue": {
+                "fr_FR": [
+                    ""
+                ]
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "multiple": false,
+            "name": "code9",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "select"
+        },
+        {
+            "label": {
+                "fr_FR": "Activé"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "boolean9",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
+        }
+    ]
+}
