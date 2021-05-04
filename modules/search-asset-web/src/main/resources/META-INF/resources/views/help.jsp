@@ -5,6 +5,24 @@
 <div class="pro-search-listing" id="go-to-top">
 	<div class="container">
 	    <div class="row">
+
+			<!-- Blocs lateraux -->
+			<div class="col-md-4 order-md-last pro-wrapper-aside">
+
+				<!-- Bloc : formulaire -->
+				<div class="pro-bloc-facette pro-bloc-facette-help">
+					<span class="pro-affiner"><liferay-ui:message key="eu.refine-research" /> <span class="icon-ico-chevron-down"></span></span>
+
+					<!-- Formulaire -->
+					<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form">
+						<liferay-portlet:renderURLParams varImpl="searchActionURL" />
+						<liferay-util:include page="/forms/help-form.jsp" servletContext="<%=application%>" />
+					</aui:form>
+
+				</div>
+
+			</div>
+			<!-- Listing -->
 	        <div class="col-md-8 pro-listing">
 	        
 	            <div id="breadcrumb">
@@ -30,29 +48,11 @@
                 </div>
                 
 	        </div>
-	        
-	        <!-- Blocs lateraux -->
-	        <div class="col-md-4 pro-wrapper-aside">
-	           
-	           	<!-- Bloc : formulaire -->
-	            <div class="pro-bloc-facette pro-bloc-facette-help">
-	                <span class="pro-affiner"><liferay-ui:message key="eu.refine-research" /> <span class="icon-ico-chevron-down"></span></span>
-	
-	                <!-- Formulaire -->
-					<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form">
-						<liferay-portlet:renderURLParams varImpl="searchActionURL" />
-						<liferay-util:include page="/forms/help-form.jsp" servletContext="<%=application%>" />
-					</aui:form>
-	                
-	            </div>
-
-	    	</div>
-	        
 	    </div>
 	</div>
 	
 	<!-- Pagination -->
-	<div class="pro-pagination">
+	<div class="pro-pagination help-pagination">
 	    <div class="container">
 	        <div class="row">
 	            <div class="col-sm-6 col-xs-4 pull-left">

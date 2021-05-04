@@ -9,6 +9,8 @@ var entityType = {
 
 $(document).ready(function(){
     getSelectedEntries();
+	$('#quartiers').toggle();
+	$('#districtToggleButton').toggleClass("glyphicon-minus glyphicon-plus");
 });
 
 /**
@@ -95,4 +97,9 @@ $("fieldset[id='localisations_fieldset'] input").change(function() {
 // Lors d'une selection d'une thématique
 $("fieldset[id='types_fieldset'] input").change(function() {
 	getSelectedEntries();
+});
+
+$('#districtToggleButton').click(function() {
+	$('#quartiers').toggle("slide");
+	$(this).toggleClass("glyphicon-minus glyphicon-plus");
 });

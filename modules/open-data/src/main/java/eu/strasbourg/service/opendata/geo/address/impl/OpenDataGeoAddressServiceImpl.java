@@ -1,6 +1,7 @@
 package eu.strasbourg.service.opendata.geo.address.impl;
 
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -43,7 +44,7 @@ public class OpenDataGeoAddressServiceImpl implements OpenDataGeoAddressService 
      */
     @Override
     public JSONArray getCoordinateForAddress(String address, String zipCode, String city) throws Exception {
-        JSONArray coordinates = null;
+        JSONArray coordinates = JSONFactoryUtil.createJSONArray();
         String url = getAddressesURL() + "&q=" + HtmlUtil.escapeURL(address) + "+and+code_postal=" + HtmlUtil.escapeURL(zipCode) + "+and+nom_commune=" + HtmlUtil.escapeURL(city);
         JSONArray records = getRecord(url);
         if (records.length() > 0) {
