@@ -33,12 +33,10 @@ public class RouteSoap implements Serializable {
 	public static RouteSoap toSoapModel(Route model) {
 		RouteSoap soapModel = new RouteSoap();
 
-		soapModel.setUuid(model.getUuid());
 		soapModel.setId(model.getId());
 		soapModel.setRoute_id(model.getRoute_id());
 		soapModel.setRoute_short_name(model.getRoute_short_name());
 		soapModel.setRoute_long_name(model.getRoute_long_name());
-		soapModel.setRoute_desc(model.getRoute_desc());
 		soapModel.setRoute_type(model.getRoute_type());
 		soapModel.setRoute_color(model.getRoute_color());
 		soapModel.setRoute_text_color(model.getRoute_text_color());
@@ -94,14 +92,6 @@ public class RouteSoap implements Serializable {
 		setId(pk);
 	}
 
-	public String getUuid() {
-		return _uuid;
-	}
-
-	public void setUuid(String uuid) {
-		_uuid = uuid;
-	}
-
 	public long getId() {
 		return _id;
 	}
@@ -134,14 +124,6 @@ public class RouteSoap implements Serializable {
 		_route_long_name = route_long_name;
 	}
 
-	public String getRoute_desc() {
-		return _route_desc;
-	}
-
-	public void setRoute_desc(String route_desc) {
-		_route_desc = route_desc;
-	}
-
 	public int getRoute_type() {
 		return _route_type;
 	}
@@ -166,12 +148,10 @@ public class RouteSoap implements Serializable {
 		_route_text_color = route_text_color;
 	}
 
-	private String _uuid;
 	private long _id;
 	private String _route_id;
 	private String _route_short_name;
 	private String _route_long_name;
-	private String _route_desc;
 	private int _route_type;
 	private String _route_color;
 	private String _route_text_color;

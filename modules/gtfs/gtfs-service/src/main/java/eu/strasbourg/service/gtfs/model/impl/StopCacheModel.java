@@ -62,11 +62,9 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(13);
 
-		sb.append("{uuid=");
-		sb.append(uuid);
-		sb.append(", id=");
+		sb.append("{id=");
 		sb.append(id);
 		sb.append(", stop_id=");
 		sb.append(stop_id);
@@ -78,10 +76,6 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 		sb.append(stop_lon);
 		sb.append(", stop_name=");
 		sb.append(stop_name);
-		sb.append(", stop_url=");
-		sb.append(stop_url);
-		sb.append(", stop_desc=");
-		sb.append(stop_desc);
 		sb.append("}");
 
 		return sb.toString();
@@ -90,13 +84,6 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 	@Override
 	public Stop toEntityModel() {
 		StopImpl stopImpl = new StopImpl();
-
-		if (uuid == null) {
-			stopImpl.setUuid("");
-		}
-		else {
-			stopImpl.setUuid(uuid);
-		}
 
 		stopImpl.setId(id);
 
@@ -135,20 +122,6 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 			stopImpl.setStop_name(stop_name);
 		}
 
-		if (stop_url == null) {
-			stopImpl.setStop_url("");
-		}
-		else {
-			stopImpl.setStop_url(stop_url);
-		}
-
-		if (stop_desc == null) {
-			stopImpl.setStop_desc("");
-		}
-		else {
-			stopImpl.setStop_desc(stop_desc);
-		}
-
 		stopImpl.resetOriginalValues();
 
 		return stopImpl;
@@ -156,27 +129,16 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
-		uuid = objectInput.readUTF();
-
 		id = objectInput.readLong();
 		stop_id = objectInput.readUTF();
 		stop_code = objectInput.readUTF();
 		stop_lat = objectInput.readUTF();
 		stop_lon = objectInput.readUTF();
 		stop_name = objectInput.readUTF();
-		stop_url = objectInput.readUTF();
-		stop_desc = objectInput.readUTF();
 	}
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
-		if (uuid == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(uuid);
-		}
-
 		objectOutput.writeLong(id);
 
 		if (stop_id == null) {
@@ -213,30 +175,13 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 		else {
 			objectOutput.writeUTF(stop_name);
 		}
-
-		if (stop_url == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(stop_url);
-		}
-
-		if (stop_desc == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(stop_desc);
-		}
 	}
 
-	public String uuid;
 	public long id;
 	public String stop_id;
 	public String stop_code;
 	public String stop_lat;
 	public String stop_lon;
 	public String stop_name;
-	public String stop_url;
-	public String stop_desc;
 
 }

@@ -34,6 +34,7 @@
 		<column name="errorStackTrace" type="String" />
 		<column name="startDate" type="Date" />
 		<column name="finishDate" type="Date" />
+		<column name="gtfsFileHash" type="String" />
 		
 		<!-- Order -->
 		<order by="desc">
@@ -245,20 +246,13 @@
 
 	</entity>
 	
-	<entity local-service="true" name="Calendar" remote-service="false" uuid="true">
+	<entity local-service="true" name="Calendar" remote-service="false" uuid="false">
 
 		<!-- PK fields -->
 		<column name="id" primary="true" type="long" />
 
 		<!-- Other fields -->
 		<column name="service_id" type="String" />
-		<column name="monday" type="boolean" />
-		<column name="tuesday" type="boolean" />
-		<column name="wednesday" type="boolean" />
-		<column name="thursday" type="boolean" />
-		<column name="friday" type="boolean" />
-		<column name="saturday" type="boolean" />
-		<column name="sunday" type="boolean" />
 		<column name="start_date" type="Date" />
 		<column name="end_date" type="Date" />
 
@@ -305,7 +299,7 @@
 
 	</entity>
 	
-	<entity local-service="true" name="Route" remote-service="false" uuid="true">
+	<entity local-service="true" name="Route" remote-service="false" uuid="false">
 
 		<!-- PK fields -->
 		<column name="id" primary="true" type="long" />
@@ -314,7 +308,6 @@
 		<column name="route_id" type="String" />
 		<column name="route_short_name" type="String" />
 		<column name="route_long_name" type="String" />
-		<column name="route_desc" type="String" />
 		<column name="route_type" type="int" />
 		<column name="route_color" type="String" />
 		<column name="route_text_color" type="String" />
@@ -331,19 +324,14 @@
 
 	</entity>
 	
-	<entity local-service="true" name="StopTime" remote-service="false" uuid="true">
+	<entity local-service="true" name="StopTime" remote-service="false" uuid="false">
 
 		<!-- PK fields -->
 		<column name="id" primary="true" type="long" />
 
 		<!-- Other fields -->
 		<column name="trip_id" type="String" />
-		<column name="arrival_time" type="Date" />
-		<column name="departure_time" type="Date" />
 		<column name="stop_id" type="String" />
-		<column name="stop_sequence" type="int" />
-		<column name="pickup_type" type="String" />
-		<column name="drop_off_type" type="String" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -360,7 +348,7 @@
 
 	</entity>
 	
-	<entity local-service="true" name="Stop" remote-service="false" uuid="true">
+	<entity local-service="true" name="Stop" remote-service="false" uuid="false">
 		
 		<!-- PK fields -->
 		<column name="id" primary="true" type="long" />
@@ -371,8 +359,6 @@
 		<column name="stop_lat" type="String" />
 		<column name="stop_lon" type="String" />
 		<column name="stop_name" type="String" />
-		<column name="stop_url" type="String" />
-		<column name="stop_desc" type="String" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -389,7 +375,7 @@
 
 	</entity>
 	
-	<entity local-service="true" name="Trip" remote-service="false" uuid="true">
+	<entity local-service="true" name="Trip" remote-service="false" uuid="false">
 
 		<!-- PK fields -->
 		<column name="id" primary="true" type="long" />
@@ -399,8 +385,6 @@
 		<column name="service_id" type="String" />
 		<column name="trip_id" type="String" />
 		<column name="trip_headsign" type="String" />
-		<column name="direction_id" type="boolean" />
-		<column name="block_id" type="String" />
 		
 		<!-- Order -->
 		<order by="asc">

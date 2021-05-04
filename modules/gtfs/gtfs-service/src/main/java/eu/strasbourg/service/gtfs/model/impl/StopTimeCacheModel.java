@@ -27,8 +27,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import java.util.Date;
-
 /**
  * The cache model class for representing StopTime in entity cache.
  *
@@ -65,26 +63,14 @@ public class StopTimeCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(7);
 
-		sb.append("{uuid=");
-		sb.append(uuid);
-		sb.append(", id=");
+		sb.append("{id=");
 		sb.append(id);
 		sb.append(", trip_id=");
 		sb.append(trip_id);
-		sb.append(", arrival_time=");
-		sb.append(arrival_time);
-		sb.append(", departure_time=");
-		sb.append(departure_time);
 		sb.append(", stop_id=");
 		sb.append(stop_id);
-		sb.append(", stop_sequence=");
-		sb.append(stop_sequence);
-		sb.append(", pickup_type=");
-		sb.append(pickup_type);
-		sb.append(", drop_off_type=");
-		sb.append(drop_off_type);
 		sb.append("}");
 
 		return sb.toString();
@@ -93,13 +79,6 @@ public class StopTimeCacheModel
 	@Override
 	public StopTime toEntityModel() {
 		StopTimeImpl stopTimeImpl = new StopTimeImpl();
-
-		if (uuid == null) {
-			stopTimeImpl.setUuid("");
-		}
-		else {
-			stopTimeImpl.setUuid(uuid);
-		}
 
 		stopTimeImpl.setId(id);
 
@@ -110,41 +89,11 @@ public class StopTimeCacheModel
 			stopTimeImpl.setTrip_id(trip_id);
 		}
 
-		if (arrival_time == Long.MIN_VALUE) {
-			stopTimeImpl.setArrival_time(null);
-		}
-		else {
-			stopTimeImpl.setArrival_time(new Date(arrival_time));
-		}
-
-		if (departure_time == Long.MIN_VALUE) {
-			stopTimeImpl.setDeparture_time(null);
-		}
-		else {
-			stopTimeImpl.setDeparture_time(new Date(departure_time));
-		}
-
 		if (stop_id == null) {
 			stopTimeImpl.setStop_id("");
 		}
 		else {
 			stopTimeImpl.setStop_id(stop_id);
-		}
-
-		stopTimeImpl.setStop_sequence(stop_sequence);
-
-		if (pickup_type == null) {
-			stopTimeImpl.setPickup_type("");
-		}
-		else {
-			stopTimeImpl.setPickup_type(pickup_type);
-		}
-
-		if (drop_off_type == null) {
-			stopTimeImpl.setDrop_off_type("");
-		}
-		else {
-			stopTimeImpl.setDrop_off_type(drop_off_type);
 		}
 
 		stopTimeImpl.resetOriginalValues();
@@ -154,28 +103,13 @@ public class StopTimeCacheModel
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
-		uuid = objectInput.readUTF();
-
 		id = objectInput.readLong();
 		trip_id = objectInput.readUTF();
-		arrival_time = objectInput.readLong();
-		departure_time = objectInput.readLong();
 		stop_id = objectInput.readUTF();
-
-		stop_sequence = objectInput.readInt();
-		pickup_type = objectInput.readUTF();
-		drop_off_type = objectInput.readUTF();
 	}
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
-		if (uuid == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(uuid);
-		}
-
 		objectOutput.writeLong(id);
 
 		if (trip_id == null) {
@@ -185,41 +119,16 @@ public class StopTimeCacheModel
 			objectOutput.writeUTF(trip_id);
 		}
 
-		objectOutput.writeLong(arrival_time);
-		objectOutput.writeLong(departure_time);
-
 		if (stop_id == null) {
 			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(stop_id);
 		}
-
-		objectOutput.writeInt(stop_sequence);
-
-		if (pickup_type == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(pickup_type);
-		}
-
-		if (drop_off_type == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(drop_off_type);
-		}
 	}
 
-	public String uuid;
 	public long id;
 	public String trip_id;
-	public long arrival_time;
-	public long departure_time;
 	public String stop_id;
-	public int stop_sequence;
-	public String pickup_type;
-	public String drop_off_type;
 
 }

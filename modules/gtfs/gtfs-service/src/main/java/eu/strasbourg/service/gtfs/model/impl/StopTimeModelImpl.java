@@ -38,7 +38,6 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -68,30 +67,21 @@ public class StopTimeModelImpl
 	public static final String TABLE_NAME = "gtfs_StopTime";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"uuid_", Types.VARCHAR}, {"id_", Types.BIGINT},
-		{"trip_id", Types.VARCHAR}, {"arrival_time", Types.TIMESTAMP},
-		{"departure_time", Types.TIMESTAMP}, {"stop_id", Types.VARCHAR},
-		{"stop_sequence", Types.INTEGER}, {"pickup_type", Types.VARCHAR},
-		{"drop_off_type", Types.VARCHAR}
+		{"id_", Types.BIGINT}, {"trip_id", Types.VARCHAR},
+		{"stop_id", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
 		new HashMap<String, Integer>();
 
 	static {
-		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("trip_id", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("arrival_time", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("departure_time", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("stop_id", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("stop_sequence", Types.INTEGER);
-		TABLE_COLUMNS_MAP.put("pickup_type", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("drop_off_type", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table gtfs_StopTime (uuid_ VARCHAR(75) null,id_ LONG not null primary key,trip_id VARCHAR(75) null,arrival_time DATE null,departure_time DATE null,stop_id VARCHAR(75) null,stop_sequence INTEGER,pickup_type VARCHAR(75) null,drop_off_type VARCHAR(75) null)";
+		"create table gtfs_StopTime (id_ LONG not null primary key,trip_id VARCHAR(75) null,stop_id VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table gtfs_StopTime";
 
@@ -124,8 +114,6 @@ public class StopTimeModelImpl
 	public static final long STOP_ID_COLUMN_BITMASK = 1L;
 
 	public static final long TRIP_ID_COLUMN_BITMASK = 2L;
-
-	public static final long UUID_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
@@ -256,26 +244,6 @@ public class StopTimeModelImpl
 			new LinkedHashMap<String, BiConsumer<StopTime, ?>>();
 
 		attributeGetterFunctions.put(
-			"uuid",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(StopTime stopTime, Object uuid) {
-					stopTime.setUuid((String)uuid);
-				}
-
-			});
-		attributeGetterFunctions.put(
 			"id",
 			new Function<StopTime, Object>() {
 
@@ -316,46 +284,6 @@ public class StopTimeModelImpl
 
 			});
 		attributeGetterFunctions.put(
-			"arrival_time",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getArrival_time();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"arrival_time",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(StopTime stopTime, Object arrival_time) {
-					stopTime.setArrival_time((Date)arrival_time);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"departure_time",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getDeparture_time();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"departure_time",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(StopTime stopTime, Object departure_time) {
-					stopTime.setDeparture_time((Date)departure_time);
-				}
-
-			});
-		attributeGetterFunctions.put(
 			"stop_id",
 			new Function<StopTime, Object>() {
 
@@ -375,96 +303,11 @@ public class StopTimeModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"stop_sequence",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getStop_sequence();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stop_sequence",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(StopTime stopTime, Object stop_sequence) {
-					stopTime.setStop_sequence((Integer)stop_sequence);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"pickup_type",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getPickup_type();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"pickup_type",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(StopTime stopTime, Object pickup_type) {
-					stopTime.setPickup_type((String)pickup_type);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"drop_off_type",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getDrop_off_type();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"drop_off_type",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(StopTime stopTime, Object drop_off_type) {
-					stopTime.setDrop_off_type((String)drop_off_type);
-				}
-
-			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
-	}
-
-	@Override
-	public String getUuid() {
-		if (_uuid == null) {
-			return "";
-		}
-		else {
-			return _uuid;
-		}
-	}
-
-	@Override
-	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
-
-		_uuid = uuid;
-	}
-
-	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
 	}
 
 	@Override
@@ -503,26 +346,6 @@ public class StopTimeModelImpl
 	}
 
 	@Override
-	public Date getArrival_time() {
-		return _arrival_time;
-	}
-
-	@Override
-	public void setArrival_time(Date arrival_time) {
-		_arrival_time = arrival_time;
-	}
-
-	@Override
-	public Date getDeparture_time() {
-		return _departure_time;
-	}
-
-	@Override
-	public void setDeparture_time(Date departure_time) {
-		_departure_time = departure_time;
-	}
-
-	@Override
 	public String getStop_id() {
 		if (_stop_id == null) {
 			return "";
@@ -545,46 +368,6 @@ public class StopTimeModelImpl
 
 	public String getOriginalStop_id() {
 		return GetterUtil.getString(_originalStop_id);
-	}
-
-	@Override
-	public int getStop_sequence() {
-		return _stop_sequence;
-	}
-
-	@Override
-	public void setStop_sequence(int stop_sequence) {
-		_stop_sequence = stop_sequence;
-	}
-
-	@Override
-	public String getPickup_type() {
-		if (_pickup_type == null) {
-			return "";
-		}
-		else {
-			return _pickup_type;
-		}
-	}
-
-	@Override
-	public void setPickup_type(String pickup_type) {
-		_pickup_type = pickup_type;
-	}
-
-	@Override
-	public String getDrop_off_type() {
-		if (_drop_off_type == null) {
-			return "";
-		}
-		else {
-			return _drop_off_type;
-		}
-	}
-
-	@Override
-	public void setDrop_off_type(String drop_off_type) {
-		_drop_off_type = drop_off_type;
 	}
 
 	public long getColumnBitmask() {
@@ -618,15 +401,9 @@ public class StopTimeModelImpl
 	public Object clone() {
 		StopTimeImpl stopTimeImpl = new StopTimeImpl();
 
-		stopTimeImpl.setUuid(getUuid());
 		stopTimeImpl.setId(getId());
 		stopTimeImpl.setTrip_id(getTrip_id());
-		stopTimeImpl.setArrival_time(getArrival_time());
-		stopTimeImpl.setDeparture_time(getDeparture_time());
 		stopTimeImpl.setStop_id(getStop_id());
-		stopTimeImpl.setStop_sequence(getStop_sequence());
-		stopTimeImpl.setPickup_type(getPickup_type());
-		stopTimeImpl.setDrop_off_type(getDrop_off_type());
 
 		stopTimeImpl.resetOriginalValues();
 
@@ -687,8 +464,6 @@ public class StopTimeModelImpl
 	public void resetOriginalValues() {
 		StopTimeModelImpl stopTimeModelImpl = this;
 
-		stopTimeModelImpl._originalUuid = stopTimeModelImpl._uuid;
-
 		stopTimeModelImpl._originalTrip_id = stopTimeModelImpl._trip_id;
 
 		stopTimeModelImpl._originalStop_id = stopTimeModelImpl._stop_id;
@@ -700,14 +475,6 @@ public class StopTimeModelImpl
 	public CacheModel<StopTime> toCacheModel() {
 		StopTimeCacheModel stopTimeCacheModel = new StopTimeCacheModel();
 
-		stopTimeCacheModel.uuid = getUuid();
-
-		String uuid = stopTimeCacheModel.uuid;
-
-		if ((uuid != null) && (uuid.length() == 0)) {
-			stopTimeCacheModel.uuid = null;
-		}
-
 		stopTimeCacheModel.id = getId();
 
 		stopTimeCacheModel.trip_id = getTrip_id();
@@ -718,48 +485,12 @@ public class StopTimeModelImpl
 			stopTimeCacheModel.trip_id = null;
 		}
 
-		Date arrival_time = getArrival_time();
-
-		if (arrival_time != null) {
-			stopTimeCacheModel.arrival_time = arrival_time.getTime();
-		}
-		else {
-			stopTimeCacheModel.arrival_time = Long.MIN_VALUE;
-		}
-
-		Date departure_time = getDeparture_time();
-
-		if (departure_time != null) {
-			stopTimeCacheModel.departure_time = departure_time.getTime();
-		}
-		else {
-			stopTimeCacheModel.departure_time = Long.MIN_VALUE;
-		}
-
 		stopTimeCacheModel.stop_id = getStop_id();
 
 		String stop_id = stopTimeCacheModel.stop_id;
 
 		if ((stop_id != null) && (stop_id.length() == 0)) {
 			stopTimeCacheModel.stop_id = null;
-		}
-
-		stopTimeCacheModel.stop_sequence = getStop_sequence();
-
-		stopTimeCacheModel.pickup_type = getPickup_type();
-
-		String pickup_type = stopTimeCacheModel.pickup_type;
-
-		if ((pickup_type != null) && (pickup_type.length() == 0)) {
-			stopTimeCacheModel.pickup_type = null;
-		}
-
-		stopTimeCacheModel.drop_off_type = getDrop_off_type();
-
-		String drop_off_type = stopTimeCacheModel.drop_off_type;
-
-		if ((drop_off_type != null) && (drop_off_type.length() == 0)) {
-			stopTimeCacheModel.drop_off_type = null;
 		}
 
 		return stopTimeCacheModel;
@@ -831,18 +562,11 @@ public class StopTimeModelImpl
 	private static final Function<InvocationHandler, StopTime>
 		_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
-	private String _uuid;
-	private String _originalUuid;
 	private long _id;
 	private String _trip_id;
 	private String _originalTrip_id;
-	private Date _arrival_time;
-	private Date _departure_time;
 	private String _stop_id;
 	private String _originalStop_id;
-	private int _stop_sequence;
-	private String _pickup_type;
-	private String _drop_off_type;
 	private long _columnBitmask;
 	private StopTime _escapedModel;
 

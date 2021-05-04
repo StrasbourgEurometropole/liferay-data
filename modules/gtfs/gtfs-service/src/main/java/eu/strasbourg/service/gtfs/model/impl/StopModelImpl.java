@@ -66,30 +66,25 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	public static final String TABLE_NAME = "gtfs_Stop";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"uuid_", Types.VARCHAR}, {"id_", Types.BIGINT},
-		{"stop_id", Types.VARCHAR}, {"stop_code", Types.VARCHAR},
-		{"stop_lat", Types.VARCHAR}, {"stop_lon", Types.VARCHAR},
-		{"stop_name", Types.VARCHAR}, {"stop_url", Types.VARCHAR},
-		{"stop_desc", Types.VARCHAR}
+		{"id_", Types.BIGINT}, {"stop_id", Types.VARCHAR},
+		{"stop_code", Types.VARCHAR}, {"stop_lat", Types.VARCHAR},
+		{"stop_lon", Types.VARCHAR}, {"stop_name", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
 		new HashMap<String, Integer>();
 
 	static {
-		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("stop_id", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("stop_code", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("stop_lat", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("stop_lon", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("stop_name", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("stop_url", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("stop_desc", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table gtfs_Stop (uuid_ VARCHAR(75) null,id_ LONG not null primary key,stop_id VARCHAR(75) null,stop_code VARCHAR(75) null,stop_lat VARCHAR(75) null,stop_lon VARCHAR(75) null,stop_name VARCHAR(75) null,stop_url VARCHAR(400) null,stop_desc VARCHAR(400) null)";
+		"create table gtfs_Stop (id_ LONG not null primary key,stop_id VARCHAR(75) null,stop_code VARCHAR(75) null,stop_lat VARCHAR(75) null,stop_lon VARCHAR(75) null,stop_name VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Stop";
 
@@ -121,8 +116,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	public static final long STOP_CODE_COLUMN_BITMASK = 1L;
 
 	public static final long STOP_ID_COLUMN_BITMASK = 2L;
-
-	public static final long UUID_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
@@ -248,26 +241,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 			new LinkedHashMap<String, BiConsumer<Stop, ?>>();
 
 		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Stop, Object>() {
-
-				@Override
-				public Object apply(Stop stop) {
-					return stop.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Stop, Object>() {
-
-				@Override
-				public void accept(Stop stop, Object uuid) {
-					stop.setUuid((String)uuid);
-				}
-
-			});
-		attributeGetterFunctions.put(
 			"id",
 			new Function<Stop, Object>() {
 
@@ -387,76 +360,11 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"stop_url",
-			new Function<Stop, Object>() {
-
-				@Override
-				public Object apply(Stop stop) {
-					return stop.getStop_url();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stop_url",
-			new BiConsumer<Stop, Object>() {
-
-				@Override
-				public void accept(Stop stop, Object stop_url) {
-					stop.setStop_url((String)stop_url);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"stop_desc",
-			new Function<Stop, Object>() {
-
-				@Override
-				public Object apply(Stop stop) {
-					return stop.getStop_desc();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stop_desc",
-			new BiConsumer<Stop, Object>() {
-
-				@Override
-				public void accept(Stop stop, Object stop_desc) {
-					stop.setStop_desc((String)stop_desc);
-				}
-
-			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
-	}
-
-	@Override
-	public String getUuid() {
-		if (_uuid == null) {
-			return "";
-		}
-		else {
-			return _uuid;
-		}
-	}
-
-	@Override
-	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
-
-		_uuid = uuid;
-	}
-
-	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
 	}
 
 	@Override
@@ -564,36 +472,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 		_stop_name = stop_name;
 	}
 
-	@Override
-	public String getStop_url() {
-		if (_stop_url == null) {
-			return "";
-		}
-		else {
-			return _stop_url;
-		}
-	}
-
-	@Override
-	public void setStop_url(String stop_url) {
-		_stop_url = stop_url;
-	}
-
-	@Override
-	public String getStop_desc() {
-		if (_stop_desc == null) {
-			return "";
-		}
-		else {
-			return _stop_desc;
-		}
-	}
-
-	@Override
-	public void setStop_desc(String stop_desc) {
-		_stop_desc = stop_desc;
-	}
-
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -625,15 +503,12 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	public Object clone() {
 		StopImpl stopImpl = new StopImpl();
 
-		stopImpl.setUuid(getUuid());
 		stopImpl.setId(getId());
 		stopImpl.setStop_id(getStop_id());
 		stopImpl.setStop_code(getStop_code());
 		stopImpl.setStop_lat(getStop_lat());
 		stopImpl.setStop_lon(getStop_lon());
 		stopImpl.setStop_name(getStop_name());
-		stopImpl.setStop_url(getStop_url());
-		stopImpl.setStop_desc(getStop_desc());
 
 		stopImpl.resetOriginalValues();
 
@@ -694,8 +569,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	public void resetOriginalValues() {
 		StopModelImpl stopModelImpl = this;
 
-		stopModelImpl._originalUuid = stopModelImpl._uuid;
-
 		stopModelImpl._originalStop_id = stopModelImpl._stop_id;
 
 		stopModelImpl._originalStop_code = stopModelImpl._stop_code;
@@ -706,14 +579,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	@Override
 	public CacheModel<Stop> toCacheModel() {
 		StopCacheModel stopCacheModel = new StopCacheModel();
-
-		stopCacheModel.uuid = getUuid();
-
-		String uuid = stopCacheModel.uuid;
-
-		if ((uuid != null) && (uuid.length() == 0)) {
-			stopCacheModel.uuid = null;
-		}
 
 		stopCacheModel.id = getId();
 
@@ -755,22 +620,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 		if ((stop_name != null) && (stop_name.length() == 0)) {
 			stopCacheModel.stop_name = null;
-		}
-
-		stopCacheModel.stop_url = getStop_url();
-
-		String stop_url = stopCacheModel.stop_url;
-
-		if ((stop_url != null) && (stop_url.length() == 0)) {
-			stopCacheModel.stop_url = null;
-		}
-
-		stopCacheModel.stop_desc = getStop_desc();
-
-		String stop_desc = stopCacheModel.stop_desc;
-
-		if ((stop_desc != null) && (stop_desc.length() == 0)) {
-			stopCacheModel.stop_desc = null;
 		}
 
 		return stopCacheModel;
@@ -840,8 +689,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	private static final Function<InvocationHandler, Stop>
 		_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
-	private String _uuid;
-	private String _originalUuid;
 	private long _id;
 	private String _stop_id;
 	private String _originalStop_id;
@@ -850,8 +697,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	private String _stop_lat;
 	private String _stop_lon;
 	private String _stop_name;
-	private String _stop_url;
-	private String _stop_desc;
 	private long _columnBitmask;
 	private Stop _escapedModel;
 

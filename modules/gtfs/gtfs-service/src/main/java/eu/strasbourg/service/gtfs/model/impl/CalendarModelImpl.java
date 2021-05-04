@@ -68,11 +68,7 @@ public class CalendarModelImpl
 	public static final String TABLE_NAME = "gtfs_Calendar";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"uuid_", Types.VARCHAR}, {"id_", Types.BIGINT},
-		{"service_id", Types.VARCHAR}, {"monday", Types.BOOLEAN},
-		{"tuesday", Types.BOOLEAN}, {"wednesday", Types.BOOLEAN},
-		{"thursday", Types.BOOLEAN}, {"friday", Types.BOOLEAN},
-		{"saturday", Types.BOOLEAN}, {"sunday", Types.BOOLEAN},
+		{"id_", Types.BIGINT}, {"service_id", Types.VARCHAR},
 		{"start_date", Types.TIMESTAMP}, {"end_date", Types.TIMESTAMP}
 	};
 
@@ -80,22 +76,14 @@ public class CalendarModelImpl
 		new HashMap<String, Integer>();
 
 	static {
-		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("service_id", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("monday", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("tuesday", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("wednesday", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("thursday", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("friday", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("saturday", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("sunday", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("start_date", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("end_date", Types.TIMESTAMP);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table gtfs_Calendar (uuid_ VARCHAR(75) null,id_ LONG not null primary key,service_id VARCHAR(75) null,monday BOOLEAN,tuesday BOOLEAN,wednesday BOOLEAN,thursday BOOLEAN,friday BOOLEAN,saturday BOOLEAN,sunday BOOLEAN,start_date DATE null,end_date DATE null)";
+		"create table gtfs_Calendar (id_ LONG not null primary key,service_id VARCHAR(75) null,start_date DATE null,end_date DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Calendar";
 
@@ -131,8 +119,6 @@ public class CalendarModelImpl
 	public static final long SERVICE_ID_COLUMN_BITMASK = 2L;
 
 	public static final long START_DATE_COLUMN_BITMASK = 4L;
-
-	public static final long UUID_COLUMN_BITMASK = 8L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
@@ -263,26 +249,6 @@ public class CalendarModelImpl
 			new LinkedHashMap<String, BiConsumer<Calendar, ?>>();
 
 		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object uuid) {
-					calendar.setUuid((String)uuid);
-				}
-
-			});
-		attributeGetterFunctions.put(
 			"id",
 			new Function<Calendar, Object>() {
 
@@ -319,146 +285,6 @@ public class CalendarModelImpl
 				@Override
 				public void accept(Calendar calendar, Object service_id) {
 					calendar.setService_id((String)service_id);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"monday",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getMonday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"monday",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object monday) {
-					calendar.setMonday((Boolean)monday);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"tuesday",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getTuesday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"tuesday",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object tuesday) {
-					calendar.setTuesday((Boolean)tuesday);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"wednesday",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getWednesday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"wednesday",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object wednesday) {
-					calendar.setWednesday((Boolean)wednesday);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"thursday",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getThursday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"thursday",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object thursday) {
-					calendar.setThursday((Boolean)thursday);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"friday",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getFriday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"friday",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object friday) {
-					calendar.setFriday((Boolean)friday);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"saturday",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getSaturday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"saturday",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object saturday) {
-					calendar.setSaturday((Boolean)saturday);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"sunday",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getSunday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"sunday",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object sunday) {
-					calendar.setSunday((Boolean)sunday);
 				}
 
 			});
@@ -510,31 +336,6 @@ public class CalendarModelImpl
 	}
 
 	@Override
-	public String getUuid() {
-		if (_uuid == null) {
-			return "";
-		}
-		else {
-			return _uuid;
-		}
-	}
-
-	@Override
-	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
-
-		_uuid = uuid;
-	}
-
-	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
-	}
-
-	@Override
 	public long getId() {
 		return _id;
 	}
@@ -567,111 +368,6 @@ public class CalendarModelImpl
 
 	public String getOriginalService_id() {
 		return GetterUtil.getString(_originalService_id);
-	}
-
-	@Override
-	public boolean getMonday() {
-		return _monday;
-	}
-
-	@Override
-	public boolean isMonday() {
-		return _monday;
-	}
-
-	@Override
-	public void setMonday(boolean monday) {
-		_monday = monday;
-	}
-
-	@Override
-	public boolean getTuesday() {
-		return _tuesday;
-	}
-
-	@Override
-	public boolean isTuesday() {
-		return _tuesday;
-	}
-
-	@Override
-	public void setTuesday(boolean tuesday) {
-		_tuesday = tuesday;
-	}
-
-	@Override
-	public boolean getWednesday() {
-		return _wednesday;
-	}
-
-	@Override
-	public boolean isWednesday() {
-		return _wednesday;
-	}
-
-	@Override
-	public void setWednesday(boolean wednesday) {
-		_wednesday = wednesday;
-	}
-
-	@Override
-	public boolean getThursday() {
-		return _thursday;
-	}
-
-	@Override
-	public boolean isThursday() {
-		return _thursday;
-	}
-
-	@Override
-	public void setThursday(boolean thursday) {
-		_thursday = thursday;
-	}
-
-	@Override
-	public boolean getFriday() {
-		return _friday;
-	}
-
-	@Override
-	public boolean isFriday() {
-		return _friday;
-	}
-
-	@Override
-	public void setFriday(boolean friday) {
-		_friday = friday;
-	}
-
-	@Override
-	public boolean getSaturday() {
-		return _saturday;
-	}
-
-	@Override
-	public boolean isSaturday() {
-		return _saturday;
-	}
-
-	@Override
-	public void setSaturday(boolean saturday) {
-		_saturday = saturday;
-	}
-
-	@Override
-	public boolean getSunday() {
-		return _sunday;
-	}
-
-	@Override
-	public boolean isSunday() {
-		return _sunday;
-	}
-
-	@Override
-	public void setSunday(boolean sunday) {
-		_sunday = sunday;
 	}
 
 	@Override
@@ -745,16 +441,8 @@ public class CalendarModelImpl
 	public Object clone() {
 		CalendarImpl calendarImpl = new CalendarImpl();
 
-		calendarImpl.setUuid(getUuid());
 		calendarImpl.setId(getId());
 		calendarImpl.setService_id(getService_id());
-		calendarImpl.setMonday(isMonday());
-		calendarImpl.setTuesday(isTuesday());
-		calendarImpl.setWednesday(isWednesday());
-		calendarImpl.setThursday(isThursday());
-		calendarImpl.setFriday(isFriday());
-		calendarImpl.setSaturday(isSaturday());
-		calendarImpl.setSunday(isSunday());
 		calendarImpl.setStart_date(getStart_date());
 		calendarImpl.setEnd_date(getEnd_date());
 
@@ -817,8 +505,6 @@ public class CalendarModelImpl
 	public void resetOriginalValues() {
 		CalendarModelImpl calendarModelImpl = this;
 
-		calendarModelImpl._originalUuid = calendarModelImpl._uuid;
-
 		calendarModelImpl._originalService_id = calendarModelImpl._service_id;
 
 		calendarModelImpl._originalStart_date = calendarModelImpl._start_date;
@@ -832,14 +518,6 @@ public class CalendarModelImpl
 	public CacheModel<Calendar> toCacheModel() {
 		CalendarCacheModel calendarCacheModel = new CalendarCacheModel();
 
-		calendarCacheModel.uuid = getUuid();
-
-		String uuid = calendarCacheModel.uuid;
-
-		if ((uuid != null) && (uuid.length() == 0)) {
-			calendarCacheModel.uuid = null;
-		}
-
 		calendarCacheModel.id = getId();
 
 		calendarCacheModel.service_id = getService_id();
@@ -849,20 +527,6 @@ public class CalendarModelImpl
 		if ((service_id != null) && (service_id.length() == 0)) {
 			calendarCacheModel.service_id = null;
 		}
-
-		calendarCacheModel.monday = isMonday();
-
-		calendarCacheModel.tuesday = isTuesday();
-
-		calendarCacheModel.wednesday = isWednesday();
-
-		calendarCacheModel.thursday = isThursday();
-
-		calendarCacheModel.friday = isFriday();
-
-		calendarCacheModel.saturday = isSaturday();
-
-		calendarCacheModel.sunday = isSunday();
 
 		Date start_date = getStart_date();
 
@@ -951,18 +615,9 @@ public class CalendarModelImpl
 	private static final Function<InvocationHandler, Calendar>
 		_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
-	private String _uuid;
-	private String _originalUuid;
 	private long _id;
 	private String _service_id;
 	private String _originalService_id;
-	private boolean _monday;
-	private boolean _tuesday;
-	private boolean _wednesday;
-	private boolean _thursday;
-	private boolean _friday;
-	private boolean _saturday;
-	private boolean _sunday;
 	private Date _start_date;
 	private Date _originalStart_date;
 	private Date _end_date;

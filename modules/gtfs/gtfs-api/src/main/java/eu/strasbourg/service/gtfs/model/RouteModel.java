@@ -59,21 +59,6 @@ public interface RouteModel extends BaseModel<Route> {
 	public void setPrimaryKey(long primaryKey);
 
 	/**
-	 * Returns the uuid of this route.
-	 *
-	 * @return the uuid of this route
-	 */
-	@AutoEscape
-	public String getUuid();
-
-	/**
-	 * Sets the uuid of this route.
-	 *
-	 * @param uuid the uuid of this route
-	 */
-	public void setUuid(String uuid);
-
-	/**
 	 * Returns the ID of this route.
 	 *
 	 * @return the ID of this route
@@ -131,21 +116,6 @@ public interface RouteModel extends BaseModel<Route> {
 	 * @param route_long_name the route_long_name of this route
 	 */
 	public void setRoute_long_name(String route_long_name);
-
-	/**
-	 * Returns the route_desc of this route.
-	 *
-	 * @return the route_desc of this route
-	 */
-	@AutoEscape
-	public String getRoute_desc();
-
-	/**
-	 * Sets the route_desc of this route.
-	 *
-	 * @param route_desc the route_desc of this route
-	 */
-	public void setRoute_desc(String route_desc);
 
 	/**
 	 * Returns the route_type of this route.

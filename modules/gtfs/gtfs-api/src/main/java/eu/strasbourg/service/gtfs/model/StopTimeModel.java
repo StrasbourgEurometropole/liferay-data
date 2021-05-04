@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
-import java.util.Date;
-
 /**
  * The base model interface for the StopTime service. Represents a row in the &quot;gtfs_StopTime&quot; database table, with each column mapped to a property of this class.
  *
@@ -61,21 +59,6 @@ public interface StopTimeModel extends BaseModel<StopTime> {
 	public void setPrimaryKey(long primaryKey);
 
 	/**
-	 * Returns the uuid of this stop time.
-	 *
-	 * @return the uuid of this stop time
-	 */
-	@AutoEscape
-	public String getUuid();
-
-	/**
-	 * Sets the uuid of this stop time.
-	 *
-	 * @param uuid the uuid of this stop time
-	 */
-	public void setUuid(String uuid);
-
-	/**
 	 * Returns the ID of this stop time.
 	 *
 	 * @return the ID of this stop time
@@ -105,34 +88,6 @@ public interface StopTimeModel extends BaseModel<StopTime> {
 	public void setTrip_id(String trip_id);
 
 	/**
-	 * Returns the arrival_time of this stop time.
-	 *
-	 * @return the arrival_time of this stop time
-	 */
-	public Date getArrival_time();
-
-	/**
-	 * Sets the arrival_time of this stop time.
-	 *
-	 * @param arrival_time the arrival_time of this stop time
-	 */
-	public void setArrival_time(Date arrival_time);
-
-	/**
-	 * Returns the departure_time of this stop time.
-	 *
-	 * @return the departure_time of this stop time
-	 */
-	public Date getDeparture_time();
-
-	/**
-	 * Sets the departure_time of this stop time.
-	 *
-	 * @param departure_time the departure_time of this stop time
-	 */
-	public void setDeparture_time(Date departure_time);
-
-	/**
 	 * Returns the stop_id of this stop time.
 	 *
 	 * @return the stop_id of this stop time
@@ -146,50 +101,6 @@ public interface StopTimeModel extends BaseModel<StopTime> {
 	 * @param stop_id the stop_id of this stop time
 	 */
 	public void setStop_id(String stop_id);
-
-	/**
-	 * Returns the stop_sequence of this stop time.
-	 *
-	 * @return the stop_sequence of this stop time
-	 */
-	public int getStop_sequence();
-
-	/**
-	 * Sets the stop_sequence of this stop time.
-	 *
-	 * @param stop_sequence the stop_sequence of this stop time
-	 */
-	public void setStop_sequence(int stop_sequence);
-
-	/**
-	 * Returns the pickup_type of this stop time.
-	 *
-	 * @return the pickup_type of this stop time
-	 */
-	@AutoEscape
-	public String getPickup_type();
-
-	/**
-	 * Sets the pickup_type of this stop time.
-	 *
-	 * @param pickup_type the pickup_type of this stop time
-	 */
-	public void setPickup_type(String pickup_type);
-
-	/**
-	 * Returns the drop_off_type of this stop time.
-	 *
-	 * @return the drop_off_type of this stop time
-	 */
-	@AutoEscape
-	public String getDrop_off_type();
-
-	/**
-	 * Sets the drop_off_type of this stop time.
-	 *
-	 * @param drop_off_type the drop_off_type of this stop time
-	 */
-	public void setDrop_off_type(String drop_off_type);
 
 	@Override
 	public boolean isNew();

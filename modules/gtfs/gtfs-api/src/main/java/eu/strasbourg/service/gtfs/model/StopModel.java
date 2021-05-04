@@ -59,21 +59,6 @@ public interface StopModel extends BaseModel<Stop> {
 	public void setPrimaryKey(long primaryKey);
 
 	/**
-	 * Returns the uuid of this stop.
-	 *
-	 * @return the uuid of this stop
-	 */
-	@AutoEscape
-	public String getUuid();
-
-	/**
-	 * Sets the uuid of this stop.
-	 *
-	 * @param uuid the uuid of this stop
-	 */
-	public void setUuid(String uuid);
-
-	/**
 	 * Returns the ID of this stop.
 	 *
 	 * @return the ID of this stop
@@ -161,36 +146,6 @@ public interface StopModel extends BaseModel<Stop> {
 	 * @param stop_name the stop_name of this stop
 	 */
 	public void setStop_name(String stop_name);
-
-	/**
-	 * Returns the stop_url of this stop.
-	 *
-	 * @return the stop_url of this stop
-	 */
-	@AutoEscape
-	public String getStop_url();
-
-	/**
-	 * Sets the stop_url of this stop.
-	 *
-	 * @param stop_url the stop_url of this stop
-	 */
-	public void setStop_url(String stop_url);
-
-	/**
-	 * Returns the stop_desc of this stop.
-	 *
-	 * @return the stop_desc of this stop
-	 */
-	@AutoEscape
-	public String getStop_desc();
-
-	/**
-	 * Sets the stop_desc of this stop.
-	 *
-	 * @param stop_desc the stop_desc of this stop
-	 */
-	public void setStop_desc(String stop_desc);
 
 	@Override
 	public boolean isNew();
