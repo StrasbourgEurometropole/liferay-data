@@ -14,6 +14,8 @@ public class WSConstants {
     public static final String APP_ACCOUNT_DATA_NAME = "CSMAP.Account.Data.Rest";
     public static final String APP_VARIOUS_DATA_BASE = "/various-data";
     public static final String APP_VARIOUS_DATA_NAME = "CSMAP.Various.Data.Rest";
+    public static final String APP_SETTINGS_BASE = "/settings";
+    public static final String APP_SETTINGS_NAME = "CSMAP.Settings.Data.Rest";
 
 
     /** Publik */
@@ -94,6 +96,11 @@ public class WSConstants {
     public static final String JSON_DESCRIPTION = "description";
     public static final String JSON_WC_URL = "url";
     public static final String JSON_WC_PICTO = "picto";
+    // Settings
+    public static final String JSON_SETTINGS_REPORTURL = "reportUrl";
+    public static final String JSON_SETTINGS_CODE = "code";
+    public static final String JSON_SETTINGS_ISACTIVE = "isActive";
+
 
     /** Config */
     // Various-Data
@@ -109,6 +116,11 @@ public class WSConstants {
     public static final String FOLDER_EMERGENCY_HELPS = "Aides urgence";
     public static final String FOLDER_SOCIAL_NETWORK = "R\u00e9seaux sociaux";
     public static final String GENERAL_CONDITIONS = "Mentions l\u00e9gales";
+
+    // Settings
+    public static final String FOLDER_PARAMETRAGE = "Param\u00e9trage";
+    public static final String STRUCTURE_SIGNALEMENT = "Signalement";
+    public static final String STRUCTURE_STATUT_MODULES = "Statut des modules";
 
     /** Erreurs */
     // Global
