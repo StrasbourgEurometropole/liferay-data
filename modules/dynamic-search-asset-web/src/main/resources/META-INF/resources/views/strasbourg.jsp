@@ -17,13 +17,6 @@
     <form action="/" method="get" class="th-form-search">
         <input type="text" name="th-search" id="th-search" placeholder="..." class="th-input-search" />
         <button type="submit" name="th-form-submit" id="th-form-submit" class="th-form-submit"></button>
-
-        <ul class="th-dropdown-results">
-            <li><a href="#"><span>Bar</span>s & restaurants</a></li>
-            <li><a href="#">Jeanne <span>Bar</span>seghian</a></li>
-            <li><a href="#"><span>Bar</span>rage Vauban</a></li>
-            <li><a href="#">Sainte-<span>bar</span>be</a></li>
-        </ul>
     </form>
     <liferay-portlet:runtime
         portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"

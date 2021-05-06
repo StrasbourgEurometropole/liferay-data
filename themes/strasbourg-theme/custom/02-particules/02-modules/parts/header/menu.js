@@ -1416,24 +1416,8 @@ var menuOverlay = {
             } else {
                 $(menuOverlay._selector.searchOverlay).addClass('th-active');
                 $(menuOverlay._selector.searchInput, menuOverlay._selector.searchOverlay).get(0).focus();
-
-                if (!document.querySelector(".th-dropdown-results").classList.contains("th-active")) {
-                    document.querySelector(".th-dropdown-results").classList.add("th-active");
-                }
             }
         });
-
-        document.querySelector(menuOverlay._selector.searchInput).addEventListener("blur", function () {
-            if (document.querySelector(".th-dropdown-results").classList.contains("th-active")) {
-                document.querySelector(".th-dropdown-results").classList.remove("th-active");
-            }
-        });
-
-        document.querySelector(menuOverlay._selector.searchInput).addEventListener("focus", function () {
-            if (!document.querySelector(".th-dropdown-results").classList.contains("th-active")) {
-                document.querySelector(".th-dropdown-results").classList.add("th-active");
-            }
-        })
     },
 
     initEventsFirstLevel: function () {

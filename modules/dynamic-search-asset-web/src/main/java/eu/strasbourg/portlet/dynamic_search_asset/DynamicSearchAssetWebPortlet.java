@@ -115,6 +115,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	private static final String SEARCH_FORM_PLACIT = "placit";
 	private static final String ATTRIBUTE_CLASSNAME = "className";
 	private static final String ATTRIBUTE_LINK = "link";
+	private static final String ATTRIBUTE_LINK_STRAS = "linkStras";
 	private static final String ATTRIBUTE_LINK_ABSOLUTE = "linkAbsolute";
 	private static final String ATTRIBUTE_TITLE = "title";
 	private static final String ATTRIBUTE_CHAPO = "chapo";
@@ -122,6 +123,12 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	private static final String ATTRIBUTE_PUBLISH_DATE = "publishDate";
 	private static final String ATTRIBUTE_MODIFIED_DATE = "modifiedDate";
 	private static final String ATTRIBUTE_IS_USER_PARTICIPATE = "isUserPart";
+	private static final String ATTRIBUTE_CATEGORIES = "categories";
+	private static final String ATTRIBUTE_SCHEDULE = "schedule";
+	private static final String ATTRIBUTE_CITY = "city";
+	private static final String ATTRIBUTE_ID = "id";
+	private static final String ATTRIBUTE_TYPE = "type";
+	private static final String ATTRIBUTE_GROUP_ID = "groupId";
 	private static final String DETAIL_PARTICIPATION_URL = "detail-participation/-/entity/id/";
 	private static final String DETAIL_PETITION_URL = "detail-petition/-/entity/id/";
 	private static final String DETAIL_BUDGET_PARTICIPATIF_URL = "detail-budget-participatif/-/entity/id/";
@@ -130,6 +137,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	private static final String DETAIL_OFFICIAL_URL = "elu/-/entity/id/";
 	private static final String DETAIL_EDITION_URL = "edition/-/entity/id/";
 	private static final String DETAIL_EVENT_URL = "detail-evenement/-/entity/id/";
+    private static final String DETAIL_EVENT_STRAS_URL = "evenement/-/entity/id/";
 	private static final String DETAIL_MANIF_URL = "manifestation/-/entity/id/";
 	private static final String DETAIL_GALERIE_URL = "galerie-editions/-/entity/id/";
 	private static final String DETAIL_PLACE_URL = "lieu/-/entity/id/";
@@ -137,9 +145,6 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	private static final String DETAIL_ACTIVITY_URL = "activite/-/entity/id/";
 	private static final String NEWS_TAG_NAME = "actualite";
 	private static final String ARTICLES_TAG_NAME = "article";
-	private static final String ATTRIBUTE_CATEGORIES = "categories";
-	private static final String ATTRIBUTE_SCHEDULE = "schedule";
-	private static final String ATTRIBUTE_CITY = "city";
 	
 	private DynamicSearchAssetConfiguration configuration;
 	
@@ -239,7 +244,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 					prefilterCategoriesIds.add(prefilterCategoriesIdsForVocabulary);
 				}
 				
-				// Recuperation de la configuration des prefiltre sur les etiquettesv
+				// Recuperation de la configuration des prefiltre sur les etiquettes
 				String prefilterTagsNamesString = this.configuration.prefilterTagsNames();
 				String[] prefilterTagsNames = StringUtil.split(prefilterTagsNamesString);
 				
@@ -406,8 +411,13 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				);
 
 				jsonEvent.put(
+						ATTRIBUTE_LINK_STRAS,
+						this.getHomeURL(request) + DETAIL_EVENT_STRAS_URL + event.getEventId()
+				);
+
+				jsonEvent.put(
 						ATTRIBUTE_LINK_ABSOLUTE,
-						themeDisplay.getPortalURL() + this.getHomeURL(request) + DETAIL_EVENT_URL + event.getEventId()
+						themeDisplay.getPortalURL() + this.getHomeURL(request) + DETAIL_EVENT_STRAS_URL + event.getEventId()
 				);
 
 				JSONObject types = JSONFactoryUtil.createJSONObject();
@@ -427,7 +437,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 						ATTRIBUTE_SCHEDULE,
 						schedule
 				);
-				
+
 				jsonResponse.put(jsonEvent);
 			}
 			
@@ -582,9 +592,11 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 							ATTRIBUTE_CLASSNAME,
 							JournalArticle.class.getName()
 					);
+
+					String detailURL = LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay);
 					jsonArticle.put(
 							ATTRIBUTE_LINK,
-							LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay)
+							detailURL
 					);
 
 					String titleFr = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "title", Locale.FRANCE);
@@ -625,6 +637,19 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 					jsonArticle.put(
 							ATTRIBUTE_IMAGE_URL,
 							JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "thumbnail", Locale.FRANCE)
+					);
+					jsonArticle.put(
+							ATTRIBUTE_ID,
+							journalArticle.getArticleId()
+					);
+					jsonArticle.put(
+							ATTRIBUTE_TYPE,
+							detailURL.contains("/-/")?6:7
+					);
+
+					jsonArticle.put(
+							ATTRIBUTE_GROUP_ID,
+							themeDisplay.getScopeGroupId()
 					);
 
 					JSONObject types = JSONFactoryUtil.createJSONObject();
@@ -678,6 +703,15 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				jsonOfficial.put(
 						ATTRIBUTE_CATEGORIES,
 						JSONHelper.getJSONFromI18nMap(official.getTown().getTitleMap())
+				);
+
+				JSONObject titles = JSONFactoryUtil.createJSONObject();
+				titles.put(Locale.FRANCE.toString(), official.getFirstName() + " " + official.getLastName());
+				titles.put(Locale.GERMANY.toString(), official.getFirstName() + " " + official.getLastName());
+				titles.put(Locale.US.toString(), official.getFirstName() + " " + official.getLastName());
+				jsonOfficial.put(
+						ATTRIBUTE_TITLE,
+						titles
 				);
 
 				jsonResponse.put(jsonOfficial);
@@ -818,13 +852,18 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				);
 
 				jsonPlace.put(
+						ATTRIBUTE_ID,
+						place.getPlaceId()
+				);
+
+				jsonPlace.put(
 						ATTRIBUTE_LINK,
-						this.getHomeURL(request) + DETAIL_PLACE_URL + place.getPlaceId()
+						this.getHomeURL(request) + DETAIL_PLACE_URL + place.getSIGid()
 				);
 
 				jsonPlace.put(
 						ATTRIBUTE_LINK_ABSOLUTE,
-						themeDisplay.getPortalURL() + this.getHomeURL(request) + DETAIL_PLACE_URL + place.getPlaceId()
+						themeDisplay.getPortalURL() + this.getHomeURL(request) + DETAIL_PLACE_URL + place.getSIGid()
 				);
 
 				if(Validator.isNotNull(place.getCityCategory()))
@@ -832,6 +871,11 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 							ATTRIBUTE_CITY,
 							JSONHelper.getJSONFromI18nMap(place.getCityCategory().getTitleMap())
 					);
+
+				jsonPlace.put(
+						ATTRIBUTE_TITLE,
+						JSONHelper.getJSONFromI18nMap(place.getAliasMap())
+				);
 
 				JSONObject types = JSONFactoryUtil.createJSONObject();
 				types.put(Locale.FRANCE.toString(), place.getTypeLabel(Locale.FRANCE));
@@ -866,6 +910,11 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				jsonActivityCourse.put(
 						ATTRIBUTE_LINK_ABSOLUTE,
 						themeDisplay.getPortalURL() + this.getHomeURL(request) + DETAIL_COURSE_URL + activityCourse.getActivityCourseId()
+				);
+
+				jsonActivityCourse.put(
+						ATTRIBUTE_TITLE,
+						JSONHelper.getJSONFromI18nMap(activityCourse.getNameMap())
 				);
 
 				jsonActivityCourse.put(
