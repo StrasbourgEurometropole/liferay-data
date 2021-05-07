@@ -5,6 +5,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetTagModel;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalFolder;
@@ -123,7 +124,8 @@ public class VariousDataApplication extends Application {
         if(Validator.isNotNull(idsNews)) {
             for (String idNews : idsNews.split(",")) {
                 JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idNews));
-                if (journalArticle == null)
+                AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(), journalArticle.getResourcePrimKey());
+                if (journalArticle == null || !assetEntry.getTags().contains(tag))
                     jsonSuppr.put(idNews);
                 else if(journalArticle.getStatus() != WorkflowConstants.STATUS_APPROVED)
                     jsonSuppr.put(idNews);
