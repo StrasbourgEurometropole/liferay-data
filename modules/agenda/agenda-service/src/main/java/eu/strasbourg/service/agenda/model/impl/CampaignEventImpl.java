@@ -698,6 +698,14 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		}
 		jsonEvent.put("periods", periodsJSON);
 
+		// Inscription
+		jsonEvent.put("registration", this.getRegistration());
+
+		// JaugeMax
+		if(this.getRegistration()) {
+			jsonEvent.put("maxGauge", this.getMaxGauge());
+		}
+
 		// Manifestations
 		JSONArray jsonManifestations = JSONFactoryUtil.createJSONArray();
 		for (String manifestationId : this.getManifestationsIds().split(",")) {

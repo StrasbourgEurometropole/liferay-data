@@ -241,6 +241,24 @@
 				
 			</aui:fieldset>
 
+			<aui:fieldset collapsed="true" collapsible="true" label="registration" >
+                <%-- Champ : Inscription ou non   --%>
+                <aui:input type="radio" value="1" name="registrationValue" class="registrationTrue" label="registrationTrue"
+                    checked="${not empty dc.event and dc.event.registration}" />
+                <aui:input type="radio" value="0" name="registrationValue" class="registrationFalse" label="registrationFalse"
+                    checked="${empty dc.event or !dc.event.registration}" />
+
+                <%-- Champ : Nombre jauge max   --%>
+                <div id="maxGaugeDiv">
+                    <aui:input name="maxGauge" id="maxGauge" label="maxGauge" type="text" >
+                        <aui:validator name="number" />
+                        <aui:validator name="required"
+                            errorMessage="this-field-is-required" />
+                        <aui:validator name="range">[0,99999]</aui:validator>
+                     </aui:input>
+                 </div>
+			</aui:fieldset>
+
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="categorization">
 

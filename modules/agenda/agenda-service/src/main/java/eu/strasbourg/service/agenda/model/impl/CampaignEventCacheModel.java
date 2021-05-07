@@ -66,7 +66,7 @@ public class CampaignEventCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(93);
+		StringBundler sb = new StringBundler(97);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -160,6 +160,10 @@ public class CampaignEventCacheModel
 		sb.append(bookingDescription);
 		sb.append(", bookingURL=");
 		sb.append(bookingURL);
+		sb.append(", registration=");
+		sb.append(registration);
+		sb.append(", maxGauge=");
+		sb.append(maxGauge);
 		sb.append("}");
 
 		return sb.toString();
@@ -432,6 +436,9 @@ public class CampaignEventCacheModel
 			campaignEventImpl.setBookingURL(bookingURL);
 		}
 
+		campaignEventImpl.setRegistration(registration);
+		campaignEventImpl.setMaxGauge(maxGauge);
+
 		campaignEventImpl.resetOriginalValues();
 
 		return campaignEventImpl;
@@ -496,6 +503,10 @@ public class CampaignEventCacheModel
 		publicsIds = objectInput.readUTF();
 		bookingDescription = objectInput.readUTF();
 		bookingURL = objectInput.readUTF();
+
+		registration = objectInput.readBoolean();
+
+		maxGauge = objectInput.readLong();
 	}
 
 	@Override
@@ -749,6 +760,10 @@ public class CampaignEventCacheModel
 		else {
 			objectOutput.writeUTF(bookingURL);
 		}
+
+		objectOutput.writeBoolean(registration);
+
+		objectOutput.writeLong(maxGauge);
 	}
 
 	public String uuid;
@@ -797,5 +812,7 @@ public class CampaignEventCacheModel
 	public String publicsIds;
 	public String bookingDescription;
 	public String bookingURL;
+	public boolean registration;
+	public long maxGauge;
 
 }

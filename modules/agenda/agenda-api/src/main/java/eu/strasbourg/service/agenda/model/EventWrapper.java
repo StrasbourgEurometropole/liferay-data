@@ -114,6 +114,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("createDateSource", getCreateDateSource());
 		attributes.put("modifiedDateSource", getModifiedDateSource());
 		attributes.put("imageId", getImageId());
+		attributes.put("registration", isRegistration());
+		attributes.put("maxGauge", getMaxGauge());
 
 		return attributes;
 	}
@@ -458,6 +460,18 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 
 		if (imageId != null) {
 			setImageId(imageId);
+		}
+
+		Boolean registration = (Boolean)attributes.get("registration");
+
+		if (registration != null) {
+			setRegistration(registration);
+		}
+
+		Long maxGauge = (Long)attributes.get("maxGauge");
+
+		if (maxGauge != null) {
+			setMaxGauge(maxGauge);
 		}
 	}
 
@@ -1286,6 +1300,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	 * Returns the max gauge of this event.
+	 *
+	 * @return the max gauge of this event
+	 */
+	@Override
+	public long getMaxGauge() {
+		return _event.getMaxGauge();
+	}
+
+	/**
 	 * Retourne les coordonnees mercator en axe X et Y Notes : permet de ne pas
 	 * multiplier les appels
 	 *
@@ -1762,6 +1786,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		getPublishedManifestations() {
 
 		return _event.getPublishedManifestations();
+	}
+
+	/**
+	 * Returns the registration of this event.
+	 *
+	 * @return the registration of this event
+	 */
+	@Override
+	public boolean getRegistration() {
+		return _event.getRegistration();
 	}
 
 	/**
@@ -2412,6 +2446,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	 * Returns <code>true</code> if this event is registration.
+	 *
+	 * @return <code>true</code> if this event is registration; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isRegistration() {
+		return _event.isRegistration();
+	}
+
+	/**
 	 * Returns <code>true</code> if this event is scheduled.
 	 *
 	 * @return <code>true</code> if this event is scheduled; <code>false</code> otherwise
@@ -3049,6 +3093,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	 * Sets the max gauge of this event.
+	 *
+	 * @param maxGauge the max gauge of this event
+	 */
+	@Override
+	public void setMaxGauge(long maxGauge) {
+		_event.setMaxGauge(maxGauge);
+	}
+
+	/**
 	 * Sets the modified date of this event.
 	 *
 	 * @param modifiedDate the modified date of this event
@@ -3370,6 +3424,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setPublicationDate(Date publicationDate) {
 		_event.setPublicationDate(publicationDate);
+	}
+
+	/**
+	 * Sets whether this event is registration.
+	 *
+	 * @param registration the registration of this event
+	 */
+	@Override
+	public void setRegistration(boolean registration) {
+		_event.setRegistration(registration);
 	}
 
 	/**

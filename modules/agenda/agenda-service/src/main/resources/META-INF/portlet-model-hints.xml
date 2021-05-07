@@ -118,6 +118,8 @@
 		<field name="bookingURL" type="String">
 			<hint name="max-length">400</hint>
 		</field>
+		<field name="registration" type="boolean" />
+		<field name="maxGauge" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.CampaignEventStatus">
 		<field name="uuid" type="String" />
@@ -224,6 +226,8 @@
 		<field name="createDateSource" type="Date" />
 		<field name="modifiedDateSource" type="Date" />
 		<field name="imageId" type="Long" />
+		<field name="registration" type="boolean" />
+		<field name="maxGauge" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.EventParticipation">
 		<field name="eventParticipationId" type="long" />

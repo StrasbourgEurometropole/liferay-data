@@ -336,6 +336,15 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				}
 			}
 
+			// Champ : Inscription
+			boolean inscription = ParamUtil.getBoolean(request,
+					"registrationValue");
+			event.setRegistration(inscription);
+
+			// Champ : JaugeMax
+			Long jaugeMax = ParamUtil.getLong(request, "maxGauge");
+			event.setMaxGauge(jaugeMax);
+
 			_eventLocalService.updateEvent(event, sc);
 
 		} catch (PortalException e) {

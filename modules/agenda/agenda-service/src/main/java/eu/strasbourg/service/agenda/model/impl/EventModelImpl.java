@@ -116,7 +116,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		{"concertId", Types.VARCHAR}, {"program", Types.CLOB},
 		{"firstStartDate", Types.TIMESTAMP}, {"lastEndDate", Types.TIMESTAMP},
 		{"createDateSource", Types.TIMESTAMP},
-		{"modifiedDateSource", Types.TIMESTAMP}, {"imageId", Types.BIGINT}
+		{"modifiedDateSource", Types.TIMESTAMP}, {"imageId", Types.BIGINT},
+		{"registration", Types.BOOLEAN}, {"maxGauge", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -179,10 +180,12 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("createDateSource", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDateSource", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("registration", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("maxGauge", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(400) null,subscriptionURL VARCHAR(400) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution STRING null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program TEXT null,firstStartDate DATE null,lastEndDate DATE null,createDateSource DATE null,modifiedDateSource DATE null,imageId LONG)";
+		"create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(400) null,subscriptionURL VARCHAR(400) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution STRING null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program TEXT null,firstStartDate DATE null,lastEndDate DATE null,createDateSource DATE null,modifiedDateSource DATE null,imageId LONG,registration BOOLEAN,maxGauge LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 
@@ -306,6 +309,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		model.setCreateDateSource(soapModel.getCreateDateSource());
 		model.setModifiedDateSource(soapModel.getModifiedDateSource());
 		model.setImageId(soapModel.getImageId());
+		model.setRegistration(soapModel.isRegistration());
+		model.setMaxGauge(soapModel.getMaxGauge());
 
 		return model;
 	}
@@ -1591,6 +1596,46 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 				@Override
 				public void accept(Event event, Object imageId) {
 					event.setImageId((Long)imageId);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"registration",
+			new Function<Event, Object>() {
+
+				@Override
+				public Object apply(Event event) {
+					return event.getRegistration();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"registration",
+			new BiConsumer<Event, Object>() {
+
+				@Override
+				public void accept(Event event, Object registration) {
+					event.setRegistration((Boolean)registration);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"maxGauge",
+			new Function<Event, Object>() {
+
+				@Override
+				public Object apply(Event event) {
+					return event.getMaxGauge();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"maxGauge",
+			new BiConsumer<Event, Object>() {
+
+				@Override
+				public void accept(Event event, Object maxGauge) {
+					event.setMaxGauge((Long)maxGauge);
 				}
 
 			});
@@ -3641,6 +3686,34 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		_imageId = imageId;
 	}
 
+	@JSON
+	@Override
+	public boolean getRegistration() {
+		return _registration;
+	}
+
+	@JSON
+	@Override
+	public boolean isRegistration() {
+		return _registration;
+	}
+
+	@Override
+	public void setRegistration(boolean registration) {
+		_registration = registration;
+	}
+
+	@JSON
+	@Override
+	public long getMaxGauge() {
+		return _maxGauge;
+	}
+
+	@Override
+	public void setMaxGauge(long maxGauge) {
+		_maxGauge = maxGauge;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
@@ -4119,6 +4192,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		eventImpl.setCreateDateSource(getCreateDateSource());
 		eventImpl.setModifiedDateSource(getModifiedDateSource());
 		eventImpl.setImageId(getImageId());
+		eventImpl.setRegistration(isRegistration());
+		eventImpl.setMaxGauge(getMaxGauge());
 
 		eventImpl.resetOriginalValues();
 
@@ -4590,6 +4665,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 		eventCacheModel.imageId = getImageId();
 
+		eventCacheModel.registration = isRegistration();
+
+		eventCacheModel.maxGauge = getMaxGauge();
+
 		return eventCacheModel;
 	}
 
@@ -4740,6 +4819,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private Date _createDateSource;
 	private Date _modifiedDateSource;
 	private Long _imageId;
+	private boolean _registration;
+	private long _maxGauge;
 	private long _columnBitmask;
 	private Event _escapedModel;
 

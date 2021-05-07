@@ -94,6 +94,10 @@
         <column name="eventPeriods" type="Collection" entity="EventPeriod"/>
         <column name="manifestations" type="Collection" entity="Manifestation" mapping-table="EventToManifestation" />
 
+		<!-- Inscription -->
+		<column name="registration" type="boolean" />
+		<column name="maxGauge" type="long" />
+
 		<!-- Order -->
 		<order by="desc">
 			<order-column name="modifiedDate" />
@@ -349,6 +353,10 @@
 		<column name="publicsIds" type="String" />
 		<column name="bookingDescription" type="String" localized="true" />
 		<column name="bookingURL" type="String" />
+
+		<!-- Inscription -->
+		<column name="registration" type="boolean" />
+		<column name="maxGauge" type="long" />
 
 		<!-- Finder methods -->
 		<finder name="CampaignId" return-type="Collection">

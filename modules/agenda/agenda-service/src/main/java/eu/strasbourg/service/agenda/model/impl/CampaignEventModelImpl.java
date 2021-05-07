@@ -104,7 +104,8 @@ public class CampaignEventModelImpl
 		{"price", Types.CLOB}, {"campaignId", Types.BIGINT},
 		{"themesIds", Types.VARCHAR}, {"typesIds", Types.VARCHAR},
 		{"publicsIds", Types.VARCHAR}, {"bookingDescription", Types.CLOB},
-		{"bookingURL", Types.VARCHAR}
+		{"bookingURL", Types.VARCHAR}, {"registration", Types.BOOLEAN},
+		{"maxGauge", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -157,10 +158,12 @@ public class CampaignEventModelImpl
 		TABLE_COLUMNS_MAP.put("publicsIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("bookingDescription", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("bookingURL", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("registration", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("maxGauge", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_CampaignEvent (uuid_ VARCHAR(75) null,campaignEventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,firstName VARCHAR(75) null,lastName VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,serviceId LONG,service VARCHAR(75) null,onSiteFirstName VARCHAR(75) null,onSiteLastName VARCHAR(75) null,onSitePhone VARCHAR(75) null,title STRING null,subtitle STRING null,description TEXT null,imageId LONG,webImageId LONG,imageOwner VARCHAR(75) null,manifestationsIds VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,placeCountry VARCHAR(75) null,promoter VARCHAR(75) null,publicPhone VARCHAR(75) null,publicEmail VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,campaignId LONG,themesIds VARCHAR(75) null,typesIds VARCHAR(75) null,publicsIds VARCHAR(75) null,bookingDescription TEXT null,bookingURL VARCHAR(400) null)";
+		"create table agenda_CampaignEvent (uuid_ VARCHAR(75) null,campaignEventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,firstName VARCHAR(75) null,lastName VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,serviceId LONG,service VARCHAR(75) null,onSiteFirstName VARCHAR(75) null,onSiteLastName VARCHAR(75) null,onSitePhone VARCHAR(75) null,title STRING null,subtitle STRING null,description TEXT null,imageId LONG,webImageId LONG,imageOwner VARCHAR(75) null,manifestationsIds VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,placeCountry VARCHAR(75) null,promoter VARCHAR(75) null,publicPhone VARCHAR(75) null,publicEmail VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,campaignId LONG,themesIds VARCHAR(75) null,typesIds VARCHAR(75) null,publicsIds VARCHAR(75) null,bookingDescription TEXT null,bookingURL VARCHAR(400) null,registration BOOLEAN,maxGauge LONG)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table agenda_CampaignEvent";
@@ -1327,6 +1330,50 @@ public class CampaignEventModelImpl
 					CampaignEvent campaignEvent, Object bookingURL) {
 
 					campaignEvent.setBookingURL((String)bookingURL);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"registration",
+			new Function<CampaignEvent, Object>() {
+
+				@Override
+				public Object apply(CampaignEvent campaignEvent) {
+					return campaignEvent.getRegistration();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"registration",
+			new BiConsumer<CampaignEvent, Object>() {
+
+				@Override
+				public void accept(
+					CampaignEvent campaignEvent, Object registration) {
+
+					campaignEvent.setRegistration((Boolean)registration);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"maxGauge",
+			new Function<CampaignEvent, Object>() {
+
+				@Override
+				public Object apply(CampaignEvent campaignEvent) {
+					return campaignEvent.getMaxGauge();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"maxGauge",
+			new BiConsumer<CampaignEvent, Object>() {
+
+				@Override
+				public void accept(
+					CampaignEvent campaignEvent, Object maxGauge) {
+
+					campaignEvent.setMaxGauge((Long)maxGauge);
 				}
 
 			});
@@ -2763,6 +2810,31 @@ public class CampaignEventModelImpl
 	}
 
 	@Override
+	public boolean getRegistration() {
+		return _registration;
+	}
+
+	@Override
+	public boolean isRegistration() {
+		return _registration;
+	}
+
+	@Override
+	public void setRegistration(boolean registration) {
+		_registration = registration;
+	}
+
+	@Override
+	public long getMaxGauge() {
+		return _maxGauge;
+	}
+
+	@Override
+	public void setMaxGauge(long maxGauge) {
+		_maxGauge = maxGauge;
+	}
+
+	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
 			PortalUtil.getClassNameId(CampaignEvent.class.getName()));
@@ -3063,6 +3135,8 @@ public class CampaignEventModelImpl
 		campaignEventImpl.setPublicsIds(getPublicsIds());
 		campaignEventImpl.setBookingDescription(getBookingDescription());
 		campaignEventImpl.setBookingURL(getBookingURL());
+		campaignEventImpl.setRegistration(isRegistration());
+		campaignEventImpl.setMaxGauge(getMaxGauge());
 
 		campaignEventImpl.resetOriginalValues();
 
@@ -3459,6 +3533,10 @@ public class CampaignEventModelImpl
 			campaignEventCacheModel.bookingURL = null;
 		}
 
+		campaignEventCacheModel.registration = isRegistration();
+
+		campaignEventCacheModel.maxGauge = getMaxGauge();
+
 		return campaignEventCacheModel;
 	}
 
@@ -3590,6 +3668,8 @@ public class CampaignEventModelImpl
 	private String _bookingDescription;
 	private String _bookingDescriptionCurrentLanguageId;
 	private String _bookingURL;
+	private boolean _registration;
+	private long _maxGauge;
 	private long _columnBitmask;
 	private CampaignEvent _escapedModel;
 

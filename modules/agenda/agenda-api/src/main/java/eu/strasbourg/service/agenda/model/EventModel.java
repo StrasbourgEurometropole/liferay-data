@@ -1970,6 +1970,41 @@ public interface EventModel
 	public void setImageId(Long imageId);
 
 	/**
+	 * Returns the registration of this event.
+	 *
+	 * @return the registration of this event
+	 */
+	public boolean getRegistration();
+
+	/**
+	 * Returns <code>true</code> if this event is registration.
+	 *
+	 * @return <code>true</code> if this event is registration; <code>false</code> otherwise
+	 */
+	public boolean isRegistration();
+
+	/**
+	 * Sets whether this event is registration.
+	 *
+	 * @param registration the registration of this event
+	 */
+	public void setRegistration(boolean registration);
+
+	/**
+	 * Returns the max gauge of this event.
+	 *
+	 * @return the max gauge of this event
+	 */
+	public long getMaxGauge();
+
+	/**
+	 * Sets the max gauge of this event.
+	 *
+	 * @param maxGauge the max gauge of this event
+	 */
+	public void setMaxGauge(long maxGauge);
+
+	/**
 	 * Returns <code>true</code> if this event is approved.
 	 *
 	 * @return <code>true</code> if this event is approved; <code>false</code> otherwise

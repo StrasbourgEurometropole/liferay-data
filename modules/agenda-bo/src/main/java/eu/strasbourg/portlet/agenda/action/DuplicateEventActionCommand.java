@@ -151,6 +151,10 @@ public class DuplicateEventActionCommand implements MVCActionCommand {
 				this._eventPeriodLocalService.updateEventPeriod(eventPeriod);
 			}
 
+			// Inscription
+			event.setRegistration(oldEvent.getRegistration());
+			event.setMaxGauge(oldEvent.getMaxGauge());
+
 			// Catégories
 			long[] oldEventCategoryIds = oldEvent.getCategories().stream()
 				.mapToLong(AssetCategory::getCategoryId).toArray();

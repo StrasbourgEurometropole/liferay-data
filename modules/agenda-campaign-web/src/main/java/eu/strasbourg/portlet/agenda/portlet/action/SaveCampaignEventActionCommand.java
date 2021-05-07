@@ -282,6 +282,15 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			campaignEvent.setWebsiteURLMap(websiteURL);
 			campaignEvent.setWebsiteNameMap(websiteName);
 
+			// Champ : Inscription
+			boolean inscription = ParamUtil.getBoolean(request,
+					"registrationValue");
+			campaignEvent.setRegistration(inscription);
+
+			// Champ : JaugeMax
+			Long jaugeMax = ParamUtil.getLong(request, "maxGauge");
+			campaignEvent.setMaxGauge(jaugeMax);
+
 			/**
 			 * Dates et horaires
 			 */

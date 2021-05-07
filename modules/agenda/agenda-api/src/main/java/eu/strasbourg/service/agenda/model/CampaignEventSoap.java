@@ -80,6 +80,8 @@ public class CampaignEventSoap implements Serializable {
 		soapModel.setPublicsIds(model.getPublicsIds());
 		soapModel.setBookingDescription(model.getBookingDescription());
 		soapModel.setBookingURL(model.getBookingURL());
+		soapModel.setRegistration(model.isRegistration());
+		soapModel.setMaxGauge(model.getMaxGauge());
 
 		return soapModel;
 	}
@@ -501,6 +503,26 @@ public class CampaignEventSoap implements Serializable {
 		_bookingURL = bookingURL;
 	}
 
+	public boolean getRegistration() {
+		return _registration;
+	}
+
+	public boolean isRegistration() {
+		return _registration;
+	}
+
+	public void setRegistration(boolean registration) {
+		_registration = registration;
+	}
+
+	public long getMaxGauge() {
+		return _maxGauge;
+	}
+
+	public void setMaxGauge(long maxGauge) {
+		_maxGauge = maxGauge;
+	}
+
 	private String _uuid;
 	private long _campaignEventId;
 	private long _groupId;
@@ -547,5 +569,7 @@ public class CampaignEventSoap implements Serializable {
 	private String _publicsIds;
 	private String _bookingDescription;
 	private String _bookingURL;
+	private boolean _registration;
+	private long _maxGauge;
 
 }

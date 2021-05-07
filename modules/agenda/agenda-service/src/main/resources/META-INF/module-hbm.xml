@@ -118,6 +118,8 @@
 		<property name="publicsIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="bookingDescription" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="bookingURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="registration" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="maxGauge" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.CampaignEventStatusImpl" table="agenda_CampaignEventStatus">
 		<id name="statusId" type="long">
@@ -192,6 +194,8 @@
 		<property name="createDateSource" type="org.hibernate.type.TimestampType" />
 		<property name="modifiedDateSource" type="org.hibernate.type.TimestampType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="registration" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="maxGauge" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.EventParticipationImpl" table="agenda_EventParticipation">
 		<id name="eventParticipationId" type="long">

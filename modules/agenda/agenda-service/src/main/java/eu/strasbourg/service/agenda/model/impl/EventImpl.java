@@ -831,6 +831,14 @@ public class EventImpl extends EventBaseImpl {
 
 		jsonEvent.put("periods", periodsJSON);
 
+		// Inscription
+		jsonEvent.put("registration", this.getRegistration());
+
+		// JaugeMax
+		if(this.getRegistration()) {
+			jsonEvent.put("maxGauge", this.getMaxGauge());
+		}
+
 		JSONArray jsonManifestations = JSONFactoryUtil.createJSONArray();
 		for (Manifestation manifestation : this.getPublishedManifestations()) {
 			jsonManifestations.put(manifestation.getManifestationId());

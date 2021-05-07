@@ -888,6 +888,12 @@ public class AgendaImporter {
 				}
 				event.setBookingURL(jsonBookingURL);
 
+				event.setRegistration(jsonEvent.getBoolean("registration"));
+				Long maxGauge = jsonEvent.getLong("maxGauge");
+				if (Validator.isNotNull(maxGauge)) {
+					event.setMaxGauge(maxGauge);
+				}
+
 				// Lieu
 				if (Validator.isNotNull(placeSIGId)) {
 					event.setPlaceSIGId(placeSIGId);

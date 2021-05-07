@@ -105,6 +105,8 @@ public class CampaignEventWrapper
 		attributes.put("publicsIds", getPublicsIds());
 		attributes.put("bookingDescription", getBookingDescription());
 		attributes.put("bookingURL", getBookingURL());
+		attributes.put("registration", isRegistration());
+		attributes.put("maxGauge", getMaxGauge());
 
 		return attributes;
 	}
@@ -386,6 +388,18 @@ public class CampaignEventWrapper
 
 		if (bookingURL != null) {
 			setBookingURL(bookingURL);
+		}
+
+		Boolean registration = (Boolean)attributes.get("registration");
+
+		if (registration != null) {
+			setRegistration(registration);
+		}
+
+		Long maxGauge = (Long)attributes.get("maxGauge");
+
+		if (maxGauge != null) {
+			setMaxGauge(maxGauge);
 		}
 	}
 
@@ -761,6 +775,16 @@ public class CampaignEventWrapper
 	}
 
 	/**
+	 * Returns the max gauge of this campaign event.
+	 *
+	 * @return the max gauge of this campaign event
+	 */
+	@Override
+	public long getMaxGauge() {
+		return _campaignEvent.getMaxGauge();
+	}
+
+	/**
 	 * Returns the modified date of this campaign event.
 	 *
 	 * @return the modified date of this campaign event
@@ -1111,6 +1135,16 @@ public class CampaignEventWrapper
 	@Override
 	public String getPublicsIds() {
 		return _campaignEvent.getPublicsIds();
+	}
+
+	/**
+	 * Returns the registration of this campaign event.
+	 *
+	 * @return the registration of this campaign event
+	 */
+	@Override
+	public boolean getRegistration() {
+		return _campaignEvent.getRegistration();
 	}
 
 	/**
@@ -1602,6 +1636,16 @@ public class CampaignEventWrapper
 	}
 
 	/**
+	 * Returns <code>true</code> if this campaign event is registration.
+	 *
+	 * @return <code>true</code> if this campaign event is registration; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isRegistration() {
+		return _campaignEvent.isRegistration();
+	}
+
+	/**
 	 * Retourne true si l'utilisateur est manager de la campagne à laquelle
 	 * appartient l'événement
 	 */
@@ -1952,6 +1996,16 @@ public class CampaignEventWrapper
 	}
 
 	/**
+	 * Sets the max gauge of this campaign event.
+	 *
+	 * @param maxGauge the max gauge of this campaign event
+	 */
+	@Override
+	public void setMaxGauge(long maxGauge) {
+		_campaignEvent.setMaxGauge(maxGauge);
+	}
+
+	/**
 	 * Sets the modified date of this campaign event.
 	 *
 	 * @param modifiedDate the modified date of this campaign event
@@ -2248,6 +2302,16 @@ public class CampaignEventWrapper
 	@Override
 	public void setPublicsIds(String publicsIds) {
 		_campaignEvent.setPublicsIds(publicsIds);
+	}
+
+	/**
+	 * Sets whether this campaign event is registration.
+	 *
+	 * @param registration the registration of this campaign event
+	 */
+	@Override
+	public void setRegistration(boolean registration) {
+		_campaignEvent.setRegistration(registration);
 	}
 
 	/**

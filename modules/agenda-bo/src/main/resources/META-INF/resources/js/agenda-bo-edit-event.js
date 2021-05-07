@@ -57,6 +57,25 @@ jQuery(function() {
 					rules[namespace + 'externalImageURL'].required = true;
 					rules[namespace + 'externalImageCopyright'].required = true;
 				}
+
+                var registration = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[0];
+                if(registration.checked){
+					rules[namespace + 'maxGauge'].required = true;
+                } else {
+					rules[namespace + 'maxGauge'].required = false;
+                }
+                var registrationTrue = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[0];
+                var registrationFalse = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[1];
+                if(registrationTrue.checked){
+                    var maxGaugeDiv = document.getElementById("maxGaugeDiv");
+                    rules[namespace + 'maxGauge'].required = true;
+                    maxGaugeDiv.style.display = "block";
+                }
+                if(registrationFalse.checked) {
+                    var maxGaugeDiv = document.getElementById("maxGaugeDiv");
+                    rules[namespace + 'maxGauge'].required = false;
+                    maxGaugeDiv.style.display = "none";
+                }
 			}
 		});
 		
@@ -313,3 +332,18 @@ jQuery(function() {
 				options);
 	}
 });
+
+var registrationTrue = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[0];
+var registrationFalse = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[1];
+registrationTrue.onchange = function(){
+    var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
+    var maxGaugeDiv = document.getElementById("maxGaugeDiv");
+    rules[namespace + 'maxGauge'].required = true;
+    maxGaugeDiv.style.display = "block";
+};
+registrationFalse.onchange = function(){
+    var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
+    var maxGaugeDiv = document.getElementById("maxGaugeDiv");
+    rules[namespace + 'maxGauge'].required = false;
+    maxGaugeDiv.style.display = "none";
+};
