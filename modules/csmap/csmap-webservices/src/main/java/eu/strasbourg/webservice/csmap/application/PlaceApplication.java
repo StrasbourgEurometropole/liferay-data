@@ -2,6 +2,7 @@ package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -223,10 +224,16 @@ public class PlaceApplication extends Application {
 				} else
 					pictoURL = pictoDefaultURL;
 
-				if (lastUpdateTime.before(categ.getCreateDate()))
-					jsonAjout.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, true));
-				else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
-					jsonModif.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
+				try {
+					String categoryGradientStart = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(categ.getCategoryId(), "csmap_gradient_start").getValue();
+					String categoryGradientEnd = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(categ.getCategoryId(), "csmap_gradient_end").getValue();
+					if (Validator.isNotNull(categoryGradientStart) && Validator.isNotNull(categoryGradientEnd)) {
+						if (lastUpdateTime.before(categ.getCreateDate()))
+							jsonAjout.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, true));
+						else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
+							jsonModif.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
+					}
+				} catch (PortalException e){/* Ne rien ajouter*/}
 
 			}
 
@@ -239,8 +246,18 @@ public class PlaceApplication extends Application {
 			if(Validator.isNotNull(idsCategory)) {
 				if (Validator.isNotNull(placeTypeVocabulary))
 					for (String idCategory : idsCategory.split(",")) {
-						if (AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null)
+						AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory);
+						if (Validator.isNull(category)) {
 							jsonSuppr.put(idCategory);
+						}
+						else {
+							try {
+								String categoryGradientStart = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_start").getValue();
+								String categoryGradientEnd = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_end").getValue();
+							} catch (PortalException e) {
+								jsonSuppr.put(idCategory);
+							}
+						}
 					}
 			}
 			json.put(WSConstants.JSON_DELETE, jsonSuppr);

@@ -14,11 +14,14 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.service.WSPlace;
 
 import java.text.DateFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CSMapJSonHelper {
     static public JSONObject categoryCSMapJSON(AssetCategory category, String urlPicto, boolean maj) {
@@ -41,10 +44,16 @@ public class CSMapJSonHelper {
             String gradient_start = "#939393";
             String gradient_end = "#CECFCF";
             try {
-                gradient_start = "#"+AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_start").getValue();
+                String gradient = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_start").getValue();
+                if(WSPlace.isValidHexaCode(gradient)){
+                    gradient_start = "#"+gradient;
+                }
             } catch(PortalException e){/* Using the default value */}
             try {
-                gradient_end = "#"+AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_end").getValue();
+                String gradient = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_end").getValue();
+                if(WSPlace.isValidHexaCode(gradient)){
+                    gradient_end = "#"+gradient;
+                }
             } catch(PortalException e){/* Using the default value */}
             colorJSON.put(WSConstants.JSON_COLOR_GRADIENT_START, gradient_start);
             colorJSON.put(WSConstants.JSON_COLOR_GRADIENT_END, gradient_end);
