@@ -52,7 +52,7 @@
         },
         {
             "label": {
-                "fr_FR": "Pictogramme"
+                "fr_FR": "Pictogramme (Format PNG, fond transparent, taille 128*128)"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -61,7 +61,7 @@
                 "fr_FR": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "Pictogramme (Format PNG, fond transparent, taille 128*128)"
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
