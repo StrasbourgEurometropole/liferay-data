@@ -287,9 +287,24 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 					"registrationValue");
 			campaignEvent.setRegistration(inscription);
 
-			// Champ : JaugeMax
-			Long jaugeMax = ParamUtil.getLong(request, "maxGauge");
-			campaignEvent.setMaxGauge(jaugeMax);
+			if(inscription){
+				// Champs : Registration start/end date
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				Date registrationStartDate = ParamUtil.getDate(request,
+						"registrationStartDate", dateFormat);
+				Date registrationEndDate = ParamUtil.getDate(request,
+						"registrationEndDate", dateFormat);
+				campaignEvent.setRegistrationStartDate(registrationStartDate);
+				campaignEvent.setRegistrationEndDate(registrationEndDate);
+
+				// Champ : JaugeMax
+				Long jaugeMax = ParamUtil.getLong(request, "maxGauge");
+				campaignEvent.setMaxGauge(jaugeMax);
+			} else {
+				campaignEvent.setRegistrationStartDate(null);
+				campaignEvent.setRegistrationEndDate(null);
+				campaignEvent.setMaxGauge(0);
+			}
 
 			/**
 			 * Dates et horaires

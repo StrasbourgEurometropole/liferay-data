@@ -106,6 +106,8 @@ public class CampaignEventWrapper
 		attributes.put("bookingDescription", getBookingDescription());
 		attributes.put("bookingURL", getBookingURL());
 		attributes.put("registration", isRegistration());
+		attributes.put("registrationStartDate", getRegistrationStartDate());
+		attributes.put("registrationEndDate", getRegistrationEndDate());
 		attributes.put("maxGauge", getMaxGauge());
 
 		return attributes;
@@ -394,6 +396,19 @@ public class CampaignEventWrapper
 
 		if (registration != null) {
 			setRegistration(registration);
+		}
+
+		Date registrationStartDate = (Date)attributes.get(
+			"registrationStartDate");
+
+		if (registrationStartDate != null) {
+			setRegistrationStartDate(registrationStartDate);
+		}
+
+		Date registrationEndDate = (Date)attributes.get("registrationEndDate");
+
+		if (registrationEndDate != null) {
+			setRegistrationEndDate(registrationEndDate);
 		}
 
 		Long maxGauge = (Long)attributes.get("maxGauge");
@@ -1145,6 +1160,26 @@ public class CampaignEventWrapper
 	@Override
 	public boolean getRegistration() {
 		return _campaignEvent.getRegistration();
+	}
+
+	/**
+	 * Returns the registration end date of this campaign event.
+	 *
+	 * @return the registration end date of this campaign event
+	 */
+	@Override
+	public Date getRegistrationEndDate() {
+		return _campaignEvent.getRegistrationEndDate();
+	}
+
+	/**
+	 * Returns the registration start date of this campaign event.
+	 *
+	 * @return the registration start date of this campaign event
+	 */
+	@Override
+	public Date getRegistrationStartDate() {
+		return _campaignEvent.getRegistrationStartDate();
 	}
 
 	/**
@@ -2312,6 +2347,26 @@ public class CampaignEventWrapper
 	@Override
 	public void setRegistration(boolean registration) {
 		_campaignEvent.setRegistration(registration);
+	}
+
+	/**
+	 * Sets the registration end date of this campaign event.
+	 *
+	 * @param registrationEndDate the registration end date of this campaign event
+	 */
+	@Override
+	public void setRegistrationEndDate(Date registrationEndDate) {
+		_campaignEvent.setRegistrationEndDate(registrationEndDate);
+	}
+
+	/**
+	 * Sets the registration start date of this campaign event.
+	 *
+	 * @param registrationStartDate the registration start date of this campaign event
+	 */
+	@Override
+	public void setRegistrationStartDate(Date registrationStartDate) {
+		_campaignEvent.setRegistrationStartDate(registrationStartDate);
 	}
 
 	/**

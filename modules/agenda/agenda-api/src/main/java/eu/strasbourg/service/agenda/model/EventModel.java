@@ -1991,6 +1991,34 @@ public interface EventModel
 	public void setRegistration(boolean registration);
 
 	/**
+	 * Returns the registration start date of this event.
+	 *
+	 * @return the registration start date of this event
+	 */
+	public Date getRegistrationStartDate();
+
+	/**
+	 * Sets the registration start date of this event.
+	 *
+	 * @param registrationStartDate the registration start date of this event
+	 */
+	public void setRegistrationStartDate(Date registrationStartDate);
+
+	/**
+	 * Returns the registration end date of this event.
+	 *
+	 * @return the registration end date of this event
+	 */
+	public Date getRegistrationEndDate();
+
+	/**
+	 * Sets the registration end date of this event.
+	 *
+	 * @param registrationEndDate the registration end date of this event
+	 */
+	public void setRegistrationEndDate(Date registrationEndDate);
+
+	/**
 	 * Returns the max gauge of this event.
 	 *
 	 * @return the max gauge of this event

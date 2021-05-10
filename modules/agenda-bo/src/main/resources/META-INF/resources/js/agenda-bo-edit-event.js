@@ -59,22 +59,17 @@ jQuery(function() {
 				}
 
                 var registration = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[0];
+                var registrationDiv = document.getElementById("registrationDiv");
                 if(registration.checked){
 					rules[namespace + 'maxGauge'].required = true;
+                    rules[namespace + 'registrationStartDate'].required = true;
+                    rules[namespace + 'registrationEndDate'].required = true;
+                    registrationDiv.style.display = "block";
                 } else {
 					rules[namespace + 'maxGauge'].required = false;
-                }
-                var registrationTrue = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[0];
-                var registrationFalse = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[1];
-                if(registrationTrue.checked){
-                    var maxGaugeDiv = document.getElementById("maxGaugeDiv");
-                    rules[namespace + 'maxGauge'].required = true;
-                    maxGaugeDiv.style.display = "block";
-                }
-                if(registrationFalse.checked) {
-                    var maxGaugeDiv = document.getElementById("maxGaugeDiv");
-                    rules[namespace + 'maxGauge'].required = false;
-                    maxGaugeDiv.style.display = "none";
+                    rules[namespace + 'registrationStartDate'].required = false;
+                    rules[namespace + 'registrationEndDate'].required = false;
+                    registrationDiv.style.display = "none";
                 }
 			}
 		});
@@ -335,15 +330,18 @@ jQuery(function() {
 
 var registrationTrue = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[0];
 var registrationFalse = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[1];
+var registrationDiv = document.getElementById("registrationDiv");
 registrationTrue.onchange = function(){
     var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
-    var maxGaugeDiv = document.getElementById("maxGaugeDiv");
     rules[namespace + 'maxGauge'].required = true;
-    maxGaugeDiv.style.display = "block";
+    rules[namespace + 'registrationStartDate'].required = true;
+    rules[namespace + 'registrationEndDate'].required = true;
+    registrationDiv.style.display = "block";
 };
 registrationFalse.onchange = function(){
     var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
-    var maxGaugeDiv = document.getElementById("maxGaugeDiv");
     rules[namespace + 'maxGauge'].required = false;
-    maxGaugeDiv.style.display = "none";
+    rules[namespace + 'registrationStartDate'].required = false;
+    rules[namespace + 'registrationEndDate'].required = false;
+    registrationDiv.style.display = "none";
 };

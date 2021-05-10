@@ -119,6 +119,8 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="registration" type="boolean" />
+		<field name="registrationStartDate" type="Date" />
+		<field name="registrationEndDate" type="Date" />
 		<field name="maxGauge" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.CampaignEventStatus">
@@ -227,6 +229,8 @@
 		<field name="modifiedDateSource" type="Date" />
 		<field name="imageId" type="Long" />
 		<field name="registration" type="boolean" />
+		<field name="registrationStartDate" type="Date" />
+		<field name="registrationEndDate" type="Date" />
 		<field name="maxGauge" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.EventParticipation">

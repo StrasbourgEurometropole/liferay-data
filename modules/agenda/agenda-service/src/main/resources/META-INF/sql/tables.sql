@@ -99,6 +99,8 @@ create table agenda_CampaignEvent (
 	bookingDescription TEXT null,
 	bookingURL VARCHAR(400) null,
 	registration BOOLEAN,
+	registrationStartDate DATE null,
+	registrationEndDate DATE null,
 	maxGauge LONG
 );
 
@@ -173,6 +175,8 @@ create table agenda_Event (
 	modifiedDateSource DATE null,
 	imageId LONG,
 	registration BOOLEAN,
+	registrationStartDate DATE null,
+	registrationEndDate DATE null,
 	maxGauge LONG
 );
 

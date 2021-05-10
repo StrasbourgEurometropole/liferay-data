@@ -96,6 +96,8 @@
 
 		<!-- Inscription -->
 		<column name="registration" type="boolean" />
+		<column name="registrationStartDate" type="Date" />
+		<column name="registrationEndDate" type="Date" />
 		<column name="maxGauge" type="long" />
 
 		<!-- Order -->
@@ -356,6 +358,8 @@
 
 		<!-- Inscription -->
 		<column name="registration" type="boolean" />
+		<column name="registrationStartDate" type="Date" />
+		<column name="registrationEndDate" type="Date" />
 		<column name="maxGauge" type="long" />
 
 		<!-- Finder methods -->

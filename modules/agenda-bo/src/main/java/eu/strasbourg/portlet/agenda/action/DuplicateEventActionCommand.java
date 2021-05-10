@@ -153,6 +153,8 @@ public class DuplicateEventActionCommand implements MVCActionCommand {
 
 			// Inscription
 			event.setRegistration(oldEvent.getRegistration());
+			event.setRegistrationStartDate(oldEvent.getRegistrationStartDate());
+			event.setRegistrationEndDate(oldEvent.getRegistrationEndDate());
 			event.setMaxGauge(oldEvent.getMaxGauge());
 
 			// Catégories

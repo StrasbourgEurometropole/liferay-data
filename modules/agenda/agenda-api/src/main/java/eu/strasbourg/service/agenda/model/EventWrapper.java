@@ -115,6 +115,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("modifiedDateSource", getModifiedDateSource());
 		attributes.put("imageId", getImageId());
 		attributes.put("registration", isRegistration());
+		attributes.put("registrationStartDate", getRegistrationStartDate());
+		attributes.put("registrationEndDate", getRegistrationEndDate());
 		attributes.put("maxGauge", getMaxGauge());
 
 		return attributes;
@@ -466,6 +468,19 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 
 		if (registration != null) {
 			setRegistration(registration);
+		}
+
+		Date registrationStartDate = (Date)attributes.get(
+			"registrationStartDate");
+
+		if (registrationStartDate != null) {
+			setRegistrationStartDate(registrationStartDate);
+		}
+
+		Date registrationEndDate = (Date)attributes.get("registrationEndDate");
+
+		if (registrationEndDate != null) {
+			setRegistrationEndDate(registrationEndDate);
 		}
 
 		Long maxGauge = (Long)attributes.get("maxGauge");
@@ -1796,6 +1811,26 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public boolean getRegistration() {
 		return _event.getRegistration();
+	}
+
+	/**
+	 * Returns the registration end date of this event.
+	 *
+	 * @return the registration end date of this event
+	 */
+	@Override
+	public Date getRegistrationEndDate() {
+		return _event.getRegistrationEndDate();
+	}
+
+	/**
+	 * Returns the registration start date of this event.
+	 *
+	 * @return the registration start date of this event
+	 */
+	@Override
+	public Date getRegistrationStartDate() {
+		return _event.getRegistrationStartDate();
 	}
 
 	/**
@@ -3434,6 +3469,26 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setRegistration(boolean registration) {
 		_event.setRegistration(registration);
+	}
+
+	/**
+	 * Sets the registration end date of this event.
+	 *
+	 * @param registrationEndDate the registration end date of this event
+	 */
+	@Override
+	public void setRegistrationEndDate(Date registrationEndDate) {
+		_event.setRegistrationEndDate(registrationEndDate);
+	}
+
+	/**
+	 * Sets the registration start date of this event.
+	 *
+	 * @param registrationStartDate the registration start date of this event
+	 */
+	@Override
+	public void setRegistrationStartDate(Date registrationStartDate) {
+		_event.setRegistrationStartDate(registrationStartDate);
 	}
 
 	/**

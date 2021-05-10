@@ -341,9 +341,24 @@ public class SaveEventActionCommand implements MVCActionCommand {
 					"registrationValue");
 			event.setRegistration(inscription);
 
-			// Champ : JaugeMax
-			Long jaugeMax = ParamUtil.getLong(request, "maxGauge");
-			event.setMaxGauge(jaugeMax);
+			if(inscription){
+				// Champs : Registration start/end date
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				Date registrationStartDate = ParamUtil.getDate(request,
+						"registrationStartDate", dateFormat);
+				Date registrationEndDate = ParamUtil.getDate(request,
+						"registrationEndDate", dateFormat);
+				event.setRegistrationStartDate(registrationStartDate);
+				event.setRegistrationEndDate(registrationEndDate);
+
+				// Champ : JaugeMax
+				Long jaugeMax = ParamUtil.getLong(request, "maxGauge");
+				event.setMaxGauge(jaugeMax);
+			} else {
+				event.setRegistrationStartDate(null);
+				event.setRegistrationEndDate(null);
+				event.setMaxGauge(0);
+			}
 
 			_eventLocalService.updateEvent(event, sc);
 

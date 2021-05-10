@@ -66,7 +66,7 @@ public class CampaignEventCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(97);
+		StringBundler sb = new StringBundler(101);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -162,6 +162,10 @@ public class CampaignEventCacheModel
 		sb.append(bookingURL);
 		sb.append(", registration=");
 		sb.append(registration);
+		sb.append(", registrationStartDate=");
+		sb.append(registrationStartDate);
+		sb.append(", registrationEndDate=");
+		sb.append(registrationEndDate);
 		sb.append(", maxGauge=");
 		sb.append(maxGauge);
 		sb.append("}");
@@ -437,6 +441,23 @@ public class CampaignEventCacheModel
 		}
 
 		campaignEventImpl.setRegistration(registration);
+
+		if (registrationStartDate == Long.MIN_VALUE) {
+			campaignEventImpl.setRegistrationStartDate(null);
+		}
+		else {
+			campaignEventImpl.setRegistrationStartDate(
+				new Date(registrationStartDate));
+		}
+
+		if (registrationEndDate == Long.MIN_VALUE) {
+			campaignEventImpl.setRegistrationEndDate(null);
+		}
+		else {
+			campaignEventImpl.setRegistrationEndDate(
+				new Date(registrationEndDate));
+		}
+
 		campaignEventImpl.setMaxGauge(maxGauge);
 
 		campaignEventImpl.resetOriginalValues();
@@ -505,6 +526,8 @@ public class CampaignEventCacheModel
 		bookingURL = objectInput.readUTF();
 
 		registration = objectInput.readBoolean();
+		registrationStartDate = objectInput.readLong();
+		registrationEndDate = objectInput.readLong();
 
 		maxGauge = objectInput.readLong();
 	}
@@ -762,6 +785,8 @@ public class CampaignEventCacheModel
 		}
 
 		objectOutput.writeBoolean(registration);
+		objectOutput.writeLong(registrationStartDate);
+		objectOutput.writeLong(registrationEndDate);
 
 		objectOutput.writeLong(maxGauge);
 	}
@@ -813,6 +838,8 @@ public class CampaignEventCacheModel
 	public String bookingDescription;
 	public String bookingURL;
 	public boolean registration;
+	public long registrationStartDate;
+	public long registrationEndDate;
 	public long maxGauge;
 
 }
