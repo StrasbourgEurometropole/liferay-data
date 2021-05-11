@@ -33,11 +33,7 @@ import eu.strasbourg.service.place.service.ScheduleExceptionLocalServiceUtil;
 import eu.strasbourg.service.place.service.SubPlaceLocalServiceUtil;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.FileEntryHelper;
-import eu.strasbourg.utils.JSONHelper;
-import eu.strasbourg.utils.OccupationState;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.*;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.models.Pair;
 
@@ -1906,7 +1902,11 @@ public class PlaceImpl extends PlaceBaseImpl {
         JSONArray jsonImagesURLs = JSONFactoryUtil.createJSONArray();
         for (String imageUrl : this.getImageURLsWithTimeStamp()) {
             if(Validator.isNotNull(imageUrl)) {
-                jsonImagesURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
+                try {
+                    jsonImagesURLs.put(UriHelper.appendUriImagePreview(StrasbourgPropsUtil.getURL() + imageUrl).toString());
+                } catch (Exception e){
+                    jsonImagesURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
+                }
             }
         }
         if (jsonImagesURLs.length() > 0) {
