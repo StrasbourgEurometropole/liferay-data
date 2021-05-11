@@ -50,6 +50,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -888,10 +889,28 @@ public class AgendaImporter {
 				}
 				event.setBookingURL(jsonBookingURL);
 
-				event.setRegistration(jsonEvent.getBoolean("registration"));
-				Long maxGauge = jsonEvent.getLong("maxGauge");
-				if (Validator.isNotNull(maxGauge)) {
-					event.setMaxGauge(maxGauge);
+				JSONObject jsonRegistration = jsonEvent.getJSONObject("registration");
+				if(Validator.isNotNull(jsonRegistration)){
+					event.setRegistration(true);
+					event.setMaxGauge(jsonRegistration.getLong("maxGauge"));
+					String registrationStartDateString = jsonRegistration.getString("startDate");
+					String registrationEndDateString = jsonRegistration.getString("endDate");
+					Date registrationStartDate = null;
+					Date registrationEndDate = null;
+					try {
+						registrationStartDate = dateFormat.parse(registrationStartDateString);
+						registrationEndDate = dateFormat.parse(registrationEndDateString);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					event.setRegistrationStartDate(registrationStartDate);
+					event.setRegistrationEndDate(registrationEndDate);
+				}
+				else{
+					event.setRegistration(false);
+					event.setMaxGauge(0);
+					event.setRegistrationStartDate(null);
+					event.setRegistrationEndDate(null);
 				}
 
 				// Lieu

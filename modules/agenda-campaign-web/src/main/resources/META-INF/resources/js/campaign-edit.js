@@ -278,6 +278,10 @@ function setConditionalValidators() {
             rules[namespace + 'registrationEndDate'].required = false;
             registrationDiv.style.display = "none";
         }
+        var registrationStartDateTime = document.getElementById(namespace+"registrationStartDateTime");
+        var registrationEndDateTime = document.getElementById(namespace+"registrationEndDateTime");
+        registrationStartDateTime.style.display = "none";
+        registrationEndDateTime.style.display = "none";
     });
 }
 
