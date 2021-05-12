@@ -11,7 +11,7 @@ public class UriHelper {
         String newQuery = oldUri.getQuery();
         if (newQuery == null) {
             newQuery = appendQuery;
-        } else {
+        } else if (!uri.contains(appendQuery)){
             newQuery += "&" + appendQuery;
         }
 
