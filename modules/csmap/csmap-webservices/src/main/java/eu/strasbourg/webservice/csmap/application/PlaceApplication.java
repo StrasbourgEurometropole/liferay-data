@@ -2,7 +2,12 @@ package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.dynamic.data.mapping.model.DDMStructure;
+import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.model.JournalFolder;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -10,7 +15,9 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.place.model.CacheJson;
 import eu.strasbourg.service.place.model.Historic;
 import eu.strasbourg.service.place.service.CacheJsonLocalService;
@@ -19,10 +26,13 @@ import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.place.NoDefaultPictoException;
+import eu.strasbourg.webservice.csmap.service.WSEmergencies;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
+import eu.strasbourg.webservice.csmap.utils.WSCSMapUtil;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -36,12 +46,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author angelique.champougny
@@ -278,5 +283,101 @@ public class PlaceApplication extends Application {
 
 	@Reference
 	protected eu.strasbourg.service.place.service.HistoricLocalService historicLocalService;
+
+	@POST
+	@Produces("application/json")
+	@Path("/get-simple-pois")
+	public Response getSimplePOIs(
+			@FormParam("ids_simple_poi") String ids_simple_poi) {
+		return getSimplePOIs("0", ids_simple_poi);
+	}
+
+	@POST
+	@Produces("application/json")
+	@Path("/get-simple-pois/{last_update_time}")
+	public Response getSimplePOIs(
+			@PathParam("last_update_time") String lastUpdateTimeString,
+			@FormParam("ids_simple_poi") String ids_simple_poi){
+
+
+		JSONObject json = JSONFactoryUtil.createJSONObject();
+
+		// On transforme la date string en date
+		Date lastUpdateTime;
+		try {
+			long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+			lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+		}catch (Exception e) {
+			return WSResponseUtil.lastUpdateTimeFormatError();
+		}
+
+		// On vérifie que les ids sont renseignés
+		if (Validator.isNull(ids_simple_poi)) {
+			ids_simple_poi = "";
+		}
+
+		try {
+			Group group = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_GLOBAL);
+			Group csmapGroup = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_CSMAP);
+			long csmapGroupId = csmapGroup.getGroupId();
+			JournalFolder placesFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId,WSConstants.FOLDER_LIEUX);
+			long placesFolderId = placesFolder.getFolderId();
+			DDMStructure structure = WSCSMapUtil.getStructureByGroupAndName(group.getGroupId(), WSConstants.STRUCTURE_POI_SIMPLE);;
+
+			// Recuperation des JournalArticle dans le dossier Numeros urgence
+			List<JournalArticle> poiSimples = new ArrayList<>(JournalArticleLocalServiceUtil.getArticles(csmapGroupId, placesFolderId));
+			// Recuperation des Numeros urgence a ADD et UPDATE
+			List<JournalArticle> poiSimplesAdd = new ArrayList<>();
+			List<JournalArticle> poiSimplesUpdate = new ArrayList<>();
+			List<String> poiSimplesDelete = new ArrayList<>();
+
+			// Verification des POI Simple si nouveau ou modifie
+			for (JournalArticle poiSimple : poiSimples) {
+				if(poiSimple.getDDMStructureKey().equals(structure.getStructureKey()) && poiSimple.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+					if (lastUpdateTime.before(poiSimple.getCreateDate())) {
+						poiSimplesAdd.add(poiSimple);
+					}
+					else if (lastUpdateTime.before(poiSimple.getModifiedDate())) {
+						poiSimplesUpdate.add(poiSimple);
+					}
+				}
+			}
+
+			// Gestion des deletes
+			JSONArray SimplePOIsJSONDelete = JSONFactoryUtil.createJSONArray();
+			for (String idSimplePOI : ids_simple_poi.split(",")) {
+				if(Validator.isNotNull(idSimplePOI)) {
+					JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idSimplePOI));
+					if (Validator.isNull(journalArticle) || journalArticle.getStatus() != WorkflowConstants.STATUS_APPROVED) {
+						poiSimplesDelete.add(idSimplePOI);
+						SimplePOIsJSONDelete.put(idSimplePOI);
+					}
+				}
+			}
+
+			if(poiSimplesAdd.isEmpty() && poiSimplesUpdate.isEmpty()&& poiSimplesDelete.isEmpty()){
+				return WSResponseUtil.buildOkResponse(json,201);
+			}
+
+			// Creation des differents JSON pour le resultat
+			JSONArray jsonAjout = CSMapJSonHelper.SimplePOIsCSMapJSON(poiSimplesAdd , lastUpdateTime , true);
+			JSONArray jsonModif = CSMapJSonHelper.SimplePOIsCSMapJSON(poiSimplesUpdate , lastUpdateTime , false);
+			// Ajout de ADD dans le JSON final
+			json.put(WSConstants.JSON_ADD, jsonAjout);
+			// Ajout de UPDATE dans le JSON final
+			json.put(WSConstants.JSON_UPDATE, jsonModif);
+			// Ajout de DELETE dans le JSON final
+			json.put(WSConstants.JSON_DELETE, SimplePOIsJSONDelete);
+
+		}catch (PortalException e) {
+			log.error(e);
+			return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+		}catch (Exception e) {
+			log.error(e);
+			return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+		}
+		return WSResponseUtil.buildOkResponse(json);
+
+	}
 
 }

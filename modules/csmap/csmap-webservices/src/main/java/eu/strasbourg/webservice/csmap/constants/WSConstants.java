@@ -53,6 +53,10 @@ public class WSConstants {
     public static final String JSON_ADD = "ADD";
     public static final String JSON_UPDATE = "UPDATE";
     public static final String JSON_DELETE = "DELETE";
+    public static final String JSON_PLACE_NAME = "name";
+    public static final String JSON_PLACE_OPDENDATA_URL= "openDataURL";
+    public static final String JSON_PLACE_TYPES= "types";
+
     // Place catégories
     public static final String JSON_CATEG_ID = "id";
     public static final String JSON_PARENT_ID = "parentId";
@@ -103,8 +107,15 @@ public class WSConstants {
 
 
     /** Config */
+    // Global
+    public static final String GROUP_KEY_GLOBAL = "20116";
+    public static final String GROUP_KEY_CSMAP = "CSMAP";
+
+    // Place
+    public static final String FOLDER_LIEUX = "Lieux";
+    public static final String STRUCTURE_POI_SIMPLE = "POI simple";
+
     // Various-Data
-    public static final String GROUP_KEY = "CSMAP";
     public static final String GROUP_KEY_STRAS = "Strasbourg.eu";
     public static final String TAG_CSMAP = "csmap";
     public static final String STRUCTURE_BREVE = "Breve";
