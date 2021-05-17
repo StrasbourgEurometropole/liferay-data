@@ -200,6 +200,33 @@ public class CacheJsonLocalServiceUtil {
 	}
 
 	/**
+	 * Retourne les caches d'un lieu créé après une date et actif
+	 */
+	public static java.util.List<eu.strasbourg.service.agenda.model.CacheJson>
+		getByCreatedDateAndIsActive(java.util.Date date) {
+
+		return getService().getByCreatedDateAndIsActive(date);
+	}
+
+	/**
+	 * Retourne les caches d'un lieu modifié après une date, créé avant cette date et actif
+	 */
+	public static java.util.List<eu.strasbourg.service.agenda.model.CacheJson>
+		getByCreatedDateAndModifiedDateAndIsActive(java.util.Date date) {
+
+		return getService().getByCreatedDateAndModifiedDateAndIsActive(date);
+	}
+
+	/**
+	 * Retourne les caches d'un lieu modifié après une date et inactif
+	 */
+	public static java.util.List<eu.strasbourg.service.agenda.model.CacheJson>
+		getByModifiedDateAndIsNotActive(java.util.Date date) {
+
+		return getService().getByModifiedDateAndIsNotActive(date);
+	}
+
+	/**
 	 * Returns the cache json with the primary key.
 	 *
 	 * @param eventId the primary key of the cache json

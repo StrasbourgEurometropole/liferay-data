@@ -35,6 +35,14 @@
 		<field name="endDate" type="Date" />
 		<field name="agendaExportId" type="long" />
 	</model>
+	<model name="eu.strasbourg.service.agenda.model.CacheJson">
+		<field name="uuid" type="String" />
+		<field name="eventId" type="long" />
+		<field name="jsonEvent" type="String" />
+		<field name="createEvent" type="Date" />
+		<field name="modifiedEvent" type="Date" />
+		<field name="isActive" type="boolean" />
+	</model>
 	<model name="eu.strasbourg.service.agenda.model.Campaign">
 		<field name="uuid" type="String" />
 		<field name="campaignId" type="long" />
@@ -240,6 +248,12 @@
 		<field localized="true" name="timeDetail" type="String" />
 		<field name="eventId" type="long" />
 		<field name="campaignEventId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.agenda.model.Historic">
+		<field name="uuid" type="String" />
+		<field name="eventId" type="long" />
+		<field name="title" type="String" />
+		<field name="suppressionDate" type="Date" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.ImportReport">
 		<field name="uuid" type="String" />

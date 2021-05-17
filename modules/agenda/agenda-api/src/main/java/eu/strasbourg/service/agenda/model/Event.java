@@ -355,4 +355,9 @@ public interface Event extends EventModel, PersistedModel {
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
 		long groupId, java.util.Locale locale);
 
+	/**
+	 * Renvoie le JSON de l'entite au format CSMap
+	 */
+	public com.liferay.portal.kernel.json.JSONObject getCSMapJSON();
+
 }

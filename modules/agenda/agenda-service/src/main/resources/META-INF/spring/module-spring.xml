@@ -13,6 +13,8 @@
 	<bean class="eu.strasbourg.service.agenda.service.impl.AgendaExportPeriodLocalServiceImpl" id="eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.AgendaExportPeriodServiceImpl" id="eu.strasbourg.service.agenda.service.AgendaExportPeriodService" />
 	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.AgendaExportPeriodPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.agenda.service.impl.CacheJsonLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CacheJsonLocalService" />
+	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.CacheJsonPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.CacheJsonPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.CampaignLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CampaignLocalService" />
 	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.CampaignPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.CampaignPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.CampaignEventLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CampaignEventLocalService" />
@@ -31,6 +33,8 @@
 	<bean class="eu.strasbourg.service.agenda.service.impl.EventPeriodLocalServiceImpl" id="eu.strasbourg.service.agenda.service.EventPeriodLocalService" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.EventPeriodServiceImpl" id="eu.strasbourg.service.agenda.service.EventPeriodService" />
 	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.EventPeriodPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.agenda.service.impl.HistoricLocalServiceImpl" id="eu.strasbourg.service.agenda.service.HistoricLocalService" />
+	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.HistoricPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.HistoricPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.ImportReportLocalServiceImpl" id="eu.strasbourg.service.agenda.service.ImportReportLocalService" />
 	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.ImportReportPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.ImportReportPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.ImportReportLineLocalServiceImpl" id="eu.strasbourg.service.agenda.service.ImportReportLineLocalService" />

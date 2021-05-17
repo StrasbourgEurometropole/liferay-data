@@ -58,12 +58,9 @@ import eu.strasbourg.service.agenda.utils.clients.soap.rodrigue.RodrigueSOAPClie
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.DateHelper;
-import eu.strasbourg.utils.FileEntryHelper;
-import eu.strasbourg.utils.JSONHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.*;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.service.agenda.custom.beans.RodrigueEventSession;
 
@@ -1345,6 +1342,86 @@ public class EventImpl extends EventBaseImpl {
 			e.printStackTrace();
 		}
 		return coordinates;
+	}
+
+	/**
+	 * Renvoie le JSON de l'entite au format CSMap
+	 */
+	@Override
+	public JSONObject getCSMapJSON() {
+		JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
+
+		jsonEvent.put("externalId", this.getEventId());
+		JSONObject titles = JSONFactoryUtil.createJSONObject();
+		titles.put("fr_FR", this.getTitle(Locale.FRANCE));
+		jsonEvent.put("title", titles);
+		JSONObject subtitles = JSONFactoryUtil.createJSONObject();
+		subtitles.put("fr_FR", this.getSubtitle(Locale.FRANCE));
+		jsonEvent.put("subtitle", subtitles);
+		JSONObject descriptions = JSONFactoryUtil.createJSONObject();
+		descriptions.put("fr_FR", this.getDescription(Locale.FRANCE));
+		jsonEvent.put("description", descriptions);
+
+		String imageURL = this.getImageURL();
+		if (!imageURL.startsWith("http")) {
+			imageURL = StrasbourgPropsUtil.getURL() + this.getImageURL();
+		}
+		// TODO imageURL = UriHelper.imagePreview(imageurl)
+		jsonEvent.put("imageURL", imageURL);
+
+
+		if (Validator.isNotNull(this.getPlaceSIGId())) {
+			jsonEvent.put("placeSIGId", this.getPlaceSIGId());
+		} else {
+			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
+			jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
+			jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
+			jsonPlace.put("streetName", this.getPlaceStreetName());
+			jsonPlace.put("zipCode", this.getPlaceZipCode());
+			jsonPlace.put("city", this.getPlaceCity());
+			jsonPlace.put("access", JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
+			jsonPlace.put("accessForDisabled", JSONHelper.getJSONFromI18nMap(this.getAccessForDisabledMap()));
+			jsonPlace.put("accessForBlind", this.getAccessForBlind());
+			jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
+			jsonPlace.put("accessForWheelchair", this.getAccessForWheelchair());
+			jsonPlace.put("accessForDeficient", this.getAccessForDeficient());
+			jsonPlace.put("accessForElder", this.getAccessForElder());
+			jsonEvent.put("place", jsonPlace);
+		}
+
+		if (Validator.isNotNull(this.getPromoter())) {
+			jsonEvent.put("promoter", this.getPromoter());
+		}
+
+		if (Validator.isNotNull(this.getWebsiteURL())) {
+			jsonEvent.put("websiteURL", JSONHelper.getJSONFromI18nMap(this.getWebsiteURLMap()));
+		}
+
+		if (Validator.isNotNull(this.getWebsiteName())) {
+			jsonEvent.put("websiteName", JSONHelper.getJSONFromI18nMap(this.getWebsiteNameMap()));
+		}
+
+		jsonEvent.put("freeEntry", this.getFree());
+
+		if (Validator.isNotNull(this.getPrice())) {
+			jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
+		}
+
+		JSONArray jsonThemes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThemes());
+		if (jsonThemes.length() > 0) {
+			jsonEvent.put("themes", jsonThemes);
+		}
+
+		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
+		if (jsonTypes.length() > 0) {
+			jsonEvent.put("types", jsonTypes);
+		}
+
+		List<String> mercators = this.getMercators();
+		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
+		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+
+		return jsonEvent;
 	}
 
 }

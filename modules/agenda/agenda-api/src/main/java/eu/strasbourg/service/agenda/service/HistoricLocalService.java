@@ -36,6 +36,7 @@ import eu.strasbourg.service.agenda.model.Historic;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -177,6 +178,12 @@ public interface HistoricLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
+
+	/**
+	 * Retourne les caches d'un lieu créé après une date et actif
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Historic> getBySuppressionDate(Date date);
 
 	/**
 	 * Returns the historic with the primary key.

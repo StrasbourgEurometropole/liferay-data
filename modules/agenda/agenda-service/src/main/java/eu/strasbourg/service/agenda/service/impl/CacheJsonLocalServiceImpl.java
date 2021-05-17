@@ -15,6 +15,10 @@
 package eu.strasbourg.service.agenda.service.impl;
 
 import eu.strasbourg.service.agenda.service.base.CacheJsonLocalServiceBaseImpl;
+import eu.strasbourg.service.agenda.model.CacheJson;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * The implementation of the cache json local service.
@@ -36,4 +40,30 @@ public class CacheJsonLocalServiceImpl extends CacheJsonLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Use <code>eu.strasbourg.service.agenda.service.CacheJsonLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.agenda.service.CacheJsonLocalServiceUtil</code>.
 	 */
+
+	/**
+	 * Retourne les caches d'un lieu créé après une date et actif
+	 */
+	@Override
+	public List<CacheJson> getByCreatedDateAndIsActive(Date date) {
+		return this.cacheJsonPersistence.findByCreatedDateAndIsActive(date, true);
+	}
+
+
+	/**
+	 * Retourne les caches d'un lieu modifié après une date, créé avant cette date et actif
+	 */
+	@Override
+	public List<CacheJson> getByCreatedDateAndModifiedDateAndIsActive(Date date) {
+		return this.cacheJsonPersistence.findByCreatedDateAndModifiedDateAndIsActive(date, date, true);
+	}
+
+
+	/**
+	 * Retourne les caches d'un lieu modifié après une date et inactif
+	 */
+	@Override
+	public List<CacheJson> getByModifiedDateAndIsNotActive(Date date) {
+		return this.cacheJsonPersistence.findByModifiedDateAndIsActive(date, false);
+	}
 }
