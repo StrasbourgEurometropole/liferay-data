@@ -54,7 +54,7 @@ public class SettingsApplication extends Application {
         JSONObject json = JSONFactoryUtil.createJSONObject();
 
         try {
-            Group csmapGroup = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY_CSMAP);
+            Group csmapGroup = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_CSMAP);
             long csmapGroupId = csmapGroup.getGroupId();
             JournalFolder reportUrlFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId,WSConstants.FOLDER_PARAMETRAGE);
             long reportUrlFolderId = reportUrlFolder.getFolderId();
@@ -88,7 +88,7 @@ public class SettingsApplication extends Application {
         JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
 
         try {
-            Group csmapGroup = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY_CSMAP);
+            Group csmapGroup = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_CSMAP);
             long csmapGroupId = csmapGroup.getGroupId();
             JournalFolder reportUrlFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId,WSConstants.FOLDER_PARAMETRAGE);
             long reportUrlFolderId = reportUrlFolder.getFolderId();

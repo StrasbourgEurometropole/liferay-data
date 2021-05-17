@@ -108,7 +108,6 @@ public class WSConstants {
 
     /** Config */
     // Global
-    public static final String GROUP_KEY_GLOBAL = "20116";
     public static final String GROUP_KEY_CSMAP = "CSMAP";
 
     // Place

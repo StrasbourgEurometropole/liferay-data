@@ -16,6 +16,8 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.place.model.CacheJson;
@@ -317,7 +319,7 @@ public class PlaceApplication extends Application {
 		}
 
 		try {
-			Group group = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_GLOBAL);
+			Group group = CompanyLocalServiceUtil.getCompany(PortalUtil.getDefaultCompanyId()).getGroup();
 			Group csmapGroup = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_CSMAP);
 			long csmapGroupId = csmapGroup.getGroupId();
 			JournalFolder placesFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId,WSConstants.FOLDER_LIEUX);
