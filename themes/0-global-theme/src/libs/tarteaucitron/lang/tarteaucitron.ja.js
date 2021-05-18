@@ -39,8 +39,12 @@ tarteaucitron.lang = {
     "newWindow": "(new window)",
     "allowAll": "すべてのクッキーを許可する",
     "denyAll": "すべてのクッキーを拒否する",
+
+    "icon": "Cookies",
     
     "fallback": "is disabled.",
+    "allowed": "許可",
+    "disallowed": "許可されていません",
 
     "ads": {
         "title": "Advertising network",

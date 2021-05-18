@@ -39,8 +39,12 @@ tarteaucitron.lang = {
     "newWindow": "(nové okno)",
     "allowAll": "Povoľte všetky súbory cookie",
     "denyAll": "Odmietnuť všetky súbory cookie",
+
+    "icon": "Cookies",
     
     "fallback": "je zakázané.",
+    "allowed": "povolený",
+    "disallowed": "nepovolený",
 
     "ads": {
         "title": "Reklamná sieť",
