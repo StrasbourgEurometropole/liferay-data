@@ -9,13 +9,11 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.utils.AssetPublisherTemplateHelper;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.JournalArticleHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.*;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.service.WSPlace;
 
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -75,7 +73,11 @@ public class CSMapJSonHelper {
             String image = JournalArticleHelper.getJournalArticleFieldValue(breve, "image", Locale.FRANCE);
             if(Validator.isNotNull(image)) {
                 String imageURL = AssetPublisherTemplateHelper.getDocumentUrl(image);
-                jsonJournalArticle.put(WSConstants.JSON_WC_URL, StrasbourgPropsUtil.getBaseURL() + imageURL);
+                try{
+                    jsonJournalArticle.put(WSConstants.JSON_WC_URL, UriHelper.appendUriImagePreview(StrasbourgPropsUtil.getBaseURL() + imageURL).toString());
+                } catch (URISyntaxException e) {
+                    jsonJournalArticle.put(WSConstants.JSON_WC_URL, StrasbourgPropsUtil.getBaseURL() + imageURL);
+                }
             }
 
             JSONObject titles = JSONFactoryUtil.createJSONObject();

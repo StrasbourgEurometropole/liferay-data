@@ -1900,17 +1900,23 @@ public class PlaceImpl extends PlaceBaseImpl {
             jsonPlace.put("phone", this.getPhone());
         }
         JSONArray jsonImagesURLs = JSONFactoryUtil.createJSONArray();
+        JSONArray jsonImagesThumbnailURLs = JSONFactoryUtil.createJSONArray();
         for (String imageUrl : this.getImageURLsWithTimeStamp()) {
             if(Validator.isNotNull(imageUrl)) {
                 try {
-                    jsonImagesURLs.put(UriHelper.appendUriImagePreview(StrasbourgPropsUtil.getURL() + imageUrl).toString());
+                    jsonImagesURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
+                    jsonImagesThumbnailURLs.put(UriHelper.appendUriImagePreview(StrasbourgPropsUtil.getURL() + imageUrl).toString());
                 } catch (Exception e){
                     jsonImagesURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
+                    jsonImagesThumbnailURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
                 }
             }
         }
         if (jsonImagesURLs.length() > 0) {
             jsonPlace.put("imageURL", jsonImagesURLs);
+        }
+        if (jsonImagesThumbnailURLs.length() > 0) {
+            jsonPlace.put("imageThumbnailURL", jsonImagesThumbnailURLs);
         }
         JSONObject descriptions = JSONFactoryUtil.createJSONObject();
         if (Validator.isNotNull(this.getPresentation(Locale.FRANCE))) {
