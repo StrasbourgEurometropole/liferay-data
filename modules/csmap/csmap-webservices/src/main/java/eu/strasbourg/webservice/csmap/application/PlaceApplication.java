@@ -2,6 +2,7 @@ package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.journal.model.JournalArticle;

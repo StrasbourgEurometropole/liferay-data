@@ -19,9 +19,7 @@ import eu.strasbourg.webservice.csmap.service.WSPlace;
 
 import java.net.URISyntaxException;
 import java.text.DateFormat;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -191,7 +189,7 @@ public class CSMapJSonHelper {
         return json;
     }
 
-    public static JSONArray SimplePOIsCSMapJSON(List<JournalArticle> SimplePOIs, Date lastUpdateTime,  boolean maj) throws PortalException {
+    public static JSONArray SimplePOIsCSMapJSON(List<JournalArticle> SimplePOIs, Date lastUpdateTime, boolean maj) throws PortalException {
         JSONArray SimplePOIsJSON = JSONFactoryUtil.createJSONArray();
         for(JournalArticle SimplePOI : SimplePOIs){
             JSONObject SimplePOIJSON = JSONFactoryUtil.createJSONObject();
