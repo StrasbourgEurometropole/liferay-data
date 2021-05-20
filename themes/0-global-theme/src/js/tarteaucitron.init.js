@@ -23,8 +23,8 @@ switch (window.tarteaucitronForceLanguage) {
             "denyAll" : "Cookies ablehnen",
             "personalize" : "Mehr Informationen & Cookies-Einstellungen",
             "privacyUrl" : "Mehr Informationen über Cookies-Einstellungen",
-            "allow" : "Accept",
-            "deny" : "Decline",
+            "allow" : "Zulassen",
+            "deny" : "Ablehnen",
         };
         break;
     case 'en':
@@ -36,8 +36,8 @@ switch (window.tarteaucitronForceLanguage) {
             "denyAll" : "DECLINE ALL COOKIES",
             "personalize" : "Learn more & settings",
             "privacyUrl" : "Learn more about cookie management",
-            "allow" : "Zulassen",
-            "deny" : "Ablehnen",
+            "allow" : "Accept",
+            "deny" : "Decline",
         };
 }
 
