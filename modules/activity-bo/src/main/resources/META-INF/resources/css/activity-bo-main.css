@@ -67,6 +67,10 @@
 	margin-bottom: 10px;
 }
 
+.schedules .time input {
+	padding: 9px;
+}
+
 .schedules .periods .form-group {
 	margin-bottom: 10px;
 }
