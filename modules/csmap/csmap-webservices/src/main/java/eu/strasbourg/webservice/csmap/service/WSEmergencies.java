@@ -36,7 +36,7 @@ public class WSEmergencies {
         Map<String, List<JournalArticle>> mapEmergencyNumbers = new HashMap<>();
         try {
 
-            Group csmapGroup = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY);
+            Group csmapGroup = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_CSMAP);
             long csmapGroupId = csmapGroup.getGroupId();
             JournalFolder emergencyNumbersFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId, WSConstants.FOLDER_EMERGENCY_NUMBERS);
             long emergencyNumbersFolderId = emergencyNumbersFolder.getFolderId();
@@ -73,7 +73,7 @@ public class WSEmergencies {
     static public Map<String,Map<AssetCategory, List<JournalArticle>>> getMapEmergencyHelps(Date lastUpdateTime, String ids_emergency_help_category) throws Exception {
         Map<String,Map<AssetCategory, List<JournalArticle>>> mapsEmergencyHelps = new HashMap<>();
         try{
-        Group csmapGroup = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY);
+        Group csmapGroup = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_CSMAP);
         long csmapGroupId = csmapGroup.getGroupId();
         JournalFolder emergencyHelpsFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId,WSConstants.FOLDER_EMERGENCY_HELPS);
         long emergencyHelpsFolderId = emergencyHelpsFolder.getFolderId();

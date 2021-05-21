@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 public class WSCSMapUtil{
 
     // récupération du group
-    static public Group getGroupByName(String name){
+    static public Group getGroupByKey(String name){
         Group group = GroupLocalServiceUtil.getGroups(-1, -1).stream().filter(g -> g.getGroupKey().equals(name)).findFirst().orElse(null);
         if(Validator.isNull(group))
             throw new NoSuchElementException("Group " + name + " introuvable");

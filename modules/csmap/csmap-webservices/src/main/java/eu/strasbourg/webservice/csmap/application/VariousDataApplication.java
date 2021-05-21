@@ -5,6 +5,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetTagModel;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalFolder;
@@ -85,7 +86,7 @@ public class VariousDataApplication extends Application {
         DDMStructure structure;
         try {
             // récupération du group
-            Group group = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY_STRAS);
+            Group group = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_STRAS);
 
             // récupération du tag
             tag = WSCSMapUtil.getTagByGroupAndName(group.getGroupId(), WSConstants.TAG_CSMAP);
@@ -123,7 +124,8 @@ public class VariousDataApplication extends Application {
         if(Validator.isNotNull(idsNews)) {
             for (String idNews : idsNews.split(",")) {
                 JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idNews));
-                if (journalArticle == null)
+                AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(), journalArticle.getResourcePrimKey());
+                if (journalArticle == null || !assetEntry.getTags().contains(tag))
                     jsonSuppr.put(idNews);
                 else if(journalArticle.getStatus() != WorkflowConstants.STATUS_APPROVED)
                     jsonSuppr.put(idNews);
@@ -286,7 +288,7 @@ public class VariousDataApplication extends Application {
         JournalFolder folder;
         try {
             // récupération du group CSMAP
-            group = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY);
+            group = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_CSMAP);
 
             // récupération du dossier
             folder = WSCSMapUtil.getJournalFolderByGroupAndName(group.getGroupId(), WSConstants.FOLDER_SOCIAL_NETWORK);
@@ -368,7 +370,7 @@ public class VariousDataApplication extends Application {
         }
 
         try {
-            Group csmapGroup = WSCSMapUtil.getGroupByName(WSConstants.GROUP_KEY);
+            Group csmapGroup = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_CSMAP);
             long csmapGroupId = csmapGroup.getGroupId();
             JournalFolder generalConditionsFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId,WSConstants.FOLDER_DIVERS);
             long generalConditionsFolderId = generalConditionsFolder.getFolderId();
