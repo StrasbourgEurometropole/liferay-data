@@ -199,11 +199,8 @@
           </a>
         </#if>
 
-        <a href="/contact" class="seu-nav-contact seu-nav-btn" title="contact">
-          <span class="seu-flexbox">
-            <span class="seu-picto"></span>
-            <span class="seu-text"><@liferay.language key="contact" /></span>
-          </span>    
+        <a href="/contact" class="th-nav-contact" title="Contact">
+          <span class="th-picto"></span><@liferay.language key="contact" />
         </a>
       </div>
   </div>
