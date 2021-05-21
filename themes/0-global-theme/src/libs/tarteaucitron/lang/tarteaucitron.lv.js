@@ -39,8 +39,12 @@ tarteaucitron.lang = {
     "newWindow": "(új ablak)",
     "allowAll": "Elfogadom az öszeset",
     "denyAll": "Elutasítom",
+
+    "icon": "Cookies",
     
     "fallback": "letiltott.",
+    "allowed": "atļauts",
+    "disallowed": "nav atļauts",
 
     "ads": {
         "title": "Reklámhálózat",
