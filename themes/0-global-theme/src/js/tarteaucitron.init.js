@@ -228,6 +228,40 @@ tarteaucitron.services.recaptcha_ems = {
     }
 };
 
+tarteaucitron.services.iframevideosfacebook = {
+    "key": "iframevideosfacebook",
+    "type": "video",
+    "name": "Vidéos Facebook",
+    "uri": "",
+    "needConsent": true,
+    "cookies": ['fr','presence','c_user','xs','x-referer','spin','wd','m_pixel_ratio','ssm_au_c','ssm_au_c','sb','datr'],
+    "js": function () {
+      "use strict";
+      tarteaucitron.fallback(['tac_iframevideosfacebook'], function (x) {
+        var width = x.getAttribute("width"),
+            height = x.getAttribute("height"),
+            frameborder = x.getAttribute("frameborder"),
+            allow = x.getAttribute("allow"),
+            allowfullscreen = x.getAttribute("allowfullscreen"),
+            scrolling = x.getAttribute("scrolling"),
+            url = x.getAttribute("data-url");
+  
+          if (url === undefined) {
+              return "";
+          }
+
+          return '<iframe allow="' + allow + '" allowfullscreen="' + allowfullscreen + '" scrolling="' + scrolling + '" src="' + url + '" style="border:none;overflow:hidden" width="' + width + '" height="' + height + '" frameborder="' + frameborder + '"></iframe>';
+      });
+    },
+    "fallback": function () {
+      "use strict";
+      var id = 'iframevideosfacebook';
+      tarteaucitron.fallback(['tac_iframevideosfacebook'], function (elem) {
+          return tarteaucitron.engage(id);
+      });
+    }
+};
+
 // load custom css
 var scripts = document.getElementsByTagName('script'),
 path = scripts[scripts.length - 1].src.split('?')[0],
