@@ -24,6 +24,14 @@
 <#assign articleResourcePK = journalArticleResourceLocalServiceUtil.getArticleResourcePrimKey(groupId, journalArticleId)/>
 <#assign categoryList=assetCategoryLocalServiceUtil.getCategories("com.liferay.journal.model.JournalArticle",articleResourcePK) >
 
+<#assign assetEntryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
+<#assign asset = assetEntryLocalService.getEntry('com.liferay.journal.model.JournalArticle', articleResourcePK) >
+<#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
+<#assign territories = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "territoire") />
+<#assign cities = assetVocabularyHelper.getCityCategories(territories) />
+<#assign districts = assetVocabularyHelper.getDistrictCategories(territories) />
+<#assign territoriesLabel = assetVocabularyHelper.getDistrictTitle(locale, districts, cities) />
+
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if thumbnail.getData()?has_content>
@@ -47,9 +55,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             </span>
             <h1>${title.getData()}</h1>
             <div class="pro-meta">
-                <#list categoryList as categoryList>
-                   <span> ${categoryList.getName()} <span>
-                </#list>
+                <span> ${territoriesLabel} <span>
             </div>
             <figure role="group">
                 <img src='${image.getData()}' alt="Image agenda" width="1160" height="593" class="fit-cover"/>

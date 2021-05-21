@@ -36,7 +36,7 @@
 					<div class="pro-card-video" data-linkall=".pro-link-all">
 						<div class="pro-header">
 							<figure class="fit-cover" role="group">
-								<img alt="${entry.getTitle(locale)}" width="280" height="175" src="${entry.getImageURL()}">
+								<img alt="${entry.getTitle(locale)}?imagePreview=1" loading="lazy" width="280" height="175" src="${entry.getImageURL()}">
 							</figure>
 							<span class="icon-ico-lecteur"></span>
 						</div>

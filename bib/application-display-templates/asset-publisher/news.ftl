@@ -28,7 +28,9 @@
                     <#if videoURL?has_content>
                         <iframe width="100%" height="205" src="${videoURL}" frameborder="0" allowfullscreen></iframe>    
                     <#else>
-                        <img src="${imageURL}" width="250" class="img-responsive">
+                      <#if imageURL?has_content>
+                          <img src="${imageURL}" width="250" class="img-responsive">
+                      </#if>
                     </#if>
                 </div>
                 <h3 class="name">${title}</h3>

@@ -7,11 +7,16 @@
                 <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
                 <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
                 <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
+                <#assign url = docXml.valueOf("//dynamic-element[@name='URL']/dynamic-content/text()") />
                 <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                 <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
-    
                 <li class="alert-item">
-                    <a href="${viewURL}">
+                    <#if url=="">
+                        <a href="${viewURL}">
+                    </#if>
+                    <#if url!="">
+                        <a href="${url}" target="_blank">
+                    </#if>
                         <div class="alert-title">${title}</div>
                         <div class="alert-lead">${chapo}</div>
                     </a>

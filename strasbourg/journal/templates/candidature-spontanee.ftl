@@ -1,7 +1,7 @@
 <div class="seu-wi seu-wi-quote offer-contact"> 
     <div class="seu-container"> 
         <h2 class="seu-section-title">
-            <span class="seu-title"><@liferay_ui.message key="eu.offer-candidature-spontanee" /></span>
+            <span class="seu-title">${title.getData()}</span>
         </h2>
         <div class="rte">
             ${content.getData()}
@@ -28,7 +28,7 @@
             window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLApply()}";
         }else{
             window.createPopin(Liferay.Language.get('log-in-to-apply'),function() {
-                window.location = window.loginURL;
+                window.location = window.location + ( window.location.href.indexOf("?") > -1 ? '&' : '?') + 'auth=publik';
             },undefined,Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'));
         }
     };

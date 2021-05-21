@@ -6,7 +6,7 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "Title"
+                "fr_FR": "Titre"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -29,7 +29,7 @@
         },
         {
             "label": {
-                "fr_FR": "Contenu"
+                "fr_FR": "Numéro"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -43,12 +43,36 @@
             "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
-            "name": "content",
+            "name": "number",
             "readOnly": false,
             "repeatable": false,
-            "required": false,
+            "required": true,
             "showLabel": true,
             "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Ordre"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "number",
+            "fieldNamespace": "ddm",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "order",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "ddm-number"
         }
     ]
 }

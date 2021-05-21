@@ -1,0 +1,146 @@
+{
+    "availableLanguageIds": [
+        "fr_FR"
+    ],
+    "defaultLanguageId": "fr_FR",
+    "fields": [
+        {
+            "label": {
+                "fr_FR": "Bouton proposition"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "BoutonProposition",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Texte proposition"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "text",
+            "localizable": true,
+            "name": "TexteProposition",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "textarea"
+        },
+        {
+            "label": {
+                "fr_FR": "URL proposition"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "URLProposition",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Bouton demande"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "BoutonDemande",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Texte demande"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "text",
+            "localizable": true,
+            "name": "TexteDemande",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "textarea"
+        },
+        {
+            "label": {
+                "fr_FR": "URL demande"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "URLDemande",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        }
+    ]
+}

@@ -33,7 +33,7 @@
                 </div>
             </#if>
 
-            <#if entry.mail?has_content || (entry.getFacebookLabel(locale)?has_content && entry.getFacebookURL(locale)?has_content)>
+            <#if entry.mail?has_content || (entry.getFacebookLabel(locale)?has_content && entry.getFacebookURL(locale)?has_content) || (entry.getInstagramLabel(locale)?has_content && entry.getInstagramURL(locale)?has_content)>
                 <div class="place-links">
                     <#if entry.mail?has_content>
                         <a href="#contact-form-section"><@liferay_ui.message key="contact" /></a> 
@@ -41,6 +41,11 @@
                     <#if entry.getFacebookLabel(locale)?has_content && entry.getFacebookURL(locale)?has_content >
                         <a href="${entry.getFacebookURL(locale)}" title="${entry.getFacebookLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
                             ${entry.getFacebookLabel(locale)}
+                        </a> 
+                    </#if>
+                    <#if entry.getInstagramLabel(locale)?has_content && entry.getInstagramURL(locale)?has_content >
+                        <a href="${entry.getInstagramURL(locale)}" title="${entry.getInstagramLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
+                            ${entry.getInstagramLabel(locale)}
                         </a> 
                     </#if>
                 </div>
@@ -264,16 +269,16 @@
                             <p>
                                 * :  <@liferay_ui.message key="eu.required-field" />
                             </p>
-                            <p class="privacy-policy">
-                                <label><@liferay_ui.message key="eu.privacy-policy" /></label>
-                                <@liferay_portlet["runtime"]
-                                defaultPreferences="${freeMarkerPortletPreferences}"
-                                portletProviderAction=portletProviderAction.VIEW
-                                portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-                                settingsScope="group"
-                                instanceId="entityDetail" />
-                            </p>
                         </form>
+                        <p class="privacy-policy">
+                            <label><@liferay_ui.message key="eu.privacy-policy" /></label>
+                            <@liferay_portlet["runtime"]
+                            defaultPreferences="${freeMarkerPortletPreferences}"
+                            portletProviderAction=portletProviderAction.VIEW
+                            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                            settingsScope="group"
+                            instanceId="entityDetail" />
+                        </p>
                     </div>
                 </#if>
             </div>

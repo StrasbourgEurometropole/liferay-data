@@ -36,11 +36,11 @@
         <a href="${illustration.getData()}" class="magnific-popup">
       </#if>
       <#if editorialTitle?has_content && copyright?has_content>
-        <img src="${illustration.getData()}" alt="© ${copyright} " title="${editorialTitle}" />
+        <img src="${illustration.getData()}?imagePreview=1" loading="lazy" alt="© ${copyright} " title="${editorialTitle}" />
       <#elseif editorialTitle?has_content >
-        <img src="${illustration.getData()}"  title="${editorialTitle}" />
+        <img src="${illustration.getData()}?imagePreview=1" loading="lazy"  title="${editorialTitle}" />
       <#else>
-        <img src="${illustration.getData()}"  />
+        <img src="${illustration.getData()}?imagePreview=1" loading="lazy"  />
       </#if>
       </a>
       <div class="copyright-caption">
@@ -64,9 +64,15 @@
           <a class="addthis_button_compact"></a>
         </div>
         <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51d143de770773c5"></script>
+        <script type="text/javascript">
+          // Service AddThis
+          tarteaucitron.user.addthisPubId = 'ra-51d143de770773c5';
+          (tarteaucitron.job = tarteaucitron.job || []).push('addthis');
+        </script>
+        <div class="addthis_sharing_toolbox"></div>
         <!-- AddThis Button END -->
     </div>
+    
   </div>
 </div>
 <div class="previous-link-div">

@@ -3,16 +3,15 @@
 
 <section class="bloc-video" id="video">
     <div class="video-content">
-        <div class="video-container" style="background-image:url('${video.imageURL}');" id="player"></div>
-        <div class="video-info">
+        <div class="video-container" id="player">
+            ${video.getPlayer(locale)}
+        </div>
+        <div class="video-info" style="background-image:url('${video.imageURL}');" >
             <p>Vidéo de présentation</p>
         </div>
     </div>
 </section>
 
-<#assign videoURL  = video.getSource(locale) />
-<#assign site  = video.getSiteVideo(videoURL) />
-<#assign codeEmbed  = video.getEmbedURL(site, videoURL) />
 <script>
     var videoContainer = jQuery('.video-container');
     var seeVideoButton = jQuery('.welcome-menu a[href="#video"]');
@@ -26,14 +25,6 @@
 
 
     function showVideo(event) {
-        //event.preventDefault();
-        content = "<iframe src=\"${codeEmbed?replace('&muted=1', '')}&autoplay=1\" ";
-         if ("${site}" == "youtube") {
-            content += "id=\"youtubePlayer\" ";
-        } 
-        content += "width=\"auto\" height=\"auto\" frameborder=\"0\" allowfullscreen allow=\"accelerometer; autoplay;\"></iframe>";
-
-        videoContainer.html(content);
         playButton.hide();
     };
 </script>

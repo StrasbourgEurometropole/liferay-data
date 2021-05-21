@@ -5,8 +5,9 @@
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)} 
 
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+<#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 
-<#if portletHelper.isUserAuthorizedToConsultInternOffer(entry.typePublication.getName())> 
+<#if portletHelper.isUserAuthorizedToConsultOffer(entry.typePublication.getName())> 
     <div class="seu-page-offer">
         <main class="seu-container">
             <h1>${entry.getPost(locale)}</h1>
@@ -85,6 +86,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <div id="niveauEtude">
                                 <h3><@liferay_ui.message key="eu.offer-niveau-etude" /></h3>
                                 <p>${entry.niveauEtude.getTitle(locale)}</p>
+                            </div>
+                        </#if>
+
+				        <#if entry.contact?? && entry.typePublication?? && (entry.typePublication.getTitle(locale)=="Interne uniquement" || (entry.typePublication.getTitle(locale)=="Interne et externe" && portletHelper.isUserAuthorizedToConsultInternOffer()))>
+                            <div id="contactRH">
+                                <h3><@liferay_ui.message key="eu.offer-contact-RH" /></h3>
+                                <p>${entry.contact}</p>
                             </div>
                         </#if>
                     </div>  
@@ -166,7 +174,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLOfferApply()}?refposte=${entry.publicationId}&libposte=${entry.getPost(locale)?js_string}";
             }else{
                 window.createPopin(Liferay.Language.get('log-in-to-apply'),function() {
-                    window.location = window.loginURL;
+                    window.location = window.location + ((window.location.href.indexOf("?") > -1)? '&' : '?') + 'auth=publik';
                 },undefined,Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'));
             }
         };
