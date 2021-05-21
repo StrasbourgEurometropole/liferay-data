@@ -410,3 +410,9 @@
 #th-global .pro-modal .modal-dialog {
     pointer-events: inherit;
 }
+
+// Correctifs border sur les label (mantis 5606)
+#th-global .label {
+    border-style: none;
+}
+// Fin correctifs border sur les label (mantis 5606)
