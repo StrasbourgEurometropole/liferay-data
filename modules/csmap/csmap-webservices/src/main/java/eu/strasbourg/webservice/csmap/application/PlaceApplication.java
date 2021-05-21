@@ -235,9 +235,9 @@ public class PlaceApplication extends Application {
 					String categoryGradientEnd = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(categ.getCategoryId(), "csmap_gradient_end").getValue();
 					if (Validator.isNotNull(categoryGradientStart) && Validator.isNotNull(categoryGradientEnd)) {
 						if (lastUpdateTime.before(categ.getCreateDate()))
-							jsonAjout.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, true));
+							jsonAjout.put(CSMapJSonHelper.placeCategoryCSMapJSON(categ, pictoURL, true));
 						else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
-							jsonModif.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
+							jsonModif.put(CSMapJSonHelper.placeCategoryCSMapJSON(categ, pictoURL, updatePicto));
 					}
 				} catch (PortalException e){/* Ne rien ajouter*/}
 

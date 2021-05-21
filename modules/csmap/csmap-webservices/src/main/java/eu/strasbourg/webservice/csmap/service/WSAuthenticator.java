@@ -2,6 +2,8 @@ package eu.strasbourg.webservice.csmap.service;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.Validator;
@@ -89,7 +91,7 @@ public class WSAuthenticator {
             BufferedReader rd = new BufferedReader(
                     new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8));
             String str = WSTokenUtil.readAll(rd);
-            System.out.println(str);
+            _log.error(str);
             return null;
         }
     }
@@ -212,5 +214,7 @@ public class WSAuthenticator {
 
     @Reference
     protected PublikUserLocalService publikUserLocalService;
+
+    private static final Log _log = LogFactoryUtil.getLog(WSAuthenticator.class);
 
 }

@@ -1,32 +1,36 @@
 package eu.strasbourg.webservice.csmap.application;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.model.CacheJson;
 import eu.strasbourg.service.agenda.model.Historic;
 import eu.strasbourg.service.agenda.service.CacheJsonLocalService;
 import eu.strasbourg.service.agenda.service.HistoricLocalService;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.exception.place.NoDefaultPictoException;
+import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component(
         property = {
@@ -107,6 +111,162 @@ public class EventApplication extends Application {
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
 
+        return WSResponseUtil.buildOkResponse(json);
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("/get-themes")
+    public Response getThemes(
+            @FormParam("ids_themes") String ids_themes) {
+        return getThemes("0", ids_themes);
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("/get-themes/{last_update_time}")
+    public Response getThemes(
+            @PathParam("last_update_time") String lastUpdateTimeString,
+            @FormParam("ids_themes") String ids_themes) {
+
+
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        // On transforme la date string en date
+        Date lastUpdateTime;
+        try {
+            long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+        } catch (Exception e) {
+            return WSResponseUtil.lastUpdateTimeFormatError();
+        }
+
+        // On vérifie que les ids sont renseignés
+        if (Validator.isNull(ids_themes)) {
+            ids_themes = "";
+        }
+
+        try {
+            // On récupère les catégories du vocabulaire des lieux
+            AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
+                    .getGlobalVocabulary(VocabularyNames.EVENT_THEME);
+            List<AssetCategory> categories = new ArrayList<>();
+            if (Validator.isNotNull(placeTypeVocabulary))
+                categories = placeTypeVocabulary.getCategories();
+
+            // On récupère toutes les catégories qui ont été ajoutées ou modifiées
+            JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+            JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+
+            for (AssetCategory categ : categories) {
+                if (lastUpdateTime.before(categ.getCreateDate()))
+                    jsonAjout.put(CSMapJSonHelper.eventThemesCSMapJSON(categ));
+                else if (lastUpdateTime.before(categ.getModifiedDate()))
+                    jsonModif.put(CSMapJSonHelper.eventThemesCSMapJSON(categ));
+            }
+
+            json.put(WSConstants.JSON_ADD, jsonAjout);
+            json.put(WSConstants.JSON_UPDATE, jsonModif);
+
+            // On récupère toutes les catégories qui ont été supprimées
+            JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
+
+            if (Validator.isNotNull(ids_themes)) {
+                if (Validator.isNotNull(placeTypeVocabulary))
+                    for (String idCategory : ids_themes.split(",")) {
+                        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory);
+                        if (Validator.isNull(category)) {
+                            jsonSuppr.put(idCategory);
+                        }
+                    }
+            }
+            json.put(WSConstants.JSON_DELETE, jsonSuppr);
+
+            if (jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+                return WSResponseUtil.buildOkResponse(json, 201);
+        } catch (PortalException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(json);
+    }
+
+
+
+    @POST
+    @Produces("application/json")
+    @Path("/get-types")
+    public Response getTypes(
+            @FormParam("ids_types") String ids_types) {
+        return getTypes("0", ids_types);
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("/get-types/{last_update_time}")
+    public Response getTypes(
+            @PathParam("last_update_time") String lastUpdateTimeString,
+            @FormParam("ids_types") String ids_types) {
+
+
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        // On transforme la date string en date
+        Date lastUpdateTime;
+        try {
+            long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+        } catch (Exception e) {
+            return WSResponseUtil.lastUpdateTimeFormatError();
+        }
+
+        // On vérifie que les ids sont renseignés
+        if (Validator.isNull(ids_types)) {
+            ids_types = "";
+        }
+
+        try {
+            // On récupère les catégories du vocabulaire des lieux
+            AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
+                    .getGlobalVocabulary(VocabularyNames.EVENT_TYPE);
+            List<AssetCategory> categories = new ArrayList<>();
+            if (Validator.isNotNull(placeTypeVocabulary))
+                categories = placeTypeVocabulary.getCategories();
+
+            // On récupère toutes les catégories qui ont été ajoutées ou modifiées
+            JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+            JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+
+            for (AssetCategory categ : categories) {
+                if (lastUpdateTime.before(categ.getCreateDate()))
+                    jsonAjout.put(CSMapJSonHelper.eventTypesCSMapJSON(categ));
+                else if (lastUpdateTime.before(categ.getModifiedDate()))
+                    jsonModif.put(CSMapJSonHelper.eventTypesCSMapJSON(categ));
+            }
+
+            json.put(WSConstants.JSON_ADD, jsonAjout);
+            json.put(WSConstants.JSON_UPDATE, jsonModif);
+
+            // On récupère toutes les catégories qui ont été supprimées
+            JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
+
+            if (Validator.isNotNull(ids_types)) {
+                if (Validator.isNotNull(placeTypeVocabulary))
+                    for (String idCategory : ids_types.split(",")) {
+                        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory);
+                        if (Validator.isNull(category)) {
+                            jsonSuppr.put(idCategory);
+                        }
+                    }
+            }
+            json.put(WSConstants.JSON_DELETE, jsonSuppr);
+
+            if (jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+                return WSResponseUtil.buildOkResponse(json, 201);
+        } catch (PortalException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
         return WSResponseUtil.buildOkResponse(json);
     }
 

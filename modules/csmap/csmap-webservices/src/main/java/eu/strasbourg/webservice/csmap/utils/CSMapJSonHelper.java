@@ -24,7 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CSMapJSonHelper {
-    static public JSONObject categoryCSMapJSON(AssetCategory category, String urlPicto, boolean maj) {
+    static public JSONObject placeCategoryCSMapJSON(AssetCategory category, String urlPicto, boolean maj) {
         JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
         if (category != null) {
             String externalId = AssetVocabularyHelper.getExternalId(category);
@@ -234,4 +234,37 @@ public class CSMapJSonHelper {
         }
         return SimplePOIsJSON;
     }
+
+    static public JSONObject eventThemesCSMapJSON(AssetCategory category) {
+        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
+        if (category != null) {
+            String externalId = AssetVocabularyHelper.getExternalId(category);
+            jsonCategory.put(WSConstants.JSON_CATEG_ID, externalId);
+            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
+            if (Validator.isNotNull(parentExternalId)) {
+                jsonCategory.put(WSConstants.JSON_PARENT_ID, parentExternalId);
+            }
+            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
+            nameJSON.put(WSConstants.JSON_LANGUAGE_FRANCE, category.getTitle(Locale.FRANCE));
+            jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
+        }
+        return  jsonCategory;
+    }
+
+    static public JSONObject eventTypesCSMapJSON(AssetCategory category) {
+        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
+        if (category != null) {
+            String externalId = AssetVocabularyHelper.getExternalId(category);
+            jsonCategory.put(WSConstants.JSON_CATEG_ID, externalId);
+            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
+            if (Validator.isNotNull(parentExternalId)) {
+                jsonCategory.put(WSConstants.JSON_PARENT_ID, parentExternalId);
+            }
+            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
+            nameJSON.put(WSConstants.JSON_LANGUAGE_FRANCE, category.getTitle(Locale.FRANCE));
+            jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
+        }
+        return  jsonCategory;
+    }
+
 }
