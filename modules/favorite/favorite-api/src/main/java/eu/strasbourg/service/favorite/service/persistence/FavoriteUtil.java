@@ -725,6 +725,10 @@ public class FavoriteUtil {
 		return getPersistence().countAll();
 	}
 
+	public static Set<String> getBadColumnNames() {
+		return getPersistence().getBadColumnNames();
+	}
+
 	public static FavoritePersistence getPersistence() {
 		return _serviceTracker.getService();
 	}

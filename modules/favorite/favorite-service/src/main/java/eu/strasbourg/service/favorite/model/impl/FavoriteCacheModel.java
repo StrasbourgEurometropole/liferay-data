@@ -65,7 +65,7 @@ public class FavoriteCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{favoriteId=");
 		sb.append(favoriteId);
@@ -83,6 +83,10 @@ public class FavoriteCacheModel
 		sb.append(entityGroupId);
 		sb.append(", onDashboardDate=");
 		sb.append(onDashboardDate);
+		sb.append(", order=");
+		sb.append(order);
+		sb.append(", content=");
+		sb.append(content);
 		sb.append("}");
 
 		return sb.toString();
@@ -126,6 +130,15 @@ public class FavoriteCacheModel
 			favoriteImpl.setOnDashboardDate(new Date(onDashboardDate));
 		}
 
+		favoriteImpl.setOrder(order);
+
+		if (content == null) {
+			favoriteImpl.setContent("");
+		}
+		else {
+			favoriteImpl.setContent(content);
+		}
+
 		favoriteImpl.resetOriginalValues();
 
 		return favoriteImpl;
@@ -144,6 +157,9 @@ public class FavoriteCacheModel
 
 		entityGroupId = objectInput.readLong();
 		onDashboardDate = objectInput.readLong();
+
+		order = objectInput.readInt();
+		content = objectInput.readUTF();
 	}
 
 	@Override
@@ -177,6 +193,15 @@ public class FavoriteCacheModel
 
 		objectOutput.writeLong(entityGroupId);
 		objectOutput.writeLong(onDashboardDate);
+
+		objectOutput.writeInt(order);
+
+		if (content == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(content);
+		}
 	}
 
 	public long favoriteId;
@@ -187,5 +212,7 @@ public class FavoriteCacheModel
 	public long entityId;
 	public long entityGroupId;
 	public long onDashboardDate;
+	public int order;
+	public String content;
 
 }

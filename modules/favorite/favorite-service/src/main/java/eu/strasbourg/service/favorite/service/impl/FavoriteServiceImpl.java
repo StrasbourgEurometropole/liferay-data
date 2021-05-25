@@ -169,7 +169,7 @@ public class FavoriteServiceImpl extends FavoriteServiceBaseImpl {
 			favorite.setPublikUserId(id);
 			favorite.setEntityId(entityId);
 			favorite.setEntityGroupId(entityGroupId);
-			
+
 			this.favoriteLocalService.updateFavorite(favorite);
 			
 			return success("favorite added");

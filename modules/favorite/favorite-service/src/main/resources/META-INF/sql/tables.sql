@@ -6,5 +6,7 @@ create table favorite_Favorite (
 	typeId LONG,
 	entityId LONG,
 	entityGroupId LONG,
-	onDashboardDate DATE null
+	onDashboardDate DATE null,
+	order_ INTEGER,
+	content VARCHAR(75) null
 );

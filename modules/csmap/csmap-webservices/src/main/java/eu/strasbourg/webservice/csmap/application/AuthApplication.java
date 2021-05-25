@@ -103,7 +103,6 @@ public class AuthApplication extends Application {
             jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, refreshToken.getValue());
 
         } catch (InvalidJWTException | IOException | AuthenticationFailedException e) {
-            log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         } catch (RefreshTokenCreationFailedException e) {
             log.error(e);

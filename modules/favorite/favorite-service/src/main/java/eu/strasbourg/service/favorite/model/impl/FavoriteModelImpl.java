@@ -76,7 +76,8 @@ public class FavoriteModelImpl
 		{"favoriteId", Types.BIGINT}, {"publikUserId", Types.VARCHAR},
 		{"title", Types.VARCHAR}, {"url", Types.VARCHAR},
 		{"typeId", Types.BIGINT}, {"entityId", Types.BIGINT},
-		{"entityGroupId", Types.BIGINT}, {"onDashboardDate", Types.TIMESTAMP}
+		{"entityGroupId", Types.BIGINT}, {"onDashboardDate", Types.TIMESTAMP},
+		{"order_", Types.INTEGER}, {"content", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -91,10 +92,12 @@ public class FavoriteModelImpl
 		TABLE_COLUMNS_MAP.put("entityId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("entityGroupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("onDashboardDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("order_", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("content", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table favorite_Favorite (favoriteId LONG not null primary key,publikUserId VARCHAR(75) null,title VARCHAR(255) null,url VARCHAR(255) null,typeId LONG,entityId LONG,entityGroupId LONG,onDashboardDate DATE null)";
+		"create table favorite_Favorite (favoriteId LONG not null primary key,publikUserId VARCHAR(75) null,title VARCHAR(255) null,url VARCHAR(255) null,typeId LONG,entityId LONG,entityGroupId LONG,onDashboardDate DATE null,order_ INTEGER,content VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table favorite_Favorite";
 
@@ -156,6 +159,8 @@ public class FavoriteModelImpl
 		model.setEntityId(soapModel.getEntityId());
 		model.setEntityGroupId(soapModel.getEntityGroupId());
 		model.setOnDashboardDate(soapModel.getOnDashboardDate());
+		model.setOrder(soapModel.getOrder());
+		model.setContent(soapModel.getContent());
 
 		return model;
 	}
@@ -468,6 +473,46 @@ public class FavoriteModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"order",
+			new Function<Favorite, Object>() {
+
+				@Override
+				public Object apply(Favorite favorite) {
+					return favorite.getOrder();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"order",
+			new BiConsumer<Favorite, Object>() {
+
+				@Override
+				public void accept(Favorite favorite, Object order) {
+					favorite.setOrder((Integer)order);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"content",
+			new Function<Favorite, Object>() {
+
+				@Override
+				public Object apply(Favorite favorite) {
+					return favorite.getContent();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"content",
+			new BiConsumer<Favorite, Object>() {
+
+				@Override
+				public void accept(Favorite favorite, Object content) {
+					favorite.setContent((String)content);
+				}
+
+			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -622,6 +667,33 @@ public class FavoriteModelImpl
 		_onDashboardDate = onDashboardDate;
 	}
 
+	@JSON
+	@Override
+	public int getOrder() {
+		return _order;
+	}
+
+	@Override
+	public void setOrder(int order) {
+		_order = order;
+	}
+
+	@JSON
+	@Override
+	public String getContent() {
+		if (_content == null) {
+			return "";
+		}
+		else {
+			return _content;
+		}
+	}
+
+	@Override
+	public void setContent(String content) {
+		_content = content;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -661,6 +733,8 @@ public class FavoriteModelImpl
 		favoriteImpl.setEntityId(getEntityId());
 		favoriteImpl.setEntityGroupId(getEntityGroupId());
 		favoriteImpl.setOnDashboardDate(getOnDashboardDate());
+		favoriteImpl.setOrder(getOrder());
+		favoriteImpl.setContent(getContent());
 
 		favoriteImpl.resetOriginalValues();
 
@@ -784,6 +858,16 @@ public class FavoriteModelImpl
 			favoriteCacheModel.onDashboardDate = Long.MIN_VALUE;
 		}
 
+		favoriteCacheModel.order = getOrder();
+
+		favoriteCacheModel.content = getContent();
+
+		String content = favoriteCacheModel.content;
+
+		if ((content != null) && (content.length() == 0)) {
+			favoriteCacheModel.content = null;
+		}
+
 		return favoriteCacheModel;
 	}
 
@@ -867,6 +951,8 @@ public class FavoriteModelImpl
 	private boolean _setOriginalEntityId;
 	private long _entityGroupId;
 	private Date _onDashboardDate;
+	private int _order;
+	private String _content;
 	private long _columnBitmask;
 	private Favorite _escapedModel;
 

@@ -65,6 +65,8 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 		attributes.put("entityId", getEntityId());
 		attributes.put("entityGroupId", getEntityGroupId());
 		attributes.put("onDashboardDate", getOnDashboardDate());
+		attributes.put("order", getOrder());
+		attributes.put("content", getContent());
 
 		return attributes;
 	}
@@ -118,6 +120,18 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 		if (onDashboardDate != null) {
 			setOnDashboardDate(onDashboardDate);
 		}
+
+		Integer order = (Integer)attributes.get("order");
+
+		if (order != null) {
+			setOrder(order);
+		}
+
+		String content = (String)attributes.get("content");
+
+		if (content != null) {
+			setContent(content);
+		}
 	}
 
 	@Override
@@ -135,6 +149,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
 		return _favorite.getAssetEntry();
+	}
+
+	/**
+	 * Returns the content of this favorite.
+	 *
+	 * @return the content of this favorite
+	 */
+	@Override
+	public String getContent() {
+		return _favorite.getContent();
 	}
 
 	/**
@@ -185,6 +209,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	@Override
 	public Date getOnDashboardDate() {
 		return _favorite.getOnDashboardDate();
+	}
+
+	/**
+	 * Returns the order of this favorite.
+	 *
+	 * @return the order of this favorite
+	 */
+	@Override
+	public int getOrder() {
+		return _favorite.getOrder();
 	}
 
 	/**
@@ -283,6 +317,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	}
 
 	/**
+	 * Sets the content of this favorite.
+	 *
+	 * @param content the content of this favorite
+	 */
+	@Override
+	public void setContent(String content) {
+		_favorite.setContent(content);
+	}
+
+	/**
 	 * Sets the entity group ID of this favorite.
 	 *
 	 * @param entityGroupId the entity group ID of this favorite
@@ -342,6 +386,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	@Override
 	public void setOnDashboardDate(Date onDashboardDate) {
 		_favorite.setOnDashboardDate(onDashboardDate);
+	}
+
+	/**
+	 * Sets the order of this favorite.
+	 *
+	 * @param order the order of this favorite
+	 */
+	@Override
+	public void setOrder(int order) {
+		_favorite.setOrder(order);
 	}
 
 	/**

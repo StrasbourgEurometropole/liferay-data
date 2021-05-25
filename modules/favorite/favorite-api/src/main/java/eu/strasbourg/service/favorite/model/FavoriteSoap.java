@@ -42,6 +42,8 @@ public class FavoriteSoap implements Serializable {
 		soapModel.setEntityId(model.getEntityId());
 		soapModel.setEntityGroupId(model.getEntityGroupId());
 		soapModel.setOnDashboardDate(model.getOnDashboardDate());
+		soapModel.setOrder(model.getOrder());
+		soapModel.setContent(model.getContent());
 
 		return soapModel;
 	}
@@ -159,6 +161,22 @@ public class FavoriteSoap implements Serializable {
 		_onDashboardDate = onDashboardDate;
 	}
 
+	public int getOrder() {
+		return _order;
+	}
+
+	public void setOrder(int order) {
+		_order = order;
+	}
+
+	public String getContent() {
+		return _content;
+	}
+
+	public void setContent(String content) {
+		_content = content;
+	}
+
 	private long _favoriteId;
 	private String _publikUserId;
 	private String _title;
@@ -167,5 +185,7 @@ public class FavoriteSoap implements Serializable {
 	private long _entityId;
 	private long _entityGroupId;
 	private Date _onDashboardDate;
+	private int _order;
+	private String _content;
 
 }
