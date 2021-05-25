@@ -1,3 +1,26 @@
+// surcharge de la méthode engage
+/*tarteaucitron.engage = function (id) {
+    "use strict";
+    var html = '',
+        r = Math.floor(Math.random() * 100000),
+        engage = tarteaucitron.services[id].name + ' ' + tarteaucitron.lang.fallback;
+
+    if (tarteaucitron.lang['engage-' + id] !== undefined) {
+        engage = tarteaucitron.lang['engage-' + id];
+    }
+
+    html += '<div class="tac_activate tac_activate_' + id + '">';
+    html += '   <div class="tac_float">';
+    html += '      ' + engage;
+    html += '      <button type="button" class="tarteaucitronAllow" id="Eng' + r + 'ed' + id + '">';
+    html += '          <span class="tarteaucitronCheck"></span> ' + tarteaucitron.lang.allow;
+    html += '       </button>';
+    html += '   </div>';
+    html += '</div>';
+
+    return html;
+}*/
+
 // Définition de la langue par défaut
 window.tarteaucitronForceLanguage = document.documentElement.lang === undefined ? "en" : document.documentElement.lang.slice(0,2);
 
@@ -23,8 +46,8 @@ switch (window.tarteaucitronForceLanguage) {
             "denyAll" : "Cookies ablehnen",
             "personalize" : "Mehr Informationen & Cookies-Einstellungen",
             "privacyUrl" : "Mehr Informationen über Cookies-Einstellungen",
-            "allow" : "Accept",
-            "deny" : "Decline",
+            "allow" : "Zulassen",
+            "deny" : "Ablehnen",
         };
         break;
     case 'en':
@@ -36,8 +59,8 @@ switch (window.tarteaucitronForceLanguage) {
             "denyAll" : "DECLINE ALL COOKIES",
             "personalize" : "Learn more & settings",
             "privacyUrl" : "Learn more about cookie management",
-            "allow" : "Zulassen",
-            "deny" : "Ablehnen",
+            "allow" : "Accept",
+            "deny" : "Decline",
         };
 }
 
@@ -81,8 +104,8 @@ tarteaucitron.init({
 });
 
 // Ajout des services supplémentaires
-tarteaucitron.services.iframelivechat = {
-    "key": "iframelivechat",
+tarteaucitron.services.iframelivechatcreacast = {
+    "key": "iframelivechatcreacast",
     "type": "other",
     "name": "Livechat",
     "uri": "",
@@ -90,7 +113,7 @@ tarteaucitron.services.iframelivechat = {
     "cookies": ['ssm_au_d', 'PHPSESSID'],
     "js": function () {
         "use strict";
-        tarteaucitron.fallback(['tac_iframelivechat'], function (x) {
+        tarteaucitron.fallback(['tac_iframelivechatcreacast'], function (x) {
             var width = x.getAttribute("width"),
                 height = x.getAttribute("height"),
                 frameborder = x.getAttribute("frameborder"),
@@ -101,8 +124,8 @@ tarteaucitron.services.iframelivechat = {
     },
     "fallback": function () {
         "use strict";
-        var id = 'iframelivechat';
-        tarteaucitron.fallback(['tac_iframelivechat'], function (elem) {
+        var id = 'iframelivechatcreacast';
+        tarteaucitron.fallback(['tac_iframelivechatcreacast'], function (elem) {
             elem.style.width = elem.getAttribute('width') + 'px';
             elem.style.height = elem.getAttribute('height') + 'px';
             return tarteaucitron.engage(id);
@@ -110,8 +133,8 @@ tarteaucitron.services.iframelivechat = {
     }
 };
 
-tarteaucitron.services.iframecreacast = {
-    "key": "iframecreacast",
+tarteaucitron.services.iframevideoscreacast = {
+    "key": "iframevideoscreacast",
     "type": "video",
     "name": "Creacast Vidéo",
     "uri": "",
@@ -119,7 +142,7 @@ tarteaucitron.services.iframecreacast = {
     "cookies": ['__utm*'],
     "js": function () {
       "use strict";
-      tarteaucitron.fallback(['tac_iframecreacast'], function (x) {
+      tarteaucitron.fallback(['tac_iframevideoscreacast'], function (x) {
         var width = x.getAttribute("width"),
             height = x.getAttribute("height"),
             frameborder = x.getAttribute("frameborder"),
@@ -135,8 +158,8 @@ tarteaucitron.services.iframecreacast = {
     },
     "fallback": function () {
       "use strict";
-      var id = 'iframecreacast';
-      tarteaucitron.fallback(['tac_iframecreacast'], function (elem) {
+      var id = 'iframevideoscreacast';
+      tarteaucitron.fallback(['tac_iframevideoscreacast'], function (elem) {
           elem.style.width = elem.getAttribute('width') + 'px';
           elem.style.height = elem.getAttribute('height') + 'px';
           return tarteaucitron.engage(id);
@@ -153,8 +176,12 @@ tarteaucitron.services.iframepublicationsfacebook = {
     "cookies": ['__utm*'],
     "js": function () {
       "use strict";
+
+      if (tarteaucitron.user.appId === undefined) {
+          return;
+      }
       tarteaucitron.fallback(['tac_iframepublicationsfacebook'], '');
-      tarteaucitron.addScript('https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v3.3&appId=341342126780735&autoLogAppEvents=1','','',true,"crossorigin","anonymous",false);
+      tarteaucitron.addScript('https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v3.3&appId=' + tarteaucitron.user.appId + '&autoLogAppEvents=1','','',true,"crossorigin","anonymous",false);
       if (tarteaucitron.isAjax === true) {
           if (typeof FB !== "undefined") {
               FB.XFBML.parse();
@@ -169,3 +196,78 @@ tarteaucitron.services.iframepublicationsfacebook = {
       });
     }
 };
+
+// recaptchaEMS
+tarteaucitron.services.recaptcha_ems = {
+    "key": "recaptcha_ems",
+    "type": "api",
+    "name": "reCAPTCHA EMS",
+    "uri": "https://policies.google.com/privacy",
+    "needConsent": true,
+    "cookies": ['nid'],
+    "js": function () {
+        "use strict";
+        window.tacRecaptchaOnLoad = tarteaucitron.user.recaptchaOnLoad || function() {};
+        
+        tarteaucitron.fallback(['g-recaptcha'], function (x) {
+            tarteaucitron.user.hasRecaptcha = true;
+        }, true);  
+
+        if(tarteaucitron.user.hasRecaptcha){
+            if (tarteaucitron.user.recaptchaapi === undefined) {
+                tarteaucitron.addScript('https://www.google.com/recaptcha/api.js?onload=tacRecaptchaOnLoad');
+            } else {
+                tarteaucitron.addScript('https://www.google.com/recaptcha/api.js?onload=tacRecaptchaOnLoad&render=' + tarteaucitron.user.recaptchaapi);
+            } 
+        }     
+    },
+    "fallback": function () {
+        "use strict";
+        var id = 'recaptcha_ems';
+        tarteaucitron.fallback(['g-recaptcha'], tarteaucitron.engage(id));
+    }
+};
+
+tarteaucitron.services.iframevideosfacebook = {
+    "key": "iframevideosfacebook",
+    "type": "video",
+    "name": "Vidéos Facebook",
+    "uri": "",
+    "needConsent": true,
+    "cookies": ['fr','presence','c_user','xs','x-referer','spin','wd','m_pixel_ratio','ssm_au_c','ssm_au_c','sb','datr'],
+    "js": function () {
+      "use strict";
+      tarteaucitron.fallback(['tac_iframevideosfacebook'], function (x) {
+        var width = x.getAttribute("width"),
+            height = x.getAttribute("height"),
+            frameborder = x.getAttribute("frameborder"),
+            allow = x.getAttribute("allow"),
+            allowfullscreen = x.getAttribute("allowfullscreen"),
+            scrolling = x.getAttribute("scrolling"),
+            url = x.getAttribute("data-url");
+  
+          if (url === undefined) {
+              return "";
+          }
+
+          return '<iframe allow="' + allow + '" allowfullscreen="' + allowfullscreen + '" scrolling="' + scrolling + '" src="' + url + '" style="border:none;overflow:hidden" width="' + width + '" height="' + height + '" frameborder="' + frameborder + '"></iframe>';
+      });
+    },
+    "fallback": function () {
+      "use strict";
+      var id = 'iframevideosfacebook';
+      tarteaucitron.fallback(['tac_iframevideosfacebook'], function (elem) {
+          return tarteaucitron.engage(id);
+      });
+    }
+};
+
+// load custom css
+var scripts = document.getElementsByTagName('script'),
+path = scripts[scripts.length - 1].src.split('?')[0],
+cdn = path.split('/').slice(0, -2).join('/') + '/',
+customCSSLink = document.createElement('link');
+customCSSLink.rel = 'stylesheet';
+customCSSLink.type = 'text/css';
+customCSSLink.href = cdn + 'css/main.css';
+document.getElementsByTagName('head')[0].appendChild(customCSSLink);

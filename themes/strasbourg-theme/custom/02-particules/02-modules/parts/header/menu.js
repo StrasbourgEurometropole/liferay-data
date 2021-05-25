@@ -1638,3 +1638,21 @@ setTimeout(function () {
 
 // Lancement du script de ObjectFit
 objectFitImages('.fit-cover img');
+
+// À l’ouverture
+th_overlay.addCallbackOpen(function (overlayId) {
+    if (overlayId === 'th-overlay-nav') {
+        if (!document.body.classList.contains("th-no-scroll")) {
+            document.body.classList.add("th-no-scroll")
+        }
+    }
+});
+ 
+// À la fermeture
+th_overlay.addCallbackClose(function (overlayId) {
+    if (overlayId === 'th-overlay-nav') {
+        if (document.body.classList.contains("th-no-scroll")) {
+            document.body.classList.remove("th-no-scroll")
+        }
+    }
+});

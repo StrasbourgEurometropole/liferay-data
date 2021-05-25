@@ -61,6 +61,7 @@ import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
+import eu.strasbourg.utils.constants.CategoryNames;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import javax.servlet.http.HttpServletRequest;
@@ -291,7 +292,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     public String getDistrictLabel(Locale locale) {
         List<AssetCategory> districts = getDistrictCategories();
 		List<AssetCategory> cities = getCityCategories();
-        return AssetVocabularyHelper.getDistrictTitleForCity(locale, districts, cities, "Strasbourg_old");
+        return AssetVocabularyHelper.getDistrictTitleForCity(locale, districts, cities, CategoryNames.OLD_STRASBOURG);
     }
 
     /**

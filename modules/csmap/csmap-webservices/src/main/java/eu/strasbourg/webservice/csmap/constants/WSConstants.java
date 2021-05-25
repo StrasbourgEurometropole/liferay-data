@@ -14,6 +14,8 @@ public class WSConstants {
     public static final String APP_ACCOUNT_DATA_NAME = "CSMAP.Account.Data.Rest";
     public static final String APP_VARIOUS_DATA_BASE = "/various-data";
     public static final String APP_VARIOUS_DATA_NAME = "CSMAP.Various.Data.Rest";
+    public static final String APP_SETTINGS_BASE = "/settings";
+    public static final String APP_SETTINGS_NAME = "CSMAP.Settings.Data.Rest";
 
 
     /** Publik */
@@ -51,6 +53,10 @@ public class WSConstants {
     public static final String JSON_ADD = "ADD";
     public static final String JSON_UPDATE = "UPDATE";
     public static final String JSON_DELETE = "DELETE";
+    public static final String JSON_PLACE_NAME = "name";
+    public static final String JSON_PLACE_OPDENDATA_URL= "openDataURL";
+    public static final String JSON_PLACE_TYPES= "types";
+
     // Place catégories
     public static final String JSON_CATEG_ID = "id";
     public static final String JSON_PARENT_ID = "parentId";
@@ -94,10 +100,21 @@ public class WSConstants {
     public static final String JSON_DESCRIPTION = "description";
     public static final String JSON_WC_URL = "url";
     public static final String JSON_WC_PICTO = "picto";
+    // Settings
+    public static final String JSON_SETTINGS_REPORTURL = "reportUrl";
+    public static final String JSON_SETTINGS_CODE = "code";
+    public static final String JSON_SETTINGS_ISACTIVE = "isActive";
+
 
     /** Config */
+    // Global
+    public static final String GROUP_KEY_CSMAP = "CSMAP";
+
+    // Place
+    public static final String FOLDER_LIEUX = "Lieux";
+    public static final String STRUCTURE_POI_SIMPLE = "POI simple";
+
     // Various-Data
-    public static final String GROUP_KEY = "CSMAP";
     public static final String GROUP_KEY_STRAS = "Strasbourg.eu";
     public static final String TAG_CSMAP = "csmap";
     public static final String STRUCTURE_BREVE = "Breve";
@@ -109,6 +126,11 @@ public class WSConstants {
     public static final String FOLDER_EMERGENCY_HELPS = "Aides urgence";
     public static final String FOLDER_SOCIAL_NETWORK = "R\u00e9seaux sociaux";
     public static final String GENERAL_CONDITIONS = "Mentions l\u00e9gales";
+
+    // Settings
+    public static final String FOLDER_PARAMETRAGE = "Param\u00e9trage";
+    public static final String STRUCTURE_SIGNALEMENT = "Signalement";
+    public static final String STRUCTURE_STATUT_MODULES = "Statut des modules";
 
     /** Erreurs */
     // Global

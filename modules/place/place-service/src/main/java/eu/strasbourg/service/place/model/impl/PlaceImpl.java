@@ -38,6 +38,7 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.OccupationState;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.models.Pair;
 
@@ -1904,13 +1905,23 @@ public class PlaceImpl extends PlaceBaseImpl {
             jsonPlace.put("phone", this.getPhone());
         }
         JSONArray jsonImagesURLs = JSONFactoryUtil.createJSONArray();
+        JSONArray jsonImagesThumbnailURLs = JSONFactoryUtil.createJSONArray();
         for (String imageUrl : this.getImageURLsWithTimeStamp()) {
             if(Validator.isNotNull(imageUrl)) {
-                jsonImagesURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
+                try {
+                    jsonImagesURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
+                    jsonImagesThumbnailURLs.put(UriHelper.appendUriImagePreview(StrasbourgPropsUtil.getURL() + imageUrl).toString());
+                } catch (Exception e){
+                    jsonImagesURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
+                    jsonImagesThumbnailURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
+                }
             }
         }
         if (jsonImagesURLs.length() > 0) {
             jsonPlace.put("imageURL", jsonImagesURLs);
+        }
+        if (jsonImagesThumbnailURLs.length() > 0) {
+            jsonPlace.put("imageThumbnailURL", jsonImagesThumbnailURLs);
         }
         JSONObject descriptions = JSONFactoryUtil.createJSONObject();
         if (Validator.isNotNull(this.getPresentation(Locale.FRANCE))) {

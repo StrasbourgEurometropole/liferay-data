@@ -38,7 +38,12 @@ tarteaucitron.lang = {
     "allowAll": "Permite todos os cookies",
     "denyAll": "Proibe todos cookies",
 
+    "icon": "Cookies",
+
     "fallback": "está desativado.",
+    "allowed": "permitido",
+    "disallowed": "não permitido",
+    
     "ads": {
         "title": "Rede de anúncios",
         "details": "As redes de anúncios podem gerar receitas com a venda de espaço publicitário no site."
@@ -72,6 +77,6 @@ tarteaucitron.lang = {
         "details": "Serviços para exibir conteúdo da web."
     },
     
-    "mandatoryTitle": "Mandatory cookies",
-    "mandatoryText": "This site uses cookies necessary for its proper functioning which cannot be deactivated."
+    "mandatoryTitle": "Cookies obrigatórios",
+    "mandatoryText": "Este site utiliza alguns cookies que são necessários ao seu funcionamento e não podem ser desativados."
 };

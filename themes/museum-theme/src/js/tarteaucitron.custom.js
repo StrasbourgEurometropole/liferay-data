@@ -4,4 +4,4 @@ tarteaucitron.user.analyticsMore = function () {  };
 (tarteaucitron.job = tarteaucitron.job || []).push('analytics');
 
 // Service reCAPTCHA
-(tarteaucitron.job = tarteaucitron.job || []).push('recaptcha');
+(tarteaucitron.job = tarteaucitron.job || []).push('recaptcha_ems');

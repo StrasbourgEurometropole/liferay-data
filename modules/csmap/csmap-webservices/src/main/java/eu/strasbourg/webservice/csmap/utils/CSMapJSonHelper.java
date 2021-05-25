@@ -1,7 +1,11 @@
 package eu.strasbourg.webservice.csmap.utils;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -9,16 +13,15 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.utils.AssetPublisherTemplateHelper;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.JournalArticleHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.*;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.service.WSPlace;
 
+import java.net.URISyntaxException;
 import java.text.DateFormat;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CSMapJSonHelper {
     static public JSONObject categoryCSMapJSON(AssetCategory category, String urlPicto, boolean maj) {
@@ -41,10 +44,16 @@ public class CSMapJSonHelper {
             String gradient_start = "#939393";
             String gradient_end = "#CECFCF";
             try {
-                gradient_start = "#"+AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_start").getValue();
+                String gradient = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_start").getValue();
+                if(WSPlace.isValidHexaCode(gradient)){
+                    gradient_start = "#"+gradient;
+                }
             } catch(PortalException e){/* Using the default value */}
             try {
-                gradient_end = "#"+AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_end").getValue();
+                String gradient = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_end").getValue();
+                if(WSPlace.isValidHexaCode(gradient)){
+                    gradient_end = "#"+gradient;
+                }
             } catch(PortalException e){/* Using the default value */}
             colorJSON.put(WSConstants.JSON_COLOR_GRADIENT_START, gradient_start);
             colorJSON.put(WSConstants.JSON_COLOR_GRADIENT_END, gradient_end);
@@ -66,7 +75,11 @@ public class CSMapJSonHelper {
             String image = JournalArticleHelper.getJournalArticleFieldValue(breve, "image", Locale.FRANCE);
             if(Validator.isNotNull(image)) {
                 String imageURL = AssetPublisherTemplateHelper.getDocumentUrl(image);
-                jsonJournalArticle.put(WSConstants.JSON_WC_URL, StrasbourgPropsUtil.getBaseURL() + imageURL);
+                try{
+                    jsonJournalArticle.put(WSConstants.JSON_WC_URL, UriHelper.appendUriImagePreview(StrasbourgPropsUtil.getBaseURL() + imageURL).toString());
+                } catch (URISyntaxException e) {
+                    jsonJournalArticle.put(WSConstants.JSON_WC_URL, StrasbourgPropsUtil.getBaseURL() + imageURL);
+                }
             }
 
             JSONObject titles = JSONFactoryUtil.createJSONObject();
@@ -154,7 +167,6 @@ public class CSMapJSonHelper {
 
             jsonJournalArticle.put(WSConstants.JSON_WC_URL, JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "url", Locale.FRANCE));
 
-
             String picto = JournalArticleHelper.getJournalArticleFieldValue(socialNetwork, "picto", Locale.FRANCE);
             if(Validator.isNotNull(picto)) {
                 String pictoURL = AssetPublisherTemplateHelper.getDocumentUrl(picto);
@@ -175,5 +187,51 @@ public class CSMapJSonHelper {
             json.put(WSConstants.JSON_WC_TEXT, titleJSON);
         }
         return json;
+    }
+
+    public static JSONArray SimplePOIsCSMapJSON(List<JournalArticle> SimplePOIs, Date lastUpdateTime, boolean maj) throws PortalException {
+        JSONArray SimplePOIsJSON = JSONFactoryUtil.createJSONArray();
+        for(JournalArticle SimplePOI : SimplePOIs){
+            JSONObject SimplePOIJSON = JSONFactoryUtil.createJSONObject();
+            SimplePOIJSON.put("id", SimplePOI.getResourcePrimKey());
+            // CategoryTitle en fonction des differentes langues
+            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
+            nameJSON.put("fr_FR", JournalArticleHelper.getJournalArticleFieldValue(SimplePOI, "name", Locale.FRANCE));
+            SimplePOIJSON.put(WSConstants.JSON_PLACE_NAME, nameJSON);
+            String picto = JournalArticleHelper.getJournalArticleFieldValue(SimplePOI, "picto", Locale.FRANCE);
+            if(Validator.isNotNull(picto)) {
+                String pictoURL = AssetPublisherTemplateHelper.getDocumentUrl(picto);
+                JSONObject jsonPicto = JSONFactoryUtil.createJSONObject();
+                jsonPicto.put(WSConstants.JSON_PICTO_URL, StrasbourgPropsUtil.getBaseURL() + pictoURL);
+                if(maj){
+                    jsonPicto.put(WSConstants.JSON_MAJ, maj);
+                } else {
+                    List<String> pictoContents = Arrays.asList(picto.split(","));
+                    String dlFileEntryId = "";
+                    for(String pictoContent : pictoContents){
+                        if(pictoContent.contains("fileEntryId")){
+                            dlFileEntryId = pictoContent.split(":")[1].replace("\"","");
+                        }
+                    }
+                    DLFileEntry pictoFile = DLFileEntryLocalServiceUtil.getDLFileEntry(Long.valueOf(dlFileEntryId));
+                    maj = lastUpdateTime.before(pictoFile.getModifiedDate());
+                    jsonPicto.put(WSConstants.JSON_MAJ, maj);
+                }
+                SimplePOIJSON.put(WSConstants.JSON_PICTO, jsonPicto);
+            }
+            SimplePOIJSON.put(WSConstants.JSON_PLACE_OPDENDATA_URL, JournalArticleHelper.getJournalArticleFieldValue(SimplePOI,"openDataURL",Locale.FRANCE));
+            AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(), SimplePOI.getResourcePrimKey());
+            JSONArray SimplePOICategoriesJSON = JSONFactoryUtil.createJSONArray();
+            for(AssetCategory category : assetEntry.getCategories()){
+                try {
+                    String idCategory = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "SIG").getValue();
+                    SimplePOICategoriesJSON.put(idCategory);
+                } catch(PortalException e){/* Using the default value */}
+            }
+            SimplePOIJSON.put(WSConstants.JSON_PLACE_TYPES, SimplePOICategoriesJSON);
+
+            SimplePOIsJSON.put(SimplePOIJSON);
+        }
+        return SimplePOIsJSON;
     }
 }
