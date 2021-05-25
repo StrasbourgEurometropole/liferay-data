@@ -55,7 +55,7 @@ public class OffersCsvExporterImpl implements OffersCsvExporter {
 
 		// On construit notre CSV à partir de la liste des offres
 		for (Offer offer : offers) {
-			String url = StrasbourgPropsUtil.getEJobURLOffer() + offer.getOfferId();
+			String url = StrasbourgPropsUtil.getEJobURLOfferIntern() + offer.getOfferId();
 			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
 			String startDate = dateFormat.format(offer.getPublicationStartDate());
 			String endDate = dateFormat.format(offer.getPublicationEndDate());

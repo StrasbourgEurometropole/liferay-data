@@ -38,8 +38,12 @@ tarteaucitron.lang = {
     "newWindow": "(нов прозорец)",
     "allowAll": "Разреши всички",
     "denyAll": "Забрани всички",
+
+    "icon": "Cookies",
     
     "fallback": "е изключен.",
+    "allowed": "Позволен",
+    "disallowed": "Забранено",
 
     "ads": {
         "title": "Рекламодатели",

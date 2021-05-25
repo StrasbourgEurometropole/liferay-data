@@ -14,15 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletRequest;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -48,8 +40,6 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.like.model.Like;
@@ -65,6 +55,14 @@ import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Initiative service. Represents a row in the &quot;project_Initiative&quot; database table, with each column mapped to a property of this class.
@@ -160,17 +158,7 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getCityCategories() {
-		List<AssetCategory> territories = this.getTerritoryCategories();
-		List<AssetCategory> cities = new ArrayList<AssetCategory>();
-		for (AssetCategory territory : territories) {
-			try {
-				if (territory.getAncestors().size() == 1) {
-					cities.add(territory);
-				}
-			} catch (PortalException e) {
-				continue;
-			}
-		}
+		List<AssetCategory> cities = AssetVocabularyHelper.getCityCategories(this.getTerritoryCategories());
 		return cities;
 	}
 
@@ -180,17 +168,7 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getDistrictCategories() {
-		List<AssetCategory> territories = this.getTerritoryCategories();
-		List<AssetCategory> districts = new ArrayList<AssetCategory>();
-		for (AssetCategory territory : territories) {
-			try {
-				if (territory.getAncestors().size() == 2) {
-					districts.add(territory);
-				}
-			} catch (PortalException e) {
-				continue;
-			}
-		}
+		List<AssetCategory> districts = AssetVocabularyHelper.getDistrictCategories(this.getTerritoryCategories());
 		return districts;
 	}
 

@@ -4,4 +4,4 @@ tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */
 (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
 
 // Service reCAPTCHA
-(tarteaucitron.job = tarteaucitron.job || []).push('recaptcha');
+(tarteaucitron.job = tarteaucitron.job || []).push('recaptcha_ems');
