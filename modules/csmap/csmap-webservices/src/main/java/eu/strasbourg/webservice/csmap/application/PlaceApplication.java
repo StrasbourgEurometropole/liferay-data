@@ -236,9 +236,9 @@ public class PlaceApplication extends Application {
 					pictoURL = pictoDefaultURL;
 
 				if (lastUpdateTime.before(categ.getCreateDate()))
-					jsonAjout.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, true));
+					jsonAjout.put(CSMapJSonHelper.placeCategoryCSMapJSON(categ, pictoURL, true));
 				else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
-					jsonModif.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
+					jsonModif.put(CSMapJSonHelper.placeCategoryCSMapJSON(categ, pictoURL, updatePicto));
 			}
 
 			json.put(WSConstants.JSON_ADD, jsonAjout);
