@@ -230,17 +230,10 @@ public class PlaceApplication extends Application {
 				} else
 					pictoURL = pictoDefaultURL;
 
-				try {
-					String categoryGradientStart = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(categ.getCategoryId(), "csmap_gradient_start").getValue();
-					String categoryGradientEnd = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(categ.getCategoryId(), "csmap_gradient_end").getValue();
-					if (Validator.isNotNull(categoryGradientStart) && Validator.isNotNull(categoryGradientEnd)) {
-						if (lastUpdateTime.before(categ.getCreateDate()))
-							jsonAjout.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, true));
-						else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
-							jsonModif.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
-					}
-				} catch (PortalException e){/* Ne rien ajouter*/}
-
+				if (lastUpdateTime.before(categ.getCreateDate()))
+					jsonAjout.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, true));
+				else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
+					jsonModif.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
 			}
 
 			json.put(WSConstants.JSON_ADD, jsonAjout);
@@ -252,18 +245,8 @@ public class PlaceApplication extends Application {
 			if(Validator.isNotNull(idsCategory)) {
 				if (Validator.isNotNull(placeTypeVocabulary))
 					for (String idCategory : idsCategory.split(",")) {
-						AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory);
-						if (Validator.isNull(category)) {
+						if (AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null)
 							jsonSuppr.put(idCategory);
-						}
-						else {
-							try {
-								String categoryGradientStart = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_start").getValue();
-								String categoryGradientEnd = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_end").getValue();
-							} catch (PortalException e) {
-								jsonSuppr.put(idCategory);
-							}
-						}
 					}
 			}
 			json.put(WSConstants.JSON_DELETE, jsonSuppr);
