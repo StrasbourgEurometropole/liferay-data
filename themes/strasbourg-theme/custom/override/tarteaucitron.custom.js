@@ -14,3 +14,7 @@ tarteaucitron.user.analyticsMore = function () {  };
 
 // Service reCAPTCHA
 (tarteaucitron.job = tarteaucitron.job || []).push('recaptcha_ems');
+
+(tarteaucitron.job = tarteaucitron.job || []).push('soundcloud');
+(tarteaucitron.job = tarteaucitron.job || []).push('calameo');
+(tarteaucitron.job = tarteaucitron.job || []).push('vimeo');
