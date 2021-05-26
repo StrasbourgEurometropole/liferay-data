@@ -88,7 +88,11 @@
                     <#if cur_subfooterLinkLabel.Lien2ga2.getData()?has_content>
                         <a href="${cur_subfooterLinkLabel.Lien2ga2.getFriendlyUrl()}" class="seu-bottom-links"  title="${cur_subfooterLinkLabel.getData()}">${cur_subfooterLinkLabel.getData()}</a>
                     <#else>
-                            <a href="${cur_subfooterLinkLabel.ExtLink.getData()}" <#if cur_subfooterLinkLabel.openNewTab.data == "true">target="_blank" </#if>class="seu-bottom-links"  title="${cur_subfooterLinkLabel.getData()}<#if cur_subfooterLinkLabel.openNewTab.data == "true"> (<@liferay_ui.message key="eu.new-window" />)</#if>">${cur_subfooterLinkLabel.getData()}</a>
+                        <#if cur_subfooterLinkLabel.activeTab?? && cur_subfooterLinkLabel.activeTab.getData()?? && cur_subfooterLinkLabel.activeTab.getData() == "true">
+                            <a href="${cur_subfooterLinkLabel.ExtLink.getData()}" class="seu-bottom-links"  title="${cur_subfooterLinkLabel.getData()}">${cur_subfooterLinkLabel.getData()}</a>
+                        <#else>
+                            <a href="${cur_subfooterLinkLabel.ExtLink.getData()}" target="_blank" class="seu-bottom-links"  title="${cur_subfooterLinkLabel.getData()} (<@liferay_ui.message key="eu.new-window" />)">${cur_subfooterLinkLabel.getData()}</a>
+                        </#if>
                     </#if>
                 </#list>
             </#if>

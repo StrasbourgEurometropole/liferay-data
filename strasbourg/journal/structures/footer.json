@@ -497,7 +497,7 @@
                     "dataType": "boolean",
                     "indexType": "keyword",
                     "localizable": true,
-                    "name": "openNewTab",
+                    "name": "activeTab",
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
