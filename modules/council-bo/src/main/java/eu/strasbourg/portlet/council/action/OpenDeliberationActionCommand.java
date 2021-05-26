@@ -108,6 +108,9 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
         deliberation.setCountOfficialsActive(countOfficialActive);
         deliberation.setCountOfficialsVoting(countOfficialVoting);
 
+        // Set de la date de début de vote
+        deliberation.setBeginningVoteDate(new Date());
+
 
         // Calcule la valeur du quorum
         int quorum = (int)Math.floor(((double) countOfficialActive / 3) + 1);

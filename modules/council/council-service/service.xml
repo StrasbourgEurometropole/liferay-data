@@ -214,6 +214,8 @@
 		<column name="stage" type="String" />
 		<column name="countOfficialsVoting" type="int" />
 		<column name="countOfficialsActive" type="int" />
+		<column name="beginningVoteDate" type="Date" />
+		<column name="endVoteDate" type="Date" />
 
 		<!-- Links with other entities -->
 		<column name="councilSessionId" type="long" />

@@ -49,6 +49,8 @@
 		<property name="stage" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="countOfficialsVoting" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="countOfficialsActive" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="beginningVoteDate" type="org.hibernate.type.TimestampType" />
+		<property name="endVoteDate" type="org.hibernate.type.TimestampType" />
 		<property name="councilSessionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.council.model.impl.OfficialImpl" table="council_Official">

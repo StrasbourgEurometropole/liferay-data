@@ -79,6 +79,10 @@
                     <div class="wrapper-vote">
                         <div class="wrapper-column">
                             <div class="wrapper-row">
+                                <label><liferay-ui:message key="beginning-vote-date"/></label>
+                                <span><fmt:formatDate type="date" value="${dc.getBeginningVoteDate()}" pattern="dd/MM/yyyy HH:mm:ss" /></span>
+                            </div>
+                            <div class="wrapper-row">
                                 <label>${dc.getPOUR()}</label>
                                 <span>${dc.getVoteCountForAResult(dc.getPOUR())}</span>
                             </div>
@@ -89,6 +93,10 @@
                         </div>
                         <div class="wrapper-column">
                             <div class="wrapper-row">
+                                <label><liferay-ui:message key="end-vote-date"/></label>
+                                <span><fmt:formatDate type="date" value="${dc.getEndVoteDate()}" pattern="dd/MM/yyyy HH:mm:ss"/></span>
+                            </div>
+                            <div class="wrapper-row">
                                 <label>${dc.getCONTRE()}</label>
                                 <span>${dc.getVoteCountForAResult(dc.getCONTRE())}</span>
                             </div>
@@ -98,6 +106,10 @@
                             </div>
                         </div>
                         <div class="wrapper-column">
+                            <div class="wrapper-row">
+                                <label>${dc.getTOTAL()}</label>
+                                <span>${dc.getVoteCountForAResult(dc.getPOUR()) + dc.getVoteCountForAResult(dc.getCONTRE()) + dc.getVoteCountForAResult(dc.getABSTENTION())}</span>
+                            </div>
                             <div class="wrapper-row">
                                 <label>${dc.getABSTENTION()}</label>
                                 <span>${dc.getVoteCountForAResult(dc.getABSTENTION())}</span>
@@ -113,6 +125,7 @@
                 <%-- Groupe de champs : Détai des Votes --%>
                 <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="detail-votes">
                     <div id="procurations-table">
+
                         <table border="1">
                             <tr>
                                 <th>

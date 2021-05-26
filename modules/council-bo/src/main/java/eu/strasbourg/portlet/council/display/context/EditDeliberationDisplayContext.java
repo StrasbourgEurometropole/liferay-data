@@ -28,6 +28,7 @@ public class EditDeliberationDisplayContext {
     final static private String  POUR="Pour";
     final static private String  CONTRE="Contre";
     final static private String  ABSTENTION="Abstention";
+    final static private String  TOTAL = "Total des votes";
 
     private Deliberation deliberation;
     private final RenderRequest request;
@@ -198,6 +199,26 @@ public class EditDeliberationDisplayContext {
         return quorum;
     }
 
+    public Date getBeginningVoteDate() {
+
+        Deliberation deliberation = this.getDeliberation();
+        if (deliberation != null) {
+            return deliberation.getBeginningVoteDate();
+        } else {
+            return null;
+        }
+    }
+
+    public Date getEndVoteDate() {
+
+        Deliberation deliberation = this.getDeliberation();
+        if (deliberation != null) {
+            return deliberation.getEndVoteDate();
+        } else {
+            return null;
+        }
+    }
+
     public static String getPOUR() {
         return POUR;
     }
@@ -208,6 +229,10 @@ public class EditDeliberationDisplayContext {
 
     public static String getABSTENTION() {
         return ABSTENTION;
+    }
+
+    public static String getTOTAL() {
+        return TOTAL;
     }
 
     public List<VoteBean> getVoteBeans() {
