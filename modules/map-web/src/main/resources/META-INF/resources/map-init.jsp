@@ -48,6 +48,7 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.css" />
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.Default.css" />
 <link rel="stylesheet" href="/o/mapweb/css/leaflet-gesture-handling.css" />
+<link rel="stylesheet" href="/o/mapweb/css/map.css" />
 
 <liferay-util:html-bottom>
     <script src="/o/mapweb/js/leaflet.js"></script>
