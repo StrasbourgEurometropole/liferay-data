@@ -18,6 +18,12 @@
 	<portlet:param name="returnURL" value="${deliberationsURL}" />
 </liferay-portlet:renderURL>
 
+<liferay-portlet:renderURL varImpl="importDeliberationURL">
+	<portlet:param name="cmd" value="importDeliberation" />
+	<portlet:param name="mvcPath" value="/council-bo-import-deliberation.jsp" />
+	<portlet:param name="returnURL" value="${importDeliberationURL}" />
+</liferay-portlet:renderURL>
+
 
 <liferay-frontend:management-bar includeCheckBox="true" searchContainerId="deliberationsSearchContainer">
 		<liferay-frontend:management-bar-filters>
@@ -164,8 +170,12 @@
 
 <c:if test="${dc.hasPermission('ADD_DELIBERATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title="Ajouter une deliberation" url="${addDeliberationURL}" />
+		<liferay-frontend:add-menu-item title="Ajouter une deliberation" url="${addDeliberationURL}"/>
 	</liferay-frontend:add-menu>
+
+	<aui:button-row>
+        <aui:button cssClass="btn-lg" type="submit" href="${importDeliberationURL}" value="Nouvel import" title="Importer des deliberations"/>
+    </aui:button-row>
 </c:if>
 
 <liferay-util:html-bottom>

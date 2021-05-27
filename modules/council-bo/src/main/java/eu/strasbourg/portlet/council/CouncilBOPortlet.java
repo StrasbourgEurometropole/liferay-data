@@ -102,6 +102,9 @@ public class CouncilBOPortlet extends MVCPortlet {
 		} else if (cmd.equals("editType") || mvcPath.equals("/council-bo-edit-type.jsp")) {
 			EditTypeDisplayContext dc = new EditTypeDisplayContext(renderRequest);
 			renderRequest.setAttribute("dc", dc);
+		} else if (cmd.equals("importDeliberation") || mvcPath.equals("/council-bo-import-deliberation.jsp")) {
+			EditDeliberationDisplayContext dc = new EditDeliberationDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("deliberations")) {
 			String sessionCategoryId = getCategoryIdSession(renderRequest, themeDisplay);
 			ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse,sessionCategoryId );
