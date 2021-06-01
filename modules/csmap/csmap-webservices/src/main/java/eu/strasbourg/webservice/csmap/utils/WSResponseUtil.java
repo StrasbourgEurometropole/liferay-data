@@ -1,5 +1,6 @@
 package eu.strasbourg.webservice.csmap.utils;
 
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
@@ -23,8 +24,22 @@ public class WSResponseUtil {
         return response;
     }
 
+    public static Response buildOkResponse(JSONArray jsonArray) {
+        return buildOkResponse (jsonArray, 200);
+    }
+
+    public static Response buildOkResponse(JSONArray jsonArray, int responseCode) {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+        json.put(WSConstants.JSON_RESPONSE, jsonArray);
+        return buildOkResponse (json, responseCode);
+    }
+
     public static Response buildOkResponse(JSONObject json) {
-        editJsonResponseCode(json, 200);
+        return buildOkResponse(json, 200);
+    }
+
+    public static Response buildOkResponse(JSONObject json, int responseCode) {
+        editJsonResponseCode(json, responseCode);
         return Response.ok(json.toString()).build();
     }
 
@@ -35,5 +50,10 @@ public class WSResponseUtil {
     public static void editJsonErrorDescription(JSONObject json, String errorDescription) {
         json.put(WSConstants.JSON_ERROR_DESCRIPTION, errorDescription);
     }
+
+    public static Response lastUpdateTimeFormatError() {
+        return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
+    }
+
 
 }

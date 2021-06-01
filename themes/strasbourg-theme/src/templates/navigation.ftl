@@ -7,7 +7,7 @@
       <#list nav_items as nav_item>
         <#if nav_item.getName() != 'Accueil'>
           <li>
-            <a href="${nav_item.getURL()}" <#if !nav_item.layout.isTypeURL() && nav_item.hasChildren()> data-th-menu="${nav_item.getName()?html}"</#if> class="th-level-1" <#if nav_item.layout.isTypeURL()>target="_blank"</#if>>${nav_item.getName()}</a>
+            <a <#if nav_item.layout.isTypeURL() || !nav_item.hasChildren()>href="${nav_item.getURL()}"</#if> <#if !nav_item.layout.isTypeURL() && nav_item.hasChildren()> data-th-menu="${nav_item.getName()?html}"</#if> class="th-level-1" <#if nav_item.layout.isTypeURL()>target="_blank"</#if>>${nav_item.getName()}</a>
           </li>
         </#if>
       </#list>
@@ -199,11 +199,8 @@
           </a>
         </#if>
 
-        <a href="/contact" class="seu-nav-contact seu-nav-btn" title="contact">
-          <span class="seu-flexbox">
-            <span class="seu-picto"></span>
-            <span class="seu-text"><@liferay.language key="contact" /></span>
-          </span>    
+        <a href="/contact" class="th-nav-contact" title="Contact">
+          <span class="th-picto"></span><@liferay.language key="contact" />
         </a>
       </div>
   </div>

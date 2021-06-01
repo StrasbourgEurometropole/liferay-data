@@ -11,7 +11,11 @@
 	<title>${the_title} | tipi.strasbourg.eu</title>
 
 	<!-- jQuery 1.9.1 -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+	<script type="text/javascript">
+		if(typeof jQuery == 'undefined'){	
+			document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></'+'script>');
+		}
+	</script>
 
 	<link rel="stylesheet" href="${images_folder}/../css/vendor/normalize.css">
 	<link rel="stylesheet" href="${images_folder}/../css/vendor/owl.carousel.css">
@@ -146,18 +150,6 @@
 		<div class="closure"> <div class="center"> <a href="http://www.strasbourg.eu" target="_blank" title="Strasbourg.eu">Strasbourg.eu</a></div> </div>
 	</footer>
 </div>
-
-<#if  propsUtil.get('eu.strasbourg.environment') == "PROD">
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-8"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'UA-33301756-8');
-	</script>
-</#if>
 </body>
 
 	<@liferay_util["include"] page=body_bottom_include />

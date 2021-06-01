@@ -662,13 +662,14 @@
             });
 
             // Affichage de la zone
-            if (window.coordinateZone.geometry != undefined) {
+            var coordinatesZone = JSON.parse(window.coordinatesZone);
+            if (coordinatesZone.coordinates != undefined) {
                 // Récupération des coordonnées de la zone
                 requestsInProgress++;
                 showLoadingIcon();
 
                 // Convertion des données geoJSON en polygon
-                var coordinates = L.geoJson(window.coordinateZone, {
+                var coordinates = L.geoJson(coordinatesZone, {
                     // Add invert: true to invert the geometries in the GeoJSON file
                     invert: true,
                     style: function (feature) { // Style option
@@ -683,7 +684,7 @@
 
                 // centrer la carte sur le quartier
                 var bounds = [];
-                window.coordinateZone.geometry.coordinates[0][0].forEach(function(e){bounds.push([e[1],e[0]]);});
+                coordinatesZone.coordinates[0].forEach(function(e){bounds.push([e[1],e[0]]);});
                 mymap.fitBounds(bounds);
                 requestsInProgress--;
                 maybeHideLoadingIcon();
@@ -732,15 +733,17 @@
             		createPopinMap(Liferay.Language.get('center-to-address'), agree);
             	}else{
                     Liferay.Service('/strasbourg.strasbourg/get-coordinate-for-address', {
-                        address: window.userAddress
+                        address: window.userAddress,
+                        zipCode: window.zipCode,
+                        city: window.city
                     }, function(data) {
                         var markerIcon = new L.Icon({
                             iconUrl: '/o/mapweb/images/home.png',
                             iconSize: [35,49],
                             iconAnchor: [17, 49]
                         });
-                        var homeMarker = L.marker([data[1], data[0]], { icon: markerIcon }).addTo(mymap);
-                        mymap = mymap.setView([data[1], data[0]], 18);
+                        var homeMarker = L.marker([data[0], data[1]], { icon: markerIcon }).addTo(mymap);
+                        mymap = mymap.setView([data[0], data[1]], 18);
                     });
             	}
             }

@@ -25558,13 +25558,14 @@ function getResult(searchPage, data) {
             for (indexPage; indexPage <= nbEntries / delta; indexPage++) {
                 selecteur +=
                     '<option value="' + indexPage + '">' +
-                        'Page ' + indexPage + ' ( ' + (nbEntries < (indexPage * delta) ? nbEntries : delta) + ' )' +
+                        'Page ' + indexPage + ' ( ' + delta + ' )' +
                     '</option>';
             }
-            if((indexPage - 1) * delta < nbEntries){
+            var nbEntitesRestantes = (nbEntries - delta * (indexPage - 1));
+            if(nbEntitesRestantes > 0){
                 selecteur +=
                     '<option value="' + indexPage + '">' +
-                        'Page ' + indexPage + ' ( ' + nbEntries + ' )' +
+                        'Page ' + indexPage + ' ( ' + nbEntitesRestantes + ' )' +
                     '</option>';
             }
             selecteur +=
@@ -26147,7 +26148,7 @@ function goToPage(wi, index){
     // Gestion affichage du résultat de la pagination
     var indexDernierItemPage = index * delta;
     var pageResult = 'Affichage des résultats ' +
-                    (wi.items_count > 0 ? (index > 1 ? (indexDernierItemPage - 2) : '1') : '0') + ' - ' +
+                    (wi.items_count > 0 ? (index > 1 ? ((index-1)*delta+1) : '1') : '0') + ' - ' +
                     (wi.items_count < indexDernierItemPage ? wi.items_count : indexDernierItemPage) +
                     ' parmi ' + wi.items_count;
     wi.$widget.find('.pro-pagination .pull-left .hidden-xs').text(pageResult);
@@ -26208,7 +26209,7 @@ function scrollToAnchor(anchorId) {
        .animate({scrollTop: $(anchorId).offset().top}, 1000 );
 }
 // Service custom : Livechat Creacast
-(tarteaucitron.job = tarteaucitron.job || []).push('iframelivechat');
+(tarteaucitron.job = tarteaucitron.job || []).push('iframelivechatcreacast');
 
 // Service Google Analytics (universal)
 tarteaucitron.user.analyticsUa = 'UA-33301756-14'; // Ne pas oublier de vider le champ Identifiant Google Analytics dans les paramètres avancés du site
@@ -26223,8 +26224,10 @@ tarteaucitron.user.analyticsMore = function () {  };
 //<div class="dailymotion_player" videoID="video_id" width="width" height="height" showinfo="showinfo (1 | 0)" autoplay="autoplay (0 | 1)" embedType="embedType (video | playlist)"></div>
 (tarteaucitron.job = tarteaucitron.job || []).push('dailymotion');
 
-// Service custom : Creacast
-(tarteaucitron.job = tarteaucitron.job || []).push('iframecreacast');
+// Service custom : Vidéos Facebook
+//<div class="tac_iframevideosfacebook" scrolling="yes | no | auto" data-url="url" width="width" height="height" frameborder ="0 | 1" allow="allow" allowfullscreen="true | false"></div>
+(tarteaucitron.job = tarteaucitron.job || []).push('iframevideosfacebook');
+
   
 if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
 

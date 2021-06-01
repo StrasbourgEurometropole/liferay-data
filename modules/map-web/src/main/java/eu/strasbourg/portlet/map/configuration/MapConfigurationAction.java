@@ -1,20 +1,5 @@
 package eu.strasbourg.portlet.map.configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -38,10 +23,23 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component(configurationPid = "eu.strasbourg.portlet.map.configuration.MapConfiguration", configurationPolicy = ConfigurationPolicy.OPTIONAL, immediate = true, property = {
 		"javax.portlet.name=" + StrasbourgPortletKeys.MAP_WEB }, service = ConfigurationAction.class)
@@ -108,6 +106,13 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Affichage des pictos dans la config
 			String showPictos = ParamUtil.getString(request, "showPictos");
 			setPreference(request, "showPictos", showPictos);
+
+			// Détourage d'un quartier ou d'une commune
+			String clippingTerritory = ParamUtil.getString(request, "clippingTerritory");
+			setPreference(request, "clippingTerritory", clippingTerritory);
+			String clippingCategoryId = ParamUtil.getString(request, "clippingCategoryId");
+			setPreference(request, "clippingCategoryId", clippingCategoryId);
+			json.put("trafficInterestId", clippingCategoryId);
 			
 			if(mode.equals("widget")) {
 				// Texte introduction en mode widget
@@ -403,6 +408,26 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Choix afficher picto dans la zone de config
 			request.setAttribute("showPictos", configuration.showPictos());
 
+			// territoires
+			long companyId = themeDisplay.getCompanyGroupId();
+			AssetCategory france = AssetVocabularyHelper.getCategory("France", companyId);
+			List<AssetCategory> cities = AssetVocabularyHelper.getChild(france.getCategoryId());
+			List<String[]> territories = new ArrayList<>();
+			for (AssetCategory city : cities) {
+				String[] territory = {city.getCategoryId()+"", city.getTitleCurrentValue()};
+				territories.add(territory);
+				for (AssetCategory district : AssetVocabularyHelper.getChild(city.getCategoryId()) ) {
+					String[] subTerritory = {district.getCategoryId()+"", "- " + district.getTitleCurrentValue()};
+					territories.add(subTerritory);
+				}
+
+			}
+			request.setAttribute("territories", territories);
+
+			// Détourage d'un quartier ou d'une commune
+			request.setAttribute("clippingTerritory", configuration.clippingTerritory());
+			request.setAttribute("clippingCategoryId", configuration.clippingCategoryId());
+
 			// Types de contenu
 			String[] typesContenu = ParamUtil.getStringValues(request, "typesContenu");
 			String typesContenuString;
@@ -415,9 +440,6 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// texte explicatif sur les évènements
 			request.setAttribute("eventExplanation", configuration.eventExplanationXML());
-
-			// Cooredonnées d'une zone
-			request.setAttribute("coordinateZone", JSONFactoryUtil.createJSONObject());
 
 			// Choix afficher la zone de config
 			request.setAttribute("showConfig", configuration.showConfig());

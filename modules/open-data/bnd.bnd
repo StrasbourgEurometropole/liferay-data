@@ -1,0 +1,4 @@
+Bundle-Name: open-data
+Bundle-SymbolicName: eu.strasbourg.service.opendata
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.service.opendata.*

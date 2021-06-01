@@ -1,13 +1,5 @@
 package eu.strasbourg.portlet.official.display.context;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -17,12 +9,18 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 public class EditOfficialDisplayContext {
 	public EditOfficialDisplayContext(RenderRequest request,
@@ -97,14 +95,8 @@ public class EditOfficialDisplayContext {
 	public List<AssetCategory> getDistricts() {
 		List<AssetCategory> districts = new ArrayList<AssetCategory>();
 		List<AssetCategory> territories = this.getTerritories();
-		for (AssetCategory territory : territories) {
-			try {
-				if (territory.getAncestors().size() == 2) {
-					districts.add(territory);
-				}
-			} catch (PortalException e) {
-				continue;
-			}
+		for (AssetCategory categ : AssetVocabularyHelper.getAllDistrictsFromCity("Strasbourg")) {
+			districts.add(categ);
 		}
 		return districts;
 	}

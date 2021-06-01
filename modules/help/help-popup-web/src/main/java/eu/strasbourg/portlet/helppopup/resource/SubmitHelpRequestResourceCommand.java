@@ -221,6 +221,7 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
             // préparation du template de mail
             Map<String, Object> context = new HashMap<>();
             context.put("helpProposalTitle", helpRequest.getHelpProposal().getTitle(themeDisplay.getLocale()));
+            context.put("helpProposalId", helpRequest.getHelpProposalId());
             context.put("helpRequestMessage", helpRequest.getMessage());
             context.put("helpRequestCreateDate", helpRequestCreateDate);
             context.put("helpSeekerLastName", helpRequest.getAuthor().getLastName());
@@ -451,7 +452,7 @@ public class SubmitHelpRequestResourceCommand implements MVCResourceCommand {
                 nbRecentRequests++;
             }
         }
-        if (nbRecentRequests >= 2) {
+        if (nbRecentRequests >= 5) {
             this.messageResult = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_NB_REQUESTS);
             this.title = LanguageUtil.get(bundle, HelpPopUpPortletConstants.ERROR_NB_REQUESTS_TITLE);
             return false;

@@ -62,7 +62,7 @@ public class HelpBOPortlet extends MVCPortlet {
 
 		// On set le displayContext selon la page sur laquelle on est
 		if (cmd.equals("editHelpProposal") || mvcPath.equals("/help-bo-edit-help-proposal.jsp")) {
-			EditHelpDisplayContext dc = new EditHelpDisplayContext(renderRequest, renderResponse);
+			EditHelpProposalDisplayContext dc = new EditHelpProposalDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else if (cmd.equals("editHelpRequest") || mvcPath.equals("/help-bo-edit-help-request.jsp")) {
 			EditHelpRequestDisplayContext dc = new EditHelpRequestDisplayContext(renderRequest, renderResponse);
@@ -81,7 +81,7 @@ public class HelpBOPortlet extends MVCPortlet {
 			renderRequest.setAttribute("dc", dc);
 		} else { // Else, we are on the main list page
 				title = "helpProposals";
-				ViewHelpsDisplayContext dc = new ViewHelpsDisplayContext(renderRequest, renderResponse);
+				ViewHelpProposalsDisplayContext dc = new ViewHelpProposalsDisplayContext(renderRequest, renderResponse);
 				renderRequest.setAttribute("dc", dc);
 		}
 

@@ -9,7 +9,6 @@ import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.SchedulerEntry;
 import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
-import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import com.liferay.portal.kernel.search.Document;
@@ -123,12 +122,15 @@ public class OfferMessageListener
 				.filter(o -> o.getPublicationStartDate().compareTo(now) <= 0 && o.getPublicationEndDate().after(now))
 				.collect(Collectors.toList());
 		// on envoi un mail aux partenaires
+		int nbMailSend = 0;
 		for (Offer offer : offersExterne) {
 			if (offer.sendMail()) {
 				offer.setEmailPartnerSent(1);
 				_offerLocalService.updateOffer(offer);
+				nbMailSend++;
 			}
 		}
+		log.info(nbMailSend + " mail(s) envoyé(s) aux partenaires");
 		log.info("End envoi mail aux partenaires");
 
 
@@ -140,6 +142,7 @@ public class OfferMessageListener
 
 		List<Alert> alerts = _alertLocalService.getAlerts(-1, -1);
 		List<Offer> offersSend = new ArrayList<>();
+		nbMailSend = 0;
 		for (Alert alert : alerts) {
 			// Mots clés
 			String keywords = alert.getKeyWord();
@@ -178,10 +181,12 @@ public class OfferMessageListener
 				if(offersToSend.size() > 0) {
 					if (alert.sendMail(offersToSend)) {
 						offersSend.addAll(offersToSend);
+						nbMailSend++;
 					}
 				}
 			}
 		}
+		log.info(nbMailSend + " mail(s) envoyé(s) aux utilisateurs");
 		for (Offer offer : offersSend) {
 			offer.setEmailSend(1);
 			_offerLocalService.updateOffer(offer);

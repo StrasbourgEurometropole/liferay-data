@@ -5,6 +5,8 @@ Nous vous remercions de prendre contact avec cet-te étudiant-e dès que possibl
 
 Titre de l'aide : ${helpProposalTitle}<br><br>
 
+N° de référence de l'aide : ${helpProposalId}<br><br>
+
 Message de l'étudiant-te : ${helpRequestMessage}<br><br>
 
 Date/heure de la demande : ${helpRequestCreateDate}<br><br>

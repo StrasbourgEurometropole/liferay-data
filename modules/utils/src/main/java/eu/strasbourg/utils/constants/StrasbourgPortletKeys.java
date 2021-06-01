@@ -99,8 +99,6 @@ public class StrasbourgPortletKeys {
 	public static final String GRAVEYARD_WEB = "eu_strasbourg_portlet_graveyard_GraveyardWebPortlet";
 
 	public static final String RESID_WEB = "eu_strasbourg_portlet_resid_ResidWebPortlet";
-	
-	public static final String ZONE_WEB = "eu_strasbourg_portlet_zone_ZonedWebPortlet";
 
 	public static final String PACTE_WEB = "eu_strasbourg_portlet_pacte_PacteWebPortlet";
 

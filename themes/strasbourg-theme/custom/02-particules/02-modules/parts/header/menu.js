@@ -1548,9 +1548,10 @@ var menuOverlay = {
 				});
 			}
 			
-			var parent = this.parentNode;
-			parent.prepend(submenu.firstChild);
-			this.remove();
+			var parent = this.parentNode;			
+			parent.insertBefore(submenu.firstChild, null);
+			//this.remove();
+			parent.removeChild(this);
         });
 	},
 	
@@ -1563,8 +1564,9 @@ var menuOverlay = {
 				'<div class="th-content"><span class="th-surtitre">' + this.getAttribute("data-name") + '</span>' + 
 				'<span class="th-titre">' + this.getAttribute("data-description") + '</span></div></a>';
 			var parent = this.parentNode;
-			parent.prepend(wrapper.firstChild);
-			this.remove();
+			parent.insertBefore(wrapper.firstChild, null);
+			//this.remove();
+			parent.removeChild(this);
         });
 	},
 	
@@ -1638,3 +1640,21 @@ setTimeout(function () {
 
 // Lancement du script de ObjectFit
 objectFitImages('.fit-cover img');
+
+// À l’ouverture
+th_overlay.addCallbackOpen(function (overlayId) {
+    if (overlayId === 'th-overlay-nav') {
+        if (!document.body.classList.contains("th-no-scroll")) {
+            document.body.classList.add("th-no-scroll")
+        }
+    }
+});
+ 
+// À la fermeture
+th_overlay.addCallbackClose(function (overlayId) {
+    if (overlayId === 'th-overlay-nav') {
+        if (document.body.classList.contains("th-no-scroll")) {
+            document.body.classList.remove("th-no-scroll")
+        }
+    }
+});

@@ -38,6 +38,7 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.OccupationState;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.models.Pair;
 
@@ -1890,12 +1891,6 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("types", jsonSigs);
         JSONObject names = JSONFactoryUtil.createJSONObject();
         names.put("fr_FR", this.getAlias(Locale.FRANCE));
-        if (Validator.isNotNull(this.getAlias(Locale.US))) {
-            names.put("en_US", this.getAlias(Locale.US));
-        }
-        if (Validator.isNotNull(this.getAlias(Locale.GERMANY))) {
-            names.put("de_DE", this.getAlias(Locale.GERMANY));
-        }
         jsonPlace.put("name", names);
         if (Validator.isNotNull(this.getAddressStreet())) {
             jsonPlace.put("street", this.getAddressStreet());
@@ -1910,23 +1905,27 @@ public class PlaceImpl extends PlaceBaseImpl {
             jsonPlace.put("phone", this.getPhone());
         }
         JSONArray jsonImagesURLs = JSONFactoryUtil.createJSONArray();
+        JSONArray jsonImagesThumbnailURLs = JSONFactoryUtil.createJSONArray();
         for (String imageUrl : this.getImageURLsWithTimeStamp()) {
             if(Validator.isNotNull(imageUrl)) {
-                jsonImagesURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
+                try {
+                    jsonImagesURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
+                    jsonImagesThumbnailURLs.put(UriHelper.appendUriImagePreview(StrasbourgPropsUtil.getURL() + imageUrl).toString());
+                } catch (Exception e){
+                    jsonImagesURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
+                    jsonImagesThumbnailURLs.put(StrasbourgPropsUtil.getURL() + imageUrl);
+                }
             }
         }
         if (jsonImagesURLs.length() > 0) {
             jsonPlace.put("imageURL", jsonImagesURLs);
         }
+        if (jsonImagesThumbnailURLs.length() > 0) {
+            jsonPlace.put("imageThumbnailURL", jsonImagesThumbnailURLs);
+        }
         JSONObject descriptions = JSONFactoryUtil.createJSONObject();
         if (Validator.isNotNull(this.getPresentation(Locale.FRANCE))) {
             descriptions.put("fr_FR", this.getPresentation(Locale.FRANCE));
-        }
-        if (Validator.isNotNull(this.getPresentation(Locale.US))) {
-            descriptions.put("en_US", this.getPresentation(Locale.US));
-        }
-        if (Validator.isNotNull(this.getPresentation(Locale.GERMANY))) {
-            descriptions.put("de_DE", this.getPresentation(Locale.GERMANY));
         }
         if(descriptions.length() > 0)
             jsonPlace.put("description", descriptions);
@@ -1938,12 +1937,6 @@ public class PlaceImpl extends PlaceBaseImpl {
             JSONObject scheduleExceptionJSON = JSONFactoryUtil.createJSONObject();
             JSONObject exceptionalScheduleJSON = JSONFactoryUtil.createJSONObject();
             exceptionalScheduleJSON.put("fr_FR", this.getExceptionalSchedule(Locale.FRANCE));
-            if (Validator.isNotNull(this.getExceptionalSchedule(Locale.US))) {
-                exceptionalScheduleJSON.put("en_US", this.getExceptionalSchedule(Locale.US));
-            }
-            if (Validator.isNotNull(this.getExceptionalSchedule(Locale.GERMANY))) {
-                exceptionalScheduleJSON.put("de_DE", this.getExceptionalSchedule(Locale.GERMANY));
-            }
             scheduleExceptionJSON.put("description", exceptionalScheduleJSON);
             scheduleExceptionsJSON.put(scheduleExceptionJSON);
         }

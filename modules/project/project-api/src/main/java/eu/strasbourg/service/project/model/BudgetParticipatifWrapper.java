@@ -471,7 +471,9 @@ public class BudgetParticipatifWrapper
 	 * Retourne la liste des entrées timelines du projet
 	 */
 	@Override
-	public java.util.List<ProjectTimeline> getBudgetParticipatifTimelines() {
+	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline>
+		getBudgetParticipatifTimelines() {
+
 		return _budgetParticipatif.getBudgetParticipatifTimelines();
 	}
 
@@ -866,7 +868,7 @@ public class BudgetParticipatifWrapper
 	}
 
 	@Override
-	public BudgetPhase getPhase() {
+	public eu.strasbourg.service.project.model.BudgetPhase getPhase() {
 		return _budgetParticipatif.getPhase();
 	}
 
@@ -897,7 +899,9 @@ public class BudgetParticipatifWrapper
 	 * Retourne la liste des lieux placit liés
 	 */
 	@Override
-	public java.util.List<PlacitPlace> getPlacitPlaces() {
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
+		getPlacitPlaces() {
+
 		return _budgetParticipatif.getPlacitPlaces();
 	}
 
@@ -1036,7 +1040,9 @@ public class BudgetParticipatifWrapper
 	 * @return Liste des soutiens
 	 */
 	@Override
-	public java.util.List<BudgetSupport> getSupports() {
+	public java.util.List<eu.strasbourg.service.project.model.BudgetSupport>
+		getSupports() {
+
 		return _budgetParticipatif.getSupports();
 	}
 

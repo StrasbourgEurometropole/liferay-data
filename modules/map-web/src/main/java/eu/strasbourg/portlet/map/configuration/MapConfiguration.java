@@ -40,6 +40,12 @@ public interface MapConfiguration {
 
 	@Meta.AD(name = "showPictos", required = false)
 	public boolean showPictos();
+
+	@Meta.AD(name = "clippingTerritory", required = false)
+	public boolean clippingTerritory();
+
+	@Meta.AD(name = "clippingCategoryId", deflt = "", required = false)
+	public String clippingCategoryId();
 	
 	@Meta.AD(name = "typesContenu", required = false)
 	public String typesContenu();

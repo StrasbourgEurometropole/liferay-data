@@ -302,7 +302,7 @@
         event.preventDefault();
         var response = validateFormHelpProposal();
         if (response){
-                        
+            $(this).attr('disabled', true);
             var request = new XMLHttpRequest();
             var formElement = $("#<portlet:namespace />uploadForm");
             request.open('POST', '${submitHelpProposalURL}', true);
@@ -324,6 +324,7 @@
                 } else {
                     // We reached our target server, but it returned an error
                 }
+                $("#<portlet:namespace />buttonSubmit").removeAttr('disabled');
             };
 
             request.send(new FormData(formElement[0]));

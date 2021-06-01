@@ -3,8 +3,6 @@ package eu.strasbourg.utils;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.service.ServiceContext;
 import eu.strasbourg.utils.api.AssetVocabularyHelperService;
 import org.osgi.service.component.annotations.Component;
 
@@ -76,13 +74,18 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 	}
 
 	@Override
-	public boolean isAllDistrict(int listDistrictSizeToCompare) {
-		return AssetVocabularyHelper.isAllDistrict(listDistrictSizeToCompare);
+	public boolean isAllFrenchCity(int listCitySizeToCompare) {
+		return AssetVocabularyHelper.isAllFrenchCity(listCitySizeToCompare);
 	}
 
 	@Override
-	public boolean isAllFrenchCity(int listCitySizeToCompare) {
-		return AssetVocabularyHelper.isAllFrenchCity(listCitySizeToCompare);
+	public List<AssetCategory> getDistrictCategories(List<AssetCategory> territories) {
+		return AssetVocabularyHelper.getDistrictCategories(territories);
+	}
+
+	@Override
+	public  List<AssetCategory> getCityCategories(List<AssetCategory> territories) {
+		return AssetVocabularyHelper.getCityCategories(territories);
 	}
 
 	@Override

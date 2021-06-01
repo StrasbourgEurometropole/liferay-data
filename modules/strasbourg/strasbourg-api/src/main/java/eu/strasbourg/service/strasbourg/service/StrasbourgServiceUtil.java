@@ -76,9 +76,9 @@ public class StrasbourgServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
-		getCoordinateForAddress(String address) {
+		getCoordinateForAddress(String address, String zipCode, String city) {
 
-		return getService().getCoordinateForAddress(address);
+		return getService().getCoordinateForAddress(address, zipCode, city);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getCopyright(

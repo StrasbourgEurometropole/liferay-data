@@ -6911,4 +6911,4 @@ tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */
 
 // Service reCAPTCHA
 tarteaucitron.user.recaptchaapi = '6LeGvPkSAAAAAFcWK3UVF6zPlAxGUKBq3xaR5Xi6';
-(tarteaucitron.job = tarteaucitron.job || []).push('recaptcha');
+(tarteaucitron.job = tarteaucitron.job || []).push('recaptcha_ems');

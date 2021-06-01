@@ -16,6 +16,7 @@ dependencies {
 
 	compile project(":modules:strasbourg:strasbourg-api")
 	compile project(":modules:adict")
+	compile project (':modules:open-data')
 	compile project(":modules:poi-service")
 	compile project (":modules:utils")
 }

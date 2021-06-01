@@ -5,7 +5,7 @@
 		
 		<i style="margin-left:30px">${importHistoric.errorDescription}</i>
 		
-		<p>Voici l'erreur associé à ce problème :</p>
+		<p>Voici l'erreur associée à ce problème :</p>
 		
 		<i style="margin-left:30px">${importHistoric.errorStackTrace}</i>
 		
@@ -13,7 +13,7 @@
 	<#else>
 		<p>L'import du flux GTFS lancé à ${importHistoric.startDate?time} a été effectué avec succès en se terminant à ${importHistoric.finishDate?time}</p>
 		
-		<p>Voici les opérations qui ont été éffectuées :</p>
+		<p>Voici les opérations qui ont été effectuées :</p>
 	</#if>
 	
 	<div style="margin-left:30px">

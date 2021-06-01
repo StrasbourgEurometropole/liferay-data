@@ -475,6 +475,7 @@ public class SearchAssetDisplayContext {
 			long[] prefilterCategoriesIds = Arrays.stream(prefilterCategoriesIdsString.split("(,)|(;)"))
 					.mapToLong(Long::valueOf).toArray();
 
+
 			// Et on fait l'interersection avec la liste de toutes les
 			// catégories du vocabulaire
 			List<AssetCategory> prefilteredCategoriesForVocabulary = allCategories.stream()
@@ -489,6 +490,13 @@ public class SearchAssetDisplayContext {
 
 		// Sinon on renvoie les catégories racines du vocabulaire
 		return allCategories.stream().filter(c -> c.isRootCategory()).collect(Collectors.toList());
+	}
+
+	/**
+	 * Retourne les AssetCategory des quartiers de Strasbourg
+	 */
+	public List<AssetCategory> getStrasbourgDistricts() {
+		return AssetVocabularyHelper.getAllDistrictsFromCity("Strasbourg");
 	}
 
 	/**

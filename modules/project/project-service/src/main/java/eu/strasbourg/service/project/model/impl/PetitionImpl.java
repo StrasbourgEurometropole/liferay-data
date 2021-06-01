@@ -14,26 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import static eu.strasbourg.service.project.constants.ParticiperCategories.COMPLETED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.FAILED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.IN_PROGRESS;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.NEW;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_ARRIVED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_FINISHED;
-
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-
-import javax.portlet.PortletException;
-import javax.servlet.http.HttpServletRequest;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -61,8 +42,6 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
@@ -77,6 +56,25 @@ import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import javax.portlet.PortletException;
+import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import static eu.strasbourg.service.project.constants.ParticiperCategories.COMPLETED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.FAILED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.IN_PROGRESS;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.NEW;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_ARRIVED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_FINISHED;
 
 /**
  * The extended model implementation for the Petition service. Represents a row in the &quot;project_Petition&quot;
@@ -124,16 +122,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getDistrictCategories() {
-		List<AssetCategory> territories = getTerritoryCategories();
-		List<AssetCategory> districts = new ArrayList<>();
-		for (AssetCategory territory : territories) {
-			try {
-				if (territory.getAncestors().size() == 2) {
-					districts.add(territory);
-				}
-			} catch (PortalException ignored) {
-			}
-		}
+		List<AssetCategory> districts = AssetVocabularyHelper.getDistrictCategories(this.getTerritoryCategories());
 		return districts;
 	}
 
@@ -143,16 +132,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getCityCategories() {
-		List<AssetCategory> territories = getTerritoryCategories();
-		List<AssetCategory> cities = new ArrayList<>();
-		for (AssetCategory territory : territories) {
-			try {
-				if (territory.getAncestors().size() == 1) {
-					cities.add(territory);
-				}
-			} catch (PortalException ignored) {
-			}
-		}
+		List<AssetCategory> cities = AssetVocabularyHelper.getCityCategories(this.getTerritoryCategories());
 		return cities;
 	}
 
