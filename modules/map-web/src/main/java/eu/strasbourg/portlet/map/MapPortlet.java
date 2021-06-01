@@ -118,42 +118,46 @@ public class MapPortlet extends MVCPortlet {
             boolean hasConfig = false; // Permet de cocher tous les POI si aucune configuration
             String mode = ""; // Mode d'affichage
             boolean widgetMod = false;
+            boolean defaultConfig = configuration.defaultConfig();
+            String typesContenu = ""; // Les type de contenus
+            String eventExplanationText = ""; // récupération du texte à afficher pour les évènements
+            boolean showConfig = true; // Affichage de la zone de configuration
+            boolean showPictos = true; // Affichage des pictos dans la zone de configuration
+            boolean showList = true; // Affichage de la liste à droite
+            boolean clippingTerritory = false; // Détourage
+            String clippingCategoryId = ""; // Zone de détourage
+            JSONObject coordinatesZone = JSONFactoryUtil.createJSONObject(); // détourage d'une commune ou d'un quartier
             long groupId = -1; // Group du site dans lequel on doit afficher le détail du POI
             boolean openInNewTab = false; // Ouvertures du détail des POIS dans la même fenêtre par défaut
             String zoom = ""; // Zoom de la carte
             String cadrageX = ""; // Cadrage de la carte
             String cadrageY = ""; // Cadrage de la carte
-            boolean showPictos = false; // Affichage des pictos dans la zone de configuration
-            String typesContenu = ""; // Les type de contenus
-            String eventExplanationText = ""; // récupération du texte à afficher pour les évènements
-            boolean showConfig = true; // Affichage de la zone de configuration
-            boolean showList = true; // Affichage de la liste à droite
             StringBuilder prefilterCategoriesIdsString = new StringBuilder(); // Les catégories masquées et cochées
-            String categoriesIdsString = ""; // Les id des catégories affichées non cochées
+            boolean listDisplay = true;
             String categoriesDefaultsIdsString = ""; // Les catégories affichées coché
-            boolean districtUser = false; // Affichage de la map du quartier de l'utilisateur
+            String categoriesIdsString = ""; // Les id des catégories affichées non cochées
+            String parentCategoriesIdsString = ""; // Les parents des catégories à afficher
+            String vocabulariesIdsString = ""; // Les vocabulaires des catégories à afficher
+            List<AssetCategory> categories = new ArrayList<>(); // Les catégories actives
+            boolean dateField = false; // Filtre par date
+            long defaultDateRange = -1; // Etendue du filtre par date
+            boolean districtUser = false; // Détourage du quartier de l'utilisateur
+            AssetCategory district = null;
+            String widgetIntro = "";
+            String widgetLink = "";
             String interestsIdsString = ""; // Les id des intérêts affichés
             String interestsDefaultsIdsString = ""; // Les intérêts cochés
+            List<Interest> interests = new ArrayList<>(); // Les intérêts actifs
             boolean showFavorites = false; // Affichage des favoris par défaut
-            boolean showTraffic = false; // Affichage de l'info trafic
+            boolean showTraffic = true; // Affichage de l'info trafic
             String trafficCategoryId = ""; // Liaison de l'affichage de l'info trafic à une catégorie
             String trafficInterestId = ""; // Liaison de l'affichage de l'info trafic à un CI
-
-            List<AssetCategory> categories; // Les catégories actives
-            List<Interest> interests; // Les intérêts actifs
-            AssetCategory district = null;
-            JSONObject coordinatesZone = JSONFactoryUtil.createJSONObject(); // détourage d'une commune ou d'un quartier
 
             // Est-ce que la config du portlet est défini ?
             if (configuration.hasConfig()) {
                 hasConfig = true;
                 mode = configuration.mode();
-                groupId = configuration.groupId();
-                openInNewTab = configuration.openInNewTab();
-                zoom = configuration.zoom();
-                cadrageX = configuration.cadrageX();
-                cadrageY = configuration.cadrageY();
-                showPictos = configuration.showPictos();
+
                 // Chargement de la configuration globale pour le mode widget
                 if (configuration.widgetMod()) {
                     ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
@@ -163,6 +167,13 @@ public class MapPortlet extends MVCPortlet {
                         JSONObject json = JSONFactoryUtil.createJSONObject(globalConfig);
                         JSONArray jsonArray = json.getJSONArray("typesContenu");
                         typesContenu = jsonArray.join(",").replace("\"", "");
+                        showConfig = false;
+                        showPictos = false;
+                        showList = false;
+                        clippingCategoryId = json.getString("clippingCategoryId");
+                        clippingTerritory = Validator.isNotNull(clippingCategoryId);
+                        widgetIntro = configuration.widgetIntro();
+                        widgetLink = configuration.widgetLink();
                         JSONArray jsonArrayInterests = json.getJSONArray("interestsIds");
                         interestsIdsString = jsonArrayInterests.join(",");
                         showFavorites = json.getBoolean("showFavorites");
@@ -185,10 +196,18 @@ public class MapPortlet extends MVCPortlet {
                         eventExplanationText = "No configuration";
                     }
                     showConfig = configuration.showConfig();
+                    showPictos = configuration.showPictos();
                     showList = configuration.showList();
+                    clippingTerritory = configuration.clippingTerritory();
+                    clippingCategoryId = configuration.clippingCategoryId();
                     prefilterCategoriesIdsString = new StringBuilder(configuration.prefilterCategoriesIds());
-                    categoriesIdsString = configuration.categoriesIds();
+                    listDisplay = configuration.listDisplay();
                     categoriesDefaultsIdsString = configuration.categoriesDefaultsIds();
+                    categoriesIdsString = configuration.categoriesIds();
+                    parentCategoriesIdsString = configuration.parentsCategoriesIds();
+                    vocabulariesIdsString = configuration.vocabulariesIds();
+                    dateField = configuration.dateField();
+                    defaultDateRange = configuration.defaultDateRange();
                     districtUser = configuration.districtUser();
                     if (districtUser) {
                         if(Validator.isNotNull(city) && city.toLowerCase().equals("strasbourg")) {
@@ -215,21 +234,6 @@ public class MapPortlet extends MVCPortlet {
                             }
                         }
                     }
-
-                    // Récupération de la zone de détourage s'il y a lieu
-                    if (district != null) {
-                        coordinatesZone = openDataGeoDistrictService.getCoordinatesForSigId(AssetVocabularyHelper.getExternalId(district));
-                    }else if (configuration.clippingTerritory() && Validator.isNotNull(configuration.clippingCategoryId())) {
-                        AssetCategory clipping = AssetCategoryLocalServiceUtil.getCategory(Long.parseLong(configuration.clippingCategoryId()));
-                        String sigId = AssetVocabularyHelper.getExternalId(clipping);
-                        if (sigId.startsWith("SQ_")) {
-                            coordinatesZone = openDataGeoDistrictService.getCoordinatesForSigId(sigId);
-                        }else {
-                            String number = sigId.split("C_")[1];
-                            coordinatesZone = openDataGeoCityService.getCoordinatesForNumCom(number);
-                        }
-                    }
-
                     interestsIdsString = configuration.interestsIds();
                     showFavorites = configuration.showFavorites();
                     showTraffic = configuration.showTraffic();
@@ -237,44 +241,80 @@ public class MapPortlet extends MVCPortlet {
                     trafficInterestId = configuration.linkInterestId();
                 }
 
-                List<Long> categoriesIds;
-                if (!categoriesIdsString.equals(""))
-                    categoriesIds = Arrays.stream(categoriesIdsString.split(","))
-                            .map(i -> Long.parseLong(i.replace("\"", ""))).collect(Collectors.toList());
-                else
-                    // Si jamais aucune catégorie affichée et non cochée n'est
-                    // pas cochée intentionnellement...
-                    categoriesIds = new ArrayList<>();
+                // Récupération de la zone de détourage s'il y a lieu
+                if (district != null) {
+                    coordinatesZone = openDataGeoDistrictService.getCoordinatesForSigId(AssetVocabularyHelper.getExternalId(district));
+                }else if (clippingTerritory && Validator.isNotNull(clippingCategoryId)) {
+                    AssetCategory clipping = AssetCategoryLocalServiceUtil.getCategory(Long.parseLong(configuration.clippingCategoryId()));
+                    String sigId = AssetVocabularyHelper.getExternalId(clipping);
+                    if (sigId.startsWith("SQ_")) {
+                        coordinatesZone = openDataGeoDistrictService.getCoordinatesForSigId(sigId);
+                    }else {
+                        String number = sigId.split("C_")[1];
+                        coordinatesZone = openDataGeoCityService.getCoordinatesForNumCom(number);
+                    }
+                }
 
-                List<Long> categoriesDefaultsIds;
-                if (!categoriesDefaultsIdsString.equals(""))
-                    categoriesDefaultsIds = Arrays.stream(categoriesDefaultsIdsString.split(","))
-                            .map(i -> Long.parseLong(i.replace("\"", ""))).collect(Collectors.toList());
-                else
-                    // Si jamais aucune catégorie affichées et cochée n'est
-                    // pas cochée intentionnellement...
-                    categoriesDefaultsIds = new ArrayList<>();
+                groupId = configuration.groupId();
+                openInNewTab = configuration.openInNewTab();
+                zoom = configuration.zoom();
+                cadrageX = configuration.cadrageX();
+                cadrageY = configuration.cadrageY();
 
-                // Récupération de toutes les catégories à affichées
-                categories = AssetCategoryLocalServiceUtil.getAssetCategories(-1, -1).stream()
-                        .filter(c -> categoriesIds.contains(c.getCategoryId())
-                                || categoriesDefaultsIds.contains(c.getCategoryId()))
-                        .sorted(Comparator.comparing(c2 -> c2.getTitle(themeDisplay.getLocale()))).collect(Collectors.toList());
+                if(mode.equals("normal") || mode.equals("district")) {
+                    // Récupération de toutes les catégories à affichées
+                    if (listDisplay) {
+                        // récupération des catégories enfants aux catégories choisies
+                        for (String parentCategoryId : parentCategoriesIdsString.split(",")) {
+                            List<AssetCategory> childsCategories = AssetCategoryLocalServiceUtil.getChildCategories(Long.parseLong(parentCategoryId));
+                            categories.addAll(childsCategories);
+                        }
 
-                List<Long> interestIds;
-                if (!interestsIdsString.equals(""))
-                    interestIds = Arrays.stream(interestsIdsString.split(","))
-                            .map(i -> Long.parseLong(i.replace("\"", ""))).collect(Collectors.toList());
-                else
-                    // Si jamais aucun intérêt affiché n'est coché intentionnellement...
-                    interestIds = new ArrayList<>();
+                        // récupération des catégories des vocabulaires choisis
+                        for (String vocabularyId : vocabulariesIdsString.split(",")) {
+                            List<AssetCategory> childsCategories = AssetCategoryLocalServiceUtil.getVocabularyCategories(Long.parseLong(vocabularyId), -1, -1, null);
+                            categories.addAll(childsCategories);
+                        }
+                    } else {
+                        // récupération des catégories cochées par défaut choisies
+                        List<Long> categoriesDefaultsIds;
+                        if (!categoriesDefaultsIdsString.equals(""))
+                            categoriesDefaultsIds = Arrays.stream(categoriesDefaultsIdsString.split(","))
+                                    .map(i -> Long.parseLong(i.replace("\"", ""))).collect(Collectors.toList());
+                        else
+                            // Si jamais aucune catégorie affichées et cochée n'est sélectionnée intentionnellement...
+                            categoriesDefaultsIds = new ArrayList<>();
 
-                // Récupération de tous les centres d'intérêts affiché avec le
-                // statut publié
-                interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
-                        .filter(i -> i.getStatus() == 0 && interestIds.contains(i.getInterestId()))
-                        .sorted(Comparator.comparing(i2 -> i2.getType().getTitle(themeDisplay.getLocale())))
-                        .collect(Collectors.toList());
+                        // récupération des catégories affichées non cochées choisies
+                        List<Long> categoriesIds;
+                        if (!categoriesIdsString.equals(""))
+                            categoriesIds = Arrays.stream(categoriesIdsString.split(","))
+                                    .map(i -> Long.parseLong(i.replace("\"", ""))).collect(Collectors.toList());
+                        else
+                            // Si jamais aucune catégorie affichée et non cochée n'est sélectionnée intentionnellement...
+                            categoriesIds = new ArrayList<>();
+
+                        categories = AssetCategoryLocalServiceUtil.getAssetCategories(-1, -1).stream()
+                                .filter(c -> categoriesIds.contains(c.getCategoryId())
+                                        || categoriesDefaultsIds.contains(c.getCategoryId()))
+                                .sorted(Comparator.comparing(c2 -> c2.getTitle(themeDisplay.getLocale()))).collect(Collectors.toList());
+                    }
+                }else {
+                    List<Long> interestIds;
+                    if (!interestsIdsString.equals(""))
+                        interestIds = Arrays.stream(interestsIdsString.split(","))
+                                .map(i -> Long.parseLong(i.replace("\"", ""))).collect(Collectors.toList());
+                    else
+                        // Si jamais aucun intérêt affiché n'est coché intentionnellement...
+                        interestIds = new ArrayList<>();
+
+                    // Récupération de tous les centres d'intérêts affiché avec le
+                    // statut publié
+                    interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
+                            .filter(i -> i.getStatus() == 0 && interestIds.contains(i.getInterestId()))
+                            .sorted(Comparator.comparing(i2 -> i2.getType().getTitle(themeDisplay.getLocale())))
+                            .collect(Collectors.toList());
+                }
 
                 // Si on ne veut que les POIs d'un quartier, on supprime le
                 // vocabulaire territoire de la liste de catégories ainsi que le
@@ -286,11 +326,14 @@ public class MapPortlet extends MVCPortlet {
                         categories.removeIf(c -> c.getVocabularyId() == vocabulary.getVocabularyId());
                     }
                     // Récupération de toutes les catégories en préfiltre
+                    List<String> prefilterCategoriesIds = Arrays.stream(prefilterCategoriesIdsString.toString().split(","))
+                            .map(c -> c.replace("\"", ""))
+                            .collect(Collectors.toList());
                     prefilterCategoriesIdsString = new StringBuilder();
                     if (district != null) {
                         prefilterCategoriesIdsString.append(district.getCategoryId());
                     }
-                    for (String categoryId : prefilterCategoriesIdsString.toString().split(",")) {
+                    for (String categoryId : prefilterCategoriesIds) {
                         if (vocabulary.getCategories().stream()
                                 .noneMatch(c -> c.getCategoryId() == Long.parseLong(categoryId))) {
                             if (prefilterCategoriesIdsString.length() > 0)
@@ -301,12 +344,8 @@ public class MapPortlet extends MVCPortlet {
                     interests.removeIf(i -> i.getType().getName().equals("Quartier"));
                 }
             } // Si pas de config on ne récupère aucunes catégories ni intérêts
-            else {
-                categories = new ArrayList<>();
-                interests = new ArrayList<>();
-            }
 
-            // on regroupe les catégories par vocabulaire
+            // on regroupe toutes les catégories par vocabulaire
             categories = categories.stream().sorted(Comparator.comparing(AssetCategoryModel::getVocabularyId))
                     .collect(Collectors.toList());
             Map<String, List<AssetCategory>> vocabularyGroup = new HashMap<>();
@@ -315,13 +354,16 @@ public class MapPortlet extends MVCPortlet {
             for (AssetCategory category : categories) {
                 if (oldVocabulary != category.getVocabularyId()) {
                     if (oldVocabulary != -1) {
-                        String vocabularyDescription = "";
+                        String labelVocabulary = "";
                         AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil
                                 .fetchAssetVocabulary(oldVocabulary);
                         if (vocabulary != null) {
-                            vocabularyDescription = vocabulary.getDescription(themeDisplay.getLocale());
+                            if(listDisplay)
+                                labelVocabulary = vocabulary.getName();
+                            else
+                                labelVocabulary = vocabulary.getDescription(themeDisplay.getLocale());
                         }
-                        vocabularyGroup.put(vocabularyDescription, categoriesVocabulary);
+                        vocabularyGroup.put(labelVocabulary, categoriesVocabulary);
                     }
                     categoriesVocabulary = new ArrayList<>();
                     oldVocabulary = category.getVocabularyId();
@@ -329,12 +371,15 @@ public class MapPortlet extends MVCPortlet {
                 categoriesVocabulary.add(category);
             }
             if (oldVocabulary != -1) {
-                String vocabularyName = "";
+                String labelVocabulary = "";
                 AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(oldVocabulary);
                 if (vocabulary != null) {
-                    vocabularyName = vocabulary.getDescription(themeDisplay.getLocale());
+                    if(listDisplay)
+                        labelVocabulary = vocabulary.getName();
+                    else
+                        labelVocabulary = vocabulary.getDescription(themeDisplay.getLocale());
                 }
-                vocabularyGroup.put(vocabularyName, categoriesVocabulary);
+                vocabularyGroup.put(labelVocabulary, categoriesVocabulary);
             }
 
             // Si l'utilisateur est connecté et qu'il a configuré le portlet
@@ -397,31 +442,36 @@ public class MapPortlet extends MVCPortlet {
             request.setAttribute("hasConfig", hasConfig);
             request.setAttribute("mode", mode);
             request.setAttribute("widgetMod", widgetMod);
-            request.setAttribute("defaultConfig", configuration.defaultConfig());
+            request.setAttribute("defaultConfig", defaultConfig);
+            request.setAttribute("typesContenu", typesContenu);
+            request.setAttribute("eventExplanationText", eventExplanationText);
+            request.setAttribute("showConfig", showConfig);
+            request.setAttribute("showPictos", showPictos);
+            request.setAttribute("showList", showList);
+            request.setAttribute("coordinatesZone", coordinatesZone);
             request.setAttribute("groupId", groupId);
             request.setAttribute("openInNewTab", openInNewTab);
             request.setAttribute("zoom", zoom);
             request.setAttribute("cadrageX", cadrageX);
             request.setAttribute("cadrageY", cadrageY);
-            request.setAttribute("showPictos", showPictos);
-            request.setAttribute("typesContenu", typesContenu);
-            request.setAttribute("eventExplanationText", eventExplanationText);
-            request.setAttribute("showConfig", showConfig);
-            request.setAttribute("showList", showList);
-            request.setAttribute("widgetIntro", configuration.widgetIntro());
-            request.setAttribute("widgetLink", configuration.widgetLink());
-            request.setAttribute("vocabularyGroups", vocabularyGroup);
             request.setAttribute("prefilterCategoriesIds", prefilterCategoriesIdsString.toString());
+            request.setAttribute("listDisplay", listDisplay);
+            request.setAttribute("vocabularyGroups", vocabularyGroup);
             request.setAttribute("categoriesCheckedIds", categoriesDefaultsIdsString);
+            request.setAttribute("dateField", dateField);
+            request.setAttribute("defaultDateRange", defaultDateRange);
             request.setAttribute("districtUser", districtUser);
             request.setAttribute("district", district);
-            request.setAttribute("coordinatesZone", coordinatesZone);
-            request.setAttribute("interestGroups", InterestGroupDisplay.getInterestGroups(interests));
+            request.setAttribute("widgetIntro", widgetIntro);
+            request.setAttribute("widgetLink", widgetLink);
             request.setAttribute("interestsCheckedIds", interestsDefaultsIdsString);
+            request.setAttribute("interestGroups", InterestGroupDisplay.getInterestGroups(interests));
             request.setAttribute("showFavorites", showFavorites);
             request.setAttribute("showTraffic", showTraffic);
             request.setAttribute("trafficCategoryId", trafficCategoryId);
             request.setAttribute("trafficInterestId", trafficInterestId);
+
+
             request.setAttribute("address", address);
             request.setAttribute("zipCode", zipCode);
             request.setAttribute("city", city);

@@ -50,13 +50,36 @@
 
                     <div class="noWidgetMode">
                         <!-- Choix de l'affichage de la zone de configuration -->
-                        <div>
+                        <div class="showConfig">
                             <aui:input type="checkbox" name="showConfig" value="${showConfig || !hasConfig}" label="show-config" />
+                        </div>
+
+                        <!-- Choix de l'affichage des pictos dans la configuration -->
+                        <div class="showPictos">
+                            <aui:input type="checkbox" name="showPictos" value="${showPictos || !hasConfig}" label="show-pictos" />
                         </div>
 
                         <!-- Choix de l'affichage de la liste -->
                         <div>
                             <aui:input type="checkbox" name="showList" value="${showList || !hasConfig}" label="show-list" />
+                        </div>
+
+                        <!-- Détourage d'un quartier ou d'une commune -->
+                        <div class="clippingTerritory">
+                            <aui:input type="checkbox" name="clippingTerritory" value="${clippingTerritory}" label="clipping-territory" />
+                        </div>
+
+                        <!-- Choix de la zone à détourer -->
+                        <div class="clippingTerritoryChecked">
+                            <label><liferay-ui:message key="choise-territory" /></label>
+                            <select class="toCustomSelect" id="clippingCategoryId" name="<portlet:namespace />clippingCategoryId">
+                                <aui:option value=""></aui:option>
+                                <c:forEach items="${territories}" var="territory">
+                                    <aui:option value="${territory[0]}"
+                                        label="${territory[1]}"
+                                        selected="${territory[0] == clippingCategoryId}" />
+                                </c:forEach>
+                            </select>
                         </div>
                     </div>
 
@@ -84,31 +107,6 @@
                         <aui:input type="text" name="cadrageY" value="${cadrageY}" label="Y" />
                     </div>
 
-                    <!-- Choix de l'affichage des pictos dans la configuration -->
-                    <div>
-                        <aui:input type="checkbox" name="showPictos" value="${showPictos || !hasConfig}" label="show-pictos" />
-                    </div>
-
-                    <!-- Détourage d'un quartier ou d'une commune -->
-                    <div class="clippingTerritory">
-                        <aui:input type="checkbox" name="clippingTerritory" value="${clippingTerritory || !hasConfig}" label="clipping-territory" />
-                    </div>
-
-                    <div class="clippingTerritoryChecked">
-
-                        <!-- Choix de la zone à détourer -->
-                        <label><liferay-ui:message key="choise-territory" /></label>
-                        <select class="toCustomSelect" id="clippingCategoryId" name="<portlet:namespace />clippingCategoryId">
-                            <aui:option value=""></aui:option>
-                            <c:forEach items="${territories}" var="territory">
-                                <aui:option value="${territory[0]}"
-                                    label="${territory[1]}"
-                                    selected="${territory[0] == clippingCategoryId}" />
-                            </c:forEach>
-                        </select>
-
-                    </div>
-
                 </aui:fieldset>
 
                 <!-- Carto normale -->
@@ -130,24 +128,64 @@
 
                     <!-- Filtres -->
                     <div>
-                        <label><liferay-ui:message key="filters-label"/></label>
-                        <p>
-                            <liferay-ui:message key="filters-help" />
-                        </p>
-                        <p>
-                            <liferay-ui:asset-categories-selector
-                                hiddenInput="categoriesIds"
-                                curCategoryIds="${categoriesIds}" />
-                        </p>
-                        <label><liferay-ui:message key="default-filters-label" /></label>
-                        <p>
-                            <liferay-ui:message key="default-filters-help" />
-                        </p>
-                        <p>
-                            <liferay-ui:asset-categories-selector
-                                hiddenInput="categoriesDefaultsIds"
-                                curCategoryIds="${categoriesDefaultsIds}" />
-                        </p><br>
+
+                        <!-- Choix d'affichage (checkbox ou liste) -->
+                        <div class="listDisplay">
+                            <aui:input type="checkbox" name="listDisplay" value="${listDisplay || !hasConfig}" label="display-list" />
+                        </div>
+                        <div class="checkboxChosen">
+                            <label><liferay-ui:message key="default-filters-label" /></label>
+                            <p class="default-filters-help"></p>
+                            <p>
+                                <liferay-ui:asset-categories-selector
+                                    hiddenInput="categoriesDefaultsIds"
+                                    curCategoryIds="${categoriesDefaultsIds}" />
+                            </p><br>
+                            <div class="filters">
+                                <label><liferay-ui:message key="filters-label"/></label>
+                                <p>
+                                    <liferay-ui:message key="filters-help" />
+                                </p>
+                                <p>
+                                    <liferay-ui:asset-categories-selector
+                                        hiddenInput="categoriesIds"
+                                        curCategoryIds="${categoriesIds}" />
+                                </p><br>
+                            </div>
+                        </div>
+                        <div class="listChosen">
+                            <label><liferay-ui:message key="categ-filters-label" /></label>
+                            <p>
+                                <liferay-ui:message key="categ-filters-help" />
+                            </p>
+                            <p>
+                                <liferay-ui:asset-categories-selector
+                                    hiddenInput="parentsCategoriesIds"
+                                    curCategoryIds="${parentsCategoriesIds}" />
+                            </p><br>
+                            <label><liferay-ui:message key="filters-vocabulraies-label"/></label>
+                            <p>
+                                <liferay-ui:message key="filters-vocabularies-help" />
+                            </p>
+                            <p>
+                                <select class="toCustomSelect" id="vocabulariesIds" name="<portlet:namespace />vocabulariesIds" multiple>
+                                    <c:forEach items="${vocabularies}" var="vocabulary">
+                                        <aui:option value="${vocabulary[0]}"
+                                            label="${vocabulary[1]} (${vocabulary[2]})"
+                                            selected="${fn:contains(vocabulariesIds, vocabulary[0])}" />
+                                    </c:forEach>
+                                </select><br>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Filtre par date -->
+                    <div class="dateField">
+                        <aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" inlineField="true" />
+                    </div>
+
+                    <div class="defaultDateRange">
+                        <aui:input type="number" name="defaultDateRange" min="-1000" max="+1000" cssClass="date-range" value="${defaultDateRange}" label="default-date-range" inlineField="true"/>
                     </div>
 
                     <!-- Filtre sur le quartier de l'utilisateur -->
@@ -303,10 +341,25 @@
                            }
                            $('.noWidgetMode').show();
                        }
+                    }
+
+                    var refreshTypeEvent = function() {
                        if ($('.typeEvent').is(":checked")) {
                            $('.eventExplanation').show();
                        } else {
                            $('.eventExplanation').hide();
+                       }
+                    }
+
+                    var refreshConfigShowConfig = function() {
+                       if ($('.showConfig input[type=checkbox]').is(":checked")) {
+                           $('.showPictos').show();
+                           $('.default-filters-help').html(Liferay.Language.get("default-filters-with-config-help"));
+                           $('.filters').show();
+                       } else {
+                           $('.showPictos').hide();
+                           $('.default-filters-help').html(Liferay.Language.get("default-filters-without-config-help"));
+                           $('.filters').hide();
                        }
                     }
 
@@ -318,6 +371,24 @@
                        }
                     }
 
+                    var refreshConfigChoice = function() {
+                       if ($('.listDisplay input[type=checkbox]').is(":checked")) {
+                           $('.checkboxChosen').hide();
+                           $('.listChosen').show();
+                       } else {
+                           $('.checkboxChosen').show();
+                           $('.listChosen').hide();
+                       }
+                    }
+
+                    var refreshFilterDate = function() {
+                        if ($('.dateField input[type=checkbox]').is(":checked")) {
+                            $('.defaultDateRange').show();
+                        } else {
+                            $('.defaultDateRange').hide();
+                        }
+                    }
+
                     var refreshConfigTrafficDisplay = function() {
                        if ($('.infoTraffic input[type=checkbox]').is(":checked")) {
                            $('.infoTrafficChecked').show();
@@ -325,20 +396,30 @@
                            $('.infoTrafficChecked').hide();
                        }
                     }
+
                     $('.modeSelection input[type=radio]').on('change', function() {
                         refreshConfigDisplay();
                     })
 
                     $('.typeEvent').on('change', function() {
-                       if ($(this).is(":checked")) {
-                           $('.eventExplanation').show();
-                       } else {
-                           $('.eventExplanation').hide();
-                       }
+                       refreshTypeEvent();
+                    })
+
+                    $('.showConfig input[type=checkbox]').on('change', function() {
+                        refreshConfigShowConfig();
                     })
 
                     $('.clippingTerritory input[type=checkbox]').on('change', function() {
                         refreshConfigClipping();
+                    })
+
+                    $('.listDisplay input[type=checkbox]').on('change', function() {
+                        refreshConfigChoice();
+                        refreshConfigShowConfig();
+                    })
+
+                    $('.dateField input[type=checkbox]').on('change', function() {
+                        refreshFilterDate();
                     })
 
                     $('.infoTraffic input[type=checkbox]').on('change', function() {
@@ -347,7 +428,9 @@
 
                     $(function() {
                         refreshConfigDisplay();
+                        refreshTypeEvent();
                         refreshConfigClipping();
+                        refreshConfigChoice();
                         refreshConfigTrafficDisplay();
                     })
                 </script>
@@ -372,7 +455,7 @@
 			labelNode: "#categorySelectorLabel",
 			singleSelect: true,
 			vocabularyGroupIds: ${themeDisplay.companyGroupId},
-			vocabularyIds: "${vocabularies}"
+			vocabularyIds: "${vocabulariesStr}"
 		}
 	).render();
 </aui:script>

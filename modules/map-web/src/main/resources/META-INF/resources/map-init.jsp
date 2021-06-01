@@ -8,6 +8,7 @@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %><%@
 taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <liferay-theme:defineObjects />
 
@@ -20,25 +21,27 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
         window.userAddress = '${fn:escapeXml(address)}';
         window.zipCode = '${fn:escapeXml(zipCode)}';
         window.city = '${fn:escapeXml(city)}';
+
+        window.mode = '${mode}';
+        window.isWidgetMode = ${widgetMod};
+        window.typesContenu = "${typesContenu}";
+        window.coordinatesZone = '${coordinatesZone}';
         window.groupId = ${groupId};
         window.newTab = ${openInNewTab};
-        window.typesContenu = "${typesContenu}";
-        window.categoriesCheckedIds = "${fn:replace(categoriesCheckedIds, '"', '')}";
-        window.prefilterCategoriesIds = "${fn:replace(prefilterCategoriesIds,'"','')}";
-        window.interestsCheckedIds = "${fn:replace(interestsCheckedIds, '"', '')}";
-        window.showFavoritesByDefault = ${showFavorites};
-        window.isWidgetMode = ${widgetMod};
-        window.aroundMePortletNamespace = '<portlet:namespace />';
-        window.publikProfileURL = '${strasbourgPropsUtil.getPublikProfileURL()}';
-        window.publikInternalId = '${internalId}';
-        window.showTraffic = ${showTraffic};
-        window.mode = '${mode}';
-        window.linkCategoryId = '${trafficCategoryId}';
-        window.linkInterestId = '${trafficInterestId}';
-        window.coordinatesZone = '${coordinatesZone}';
         window.zoom = '${zoom}';
         window.cadrageX = '${cadrageX}';
         window.cadrageY = '${cadrageY}';
+        window.prefilterCategoriesIds = "${fn:replace(prefilterCategoriesIds,'"','')}";
+        window.categoriesCheckedIds = "${fn:replace(categoriesCheckedIds, '"', '')}";
+        window.interestsCheckedIds = "${fn:replace(interestsCheckedIds, '"', '')}";
+        window.showFavoritesByDefault = ${showFavorites};
+        window.showTraffic = ${showTraffic};
+
+        window.aroundMePortletNamespace = '<portlet:namespace />';
+        window.publikProfileURL = '${strasbourgPropsUtil.getPublikProfileURL()}';
+        window.publikInternalId = '${internalId}';
+        window.linkCategoryId = '${trafficCategoryId}';
+        window.linkInterestId = '${trafficInterestId}';
 
         mymap = '';
     </aui:script>
