@@ -7,7 +7,7 @@
       <#list nav_items as nav_item>
         <#if nav_item.getName() != 'Accueil'>
           <li>
-            <a href="${nav_item.getURL()}" <#if !nav_item.layout.isTypeURL() && nav_item.hasChildren()> data-th-menu="${nav_item.getName()?html}"</#if> class="th-level-1" <#if nav_item.layout.isTypeURL()>target="_blank"</#if>>${nav_item.getName()}</a>
+            <a <#if nav_item.layout.isTypeURL() || !nav_item.hasChildren()>href="${nav_item.getURL()}"</#if> <#if !nav_item.layout.isTypeURL() && nav_item.hasChildren()> data-th-menu="${nav_item.getName()?html}"</#if> class="th-level-1" <#if nav_item.layout.isTypeURL()>target="_blank"</#if>>${nav_item.getName()}</a>
           </li>
         </#if>
       </#list>
