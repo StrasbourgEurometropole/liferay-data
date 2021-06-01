@@ -52,6 +52,10 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -698,6 +702,21 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 			periodsJSON.put(periodJSON);
 		}
 		jsonEvent.put("periods", periodsJSON);
+
+		// Inscription
+		if(this.getRegistration()){
+			JSONObject jsonRegistration = JSONFactoryUtil.createJSONObject();
+			jsonRegistration.put("maxGauge", this.getMaxGauge());
+			LocalDate startDate = this.getRegistrationStartDate().toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
+			LocalDate endDate = this.getRegistrationEndDate().toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
+			jsonRegistration.put("startDate", startDate);
+			jsonRegistration.put("endDate", endDate);
+			jsonEvent.put("registration", jsonRegistration);
+		}
 
 		// Manifestations
 		JSONArray jsonManifestations = JSONFactoryUtil.createJSONArray();

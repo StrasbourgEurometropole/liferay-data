@@ -106,7 +106,11 @@ create table agenda_CampaignEvent (
 	typesIds VARCHAR(75) null,
 	publicsIds VARCHAR(75) null,
 	bookingDescription TEXT null,
-	bookingURL VARCHAR(400) null
+	bookingURL VARCHAR(400) null,
+	registration BOOLEAN,
+	registrationStartDate DATE null,
+	registrationEndDate DATE null,
+	maxGauge LONG
 );
 
 create table agenda_CampaignEventStatus (
@@ -178,7 +182,11 @@ create table agenda_Event (
 	lastEndDate DATE null,
 	createDateSource DATE null,
 	modifiedDateSource DATE null,
-	imageId LONG
+	imageId LONG,
+	registration BOOLEAN,
+	registrationStartDate DATE null,
+	registrationEndDate DATE null,
+	maxGauge LONG
 );
 
 create table agenda_EventParticipation (
