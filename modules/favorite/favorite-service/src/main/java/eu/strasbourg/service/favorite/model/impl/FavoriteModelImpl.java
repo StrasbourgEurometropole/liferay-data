@@ -77,7 +77,8 @@ public class FavoriteModelImpl
 		{"title", Types.VARCHAR}, {"url", Types.VARCHAR},
 		{"typeId", Types.BIGINT}, {"entityId", Types.BIGINT},
 		{"entityGroupId", Types.BIGINT}, {"onDashboardDate", Types.TIMESTAMP},
-		{"order_", Types.INTEGER}, {"content", Types.VARCHAR}
+		{"order_", Types.INTEGER}, {"content", Types.VARCHAR},
+		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -94,10 +95,12 @@ public class FavoriteModelImpl
 		TABLE_COLUMNS_MAP.put("onDashboardDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("order_", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("content", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table favorite_Favorite (favoriteId LONG not null primary key,publikUserId VARCHAR(75) null,title VARCHAR(255) null,url VARCHAR(255) null,typeId LONG,entityId LONG,entityGroupId LONG,onDashboardDate DATE null,order_ INTEGER,content VARCHAR(75) null)";
+		"create table favorite_Favorite (favoriteId LONG not null primary key,publikUserId VARCHAR(75) null,title VARCHAR(255) null,url VARCHAR(255) null,typeId LONG,entityId LONG,entityGroupId LONG,onDashboardDate DATE null,order_ INTEGER,content VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table favorite_Favorite";
 
@@ -161,6 +164,8 @@ public class FavoriteModelImpl
 		model.setOnDashboardDate(soapModel.getOnDashboardDate());
 		model.setOrder(soapModel.getOrder());
 		model.setContent(soapModel.getContent());
+		model.setCreateDate(soapModel.getCreateDate());
+		model.setModifiedDate(soapModel.getModifiedDate());
 
 		return model;
 	}
@@ -513,6 +518,46 @@ public class FavoriteModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<Favorite, Object>() {
+
+				@Override
+				public Object apply(Favorite favorite) {
+					return favorite.getCreateDate();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"createDate",
+			new BiConsumer<Favorite, Object>() {
+
+				@Override
+				public void accept(Favorite favorite, Object createDate) {
+					favorite.setCreateDate((Date)createDate);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<Favorite, Object>() {
+
+				@Override
+				public Object apply(Favorite favorite) {
+					return favorite.getModifiedDate();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			new BiConsumer<Favorite, Object>() {
+
+				@Override
+				public void accept(Favorite favorite, Object modifiedDate) {
+					favorite.setModifiedDate((Date)modifiedDate);
+				}
+
+			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -694,6 +739,34 @@ public class FavoriteModelImpl
 		_content = content;
 	}
 
+	@JSON
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	@JSON
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		_modifiedDate = modifiedDate;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -735,6 +808,8 @@ public class FavoriteModelImpl
 		favoriteImpl.setOnDashboardDate(getOnDashboardDate());
 		favoriteImpl.setOrder(getOrder());
 		favoriteImpl.setContent(getContent());
+		favoriteImpl.setCreateDate(getCreateDate());
+		favoriteImpl.setModifiedDate(getModifiedDate());
 
 		favoriteImpl.resetOriginalValues();
 
@@ -810,6 +885,8 @@ public class FavoriteModelImpl
 
 		favoriteModelImpl._setOriginalEntityId = false;
 
+		favoriteModelImpl._setModifiedDate = false;
+
 		favoriteModelImpl._columnBitmask = 0;
 	}
 
@@ -866,6 +943,24 @@ public class FavoriteModelImpl
 
 		if ((content != null) && (content.length() == 0)) {
 			favoriteCacheModel.content = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			favoriteCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			favoriteCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			favoriteCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			favoriteCacheModel.modifiedDate = Long.MIN_VALUE;
 		}
 
 		return favoriteCacheModel;
@@ -953,6 +1048,9 @@ public class FavoriteModelImpl
 	private Date _onDashboardDate;
 	private int _order;
 	private String _content;
+	private Date _createDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private long _columnBitmask;
 	private Favorite _escapedModel;
 

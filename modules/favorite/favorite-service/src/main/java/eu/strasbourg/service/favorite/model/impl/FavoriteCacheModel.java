@@ -65,7 +65,7 @@ public class FavoriteCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{favoriteId=");
 		sb.append(favoriteId);
@@ -87,6 +87,10 @@ public class FavoriteCacheModel
 		sb.append(order);
 		sb.append(", content=");
 		sb.append(content);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -139,6 +143,20 @@ public class FavoriteCacheModel
 			favoriteImpl.setContent(content);
 		}
 
+		if (createDate == Long.MIN_VALUE) {
+			favoriteImpl.setCreateDate(null);
+		}
+		else {
+			favoriteImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			favoriteImpl.setModifiedDate(null);
+		}
+		else {
+			favoriteImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
 		favoriteImpl.resetOriginalValues();
 
 		return favoriteImpl;
@@ -160,6 +178,8 @@ public class FavoriteCacheModel
 
 		order = objectInput.readInt();
 		content = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -202,6 +222,9 @@ public class FavoriteCacheModel
 		else {
 			objectOutput.writeUTF(content);
 		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public long favoriteId;
@@ -214,5 +237,7 @@ public class FavoriteCacheModel
 	public long onDashboardDate;
 	public int order;
 	public String content;
+	public long createDate;
+	public long modifiedDate;
 
 }

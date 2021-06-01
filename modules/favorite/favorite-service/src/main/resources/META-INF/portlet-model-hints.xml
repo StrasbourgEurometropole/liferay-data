@@ -16,5 +16,7 @@
 		<field name="onDashboardDate" type="Date" />
 		<field name="order" type="int" />
 		<field name="content" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
 	</model>
 </model-hints>

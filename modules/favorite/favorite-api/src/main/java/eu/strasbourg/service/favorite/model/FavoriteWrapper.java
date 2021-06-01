@@ -67,6 +67,8 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 		attributes.put("onDashboardDate", getOnDashboardDate());
 		attributes.put("order", getOrder());
 		attributes.put("content", getContent());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -132,6 +134,18 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 		if (content != null) {
 			setContent(content);
 		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
+		}
 	}
 
 	@Override
@@ -159,6 +173,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	@Override
 	public String getContent() {
 		return _favorite.getContent();
+	}
+
+	/**
+	 * Returns the create date of this favorite.
+	 *
+	 * @return the create date of this favorite
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _favorite.getCreateDate();
 	}
 
 	/**
@@ -199,6 +223,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	@Override
 	public eu.strasbourg.service.favorite.model.FavoriteType getFavoriteType() {
 		return _favorite.getFavoriteType();
+	}
+
+	/**
+	 * Returns the modified date of this favorite.
+	 *
+	 * @return the modified date of this favorite
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return _favorite.getModifiedDate();
 	}
 
 	/**
@@ -327,6 +361,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	}
 
 	/**
+	 * Sets the create date of this favorite.
+	 *
+	 * @param createDate the create date of this favorite
+	 */
+	@Override
+	public void setCreateDate(Date createDate) {
+		_favorite.setCreateDate(createDate);
+	}
+
+	/**
 	 * Sets the entity group ID of this favorite.
 	 *
 	 * @param entityGroupId the entity group ID of this favorite
@@ -371,6 +415,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	@Override
 	public void setFavoriteId(long favoriteId) {
 		_favorite.setFavoriteId(favoriteId);
+	}
+
+	/**
+	 * Sets the modified date of this favorite.
+	 *
+	 * @param modifiedDate the modified date of this favorite
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_favorite.setModifiedDate(modifiedDate);
 	}
 
 	@Override

@@ -18,6 +18,8 @@ public class WSConstants {
     public static final String APP_SETTINGS_NAME = "CSMAP.Settings.Data.Rest";
     public static final String APP_EVENT_BASE = "/event";
     public static final String APP_EVENT_NAME = "CSMAP.Event.Rest";
+    public static final String APP_FAVORITE_BASE = "/favorite";
+    public static final String APP_FAVORITE_NAME = "CSMAP.Favorite.Rest";
 
 
     /** Publik */

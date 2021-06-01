@@ -14,6 +14,8 @@
 
 package eu.strasbourg.service.favorite.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -128,6 +130,9 @@ public class FavoriteServiceImpl extends FavoriteServiceBaseImpl {
 		favorite.setTypeId(typeId);
 		favorite.setPublikUserId(userId);
 		favorite.setEntityId(entityId);
+		Date date = new Date(System.currentTimeMillis());
+		favorite.setCreateDate(date);
+		favorite.setModifiedDate(date);
 		
 
 		// Vérification de l'identifiant de l'entité (plus pratique après initialisation de l'objet)

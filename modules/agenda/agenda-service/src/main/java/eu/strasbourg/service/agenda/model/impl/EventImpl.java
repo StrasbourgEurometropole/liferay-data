@@ -1351,13 +1351,10 @@ public class EventImpl extends EventBaseImpl {
 	public JSONObject getCSMapJSON() {
 		JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
 
-		jsonEvent.put("externalId", this.getEventId());
+		jsonEvent.put("id", this.getEventId());
 		JSONObject titles = JSONFactoryUtil.createJSONObject();
 		titles.put("fr_FR", this.getTitle(Locale.FRANCE));
 		jsonEvent.put("title", titles);
-		JSONObject subtitles = JSONFactoryUtil.createJSONObject();
-		subtitles.put("fr_FR", this.getSubtitle(Locale.FRANCE));
-		jsonEvent.put("subtitle", subtitles);
 		JSONObject descriptions = JSONFactoryUtil.createJSONObject();
 		descriptions.put("fr_FR", this.getDescription(Locale.FRANCE));
 		jsonEvent.put("description", descriptions);
@@ -1369,7 +1366,7 @@ public class EventImpl extends EventBaseImpl {
 		// TODO imageURL = UriHelper.imagePreview(imageurl)
 		jsonEvent.put("imageURL", imageURL);
 
-
+		// TODO PLACE ?
 		if (Validator.isNotNull(this.getPlaceSIGId())) {
 			jsonEvent.put("placeSIGId", this.getPlaceSIGId());
 		} else {
@@ -1407,19 +1404,38 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
 		}
 
-		JSONArray jsonThemes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThemes());
-		if (jsonThemes.length() > 0) {
-			jsonEvent.put("themes", jsonThemes);
+		// TODO SCHEDULE ?
+		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
+		for (EventPeriod period : this.getEventPeriods()) {
+			JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
+
+			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
+			periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
+			periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
+
+			if (Validator.isNotNull(period.getTimeDetail())) {
+				periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
+			}
+			periodsJSON.put(periodJSON);
 		}
+
+		jsonEvent.put("periods", periodsJSON);
 
 		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
 		if (jsonTypes.length() > 0) {
 			jsonEvent.put("types", jsonTypes);
 		}
 
+		JSONArray jsonThemes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThemes());
+		if (jsonThemes.length() > 0) {
+			jsonEvent.put("themes", jsonThemes);
+		}
+
 		List<String> mercators = this.getMercators();
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
 		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+
+		// TODO registration a recup sur les autres branches
 
 		return jsonEvent;
 	}

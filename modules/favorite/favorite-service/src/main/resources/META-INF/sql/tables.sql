@@ -8,5 +8,7 @@ create table favorite_Favorite (
 	entityGroupId LONG,
 	onDashboardDate DATE null,
 	order_ INTEGER,
-	content VARCHAR(75) null
+	content VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );

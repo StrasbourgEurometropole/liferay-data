@@ -13,6 +13,12 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.favorite.model.Favorite;
+import eu.strasbourg.service.favorite.model.FavoriteType;
+import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
+import eu.strasbourg.service.place.service.PlaceLocalService;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.*;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.service.WSPlace;
@@ -265,6 +271,23 @@ public class CSMapJSonHelper {
             jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
         }
         return  jsonCategory;
+    }
+
+    static public JSONObject favoritesCSMapJSON(Favorite favorite) {
+        JSONObject jsonFavorite = JSONFactoryUtil.createJSONObject();
+        jsonFavorite.put("favoriteId", favorite.getFavoriteId());
+        jsonFavorite.put("title", favorite.getTitle());
+        jsonFavorite.put("type", favorite.getTypeId());
+        jsonFavorite.put("order", favorite.getOrder());
+        if(favorite.getTypeId()== FavoriteType.PLACE.getId()) {
+            jsonFavorite.put("elementId", PlaceLocalServiceUtil.fetchPlace(favorite.getEntityId()).getSIGid());
+        } else if(favorite.getTypeId()== FavoriteType.EVENT.getId()) {
+            jsonFavorite.put("elementId", EventLocalServiceUtil.fetchEvent(favorite.getEntityId()).getEventId());
+        } else if(favorite.getTypeId()== FavoriteType.ARRET.getId()) {
+            jsonFavorite.put("elementId", ArretLocalServiceUtil.fetchArret(favorite.getEntityId()).getArretId());
+        }
+        jsonFavorite.put("content", favorite.getContent());
+        return jsonFavorite;
     }
 
 }

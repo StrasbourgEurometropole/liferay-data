@@ -204,6 +204,34 @@ public interface FavoriteModel extends BaseModel<Favorite> {
 	 */
 	public void setContent(String content);
 
+	/**
+	 * Returns the create date of this favorite.
+	 *
+	 * @return the create date of this favorite
+	 */
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this favorite.
+	 *
+	 * @param createDate the create date of this favorite
+	 */
+	public void setCreateDate(Date createDate);
+
+	/**
+	 * Returns the modified date of this favorite.
+	 *
+	 * @return the modified date of this favorite
+	 */
+	public Date getModifiedDate();
+
+	/**
+	 * Sets the modified date of this favorite.
+	 *
+	 * @param modifiedDate the modified date of this favorite
+	 */
+	public void setModifiedDate(Date modifiedDate);
+
 	@Override
 	public boolean isNew();
 

@@ -25,6 +25,8 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
@@ -45,6 +47,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1798,6 +1801,29 @@ public class FavoritePersistenceImpl
 		}
 
 		FavoriteModelImpl favoriteModelImpl = (FavoriteModelImpl)favorite;
+
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (favorite.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				favorite.setCreateDate(now);
+			}
+			else {
+				favorite.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!favoriteModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				favorite.setModifiedDate(now);
+			}
+			else {
+				favorite.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
 
 		Session session = null;
 

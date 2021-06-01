@@ -44,6 +44,8 @@ public class FavoriteSoap implements Serializable {
 		soapModel.setOnDashboardDate(model.getOnDashboardDate());
 		soapModel.setOrder(model.getOrder());
 		soapModel.setContent(model.getContent());
+		soapModel.setCreateDate(model.getCreateDate());
+		soapModel.setModifiedDate(model.getModifiedDate());
 
 		return soapModel;
 	}
@@ -177,6 +179,22 @@ public class FavoriteSoap implements Serializable {
 		_content = content;
 	}
 
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		_modifiedDate = modifiedDate;
+	}
+
 	private long _favoriteId;
 	private String _publikUserId;
 	private String _title;
@@ -187,5 +205,7 @@ public class FavoriteSoap implements Serializable {
 	private Date _onDashboardDate;
 	private int _order;
 	private String _content;
+	private Date _createDate;
+	private Date _modifiedDate;
 
 }
