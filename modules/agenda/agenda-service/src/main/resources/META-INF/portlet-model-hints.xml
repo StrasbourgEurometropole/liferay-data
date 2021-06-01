@@ -260,10 +260,12 @@
 		<field name="modifiedEventsCount" type="long" />
 		<field name="errorEventsCount" type="long" />
 		<field name="unmodifiedEventsCount" type="long" />
+		<field name="deletedEventsCount" type="long" />
 		<field name="newManifestationsCount" type="long" />
 		<field name="modifiedManifestationsCount" type="long" />
 		<field name="errorManifestationsCount" type="long" />
 		<field name="unmodifiedManifestationsCount" type="long" />
+		<field name="deletedManifestationsCount" type="long" />
 		<field name="startDate" type="Date" />
 		<field name="endDate" type="Date" />
 	</model>

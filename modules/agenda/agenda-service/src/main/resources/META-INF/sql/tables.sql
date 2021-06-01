@@ -216,10 +216,12 @@ create table agenda_ImportReport (
 	modifiedEventsCount LONG,
 	errorEventsCount LONG,
 	unmodifiedEventsCount LONG,
+	deletedEventsCount LONG,
 	newManifestationsCount LONG,
 	modifiedManifestationsCount LONG,
 	errorManifestationsCount LONG,
 	unmodifiedManifestationsCount LONG,
+	deletedManifestationsCount LONG,
 	startDate DATE null,
 	endDate DATE null
 );

@@ -44,6 +44,7 @@ public class ImportReportSoap implements Serializable {
 		soapModel.setModifiedEventsCount(model.getModifiedEventsCount());
 		soapModel.setErrorEventsCount(model.getErrorEventsCount());
 		soapModel.setUnmodifiedEventsCount(model.getUnmodifiedEventsCount());
+		soapModel.setDeletedEventsCount(model.getDeletedEventsCount());
 		soapModel.setNewManifestationsCount(model.getNewManifestationsCount());
 		soapModel.setModifiedManifestationsCount(
 			model.getModifiedManifestationsCount());
@@ -51,6 +52,8 @@ public class ImportReportSoap implements Serializable {
 			model.getErrorManifestationsCount());
 		soapModel.setUnmodifiedManifestationsCount(
 			model.getUnmodifiedManifestationsCount());
+		soapModel.setDeletedManifestationsCount(
+			model.getDeletedManifestationsCount());
 		soapModel.setStartDate(model.getStartDate());
 		soapModel.setEndDate(model.getEndDate());
 
@@ -186,6 +189,14 @@ public class ImportReportSoap implements Serializable {
 		_unmodifiedEventsCount = unmodifiedEventsCount;
 	}
 
+	public long getDeletedEventsCount() {
+		return _deletedEventsCount;
+	}
+
+	public void setDeletedEventsCount(long deletedEventsCount) {
+		_deletedEventsCount = deletedEventsCount;
+	}
+
 	public long getNewManifestationsCount() {
 		return _newManifestationsCount;
 	}
@@ -222,6 +233,14 @@ public class ImportReportSoap implements Serializable {
 		_unmodifiedManifestationsCount = unmodifiedManifestationsCount;
 	}
 
+	public long getDeletedManifestationsCount() {
+		return _deletedManifestationsCount;
+	}
+
+	public void setDeletedManifestationsCount(long deletedManifestationsCount) {
+		_deletedManifestationsCount = deletedManifestationsCount;
+	}
+
 	public Date getStartDate() {
 		return _startDate;
 	}
@@ -248,10 +267,12 @@ public class ImportReportSoap implements Serializable {
 	private long _modifiedEventsCount;
 	private long _errorEventsCount;
 	private long _unmodifiedEventsCount;
+	private long _deletedEventsCount;
 	private long _newManifestationsCount;
 	private long _modifiedManifestationsCount;
 	private long _errorManifestationsCount;
 	private long _unmodifiedManifestationsCount;
+	private long _deletedManifestationsCount;
 	private Date _startDate;
 	private Date _endDate;
 
