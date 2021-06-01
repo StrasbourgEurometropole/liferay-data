@@ -140,4 +140,9 @@ public interface Edition extends EditionModel, PersistedModel {
 	 */
 	public String getTypesLabels(java.util.Locale locale);
 
+	/**
+	 * Retourne la version JSON de l'édition
+	 */
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
 }

@@ -14,24 +14,26 @@
 
 package eu.strasbourg.service.edition.model.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
 import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * The extended model implementation for the EditionGallery service. Represents
@@ -178,5 +180,19 @@ public class EditionGalleryImpl extends EditionGalleryBaseImpl {
 		EditionGallery liveGallery = EditionGalleryLocalServiceUtil
 			.fetchEditionGalleryByUuidAndGroupId(this.getUuid(), liveGroupId);
 		return liveGallery;
+	}
+
+	/**
+	 * Retourne la version JSON de la galerie
+	 */
+	@Override
+	public JSONObject toJSON() {
+		JSONObject json = JSONFactoryUtil.createJSONObject();
+
+		json.put("id", this.getGalleryId());
+		json.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
+		json.put("description", JSONHelper.getJSONFromI18nMap(this.getDescriptionMap()));
+
+		return json;
 	}
 }

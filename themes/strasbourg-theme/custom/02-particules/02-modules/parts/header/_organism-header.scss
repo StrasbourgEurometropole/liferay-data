@@ -13,9 +13,6 @@
     &.seu-mmenu{
         height: 100%;
     }
-    .seu-scrolled-search-engine{
-        @extend %molecule-header-search;
-    }
     // Nav top
     .seu-nav-top{
         height: 60px;
@@ -97,26 +94,6 @@
 
             }
         }
-        #seu-search-trigger{
-            display: none;
-            background-color: $core-color;
-            content: '';
-            width: 55px;
-            height: 100%;
-            background-size: 15px;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-image: url( svg-bg-uri($svg-loupe, #FFFFFF) );
-            outline: none !important;
-
-            @include RWD(tablet){
-                display: block;
-            }
-
-            @include RWD(mobile){
-                width: 45px;
-            }
-        }
         .seu-lang-list{
             display: flex;
             height: 100%;
@@ -162,9 +139,6 @@
         .seu-nav-top{
             transform: translateY(0);
             .seu-scrolled-logo{
-                display: block;
-            }
-            #seu-search-trigger{
                 display: block;
             }
         }

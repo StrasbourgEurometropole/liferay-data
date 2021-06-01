@@ -113,4 +113,9 @@ public interface EditionGallery extends EditionGalleryModel, PersistedModel {
 	 */
 	public eu.strasbourg.service.edition.model.EditionGallery getLiveVersion();
 
+	/**
+	 * Retourne la version JSON de la galerie
+	 */
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
 }

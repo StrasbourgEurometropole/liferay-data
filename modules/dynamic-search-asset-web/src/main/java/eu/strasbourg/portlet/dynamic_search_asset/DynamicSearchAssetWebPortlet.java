@@ -1,28 +1,5 @@
 package eu.strasbourg.portlet.dynamic_search_asset;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.Collator;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import eu.strasbourg.utils.AssetPublisherTemplateHelper;
-import eu.strasbourg.utils.LayoutHelper;
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -54,11 +31,23 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.xml.DocumentException;
-import com.liferay.portal.kernel.xml.SAXReaderUtil;
-
 import eu.strasbourg.portlet.dynamic_search_asset.configuration.DynamicSearchAssetConfiguration;
+import eu.strasbourg.service.activity.model.Activity;
+import eu.strasbourg.service.activity.model.ActivityCourse;
+import eu.strasbourg.service.activity.service.ActivityCourseLocalServiceUtil;
+import eu.strasbourg.service.activity.service.ActivityLocalServiceUtil;
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
+import eu.strasbourg.service.edition.model.Edition;
+import eu.strasbourg.service.edition.model.EditionGallery;
+import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
+import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
+import eu.strasbourg.service.official.model.Official;
+import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.Initiative;
@@ -73,8 +62,33 @@ import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
+import eu.strasbourg.utils.LayoutHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.Collator;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * @author cedric.henry
@@ -101,17 +115,34 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	private static final String SEARCH_FORM_PLACIT = "placit";
 	private static final String ATTRIBUTE_CLASSNAME = "className";
 	private static final String ATTRIBUTE_LINK = "link";
+	private static final String ATTRIBUTE_LINK_STRAS = "linkStras";
+	private static final String ATTRIBUTE_LINK_ABSOLUTE = "linkAbsolute";
 	private static final String ATTRIBUTE_TITLE = "title";
 	private static final String ATTRIBUTE_CHAPO = "chapo";
 	private static final String ATTRIBUTE_IMAGE_URL = "imageURL";
 	private static final String ATTRIBUTE_PUBLISH_DATE = "publishDate";
+	private static final String ATTRIBUTE_MODIFIED_DATE = "modifiedDate";
 	private static final String ATTRIBUTE_IS_USER_PARTICIPATE = "isUserPart";
+	private static final String ATTRIBUTE_CATEGORIES = "categories";
+	private static final String ATTRIBUTE_SCHEDULE = "schedule";
+	private static final String ATTRIBUTE_CITY = "city";
+	private static final String ATTRIBUTE_ID = "id";
+	private static final String ATTRIBUTE_TYPE = "type";
+	private static final String ATTRIBUTE_GROUP_ID = "groupId";
 	private static final String DETAIL_PARTICIPATION_URL = "detail-participation/-/entity/id/";
 	private static final String DETAIL_PETITION_URL = "detail-petition/-/entity/id/";
 	private static final String DETAIL_BUDGET_PARTICIPATIF_URL = "detail-budget-participatif/-/entity/id/";
 	private static final String DETAIL_INITIATIVE_URL = "detail-initiative/-/entity/id/";
-	private static final String DETAIL_EVENT_URL = "detail-evenement/-/entity/id/";
 	private static final String DETAIL_VIDEO_URL = "detail-video/-/entity/id/";
+	private static final String DETAIL_OFFICIAL_URL = "elu/-/entity/id/";
+	private static final String DETAIL_EDITION_URL = "edition/-/entity/id/";
+	private static final String DETAIL_EVENT_URL = "detail-evenement/-/entity/id/";
+    private static final String DETAIL_EVENT_STRAS_URL = "evenement/-/entity/id/";
+	private static final String DETAIL_MANIF_URL = "manifestation/-/entity/id/";
+	private static final String DETAIL_GALERIE_URL = "galerie-editions/-/entity/id/";
+	private static final String DETAIL_PLACE_URL = "lieu/-/entity/id/";
+	private static final String DETAIL_COURSE_URL = "cours/-/entity/id/";
+	private static final String DETAIL_ACTIVITY_URL = "activite/-/entity/id/";
 	private static final String NEWS_TAG_NAME = "actualite";
 	private static final String ARTICLES_TAG_NAME = "article";
 	
@@ -219,11 +250,11 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				
 				// Recherche
 				Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, globalScope,
-						keywords, useDatePrefilter, "publishDate_sortable", fromDate, toDate, new ArrayList<Long[]>(),
+						keywords, useDatePrefilter, "publishDate_sortable", fromDate, toDate, new ArrayList<>(),
 						prefilterCategoriesIds, prefilterTagsNames, themeDisplay.getLocale(), 0,
 						maxResults, "score", false);
 				
-				List<AssetEntry> results = new ArrayList<AssetEntry>();
+				List<AssetEntry> results = new ArrayList<>();
 				BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(groupId);
 				AssetCategory activePhaseCategory = activePhase != null ? activePhase.getPhaseCategory() : null;
 				
@@ -368,15 +399,45 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 					ATTRIBUTE_CLASSNAME,
 					Event.class.getName()
 				);
+
 				jsonEvent.put(
-					ATTRIBUTE_LINK,
-					this.getHomeURL(request) + DETAIL_EVENT_URL + event.getEventId()
+						ATTRIBUTE_LINK,
+						this.getHomeURL(request) + DETAIL_EVENT_URL + event.getEventId()
 				);
+
 				jsonEvent.put(
 					ATTRIBUTE_IS_USER_PARTICIPATE, 
 					publikUserId != "" ? event.isUserParticipates(publikUserId) : false
 				);
-				
+
+				jsonEvent.put(
+						ATTRIBUTE_LINK_STRAS,
+						this.getHomeURL(request) + DETAIL_EVENT_STRAS_URL + event.getEventId()
+				);
+
+				jsonEvent.put(
+						ATTRIBUTE_LINK_ABSOLUTE,
+						themeDisplay.getPortalURL() + this.getHomeURL(request) + DETAIL_EVENT_STRAS_URL + event.getEventId()
+				);
+
+				JSONObject types = JSONFactoryUtil.createJSONObject();
+				types.put(Locale.FRANCE.toString(), event.getTypeLabel(Locale.FRANCE));
+				types.put(Locale.GERMANY.toString(), event.getTypeLabel(Locale.GERMANY));
+				types.put(Locale.US.toString(), event.getTypeLabel(Locale.US));
+				jsonEvent.put(
+						ATTRIBUTE_CATEGORIES,
+						types
+				);
+
+				JSONObject schedule = JSONFactoryUtil.createJSONObject();
+				schedule.put(Locale.FRANCE.toString(), event.getEventScheduleDisplay(Locale.FRANCE));
+				schedule.put(Locale.GERMANY.toString(), event.getEventScheduleDisplay(Locale.GERMANY));
+				schedule.put(Locale.US.toString(), event.getEventScheduleDisplay(Locale.US));
+				jsonEvent.put(
+						ATTRIBUTE_SCHEDULE,
+						schedule
+				);
+
 				jsonResponse.put(jsonEvent);
 			}
 			
@@ -504,63 +565,400 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			 * AssetEntry : JournalArticle avant identification d'un potentiel Article
 			 */
 			else if (assetClassName.equals(JournalArticle.class.getName())) {
-				
+
 				List<String> tagNames = Arrays.asList(assetEntry.getTagNames());
-				
+
 				// Outil permettant de passer outre les accents lors d'un test d'équivalence
 				Collator collator = Collator.getInstance();
 				collator.setStrength(Collator.NO_DECOMPOSITION);
 				Boolean containsNewsTagName = false;
-				
-				// Vérification de la véracité d'un JournalArticle de type actualité
+
+				// Vérification de la véracité d'un JournalArticle de type actualité pour placit
 				for (String nameToTest : tagNames) {
 					if (collator.compare(nameToTest, NEWS_TAG_NAME) == 0 || collator.compare(nameToTest, ARTICLES_TAG_NAME) == 0) {
 						containsNewsTagName = true;
 					}
 				}
-				
+
 				// Si tel est le cas
-				if (containsNewsTagName) {
+				if (containsNewsTagName || !configuration.searchForm().equals(SEARCH_FORM_PLACIT)) {
 					JournalArticle journalArticle = JournalArticleServiceUtil.getLatestArticle(assetEntry.getClassPK());
 					SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
-					
+
 					// Récupération du contenu dynamique en XML de l'article
-					com.liferay.portal.kernel.xml.Document docXML = SAXReaderUtil.read(journalArticle.getContentByLocale("fr_FR"));
-					
 					JSONObject jsonArticle = JSONFactoryUtil.createJSONObject();
-					
+
 					jsonArticle.put(
-						ATTRIBUTE_CLASSNAME,
-						JournalArticle.class.getName()
+							ATTRIBUTE_CLASSNAME,
+							JournalArticle.class.getName()
+					);
+
+					String detailURL = LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay);
+					jsonArticle.put(
+							ATTRIBUTE_LINK,
+							detailURL
+					);
+
+					String titleFr = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "title", Locale.FRANCE);
+					String titleDe = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "title", Locale.GERMANY);
+					String titleUs = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "title", Locale.US);
+					if(Validator.isNotNull(titleFr) || Validator.isNotNull(titleDe) || Validator.isNotNull(titleUs)) {
+						JSONObject titles = JSONFactoryUtil.createJSONObject();
+						titles.put(Locale.FRANCE.toString(), titleFr);
+						titles.put(Locale.GERMANY.toString(), titleDe);
+						titles.put(Locale.US.toString(), titleUs);
+						jsonArticle.put(
+								ATTRIBUTE_TITLE,
+								titles
+						);
+					}else {
+						jsonArticle.put(
+								ATTRIBUTE_TITLE,
+								JSONHelper.getJSONFromI18nMap(journalArticle.getTitleMap())
+						);
+					}
+
+					JSONObject chapos = JSONFactoryUtil.createJSONObject();
+					chapos.put(Locale.FRANCE.toString(), JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "chapo",Locale.FRANCE));
+					chapos.put(Locale.GERMANY.toString(), JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "chapo",Locale.GERMANY));
+					chapos.put(Locale.US.toString(), JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "chapo",Locale.US));
+					jsonArticle.put(
+							ATTRIBUTE_CHAPO,
+							chapos
 					);
 					jsonArticle.put(
-						ATTRIBUTE_LINK,
-						LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay)
+							ATTRIBUTE_PUBLISH_DATE,
+							dateFormat.format(journalArticle.getDisplayDate())
 					);
 					jsonArticle.put(
-						ATTRIBUTE_TITLE,
-						docXML.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")
+							ATTRIBUTE_MODIFIED_DATE,
+							dateFormat.format(journalArticle.getModifiedDate())
 					);
 					jsonArticle.put(
-						ATTRIBUTE_CHAPO,
-						docXML.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()")
+							ATTRIBUTE_IMAGE_URL,
+							JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "thumbnail", Locale.FRANCE)
 					);
 					jsonArticle.put(
-						ATTRIBUTE_PUBLISH_DATE,
-						dateFormat.format(journalArticle.getDisplayDate())
+							ATTRIBUTE_ID,
+							journalArticle.getArticleId()
 					);
 					jsonArticle.put(
-						ATTRIBUTE_IMAGE_URL,
-							AssetPublisherTemplateHelper.getDocumentUrl(docXML.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()"))
+							ATTRIBUTE_TYPE,
+							detailURL.contains("/-/")?6:7
 					);
-					
+
+					jsonArticle.put(
+							ATTRIBUTE_GROUP_ID,
+							themeDisplay.getScopeGroupId()
+					);
+
+					JSONObject types = JSONFactoryUtil.createJSONObject();
+					List<AssetCategory> newsType = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(assetEntry, VocabularyNames.NEWS_TYPE);
+					List<Locale> locales = Arrays.asList(Locale.FRANCE, Locale.GERMANY, Locale.US);
+					for (Locale locale : locales) {
+						String newsTypeLabel = "";
+						for (AssetCategory type : newsType) {
+							if (types.length() > 0) {
+								newsTypeLabel += " - ";
+							}
+							newsTypeLabel += type.getTitle(locale);
+						}
+						types.put(locale.toString(), newsTypeLabel);
+					}
+					jsonArticle.put(
+							ATTRIBUTE_CATEGORIES,
+							types
+					);
+
 					jsonResponse.put(jsonArticle);
-					
+
 				} else {
 					continue;
 				}
 			}
-			
+
+			/**
+			 * AssetEntry : Official
+			*/
+			else if (assetClassName.equals(Official.class.getName())) {
+				Official official = OfficialLocalServiceUtil.getOfficial(assetEntry.getClassPK());
+
+				JSONObject jsonOfficial = official.toJSON();
+
+				jsonOfficial.put(
+						ATTRIBUTE_CLASSNAME,
+						Official.class.getName()
+				);
+
+				jsonOfficial.put(
+						ATTRIBUTE_LINK,
+						this.getHomeURL(request) + DETAIL_OFFICIAL_URL + official.getOfficialId()
+				);
+
+				jsonOfficial.put(
+						ATTRIBUTE_LINK_ABSOLUTE,
+						themeDisplay.getPortalURL() + this.getHomeURL(request) + DETAIL_OFFICIAL_URL + official.getOfficialId()
+				);
+
+				jsonOfficial.put(
+						ATTRIBUTE_CATEGORIES,
+						JSONHelper.getJSONFromI18nMap(official.getTown().getTitleMap())
+				);
+
+				JSONObject titles = JSONFactoryUtil.createJSONObject();
+				titles.put(Locale.FRANCE.toString(), official.getFirstName() + " " + official.getLastName());
+				titles.put(Locale.GERMANY.toString(), official.getFirstName() + " " + official.getLastName());
+				titles.put(Locale.US.toString(), official.getFirstName() + " " + official.getLastName());
+				jsonOfficial.put(
+						ATTRIBUTE_TITLE,
+						titles
+				);
+
+				jsonResponse.put(jsonOfficial);
+			}
+
+			/**
+			 * AssetEntry : Edition
+			 */
+			else if (assetClassName.equals(Edition.class.getName())) {
+				Edition edition = EditionLocalServiceUtil.getEdition(assetEntry.getClassPK());
+
+				JSONObject jsonEdition = edition.toJSON();
+
+				jsonEdition.put(
+						ATTRIBUTE_CLASSNAME,
+						Edition.class.getName()
+				);
+
+				jsonEdition.put(
+						ATTRIBUTE_LINK,
+						this.getHomeURL(request) + DETAIL_EDITION_URL + edition.getEditionId()
+				);
+
+				jsonEdition.put(
+						ATTRIBUTE_LINK_ABSOLUTE,
+						themeDisplay.getPortalURL() + this.getHomeURL(request) + DETAIL_EDITION_URL + edition.getEditionId()
+				);
+
+				JSONObject types = JSONFactoryUtil.createJSONObject();
+				types.put(Locale.FRANCE.toString(), edition.getTypesLabels(Locale.FRANCE));
+				types.put(Locale.GERMANY.toString(), edition.getTypesLabels(Locale.GERMANY));
+				types.put(Locale.US.toString(), edition.getTypesLabels(Locale.US));
+				jsonEdition.put(
+						ATTRIBUTE_CATEGORIES,
+						types
+				);
+
+				jsonEdition.put(
+						ATTRIBUTE_SCHEDULE,
+						edition.getDiffusionDateMonth() +
+							(Validator.isNotNull(edition.getDiffusionDateMonth())?"/":"") +
+							edition.getDiffusionDateYear()
+				);
+
+				jsonResponse.put(jsonEdition);
+			}
+
+			/**
+			 * AssetEntry : Manifestation
+			 */
+			else if (assetClassName.equals(Manifestation.class.getName())) {
+				Manifestation manifestation = ManifestationLocalServiceUtil.getManifestation(assetEntry.getClassPK());
+
+				JSONObject jsonManifestation = manifestation.toJSON();
+
+				jsonManifestation.put(
+						ATTRIBUTE_CLASSNAME,
+						Manifestation.class.getName()
+				);
+
+				jsonManifestation.put(
+						ATTRIBUTE_LINK,
+						this.getHomeURL(request) + DETAIL_MANIF_URL + manifestation.getManifestationId()
+				);
+
+				jsonManifestation.put(
+						ATTRIBUTE_LINK_ABSOLUTE,
+						themeDisplay.getPortalURL() + this.getHomeURL(request) + DETAIL_MANIF_URL + manifestation.getManifestationId()
+				);
+
+				JSONObject types = JSONFactoryUtil.createJSONObject();
+				types.put(Locale.FRANCE.toString(), manifestation.getTypeLabel(Locale.FRANCE));
+				types.put(Locale.GERMANY.toString(), manifestation.getTypeLabel(Locale.GERMANY));
+				types.put(Locale.US.toString(), manifestation.getTypeLabel(Locale.US));
+				jsonManifestation.put(
+						ATTRIBUTE_CATEGORIES,
+						types
+				);
+
+				JSONObject schedule = JSONFactoryUtil.createJSONObject();
+				schedule.put(Locale.FRANCE.toString(), manifestation.getManifestationScheduleDisplay(Locale.FRANCE));
+				schedule.put(Locale.GERMANY.toString(), manifestation.getManifestationScheduleDisplay(Locale.GERMANY));
+				schedule.put(Locale.US.toString(), manifestation.getManifestationScheduleDisplay(Locale.US));
+				jsonManifestation.put(
+						ATTRIBUTE_SCHEDULE,
+						schedule
+				);
+
+				jsonResponse.put(jsonManifestation);
+			}
+
+			/**
+			 * AssetEntry : EditionGallery
+			 */
+			else if (assetClassName.equals(EditionGallery.class.getName())) {
+				EditionGallery editionGallery = EditionGalleryLocalServiceUtil.getEditionGallery(assetEntry.getClassPK());
+
+				JSONObject jsonEditionGallery = editionGallery.toJSON();
+
+				jsonEditionGallery.put(
+						ATTRIBUTE_CLASSNAME,
+						EditionGallery.class.getName()
+				);
+
+				jsonEditionGallery.put(
+						ATTRIBUTE_LINK,
+						this.getHomeURL(request) + DETAIL_GALERIE_URL + editionGallery.getGalleryId()
+				);
+
+				jsonEditionGallery.put(
+						ATTRIBUTE_LINK_ABSOLUTE,
+						themeDisplay.getPortalURL() + this.getHomeURL(request) + DETAIL_GALERIE_URL + editionGallery.getGalleryId()
+				);
+
+				JSONObject types = JSONFactoryUtil.createJSONObject();
+				types.put(Locale.FRANCE.toString(), editionGallery.getTypesLabels(Locale.FRANCE));
+				types.put(Locale.GERMANY.toString(), editionGallery.getTypesLabels(Locale.GERMANY));
+				types.put(Locale.US.toString(), editionGallery.getTypesLabels(Locale.US));
+				jsonEditionGallery.put(
+						ATTRIBUTE_CATEGORIES,
+						types
+				);
+
+				jsonResponse.put(jsonEditionGallery);
+			}
+
+			/**
+			 * AssetEntry : Place
+			 */
+			else if (assetClassName.equals(Place.class.getName())) {
+				Place place = PlaceLocalServiceUtil.getPlace(assetEntry.getClassPK());
+
+				JSONObject jsonPlace = place.toJSON();
+
+				jsonPlace.put(
+						ATTRIBUTE_CLASSNAME,
+						Place.class.getName()
+				);
+
+				jsonPlace.put(
+						ATTRIBUTE_ID,
+						place.getPlaceId()
+				);
+
+				jsonPlace.put(
+						ATTRIBUTE_LINK,
+						this.getHomeURL(request) + DETAIL_PLACE_URL + place.getSIGid()
+				);
+
+				jsonPlace.put(
+						ATTRIBUTE_LINK_ABSOLUTE,
+						themeDisplay.getPortalURL() + this.getHomeURL(request) + DETAIL_PLACE_URL + place.getSIGid()
+				);
+
+				if(Validator.isNotNull(place.getCityCategory()))
+					jsonPlace.put(
+							ATTRIBUTE_CITY,
+							JSONHelper.getJSONFromI18nMap(place.getCityCategory().getTitleMap())
+					);
+
+				jsonPlace.put(
+						ATTRIBUTE_TITLE,
+						JSONHelper.getJSONFromI18nMap(place.getAliasMap())
+				);
+
+				JSONObject types = JSONFactoryUtil.createJSONObject();
+				types.put(Locale.FRANCE.toString(), place.getTypeLabel(Locale.FRANCE));
+				types.put(Locale.GERMANY.toString(), place.getTypeLabel(Locale.GERMANY));
+				types.put(Locale.US.toString(), place.getTypeLabel(Locale.US));
+				jsonPlace.put(
+						ATTRIBUTE_CATEGORIES,
+						types
+				);
+
+				jsonResponse.put(jsonPlace);
+			}
+
+			/**
+			 * AssetEntry : ActivityCourse
+			 */
+			else if (assetClassName.equals(ActivityCourse.class.getName())) {
+				ActivityCourse activityCourse = ActivityCourseLocalServiceUtil.getActivityCourse(assetEntry.getClassPK());
+
+				JSONObject jsonActivityCourse = activityCourse.toJSON();
+
+				jsonActivityCourse.put(
+						ATTRIBUTE_CLASSNAME,
+						ActivityCourse.class.getName()
+				);
+
+				jsonActivityCourse.put(
+						ATTRIBUTE_LINK,
+						this.getHomeURL(request) + DETAIL_COURSE_URL + activityCourse.getActivityCourseId()
+				);
+
+				jsonActivityCourse.put(
+						ATTRIBUTE_LINK_ABSOLUTE,
+						themeDisplay.getPortalURL() + this.getHomeURL(request) + DETAIL_COURSE_URL + activityCourse.getActivityCourseId()
+				);
+
+				jsonActivityCourse.put(
+						ATTRIBUTE_TITLE,
+						JSONHelper.getJSONFromI18nMap(activityCourse.getNameMap())
+				);
+
+				jsonActivityCourse.put(
+						ATTRIBUTE_CATEGORIES,
+						JSONHelper.getJSONFromI18nMap(activityCourse.getActivity().getTitleMap())
+				);
+
+				jsonResponse.put(jsonActivityCourse);
+			}
+
+			/**
+			 * AssetEntry : Activity
+			 */
+			else if (assetClassName.equals(Activity.class.getName())) {
+				Activity activity = ActivityLocalServiceUtil.getActivity(assetEntry.getClassPK());
+
+				JSONObject jsonActivity = activity.toJSON();
+
+				jsonActivity.put(
+						ATTRIBUTE_CLASSNAME,
+						Activity.class.getName()
+				);
+
+				jsonActivity.put(
+						ATTRIBUTE_LINK,
+						this.getHomeURL(request) + DETAIL_ACTIVITY_URL + activity.getActivityId()
+				);
+
+				jsonActivity.put(
+						ATTRIBUTE_LINK_ABSOLUTE,
+						themeDisplay.getPortalURL() + this.getHomeURL(request) + DETAIL_ACTIVITY_URL + activity.getActivityId()
+				);
+
+				JSONObject types = JSONFactoryUtil.createJSONObject();
+				types.put(Locale.FRANCE.toString(), activity.getTypesLabel(Locale.FRANCE));
+				types.put(Locale.GERMANY.toString(), activity.getTypesLabel(Locale.GERMANY));
+				types.put(Locale.US.toString(), activity.getTypesLabel(Locale.US));
+				jsonActivity.put(
+						ATTRIBUTE_CATEGORIES,
+						types
+				);
+
+				jsonResponse.put(jsonActivity);
+			}
 		}
 		
 		return  jsonResponse;
