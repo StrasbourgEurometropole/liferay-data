@@ -72,6 +72,7 @@ jQuery(function() {
 		jQuery('.place-autocomplete-input-wrapper input').autocomplete(
 				options);
 	}
+	setConditionalValidators();
 });
 
 //Réinitialisation du lieu
@@ -259,6 +260,30 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 		});
 	});
 })(jQuery);
+
+function setConditionalValidators() {
+		// Validation des champos obligatoires conditionnels
+    AUI().use('liferay-form', function() {
+        var registration = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[0];
+        var registrationDiv = document.getElementById("registrationDiv");
+        var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
+        if(registration.checked){
+            rules[namespace + 'maxGauge'].required = true;
+            rules[namespace + 'registrationStartDate'].required = true;
+            rules[namespace + 'registrationEndDate'].required = true;
+            registrationDiv.style.display = "block";
+        } else {
+            rules[namespace + 'maxGauge'].required = false;
+            rules[namespace + 'registrationStartDate'].required = false;
+            rules[namespace + 'registrationEndDate'].required = false;
+            registrationDiv.style.display = "none";
+        }
+        var registrationStartDateTime = document.getElementById(namespace+"registrationStartDateTime");
+        var registrationEndDateTime = document.getElementById(namespace+"registrationEndDateTime");
+        registrationStartDateTime.style.display = "none";
+        registrationEndDateTime.style.display = "none";
+    });
+}
 
 // Choices.js et dropdown des thèmes et des types en fonction de la dropdown des campagnes
 (function($) {
@@ -478,3 +503,21 @@ function validatePeriods(event) {
 	}
 	return allValidated || hasLanguageError;
 }
+
+var registrationTrue = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[0];
+var registrationFalse = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[1];
+var registrationDiv = document.getElementById("registrationDiv");
+registrationTrue.onchange = function(){
+    var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
+    rules[namespace + 'maxGauge'].required = true;
+    rules[namespace + 'registrationStartDate'].required = true;
+    rules[namespace + 'registrationEndDate'].required = true;
+    registrationDiv.style.display = "block";
+};
+registrationFalse.onchange = function(){
+    var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
+    rules[namespace + 'maxGauge'].required = false;
+    rules[namespace + 'registrationStartDate'].required = false;
+    rules[namespace + 'registrationEndDate'].required = false;
+    registrationDiv.style.display = "none";
+};

@@ -410,6 +410,40 @@
 
 			</aui:fieldset>
 
+			<!-- Groupe de champs : Inscription -->
+			<aui:fieldset collapsed="true" collapsible="false" label="event-registration">
+
+                <div class="event-periods-title">
+                    <p class="control-label"><liferay-ui:message key="necessary-registration" /><span class="icon-asterisk text-warning"></span></p>
+                </div>
+
+				<!-- Inscription -->
+				<aui:input type="radio" value="1" name="registrationValue" class="registrationTrue" label="registrationTrue"
+                        checked="${not empty dc.campaignEvent and dc.campaignEvent.registration}" />
+                    <aui:input type="radio" value="0" name="registrationValue" class="registrationFalse" label="registrationFalse"
+                        checked="${empty dc.campaignEvent or !dc.campaignEvent.registration}" />
+
+                <div id="registrationDiv">
+                    <aui:input name="registrationStartDate" >
+                        <aui:validator name="required"
+                            errorMessage="this-field-is-required" />
+                     </aui:input>
+
+                    <aui:input name="registrationEndDate" >
+                        <aui:validator name="required"
+                            errorMessage="this-field-is-required" />
+                     </aui:input>
+
+                    <%-- Champ : Nombre jauge max   --%>
+                    <aui:input name="maxGauge" id="maxGauge" label="maxGauge" type="text" >
+                        <aui:validator name="number" />
+                        <aui:validator name="required"
+                            errorMessage="this-field-is-required" />
+                        <aui:validator name="range">[0,99999]</aui:validator>
+                     </aui:input>
+                 </div>
+			</aui:fieldset>
+
 			<!-- Autres informations -->
 			<aui:fieldset collapsed="true" collapsible="false" label="other-information">
 				<div class="row">
@@ -584,7 +618,6 @@
 		
 		
 		$('button[name=' + namespace + 'use-same-picture]').on('click', function(){
-
 			$('input[name=' + namespace + 'webImageId]').val('${dc.campaignEvent.imageId}');
 			$('img[name=webImageUrl]').attr('src', '${dc.campaignEvent.imageURL}');
 		});
