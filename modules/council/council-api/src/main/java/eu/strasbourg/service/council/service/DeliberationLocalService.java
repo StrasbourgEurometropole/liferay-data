@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -39,8 +40,8 @@ import eu.strasbourg.service.council.model.Deliberation;
 
 import java.io.Serializable;
 
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Provides the local service interface for Deliberation. Methods of this
@@ -297,6 +298,16 @@ public interface DeliberationLocalService
 		throws PortalException;
 
 	/**
+	 * Import des délibérations à partir du fichier csv
+	 * Création ou mise à jour ou suppression en base de données
+	 */
+	public void importData(
+			List<java.util.Map<String, String>> recordsMapList,
+			ServiceContext serviceContext, long councilSessionId,
+			ThemeDisplay themeDisplay)
+		throws PortalException;
+
+	/**
 	 * Supprime une entité
 	 */
 	public Deliberation removeDeliberation(long deliberationId)
@@ -329,7 +340,7 @@ public interface DeliberationLocalService
 	 */
 	public Deliberation updateStatus(
 			long userId, long entryId, int status, ServiceContext sc,
-			Map<String, Serializable> workflowContext)
+			java.util.Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 }

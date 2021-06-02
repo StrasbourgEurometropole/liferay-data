@@ -22,6 +22,10 @@ dependencies {
 
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 
+	compileInclude group: "org.apache.commons", name: "commons-csv", version: "1.7"
+	compileInclude group: "org.apache.commons", name: "commons-lang3", version: "3.9"
+
+
 	compile project (':modules:oidc:oidc-api')
 }
 

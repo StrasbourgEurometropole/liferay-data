@@ -51,6 +51,8 @@
     </liferay-ui:error>
     <liferay-ui:error key="council.deliberation-already-open" message="council.deliberation-already-open" />
 
+    <liferay-ui:success key="import-successful" message="import-successful" />
+
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="deliberationsSearchContainer"
@@ -166,6 +168,10 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
+
+	<aui:button-row>
+        <aui:button cssClass="btn-lg" type="submit" href="${importDeliberationURL}" value="Nouvel import" title="Importer des deliberations"/>
+    </aui:button-row>
 </div>
 
 <c:if test="${dc.hasPermission('ADD_DELIBERATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -173,9 +179,6 @@
 		<liferay-frontend:add-menu-item title="Ajouter une deliberation" url="${addDeliberationURL}"/>
 	</liferay-frontend:add-menu>
 
-	<aui:button-row>
-        <aui:button cssClass="btn-lg" type="submit" href="${importDeliberationURL}" value="Nouvel import" title="Importer des deliberations"/>
-    </aui:button-row>
 </c:if>
 
 <liferay-util:html-bottom>
