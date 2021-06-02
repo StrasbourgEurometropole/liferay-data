@@ -264,16 +264,18 @@ public class MapPortlet extends MVCPortlet {
                 if(mode.equals("normal") || mode.equals("district")) {
                     // Récupération de toutes les catégories à affichées
                     if (listDisplay) {
-                        // récupération des catégories enfants aux catégories choisies
+                        // récupération des catégories choisies
                         for (String parentCategoryId : parentCategoriesIdsString.split(",")) {
-                            List<AssetCategory> childsCategories = AssetCategoryLocalServiceUtil.getChildCategories(Long.parseLong(parentCategoryId));
-                            categories.addAll(childsCategories);
+                            AssetCategory parentCategory = AssetCategoryLocalServiceUtil.fetchCategory(Long.parseLong(parentCategoryId));
+                            categories.add(parentCategory);
                         }
 
                         // récupération des catégories des vocabulaires choisis
                         for (String vocabularyId : vocabulariesIdsString.split(",")) {
-                            List<AssetCategory> childsCategories = AssetCategoryLocalServiceUtil.getVocabularyCategories(Long.parseLong(vocabularyId), -1, -1, null);
-                            categories.addAll(childsCategories);
+                            AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(Long.parseLong(vocabularyId));
+                            if(Validator.isNotNull(vocabulary)){
+                                categories.addAll(vocabulary.getCategories());
+                            }
                         }
                     } else {
                         // récupération des catégories cochées par défaut choisies
