@@ -223,7 +223,7 @@ public class EventImpl extends EventBaseImpl {
 				.filter(p -> p.getEndDate().compareTo(todayAtMidnight.getTime()) >= 0).collect(Collectors.toList());
 		return currentAndFuturePeriods;
 	}
-	
+
 	/**
 	 * Retourne la période courrante, ou la prochaine
 	 */
@@ -250,7 +250,7 @@ public class EventImpl extends EventBaseImpl {
 	public String getEventScheduleDisplay(Locale locale) {
 		return DateHelper.displayPeriod(this.getFirstStartDate(), this.getLastEndDate(), locale, true, false);
 	}
-	
+
 	/**
 	 * Retourne la période principale de l'événement (de la première date de début à
 	 * la dernière date de fin) sous forme de String dans la locale passée en
@@ -399,7 +399,7 @@ public class EventImpl extends EventBaseImpl {
 	/**
 	 * Retourne les coordonnees mercator en axe X et Y Notes : permet de ne pas
 	 * multiplier les appels
-	 * 
+	 *
 	 * @return tableau [mercatorX, mercatorY] sinon tableau vide
 	 */
 	@Override
@@ -558,7 +558,7 @@ public class EventImpl extends EventBaseImpl {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EVENT_TYPE);
 	}
-	
+
 	/**
 	 * Retourne les typologie de l'événement (Catégorie du site de l'OPS)
 	 */
@@ -567,7 +567,7 @@ public class EventImpl extends EventBaseImpl {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.OPS_TYPOLOGIE);
 	}
-	
+
 	/**
 	 * Retourne le label des typologies de l'événement (Catégorie du site de l'OPS)
 	 */
@@ -886,7 +886,7 @@ public class EventImpl extends EventBaseImpl {
 		List<String> mercators = this.getMercators();
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
 		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
-		
+
 		jsonEvent.put("firstDate", getCurrentOrFuturePeriodStringDate());
 		jsonEvent.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
 		jsonEvent.put("nbPart", this.getNbEventParticipations());
@@ -1043,13 +1043,13 @@ public class EventImpl extends EventBaseImpl {
 		if (jsonServices.length() > 0) {
 			jsonEvent.put("services", jsonServices);
 		}
-		
+
 		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
 
 		List<String> mercators = this.getMercators();
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
 		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
-		
+
 		jsonEvent.put("firstDate",  getCurrentOrFuturePeriodStringDate());
 		jsonEvent.put("completeAddress", HtmlUtil.stripHtml(HtmlUtil.escape(this.getCompleteAddress(Locale.FRENCH))));
 		jsonEvent.put("nbPart", this.getNbEventParticipations());
@@ -1058,14 +1058,14 @@ public class EventImpl extends EventBaseImpl {
 
 		return jsonEvent;
 	}
-	
+
 	@Override
 	public String getCurrentOrFuturePeriodStringDate() {
 		String date = "";
 		if(this.getCurrentOrFuturePeriod() != null) {
 			SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
 			date = "Le " + df.format(this.getCurrentOrFuturePeriod().getStartDate());
-			
+
 			if(this.getCurrentOrFuturePeriod().getTimeDetail() != "")
 				date = date + " &agrave; " + this.getCurrentOrFuturePeriod().getTimeDetail();
 		}
@@ -1083,71 +1083,71 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public List<Event> getSuggestions(HttpServletRequest request, int nbSuggestions, String tag, String category) throws SearchException, PortalException {
-		
+
 		List<Event> suggestions = new ArrayList<>();
-		
+
 		try {
 			//Récupération du scope de recherche global
 			long globalGroupId = GroupLocalServiceUtil.getCompanyGroup(PortalUtil.getDefaultCompanyId()).getGroupId();
-			
+
 			//Initialisation du seachContext
 			SearchContext searchContext = SearchContextFactory.getInstance(request);
 			searchContext.setGroupIds(new long[] {globalGroupId});
 			searchContext.setStart(0);
 			searchContext.setEnd(nbSuggestions);
-			
+
 			//utilisation de l'indexer de l'entite event (Permet de rechercher uniquement des event)
 			Indexer indexer = IndexerRegistryUtil.getIndexer(Event.class.getName());
-			
+
 			//création de la query avec des filtre sur les entités publiées uniquement
 			BooleanQuery query = new BooleanQueryImpl();
 			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
 			query.addRequiredTerm("visible", true);
-			
+
 			if(tag != null && !tag.equals("")) {
 				//Ajout du filtre sur le tag, si présent
 				BooleanQuery tagQuery = new BooleanQueryImpl();
 				tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, tag);
 				query.add(tagQuery, BooleanClauseOccur.MUST);
 			}
-			
+
 			List<AssetCategory> categories = new ArrayList<AssetCategory>();
-			
+
 			if(category.equals("theme"))
 				categories = this.getThemes();
 			else if(category.equals("typologie"))
 				categories = this.getTypologies();
-			
+
 			//La suggestion se fait uniquement sur la même catégorie "thème"
 			for (AssetCategory cat : categories) {
 				BooleanQuery categoryQuery = new BooleanQueryImpl();
 				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(cat.getCategoryId()));
 				query.add(categoryQuery, BooleanClauseOccur.MUST);
 			}
-			
+
 			BooleanClause booleanClause = BooleanClauseFactoryUtil.create(query, BooleanClauseOccur.MUST.getName());
 			searchContext.setBooleanClauses(new BooleanClause[] {booleanClause});
-			
+
 			//Lance la recherche elasticSearch
-		    Hits hits = indexer.search(searchContext);
-			
-		    //Generation de notre liste de suggestion
-		    for (Document document : hits.getDocs()) {
-		    	//récupération de l'élément en base
-	            Event event = EventLocalServiceUtil.fetchEvent(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-	            
-	            //Vérification que l'event recherché existe bien base (En théorie ne devrait pas arriver) et qu'il est différent de l'event courrant.
-	            if(event != null && event.getEventId() != this.getEventId())
-	            	suggestions.add(event);
-	        }
+			Hits hits = indexer.search(searchContext);
+
+			//Generation de notre liste de suggestion
+			for (Document document : hits.getDocs()) {
+				//récupération de l'élément en base
+				Event event = EventLocalServiceUtil.fetchEvent(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+
+				//Vérification que l'event recherché existe bien base (En théorie ne devrait pas arriver) et qu'il est différent de l'event courrant.
+				if(event != null && event.getEventId() != this.getEventId())
+					suggestions.add(event);
+			}
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
 		}
-	    
+
 		return suggestions;
 	}
-	
+
 	/**
 	 * Renvoi les sessions de l'evenement obtenues par le webService Rodrigue
 	 * @return
@@ -1162,7 +1162,7 @@ public class EventImpl extends EventBaseImpl {
 			return new ArrayList<RodrigueEventSession>();
 		}
 	}
-	
+
 	/**
 	 * Renvoi les sessions de l'evenement obtenues par le webService Rodriguesous format JSON
 	 * @return
@@ -1170,25 +1170,25 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public JSONArray getSessionsFromRodrigueInJSON() {
 		JSONArray sessionsJSON = JSONFactoryUtil.createJSONArray();
-		
+
 		// Recuperation des properties
 		String ticketingURL = StrasbourgPropsUtil.getOPSTicketingURL();
 		String structureID = StrasbourgPropsUtil.getRodrigueOPSStructureID();
-		
+
 		for(RodrigueEventSession session : this.getSessionsFromRodrigue()) {
 			JSONObject sessionJSON = JSONFactoryUtil.createJSONObject();
-			
+
 			// Creation du lien vers la billeterie
 			String link = ticketingURL.replaceAll("\\[structureID\\]", structureID);
 			link = link.replaceAll("\\[eventID\\]", Integer.toString(session.getEventID()));
-			
+
 			// Mise a jour du format de date pour simplifier la passation en javascript
 			String date = "";
 			if (session.getSessionDate() != null) {
 				SimpleDateFormat sdf = new SimpleDateFormat("EE MMM d y H:m:s ZZZ", Locale.US);
 				date = sdf.format(session.getSessionDate());
 			}
-			
+
 			sessionJSON.put("link", link);
 			sessionJSON.put("eventID", session.getEventID());
 			sessionJSON.put("eventName", session.getEventName());
@@ -1204,10 +1204,10 @@ public class EventImpl extends EventBaseImpl {
 			sessionJSON.put("nbSeat", session.getNbSeat());
 			sessionJSON.put("nbSeatMin", session.getNbSeatMin());
 			sessionJSON.put("nbSeatMax", session.getNbSeatMax());
-			
+
 			sessionsJSON.put(sessionJSON);
 		}
-		
+
 		return sessionsJSON;
 	}
 
@@ -1378,21 +1378,51 @@ public class EventImpl extends EventBaseImpl {
 		if (!imageURL.startsWith("http")) {
 			imageURL = StrasbourgPropsUtil.getURL() + this.getImageURL();
 		}
-		// TODO imageURL = UriHelper.imagePreview(imageurl)
-		jsonEvent.put("imageURL", imageURL);
 
-		// TODO PLACE ?
+		try {
+			jsonEvent.put("imageURL", UriHelper.appendUriImagePreview(imageURL));
+		} catch (Exception e){
+			jsonEvent.put("imageURL", imageURL);
+		}
+
 		if (Validator.isNotNull(this.getPlaceSIGId())) {
-			jsonEvent.put("placeSIGId", this.getPlaceSIGId());
+			jsonEvent.put("idSurfs", this.getPlaceSIGId());
+			Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
+			jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
+			String street = place.getAddressStreet();
+			if(!street.isEmpty() || Validator.isNotNull(street)){
+				jsonPlace.put("street", street);
+			}
+			String zipCode = place.getAddressZipCode();
+			if(!zipCode.isEmpty() || Validator.isNotNull(zipCode)){
+				jsonPlace.put("zipCode", zipCode);
+			}
+			String city = place.getCity(Locale.FRANCE);
+			if(!city.isEmpty() || Validator.isNotNull(city)){
+				jsonPlace.put("city", city);
+			}
+			jsonPlace.put("accessForBlind", place.getAccessForBlind());
+			jsonPlace.put("accessForDeaf", place.getAccessForDeaf());
+			jsonPlace.put("accessForWheelchair", place.getAccessForWheelchair());
+			jsonPlace.put("accessForDeficient", place.getAccessForDeficient());
+			jsonPlace.put("accessForElder", place.getAccessForElder());
+			jsonEvent.put("place", jsonPlace);
 		} else {
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
 			jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
-			jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
-			jsonPlace.put("streetName", this.getPlaceStreetName());
-			jsonPlace.put("zipCode", this.getPlaceZipCode());
-			jsonPlace.put("city", this.getPlaceCity());
-			jsonPlace.put("access", JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
-			jsonPlace.put("accessForDisabled", JSONHelper.getJSONFromI18nMap(this.getAccessForDisabledMap()));
+			String street = this.getPlaceStreetNumber() + " " + this.getPlaceStreetName();
+			if(!street.isEmpty() || Validator.isNotNull(street) || street!=" "){
+				jsonPlace.put("street", street);
+			}
+			String zipCode = this.getPlaceZipCode();
+			if(!zipCode.isEmpty() || Validator.isNotNull(zipCode)){
+				jsonPlace.put("zipCode", zipCode);
+			}
+			String city = this.getPlaceCity();
+			if(!city.isEmpty() || Validator.isNotNull(city)){
+				jsonPlace.put("city", city);
+			}
 			jsonPlace.put("accessForBlind", this.getAccessForBlind());
 			jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
 			jsonPlace.put("accessForWheelchair", this.getAccessForWheelchair());
@@ -1419,22 +1449,28 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
 		}
 
-		// TODO SCHEDULE ?
 		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
 		for (EventPeriod period : this.getEventPeriods()) {
-			JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
+			SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = period.getStartDate();
+			LocalDate currentDate = LocalDate.now();
+			LocalDate datePlusDays = currentDate.plusDays(30);
+			LocalDate localDate = date.toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
+			if (localDate.isBefore(datePlusDays)) {
+				JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
 
-			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
-			periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
-			periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
+				periodJSON.put("date", dateFormat.format(date));
 
-			if (Validator.isNotNull(period.getTimeDetail())) {
-				periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
+				if (Validator.isNotNull(period.getTimeDetail())) {
+					periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
+				}
+				periodsJSON.put(periodJSON);
 			}
-			periodsJSON.put(periodJSON);
 		}
 
-		jsonEvent.put("periods", periodsJSON);
+		jsonEvent.put("schedules", periodsJSON);
 
 		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
 		if (jsonTypes.length() > 0) {
@@ -1450,9 +1486,21 @@ public class EventImpl extends EventBaseImpl {
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
 		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
 
-		// TODO registration a recup sur les autres branches
+		// Inscription
+		if(this.getRegistration()){
+			JSONObject jsonRegistration = JSONFactoryUtil.createJSONObject();
+			jsonRegistration.put("maxGauge", this.getMaxGauge());
+			LocalDate startDate = this.getRegistrationStartDate().toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
+			LocalDate endDate = this.getRegistrationEndDate().toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
+			jsonRegistration.put("startDate", startDate);
+			jsonRegistration.put("endDate", endDate);
+			jsonEvent.put("registration", jsonRegistration);
+		}
 
 		return jsonEvent;
 	}
-
 }
