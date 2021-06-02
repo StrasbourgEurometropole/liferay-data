@@ -118,6 +118,10 @@
 		<property name="publicsIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="bookingDescription" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="bookingURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="registration" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="registrationStartDate" type="org.hibernate.type.TimestampType" />
+		<property name="registrationEndDate" type="org.hibernate.type.TimestampType" />
+		<property name="maxGauge" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.CampaignEventStatusImpl" table="agenda_CampaignEventStatus">
 		<id name="statusId" type="long">
@@ -192,6 +196,10 @@
 		<property name="createDateSource" type="org.hibernate.type.TimestampType" />
 		<property name="modifiedDateSource" type="org.hibernate.type.TimestampType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="registration" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="registrationStartDate" type="org.hibernate.type.TimestampType" />
+		<property name="registrationEndDate" type="org.hibernate.type.TimestampType" />
+		<property name="maxGauge" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.EventParticipationImpl" table="agenda_EventParticipation">
 		<id name="eventParticipationId" type="long">
@@ -226,10 +234,12 @@
 		<property name="modifiedEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="errorEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="unmodifiedEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="deletedEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="newManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="modifiedManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="errorManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="unmodifiedManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="deletedManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="startDate" type="org.hibernate.type.TimestampType" />
 		<property name="endDate" type="org.hibernate.type.TimestampType" />
 	</class>

@@ -35,6 +35,9 @@ public class StrasbourgPropsUtil {
 	public static String getAgendaImportMailsForProvider(String provider) {
 		return PropsUtil.get("eu.strasbourg.agenda.mail." + provider);
 	}
+	public static String getUrlCozeJson() {
+		return PropsUtil.get("eu.strasbourg.agenda.url.coze");
+	}
 
 	public static String getAgendaImportDirectory() {
 		return PropsUtil.get("eu.strasbourg.agenda.file");

@@ -1399,12 +1399,12 @@ var menuOverlay = {
             menuOverlay.el = el;
 
             menuOverlay.initEventsFirstLevelInOverlay();
-            //menuOverlay.initSearch();
+            menuOverlay.initSearch();
             menuOverlay.initEventsFirstLevel();
         }
     },
 
-    /*initSearch: function () {
+    initSearch: function () {
         $(menuOverlay._selector.searchBtn).on("click", function (e) {
             e.preventDefault();
 
@@ -1416,25 +1416,9 @@ var menuOverlay = {
             } else {
                 $(menuOverlay._selector.searchOverlay).addClass('th-active');
                 $(menuOverlay._selector.searchInput, menuOverlay._selector.searchOverlay).get(0).focus();
-
-                if (!document.querySelector(".th-dropdown-results").classList.contains("th-active")) {
-                    document.querySelector(".th-dropdown-results").classList.add("th-active");
-                }
             }
         });
-
-        document.querySelector(menuOverlay._selector.searchInput).addEventListener("blur", function () {
-            if (document.querySelector(".th-dropdown-results").classList.contains("th-active")) {
-                document.querySelector(".th-dropdown-results").classList.remove("th-active");
-            }
-        });
-
-        document.querySelector(menuOverlay._selector.searchInput).addEventListener("focus", function () {
-            if (!document.querySelector(".th-dropdown-results").classList.contains("th-active")) {
-                document.querySelector(".th-dropdown-results").classList.add("th-active");
-            }
-        })
-    },*/
+    },
 
     initEventsFirstLevel: function () {
         $(menuOverlay._selector.firstLvlClass, menuOverlay._selector.headerContainer).on("click", function (e) {
@@ -1548,9 +1532,10 @@ var menuOverlay = {
 				});
 			}
 			
-			var parent = this.parentNode;
-			parent.prepend(submenu.firstChild);
-			this.remove();
+			var parent = this.parentNode;			
+			parent.insertBefore(submenu.firstChild, null);
+			//this.remove();
+			parent.removeChild(this);
         });
 	},
 	
@@ -1563,8 +1548,9 @@ var menuOverlay = {
 				'<div class="th-content"><span class="th-surtitre">' + this.getAttribute("data-name") + '</span>' + 
 				'<span class="th-titre">' + this.getAttribute("data-description") + '</span></div></a>';
 			var parent = this.parentNode;
-			parent.prepend(wrapper.firstChild);
-			this.remove();
+			parent.insertBefore(wrapper.firstChild, null);
+			//this.remove();
+			parent.removeChild(this);
         });
 	},
 	

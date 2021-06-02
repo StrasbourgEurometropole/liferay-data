@@ -14,24 +14,27 @@
 
 package eu.strasbourg.service.official.model.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * The extended model implementation for the Official service. Represents a row
@@ -311,6 +314,22 @@ public class OfficialImpl extends OfficialBaseImpl {
 		if (Validator.isNotNull(getTown()))
 			return true;
 		return false;
+	}
+
+	/**
+	 * Retourne la version JSON de l'élu
+	 */
+	@Override
+	public JSONObject toJSON() {
+		JSONObject json = JSONFactoryUtil.createJSONObject();
+
+		json.put("id", this.getOfficialId());
+		json.put("firstName", this.getFirstName());
+		json.put("lastName", this.getLastName());
+		json.put("fonctionCity", JSONHelper.getJSONFromI18nMap(Validator.isNotNull(this.getFonctionCity())?this.getFonctionCity().getTitleMap():new HashMap<>()));
+		json.put("fonctionEuro", JSONHelper.getJSONFromI18nMap(Validator.isNotNull(this.getFonctionEurometropole())?this.getFonctionEurometropole().getTitleMap():new HashMap<>()));
+
+		return json;
 	}
 
 }

@@ -90,6 +90,10 @@ public class EventSoap implements Serializable {
 		soapModel.setCreateDateSource(model.getCreateDateSource());
 		soapModel.setModifiedDateSource(model.getModifiedDateSource());
 		soapModel.setImageId(model.getImageId());
+		soapModel.setRegistration(model.isRegistration());
+		soapModel.setRegistrationStartDate(model.getRegistrationStartDate());
+		soapModel.setRegistrationEndDate(model.getRegistrationEndDate());
+		soapModel.setMaxGauge(model.getMaxGauge());
 
 		return soapModel;
 	}
@@ -590,6 +594,42 @@ public class EventSoap implements Serializable {
 		_imageId = imageId;
 	}
 
+	public boolean getRegistration() {
+		return _registration;
+	}
+
+	public boolean isRegistration() {
+		return _registration;
+	}
+
+	public void setRegistration(boolean registration) {
+		_registration = registration;
+	}
+
+	public Date getRegistrationStartDate() {
+		return _registrationStartDate;
+	}
+
+	public void setRegistrationStartDate(Date registrationStartDate) {
+		_registrationStartDate = registrationStartDate;
+	}
+
+	public Date getRegistrationEndDate() {
+		return _registrationEndDate;
+	}
+
+	public void setRegistrationEndDate(Date registrationEndDate) {
+		_registrationEndDate = registrationEndDate;
+	}
+
+	public long getMaxGauge() {
+		return _maxGauge;
+	}
+
+	public void setMaxGauge(long maxGauge) {
+		_maxGauge = maxGauge;
+	}
+
 	private String _uuid;
 	private long _eventId;
 	private long _groupId;
@@ -646,5 +686,9 @@ public class EventSoap implements Serializable {
 	private Date _createDateSource;
 	private Date _modifiedDateSource;
 	private Long _imageId;
+	private boolean _registration;
+	private Date _registrationStartDate;
+	private Date _registrationEndDate;
+	private long _maxGauge;
 
 }

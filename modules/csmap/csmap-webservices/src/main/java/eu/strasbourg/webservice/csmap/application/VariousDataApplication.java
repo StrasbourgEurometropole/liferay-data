@@ -93,48 +93,56 @@ public class VariousDataApplication extends Application {
 
             // récupération de la structure
             structure = WSCSMapUtil.getStructureByGroupAndName(group.getGroupId(), WSConstants.STRUCTURE_BREVE);
+
+            // On récupère toutes les brèves qui ont été ajoutées ou modifiées
+            JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+            JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+
+            // récupération des brèves
+            List<AssetEntry> entries = assetEntryLocalService.getAssetTagAssetEntries(tag.getTagId());
+            for (AssetEntry entry : entries) {
+                // récupération de la dernière version du journalArticle
+                JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(entry.getClassPK());
+                if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                    JSONObject jsonWC = CSMapJSonHelper.getBreveCSMapJSON(journalArticle);
+
+                    if (lastUpdateTime.before(journalArticle.getCreateDate()))
+                        jsonAjout.put(jsonWC);
+                    else if (lastUpdateTime.before(journalArticle.getModifiedDate()))
+                        jsonModif.put(jsonWC);
+                }
+            }
+
+            json.put(WSConstants.JSON_ADD, jsonAjout);
+            json.put(WSConstants.JSON_UPDATE, jsonModif);
+
+            // On récupère toutes les news qui ont été supprimées/dépubliées
+            JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
+            if(Validator.isNotNull(idsNews)) {
+                for (String idNews : idsNews.split(",")) {
+                    JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idNews));
+                    if (journalArticle != null){
+                        AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(), journalArticle.getResourcePrimKey());
+                        if(assetEntry != null && ! assetEntry.getTags().contains(tag)){
+                            jsonSuppr.put(idNews);
+                        }
+                        else if(journalArticle.getStatus() != WorkflowConstants.STATUS_APPROVED){
+                            jsonSuppr.put(idNews);
+                        }
+                    }
+                    else{
+                        jsonSuppr.put(idNews);
+                    }
+                }
+            }
+            json.put(WSConstants.JSON_DELETE, jsonSuppr);
+
+            if(jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+                return WSResponseUtil.buildOkResponse(json, 201);
         }catch (Exception e){
+            log.error(e.getMessage());
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
-
-        // On récupère toutes les brèves qui ont été ajoutées ou modifiées
-        JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
-        JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-
-        // récupération des brèves
-        List<AssetEntry> entries = assetEntryLocalService.getAssetTagAssetEntries(tag.getTagId());
-        for (AssetEntry entry : entries) {
-            // récupération de la dernière version du journalArticle
-            JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(entry.getClassPK());
-            if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
-                JSONObject jsonWC = CSMapJSonHelper.getBreveCSMapJSON(journalArticle);
-
-                if (lastUpdateTime.before(journalArticle.getCreateDate()))
-                    jsonAjout.put(jsonWC);
-                else if (lastUpdateTime.before(journalArticle.getModifiedDate()))
-                    jsonModif.put(jsonWC);
-            }
-        }
-
-        json.put(WSConstants.JSON_ADD, jsonAjout);
-        json.put(WSConstants.JSON_UPDATE, jsonModif);
-
-        // On récupère toutes les news qui ont été supprimées/dépubliées
-        JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-        if(Validator.isNotNull(idsNews)) {
-            for (String idNews : idsNews.split(",")) {
-                JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idNews));
-                AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(), journalArticle.getResourcePrimKey());
-                if (journalArticle == null || !assetEntry.getTags().contains(tag))
-                    jsonSuppr.put(idNews);
-                else if(journalArticle.getStatus() != WorkflowConstants.STATUS_APPROVED)
-                    jsonSuppr.put(idNews);
-            }
-        }
-        json.put(WSConstants.JSON_DELETE, jsonSuppr);
-
-        if(jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
-            return WSResponseUtil.buildOkResponse(json, 201);
 
         return WSResponseUtil.buildOkResponse(json);
     }
@@ -295,45 +303,45 @@ public class VariousDataApplication extends Application {
 
             // récupération de la structure
             structure = WSCSMapUtil.getStructureByGroupAndName(group.getGroupId(), WSConstants.STRUCTURE_SOCIAL_NETWORK);
+
+            // On récupère tous les réseaux sociaux qui ont été ajoutés ou modifiés
+            JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+            JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+
+            // On récupère les contenu web de structure social network du dossier Réseau sociaux
+            List<JournalArticle> journalArticles = JournalArticleLocalServiceUtil.getArticles(group.getGroupId(), folder.getFolderId());
+            for (JournalArticle journalArticle : journalArticles) {
+                if(journalArticle.getDDMStructureKey().equals(structure.getStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                    JSONObject jsonWC = CSMapJSonHelper.getSocialNetworkCSMapJSON(journalArticle);
+
+                    if (lastUpdateTime.before(journalArticle.getCreateDate()))
+                        jsonAjout.put(jsonWC);
+                    else if (lastUpdateTime.before(journalArticle.getModifiedDate()))
+                        jsonModif.put(jsonWC);
+                }
+            }
+
+            json.put(WSConstants.JSON_ADD, jsonAjout);
+            json.put(WSConstants.JSON_UPDATE, jsonModif);
+
+            // On récupère tous les réseaux sociaux qui ont été supprimées/dépubliées
+            JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
+            if(Validator.isNotNull(idsSocialNetwork)) {
+                for (String idSocialNetwork : idsSocialNetwork.split(",")) {
+                    JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idSocialNetwork));
+                    if (journalArticle == null)
+                        jsonSuppr.put(idSocialNetwork);
+                    else if(journalArticle.getStatus() != WorkflowConstants.STATUS_APPROVED)
+                        jsonSuppr.put(idSocialNetwork);
+                }
+            }
+            json.put(WSConstants.JSON_DELETE, jsonSuppr);
+
+            if(jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+                return WSResponseUtil.buildOkResponse(json, 201);
         }catch (Exception e){
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
-
-        // On récupère tous les réseaux sociaux qui ont été ajoutés ou modifiés
-        JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
-        JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-
-        // On récupère les contenu web de structure social network du dossier Réseau sociaux
-        List<JournalArticle> journalArticles = JournalArticleLocalServiceUtil.getArticles(group.getGroupId(), folder.getFolderId());
-        for (JournalArticle journalArticle : journalArticles) {
-            if(journalArticle.getDDMStructureKey().equals(structure.getStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
-                JSONObject jsonWC = CSMapJSonHelper.getSocialNetworkCSMapJSON(journalArticle);
-
-                if (lastUpdateTime.before(journalArticle.getCreateDate()))
-                    jsonAjout.put(jsonWC);
-                else if (lastUpdateTime.before(journalArticle.getModifiedDate()))
-                    jsonModif.put(jsonWC);
-            }
-        }
-
-        json.put(WSConstants.JSON_ADD, jsonAjout);
-        json.put(WSConstants.JSON_UPDATE, jsonModif);
-
-        // On récupère tous les réseaux sociaux qui ont été supprimées/dépubliées
-        JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-        if(Validator.isNotNull(idsSocialNetwork)) {
-            for (String idSocialNetwork : idsSocialNetwork.split(",")) {
-                JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(Long.parseLong(idSocialNetwork));
-                if (journalArticle == null)
-                    jsonSuppr.put(idSocialNetwork);
-                else if(journalArticle.getStatus() != WorkflowConstants.STATUS_APPROVED)
-                    jsonSuppr.put(idSocialNetwork);
-            }
-        }
-        json.put(WSConstants.JSON_DELETE, jsonSuppr);
-
-        if(jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
-            return WSResponseUtil.buildOkResponse(json, 201);
 
         return WSResponseUtil.buildOkResponse(json);
     }

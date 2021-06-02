@@ -56,7 +56,7 @@ function getSelectedClassNames() {
 function createArticleThumbnail(article) {
 	var articleThumbnail = 
 		'<div class="col-lg-4 col-sm-6 col-xs-12">' +
-		    '<a href="' + article.link + '" title="Lien vers la page : ' + article.title + '" class="pro-bloc-actu">' +
+		    '<a href="' + article.link + '" title="Lien vers la page : ' + article.title.fr_FR + '" class="pro-bloc-actu">' +
 		        '<div class="img">' +
 		            '<figure role="group">' +
 		                '<img src="' + article.imageURL + '" alt="Image article" width="360" height="174" class="fit-cover"/>' +
@@ -64,8 +64,8 @@ function createArticleThumbnail(article) {
 		        '</div>' +
 		        '<div class="content">' +
 		            '<span class="publication">Publiée le 04 décembre 2017</span>' +
-		            '<h3>' + article.title + '</h3>' +
-		            '<p>' + article.chapo.replace(/(<([^>]+)>)/ig,""); + '</p>' +
+		            '<h3>' + article.title.fr_FR + '</h3>' +
+		            '<p>' + article.chapo.fr_FR.replace(/(<([^>]+)>)/ig,""); + '</p>' +
 		            '<span class="link">Lire la suite</span>' +
 		        '</div>' +
 		    '</a>' +
@@ -347,64 +347,65 @@ function createEventThumbnail(event) {
  */
 function updateResultThumbnails() {
 	removeAllThumbnails();
-	
-	resultEntries.forEach(function(entry) {
-		switch (entry.className) {
-			case entityClassName.ARTICLE :
-				createArticleThumbnail(entry);
-				break;
-			case entityClassName.FILE :
-				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
-				break;
-			case entityClassName.PLACE :
-				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
-				break;
-			case entityClassName.EVENT :
-				createEventThumbnail(entry);
-				break;
-			case entityClassName.MANIFESTATION :
-				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
-				break;
-			case entityClassName.LINK :
-				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
-				break;
-			case entityClassName.ARTWORK :
-				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
-				break;
-			case entityClassName.ARTWORK_COLLECTION :
-				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
-				break;
-			case entityClassName.VIDEO :
-				createVideoThumbnail(entry);
-				break;
-			case entityClassName.VIDEO_GALLERY :
-				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
-				break;
-			case entityClassName.EDITION :
-				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
-				break;
-			case entityClassName.EDITION_GALLERY :
-				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
-				break;
-			case entityClassName.PROJECT :
-				createProjectThumbnail(entry);
-				break;
-			case entityClassName.PARTICIPATION :
-				createParticipationThumbnail(entry);
-				break;
-			case entityClassName.PETITION :
-				createPetitionThumbnail(entry);
-				break;
-			case entityClassName.BUDGET :
-				createBudgetParticipatifThumbnail(entry);
-				break;
-			case entityClassName.INITIATIVE :
-				createInitiativeThumbnail(entry);
-				break;
-			default :
-				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
-		}
-	});
+	if(resultEntries != null){
+        resultEntries.forEach(function(entry) {
+            switch (entry.className) {
+                case entityClassName.ARTICLE :
+                    createArticleThumbnail(entry);
+                    break;
+                case entityClassName.FILE :
+                    console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
+                    break;
+                case entityClassName.PLACE :
+                    console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
+                    break;
+                case entityClassName.EVENT :
+                    createEventThumbnail(entry);
+                    break;
+                case entityClassName.MANIFESTATION :
+                    console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
+                    break;
+                case entityClassName.LINK :
+                    console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
+                    break;
+                case entityClassName.ARTWORK :
+                    console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
+                    break;
+                case entityClassName.ARTWORK_COLLECTION :
+                    console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
+                    break;
+                case entityClassName.VIDEO :
+                    createVideoThumbnail(entry);
+                    break;
+                case entityClassName.VIDEO_GALLERY :
+                    console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
+                    break;
+                case entityClassName.EDITION :
+                    console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
+                    break;
+                case entityClassName.EDITION_GALLERY :
+                    console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
+                    break;
+                case entityClassName.PROJECT :
+                    createProjectThumbnail(entry);
+                    break;
+                case entityClassName.PARTICIPATION :
+                    createParticipationThumbnail(entry);
+                    break;
+                case entityClassName.PETITION :
+                    createPetitionThumbnail(entry);
+                    break;
+                case entityClassName.BUDGET :
+                    createBudgetParticipatifThumbnail(entry);
+                    break;
+                case entityClassName.INITIATIVE :
+                    createInitiativeThumbnail(entry);
+                    break;
+                default :
+                    console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
+            }
+	    });
+    }
 }
 
 /**

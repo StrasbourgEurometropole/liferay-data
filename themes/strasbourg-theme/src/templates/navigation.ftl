@@ -2,12 +2,12 @@
   <!-- Barre de Menu Niveau 1 -->
   <nav class="th-nav-level-1 th-bar-in-front" aria-label="<@liferay.language key='eu.strasbourg.menu.main-navigation' />">
     <ul class="th-menu-level-1">
-      <!-- <li><button data-overlay-open="th-overlay-nav" class="th-cta-search"></button></li> -->
+      <li><button data-overlay-open="th-overlay-nav" class="th-cta-search"></button></li>
       <!-- Entrées principales -->
       <#list nav_items as nav_item>
         <#if nav_item.getName() != 'Accueil'>
           <li>
-            <a href="${nav_item.getURL()}" <#if !nav_item.layout.isTypeURL() && nav_item.hasChildren()> data-th-menu="${nav_item.getName()?html}"</#if> class="th-level-1" <#if nav_item.layout.isTypeURL()>target="_blank"</#if>>${nav_item.getName()}</a>
+            <a <#if nav_item.layout.isTypeURL() || !nav_item.hasChildren()>href="${nav_item.getURL()}"</#if> <#if !nav_item.layout.isTypeURL() && nav_item.hasChildren()> data-th-menu="${nav_item.getName()?html}"</#if> class="th-level-1" <#if nav_item.layout.isTypeURL()>target="_blank"</#if>>${nav_item.getName()}</a>
           </li>
         </#if>
       </#list>
@@ -54,8 +54,7 @@
       <#else>
         <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="th-nav-account"><@liferay.language key="eu.login.strasbourg" /></a>
       </#if>
-      <button id="seu-search-trigger2" class="th-cta-search"></button>
-      <!-- <button data-overlay-open="th-overlay-nav" class="th-cta-search"></button> -->
+      <button data-overlay-open="th-overlay-nav" class="th-cta-search"></button>
       <div class="th-wrapper-menu">
         <button data-overlay-open="th-overlay-nav" class="th-menu">
           <span></span>
@@ -72,7 +71,7 @@
 
       <!-- Tablette Portrait + Mobile -->
       <div class="th-top-overlay-menu">
-          <!-- <button data-overlay-open="th-overlay-nav" class="th-cta-search"></button> -->
+          <button data-overlay-open="th-overlay-nav" class="th-cta-search"></button>
           <span class="title-top-menu"><@liferay.language key="menu" /></span>
           <div class="th-lang-list">
               <a href="https://www.strasbourg.eu" title="Français" class="th-lang th-fr ${(locale.language == "fr")?then('th-actif','')}">fr</a>
@@ -84,6 +83,16 @@
 
       <nav class="th-nav-level-1" aria-label="<@liferay.language key='eu.strasbourg.menu.main-navigation' />">
         <ul class="th-menu-level-1">
+          <li class="th-has-submenu th-has-overlay-search">
+            <button data-overlay-open="th-overlay-nav" class="th-cta-search th-hide-tablet-p"></button>
+            <!-- Sous-Menu -->
+            <div class="th-submenu th-wrapper-elasticsearch">
+              <@liferay_portlet["runtime"]
+              portletProviderAction=portletProviderAction.VIEW
+              portletName="eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet"
+              instanceId="DynamicResearch"/>
+            </div>
+          </li>
 
           <#list nav_items as nav_item>
             <#if nav_item.getName() != 'Accueil'>
@@ -95,7 +104,7 @@
                     <#if nav_item.hasChildren()>
                         <!-- Tablette Portrait + Mobile -->
                         <div class="th-top-overlay-menu">
-                          <!--<button data-overlay-open="th-overlay-nav" class="th-cta-search"></button>-->
+                          <button data-overlay-open="th-overlay-nav" class="th-cta-search"></button>
                           <div class="back back-level-1">
                             <span class="title-menu-niv-1">${nav_item.getName()}</span>
                             <span class="back-txt"><@liferay.language key="eu.strasbourg.menu.back" /></span>
@@ -109,7 +118,7 @@
                               <div class="th-menu-niveau-3-images">
                                 <!-- Tablette Portrait + Mobile -->
                                 <div class="th-top-overlay-menu">
-                                  <!--<button data-overlay-open="th-overlay-nav" class="th-cta-search"></button>-->
+                                  <button data-overlay-open="th-overlay-nav" class="th-cta-search"></button>
                                   <div class="back back-level-2">
                                     <span class="title-menu-niv-1"><@liferay.language key="eu.strasbourg.menu.quick-access" /></span>
                                     <span class="back-txt"><@liferay.language key="eu.strasbourg.menu.back" /></span>
@@ -148,7 +157,7 @@
                                   <div class="th-menu-niveau-3">
                                       <!-- Tablette Portrait + Mobile -->
                                       <div class="th-top-overlay-menu">
-                                        <!--<button data-overlay-open="th-overlay-nav" class="th-cta-search"></button>-->
+                                        <button data-overlay-open="th-overlay-nav" class="th-cta-search"></button>
                                         <div class="back back-level-2">
                                           <span class="title-menu-niv-1">${nav_child.getName()}</span>
                                           <span class="back-txt"><@liferay.language key="eu.strasbourg.menu.back" /></span>

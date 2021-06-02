@@ -45,8 +45,6 @@
           <span class="${prefix}-text"><@liferay.language key="contact" /></span>
         </span>    
       </a>
-      <button id="${prefix}-search-trigger"></button>
-      <button class="${prefix}-search-trigger"></button>
       <div class="${prefix}-lang-list">
         <a href="https://www.strasbourg.eu" title="Français" class="${prefix}-lang ${prefix}-fr ${(locale.language == "fr")?then('actif','')}">fr</a>
         <a href="https://int.strasbourg.eu/de/" title="Deutsch" class="${prefix}-lang ${prefix}-de ${(locale.language == "de")?then('actif','')}" >de</a>

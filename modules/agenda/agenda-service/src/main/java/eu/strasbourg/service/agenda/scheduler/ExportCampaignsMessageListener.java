@@ -39,15 +39,26 @@ public class ExportCampaignsMessageListener
 		Date fiveMinutesFromNow = now.getTime();
 
 		// Création du trigger "Tous les jours à 1h45"
-		Trigger trigger = _triggerFactory.createTrigger(
+		Trigger firstTrigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
 				"0 45 1 * * ?");
 
-		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
-				listenerClass, trigger);
+		SchedulerEntry firstSchedulerEntry = new SchedulerEntryImpl(
+				listenerClass, firstTrigger);
 
 		_schedulerEngineHelper.register(
-				this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
+				this, firstSchedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
+
+		// Création du trigger "Tous les jours à 13h15"
+		Trigger secondTrigger = _triggerFactory.createTrigger(
+				listenerClass, listenerClass, fiveMinutesFromNow, null,
+				"0 15 13 * * ?");
+
+		SchedulerEntry secondSchedulerEntry = new SchedulerEntryImpl(
+				listenerClass, secondTrigger);
+
+		_schedulerEngineHelper.register(
+				this, secondSchedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
 	}
 
 	@Deactivate
