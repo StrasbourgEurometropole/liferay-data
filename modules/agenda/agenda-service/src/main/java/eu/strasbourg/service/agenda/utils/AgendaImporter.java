@@ -164,10 +164,11 @@ public class AgendaImporter {
 		JSONObject json = null;
 		File directory = new File(
 			StrasbourgPropsUtil.getAgendaImportDirectory());
-		String jsonCozeString = getJSON(StrasbourgPropsUtil.getUrlCozeJson(),StrasbourgPropsUtil.getWebServiceDefaultTimeout());
 
-		File f = new File(directory.getAbsolutePath()+"\\coze.json");
+		File f = new File(Paths.get(directory.getAbsolutePath(),"coze.json").toString());
 		f.createNewFile();
+
+		String jsonCozeString = getJSON(StrasbourgPropsUtil.getUrlCozeJson(),StrasbourgPropsUtil.getWebServiceDefaultTimeout());
 
 		Writer writer = null;
 		try {
@@ -175,6 +176,8 @@ public class AgendaImporter {
 					new FileOutputStream(f), "utf-8"));
 			writer.write(jsonCozeString);
 		} catch (IOException ex) {
+			_log.error(ex.getMessage());
+		} catch (Exception ex) {
 			_log.error(ex.getMessage());
 		} finally {
 			try {
