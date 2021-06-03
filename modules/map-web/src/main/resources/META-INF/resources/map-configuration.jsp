@@ -56,7 +56,7 @@
 
                         <!-- Choix de l'affichage des pictos dans la configuration -->
                         <div class="showPictos">
-                            <aui:input type="checkbox" name="showPictos" value="${showPictos || !hasConfig}" label="show-pictos" />
+                            <aui:input type="checkbox" name="showPictos" value="${showPictos}" label="show-pictos" />
                         </div>
 
                         <!-- Choix de l'affichage de la liste -->
@@ -110,10 +110,10 @@
                 </aui:fieldset>
 
                 <!-- Carto normale -->
+                <!-- Préfiltres -->
                 <aui:fieldset collapsed="true" collapsible="true"
-                        label="filters-and-prefilters" cssClass="normalMode">
+                        label="prefilters" cssClass="normalMode">
 
-                    <!-- Préfiltres -->
                     <div>
                         <label><liferay-ui:message key="prefilter-label" /></label>
                         <p>
@@ -125,8 +125,11 @@
                                 curCategoryIds="${prefilterCategoriesIds}" />
                         </p><br>
                     </div>
+                </aui:fieldset>
 
-                    <!-- Filtres -->
+                <!-- Filtres -->
+                <aui:fieldset collapsed="true" collapsible="true"
+                        label="filters" cssClass="normalMode">
                     <div>
 
                         <!-- Choix d'affichage (checkbox ou liste) -->

@@ -122,7 +122,7 @@ public class MapPortlet extends MVCPortlet {
             String typesContenu = ""; // Les type de contenus
             String eventExplanationText = ""; // récupération du texte à afficher pour les évènements
             boolean showConfig = true; // Affichage de la zone de configuration
-            boolean showPictos = true; // Affichage des pictos dans la zone de configuration
+            boolean showPictos = false; // Affichage des pictos dans la zone de configuration
             boolean showList = true; // Affichage de la liste à droite
             boolean clippingTerritory = false; // Détourage
             String clippingCategoryId = ""; // Zone de détourage
