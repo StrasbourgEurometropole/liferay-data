@@ -79,6 +79,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -1446,7 +1447,25 @@ public class EventImpl extends EventBaseImpl {
 		jsonEvent.put("freeEntry", this.getFree());
 
 		if (Validator.isNotNull(this.getPrice())) {
-			jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
+			String price = this.getPriceCurrentValue();
+			String regexInt = "([0-9]+)";
+			String regexDouble = "([0-9]+)\\.([0-9]+)";
+			String regexDoubleSimple = "([0-9]+)\\.([0-9]{1})";
+			if (Pattern.matches(regexInt, price)){
+				JSONObject jsonPrice = JSONFactoryUtil.createJSONObject();
+				jsonPrice.put("fr_FR", price + " \u20ac");
+				jsonEvent.put("price", jsonPrice);
+			} else if (Pattern.matches(regexDoubleSimple, price)){
+				JSONObject jsonPrice = JSONFactoryUtil.createJSONObject();
+				jsonPrice.put("fr_FR", price + "0 \u20ac");
+				jsonEvent.put("price", jsonPrice);
+			} else if (Pattern.matches(regexDouble, price)){
+				JSONObject jsonPrice = JSONFactoryUtil.createJSONObject();
+				jsonPrice.put("fr_FR", price + " \u20ac");
+				jsonEvent.put("price", jsonPrice);
+			} else {
+				jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
+			}
 		}
 
 		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
@@ -1483,8 +1502,10 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		List<String> mercators = this.getMercators();
-		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
-		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+		if(mercators.size() == 2) {
+			jsonEvent.put("mercatorX", mercators.get(0));
+			jsonEvent.put("mercatorY", mercators.get(1));
+		}
 
 		// Inscription
 		if(this.getRegistration()){
