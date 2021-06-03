@@ -42,16 +42,6 @@
   </script>
     
   <header class="smag-header scrolled-hp" id="th-header">
-      <div class="smag-scrolled-search-engine seu-scrolled-search-engine">
-          <form action="${homeURL}recherche" method="get" class="smag-search smag-container">
-              <button type="submit"></button>
-              <label for="main_search_banner" class="sr-only">Rechercher</label>
-              <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="Rechercher ..." id="main_search_banner">
-              <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
-              <input type="hidden" name="p_p_lifecycle" value="1" />
-              <button type="button" class="smag-search-close"></button>
-          </form>
-      </div>
     <@subnavtop "smag"/>
     <@subnavigation "smag"/>
   </header>

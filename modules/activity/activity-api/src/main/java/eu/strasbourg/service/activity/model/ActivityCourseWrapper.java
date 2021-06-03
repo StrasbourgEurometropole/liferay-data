@@ -1600,6 +1600,14 @@ public class ActivityCourseWrapper
 		return new ActivityCourseWrapper(_activityCourse.toEscapedModel());
 	}
 
+	/**
+	 * Retourne la version JSON de la course
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _activityCourse.toJSON();
+	}
+
 	@Override
 	public String toString() {
 		return _activityCourse.toString();

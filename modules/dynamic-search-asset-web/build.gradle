@@ -22,4 +22,7 @@ dependencies {
 	compile project (':modules:project:project-api')
 	compile project (':modules:agenda:agenda-api')
 	compile project (':modules:video:video-api')
+	compile project (':modules:official:official-api')
+	compile project (':modules:edition:edition-api')
+	compile project (':modules:activity:activity-api')
 }

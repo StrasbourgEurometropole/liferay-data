@@ -2158,6 +2158,14 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		return new EditionWrapper(_edition.toEscapedModel());
 	}
 
+	/**
+	 * Retourne la version JSON de l'édition
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _edition.toJSON();
+	}
+
 	@Override
 	public String toString() {
 		return _edition.toString();
