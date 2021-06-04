@@ -22,15 +22,12 @@ import java.net.URLConnection;
  */
 public class PoolStateSOAPClient {
 
-	public static long getOccupation(Place pool) {
+	public static long getOccupation(Place pool) throws Exception {
 		long occupation = -1;
 
-		try {
-			String poolCode = pool.getRTExternalId();
-			occupation = PoolStateSOAPClient.getOccupation(poolCode);
-		} catch (Exception ex) {
-			occupation = -1;
-		}
+		String poolCode = pool.getRTExternalId();
+		occupation = PoolStateSOAPClient.getOccupation(poolCode);
+
 		return occupation;
 	}
 
