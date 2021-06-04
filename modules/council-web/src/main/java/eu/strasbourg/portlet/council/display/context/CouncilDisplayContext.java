@@ -84,12 +84,9 @@ public class CouncilDisplayContext {
     @SuppressWarnings("unused")
     public CouncilSession getCouncilSession() {
         if (this.councilSession == null) {
-            GregorianCalendar gc = new GregorianCalendar();
-            gc.setTime(new Date());
-            gc.set(Calendar.HOUR_OF_DAY, 0);
-            gc.set(Calendar.MINUTE, 0);
-            gc.set(Calendar.SECOND, 0);
-            gc.set(Calendar.MILLISECOND, 0);
+
+            // Calcul de la date
+            GregorianCalendar gc = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
             List<CouncilSession> todayCouncils = CouncilSessionLocalServiceUtil.findByDate(gc.getTime());
 
             if (todayCouncils.size() > 0)

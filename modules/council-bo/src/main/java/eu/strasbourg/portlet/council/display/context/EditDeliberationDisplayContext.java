@@ -20,6 +20,10 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -62,16 +66,13 @@ public class EditDeliberationDisplayContext {
         List<CouncilSession> availableCouncilSessions = new ArrayList<>();
         List<CouncilSession>  otherList= new ArrayList<>();
 
-        // Récupère la date d'aujourd'hui, minuit
-        GregorianCalendar gc = new GregorianCalendar();
-        gc.setTime(new Date());
-        gc.set(Calendar.HOUR_OF_DAY, 0);
-        gc.set(Calendar.MINUTE, 0);
-        gc.set(Calendar.SECOND, 0);
-        gc.set(Calendar.MILLISECOND, 0);
+        // Calcul de la date
+        GregorianCalendar gc = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
 
         //On filtre la liste des futurs conseils en fonction des rôles du User
-        for (CouncilSession council : CouncilSessionLocalServiceUtil.getFutureCouncilSessions(gc.getTime())) {
+        Date date = gc.getTime();
+        List<CouncilSession> councilSessions = CouncilSessionLocalServiceUtil.getFutureCouncilSessions(date);
+        for (CouncilSession council : councilSessions) {
             if(typeCouncilIds.contains(council.getTypeId())) {
                 otherList.add(council);
             }
@@ -238,5 +239,4 @@ public class EditDeliberationDisplayContext {
     public List<VoteBean> getVoteBeans() {
         return voteBeans;
     }
-
 }

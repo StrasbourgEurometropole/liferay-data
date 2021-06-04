@@ -55,6 +55,14 @@ public class CouncilSessionLocalServiceUtil {
 	}
 
 	/**
+	 * Calcul de la date pour trouver le conseil
+	 * Si la date du jour moins 6h est sur le jour d'avant, alors on fait la recherche sur le jour d'avant
+	 */
+	public static java.util.GregorianCalendar calculDateForFindCouncil() {
+		return getService().calculDateForFindCouncil();
+	}
+
+	/**
 	 * Creates a new council session with the primary key. Does not add the council session to the database.
 	 *
 	 * @param councilSessionId the primary key for the new council session

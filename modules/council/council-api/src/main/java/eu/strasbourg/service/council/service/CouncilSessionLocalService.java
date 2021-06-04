@@ -39,9 +39,8 @@ import eu.strasbourg.service.council.model.CouncilSession;
 
 import java.io.Serializable;
 
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Provides the local service interface for CouncilSession. Methods of this
@@ -75,6 +74,12 @@ public interface CouncilSessionLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CouncilSession addCouncilSession(CouncilSession councilSession);
+
+	/**
+	 * Calcul de la date pour trouver le conseil
+	 * Si la date du jour moins 6h est sur le jour d'avant, alors on fait la recherche sur le jour d'avant
+	 */
+	public java.util.GregorianCalendar calculDateForFindCouncil();
 
 	/**
 	 * Creates a new council session with the primary key. Does not add the council session to the database.
@@ -201,7 +206,7 @@ public interface CouncilSessionLocalService
 	/**
 	 * Recherche par Date de CouncilSession
 	 */
-	public List<CouncilSession> findByDate(Date date);
+	public List<CouncilSession> findByDate(java.util.Date date);
 
 	/**
 	 * Recherche par titre de CouncilSession
@@ -296,7 +301,7 @@ public interface CouncilSessionLocalService
 	 * Retourne les conseils dont la date est égale ou supérieure à celle passée en paramètre
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CouncilSession> getFutureCouncilSessions(Date date);
+	public List<CouncilSession> getFutureCouncilSessions(java.util.Date date);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
@@ -323,7 +328,8 @@ public interface CouncilSessionLocalService
 	 * Si la date avec l'ID donné est déjà utilisé par une autre session
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public boolean isDateAlreadyUsed(Date date, long councilSessionId);
+	public boolean isDateAlreadyUsed(
+		java.util.Date date, long councilSessionId);
 
 	/**
 	 * Si le titre avec l'ID donné est déjà utilisé par une autre session du même type de conseil
@@ -365,7 +371,7 @@ public interface CouncilSessionLocalService
 	 */
 	public CouncilSession updateStatus(
 			long userId, long entryId, int status, ServiceContext sc,
-			Map<String, Serializable> workflowContext)
+			java.util.Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 }

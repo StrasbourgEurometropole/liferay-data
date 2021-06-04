@@ -46,11 +46,9 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 
 /**
  * The implementation of the council session local service.
@@ -74,6 +72,9 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 	 */
 
 	public final static Log log = LogFactoryUtil.getLog(CouncilSessionLocalServiceImpl.class);
+
+	// Définit la durée pendant laquelle un conseil peut dépasser sur le jour suivant -> ici 6h
+	final static private int DELTA_COUNCIL_TIME_HOURS = 6;
 
 	/**
 	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
@@ -377,4 +378,27 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 		return result;
 	}
 
+	/**
+	 * Calcul de la date pour trouver le conseil
+	 * Si la date du jour moins 6h est sur le jour d'avant, alors on fait la recherche sur le jour d'avant
+	 */
+	@Override
+	public GregorianCalendar calculDateForFindCouncil() {
+
+		LocalDateTime currentDate = LocalDateTime.now();
+		LocalDateTime currentDateMinusSixHours = LocalDateTime.now().minusHours(DELTA_COUNCIL_TIME_HOURS);
+
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.setTime(new Date());
+		gc.set(Calendar.HOUR_OF_DAY, 0);
+		gc.set(Calendar.MINUTE, 0);
+		gc.set(Calendar.SECOND, 0);
+		gc.set(Calendar.MILLISECOND, 0);
+
+		if (currentDateMinusSixHours.getDayOfMonth() != currentDate.getDayOfMonth()) {
+			gc.setTime(Date.from(currentDateMinusSixHours.atZone(ZoneId.systemDefault()).toInstant()));
+		}
+
+		return gc;
+	}
 }
