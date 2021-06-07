@@ -66,11 +66,11 @@ public class EditDeliberationDisplayContext {
         List<CouncilSession> availableCouncilSessions = new ArrayList<>();
         List<CouncilSession>  otherList= new ArrayList<>();
 
-        // Calcul de la date
-        GregorianCalendar gc = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
+        // Calcul de la date sur laquelle on recherche les conseils
+        GregorianCalendar gregorianCalendar = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
 
         //On filtre la liste des futurs conseils en fonction des rôles du User
-        Date date = gc.getTime();
+        Date date = gregorianCalendar.getTime();
         List<CouncilSession> councilSessions = CouncilSessionLocalServiceUtil.getFutureCouncilSessions(date);
         for (CouncilSession council : councilSessions) {
             if(typeCouncilIds.contains(council.getTypeId())) {

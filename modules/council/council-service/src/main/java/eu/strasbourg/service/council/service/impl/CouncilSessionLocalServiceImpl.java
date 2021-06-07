@@ -388,17 +388,18 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 		LocalDateTime currentDate = LocalDateTime.now();
 		LocalDateTime currentDateMinusSixHours = LocalDateTime.now().minusHours(DELTA_COUNCIL_TIME_HOURS);
 
-		GregorianCalendar gc = new GregorianCalendar();
-		gc.setTime(new Date());
-		gc.set(Calendar.HOUR_OF_DAY, 0);
-		gc.set(Calendar.MINUTE, 0);
-		gc.set(Calendar.SECOND, 0);
-		gc.set(Calendar.MILLISECOND, 0);
+		GregorianCalendar gregorianCalendar = new GregorianCalendar();
+		gregorianCalendar.setTime(new Date());
 
 		if (currentDateMinusSixHours.getDayOfMonth() != currentDate.getDayOfMonth()) {
-			gc.setTime(Date.from(currentDateMinusSixHours.atZone(ZoneId.systemDefault()).toInstant()));
+			gregorianCalendar.setTime(Date.from(currentDateMinusSixHours.atZone(ZoneId.systemDefault()).toInstant()));
 		}
+		gregorianCalendar.set(Calendar.HOUR_OF_DAY, 0);
+		gregorianCalendar.set(Calendar.MINUTE, 0);
+		gregorianCalendar.set(Calendar.SECOND, 0);
+		gregorianCalendar.set(Calendar.MILLISECOND, 0);
 
-		return gc;
+
+		return gregorianCalendar;
 	}
 }
