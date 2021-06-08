@@ -1,6 +1,57 @@
 // Initialisation des variables de références
 var resultEntries = [];
 
+AUI().use('aui-io-request', function(A) {
+    var myAjaxRequest  = A.io.request(searchSubmitURL, {
+        method : 'post',
+        dataType: 'json',
+        on: {
+            success: function(e) {
+                if(this.getFormattedData() != undefined ){
+                    resultEntries = this.get('responseData');
+
+                    $("#th-overlay-nav .th-search-results .th-hide-tablet-p").html(Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-result-search') + ' <span class="th-result">' + resultEntries[0].totalResult + '</span>');
+                    $("#th-overlay-nav .th-search-results .th-v-tablet-p").html(Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-result') + ' <span class="th-result">' + resultEntries[0].totalResult + '</span>');
+                    $("#th-overlay-nav .th-search-results .th-hide-tablet-p").show();
+                    $("#th-overlay-nav .th-search-results .th-v-tablet-p").show();
+
+                    updateResultThumbnails();
+
+                    if(resultEntries[0].totalResult > 100)
+                        $("#th-overlay-nav .th-search-results .th-all-results").append('<p class="th-more-result">' + Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-more-result') + '</p>');
+                }
+            }
+        }
+    });
+    myAjaxRequest.stop();
+
+
+    /**
+     * Lors d'une soumission de formulaire de recherche dynamique
+     */
+    $('#th-form-submit').click(function(event) {
+        event.preventDefault();
+        searchRequest(myAjaxRequest);
+    });
+
+    /**
+     * Lors d'une modification de la valeur du champ texte de recherche
+     */
+    $('input[name=th-search]').on("change paste keyup", function(event) {
+        // Si la recherche dynamique est configurée et que l'utilisateur a au moins selectionné trois caractères
+        keyword = $(this).val();
+        if (dynamicSearch && keyword.length > 2) {
+            setTimeout(launchAjax, 300, keyword, myAjaxRequest);
+        }
+    });
+
+    function launchAjax(keywords, myAjaxRequest){
+        if(keywords == $("input[name='th-search']").val()){
+            searchRequest(myAjaxRequest);
+        }
+    }
+});
+
 if (!window.userFavorites) {
     window.userFavorites = [];
 }
@@ -41,17 +92,17 @@ function createOfficialThumbnail(official) {
         '<div class="th-metas-left">' +
             '<span class="th-picto th-picto-people"></span>' +
             '<span class="th-title">' + official.firstName + ' ' + official.lastName + '</span>';
-    if (official.fonctionEuro != "" || official.fonctionCity != ""){
+    if ((official.fonctionEuro != "" && official.fonctionEuro != undefined) || (official.fonctionCity != "" && official.fonctionCity != undefined)){
         officialThumbnail +=  '<p>';
-        if (official.fonctionCity != "")
+        if (official.fonctionCity != "" && official.fonctionCity != undefined)
             officialThumbnail +=  official.fonctionCity;
-        if (official.fonctionEuro != "" && official.fonctionCity != "")
+        if (official.fonctionEuro != "" && official.fonctionEuro != undefined && official.fonctionCity != "" && official.fonctionCity != undefined)
             officialThumbnail += ', ';
-        if (official.fonctionEuro != "")
+        if (official.fonctionEuro != "" && official.fonctionEuro != undefined)
             officialThumbnail += official.fonctionEuro ;
         officialThumbnail +=  '</p>';
     }
-    if (official.categories != ""){
+    if (official.categories != "" && official.categories != undefined){
         officialThumbnail +=
             '<span class="th-infos th-localisation">' + official.categories+ '</span>';
     }
@@ -105,7 +156,7 @@ function createEventThumbnail(event) {
             '<span class="th-picto th-picto-event"></span>' +
             '<span class="th-title">' + event.title + '</span>' +
             '<p>' + description.substr(0,description.length > 100?100:description.length) + (description.length > 100?'...':'') + '</p>';
-    if(event.categories != "")
+    if(event.categories != "" && event.categories != undefined)
         eventThumbnail += '<span class="th-infos th-categorie">' + event.categories + '</span>';
     eventThumbnail +=
             '<span class="th-infos th-event">' + event.schedule + '</span>' +
@@ -137,9 +188,9 @@ function createManifThumbnail(manif) {
             '<span class="th-picto th-picto-event"></span>' +
             '<span class="th-title">' + manif.title + '</span>' +
             '<p>' + description.substr(0,description.length > 100?100:description.length) + (description.length > 100?'...':'') + '</p>';
-    if(manif.categories != "")
+    if(manif.categories != "" && manif.categories != undefined)
         manifThumbnail += '<span class="th-infos th-categorie">' + manif.categories + '</span>';
-    if(manif.schedule != "")
+    if(manif.schedule != "" && manif.schedule != undefined)
         manifThumbnail += '<span class="th-infos th-event">' + manif.schedule + '</span>';
     manifThumbnail +=
         '</div>' +
@@ -162,8 +213,9 @@ function createEditionGalleryThumbnail(editionGallery) {
     var isLiked = window.userFavorites.filter(function(favorite){
             return favorite.entityId == editionGallery.id  &&  favorite.typeId == 13;
     });
-    var description = editionGallery.description;
-    description = (description == null?'':description).replace(/(<([^>]+)>)/ig,"");
+    var description = "";
+    if(editionGallery.description != "" &&  editionGallery.description != undefined)
+        description = editionGallery.description.replace(/(<([^>]+)>)/ig,"");
 	var editionGalleryThumbnail =
     '<a href="' + editionGallery.link + '" class="th-item-result">' +
         '<div class="th-metas-left">' +
@@ -171,8 +223,9 @@ function createEditionGalleryThumbnail(editionGallery) {
             '<span class="th-title">' + editionGallery.title + '</span>';
     if(description != "")
         editionGalleryThumbnail += '<p>' + description.substr(0,description.length > 100?100:description.length) + (description.length > 100?'...':'') + '</p>';
+    if(editionGallery.categories != "" && editionGallery.categories != undefined)
+        editionGalleryThumbnail += '<span class="th-infos th-categorie">' + editionGallery.categories + '</span>';
     editionGalleryThumbnail +=
-            '<span class="th-infos th-categorie">' + editionGallery.categories + '</span>' +
         '</div>' +
         '<span class="th-favoris seu-add-favorites ' + (isLiked.length > 0 ?'liked':'') + '"' +
             'data-type="13"' +
@@ -199,7 +252,7 @@ function createPlaceThumbnail(place) {
             '<span class="th-picto th-picto-lieu"></span>' +
             '<span class="th-title">' + place.title + '</span>' +
             '<p>' + place.categories + '</p>';
-    if(place.city != undefined)
+    if(place.city != "" && place.city != undefined)
         placeThumbnail += '<span class="th-infos th-localisation">' + place.city + '</span>';
     placeThumbnail +=
         '</div>' +
@@ -248,8 +301,9 @@ function createActivityThumbnail(activity) {
     var isLiked = window.userFavorites.filter(function(favorite){
             return favorite.entityId == activity.id  &&  favorite.typeId == 10;
     });
-    var description = activity.description[language];
-    description = (description == null?'':description).replace(/(<([^>]+)>)/ig,"");
+    var description = "";
+    if(activity.description != "" &&  activity.description != undefined)
+        description = activity.description.replace(/(<([^>]+)>)/ig,"");
 	var activityThumbnail =
     '<a href="' + activity.link + '" class="th-item-result">' +
         '<div class="th-metas-left">' +
@@ -279,8 +333,9 @@ function createArticleThumbnail(article) {
     var isLiked = window.userFavorites.filter(function(favorite){
             return favorite.entityId == article.id  &&  favorite.typeId == article.type;
     });
-    var chapo = article.chapo;
-    chapo = (chapo == null?'':chapo).replace(/(<([^>]+)>)/ig,"");
+    var chapo = "";
+    if(article.chapo != "" &&  article.chapo != undefined)
+        chapo = article.chapo.replace(/(<([^>]+)>)/ig,"");
 	var articleThumbnail =
     '<a href="' + article.link + '" class="th-item-result">' +
         '<div class="th-metas-left">' +
@@ -288,7 +343,7 @@ function createArticleThumbnail(article) {
             '<span class="th-title">' + article.title + '</span>';
     if(chapo != "")
         articleThumbnail += '<p>' + chapo.substr(0,chapo.length > 100?100:chapo.length) + (chapo.length > 100?'...':'') + '</p>';
-    if(article.categories != "")
+    if(article.categories != "" && article.categories != undefined)
         articleThumbnail += '<span class="th-infos th-categorie">' + article.categories + '</span>';
     articleThumbnail +=
             '<span class="th-infos th-event">' + article.modifiedDate + '</span>' +
@@ -355,56 +410,17 @@ function updateResultThumbnails() {
 /**
  * Lance la recherche en AJAX et demande la mise à jour de l'affichage
  */
-function searchRequest() {
-
-	var selectedClassNames = "eu.strasbourg.service.official.model.Official,eu.strasbourg.service.edition.model.Edition,eu.strasbourg.service.agenda.model.Event,eu.strasbourg.service.agenda.model.Manifestation,eu.strasbourg.service.edition.model.EditionGallery,eu.strasbourg.service.place.model.Place,eu.strasbourg.service.activity.model.ActivityCourse,eu.strasbourg.service.activity.model.Activity,com.liferay.journal.model.JournalArticle,";
-	var keywords = $("input[name='th-search']").val();
-	
+function searchRequest(myAjaxRequest) {
 	AUI().use('aui-io-request', function(A) {
-		A.io.request(searchSubmitURL, {
-			method : 'post',
-			dataType: 'json',
-			data : {
-				_eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_INSTANCE_DynamicResearch_selectedClassNames : selectedClassNames,
-				_eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_INSTANCE_DynamicResearch_keywords : keywords
-			},
-			on: {
-                success: function(e) {                	
-                	resultEntries = this.get('responseData');
-
-	                $("#th-overlay-nav .th-search-results .th-hide-tablet-p").html(Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-result-search') + ' <span class="th-result">' + resultEntries[0].totalResult + '</span>');
-                    $("#th-overlay-nav .th-search-results .th-v-tablet-p").html(Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-result') + ' <span class="th-result">' + resultEntries[0].totalResult + '</span>');
-                    $("#th-overlay-nav .th-search-results .th-hide-tablet-p").show();
-                    $("#th-overlay-nav .th-search-results .th-v-tablet-p").show();
-
-                    updateResultThumbnails();
-
-                    if(resultEntries[0].totalResult > 100)
-	                    $("#th-overlay-nav .th-search-results .th-all-results").append('<p class="th-more-result">' + Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-more-result') + '</p>');
-			 	}
-			}
-		});
+        myAjaxRequest.stop();
+        myAjaxRequest.set('data', {
+              _eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_INSTANCE_DynamicResearch_selectedClassNames : selectedClassNames,
+              _eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_INSTANCE_DynamicResearch_keywords : $("input[name='th-search']").val()
+        });
+        myAjaxRequest.start();
 	});
-	
+
 }
-
-/**
- * Lors d'une soumission de formulaire de recherche dynamique
- */
-$('#th-form-submit').click(function(event) {
-	event.preventDefault();
-	searchRequest();
-});
-
-/**
- * Lors d'une modification de la valeur du champ texte de recherche
- */
-$('input[name=th-search]').on("change paste keyup", function(event) {
-	// Si la recherche dynamique est configurée et que l'utilisateur a au moins selectionné trois caractères
-	if (dynamicSearch && $(this).val().length > 2) {
-		searchRequest();
-	}
-});
 
 /**
  * Reinitialise le contenu du champ de recherche

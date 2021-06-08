@@ -26,7 +26,6 @@ import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.LayoutHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
@@ -81,11 +80,9 @@ public class JSONSearchHelper {
                 );
                 break;
             case Constants.SEARCH_FORM_STRASBOURG :
-                JSONObject types = JSONFactoryUtil.createJSONObject();
-                types.put(locale.toString(), event.getTypeLabel(locale));
                 jsonEvent.put(
                         Constants.ATTRIBUTE_CATEGORIES,
-                        types
+                        event.getTypeLabel(locale)
                 );
 
                 jsonEvent.put(
@@ -374,6 +371,10 @@ public class JSONSearchHelper {
         switch (configAffichage) {
             case Constants.SEARCH_FORM_PLACIT:
                 jsonBP.put(
+                        Constants.ATTRIBUTE_IS_NOT_DOABLE,
+                        bp.isNotDoable()
+                );
+                jsonBP.put(
                         Constants.ATTRIBUTE_TITLE,
                         HtmlUtil.stripHtml(HtmlUtil.escape(bp.getTitle()))
                 );
@@ -469,7 +470,7 @@ public class JSONSearchHelper {
     }
 
     /**
-     * création de JSON pour JournalArticle avant identification d'un potentiel Article
+     * création de JSON pour JournalArticle
      */
     public static JSONObject createJournalArticleSearchJson(AssetEntry assetEntry, Locale locale, ThemeDisplay themeDisplay, String configAffichage) throws PortalException {
         JSONObject jsonArticle = JSONFactoryUtil.createJSONObject();
@@ -514,19 +515,17 @@ public class JSONSearchHelper {
                 );
                 break;
             case Constants.SEARCH_FORM_STRASBOURG:
-                JSONObject types = JSONFactoryUtil.createJSONObject();
                 List<AssetCategory> newsType = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(assetEntry, VocabularyNames.NEWS_TYPE);
                 StringBuilder newsTypeLabel = new StringBuilder();
                 for (AssetCategory type : newsType) {
-                    if (types.length() > 0) {
+                    if (newsTypeLabel.length() > 0) {
                         newsTypeLabel.append(" - ");
                     }
                     newsTypeLabel.append(type.getTitle(locale));
                 }
-                types.put(locale.toString(), newsTypeLabel.toString());
                 jsonArticle.put(
                         Constants.ATTRIBUTE_CATEGORIES,
-                        types
+                        newsTypeLabel.toString()
                 );
 
                 jsonArticle.put(
@@ -574,10 +573,11 @@ public class JSONSearchHelper {
             case Constants.SEARCH_FORM_PLACIT :
                 break;
             case Constants.SEARCH_FORM_STRASBOURG :
-                jsonOfficial.put(
-                        Constants.ATTRIBUTE_CATEGORIES,
-                        JSONHelper.getJSONFromI18nMap(official.getTown().getTitleMap())
-                );
+                if(Validator.isNotNull(official.getTown()))
+                    jsonOfficial.put(
+                            Constants.ATTRIBUTE_CATEGORIES,
+                            official.getTown().getTitle(locale)
+                    );
 
                 jsonOfficial.put(
                         Constants.ATTRIBUTE_FIRST_NAME,
@@ -816,7 +816,7 @@ public class JSONSearchHelper {
                 if(Validator.isNotNull(place.getCityCategory()))
                     jsonPlace.put(
                             Constants.ATTRIBUTE_CITY,
-                            JSONHelper.getJSONFromI18nMap(place.getCityCategory().getTitleMap())
+                            place.getCityCategory().getTitle(locale)
                     );
 
                 jsonPlace.put(
@@ -851,7 +851,7 @@ public class JSONSearchHelper {
             case Constants.SEARCH_FORM_STRASBOURG:
                 jsonActivityCourse.put(
                         Constants.ATTRIBUTE_CATEGORIES,
-                        JSONHelper.getJSONFromI18nMap(activityCourse.getActivity().getTitleMap())
+                        activityCourse.getActivity().getTitle(locale)
                 );
 
                 jsonActivityCourse.put(

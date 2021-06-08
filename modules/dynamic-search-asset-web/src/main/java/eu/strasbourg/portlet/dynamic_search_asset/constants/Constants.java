@@ -79,6 +79,7 @@ public class Constants {
 	/* utile pour budget participatif */
 	public static final String ATTRIBUTE_BP_STATUT = "BPStatus";
 	public static final String ATTRIBUTE_NB_SUPPORTS = "nbSupports";
+	public static final String ATTRIBUTE_IS_NOT_DOABLE = "isNotDoable";
 
 	/* utile pour initiative */
 	public static final String ATTRIBUTE_NB_HELPS = "nbHelps";
@@ -90,7 +91,7 @@ public class Constants {
 	public static final String DETAIL_EVENT_STRAS_URL = "evenement/-/entity/id/";
 	public static final String DETAIL_MANIF_URL = "manifestation/-/entity/id/";
 	public static final String DETAIL_GALERIE_URL = "galerie-editions/-/entity/id/";
-	public static final String DETAIL_PLACE_URL = "lieu/-/entity/id/";
+	public static final String DETAIL_PLACE_URL = "lieu/-/entity/sig/";
 	public static final String DETAIL_COURSE_URL = "cours/-/entity/id/";
 	public static final String DETAIL_ACTIVITY_URL = "activite/-/entity/id/";
 	public static final String DETAIL_VIDEO_URL = "detail-video/-/entity/id/";

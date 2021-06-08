@@ -140,6 +140,14 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// Recuperation des classes demandees
 			List<String> classNames = this.getConfiguredClassNames();
 			request.setAttribute("classNames", classNames);
+
+			String classNamesString ="";
+			for (String className : classNames) {
+				if(classNamesString != "")
+					classNamesString += ",";
+				classNamesString += className;
+			}
+			request.setAttribute("classNamesString", classNamesString);
 			
 		} catch (ConfigurationException e) {
 			e.printStackTrace();

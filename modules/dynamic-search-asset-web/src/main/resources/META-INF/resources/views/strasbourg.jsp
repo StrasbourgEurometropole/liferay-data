@@ -35,7 +35,8 @@
 		var homeURL = '${homeURL}';
 		var porletNamespace = '<portlet:namespace/>';
 		var dynamicSearch = ${dynamicSearch};
-		var language = "${locale}";
+		var languag = "${locale}";
+		var selectedClassNames = "${classNamesString}";
 
 		var searchSubmitURL = '${searchSubmitURL}';
 	</script>
