@@ -74,7 +74,7 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 	public final static Log log = LogFactoryUtil.getLog(CouncilSessionLocalServiceImpl.class);
 
 	// Définit la durée pendant laquelle un conseil peut dépasser sur le jour suivant -> ici 6h
-	final static private int DELTA_COUNCIL_TIME_HOURS = 20;
+	final static private int DELTA_COUNCIL_TIME_HOURS = 6;
 
 	/**
 	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
