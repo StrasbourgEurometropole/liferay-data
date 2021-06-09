@@ -138,16 +138,8 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			request.setAttribute("dynamicSearch", dynamicSearch);
 			
 			// Recuperation des classes demandees
-			List<String> classNames = this.getConfiguredClassNames();
+			List<String> classNames = this.getConfiguredClassNamesList();
 			request.setAttribute("classNames", classNames);
-
-			String classNamesString ="";
-			for (String className : classNames) {
-				if(classNamesString != "")
-					classNamesString += ",";
-				classNamesString += className;
-			}
-			request.setAttribute("classNamesString", classNamesString);
 			
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
@@ -183,9 +175,16 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
 				
 				// Recuperation des classNames selectionnes demandes par l'utilisateur
+				String[] classNames;
 				String selectedClassNames = ParamUtil.getString(request, "selectedClassNames");
-				String[] classNames = selectedClassNames.split(",");
-				
+				if(Validator.isNotNull(selectedClassNames))
+					classNames = selectedClassNames.split(",");
+				else {
+					// si le paramètre n'existe pas on prend les className de la configuration
+					String configurationClassNames = this.getConfiguredClassNames();
+					classNames = configurationClassNames.split(",");
+				}
+
 				// Recuperation des mots clefs demandes par l'utilisateur
 				String keywords = ParamUtil.getString(request, "keywords");
 				
@@ -351,6 +350,8 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		for (AssetEntry assetEntry : this.assetEntries) {
 			
 			String assetClassName = assetEntry.getClassName();
+
+			int descriptionMaxLength = configAffichage.equals("strasbourg")?100:-1;
 			
 			// Récupération du JSON de l'entité selon le type d'assetEntry
 			// Note : impossibilité d'utilisé un switch case pour cause d'utilisation de non-constante
@@ -360,14 +361,14 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			if (assetClassName.equals(Event.class.getName())) {
 
 				Event event = EventLocalServiceUtil.getEvent(assetEntry.getClassPK());
-				JSONObject jsonEvent = JSONSearchHelper.createEventSearchJson(event, locale, themeDisplay, publikUserId, configAffichage);
+				JSONObject jsonEvent = JSONSearchHelper.createEventSearchJson(event, locale, themeDisplay, publikUserId, configAffichage, descriptionMaxLength);
 				jsonResponse.put(jsonEvent);
 			}
 			
 			// AssetEntry : Projet
 			else if (assetClassName.equals(Project.class.getName())) {
 				Project project = ProjectLocalServiceUtil.getProject(assetEntry.getClassPK());
-				JSONObject jsonProject = JSONSearchHelper.createProjectSearchJson(project, themeDisplay, configAffichage);
+				JSONObject jsonProject = JSONSearchHelper.createProjectSearchJson(project, themeDisplay, configAffichage, descriptionMaxLength);
 				jsonResponse.put(jsonProject);
 			}
 
@@ -424,7 +425,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 
 				// Si tel est le cas
 				if (containsNewsTagName || !configAffichage.equals(Constants.SEARCH_FORM_PLACIT)) {
-					JSONObject jsonArticle = JSONSearchHelper.createJournalArticleSearchJson(assetEntry, locale, themeDisplay, configAffichage);
+					JSONObject jsonArticle = JSONSearchHelper.createJournalArticleSearchJson(assetEntry, locale, themeDisplay, configAffichage, descriptionMaxLength);
 					jsonResponse.put(jsonArticle);
 				}
 			}
@@ -439,21 +440,21 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// AssetEntry : Edition
 			else if (assetClassName.equals(Edition.class.getName())) {
 				Edition edition = EditionLocalServiceUtil.getEdition(assetEntry.getClassPK());
-				JSONObject jsonEdition = JSONSearchHelper.createEditionSearchJson(edition, locale, themeDisplay, configAffichage);
+				JSONObject jsonEdition = JSONSearchHelper.createEditionSearchJson(edition, locale, themeDisplay, configAffichage, descriptionMaxLength);
 				jsonResponse.put(jsonEdition);
 			}
 
 			// AssetEntry : Manifestation
 			else if (assetClassName.equals(Manifestation.class.getName())) {
 				Manifestation manifestation = ManifestationLocalServiceUtil.getManifestation(assetEntry.getClassPK());
-				JSONObject jsonManifestation = JSONSearchHelper.createManifestationSearchJson(manifestation, locale, themeDisplay, configAffichage);
+				JSONObject jsonManifestation = JSONSearchHelper.createManifestationSearchJson(manifestation, locale, themeDisplay, configAffichage, descriptionMaxLength);
 				jsonResponse.put(jsonManifestation);
 			}
 
 			// AssetEntry : EditionGallery
 			else if (assetClassName.equals(EditionGallery.class.getName())) {
 				EditionGallery editionGallery = EditionGalleryLocalServiceUtil.getEditionGallery(assetEntry.getClassPK());
-				JSONObject jsonEditionGallery = JSONSearchHelper.createEditionGallerySearchJson(editionGallery, locale, themeDisplay, configAffichage);
+				JSONObject jsonEditionGallery = JSONSearchHelper.createEditionGallerySearchJson(editionGallery, locale, themeDisplay, configAffichage, descriptionMaxLength);
 				jsonResponse.put(jsonEditionGallery);
 			}
 
@@ -474,30 +475,39 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// AssetEntry : Activity
 			else if (assetClassName.equals(Activity.class.getName())) {
 				Activity activity = ActivityLocalServiceUtil.getActivity(assetEntry.getClassPK());
-				JSONObject jsonActivity = JSONSearchHelper.createActivitySearchJson(activity, locale, themeDisplay, configAffichage);
+				JSONObject jsonActivity = JSONSearchHelper.createActivitySearchJson(activity, locale, themeDisplay, configAffichage, descriptionMaxLength);
 				jsonResponse.put(jsonActivity);
 			}
 		}
 		
 		return  jsonResponse;
 	}
-	
+
 	/**
 	 * Retourne la liste des class names configurés recherchable
 	 */
-	public List<String> getConfiguredClassNames() {
-		List<String> classNames = new ArrayList<>();
-		for (String className : this.configuration.assetClassNames().split(",")) {
-			if (Validator.isNotNull(className)) {
-				classNames.add(className);
-			}
-		}
+	public String getConfiguredClassNames() {
+		String classNames = this.configuration.assetClassNames();
 		if (this.configuration.searchNews()) {
-			classNames.add(JournalArticle.class.getName());
+			if (Validator.isNotNull(classNames)) {
+				classNames += ",";
+			}
+			classNames += JournalArticle.class.getName();
 		}
 		if (this.configuration.searchDocument()) {
-			classNames.add(DLFileEntry.class.getName());
+			if (Validator.isNotNull(classNames)) {
+				classNames += ",";
+			}
+			classNames += DLFileEntry.class.getName();
 		}
+		return classNames;
+	}
+
+	/**
+	 * Retourne la liste des class names configurés recherchable
+	 */
+	public List<String> getConfiguredClassNamesList() {
+		List<String> classNames = new ArrayList<String>(Arrays.asList(this.getConfiguredClassNames().split(",")));
 		return classNames;
 	}
 	

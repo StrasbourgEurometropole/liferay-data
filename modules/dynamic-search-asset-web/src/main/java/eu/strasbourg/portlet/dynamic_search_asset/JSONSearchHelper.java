@@ -36,11 +36,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class JSONSearchHelper {
-
     /**
      * création de JSON pour Événement
      */
-	public static JSONObject createEventSearchJson(Event event, Locale locale, ThemeDisplay themeDisplay, String publikUserId, String configAffichage){
+	public static JSONObject createEventSearchJson(Event event, Locale locale, ThemeDisplay themeDisplay, String publikUserId, String configAffichage, int tailleMax){
 	    JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
         jsonEvent.put(
                 Constants.ATTRIBUTE_CLASSNAME,
@@ -100,9 +99,12 @@ public class JSONSearchHelper {
                         event.getEventId()
                 );
 
+                String description = event.getDescription(locale);
+                if(tailleMax != -1)
+                    description = description.substring(0,Math.min(description.length(), tailleMax)) + (description.length() > tailleMax?"...":"");
                 jsonEvent.put(
                         Constants.ATTRIBUTE_DESCRIPTION,
-                        event.getDescription(locale)
+                        description
                 );
 
                 jsonEvent.put(
@@ -118,7 +120,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour Projet
      */
-    public static JSONObject createProjectSearchJson(Project project, ThemeDisplay themeDisplay, String configAffichage){
+    public static JSONObject createProjectSearchJson(Project project, ThemeDisplay themeDisplay, String configAffichage, int tailleMax){
         JSONObject jsonProject = JSONFactoryUtil.createJSONObject();
 
         jsonProject.put(
@@ -138,9 +140,12 @@ public class JSONSearchHelper {
                         HtmlUtil.stripHtml(HtmlUtil.escape(project.getTitle()))
                 );
 
+                String description = HtmlUtil.stripHtml(project.getDescription());
+                if(tailleMax != -1)
+                    description = description.substring(0,Math.min(description.length(), tailleMax)) + (description.length() > tailleMax?"...":"");
                 jsonProject.put(
                         Constants.ATTRIBUTE_DESCRIPTION,
-                        HtmlUtil.stripHtml(HtmlUtil.escape(project.getDescription()))
+                        description
                 );
 
                 jsonProject.put(
@@ -472,7 +477,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour JournalArticle
      */
-    public static JSONObject createJournalArticleSearchJson(AssetEntry assetEntry, Locale locale, ThemeDisplay themeDisplay, String configAffichage) throws PortalException {
+    public static JSONObject createJournalArticleSearchJson(AssetEntry assetEntry, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax) throws PortalException {
         JSONObject jsonArticle = JSONFactoryUtil.createJSONObject();
 
         JournalArticle journalArticle = JournalArticleServiceUtil.getLatestArticle(assetEntry.getClassPK());
@@ -502,9 +507,12 @@ public class JSONSearchHelper {
             );
         }
 
+        String chapo = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "chapo", locale);
+        if(tailleMax != -1)
+            chapo = chapo.substring(0,Math.min(chapo.length(), tailleMax)) + (chapo.length() > tailleMax?"...":"");
         jsonArticle.put(
                 Constants.ATTRIBUTE_CHAPO,
-                JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "chapo", locale)
+                chapo
         );
 
         switch (configAffichage) {
@@ -619,7 +627,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour Edition
      */
-    public static JSONObject createEditionSearchJson(Edition edition, Locale locale, ThemeDisplay themeDisplay, String configAffichage){
+    public static JSONObject createEditionSearchJson(Edition edition, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax){
         JSONObject jsonEdition = JSONFactoryUtil.createJSONObject();
 
         jsonEdition.put(
@@ -663,9 +671,12 @@ public class JSONSearchHelper {
                         edition.getEditionId()
                 );
 
+                String description = edition.getDescription(locale);
+                if(tailleMax != -1)
+                    description = description.substring(0,Math.min(description.length(), tailleMax)) + (description.length() > tailleMax?"...":"");
                 jsonEdition.put(
                         Constants.ATTRIBUTE_DESCRIPTION,
-                        edition.getDescription(locale)
+                        description
                 );
                 break;
         }
@@ -676,7 +687,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour Manifestation
      */
-    public static JSONObject createManifestationSearchJson(Manifestation manifestation, Locale locale, ThemeDisplay themeDisplay, String configAffichage){
+    public static JSONObject createManifestationSearchJson(Manifestation manifestation, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax){
         JSONObject jsonManifestation = JSONFactoryUtil.createJSONObject();
 
         jsonManifestation.put(
@@ -718,9 +729,12 @@ public class JSONSearchHelper {
                         manifestation.getManifestationId()
                 );
 
+                String description = manifestation.getDescription(locale);
+                if(tailleMax != -1)
+                    description = description.substring(0,Math.min(description.length(), tailleMax)) + (description.length() > tailleMax?"...":"");
                 jsonManifestation.put(
                         Constants.ATTRIBUTE_DESCRIPTION,
-                        manifestation.getDescription(locale)
+                        description
                 );
                 break;
         }
@@ -731,7 +745,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour EditionGallery
      */
-    public static JSONObject createEditionGallerySearchJson(EditionGallery editionGallery, Locale locale, ThemeDisplay themeDisplay, String configAffichage){
+    public static JSONObject createEditionGallerySearchJson(EditionGallery editionGallery, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax){
         JSONObject jsonEditionGallery = JSONFactoryUtil.createJSONObject();
 
         jsonEditionGallery.put(
@@ -768,9 +782,12 @@ public class JSONSearchHelper {
                         editionGallery.getGalleryId()
                 );
 
+                String description = editionGallery.getDescription(locale);
+                if(tailleMax != -1)
+                    description = description.substring(0,Math.min(description.length(), tailleMax)) + (description.length() > tailleMax?"...":"");
                 jsonEditionGallery.put(
                         Constants.ATTRIBUTE_DESCRIPTION,
-                        editionGallery.getDescription(locale)
+                        description
                 );
                 break;
         }
@@ -877,7 +894,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour Activity
      */
-    public static JSONObject createActivitySearchJson(Activity activity, Locale locale, ThemeDisplay themeDisplay, String configAffichage){
+    public static JSONObject createActivitySearchJson(Activity activity, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax){
         JSONObject jsonActivity = JSONFactoryUtil.createJSONObject();
 
         jsonActivity.put(
@@ -914,10 +931,13 @@ public class JSONSearchHelper {
                         activity.getActivityId()
                 );
 
+                String description = activity.getDescription(locale).replace("\"/documents/",
+                        "\"" + StrasbourgPropsUtil.getURL() + "/documents/");
+                if(tailleMax != -1)
+                    description = description.substring(0,Math.min(description.length(), tailleMax)) + (description.length() > tailleMax?"...":"");
                 jsonActivity.put(
                         Constants.ATTRIBUTE_DESCRIPTION,
-                        activity.getDescription(locale).replace("\"/documents/",
-                                "\"" + StrasbourgPropsUtil.getURL() + "/documents/")
+                        description
                 );
                 break;
         }

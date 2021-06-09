@@ -1,8 +1,10 @@
 // Initialisation des variables de références
 var resultEntries = [];
+var myAjaxRequest;
 
 AUI().use('aui-io-request', function(A) {
-    var myAjaxRequest  = A.io.request(searchSubmitURL, {
+    // initialisation de la requête ajax (il ne faut pas oublier de faire un stop car il rentre dans la requête à l'initialisation)
+    myAjaxRequest  = A.io.request(searchSubmitURL, {
         method : 'post',
         dataType: 'json',
         on: {
@@ -17,40 +19,46 @@ AUI().use('aui-io-request', function(A) {
 
                     updateResultThumbnails();
 
-                    if(resultEntries[0].totalResult > 100)
-                        $("#th-overlay-nav .th-search-results .th-all-results").append('<p class="th-more-result">' + Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-more-result') + '</p>');
+                    if(resultEntries[0].totalResult > 100){
+                        keyword = this.getFormattedData()._eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_INSTANCE_DynamicResearch_keywords;
+                        link = homeURL + "/recherche?_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords=" + keyword + "&p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet&p_p_lifecycle=1";
+                        $("#th-overlay-nav .th-search-results .th-all-results").append('<a href="' + link + '" class="th-item-result"><div class="th-metas-left"><span class="th-title">' + Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-more-result') + '</span></div></a>');
+                    }
                 }
             }
         }
     });
     myAjaxRequest.stop();
+});
 
 
-    /**
-     * Lors d'une soumission de formulaire de recherche dynamique
-     */
-    $('#th-form-submit').click(function(event) {
-        event.preventDefault();
-        searchRequest(myAjaxRequest);
-    });
+/**
+ * Lors d'une soumission de formulaire de recherche dynamique
+ */
+$('#th-form-submit').click(function(event) {
+    event.preventDefault();
+    searchRequest();
+});
 
-    /**
-     * Lors d'une modification de la valeur du champ texte de recherche
-     */
-    $('input[name=th-search]').on("change paste keyup", function(event) {
-        // Si la recherche dynamique est configurée et que l'utilisateur a au moins selectionné trois caractères
-        keyword = $(this).val();
-        if (dynamicSearch && keyword.length > 2) {
-            setTimeout(launchAjax, 300, keyword, myAjaxRequest);
-        }
-    });
-
-    function launchAjax(keywords, myAjaxRequest){
-        if(keywords == $("input[name='th-search']").val()){
-            searchRequest(myAjaxRequest);
-        }
+/**
+ * Lors d'une modification de la valeur du champ texte de recherche
+ */
+$('input[name=th-search]').on("change paste keyup", function(event) {
+    // Si la recherche dynamique est configurée et que l'utilisateur a au moins saisi trois caractères
+    keyword = $(this).val();
+    if (dynamicSearch && keyword.length > 2) {
+        setTimeout(launchAjax, 300, keyword);
     }
 });
+
+/**
+* Si l'utilisateur a modifié sa saisie pendant le setTimeout, on ne fait pas la requête ajax
+*/
+function launchAjax(keywords){
+    if(keywords == $("input[name='th-search']").val()){
+        searchRequest();
+    }
+}
 
 if (!window.userFavorites) {
     window.userFavorites = [];
@@ -126,7 +134,7 @@ function createEditionThumbnail(edition) {
         '<div class="th-metas-left">' +
             '<span class="th-picto th-picto-edition"></span>' +
             '<span class="th-title">' + edition.title + '</span>' +
-            '<p>' + description.substr(0,description.length > 100?100:description.length) + (description.length > 100?'...':'') + '</p>' +
+            '<p>' + description + '</p>' +
             '<span class="th-infos th-categorie">' + edition.categories + '</span>' +
             '<span class="th-infos th-event">' + edition.schedule + '</span>' +
         '</div>' +
@@ -155,7 +163,7 @@ function createEventThumbnail(event) {
         '<div class="th-metas-left">' +
             '<span class="th-picto th-picto-event"></span>' +
             '<span class="th-title">' + event.title + '</span>' +
-            '<p>' + description.substr(0,description.length > 100?100:description.length) + (description.length > 100?'...':'') + '</p>';
+            '<p>' + description + '</p>';
     if(event.categories != "" && event.categories != undefined)
         eventThumbnail += '<span class="th-infos th-categorie">' + event.categories + '</span>';
     eventThumbnail +=
@@ -187,7 +195,7 @@ function createManifThumbnail(manif) {
         '<div class="th-metas-left">' +
             '<span class="th-picto th-picto-event"></span>' +
             '<span class="th-title">' + manif.title + '</span>' +
-            '<p>' + description.substr(0,description.length > 100?100:description.length) + (description.length > 100?'...':'') + '</p>';
+            '<p>' + description + '</p>';
     if(manif.categories != "" && manif.categories != undefined)
         manifThumbnail += '<span class="th-infos th-categorie">' + manif.categories + '</span>';
     if(manif.schedule != "" && manif.schedule != undefined)
@@ -222,7 +230,7 @@ function createEditionGalleryThumbnail(editionGallery) {
             '<span class="th-picto th-picto-edition"></span>' +
             '<span class="th-title">' + editionGallery.title + '</span>';
     if(description != "")
-        editionGalleryThumbnail += '<p>' + description.substr(0,description.length > 100?100:description.length) + (description.length > 100?'...':'') + '</p>';
+        editionGalleryThumbnail += '<p>' + description + '</p>';
     if(editionGallery.categories != "" && editionGallery.categories != undefined)
         editionGalleryThumbnail += '<span class="th-infos th-categorie">' + editionGallery.categories + '</span>';
     editionGalleryThumbnail +=
@@ -310,7 +318,7 @@ function createActivityThumbnail(activity) {
             '<span class="th-picto th-picto-sport"></span>' +
             '<span class="th-title">' + activity.title + '</span>';
     if(description != "")
-        activityThumbnail += '<p>' + description.substr(0,description.length > 100?100:description.length) + (description.length > 100?'...':'') + '</p>';
+        activityThumbnail += '<p>' + description + '</p>';
     activityThumbnail +=
             '<span class="th-infos th-categorie">' + activity.categories + '</span>' +
         '</div>' +
@@ -342,7 +350,7 @@ function createArticleThumbnail(article) {
             '<span class="th-picto th-picto-document"></span>' +
             '<span class="th-title">' + article.title + '</span>';
     if(chapo != "")
-        articleThumbnail += '<p>' + chapo.substr(0,chapo.length > 100?100:chapo.length) + (chapo.length > 100?'...':'') + '</p>';
+        articleThumbnail += '<p>' + chapo + '</p>';
     if(article.categories != "" && article.categories != undefined)
         articleThumbnail += '<span class="th-infos th-categorie">' + article.categories + '</span>';
     articleThumbnail +=
@@ -410,11 +418,11 @@ function updateResultThumbnails() {
 /**
  * Lance la recherche en AJAX et demande la mise à jour de l'affichage
  */
-function searchRequest(myAjaxRequest) {
+function searchRequest() {
 	AUI().use('aui-io-request', function(A) {
+	    // arrête l'ancien appel s'il n'est pas fini
         myAjaxRequest.stop();
         myAjaxRequest.set('data', {
-              _eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_INSTANCE_DynamicResearch_selectedClassNames : selectedClassNames,
               _eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_INSTANCE_DynamicResearch_keywords : $("input[name='th-search']").val()
         });
         myAjaxRequest.start();

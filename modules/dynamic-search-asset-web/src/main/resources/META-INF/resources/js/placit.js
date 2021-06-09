@@ -190,7 +190,7 @@ function createParticipationThumbnail(participation) {
 		                '</a>' +
 		                '<span class="pro-time">Publiée le <time datetime="' + participation.createDate + '">' + participation.createDate + '</time>';
     if(participation.statusDetailLabel != "" && participation.statusDetailLabel != undefined)
-        participationThumbnail += '/ <span class="pro-duree">' + participation.statusDetailLabel + '</span></span>' ;
+        participationThumbnail += ' - <span class="pro-duree">' + participation.statusDetailLabel + '</span></span>' ;
     participationThumbnail +=
 		            '</div>' +
 		            footerContent +
