@@ -36,6 +36,10 @@
         	<script src="/o/councilweb/js/libs/platform.js" type="text/javascript"></script>
             <script src="/o/councilweb/js/council-init-javascript.js" type="text/javascript"></script>
             <script src="/o/councilweb/js/council-dynamic-view.js" type="text/javascript"></script>
+            <script>
+                  var obj = ${dc.fetchUserFront(officialConnectedId, userDeviceInfo)};
+                  displayInfos(obj)
+            </script>
         </liferay-util:html-bottom>
 
     </c:when>

@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.council.display.context;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -11,9 +12,11 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.configuration.CouncilConfiguration;
 import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
+import eu.strasbourg.service.council.service.DeliberationServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.LayoutHelper;
@@ -192,6 +195,10 @@ public class CouncilDisplayContext {
     @SuppressWarnings("unused")
     public long getGroupId() {
         return this.themeDisplay.getScopeGroupId();
+    }
+
+    public JSONObject fetchUserFront(long officialId, String officialDeviceInfo) {
+        return DeliberationServiceUtil.getUserFront(officialId, officialDeviceInfo);
     }
 
 }

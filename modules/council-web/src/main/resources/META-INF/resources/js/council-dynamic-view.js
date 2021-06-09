@@ -1,4 +1,3 @@
-
 window.setInterval(function(){
     Liferay.Service(
       '/council.deliberation/get-user-front',
@@ -7,6 +6,24 @@ window.setInterval(function(){
         officialDeviceInfo: userDeviceInfo
       },
       function(obj) {
+        displayInfos(obj);
+      }
+    );
+}, 3000);
+
+function disabledAllInput() {
+    document.getElementById('pour').disabled= true;
+    document.getElementById('contre').disabled= true;
+    document.getElementById('abstention').disabled= true;
+    document.getElementById('pour1').disabled= true;
+    document.getElementById('contre1').disabled= true;
+    document.getElementById('abstention1').disabled= true;
+    document.getElementById('pour2').disabled= true;
+    document.getElementById('contre2').disabled= true;
+    document.getElementById('abstention2').disabled= true;
+}
+
+function displayInfos(obj) {
 
         // On a un message (d'erreur, pas de session, pas de délib)
         if(obj.message) {
@@ -292,17 +309,3 @@ window.setInterval(function(){
             }
          }
       }
-    );
-}, 3000);
-
-function disabledAllInput() {
-    document.getElementById('pour').disabled= true;
-    document.getElementById('contre').disabled= true;
-    document.getElementById('abstention').disabled= true;
-    document.getElementById('pour1').disabled= true;
-    document.getElementById('contre1').disabled= true;
-    document.getElementById('abstention1').disabled= true;
-    document.getElementById('pour2').disabled= true;
-    document.getElementById('contre2').disabled= true;
-    document.getElementById('abstention2').disabled= true;
-}
