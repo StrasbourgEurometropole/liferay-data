@@ -325,13 +325,6 @@ public interface CouncilSessionLocalService
 	public boolean hasDelib(long councilSessionId);
 
 	/**
-	 * Si la date avec l'ID donné est déjà utilisé par une autre session
-	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public boolean isDateAlreadyUsed(
-		java.util.Date date, long councilSessionId);
-
-	/**
 	 * Si le titre avec l'ID donné est déjà utilisé par une autre session du même type de conseil
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

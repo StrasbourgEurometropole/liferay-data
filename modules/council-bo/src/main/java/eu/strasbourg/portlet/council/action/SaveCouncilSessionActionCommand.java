@@ -167,13 +167,6 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             isValid = false;
         }
 
-        // Date déjà utilisée ?
-        this.date = ParamUtil.getDate(request, "date", new SimpleDateFormat("dd/MM/yyyy"));
-        if (this.councilSessionLocalService.isDateAlreadyUsed(this.date, this.councilSessionId)) {
-            SessionErrors.add(request, "date-already-used-error");
-            isValid = false;
-        }
-
         // Official leader
         long officialLeaderId = ParamUtil.getLong(request, "officialLeaderId");
         if (Validator.isNull(officialLeaderId)) {

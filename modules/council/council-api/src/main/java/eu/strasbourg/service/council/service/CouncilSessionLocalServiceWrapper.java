@@ -427,17 +427,6 @@ public class CouncilSessionLocalServiceWrapper
 	}
 
 	/**
-	 * Si la date avec l'ID donné est déjà utilisé par une autre session
-	 */
-	@Override
-	public boolean isDateAlreadyUsed(
-		java.util.Date date, long councilSessionId) {
-
-		return _councilSessionLocalService.isDateAlreadyUsed(
-			date, councilSessionId);
-	}
-
-	/**
 	 * Si le titre avec l'ID donné est déjà utilisé par une autre session du même type de conseil
 	 */
 	@Override
