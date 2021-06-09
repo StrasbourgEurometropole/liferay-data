@@ -343,8 +343,8 @@ public class AgendaImporter {
 						line.setStatus(ImportReportLineStatus.DELETED);
 						line.setReportId(report.getReportId());
 						ImportReportLineLocalServiceUtil.updateImportReportLine(line);
-						ManifestationLocalServiceUtil.deleteManifestation(manifestationFromProvider);
-						report.incrementDeletedEvents();
+						ManifestationLocalServiceUtil.removeManifestation(manifestationFromProvider.getManifestationId());
+						report.incrementDeletedManifestations();
 					} catch (PortalException e) {
 						_log.error(e);
 					}
@@ -367,7 +367,7 @@ public class AgendaImporter {
 						line.setStatus(ImportReportLineStatus.DELETED);
 						line.setReportId(report.getReportId());
 						ImportReportLineLocalServiceUtil.updateImportReportLine(line);
-						EventLocalServiceUtil.deleteEvent(eventFromProvider);
+						EventLocalServiceUtil.removeEvent(eventFromProvider.getEventId());
 						report.incrementDeletedEvents();
 					} catch (PortalException e) {
 						_log.error(e);
