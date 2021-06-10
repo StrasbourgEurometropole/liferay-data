@@ -684,7 +684,13 @@
 
                 // centrer la carte sur le quartier
                 var bounds = [];
-                coordinatesZone.coordinates[0].forEach(function(e){bounds.push([e[1],e[0]]);});
+                coordinatesZone.coordinates.forEach(function(zone){
+                    if(zone.length == 1)
+                        zone = zone[0];
+                    zone.forEach(function(coordZone){
+                        bounds.push([coordZone[1],coordZone[0]]);
+                    });
+                });
                 mymap.fitBounds(bounds);
                 requestsInProgress--;
                 maybeHideLoadingIcon();
