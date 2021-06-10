@@ -726,7 +726,7 @@
             }
 
             function moveToUserAddress() {
-            	if(window.userAddress == "  "){
+            	if(window.userAddress == ""){
     		        var agree = function() {
     		        	window.location = window.publikProfileURL;
     		        }

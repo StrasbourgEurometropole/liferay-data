@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.map;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetCategoryModel;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
@@ -29,6 +30,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.map.configuration.MapConfiguration;
 import eu.strasbourg.service.interest.model.Interest;
+import eu.strasbourg.service.interest.model.InterestModel;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -70,7 +72,7 @@ import java.util.stream.Collectors;
 	immediate = true, 
 	property = {
 		"com.liferay.portlet.display-category=Strasbourg",
-        "com.liferay.portlet.instanceable=true", "javax.portlet.display-name=Autour de moi",
+        "com.liferay.portlet.instanceable=true", "javax.portlet.display-name=Cartes / Autour de moi",
         "javax.portlet.init-param.add-process-action-success-action=false", "javax.portlet.init-param.template-path=/",
         "javax.portlet.init-param.view-template=/map-view.jsp",
         "javax.portlet.init-param.config-template=/map-configuration.jsp",
@@ -126,7 +128,7 @@ public class MapPortlet extends MVCPortlet {
             String eventExplanationText = ""; // récupération du texte à afficher pour les évènements
             boolean showConfig = true; // Affichage de la zone de configuration
             boolean showList = true; // Affichage de la liste à droite
-            String prefilterCategoriesIdsString = ""; // Les catégories masquées et cochées
+            StringBuilder prefilterCategoriesIdsString = new StringBuilder(); // Les catégories masquées et cochées
             String categoriesIdsString = ""; // Les id des catégories affichées non cochées
             String categoriesDefaultsIdsString = ""; // Les catégories affichées coché
             boolean districtUser = false; // Affichage de la map du quartier de l'utilisateur
@@ -137,8 +139,8 @@ public class MapPortlet extends MVCPortlet {
             String trafficCategoryId = ""; // Liaison de l'affichage de l'info trafic à une catégorie
             String trafficInterestId = ""; // Liaison de l'affichage de l'info trafic à un CI
 
-            List<AssetCategory> categories = null; // Les catégories actives
-            List<Interest> interests = null; // Les intérêts actifs
+            List<AssetCategory> categories; // Les catégories actives
+            List<Interest> interests; // Les intérêts actifs
             AssetCategory district = null;
             JSONObject coordinatesZone = JSONFactoryUtil.createJSONObject(); // détourage d'une commune ou d'un quartier
 
@@ -184,7 +186,7 @@ public class MapPortlet extends MVCPortlet {
                     }
                     showConfig = configuration.showConfig();
                     showList = configuration.showList();
-                    prefilterCategoriesIdsString = configuration.prefilterCategoriesIds();
+                    prefilterCategoriesIdsString = new StringBuilder(configuration.prefilterCategoriesIds());
                     categoriesIdsString = configuration.categoriesIds();
                     categoriesDefaultsIdsString = configuration.categoriesDefaultsIds();
                     districtUser = configuration.districtUser();
@@ -242,7 +244,7 @@ public class MapPortlet extends MVCPortlet {
                 else
                     // Si jamais aucune catégorie affichée et non cochée n'est
                     // pas cochée intentionnellement...
-                    categoriesIds = new ArrayList<Long>();
+                    categoriesIds = new ArrayList<>();
 
                 List<Long> categoriesDefaultsIds;
                 if (!categoriesDefaultsIdsString.equals(""))
@@ -251,7 +253,7 @@ public class MapPortlet extends MVCPortlet {
                 else
                     // Si jamais aucune catégorie affichées et cochée n'est
                     // pas cochée intentionnellement...
-                    categoriesDefaultsIds = new ArrayList<Long>();
+                    categoriesDefaultsIds = new ArrayList<>();
 
                 // Récupération de toutes les catégories à affichées
                 categories = AssetCategoryLocalServiceUtil.getAssetCategories(-1, -1).stream()
@@ -259,23 +261,13 @@ public class MapPortlet extends MVCPortlet {
                                 || categoriesDefaultsIds.contains(c.getCategoryId()))
                         .sorted(Comparator.comparing(c2 -> c2.getTitle(themeDisplay.getLocale()))).collect(Collectors.toList());
 
-                // On supprime les catégories du préfiltre qui sont également
-                // dans les filtres
-                List<String> prefilterCategoriesIds = new ArrayList<String>();
-                if (!prefilterCategoriesIdsString.equals(""))
-                    prefilterCategoriesIds = Arrays.stream(prefilterCategoriesIdsString.split(","))
-                            .map(c -> c.replace("\"", "")).filter(c -> !categoriesIds.contains(Long.parseLong(c))
-                                    && !categoriesDefaultsIds.contains(Long.parseLong(c)))
-                            .collect(Collectors.toList());
-                prefilterCategoriesIdsString = String.join(",", prefilterCategoriesIds);
-
                 List<Long> interestIds;
                 if (!interestsIdsString.equals(""))
                     interestIds = Arrays.stream(interestsIdsString.split(","))
                             .map(i -> Long.parseLong(i.replace("\"", ""))).collect(Collectors.toList());
                 else
                     // Si jamais aucun intérêt affiché n'est coché intentionnellement...
-                    interestIds = new ArrayList<Long>();
+                    interestIds = new ArrayList<>();
 
                 // Récupération de tous les centres d'intérêts affiché avec le
                 // statut publié
@@ -294,16 +286,16 @@ public class MapPortlet extends MVCPortlet {
                         categories.removeIf(c -> c.getVocabularyId() == vocabulary.getVocabularyId());
                     }
                     // Récupération de toutes les catégories en préfiltre
-                    prefilterCategoriesIdsString = "";
+                    prefilterCategoriesIdsString = new StringBuilder();
                     if (district != null) {
-                        prefilterCategoriesIdsString += district.getCategoryId();
+                        prefilterCategoriesIdsString.append(district.getCategoryId());
                     }
-                    for (String categoryId : prefilterCategoriesIds) {
-                        if (!vocabulary.getCategories().stream()
-                                .anyMatch(c -> c.getCategoryId() == Long.parseLong(categoryId))) {
+                    for (String categoryId : prefilterCategoriesIdsString.toString().split(",")) {
+                        if (vocabulary.getCategories().stream()
+                                .noneMatch(c -> c.getCategoryId() == Long.parseLong(categoryId))) {
                             if (prefilterCategoriesIdsString.length() > 0)
-                                prefilterCategoriesIdsString += ",";
-                            prefilterCategoriesIdsString += categoryId;
+                                prefilterCategoriesIdsString.append(",");
+                            prefilterCategoriesIdsString.append(categoryId);
                         }
                     }
                     interests.removeIf(i -> i.getType().getName().equals("Quartier"));
@@ -315,9 +307,9 @@ public class MapPortlet extends MVCPortlet {
             }
 
             // on regroupe les catégories par vocabulaire
-            categories = categories.stream().sorted(Comparator.comparing(c -> c.getVocabularyId()))
+            categories = categories.stream().sorted(Comparator.comparing(AssetCategoryModel::getVocabularyId))
                     .collect(Collectors.toList());
-            Map<String, List<AssetCategory>> vocabularyGroup = new HashMap<String, List<AssetCategory>>();
+            Map<String, List<AssetCategory>> vocabularyGroup = new HashMap<>();
             long oldVocabulary = -1;
             List<AssetCategory> categoriesVocabulary = null;
             for (AssetCategory category : categories) {
@@ -331,7 +323,7 @@ public class MapPortlet extends MVCPortlet {
                         }
                         vocabularyGroup.put(vocabularyDescription, categoriesVocabulary);
                     }
-                    categoriesVocabulary = new ArrayList<AssetCategory>();
+                    categoriesVocabulary = new ArrayList<>();
                     oldVocabulary = category.getVocabularyId();
                 }
                 categoriesVocabulary.add(category);
@@ -349,7 +341,7 @@ public class MapPortlet extends MVCPortlet {
             // autour de moi
             boolean hasUserConfig = false;
             boolean hasUserConfigForPortlet = false;
-            PublikUser user = null;
+            PublikUser user;
             String userConfigString = "";
             if (Validator.isNotNull(internalId)) {
                 user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
@@ -395,7 +387,7 @@ public class MapPortlet extends MVCPortlet {
             if (!hasUserConfigForPortlet) {
                 if (Validator.isNotNull(internalId)) {
                     String userDefautPOI = StringUtil.merge(InterestLocalServiceUtil.getByPublikUserId(internalId)
-                            .stream().map(i -> i.getInterestId()).collect(Collectors.toList()), ",");
+                            .stream().map(InterestModel::getInterestId).collect(Collectors.toList()), ",");
                     if (Validator.isNotNull(userDefautPOI)) {
                         interestsDefaultsIdsString += userDefautPOI;
                     }
@@ -419,7 +411,7 @@ public class MapPortlet extends MVCPortlet {
             request.setAttribute("widgetIntro", configuration.widgetIntro());
             request.setAttribute("widgetLink", configuration.widgetLink());
             request.setAttribute("vocabularyGroups", vocabularyGroup);
-            request.setAttribute("prefilterCategoriesIds", prefilterCategoriesIdsString);
+            request.setAttribute("prefilterCategoriesIds", prefilterCategoriesIdsString.toString());
             request.setAttribute("categoriesCheckedIds", categoriesDefaultsIdsString);
             request.setAttribute("districtUser", districtUser);
             request.setAttribute("district", district);
@@ -449,8 +441,9 @@ public class MapPortlet extends MVCPortlet {
         super.render(request, renderResponse);
     }
 
+    @SuppressWarnings("unused")
     public void resetUserConfiguration(ActionRequest actionRequest, ActionResponse actionResponse)
-            throws PortalException, SystemException {
+            throws SystemException {
 
         try {
             // Récupération du publik ID avec la session
