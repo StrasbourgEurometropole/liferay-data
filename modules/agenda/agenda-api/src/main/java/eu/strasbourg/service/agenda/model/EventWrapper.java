@@ -893,6 +893,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	 * Renvoie le JSON de l'entite au format CSMap
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getCSMapJSON() {
+		return _event.getCSMapJSON();
+	}
+
+	/**
 	 * Retourne la liste des périodes courantes et futures auxuqlles l'événement à
 	 * lieu
 	 */

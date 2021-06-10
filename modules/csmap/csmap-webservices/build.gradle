@@ -8,6 +8,8 @@ dependencies {
 	compileOnly group: 'com.liferay', name: 'com.liferay.dynamic.data.mapping.api'
 
 	compileOnly project(":modules:utils")
+	compileOnly project (':modules:agenda:agenda-api')
 	compileOnly project (':modules:place:place-api')
+	compileOnly project (':modules:favorite:favorite-api')
 	compileOnly project (':modules:csmap:csmap-api')
 }

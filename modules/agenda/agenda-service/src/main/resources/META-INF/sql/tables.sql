@@ -28,6 +28,15 @@ create table agenda_AgendaExportPeriod (
 	agendaExportId LONG
 );
 
+create table agenda_CacheJson (
+	uuid_ VARCHAR(75) null,
+	eventId LONG not null primary key,
+	jsonEvent VARCHAR(75) null,
+	createEvent DATE null,
+	modifiedEvent DATE null,
+	isActive BOOLEAN
+);
+
 create table agenda_Campaign (
 	uuid_ VARCHAR(75) null,
 	campaignId LONG not null primary key,
@@ -203,6 +212,13 @@ create table agenda_EventToManifestation (
 	eventId LONG not null,
 	manifestationId LONG not null,
 	primary key (eventId, manifestationId)
+);
+
+create table agenda_Historic (
+	uuid_ VARCHAR(75) null,
+	eventId LONG not null primary key,
+	title VARCHAR(75) null,
+	suppressionDate DATE null
 );
 
 create table agenda_ImportReport (

@@ -13,6 +13,12 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.favorite.model.Favorite;
+import eu.strasbourg.service.favorite.model.FavoriteType;
+import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
+import eu.strasbourg.service.place.service.PlaceLocalService;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.*;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.service.WSPlace;
@@ -24,7 +30,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CSMapJSonHelper {
-    static public JSONObject categoryCSMapJSON(AssetCategory category, String urlPicto, boolean maj) {
+    static public JSONObject placeCategoryCSMapJSON(AssetCategory category, String urlPicto, boolean maj) {
         JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
         if (category != null) {
             String externalId = AssetVocabularyHelper.getExternalId(category);
@@ -234,4 +240,54 @@ public class CSMapJSonHelper {
         }
         return SimplePOIsJSON;
     }
+
+    static public JSONObject eventThemesCSMapJSON(AssetCategory category) {
+        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
+        if (category != null) {
+            String externalId = AssetVocabularyHelper.getExternalId(category);
+            jsonCategory.put(WSConstants.JSON_CATEG_ID, externalId);
+            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
+            if (Validator.isNotNull(parentExternalId)) {
+                jsonCategory.put(WSConstants.JSON_PARENT_ID, parentExternalId);
+            }
+            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
+            nameJSON.put(WSConstants.JSON_LANGUAGE_FRANCE, category.getTitle(Locale.FRANCE));
+            jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
+        }
+        return  jsonCategory;
+    }
+
+    static public JSONObject eventTypesCSMapJSON(AssetCategory category) {
+        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
+        if (category != null) {
+            String externalId = AssetVocabularyHelper.getExternalId(category);
+            jsonCategory.put(WSConstants.JSON_CATEG_ID, externalId);
+            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
+            if (Validator.isNotNull(parentExternalId)) {
+                jsonCategory.put(WSConstants.JSON_PARENT_ID, parentExternalId);
+            }
+            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
+            nameJSON.put(WSConstants.JSON_LANGUAGE_FRANCE, category.getTitle(Locale.FRANCE));
+            jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
+        }
+        return  jsonCategory;
+    }
+
+    static public JSONObject favoritesCSMapJSON(Favorite favorite) {
+        JSONObject jsonFavorite = JSONFactoryUtil.createJSONObject();
+        jsonFavorite.put("favoriteId", favorite.getFavoriteId());
+        jsonFavorite.put("title", favorite.getTitle());
+        jsonFavorite.put("type", favorite.getTypeId());
+        jsonFavorite.put("order", favorite.getOrder());
+        if(favorite.getTypeId()== FavoriteType.PLACE.getId()) {
+            jsonFavorite.put("elementId", PlaceLocalServiceUtil.fetchPlace(favorite.getEntityId()).getSIGid());
+        } else if(favorite.getTypeId()== FavoriteType.EVENT.getId()) {
+            jsonFavorite.put("elementId", EventLocalServiceUtil.fetchEvent(favorite.getEntityId()).getEventId());
+        } else if(favorite.getTypeId()== FavoriteType.ARRET.getId()) {
+            jsonFavorite.put("elementId", ArretLocalServiceUtil.fetchArret(favorite.getEntityId()).getArretId());
+        }
+        jsonFavorite.put("content", favorite.getContent());
+        return jsonFavorite;
+    }
+
 }

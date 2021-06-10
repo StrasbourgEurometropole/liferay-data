@@ -65,6 +65,10 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 		attributes.put("entityId", getEntityId());
 		attributes.put("entityGroupId", getEntityGroupId());
 		attributes.put("onDashboardDate", getOnDashboardDate());
+		attributes.put("order", getOrder());
+		attributes.put("content", getContent());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -118,6 +122,30 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 		if (onDashboardDate != null) {
 			setOnDashboardDate(onDashboardDate);
 		}
+
+		Integer order = (Integer)attributes.get("order");
+
+		if (order != null) {
+			setOrder(order);
+		}
+
+		String content = (String)attributes.get("content");
+
+		if (content != null) {
+			setContent(content);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
+		}
 	}
 
 	@Override
@@ -135,6 +163,26 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
 		return _favorite.getAssetEntry();
+	}
+
+	/**
+	 * Returns the content of this favorite.
+	 *
+	 * @return the content of this favorite
+	 */
+	@Override
+	public String getContent() {
+		return _favorite.getContent();
+	}
+
+	/**
+	 * Returns the create date of this favorite.
+	 *
+	 * @return the create date of this favorite
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _favorite.getCreateDate();
 	}
 
 	/**
@@ -178,6 +226,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	}
 
 	/**
+	 * Returns the modified date of this favorite.
+	 *
+	 * @return the modified date of this favorite
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return _favorite.getModifiedDate();
+	}
+
+	/**
 	 * Returns the on dashboard date of this favorite.
 	 *
 	 * @return the on dashboard date of this favorite
@@ -185,6 +243,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	@Override
 	public Date getOnDashboardDate() {
 		return _favorite.getOnDashboardDate();
+	}
+
+	/**
+	 * Returns the order of this favorite.
+	 *
+	 * @return the order of this favorite
+	 */
+	@Override
+	public int getOrder() {
+		return _favorite.getOrder();
 	}
 
 	/**
@@ -283,6 +351,26 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	}
 
 	/**
+	 * Sets the content of this favorite.
+	 *
+	 * @param content the content of this favorite
+	 */
+	@Override
+	public void setContent(String content) {
+		_favorite.setContent(content);
+	}
+
+	/**
+	 * Sets the create date of this favorite.
+	 *
+	 * @param createDate the create date of this favorite
+	 */
+	@Override
+	public void setCreateDate(Date createDate) {
+		_favorite.setCreateDate(createDate);
+	}
+
+	/**
 	 * Sets the entity group ID of this favorite.
 	 *
 	 * @param entityGroupId the entity group ID of this favorite
@@ -329,6 +417,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 		_favorite.setFavoriteId(favoriteId);
 	}
 
+	/**
+	 * Sets the modified date of this favorite.
+	 *
+	 * @param modifiedDate the modified date of this favorite
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_favorite.setModifiedDate(modifiedDate);
+	}
+
 	@Override
 	public void setNew(boolean n) {
 		_favorite.setNew(n);
@@ -342,6 +440,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	@Override
 	public void setOnDashboardDate(Date onDashboardDate) {
 		_favorite.setOnDashboardDate(onDashboardDate);
+	}
+
+	/**
+	 * Sets the order of this favorite.
+	 *
+	 * @param order the order of this favorite
+	 */
+	@Override
+	public void setOrder(int order) {
+		_favorite.setOrder(order);
 	}
 
 	/**

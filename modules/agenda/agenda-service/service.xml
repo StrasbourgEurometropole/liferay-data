@@ -545,6 +545,54 @@
 		<finder name="AgendaExportId" return-type="Collection">
 			<finder-column name="agendaExportId" />
 		</finder>
+	</entity>
+
+
+	<entity local-service="true" name="Historic"
+			cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="eventId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="title" type="String" />
+		<column name="suppressionDate" type="Date" />
+
+		<finder name="SuppressionDate" return-type="Collection">
+			<finder-column comparator="&gt;=" name="suppressionDate" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" name="CacheJson"
+			cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="eventId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="jsonEvent" type="String" />
+		<column name="createEvent" type="Date" />
+		<column name="modifiedEvent" type="Date" />
+		<column name="isActive" type="boolean" />
+
+		<finder name="eventId" return-type="Collection">
+			<finder-column name="eventId" />
+		</finder>
+
+		<finder name="CreatedDateAndIsActive" return-type="Collection">
+			<finder-column comparator="&gt;=" name="createEvent" />
+			<finder-column name="isActive" />
+		</finder>
+		<finder name="CreatedDateAndModifiedDateAndIsActive" return-type="Collection">
+			<finder-column comparator="&lt;" name="createEvent" />
+			<finder-column comparator="&gt;=" name="modifiedEvent" />
+			<finder-column name="isActive" />
+		</finder>
+		<finder name="ModifiedDateAndIsActive" return-type="Collection">
+			<finder-column comparator="&gt;=" name="modifiedEvent" />
+			<finder-column name="isActive" />
+		</finder>
 
 	</entity>
 

@@ -17,8 +17,12 @@ package eu.strasbourg.service.favorite.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.liferay.portal.kernel.dao.orm.Criterion;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
+import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
 import eu.strasbourg.service.favorite.service.base.FavoriteLocalServiceBaseImpl;
 
 /**
@@ -57,7 +61,7 @@ public class FavoriteLocalServiceImpl extends FavoriteLocalServiceBaseImpl {
 		long pk = this.counterLocalService.increment();
 		return this.favoriteLocalService.createFavorite(pk);
 	}
-	
+
 	/**
 	 * Retourne la liste des favoris d'un utilisateur
 	 */
@@ -65,10 +69,38 @@ public class FavoriteLocalServiceImpl extends FavoriteLocalServiceBaseImpl {
 	public List<Favorite> getByPublikUser(String publikUserId) {
 		return this.favoritePersistence.findByPublikUserId(publikUserId);
 	}
-	
+
+	/**
+	 * Retourne la liste des favoris liferay d'un utilisateur
+	 */
+	@Override
+	public List<Favorite> getLiferayFavoriteByPublikUser(String publikUserId) {
+		DynamicQuery dq = FavoriteLocalServiceUtil.dynamicQuery();
+		Criterion publikUser = RestrictionsFactoryUtil.eq("publikUserId", publikUserId);
+		Criterion type = RestrictionsFactoryUtil.in("typeId", FavoriteType.getAllIsLiferayIds());
+		dq.add(publikUser);
+		dq.add(type);
+
+		return FavoriteLocalServiceUtil.dynamicQuery(dq);
+	}
+
+	/**
+	 * Retourne la liste des favoris liferay d'un utilisateur
+	 */
+	@Override
+	public List<Favorite> getCSMapFavoriteByPublikUser(String publikUserId) {
+		DynamicQuery dq = FavoriteLocalServiceUtil.dynamicQuery();
+		Criterion publikUser = RestrictionsFactoryUtil.eq("publikUserId", publikUserId);
+		Criterion type = RestrictionsFactoryUtil.in("typeId", FavoriteType.getAllIsCSMapIds());
+		dq.add(publikUser);
+		dq.add(type);
+
+		return FavoriteLocalServiceUtil.dynamicQuery(dq);
+	}
+
 	public void deleteFavoriteByEntityIdAndType(long entityId, long typeId) {
 		List<Favorite> favorites = this.favoritePersistence.findByEntityIdAndTypeId(entityId, typeId);
-		
+
 		for (Favorite favorite : favorites) {
 			this.favoritePersistence.remove(favorite);
 		}
