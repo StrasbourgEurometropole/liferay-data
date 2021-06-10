@@ -21,7 +21,7 @@ AUI().use('aui-io-request', function(A) {
 
                     if(resultEntries[0].totalResult > 100){
                         keyword = this.getFormattedData()._eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_INSTANCE_DynamicResearch_keywords;
-                        link = homeURL + "/recherche?_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords=" + keyword + "&p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet&p_p_lifecycle=1";
+                        link = homeURL + "recherche?_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords=" + keyword + "&p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet&p_p_lifecycle=1";
                         $("#th-overlay-nav .th-search-results .th-all-results").append('<a href="' + link + '" class="th-item-result"><div class="th-metas-left"><span class="th-title">' + Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-more-result') + '</span></div></a>');
                     }
                 }
