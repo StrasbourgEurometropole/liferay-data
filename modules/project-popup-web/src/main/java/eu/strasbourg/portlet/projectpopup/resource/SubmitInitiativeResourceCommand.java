@@ -17,7 +17,11 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
-import com.liferay.portal.kernel.template.*;
+import com.liferay.portal.kernel.template.Template;
+import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateManagerUtil;
+import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.URLTemplateResource;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadRequest;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -30,7 +34,6 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Initiative;
@@ -39,7 +42,6 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-
 import org.osgi.service.component.annotations.Component;
 
 import javax.mail.internet.InternetAddress;
@@ -48,17 +50,21 @@ import javax.portlet.PortletRequest;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
-
-import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
 
 @Component(
     immediate = true,
@@ -281,9 +287,12 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 			InternetAddress[] toAddresses = new InternetAddress[0];
 			InternetAddress address = new InternetAddress(this.user.getEmail());
 			toAddresses = ArrayUtil.append(toAddresses, address);
+
+            // Copie carbone invisible
+            InternetAddress bccAddress = new InternetAddress("participer@strasbourg.eu");
 			
 			// envoi du mail aux utilisateurs
-			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, mailBody);
+			MailHelper.sendMailWithBCCWithHTML(fromAddress, toAddresses, bccAddress, subject, mailBody);
 		} catch (Exception e) {
 			_log.error(e);
 			e.printStackTrace();

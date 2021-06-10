@@ -289,11 +289,14 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
 					themeDisplay.getScopeGroup().getName(request.getLocale()));
 			
 			InternetAddress[] toAddresses = new InternetAddress[0];
-			InternetAddress address = new InternetAddress(this.email);
-			toAddresses = ArrayUtil.append(toAddresses, address);
+            InternetAddress address = new InternetAddress(this.email);
+            toAddresses = ArrayUtil.append(toAddresses, address);
+
+            // Copie carbone invisible
+            InternetAddress bccAddress = new InternetAddress("participer@strasbourg.eu");
 			
 			// envoi du mail aux utilisateurs
-			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, mailBody);
+			MailHelper.sendMailWithBCCWithHTML(fromAddress, toAddresses, bccAddress, subject, mailBody);
 		} catch (Exception e) {
 			_log.error(e);
 			e.printStackTrace();
