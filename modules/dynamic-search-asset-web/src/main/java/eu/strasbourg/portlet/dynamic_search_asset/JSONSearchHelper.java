@@ -99,7 +99,7 @@ public class JSONSearchHelper {
                         event.getEventId()
                 );
 
-                String description = event.getDescription(locale);
+                String description = HtmlUtil.stripHtml(event.getDescription(locale));
                 if(tailleMax != -1)
                     description = description.substring(0,Math.min(description.length(), tailleMax)) + (description.length() > tailleMax?"...":"");
                 jsonEvent.put(
@@ -507,7 +507,7 @@ public class JSONSearchHelper {
             );
         }
 
-        String chapo = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "chapo", locale);
+        String chapo = HtmlUtil.stripHtml(JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "chapo", locale));
         if(tailleMax != -1)
             chapo = chapo.substring(0,Math.min(chapo.length(), tailleMax)) + (chapo.length() > tailleMax?"...":"");
         jsonArticle.put(
@@ -671,7 +671,7 @@ public class JSONSearchHelper {
                         edition.getEditionId()
                 );
 
-                String description = edition.getDescription(locale);
+                String description = HtmlUtil.stripHtml(edition.getDescription(locale));
                 if(tailleMax != -1)
                     description = description.substring(0,Math.min(description.length(), tailleMax)) + (description.length() > tailleMax?"...":"");
                 jsonEdition.put(
@@ -729,7 +729,7 @@ public class JSONSearchHelper {
                         manifestation.getManifestationId()
                 );
 
-                String description = manifestation.getDescription(locale);
+                String description = HtmlUtil.stripHtml(manifestation.getDescription(locale));
                 if(tailleMax != -1)
                     description = description.substring(0,Math.min(description.length(), tailleMax)) + (description.length() > tailleMax?"...":"");
                 jsonManifestation.put(
@@ -782,7 +782,7 @@ public class JSONSearchHelper {
                         editionGallery.getGalleryId()
                 );
 
-                String description = editionGallery.getDescription(locale);
+                String description = HtmlUtil.stripHtml(editionGallery.getDescription(locale));
                 if(tailleMax != -1)
                     description = description.substring(0,Math.min(description.length(), tailleMax)) + (description.length() > tailleMax?"...":"");
                 jsonEditionGallery.put(
@@ -931,8 +931,8 @@ public class JSONSearchHelper {
                         activity.getActivityId()
                 );
 
-                String description = activity.getDescription(locale).replace("\"/documents/",
-                        "\"" + StrasbourgPropsUtil.getURL() + "/documents/");
+                String description = HtmlUtil.stripHtml(activity.getDescription(locale).replace("\"/documents/",
+                        "\"" + StrasbourgPropsUtil.getURL() + "/documents/"));
                 if(tailleMax != -1)
                     description = description.substring(0,Math.min(description.length(), tailleMax)) + (description.length() > tailleMax?"...":"");
                 jsonActivity.put(
