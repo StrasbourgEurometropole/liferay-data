@@ -28,7 +28,6 @@
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="title-already-used-error" message="title-already-used-error" />
 	<liferay-ui:error key="date-error" message="date-error" />
-	<liferay-ui:error key="date-already-used-error" message="date-already-used-error" />
 	<liferay-ui:error key="title-already-exist-error" message="title-already-exist-error" />
 	<liferay-ui:error key="official-leader-not-found-error" message="official-leader-not-found-error" />
 	<liferay-ui:error key="official-leader-type-error" message="official-leader-type-error" />

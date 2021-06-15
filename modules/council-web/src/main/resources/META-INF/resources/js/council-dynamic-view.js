@@ -3,7 +3,8 @@ window.setInterval(function(){
       '/council.deliberation/get-user-front',
       {
         officialId: officialConnectedId,
-        officialDeviceInfo: userDeviceInfo
+        officialDeviceInfo: userDeviceInfo,
+        councilSessionId: councilSessionId
       },
       function(obj) {
         displayInfos(obj);

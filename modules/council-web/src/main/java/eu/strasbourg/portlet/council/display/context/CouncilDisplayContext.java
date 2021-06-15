@@ -12,7 +12,6 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.configuration.CouncilConfiguration;
 import eu.strasbourg.service.council.model.CouncilSession;
-import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
@@ -26,10 +25,8 @@ import javax.portlet.RenderRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CouncilDisplayContext {
 
@@ -69,12 +66,11 @@ public class CouncilDisplayContext {
      */
     @SuppressWarnings("unused")
     public long getOfficialId() {
-        long officialId=0;
-        String publikMail = this.getPublikEmail();
 
-        Official official = OfficialLocalServiceUtil.findByEmail(publikMail);
+        long officialId = 0;
+        Official official = getOfficialFromPublikMail();
 
-        if(official != null) {
+        if (official != null) {
             officialId = official.getOfficialId();
         }
 
@@ -85,36 +81,76 @@ public class CouncilDisplayContext {
      * Renvoi la session en cours si elle existe
      */
     @SuppressWarnings("unused")
-    public CouncilSession getCouncilSession() {
+    public List<CouncilSession> getCouncilSessions() {
+
+        List<CouncilSession> councilSessionList = new ArrayList<>();
         if (this.councilSession == null) {
 
             // Calcul de la date
             GregorianCalendar gc = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
             List<CouncilSession> todayCouncils = CouncilSessionLocalServiceUtil.findByDate(gc.getTime());
 
-            if (todayCouncils.size() > 0)
-                this.councilSession = todayCouncils.get(0);
+            Official official = getOfficialFromPublikMail();
+            councilSessionList = getCouncilSessionsForOffical(todayCouncils, official);
+
+        } else {
+            councilSessionList.add(councilSession);
+        }
+        return councilSessionList;
+    }
+
+    public CouncilSession getCouncilSession() {
+
+        List<CouncilSession> councilSessions = this.getCouncilSessions();
+        if (councilSessions.size() == 1) {
+            this.councilSession = councilSessions.get(0);
         }
         return this.councilSession;
     }
 
-    /**
-     * Renvoi le type de la session du jour si elle existe
-     */
-    @SuppressWarnings("unused")
-    public String getCouncilSessionType() {
-        String title = "";
+    private List<CouncilSession> getCouncilSessionsForOffical(List<CouncilSession> todayCouncils, Official official) {
 
-        if(Validator.isNotNull(this.getCouncilSession())) {
-            long typeId = this.councilSession.getTypeId();
-            Type type = TypeLocalServiceUtil.fetchType(typeId);
-                    if(Validator.isNotNull(type)){
-                        title = type.getTitle();
-                    }
-        }
+        List<CouncilSession> councilSessionList;
+        List<Type> officialCouncilTypes = official.getCouncilTypes();
 
-        return title;
+        councilSessionList = todayCouncils.stream()
+                .filter(council -> officialCouncilTypes.stream()
+                        .anyMatch(type -> type.getTitle().equals(council.getTypeCouncil().getTitle())))
+                .collect(Collectors.toList());
+
+        return councilSessionList;
     }
+
+    public int numberOfTodaysCouncils(List<CouncilSession> todaysCouncils) {
+        return todaysCouncils.size();
+    }
+
+    /**
+     * Retourne un votant à partir de son mail
+     */
+    private Official getOfficialFromPublikMail() {
+
+        String publikMail = this.getPublikEmail();
+        return OfficialLocalServiceUtil.findByEmail(publikMail);
+    }
+
+//    /**
+//     * Renvoi le type de la session du jour si elle existe
+//     */
+//    @SuppressWarnings("unused")
+//    public String getCouncilSessionType() {
+//        String title = "";
+//
+//        if (Validator.isNotNull(this.getCouncilSessions())) {
+//            long typeId = this.councilSession.getTypeId();
+//            Type type = TypeLocalServiceUtil.fetchType(typeId);
+//            if (Validator.isNotNull(type)) {
+//                title = type.getTitle();
+//            }
+//        }
+//
+//        return title;
+//    }
 
     /**
      * Si l'utilisateur connecté est un utilisateur MonStrasbourg & co. sans lien avec les conseils
@@ -149,22 +185,26 @@ public class CouncilDisplayContext {
      */
     @SuppressWarnings("unused")
     public boolean isSessionNotAvailable() {
-        return this.getCouncilSession() == null;
+        return this.getCouncilSessions().isEmpty() && this.getCouncilSession() == null;
     }
 
     /**
-     * Si les types de la session et de l'élu ne cole pas ou si l'élu est inactif
+     * Si les types de la session et de l'élu ne collent pas ou si l'élu est inactif
      */
     @SuppressWarnings("unused")
     public boolean isOfficialTypeMismatchOrNotActive() {
+
         boolean result = false;
         Official currentOfficial = OfficialLocalServiceUtil.fetchOfficial(this.getOfficialId());
-        if (currentOfficial != null && this.getCouncilSession() != null) {
-            if (currentOfficial.getCouncilTypesIds().contains(""+this.getCouncilSession().getTypeId())
-                    && currentOfficial.getIsActive())
-                result = false;
-            else
+        List<CouncilSession> councilSessions = this.getCouncilSessions();
+
+        if (currentOfficial != null && councilSessions != null) {
+            List<CouncilSession> councilSessionsForOffical = getCouncilSessionsForOffical(councilSessions, currentOfficial);
+            boolean hasType = councilSessionsForOffical.size() >= 1;
+
+            if (hasType && !currentOfficial.getIsActive()) {
                 result = true;
+            }
         }
         return result;
     }
@@ -197,8 +237,8 @@ public class CouncilDisplayContext {
         return this.themeDisplay.getScopeGroupId();
     }
 
-    public JSONObject fetchUserFront(long officialId, String officialDeviceInfo) {
-        return DeliberationServiceUtil.getUserFront(officialId, officialDeviceInfo);
+    public JSONObject fetchUserFront(long officialId, String officialDeviceInfo, long councilSessionId) {
+        return DeliberationServiceUtil.getUserFront(officialId, officialDeviceInfo, councilSessionId);
     }
 
 }

@@ -55,7 +55,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 	final static private String  ABSTENTION="Abstention";
 
 	@Override
-	public JSONObject getUserFront(long officialId, String officialDeviceInfo) {
+	public JSONObject getUserFront(long officialId, String officialDeviceInfo, long councilSessionId) {
 
 		JSONObject userFront = JSONFactoryUtil.createJSONObject();
 
@@ -74,14 +74,10 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 
 		try {
 
-			// Calcul de la date
-			GregorianCalendar gc = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
-
-			List<CouncilSession> todayCouncils = CouncilSessionLocalServiceUtil.findByDate(gc.getTime());
-
 			// Il y a un Conseil aujourd'hui
-			if (todayCouncils.size() > 0) {
-				CouncilSession todayCouncil = todayCouncils.get(0);
+			if (councilSessionId != 0) {
+
+				CouncilSession todayCouncil = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
 
 				//Remplit les infos de la session pour le JSON
 				session.put("councilSessionId", todayCouncil.getCouncilSessionId());
@@ -96,10 +92,10 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 				//Vérifie si l'élu est noté absent ou non pour le conseil
 				Procuration absenceProcuration = ProcurationLocalServiceUtil.findAbsenceForCouncilSession(todayCouncil.getCouncilSessionId(), officialId);
 				official.put("absent", absenceProcuration != null);
-				if(absenceProcuration != null) {
+				if (absenceProcuration != null) {
 					Official officialVoters = OfficialLocalServiceUtil.fetchOfficial(absenceProcuration.getOfficialVotersId());
-					if(officialVoters != null) {
-						official.put("officialVoters",officialVoters.getFullName());
+					if (officialVoters != null) {
+						official.put("officialVoters", officialVoters.getFullName());
 					}
 				}
 

@@ -1,37 +1,29 @@
 <%@ include file="/council-init.jsp"%>
 
-    <liferay-portlet:renderURL varImpl="returnURL">
-    <portlet:param name="cmd" value="councilDynamicView" />
-    <portlet:param name="returnParam" value="true" />
-    <portlet:param name="mvcPath" value="/councils-view.jsp" />
-    <portlet:param name="returnURL" value="/council-dynamic-view.jsp" />
-    </liferay-portlet:renderURL>
 <c:choose>
-
-
     <%-- UTILISATEUR CONFIRME --%>
     <c:when test = "${dc.isConfirmedCouncilUser()}">
+    <div class="council-flex council-web">
+        <div class="seu-container">
 
-        <div class="council-flex council-web">
+            <h2> Liste des conseils du jour </h2>
 
-		<c:if test="${fn:length(dc.getCouncilSessions()) > 1}">
-	        <a href="${returnURL}"> <span class="returnButton">Retour a la liste des conseils</span></a>
-        </c:if>
+            <div class="council-list">
+                <c:forEach var="council" items="${dc.getCouncilSessions()}">
+                    <div>
+                        <liferay-portlet:renderURL varImpl="councilDynamicViewURL">
+                        <portlet:param name="cmd" value="councilDynamicView" />
+                        <portlet:param name="councilSessionId" value="${council.getCouncilSessionId()}" />
+                        <portlet:param name="mvcPath" value="/council-dynamic-view.jsp" />
+                        <portlet:param name="returnURL" value="/councils-view.jsp" />
+                        </liferay-portlet:renderURL>
 
-            <div class="detail-delib seu-container">
-
-                <input type="hidden" id="deliberationId" value=""/>
-                <input type="hidden" id="stage" value=""/>
-                <input type="hidden" id="absent" value=""/>
-
-                <%-- INCLUSION DES TEMPLATES --%>
-                <%@ include file="/templates/message.jsp"%>
-                <%@ include file="/templates/presentation-delib.jsp"%>
-                <%@ include file="/templates/result.jsp"%>
-                <%@ include file="/templates/vote-form.jsp"%>
+                        <a href="${councilDynamicViewURL}"> <span class ="council">${council.getTitle()}</span> </a>
+                    </div>
+                </c:forEach>
             </div>
-
         </div>
+    </div>
 
         <%-- VARIABLES JS A PARTAGER --%>
         <liferay-util:html-top>
@@ -47,12 +39,6 @@
         <liferay-util:html-bottom>
         	<script src="/o/councilweb/js/libs/platform.js" type="text/javascript"></script>
             <script src="/o/councilweb/js/council-init-javascript.js" type="text/javascript"></script>
-            <script src="/o/councilweb/js/council-dynamic-view.js" type="text/javascript"></script>
-            <script>
-                var councilSessionId = ${dc.getCouncilSession().getCouncilSessionId()};
-                var obj = ${dc.fetchUserFront(officialConnectedId, userDeviceInfo, councilSessionId)};
-                displayInfos(obj)
-            </script>
         </liferay-util:html-bottom>
 
     </c:when>

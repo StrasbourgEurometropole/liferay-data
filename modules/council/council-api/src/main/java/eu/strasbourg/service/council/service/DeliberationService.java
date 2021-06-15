@@ -71,6 +71,7 @@ public interface DeliberationService extends BaseService {
 	public String getOSGiServiceIdentifier();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getUserFront(long officialId, String officialDeviceInfo);
+	public JSONObject getUserFront(
+		long officialId, String officialDeviceInfo, long councilSessionId);
 
 }

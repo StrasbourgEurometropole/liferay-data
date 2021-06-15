@@ -166,6 +166,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             SessionErrors.add(request, "date-error");
             isValid = false;
         }
+        this.date = ParamUtil.getDate(request, "date", new SimpleDateFormat("dd/MM/yyyy"));
 
         // Official leader
         long officialLeaderId = ParamUtil.getLong(request, "officialLeaderId");
