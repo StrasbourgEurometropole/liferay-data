@@ -134,24 +134,6 @@ public class CouncilDisplayContext {
         return OfficialLocalServiceUtil.findByEmail(publikMail);
     }
 
-//    /**
-//     * Renvoi le type de la session du jour si elle existe
-//     */
-//    @SuppressWarnings("unused")
-//    public String getCouncilSessionType() {
-//        String title = "";
-//
-//        if (Validator.isNotNull(this.getCouncilSessions())) {
-//            long typeId = this.councilSession.getTypeId();
-//            Type type = TypeLocalServiceUtil.fetchType(typeId);
-//            if (Validator.isNotNull(type)) {
-//                title = type.getTitle();
-//            }
-//        }
-//
-//        return title;
-//    }
-
     /**
      * Si l'utilisateur connecté est un utilisateur MonStrasbourg & co. sans lien avec les conseils
      */
