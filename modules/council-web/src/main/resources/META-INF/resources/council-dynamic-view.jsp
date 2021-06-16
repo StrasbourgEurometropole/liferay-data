@@ -14,11 +14,12 @@
 
         <div class="council-flex council-web">
 
-		<c:if test="${fn:length(dc.getCouncilSessions()) > 1}">
-	        <a href="${returnURL}"> <span class="returnButton">Retour a la liste des conseils</span></a>
-        </c:if>
+
 
             <div class="detail-delib seu-container">
+                <c:if test="${fn:length(dc.getCouncilSessions()) > 1}">
+                    <a href="${returnURL}"> <span class="returnButton">Retour a la liste des conseils</span></a>
+                </c:if>
 
                 <input type="hidden" id="deliberationId" value=""/>
                 <input type="hidden" id="stage" value=""/>
@@ -49,7 +50,7 @@
             <script src="/o/councilweb/js/council-init-javascript.js" type="text/javascript"></script>
             <script src="/o/councilweb/js/council-dynamic-view.js" type="text/javascript"></script>
             <script>
-                var councilSessionId = ${dc.getCouncilSession().getCouncilSessionId()};
+                var councilSessionId = ${dc.getSession(renderRequest).getAttribute("councilSessionId")};
                 var obj = ${dc.fetchUserFront(officialConnectedId, userDeviceInfo, councilSessionId)};
                 displayInfos(obj)
             </script>

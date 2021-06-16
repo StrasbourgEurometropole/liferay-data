@@ -23,6 +23,7 @@ import eu.strasbourg.utils.LayoutHelper;
 import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.*;
@@ -36,7 +37,6 @@ public class CouncilDisplayContext {
     private PortletPreferences preferences;
     private CouncilConfiguration configuration;
     private RenderRequest request;
-    private CouncilSession councilSession;
 
     /**
      * Constructeur
@@ -50,7 +50,6 @@ public class CouncilDisplayContext {
         } catch (PortalException e) {
             log.error(e);
         }
-        this.councilSession = null;
     }
 
     /**
@@ -84,7 +83,6 @@ public class CouncilDisplayContext {
     public List<CouncilSession> getCouncilSessions() {
 
         List<CouncilSession> councilSessionList = new ArrayList<>();
-        if (this.councilSession == null) {
 
             // Calcul de la date
             GregorianCalendar gc = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
@@ -93,19 +91,7 @@ public class CouncilDisplayContext {
             Official official = getOfficialFromPublikMail();
             councilSessionList = getCouncilSessionsForOffical(todayCouncils, official);
 
-        } else {
-            councilSessionList.add(councilSession);
-        }
         return councilSessionList;
-    }
-
-    public CouncilSession getCouncilSession() {
-
-        List<CouncilSession> councilSessions = this.getCouncilSessions();
-        if (councilSessions.size() == 1) {
-            this.councilSession = councilSessions.get(0);
-        }
-        return this.councilSession;
     }
 
     private List<CouncilSession> getCouncilSessionsForOffical(List<CouncilSession> todayCouncils, Official official) {
@@ -167,7 +153,7 @@ public class CouncilDisplayContext {
      */
     @SuppressWarnings("unused")
     public boolean isSessionNotAvailable() {
-        return this.getCouncilSessions().isEmpty() && this.getCouncilSession() == null;
+        return this.getCouncilSessions().isEmpty();
     }
 
     /**
@@ -221,6 +207,14 @@ public class CouncilDisplayContext {
 
     public JSONObject fetchUserFront(long officialId, String officialDeviceInfo, long councilSessionId) {
         return DeliberationServiceUtil.getUserFront(officialId, officialDeviceInfo, councilSessionId);
+    }
+
+    /**
+     * Permet de récupérer la session à partir de la renderRequest
+     */
+    public HttpSession getSession(RenderRequest request) {
+        HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(request);
+        return originalRequest.getSession();
     }
 
 }

@@ -51,8 +51,11 @@
             color: white;
             background-color: #31455d;
             border-radius: 5px;
-            padding: 10px 20px;
             text-decoration: none;
+            display: block;
+            max-width : 330px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
         }
 
     a:hover { text-decoration: none; }

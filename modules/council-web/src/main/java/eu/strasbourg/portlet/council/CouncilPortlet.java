@@ -70,8 +70,9 @@ public class CouncilPortlet extends MVCPortlet {
         if (isAuthorized) {
 
             List<CouncilSession> councilSessions = dc.getCouncilSessions();
-            CouncilSession councilSession = dc.getCouncilSession();
-            if (councilSession != null) {
+
+            if (councilSessions.size() == 1) {
+                CouncilSession councilSession = councilSessions.get(0);
                 councilId = String.valueOf(councilSession.getCouncilSessionId());
                 session.setAttribute("councilSessionId", councilId);
                 isCouncilPresentInSession = true;
