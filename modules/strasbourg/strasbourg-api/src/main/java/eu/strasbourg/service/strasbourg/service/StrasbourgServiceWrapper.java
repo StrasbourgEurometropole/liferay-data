@@ -72,6 +72,17 @@ public class StrasbourgServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject getCategoriesPois(
+		String categories, String prefilters, String tags, long groupId,
+		String typeContenu, boolean dateField, String fromDate, String toDate,
+		String localeId, long globalGroupId) {
+
+		return _strasbourgService.getCategoriesPois(
+			categories, prefilters, tags, groupId, typeContenu, dateField,
+			fromDate, toDate, localeId, globalGroupId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONArray getCoordinateForAddress(
 		String address, String zipCode, String city) {
 
@@ -120,6 +131,15 @@ public class StrasbourgServiceWrapper
 		return _strasbourgService.getFileDetails(groupId, uuid, language);
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getInterestsPois(
+		String interests, long groupId, String typeContenu, String localeId,
+		long globalGroupId) {
+
+		return _strasbourgService.getInterestsPois(
+			interests, groupId, typeContenu, localeId, globalGroupId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -131,51 +151,23 @@ public class StrasbourgServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getPois(
-		String interests, long groupId) {
-
-		return _strasbourgService.getPois(interests, groupId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getPois(
-		String interests, long groupId, String localeId) {
-
-		return _strasbourgService.getPois(interests, groupId, localeId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getPois(
-		String interests, String categories, String prefilters, long groupId,
-		String typeContenu) {
-
-		return _strasbourgService.getPois(
-			interests, categories, prefilters, groupId, typeContenu);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getPois(
-		String interests, String categories, String prefilters, long groupId,
-		String typeContenu, String localeId) {
-
-		return _strasbourgService.getPois(
-			interests, categories, prefilters, groupId, typeContenu, localeId);
-	}
-
-	@Override
 	public int getPoisCategoryCount(
-		long idCategory, String prefilters, long groupId, String typeContenu) {
+		long idCategory, String prefilters, String tags, long groupId,
+		String typeContenu, boolean dateField, String fromDate, String toDate,
+		String localeId, long globalGroupId) {
 
 		return _strasbourgService.getPoisCategoryCount(
-			idCategory, prefilters, groupId, typeContenu);
+			idCategory, prefilters, tags, groupId, typeContenu, dateField,
+			fromDate, toDate, localeId, globalGroupId);
 	}
 
 	@Override
 	public int getPoisInterestCount(
-		long idCategory, long groupId, String typeContenu) {
+		long idInterest, long groupId, String typeContenu, String localeId,
+		long globalGroupId) {
 
 		return _strasbourgService.getPoisInterestCount(
-			idCategory, groupId, typeContenu);
+			idInterest, groupId, typeContenu, localeId, globalGroupId);
 	}
 
 	@Override

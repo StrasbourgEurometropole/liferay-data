@@ -8,8 +8,15 @@
             ame.$panel_side = ame.$ame.find('#aroundme__side'),
             ame.$trigger_top = ame.$ame.find('.top__trigger'),
             ame.$panel_top = ame.$ame.find('#aroundme__top'),
-            ame.$filters = ame.$ame.find("#aroundme__top input[type='checkbox']"),
+            ame.$filters = ame.$ame.find("#aroundme__top input[type='checkbox'], #aroundme__top select, #aroundme__top input[data-type='date']"),
+            ame.$filters_from_date_day = ame.$ame.find("#aroundme__top input[data-name='fromDay']"),
+            ame.$filters_from_date_month = ame.$ame.find("#aroundme__top input[data-name='fromMonth']"),
+            ame.$filters_from_date_year = ame.$ame.find("#aroundme__top input[data-name='fromYear']"),
+            ame.$filters_to_date_day = ame.$ame.find("#aroundme__top input[data-name='toDay']"),
+            ame.$filters_to_date_month = ame.$ame.find("#aroundme__top input[data-name='toMonth']"),
+            ame.$filters_to_date_year = ame.$ame.find("#aroundme__top input[data-name='toYear']"),
             ame.$filters_categories = ame.$ame.find("#aroundme__top .categories input[type='checkbox']"),
+            ame.$filters_categories_list = ame.$ame.find("#aroundme__top .categories select"),
             ame.$filters_interests = ame.$ame.find("#aroundme__top .interests input[type='checkbox']"),
             ame.$showFavoritesFilter = ame.$ame.find('[name=' + window.aroundMePortletNamespace + 'showFavorites]');
 
@@ -457,18 +464,50 @@
                 );
             }
 
-            // Ajoute à la liste des markers ceux des centres d'intérêt
-            var addInterestsMarkers = function(markers, interests, categories, prefilters) {
+            // Ajoute à la liste des markers ceux des catégories
+            var addCategoriesMarkers = function(markers, categories) {
                 requestsInProgress++;
                 showLoadingIcon();
                 Liferay.Service(
-                    '/strasbourg.strasbourg/get-pois', {
-                        interests: interests,
+                    '/strasbourg.strasbourg/get-categories-pois', {
                         categories: categories,
-                        prefilters: prefilters,
+                        prefilters: window.prefilterCategoriesIds,
+                        tags: window.prefilterTags,
                         groupId: window.groupId,
                         typeContenu: window.typesContenu,
-                        localeId: Liferay.ThemeDisplay.getLanguageId()
+                        dateField: window.dateField,
+                        fromDate: ame.$filters_from_date_day.attr('value')+"/"+(parseInt(ame.$filters_from_date_month.attr('value')) + 1 )+"/"+ame.$filters_from_date_year.attr('value'),
+                        toDate: ame.$filters_to_date_day.attr('value')+"/"+(parseInt(ame.$filters_to_date_month.attr('value')) + 1 )+"/"+ame.$filters_to_date_year.attr('value'),
+                        localeId: Liferay.ThemeDisplay.getLanguageId(),
+                        globalGroupId: window.globalGroupId
+                    },
+                    function(data) {
+                        // Convertion des données geoJSON en marker
+                        try {
+                            var poisData = L.geoJson(data, {
+                                pointToLayer: pointToLayer,
+                                onEachFeature: onEachFeature
+                            });
+                            markers.addLayers(poisData);
+                            removeDuplicates(markers);
+                        } catch(e) {}
+                        requestsInProgress--;
+                        maybeHideLoadingIcon();
+                    }
+                );
+            }
+
+            // Ajoute à la liste des markers ceux des centres d'intérêt
+            var addInterestsMarkers = function(markers, interests) {
+                requestsInProgress++;
+                showLoadingIcon();
+                Liferay.Service(
+                    '/strasbourg.strasbourg/get-interests-pois', {
+                        interests: interests,
+                        groupId: window.groupId,
+                        typeContenu: window.typesContenu,
+                        localeId: Liferay.ThemeDisplay.getLanguageId(),
+                        globalGroupId: window.globalGroupId
                     },
                     function(data) {
                         // Convertion des données geoJSON en marker
@@ -539,24 +578,55 @@
                 markers.clearLayers();
 
                 // Récupération des catégories à afficher
+                // on sépare les catégories d'un même vocabulaire par une virguke et les vocabulaire par un point-virgule
                 var categories = "";
-                if (window.isWidgetMode) {
-                	categories =  window.categoriesCheckedIds;
-                } else {
-                    var i;
-                    for (i = 0; i < ame.$filters_categories.length; i++) {
-                        var filter = $(ame.$filters_categories[i]);
-                        if (filter.attr('name').indexOf("showFavorites") == -1 && filter.is(':checked')) {
-                            if (categories.length > 0) {
-                            	categories = categories + ",";
-                            }
-                            categories = categories + filter.attr('value');
+                var oldVocabulary = -1;
+                // checkbox
+                $(ame.$filters_categories).each(function() {
+                    if ($(this).is(':checked')) {
+                        if (oldVocabulary != $(this).attr("data-vocabulary")) {
+                            if (categories.length > 0)
+                                categories = categories + ";";
+                            oldVocabulary = $(this).attr("data-vocabulary");
+                        }else if (categories.length > 0) {
+                            categories = categories + ",";
                         }
+                        categories = categories + $(this).attr('value');
                     }
+                })
+
+                // liste
+                var allCategoriesList = "";
+                $(ame.$filters_categories_list).each(function() {
+                    if (allCategoriesList.length > 0) {
+                        allCategoriesList = allCategoriesList + ";";
+                    }
+                    if (categories.length > 0 && categories.slice(-1) != ";") {
+                        categories = categories + ";";
+                    }
+                    $(this).find('option').each(function(){
+                        if (allCategoriesList.length > 0 && allCategoriesList.slice(-1) != ";") {
+                            allCategoriesList = allCategoriesList + ",";
+                        }
+                        allCategoriesList = allCategoriesList + this.value;
+                        if ($(this).is(':selected')) {
+                            if (categories.length > 0 && categories.slice(-1) != ";") {
+                                categories = categories + ",";
+                            }
+                            categories = categories + this.value;
+                        }
+                    });
+                })
+                if (categories.slice(-1) == ";") {
+                    categories = categories.replace(';','');
                 }
 
-                // Préfiltres
-            	var prefilters = window.prefilterCategoriesIds;
+                // Récupération des données concernant les catégories
+                if (categories.length > 0) {
+                    addCategoriesMarkers(markers, categories);
+                }else if (allCategoriesList.length > 0) {
+                    addCategoriesMarkers(markers, allCategoriesList);
+                }
 
                 // Récupération des centres d'intérêts à afficher
                 var interests = "";
@@ -576,8 +646,8 @@
                 }
 
                 // Récupération des données concernant les centres d'intérêt
-                if (interests.length > 0 || categories.length > 0) {
-                    addInterestsMarkers(markers, interests, categories, prefilters);
+                if (interests.length > 0) {
+                    addInterestsMarkers( markers, interests);
                 }
 
                 // Récupération des données concernant les favoris
@@ -598,6 +668,22 @@
                         		addAlerts(markers);
                         		break;
                             }
+                        }
+                        var hasSelect = false;
+                        for (i = 0; i < ame.$filters_categories_list.find("option:selected").length; i++) {
+                            var filter = $(ame.$filters_categories_list.find("option:selected")[i]);
+                            // et si la catégorie choisie est sélectionnée en mode normal ou mon quartier
+                            hasSelect = true;
+                            if (filter.attr('value') == window.linkCategoryId) {
+                                addTraffic(markers);
+                                addAlerts(markers);
+                                break;
+                            }
+                        }
+                        // ou si aucune sélection n'est faite
+                        if (!hasSelect) {
+                            addTraffic(markers);
+                            addAlerts(markers);
                         }
                 	}
                 	if(window.mode == "aroundme" ){
@@ -654,7 +740,9 @@
                 moveToUserAddress();
             });
             ame.$filters.on('change', function() {
-                saveUserConfig();
+                if(mode != 'normal')
+                    saveUserConfig();
+                showPois();
             });
 
             $('#mapid').on('click', '.infowindow__close', function() {
@@ -712,7 +800,6 @@
                     }
                 };
                 request.send(formData);
-                showPois();
             }
 
             function showLoadingIcon() {

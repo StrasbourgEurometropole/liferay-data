@@ -62,8 +62,14 @@ public interface MapConfiguration {
 	@Meta.AD(name = "prefilterCategoriesIds", required = false)
 	public String prefilterCategoriesIds();
 
-	@Meta.AD(name = "listDisplay", required = false)
-	public boolean listDisplay();
+	@Meta.AD(name = "prefilterTags", required = false)
+	public String prefilterTags();
+
+	@Meta.AD(name = "districtUser", required = false)
+	public boolean districtUser();
+
+	@Meta.AD(name = "filterType", required = false)
+	public String filterType();
 
 	@Meta.AD(name = "categoriesDefaultsIds", required = false)
 	public String categoriesDefaultsIds();
@@ -82,9 +88,6 @@ public interface MapConfiguration {
 
 	@Meta.AD(name = "defaultDateRange", deflt = "", required = false)
 	public long defaultDateRange();
-
-	@Meta.AD(name = "districtUser", required = false)
-	public boolean districtUser();
 	
 	@Meta.AD(name = "widgetIntro", required = false)
 	public String widgetIntro();

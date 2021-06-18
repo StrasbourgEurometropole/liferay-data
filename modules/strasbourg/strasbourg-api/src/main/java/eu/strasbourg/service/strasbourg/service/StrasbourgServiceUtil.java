@@ -75,6 +75,16 @@ public class StrasbourgServiceUtil {
 		return getService().getArticleHTMLContent(groupId, articleId);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getCategoriesPois(
+		String categories, String prefilters, String tags, long groupId,
+		String typeContenu, boolean dateField, String fromDate, String toDate,
+		String localeId, long globalGroupId) {
+
+		return getService().getCategoriesPois(
+			categories, prefilters, tags, groupId, typeContenu, dateField,
+			fromDate, toDate, localeId, globalGroupId);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONArray
 		getCoordinateForAddress(String address, String zipCode, String city) {
 
@@ -115,6 +125,14 @@ public class StrasbourgServiceUtil {
 		return getService().getFileDetails(groupId, uuid, language);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getInterestsPois(
+		String interests, long groupId, String typeContenu, String localeId,
+		long globalGroupId) {
+
+		return getService().getInterestsPois(
+			interests, groupId, typeContenu, localeId, globalGroupId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -124,46 +142,22 @@ public class StrasbourgServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		String interests, long groupId) {
-
-		return getService().getPois(interests, groupId);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		String interests, long groupId, String localeId) {
-
-		return getService().getPois(interests, groupId, localeId);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		String interests, String categories, String prefilters, long groupId,
-		String typeContenu) {
-
-		return getService().getPois(
-			interests, categories, prefilters, groupId, typeContenu);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		String interests, String categories, String prefilters, long groupId,
-		String typeContenu, String localeId) {
-
-		return getService().getPois(
-			interests, categories, prefilters, groupId, typeContenu, localeId);
-	}
-
 	public static int getPoisCategoryCount(
-		long idCategory, String prefilters, long groupId, String typeContenu) {
+		long idCategory, String prefilters, String tags, long groupId,
+		String typeContenu, boolean dateField, String fromDate, String toDate,
+		String localeId, long globalGroupId) {
 
 		return getService().getPoisCategoryCount(
-			idCategory, prefilters, groupId, typeContenu);
+			idCategory, prefilters, tags, groupId, typeContenu, dateField,
+			fromDate, toDate, localeId, globalGroupId);
 	}
 
 	public static int getPoisInterestCount(
-		long idCategory, long groupId, String typeContenu) {
+		long idInterest, long groupId, String typeContenu, String localeId,
+		long globalGroupId) {
 
 		return getService().getPoisInterestCount(
-			idCategory, groupId, typeContenu);
+			idInterest, groupId, typeContenu, localeId, globalGroupId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray

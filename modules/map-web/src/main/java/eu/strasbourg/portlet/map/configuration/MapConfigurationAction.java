@@ -17,9 +17,9 @@ import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.settings.LocalizedValuesMap;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -161,20 +161,17 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Détourage d'un quartier ou d'une commune
 			boolean hasClipping = false;
-			if(mode.equals("widget")) {
-				// Pas utilisé en mode widget
-				setPreference(request, "clippingTerritory", "");
-			}else{
+			if(mode.equals("normal")) {
 				String clippingTerritory = ParamUtil.getString(request, "clippingTerritory");
 				setPreference(request, "clippingTerritory", clippingTerritory);
 				hasClipping = Boolean.parseBoolean(clippingTerritory);
+			}else{
+				// Pas utilisé dans les autres modes
+				setPreference(request, "clippingTerritory", "");
 			}
 
 			// Zone de détourage
-			if(mode.equals("widget")) {
-				// Pas utilisé en mode widget
-				setPreference(request, "clippingCategoryId", "");
-			}else {
+			if(mode.equals("normal")) {
 				String clippingCategoryId = "";
 				if (hasClipping) {
 					clippingCategoryId = ParamUtil.getString(request, "clippingCategoryId");
@@ -182,7 +179,9 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				} else {
 					setPreference(request, "clippingCategoryId", "");
 				}
-				json.put("clippingCategoryId", clippingCategoryId);
+			}else {
+				// Pas utilisé dans les autres modes
+				setPreference(request, "clippingCategoryId", "");
 			}
 
 			// Choix du site vers lequel les liens redirigent
@@ -206,209 +205,19 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Préfiltre catégories
 			if(mode.equals("normal") || mode.equals("district")) {
 				String prefilterCategoriesIds = ParamUtil.getString(request, "prefilterCategoriesIds");
-				// On enregistre les ids des catégories sous forme de String
-				// On sépare les catégories par des virgules
-				List<Long> vocabulariesIds = new ArrayList<>();
-				for (String categoryIdStr : prefilterCategoriesIds.split(",")) {
-					long categoryId = GetterUtil.getLong(categoryIdStr);
-					if (categoryId > 0) {
-						AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
-						if (category != null && !vocabulariesIds.contains(category.getVocabularyId())) {
-							vocabulariesIds.add(category.getVocabularyId());
-						}
-					}
-				}
-				StringBuilder sortedPrefilterCategoriesIds = new StringBuilder();
-				for (Long vocabularyId : vocabulariesIds) {
-					for (String categoryIdStr : prefilterCategoriesIds.split(",")) {
-						long categoryId = GetterUtil.getLong(categoryIdStr);
-						if (categoryId > 0) {
-							AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
-							if (category != null && vocabularyId == category.getVocabularyId()) {
-								if (sortedPrefilterCategoriesIds.length() > 0) {
-									sortedPrefilterCategoriesIds.append(",");
-								}
-								sortedPrefilterCategoriesIds.append(categoryId);
-							}
-						}
-					}
-				}
-				setPreference(request, "prefilterCategoriesIds", sortedPrefilterCategoriesIds.toString());
+				setPreference(request, "prefilterCategoriesIds", prefilterCategoriesIds);
 			}else {
 				// Pas utilisé dans les autres modes
 				setPreference(request, "prefilterCategoriesIds", "");
 			}
 
-			// Choix d'affichage des filtres
-			boolean displayList = false;
+			// Préfiltre tags
 			if(mode.equals("normal") || mode.equals("district")) {
-				String listDisplay = ParamUtil.getString(request, "listDisplay");
-				setPreference(request, "listDisplay", listDisplay);
-				displayList = Boolean.parseBoolean(listDisplay);
+				String prefilterTags = ParamUtil.getString(request, "prefilterTags");
+				setPreference(request, "prefilterTags", prefilterTags);
 			}else {
 				// Pas utilisé dans les autres modes
-				setPreference(request, "listDisplay", "");
-			}
-
-			// Filtre catégories cochées par défaut
-			if(mode.equals("normal") || mode.equals("district")) {
-				if(displayList) {
-					// Pas utilisé dans l'affichage des filtres en liste
-					setPreference(request, "categoriesDefaultsIds", "");
-				}else{
-					String categoriesDefaultsIds = ParamUtil.getString(request, "categoriesDefaultsIds");
-					// On enregistre les ids des catégories sous forme de String
-					// On sépare les catégories par des virgules
-					List<Long> vocabulariesIds = new ArrayList<>();
-					for (String categoryIdStr : categoriesDefaultsIds.split(",")) {
-						long categoryId = GetterUtil.getLong(categoryIdStr);
-						if (categoryId > 0) {
-							AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
-							if (category != null && !vocabulariesIds.contains(category.getVocabularyId())) {
-								vocabulariesIds.add(category.getVocabularyId());
-							}
-						}
-					}
-					StringBuilder sortedCategoriesDefaultsIds = new StringBuilder();
-					for (Long vocabularyId : vocabulariesIds) {
-						for (String categoryIdStr : categoriesDefaultsIds.split(",")) {
-							long categoryId = GetterUtil.getLong(categoryIdStr);
-							if (categoryId > 0) {
-								AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
-								if (category != null && vocabularyId == category.getVocabularyId()) {
-									if (sortedCategoriesDefaultsIds.length() > 0) {
-										sortedCategoriesDefaultsIds.append(",");
-									}
-									sortedCategoriesDefaultsIds.append(categoryId);
-								}
-							}
-						}
-					}
-					setPreference(request, "categoriesDefaultsIds", sortedCategoriesDefaultsIds.toString());
-				}
-			}else {
-				// Pas utilisé dans les autres modes
-				setPreference(request, "categoriesDefaultsIds", "");
-			}
-
-			// Filtre catégories non  cochées
-			if(mode.equals("normal") || mode.equals("district")) {
-				if(displayList) {
-					// Pas utilisé dans l'affichage des filtres en liste
-					setPreference(request, "categoriesIds", "");
-				}else{
-					String categoriesIds = ParamUtil.getString(request, "categoriesIds");
-					// On enregistre les ids des catégories sous forme de String
-					// On sépare les catégories par des virgules
-					List<Long> vocabulariesIds = new ArrayList<>();
-					for (String categoryIdStr : categoriesIds.split(",")) {
-						long categoryId = GetterUtil.getLong(categoryIdStr);
-						if (categoryId > 0) {
-							AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
-							if (category != null && !vocabulariesIds.contains(category.getVocabularyId())) {
-								vocabulariesIds.add(category.getVocabularyId());
-							}
-						}
-					}
-					StringBuilder sortedCategoriesIds = new StringBuilder();
-					for (Long vocabularyId : vocabulariesIds) {
-						for (String categoryIdStr : categoriesIds.split(",")) {
-							long categoryId = GetterUtil.getLong(categoryIdStr);
-							if (categoryId > 0) {
-								AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
-								if (category != null && vocabularyId == category.getVocabularyId()) {
-									if (sortedCategoriesIds.length() > 0) {
-										sortedCategoriesIds.append(",");
-									}
-									sortedCategoriesIds.append(categoryId);
-								}
-							}
-						}
-					}
-					setPreference(request, "categoriesIds", sortedCategoriesIds.toString());
-				}
-			}else {
-				// Pas utilisé dans les autres modes
-				setPreference(request, "categoriesIds", "");
-			}
-
-			// Filtre catégories parentes
-			if(mode.equals("normal") || mode.equals("district")) {
-				if(displayList) {
-					String parentsCategoriesIds = ParamUtil.getString(request, "parentsCategoriesIds");
-					// On enregistre les ids des catégories sous forme de String
-					// On sépare les catégories par des virgules
-					List<Long> vocabulariesIds = new ArrayList<>();
-					for (String parentCategoryIdStr : parentsCategoriesIds.split(",")) {
-						long parentCategoryId = GetterUtil.getLong(parentCategoryIdStr);
-						if (parentCategoryId > 0) {
-							AssetCategory parentCategory = AssetCategoryLocalServiceUtil.fetchAssetCategory(parentCategoryId);
-							if (parentCategory != null && !vocabulariesIds.contains(parentCategory.getVocabularyId())) {
-								vocabulariesIds.add(parentCategory.getVocabularyId());
-							}
-						}
-					}
-					StringBuilder sortedParentsCategoriesIds = new StringBuilder();
-					for (Long vocabularyId : vocabulariesIds) {
-						for (String parentCategoryIdStr : parentsCategoriesIds.split(",")) {
-							long parentCategoryId = GetterUtil.getLong(parentCategoryIdStr);
-							if (parentCategoryId > 0) {
-								AssetCategory parentCategory = AssetCategoryLocalServiceUtil.fetchAssetCategory(parentCategoryId);
-								if (parentCategory != null && vocabularyId == parentCategory.getVocabularyId()) {
-									if (sortedParentsCategoriesIds.length() > 0) {
-										sortedParentsCategoriesIds.append(",");
-									}
-									sortedParentsCategoriesIds.append(parentCategoryId);
-								}
-							}
-						}
-					}
-					setPreference(request, "parentsCategoriesIds", sortedParentsCategoriesIds.toString());
-				}else{
-					// Pas utilisé dans l'affichage des filtres en checkbox
-					setPreference(request, "parentsCategoriesIds", "");
-				}
-			}else {
-				// Pas utilisé dans les autres modes
-				setPreference(request, "parentsCategoriesIds", "");
-			}
-
-			// Filtre vocabulaire
-			if(mode.equals("normal") || mode.equals("district")) {
-				if(displayList) {
-					String vocabulariesIdsFilter = ParamUtil.getString(request, "vocabulariesIds");
-					setPreference(request, "vocabulariesIds", vocabulariesIdsFilter);
-				}else{
-					// Pas utilisé dans l'affichage des filtres en checkbox
-					setPreference(request, "vocabulariesIds", "");
-				}
-			}else {
-				// Pas utilisé dans les autres modes
-				setPreference(request, "vocabulariesIds", "");
-			}
-
-			// Filtre par date
-			boolean hasDateFilter = false;
-			if(mode.equals("normal") || mode.equals("district")) {
-				String dateField = ParamUtil.getString(request, "dateField");
-				setPreference(request, "dateField", dateField);
-				hasDateFilter = Boolean.parseBoolean(dateField);
-			}else {
-				// Pas utilisé dans les autres modes
-				setPreference(request, "dateField", "");
-			}
-
-			// Etendu du filtre par date
-			if(mode.equals("normal") || mode.equals("district")) {
-				if(hasDateFilter) {
-					String defaultDateRange = ParamUtil.getString(request, "defaultDateRange");
-					setPreference(request, "defaultDateRange", defaultDateRange);
-				}else{
-					setPreference(request, "defaultDateRange", "");
-				}
-			}else {
-				// Pas utilisé dans les autres modes
-				setPreference(request, "defaultDateRange", "");
+				setPreference(request, "prefilterTags", "");
 			}
 
 			// Filtre sur le quartier de l'utilisateur
@@ -418,6 +227,116 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			}else {
 				// Pas utilisé dans les autres modes
 				setPreference(request, "districtUser", "");
+			}
+
+			// Choix d'affichage des filtres
+			boolean displayCheckbox = true;
+			if(mode.equals("normal") || mode.equals("district")) {
+				if (displayConfig){
+					String filterType = ParamUtil.getString(request, "filterType");
+					setPreference(request, "filterType", filterType);
+					displayCheckbox = filterType.equals("checkbox");
+				}else{
+					// Pas utilisé si on n'affichae pas la config à l'utilisateur
+					setPreference(request, "filterType", "");
+				}
+			}else {
+				// Pas utilisé dans les autres modes
+				setPreference(request, "filterType", "");
+			}
+
+			// Filtre catégories cochées par défaut
+			if(mode.equals("normal") || mode.equals("district")) {
+				if(displayCheckbox) {
+					String categoriesDefaultsIds = ParamUtil.getString(request, "categoriesDefaultsIds");
+					setPreference(request, "categoriesDefaultsIds", categoriesDefaultsIds);
+				}else{
+					// Pas utilisé dans l'affichage des filtres en liste
+					setPreference(request, "categoriesDefaultsIds", "");
+				}
+			}else {
+				// Pas utilisé dans les autres modes
+				setPreference(request, "categoriesDefaultsIds", "");
+			}
+
+			// Filtre catégories non  cochées
+			if(mode.equals("normal") || mode.equals("district")) {
+				if(displayCheckbox) {
+					if(displayConfig) {
+						String categoriesIds = ParamUtil.getString(request, "categoriesIds");
+						setPreference(request, "categoriesIds", categoriesIds);
+					}else{
+						// Pas utilisé si la config est cachée
+						setPreference(request, "categoriesIds", "");
+					}
+				}else{
+					// Pas utilisé dans l'affichage des filtres en liste
+					setPreference(request, "categoriesIds", "");
+				}
+			}else {
+				// Pas utilisé dans les autres modes
+				setPreference(request, "categoriesIds", "");
+			}
+
+			// Filtre catégories parentes
+			if(mode.equals("normal") || mode.equals("district")) {
+				if(displayCheckbox) {
+					// Pas utilisé dans l'affichage des filtres en checkbox
+					setPreference(request, "parentsCategoriesIds", "");
+				}else{
+					String parentsCategoriesIds = ParamUtil.getString(request, "parentsCategoriesIds");
+					setPreference(request, "parentsCategoriesIds", parentsCategoriesIds);
+				}
+			}else {
+				// Pas utilisé dans les autres modes
+				setPreference(request, "parentsCategoriesIds", "");
+			}
+
+			// Filtre vocabulaire
+			if(mode.equals("normal") || mode.equals("district")) {
+				if(displayCheckbox) {
+					// Pas utilisé dans l'affichage des filtres en checkbox
+					setPreference(request, "vocabulariesIds", "");
+				}else{
+					String[] vocabulariesIdsFilter = ParamUtil.getStringValues(request, "vocabulariesIds");
+					String vocabulariesIdsFilterString = "";
+					if (vocabulariesIdsFilter.length > 0) {
+						vocabulariesIdsFilterString = StringUtil.merge(vocabulariesIdsFilter);
+					}
+					setPreference(request, "vocabulariesIds", vocabulariesIdsFilterString);
+				}
+			}else {
+				// Pas utilisé dans les autres modes
+				setPreference(request, "vocabulariesIds", "");
+			}
+
+			// Filtre par date
+			boolean hasDateFilter = false;
+			if(mode.equals("normal") || mode.equals("district")) {
+				if(displayConfig) {
+					String dateField = ParamUtil.getString(request, "dateField");
+					setPreference(request, "dateField", dateField);
+					hasDateFilter = Boolean.parseBoolean(dateField);
+				}else{
+					// Pas utilisé si la config est cachée
+					setPreference(request, "dateField", "");
+				}
+			}else {
+				// Pas utilisé dans les autres modes
+				setPreference(request, "dateField", "");
+			}
+
+			// Etendu du filtre par date
+			if(mode.equals("normal") || mode.equals("district")) {
+				if(displayConfig && hasDateFilter) {
+					String defaultDateRange = ParamUtil.getString(request, "defaultDateRange");
+					setPreference(request, "defaultDateRange", defaultDateRange);
+				}else{
+					setPreference(request, "defaultDateRange", "");
+				}
+			}else {
+				// Pas utilisé dans les autres modes
+				setPreference(request, "defaultDateRange", "");
 			}
 
 			// Texte introduction en mode widget
@@ -624,7 +543,13 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Choix du site vers lequel les liens redirigent
 			List<Group> sites = GroupLocalServiceUtil.getGroups(themeDisplay.getCompanyId(), 0, true);
 			request.setAttribute("sites", sites);
-			request.setAttribute("selectedGroupId", configuration.groupId());
+			long groupId = configuration.groupId();
+			if(Validator.isNull(groupId)){
+				Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(), "/strasbourg.eu");
+				if(Validator.isNotNull(group))
+					groupId = group.getGroupId();
+			}
+			request.setAttribute("selectedGroupId", groupId);
 			request.setAttribute("groupId", "-1");
 
 			// Choix "nouvel onglet, onglet courant"
@@ -638,22 +563,30 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			request.setAttribute("cadrageY", configuration.cadrageY());
 
 			// Préfiltres catégories
-			String prefilterCategoriesIds = configuration.prefilterCategoriesIds().replace(";", ",");
+			String prefilterCategoriesIds = configuration.prefilterCategoriesIds();
 			request.setAttribute("prefilterCategoriesIds", prefilterCategoriesIds);
 
+			// Préfiltres tags
+			String prefilterTags = configuration.prefilterTags().replace(";", ",");
+			request.setAttribute("prefilterTags", prefilterTags);
+
+			// Préfiltre sur le quartier utilisateur
+			request.setAttribute("districtUser", configuration.districtUser());
+
 			// Choix d'affichage des filtres
-			request.setAttribute("listDisplay", configuration.listDisplay());
+			String filterType = Validator.isNotNull(configuration.filterType())?configuration.filterType():"checkbox";
+			request.setAttribute("filterType", filterType);
 
 			// Filtres checkbox cochés par défaut
-			String categoriesDefaultsIds = configuration.categoriesDefaultsIds().replace(";", ",");
+			String categoriesDefaultsIds = configuration.categoriesDefaultsIds();
 			request.setAttribute("categoriesDefaultsIds", categoriesDefaultsIds);
 
 			// Filtres checkbox non cochés
-			String categoriesIds = configuration.categoriesIds().replace(";", ",");
+			String categoriesIds = configuration.categoriesIds();
 			request.setAttribute("categoriesIds", categoriesIds);
 
 			// Filtres liste des catégories parentes
-			String parentsCategoriesIds = configuration.parentsCategoriesIds().replace(";", ",");
+			String parentsCategoriesIds = configuration.parentsCategoriesIds();
 			request.setAttribute("parentsCategoriesIds", parentsCategoriesIds);
 
 			// Filtres liste des vocabulaires
@@ -679,9 +612,6 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Etendu du filtre sur la date
 			request.setAttribute("defaultDateRange", configuration.defaultDateRange());
-
-			// Préfiltre sur le quartier utilisateur
-			request.setAttribute("districtUser", configuration.districtUser());
 
 			// Texte intro mode widget
 			request.setAttribute("widgetIntro", configuration.widgetIntro());
@@ -725,6 +655,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Liaison de l'info trafic à un CI
 			request.setAttribute("linkInterestId", configuration.linkInterestId());
 
+			request.setAttribute("globalGroupId", themeDisplay.getCompanyGroupId());
 			
 		} catch (ConfigurationException e) {
 			_log.error(e);
