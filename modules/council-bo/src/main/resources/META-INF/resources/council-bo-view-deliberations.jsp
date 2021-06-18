@@ -24,7 +24,6 @@
 	<portlet:param name="returnURL" value="${importDeliberationURL}" />
 </liferay-portlet:renderURL>
 
-
 <liferay-frontend:management-bar includeCheckBox="true" searchContainerId="deliberationsSearchContainer">
 		<liferay-frontend:management-bar-filters>
 			<c:if test="${fn:length(dc.vocabularies) > 0}">
@@ -41,7 +40,6 @@
 				portletURL="${deliberationsURL}" />
 		</liferay-frontend:management-bar-filters>
 </liferay-frontend:management-bar>
-
 
 <div class="container-fluid-1280 main-content-body">
 
@@ -178,7 +176,6 @@
 	<liferay-frontend:add-menu>
 		<liferay-frontend:add-menu-item title="Ajouter une deliberation" url="${addDeliberationURL}"/>
 	</liferay-frontend:add-menu>
-
 </c:if>
 
 <liferay-util:html-bottom>

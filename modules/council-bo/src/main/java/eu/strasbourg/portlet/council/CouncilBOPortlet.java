@@ -31,6 +31,7 @@ import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
@@ -146,7 +147,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 		String categoryDelibStage= null;
 
 		String categoryToAdd = ParamUtil.getString(renderRequest, "categoryToAdd");
-		if(Validator.isNotNull(categoryToAdd)) {
+		if (Validator.isNotNull(categoryToAdd)) {
 			AssetCategory ac = AssetCategoryLocalServiceUtil.fetchAssetCategory(Long.parseLong(categoryToAdd));
 			if (ac != null) {
 				AssetVocabulary vocab = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(ac.getVocabularyId());
@@ -161,15 +162,15 @@ public class CouncilBOPortlet extends MVCPortlet {
 		// Récupère la catégorie de conseil en session
 		Object sessionObject = originalRequest.getSession().getAttribute("categoryCouncilId");
 		String sessionCategoryCouncilId = null;
-		if(!Validator.isNull(sessionObject)) {
+		if (Validator.isNotNull(sessionObject)) {
 			sessionCategoryCouncilId = sessionObject.toString();
 		}
 
 		String categoryId = null;
 		// Si aucun conseil sélectionné, on prend celui de la session
-		if(Validator.isNull(categoryCouncilId)) {
+		if (Validator.isNull(categoryCouncilId)) {
 
-			if(Validator.isNull(sessionCategoryCouncilId)) {
+			if (Validator.isNull(sessionCategoryCouncilId)) {
 
 				// Calcul de la date
 				GregorianCalendar gc = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
@@ -177,28 +178,35 @@ public class CouncilBOPortlet extends MVCPortlet {
 				List<CouncilSession> todayCouncils = CouncilSessionLocalServiceUtil.findByDate(gc.getTime());
 
 				// SI on a rien en session, on cherche le conseil du jour ou le dernier conseil
-				if(todayCouncils.size() >0) {
+				if (todayCouncils.size() > 0) {
+
 					CouncilSession todayCouncil = todayCouncils.get(0);
 					// récupère la catégorie du conseil
 					AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, themeDisplay.getScopeGroupId());
 					Type type = TypeLocalServiceUtil.fetchType(todayCouncil.getTypeId());
 					AssetCategory typeCategory = conseil.getCategories().stream().filter(c -> c.getName().equals(type.getTitle())).findFirst().get();
 					AssetCategory councilCategory = AssetCategoryLocalServiceUtil.getChildCategories(typeCategory.getCategoryId()).stream().filter(c -> c.getName().equals(todayCouncil.getTitle())).findFirst().get();
-					categoryCouncilId=String.valueOf(councilCategory != null ? councilCategory.getCategoryId():"");
+
+					categoryCouncilId=String.valueOf(councilCategory != null ? councilCategory.getCategoryId():StringUtils.EMPTY);
 					originalRequest.getSession().setAttribute("categoryCouncilId", categoryId);
+
 				} else {
 					List<CouncilSession> futureCouncilSessions = CouncilSessionLocalServiceUtil.getCouncilSessions(-1,-1);
+
 					futureCouncilSessions = futureCouncilSessions.stream()
 							.sorted(Comparator.comparing(CouncilSession::getDate).reversed())
 							.collect(Collectors.toList());
-					if(futureCouncilSessions.size() > 0) {
+
+					if (futureCouncilSessions.size() > 0) {
+
 						CouncilSession lastCouncil = futureCouncilSessions.get(0);
 						// récupère la catégorie du conseil
 						AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, themeDisplay.getScopeGroupId());
 						Type type = TypeLocalServiceUtil.fetchType(lastCouncil.getTypeId());
 						AssetCategory typeCategory = conseil.getCategories().stream().filter(c -> c.getName().equals(type.getTitle())).findFirst().get();
 						AssetCategory councilCategory = AssetCategoryLocalServiceUtil.getChildCategories(typeCategory.getCategoryId()).stream().filter(c -> c.getName().equals(lastCouncil.getTitle())).findFirst().get();
-						categoryCouncilId=String.valueOf(councilCategory != null ? councilCategory.getCategoryId():"");
+
+						categoryCouncilId=String.valueOf(councilCategory != null ? councilCategory.getCategoryId(): StringUtils.EMPTY);
 						originalRequest.getSession().setAttribute("categoryCouncilId", categoryId);
 					}
 				}
@@ -218,14 +226,15 @@ public class CouncilBOPortlet extends MVCPortlet {
 		List<AssetCategory> typeCoucilCats = UserRoleType.typeCategoriesForUser(themeDisplay);
 		// On récupère totes les sous catégories de conseil liées
 		List<AssetCategory> councilCats = new ArrayList<>();
+
 		councilCats.addAll(typeCoucilCats);
 		for (AssetCategory cat : typeCoucilCats) {
 			councilCats.addAll(AssetVocabularyHelper.getChild(cat.getCategoryId()));
 		}
 		// Si la catégorie qui était sélectionnée/choisie n'est pas dans les catégories autorisée, on donne celle du premier type de conseil autorisé
-		if(!councilCats.stream().anyMatch(x -> String.valueOf(x.getCategoryId()).equals(finalCategoryCouncilId))) {
-			categoryCouncilId = "";
-			if(typeCoucilCats.size() > 0) {
+		if (!councilCats.stream().anyMatch(x -> String.valueOf(x.getCategoryId()).equals(finalCategoryCouncilId))) {
+			categoryCouncilId = StringUtils.EMPTY;
+			if (typeCoucilCats.size() > 0) {
 				categoryCouncilId=String.valueOf(typeCoucilCats.get(0));
 			}
 		}
@@ -233,13 +242,5 @@ public class CouncilBOPortlet extends MVCPortlet {
 		categoryId = categoryCouncilId +','+categoryDelibStage;
 
 		return categoryId;
-	}
-
-	/**
-	 * Permet de récupérer la session à partir de la renderRequest
-	 */
-	private HttpSession getSession(RenderRequest request) {
-		HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(request);
-		return originalRequest.getSession();
 	}
 }

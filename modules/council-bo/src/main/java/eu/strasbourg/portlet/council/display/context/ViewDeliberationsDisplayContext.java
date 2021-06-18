@@ -171,41 +171,40 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
 
     @Override
     public String getFilterCategoriesIds() throws PortalException {
+
         if (Validator.isNotNull(_filterCategoriesIds)) {
             return _filterCategoriesIds;
         }
-        _filterCategoriesIds = ParamUtil.getString(_request,
-                "filterCategoriesIds");
+
+        _filterCategoriesIds = ParamUtil.getString(_request, "filterCategoriesIds");
         if (_filterCategoriesIds.length() == 0) {
             _filterCategoriesIds = ",";
         }
-        Long vocabularyToRemove = ParamUtil.getLong(_request,
-                "vocabularyToRemove");
+
+        Long vocabularyToRemove = ParamUtil.getLong(_request,"vocabularyToRemove");
         if (vocabularyToRemove > 0) {
-            AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil
-                    .getVocabulary(vocabularyToRemove);
+            AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.getVocabulary(vocabularyToRemove);
             List<AssetCategory> categories = vocabulary.getCategories();
+
             for (AssetCategory category : categories) {
-                if (_filterCategoriesIds
-                        .contains(String.valueOf(category.getCategoryId()))) {
-                    _filterCategoriesIds = _filterCategoriesIds
-                            .replace("," + category.getCategoryId(), "");
+                if (_filterCategoriesIds.contains(String.valueOf(category.getCategoryId()))) {
+                    _filterCategoriesIds = _filterCategoriesIds.replace("," + category.getCategoryId(), "");
                 }
             }
-            _filterCategoriesIds = _filterCategoriesIds
-                    .replace(vocabularyToRemove + ",", "");
+            _filterCategoriesIds = _filterCategoriesIds.replace(vocabularyToRemove + ",", "");
         }
-        String categoryToAdd =sessionCategoryToAdd;
 
+        String categoryToAdd =sessionCategoryToAdd;
         if (Validator.isNotNull(categoryToAdd)) {
             _filterCategoriesIds += categoryToAdd + ",";
         }
+
         return _filterCategoriesIds;
     }
 
     @Override
-    public List<ManagementBarFilterItem> getManagementBarFilterItems(
-            AssetVocabulary vocabulary) throws PortalException {
+    public List<ManagementBarFilterItem> getManagementBarFilterItems(AssetVocabulary vocabulary) throws PortalException {
+
         List<ManagementBarFilterItem> managementBarFilterItems = new ArrayList<>();
 
         String tab = ParamUtil.getString(this._request, "tab");
@@ -221,44 +220,40 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
                 portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
         int delta = this.getSearchContainer().getDelta();
         long vocabularyToRemove = vocabulary.getVocabularyId();
+
         filterURL.setParameter("tab", tab);
         filterURL.setParameter("orderByCol", orderByCol);
         filterURL.setParameter("orderByType", orderByType);
         filterURL.setParameter("filterCategoriesIds", filterCategoriesIds);
         filterURL.setParameter("keywords", keywords);
         filterURL.setParameter("delta", String.valueOf(delta));
-        filterURL.setParameter("vocabularyToRemove",
-                String.valueOf(vocabularyToRemove));
+        filterURL.setParameter("vocabularyToRemove", String.valueOf(vocabularyToRemove));
 
-        ManagementBarFilterItem allItemsFilter = new ManagementBarFilterItem(
-                false, vocabulary.getName() + " : "
-                + LanguageUtil.get(Locale.FRENCH, "any"),
-                filterURL.toString());
+        String label = vocabulary.getName() + " : " + LanguageUtil.get(Locale.FRENCH, "any");
+        ManagementBarFilterItem allItemsFilter = new ManagementBarFilterItem(false, label, filterURL.toString());
         managementBarFilterItems.add(allItemsFilter);
 
         List<AssetCategory> rootCategories = vocabulary.getCategories().stream()
                 .filter(c -> c.isRootCategory()).collect(Collectors.toList());
 
         AssetVocabulary conseilVocab = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, themeDisplay.getScopeGroupId());
+
         if(conseilVocab != null && conseilVocab.getVocabularyId() == vocabulary.getVocabularyId()) {
             List<AssetCategory> authorizedRootCategories = new ArrayList<>();
+
             for (AssetCategory typeCouncilCat : UserRoleType.typeCategoriesForUser(themeDisplay)) {
                 if(rootCategories.contains(typeCouncilCat)) {
                     authorizedRootCategories.add(typeCouncilCat);
                 }
             }
             for (AssetCategory category : authorizedRootCategories) {
-                populateManagementBar(managementBarFilterItems, category,
-                        filterURL);
+                populateManagementBar(managementBarFilterItems, category, filterURL);
             }
         } else {
             for (AssetCategory category : rootCategories) {
-                populateManagementBar(managementBarFilterItems, category,
-                        filterURL);
+                populateManagementBar(managementBarFilterItems, category, filterURL);
             }
         }
-
-
         return managementBarFilterItems;
     }
 }
