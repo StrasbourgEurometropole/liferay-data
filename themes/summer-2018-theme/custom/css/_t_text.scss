@@ -196,26 +196,6 @@
 			text-align: center;
 			border: 4px solid;
 			transition: all 0.3s ease;
-			&:before{
-				content: '';
-				background: url(/o/summer-2018-theme/images/vague.png) repeat center center /contain;
-				width: 9999px;
-				height: 10px;
-				position: absolute;
-				top: 50%;
-				transform: translateY(-50%);
-				left: -9999px;	
-			}
-			&:after{
-				content: '';
-				background: url(/o/summer-2018-theme/images/vague.png) repeat center center /contain;
-				width: 9999px;
-				height: 10px;
-				position: absolute;
-				top: 50%;
-				transform: translateY(-50%);
-				right: -9999px;	
-			}
 			&:hover{
 				background: $c_main;
 			    color: $c_white;
