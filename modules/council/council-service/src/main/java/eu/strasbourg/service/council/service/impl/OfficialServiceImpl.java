@@ -130,8 +130,9 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 		if (councilSession != null) {
 			List<Official> concernedOfficial = OfficialLocalServiceUtil
 					.findByGroupIdAndTypeId(groupId, councilSession.getTypeId());
-					
-			for(Official official : concernedOfficial) {
+
+			jsonData.put("councilSessionTitle", councilSession.getTitle());
+;			for(Official official : concernedOfficial) {
 				if (official.isNotedAbsent(councilSessionId)) {
 					jsonAbsents.put(official.toJSON());
 				} else if (official.isConnected()) {

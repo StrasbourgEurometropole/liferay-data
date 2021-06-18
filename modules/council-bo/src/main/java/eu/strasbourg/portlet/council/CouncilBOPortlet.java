@@ -38,6 +38,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -88,6 +89,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 			portletDisplay.setShowBackIcon(true);
 			portletDisplay.setURLBack(returnURL);
 		}
+
 		// If we are on the Session, we add the corresponding
 		// display context
 		if (cmd.equals("editCouncilSession") || mvcPath.equals("/council-bo-edit-council-session.jsp")) {
@@ -113,6 +115,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 			ViewOfficialsDisplayContext dc = new ViewOfficialsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("officialsConnection")) {
+			// Gestion de la selection du conseil
 			ViewOfficialsConnectionDisplayContext dc = new ViewOfficialsConnectionDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("types")) {
@@ -232,4 +235,11 @@ public class CouncilBOPortlet extends MVCPortlet {
 		return categoryId;
 	}
 
+	/**
+	 * Permet de récupérer la session à partir de la renderRequest
+	 */
+	private HttpSession getSession(RenderRequest request) {
+		HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(request);
+		return originalRequest.getSession();
+	}
 }
