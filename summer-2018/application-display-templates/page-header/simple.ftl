@@ -23,7 +23,6 @@
     var height = $(window).height();
     var width = $(window).width();
     $('.navbar.mns-nav').addClass('mns-nav-no-header');
-    $('.navbar-brand').addClass('hidden');
 
     // Pour avoir tout le temps le menu sous forme Sticky
     if (((navigator.userAgent).match(/Tablet/i)) && height > width){
