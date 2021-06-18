@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.council.constants.CouncilConstants;
 import eu.strasbourg.portlet.council.display.context.EditCouncilSessionDisplayContext;
 import eu.strasbourg.portlet.council.display.context.EditDeliberationDisplayContext;
 import eu.strasbourg.portlet.council.display.context.EditOfficialDisplayContext;
@@ -142,6 +143,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 	private String getCategoryIdSession(RenderRequest renderRequest, ThemeDisplay themeDisplay) {
 
 		HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
+		HttpSession session = originalRequest.getSession();
 
 		String categoryCouncilId = null;
 		String categoryDelibStage= null;
@@ -160,7 +162,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 		}
 
 		// Récupère la catégorie de conseil en session
-		Object sessionObject = originalRequest.getSession().getAttribute("categoryCouncilId");
+		Object sessionObject = session.getAttribute("categoryCouncilId");
 		String sessionCategoryCouncilId = null;
 		if (Validator.isNotNull(sessionObject)) {
 			sessionCategoryCouncilId = sessionObject.toString();
@@ -177,19 +179,20 @@ public class CouncilBOPortlet extends MVCPortlet {
 
 				List<CouncilSession> todayCouncils = CouncilSessionLocalServiceUtil.findByDate(gc.getTime());
 
-				// SI on a rien en session, on cherche le conseil du jour ou le dernier conseil
-				if (todayCouncils.size() > 0) {
-
+				// Si on a rien en session, on cherche le conseil du jour ou le dernier conseil
+				if (todayCouncils.size() == 1) {
 					CouncilSession todayCouncil = todayCouncils.get(0);
-					// récupère la catégorie du conseil
-					AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, themeDisplay.getScopeGroupId());
-					Type type = TypeLocalServiceUtil.fetchType(todayCouncil.getTypeId());
-					AssetCategory typeCategory = conseil.getCategories().stream().filter(c -> c.getName().equals(type.getTitle())).findFirst().get();
-					AssetCategory councilCategory = AssetCategoryLocalServiceUtil.getChildCategories(typeCategory.getCategoryId()).stream().filter(c -> c.getName().equals(todayCouncil.getTitle())).findFirst().get();
+					categoryCouncilId = getCategorieCouncilId(themeDisplay, todayCouncil);
+					session.setAttribute("categoryCouncilId", categoryCouncilId);
 
-					categoryCouncilId=String.valueOf(councilCategory != null ? councilCategory.getCategoryId():StringUtils.EMPTY);
-					originalRequest.getSession().setAttribute("categoryCouncilId", categoryId);
+				} else if (todayCouncils.size() > 1) {
 
+					long groupId = themeDisplay.getScopeGroupId();
+					AssetCategory category = AssetVocabularyHelper.getCategory(CouncilConstants.NO_COUNCIL_CATEGORY_NAME, groupId);
+					if (category != null) {
+						categoryCouncilId = String.valueOf(category.getCategoryId());
+						session.setAttribute("categoryCouncilId", categoryCouncilId);
+					}
 				} else {
 					List<CouncilSession> futureCouncilSessions = CouncilSessionLocalServiceUtil.getCouncilSessions(-1,-1);
 
@@ -198,27 +201,18 @@ public class CouncilBOPortlet extends MVCPortlet {
 							.collect(Collectors.toList());
 
 					if (futureCouncilSessions.size() > 0) {
-
 						CouncilSession lastCouncil = futureCouncilSessions.get(0);
-						// récupère la catégorie du conseil
-						AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, themeDisplay.getScopeGroupId());
-						Type type = TypeLocalServiceUtil.fetchType(lastCouncil.getTypeId());
-						AssetCategory typeCategory = conseil.getCategories().stream().filter(c -> c.getName().equals(type.getTitle())).findFirst().get();
-						AssetCategory councilCategory = AssetCategoryLocalServiceUtil.getChildCategories(typeCategory.getCategoryId()).stream().filter(c -> c.getName().equals(lastCouncil.getTitle())).findFirst().get();
-
-						categoryCouncilId=String.valueOf(councilCategory != null ? councilCategory.getCategoryId(): StringUtils.EMPTY);
-						originalRequest.getSession().setAttribute("categoryCouncilId", categoryId);
+						categoryCouncilId = getCategorieCouncilId(themeDisplay, lastCouncil);
+						session.setAttribute("categoryCouncilId", categoryCouncilId);
 					}
 				}
-
 			} else {
 				categoryCouncilId=sessionCategoryCouncilId;
 			}
 		}
 		// Si on a sélectionné une catégorie différente à celle de la session, on prend la nouvelle et on l'enregistre en session
 		else if (!categoryCouncilId.equals(sessionCategoryCouncilId)) {
-			categoryCouncilId = categoryCouncilId;
-			originalRequest.getSession().setAttribute("categoryCouncilId", categoryCouncilId);
+			session.setAttribute("categoryCouncilId", categoryCouncilId);
 		}
 
 		final String finalCategoryCouncilId = categoryCouncilId;
@@ -238,9 +232,24 @@ public class CouncilBOPortlet extends MVCPortlet {
 				categoryCouncilId=String.valueOf(typeCoucilCats.get(0));
 			}
 		}
-
 		categoryId = categoryCouncilId +','+categoryDelibStage;
 
 		return categoryId;
+	}
+
+	/**
+	 * Récupère la catégorie du conseil
+	 */
+	private String getCategorieCouncilId(ThemeDisplay themeDisplay, CouncilSession todayCouncil) {
+
+		String categoryCouncilId;
+		AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, themeDisplay.getScopeGroupId());
+		Type type = TypeLocalServiceUtil.fetchType(todayCouncil.getTypeId());
+		AssetCategory typeCategory = conseil.getCategories().stream().filter(c -> c.getName().equals(type.getTitle())).findFirst().get();
+		AssetCategory councilCategory = AssetCategoryLocalServiceUtil.getChildCategories(typeCategory.getCategoryId()).stream().filter(c -> c.getName().equals(todayCouncil.getTitle())).findFirst().get();
+
+		categoryCouncilId = String.valueOf(councilCategory != null ? councilCategory.getCategoryId() : StringUtils.EMPTY);
+
+		return categoryCouncilId;
 	}
 }

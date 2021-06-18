@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.council.constants.CouncilConstants;
 import eu.strasbourg.portlet.council.utils.UserRoleType;
 import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.Deliberation;
@@ -194,7 +195,7 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
             _filterCategoriesIds = _filterCategoriesIds.replace(vocabularyToRemove + ",", "");
         }
 
-        String categoryToAdd =sessionCategoryToAdd;
+        String categoryToAdd = sessionCategoryToAdd;
         if (Validator.isNotNull(categoryToAdd)) {
             _filterCategoriesIds += categoryToAdd + ",";
         }
@@ -212,14 +213,12 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
         String orderByType = this.getOrderByType();
         String filterCategoriesIds = this.getFilterCategoriesIds();
         String keywords = this.getKeywords();
-        ThemeDisplay themeDisplay = (ThemeDisplay) this._request
-                .getAttribute(WebKeys.THEME_DISPLAY);
-        String portletName = (String) this._request
-                .getAttribute(WebKeys.PORTLET_ID);
-        PortletURL filterURL = PortletURLFactoryUtil.create(this._request,
-                portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+        String portletName = (String) this._request.getAttribute(WebKeys.PORTLET_ID);
         int delta = this.getSearchContainer().getDelta();
         long vocabularyToRemove = vocabulary.getVocabularyId();
+
+        ThemeDisplay themeDisplay = (ThemeDisplay) this._request.getAttribute(WebKeys.THEME_DISPLAY);
+        PortletURL filterURL = PortletURLFactoryUtil.create(this._request, portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
 
         filterURL.setParameter("tab", tab);
         filterURL.setParameter("orderByCol", orderByCol);
@@ -241,6 +240,8 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
         if(conseilVocab != null && conseilVocab.getVocabularyId() == vocabulary.getVocabularyId()) {
             List<AssetCategory> authorizedRootCategories = new ArrayList<>();
 
+            addCategorieAucunConseilSelectionne(themeDisplay, authorizedRootCategories);
+
             for (AssetCategory typeCouncilCat : UserRoleType.typeCategoriesForUser(themeDisplay)) {
                 if(rootCategories.contains(typeCouncilCat)) {
                     authorizedRootCategories.add(typeCouncilCat);
@@ -255,5 +256,15 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
             }
         }
         return managementBarFilterItems;
+    }
+
+    /**
+     * Récupère et ajoute à la liste la categorie correspondant à aucun conseil sélectionné
+     */
+    private void addCategorieAucunConseilSelectionne(ThemeDisplay themeDisplay, List<AssetCategory> authorizedRootCategories) {
+
+        long groupId = themeDisplay.getScopeGroupId();
+        AssetCategory categoryAucunConseil = AssetVocabularyHelper.getCategory(CouncilConstants.NO_COUNCIL_CATEGORY_NAME, groupId);
+        authorizedRootCategories.add(categoryAucunConseil);
     }
 }
