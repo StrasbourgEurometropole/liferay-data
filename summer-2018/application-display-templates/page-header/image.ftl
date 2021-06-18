@@ -11,7 +11,6 @@
 </header>
 
 <div class="container mns-wrapper-bread">
-    <div class="mns-bread-background"></div>
     <div class="mns-breadcrumbs mns-bread-image">
         <#if !page.ancestors?has_content || page.ancestors?reverse[0].friendlyURL != '/accueil'>
             <a href="${homeURL}"><@liferay_ui.message key="home" /></a>
