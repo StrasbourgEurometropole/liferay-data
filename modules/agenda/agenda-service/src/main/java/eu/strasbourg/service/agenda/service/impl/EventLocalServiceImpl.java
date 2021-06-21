@@ -29,6 +29,7 @@ import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -47,6 +48,7 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.agenda.exception.NoSuchEventException;
@@ -59,6 +61,8 @@ import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventLocalServiceBaseImpl;
 import eu.strasbourg.service.agenda.utils.AgendaImporter;
+import eu.strasbourg.service.agenda.model.CacheJson;
+import eu.strasbourg.service.agenda.model.Historic;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
@@ -194,6 +198,21 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 				event.getCompanyId(), event.getGroupId(), event.getUserId(),
 				Event.class.getName(), event.getPrimaryKey(), event, sc);
 		}
+
+		//Mise à jour pour CSMap
+		CacheJson cacheJson = this.cacheJsonLocalService.fetchCacheJson(event.getEventId());
+		if(Validator.isNull(cacheJson)){
+			cacheJson = this.cacheJsonLocalService.createCacheJson(event.getEventId());
+			cacheJson.setCreateEvent(event.getCreateDate());
+
+			// si il a été supprimé, on enlève la ligne dans historic
+			if(Validator.isNotNull(this.historicLocalService.fetchHistoric(event.getEventId())))
+				this.historicLocalService.deleteHistoric(event.getEventId());
+		}
+		cacheJson.setModifiedEvent(event.getModifiedDate());
+		cacheJson.setJsonEvent(event.getCSMapJSON().toString());
+		cacheJson.setIsActive((event.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
+		this.cacheJsonLocalService.updateCacheJson(cacheJson);
 
 		return event;
 	}
@@ -398,6 +417,16 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
 			event.getCompanyId(), event.getGroupId(), Event.class.getName(),
 			event.getEventId());
+
+		//Mise à jour pour CSMap
+		if(Validator.isNotNull(cacheJsonLocalService.fetchCacheJson(event.getEventId())))
+			cacheJsonLocalService.deleteCacheJson(event.getEventId());
+		Historic historic = historicLocalService.fetchHistoric(event.getEventId());
+		if(Validator.isNull(historic))
+			historic = historicLocalService.createHistoric(event.getEventId());
+		historic.setTitle(event.getTitle());
+		historic.setSuppressionDate(new Date());
+		historicLocalService.updateHistoric(historic);
 		
 		return event;
 	}
@@ -593,4 +622,18 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());
+
+	@BeanReference(
+			type = eu.strasbourg.service.agenda.service.CacheJsonLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.CacheJsonLocalService
+			cacheJsonLocalService;
+
+	@BeanReference(
+			type = eu.strasbourg.service.agenda.service.HistoricLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.HistoricLocalService
+			historicLocalService;
+
+
 }

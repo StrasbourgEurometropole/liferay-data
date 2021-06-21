@@ -269,5 +269,5 @@ cdn = path.split('/').slice(0, -2).join('/') + '/',
 customCSSLink = document.createElement('link');
 customCSSLink.rel = 'stylesheet';
 customCSSLink.type = 'text/css';
-customCSSLink.href = cdn + 'css/main.css';
+customCSSLink.href = cdn + 'css/tarteaucitron.css';
 document.getElementsByTagName('head')[0].appendChild(customCSSLink);

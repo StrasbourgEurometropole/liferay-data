@@ -272,6 +272,7 @@ function setConditionalValidators() {
             rules[namespace + 'registrationStartDate'].required = true;
             rules[namespace + 'registrationEndDate'].required = true;
             registrationDiv.style.display = "block";
+            registrationDiv.style.width = "20%";
         } else {
             rules[namespace + 'maxGauge'].required = false;
             rules[namespace + 'registrationStartDate'].required = false;
@@ -513,6 +514,7 @@ registrationTrue.onchange = function(){
     rules[namespace + 'registrationStartDate'].required = true;
     rules[namespace + 'registrationEndDate'].required = true;
     registrationDiv.style.display = "block";
+    registrationDiv.style.width = "20%";
 };
 registrationFalse.onchange = function(){
     var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
@@ -521,3 +523,10 @@ registrationFalse.onchange = function(){
     rules[namespace + 'registrationEndDate'].required = false;
     registrationDiv.style.display = "none";
 };
+var maxGauge = $('input[name=' + namespace + 'maxGauge]');
+maxGauge.on("change paste keyup", function(event) {
+    keyword = $(this).val();
+    if (keyword.length > 5) {
+        $(this).val(keyword.substring(0,keyword.length-1));
+    }
+});

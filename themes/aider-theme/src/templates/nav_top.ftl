@@ -3,11 +3,6 @@
     <#assign layoutImage = layout.expandoBridge.getAttribute('image') />
     <header id="pro-header" class="menu-no-header <#if isHome> home-menu </#if>" <#if isHome && layoutImage?has_content>style="background-image: url(${layoutImage})"</#if>>
 
-        <@liferay_portlet["runtime"]
-        portletProviderAction=portletProviderAction.VIEW
-        portletName="eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet"
-        instanceId="BigBrotherIsWatchingYou"/>
-
         <div class="pro-wrapper-top-header">
             <div class="pro-top-header">
                 <div class="container">

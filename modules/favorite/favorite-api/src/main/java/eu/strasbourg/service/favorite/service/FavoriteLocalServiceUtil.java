@@ -224,6 +224,15 @@ public class FavoriteLocalServiceUtil {
 	}
 
 	/**
+	 * Retourne la liste des favoris liferay d'un utilisateur
+	 */
+	public static java.util.List<eu.strasbourg.service.favorite.model.Favorite>
+		getCSMapFavoriteByPublikUser(String publikUserId) {
+
+		return getService().getCSMapFavoriteByPublikUser(publikUserId);
+	}
+
+	/**
 	 * Returns the favorite with the primary key.
 	 *
 	 * @param favoriteId the primary key of the favorite
@@ -275,6 +284,15 @@ public class FavoriteLocalServiceUtil {
 			getIndexableActionableDynamicQuery() {
 
 		return getService().getIndexableActionableDynamicQuery();
+	}
+
+	/**
+	 * Retourne la liste des favoris liferay d'un utilisateur
+	 */
+	public static java.util.List<eu.strasbourg.service.favorite.model.Favorite>
+		getLiferayFavoriteByPublikUser(String publikUserId) {
+
+		return getService().getLiferayFavoriteByPublikUser(publikUserId);
 	}
 
 	/**

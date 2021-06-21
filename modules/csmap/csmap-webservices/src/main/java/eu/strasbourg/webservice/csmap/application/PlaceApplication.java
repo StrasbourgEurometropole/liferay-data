@@ -48,7 +48,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author angelique.champougny
@@ -231,9 +236,9 @@ public class PlaceApplication extends Application {
 					pictoURL = pictoDefaultURL;
 
 				if (lastUpdateTime.before(categ.getCreateDate()))
-					jsonAjout.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, true));
+					jsonAjout.put(CSMapJSonHelper.placeCategoryCSMapJSON(categ, pictoURL, true));
 				else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
-					jsonModif.put(CSMapJSonHelper.categoryCSMapJSON(categ, pictoURL, updatePicto));
+					jsonModif.put(CSMapJSonHelper.placeCategoryCSMapJSON(categ, pictoURL, updatePicto));
 			}
 
 			json.put(WSConstants.JSON_ADD, jsonAjout);

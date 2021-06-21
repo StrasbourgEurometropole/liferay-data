@@ -192,6 +192,12 @@ public interface FavoriteLocalService
 	public List<Favorite> getByPublikUser(String publikUserId);
 
 	/**
+	 * Retourne la liste des favoris liferay d'un utilisateur
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Favorite> getCSMapFavoriteByPublikUser(String publikUserId);
+
+	/**
 	 * Returns the favorite with the primary key.
 	 *
 	 * @param favoriteId the primary key of the favorite
@@ -231,6 +237,12 @@ public interface FavoriteLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
+
+	/**
+	 * Retourne la liste des favoris liferay d'un utilisateur
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Favorite> getLiferayFavoriteByPublikUser(String publikUserId);
 
 	/**
 	 * Returns the OSGi service identifier.

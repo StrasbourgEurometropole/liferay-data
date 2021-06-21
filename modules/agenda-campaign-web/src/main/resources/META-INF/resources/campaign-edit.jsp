@@ -435,7 +435,7 @@
                      </aui:input>
 
                     <%-- Champ : Nombre jauge max   --%>
-                    <aui:input name="maxGauge" id="maxGauge" label="maxGauge" type="text" >
+                    <aui:input name="maxGauge" id="maxGauge" label="maxGauge" type="number" style="width:47%;" >
                         <aui:validator name="number" />
                         <aui:validator name="required"
                             errorMessage="this-field-is-required" />

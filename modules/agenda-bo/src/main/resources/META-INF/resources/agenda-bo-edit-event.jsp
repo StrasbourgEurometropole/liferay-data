@@ -254,18 +254,18 @@
                     checked="${empty dc.event or !dc.event.registration}" />
 
                 <div id="registrationDiv">
-                    <aui:input name="registrationStartDate" >
+                    <aui:input name="registrationStartDate">
                         <aui:validator name="required"
                             errorMessage="this-field-is-required" />
                      </aui:input>
 
-                    <aui:input name="registrationEndDate" >
+                    <aui:input name="registrationEndDate">
                         <aui:validator name="required"
                             errorMessage="this-field-is-required" />
                      </aui:input>
 
                     <%-- Champ : Nombre jauge max   --%>
-                    <aui:input name="maxGauge" id="maxGauge" label="maxGauge" type="text" >
+                    <aui:input name="maxGauge" id="maxGauge" label="maxGauge" type="number" style="width:47%;" >
                         <aui:validator name="number" />
                         <aui:validator name="required"
                             errorMessage="this-field-is-required" />

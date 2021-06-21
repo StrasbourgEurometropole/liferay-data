@@ -154,13 +154,6 @@ body{
 		// 	}
 		// }
 
-		.mns-line{
-			width: 100%;
-			height: 10px;
-			background: url(/o/summer-2018-theme/images/vague.png) repeat center center /contain;
-			display: block;
-			margin: 40px 0;
-		}
 
 		figure{
 			position: relative;
@@ -495,9 +488,23 @@ body{
 					color: $c_txt;
 				}
 			}
+			@media (min-width: 1000px){
+				text-shadow: #000 2px 2px 4px;
+			}
+			&:before{
+				content:'';
+				position:absolute;
+				z-index:-1;
+				top:0;
+				left:0;
+				bottom:0;
+				right:0;
+				filter:blur(4px);
+				box-shadow:inset 0 0 0 50vw rgba(255,255,255,0.2)
+			  }
 		}
 		a{
-			@include ft($f_ms, 13px, 400, $c_white, normal);
+			@include ft($f_ms, 16px, 400, $c_white, normal);
 			position: relative;
 			display: inline-block;
 			@include an(all,0.3);
@@ -511,12 +518,10 @@ body{
 				vertical-align: middle;
 				margin-left: 5px;
 			}
-			&:hover{
-				color: $c_main;
-			}
 		}
 		span{
-			@include ft($f_ms, 13px, 700, $c_white, normal);
+			position: relative;
+			@include ft($f_ms, 16px, 700, $c_white, normal);
 		}
 	}
 }

@@ -45,15 +45,12 @@ import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.FileEntryHelper;
-import eu.strasbourg.utils.JSONHelper;
-import eu.strasbourg.utils.MailHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.*;
 import eu.strasbourg.utils.models.LegacyPlace;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -620,7 +617,11 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 		// Image et copyright
 		if (Validator.isNotNull(this.getWebImageURL())) {
-			jsonEvent.put("imageURL", StrasbourgPropsUtil.getAgendaPlatformURL() + this.getWebImageURL());
+			try{
+				jsonEvent.put("imageURL", UriHelper.appendUriImagePreview(StrasbourgPropsUtil.getAgendaPlatformURL() + this.getWebImageURL()).toString());
+			} catch(URISyntaxException e) {
+				jsonEvent.put("imageURL", StrasbourgPropsUtil.getAgendaPlatformURL() + this.getWebImageURL());
+			}
 		} else {
 			String defaultImageURL = this.getCampaign().getDefaultImageURL();
 			if (Validator.isNotNull(defaultImageURL)) {

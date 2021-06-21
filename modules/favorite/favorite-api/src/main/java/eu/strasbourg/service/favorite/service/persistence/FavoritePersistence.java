@@ -531,4 +531,7 @@ public interface FavoritePersistence extends BasePersistence<Favorite> {
 	 */
 	public int countAll();
 
+	@Override
+	public Set<String> getBadColumnNames();
+
 }
