@@ -10,23 +10,23 @@ $(window).on( "load",function() {
 
 
 function destroyPopinObjtpRule(){
-    $('#favConfirm')[0].style.display ='none';
-    $('#favConfirm').remove().off('clickfavConfirm');
-    $('.seu').off('click.favconfirm').removeClass('overlayed');
+    $('#rubricPopup')[0].style.display ='none';
+    $('#rubricPopup').remove().off('clickrubricpopup');
+    $('.seu').off('click.rubricPopup').removeClass('overlayed');
 }
 function createPopinObjtpRule(){
     
-    var template =$('#favConfirm')
-    $('#favConfirm')[0].style.display ='';
+    var template =$('#rubricPopup')
+    $('#rubricPopup')[0].style.display ='';
     $('body').append(template);
     $('.seu').addClass('overlayed');
 
 
-    $('#favConfirm .deny').on('click.favConfirm', function(e){       
+    $('#rubricPopup .deny').on('click.rubricPopup', function(e){       
         destroyPopinObjtpRule();
         window.history.back();
     });
-    $('#favConfirm .confirm').on('click.favConfirm', function(){
+    $('#rubricPopup .confirm').on('click.rubricPopup', function(){
         destroyPopinObjtpRule();
         document.cookie = 'has-consent-objtp-rule=true; '+ getCookieExpireDate() +' ; path=/';
     });
