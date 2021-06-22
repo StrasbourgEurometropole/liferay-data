@@ -67,7 +67,7 @@
         .filtres{
 
 
-            &__title{
+            &__title, &__title label{
                 font-family: $fancy-font;
             }
             &__item{
@@ -129,6 +129,10 @@
                     }
                 }
 
+            }
+
+            input{
+                @extend %atom-form-input;
             }
 
 
@@ -196,6 +200,9 @@
                         color: $core-color;
                         .icon{
                             background-image: url( svg-bg-uri($svg-poi-list, $core-color) );
+                        }
+                        @include RWD(desktop){
+                            display: none;
                         }
                     }
                     &__item{

@@ -9,12 +9,7 @@
             ame.$trigger_top = ame.$ame.find('.top__trigger'),
             ame.$panel_top = ame.$ame.find('#aroundme__top'),
             ame.$filters = ame.$ame.find("#aroundme__top input[type='checkbox'], #aroundme__top select, #aroundme__top input[data-type='date']"),
-            ame.$filters_from_date_day = ame.$ame.find("#aroundme__top input[data-name='fromDay']"),
-            ame.$filters_from_date_month = ame.$ame.find("#aroundme__top input[data-name='fromMonth']"),
-            ame.$filters_from_date_year = ame.$ame.find("#aroundme__top input[data-name='fromYear']"),
-            ame.$filters_to_date_day = ame.$ame.find("#aroundme__top input[data-name='toDay']"),
-            ame.$filters_to_date_month = ame.$ame.find("#aroundme__top input[data-name='toMonth']"),
-            ame.$filters_to_date_year = ame.$ame.find("#aroundme__top input[data-name='toYear']"),
+            ame.$filters_dates = ame.$ame.find("#aroundme__top input[data-type='date']"),
             ame.$filters_categories = ame.$ame.find("#aroundme__top .categories input[type='checkbox']"),
             ame.$filters_categories_list = ame.$ame.find("#aroundme__top .categories select"),
             ame.$filters_interests = ame.$ame.find("#aroundme__top .interests input[type='checkbox']"),
@@ -465,19 +460,21 @@
             }
 
             // Ajoute à la liste des markers ceux des catégories
-            var addCategoriesMarkers = function(markers, categories) {
+            var addCategoriesMarkers = function(markers, categories, vocabulariesEmptyIds) {
                 requestsInProgress++;
                 showLoadingIcon();
+                ame.$filters_dates;
                 Liferay.Service(
                     '/strasbourg.strasbourg/get-categories-pois', {
                         categories: categories,
+                        vocabulariesEmptyIds: vocabulariesEmptyIds,
                         prefilters: window.prefilterCategoriesIds,
                         tags: window.prefilterTags,
                         groupId: window.groupId,
                         typeContenu: window.typesContenu,
                         dateField: window.dateField,
-                        fromDate: ame.$filters_from_date_day.attr('value')+"/"+(parseInt(ame.$filters_from_date_month.attr('value')) + 1 )+"/"+ame.$filters_from_date_year.attr('value'),
-                        toDate: ame.$filters_to_date_day.attr('value')+"/"+(parseInt(ame.$filters_to_date_month.attr('value')) + 1 )+"/"+ame.$filters_to_date_year.attr('value'),
+                        fromDate: $(ame.$filters_dates)[0]!=undefined?$(ame.$filters_dates)[0].value:'',
+                        toDate: $(ame.$filters_dates)[1]!=undefined?$(ame.$filters_dates)[1].value:'',
                         localeId: Liferay.ThemeDisplay.getLanguageId(),
                         globalGroupId: window.globalGroupId
                     },
@@ -577,56 +574,68 @@
                 mymap.removeLayer(markers);
                 markers.clearLayers();
 
-                // Récupération des catégories à afficher
-                // on sépare les catégories d'un même vocabulaire par une virguke et les vocabulaire par un point-virgule
+                // Récupération des catégories à afficher et des vocabulaires qui n'ont aucune catégorie cochées
                 var categories = "";
-                var oldVocabulary = -1;
+                var vocabulariesEmptyIds = "";
+                var vocabularyId = -1;
+                var hasVocabulary = true;
                 // checkbox
                 $(ame.$filters_categories).each(function() {
+                    if(vocabularyId != $(this).attr('data-vocabulary')){
+                        if(!hasVocabulary){
+                            if(vocabulariesEmptyIds.length > 0){
+                                vocabulariesEmptyIds += ",";
+                            }
+                            vocabulariesEmptyIds += vocabularyId;
+                        }
+                        vocabularyId = $(this).attr('data-vocabulary');
+                        hasVocabulary = false;
+                    }
                     if ($(this).is(':checked')) {
-                        if (oldVocabulary != $(this).attr("data-vocabulary")) {
-                            if (categories.length > 0)
-                                categories = categories + ";";
-                            oldVocabulary = $(this).attr("data-vocabulary");
-                        }else if (categories.length > 0) {
+                        hasVocabulary = true;
+                        if (categories.length > 0) {
                             categories = categories + ",";
                         }
                         categories = categories + $(this).attr('value');
                     }
                 })
+                if(!hasVocabulary){
+                    if(vocabulariesEmptyIds.length > 0){
+                        vocabulariesEmptyIds += ",";
+                    }
+                    vocabulariesEmptyIds += vocabularyId;
+                }
 
                 // liste
-                var allCategoriesList = "";
                 $(ame.$filters_categories_list).each(function() {
-                    if (allCategoriesList.length > 0) {
-                        allCategoriesList = allCategoriesList + ";";
-                    }
-                    if (categories.length > 0 && categories.slice(-1) != ";") {
-                        categories = categories + ";";
-                    }
+                    var allCategoriesVocabulary = "";
+                    var categoriesVocabulary = "";
                     $(this).find('option').each(function(){
-                        if (allCategoriesList.length > 0 && allCategoriesList.slice(-1) != ";") {
-                            allCategoriesList = allCategoriesList + ",";
+                        if (allCategoriesVocabulary.length > 0) {
+                            allCategoriesVocabulary = allCategoriesVocabulary + ",";
                         }
-                        allCategoriesList = allCategoriesList + this.value;
+                        allCategoriesVocabulary = allCategoriesVocabulary + this.value;
                         if ($(this).is(':selected')) {
-                            if (categories.length > 0 && categories.slice(-1) != ";") {
-                                categories = categories + ",";
+                            if (categoriesVocabulary.length > 0) {
+                                categoriesVocabulary = categoriesVocabulary + ",";
                             }
-                            categories = categories + this.value;
+                            categoriesVocabulary = categoriesVocabulary + this.value;
                         }
                     });
+                    if (categories.length > 0) {
+                        categories = categories + ",";
+                    }
+                    // si aucune catégorie n'est cochée dans la liste,
+                    // on ajoute toutes les catégories de la liste
+                    if (categoriesVocabulary.length > 0) {
+                        categories = categories + categoriesVocabulary;
+                    }else{
+                        categories = categories + allCategoriesVocabulary;
+                    }
                 })
-                if (categories.slice(-1) == ";") {
-                    categories = categories.replace(';','');
-                }
 
                 // Récupération des données concernant les catégories
-                if (categories.length > 0) {
-                    addCategoriesMarkers(markers, categories);
-                }else if (allCategoriesList.length > 0) {
-                    addCategoriesMarkers(markers, allCategoriesList);
-                }
+                addCategoriesMarkers(markers, categories, vocabulariesEmptyIds);
 
                 // Récupération des centres d'intérêts à afficher
                 var interests = "";
@@ -743,10 +752,6 @@
                 if(mode != 'normal')
                     saveUserConfig();
                 showPois();
-            });
-
-            $('#mapid').on('click', '.infowindow__close', function() {
-                mymap.closePopup();
             });
 
             // Affichage de la zone

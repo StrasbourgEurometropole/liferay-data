@@ -29,11 +29,11 @@
 		                    <c:set var="checkboxNamesCategories" value="" />
                             <c:if test="${dateField}">
                                 <div class="seu-filter-line">
-                                    <div class="widget">
-                                        <h2 class="title">
-                                            <label for="date-start" class="filtres__title"><liferay-ui:message key="eu.event.from-date" /></label>
-                                        </h2>
-                                        <div class="content">
+                                    <div class="widget filtres__title">
+                                        <div class="title">
+                                            <label class="option" for="date-start"><liferay-ui:message key="eu.event.from-date" /></label>
+                                        </div>
+                                        <div class="content type-date">
                                             <input name="from" data-type="date" type="text" id="date-start" placeholder="JJ/MM/AAAA"
                                                 value="${fromDay}/${fromMonth}/${fromYear}">
                                             <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${fromDay}" />
@@ -41,11 +41,11 @@
                                             <input type="hidden" name="<portlet:namespace />fromYear" data-name="fromYear" value="${fromYear}" />
                                         </div>
                                     </div>
-                                    <div class="widget">
-                                        <h2 class="title">
-                                            <label for="date-end" class="filtres__title"><liferay-ui:message key="eu.event.to" /></label>
-                                        </h2>
-                                        <div class="content">
+                                    <div class="widget filtres__title">
+                                        <div class="title">
+                                            <label class="option" for="date-end"><liferay-ui:message key="eu.event.to" /></label>
+                                        </div>
+                                        <div class="content type-date">
                                             <input name="to" data-type="date" type="text" id="date-end" placeholder="JJ/MM/AAAA"
                                                 value="${toDay}/${toMonth}/${toYear}">
                                             <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${toDay}" />
@@ -58,30 +58,30 @@
                             <c:if test="${!displayCheckbox}">
                                 <div class="filtres__list filtres__title" style="width: 100%; margin-top: 20px;">
                             </c:if>
-		                    <c:forEach var="vocabularyGroups" items="${vocabularyGroups}" varStatus="groupVocabularyLoopStatus">
+		                    <c:forEach var="categoriesVocabulary" items="${categoriesVocabularies}" varStatus="categoriesVocabularyLoopStatus">
                                 <c:if test="${displayCheckbox}">
-                                    <h2 class="filtres__title" style="flex-basis: 100%; margin-top: 20px;"><liferay-ui:message key="filter-by" arguments="${vocabularyGroups.key[1]}" /></h2>
+                                    <h2 class="filtres__title" style="flex-basis: 100%; margin-top: 20px;"><liferay-ui:message key="filter-by" arguments="${categoriesVocabulary.key[1]}" /></h2>
                                     <div class="filtres__list" style="width: 100%">
-                                        <c:forEach var="category" items="${vocabularyGroups.value}" varStatus="intStatus">
-                                            <c:set var="checkboxNamesCategories" value="${checkboxNamesCategories},categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}" />
+                                        <c:forEach var="category" items="${categoriesVocabulary.value}" varStatus="intStatus">
+                                            <c:set var="checkboxNamesCategories" value="${checkboxNamesCategories},categoryPointId_${categoriesVocabularyLoopStatus.index}_${intStatus.index}" />
                                             <div class="filtres__item form-group grid-item categories">
                                                 <input
-                                                    name="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}"
+                                                    name="<portlet:namespace />categoryPointId_${categoriesVocabularyLoopStatus.index}_${intStatus.index}"
                                                     type="checkbox"
                                                     value="${category.categoryId}"
-                                                    data-vocabulary="${category.vocabularyId}"
-                                                    id="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}"
+                                                    data-vocabulary = "${categoriesVocabulary.key[0]}"
+                                                    id="<portlet:namespace />categoryPointId_${categoriesVocabularyLoopStatus.index}_${intStatus.index}"
                                                     <c:if test="${fn:contains(categoriesCheckedIds, category.categoryId) || !hasConfig}">
                                                         checked
                                                     </c:if>
                                                 >
-                                                <label for="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}" class="option">
+                                                <label for="<portlet:namespace />categoryPointId_${categoriesVocabularyLoopStatus.index}_${intStatus.index}" class="option">
                                                     ${category.getTitle(locale)}
 
                                                     <c:set var="prefilters" value="${fn:replace(prefilterCategoriesIds,'\"','')}" />
                                                     <c:set var="fromDate" value="${fromDay}/${fromMonth}/${fromYear}" />
                                                     <c:set var="toDate" value="${toDay}/${toMonth}/${toYear}" />
-                                                    (${dc.getPoisCategoryCount(category.categoryId, prefilters, prefilterTags, groupId, typesContenu, dateField, fromDate, toDate, locale, globalGroupId)})
+                                                    <%-- (${dc.getPoisCategoryCount(category.categoryId, prefilters, prefilterTags, groupId, typesContenu, dateField, fromDate, toDate, locale, globalGroupId)}) --%>
 
                                                     <c:if test="${showPictos && !category.getDescription(locale).equals(\"\")}">
                                                         <img src="${category.getDescription(locale)}">
@@ -94,13 +94,13 @@
                                 <c:if test="${!displayCheckbox}">
                                     <div class="filtres__item form-group grid-item categories">
                                         <div class="title">
-                                            <label for="vocabulary_${groupVocabularyLoopStatus.index}">${vocabularyGroups.key[1]}</label>
+                                            <label class="option" for="vocabulary_${categoriesVocabularyLoopStatus.index}">${categoriesVocabulary.key[1]}</label>
                                         </div>
                                         <div class="content">
-                                            <select class="categories" id="vocabulary_${groupVocabularyLoopStatus.index}" multiple="multiple" name="<portlet:namespace />vocabulary_${groupVocabularyLoopStatus.index}">
-                                                <c:forEach items="${vocabularyGroups.value}" var="categ">
+                                            <select class="categories" id="vocabulary_${categoriesVocabularyLoopStatus.index}" multiple="multiple" name="<portlet:namespace />vocabulary_${categoriesVocabularyLoopStatus.index}">
+                                                <c:forEach items="${categoriesVocabulary.value}" var="categ">
                                                     <c:set var="showParents" value="1" scope="request"/>
-                                                    <c:if test="${vocabularyGroups.value.size() == 1}">
+                                                    <c:if test="${categoriesVocabulary.value.size() == 1}">
                                                         <c:set var="showParents" value="0" scope="request"/>
                                                     </c:if>
                                                     <c:set var="category" value="${categ}" scope="request"/>
@@ -131,7 +131,7 @@
 										>
 										<label for="<portlet:namespace />showFavorites" class="option">
 											Mes favoris
-											(${dc.getFavoritesPoisCount(groupId, typesContenu)})
+											<%-- (${dc.getFavoritesPoisCount(groupId, typesContenu)}) --%>
 										</label>
 									</div>
 								</c:if>
@@ -149,7 +149,7 @@
 		                                >
 		                                <label for="<portlet:namespace />interestPointId_${groupLoopStatus.index}_${intStatus.index}" class="option">
 		                                	${interest.getTitle(locale)}
-		                                	(${dc.getPoisInterestCount(interest.interestId, groupId, typesContenu, locale, globalGroupId)})
+		                                	<%-- (${dc.getPoisInterestCount(interest.interestId, groupId, typesContenu, locale, globalGroupId)}) --%>
 		                                </label>
 		                            </div>
 		                        </c:forEach>
@@ -234,3 +234,41 @@
         window.interestPointUrl = '${interestPointURL}';
     </aui:script>
 </liferay-util:body-top>
+
+<liferay-util:html-bottom>
+    <script>
+        $(document).ready(function() {
+            if($('input[data-type="date"]').length){
+                $('input[data-type="date"]').datepicker(
+                    $.extend({
+                        onClose: function(date, instance) {
+                            var name = instance.input[0].name;
+                            if ($('input[data-name="' + name + 'Day"').length) {
+                                var dayInput = $('input[data-name="' + name + 'Day"');
+                                var monthInput = $('input[data-name="' + name + 'Month"');
+                                var yearInput = $('input[data-name="' + name + 'Year"');
+                                dayInput[0].value = instance.selectedDay;
+                                monthInput[0].value = instance.selectedMonth;
+                                yearInput[0].value = instance.selectedYear;
+                            }
+                        }
+                    }, $.datepicker.regional[ "fr" ])
+                );
+            }
+        });
+    </script>
+    <script src="/o/mapweb/js/jquery-ui.min.js"></script>
+    <script src="/o/mapweb/js/jquery-ui-datepicker-fr.js"></script>
+    <script src="/o/mapweb/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('select[multiple="multiple"]').each(function(index, element){
+                var placeholder = $(element).find('option[disabled]').text();
+                $(element).select2({
+                    placeholder: placeholder,
+                    closeOnSelect: false
+                });
+            })
+        });
+    </script>
+</liferay-util:html-bottom>

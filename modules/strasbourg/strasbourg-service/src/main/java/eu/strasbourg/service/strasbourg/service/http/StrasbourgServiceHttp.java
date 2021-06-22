@@ -206,101 +206,6 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
-	public static int getPoisCategoryCount(
-		HttpPrincipal httpPrincipal, long idCategory, String prefilters,
-		String tags, long groupId, String typeContenu, boolean dateField,
-		String fromDate, String toDate, String localeId, long globalGroupId) {
-
-		try {
-			MethodKey methodKey = new MethodKey(
-				StrasbourgServiceUtil.class, "getPoisCategoryCount",
-				_getPoisCategoryCountParameterTypes8);
-
-			MethodHandler methodHandler = new MethodHandler(
-				methodKey, idCategory, prefilters, tags, groupId, typeContenu,
-				dateField, fromDate, toDate, localeId, globalGroupId);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(
-					e);
-			}
-
-			return ((Integer)returnObj).intValue();
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
-	public static int getPoisInterestCount(
-		HttpPrincipal httpPrincipal, long idInterest, long groupId,
-		String typeContenu, String localeId, long globalGroupId) {
-
-		try {
-			MethodKey methodKey = new MethodKey(
-				StrasbourgServiceUtil.class, "getPoisInterestCount",
-				_getPoisInterestCountParameterTypes9);
-
-			MethodHandler methodHandler = new MethodHandler(
-				methodKey, idInterest, groupId, typeContenu, localeId,
-				globalGroupId);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(
-					e);
-			}
-
-			return ((Integer)returnObj).intValue();
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
-	public static int getFavoritesPoisCount(
-		HttpPrincipal httpPrincipal, long groupId, String typeContenu) {
-
-		try {
-			MethodKey methodKey = new MethodKey(
-				StrasbourgServiceUtil.class, "getFavoritesPoisCount",
-				_getFavoritesPoisCountParameterTypes10);
-
-			MethodHandler methodHandler = new MethodHandler(
-				methodKey, groupId, typeContenu);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(
-					e);
-			}
-
-			return ((Integer)returnObj).intValue();
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
 	public static com.liferay.portal.kernel.json.JSONObject getInterestsPois(
 		HttpPrincipal httpPrincipal, String interests, long groupId,
 		String typeContenu, String localeId, long globalGroupId) {
@@ -308,7 +213,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getInterestsPois",
-				_getInterestsPoisParameterTypes11);
+				_getInterestsPoisParameterTypes8);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, interests, groupId, typeContenu, localeId,
@@ -334,77 +239,20 @@ public class StrasbourgServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getCategoriesPois(
-		HttpPrincipal httpPrincipal, String categories, String prefilters,
-		String tags, long groupId, String typeContenu, boolean dateField,
-		String fromDate, String toDate, String localeId, long globalGroupId) {
+		HttpPrincipal httpPrincipal, String categories,
+		String vocabulariesEmptyIds, String prefilters, String tags,
+		long groupId, String typeContenu, boolean dateField, String fromDate,
+		String toDate, String localeId, long globalGroupId) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getCategoriesPois",
-				_getCategoriesPoisParameterTypes12);
+				_getCategoriesPoisParameterTypes9);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, categories, prefilters, tags, groupId, typeContenu,
-				dateField, fromDate, toDate, localeId, globalGroupId);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(
-					e);
-			}
-
-			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
-		HttpPrincipal httpPrincipal, long groupId) {
-
-		try {
-			MethodKey methodKey = new MethodKey(
-				StrasbourgServiceUtil.class, "getFavoritesPois",
-				_getFavoritesPoisParameterTypes13);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey, groupId);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(
-					e);
-			}
-
-			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
-		HttpPrincipal httpPrincipal, long groupId, String typeContenu) {
-
-		try {
-			MethodKey methodKey = new MethodKey(
-				StrasbourgServiceUtil.class, "getFavoritesPois",
-				_getFavoritesPoisParameterTypes14);
-
-			MethodHandler methodHandler = new MethodHandler(
-				methodKey, groupId, typeContenu);
+				methodKey, categories, vocabulariesEmptyIds, prefilters, tags,
+				groupId, typeContenu, dateField, fromDate, toDate, localeId,
+				globalGroupId);
 
 			Object returnObj = null;
 
@@ -432,7 +280,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getFavoritesPois",
-				_getFavoritesPoisParameterTypes15);
+				_getFavoritesPoisParameterTypes10);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupId, typeContenu, localeId);
@@ -462,7 +310,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "hidePortlet",
-				_hidePortletParameterTypes16);
+				_hidePortletParameterTypes11);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, portletId);
@@ -490,7 +338,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getCoordinateForAddress",
-				_getCoordinateForAddressParameterTypes17);
+				_getCoordinateForAddressParameterTypes12);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, address, zipCode, city);
@@ -520,7 +368,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getTraffic",
-				_getTrafficParameterTypes18);
+				_getTrafficParameterTypes13);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -549,7 +397,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getAlerts",
-				_getAlertsParameterTypes19);
+				_getAlertsParameterTypes14);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -578,7 +426,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "unfoldPortlet",
-				_unfoldPortletParameterTypes20);
+				_unfoldPortletParameterTypes15);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, portletId);
@@ -604,7 +452,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "foldPortlet",
-				_foldPortletParameterTypes21);
+				_foldPortletParameterTypes16);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, portletId);
@@ -632,7 +480,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getPracticeCategories",
-				_getPracticeCategoriesParameterTypes22);
+				_getPracticeCategoriesParameterTypes17);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, parentCategoryId, localeId);
@@ -664,7 +512,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "addDocument",
-				_addDocumentParameterTypes23);
+				_addDocumentParameterTypes18);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, fileContent, fileName, commissionName,
@@ -703,49 +551,35 @@ public class StrasbourgServiceHttp {
 		new Class[] {String.class, String.class};
 	private static final Class<?>[] _getArticleHTMLContentParameterTypes7 =
 		new Class[] {long.class, String.class};
-	private static final Class<?>[] _getPoisCategoryCountParameterTypes8 =
-		new Class[] {
-			long.class, String.class, String.class, long.class, String.class,
-			boolean.class, String.class, String.class, String.class, long.class
-		};
-	private static final Class<?>[] _getPoisInterestCountParameterTypes9 =
-		new Class[] {
-			long.class, long.class, String.class, String.class, long.class
-		};
-	private static final Class<?>[] _getFavoritesPoisCountParameterTypes10 =
-		new Class[] {long.class, String.class};
-	private static final Class<?>[] _getInterestsPoisParameterTypes11 =
+	private static final Class<?>[] _getInterestsPoisParameterTypes8 =
 		new Class[] {
 			String.class, long.class, String.class, String.class, long.class
 		};
-	private static final Class<?>[] _getCategoriesPoisParameterTypes12 =
+	private static final Class<?>[] _getCategoriesPoisParameterTypes9 =
 		new Class[] {
-			String.class, String.class, String.class, long.class, String.class,
-			boolean.class, String.class, String.class, String.class, long.class
+			String.class, String.class, String.class, String.class, long.class,
+			String.class, boolean.class, String.class, String.class,
+			String.class, long.class
 		};
-	private static final Class<?>[] _getFavoritesPoisParameterTypes13 =
-		new Class[] {long.class};
-	private static final Class<?>[] _getFavoritesPoisParameterTypes14 =
-		new Class[] {long.class, String.class};
-	private static final Class<?>[] _getFavoritesPoisParameterTypes15 =
+	private static final Class<?>[] _getFavoritesPoisParameterTypes10 =
 		new Class[] {long.class, String.class, String.class};
-	private static final Class<?>[] _hidePortletParameterTypes16 = new Class[] {
+	private static final Class<?>[] _hidePortletParameterTypes11 = new Class[] {
 		String.class
 	};
-	private static final Class<?>[] _getCoordinateForAddressParameterTypes17 =
+	private static final Class<?>[] _getCoordinateForAddressParameterTypes12 =
 		new Class[] {String.class, String.class, String.class};
-	private static final Class<?>[] _getTrafficParameterTypes18 = new Class[] {
+	private static final Class<?>[] _getTrafficParameterTypes13 = new Class[] {
 		
 	};
-	private static final Class<?>[] _getAlertsParameterTypes19 = new Class[] {};
-	private static final Class<?>[] _unfoldPortletParameterTypes20 =
+	private static final Class<?>[] _getAlertsParameterTypes14 = new Class[] {};
+	private static final Class<?>[] _unfoldPortletParameterTypes15 =
 		new Class[] {String.class};
-	private static final Class<?>[] _foldPortletParameterTypes21 = new Class[] {
+	private static final Class<?>[] _foldPortletParameterTypes16 = new Class[] {
 		String.class
 	};
-	private static final Class<?>[] _getPracticeCategoriesParameterTypes22 =
+	private static final Class<?>[] _getPracticeCategoriesParameterTypes17 =
 		new Class[] {long.class, String.class};
-	private static final Class<?>[] _addDocumentParameterTypes23 = new Class[] {
+	private static final Class<?>[] _addDocumentParameterTypes18 = new Class[] {
 		String.class, String.class, String.class, String.class, String.class,
 		String.class
 	};

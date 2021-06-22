@@ -86,9 +86,9 @@ public interface StrasbourgService extends BaseService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getCategoriesPois(
-		String categories, String prefilters, String tags, long groupId,
-		String typeContenu, boolean dateField, String fromDate, String toDate,
-		String localeId, long globalGroupId);
+		String categories, String vocabulariesEmptyIds, String prefilters,
+		String tags, long groupId, String typeContenu, boolean dateField,
+		String fromDate, String toDate, String localeId, long globalGroupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getCoordinateForAddress(
@@ -98,17 +98,8 @@ public interface StrasbourgService extends BaseService {
 	public JSONObject getCopyright(long groupId, String uuid, String language);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getFavoritesPois(long groupId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getFavoritesPois(long groupId, String typeContenu);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getFavoritesPois(
 		long groupId, String typeContenu, String localeId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getFavoritesPoisCount(long groupId, String typeContenu);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getFileDetails(
@@ -125,17 +116,6 @@ public interface StrasbourgService extends BaseService {
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getPoisCategoryCount(
-		long idCategory, String prefilters, String tags, long groupId,
-		String typeContenu, boolean dateField, String fromDate, String toDate,
-		String localeId, long globalGroupId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getPoisInterestCount(
-		long idInterest, long groupId, String typeContenu, String localeId,
-		long globalGroupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getPracticeCategories(

@@ -425,19 +425,19 @@
     .btn-line{
         margin-top: 20px;
     }
-}
-
-/* ------------------------------ Etat full screen */
-
-#wi-aroundme .aroundme--fullscreen #wi-aroundme{
-    #aroundme{
-        z-index: 1400;
-        .aroundme__ui--fullscreen{
-            background-image: url( svg-bg-uri($svg-smallscreen, #FFFFFF) );
+    
+    .aroundme--fullscreen #wi-aroundme{
+        #aroundme{
+            z-index: 1400;
+            .aroundme__ui--fullscreen{
+                background-image: url( svg-bg-uri($svg-smallscreen, #FFFFFF) );
+            }
         }
+    }
+    
+    #ui-datepicker-div .ui-datepicker-header {
+        background-color: $third-color;
     }
 }
 
-#ui-datepicker-div .ui-datepicker-header {
-    background-color: $third-color;
-}
+/* ------------------------------ Etat full screen */

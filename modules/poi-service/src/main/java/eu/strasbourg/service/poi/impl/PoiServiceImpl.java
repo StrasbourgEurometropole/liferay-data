@@ -2,8 +2,10 @@ package eu.strasbourg.service.poi.impl;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -12,7 +14,7 @@ import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -51,7 +53,8 @@ import java.util.stream.Stream;
 @Component(immediate = true, property = {}, service = PoiService.class)
 public class PoiServiceImpl implements PoiService {
 
-	public int getPoisCategoryCount(long idCategory, String prefilters, String tags, long groupId, String classNames,
+	//AngelTODO à réintégrer un fois que la gestion du territoire et des coordonnées de tous les events physiques sans exception sera faite
+	/*public int getPoisCategoryCount(long idCategory, String prefilters, String tags, long groupId, String classNames,
 									boolean dateField, String fromDate, String toDate, String localeId, long globalGroupId) {
 
 		return (int) getCount(-1, idCategory, prefilters, tags, groupId,
@@ -61,7 +64,7 @@ public class PoiServiceImpl implements PoiService {
 	public int getPoisInterestCount(long idInterest, long groupId, String classNames, String localeId, long globalGroupId) {
 
 		return (int) getCount(idInterest, -1, "", "", groupId,
-				classNames, false, "", "", localeId, globalGroupId);
+				classNames, true, "", "", localeId, globalGroupId);
 	}
 
 	public int getFavoritesPoisCount(String userId, long groupId, String classNames) {
@@ -101,38 +104,100 @@ public class PoiServiceImpl implements PoiService {
 			}
 		}
 		return count;
-	}
+	}*/
 
-	public JSONObject getPois(String idInterestsString, String idCategoriesString, String prefiltersString, String tagsString, long groupId,
-							  String classNames, boolean dateField, String fromDate, String toDate, String localeId, long globalGroupId) {
+	public JSONObject getPois(String idInterestsString, String idCategoriesString, String vocabulariesEmptyIds,
+							  String prefiltersString, String tagsString, long groupId, String classNames,
+							  boolean dateField, String fromDate, String toDate, String localeId, long globalGroupId) {
 		JSONObject geoJson = null;
 
 		// Recherche
-		Hits hits = getHit(idInterestsString, idCategoriesString, prefiltersString, tagsString, groupId, classNames,
-				dateField, fromDate, toDate, localeId, globalGroupId);
+		List<Place> places = new ArrayList<Place>();
+		if (classNames.equals("all") || classNames.contains(Place.class.getName())) {
+			List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
+					.getGroupsVocabularies(new long[]{groupId, globalGroupId}, Place.class.getName());
+			vocabularies = vocabularies.stream().filter(v -> vocabulariesEmptyIds.contains(""+v.getVocabularyId()))
+					.collect(Collectors.toList());
+			if(!vocabularies.isEmpty())
+				System.out.println("Pas de lieu à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
+			else{
+				// récupère les lieux des catégories et centres d'intérêt
+				long classNameId = ClassNameLocalServiceUtil.getClassName(Place.class.getName()).getClassNameId();
+				List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
+				List<Long[]> prefilters = getCategories("", prefiltersString, classNameId);
+				Hits hits = getHit(categories, prefilters, tagsString, groupId, Place.class.getName(),
+						false, fromDate, toDate, localeId, globalGroupId);
 
-		List<Place> places = new ArrayList<>();
-		List<Event> events = new ArrayList<>();
-		List<Arret> arrets = new ArrayList<>();
-		if (hits != null) {
-			for (Document document : hits.getDocs()) {
-				AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
-						GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-				if (entry != null) {
-					switch (entry.getClassName()){
-						case "eu.strasbourg.service.place.model.Place":
+				if (hits != null) {
+					for (Document document : hits.getDocs()) {
+						AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
+								GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
+								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+						if (entry != null) {
 							Place place = _placeLocalService.fetchPlace(entry.getClassPK());
 							places.add(place);
-							break;
-						case "eu.strasbourg.service.gtfs.model.Arret":
-							Arret arret = _arretLocalService.fetchArret(entry.getClassPK());
-							arrets.add(arret);
-							break;
-						case "eu.strasbourg.service.agenda.model.Event":
+						}
+					}
+				}
+			}
+		}
+
+		List<Event> events = new ArrayList<Event>();
+		if (classNames.equals("all") || classNames.contains(Event.class.getName())) {
+			List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
+					.getGroupsVocabularies(new long[]{groupId, globalGroupId}, Event.class.getName());
+			vocabularies = vocabularies.stream().filter(v -> vocabulariesEmptyIds.contains(""+v.getVocabularyId()))
+					.collect(Collectors.toList());
+			if(!vocabularies.isEmpty())
+				System.out.println("Pas d'événement à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
+			else {
+				// récupère les évènements des catégories et centres d'intérêt
+				long classNameId = ClassNameLocalServiceUtil.getClassName(Event.class.getName()).getClassNameId();
+				List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
+				List<Long[]> prefilters = getCategories("", prefiltersString, classNameId);
+				Hits hits = getHit(categories, prefilters, tagsString, groupId, Event.class.getName(),
+						dateField, fromDate, toDate, localeId, globalGroupId);
+
+				if (hits != null) {
+					for (Document document : hits.getDocs()) {
+						AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
+								GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
+								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+						if (entry != null) {
 							Event event = _eventLocalService.fetchEvent(entry.getClassPK());
 							events.add(event);
-							break;
+						}
+					}
+				}
+			}
+		}
+
+		// récupère les arrêts
+		List<Arret> arrets = new ArrayList<Arret>();
+		if (classNames.equals("all") || classNames.contains(Arret.class.getName())) {
+			List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
+					.getGroupsVocabularies(new long[]{groupId, globalGroupId}, Arret.class.getName());
+			vocabularies = vocabularies.stream().filter(v -> vocabulariesEmptyIds.contains(""+v.getVocabularyId()))
+					.collect(Collectors.toList());
+			if(!vocabularies.isEmpty())
+				System.out.println("Pas d'arrêt à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
+			else {
+				// récupère les arrets des catégories et centres d'intérêt
+				long classNameId = ClassNameLocalServiceUtil.getClassName(Arret.class.getName()).getClassNameId();
+				List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
+				List<Long[]> prefilters = getCategories("", prefiltersString, classNameId);
+				Hits hits = getHit(categories, prefilters, tagsString, groupId, Arret.class.getName(),
+						false, fromDate, toDate, localeId, globalGroupId);
+
+				if (hits != null) {
+					for (Document document : hits.getDocs()) {
+						AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
+								GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
+								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+						if (entry != null) {
+							Arret arret = _arretLocalService.fetchArret(entry.getClassPK());
+							arrets.add(arret);
+						}
 					}
 				}
 			}
@@ -144,7 +209,7 @@ public class PoiServiceImpl implements PoiService {
 			geoJson = getGeoJSON(places, events, arrets, groupId, LocaleUtil.fromLanguageId(localeId));
 			long endTime = System.nanoTime();
 			long duration = (endTime - startTime) / 1_000_000;
-			System.out.println("getGeoJSON : " + duration + "ms");
+			System.out.println("getGeoJSON : " + duration + "ms (" + geoJson.getJSONArray("features").length() + " items)");
 			System.out.println();
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -152,14 +217,6 @@ public class PoiServiceImpl implements PoiService {
 		return geoJson;
 	}
 
-	public JSONObject getFavoritesPois(String userId, long groupId) {
-		return getFavoritesPois(userId, groupId, Place.class.getName());
-	}
-
-	public JSONObject getFavoritesPois(String userId, long groupId, String classNames) {
-		return getFavoritesPois( userId,  groupId,  classNames,  "fr_FR");
-	}
-	
 	public JSONObject getFavoritesPois(String userId, long groupId, String classNames, String localeId) {
 		JSONObject geoJSON = JSONFactoryUtil.createJSONObject();
 		geoJSON.put("type", "FeatureCollection");
@@ -217,15 +274,20 @@ public class PoiServiceImpl implements PoiService {
 
 
 
-	private long getCount(long idInterest, long idCategory, String prefiltersString, String tagsString, long groupId,
+	//TODO à réintégrer un fois que la gestion du territoire et des coordonnées de tous les events physiques sans exception sera faite
+	/*private long getCount(long idInterest, long idCategory, String prefiltersString, String tagsString, long groupId,
 						  String classNames, boolean dateField, String startDate, String endDate, String localeId, long globalGroupId) {
 
 		SearchContext searchContext = new SearchContext();
 		searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
 
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/M/yyyy");
-		LocalDate fromDate = LocalDate.parse(startDate, dtf);
-		LocalDate toDate = LocalDate.parse(endDate, dtf);
+		LocalDate fromDate = LocalDate.now();
+		LocalDate toDate = LocalDate.now();
+		if(dateField) {
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/M/yyyy");
+			fromDate = LocalDate.parse(startDate, dtf);
+			toDate = LocalDate.parse(endDate, dtf);
+		}
 
 		// récupère la catégorie ainsi que les catégories enfants de la
 		// catégorie
@@ -289,37 +351,57 @@ public class PoiServiceImpl implements PoiService {
 				prefilters, tags, false, locale);
 
 		return count;
-	}
+	}*/
 
-	private Hits getHit(String idInterestsString, String idCategoriesString, String prefiltersString, String tagsString, long groupId,
-						String classNames, boolean dateField, String startDate, String endDate, String localeId, long globalGroupId) {
-
-		SearchContext searchContext = new SearchContext();
-		searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
-
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/M/yyyy");
-		LocalDate fromDate = LocalDate.parse(startDate, dtf);
-		LocalDate toDate = LocalDate.parse(endDate, dtf);
+	private List<Long[]> getCategories(String idInterestsString, String idCategoriesString, long classNameId) {
 
 		// récupère les catégories ainsi que les catégories enfants des
-		// catégories d'un vocabulaire
+		// catégories des vocabulaires
+		// les catégories d'un vocabulaire sont séparées par une virgule
+		// les vocabulaires sont séparées par un point-virgule
 		List<Long[]> categories = new ArrayList<>();
 		if (Validator.isNotNull(idCategoriesString)) {
-			for (String categoriesIdsGroupByVocabulary : idCategoriesString.split(";")) {
-				List<Long> filterCategories = new ArrayList<>();
-				for (String categoryId : categoriesIdsGroupByVocabulary.split(",")) {
-					filterCategories.add(Long.valueOf(categoryId));
-					// récupère les catégories enfants
-					List<AssetCategory> childsCategories = AssetCategoryLocalServiceUtil
-							.getChildCategories(Long.parseLong(categoryId));
-					if (!childsCategories.isEmpty()) {
-						filterCategories.addAll(childsCategories.stream().map(c -> c.getCategoryId()).collect(Collectors.toList()));
+			List<Long> filterCategories = new ArrayList<>();
+			long oldLinkedVocabularyId = -1;
+			for (String categoryId : idCategoriesString.split(",")) {
+				if(Validator.isNotNull(categoryId)) {
+					AssetCategory category = AssetCategoryLocalServiceUtil.fetchCategory(Long.parseLong(categoryId));
+					if(Validator.isNotNull(category)) {
+						AssetVocabulary vocabulaire = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(category.getVocabularyId());
+						//on vérifie que le vocabulaire de la catégorie est liée au type d'entité
+						boolean isLinked = false;
+						long[] classNameIds = vocabulaire.getSelectedClassNameIds();
+						for(long id : classNameIds) {
+							if (id == classNameId || id == 0){
+								isLinked = true;
+								break;
+							}
+						}
+						if(isLinked) {
+							if(oldLinkedVocabularyId != vocabulaire.getVocabularyId()){
+								if(oldLinkedVocabularyId != -1) {
+									Long[] categoriesIdsForVocabulary = new Long[filterCategories.size()];
+									filterCategories.toArray(categoriesIdsForVocabulary);
+									categories.add(categoriesIdsForVocabulary);
+								}
+								oldLinkedVocabularyId = vocabulaire.getVocabularyId();
+								filterCategories = new ArrayList<>();
+							}
+						}
+						filterCategories.add(Long.valueOf(categoryId));
+						// récupère les catégories enfants
+						List<AssetCategory> childsCategories = AssetCategoryLocalServiceUtil
+								.getChildCategories(Long.parseLong(categoryId));
+						if (!childsCategories.isEmpty()) {
+							filterCategories.addAll(childsCategories.stream().map(c -> c.getCategoryId()).collect(Collectors.toList()));
+						}
 					}
 				}
+			}
+			if(!filterCategories.isEmpty()) {
 				Long[] categoriesIdsForVocabulary = new Long[filterCategories.size()];
 				filterCategories.toArray(categoriesIdsForVocabulary);
 				categories.add(categoriesIdsForVocabulary);
-
 			}
 		}
 
@@ -327,7 +409,7 @@ public class PoiServiceImpl implements PoiService {
 		// d'intérêts
 		if (Validator.isNotNull(idInterestsString)) {
 			List<AssetCategory> filterCategories = new ArrayList<>();
-			for (String interestsId : idInterestsString.split(";")) {
+			for (String interestsId : idInterestsString.split(",")) {
 				Interest interest = InterestLocalServiceUtil.fetchInterest(Long.parseLong(interestsId));
 				List<AssetCategory> categoriesInterest = interest.getCategories();
 				filterCategories.addAll(categoriesInterest);
@@ -345,14 +427,21 @@ public class PoiServiceImpl implements PoiService {
 			categories.add(interestsIdsForVocabulary);
 		}
 
-		// préfiltres
-		List<Long[]> prefilters = new ArrayList<>();
-		if(Validator.isNotNull(prefiltersString)) {
-			for (String prefilterCategoriesIdsGroupByVocabulary : prefiltersString.split(";")) {
-				Long[] prefilterCategoriesIdsForVocabulary = ArrayUtil
-						.toLongArray(StringUtil.split(prefilterCategoriesIdsGroupByVocabulary, ",", 0));
-				prefilters.add(prefilterCategoriesIdsForVocabulary);
-			}
+		return categories;
+	}
+
+	private Hits getHit(List<Long[]> categories, List<Long[]> prefilters, String tagsString, long groupId,
+						String classNames, boolean dateField, String startDate, String endDate, String localeId, long globalGroupId) {
+
+		SearchContext searchContext = new SearchContext();
+		searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
+
+		LocalDate fromDate = LocalDate.now();
+		LocalDate toDate = LocalDate.now();
+		if(dateField && Validator.isNotNull(startDate) && Validator.isNotNull(endDate)) {
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/M/yyyy");
+			fromDate = LocalDate.parse(startDate, dtf);
+			toDate = LocalDate.parse(endDate, dtf);
 		}
 
 		// tags
@@ -371,7 +460,7 @@ public class PoiServiceImpl implements PoiService {
 				tags, false, locale, -1, -1, "", false);
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1_000_000;
-		System.out.println("GetPOIs : " + duration + "ms (" + hits.getLength() + " items)");
+		System.out.println("(" + classNames + ") GetPOIs : " + duration + "ms (" + hits.getLength() + " items)");
 
 		return hits;
 	}

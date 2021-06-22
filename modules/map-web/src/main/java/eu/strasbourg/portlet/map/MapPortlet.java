@@ -161,7 +161,7 @@ public class MapPortlet extends MVCPortlet {
             String trafficInterestId = ""; // Liaison de l'affichage de l'info trafic à un CI
 
             JSONObject coordinatesZone = JSONFactoryUtil.createJSONObject(); // détourage d'une commune ou d'un quartier (utile pour le détourage et le filtrage d'un quartier)
-            Map<String[], List<AssetCategory>> vocabularyGroup = new HashMap<>();
+            Map<String[], List<AssetCategory>> categoriesVocabularies = new HashMap<>();
             AssetCategory district = null;
             List<Interest> interests = new ArrayList<>(); // Les intérêts actifs
 
@@ -367,7 +367,7 @@ public class MapPortlet extends MVCPortlet {
                                             if (vocabulary != null) {
                                                 labelVocabulary = new String[]{"" + vocabulary.getVocabularyId(), getLabelocabulary(vocabulary).toLowerCase()};
                                             }
-                                            vocabularyGroup.put(labelVocabulary, categoriesVocabulary);
+                                            categoriesVocabularies.put(labelVocabulary, categoriesVocabulary);
                                         }
                                         categoriesVocabulary = new ArrayList<>();
                                         oldVocabulary = category.getVocabularyId();
@@ -380,7 +380,7 @@ public class MapPortlet extends MVCPortlet {
                                     if (vocabulary != null) {
                                         labelVocabulary = new String[]{"" + vocabulary.getVocabularyId(), getLabelocabulary(vocabulary).toLowerCase()};
                                     }
-                                    vocabularyGroup.put(labelVocabulary, categoriesVocabulary);
+                                    categoriesVocabularies.put(labelVocabulary, categoriesVocabulary);
                                 }
                             }else {
                                 List<AssetCategory> categoriesVocabulary = null;
@@ -388,11 +388,11 @@ public class MapPortlet extends MVCPortlet {
                                     String[] labelVocabulary = new String[]{""+category.getCategoryId(), category.getTitle(themeDisplay.getLocale())};
                                     categoriesVocabulary = new ArrayList<>();
                                     categoriesVocabulary.add(category);
-                                    vocabularyGroup.put(labelVocabulary, categoriesVocabulary);
+                                    categoriesVocabularies.put(labelVocabulary, categoriesVocabulary);
                                 }
                                 for (AssetVocabulary vocabulary : vocabularies) {
                                     String[] labelVocabulary = new String[]{""+vocabulary.getVocabularyId(), getLabelocabulary(vocabulary)};
-                                    vocabularyGroup.put(labelVocabulary, vocabulary.getCategories().stream().filter(AssetCategory::isRootCategory).collect(Collectors.toList()));
+                                    categoriesVocabularies.put(labelVocabulary, vocabulary.getCategories().stream().filter(AssetCategory::isRootCategory).collect(Collectors.toList()));
                                 }
                             }
 
@@ -514,7 +514,7 @@ public class MapPortlet extends MVCPortlet {
             request.setAttribute("prefilterTags", prefilterTags);
             request.setAttribute("districtUser", districtUser);
             request.setAttribute("displayCheckbox", displayCheckbox);
-            request.setAttribute("vocabularyGroups", vocabularyGroup);
+            request.setAttribute("categoriesVocabularies", categoriesVocabularies);
             request.setAttribute("categoriesCheckedIds", categoriesDefaultsIdsString);
             request.setAttribute("dateField", dateField);
             request.setAttribute("defaultDateRange", defaultDateRange);

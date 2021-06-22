@@ -145,60 +145,6 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static int getPoisCategoryCount(
-			long idCategory, String prefilters, String tags, long groupId,
-			String typeContenu, boolean dateField, String fromDate,
-			String toDate, String localeId, long globalGroupId)
-		throws RemoteException {
-
-		try {
-			int returnValue = StrasbourgServiceUtil.getPoisCategoryCount(
-				idCategory, prefilters, tags, groupId, typeContenu, dateField,
-				fromDate, toDate, localeId, globalGroupId);
-
-			return returnValue;
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static int getPoisInterestCount(
-			long idInterest, long groupId, String typeContenu, String localeId,
-			long globalGroupId)
-		throws RemoteException {
-
-		try {
-			int returnValue = StrasbourgServiceUtil.getPoisInterestCount(
-				idInterest, groupId, typeContenu, localeId, globalGroupId);
-
-			return returnValue;
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static int getFavoritesPoisCount(long groupId, String typeContenu)
-		throws RemoteException {
-
-		try {
-			int returnValue = StrasbourgServiceUtil.getFavoritesPoisCount(
-				groupId, typeContenu);
-
-			return returnValue;
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
 	public static String getInterestsPois(
 			String interests, long groupId, String typeContenu, String localeId,
 			long globalGroupId)
@@ -219,46 +165,17 @@ public class StrasbourgServiceSoap {
 	}
 
 	public static String getCategoriesPois(
-			String categories, String prefilters, String tags, long groupId,
-			String typeContenu, boolean dateField, String fromDate,
-			String toDate, String localeId, long globalGroupId)
+			String categories, String vocabulariesEmptyIds, String prefilters,
+			String tags, long groupId, String typeContenu, boolean dateField,
+			String fromDate, String toDate, String localeId, long globalGroupId)
 		throws RemoteException {
 
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue =
 				StrasbourgServiceUtil.getCategoriesPois(
-					categories, prefilters, tags, groupId, typeContenu,
-					dateField, fromDate, toDate, localeId, globalGroupId);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static String getFavoritesPois(long groupId) throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue =
-				StrasbourgServiceUtil.getFavoritesPois(groupId);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static String getFavoritesPois(long groupId, String typeContenu)
-		throws RemoteException {
-
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue =
-				StrasbourgServiceUtil.getFavoritesPois(groupId, typeContenu);
+					categories, vocabulariesEmptyIds, prefilters, tags, groupId,
+					typeContenu, dateField, fromDate, toDate, localeId,
+					globalGroupId);
 
 			return returnValue.toString();
 		}

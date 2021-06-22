@@ -76,13 +76,13 @@ public class StrasbourgServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getCategoriesPois(
-		String categories, String prefilters, String tags, long groupId,
-		String typeContenu, boolean dateField, String fromDate, String toDate,
-		String localeId, long globalGroupId) {
+		String categories, String vocabulariesEmptyIds, String prefilters,
+		String tags, long groupId, String typeContenu, boolean dateField,
+		String fromDate, String toDate, String localeId, long globalGroupId) {
 
 		return getService().getCategoriesPois(
-			categories, prefilters, tags, groupId, typeContenu, dateField,
-			fromDate, toDate, localeId, globalGroupId);
+			categories, vocabulariesEmptyIds, prefilters, tags, groupId,
+			typeContenu, dateField, fromDate, toDate, localeId, globalGroupId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
@@ -98,25 +98,9 @@ public class StrasbourgServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
-		long groupId) {
-
-		return getService().getFavoritesPois(groupId);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
-		long groupId, String typeContenu) {
-
-		return getService().getFavoritesPois(groupId, typeContenu);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
 		long groupId, String typeContenu, String localeId) {
 
 		return getService().getFavoritesPois(groupId, typeContenu, localeId);
-	}
-
-	public static int getFavoritesPoisCount(long groupId, String typeContenu) {
-		return getService().getFavoritesPoisCount(groupId, typeContenu);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getFileDetails(
@@ -140,24 +124,6 @@ public class StrasbourgServiceUtil {
 	 */
 	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
-	}
-
-	public static int getPoisCategoryCount(
-		long idCategory, String prefilters, String tags, long groupId,
-		String typeContenu, boolean dateField, String fromDate, String toDate,
-		String localeId, long globalGroupId) {
-
-		return getService().getPoisCategoryCount(
-			idCategory, prefilters, tags, groupId, typeContenu, dateField,
-			fromDate, toDate, localeId, globalGroupId);
-	}
-
-	public static int getPoisInterestCount(
-		long idInterest, long groupId, String typeContenu, String localeId,
-		long globalGroupId) {
-
-		return getService().getPoisInterestCount(
-			idInterest, groupId, typeContenu, localeId, globalGroupId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray

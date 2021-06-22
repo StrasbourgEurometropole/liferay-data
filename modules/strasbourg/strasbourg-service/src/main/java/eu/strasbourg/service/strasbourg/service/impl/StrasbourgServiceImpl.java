@@ -201,7 +201,8 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 
 	}
 
-	@Override
+	//AngelTODO à réintégrer un fois que la gestion du territoire et des coordonnées de tous les events physiques sans exception sera faite
+	/*@Override
 	public int getPoisCategoryCount(long idCategory, String prefilters, String tags, long groupId, String typeContenu,
 									boolean dateField, String fromDate, String toDate, String localeId, long globalGroupId) {
 		return getPoiService().getPoisCategoryCount(idCategory, prefilters, tags, groupId, typeContenu,
@@ -222,42 +223,19 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 			userId = SessionParamUtil.getString(request, "publik_internal_id");
 		}
 		return getPoiService().getFavoritesPoisCount(userId, groupId, typeContenu);
-	}
+	}*/
 
 	@Override
 	public JSONObject getInterestsPois(String interests, long groupId, String typeContenu, String localeId, long globalGroupId) {
-		return getPoiService().getPois(interests, "", "", "",  groupId, typeContenu, false,
-				"", "", localeId, globalGroupId);
+		return getPoiService().getPois(interests, "", "", "", "",  groupId, typeContenu,
+				true, "", "", localeId, globalGroupId);
 	}
 
 	@Override
-	public JSONObject getCategoriesPois(String categories, String prefilters, String tags,
+	public JSONObject getCategoriesPois(String categories, String vocabulariesEmptyIds, String prefilters, String tags,
 			long groupId, String typeContenu, boolean dateField, String fromDate, String toDate, String localeId, long globalGroupId) {
-		return getPoiService().getPois("", categories, prefilters, tags, groupId, typeContenu, dateField,  fromDate, toDate, localeId, globalGroupId);
-	}
-
-	@Override
-	public JSONObject getFavoritesPois(long groupId) {
-		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
-		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
-		String userId = null;
-		if (isLoggedIn) {
-			userId = SessionParamUtil.getString(request, "publik_internal_id");
-		}
-
-		return getPoiService().getFavoritesPois(userId, groupId);
-	}
-
-	@Override
-	public JSONObject getFavoritesPois(long groupId, String typeContenu) {
-		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
-		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
-		String userId = null;
-		if (isLoggedIn) {
-			userId = SessionParamUtil.getString(request, "publik_internal_id");
-		}
-
-		return getPoiService().getFavoritesPois(userId, groupId, typeContenu);
+		return getPoiService().getPois("", categories, vocabulariesEmptyIds, prefilters, tags, groupId, typeContenu,
+				dateField,  fromDate, toDate, localeId, globalGroupId);
 	}
 	
 	@Override

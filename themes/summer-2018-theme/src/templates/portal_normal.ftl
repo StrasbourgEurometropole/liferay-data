@@ -20,6 +20,24 @@
     <link href="/o/summer-2018-theme/css/t_main.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700" rel="stylesheet">
 
+  <script>
+      window.userFavorites = [
+      ];
+    <#if request.session.getAttribute("publik_logged_in")!false>
+      <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService") />
+      <#assign favorites = favoriteLocalService.getByPublikUser(request.session.getAttribute("publik_internal_id")) />
+      window.userFavorites = [
+        <#list favorites as favorite>
+          {
+            entityId: ${favorite.entityId},
+            typeId: ${favorite.typeId}
+          }<#sep>,</#sep>
+        </#list>
+      ];
+    </#if>
+
+  </script>
+
 
     <#assign currentUrlOG = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
