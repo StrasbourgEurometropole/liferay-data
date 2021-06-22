@@ -188,29 +188,17 @@
 		}
 
 		.navbar-brand{
-			float: none !important;
-			align-items: center;
-			margin-bottom: 40px;
-			display: flex;
-			justify-content: center;
-			@include ft($f_ms, 24px, 400, $c_txt, 18px);			
-			display: flex !important;
+			background: url(/o/summer-2018-theme/images/logo-menu-small.png) no-repeat left center/contain !important;
+			margin-left: 35px;
+			margin-right: 1rem;
+			max-width: 65px;
 			height: 76px;
-			margin-top: -5px;
 			width: 116px;
 
 			@include tablet_portrait{
 				font-size: 24px;
-				height: 78px !important;
-				margin-left: 10px;
-			    margin-top: 5px;
-			    margin-bottom: 5px;
-				padding: 15px 25px;
-				background: url(/o/summer-2018-theme/images/logo-menu-small.png) no-repeat left center /contain !important;
-			}
-			@include mobile {
-				font-size: 24px;
-				height: 78px !important;
+				max-width: 116px;
+				height: 78px;
 				margin-left: 10px;
 			    margin-top: 5px;
 			    margin-bottom: 5px;
@@ -557,9 +545,6 @@
 				color: $c_txt;
 				span{
 					color: $c_txt;
-				}
-				&.hidden{
-					display: none;
 				}
 			}
 
