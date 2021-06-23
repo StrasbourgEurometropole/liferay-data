@@ -17,9 +17,13 @@
 
 
             <div class="detail-delib seu-container">
+                <%-- Nombre de votants --%>
+                <h3 class="nbVotes" id="nombre-votes"></h3>
+
                 <c:if test="${fn:length(dc.getCouncilSessions()) > 1}">
                     <a href="${returnURL}"> <span class="returnButton">Retour a la liste des conseils</span></a>
                 </c:if>
+
 
                 <input type="hidden" id="deliberationId" value=""/>
                 <input type="hidden" id="stage" value=""/>
