@@ -3,7 +3,8 @@ window.setInterval(function(){
       '/council.deliberation/get-user-front',
       {
         officialId: officialConnectedId,
-        officialDeviceInfo: userDeviceInfo
+        officialDeviceInfo: userDeviceInfo,
+        councilSessionId: councilSessionId
       },
       function(obj) {
         displayInfos(obj);
@@ -143,6 +144,13 @@ function displayInfos(obj) {
 
                     if(useSkypeView) {
                        frontVoteEnCours.style.display="block";
+
+                       frontNombreVotes.textContent='';
+                       var nbVotesJSON = obj.totalVotes;
+                       var votesTotal = nbVotesJSON.nbTotalVotes;
+                       displayNbVotes(votesTotal, frontNombreVotes);
+
+
                     } else {
                         var procurationsJSON = obj.official.procurations;
                         var procurationOne = procurationsJSON[0];
@@ -225,6 +233,7 @@ function displayInfos(obj) {
                     frontVoteForm.style.display = "none";
                     frontConfirmationVote.style.display = "none";
                     frontErrorVoteMessage.style.display = "none";
+                    frontNombreVotes.style.display = "none";
 
                     var votesJSON = deliberationJSON.votes;
 
@@ -234,7 +243,7 @@ function displayInfos(obj) {
 
                     frontResultatStatut.textContent = deliberationJSON.stage
 
-                    //CALCUL LALISTE DES VOTES
+                    // CALCUL LA LISTE DES VOTES
                     var listePour ='';
                     var listeContre ='';
                     var listeAbstention ='';
@@ -309,3 +318,14 @@ function displayInfos(obj) {
             }
          }
       }
+
+/**
+ * Affiche le nombre de votes réalisés
+ */
+function displayNbVotes(nbVotes, element) {
+	    element.innerHTML +=
+			'<div id="nombre-votes">'
+			+ "Nombre de votes : "
+			+ nbVotes
+			+ '</div>';
+}
