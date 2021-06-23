@@ -68,7 +68,6 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 		JSONArray pour = JSONFactoryUtil.createJSONArray();
 		JSONArray contre = JSONFactoryUtil.createJSONArray();
 		JSONArray abstention = JSONFactoryUtil.createJSONArray();
-		JSONObject totalVotes = JSONFactoryUtil.createJSONObject();
 
 		// On remplit l'info JSON du User
 		official.put("officialId", officialId);
@@ -131,9 +130,6 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 						Vote voteFromUser = VoteLocalServiceUtil.findByDeliberationIdandOfficialId(delibVoteOuvert.getDeliberationId(), officialId);
 						List<Procuration> procurationsUserHave = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialVotersId(delibVoteOuvert.getCouncilSessionId(), officialId);
 
-						List<Vote> votesFromDelib = VoteLocalServiceUtil.findByDeliberationId(delibVoteOuvert.getDeliberationId());
-						totalVotes.put("nbTotalVotes", votesFromDelib.size());
-
 						//Remplit l'info de l'élu
 						if (voteFromUser != null) {
 							official.put("vote", voteFromUser.getResult());
@@ -166,7 +162,6 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 						List<String> officalsPour = new ArrayList<>();
 						List<String> officalsContre = new ArrayList<>();
 						List<String> officalsAbstention = new ArrayList<>();
-
 						// On calcule seulement s'il y a des votes (Comme on peut Adopter sans voter et mettre en Communqiue)
 						if (votesFromDelib.size() > 0) {
 							for (Vote vote : votesFromDelib) {
@@ -214,12 +209,12 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 			// Et on log
 			_log.error(e);
 		}
-
+		
 		// Mise à jour des inforamtions de connection de l'utilisateur 
 		if (officialId > 0)
 			OfficialLocalServiceUtil.updateOfficialInfo(officialId, officialDeviceInfo);
 
-		// On assemble les pièces du puzzle, les ingrédients du Tacos
+		//On assemble les pièces du puzzle, les ingrédients du Tacos
 		userFront.put("session", session);
 		votes.put("approve", pour);
 		votes.put("against", contre);
@@ -228,7 +223,6 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 		userFront.put("deliberation", deliberation);
 		official.put("procurations", procurations);
 		userFront.put("official", official);
-		userFront.put("totalVotes", totalVotes);
 
 		return userFront;
 	}

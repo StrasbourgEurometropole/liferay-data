@@ -144,13 +144,6 @@ function displayInfos(obj) {
 
                     if(useSkypeView) {
                        frontVoteEnCours.style.display="block";
-
-                       frontNombreVotes.textContent='';
-                       var nbVotesJSON = obj.totalVotes;
-                       var votesTotal = nbVotesJSON.nbTotalVotes;
-                       displayNbVotes(votesTotal, frontNombreVotes);
-
-
                     } else {
                         var procurationsJSON = obj.official.procurations;
                         var procurationOne = procurationsJSON[0];
@@ -233,7 +226,6 @@ function displayInfos(obj) {
                     frontVoteForm.style.display = "none";
                     frontConfirmationVote.style.display = "none";
                     frontErrorVoteMessage.style.display = "none";
-                    frontNombreVotes.style.display = "none";
 
                     var votesJSON = deliberationJSON.votes;
 
@@ -243,7 +235,7 @@ function displayInfos(obj) {
 
                     frontResultatStatut.textContent = deliberationJSON.stage
 
-                    // CALCUL LA LISTE DES VOTES
+                    //CALCUL LALISTE DES VOTES
                     var listePour ='';
                     var listeContre ='';
                     var listeAbstention ='';
@@ -318,14 +310,3 @@ function displayInfos(obj) {
             }
          }
       }
-
-/**
- * Affiche le nombre de votes réalisés
- */
-function displayNbVotes(nbVotes, element) {
-	    element.innerHTML +=
-			'<div id="nombre-votes">'
-			+ "Nombre de votes : "
-			+ nbVotes
-			+ '</div>';
-}
