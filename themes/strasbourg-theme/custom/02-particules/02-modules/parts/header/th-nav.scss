@@ -79,6 +79,9 @@
 
         svg {
             display: block;
+            width: 20px;
+            height: 20px;
+            margin-left: 30px;
 
             rect {
                 fill: $c_white;
@@ -920,7 +923,7 @@
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
-        height: calc(100vh - 80px - 56px);
+        height: calc(100vh - 80px);
         padding: 40px 60px 40px 20px;
 
         &:before, &:after {
@@ -1310,6 +1313,11 @@
                             font-size: calculateRem(15px);
                             line-height: calculateRem(19px);
                         }
+                    }
+
+                    .th-more-results{ 
+                        text-align: center;
+                        margin: 10px 0;
                     }
 
                     p {

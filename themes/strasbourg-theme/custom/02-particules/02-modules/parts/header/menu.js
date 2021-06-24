@@ -1207,6 +1207,15 @@ var th_overlay = {
                         idOverlay = null;
                     }
                     e.preventDefault();
+
+					// on vide les résultats de recherche
+					$(menuOverlay._selector.searchInput).val("");
+					$(menuOverlay._selector.overlayContainer + " .th-search-results .th-hide-tablet-p").html("");
+					$(menuOverlay._selector.overlayContainer + " .th-search-results .th-v-tablet-p").html("");
+					$(menuOverlay._selector.overlayContainer + " .th-search-results .th-hide-tablet-p").hide();
+					$(menuOverlay._selector.overlayContainer + " .th-search-results .th-v-tablet-p").hide();
+					$(menuOverlay._selector.overlayContainer + " .th-search-results .th-all-results").html("");
+
                     th_overlay.close(idOverlay);
                 });
         });
@@ -1362,7 +1371,8 @@ var thVheight = {
 // Back Menu Niveau 1
 $('.back-level-1').on('click', function () {
     if (isTabletPortraitOrSmalller()) {
-		$('#th-overlay-nav nav > ul > li.th-has-submenu.th-active>a').get(0).setAttribute('aria-expanded', "false");
+		if($('#th-overlay-nav nav > ul > li.th-has-submenu.th-active>a').length > 0 )
+			$('#th-overlay-nav nav > ul > li.th-has-submenu.th-active>a').get(0).setAttribute('aria-expanded', "false");
         $('#th-overlay-nav nav > ul > li.th-has-submenu.th-active').removeClass('th-active');
     }
 });

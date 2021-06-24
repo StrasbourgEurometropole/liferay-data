@@ -12,17 +12,25 @@ AUI().use('aui-io-request', function(A) {
                 if(this.getFormattedData() != undefined ){
                     resultEntries = this.get('responseData');
 
-                    $("#th-overlay-nav .th-search-results .th-hide-tablet-p").html(Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-result-search') + ' <span class="th-result">' + resultEntries[0].totalResult + '</span>');
-                    $("#th-overlay-nav .th-search-results .th-v-tablet-p").html(Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-result') + ' <span class="th-result">' + resultEntries[0].totalResult + '</span>');
-                    $("#th-overlay-nav .th-search-results .th-hide-tablet-p").show();
-                    $("#th-overlay-nav .th-search-results .th-v-tablet-p").show();
+                    if(resultEntries != null){
+                        $("#th-overlay-nav .th-search-results .th-hide-tablet-p").html(Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-result-search') + ' <span class="th-result">' + resultEntries[0].totalResult + '</span>');
+                        $("#th-overlay-nav .th-search-results .th-v-tablet-p").html(Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-result') + ' <span class="th-result">' + resultEntries[0].totalResult + '</span>');
+                        $("#th-overlay-nav .th-search-results .th-hide-tablet-p").show();
+                        $("#th-overlay-nav .th-search-results .th-v-tablet-p").show();
 
-                    updateResultThumbnails();
+                        updateResultThumbnails();
 
-                    if(resultEntries[0].totalResult > 100){
-                        keyword = this.getFormattedData()._eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_INSTANCE_DynamicResearch_keywords;
-                        link = homeURL + "recherche?_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords=" + keyword + "&p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet&p_p_lifecycle=1";
-                        $("#th-overlay-nav .th-search-results .th-all-results").append('<a href="' + link + '" class="th-item-result"><div class="th-metas-left"><span class="th-title">' + Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-more-result') + '</span></div></a>');
+                        if(resultEntries[0].totalResult > 100){
+                            keyword = this.getFormattedData()._eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_INSTANCE_DynamicResearch_keywords;
+                            link = homeURL + "recherche?_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords=" + keyword + "&p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet&p_p_lifecycle=1";
+                            $("#th-overlay-nav .th-search-results .th-all-results").append('<a href="' + link + '" class="th-item-result"><div class="th-metas-left"><span class="th-title th-more-results">' + Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-more-result') + '</span></div></a>');
+                        }
+                    }else{
+                        $("#th-overlay-nav .th-search-results .th-hide-tablet-p").html(Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-result-search') + ' <span class="th-result">0</span>');
+                        $("#th-overlay-nav .th-search-results .th-v-tablet-p").html(Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-result') + ' <span class="th-result">0</span>');
+                        $("#th-overlay-nav .th-search-results .th-hide-tablet-p").show();
+                        $("#th-overlay-nav .th-search-results .th-v-tablet-p").show();
+                        $("#th-overlay-nav .th-search-results .th-all-results").html("<div class='th-title'>Erreur</div>");
                     }
                 }
             }
@@ -421,9 +429,14 @@ function updateResultThumbnails() {
 function searchRequest() {
 	AUI().use('aui-io-request', function(A) {
 	    // arrête l'ancien appel s'il n'est pas fini
+        $("#th-overlay-nav .th-search-results .th-all-results").remove(".loading-animation, .loading-small-animation");
         myAjaxRequest.stop();
+        if($("#th-overlay-nav .th-search-results .th-hide-tablet-p").text().length > 0 ){
+            $("#th-overlay-nav .th-search-results .th-all-results").prepend('<div class="loading-small-animation"><div></div></div>');
+        }else
+            $("#th-overlay-nav .th-search-results .th-all-results").html('<div class="loading-animation"><div></div></div>');
         myAjaxRequest.set('data', {
-              _eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_INSTANCE_DynamicResearch_keywords : $("input[name='th-search']").val()
+            _eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_INSTANCE_DynamicResearch_keywords : $("input[name='th-search']").val()
         });
         myAjaxRequest.start();
 	});
