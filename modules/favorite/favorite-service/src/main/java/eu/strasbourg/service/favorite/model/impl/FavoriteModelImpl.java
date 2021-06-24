@@ -131,15 +131,17 @@ public class FavoriteModelImpl
 			"value.object.column.bitmask.enabled.eu.strasbourg.service.favorite.model.Favorite"),
 		true);
 
-	public static final long ENTITYID_COLUMN_BITMASK = 1L;
+	public static final long CONTENT_COLUMN_BITMASK = 1L;
 
-	public static final long PUBLIKUSERID_COLUMN_BITMASK = 2L;
+	public static final long ENTITYID_COLUMN_BITMASK = 2L;
 
-	public static final long TITLE_COLUMN_BITMASK = 4L;
+	public static final long PUBLIKUSERID_COLUMN_BITMASK = 4L;
 
-	public static final long TYPEID_COLUMN_BITMASK = 8L;
+	public static final long TITLE_COLUMN_BITMASK = 8L;
 
-	public static final long FAVORITEID_COLUMN_BITMASK = 16L;
+	public static final long TYPEID_COLUMN_BITMASK = 16L;
+
+	public static final long FAVORITEID_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -736,7 +738,17 @@ public class FavoriteModelImpl
 
 	@Override
 	public void setContent(String content) {
+		_columnBitmask |= CONTENT_COLUMN_BITMASK;
+
+		if (_originalContent == null) {
+			_originalContent = _content;
+		}
+
 		_content = content;
+	}
+
+	public String getOriginalContent() {
+		return GetterUtil.getString(_originalContent);
 	}
 
 	@JSON
@@ -884,6 +896,8 @@ public class FavoriteModelImpl
 		favoriteModelImpl._originalEntityId = favoriteModelImpl._entityId;
 
 		favoriteModelImpl._setOriginalEntityId = false;
+
+		favoriteModelImpl._originalContent = favoriteModelImpl._content;
 
 		favoriteModelImpl._setModifiedDate = false;
 
@@ -1048,6 +1062,7 @@ public class FavoriteModelImpl
 	private Date _onDashboardDate;
 	private int _order;
 	private String _content;
+	private String _originalContent;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;

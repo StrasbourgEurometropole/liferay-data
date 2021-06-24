@@ -228,6 +228,19 @@ public class FavoriteLocalServiceWrapper
 	}
 
 	/**
+	 * Retourne le favori qui possede les memes donnees
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.favorite.model.Favorite>
+		getByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			long type, long entityId, String publikUserId, String content) {
+
+		return _favoriteLocalService.
+			getByTypeIdAndEntityIdAndPublikUserIdAndContent(
+				type, entityId, publikUserId, content);
+	}
+
+	/**
 	 * Retourne la liste des favoris liferay d'un utilisateur
 	 */
 	@Override

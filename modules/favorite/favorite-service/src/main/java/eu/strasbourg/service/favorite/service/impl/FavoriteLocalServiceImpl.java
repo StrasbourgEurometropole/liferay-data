@@ -14,12 +14,14 @@
 
 package eu.strasbourg.service.favorite.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import eu.strasbourg.service.agenda.model.CacheJson;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
@@ -120,5 +122,13 @@ public class FavoriteLocalServiceImpl extends FavoriteLocalServiceBaseImpl {
 			type = favoriteType.getId();
 		}
 		return type;
+	}
+
+	/**
+	 * Retourne le favori qui possede les memes donnees
+	 */
+	@Override
+	public List<Favorite> getByTypeIdAndEntityIdAndPublikUserIdAndContent(long type, long entityId, String publikUserId, String content) {
+		return this.favoritePersistence.findByTypeIdAndEntityIdAndPublikUserIdAndContent(type,entityId,publikUserId,content);
 	}
 }
