@@ -25,6 +25,7 @@ import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.video.model.Video;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.LayoutHelper;
@@ -481,7 +482,7 @@ public class JSONSearchHelper {
         JSONObject jsonArticle = JSONFactoryUtil.createJSONObject();
 
         JournalArticle journalArticle = JournalArticleServiceUtil.getLatestArticle(assetEntry.getClassPK());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", locale);
 
         jsonArticle.put(
                 Constants.ATTRIBUTE_CLASSNAME,
@@ -519,7 +520,7 @@ public class JSONSearchHelper {
             case Constants.SEARCH_FORM_PLACIT:
                 jsonArticle.put(
                         Constants.ATTRIBUTE_IMAGE_URL,
-                        JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "thumbnail", locale)
+                        AssetPublisherTemplateHelper.getDocumentUrl(JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "thumbnail", locale))
                 );
                 break;
             case Constants.SEARCH_FORM_STRASBOURG:
