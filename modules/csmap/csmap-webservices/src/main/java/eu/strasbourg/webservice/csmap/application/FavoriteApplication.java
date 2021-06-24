@@ -143,6 +143,7 @@ public class FavoriteApplication extends Application {
                     int orderFavorite = jsonAdd.getInt("order");
                     String contentFavorite = jsonAdd.getString("content");
                     List<Favorite> favoriteExist;
+                    // Verifie si le favoris n'existe pas déjà s'il existe on l'update
                     if(Validator.isNull(elementIdFavorite)){
                         if(Validator.isNull(contentFavorite)){
                             favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite,0,publikUser.getPublikId(),null);
@@ -180,6 +181,7 @@ public class FavoriteApplication extends Application {
                     String contentFavorite = jsonUpdate.getString("content");
                     Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(idFavorite);
                     boolean isNew = false;
+                    // Verifie si le favoris existe s'il n'existe pas on le recree
                     if(Validator.isNull(favorite)){
                         favorite = WSFavorite.createOrUpdateFavorite(null, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
                         isNew =true;
