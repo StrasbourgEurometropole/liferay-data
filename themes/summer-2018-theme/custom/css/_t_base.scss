@@ -436,13 +436,6 @@ body{
 		position: relative;
 	}
 
-	.mns-bread-background{filter: blur(8px);
-		position: absolute;
-		width: 102%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0.40);
-	}
-
 	.mns-breadcrumbs{
 		position: absolute;
 		left: 0;
@@ -494,6 +487,9 @@ body{
 				span{
 					color: $c_txt;
 				}
+			}
+			@media (min-width: 1000px){
+				text-shadow: #000 2px 2px 4px;
 			}
 			&:before{
 				content:'';
