@@ -201,6 +201,9 @@
 			    color: $c_white;
 			    border-color: $c_main;
 			}
+			&:after{
+				content: none;
+			}
 		}
 	}
 
