@@ -1071,7 +1071,7 @@ public class EventImpl extends EventBaseImpl {
 			date = "Le " + df.format(this.getCurrentOrFuturePeriod().getStartDate());
 
 			if(this.getCurrentOrFuturePeriod().getTimeDetail() != "")
-				date = date + " &agrave; " + this.getCurrentOrFuturePeriod().getTimeDetail();
+				date = date + " &agrave; " + this.getCurrentOrFuturePeriod().getTimeDetail(Locale.FRANCE);
 		}
 		return date;
 	}
