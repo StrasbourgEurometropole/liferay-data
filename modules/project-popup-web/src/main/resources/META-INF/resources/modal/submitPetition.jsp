@@ -17,7 +17,10 @@
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.submitpetition.information"/></h4>
                     <div class="form-group">
-                        <aui:input id="petitiontitle" name="title" label="modal.submitpetition.information.title" required="true" maxlength="256" value=""/>
+                        <aui:input id="petitiontitle" name="title" label="modal.submitpetition.information.title" required="true" maxlength="45" value=""/>
+                    </div>
+                     <div class="form-group">
+                        <aui:input id="petitionsummary" type="textarea" name="summary" label="modal.submitpetition.information.summary" required="true" maxlength="500" value=""/>
                     </div>
                     <div class="form-group">
                         <aui:input id="petitiondescription" type="textarea" name="description" label="modal.submitpetition.information.description" required="true" value=""/>
@@ -265,6 +268,7 @@
     function resetValuesSubmitPetition()
     {
         $("#"+namespaceSubmitPetition+"petitiontitle").val("");
+         $("#"+namespaceSubmitPetition+"petitionsummary").val("");
         $("#"+namespaceSubmitPetition+"petitiondescription").val("");
         $("#"+namespaceSubmitPetition+"petitionInTheNameOf").val("");
         $("#"+namespaceSubmitPetition+"petitionlieux").val("");
@@ -313,6 +317,7 @@
     function validateFormSubmitPetition(){
         var result = true;
         var petitiontitle = $("#"+namespaceSubmitPetition+"petitiontitle").val();
+        var petitionsummary = $("#"+namespaceSubmitPetition+"petitionsummary").val();
         var petitiondescription = $("#"+namespaceSubmitPetition+"petitiondescription").val();
         var birthday = $("#"+namespaceSubmitPetition+"birthday").val();
         var city = $("#"+namespaceSubmitPetition+"city").val();
@@ -324,6 +329,11 @@
 
         if (petitiontitle==null || petitiontitle==""){
             $("#"+namespaceSubmitPetition+"petitiontitle").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespaceSubmitPetition+"petitiontitle").css({ "box-shadow" : "" });
+
+        if (petitionsummary==null || petitionsummary==""){
+            $("#"+namespaceSubmitPetition+"petitionsummary").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSubmitPetition+"petitiontitle").css({ "box-shadow" : "" });
 

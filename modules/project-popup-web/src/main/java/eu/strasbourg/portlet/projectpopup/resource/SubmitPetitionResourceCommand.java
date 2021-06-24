@@ -67,6 +67,7 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
     private static final String PHONE = "phone";
     private static final String MOBILE = "mobile";
     private static final String PETITIONTITLE = "title";
+    private static final String PETITIONSUMMARY = "summary";
     private static final String PETITIONDESCRIPTION = "description";
     private static final String IN_THE_NAME_OF = "inTheNameOf";
     private static final String LIEU = "consultationPlacesText";
@@ -92,6 +93,7 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
     private String firstname;
     private String email;
     private String title;
+    private String summary;
     private String description;
     private String inTheNameOf;
     private String lieu;
@@ -133,6 +135,7 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
         this.email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
         this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request,LIEU));
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, PETITIONTITLE));
+        this.summary = HtmlUtil.stripHtml(ParamUtil.getString(request, PETITIONSUMMARY));
         this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, PETITIONDESCRIPTION).replace("\n", "<br>"));
         this.inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
         this.projectId = ParamUtil.getLong(request, PROJECT);
@@ -218,6 +221,7 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
             
             petition = PetitionLocalServiceUtil.createPetition(sc);
             petition.setTitle(this.title);
+            petition.setSummary(this.summary);
             petition.setDescription(this.description);
             petition.setInTheNameOf(this.inTheNameOf);
             petition.setQuotaSignature(signatureNumber);
@@ -271,7 +275,7 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
 
             StringWriter out = new StringWriter();
 
-            //Chargement du template contenant le corps du mail
+            // Chargement du template contenant le corps du mail
             TemplateResource templateResourceBody = new URLTemplateResource("0",
                     Objects.requireNonNull(this.getClass().getClassLoader()
                             .getResource("META-INF/resources/templates/contact-mail-copy-body-fr_FR.ftl")));
@@ -323,7 +327,17 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
 
         // title
         if (Validator.isNull(this.title)) {
-        	this.message = "Titre non valide";
+            this.message = "Titre non valide";
+            return false;
+        }
+        if (this.title.length() > 45) {
+            this.message = "Taille du titre trop grande";
+            return false;
+        }
+
+        // Summary
+        if (this.summary.length() > 500) {
+            this.message = "Taille du r\u00e9sum\u00e9 trop grande";
             return false;
         }
         
