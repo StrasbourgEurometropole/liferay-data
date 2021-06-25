@@ -305,10 +305,15 @@ public class CSMapJSonHelper {
         String stopId = arret.getStopId();
         List<Direction> directions = DirectionLocalServiceUtil.getByStopId(stopId);
         JSONArray linesJSON = JSONFactoryUtil.createJSONArray();
+        List<String> lineNumbers = new ArrayList<>();
         for(Direction direction : directions){
-            JSONObject lineJSON = JSONFactoryUtil.createJSONObject();
-            lineJSON.put("lineNumber", LigneLocalServiceUtil.getByRouteId(direction.getRouteId()).getShortName());
-            linesJSON.put(lineJSON);
+            String lineName = LigneLocalServiceUtil.getByRouteId(direction.getRouteId()).getShortName();
+            if(!lineNumbers.contains(lineName)) {
+                JSONObject lineJSON = JSONFactoryUtil.createJSONObject();
+                lineJSON.put("lineNumber", lineName);
+                lineNumbers.add(lineName);
+                linesJSON.put(lineJSON);
+            }
         }
         json.put("lines", linesJSON);
         return json;
