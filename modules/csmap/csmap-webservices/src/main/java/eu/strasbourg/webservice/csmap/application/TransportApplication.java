@@ -166,15 +166,17 @@ public class TransportApplication extends Application {
                 try{
                         JSONArray arretsRealTime = ArretServiceUtil.getArretRealTime(stopCode);
                         JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
-                        for(int i = 0; i < arretsRealTime.length(); i++){
-                                JSONObject arretRealTime = arretsRealTime.getJSONObject(i);
-                                JSONObject monitoredVehicleJourney = arretRealTime.getJSONObject("MonitoredVehicleJourney");
-                                JSONObject monitoredCall = monitoredVehicleJourney.getJSONObject("MonitoredCall");
-                                JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
-                                scheduleJSON.put("lineNumber", monitoredVehicleJourney.getString("LineRef"));
-                                scheduleJSON.put("destinationName", monitoredVehicleJourney.getString("DestinationName"));
-                                scheduleJSON.put("departureTime", monitoredCall.getString("ExpectedDepartureTime"));
-                                schedulesJSON.put(scheduleJSON);
+                        if(arretsRealTime != null) {
+                                for(int i = 0; i < arretsRealTime.length(); i++){
+                                        JSONObject arretRealTime = arretsRealTime.getJSONObject(i);
+                                        JSONObject monitoredVehicleJourney = arretRealTime.getJSONObject("MonitoredVehicleJourney");
+                                        JSONObject monitoredCall = monitoredVehicleJourney.getJSONObject("MonitoredCall");
+                                        JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
+                                        scheduleJSON.put("lineNumber", monitoredVehicleJourney.getString("LineRef"));
+                                        scheduleJSON.put("destinationName", monitoredVehicleJourney.getString("DestinationName"));
+                                        scheduleJSON.put("departureTime", monitoredCall.getString("ExpectedDepartureTime"));
+                                        schedulesJSON.put(scheduleJSON);
+                                }
                         }
                         json.put("schedules", schedulesJSON);
                 } catch(Exception e){
