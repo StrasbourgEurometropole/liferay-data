@@ -224,6 +224,17 @@ public class FavoriteLocalServiceUtil {
 	}
 
 	/**
+	 * Retourne le favori qui possede les memes donnees
+	 */
+	public static java.util.List<eu.strasbourg.service.favorite.model.Favorite>
+		getByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			long type, long entityId, String publikUserId, String content) {
+
+		return getService().getByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			type, entityId, publikUserId, content);
+	}
+
+	/**
 	 * Retourne la liste des favoris liferay d'un utilisateur
 	 */
 	public static java.util.List<eu.strasbourg.service.favorite.model.Favorite>

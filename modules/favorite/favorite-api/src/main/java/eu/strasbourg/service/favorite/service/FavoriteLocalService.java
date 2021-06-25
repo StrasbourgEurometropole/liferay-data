@@ -192,6 +192,13 @@ public interface FavoriteLocalService
 	public List<Favorite> getByPublikUser(String publikUserId);
 
 	/**
+	 * Retourne le favori qui possede les memes donnees
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Favorite> getByTypeIdAndEntityIdAndPublikUserIdAndContent(
+		long type, long entityId, String publikUserId, String content);
+
+	/**
 	 * Retourne la liste des favoris liferay d'un utilisateur
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

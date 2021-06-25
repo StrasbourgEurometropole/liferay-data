@@ -1,27 +1,20 @@
 package eu.strasbourg.webservice.csmap.application;
 
-import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.favorite.model.Favorite;
-import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalService;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
-import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.DateHelper;
-import eu.strasbourg.utils.JournalArticleHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
+import eu.strasbourg.webservice.csmap.service.WSFavorite;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
@@ -40,7 +33,6 @@ import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 @Component(
@@ -111,7 +103,7 @@ public class FavoriteApplication extends Application {
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
             if (Validator.isNotNull(idsFavorite)) {
                 for (String idFavorite : idsFavorite.split(",")) {
-                    Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(Long.valueOf(idFavorite));
+                    Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(Long.parseLong(idFavorite));
                     if (Validator.isNull(favorite)) {
                         jsonSuppr.put(idFavorite);
                     }
@@ -143,38 +135,33 @@ public class FavoriteApplication extends Application {
             if (jsonAdds != null && jsonAdds.length() != 0) {
                 for (int j = 0; j < jsonAdds.length(); j++) {
                     JSONObject jsonAdd = jsonAdds.getJSONObject(j);
-                    Favorite favorite = FavoriteLocalServiceUtil.createFavorite();
+                    Favorite favorite;
                     String csmapIdFavorite = jsonAdd.getString("csmapId");
                     String titleFavorite = jsonAdd.getString("title");
-                    Long typeFavorite = jsonAdd.getLong("type");
+                    long typeFavorite = jsonAdd.getLong("type");
                     String elementIdFavorite = jsonAdd.getString("elementId");
-                    Integer orderFavorite = jsonAdd.getInt("order");
+                    int orderFavorite = jsonAdd.getInt("order");
                     String contentFavorite = jsonAdd.getString("content");
-                    favorite.setTitle(titleFavorite);
-                    favorite.setPublikUserId(publikUser.getPublikId());
-                    favorite.setTypeId(typeFavorite);
-                    if(typeFavorite == FavoriteType.PLACE.getId()) {
-                        favorite.setEntityId(PlaceLocalServiceUtil.getPlaceBySIGId(elementIdFavorite).getPlaceId());
-                        if(favorite.getUrl().isEmpty() || Validator.isNull(favorite.getUrl())){
-                            favorite.setUrl(StrasbourgPropsUtil.getURL() + "/lieu/-/entity/sig/" + elementIdFavorite);
+                    List<Favorite> favoriteExist;
+                    // Verifie si le favoris n'existe pas déjà s'il existe on l'update
+                    if(Validator.isNull(elementIdFavorite)){
+                        if(Validator.isNull(contentFavorite)){
+                            favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite,0,publikUser.getPublikId(),null);
+                        }else{
+                            favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite,0,publikUser.getPublikId(),contentFavorite);
                         }
-                    } else if(typeFavorite == FavoriteType.EVENT.getId() || typeFavorite == FavoriteType.ARRET.getId()) {
-                        favorite.setEntityId(Long.valueOf(elementIdFavorite));
-                        if(favorite.getUrl().isEmpty() || Validator.isNull(favorite.getUrl())){
-                            if(typeFavorite == FavoriteType.EVENT.getId()) {
-                                favorite.setUrl(StrasbourgPropsUtil.getURL() + "/evenement/-/entity/id/" + elementIdFavorite);
-                            }
-                            else if(typeFavorite == FavoriteType.ARRET.getId()) {
-                                favorite.setUrl(StrasbourgPropsUtil.getURL() + "/arret/-/entity/id/" + elementIdFavorite);
-                            }
+                    }else {
+                        if (Validator.isNull(contentFavorite)) {
+                            favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite, Long.parseLong(elementIdFavorite), publikUser.getPublikId(), null);
+                        } else {
+                            favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite, Long.parseLong(elementIdFavorite), publikUser.getPublikId(), contentFavorite);
                         }
                     }
-                    favorite.setOrder(orderFavorite);
-                    favorite.setContent(contentFavorite);
-                    Date date = new Date(System.currentTimeMillis());
-                    favorite.setCreateDate(date);
-                    favorite.setModifiedDate(date);
-                    FavoriteLocalServiceUtil.updateFavorite(favorite);
+                    if(Validator.isNull(favoriteExist) || favoriteExist.isEmpty()) {
+                        favorite = WSFavorite.createOrUpdateFavorite(null, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
+                    } else{
+                        favorite = WSFavorite.createOrUpdateFavorite(favoriteExist.get(0), titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
+                    }
                     JSONObject jsonResult = JSONFactoryUtil.createJSONObject();
                     jsonResult.put("favoriteId", favorite.getFavoriteId());
                     jsonResult.put("csmapId", csmapIdFavorite);
@@ -185,44 +172,35 @@ public class FavoriteApplication extends Application {
             if (jsonUpdates != null && jsonUpdates.length() != 0) {
                 for (int j = 0; j < jsonUpdates.length(); j++) {
                     JSONObject jsonUpdate = jsonUpdates.getJSONObject(j);
-                    Long idFavorite = jsonUpdate.getLong("favoriteId");
-                    Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(idFavorite);
+                    String csmapIdFavorite = jsonUpdate.getString("csmapId");
+                    long idFavorite = jsonUpdate.getLong("favoriteId");
                     String titleFavorite = jsonUpdate.getString("title");
-                    Long typeFavorite = jsonUpdate.getLong("type");
+                    long typeFavorite = jsonUpdate.getLong("type");
                     String elementIdFavorite = jsonUpdate.getString("elementId");
-                    Integer orderFavorite = jsonUpdate.getInt("order");
+                    int orderFavorite = jsonUpdate.getInt("order");
                     String contentFavorite = jsonUpdate.getString("content");
-                    favorite.setTitle(titleFavorite);
-                    favorite.setPublikUserId(publikUser.getPublikId());
-                    favorite.setTypeId(typeFavorite);
-                    if(typeFavorite == FavoriteType.PLACE.getId()) {
-                        favorite.setEntityId(PlaceLocalServiceUtil.getPlaceBySIGId(elementIdFavorite).getPlaceId());
-                        if(favorite.getUrl().isEmpty() || Validator.isNull(favorite.getUrl())){
-                            favorite.setUrl(StrasbourgPropsUtil.getURL() + "/lieu/-/entity/sig/" + elementIdFavorite);
-                        }
-                    } else if(typeFavorite == FavoriteType.EVENT.getId() || typeFavorite == FavoriteType.ARRET.getId()) {
-                        favorite.setEntityId(Long.valueOf(elementIdFavorite));
-                        if(favorite.getUrl().isEmpty() || Validator.isNull(favorite.getUrl())){
-                            if(typeFavorite == FavoriteType.EVENT.getId()) {
-                                favorite.setUrl(StrasbourgPropsUtil.getURL() + "/evenement/-/entity/id/" + elementIdFavorite);
-                            }
-                            else if(typeFavorite == FavoriteType.ARRET.getId()) {
-                                favorite.setUrl(StrasbourgPropsUtil.getURL() + "/arret/-/entity/id/" + elementIdFavorite);
-                            }
-                        }
+                    Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(idFavorite);
+                    boolean isNew = false;
+                    // Verifie si le favoris existe s'il n'existe pas on le recree
+                    if(Validator.isNull(favorite)){
+                        favorite = WSFavorite.createOrUpdateFavorite(null, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
+                        isNew =true;
+                    } else{
+                        favorite = WSFavorite.createOrUpdateFavorite(favorite, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
                     }
-                    favorite.setOrder(orderFavorite);
-                    favorite.setContent(contentFavorite);
-                    Date date = new Date(System.currentTimeMillis());
-                    favorite.setModifiedDate(date);
-                    FavoriteLocalServiceUtil.updateFavorite(favorite);
+                    if(isNew){
+                        JSONObject jsonResult = JSONFactoryUtil.createJSONObject();
+                        jsonResult.put("favoriteId", favorite.getFavoriteId());
+                        jsonResult.put("csmapId", csmapIdFavorite);
+                        json.put(jsonResult);
+                    }
                 }
             }
             JSONArray jsonDeletes = jsonFavorites.getJSONArray("DELETE");
             if (jsonDeletes != null && jsonDeletes.length() != 0) {
                 for (int j = 0; j < jsonDeletes.length(); j++) {
                     JSONObject jsonDelete = jsonDeletes.getJSONObject(j);
-                    Long idFavorite = jsonDelete.getLong("favoriteId");
+                    long idFavorite = jsonDelete.getLong("favoriteId");
                     FavoriteLocalServiceUtil.deleteFavorite(idFavorite);
                 }
             }
@@ -244,4 +222,12 @@ public class FavoriteApplication extends Application {
 
     @Reference
     protected WSAuthenticator authenticator;
+
+    @Reference(unbind = "-")
+    protected void setFavoriteLocalService(FavoriteLocalService favoriteLocalService) {
+        this.favoriteLocalService = favoriteLocalService;
+    }
+
+    @Reference
+    protected eu.strasbourg.service.favorite.service.FavoriteLocalService favoriteLocalService;
 }

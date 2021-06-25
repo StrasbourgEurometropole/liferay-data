@@ -16,7 +16,12 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
+import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.model.Direction;
+import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
 import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.*;
@@ -119,8 +124,8 @@ public class CSMapJSonHelper {
             titleJSON.put("fr_FR", JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber, WSConstants.JSON_WC_TITLE, Locale.FRANCE));
             emergencyNumberJson.put(WSConstants.JSON_WC_TITLE, titleJSON);
 
-            emergencyNumberJson.put(WSConstants.JSON_WC_ORDER, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"number",Locale.FRANCE));
-            emergencyNumberJson.put(WSConstants.JSON_WC_NUMBER, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"order",Locale.FRANCE));
+            emergencyNumberJson.put(WSConstants.JSON_WC_ORDER, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"order",Locale.FRANCE));
+            emergencyNumberJson.put(WSConstants.JSON_WC_NUMBER, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"number",Locale.FRANCE));
             JSONObject colorJSON = JSONFactoryUtil.createJSONObject();
             colorJSON.put(WSConstants.JSON_WC_FONT_COLOR, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"fontColor",Locale.FRANCE));
             colorJSON.put(WSConstants.JSON_WC_BACKGROUND_COLOR, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"backgroundColor",Locale.FRANCE));
@@ -288,6 +293,39 @@ public class CSMapJSonHelper {
         }
         jsonFavorite.put("content", favorite.getContent());
         return jsonFavorite;
+    }
+
+    static public JSONObject arretCSMapJSON(Arret arret) {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+        json.put("stopCode", arret.getCode());
+        json.put("title", arret.getTitle());
+        json.put("type", arret.getType());
+        json.put("mercatorX", arret.getLongitude());
+        json.put("mercatorY", arret.getLatitude());
+        String stopId = arret.getStopId();
+        List<Direction> directions = DirectionLocalServiceUtil.getByStopId(stopId);
+        JSONArray linesJSON = JSONFactoryUtil.createJSONArray();
+        List<String> lineNumbers = new ArrayList<>();
+        for(Direction direction : directions){
+            String lineName = LigneLocalServiceUtil.getByRouteId(direction.getRouteId()).getShortName();
+            if(!lineNumbers.contains(lineName)) {
+                JSONObject lineJSON = JSONFactoryUtil.createJSONObject();
+                lineJSON.put("lineNumber", lineName);
+                lineNumbers.add(lineName);
+                linesJSON.put(lineJSON);
+            }
+        }
+        json.put("lines", linesJSON);
+        return json;
+    }
+
+    static public JSONObject lineCSMapJSON(Ligne line) {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+        json.put("lineNumber", line.getShortName());
+        json.put("type", line.getType());
+        json.put("backgroundColor", line.getBackgroundColor());
+        json.put("textColor", line.getTextColor());
+        return json;
     }
 
 }
