@@ -7,10 +7,13 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.favorite.model.Favorite;
+import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalService;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
@@ -143,7 +146,7 @@ public class FavoriteApplication extends Application {
                     int orderFavorite = jsonAdd.getInt("order");
                     String contentFavorite = jsonAdd.getString("content");
                     List<Favorite> favoriteExist;
-                    // Verifie si le favoris n'existe pas déjà s'il existe on l'update
+                    // Verifie si le favori n'existe pas déjà, s'il existe on l'update
                     if(Validator.isNull(elementIdFavorite)){
                         if(Validator.isNull(contentFavorite)){
                             favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite,0,publikUser.getPublikId(),null);
@@ -151,10 +154,16 @@ public class FavoriteApplication extends Application {
                             favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite,0,publikUser.getPublikId(),contentFavorite);
                         }
                     }else {
-                        if (Validator.isNull(contentFavorite)) {
-                            favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite, Long.parseLong(elementIdFavorite), publikUser.getPublikId(), null);
+                        long elementIdForSearch;
+                        if (typeFavorite == FavoriteType.PLACE.getId()) {
+                            elementIdForSearch = PlaceLocalServiceUtil.getPlaceBySIGId(elementIdFavorite).getPlaceId();
                         } else {
-                            favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite, Long.parseLong(elementIdFavorite), publikUser.getPublikId(), contentFavorite);
+                            elementIdForSearch = Long.parseLong(elementIdFavorite);
+                        }
+                        if (Validator.isNull(contentFavorite)) {
+                            favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite, elementIdForSearch, publikUser.getPublikId(), null);
+                        } else {
+                            favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite, elementIdForSearch, publikUser.getPublikId(), contentFavorite);
                         }
                     }
                     if(Validator.isNull(favoriteExist) || favoriteExist.isEmpty()) {
@@ -181,7 +190,7 @@ public class FavoriteApplication extends Application {
                     String contentFavorite = jsonUpdate.getString("content");
                     Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(idFavorite);
                     boolean isNew = false;
-                    // Verifie si le favoris existe s'il n'existe pas on le recree
+                    // Verifie si le favori existe, s'il n'existe pas on le recree
                     if(Validator.isNull(favorite)){
                         favorite = WSFavorite.createOrUpdateFavorite(null, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
                         isNew =true;
