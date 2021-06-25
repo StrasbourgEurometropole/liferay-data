@@ -236,6 +236,7 @@
 		</field>
 		<field name="summary" type="String">
 			<hint name="max-length">500</hint>
+			<hint-collection name="EDITOR" />
 		</field>
 		<field name="description" type="String">
 			<hint-collection name="EDITOR" />

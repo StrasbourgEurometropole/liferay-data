@@ -46,7 +46,9 @@
 				<aui:input name="title" required="true" />
 				
 				<%-- Champ : Auteur penom --%>
-				<aui:input name="petitionnaireFirstname" required="true" />
+				<aui:input name="petitionnaireFirstname" required="true">
+				    <aui:validator name="maxLength">45</aui:validator>
+				</aui:input>
 				
 				<%-- Champ : Auteur nom --%>
 				<aui:input name="petitionnaireLastname" required="true" />
@@ -102,12 +104,14 @@
 
             <%-- Groupe de champs : Description --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-describe">
-
-				<%-- Champ : Corps de la description --%>
 				<aui:input name="description" required="false" />
-
 			</aui:fieldset>
-			
+
+	        <%-- Champ : Corps du résumé --%>
+            <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-summary">
+                <aui:input name="summary" required="false"/>
+            </aui:fieldset>
+
 			<%-- Groupe de champs : Soutien --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-support">
 		
