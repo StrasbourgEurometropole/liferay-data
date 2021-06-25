@@ -46,6 +46,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.AdictServiceTracker;
+import eu.strasbourg.service.agenda.custom.beans.RodrigueEventSession;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.model.EventPeriod;
@@ -58,11 +59,14 @@ import eu.strasbourg.service.agenda.utils.clients.soap.rodrigue.RodrigueSOAPClie
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
-import eu.strasbourg.service.agenda.custom.beans.RodrigueEventSession;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
@@ -101,7 +105,6 @@ public class EventImpl extends EventBaseImpl {
 	private static final long serialVersionUID = -263639533491031888L;
 
 	private AdictService adictService;
-
 	private AdictServiceTracker adictServiceTracker;
 
 	/*
@@ -1064,11 +1067,11 @@ public class EventImpl extends EventBaseImpl {
 	public String getCurrentOrFuturePeriodStringDate() {
 		String date = "";
 		if(this.getCurrentOrFuturePeriod() != null) {
-			SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+			SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
 			date = "Le " + df.format(this.getCurrentOrFuturePeriod().getStartDate());
 
 			if(this.getCurrentOrFuturePeriod().getTimeDetail() != "")
-				date = date + " &agrave; " + this.getCurrentOrFuturePeriod().getTimeDetail();
+				date = date + " &agrave; " + this.getCurrentOrFuturePeriod().getTimeDetail(Locale.FRANCE);
 		}
 		return date;
 	}
