@@ -40,6 +40,7 @@
 	</script>
 </liferay-util:html-top>
 
+<link rel="stylesheet" href="/o/dynamicsearchassetweb/css/dynamic-search.css" />
 <liferay-util:html-bottom>
 	<script src="/o/dynamicsearchassetweb/js/strasbourg.js"></script>
 </liferay-util:html-bottom>

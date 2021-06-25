@@ -127,6 +127,7 @@
 				margin: 0;
 				display: block;
 			}
+
 			.th-level-1{
 				@include ft($site-font, 18px, 700, $c_white, $th-nav-height);
 				position: relative;
@@ -227,6 +228,10 @@
 						}
 					}
 				}
+			}
+
+			> .th-cta-search {
+				padding: 0 10px;
 			}
 		}
 	}

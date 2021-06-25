@@ -109,7 +109,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	
 	private List<AssetEntry> assetEntries;
 	private long totalResult;
-	
+
 	/**
 	 * Initialisation de la vue
 	 */
@@ -425,8 +425,12 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 
 				// Si tel est le cas
 				if (containsNewsTagName || !configAffichage.equals(Constants.SEARCH_FORM_PLACIT)) {
-					JSONObject jsonArticle = JSONSearchHelper.createJournalArticleSearchJson(assetEntry, locale, themeDisplay, configAffichage, descriptionMaxLength);
-					jsonResponse.put(jsonArticle);
+					try {
+						JSONObject jsonArticle = JSONSearchHelper.createJournalArticleSearchJson(assetEntry, locale, themeDisplay, configAffichage, descriptionMaxLength);
+						jsonResponse.put(jsonArticle);
+					}catch (Exception e){
+						_log.error(e);
+					}
 				}
 			}
 
