@@ -1,28 +1,21 @@
 package eu.strasbourg.webservice.csmap.application;
 
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import eu.strasbourg.service.favorite.service.FavoriteLocalService;
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
 import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
 import eu.strasbourg.utils.DateHelper;
-import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.service.WSEmergencies;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
 import javax.ws.rs.FormParam;
@@ -33,7 +26,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -152,6 +144,7 @@ public class TransportApplication extends Application {
                         json.put("stops", jsonStop);
                         json.put("lines", jsonLine);
                 } catch (Exception e) {
+                        log.error(e);
                         return WSResponseUtil.buildErrorResponse(500, e.getMessage());
                 }
                 return WSResponseUtil.buildOkResponse(json);
@@ -185,6 +178,7 @@ public class TransportApplication extends Application {
                         }
                         json.put("schedules", schedulesJSON);
                 } catch(Exception e){
+                        log.error(e);
                         return WSResponseUtil.buildErrorResponse(500, e.getMessage());
                 }
                 return WSResponseUtil.buildOkResponse(json);
