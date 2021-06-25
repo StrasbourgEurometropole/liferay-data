@@ -43,12 +43,15 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import eu.strasbourg.service.comment.exception.NoSuchCommentException;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.like.exception.NoSuchLikeException;
+import eu.strasbourg.service.like.model.Like;
+import eu.strasbourg.service.like.model.LikeType;
+import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
-import eu.strasbourg.service.project.model.BudgetParticipatif;
-import eu.strasbourg.service.project.model.BudgetParticipatifModel;
-import eu.strasbourg.service.project.model.BudgetPhase;
-import eu.strasbourg.service.project.model.BudgetSupport;
-import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.*;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
@@ -147,6 +150,46 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
                     this.placitPlaceLocalService.removePlacitPlace(
                             placitPlace.getPlacitPlaceId());
                 }
+            }
+
+            // Supprime les BudgetSupport
+            List<BudgetSupport> budgets = this.budgetSupportLocalService.getBudgetSupportsByBudgetParticipatifId(budgetId);
+            if (budgets != null && !budgets.isEmpty()) {
+                for (BudgetSupport budget : budgets) {
+                    this.budgetSupportLocalService.removeBudgetSupport(budget.getBudgetSupportId());
+                }
+            }
+
+            // Supprime les ProjectTimeline
+            List<ProjectTimeline> projects = this.projectTimelineLocalService.getByBudgetParticipatifId(budgetId);
+            if (projects != null && !projects.isEmpty()) {
+                for (ProjectTimeline projet : projects) {
+                    this.projectTimelineLocalService.deleteProjectTimeline(projet.getProjectTimelineId());
+                }
+            }
+
+            // Supprime les Comments
+            try {
+                List<Comment> comments = CommentLocalServiceUtil.getByAssetEntry(entry.getEntryId(), 0);
+                if (comments != null && !comments.isEmpty()) {
+                    for (Comment comment : comments) {
+                        CommentLocalServiceUtil.removeComment(comment.getCommentId());
+                    }
+                }
+            } catch (NoSuchCommentException e) {
+                _log.error(e);
+            }
+
+            // Supprime les Likes
+            try {
+                List<Like> likes = LikeLocalServiceUtil.getByEntityIdAndTypeId(budgetId, LikeType.BUDGET_PARTICIPATIF.getId());
+                if (likes != null && !likes.isEmpty()) {
+                    for (Like like : likes) {
+                        LikeLocalServiceUtil.deleteLike(like);
+                    }
+                }
+            } catch (Exception e) {
+                _log.error(e);
             }
 
             // Supprime le budgetParticipatif
