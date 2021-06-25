@@ -317,6 +317,7 @@ public class CSMapJSonHelper {
     static public JSONObject lineCSMapJSON(Ligne line) {
         JSONObject json = JSONFactoryUtil.createJSONObject();
         json.put("lineNumber", line.getShortName());
+        json.put("type", line.getType());
         json.put("backgroundColor", line.getBackgroundColor());
         json.put("textColor", line.getTextColor());
         return json;
