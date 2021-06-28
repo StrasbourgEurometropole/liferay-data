@@ -275,7 +275,8 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 
 			// Supprime les Comments
 			try {
-				List<Comment> comments = CommentLocalServiceUtil.getByAssetEntry(entry.getEntryId(), 0);
+				// Récupère uniquement les commentaires de niveau 1, les enfants sont gérés par la méthode de supprssion
+				List<Comment> comments = CommentLocalServiceUtil.getByAssetEntryAndLevel(entry.getEntryId(), 1,0);
 				if (comments != null && !comments.isEmpty()) {
 					for (Comment comment : comments) {
 						CommentLocalServiceUtil.removeComment(comment.getCommentId());
