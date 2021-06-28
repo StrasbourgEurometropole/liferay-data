@@ -314,9 +314,14 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			boolean hasDateFilter = false;
 			if(mode.equals("normal") || mode.equals("district")) {
 				if(displayConfig) {
-					String dateField = ParamUtil.getString(request, "dateField");
-					setPreference(request, "dateField", dateField);
-					hasDateFilter = Boolean.parseBoolean(dateField);
+					if(hasEventPOIs){
+						String dateField = ParamUtil.getString(request, "dateField");
+						setPreference(request, "dateField", dateField);
+						hasDateFilter = Boolean.parseBoolean(dateField);
+					}else{
+						// Pas utilisé si pas de type Event
+						setPreference(request, "dateField", "");
+					}
 				}else{
 					// Pas utilisé si la config est cachée
 					setPreference(request, "dateField", "");

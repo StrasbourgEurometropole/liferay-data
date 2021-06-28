@@ -1513,6 +1513,12 @@
     background-color: #f6f6f6;
 }
 
+#aroundme .select2 .select2-selection__rendered li{
+    font-size: 1.4rem;
+    padding: 0 5px;
+    margin: 5px 5px 0 0;
+}
+
 .select2-container {
     box-sizing: border-box;
     display: inline-block;
@@ -1609,6 +1615,7 @@
 }
 
 .select2-results__option {
+    font-size: 1.8rem;
     padding: 6px;
     -moz-user-select: none;
     -ms-user-select: none;

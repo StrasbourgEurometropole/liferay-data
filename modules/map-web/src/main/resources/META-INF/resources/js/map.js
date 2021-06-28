@@ -632,10 +632,12 @@
                     }else{
                         categories = categories + allCategoriesVocabulary;
                     }
-                })
+                });
 
                 // Récupération des données concernant les catégories
-                addCategoriesMarkers(markers, categories, vocabulariesEmptyIds);
+                if (categories.length > 0) {
+                    addCategoriesMarkers(markers, categories, vocabulariesEmptyIds);
+                }
 
                 // Récupération des centres d'intérêts à afficher
                 var interests = "";
@@ -690,7 +692,7 @@
                             }
                         }
                         // ou si aucune sélection n'est faite
-                        if (!hasSelect) {
+                        if (!hasSelect && ame.$filters_categories_list.find("option:selected").length > 0) {
                             addTraffic(markers);
                             addAlerts(markers);
                         }
@@ -911,13 +913,15 @@
      * Recuperation des couleurs de lignes
      */
     var ligneColors;
-    Liferay.Service(
-            '/gtfs.ligne/get-ligne-colors',
-            {},
-            function(json) {
-            	ligneColors = json;
-            }
-    );
+    if(window.typesContenu.includes('eu.strasbourg.service.gtfs.model.Arret')){
+        Liferay.Service(
+                '/gtfs.ligne/get-ligne-colors',
+                {},
+                function(json) {
+                    ligneColors = json;
+                }
+        );
+    }
 
     /**
      * Cherche la ligne dans la liste des couleurs de lignes

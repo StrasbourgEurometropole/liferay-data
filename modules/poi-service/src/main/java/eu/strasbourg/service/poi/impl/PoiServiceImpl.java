@@ -124,7 +124,7 @@ public class PoiServiceImpl implements PoiService {
 				// récupère les lieux des catégories et centres d'intérêt
 				long classNameId = ClassNameLocalServiceUtil.getClassName(Place.class.getName()).getClassNameId();
 				List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
-				List<Long[]> prefilters = getCategories("", prefiltersString, classNameId);
+				List<Long[]> prefilters = getprefilters(prefiltersString, classNameId);
 				Hits hits = getHit(categories, prefilters, tagsString, groupId, Place.class.getName(),
 						false, fromDate, toDate, localeId, globalGroupId);
 
@@ -154,7 +154,7 @@ public class PoiServiceImpl implements PoiService {
 				// récupère les évènements des catégories et centres d'intérêt
 				long classNameId = ClassNameLocalServiceUtil.getClassName(Event.class.getName()).getClassNameId();
 				List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
-				List<Long[]> prefilters = getCategories("", prefiltersString, classNameId);
+				List<Long[]> prefilters = getprefilters(prefiltersString, classNameId);
 				Hits hits = getHit(categories, prefilters, tagsString, groupId, Event.class.getName(),
 						dateField, fromDate, toDate, localeId, globalGroupId);
 
@@ -185,7 +185,7 @@ public class PoiServiceImpl implements PoiService {
 				// récupère les arrets des catégories et centres d'intérêt
 				long classNameId = ClassNameLocalServiceUtil.getClassName(Arret.class.getName()).getClassNameId();
 				List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
-				List<Long[]> prefilters = getCategories("", prefiltersString, classNameId);
+				List<Long[]> prefilters = getprefilters(prefiltersString, classNameId);
 				Hits hits = getHit(categories, prefilters, tagsString, groupId, Arret.class.getName(),
 						false, fromDate, toDate, localeId, globalGroupId);
 
@@ -357,8 +357,7 @@ public class PoiServiceImpl implements PoiService {
 
 		// récupère les catégories ainsi que les catégories enfants des
 		// catégories des vocabulaires
-		// les catégories d'un vocabulaire sont séparées par une virgule
-		// les vocabulaires sont séparées par un point-virgule
+		// les catégories sont regoupées par vocabulaire
 		List<Long[]> categories = new ArrayList<>();
 		if (Validator.isNotNull(idCategoriesString)) {
 			List<Long> filterCategories = new ArrayList<>();
@@ -428,6 +427,60 @@ public class PoiServiceImpl implements PoiService {
 		}
 
 		return categories;
+	}
+
+	private List<Long[]> getprefilters(String idPrefiltersString, long classNameId) {
+
+		// récupère les catégories ainsi que les catégories enfants des
+		// préfiltres des vocabulaires
+		// les catégories sont regoupées par vocabulaire
+		List<Long[]> prefilters = new ArrayList<>();
+		if (Validator.isNotNull(idPrefiltersString)) {
+			List<Long> prefilterCategories = new ArrayList<>();
+			long oldLinkedVocabularyId = -1;
+			for (String prefilterCategoryId : idPrefiltersString.split(",")) {
+				if(Validator.isNotNull(prefilterCategoryId)) {
+					AssetCategory category = AssetCategoryLocalServiceUtil.fetchCategory(Long.parseLong(prefilterCategoryId));
+					if(Validator.isNotNull(category)) {
+						AssetVocabulary vocabulaire = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(category.getVocabularyId());
+						//on vérifie que le vocabulaire de la catégorie est liée au type d'entité
+						boolean isLinked = false;
+						long[] classNameIds = vocabulaire.getSelectedClassNameIds();
+						for(long id : classNameIds) {
+							if (id == classNameId || id == 0){
+								isLinked = true;
+								break;
+							}
+						}
+						if(isLinked) {
+							if(oldLinkedVocabularyId != vocabulaire.getVocabularyId()){
+								if(oldLinkedVocabularyId != -1) {
+									Long[] prefiltercategoriesIdsForVocabulary = new Long[prefilterCategories.size()];
+									prefilterCategories.toArray(prefiltercategoriesIdsForVocabulary);
+									prefilters.add(prefiltercategoriesIdsForVocabulary);
+								}
+								oldLinkedVocabularyId = vocabulaire.getVocabularyId();
+								prefilterCategories = new ArrayList<>();
+							}
+							prefilterCategories.add(Long.valueOf(prefilterCategoryId));
+							// récupère les catégories enfants
+							List<AssetCategory> childsCategories = AssetCategoryLocalServiceUtil
+									.getChildCategories(Long.parseLong(prefilterCategoryId));
+							if (!childsCategories.isEmpty()) {
+								prefilterCategories.addAll(childsCategories.stream().map(c -> c.getCategoryId()).collect(Collectors.toList()));
+							}
+						}
+					}
+				}
+			}
+			if(!prefilterCategories.isEmpty()) {
+				Long[] categoriesIdsForVocabulary = new Long[prefilterCategories.size()];
+				prefilterCategories.toArray(categoriesIdsForVocabulary);
+				prefilters.add(categoriesIdsForVocabulary);
+			}
+		}
+
+		return prefilters;
 	}
 
 	private Hits getHit(List<Long[]> categories, List<Long[]> prefilters, String tagsString, long groupId,

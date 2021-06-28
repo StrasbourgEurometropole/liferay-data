@@ -1,4 +1,5 @@
 //@import "libs/bootstrap.min";
+@import "base/_round-decimal";
 @import "base/_grids-distribution";
 
 @import "libs/icomoon";
@@ -1146,4 +1147,8 @@
 	}
 
 
+}
+    
+#ui-datepicker-div .ui-datepicker-header {
+	background-color: $third-color !important;
 }

@@ -347,55 +347,58 @@ public class MapPortlet extends MVCPortlet {
                             }
                         }
 
-                        if(showConfig) {
-                            // Récupération de toutes les catégories à affichées
-                            // on regroupe toutes les catégories par vocabulaire pour l'affichage dans la config
-                            if(displayCheckbox) {
-                                allCategories = categoriesDefaults;
-                                allCategories.addAll(categories);
-                                allCategories = allCategories.stream()
-                                        .sorted(Comparator.comparing(AssetCategoryModel::getVocabularyId))
-                                        .collect(Collectors.toList());
-                                long oldVocabulary = -1;
-                                List<AssetCategory> categoriesVocabulary = null;
-                                for (AssetCategory category : allCategories) {
-                                    if (oldVocabulary != category.getVocabularyId()) {
-                                        if (oldVocabulary != -1) {
-                                            String[] labelVocabulary = {};
-                                            AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil
-                                                    .fetchAssetVocabulary(oldVocabulary);
-                                            if (vocabulary != null) {
-                                                labelVocabulary = new String[]{"" + vocabulary.getVocabularyId(), getLabelocabulary(vocabulary).toLowerCase()};
-                                            }
-                                            categoriesVocabularies.put(labelVocabulary, categoriesVocabulary);
+                        // Récupération de toutes les catégories à affichées
+                        // on regroupe toutes les catégories par vocabulaire pour l'affichage dans la config
+                        if(displayCheckbox) {
+                            List<AssetCategory> allCategoriesToCheck = categoriesDefaults;
+                            if(showConfig)
+                                allCategoriesToCheck.addAll(categories);
+                            allCategoriesToCheck = allCategoriesToCheck.stream()
+                                    .sorted(Comparator.comparing(AssetCategoryModel::getVocabularyId))
+                                    .collect(Collectors.toList());
+                            long oldVocabulary = -1;
+                            List<AssetCategory> categoriesVocabulary = null;
+                            for (AssetCategory category : allCategoriesToCheck) {
+                                if (oldVocabulary != category.getVocabularyId()) {
+                                    if (oldVocabulary != -1) {
+                                        String[] labelVocabulary = {};
+                                        AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil
+                                                .fetchAssetVocabulary(oldVocabulary);
+                                        if (vocabulary != null) {
+                                            labelVocabulary = new String[]{"" + vocabulary.getVocabularyId(), getLabelocabulary(vocabulary).toLowerCase()};
                                         }
-                                        categoriesVocabulary = new ArrayList<>();
-                                        oldVocabulary = category.getVocabularyId();
+                                        categoriesVocabularies.put(labelVocabulary, categoriesVocabulary);
                                     }
-                                    categoriesVocabulary.add(category);
+                                    categoriesVocabulary = new ArrayList<>();
+                                    oldVocabulary = category.getVocabularyId();
                                 }
-                                if (oldVocabulary != -1) {
-                                    String[] labelVocabulary = {};
-                                    AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(oldVocabulary);
-                                    if (vocabulary != null) {
-                                        labelVocabulary = new String[]{"" + vocabulary.getVocabularyId(), getLabelocabulary(vocabulary).toLowerCase()};
-                                    }
-                                    categoriesVocabularies.put(labelVocabulary, categoriesVocabulary);
+                                categoriesVocabulary.add(category);
+                            }
+                            if (oldVocabulary != -1) {
+                                String[] labelVocabulary = {};
+                                AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(oldVocabulary);
+                                if (vocabulary != null) {
+                                    labelVocabulary = new String[]{"" + vocabulary.getVocabularyId(), getLabelocabulary(vocabulary).toLowerCase()};
                                 }
-                            }else {
+                                categoriesVocabularies.put(labelVocabulary, categoriesVocabulary);
+                            }
+                        }else {
+                            if(hasConfig) {
                                 List<AssetCategory> categoriesVocabulary = null;
                                 for (AssetCategory category : parentCategories) {
-                                    String[] labelVocabulary = new String[]{""+category.getCategoryId(), category.getTitle(themeDisplay.getLocale())};
+                                    String[] labelVocabulary = new String[]{"" + category.getCategoryId(), category.getTitle(themeDisplay.getLocale())};
                                     categoriesVocabulary = new ArrayList<>();
                                     categoriesVocabulary.add(category);
                                     categoriesVocabularies.put(labelVocabulary, categoriesVocabulary);
                                 }
                                 for (AssetVocabulary vocabulary : vocabularies) {
-                                    String[] labelVocabulary = new String[]{""+vocabulary.getVocabularyId(), getLabelocabulary(vocabulary)};
+                                    String[] labelVocabulary = new String[]{"" + vocabulary.getVocabularyId(), getLabelocabulary(vocabulary)};
                                     categoriesVocabularies.put(labelVocabulary, vocabulary.getCategories().stream().filter(AssetCategory::isRootCategory).collect(Collectors.toList()));
                                 }
                             }
+                        }
 
+                        if(showConfig) {
                             dateField = configuration.dateField();
                             if (dateField) {
                                 defaultDateRange = configuration.defaultDateRange();
