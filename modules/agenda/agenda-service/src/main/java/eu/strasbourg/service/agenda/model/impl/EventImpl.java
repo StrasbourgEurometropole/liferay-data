@@ -1390,7 +1390,9 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("idSurfs", this.getPlaceSIGId());
 			Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-			jsonPlace.put("name", place.getName());
+			JSONObject placeName = JSONFactoryUtil.createJSONObject();
+			placeName.put("fr_FR", this.getTitle(Locale.FRANCE));
+			jsonPlace.put("name", placeName);
 			String street = place.getAddressStreet();
 			if(!street.isEmpty() || Validator.isNotNull(street)){
 				jsonPlace.put("street", street);
