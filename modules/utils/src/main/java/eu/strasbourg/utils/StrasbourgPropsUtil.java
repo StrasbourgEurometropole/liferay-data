@@ -20,14 +20,6 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.recaptcha.public");
 	}
 
-	public static String getLegacyPlaceApiUrl() {
-		return PropsUtil.get("eu.strasbourg.legacy.place.api.url");
-	}
-
-	public static String getLegacyPlaceApiAutocompleteUrl() {
-		return PropsUtil.get("eu.strasbourg.legacy.place.api.autocomplete.url");
-	}
-
 	public static String getAgendaImportMails() {
 		return PropsUtil.get("eu.strasbourg.agenda.mail");
 	}
@@ -35,6 +27,7 @@ public class StrasbourgPropsUtil {
 	public static String getAgendaImportMailsForProvider(String provider) {
 		return PropsUtil.get("eu.strasbourg.agenda.mail." + provider);
 	}
+
 	public static String getUrlCozeJson() {
 		return PropsUtil.get("eu.strasbourg.agenda.url.coze");
 	}
