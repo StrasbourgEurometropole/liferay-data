@@ -138,6 +138,17 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </div>
                         </#if>
                     </div>
+                    <#if entry.registration>
+                        <div class="seu-wi-text">
+                            <div class="seu-wi-title"><@liferay_ui.message key="eu.registration" /></div>
+                            <div class="rte">
+                                <div class="registration-date"><@liferay_ui.message key="eu.registration.from" /> ${entry.registrationStartDate?date?string.long?replace('.', '')}</div>
+                            </div>
+                            <div class="rte">
+                                <div class="registration-date"><@liferay_ui.message key="eu.registration.to" /> ${entry.registrationEndDate?date?string.long?replace('.', '')}</div>
+                            </div>
+                        </div>
+                    </#if>
                     <#if entry.bookingURL?has_content || entry.getBookingDescription(locale)?has_content>
                         <div class="seu-wi-text">
                             <div class="seu-wi-title"><@liferay_ui.message key="eu.ticket-office" /></div>
