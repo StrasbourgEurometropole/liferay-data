@@ -55,6 +55,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <#else>
                                     <@liferay_ui.message key="eu.offer-full-time-false" />
                                 </#if>  
+                                - ${entry.getFullTimeDescription(locale)}
                                 </p>
                             </div>                   
                         </#if>
@@ -166,12 +167,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     </div>
 
     <#assign StrasbourgPropsUtil = serviceLocator.findService("eu.strasbourg.utils.api.StrasbourgPropsUtilService") />
-        
+    
     <script>
         document.getElementById("candidater").onclick = function(e){
             // on vérifie que l'utilisateur est connecté
             if(window.publikInternalId != undefined){
-                window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLOfferApply()}?refposte=${entry.publicationId}&libposte=${entry.getPost(locale)?js_string}";
+                    window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLOfferApply()}?refposte=${entry.publicationId}&libposte=${entry.getPost(locale)?js_string}";
             }else{
                 window.createPopin(Liferay.Language.get('log-in-to-apply'),function() {
                     window.location = window.location + ((window.location.href.indexOf("?") > -1)? '&' : '?') + 'auth=publik';
