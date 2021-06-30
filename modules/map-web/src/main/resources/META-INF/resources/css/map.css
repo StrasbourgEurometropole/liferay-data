@@ -517,6 +517,11 @@
     display: block;
   }
 }
+#wi-aroundme #aroundme .filtres--category .filtres__list .select2 .select2-search__field {
+    width: 0 !important;
+    height: 25px;
+    border: none;
+}
 #aroundme .filtres--category .filtres__item [type=checkbox] {
   position: absolute;
   left: -99999999px;
@@ -1510,7 +1515,7 @@
 
 #aroundme .seu-view-filters .select2 .select2-selection,
 #aroundme .seu-view-filters input:not([type=radio]):not([type=checkbox]):not([type=file]):not(.webform-calendar){
-    background-color: #f6f6f6;
+    padding: 0 20px;
 }
 
 #aroundme .select2 .select2-selection__rendered li{
@@ -1773,7 +1778,8 @@
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
-    list-style: none
+    list-style: none;
+    color: black;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__placeholder {

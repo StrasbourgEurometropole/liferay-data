@@ -396,8 +396,8 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Choix afficher l'info trafic
 			boolean displayTraffic = false;
-			if(mode.equals("widget")) {
-				// Pas utilisé en mode widget
+			if(mode.equals("widget") || mode.equals("district")) {
+				// Pas utilisé en mode widget ou quartier
 				setPreference(request, "showTraffic", "");
 			}else {
 				String showTraffic = ParamUtil.getString(request, "showTraffic");

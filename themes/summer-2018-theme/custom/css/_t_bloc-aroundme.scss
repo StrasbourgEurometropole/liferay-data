@@ -203,6 +203,10 @@
                         .icon{
                             background-image: url( svg-bg-uri($svg-filters, $c_grey) );
                         }
+                        
+                        input{
+                            background-color: #fff;
+                        }
                     }
                     &__list{
                         @include not_mobile{
@@ -210,11 +214,6 @@
                         }
                         @include mobile{
                             @include grid-distribution(1, 0, grid-item);
-                        }
-                        .select2 .select2-search__field{
-                            width: 100% !important;
-                            height: 25px;
-                            border: none;
                         }
                     }
                     &__item{
@@ -436,4 +435,8 @@
     }
 }
 
-/* ------------------------------ Etat full screen */
+/* ------------------------------ calendrier */
+    
+#ui-datepicker-div .ui-datepicker-header {
+	background-color: $third-color !important;
+}

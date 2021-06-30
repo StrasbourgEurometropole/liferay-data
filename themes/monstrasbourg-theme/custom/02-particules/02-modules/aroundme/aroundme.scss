@@ -142,9 +142,11 @@
 
                 .filtres{
                     &__title{
-
                         .icon{
                             background-image: url( svg-bg-uri($svg-filters, $second-color) );
+                        }
+                        input {
+                            background-color: #fff;
                         }
                     }
                     &__list{

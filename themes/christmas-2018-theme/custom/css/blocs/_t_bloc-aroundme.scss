@@ -201,9 +201,12 @@
 
                 .filtres{
                     &__title{
-
                         .icon{
                             background-image: url( svg-bg-uri($svg-filters, $c_grey) );
+                        }
+                        
+                        input{
+                            background-color: #fff;
                         }
                     }
                     &__list{
@@ -438,6 +441,8 @@
     }
 }
 
+/* ------------------------------ calendrier */
+    
 #ui-datepicker-div .ui-datepicker-header {
-    background-color: $third-color;
+	background-color: black !important;
 }

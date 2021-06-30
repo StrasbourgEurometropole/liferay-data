@@ -142,7 +142,7 @@
                     </div>
 
                     <!-- Filtre sur le quartier de l'utilisateur -->
-                    <div class="districtMode">
+                    <div class="districtUser">
                         <aui:input type="checkbox" name="districtUser" value="${districtUser}" label="district-user" />
                     </div>
                 </aui:fieldset>
@@ -336,10 +336,12 @@
                             $('.noWidgetMode').show();
                             $(".group").closest(".form-group").removeClass("margin-less");
                             if(mode == 'district'){
-                                $('.districtMode').show();
+                                $('.districtUser').show();
+                                $('.infoTraffic').hide();
                                 $('.clippingTerritory').hide();
                             }else{
-                                $('.districtMode').hide();
+                                $('.districtUser').hide();
+                                $('.infoTraffic').show();
                                 $('.clippingTerritory').show();
                             }
                         }

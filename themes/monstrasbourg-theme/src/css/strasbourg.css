@@ -13944,11 +13944,14 @@ footer .footer .portlet {
     /* line 140, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .filtres--category {
       background-color: #31455d; }
-      /* line 146, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 145, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .filtres--category .filtres__title .icon {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2346cfc0' viewBox='0 0 178.3 187.2'%3E%3Cpath class='st0' d='M148.7 6v31.4c-10.1 2.7-17.6 11.9-17.6 22.8 0 10.9 7.5 20.2 17.6 22.8v98.2c0 3.3 2.7 6 6 6 3.3 0 6-2.7 6-6V83.1c10.1-2.7 17.6-11.9 17.6-22.8 0-10.9-7.5-20.2-17.6-22.8V6c0-3.3-2.7-6-6-6C151.4 0 148.7 2.7 148.7 6L148.7 6zM166.3 60.2c0 6.4-5.2 11.6-11.6 11.6 -6.4 0-11.6-5.2-11.6-11.6 0-6.4 5.2-11.6 11.6-11.6C161.1 48.6 166.3 53.9 166.3 60.2L166.3 60.2zM166.3 60.2'/%3E%3Cpath class='st0' d='M95.1 181.2v-40c10.1-2.7 17.6-11.9 17.6-22.8 0-10.9-7.5-20.2-17.6-22.8V6c0-3.3-2.7-6-6-6 -3.3 0-6 2.7-6 6v89.6c-10.1 2.7-17.6 11.9-17.6 22.8 0 10.9 7.5 20.2 17.6 22.8v40c0 3.3 2.7 6 6 6C92.5 187.2 95.1 184.5 95.1 181.2L95.1 181.2zM77.5 118.4c0-6.4 5.2-11.6 11.6-11.6 6.4 0 11.6 5.2 11.6 11.6 0 6.4-5.2 11.6-11.6 11.6C82.7 130 77.5 124.8 77.5 118.4L77.5 118.4zM77.5 118.4'/%3E%3Cpath class='st0' d='M29.6 181.2V83.1c10.1-2.7 17.6-11.9 17.6-22.8 0-10.9-7.5-20.2-17.6-22.8V6c0-3.3-2.7-6-6-6 -3.3 0-6 2.7-6 6v31.4C7.5 40.1 0 49.3 0 60.2c0 10.9 7.5 20.2 17.6 22.8v98.2c0 3.3 2.7 6 6 6C26.9 187.2 29.6 184.5 29.6 181.2L29.6 181.2zM12 60.2c0-6.4 5.2-11.6 11.6-11.6 6.4 0 11.6 5.2 11.6 11.6 0 6.4-5.2 11.6-11.6 11.6C17.2 71.8 12 66.6 12 60.2L12 60.2zM12 60.2'/%3E%3C/svg%3E"); }
+      /* line 148, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      #wi-aroundme #aroundme .filtres--category .filtres__title input {
+        background-color: #fff; }
       @media only screen and (min-width: 1280px) {
-        /* line 150, custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 152, custom/02-particules/02-modules/aroundme/aroundme.scss */
         #wi-aroundme #aroundme .filtres--category .filtres__list {
           display: -webkit-box;
           display: -ms-flexbox;
@@ -13971,7 +13974,7 @@ footer .footer .portlet {
               margin-left: 20px;
               margin-right: 0; } }
       @media only screen and (min-width: 767px) and (max-width: 1279px) {
-        /* line 150, custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 152, custom/02-particules/02-modules/aroundme/aroundme.scss */
         #wi-aroundme #aroundme .filtres--category .filtres__list {
           display: -webkit-box;
           display: -ms-flexbox;
@@ -13994,7 +13997,7 @@ footer .footer .portlet {
               margin-left: 20px;
               margin-right: 0; } }
       @media only screen and (max-width: 767px) {
-        /* line 150, custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 152, custom/02-particules/02-modules/aroundme/aroundme.scss */
         #wi-aroundme #aroundme .filtres--category .filtres__list {
           display: -webkit-box;
           display: -ms-flexbox;
@@ -14006,44 +14009,44 @@ footer .footer .portlet {
             width: calc(100% - ( ((1px - 1px) * 0) / 1));
             margin-left: 0 !important;
             margin-right: 0 !important; } }
-      /* line 165, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 167, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .filtres--category .filtres__item [type="checkbox"] + label:after {
         background-color: #46cfc0; }
-      /* line 170, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 172, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .filtres--category .filtres__item [type="checkbox"]:checked + label {
         color: #46cfc0; }
-        /* line 172, custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 174, custom/02-particules/02-modules/aroundme/aroundme.scss */
         #wi-aroundme #aroundme .filtres--category .filtres__item [type="checkbox"]:checked + label:before {
           border-color: #46cfc0; }
-      /* line 180, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 182, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .filtres--category .filtres__item--favorite [type="checkbox"] + label {
         color: #fbb52d !important; }
-        /* line 182, custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 184, custom/02-particules/02-modules/aroundme/aroundme.scss */
         #wi-aroundme #aroundme .filtres--category .filtres__item--favorite [type="checkbox"] + label:before {
           border-color: #fbb52d !important; }
-        /* line 185, custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 187, custom/02-particules/02-modules/aroundme/aroundme.scss */
         #wi-aroundme #aroundme .filtres--category .filtres__item--favorite [type="checkbox"] + label:after {
           background-color: #fbb52d !important; }
-    /* line 199, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 201, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .filtres--poi .filtres__title {
       color: #31455d; }
-      /* line 201, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 203, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .filtres--poi .filtres__title .icon {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 21.4 26.8'%3E%3Cpath d='M10.7 0C4.8 0 0.1 4.8 0.1 10.7c0 8.9 10.7 16.1 10.7 16.1S21.4 19 21.4 10.7C21.4 4.8 16.6 0 10.7 0zM10.9 16.2c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5S13.7 16.2 10.9 16.2z'/%3E%3C/svg%3E"); }
       @media only screen and (min-width: 1280px) {
-        /* line 199, custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 201, custom/02-particules/02-modules/aroundme/aroundme.scss */
         #wi-aroundme #aroundme .filtres--poi .filtres__title {
           display: none; } }
-    /* line 212, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 214, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .filtres--poi .filtres__item [type="checkbox"] + label:before {
       border: solid 1px #31455d; }
-    /* line 215, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 217, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .filtres--poi .filtres__item [type="checkbox"] + label:after {
       background-color: #31455d; }
-    /* line 221, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 223, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .filtres--poi .filtres__item [type="checkbox"]:checked + label:before {
       border-color: #31455d; }
-    /* line 239, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 241, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .aroundme__marker-amount {
       white-space: nowrap;
       /*
@@ -14051,50 +14054,50 @@ footer .footer .portlet {
                     background-color: $crowded-white;
                 }
                 */ }
-      /* line 242, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 244, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .aroundme__marker-amount.red {
         background-color: #FF0F0F; }
-      /* line 245, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 247, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .aroundme__marker-amount.orange {
         background-color: #ff470f; }
-      /* line 248, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 250, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .aroundme__marker-amount.green {
         background-color: #40a040; }
-      /* line 251, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 253, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .aroundme__marker-amount.black {
         background-color: #272222; }
-      /* line 254, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 256, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .aroundme__marker-amount.grey, #wi-aroundme #aroundme .aroundme__marker-amount.white {
         background-color: #9E9E9E; }
-    /* line 263, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 265, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .aroundme__marker-alert {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23D5383B' viewBox='0 0 55 51' %3E%3Ccircle cx='28' cy='27' r='20' fill='white' /%3E%3Cpath class='st0' d='M 27.97 3.46 c -12.48 0 -22.6 10.12 -22.6 22.6 c 0 12.48 10.12 22.6 22.6 22.6 s 22.6 -10.12 22.6 -22.6 C 50.57 13.58 40.45 3.46 27.97 3.46 Z M 32.62 40.06 h -9.31 v -9.31 h 9.31 V 40.06 Z M 31.62 28.69 h -7.31 l -1 -15.69 h 9.31 L 31.62 28.69 Z' /%3E%3C/svg%3E"); }
-    /* line 270, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 272, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .leaflet-popup-tip {
       background: #31455d; }
-    /* line 274, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 276, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .infowindow__close {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'  viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z'/%3E%3C/svg%3E"); }
-    /* line 277, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 279, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .infowindow__name {
       font-family: "MontSerrat", arial;
       text-transform: uppercase; }
-    /* line 283, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 285, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .infowindow__like a:not(.liked) {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'   viewBox='0 0 240.7 240.7'%3E%3Cpath d='M123.8 80l-3.4 3.4 -3.4-3.4c-14.7-14.7-38.6-14.7-53.3 0 -14.4 14.4-14.5 37.2-0.2 53.1 13 14.5 51.4 45.7 53 47 1.1 0.9 2.4 1.3 3.8 1.3 0 0 0.1 0 0.1 0 1.4 0.1 2.7-0.4 3.9-1.3 1.6-1.3 40-32.6 53-47 14.3-15.9 14.2-38.7-0.2-53.1C162.4 65.3 138.5 65.3 123.8 80zM168.4 125c-10.1 11.3-38 34.5-48 42.8 -10-8.2-37.9-31.5-48-42.8 -10-11.1-10-26.8-0.2-36.6 5-5 11.6-7.5 18.2-7.5 6.6 0 13.2 2.5 18.2 7.5l7.5 7.5c0.9 0.9 2 1.4 3.2 1.6 1.9 0.4 4-0.1 5.5-1.6l7.5-7.5c10-10 26.4-10 36.4 0C178.4 98.2 178.3 114 168.4 125z'/%3E%3Cpath d='M120.4 240.7C54 240.7 0 186.7 0 120.4S54 0 120.4 0s120.4 54 120.4 120.4S186.7 240.7 120.4 240.7zM120.4 11.5c-60 0-108.9 48.8-108.9 108.9S60.3 229.2 120.4 229.2s108.9-48.8 108.9-108.9S180.4 11.5 120.4 11.5z'/%3E%3C/svg%3E"); }
-    /* line 286, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 288, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .infowindow__like a.liked {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 240.7 240.7'%3E%3Cpath class='st0' d='M120.4 240.7C54 240.7 0 186.7 0 120.4S54 0 120.4 0s120.4 54 120.4 120.4S186.7 240.7 120.4 240.7zM120.4 11.5c-60 0-108.9 48.8-108.9 108.9s48.8 108.9 108.9 108.9 108.9-48.8 108.9-108.9S180.4 11.5 120.4 11.5z'/%3E%3Cpath class='st0' d='M177 80c-14.7-14.7-38.6-14.7-53.3 0l-3.4 3.4L117 80c-14.7-14.7-38.6-14.7-53.3 0 -14.4 14.4-14.5 37.2-0.2 53.1 13 14.5 51.4 45.7 53 47 1.1 0.9 2.4 1.3 3.8 1.3 0 0 0.1 0 0.1 0 1.4 0.1 2.7-0.4 3.9-1.3 1.6-1.3 40-32.6 53-47C191.5 117.2 191.4 94.3 177 80z'/%3E%3C/svg%3E"); }
-    /* line 292, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 294, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .infowindow__address {
       font-family: "OpenSans", arial; }
-    /* line 302, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 304, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .infowindow__opened {
       font-family: "OpenSans", arial; }
-    /* line 305, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 307, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .infowindow__schedules {
       font-family: "MontSerrat", arial; }
-    /* line 309, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 311, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .infowindow__amount .infowindow__frequentation {
       white-space: nowrap;
       /*
@@ -14102,37 +14105,37 @@ footer .footer .portlet {
                         background-color: $crowded-white;
                     }
                     */ }
-      /* line 312, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 314, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .infowindow__amount .infowindow__frequentation.orange {
         background-color: #ff470f; }
-      /* line 315, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 317, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .infowindow__amount .infowindow__frequentation.green {
         background-color: #40a040; }
-      /* line 318, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 320, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .infowindow__amount .infowindow__frequentation.grey, #wi-aroundme #aroundme .infowindow__amount .infowindow__frequentation.white {
         background-color: #9E9E9E; }
-      /* line 326, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 328, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .infowindow__amount .infowindow__frequentation.red {
         background-color: #FF0F0F; }
-      /* line 329, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 331, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .infowindow__amount .infowindow__frequentation.black {
         background-color: #272222; }
-    /* line 333, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 335, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .infowindow__amount .crowded-label {
       color: #31455d;
       font-family: "OpenSans", arial; }
-    /* line 339, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 341, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme .infowindow__url a {
       padding: 10px 20px; }
-      /* line 343, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 345, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #wi-aroundme #aroundme .infowindow__url a.alert-arret span.flexbox:before {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23D5383B' viewBox='0 0 55 51' %3E%3Ccircle cx='28' cy='27' r='20' fill='white' /%3E%3Cpath class='st0' d='M 27.97 3.46 c -12.48 0 -22.6 10.12 -22.6 22.6 c 0 12.48 10.12 22.6 22.6 22.6 s 22.6 -10.12 22.6 -22.6 C 50.57 13.58 40.45 3.46 27.97 3.46 Z M 32.62 40.06 h -9.31 v -9.31 h 9.31 V 40.06 Z M 31.62 28.69 h -7.31 l -1 -15.69 h 9.31 L 31.62 28.69 Z' /%3E%3C/svg%3E"); }
-    /* line 356, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 358, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #wi-aroundme #aroundme.side-opened .side__trigger--pull:before {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E");
       -webkit-transform: translate(-50%, -50%);
               transform: translate(-50%, -50%); }
-  /* line 368, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 370, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #wi-aroundme .aroundme--fullscreen #aroundme .aroundme__ui--fullscreen {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' viewBox='0 0 351.5 351.4'%3E%3Cpath class='st0' d='M214.2 143h94.7c3.4 0 6.1-2.7 6.1-6.1v-24.4c0-3.4-2.8-6.1-6.1-6.1h-38.2l78.7-78.7c2.4-2.4 2.4-6.3 0-8.6L332.1 1.8c-2.4-2.4-6.3-2.4-8.6 0l-78.7 78.7V42.3c0-3.4-2.7-6.1-6.1-6.1h-24.4c-3.4 0-6.1 2.8-6.1 6.1V137C208.1 140.2 210.9 143 214.2 143z'/%3E%3Cpath class='st0' d='M19 2L1.7 19.3c-2.4 2.3-2.4 6.2 0 8.6l78.7 78.7H42.2c-3.4 0-6.1 2.7-6.1 6.1v24.4c0 3.4 2.7 6.1 6.1 6.1h94.7c3.3 0 6.1-2.7 6.1-6.1V42.4c0-3.3-2.7-6.1-6.1-6.1h-24.4c-3.4 0-6.1 2.7-6.1 6.1v38.2L27.7 1.9C25.3-0.5 21.5-0.5 19 2z'/%3E%3Cpath class='st0' d='M1.7 332.3L19 349.6c2.4 2.4 6.3 2.4 8.6 0l78.7-78.7v38.2c0 3.4 2.7 6.1 6.1 6.1h24.5c3.4 0 6.1-2.8 6.1-6.1v-94.7c0-3.4-2.8-6.1-6.1-6.1l0 0H42.2c-3.4 0-6.1 2.7-6.1 6.1v24.4c0 3.4 2.8 6.1 6.1 6.1h38.2L1.7 323.6C-0.7 326.1-0.7 329.9 1.7 332.3z'/%3E%3Cpath class='st0' d='M214.5 315.1h24.4c3.4 0 6.1-2.7 6.1-6.1v-38.2l78.7 78.7c2.4 2.4 6.3 2.4 8.6 0l17.3-17.3c2.4-2.4 2.4-6.3 0-8.6l-78.7-78.7h38.2c3.4 0 6.1-2.7 6.1-6.1v-24.4c0-3.4-2.8-6.1-6.1-6.1h-94.7l0 0c-3.4 0-6.1 2.8-6.1 6.1v94.7C208.4 312.4 211.2 315.1 214.5 315.1z'/%3E%3C/svg%3E"); }
 
