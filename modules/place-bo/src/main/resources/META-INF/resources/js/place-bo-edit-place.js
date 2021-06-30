@@ -44,20 +44,28 @@ jQuery(function() {
 
 
 	$(":submit").on('click', function(e) {
-        allValidate = true;
+        try{
+            allValidate = true;
+            $('.error').html("");
 
-		setSiteConditionalValidators(e);
-		setFacebookConditionalValidators(e);
-		setInstagramConditionalValidators();
-        setScheduleConditionalValidators(e);
-        if(!$(namespaceAUI + 'hasURLSchedule').is(':checked')){
-            setScheduleExceptionValidators(e);
-            setPeriodValidators(e);
+            setSiteConditionalValidators(e);
+            setFacebookConditionalValidators(e);
+            setInstagramConditionalValidators();
+            setScheduleConditionalValidators(e);
+            toto;
+            if(!$(namespaceAUI + 'hasURLSchedule').is(':checked')){
+                setScheduleExceptionValidators(e);
+                setPeriodValidators(e);
+            }
+
+            if (!allValidate) {
+                event.preventDefault();
+            }
         }
-
-		if (!allValidate) {
-			event.preventDefault();
-		}
+        catch(err) {
+            $('.error').html("<div class='alert alert-danger'><strong>Erreur JavaScript : </strong>" + err.message + ".<br> Veuillez prendre une capture d'ecran et contacter le support</div>");
+            event.preventDefault();
+        }
 	});
 
 	function setSiteConditionalValidators(event) {
