@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -33,7 +32,6 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import eu.strasbourg.portlet.search_asset.action.ExportPDF;
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset.display.context.SearchAssetDisplayContext;
@@ -62,6 +60,7 @@ import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.LayoutHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -388,14 +387,12 @@ public class SearchAssetPortlet extends MVCPortlet {
                             json = JSONFactoryUtil.createJSONObject();
                             json.put("detailURL", LayoutHelper.getJournalArticleLayoutURL(
                                     journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay));
-                            String document = journalArticle.getContentByLocale(LocaleUtil.toLanguageId(Locale.FRANCE));
-                            com.liferay.portal.kernel.xml.Document docXML = SAXReaderUtil.read(document);
-                            String title = docXML.valueOf("//dynamic-element[@name='title']/dynamic-content/text()");
+                            String title = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "title", Locale.FRANCE);
                             if (Validator.isNull(title)) {
                                 title = journalArticle.getTitle(Locale.FRANCE);
                             }
                             json.put("title", title);
-                            String thumbnail = docXML.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()");
+                            String thumbnail = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "thumbnail", Locale.FRANCE);
                             String imageURL ="";
                             if(!thumbnail.isEmpty()){
                                 imageURL = AssetPublisherTemplateHelper.getDocumentUrl(thumbnail);
@@ -409,9 +406,9 @@ public class SearchAssetPortlet extends MVCPortlet {
                                 jsonVocabulariesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
                             }
                             json.put("jsonVocabulariesTitle", jsonVocabulariesTitle);
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
                             json.put("modifiedDate", dateFormat.format(journalArticle.getModifiedDate()));
-                            String chapo = docXML.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()");
+                            String chapo = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "chapo", Locale.FRANCE);
                             json.put("chapo", chapo.replaceAll("<[^>]*>", "")
                                     .substring(0, chapo.length() > 100 ? 100 : chapo.length()));
                             jsonJournalArticle.put("json", json);

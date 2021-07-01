@@ -79,6 +79,9 @@
 
         svg {
             display: block;
+            width: 20px;
+            height: 20px;
+            margin-left: 30px;
 
             rect {
                 fill: $c_white;
@@ -920,7 +923,7 @@
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
-        height: 100%;
+        height: calc(100vh - 80px);
         padding: 40px 60px 40px 20px;
 
         &:before, &:after {
@@ -1021,50 +1024,6 @@
                     height: 100%;
                 }
             }
-
-            .th-dropdown-results {
-                position: absolute;
-                top: 100%;
-                width: 100%;
-                height: auto;
-                max-height: 300px;
-                overflow: auto;
-                -webkit-overflow-scrolling: touch;
-                padding: 14px 20px;
-                background: $c_white;
-                border: 1px solid #CCCCCC;
-                border-radius: 5px;
-                box-sizing: border-box;
-                display: none;
-
-                &.th-active {
-                    display: block;
-                }
-
-                li {
-                    width: 100%;
-                    display: block;
-
-                    a {
-                        @include ft($site-font, 14px, 400, #7E7E7E, 18px);
-                        display: block;
-                        text-transform: uppercase;
-                        padding: 6px 0;
-                        text-align: left;
-                        @include addTransition();
-
-                        &:hover, &:focus {
-                            body:not(.no-hover) & {
-                                color: $core-color;
-                            }
-                        }
-
-                        span {
-                            color: $second-color;
-                        }
-                    }
-                }
-            }
         }
 
         .th-predef-tags {
@@ -1119,19 +1078,19 @@
         height: 100%;
         text-align: left;
         @include RWD(tablet) {
-            width: calc(100% - 40px - 400px);
+            width: calc(100vh - 40px - 400px);
         }
         @include RWD(tablet_portrait) {
             width: 100%;
             z-index: 10;
             margin-top: 166px;
-            height: calc(100% - 166px);
+            height: calc(100vh - 166px);
             padding-top: 58px;
         }
         @include RWD(mobile) {
             padding-top: 53px;
             margin-top: 136px;
-            height: calc(100% - 136px);
+            height: calc(100vh - 136px);
         }
 
         &:before {
@@ -1323,6 +1282,12 @@
                             }
                         }
 
+                        &.th-picto-edition {
+                            &:before {
+                                background-image: url( svg-bg-uri($svg-edition, #fbb52d) );
+                            }
+                        }
+
                         &.th-picto-people {
                             &:before {
                                 background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOC4xODIiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAxOC4xODIgMjAiPgogIDxnIGlkPSJHcm91cGVfMzU3IiBkYXRhLW5hbWU9Ikdyb3VwZSAzNTciIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0zMC42MzggLTI1LjUzMSkiPgogICAgPHBhdGggaWQ9IlRyYWPDqV82MDgiIGRhdGEtbmFtZT0iVHJhY8OpIDYwOCIgZD0iTTM5LjcyOCwyNS41MzFhNi4zNjYsNi4zNjYsMCwwLDAtMy41NTEsMTEuNjQ4LDkuMTE3LDkuMTE3LDAsMCwwLTUuNTQsOC4zNTJoMS44MThhNy4yNTQsNy4yNTQsMCwwLDEsMy40NjYtNi4xOTMsNC4xMTIsNC4xMTIsMCwwLDAsNy42MTQsMEE3LjI1NCw3LjI1NCwwLDAsMSw0Nyw0NS41MzFoMS44MThhOS4xMTcsOS4xMTcsMCwwLDAtNS41NC04LjM1Miw2LjM2Niw2LjM2NiwwLDAsMC0zLjU1MS0xMS42NDhabTAsMS44MThhNC41NDUsNC41NDUsMCwxLDEtNC41NDUsNC41NDVBNC41MzIsNC41MzIsMCwwLDEsMzkuNzI4LDI3LjM0OVptMCwxMC45MDlhNy4yNTksNy4yNTksMCwwLDEsMi4xMzEuMzEzLDIuMjYsMi4yNiwwLDAsMS00LjI2MSwwQTcuMjU5LDcuMjU5LDAsMCwxLDM5LjcyOCwzOC4yNTlaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwKSIgZmlsbD0iI2ZiYjUyZCIvPgogIDwvZz4KPC9zdmc+Cg==");
@@ -1348,6 +1313,11 @@
                             font-size: calculateRem(15px);
                             line-height: calculateRem(19px);
                         }
+                    }
+
+                    .th-more-results{ 
+                        text-align: center;
+                        margin: 10px 0;
                     }
 
                     p {
@@ -1434,7 +1404,7 @@
 
                     &:before {
                         content: '';
-                        background-image: url("data:image/svg+xml;base64,PHN2ZyBpZD0iR3JvdXBlXzMxIiBkYXRhLW5hbWU9Ikdyb3VwZSAzMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTUuMDA2IiBoZWlnaHQ9IjE1IiB2aWV3Qm94PSIwIDAgMTUuMDA2IDE1Ij4KICA8cGF0aCBpZD0iVHJhY8OpXzI2IiBkYXRhLW5hbWU9IlRyYWPDqSAyNiIgZD0iTTU3LjI1OSw2OS42NjJsLS4yMTIuMjEyLS4yMTItLjIxMmEyLjM1MSwyLjM1MSwwLDAsMC0zLjMyMiwwLDIuMzc1LDIuMzc1LDAsMCwwLS4wMTIsMy4zMDlBNDMuNiw0My42LDAsMCwwLDU2LjgsNzUuOWEuMzY0LjM2NCwwLDAsMCwuMjM3LjA4MWguMDA2YS4zNTkuMzU5LDAsMCwwLC4yNDMtLjA4MWMuMS0uMDgxLDIuNDkzLTIuMDMyLDMuMy0yLjkyOWEyLjM3NSwyLjM3NSwwLDAsMC0uMDEyLTMuMzA5QTIuMzUxLDIuMzUxLDAsMCwwLDU3LjI1OSw2OS42NjJabTIuNzc5LDIuOGEzOS41NDgsMzkuNTQ4LDAsMCwxLTIuOTkxLDIuNjY3LDM4LjIzNSwzOC4yMzUsMCwwLDEtMi45OTEtMi42NjcsMS42MzYsMS42MzYsMCwwLDEtLjAxMi0yLjI4MSwxLjYxLDEuNjEsMCwwLDEsMi4yNjgsMGwuNDY3LjQ2N2EuMzU5LjM1OSwwLDAsMCwuMi4xLjM3NS4zNzUsMCwwLDAsLjM0My0uMWwuNDY3LS40NjdhMS42MSwxLjYxLDAsMCwxLDIuMjY4LDBBMS42NDksMS42NDksMCwwLDEsNjAuMDM5LDcyLjQ2NloiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC00OS41NDQgLTY0LjY3NykiIGZpbGw9IiNmYmI1MmQiLz4KICA8cGF0aCBpZD0iVHJhY8OpXzI3IiBkYXRhLW5hbWU9IlRyYWPDqSAyNyIgZD0iTTcuNSwxNWE3LjUsNy41LDAsMSwxLDcuNS03LjVBNy41MDksNy41MDksMCwwLDEsNy41LDE1Wk03LjUuNzE3QTYuNzgzLDYuNzgzLDAsMSwwLDE0LjI5LDcuNSw2Ljc5NCw2Ljc5NCwwLDAsMCw3LjUuNzE3WiIgZmlsbD0iI2ZiYjUyZCIvPgo8L3N2Zz4K");
+                        background-image: url( svg-bg-uri($svg-heart, #fbb52d) );
                         background-size: 15px;
                         background-repeat: no-repeat;
                         display: inline-block;
@@ -1446,6 +1416,11 @@
                         top: -1px;
                         @include RWD(mobile) {
                             margin-right: 0;
+                        }
+                    }
+                    &.liked{
+                        &:before{
+                            background-image: url( svg-bg-uri($svg-heart-filled, #fbb52d) );
                         }
                     }
 

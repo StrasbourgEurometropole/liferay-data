@@ -175,6 +175,63 @@ public interface FavoriteModel extends BaseModel<Favorite> {
 	 */
 	public void setOnDashboardDate(Date onDashboardDate);
 
+	/**
+	 * Returns the order of this favorite.
+	 *
+	 * @return the order of this favorite
+	 */
+	public int getOrder();
+
+	/**
+	 * Sets the order of this favorite.
+	 *
+	 * @param order the order of this favorite
+	 */
+	public void setOrder(int order);
+
+	/**
+	 * Returns the content of this favorite.
+	 *
+	 * @return the content of this favorite
+	 */
+	@AutoEscape
+	public String getContent();
+
+	/**
+	 * Sets the content of this favorite.
+	 *
+	 * @param content the content of this favorite
+	 */
+	public void setContent(String content);
+
+	/**
+	 * Returns the create date of this favorite.
+	 *
+	 * @return the create date of this favorite
+	 */
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this favorite.
+	 *
+	 * @param createDate the create date of this favorite
+	 */
+	public void setCreateDate(Date createDate);
+
+	/**
+	 * Returns the modified date of this favorite.
+	 *
+	 * @return the modified date of this favorite
+	 */
+	public Date getModifiedDate();
+
+	/**
+	 * Sets the modified date of this favorite.
+	 *
+	 * @param modifiedDate the modified date of this favorite
+	 */
+	public void setModifiedDate(Date modifiedDate);
+
 	@Override
 	public boolean isNew();
 

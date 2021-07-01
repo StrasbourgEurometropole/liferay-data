@@ -134,6 +134,9 @@
 					<aui:option value="placit" selected="${searchForm eq 'placit'}">
 						<liferay-ui:message key="placit" />
 					</aui:option>
+					<aui:option value="strasbourg" selected="${searchForm eq 'strasbourg'}">
+						<liferay-ui:message key="strasbourg" />
+					</aui:option>
 				</aui:select>
 				
 			</aui:fieldset>

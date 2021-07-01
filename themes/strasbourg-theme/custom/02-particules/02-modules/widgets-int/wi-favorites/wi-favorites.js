@@ -87,7 +87,12 @@ $(function() {
                     else if (obj.hasOwnProperty('error')) {
                         if (obj['error'] == 'notConnected')
                             // Si l'utilisateur n'est pas connecté
-                            window.createPopin('Veuillez vous connecter pour retirer un favori.');
+                            window.createPopin('Veuillez vous connecter pour retirer un favori.', function() {
+                                // Si l'utilisateur n'est pas connecté, on ajoute à son LocalStorage le favoris
+                                // On l'ajoutera la prochaine fois qu'il arrive sur la page en étant connecté
+                                window.sessionStorage.setItem("favorite", JSON.stringify(favoriteToAdd));
+                                window.location = window.loginURL;
+                            }, undefined, 'Se connecter', 'Annuler');
                         else {
                             // Autre erreur
                             console.log(obj['error']);

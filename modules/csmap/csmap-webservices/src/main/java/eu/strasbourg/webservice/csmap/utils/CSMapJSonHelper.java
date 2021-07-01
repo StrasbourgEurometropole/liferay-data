@@ -13,6 +13,17 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.favorite.model.Favorite;
+import eu.strasbourg.service.favorite.model.FavoriteType;
+import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.model.Direction;
+import eu.strasbourg.service.gtfs.model.Ligne;
+import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
+import eu.strasbourg.service.place.service.PlaceLocalService;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.*;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.service.WSPlace;
@@ -24,7 +35,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CSMapJSonHelper {
-    static public JSONObject categoryCSMapJSON(AssetCategory category, String urlPicto, boolean maj) {
+    static public JSONObject placeCategoryCSMapJSON(AssetCategory category, String urlPicto, boolean maj) {
         JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
         if (category != null) {
             String externalId = AssetVocabularyHelper.getExternalId(category);
@@ -113,8 +124,8 @@ public class CSMapJSonHelper {
             titleJSON.put("fr_FR", JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber, WSConstants.JSON_WC_TITLE, Locale.FRANCE));
             emergencyNumberJson.put(WSConstants.JSON_WC_TITLE, titleJSON);
 
-            emergencyNumberJson.put(WSConstants.JSON_WC_ORDER, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"number",Locale.FRANCE));
-            emergencyNumberJson.put(WSConstants.JSON_WC_NUMBER, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"order",Locale.FRANCE));
+            emergencyNumberJson.put(WSConstants.JSON_WC_ORDER, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"order",Locale.FRANCE));
+            emergencyNumberJson.put(WSConstants.JSON_WC_NUMBER, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"number",Locale.FRANCE));
             JSONObject colorJSON = JSONFactoryUtil.createJSONObject();
             colorJSON.put(WSConstants.JSON_WC_FONT_COLOR, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"fontColor",Locale.FRANCE));
             colorJSON.put(WSConstants.JSON_WC_BACKGROUND_COLOR, JournalArticleHelper.getJournalArticleFieldValue(emergencyNumber,"backgroundColor",Locale.FRANCE));
@@ -234,4 +245,87 @@ public class CSMapJSonHelper {
         }
         return SimplePOIsJSON;
     }
+
+    static public JSONObject eventThemesCSMapJSON(AssetCategory category) {
+        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
+        if (category != null) {
+            String externalId = AssetVocabularyHelper.getExternalId(category);
+            jsonCategory.put(WSConstants.JSON_CATEG_ID, externalId);
+            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
+            if (Validator.isNotNull(parentExternalId)) {
+                jsonCategory.put(WSConstants.JSON_PARENT_ID, parentExternalId);
+            }
+            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
+            nameJSON.put(WSConstants.JSON_LANGUAGE_FRANCE, category.getTitle(Locale.FRANCE));
+            jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
+        }
+        return  jsonCategory;
+    }
+
+    static public JSONObject eventTypesCSMapJSON(AssetCategory category) {
+        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
+        if (category != null) {
+            String externalId = AssetVocabularyHelper.getExternalId(category);
+            jsonCategory.put(WSConstants.JSON_CATEG_ID, externalId);
+            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
+            if (Validator.isNotNull(parentExternalId)) {
+                jsonCategory.put(WSConstants.JSON_PARENT_ID, parentExternalId);
+            }
+            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
+            nameJSON.put(WSConstants.JSON_LANGUAGE_FRANCE, category.getTitle(Locale.FRANCE));
+            jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
+        }
+        return  jsonCategory;
+    }
+
+    static public JSONObject favoritesCSMapJSON(Favorite favorite) {
+        JSONObject jsonFavorite = JSONFactoryUtil.createJSONObject();
+        jsonFavorite.put("favoriteId", favorite.getFavoriteId());
+        jsonFavorite.put("title", favorite.getTitle());
+        jsonFavorite.put("type", favorite.getTypeId());
+        jsonFavorite.put("order", favorite.getOrder());
+        if(favorite.getTypeId()== FavoriteType.PLACE.getId()) {
+            jsonFavorite.put("elementId", PlaceLocalServiceUtil.fetchPlace(favorite.getEntityId()).getSIGid());
+        } else if(favorite.getTypeId()== FavoriteType.EVENT.getId()) {
+            jsonFavorite.put("elementId", EventLocalServiceUtil.fetchEvent(favorite.getEntityId()).getEventId());
+        } else if(favorite.getTypeId()== FavoriteType.ARRET.getId()) {
+            jsonFavorite.put("elementId", ArretLocalServiceUtil.fetchArret(favorite.getEntityId()).getArretId());
+        }
+        jsonFavorite.put("content", favorite.getContent());
+        return jsonFavorite;
+    }
+
+    static public JSONObject arretCSMapJSON(Arret arret) {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+        json.put("stopCode", arret.getCode());
+        json.put("title", arret.getTitle());
+        json.put("type", arret.getType());
+        json.put("mercatorX", arret.getLongitude());
+        json.put("mercatorY", arret.getLatitude());
+        String stopId = arret.getStopId();
+        List<Direction> directions = DirectionLocalServiceUtil.getByStopId(stopId);
+        JSONArray linesJSON = JSONFactoryUtil.createJSONArray();
+        List<String> lineNumbers = new ArrayList<>();
+        for(Direction direction : directions){
+            String lineName = LigneLocalServiceUtil.getByRouteId(direction.getRouteId()).getShortName();
+            if(!lineNumbers.contains(lineName)) {
+                JSONObject lineJSON = JSONFactoryUtil.createJSONObject();
+                lineJSON.put("lineNumber", lineName);
+                lineNumbers.add(lineName);
+                linesJSON.put(lineJSON);
+            }
+        }
+        json.put("lines", linesJSON);
+        return json;
+    }
+
+    static public JSONObject lineCSMapJSON(Ligne line) {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+        json.put("lineNumber", line.getShortName());
+        json.put("type", line.getType());
+        json.put("backgroundColor", line.getBackgroundColor());
+        json.put("textColor", line.getTextColor());
+        return json;
+    }
+
 }

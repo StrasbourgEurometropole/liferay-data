@@ -57,6 +57,20 @@ jQuery(function() {
 					rules[namespace + 'externalImageURL'].required = true;
 					rules[namespace + 'externalImageCopyright'].required = true;
 				}
+
+                var registration = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[0];
+                var registrationDiv = document.getElementById("registrationDiv");
+                if(registration.checked){
+					rules[namespace + 'maxGauge'].required = true;
+                    rules[namespace + 'registrationStartDate'].required = true;
+                    rules[namespace + 'registrationEndDate'].required = true;
+                    registrationDiv.style.display = "block";
+                } else {
+					rules[namespace + 'maxGauge'].required = false;
+                    rules[namespace + 'registrationStartDate'].required = false;
+                    rules[namespace + 'registrationEndDate'].required = false;
+                    registrationDiv.style.display = "none";
+                }
 			}
 		});
 		
@@ -312,4 +326,32 @@ jQuery(function() {
 		jQuery('.place-autocomplete-input-wrapper input').autocomplete(
 				options);
 	}
+});
+
+var registrationTrue = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[0];
+var registrationFalse = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[1];
+var registrationDiv = document.getElementById("registrationDiv");
+registrationTrue.onchange = function(){
+    var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
+    rules[namespace + 'maxGauge'].required = true;
+    rules[namespace + 'registrationStartDate'].required = true;
+    rules[namespace + 'registrationEndDate'].required = true;
+    registrationDiv.style.display = "block";
+};
+registrationFalse.onchange = function(){
+    var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
+    rules[namespace + 'maxGauge'].required = false;
+    rules[namespace + 'registrationStartDate'].required = false;
+    rules[namespace + 'registrationEndDate'].required = false;
+    registrationDiv.style.display = "none";
+};
+
+var maxGauge = $('input[name=' + namespace + 'maxGauge]');
+maxGauge.on("change paste keyup", function(event) {
+    keyword = $(this).val();
+    if (keyword > 99999) {
+        $(this).val(99999);
+    } else if  (keyword < 0) {
+        $(this).val(0);
+    }
 });

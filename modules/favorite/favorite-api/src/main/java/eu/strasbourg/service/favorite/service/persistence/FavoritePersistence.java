@@ -413,6 +413,194 @@ public interface FavoritePersistence extends BasePersistence<Favorite> {
 	public int countByEntityIdAndTypeId(long entityId, long typeId);
 
 	/**
+	 * Returns all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @return the matching favorites
+	 */
+	public java.util.List<Favorite>
+		findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			long typeId, long entityId, String publikUserId, String content);
+
+	/**
+	 * Returns a range of all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FavoriteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @return the range of matching favorites
+	 */
+	public java.util.List<Favorite>
+		findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			long typeId, long entityId, String publikUserId, String content,
+			int start, int end);
+
+	/**
+	 * Returns an ordered range of all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FavoriteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching favorites
+	 */
+	public java.util.List<Favorite>
+		findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			long typeId, long entityId, String publikUserId, String content,
+			int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator<Favorite>
+				orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FavoriteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching favorites
+	 */
+	public java.util.List<Favorite>
+		findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			long typeId, long entityId, String publikUserId, String content,
+			int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator<Favorite>
+				orderByComparator,
+			boolean retrieveFromCache);
+
+	/**
+	 * Returns the first favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching favorite
+	 * @throws NoSuchFavoriteException if a matching favorite could not be found
+	 */
+	public Favorite findByTypeIdAndEntityIdAndPublikUserIdAndContent_First(
+			long typeId, long entityId, String publikUserId, String content,
+			com.liferay.portal.kernel.util.OrderByComparator<Favorite>
+				orderByComparator)
+		throws NoSuchFavoriteException;
+
+	/**
+	 * Returns the first favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching favorite, or <code>null</code> if a matching favorite could not be found
+	 */
+	public Favorite fetchByTypeIdAndEntityIdAndPublikUserIdAndContent_First(
+		long typeId, long entityId, String publikUserId, String content,
+		com.liferay.portal.kernel.util.OrderByComparator<Favorite>
+			orderByComparator);
+
+	/**
+	 * Returns the last favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching favorite
+	 * @throws NoSuchFavoriteException if a matching favorite could not be found
+	 */
+	public Favorite findByTypeIdAndEntityIdAndPublikUserIdAndContent_Last(
+			long typeId, long entityId, String publikUserId, String content,
+			com.liferay.portal.kernel.util.OrderByComparator<Favorite>
+				orderByComparator)
+		throws NoSuchFavoriteException;
+
+	/**
+	 * Returns the last favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching favorite, or <code>null</code> if a matching favorite could not be found
+	 */
+	public Favorite fetchByTypeIdAndEntityIdAndPublikUserIdAndContent_Last(
+		long typeId, long entityId, String publikUserId, String content,
+		com.liferay.portal.kernel.util.OrderByComparator<Favorite>
+			orderByComparator);
+
+	/**
+	 * Returns the favorites before and after the current favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param favoriteId the primary key of the current favorite
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next favorite
+	 * @throws NoSuchFavoriteException if a favorite with the primary key could not be found
+	 */
+	public Favorite[]
+			findByTypeIdAndEntityIdAndPublikUserIdAndContent_PrevAndNext(
+				long favoriteId, long typeId, long entityId,
+				String publikUserId, String content,
+				com.liferay.portal.kernel.util.OrderByComparator<Favorite>
+					orderByComparator)
+		throws NoSuchFavoriteException;
+
+	/**
+	 * Removes all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63; from the database.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 */
+	public void removeByTypeIdAndEntityIdAndPublikUserIdAndContent(
+		long typeId, long entityId, String publikUserId, String content);
+
+	/**
+	 * Returns the number of favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @return the number of matching favorites
+	 */
+	public int countByTypeIdAndEntityIdAndPublikUserIdAndContent(
+		long typeId, long entityId, String publikUserId, String content);
+
+	/**
 	 * Caches the favorite in the entity cache if it is enabled.
 	 *
 	 * @param favorite the favorite
@@ -530,5 +718,8 @@ public interface FavoritePersistence extends BasePersistence<Favorite> {
 	 * @return the number of favorites
 	 */
 	public int countAll();
+
+	@Override
+	public Set<String> getBadColumnNames();
 
 }

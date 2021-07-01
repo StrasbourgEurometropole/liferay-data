@@ -114,6 +114,10 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("createDateSource", getCreateDateSource());
 		attributes.put("modifiedDateSource", getModifiedDateSource());
 		attributes.put("imageId", getImageId());
+		attributes.put("registration", isRegistration());
+		attributes.put("registrationStartDate", getRegistrationStartDate());
+		attributes.put("registrationEndDate", getRegistrationEndDate());
+		attributes.put("maxGauge", getMaxGauge());
 
 		return attributes;
 	}
@@ -458,6 +462,31 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 
 		if (imageId != null) {
 			setImageId(imageId);
+		}
+
+		Boolean registration = (Boolean)attributes.get("registration");
+
+		if (registration != null) {
+			setRegistration(registration);
+		}
+
+		Date registrationStartDate = (Date)attributes.get(
+			"registrationStartDate");
+
+		if (registrationStartDate != null) {
+			setRegistrationStartDate(registrationStartDate);
+		}
+
+		Date registrationEndDate = (Date)attributes.get("registrationEndDate");
+
+		if (registrationEndDate != null) {
+			setRegistrationEndDate(registrationEndDate);
+		}
+
+		Long maxGauge = (Long)attributes.get("maxGauge");
+
+		if (maxGauge != null) {
+			setMaxGauge(maxGauge);
 		}
 	}
 
@@ -861,6 +890,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public Date getCreateDateSource() {
 		return _event.getCreateDateSource();
+	}
+
+	/**
+	 * Renvoie le JSON de l'entite au format CSMap
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getCSMapJSON() {
+		return _event.getCSMapJSON();
 	}
 
 	/**
@@ -1283,6 +1320,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public String getManifestationsIds() {
 		return _event.getManifestationsIds();
+	}
+
+	/**
+	 * Returns the max gauge of this event.
+	 *
+	 * @return the max gauge of this event
+	 */
+	@Override
+	public long getMaxGauge() {
+		return _event.getMaxGauge();
 	}
 
 	/**
@@ -1762,6 +1809,36 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		getPublishedManifestations() {
 
 		return _event.getPublishedManifestations();
+	}
+
+	/**
+	 * Returns the registration of this event.
+	 *
+	 * @return the registration of this event
+	 */
+	@Override
+	public boolean getRegistration() {
+		return _event.getRegistration();
+	}
+
+	/**
+	 * Returns the registration end date of this event.
+	 *
+	 * @return the registration end date of this event
+	 */
+	@Override
+	public Date getRegistrationEndDate() {
+		return _event.getRegistrationEndDate();
+	}
+
+	/**
+	 * Returns the registration start date of this event.
+	 *
+	 * @return the registration start date of this event
+	 */
+	@Override
+	public Date getRegistrationStartDate() {
+		return _event.getRegistrationStartDate();
 	}
 
 	/**
@@ -2412,6 +2489,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	 * Returns <code>true</code> if this event is registration.
+	 *
+	 * @return <code>true</code> if this event is registration; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isRegistration() {
+		return _event.isRegistration();
+	}
+
+	/**
 	 * Returns <code>true</code> if this event is scheduled.
 	 *
 	 * @return <code>true</code> if this event is scheduled; <code>false</code> otherwise
@@ -3049,6 +3136,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	 * Sets the max gauge of this event.
+	 *
+	 * @param maxGauge the max gauge of this event
+	 */
+	@Override
+	public void setMaxGauge(long maxGauge) {
+		_event.setMaxGauge(maxGauge);
+	}
+
+	/**
 	 * Sets the modified date of this event.
 	 *
 	 * @param modifiedDate the modified date of this event
@@ -3370,6 +3467,36 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setPublicationDate(Date publicationDate) {
 		_event.setPublicationDate(publicationDate);
+	}
+
+	/**
+	 * Sets whether this event is registration.
+	 *
+	 * @param registration the registration of this event
+	 */
+	@Override
+	public void setRegistration(boolean registration) {
+		_event.setRegistration(registration);
+	}
+
+	/**
+	 * Sets the registration end date of this event.
+	 *
+	 * @param registrationEndDate the registration end date of this event
+	 */
+	@Override
+	public void setRegistrationEndDate(Date registrationEndDate) {
+		_event.setRegistrationEndDate(registrationEndDate);
+	}
+
+	/**
+	 * Sets the registration start date of this event.
+	 *
+	 * @param registrationStartDate the registration start date of this event
+	 */
+	@Override
+	public void setRegistrationStartDate(Date registrationStartDate) {
+		_event.setRegistrationStartDate(registrationStartDate);
 	}
 
 	/**

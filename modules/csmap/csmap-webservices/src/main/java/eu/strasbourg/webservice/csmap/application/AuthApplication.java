@@ -7,9 +7,17 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
 import eu.strasbourg.service.csmap.model.RefreshToken;
+import eu.strasbourg.service.csmap.service.RefreshTokenLocalServiceUtil;
+import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
+import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.utils.JWTUtils;
+import eu.strasbourg.utils.ProcedureHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.exception.NoUserFormException;
+import eu.strasbourg.utils.models.Procedure;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
+import eu.strasbourg.webservice.csmap.exception.NoSubInJWTException;
 import eu.strasbourg.webservice.csmap.exception.auth.AuthenticationFailedException;
 import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
 import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenExpiredException;
@@ -25,10 +33,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author angelique.champougny
@@ -91,7 +103,6 @@ public class AuthApplication extends Application {
             jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, refreshToken.getValue());
 
         } catch (InvalidJWTException | IOException | AuthenticationFailedException e) {
-            log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         } catch (RefreshTokenCreationFailedException e) {
             log.error(e);
@@ -124,6 +135,49 @@ public class AuthApplication extends Application {
 
         return WSResponseUtil.buildOkResponse(jsonResponse);
     }
+
+    @GET
+    @Produces("application/json")
+    @Path("/logout")
+    public Response logout(
+            @Context HttpHeaders httpHeaders) {
+        JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+
+        try {
+            PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
+            List<RefreshToken> refreshTokens = RefreshTokenLocalServiceUtil.getRefreshTokens(-1,-1).stream().filter(t -> t.getPublikId().equals(publikUser.getPublikId())).collect(Collectors.toList());
+            for(RefreshToken refreshToken : refreshTokens) {
+                RefreshTokenLocalServiceUtil.removeRefreshToken(refreshToken.getRefreshTokenId());
+            }
+        } catch (NoJWTInHeaderException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        } catch (NoSuchRefreshTokenException e) {
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        }
+
+        return WSResponseUtil.buildOkResponse(jsonResponse);
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("/logout/{refreshToken}")
+    public Response logout(
+            @PathParam("refreshToken") String refreshTokenvalue) {
+        JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+        try {
+            RefreshTokenLocalServiceUtil.removeRefreshToken(RefreshTokenLocalServiceUtil.fetchByValue(refreshTokenvalue).getRefreshTokenId());
+        } catch (NullPointerException e) {
+            return WSResponseUtil.buildErrorResponse(400, "RefreshToken is invalid");
+        } catch (NoSuchRefreshTokenException e) {
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(jsonResponse);
+    }
+
 
     @Reference(unbind = "-")
     protected void setWSAuthenticator(WSAuthenticator authenticator) {

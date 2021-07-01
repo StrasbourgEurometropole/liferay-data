@@ -14,29 +14,17 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
@@ -53,7 +41,20 @@ import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The extended model implementation for the ActivityCourse service. Represents
@@ -397,6 +398,19 @@ public class ActivityCourseImpl extends ActivityCourseBaseImpl {
 	private static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
 		Map<Object, Boolean> seen = new ConcurrentHashMap<>();
 		return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+	}
+
+	/**
+	 * Retourne la version JSON de la course
+	 */
+	@Override
+	public JSONObject toJSON() {
+		JSONObject json = JSONFactoryUtil.createJSONObject();
+
+		json.put("id", this.getActivityCourseId());
+		json.put("name", JSONHelper.getJSONFromI18nMap(this.getNameMap()));
+
+		return json;
 	}
 
 }

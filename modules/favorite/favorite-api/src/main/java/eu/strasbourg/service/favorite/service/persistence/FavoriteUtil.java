@@ -577,6 +577,249 @@ public class FavoriteUtil {
 	}
 
 	/**
+	 * Returns all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @return the matching favorites
+	 */
+	public static List<Favorite>
+		findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			long typeId, long entityId, String publikUserId, String content) {
+
+		return getPersistence().
+			findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+				typeId, entityId, publikUserId, content);
+	}
+
+	/**
+	 * Returns a range of all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FavoriteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @return the range of matching favorites
+	 */
+	public static List<Favorite>
+		findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			long typeId, long entityId, String publikUserId, String content,
+			int start, int end) {
+
+		return getPersistence().
+			findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+				typeId, entityId, publikUserId, content, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FavoriteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching favorites
+	 */
+	public static List<Favorite>
+		findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			long typeId, long entityId, String publikUserId, String content,
+			int start, int end, OrderByComparator<Favorite> orderByComparator) {
+
+		return getPersistence().
+			findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+				typeId, entityId, publikUserId, content, start, end,
+				orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FavoriteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching favorites
+	 */
+	public static List<Favorite>
+		findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			long typeId, long entityId, String publikUserId, String content,
+			int start, int end, OrderByComparator<Favorite> orderByComparator,
+			boolean retrieveFromCache) {
+
+		return getPersistence().
+			findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+				typeId, entityId, publikUserId, content, start, end,
+				orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	 * Returns the first favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching favorite
+	 * @throws NoSuchFavoriteException if a matching favorite could not be found
+	 */
+	public static Favorite
+			findByTypeIdAndEntityIdAndPublikUserIdAndContent_First(
+				long typeId, long entityId, String publikUserId, String content,
+				OrderByComparator<Favorite> orderByComparator)
+		throws eu.strasbourg.service.favorite.exception.
+			NoSuchFavoriteException {
+
+		return getPersistence().
+			findByTypeIdAndEntityIdAndPublikUserIdAndContent_First(
+				typeId, entityId, publikUserId, content, orderByComparator);
+	}
+
+	/**
+	 * Returns the first favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching favorite, or <code>null</code> if a matching favorite could not be found
+	 */
+	public static Favorite
+		fetchByTypeIdAndEntityIdAndPublikUserIdAndContent_First(
+			long typeId, long entityId, String publikUserId, String content,
+			OrderByComparator<Favorite> orderByComparator) {
+
+		return getPersistence().
+			fetchByTypeIdAndEntityIdAndPublikUserIdAndContent_First(
+				typeId, entityId, publikUserId, content, orderByComparator);
+	}
+
+	/**
+	 * Returns the last favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching favorite
+	 * @throws NoSuchFavoriteException if a matching favorite could not be found
+	 */
+	public static Favorite
+			findByTypeIdAndEntityIdAndPublikUserIdAndContent_Last(
+				long typeId, long entityId, String publikUserId, String content,
+				OrderByComparator<Favorite> orderByComparator)
+		throws eu.strasbourg.service.favorite.exception.
+			NoSuchFavoriteException {
+
+		return getPersistence().
+			findByTypeIdAndEntityIdAndPublikUserIdAndContent_Last(
+				typeId, entityId, publikUserId, content, orderByComparator);
+	}
+
+	/**
+	 * Returns the last favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching favorite, or <code>null</code> if a matching favorite could not be found
+	 */
+	public static Favorite
+		fetchByTypeIdAndEntityIdAndPublikUserIdAndContent_Last(
+			long typeId, long entityId, String publikUserId, String content,
+			OrderByComparator<Favorite> orderByComparator) {
+
+		return getPersistence().
+			fetchByTypeIdAndEntityIdAndPublikUserIdAndContent_Last(
+				typeId, entityId, publikUserId, content, orderByComparator);
+	}
+
+	/**
+	 * Returns the favorites before and after the current favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param favoriteId the primary key of the current favorite
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next favorite
+	 * @throws NoSuchFavoriteException if a favorite with the primary key could not be found
+	 */
+	public static Favorite[]
+			findByTypeIdAndEntityIdAndPublikUserIdAndContent_PrevAndNext(
+				long favoriteId, long typeId, long entityId,
+				String publikUserId, String content,
+				OrderByComparator<Favorite> orderByComparator)
+		throws eu.strasbourg.service.favorite.exception.
+			NoSuchFavoriteException {
+
+		return getPersistence().
+			findByTypeIdAndEntityIdAndPublikUserIdAndContent_PrevAndNext(
+				favoriteId, typeId, entityId, publikUserId, content,
+				orderByComparator);
+	}
+
+	/**
+	 * Removes all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63; from the database.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 */
+	public static void removeByTypeIdAndEntityIdAndPublikUserIdAndContent(
+		long typeId, long entityId, String publikUserId, String content) {
+
+		getPersistence().removeByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			typeId, entityId, publikUserId, content);
+	}
+
+	/**
+	 * Returns the number of favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @return the number of matching favorites
+	 */
+	public static int countByTypeIdAndEntityIdAndPublikUserIdAndContent(
+		long typeId, long entityId, String publikUserId, String content) {
+
+		return getPersistence().
+			countByTypeIdAndEntityIdAndPublikUserIdAndContent(
+				typeId, entityId, publikUserId, content);
+	}
+
+	/**
 	 * Caches the favorite in the entity cache if it is enabled.
 	 *
 	 * @param favorite the favorite
@@ -723,6 +966,10 @@ public class FavoriteUtil {
 	 */
 	public static int countAll() {
 		return getPersistence().countAll();
+	}
+
+	public static Set<String> getBadColumnNames() {
+		return getPersistence().getBadColumnNames();
 	}
 
 	public static FavoritePersistence getPersistence() {

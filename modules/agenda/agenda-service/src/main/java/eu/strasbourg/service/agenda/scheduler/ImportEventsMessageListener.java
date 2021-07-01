@@ -38,7 +38,7 @@ public class ImportEventsMessageListener
 		Date fiveMinutesFromNow = now.getTime();
 
 		// Création du trigger "Tous les jours à 4h"
-		 Trigger trigger = _triggerFactory.createTrigger(
+		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
 				"0 0 4 * * ?");
 

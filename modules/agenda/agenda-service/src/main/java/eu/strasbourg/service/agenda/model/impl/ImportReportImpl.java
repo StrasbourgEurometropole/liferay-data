@@ -126,6 +126,17 @@ public class ImportReportImpl extends ImportReportBaseImpl {
 	}
 
 	@Override
+	public void incrementDeletedEvents() {
+		this.setDeletedEventsCount(this.getDeletedEventsCount() + 1);
+	}
+
+	@Override
+	public void incrementDeletedManifestations() {
+		this.setDeletedManifestationsCount(
+				this.getDeletedManifestationsCount() + 1);
+	}
+
+	@Override
 	public List<ImportReportLine> getLines() {
 		if (this._lines == null) {
 			this._lines = ImportReportLocalServiceUtil.getReportLines(this);
@@ -152,9 +163,17 @@ public class ImportReportImpl extends ImportReportBaseImpl {
 	@Override
 	public List<ImportReportLine> getErrorManifestationsLines() {
 		return this.getLines().stream()
-			.filter(l -> l.getType().equals(Manifestation.class.getName())
-				&& l.getStatus() == ImportReportLineStatus.FAILURE)
-			.collect(Collectors.toList());
+				.filter(l -> l.getType().equals(Manifestation.class.getName())
+						&& l.getStatus() == ImportReportLineStatus.FAILURE)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ImportReportLine> getDeletedManifestationsLines() {
+		return this.getLines().stream()
+				.filter(l -> l.getType().equals(Manifestation.class.getName())
+						&& l.getStatus() == ImportReportLineStatus.DELETED)
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -176,9 +195,17 @@ public class ImportReportImpl extends ImportReportBaseImpl {
 	@Override
 	public List<ImportReportLine> getErrorEventsLines() {
 		return this.getLines().stream()
-			.filter(l -> l.getType().equals(Event.class.getName())
-				&& l.getStatus() == ImportReportLineStatus.FAILURE)
-			.collect(Collectors.toList());
+				.filter(l -> l.getType().equals(Event.class.getName())
+						&& l.getStatus() == ImportReportLineStatus.FAILURE)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ImportReportLine> getDeletedEventsLines() {
+		return this.getLines().stream()
+				.filter(l -> l.getType().equals(Event.class.getName())
+						&& l.getStatus() == ImportReportLineStatus.DELETED)
+				.collect(Collectors.toList());
 	}
 
 	@Override

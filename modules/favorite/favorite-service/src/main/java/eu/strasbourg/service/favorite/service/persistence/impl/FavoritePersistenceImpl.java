@@ -25,9 +25,12 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -40,9 +43,11 @@ import eu.strasbourg.service.favorite.service.persistence.FavoritePersistence;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1520,8 +1525,776 @@ public class FavoritePersistenceImpl
 	private static final String _FINDER_COLUMN_ENTITYIDANDTYPEID_TYPEID_2 =
 		"favorite.typeId = ?";
 
+	private FinderPath
+		_finderPathWithPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent;
+	private FinderPath
+		_finderPathWithoutPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent;
+	private FinderPath
+		_finderPathCountByTypeIdAndEntityIdAndPublikUserIdAndContent;
+
+	/**
+	 * Returns all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @return the matching favorites
+	 */
+	@Override
+	public List<Favorite> findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+		long typeId, long entityId, String publikUserId, String content) {
+
+		return findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			typeId, entityId, publikUserId, content, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FavoriteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @return the range of matching favorites
+	 */
+	@Override
+	public List<Favorite> findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+		long typeId, long entityId, String publikUserId, String content,
+		int start, int end) {
+
+		return findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			typeId, entityId, publikUserId, content, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FavoriteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching favorites
+	 */
+	@Override
+	public List<Favorite> findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+		long typeId, long entityId, String publikUserId, String content,
+		int start, int end, OrderByComparator<Favorite> orderByComparator) {
+
+		return findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			typeId, entityId, publikUserId, content, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FavoriteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching favorites
+	 */
+	@Override
+	public List<Favorite> findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+		long typeId, long entityId, String publikUserId, String content,
+		int start, int end, OrderByComparator<Favorite> orderByComparator,
+		boolean retrieveFromCache) {
+
+		publikUserId = Objects.toString(publikUserId, "");
+		content = Objects.toString(content, "");
+
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			pagination = false;
+			finderPath =
+				_finderPathWithoutPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent;
+			finderArgs = new Object[] {typeId, entityId, publikUserId, content};
+		}
+		else {
+			finderPath =
+				_finderPathWithPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent;
+			finderArgs = new Object[] {
+				typeId, entityId, publikUserId, content, start, end,
+				orderByComparator
+			};
+		}
+
+		List<Favorite> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Favorite>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Favorite favorite : list) {
+					if ((typeId != favorite.getTypeId()) ||
+						(entityId != favorite.getEntityId()) ||
+						!publikUserId.equals(favorite.getPublikUserId()) ||
+						!content.equals(favorite.getContent())) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					6 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(6);
+			}
+
+			query.append(_SQL_SELECT_FAVORITE_WHERE);
+
+			query.append(
+				_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_TYPEID_2);
+
+			query.append(
+				_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_ENTITYID_2);
+
+			boolean bindPublikUserId = false;
+
+			if (publikUserId.isEmpty()) {
+				query.append(
+					_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_PUBLIKUSERID_3);
+			}
+			else {
+				bindPublikUserId = true;
+
+				query.append(
+					_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_PUBLIKUSERID_2);
+			}
+
+			boolean bindContent = false;
+
+			if (content.isEmpty()) {
+				query.append(
+					_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_CONTENT_3);
+			}
+			else {
+				bindContent = true;
+
+				query.append(
+					_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_CONTENT_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(FavoriteModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(typeId);
+
+				qPos.add(entityId);
+
+				if (bindPublikUserId) {
+					qPos.add(publikUserId);
+				}
+
+				if (bindContent) {
+					qPos.add(content);
+				}
+
+				if (!pagination) {
+					list = (List<Favorite>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Favorite>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching favorite
+	 * @throws NoSuchFavoriteException if a matching favorite could not be found
+	 */
+	@Override
+	public Favorite findByTypeIdAndEntityIdAndPublikUserIdAndContent_First(
+			long typeId, long entityId, String publikUserId, String content,
+			OrderByComparator<Favorite> orderByComparator)
+		throws NoSuchFavoriteException {
+
+		Favorite favorite =
+			fetchByTypeIdAndEntityIdAndPublikUserIdAndContent_First(
+				typeId, entityId, publikUserId, content, orderByComparator);
+
+		if (favorite != null) {
+			return favorite;
+		}
+
+		StringBundler msg = new StringBundler(10);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("typeId=");
+		msg.append(typeId);
+
+		msg.append(", entityId=");
+		msg.append(entityId);
+
+		msg.append(", publikUserId=");
+		msg.append(publikUserId);
+
+		msg.append(", content=");
+		msg.append(content);
+
+		msg.append("}");
+
+		throw new NoSuchFavoriteException(msg.toString());
+	}
+
+	/**
+	 * Returns the first favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching favorite, or <code>null</code> if a matching favorite could not be found
+	 */
+	@Override
+	public Favorite fetchByTypeIdAndEntityIdAndPublikUserIdAndContent_First(
+		long typeId, long entityId, String publikUserId, String content,
+		OrderByComparator<Favorite> orderByComparator) {
+
+		List<Favorite> list = findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			typeId, entityId, publikUserId, content, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching favorite
+	 * @throws NoSuchFavoriteException if a matching favorite could not be found
+	 */
+	@Override
+	public Favorite findByTypeIdAndEntityIdAndPublikUserIdAndContent_Last(
+			long typeId, long entityId, String publikUserId, String content,
+			OrderByComparator<Favorite> orderByComparator)
+		throws NoSuchFavoriteException {
+
+		Favorite favorite =
+			fetchByTypeIdAndEntityIdAndPublikUserIdAndContent_Last(
+				typeId, entityId, publikUserId, content, orderByComparator);
+
+		if (favorite != null) {
+			return favorite;
+		}
+
+		StringBundler msg = new StringBundler(10);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("typeId=");
+		msg.append(typeId);
+
+		msg.append(", entityId=");
+		msg.append(entityId);
+
+		msg.append(", publikUserId=");
+		msg.append(publikUserId);
+
+		msg.append(", content=");
+		msg.append(content);
+
+		msg.append("}");
+
+		throw new NoSuchFavoriteException(msg.toString());
+	}
+
+	/**
+	 * Returns the last favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching favorite, or <code>null</code> if a matching favorite could not be found
+	 */
+	@Override
+	public Favorite fetchByTypeIdAndEntityIdAndPublikUserIdAndContent_Last(
+		long typeId, long entityId, String publikUserId, String content,
+		OrderByComparator<Favorite> orderByComparator) {
+
+		int count = countByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			typeId, entityId, publikUserId, content);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Favorite> list = findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+			typeId, entityId, publikUserId, content, count - 1, count,
+			orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the favorites before and after the current favorite in the ordered set where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param favoriteId the primary key of the current favorite
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next favorite
+	 * @throws NoSuchFavoriteException if a favorite with the primary key could not be found
+	 */
+	@Override
+	public Favorite[]
+			findByTypeIdAndEntityIdAndPublikUserIdAndContent_PrevAndNext(
+				long favoriteId, long typeId, long entityId,
+				String publikUserId, String content,
+				OrderByComparator<Favorite> orderByComparator)
+		throws NoSuchFavoriteException {
+
+		publikUserId = Objects.toString(publikUserId, "");
+		content = Objects.toString(content, "");
+
+		Favorite favorite = findByPrimaryKey(favoriteId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Favorite[] array = new FavoriteImpl[3];
+
+			array[0] =
+				getByTypeIdAndEntityIdAndPublikUserIdAndContent_PrevAndNext(
+					session, favorite, typeId, entityId, publikUserId, content,
+					orderByComparator, true);
+
+			array[1] = favorite;
+
+			array[2] =
+				getByTypeIdAndEntityIdAndPublikUserIdAndContent_PrevAndNext(
+					session, favorite, typeId, entityId, publikUserId, content,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Favorite
+		getByTypeIdAndEntityIdAndPublikUserIdAndContent_PrevAndNext(
+			Session session, Favorite favorite, long typeId, long entityId,
+			String publikUserId, String content,
+			OrderByComparator<Favorite> orderByComparator, boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				7 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(6);
+		}
+
+		query.append(_SQL_SELECT_FAVORITE_WHERE);
+
+		query.append(
+			_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_TYPEID_2);
+
+		query.append(
+			_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_ENTITYID_2);
+
+		boolean bindPublikUserId = false;
+
+		if (publikUserId.isEmpty()) {
+			query.append(
+				_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_PUBLIKUSERID_3);
+		}
+		else {
+			bindPublikUserId = true;
+
+			query.append(
+				_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_PUBLIKUSERID_2);
+		}
+
+		boolean bindContent = false;
+
+		if (content.isEmpty()) {
+			query.append(
+				_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_CONTENT_3);
+		}
+		else {
+			bindContent = true;
+
+			query.append(
+				_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_CONTENT_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(FavoriteModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(typeId);
+
+		qPos.add(entityId);
+
+		if (bindPublikUserId) {
+			qPos.add(publikUserId);
+		}
+
+		if (bindContent) {
+			qPos.add(content);
+		}
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(favorite)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Favorite> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63; from the database.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 */
+	@Override
+	public void removeByTypeIdAndEntityIdAndPublikUserIdAndContent(
+		long typeId, long entityId, String publikUserId, String content) {
+
+		for (Favorite favorite :
+				findByTypeIdAndEntityIdAndPublikUserIdAndContent(
+					typeId, entityId, publikUserId, content, QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS, null)) {
+
+			remove(favorite);
+		}
+	}
+
+	/**
+	 * Returns the number of favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
+	 *
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param publikUserId the publik user ID
+	 * @param content the content
+	 * @return the number of matching favorites
+	 */
+	@Override
+	public int countByTypeIdAndEntityIdAndPublikUserIdAndContent(
+		long typeId, long entityId, String publikUserId, String content) {
+
+		publikUserId = Objects.toString(publikUserId, "");
+		content = Objects.toString(content, "");
+
+		FinderPath finderPath =
+			_finderPathCountByTypeIdAndEntityIdAndPublikUserIdAndContent;
+
+		Object[] finderArgs = new Object[] {
+			typeId, entityId, publikUserId, content
+		};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(5);
+
+			query.append(_SQL_COUNT_FAVORITE_WHERE);
+
+			query.append(
+				_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_TYPEID_2);
+
+			query.append(
+				_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_ENTITYID_2);
+
+			boolean bindPublikUserId = false;
+
+			if (publikUserId.isEmpty()) {
+				query.append(
+					_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_PUBLIKUSERID_3);
+			}
+			else {
+				bindPublikUserId = true;
+
+				query.append(
+					_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_PUBLIKUSERID_2);
+			}
+
+			boolean bindContent = false;
+
+			if (content.isEmpty()) {
+				query.append(
+					_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_CONTENT_3);
+			}
+			else {
+				bindContent = true;
+
+				query.append(
+					_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_CONTENT_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(typeId);
+
+				qPos.add(entityId);
+
+				if (bindPublikUserId) {
+					qPos.add(publikUserId);
+				}
+
+				if (bindContent) {
+					qPos.add(content);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String
+		_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_TYPEID_2 =
+			"favorite.typeId = ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_ENTITYID_2 =
+			"favorite.entityId = ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_PUBLIKUSERID_2 =
+			"favorite.publikUserId = ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_PUBLIKUSERID_3 =
+			"(favorite.publikUserId IS NULL OR favorite.publikUserId = '') AND ";
+
+	private static final String
+		_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_CONTENT_2 =
+			"favorite.content = ?";
+
+	private static final String
+		_FINDER_COLUMN_TYPEIDANDENTITYIDANDPUBLIKUSERIDANDCONTENT_CONTENT_3 =
+			"(favorite.content IS NULL OR favorite.content = '')";
+
 	public FavoritePersistenceImpl() {
 		setModelClass(Favorite.class);
+
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("order", "order_");
+
+		try {
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
+
+			field.setAccessible(true);
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -1779,6 +2552,29 @@ public class FavoritePersistenceImpl
 
 		FavoriteModelImpl favoriteModelImpl = (FavoriteModelImpl)favorite;
 
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (favorite.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				favorite.setCreateDate(now);
+			}
+			else {
+				favorite.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!favoriteModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				favorite.setModifiedDate(now);
+			}
+			else {
+				favorite.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
+
 		Session session = null;
 
 		try {
@@ -1819,6 +2615,19 @@ public class FavoritePersistenceImpl
 			finderCache.removeResult(_finderPathCountByEntityIdAndTypeId, args);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByEntityIdAndTypeId, args);
+
+			args = new Object[] {
+				favoriteModelImpl.getTypeId(), favoriteModelImpl.getEntityId(),
+				favoriteModelImpl.getPublikUserId(),
+				favoriteModelImpl.getContent()
+			};
+
+			finderCache.removeResult(
+				_finderPathCountByTypeIdAndEntityIdAndPublikUserIdAndContent,
+				args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent,
+				args);
 
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
@@ -1867,6 +2676,39 @@ public class FavoritePersistenceImpl
 					_finderPathCountByEntityIdAndTypeId, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByEntityIdAndTypeId, args);
+			}
+
+			if ((favoriteModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					favoriteModelImpl.getOriginalTypeId(),
+					favoriteModelImpl.getOriginalEntityId(),
+					favoriteModelImpl.getOriginalPublikUserId(),
+					favoriteModelImpl.getOriginalContent()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByTypeIdAndEntityIdAndPublikUserIdAndContent,
+					args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent,
+					args);
+
+				args = new Object[] {
+					favoriteModelImpl.getTypeId(),
+					favoriteModelImpl.getEntityId(),
+					favoriteModelImpl.getPublikUserId(),
+					favoriteModelImpl.getContent()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByTypeIdAndEntityIdAndPublikUserIdAndContent,
+					args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent,
+					args);
 			}
 		}
 
@@ -2275,6 +3117,11 @@ public class FavoritePersistenceImpl
 	}
 
 	@Override
+	public Set<String> getBadColumnNames() {
+		return _badColumnNames;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return FavoriteModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2369,6 +3216,45 @@ public class FavoritePersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByEntityIdAndTypeId",
 			new String[] {Long.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent =
+			new FinderPath(
+				FavoriteModelImpl.ENTITY_CACHE_ENABLED,
+				FavoriteModelImpl.FINDER_CACHE_ENABLED, FavoriteImpl.class,
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"findByTypeIdAndEntityIdAndPublikUserIdAndContent",
+				new String[] {
+					Long.class.getName(), Long.class.getName(),
+					String.class.getName(), String.class.getName(),
+					Integer.class.getName(), Integer.class.getName(),
+					OrderByComparator.class.getName()
+				});
+
+		_finderPathWithoutPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent =
+			new FinderPath(
+				FavoriteModelImpl.ENTITY_CACHE_ENABLED,
+				FavoriteModelImpl.FINDER_CACHE_ENABLED, FavoriteImpl.class,
+				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+				"findByTypeIdAndEntityIdAndPublikUserIdAndContent",
+				new String[] {
+					Long.class.getName(), Long.class.getName(),
+					String.class.getName(), String.class.getName()
+				},
+				FavoriteModelImpl.TYPEID_COLUMN_BITMASK |
+				FavoriteModelImpl.ENTITYID_COLUMN_BITMASK |
+				FavoriteModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
+				FavoriteModelImpl.CONTENT_COLUMN_BITMASK);
+
+		_finderPathCountByTypeIdAndEntityIdAndPublikUserIdAndContent =
+			new FinderPath(
+				FavoriteModelImpl.ENTITY_CACHE_ENABLED,
+				FavoriteModelImpl.FINDER_CACHE_ENABLED, Long.class,
+				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+				"countByTypeIdAndEntityIdAndPublikUserIdAndContent",
+				new String[] {
+					Long.class.getName(), Long.class.getName(),
+					String.class.getName(), String.class.getName()
+				});
 	}
 
 	public void destroy() {
@@ -2409,5 +3295,8 @@ public class FavoritePersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		FavoritePersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"order"});
 
 }

@@ -1114,6 +1114,14 @@ public class EditionGalleryWrapper
 		return new EditionGalleryWrapper(_editionGallery.toEscapedModel());
 	}
 
+	/**
+	 * Retourne la version JSON de la galerie
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _editionGallery.toJSON();
+	}
+
 	@Override
 	public String toString() {
 		return _editionGallery.toString();

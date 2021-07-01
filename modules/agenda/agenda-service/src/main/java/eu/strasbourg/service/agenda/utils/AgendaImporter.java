@@ -3,6 +3,7 @@ package eu.strasbourg.service.agenda.utils;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -11,6 +12,8 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
@@ -29,12 +32,7 @@ import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.model.ImportReport;
 import eu.strasbourg.service.agenda.model.ImportReportLine;
 import eu.strasbourg.service.agenda.model.Manifestation;
-import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.ImportReportLineLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.ImportReportLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.*;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -43,13 +41,16 @@ import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -57,6 +58,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class AgendaImporter {
 
@@ -112,6 +114,49 @@ public class AgendaImporter {
 			.getVocabulariesForAssetType(this.globalGroupId, eventClassNameId);
 	}
 
+	public String getJSON(String url, int timeout) {
+		HttpURLConnection c = null;
+		try {
+			URL u = new URL(url);
+			c = (HttpURLConnection) u.openConnection();
+			c.setRequestMethod("GET");
+			c.setRequestProperty("Content-length", "0");
+			c.setUseCaches(false);
+			c.setAllowUserInteraction(false);
+			c.setConnectTimeout(timeout);
+			c.setReadTimeout(timeout);
+			c.connect();
+			int status = c.getResponseCode();
+
+			switch (status) {
+				case 200:
+				case 201:
+					BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+					StringBuilder sb = new StringBuilder();
+					String line;
+					while ((line = br.readLine()) != null) {
+						sb.append(line+"\n");
+					}
+					br.close();
+					return sb.toString();
+			}
+
+		} catch (MalformedURLException ex) {
+			_log.error(ex.getMessage());
+		} catch (IOException ex) {
+			_log.error(ex.getMessage());
+		} finally {
+			if (c != null) {
+				try {
+					c.disconnect();
+				} catch (Exception ex) {
+					_log.error(ex.getMessage());
+				}
+			}
+		}
+		return null;
+	}
+
 	public boolean doImport() throws IOException {
 		// On prépare le rapport, l'objet JSON et le répertoire qui
 		// contient les fichiers à importer
@@ -120,6 +165,27 @@ public class AgendaImporter {
 		JSONObject json = null;
 		File directory = new File(
 			StrasbourgPropsUtil.getAgendaImportDirectory());
+
+		File f = new File(Paths.get(directory.getAbsolutePath(),"coze.json").toString());
+		f.createNewFile();
+
+		String jsonCozeString = getJSON(StrasbourgPropsUtil.getUrlCozeJson(),StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+
+		Writer writer = null;
+		try {
+			writer = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(f), "utf-8"));
+			writer.write(jsonCozeString);
+		} catch (IOException ex) {
+			_log.error(ex.getMessage());
+		} catch (Exception ex) {
+			_log.error(ex.getMessage());
+		} finally {
+			try {
+				writer.close();
+			} catch (Exception ex) {
+				_log.error(ex.getMessage());}
+		}
 		int fileIndex = 0;
 		// On boucle sur les fichiers du répertoire
 		for (File file : directory.listFiles()) {
@@ -214,12 +280,14 @@ public class AgendaImporter {
 				continue;
 			}
 
+			List<String> manifestationsImportExternalId = new ArrayList<>();
 			// On s'occupe des manifestations
 			for (int i = 0; i < manifestations.length(); i++) {
 				_log.info("Import manifestation: " + (i + 1) + "/"
 					+ manifestations.length());
 
 				JSONObject jsonManifestation = manifestations.getJSONObject(i);
+				manifestationsImportExternalId.add(jsonManifestation.getString("externalId"));
 				ImportReportLine line = this
 					.importManifestation(jsonManifestation, provider);
 				if (line == null
@@ -238,11 +306,12 @@ public class AgendaImporter {
 				line.setReportId(report.getReportId());
 				ImportReportLineLocalServiceUtil.updateImportReportLine(line);
 			}
-
+			List<String> eventsImportExternalId = new ArrayList<>();
 			// On passe maintenant aux événements !
 			for (int i = 0; i < events.length(); i++) {
 				_log.info("Import event: " + (i + 1) + "/" + events.length());
 				JSONObject jsonEvent = events.getJSONObject(i);
+				eventsImportExternalId.add(jsonEvent.getString("externalId"));
 				ImportReportLine line = this.importEvent(jsonEvent, provider);
 				if (line == null
 					|| line.getStatus() == ImportReportLineStatus.FAILURE) {
@@ -252,13 +321,62 @@ public class AgendaImporter {
 					.getStatus() == ImportReportLineStatus.SUCCESS_ADD) {
 					report.incrementNewEvents();
 				} else if (line
-						.getStatus() == ImportReportLineStatus.SUCCESS_MODIFIED){
+						.getStatus() == ImportReportLineStatus.SUCCESS_MODIFIED) {
 					report.incrementModifiedEvents();
-				}else {
+				} else {
 					report.incrementUnmodifiedEvents();
 				}
 				line.setReportId(report.getReportId());
 				ImportReportLineLocalServiceUtil.updateImportReportLine(line);
+			}
+
+			List<Manifestation> manifestationsFromProvider = ManifestationLocalServiceUtil.getManifestations(-1,-1).stream().filter(m -> m.getSource().equals(provider)).distinct().collect(Collectors.toList());
+			int j = 0;
+			for(Manifestation manifestationFromProvider : manifestationsFromProvider){
+				if(!manifestationsImportExternalId.contains(manifestationFromProvider.getIdSource())){
+					j += 1;
+					_log.info("Delete Manifestation: " + j + "/" + manifestationsFromProvider.size() + " id :" + manifestationFromProvider.getIdSource());
+					ImportReportLine line;
+					try {
+						line = ImportReportLineLocalServiceUtil
+								.createImportReportLine();
+						line.setEntityExternalId(manifestationFromProvider.getIdSource());
+						line.setEntityName(manifestationFromProvider.getTitle(Locale.FRANCE));
+						line.setEntityId(manifestationFromProvider.getManifestationId());
+						line.setType(Manifestation.class.getName());
+						line.setStatus(ImportReportLineStatus.DELETED);
+						line.setReportId(report.getReportId());
+						ImportReportLineLocalServiceUtil.updateImportReportLine(line);
+						ManifestationLocalServiceUtil.removeManifestation(manifestationFromProvider.getManifestationId());
+						report.incrementDeletedManifestations();
+					} catch (PortalException e) {
+						_log.error(e);
+					}
+				}
+			}
+
+			List<Event> eventsFromProvider = EventLocalServiceUtil.getEvents(-1,-1).stream().filter(e -> e.getSource().equals(provider)).distinct().collect(Collectors.toList());
+			int i = 0;
+			for(Event eventFromProvider : eventsFromProvider){
+				if(!eventsImportExternalId.contains(eventFromProvider.getIdSource())){
+					i += 1;
+					_log.info("Delete event: " + i + "/" + eventsFromProvider.size() + " id :" + eventFromProvider.getIdSource());
+					ImportReportLine line;
+					try {
+						line = ImportReportLineLocalServiceUtil
+								.createImportReportLine();
+						line.setEntityExternalId(eventFromProvider.getIdSource());
+						line.setEntityName(eventFromProvider.getTitle(Locale.FRANCE));
+						line.setType(Event.class.getName());
+						line.setStatus(ImportReportLineStatus.DELETED);
+						line.setReportId(report.getReportId());
+						ImportReportLineLocalServiceUtil.updateImportReportLine(line);
+						EventLocalServiceUtil.removeEvent(eventFromProvider.getEventId());
+						report.incrementDeletedEvents();
+					} catch (PortalException e) {
+						_log.error(e);
+					}
+				}
 			}
 
 			report.setEndDate(new Date());
@@ -887,6 +1005,30 @@ public class AgendaImporter {
 					}
 				}
 				event.setBookingURL(jsonBookingURL);
+
+				JSONObject jsonRegistration = jsonEvent.getJSONObject("registration");
+				if(Validator.isNotNull(jsonRegistration)){
+					event.setRegistration(true);
+					event.setMaxGauge(jsonRegistration.getLong("maxGauge"));
+					String registrationStartDateString = jsonRegistration.getString("startDate");
+					String registrationEndDateString = jsonRegistration.getString("endDate");
+					Date registrationStartDate = null;
+					Date registrationEndDate = null;
+					try {
+						registrationStartDate = dateFormat.parse(registrationStartDateString);
+						registrationEndDate = dateFormat.parse(registrationEndDateString);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					event.setRegistrationStartDate(registrationStartDate);
+					event.setRegistrationEndDate(registrationEndDate);
+				}
+				else{
+					event.setRegistration(false);
+					event.setMaxGauge(0);
+					event.setRegistrationStartDate(null);
+					event.setRegistrationEndDate(null);
+				}
 
 				// Lieu
 				if (Validator.isNotNull(placeSIGId)) {
