@@ -1,7 +1,7 @@
 {
 	"devDependencies": {
 		"compass-mixins": "0.12.10",
-		"gulp": "3.9.1",
+		"gulp": "^3.9.1",
 		"gulp-autoprefixer": "latest",
 		"gulp-concat": "latest",
 		"gulp-load-plugins": "^2.0.4",
@@ -10,9 +10,9 @@
 		"gulp-sass": "^4.1.0",
 		"gulp-tinypng": "latest",
 		"gulp-uglify": "latest",
-		"liferay-frontend-common-css": "1.0.4",
-		"liferay-frontend-theme-styled": "4.0.21",
-		"liferay-frontend-theme-unstyled": "4.0.17",
+		"liferay-frontend-common-css": "^1.0.4",
+		"liferay-frontend-theme-styled": "^4.0.21",
+		"liferay-frontend-theme-unstyled": "^4.0.17",
 		"liferay-theme-tasks": "^9.5.2"
 	},
 	"keywords": [
@@ -30,6 +30,18 @@
 	"name": "christmas-2018-theme",
 	"version": "1.0.0",
 	"dependencies": {
-		"del": "^3.0.0"
+		"del": "^3.0.0",
+		"gulp-remove-sourcemaps": "^1.0.0"
+	},
+	"browserslist": ["defaults"
+	],
+	"postcss": {
+		"plugins": {
+			"autoprefixer": {}
+		}
+	},
+	"scripts": {
+		"build:css": "postcss src/app.css -o build/app.css",
+		"build": "npm run build:css"
 	}
 }

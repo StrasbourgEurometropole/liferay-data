@@ -1,9 +1,5 @@
 'use strict';
 
-var autoprefixer_options = {
-    browsers: ['> 1%','last 4 versions','ios > 7','android > 4','chrome > 18','ff > 10','opera > 1','safari > 5', 'ie > 7']
-};
-
 var gulp = require('gulp');
 var liferayThemeTasks = require('liferay-theme-tasks');
 var plugins = require('gulp-load-plugins')({
@@ -31,7 +27,6 @@ gulp.task('css', function () {
             console.log(err.toString());
             this.emit('end');
         })
-        .pipe(plugins.autoprefixer(autoprefixer_options))
         .pipe(gulp.dest('./src/css/'));
 });
 

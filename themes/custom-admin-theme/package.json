@@ -32,9 +32,9 @@
 		"string-sub": "0.0.1",
 		"underscore.string": "^3.2.2",
 		"compass-mixins": "0.12.10",
-		"liferay-frontend-common-css": "1.0.4",
-		"liferay-frontend-theme-styled": "4.0.21",
-		"liferay-frontend-theme-unstyled": "4.0.17"
+		"liferay-frontend-common-css": "^1.0.4",
+		"liferay-frontend-theme-styled": "^4.0.21",
+		"liferay-frontend-theme-unstyled": "^4.0.17"
 	},
 	"publishConfig": {
 		"tag": "7_0_x"

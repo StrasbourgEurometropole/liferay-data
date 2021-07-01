@@ -13,13 +13,9 @@ liferayThemeTasks.registerTasks({
 gulp.task('css', function () {
     var source = './custom/css/';
     var destination = './src/css/';
-    var autoprefixer_options = {
-        browsers: ["last 3 versions", "> 5%", "not explorer <= 8"]
-    };
 
     return gulp.src(source + '/style.scss')
     .pipe(plugins.sass({outputStyle: 'compressed'}))
-    .pipe(plugins.autoprefixer(autoprefixer_options))
     .pipe(gulp.dest(destination));
 });
 

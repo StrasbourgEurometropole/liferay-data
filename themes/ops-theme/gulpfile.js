@@ -6,10 +6,6 @@ var plugins = require('gulp-load-plugins')();
 
 var phpinc = require("php-include-html");
 
-var autoprefixer_options = {
-    browsers: ['> 1%','last 4 versions','ios > 7','android > 4','chrome > 18','ff > 10','opera > 1','safari > 5', 'ie > 7']
-};
-
 liferayThemeTasks.registerTasks({
 	gulp: gulp,
 });
@@ -21,7 +17,6 @@ gulp.task('css', function () {
             console.log(err.toString());
             this.emit('end');
         })
-        .pipe(plugins.autoprefixer(autoprefixer_options))
         .pipe(gulp.dest('./src/css/'));
 });
 

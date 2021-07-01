@@ -33,5 +33,17 @@
 		"gulp-sass": "^4.0.2",
 		"gulp-sass-glob-import": "^0.1.0",
 		"natives": "^1.1.6"
+	},
+	"browserslist": [
+		"defaults"
+	],
+	"postcss": {
+		"plugins": {
+			"autoprefixer": {}
+		}
+	},
+	"scripts": {
+		"build:css": "postcss src/app.css -o build/app.css",
+		"build": "npm run build:css"
 	}
 }
