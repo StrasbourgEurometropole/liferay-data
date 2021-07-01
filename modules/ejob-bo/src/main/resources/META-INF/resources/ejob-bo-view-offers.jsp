@@ -31,7 +31,7 @@
 			</c:forEach>
             <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
                 orderByType="${dc.orderByType}"
-                orderColumns='<%= new String[] {"title", "publication-date", "end-date"} %>'
+                orderColumns='<%= new String[] {"title", "date"} %>'
                 portletURL="${offersURL}" />
     </liferay-frontend:management-bar-filters>
 </liferay-frontend:management-bar>
@@ -91,13 +91,6 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="publication-date" truncate="true"
 					orderable="true" value="${formattedPublicationStartDate}" />
-
-                <!-- Colonne : date de fin de publication -->
-				<fmt:formatDate value="${offer.publicationEndDate}"
-					var="formattedPublicationEndDate" type="date" pattern="dd/MM/yyyy" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="end-date" truncate="true"
-					orderable="true" value="${formattedPublicationEndDate}" />
 
                 <!-- Colonne : date de modification -->
 				<fmt:formatDate value="${offer.modifiedDate}"
