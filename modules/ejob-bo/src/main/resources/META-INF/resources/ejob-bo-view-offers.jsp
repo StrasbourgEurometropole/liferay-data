@@ -149,6 +149,18 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
+
+
+    <c:if test="${dc.isAdminOrResp()}">
+        <liferay-portlet:resourceURL var="exportXlsxURL" id="exportXlsx">
+        </liferay-portlet:resourceURL>
+        <form method="POST" action="${exportXlsxURL}">
+            <aui:button-row>
+                <aui:button cssClass="btn-lg" type="submit"
+                    value="export XLS" />
+            </aui:button-row>
+        </form>
+    </c:if>
 </div>
 
 <c:if test="${dc.hasPermission('ADD_OFFER') and empty themeDisplay.scopeGroup.getStagingGroup()}">

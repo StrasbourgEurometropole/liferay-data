@@ -71,15 +71,26 @@ public class ViewOfferDisplayContext
 
 	public boolean isContribOnly(){
 		try {
+			if(isAdminOrResp())
+				return false;
+
+			Role assistantRecrutement = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.ASSISTANT_RECRUTEMENT);
+			return UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), assistantRecrutement.getRoleId());
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+
+	public boolean isAdminOrResp(){
+		try {
 			Role  responsableEmploi = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.RESPONSABLE_EMPLOI);
 			Role siteAdministrator = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.SITE_ADMLINISTRATOR);
 			if(themeDisplay.getPermissionChecker().isOmniadmin()
 					|| UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), responsableEmploi.getRoleId())
 					|| UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), siteAdministrator.getRoleId()))
-				return false;
-
-			Role assistantRecrutement = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.ASSISTANT_RECRUTEMENT);
-			return UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), assistantRecrutement.getRoleId());
+				return true;
 		} catch (PortalException e) {
 			e.printStackTrace();
 		}
