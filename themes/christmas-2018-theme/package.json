@@ -33,7 +33,8 @@
 		"del": "^3.0.0",
 		"gulp-remove-sourcemaps": "^1.0.0"
 	},
-	"browserslist": ["defaults"
+	"browserslist": [
+		"defaults"
 	],
 	"postcss": {
 		"plugins": {
