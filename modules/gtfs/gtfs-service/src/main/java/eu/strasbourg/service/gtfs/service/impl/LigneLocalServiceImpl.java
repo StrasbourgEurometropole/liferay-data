@@ -390,5 +390,13 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 		}
 		return ligneColors;
 	}
+
+	/**
+	 * Retourne les lignes qui possedent les memes donnees
+	 */
+	@Override
+	public List<Ligne> getByShortNameAndStatus(String shortName, int status) {
+		return this.lignePersistence.findByShortNameAndStatus(shortName,status);
+	}
 	
 }

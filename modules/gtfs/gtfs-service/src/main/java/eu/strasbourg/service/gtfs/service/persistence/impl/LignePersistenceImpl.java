@@ -2193,6 +2193,595 @@ public class LignePersistenceImpl
 	private static final String _FINDER_COLUMN_ROUTEID_ROUTEID_3 =
 		"(ligne.routeId IS NULL OR ligne.routeId = '')";
 
+	private FinderPath _finderPathWithPaginationFindByShortNameAndStatus;
+	private FinderPath _finderPathWithoutPaginationFindByShortNameAndStatus;
+	private FinderPath _finderPathCountByShortNameAndStatus;
+
+	/**
+	 * Returns all the lignes where shortName = &#63; and status = &#63;.
+	 *
+	 * @param shortName the short name
+	 * @param status the status
+	 * @return the matching lignes
+	 */
+	@Override
+	public List<Ligne> findByShortNameAndStatus(String shortName, int status) {
+		return findByShortNameAndStatus(
+			shortName, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the lignes where shortName = &#63; and status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LigneModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param shortName the short name
+	 * @param status the status
+	 * @param start the lower bound of the range of lignes
+	 * @param end the upper bound of the range of lignes (not inclusive)
+	 * @return the range of matching lignes
+	 */
+	@Override
+	public List<Ligne> findByShortNameAndStatus(
+		String shortName, int status, int start, int end) {
+
+		return findByShortNameAndStatus(shortName, status, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the lignes where shortName = &#63; and status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LigneModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param shortName the short name
+	 * @param status the status
+	 * @param start the lower bound of the range of lignes
+	 * @param end the upper bound of the range of lignes (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching lignes
+	 */
+	@Override
+	public List<Ligne> findByShortNameAndStatus(
+		String shortName, int status, int start, int end,
+		OrderByComparator<Ligne> orderByComparator) {
+
+		return findByShortNameAndStatus(
+			shortName, status, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the lignes where shortName = &#63; and status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LigneModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param shortName the short name
+	 * @param status the status
+	 * @param start the lower bound of the range of lignes
+	 * @param end the upper bound of the range of lignes (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching lignes
+	 */
+	@Override
+	public List<Ligne> findByShortNameAndStatus(
+		String shortName, int status, int start, int end,
+		OrderByComparator<Ligne> orderByComparator, boolean retrieveFromCache) {
+
+		shortName = Objects.toString(shortName, "");
+
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			pagination = false;
+			finderPath = _finderPathWithoutPaginationFindByShortNameAndStatus;
+			finderArgs = new Object[] {shortName, status};
+		}
+		else {
+			finderPath = _finderPathWithPaginationFindByShortNameAndStatus;
+			finderArgs = new Object[] {
+				shortName, status, start, end, orderByComparator
+			};
+		}
+
+		List<Ligne> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Ligne>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Ligne ligne : list) {
+					if (!shortName.equals(ligne.getShortName()) ||
+						(status != ligne.getStatus())) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_LIGNE_WHERE);
+
+			boolean bindShortName = false;
+
+			if (shortName.isEmpty()) {
+				query.append(_FINDER_COLUMN_SHORTNAMEANDSTATUS_SHORTNAME_3);
+			}
+			else {
+				bindShortName = true;
+
+				query.append(_FINDER_COLUMN_SHORTNAMEANDSTATUS_SHORTNAME_2);
+			}
+
+			query.append(_FINDER_COLUMN_SHORTNAMEANDSTATUS_STATUS_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(LigneModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindShortName) {
+					qPos.add(shortName);
+				}
+
+				qPos.add(status);
+
+				if (!pagination) {
+					list = (List<Ligne>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Ligne>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first ligne in the ordered set where shortName = &#63; and status = &#63;.
+	 *
+	 * @param shortName the short name
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching ligne
+	 * @throws NoSuchLigneException if a matching ligne could not be found
+	 */
+	@Override
+	public Ligne findByShortNameAndStatus_First(
+			String shortName, int status,
+			OrderByComparator<Ligne> orderByComparator)
+		throws NoSuchLigneException {
+
+		Ligne ligne = fetchByShortNameAndStatus_First(
+			shortName, status, orderByComparator);
+
+		if (ligne != null) {
+			return ligne;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("shortName=");
+		msg.append(shortName);
+
+		msg.append(", status=");
+		msg.append(status);
+
+		msg.append("}");
+
+		throw new NoSuchLigneException(msg.toString());
+	}
+
+	/**
+	 * Returns the first ligne in the ordered set where shortName = &#63; and status = &#63;.
+	 *
+	 * @param shortName the short name
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching ligne, or <code>null</code> if a matching ligne could not be found
+	 */
+	@Override
+	public Ligne fetchByShortNameAndStatus_First(
+		String shortName, int status,
+		OrderByComparator<Ligne> orderByComparator) {
+
+		List<Ligne> list = findByShortNameAndStatus(
+			shortName, status, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last ligne in the ordered set where shortName = &#63; and status = &#63;.
+	 *
+	 * @param shortName the short name
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching ligne
+	 * @throws NoSuchLigneException if a matching ligne could not be found
+	 */
+	@Override
+	public Ligne findByShortNameAndStatus_Last(
+			String shortName, int status,
+			OrderByComparator<Ligne> orderByComparator)
+		throws NoSuchLigneException {
+
+		Ligne ligne = fetchByShortNameAndStatus_Last(
+			shortName, status, orderByComparator);
+
+		if (ligne != null) {
+			return ligne;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("shortName=");
+		msg.append(shortName);
+
+		msg.append(", status=");
+		msg.append(status);
+
+		msg.append("}");
+
+		throw new NoSuchLigneException(msg.toString());
+	}
+
+	/**
+	 * Returns the last ligne in the ordered set where shortName = &#63; and status = &#63;.
+	 *
+	 * @param shortName the short name
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching ligne, or <code>null</code> if a matching ligne could not be found
+	 */
+	@Override
+	public Ligne fetchByShortNameAndStatus_Last(
+		String shortName, int status,
+		OrderByComparator<Ligne> orderByComparator) {
+
+		int count = countByShortNameAndStatus(shortName, status);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Ligne> list = findByShortNameAndStatus(
+			shortName, status, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the lignes before and after the current ligne in the ordered set where shortName = &#63; and status = &#63;.
+	 *
+	 * @param ligneId the primary key of the current ligne
+	 * @param shortName the short name
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next ligne
+	 * @throws NoSuchLigneException if a ligne with the primary key could not be found
+	 */
+	@Override
+	public Ligne[] findByShortNameAndStatus_PrevAndNext(
+			long ligneId, String shortName, int status,
+			OrderByComparator<Ligne> orderByComparator)
+		throws NoSuchLigneException {
+
+		shortName = Objects.toString(shortName, "");
+
+		Ligne ligne = findByPrimaryKey(ligneId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Ligne[] array = new LigneImpl[3];
+
+			array[0] = getByShortNameAndStatus_PrevAndNext(
+				session, ligne, shortName, status, orderByComparator, true);
+
+			array[1] = ligne;
+
+			array[2] = getByShortNameAndStatus_PrevAndNext(
+				session, ligne, shortName, status, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Ligne getByShortNameAndStatus_PrevAndNext(
+		Session session, Ligne ligne, String shortName, int status,
+		OrderByComparator<Ligne> orderByComparator, boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(4);
+		}
+
+		query.append(_SQL_SELECT_LIGNE_WHERE);
+
+		boolean bindShortName = false;
+
+		if (shortName.isEmpty()) {
+			query.append(_FINDER_COLUMN_SHORTNAMEANDSTATUS_SHORTNAME_3);
+		}
+		else {
+			bindShortName = true;
+
+			query.append(_FINDER_COLUMN_SHORTNAMEANDSTATUS_SHORTNAME_2);
+		}
+
+		query.append(_FINDER_COLUMN_SHORTNAMEANDSTATUS_STATUS_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(LigneModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindShortName) {
+			qPos.add(shortName);
+		}
+
+		qPos.add(status);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(ligne)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Ligne> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the lignes where shortName = &#63; and status = &#63; from the database.
+	 *
+	 * @param shortName the short name
+	 * @param status the status
+	 */
+	@Override
+	public void removeByShortNameAndStatus(String shortName, int status) {
+		for (Ligne ligne :
+				findByShortNameAndStatus(
+					shortName, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
+			remove(ligne);
+		}
+	}
+
+	/**
+	 * Returns the number of lignes where shortName = &#63; and status = &#63;.
+	 *
+	 * @param shortName the short name
+	 * @param status the status
+	 * @return the number of matching lignes
+	 */
+	@Override
+	public int countByShortNameAndStatus(String shortName, int status) {
+		shortName = Objects.toString(shortName, "");
+
+		FinderPath finderPath = _finderPathCountByShortNameAndStatus;
+
+		Object[] finderArgs = new Object[] {shortName, status};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_LIGNE_WHERE);
+
+			boolean bindShortName = false;
+
+			if (shortName.isEmpty()) {
+				query.append(_FINDER_COLUMN_SHORTNAMEANDSTATUS_SHORTNAME_3);
+			}
+			else {
+				bindShortName = true;
+
+				query.append(_FINDER_COLUMN_SHORTNAMEANDSTATUS_SHORTNAME_2);
+			}
+
+			query.append(_FINDER_COLUMN_SHORTNAMEANDSTATUS_STATUS_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindShortName) {
+					qPos.add(shortName);
+				}
+
+				qPos.add(status);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SHORTNAMEANDSTATUS_SHORTNAME_2 =
+		"ligne.shortName = ? AND ";
+
+	private static final String _FINDER_COLUMN_SHORTNAMEANDSTATUS_SHORTNAME_3 =
+		"(ligne.shortName IS NULL OR ligne.shortName = '') AND ";
+
+	private static final String _FINDER_COLUMN_SHORTNAMEANDSTATUS_STATUS_2 =
+		"ligne.status = ?";
+
 	public LignePersistenceImpl() {
 		setModelClass(Ligne.class);
 
@@ -2566,6 +3155,15 @@ public class LignePersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByGroupId, args);
 
+			args = new Object[] {
+				ligneModelImpl.getShortName(), ligneModelImpl.getStatus()
+			};
+
+			finderCache.removeResult(
+				_finderPathCountByShortNameAndStatus, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByShortNameAndStatus, args);
+
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
@@ -2627,6 +3225,30 @@ public class LignePersistenceImpl
 				finderCache.removeResult(_finderPathCountByGroupId, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByGroupId, args);
+			}
+
+			if ((ligneModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByShortNameAndStatus.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					ligneModelImpl.getOriginalShortName(),
+					ligneModelImpl.getOriginalStatus()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByShortNameAndStatus, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByShortNameAndStatus, args);
+
+				args = new Object[] {
+					ligneModelImpl.getShortName(), ligneModelImpl.getStatus()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByShortNameAndStatus, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByShortNameAndStatus, args);
 			}
 		}
 
@@ -3155,6 +3777,32 @@ public class LignePersistenceImpl
 			LigneModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRouteId",
 			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByShortNameAndStatus = new FinderPath(
+			LigneModelImpl.ENTITY_CACHE_ENABLED,
+			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByShortNameAndStatus",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByShortNameAndStatus = new FinderPath(
+			LigneModelImpl.ENTITY_CACHE_ENABLED,
+			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByShortNameAndStatus",
+			new String[] {String.class.getName(), Integer.class.getName()},
+			LigneModelImpl.SHORTNAME_COLUMN_BITMASK |
+			LigneModelImpl.STATUS_COLUMN_BITMASK);
+
+		_finderPathCountByShortNameAndStatus = new FinderPath(
+			LigneModelImpl.ENTITY_CACHE_ENABLED,
+			LigneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByShortNameAndStatus",
+			new String[] {String.class.getName(), Integer.class.getName()});
 	}
 
 	public void destroy() {

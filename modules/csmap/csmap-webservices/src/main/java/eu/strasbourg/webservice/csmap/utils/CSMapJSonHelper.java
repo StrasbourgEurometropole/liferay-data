@@ -297,6 +297,7 @@ public class CSMapJSonHelper {
 
     static public JSONObject arretCSMapJSON(Arret arret) {
         JSONObject json = JSONFactoryUtil.createJSONObject();
+        json.put("stopId", arret.getStopId());
         json.put("stopCode", arret.getCode());
         json.put("title", arret.getTitle());
         json.put("type", arret.getType());
@@ -309,10 +310,8 @@ public class CSMapJSonHelper {
         for(Direction direction : directions){
             String lineName = LigneLocalServiceUtil.getByRouteId(direction.getRouteId()).getShortName();
             if(!lineNumbers.contains(lineName)) {
-                JSONObject lineJSON = JSONFactoryUtil.createJSONObject();
-                lineJSON.put("lineNumber", lineName);
                 lineNumbers.add(lineName);
-                linesJSON.put(lineJSON);
+                linesJSON.put(lineName);
             }
         }
         json.put("lines", linesJSON);
