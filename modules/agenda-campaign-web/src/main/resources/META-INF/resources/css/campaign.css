@@ -233,3 +233,7 @@ a.show-autocomplete-place:not([href]):not([tabindex]):focus{
 .form-group label .reference-mark {
     font-size: 12px;
 }
+
+#registrationDiv input{
+    max-width: 300px;
+}
