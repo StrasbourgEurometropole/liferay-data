@@ -114,10 +114,14 @@ public class FavoriteApplication extends Application {
             }
             json.put(WSConstants.JSON_DELETE, jsonSuppr);
 
+            if(jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+                return WSResponseUtil.buildOkResponse(json, 201);
+
         } catch (NoJWTInHeaderException e) {
             log.error(e.getMessage());
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
         }  catch (Exception e){
+            log.error(e.getMessage());
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
 

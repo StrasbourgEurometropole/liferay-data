@@ -6,6 +6,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
@@ -26,6 +27,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -92,20 +94,25 @@ public class TransportApplication extends Application {
                         JSONArray jsonArretAjout = JSONFactoryUtil.createJSONArray();
                         JSONArray jsonArretModif = JSONFactoryUtil.createJSONArray();
                         for(Arret arret : arrets){
-                                if(lastUpdateTime.before(arret.getCreateDate())){
+                                if(lastUpdateTime.before(arret.getCreateDate()) && arret.getStatus() == WorkflowConstants.STATUS_APPROVED){
                                         jsonArretAjout.put(CSMapJSonHelper.arretCSMapJSON(arret));
-                                } else if(lastUpdateTime.before(arret.getModifiedDate())){
+                                } else if(lastUpdateTime.before(arret.getModifiedDate()) && arret.getStatus() == WorkflowConstants.STATUS_APPROVED){
                                         jsonArretModif.put(CSMapJSonHelper.arretCSMapJSON(arret));
                                 }
                         }
                         List<Ligne> lignes = LigneLocalServiceUtil.getLignes(-1,-1);
                         JSONArray jsonLigneAjout = JSONFactoryUtil.createJSONArray();
                         JSONArray jsonLigneModif = JSONFactoryUtil.createJSONArray();
+                        List<String> lineNumbers = new ArrayList<>();
                         for(Ligne ligne : lignes){
-                                if(lastUpdateTime.before(ligne.getCreateDate())){
-                                        jsonLigneAjout.put(CSMapJSonHelper.lineCSMapJSON(ligne));
-                                } else if(lastUpdateTime.before(ligne.getModifiedDate())){
-                                        jsonLigneModif.put(CSMapJSonHelper.lineCSMapJSON(ligne));
+                                String lineName = ligne.getShortName();
+                                if(!lineNumbers.contains(lineName)) {
+                                        lineNumbers.add(lineName);
+                                        if(lastUpdateTime.before(ligne.getCreateDate()) && ligne.getStatus() == WorkflowConstants.STATUS_APPROVED){
+                                                jsonLigneAjout.put(CSMapJSonHelper.lineCSMapJSON(ligne));
+                                        } else if(lastUpdateTime.before(ligne.getModifiedDate()) && ligne.getStatus() == WorkflowConstants.STATUS_APPROVED){
+                                                jsonLigneModif.put(CSMapJSonHelper.lineCSMapJSON(ligne));
+                                        }
                                 }
                         }
 
@@ -113,10 +120,10 @@ public class TransportApplication extends Application {
                         JSONArray stopsJSONDelete = JSONFactoryUtil.createJSONArray();
                         for (String idStop : ids_stops.split(",")) {
                                 if(Validator.isNotNull(idStop)) {
-                                        Arret arret = ArretLocalServiceUtil.fetchArret(Long.parseLong(idStop));
-                                        if (Validator.isNull(arret)) {
+                                        Arret arret = ArretLocalServiceUtil.getByStopId(idStop);
+                                        if (Validator.isNull(arret) || arret.getStatus() != WorkflowConstants.STATUS_APPROVED) {
                                                 JSONObject stopJSONDelete = JSONFactoryUtil.createJSONObject();
-                                                stopJSONDelete.put("stopCode", idStop);
+                                                stopJSONDelete.put("stopId", idStop);
                                                 stopsJSONDelete.put(stopJSONDelete);
                                         }
                                 }
@@ -125,8 +132,8 @@ public class TransportApplication extends Application {
                         JSONArray linesJSONDelete = JSONFactoryUtil.createJSONArray();
                         for (String idLine : ids_lines.split(",")) {
                                 if(Validator.isNotNull(idLine)) {
-                                        Ligne line = LigneLocalServiceUtil.fetchLigne(Long.parseLong(idLine));
-                                        if (Validator.isNull(line)) {
+                                        List<Ligne> lines = LigneLocalServiceUtil.getByShortNameAndStatus(idLine,0);
+                                        if (Validator.isNull(lines) || lines.isEmpty()) {
                                                 JSONObject lineJSONDelete = JSONFactoryUtil.createJSONObject();
                                                 lineJSONDelete.put("lineNumber", idLine);
                                                 linesJSONDelete.put(lineJSONDelete);
@@ -143,6 +150,9 @@ public class TransportApplication extends Application {
 
                         json.put("stops", jsonStop);
                         json.put("lines", jsonLine);
+                        if(jsonArretAjout.length() == 0 && jsonArretModif.length() == 0 && stopsJSONDelete.length() == 0
+                           && jsonLigneAjout.length() == 0 && jsonLigneModif.length() == 0 && linesJSONDelete.length() == 0)
+                                return WSResponseUtil.buildOkResponse(json, 201);
                 } catch (Exception e) {
                         log.error(e);
                         return WSResponseUtil.buildErrorResponse(500, e.getMessage());
