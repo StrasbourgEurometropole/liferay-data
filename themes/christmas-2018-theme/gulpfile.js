@@ -4,11 +4,21 @@ var gulp = require('gulp');
 var liferayThemeTasks = require('liferay-theme-tasks');
 var plugins = require('gulp-load-plugins')();
 var del = require('del');
+var runSequence = require('run-sequence').use(gulp);
 
 liferayThemeTasks.registerTasks({
-	gulp: gulp
+  gulp: gulp,
+  hookFn: function(gulp) {
+
+        gulp.hook('after:build:move-compiled-css', function(done) {
+            runSequence('remove-maps', done);
+        })
+  }
 });
 
+gulp.task('remove-maps', cb => {
+	del('./build/css/*.map').then(() => cb());
+});
 
 gulp.task('css', function () {
     var source = './custom/css/';

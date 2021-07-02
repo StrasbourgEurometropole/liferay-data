@@ -14,11 +14,13 @@
 	},
 	"devDependencies": {
 		"compass-mixins": "0.12.10",
-		"gulp": "4.0.2",
-		"liferay-frontend-common-css": "1.0.4",
-		"liferay-frontend-theme-styled": "4.0.21",
-		"liferay-frontend-theme-unstyled": "4.0.17",
-		"liferay-theme-tasks": "^10.3.0"
+		"gulp": "^3.9.1",
+		"del": "^2.2.1",
+		"gulp-load-plugins": "^2.0.4",
+		"liferay-frontend-common-css": "^1.0.4",
+		"liferay-frontend-theme-styled": "^4.0.21",
+		"liferay-frontend-theme-unstyled": "^4.0.17",
+		"liferay-theme-tasks": "^9.5.2"
 	},
 	"scripts": {
 		"init": "gulp init",

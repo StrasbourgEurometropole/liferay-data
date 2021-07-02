@@ -2,6 +2,7 @@
 	"devDependencies": {
 		"grunt-ftpush": "^0.3.3",
 		"gulp": "3.9.1",
+		"del": "^2.2.1",
 		"gulp-autoprefixer": "latest",
 		"gulp-concat": "latest",
 		"gulp-deploy-ftp": "^1.0.1",

@@ -1,6 +1,7 @@
 {
 	"devDependencies": {
 		"gulp": "3.9.1",
+		"del": "^2.2.1",
 		"gulp-autoprefixer": "latest",
 		"gulp-concat": "latest",
 		"gulp-load-plugins": "latest",
