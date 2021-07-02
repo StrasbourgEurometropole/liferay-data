@@ -8,8 +8,10 @@
             ame.$panel_side = ame.$ame.find('#aroundme__side'),
             ame.$trigger_top = ame.$ame.find('.top__trigger'),
             ame.$panel_top = ame.$ame.find('#aroundme__top'),
-            ame.$filters = ame.$ame.find("#aroundme__top input[type='checkbox']"),
+            ame.$filters = ame.$ame.find("#aroundme__top input[type='checkbox'], #aroundme__top select, #aroundme__top input[data-type='date']"),
+            ame.$filters_dates = ame.$ame.find("#aroundme__top input[data-type='date']"),
             ame.$filters_categories = ame.$ame.find("#aroundme__top .categories input[type='checkbox']"),
+            ame.$filters_categories_list = ame.$ame.find("#aroundme__top .categories select"),
             ame.$filters_interests = ame.$ame.find("#aroundme__top .interests input[type='checkbox']"),
             ame.$showFavoritesFilter = ame.$ame.find('[name=' + window.aroundMePortletNamespace + 'showFavorites]');
 
@@ -457,18 +459,52 @@
                 );
             }
 
+            // Ajoute à la liste des markers ceux des catégories
+            var addCategoriesMarkers = function(markers, categories, vocabulariesEmptyIds) {
+                requestsInProgress++;
+                showLoadingIcon();
+                ame.$filters_dates;
+                Liferay.Service(
+                    '/strasbourg.strasbourg/get-categories-pois', {
+                        categories: categories,
+                        vocabulariesEmptyIds: vocabulariesEmptyIds,
+                        prefilters: window.prefilterCategoriesIds,
+                        tags: window.prefilterTags,
+                        groupId: window.groupId,
+                        typeContenu: window.typesContenu,
+                        dateField: window.dateField,
+                        fromDate: $(ame.$filters_dates)[0]!=undefined?$(ame.$filters_dates)[0].value:'',
+                        toDate: $(ame.$filters_dates)[1]!=undefined?$(ame.$filters_dates)[1].value:'',
+                        localeId: Liferay.ThemeDisplay.getLanguageId(),
+                        globalGroupId: window.globalGroupId
+                    },
+                    function(data) {
+                        // Convertion des données geoJSON en marker
+                        try {
+                            var poisData = L.geoJson(data, {
+                                pointToLayer: pointToLayer,
+                                onEachFeature: onEachFeature
+                            });
+                            markers.addLayers(poisData);
+                            removeDuplicates(markers);
+                        } catch(e) {}
+                        requestsInProgress--;
+                        maybeHideLoadingIcon();
+                    }
+                );
+            }
+
             // Ajoute à la liste des markers ceux des centres d'intérêt
-            var addInterestsMarkers = function(markers, interests, categories, prefilters) {
+            var addInterestsMarkers = function(markers, interests) {
                 requestsInProgress++;
                 showLoadingIcon();
                 Liferay.Service(
-                    '/strasbourg.strasbourg/get-pois', {
+                    '/strasbourg.strasbourg/get-interests-pois', {
                         interests: interests,
-                        categories: categories,
-                        prefilters: prefilters,
                         groupId: window.groupId,
                         typeContenu: window.typesContenu,
-                        localeId: Liferay.ThemeDisplay.getLanguageId()
+                        localeId: Liferay.ThemeDisplay.getLanguageId(),
+                        globalGroupId: window.globalGroupId
                     },
                     function(data) {
                         // Convertion des données geoJSON en marker
@@ -538,25 +574,70 @@
                 mymap.removeLayer(markers);
                 markers.clearLayers();
 
-                // Récupération des catégories à afficher
+                // Récupération des catégories à afficher et des vocabulaires qui n'ont aucune catégorie cochées
                 var categories = "";
-                if (window.isWidgetMode) {
-                	categories =  window.categoriesCheckedIds;
-                } else {
-                    var i;
-                    for (i = 0; i < ame.$filters_categories.length; i++) {
-                        var filter = $(ame.$filters_categories[i]);
-                        if (filter.attr('name').indexOf("showFavorites") == -1 && filter.is(':checked')) {
-                            if (categories.length > 0) {
-                            	categories = categories + ",";
+                var vocabulariesEmptyIds = "";
+                var vocabularyId = -1;
+                var hasVocabulary = true;
+                // checkbox
+                $(ame.$filters_categories).each(function() {
+                    if(vocabularyId != $(this).attr('data-vocabulary')){
+                        if(!hasVocabulary){
+                            if(vocabulariesEmptyIds.length > 0){
+                                vocabulariesEmptyIds += ",";
                             }
-                            categories = categories + filter.attr('value');
+                            vocabulariesEmptyIds += vocabularyId;
                         }
+                        vocabularyId = $(this).attr('data-vocabulary');
+                        hasVocabulary = false;
                     }
+                    if ($(this).is(':checked')) {
+                        hasVocabulary = true;
+                        if (categories.length > 0) {
+                            categories = categories + ",";
+                        }
+                        categories = categories + $(this).attr('value');
+                    }
+                })
+                if(!hasVocabulary){
+                    if(vocabulariesEmptyIds.length > 0){
+                        vocabulariesEmptyIds += ",";
+                    }
+                    vocabulariesEmptyIds += vocabularyId;
                 }
 
-                // Préfiltres
-            	var prefilters = window.prefilterCategoriesIds;
+                // liste
+                $(ame.$filters_categories_list).each(function() {
+                    var allCategoriesVocabulary = "";
+                    var categoriesVocabulary = "";
+                    $(this).find('option').each(function(){
+                        if (allCategoriesVocabulary.length > 0) {
+                            allCategoriesVocabulary = allCategoriesVocabulary + ",";
+                        }
+                        allCategoriesVocabulary = allCategoriesVocabulary + this.value;
+                        if ($(this).is(':selected')) {
+                            if (categoriesVocabulary.length > 0) {
+                                categoriesVocabulary = categoriesVocabulary + ",";
+                            }
+                            categoriesVocabulary = categoriesVocabulary + this.value;
+                        }
+                    });
+                    if (categories.length > 0) {
+                        categories = categories + ",";
+                    }
+                    // si aucune catégorie n'est cochée dans la liste,
+                    // on ajoute toutes les catégories de la liste
+                    if (categoriesVocabulary.length > 0) {
+                        categories = categories + categoriesVocabulary;
+                    }else{
+                        categories = categories + allCategoriesVocabulary;
+                    }
+                });
+
+                // Récupération des données concernant les catégories
+                if (categories.length > 0) {
+                    addCategoriesMarkers(markers, categories, vocabulariesEmptyIds);
+                }
 
                 // Récupération des centres d'intérêts à afficher
                 var interests = "";
@@ -576,8 +657,8 @@
                 }
 
                 // Récupération des données concernant les centres d'intérêt
-                if (interests.length > 0 || categories.length > 0) {
-                    addInterestsMarkers(markers, interests, categories, prefilters);
+                if (interests.length > 0) {
+                    addInterestsMarkers( markers, interests);
                 }
 
                 // Récupération des données concernant les favoris
@@ -598,6 +679,22 @@
                         		addAlerts(markers);
                         		break;
                             }
+                        }
+                        var hasSelect = false;
+                        for (i = 0; i < ame.$filters_categories_list.find("option:selected").length; i++) {
+                            var filter = $(ame.$filters_categories_list.find("option:selected")[i]);
+                            // et si la catégorie choisie est sélectionnée en mode normal ou mon quartier
+                            hasSelect = true;
+                            if (filter.attr('value') == window.linkCategoryId) {
+                                addTraffic(markers);
+                                addAlerts(markers);
+                                break;
+                            }
+                        }
+                        // ou si aucune sélection n'est faite
+                        if (!hasSelect && ame.$filters_categories_list.find("option:selected").length > 0) {
+                            addTraffic(markers);
+                            addAlerts(markers);
                         }
                 	}
                 	if(window.mode == "aroundme" ){
@@ -654,11 +751,9 @@
                 moveToUserAddress();
             });
             ame.$filters.on('change', function() {
-                saveUserConfig();
-            });
-
-            $('#mapid').on('click', '.infowindow__close', function() {
-                mymap.closePopup();
+                if(mode != 'normal')
+                    saveUserConfig();
+                showPois();
             });
 
             // Affichage de la zone
@@ -718,7 +813,6 @@
                     }
                 };
                 request.send(formData);
-                showPois();
             }
 
             function showLoadingIcon() {
@@ -819,13 +913,15 @@
      * Recuperation des couleurs de lignes
      */
     var ligneColors;
-    Liferay.Service(
-            '/gtfs.ligne/get-ligne-colors',
-            {},
-            function(json) {
-            	ligneColors = json;
-            }
-    );
+    if(window.typesContenu.includes('eu.strasbourg.service.gtfs.model.Arret')){
+        Liferay.Service(
+                '/gtfs.ligne/get-ligne-colors',
+                {},
+                function(json) {
+                    ligneColors = json;
+                }
+        );
+    }
 
     /**
      * Cherche la ligne dans la liste des couleurs de lignes
