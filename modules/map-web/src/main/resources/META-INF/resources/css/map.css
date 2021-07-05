@@ -655,6 +655,7 @@
 }
 #aroundme .leaflet-popup-content {
   margin: 0;
+  min-width: 230px;
 }
 @media only screen and (max-width: 767px) {
   #aroundme .leaflet-popup-content {

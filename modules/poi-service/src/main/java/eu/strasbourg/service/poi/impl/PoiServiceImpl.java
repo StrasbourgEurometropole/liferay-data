@@ -492,7 +492,7 @@ public class PoiServiceImpl implements PoiService {
 		LocalDate fromDate = LocalDate.now();
 		LocalDate toDate = LocalDate.now();
 		if(dateField && Validator.isNotNull(startDate) && Validator.isNotNull(endDate)) {
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/M/yyyy");
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d/M/yyyy");
 			fromDate = LocalDate.parse(startDate, dtf);
 			toDate = LocalDate.parse(endDate, dtf);
 		}

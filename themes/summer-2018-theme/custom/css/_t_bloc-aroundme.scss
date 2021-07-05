@@ -3,6 +3,8 @@
     margin-bottom: 40px;
     padding: 0;
     z-index: 5;
+    max-width: 1200px;
+    margin: auto;
 
     h2{
         width: 100%;
@@ -38,16 +40,22 @@
         
         .add-favorites{
             color: $c_main !important;
-            font-size: 1.4rem !important;
-            font-family: $f_txt !important;
+            font-size: 0.875rem !important;
+            font-family: $f_ms !important;
+            // pas de possibilité d'ajout aux favoris du fait qu'il n'y a pas de connection monStrasbourg
+            display: none !important;
+        }
+
+        .select2 .select2-selection__rendered li {
+            font-size: 0.875rem;
         }
         
         &__center{
             .aroundme__map{
                 
                 .marker-cluster div{
-                    font-family: $f_txt;
-                    font-size: 1.6rem;
+                    font-family: $f_ms;
+                    font-size: 1rem;
                     color: #FFFFFF;
                     font-weight: 700;
                 }
@@ -64,17 +72,17 @@
             form{
 
                 .filtres__list h2{
-                    font-family: $f_hx;
-                    font-size: 2.2rem;
+                    font-family: $f_ms;
+                    font-size: 1.1375rem;
                     text-transform: none;
                 }
 
-                .info-text {
-                    color: #000000;
-                    font-family: $f_txt;
-                    font-size: 1.6rem;
+                .info-text p {
+                    color: #fff;
+                    font-family: $f_ms;
+                    font-size: 1 rem;
                     a {
-                        font-family: $f_txt;
+                        font-family: $f_ms;
                     }
                 }
             }
@@ -124,34 +132,36 @@
 
 
             &__title, &__title label{
-                font-family: f_txt;
+                font-family: $f_ms;
+                font-size: 1.0625rem;
             }
             &__item{
                 @extend %tram-destination;            
                 .tram-destination{
                     .tram-destination-letter{
-                        font-size: 1.4rem;
+                        font-size: 0.875rem;
                     }
                 }
 
                 .types{
-                    font-family: $f_txt;
-                    font-size: 1.4rem;
+                    font-family: $f_ms;
+                    font-size: 0.875rem;
                     color: #808080;
                     margin-bottom: 0px;
                 }
 
                 a {
-                    font-family: $f_hx;
-                    font-size: 1.8rem;
+                    font-family: $f_ms;
+                    font-size: 1.125rem;
 
                 }
 
                 [type="checkbox"]{
 
                     & + label{
-                        font-family: $f_txt;
+                        font-family: $f_ms;
                         max-width: calc(100% - 17px);
+                        font-size: 0.875rem;
 
                     }
                 }
@@ -167,10 +177,10 @@
                     }
                 }
                 .btn-text{
-                    font-size: 1.6rem;
+                    font-size: 1rem;
                     color: black;
                     font-weight: 700;
-                    font-family: $f_hx;
+                    font-family: $f_ms;
                 }
                 @include mobile{
                     display: block;
@@ -311,8 +321,8 @@
                 background-image: url( svg-bg-uri($svg-filled-close, $c_main) );
             }
             &__name{
-                font-family: $f_hx;
-                font-size: 1.8rem;
+                font-family: $f_ms;
+                font-size: 1.125rem;
                 color: black;
             }
             &__like{
@@ -327,9 +337,9 @@
                 }
             }
             &__address{
-                font-family: $f_txt;
+                font-family: $f_ms;
                 color: #6D6D6D;
-                font-size: 1.6rem;
+                font-size: 1rem;
             }
             &__middle{
                  
@@ -340,22 +350,25 @@
 
             }
             &__opened{
-                font-family: $f_txt;
+                font-family: $f_ms;
                 color: #808080;
+                font-size: 0.875rem;
             }
             &__schedules{
-                font-family: $f_txt;
+                font-family: $f_ms;
                 color: $c_main;
+                font-size: 0.875rem;
             }
             &__contenu, &__contenu p{
-                font-family: $f_txt;
+                font-family: $f_ms;
                 font-weight: 500;
                 color: #707070;
-                font-size: 1.4rem;
+                font-size: 0.875rem;
                 margin: 0px;
             }
             &__amount{
                 .infowindow__frequentation{
+                    font-size: 1.3125rem;
 
                     &.orange{
                         background-color: $crowded-orange;
@@ -380,8 +393,13 @@
                 }
                 .crowded-label{
                     color: #808080;
-                    font-family: $f_txt;
+                    font-family: $f_ms;
+                    font-size: 0.8125rem;
                 }
+            }
+            // pas de possibilité d'ajout aux favoris du fait qu'il n'y a pas de connection monStrasbourg
+            &__bottom{
+                display: none;
             }
             &__url {
                 a{
@@ -415,7 +433,7 @@
     }
 
     .subtitle{
-        font-size: 1.8rem;
+        font-size: 1.125rem;
         color: #5c5c5c;
         margin-bottom: 20px;
 
@@ -437,6 +455,21 @@
 
 /* ------------------------------ calendrier */
     
-#ui-datepicker-div .ui-datepicker-header {
-	background-color: $third-color !important;
+#ui-datepicker-div {
+    .ui-datepicker-header {
+        background-color: $third-color !important;
+        
+        .ui-datepicker-year, .ui-datepicker-month{
+            font-size: 1.25rem !important;
+        }
+    }
+
+    table td{
+        font-size: 0.75rem !important;
+    }
+}
+
+/* ------------------------------ liste */
+.select2-results__option{
+    font-size: 1.125rem !important;
 }

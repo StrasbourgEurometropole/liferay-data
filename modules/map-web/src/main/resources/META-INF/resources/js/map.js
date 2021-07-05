@@ -755,6 +755,9 @@
                     saveUserConfig();
                 showPois();
             });
+            $('#mapid').on('click', '.infowindow__close', function() {
+                mymap.closePopup();
+            });
 
             // Affichage de la zone
             var coordinatesZone = JSON.parse(window.coordinatesZone);
