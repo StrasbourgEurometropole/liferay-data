@@ -8,18 +8,18 @@
     </liferay-portlet:renderURL>
 <c:choose>
 
-
     <%-- UTILISATEUR CONFIRME --%>
     <c:when test = "${dc.isConfirmedCouncilUser()}">
 
         <div class="council-flex council-web">
 
-
-
             <div class="detail-delib seu-container">
                 <c:if test="${fn:length(dc.getCouncilSessions()) > 1}">
                     <a href="${returnURL}"> <span class="returnButton">Retour a la liste des conseils</span></a>
                 </c:if>
+
+                <%-- Nombre de votants --%>
+                <h3 class="nbVotes" id="nombre-votes"></h3>
 
                 <input type="hidden" id="deliberationId" value=""/>
                 <input type="hidden" id="stage" value=""/>
@@ -31,7 +31,6 @@
                 <%@ include file="/templates/result.jsp"%>
                 <%@ include file="/templates/vote-form.jsp"%>
             </div>
-
         </div>
 
         <%-- VARIABLES JS A PARTAGER --%>
