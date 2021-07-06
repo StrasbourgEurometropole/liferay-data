@@ -5,6 +5,8 @@
 <#else>
     <#assign homeURL = "/" />
 </#if>
+<#assign uriHelperService = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
+
 <main class="seu-container">
     <h1>${layout.getName(locale)}</h1>
     <div class="hat">
@@ -38,7 +40,7 @@
                         <a href="${homeURL}${currentPage.friendlyURL?remove_beginning('/')}" class="seu-grid-item-visu">
                             <#if hasImage>
                                 <#assign backgroundImage = currentPage.expandoBridge.getAttribute('image') />
-                                <div class="seu-grid-item-background" style="background-image: url(${backgroundImage});"></div>
+                                <div class="seu-grid-item-background" style="background-image: url(${uriHelperService.appendUriImagePreview(backgroundImage)});"></div>
                             <#else>
                                 <div class="seu-grid-item-background"></div>
                             </#if>
