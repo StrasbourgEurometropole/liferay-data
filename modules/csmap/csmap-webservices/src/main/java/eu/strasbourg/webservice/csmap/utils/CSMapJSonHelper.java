@@ -289,7 +289,7 @@ public class CSMapJSonHelper {
         } else if(favorite.getTypeId()== FavoriteType.EVENT.getId()) {
             jsonFavorite.put("elementId", EventLocalServiceUtil.fetchEvent(favorite.getEntityId()).getEventId());
         } else if(favorite.getTypeId()== FavoriteType.ARRET.getId()) {
-            jsonFavorite.put("elementId", ArretLocalServiceUtil.fetchArret(favorite.getEntityId()).getArretId());
+            jsonFavorite.put("elementId", ArretLocalServiceUtil.fetchArret(favorite.getEntityId()).getStopId());
         }
         jsonFavorite.put("content", favorite.getContent());
         return jsonFavorite;

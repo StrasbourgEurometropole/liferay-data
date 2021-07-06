@@ -10,6 +10,8 @@ import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalService;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
+import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.DateHelper;
@@ -93,8 +95,11 @@ public class FavoriteApplication extends Application {
             JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
 
             for (Favorite favorite : favorites) {
-                if (lastUpdateTime.before(favorite.getCreateDate()))
-                    jsonAjout.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
+                if (lastUpdateTime.before(favorite.getCreateDate())) {
+                    if (!idsFavorite.contains(String.valueOf(favorite.getFavoriteId()))) {
+                        jsonAjout.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
+                    }
+                }
                 else if (lastUpdateTime.before(favorite.getModifiedDate()))
                     jsonModif.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
             }
@@ -161,6 +166,8 @@ public class FavoriteApplication extends Application {
                         long elementIdForSearch;
                         if (typeFavorite == FavoriteType.PLACE.getId()) {
                             elementIdForSearch = PlaceLocalServiceUtil.getPlaceBySIGId(elementIdFavorite).getPlaceId();
+                        } else if(typeFavorite == FavoriteType.ARRET.getId()) {
+                            elementIdForSearch = ArretLocalServiceUtil.getByStopId(elementIdFavorite).getArretId();
                         } else {
                             elementIdForSearch = Long.parseLong(elementIdFavorite);
                         }
