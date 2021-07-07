@@ -88,7 +88,14 @@ create table council_Procuration (
 	officialVotersId LONG,
 	officialUnavailableId LONG,
 	councilSessionId LONG,
-	isAbsent BOOLEAN
+	isAbsent BOOLEAN,
+	procurationMode VARCHAR(75) null,
+	isPresentiel BOOLEAN,
+	isAfterVote BOOLEAN,
+	heureDebutProcuration DATE null,
+	heureFinProcuration DATE null,
+	pointDebutProcuration INTEGER,
+	pointFinProcuration INTEGER
 );
 
 create table council_Type (

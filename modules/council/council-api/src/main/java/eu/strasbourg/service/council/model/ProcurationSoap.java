@@ -50,6 +50,13 @@ public class ProcurationSoap implements Serializable {
 		soapModel.setOfficialUnavailableId(model.getOfficialUnavailableId());
 		soapModel.setCouncilSessionId(model.getCouncilSessionId());
 		soapModel.setIsAbsent(model.isIsAbsent());
+		soapModel.setProcurationMode(model.getProcurationMode());
+		soapModel.setIsPresentiel(model.isIsPresentiel());
+		soapModel.setIsAfterVote(model.isIsAfterVote());
+		soapModel.setHeureDebutProcuration(model.getHeureDebutProcuration());
+		soapModel.setHeureFinProcuration(model.getHeureFinProcuration());
+		soapModel.setPointDebutProcuration(model.getPointDebutProcuration());
+		soapModel.setPointFinProcuration(model.getPointFinProcuration());
 
 		return soapModel;
 	}
@@ -235,6 +242,70 @@ public class ProcurationSoap implements Serializable {
 		_isAbsent = isAbsent;
 	}
 
+	public String getProcurationMode() {
+		return _procurationMode;
+	}
+
+	public void setProcurationMode(String procurationMode) {
+		_procurationMode = procurationMode;
+	}
+
+	public boolean getIsPresentiel() {
+		return _isPresentiel;
+	}
+
+	public boolean isIsPresentiel() {
+		return _isPresentiel;
+	}
+
+	public void setIsPresentiel(boolean isPresentiel) {
+		_isPresentiel = isPresentiel;
+	}
+
+	public boolean getIsAfterVote() {
+		return _isAfterVote;
+	}
+
+	public boolean isIsAfterVote() {
+		return _isAfterVote;
+	}
+
+	public void setIsAfterVote(boolean isAfterVote) {
+		_isAfterVote = isAfterVote;
+	}
+
+	public Date getHeureDebutProcuration() {
+		return _heureDebutProcuration;
+	}
+
+	public void setHeureDebutProcuration(Date heureDebutProcuration) {
+		_heureDebutProcuration = heureDebutProcuration;
+	}
+
+	public Date getHeureFinProcuration() {
+		return _heureFinProcuration;
+	}
+
+	public void setHeureFinProcuration(Date heureFinProcuration) {
+		_heureFinProcuration = heureFinProcuration;
+	}
+
+	public int getPointDebutProcuration() {
+		return _pointDebutProcuration;
+	}
+
+	public void setPointDebutProcuration(int pointDebutProcuration) {
+		_pointDebutProcuration = pointDebutProcuration;
+	}
+
+	public int getPointFinProcuration() {
+		return _pointFinProcuration;
+	}
+
+	public void setPointFinProcuration(int pointFinProcuration) {
+		_pointFinProcuration = pointFinProcuration;
+	}
+
 	private String _uuid;
 	private long _procurationId;
 	private long _groupId;
@@ -251,5 +322,12 @@ public class ProcurationSoap implements Serializable {
 	private long _officialUnavailableId;
 	private long _councilSessionId;
 	private boolean _isAbsent;
+	private String _procurationMode;
+	private boolean _isPresentiel;
+	private boolean _isAfterVote;
+	private Date _heureDebutProcuration;
+	private Date _heureFinProcuration;
+	private int _pointDebutProcuration;
+	private int _pointFinProcuration;
 
 }

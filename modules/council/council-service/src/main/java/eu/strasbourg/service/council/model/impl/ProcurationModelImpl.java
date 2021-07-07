@@ -82,7 +82,13 @@ public class ProcurationModelImpl
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
 		{"officialVotersId", Types.BIGINT},
 		{"officialUnavailableId", Types.BIGINT},
-		{"councilSessionId", Types.BIGINT}, {"isAbsent", Types.BOOLEAN}
+		{"councilSessionId", Types.BIGINT}, {"isAbsent", Types.BOOLEAN},
+		{"procurationMode", Types.VARCHAR}, {"isPresentiel", Types.BOOLEAN},
+		{"isAfterVote", Types.BOOLEAN},
+		{"heureDebutProcuration", Types.TIMESTAMP},
+		{"heureFinProcuration", Types.TIMESTAMP},
+		{"pointDebutProcuration", Types.INTEGER},
+		{"pointFinProcuration", Types.INTEGER}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -105,10 +111,17 @@ public class ProcurationModelImpl
 		TABLE_COLUMNS_MAP.put("officialUnavailableId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("councilSessionId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("isAbsent", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("procurationMode", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("isPresentiel", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("isAfterVote", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("heureDebutProcuration", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("heureFinProcuration", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("pointDebutProcuration", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("pointFinProcuration", Types.INTEGER);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,councilSessionId LONG,isAbsent BOOLEAN)";
+		"create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,councilSessionId LONG,isAbsent BOOLEAN,procurationMode VARCHAR(75) null,isPresentiel BOOLEAN,isAfterVote BOOLEAN,heureDebutProcuration DATE null,heureFinProcuration DATE null,pointDebutProcuration INTEGER,pointFinProcuration INTEGER)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table council_Procuration";
@@ -620,6 +633,164 @@ public class ProcurationModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"procurationMode",
+			new Function<Procuration, Object>() {
+
+				@Override
+				public Object apply(Procuration procuration) {
+					return procuration.getProcurationMode();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"procurationMode",
+			new BiConsumer<Procuration, Object>() {
+
+				@Override
+				public void accept(
+					Procuration procuration, Object procurationMode) {
+
+					procuration.setProcurationMode((String)procurationMode);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"isPresentiel",
+			new Function<Procuration, Object>() {
+
+				@Override
+				public Object apply(Procuration procuration) {
+					return procuration.getIsPresentiel();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"isPresentiel",
+			new BiConsumer<Procuration, Object>() {
+
+				@Override
+				public void accept(
+					Procuration procuration, Object isPresentiel) {
+
+					procuration.setIsPresentiel((Boolean)isPresentiel);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"isAfterVote",
+			new Function<Procuration, Object>() {
+
+				@Override
+				public Object apply(Procuration procuration) {
+					return procuration.getIsAfterVote();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"isAfterVote",
+			new BiConsumer<Procuration, Object>() {
+
+				@Override
+				public void accept(
+					Procuration procuration, Object isAfterVote) {
+
+					procuration.setIsAfterVote((Boolean)isAfterVote);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"heureDebutProcuration",
+			new Function<Procuration, Object>() {
+
+				@Override
+				public Object apply(Procuration procuration) {
+					return procuration.getHeureDebutProcuration();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"heureDebutProcuration",
+			new BiConsumer<Procuration, Object>() {
+
+				@Override
+				public void accept(
+					Procuration procuration, Object heureDebutProcuration) {
+
+					procuration.setHeureDebutProcuration(
+						(Date)heureDebutProcuration);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"heureFinProcuration",
+			new Function<Procuration, Object>() {
+
+				@Override
+				public Object apply(Procuration procuration) {
+					return procuration.getHeureFinProcuration();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"heureFinProcuration",
+			new BiConsumer<Procuration, Object>() {
+
+				@Override
+				public void accept(
+					Procuration procuration, Object heureFinProcuration) {
+
+					procuration.setHeureFinProcuration(
+						(Date)heureFinProcuration);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"pointDebutProcuration",
+			new Function<Procuration, Object>() {
+
+				@Override
+				public Object apply(Procuration procuration) {
+					return procuration.getPointDebutProcuration();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"pointDebutProcuration",
+			new BiConsumer<Procuration, Object>() {
+
+				@Override
+				public void accept(
+					Procuration procuration, Object pointDebutProcuration) {
+
+					procuration.setPointDebutProcuration(
+						(Integer)pointDebutProcuration);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"pointFinProcuration",
+			new Function<Procuration, Object>() {
+
+				@Override
+				public Object apply(Procuration procuration) {
+					return procuration.getPointFinProcuration();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"pointFinProcuration",
+			new BiConsumer<Procuration, Object>() {
+
+				@Override
+				public void accept(
+					Procuration procuration, Object pointFinProcuration) {
+
+					procuration.setPointFinProcuration(
+						(Integer)pointFinProcuration);
+				}
+
+			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -930,6 +1101,91 @@ public class ProcurationModelImpl
 	}
 
 	@Override
+	public String getProcurationMode() {
+		if (_procurationMode == null) {
+			return "";
+		}
+		else {
+			return _procurationMode;
+		}
+	}
+
+	@Override
+	public void setProcurationMode(String procurationMode) {
+		_procurationMode = procurationMode;
+	}
+
+	@Override
+	public boolean getIsPresentiel() {
+		return _isPresentiel;
+	}
+
+	@Override
+	public boolean isIsPresentiel() {
+		return _isPresentiel;
+	}
+
+	@Override
+	public void setIsPresentiel(boolean isPresentiel) {
+		_isPresentiel = isPresentiel;
+	}
+
+	@Override
+	public boolean getIsAfterVote() {
+		return _isAfterVote;
+	}
+
+	@Override
+	public boolean isIsAfterVote() {
+		return _isAfterVote;
+	}
+
+	@Override
+	public void setIsAfterVote(boolean isAfterVote) {
+		_isAfterVote = isAfterVote;
+	}
+
+	@Override
+	public Date getHeureDebutProcuration() {
+		return _heureDebutProcuration;
+	}
+
+	@Override
+	public void setHeureDebutProcuration(Date heureDebutProcuration) {
+		_heureDebutProcuration = heureDebutProcuration;
+	}
+
+	@Override
+	public Date getHeureFinProcuration() {
+		return _heureFinProcuration;
+	}
+
+	@Override
+	public void setHeureFinProcuration(Date heureFinProcuration) {
+		_heureFinProcuration = heureFinProcuration;
+	}
+
+	@Override
+	public int getPointDebutProcuration() {
+		return _pointDebutProcuration;
+	}
+
+	@Override
+	public void setPointDebutProcuration(int pointDebutProcuration) {
+		_pointDebutProcuration = pointDebutProcuration;
+	}
+
+	@Override
+	public int getPointFinProcuration() {
+		return _pointFinProcuration;
+	}
+
+	@Override
+	public void setPointFinProcuration(int pointFinProcuration) {
+		_pointFinProcuration = pointFinProcuration;
+	}
+
+	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
 			PortalUtil.getClassNameId(Procuration.class.getName()));
@@ -1062,6 +1318,13 @@ public class ProcurationModelImpl
 		procurationImpl.setOfficialUnavailableId(getOfficialUnavailableId());
 		procurationImpl.setCouncilSessionId(getCouncilSessionId());
 		procurationImpl.setIsAbsent(isIsAbsent());
+		procurationImpl.setProcurationMode(getProcurationMode());
+		procurationImpl.setIsPresentiel(isIsPresentiel());
+		procurationImpl.setIsAfterVote(isIsAfterVote());
+		procurationImpl.setHeureDebutProcuration(getHeureDebutProcuration());
+		procurationImpl.setHeureFinProcuration(getHeureFinProcuration());
+		procurationImpl.setPointDebutProcuration(getPointDebutProcuration());
+		procurationImpl.setPointFinProcuration(getPointFinProcuration());
 
 		procurationImpl.resetOriginalValues();
 
@@ -1244,6 +1507,43 @@ public class ProcurationModelImpl
 
 		procurationCacheModel.isAbsent = isIsAbsent();
 
+		procurationCacheModel.procurationMode = getProcurationMode();
+
+		String procurationMode = procurationCacheModel.procurationMode;
+
+		if ((procurationMode != null) && (procurationMode.length() == 0)) {
+			procurationCacheModel.procurationMode = null;
+		}
+
+		procurationCacheModel.isPresentiel = isIsPresentiel();
+
+		procurationCacheModel.isAfterVote = isIsAfterVote();
+
+		Date heureDebutProcuration = getHeureDebutProcuration();
+
+		if (heureDebutProcuration != null) {
+			procurationCacheModel.heureDebutProcuration =
+				heureDebutProcuration.getTime();
+		}
+		else {
+			procurationCacheModel.heureDebutProcuration = Long.MIN_VALUE;
+		}
+
+		Date heureFinProcuration = getHeureFinProcuration();
+
+		if (heureFinProcuration != null) {
+			procurationCacheModel.heureFinProcuration =
+				heureFinProcuration.getTime();
+		}
+		else {
+			procurationCacheModel.heureFinProcuration = Long.MIN_VALUE;
+		}
+
+		procurationCacheModel.pointDebutProcuration =
+			getPointDebutProcuration();
+
+		procurationCacheModel.pointFinProcuration = getPointFinProcuration();
+
 		return procurationCacheModel;
 	}
 
@@ -1343,6 +1643,13 @@ public class ProcurationModelImpl
 	private boolean _isAbsent;
 	private boolean _originalIsAbsent;
 	private boolean _setOriginalIsAbsent;
+	private String _procurationMode;
+	private boolean _isPresentiel;
+	private boolean _isAfterVote;
+	private Date _heureDebutProcuration;
+	private Date _heureFinProcuration;
+	private int _pointDebutProcuration;
+	private int _pointFinProcuration;
 	private long _columnBitmask;
 	private Procuration _escapedModel;
 

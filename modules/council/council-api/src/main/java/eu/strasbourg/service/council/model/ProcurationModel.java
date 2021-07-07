@@ -355,6 +355,119 @@ public interface ProcurationModel
 	public void setIsAbsent(boolean isAbsent);
 
 	/**
+	 * Returns the procuration mode of this procuration.
+	 *
+	 * @return the procuration mode of this procuration
+	 */
+	@AutoEscape
+	public String getProcurationMode();
+
+	/**
+	 * Sets the procuration mode of this procuration.
+	 *
+	 * @param procurationMode the procuration mode of this procuration
+	 */
+	public void setProcurationMode(String procurationMode);
+
+	/**
+	 * Returns the is presentiel of this procuration.
+	 *
+	 * @return the is presentiel of this procuration
+	 */
+	public boolean getIsPresentiel();
+
+	/**
+	 * Returns <code>true</code> if this procuration is is presentiel.
+	 *
+	 * @return <code>true</code> if this procuration is is presentiel; <code>false</code> otherwise
+	 */
+	public boolean isIsPresentiel();
+
+	/**
+	 * Sets whether this procuration is is presentiel.
+	 *
+	 * @param isPresentiel the is presentiel of this procuration
+	 */
+	public void setIsPresentiel(boolean isPresentiel);
+
+	/**
+	 * Returns the is after vote of this procuration.
+	 *
+	 * @return the is after vote of this procuration
+	 */
+	public boolean getIsAfterVote();
+
+	/**
+	 * Returns <code>true</code> if this procuration is is after vote.
+	 *
+	 * @return <code>true</code> if this procuration is is after vote; <code>false</code> otherwise
+	 */
+	public boolean isIsAfterVote();
+
+	/**
+	 * Sets whether this procuration is is after vote.
+	 *
+	 * @param isAfterVote the is after vote of this procuration
+	 */
+	public void setIsAfterVote(boolean isAfterVote);
+
+	/**
+	 * Returns the heure debut procuration of this procuration.
+	 *
+	 * @return the heure debut procuration of this procuration
+	 */
+	public Date getHeureDebutProcuration();
+
+	/**
+	 * Sets the heure debut procuration of this procuration.
+	 *
+	 * @param heureDebutProcuration the heure debut procuration of this procuration
+	 */
+	public void setHeureDebutProcuration(Date heureDebutProcuration);
+
+	/**
+	 * Returns the heure fin procuration of this procuration.
+	 *
+	 * @return the heure fin procuration of this procuration
+	 */
+	public Date getHeureFinProcuration();
+
+	/**
+	 * Sets the heure fin procuration of this procuration.
+	 *
+	 * @param heureFinProcuration the heure fin procuration of this procuration
+	 */
+	public void setHeureFinProcuration(Date heureFinProcuration);
+
+	/**
+	 * Returns the point debut procuration of this procuration.
+	 *
+	 * @return the point debut procuration of this procuration
+	 */
+	public int getPointDebutProcuration();
+
+	/**
+	 * Sets the point debut procuration of this procuration.
+	 *
+	 * @param pointDebutProcuration the point debut procuration of this procuration
+	 */
+	public void setPointDebutProcuration(int pointDebutProcuration);
+
+	/**
+	 * Returns the point fin procuration of this procuration.
+	 *
+	 * @return the point fin procuration of this procuration
+	 */
+	public int getPointFinProcuration();
+
+	/**
+	 * Sets the point fin procuration of this procuration.
+	 *
+	 * @param pointFinProcuration the point fin procuration of this procuration
+	 */
+	public void setPointFinProcuration(int pointFinProcuration);
+
+	/**
 	 * Returns <code>true</code> if this procuration is approved.
 	 *
 	 * @return <code>true</code> if this procuration is approved; <code>false</code> otherwise

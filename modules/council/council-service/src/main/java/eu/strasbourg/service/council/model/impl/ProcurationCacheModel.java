@@ -66,7 +66,7 @@ public class ProcurationCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -100,6 +100,20 @@ public class ProcurationCacheModel
 		sb.append(councilSessionId);
 		sb.append(", isAbsent=");
 		sb.append(isAbsent);
+		sb.append(", procurationMode=");
+		sb.append(procurationMode);
+		sb.append(", isPresentiel=");
+		sb.append(isPresentiel);
+		sb.append(", isAfterVote=");
+		sb.append(isAfterVote);
+		sb.append(", heureDebutProcuration=");
+		sb.append(heureDebutProcuration);
+		sb.append(", heureFinProcuration=");
+		sb.append(heureFinProcuration);
+		sb.append(", pointDebutProcuration=");
+		sb.append(pointDebutProcuration);
+		sb.append(", pointFinProcuration=");
+		sb.append(pointFinProcuration);
 		sb.append("}");
 
 		return sb.toString();
@@ -164,6 +178,35 @@ public class ProcurationCacheModel
 		procurationImpl.setCouncilSessionId(councilSessionId);
 		procurationImpl.setIsAbsent(isAbsent);
 
+		if (procurationMode == null) {
+			procurationImpl.setProcurationMode("");
+		}
+		else {
+			procurationImpl.setProcurationMode(procurationMode);
+		}
+
+		procurationImpl.setIsPresentiel(isPresentiel);
+		procurationImpl.setIsAfterVote(isAfterVote);
+
+		if (heureDebutProcuration == Long.MIN_VALUE) {
+			procurationImpl.setHeureDebutProcuration(null);
+		}
+		else {
+			procurationImpl.setHeureDebutProcuration(
+				new Date(heureDebutProcuration));
+		}
+
+		if (heureFinProcuration == Long.MIN_VALUE) {
+			procurationImpl.setHeureFinProcuration(null);
+		}
+		else {
+			procurationImpl.setHeureFinProcuration(
+				new Date(heureFinProcuration));
+		}
+
+		procurationImpl.setPointDebutProcuration(pointDebutProcuration);
+		procurationImpl.setPointFinProcuration(pointFinProcuration);
+
 		procurationImpl.resetOriginalValues();
 
 		return procurationImpl;
@@ -197,6 +240,17 @@ public class ProcurationCacheModel
 		councilSessionId = objectInput.readLong();
 
 		isAbsent = objectInput.readBoolean();
+		procurationMode = objectInput.readUTF();
+
+		isPresentiel = objectInput.readBoolean();
+
+		isAfterVote = objectInput.readBoolean();
+		heureDebutProcuration = objectInput.readLong();
+		heureFinProcuration = objectInput.readLong();
+
+		pointDebutProcuration = objectInput.readInt();
+
+		pointFinProcuration = objectInput.readInt();
 	}
 
 	@Override
@@ -246,6 +300,23 @@ public class ProcurationCacheModel
 		objectOutput.writeLong(councilSessionId);
 
 		objectOutput.writeBoolean(isAbsent);
+
+		if (procurationMode == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(procurationMode);
+		}
+
+		objectOutput.writeBoolean(isPresentiel);
+
+		objectOutput.writeBoolean(isAfterVote);
+		objectOutput.writeLong(heureDebutProcuration);
+		objectOutput.writeLong(heureFinProcuration);
+
+		objectOutput.writeInt(pointDebutProcuration);
+
+		objectOutput.writeInt(pointFinProcuration);
 	}
 
 	public String uuid;
@@ -264,5 +335,12 @@ public class ProcurationCacheModel
 	public long officialUnavailableId;
 	public long councilSessionId;
 	public boolean isAbsent;
+	public String procurationMode;
+	public boolean isPresentiel;
+	public boolean isAfterVote;
+	public long heureDebutProcuration;
+	public long heureFinProcuration;
+	public int pointDebutProcuration;
+	public int pointFinProcuration;
 
 }

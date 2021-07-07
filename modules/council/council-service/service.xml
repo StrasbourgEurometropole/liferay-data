@@ -264,6 +264,16 @@
 		<column name="councilSessionId" type="long" />
 		<column name="isAbsent" type="boolean" />
 
+		<column name="procurationMode" type="String" />
+		<column name="isPresentiel" type="boolean" />
+		<column name="isAfterVote" type="boolean" />
+		<column name="heureDebutProcuration" type="Date" />
+		<column name="heureFinProcuration" type="Date" />
+		<column name="pointDebutProcuration" type="int" />
+		<column name="pointFinProcuration" type="int" />
+
+
+
 		<!-- Order -->
 		<order by="desc">
 			<order-column name="procurationId" />
