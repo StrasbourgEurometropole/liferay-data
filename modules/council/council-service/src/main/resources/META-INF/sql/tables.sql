@@ -90,12 +90,12 @@ create table council_Procuration (
 	councilSessionId LONG,
 	isAbsent BOOLEAN,
 	procurationMode VARCHAR(75) null,
-	isPresentiel BOOLEAN,
+	isPresential BOOLEAN,
 	isAfterVote BOOLEAN,
-	heureDebutProcuration DATE null,
-	heureFinProcuration DATE null,
-	pointDebutProcuration INTEGER,
-	pointFinProcuration INTEGER
+	procurationStartHour DATE null,
+	procurationEndHour DATE null,
+	procurationStartPoint INTEGER,
+	procurationEndPoint INTEGER
 );
 
 create table council_Type (

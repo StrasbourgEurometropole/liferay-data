@@ -370,25 +370,25 @@ public interface ProcurationModel
 	public void setProcurationMode(String procurationMode);
 
 	/**
-	 * Returns the is presentiel of this procuration.
+	 * Returns the is presential of this procuration.
 	 *
-	 * @return the is presentiel of this procuration
+	 * @return the is presential of this procuration
 	 */
-	public boolean getIsPresentiel();
+	public boolean getIsPresential();
 
 	/**
-	 * Returns <code>true</code> if this procuration is is presentiel.
+	 * Returns <code>true</code> if this procuration is is presential.
 	 *
-	 * @return <code>true</code> if this procuration is is presentiel; <code>false</code> otherwise
+	 * @return <code>true</code> if this procuration is is presential; <code>false</code> otherwise
 	 */
-	public boolean isIsPresentiel();
+	public boolean isIsPresential();
 
 	/**
-	 * Sets whether this procuration is is presentiel.
+	 * Sets whether this procuration is is presential.
 	 *
-	 * @param isPresentiel the is presentiel of this procuration
+	 * @param isPresential the is presential of this procuration
 	 */
-	public void setIsPresentiel(boolean isPresentiel);
+	public void setIsPresential(boolean isPresential);
 
 	/**
 	 * Returns the is after vote of this procuration.
@@ -412,60 +412,60 @@ public interface ProcurationModel
 	public void setIsAfterVote(boolean isAfterVote);
 
 	/**
-	 * Returns the heure debut procuration of this procuration.
+	 * Returns the procuration start hour of this procuration.
 	 *
-	 * @return the heure debut procuration of this procuration
+	 * @return the procuration start hour of this procuration
 	 */
-	public Date getHeureDebutProcuration();
+	public Date getProcurationStartHour();
 
 	/**
-	 * Sets the heure debut procuration of this procuration.
+	 * Sets the procuration start hour of this procuration.
 	 *
-	 * @param heureDebutProcuration the heure debut procuration of this procuration
+	 * @param procurationStartHour the procuration start hour of this procuration
 	 */
-	public void setHeureDebutProcuration(Date heureDebutProcuration);
+	public void setProcurationStartHour(Date procurationStartHour);
 
 	/**
-	 * Returns the heure fin procuration of this procuration.
+	 * Returns the procuration end hour of this procuration.
 	 *
-	 * @return the heure fin procuration of this procuration
+	 * @return the procuration end hour of this procuration
 	 */
-	public Date getHeureFinProcuration();
+	public Date getProcurationEndHour();
 
 	/**
-	 * Sets the heure fin procuration of this procuration.
+	 * Sets the procuration end hour of this procuration.
 	 *
-	 * @param heureFinProcuration the heure fin procuration of this procuration
+	 * @param procurationEndHour the procuration end hour of this procuration
 	 */
-	public void setHeureFinProcuration(Date heureFinProcuration);
+	public void setProcurationEndHour(Date procurationEndHour);
 
 	/**
-	 * Returns the point debut procuration of this procuration.
+	 * Returns the procuration start point of this procuration.
 	 *
-	 * @return the point debut procuration of this procuration
+	 * @return the procuration start point of this procuration
 	 */
-	public int getPointDebutProcuration();
+	public int getProcurationStartPoint();
 
 	/**
-	 * Sets the point debut procuration of this procuration.
+	 * Sets the procuration start point of this procuration.
 	 *
-	 * @param pointDebutProcuration the point debut procuration of this procuration
+	 * @param procurationStartPoint the procuration start point of this procuration
 	 */
-	public void setPointDebutProcuration(int pointDebutProcuration);
+	public void setProcurationStartPoint(int procurationStartPoint);
 
 	/**
-	 * Returns the point fin procuration of this procuration.
+	 * Returns the procuration end point of this procuration.
 	 *
-	 * @return the point fin procuration of this procuration
+	 * @return the procuration end point of this procuration
 	 */
-	public int getPointFinProcuration();
+	public int getProcurationEndPoint();
 
 	/**
-	 * Sets the point fin procuration of this procuration.
+	 * Sets the procuration end point of this procuration.
 	 *
-	 * @param pointFinProcuration the point fin procuration of this procuration
+	 * @param procurationEndPoint the procuration end point of this procuration
 	 */
-	public void setPointFinProcuration(int pointFinProcuration);
+	public void setProcurationEndPoint(int procurationEndPoint);
 
 	/**
 	 * Returns <code>true</code> if this procuration is approved.

@@ -265,12 +265,12 @@
 		<column name="isAbsent" type="boolean" />
 
 		<column name="procurationMode" type="String" />
-		<column name="isPresentiel" type="boolean" />
+		<column name="isPresential" type="boolean" />
 		<column name="isAfterVote" type="boolean" />
-		<column name="heureDebutProcuration" type="Date" />
-		<column name="heureFinProcuration" type="Date" />
-		<column name="pointDebutProcuration" type="int" />
-		<column name="pointFinProcuration" type="int" />
+		<column name="procurationStartHour" type="Date" />
+		<column name="procurationEndHour" type="Date" />
+		<column name="procurationStartPoint" type="int" />
+		<column name="procurationEndPoint" type="int" />
 
 
 

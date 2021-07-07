@@ -102,18 +102,18 @@ public class ProcurationCacheModel
 		sb.append(isAbsent);
 		sb.append(", procurationMode=");
 		sb.append(procurationMode);
-		sb.append(", isPresentiel=");
-		sb.append(isPresentiel);
+		sb.append(", isPresential=");
+		sb.append(isPresential);
 		sb.append(", isAfterVote=");
 		sb.append(isAfterVote);
-		sb.append(", heureDebutProcuration=");
-		sb.append(heureDebutProcuration);
-		sb.append(", heureFinProcuration=");
-		sb.append(heureFinProcuration);
-		sb.append(", pointDebutProcuration=");
-		sb.append(pointDebutProcuration);
-		sb.append(", pointFinProcuration=");
-		sb.append(pointFinProcuration);
+		sb.append(", procurationStartHour=");
+		sb.append(procurationStartHour);
+		sb.append(", procurationEndHour=");
+		sb.append(procurationEndHour);
+		sb.append(", procurationStartPoint=");
+		sb.append(procurationStartPoint);
+		sb.append(", procurationEndPoint=");
+		sb.append(procurationEndPoint);
 		sb.append("}");
 
 		return sb.toString();
@@ -185,27 +185,26 @@ public class ProcurationCacheModel
 			procurationImpl.setProcurationMode(procurationMode);
 		}
 
-		procurationImpl.setIsPresentiel(isPresentiel);
+		procurationImpl.setIsPresential(isPresential);
 		procurationImpl.setIsAfterVote(isAfterVote);
 
-		if (heureDebutProcuration == Long.MIN_VALUE) {
-			procurationImpl.setHeureDebutProcuration(null);
+		if (procurationStartHour == Long.MIN_VALUE) {
+			procurationImpl.setProcurationStartHour(null);
 		}
 		else {
-			procurationImpl.setHeureDebutProcuration(
-				new Date(heureDebutProcuration));
+			procurationImpl.setProcurationStartHour(
+				new Date(procurationStartHour));
 		}
 
-		if (heureFinProcuration == Long.MIN_VALUE) {
-			procurationImpl.setHeureFinProcuration(null);
+		if (procurationEndHour == Long.MIN_VALUE) {
+			procurationImpl.setProcurationEndHour(null);
 		}
 		else {
-			procurationImpl.setHeureFinProcuration(
-				new Date(heureFinProcuration));
+			procurationImpl.setProcurationEndHour(new Date(procurationEndHour));
 		}
 
-		procurationImpl.setPointDebutProcuration(pointDebutProcuration);
-		procurationImpl.setPointFinProcuration(pointFinProcuration);
+		procurationImpl.setProcurationStartPoint(procurationStartPoint);
+		procurationImpl.setProcurationEndPoint(procurationEndPoint);
 
 		procurationImpl.resetOriginalValues();
 
@@ -242,15 +241,15 @@ public class ProcurationCacheModel
 		isAbsent = objectInput.readBoolean();
 		procurationMode = objectInput.readUTF();
 
-		isPresentiel = objectInput.readBoolean();
+		isPresential = objectInput.readBoolean();
 
 		isAfterVote = objectInput.readBoolean();
-		heureDebutProcuration = objectInput.readLong();
-		heureFinProcuration = objectInput.readLong();
+		procurationStartHour = objectInput.readLong();
+		procurationEndHour = objectInput.readLong();
 
-		pointDebutProcuration = objectInput.readInt();
+		procurationStartPoint = objectInput.readInt();
 
-		pointFinProcuration = objectInput.readInt();
+		procurationEndPoint = objectInput.readInt();
 	}
 
 	@Override
@@ -308,15 +307,15 @@ public class ProcurationCacheModel
 			objectOutput.writeUTF(procurationMode);
 		}
 
-		objectOutput.writeBoolean(isPresentiel);
+		objectOutput.writeBoolean(isPresential);
 
 		objectOutput.writeBoolean(isAfterVote);
-		objectOutput.writeLong(heureDebutProcuration);
-		objectOutput.writeLong(heureFinProcuration);
+		objectOutput.writeLong(procurationStartHour);
+		objectOutput.writeLong(procurationEndHour);
 
-		objectOutput.writeInt(pointDebutProcuration);
+		objectOutput.writeInt(procurationStartPoint);
 
-		objectOutput.writeInt(pointFinProcuration);
+		objectOutput.writeInt(procurationEndPoint);
 	}
 
 	public String uuid;
@@ -336,11 +335,11 @@ public class ProcurationCacheModel
 	public long councilSessionId;
 	public boolean isAbsent;
 	public String procurationMode;
-	public boolean isPresentiel;
+	public boolean isPresential;
 	public boolean isAfterVote;
-	public long heureDebutProcuration;
-	public long heureFinProcuration;
-	public int pointDebutProcuration;
-	public int pointFinProcuration;
+	public long procurationStartHour;
+	public long procurationEndHour;
+	public int procurationStartPoint;
+	public int procurationEndPoint;
 
 }

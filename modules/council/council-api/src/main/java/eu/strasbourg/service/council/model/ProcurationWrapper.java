@@ -76,12 +76,12 @@ public class ProcurationWrapper
 		attributes.put("councilSessionId", getCouncilSessionId());
 		attributes.put("isAbsent", isIsAbsent());
 		attributes.put("procurationMode", getProcurationMode());
-		attributes.put("isPresentiel", isIsPresentiel());
+		attributes.put("isPresential", isIsPresential());
 		attributes.put("isAfterVote", isIsAfterVote());
-		attributes.put("heureDebutProcuration", getHeureDebutProcuration());
-		attributes.put("heureFinProcuration", getHeureFinProcuration());
-		attributes.put("pointDebutProcuration", getPointDebutProcuration());
-		attributes.put("pointFinProcuration", getPointFinProcuration());
+		attributes.put("procurationStartHour", getProcurationStartHour());
+		attributes.put("procurationEndHour", getProcurationEndHour());
+		attributes.put("procurationStartPoint", getProcurationStartPoint());
+		attributes.put("procurationEndPoint", getProcurationEndPoint());
 
 		return attributes;
 	}
@@ -191,10 +191,10 @@ public class ProcurationWrapper
 			setProcurationMode(procurationMode);
 		}
 
-		Boolean isPresentiel = (Boolean)attributes.get("isPresentiel");
+		Boolean isPresential = (Boolean)attributes.get("isPresential");
 
-		if (isPresentiel != null) {
-			setIsPresentiel(isPresentiel);
+		if (isPresential != null) {
+			setIsPresential(isPresential);
 		}
 
 		Boolean isAfterVote = (Boolean)attributes.get("isAfterVote");
@@ -203,31 +203,31 @@ public class ProcurationWrapper
 			setIsAfterVote(isAfterVote);
 		}
 
-		Date heureDebutProcuration = (Date)attributes.get(
-			"heureDebutProcuration");
+		Date procurationStartHour = (Date)attributes.get(
+			"procurationStartHour");
 
-		if (heureDebutProcuration != null) {
-			setHeureDebutProcuration(heureDebutProcuration);
+		if (procurationStartHour != null) {
+			setProcurationStartHour(procurationStartHour);
 		}
 
-		Date heureFinProcuration = (Date)attributes.get("heureFinProcuration");
+		Date procurationEndHour = (Date)attributes.get("procurationEndHour");
 
-		if (heureFinProcuration != null) {
-			setHeureFinProcuration(heureFinProcuration);
+		if (procurationEndHour != null) {
+			setProcurationEndHour(procurationEndHour);
 		}
 
-		Integer pointDebutProcuration = (Integer)attributes.get(
-			"pointDebutProcuration");
+		Integer procurationStartPoint = (Integer)attributes.get(
+			"procurationStartPoint");
 
-		if (pointDebutProcuration != null) {
-			setPointDebutProcuration(pointDebutProcuration);
+		if (procurationStartPoint != null) {
+			setProcurationStartPoint(procurationStartPoint);
 		}
 
-		Integer pointFinProcuration = (Integer)attributes.get(
-			"pointFinProcuration");
+		Integer procurationEndPoint = (Integer)attributes.get(
+			"procurationEndPoint");
 
-		if (pointFinProcuration != null) {
-			setPointFinProcuration(pointFinProcuration);
+		if (procurationEndPoint != null) {
+			setProcurationEndPoint(procurationEndPoint);
 		}
 	}
 
@@ -289,26 +289,6 @@ public class ProcurationWrapper
 	}
 
 	/**
-	 * Returns the heure debut procuration of this procuration.
-	 *
-	 * @return the heure debut procuration of this procuration
-	 */
-	@Override
-	public Date getHeureDebutProcuration() {
-		return _procuration.getHeureDebutProcuration();
-	}
-
-	/**
-	 * Returns the heure fin procuration of this procuration.
-	 *
-	 * @return the heure fin procuration of this procuration
-	 */
-	@Override
-	public Date getHeureFinProcuration() {
-		return _procuration.getHeureFinProcuration();
-	}
-
-	/**
 	 * Returns the is absent of this procuration.
 	 *
 	 * @return the is absent of this procuration
@@ -329,13 +309,13 @@ public class ProcurationWrapper
 	}
 
 	/**
-	 * Returns the is presentiel of this procuration.
+	 * Returns the is presential of this procuration.
 	 *
-	 * @return the is presentiel of this procuration
+	 * @return the is presential of this procuration
 	 */
 	@Override
-	public boolean getIsPresentiel() {
-		return _procuration.getIsPresentiel();
+	public boolean getIsPresential() {
+		return _procuration.getIsPresential();
 	}
 
 	/**
@@ -377,26 +357,6 @@ public class ProcurationWrapper
 	}
 
 	/**
-	 * Returns the point debut procuration of this procuration.
-	 *
-	 * @return the point debut procuration of this procuration
-	 */
-	@Override
-	public int getPointDebutProcuration() {
-		return _procuration.getPointDebutProcuration();
-	}
-
-	/**
-	 * Returns the point fin procuration of this procuration.
-	 *
-	 * @return the point fin procuration of this procuration
-	 */
-	@Override
-	public int getPointFinProcuration() {
-		return _procuration.getPointFinProcuration();
-	}
-
-	/**
 	 * Returns the primary key of this procuration.
 	 *
 	 * @return the primary key of this procuration
@@ -409,6 +369,26 @@ public class ProcurationWrapper
 	@Override
 	public Serializable getPrimaryKeyObj() {
 		return _procuration.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the procuration end hour of this procuration.
+	 *
+	 * @return the procuration end hour of this procuration
+	 */
+	@Override
+	public Date getProcurationEndHour() {
+		return _procuration.getProcurationEndHour();
+	}
+
+	/**
+	 * Returns the procuration end point of this procuration.
+	 *
+	 * @return the procuration end point of this procuration
+	 */
+	@Override
+	public int getProcurationEndPoint() {
+		return _procuration.getProcurationEndPoint();
 	}
 
 	/**
@@ -429,6 +409,26 @@ public class ProcurationWrapper
 	@Override
 	public String getProcurationMode() {
 		return _procuration.getProcurationMode();
+	}
+
+	/**
+	 * Returns the procuration start hour of this procuration.
+	 *
+	 * @return the procuration start hour of this procuration
+	 */
+	@Override
+	public Date getProcurationStartHour() {
+		return _procuration.getProcurationStartHour();
+	}
+
+	/**
+	 * Returns the procuration start point of this procuration.
+	 *
+	 * @return the procuration start point of this procuration
+	 */
+	@Override
+	public int getProcurationStartPoint() {
+		return _procuration.getProcurationStartPoint();
 	}
 
 	/**
@@ -617,13 +617,13 @@ public class ProcurationWrapper
 	}
 
 	/**
-	 * Returns <code>true</code> if this procuration is is presentiel.
+	 * Returns <code>true</code> if this procuration is is presential.
 	 *
-	 * @return <code>true</code> if this procuration is is presentiel; <code>false</code> otherwise
+	 * @return <code>true</code> if this procuration is is presential; <code>false</code> otherwise
 	 */
 	@Override
-	public boolean isIsPresentiel() {
-		return _procuration.isIsPresentiel();
+	public boolean isIsPresential() {
+		return _procuration.isIsPresential();
 	}
 
 	@Override
@@ -719,26 +719,6 @@ public class ProcurationWrapper
 	}
 
 	/**
-	 * Sets the heure debut procuration of this procuration.
-	 *
-	 * @param heureDebutProcuration the heure debut procuration of this procuration
-	 */
-	@Override
-	public void setHeureDebutProcuration(Date heureDebutProcuration) {
-		_procuration.setHeureDebutProcuration(heureDebutProcuration);
-	}
-
-	/**
-	 * Sets the heure fin procuration of this procuration.
-	 *
-	 * @param heureFinProcuration the heure fin procuration of this procuration
-	 */
-	@Override
-	public void setHeureFinProcuration(Date heureFinProcuration) {
-		_procuration.setHeureFinProcuration(heureFinProcuration);
-	}
-
-	/**
 	 * Sets whether this procuration is is absent.
 	 *
 	 * @param isAbsent the is absent of this procuration
@@ -759,13 +739,13 @@ public class ProcurationWrapper
 	}
 
 	/**
-	 * Sets whether this procuration is is presentiel.
+	 * Sets whether this procuration is is presential.
 	 *
-	 * @param isPresentiel the is presentiel of this procuration
+	 * @param isPresential the is presential of this procuration
 	 */
 	@Override
-	public void setIsPresentiel(boolean isPresentiel) {
-		_procuration.setIsPresentiel(isPresentiel);
+	public void setIsPresential(boolean isPresential) {
+		_procuration.setIsPresential(isPresential);
 	}
 
 	/**
@@ -804,26 +784,6 @@ public class ProcurationWrapper
 	}
 
 	/**
-	 * Sets the point debut procuration of this procuration.
-	 *
-	 * @param pointDebutProcuration the point debut procuration of this procuration
-	 */
-	@Override
-	public void setPointDebutProcuration(int pointDebutProcuration) {
-		_procuration.setPointDebutProcuration(pointDebutProcuration);
-	}
-
-	/**
-	 * Sets the point fin procuration of this procuration.
-	 *
-	 * @param pointFinProcuration the point fin procuration of this procuration
-	 */
-	@Override
-	public void setPointFinProcuration(int pointFinProcuration) {
-		_procuration.setPointFinProcuration(pointFinProcuration);
-	}
-
-	/**
 	 * Sets the primary key of this procuration.
 	 *
 	 * @param primaryKey the primary key of this procuration
@@ -836,6 +796,26 @@ public class ProcurationWrapper
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_procuration.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	 * Sets the procuration end hour of this procuration.
+	 *
+	 * @param procurationEndHour the procuration end hour of this procuration
+	 */
+	@Override
+	public void setProcurationEndHour(Date procurationEndHour) {
+		_procuration.setProcurationEndHour(procurationEndHour);
+	}
+
+	/**
+	 * Sets the procuration end point of this procuration.
+	 *
+	 * @param procurationEndPoint the procuration end point of this procuration
+	 */
+	@Override
+	public void setProcurationEndPoint(int procurationEndPoint) {
+		_procuration.setProcurationEndPoint(procurationEndPoint);
 	}
 
 	/**
@@ -856,6 +836,26 @@ public class ProcurationWrapper
 	@Override
 	public void setProcurationMode(String procurationMode) {
 		_procuration.setProcurationMode(procurationMode);
+	}
+
+	/**
+	 * Sets the procuration start hour of this procuration.
+	 *
+	 * @param procurationStartHour the procuration start hour of this procuration
+	 */
+	@Override
+	public void setProcurationStartHour(Date procurationStartHour) {
+		_procuration.setProcurationStartHour(procurationStartHour);
+	}
+
+	/**
+	 * Sets the procuration start point of this procuration.
+	 *
+	 * @param procurationStartPoint the procuration start point of this procuration
+	 */
+	@Override
+	public void setProcurationStartPoint(int procurationStartPoint) {
+		_procuration.setProcurationStartPoint(procurationStartPoint);
 	}
 
 	/**

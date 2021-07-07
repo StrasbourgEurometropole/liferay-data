@@ -92,12 +92,12 @@
 		<field name="councilSessionId" type="long" />
 		<field name="isAbsent" type="boolean" />
 		<field name="procurationMode" type="String" />
-		<field name="isPresentiel" type="boolean" />
+		<field name="isPresential" type="boolean" />
 		<field name="isAfterVote" type="boolean" />
-		<field name="heureDebutProcuration" type="Date" />
-		<field name="heureFinProcuration" type="Date" />
-		<field name="pointDebutProcuration" type="int" />
-		<field name="pointFinProcuration" type="int" />
+		<field name="procurationStartHour" type="Date" />
+		<field name="procurationEndHour" type="Date" />
+		<field name="procurationStartPoint" type="int" />
+		<field name="procurationEndPoint" type="int" />
 	</model>
 	<model name="eu.strasbourg.service.council.model.Type">
 		<field name="uuid" type="String" />
