@@ -76,7 +76,7 @@ public class ProcurationWrapper
 		attributes.put("councilSessionId", getCouncilSessionId());
 		attributes.put("isAbsent", isIsAbsent());
 		attributes.put("procurationMode", getProcurationMode());
-		attributes.put("isPresential", isIsPresential());
+		attributes.put("presential", getPresential());
 		attributes.put("isAfterVote", isIsAfterVote());
 		attributes.put("procurationStartHour", getProcurationStartHour());
 		attributes.put("procurationEndHour", getProcurationEndHour());
@@ -191,10 +191,10 @@ public class ProcurationWrapper
 			setProcurationMode(procurationMode);
 		}
 
-		Boolean isPresential = (Boolean)attributes.get("isPresential");
+		Integer presential = (Integer)attributes.get("presential");
 
-		if (isPresential != null) {
-			setIsPresential(isPresential);
+		if (presential != null) {
+			setPresential(presential);
 		}
 
 		Boolean isAfterVote = (Boolean)attributes.get("isAfterVote");
@@ -216,15 +216,14 @@ public class ProcurationWrapper
 			setProcurationEndHour(procurationEndHour);
 		}
 
-		Integer procurationStartPoint = (Integer)attributes.get(
+		Long procurationStartPoint = (Long)attributes.get(
 			"procurationStartPoint");
 
 		if (procurationStartPoint != null) {
 			setProcurationStartPoint(procurationStartPoint);
 		}
 
-		Integer procurationEndPoint = (Integer)attributes.get(
-			"procurationEndPoint");
+		Long procurationEndPoint = (Long)attributes.get("procurationEndPoint");
 
 		if (procurationEndPoint != null) {
 			setProcurationEndPoint(procurationEndPoint);
@@ -309,16 +308,6 @@ public class ProcurationWrapper
 	}
 
 	/**
-	 * Returns the is presential of this procuration.
-	 *
-	 * @return the is presential of this procuration
-	 */
-	@Override
-	public boolean getIsPresential() {
-		return _procuration.getIsPresential();
-	}
-
-	/**
 	 * Returns the modified date of this procuration.
 	 *
 	 * @return the modified date of this procuration
@@ -357,6 +346,16 @@ public class ProcurationWrapper
 	}
 
 	/**
+	 * Returns the presential of this procuration.
+	 *
+	 * @return the presential of this procuration
+	 */
+	@Override
+	public int getPresential() {
+		return _procuration.getPresential();
+	}
+
+	/**
 	 * Returns the primary key of this procuration.
 	 *
 	 * @return the primary key of this procuration
@@ -387,7 +386,7 @@ public class ProcurationWrapper
 	 * @return the procuration end point of this procuration
 	 */
 	@Override
-	public int getProcurationEndPoint() {
+	public long getProcurationEndPoint() {
 		return _procuration.getProcurationEndPoint();
 	}
 
@@ -427,7 +426,7 @@ public class ProcurationWrapper
 	 * @return the procuration start point of this procuration
 	 */
 	@Override
-	public int getProcurationStartPoint() {
+	public long getProcurationStartPoint() {
 		return _procuration.getProcurationStartPoint();
 	}
 
@@ -616,16 +615,6 @@ public class ProcurationWrapper
 		return _procuration.isIsAfterVote();
 	}
 
-	/**
-	 * Returns <code>true</code> if this procuration is is presential.
-	 *
-	 * @return <code>true</code> if this procuration is is presential; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isIsPresential() {
-		return _procuration.isIsPresential();
-	}
-
 	@Override
 	public boolean isNew() {
 		return _procuration.isNew();
@@ -739,16 +728,6 @@ public class ProcurationWrapper
 	}
 
 	/**
-	 * Sets whether this procuration is is presential.
-	 *
-	 * @param isPresential the is presential of this procuration
-	 */
-	@Override
-	public void setIsPresential(boolean isPresential) {
-		_procuration.setIsPresential(isPresential);
-	}
-
-	/**
 	 * Sets the modified date of this procuration.
 	 *
 	 * @param modifiedDate the modified date of this procuration
@@ -784,6 +763,16 @@ public class ProcurationWrapper
 	}
 
 	/**
+	 * Sets the presential of this procuration.
+	 *
+	 * @param presential the presential of this procuration
+	 */
+	@Override
+	public void setPresential(int presential) {
+		_procuration.setPresential(presential);
+	}
+
+	/**
 	 * Sets the primary key of this procuration.
 	 *
 	 * @param primaryKey the primary key of this procuration
@@ -814,7 +803,7 @@ public class ProcurationWrapper
 	 * @param procurationEndPoint the procuration end point of this procuration
 	 */
 	@Override
-	public void setProcurationEndPoint(int procurationEndPoint) {
+	public void setProcurationEndPoint(long procurationEndPoint) {
 		_procuration.setProcurationEndPoint(procurationEndPoint);
 	}
 
@@ -854,7 +843,7 @@ public class ProcurationWrapper
 	 * @param procurationStartPoint the procuration start point of this procuration
 	 */
 	@Override
-	public void setProcurationStartPoint(int procurationStartPoint) {
+	public void setProcurationStartPoint(long procurationStartPoint) {
 		_procuration.setProcurationStartPoint(procurationStartPoint);
 	}
 

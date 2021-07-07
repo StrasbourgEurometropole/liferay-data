@@ -51,7 +51,7 @@ public class ProcurationSoap implements Serializable {
 		soapModel.setCouncilSessionId(model.getCouncilSessionId());
 		soapModel.setIsAbsent(model.isIsAbsent());
 		soapModel.setProcurationMode(model.getProcurationMode());
-		soapModel.setIsPresential(model.isIsPresential());
+		soapModel.setPresential(model.getPresential());
 		soapModel.setIsAfterVote(model.isIsAfterVote());
 		soapModel.setProcurationStartHour(model.getProcurationStartHour());
 		soapModel.setProcurationEndHour(model.getProcurationEndHour());
@@ -250,16 +250,12 @@ public class ProcurationSoap implements Serializable {
 		_procurationMode = procurationMode;
 	}
 
-	public boolean getIsPresential() {
-		return _isPresential;
+	public int getPresential() {
+		return _presential;
 	}
 
-	public boolean isIsPresential() {
-		return _isPresential;
-	}
-
-	public void setIsPresential(boolean isPresential) {
-		_isPresential = isPresential;
+	public void setPresential(int presential) {
+		_presential = presential;
 	}
 
 	public boolean getIsAfterVote() {
@@ -290,19 +286,19 @@ public class ProcurationSoap implements Serializable {
 		_procurationEndHour = procurationEndHour;
 	}
 
-	public int getProcurationStartPoint() {
+	public long getProcurationStartPoint() {
 		return _procurationStartPoint;
 	}
 
-	public void setProcurationStartPoint(int procurationStartPoint) {
+	public void setProcurationStartPoint(long procurationStartPoint) {
 		_procurationStartPoint = procurationStartPoint;
 	}
 
-	public int getProcurationEndPoint() {
+	public long getProcurationEndPoint() {
 		return _procurationEndPoint;
 	}
 
-	public void setProcurationEndPoint(int procurationEndPoint) {
+	public void setProcurationEndPoint(long procurationEndPoint) {
 		_procurationEndPoint = procurationEndPoint;
 	}
 
@@ -323,11 +319,11 @@ public class ProcurationSoap implements Serializable {
 	private long _councilSessionId;
 	private boolean _isAbsent;
 	private String _procurationMode;
-	private boolean _isPresential;
+	private int _presential;
 	private boolean _isAfterVote;
 	private Date _procurationStartHour;
 	private Date _procurationEndHour;
-	private int _procurationStartPoint;
-	private int _procurationEndPoint;
+	private long _procurationStartPoint;
+	private long _procurationEndPoint;
 
 }

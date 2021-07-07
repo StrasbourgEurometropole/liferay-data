@@ -106,12 +106,12 @@
 		<property name="councilSessionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="isAbsent" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="procurationMode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="isPresential" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="presential" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="isAfterVote" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="procurationStartHour" type="org.hibernate.type.TimestampType" />
 		<property name="procurationEndHour" type="org.hibernate.type.TimestampType" />
-		<property name="procurationStartPoint" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
-		<property name="procurationEndPoint" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="procurationStartPoint" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="procurationEndPoint" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.council.model.impl.TypeImpl" table="council_Type">
 		<id name="typeId" type="long">
