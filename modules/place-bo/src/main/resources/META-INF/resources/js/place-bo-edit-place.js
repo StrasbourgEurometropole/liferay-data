@@ -52,7 +52,6 @@ jQuery(function() {
             setFacebookConditionalValidators(e);
             setInstagramConditionalValidators();
             setScheduleConditionalValidators(e);
-            toto;
             if(!$(namespaceAUI + 'hasURLSchedule').is(':checked')){
                 setScheduleExceptionValidators(e);
                 setPeriodValidators(e);
