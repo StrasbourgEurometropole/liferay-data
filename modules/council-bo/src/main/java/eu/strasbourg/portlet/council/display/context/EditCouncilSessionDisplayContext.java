@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.utils.UserRoleType;
+import eu.strasbourg.service.council.constants.ProcurationPresentialEnum;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Procuration;
@@ -16,7 +17,9 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EditCouncilSessionDisplayContext {
 
@@ -78,6 +81,40 @@ public class EditCouncilSessionDisplayContext {
                 .filter(procuration -> procuration.getOfficialUnavailableId() == officialId)
                 .findFirst()
                 .orElse(null);
+    }
+
+    /**
+     * Recupere toutes les procurations pour ce conseil dans l'ordre alphabétique des noms des élus
+     * @return liste des procurations
+     */
+    @SuppressWarnings("unused")
+    public List<Procuration> getProcurationsHistoric() {
+        List<Procuration> procurations = new ArrayList<>();
+
+        if(this.getCouncilSession() != null)
+            procurations = this.getCouncilSession().getProcurations();
+        List<Procuration> sortedProcurations = procurations.stream()
+                .sorted(Comparator.comparing(p -> OfficialLocalServiceUtil.fetchOfficial(p.getOfficialUnavailableId()).getFullName()))
+                .collect(Collectors.toList());
+        return sortedProcurations;
+    }
+
+    /**
+     * Recherche l'élu correspondant à l'id
+     * @return official
+     */
+    @SuppressWarnings("unused")
+    public Official getOfficial(long officialId) {
+        return OfficialLocalServiceUtil.fetchOfficial(officialId);
+    }
+
+    /**
+     * Recherche le type de presentiel
+     * @return official
+     */
+    @SuppressWarnings("unused")
+    public String getProcurationPresential(int presential) {
+        return ProcurationPresentialEnum.get(presential).getName();
     }
 
     @SuppressWarnings("unused")
