@@ -271,6 +271,7 @@
 		<column name="procurationEndHour" type="Date" />
 		<column name="procurationStartPoint" type="long" />
 		<column name="procurationEndPoint" type="long" />
+		<column name="otherProcurationMode" type="String" />
 
 
 

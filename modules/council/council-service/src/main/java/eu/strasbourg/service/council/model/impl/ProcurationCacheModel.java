@@ -66,7 +66,7 @@ public class ProcurationCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -114,6 +114,8 @@ public class ProcurationCacheModel
 		sb.append(procurationStartPoint);
 		sb.append(", procurationEndPoint=");
 		sb.append(procurationEndPoint);
+		sb.append(", otherProcurationMode=");
+		sb.append(otherProcurationMode);
 		sb.append("}");
 
 		return sb.toString();
@@ -206,6 +208,13 @@ public class ProcurationCacheModel
 		procurationImpl.setProcurationStartPoint(procurationStartPoint);
 		procurationImpl.setProcurationEndPoint(procurationEndPoint);
 
+		if (otherProcurationMode == null) {
+			procurationImpl.setOtherProcurationMode("");
+		}
+		else {
+			procurationImpl.setOtherProcurationMode(otherProcurationMode);
+		}
+
 		procurationImpl.resetOriginalValues();
 
 		return procurationImpl;
@@ -250,6 +259,7 @@ public class ProcurationCacheModel
 		procurationStartPoint = objectInput.readLong();
 
 		procurationEndPoint = objectInput.readLong();
+		otherProcurationMode = objectInput.readUTF();
 	}
 
 	@Override
@@ -316,6 +326,13 @@ public class ProcurationCacheModel
 		objectOutput.writeLong(procurationStartPoint);
 
 		objectOutput.writeLong(procurationEndPoint);
+
+		if (otherProcurationMode == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(otherProcurationMode);
+		}
 	}
 
 	public String uuid;
@@ -341,5 +358,6 @@ public class ProcurationCacheModel
 	public long procurationEndHour;
 	public long procurationStartPoint;
 	public long procurationEndPoint;
+	public String otherProcurationMode;
 
 }

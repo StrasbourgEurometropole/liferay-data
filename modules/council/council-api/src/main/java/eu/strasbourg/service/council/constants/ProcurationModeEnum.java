@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public enum ProcurationPresentialEnum {
-    OUI(0, "Oui"),
-    NON(1, "Non"),
-    VIDE(2, null);
+public enum ProcurationModeEnum {
+    MAIL(0, "Mail"),
+    PAPIER(1, "Papier"),
+    TCHAT(2, "Tchat"),
+    AUTRE(3, "voir colonne ci-contre");
 
     private long id;
     private String name;
 
-    ProcurationPresentialEnum(int id, String name) {
+    ProcurationModeEnum(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -34,8 +35,8 @@ public enum ProcurationPresentialEnum {
     }
 
 
-    public static ProcurationPresentialEnum get(long id) {
-        for (ProcurationPresentialEnum procurationPresential : values()) {
+    public static ProcurationModeEnum get(long id) {
+        for (ProcurationModeEnum procurationPresential : values()) {
             if (procurationPresential.getId() == id) {
                 return procurationPresential;
             }
@@ -43,8 +44,8 @@ public enum ProcurationPresentialEnum {
         return null;
     }
 
-    public static List<ProcurationPresentialEnum> getAll() {
-        List<ProcurationPresentialEnum> procurationPresentials = new ArrayList<ProcurationPresentialEnum>();
+    public static List<ProcurationModeEnum> getAll() {
+        List<ProcurationModeEnum> procurationPresentials = new ArrayList<ProcurationModeEnum>();
         procurationPresentials.addAll(Arrays.asList(values()));
         return procurationPresentials;
     }

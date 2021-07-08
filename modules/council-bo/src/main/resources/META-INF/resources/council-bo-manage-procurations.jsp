@@ -55,7 +55,10 @@
                                 <strong><liferay-ui:message key="is-absent" /></strong>
                             </th>
                             <th>
-                                <strong><liferay-ui:message key="procuration-mode" /></strong>
+                                <strong><liferay-ui:message key="procuration-mode"/></strong>
+                            </th>
+                            <th>
+                                <strong><liferay-ui:message key="other-procuration-mode"/></strong>
                             </th>
                             <th>
                                 <strong><liferay-ui:message key="is-presential" /></strong>
@@ -93,11 +96,23 @@
                                         title="is-absent" checked="${isAbsentValue}" value="isAbsent" />
                                 </td>
                                 <td>
-                                    <%-- TODO --%>
-                                    wololo
+                                    <aui:select cssClass="toCustomSelect" id="procurationModeChoice" name="choice">
+                                        <aui:option style="display: none" selected="-"></aui:option>
+                                            <c:forEach items="${dc.getAllProcurationMode()}" var="procurationMode">
+                                                <aui:option value="${procurationMode.getName()}"> ${procurationMode.getName()} </aui:option>
+                                            </c:forEach>
+                                    </aui:select>
+                                </td>
+                                <td id ="procmode">
+                                    col to hide
                                 </td>
                                 <td>
-                                    ${dc.getProcurationPresential(procuration.presential)}
+                                    <aui:select cssClass="toCustomSelect" id="presentialChoice" name="choice">
+                                        <aui:option style="display: none" ></aui:option>
+                                            <c:forEach items="${dc.getAllProcurationPresential()}" var="presential">
+                                                <aui:option value="${presential.getName()}" >${empty presential.getName()?"-":presential.getName()}</aui:option>
+                                            </c:forEach>
+                                    </aui:select>
                                 </td>
                                 <td>
                                     <div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper-${official.officialId}">
@@ -153,9 +168,9 @@
 		var currentGroupId = ${dc.groupId}
 	</script>
 </liferay-util:html-top>
-
 <liferay-util:html-bottom>
 	<script	src="/o/agendabo/js/vendors/jquery.autocomplete.js"></script>
+	<script src="/o/councilbo/js/council-bo-manage-procurations.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
 
 <%-- Script : permet l'affichage des alertes de validation d'action --%>

@@ -88,7 +88,8 @@ public class ProcurationModelImpl
 		{"procurationStartHour", Types.TIMESTAMP},
 		{"procurationEndHour", Types.TIMESTAMP},
 		{"procurationStartPoint", Types.BIGINT},
-		{"procurationEndPoint", Types.BIGINT}
+		{"procurationEndPoint", Types.BIGINT},
+		{"otherProcurationMode", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -118,10 +119,11 @@ public class ProcurationModelImpl
 		TABLE_COLUMNS_MAP.put("procurationEndHour", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("procurationStartPoint", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("procurationEndPoint", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("otherProcurationMode", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,councilSessionId LONG,isAbsent BOOLEAN,procurationMode VARCHAR(75) null,presential INTEGER,isAfterVote BOOLEAN,procurationStartHour DATE null,procurationEndHour DATE null,procurationStartPoint LONG,procurationEndPoint LONG)";
+		"create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,councilSessionId LONG,isAbsent BOOLEAN,procurationMode VARCHAR(75) null,presential INTEGER,isAfterVote BOOLEAN,procurationStartHour DATE null,procurationEndHour DATE null,procurationStartPoint LONG,procurationEndPoint LONG,otherProcurationMode VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table council_Procuration";
@@ -788,6 +790,29 @@ public class ProcurationModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"otherProcurationMode",
+			new Function<Procuration, Object>() {
+
+				@Override
+				public Object apply(Procuration procuration) {
+					return procuration.getOtherProcurationMode();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"otherProcurationMode",
+			new BiConsumer<Procuration, Object>() {
+
+				@Override
+				public void accept(
+					Procuration procuration, Object otherProcurationMode) {
+
+					procuration.setOtherProcurationMode(
+						(String)otherProcurationMode);
+				}
+
+			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -1178,6 +1203,21 @@ public class ProcurationModelImpl
 	}
 
 	@Override
+	public String getOtherProcurationMode() {
+		if (_otherProcurationMode == null) {
+			return "";
+		}
+		else {
+			return _otherProcurationMode;
+		}
+	}
+
+	@Override
+	public void setOtherProcurationMode(String otherProcurationMode) {
+		_otherProcurationMode = otherProcurationMode;
+	}
+
+	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
 			PortalUtil.getClassNameId(Procuration.class.getName()));
@@ -1317,6 +1357,7 @@ public class ProcurationModelImpl
 		procurationImpl.setProcurationEndHour(getProcurationEndHour());
 		procurationImpl.setProcurationStartPoint(getProcurationStartPoint());
 		procurationImpl.setProcurationEndPoint(getProcurationEndPoint());
+		procurationImpl.setOtherProcurationMode(getOtherProcurationMode());
 
 		procurationImpl.resetOriginalValues();
 
@@ -1536,6 +1577,17 @@ public class ProcurationModelImpl
 
 		procurationCacheModel.procurationEndPoint = getProcurationEndPoint();
 
+		procurationCacheModel.otherProcurationMode = getOtherProcurationMode();
+
+		String otherProcurationMode =
+			procurationCacheModel.otherProcurationMode;
+
+		if ((otherProcurationMode != null) &&
+			(otherProcurationMode.length() == 0)) {
+
+			procurationCacheModel.otherProcurationMode = null;
+		}
+
 		return procurationCacheModel;
 	}
 
@@ -1642,6 +1694,7 @@ public class ProcurationModelImpl
 	private Date _procurationEndHour;
 	private long _procurationStartPoint;
 	private long _procurationEndPoint;
+	private String _otherProcurationMode;
 	private long _columnBitmask;
 	private Procuration _escapedModel;
 

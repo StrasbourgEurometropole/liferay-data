@@ -82,6 +82,7 @@ public class ProcurationWrapper
 		attributes.put("procurationEndHour", getProcurationEndHour());
 		attributes.put("procurationStartPoint", getProcurationStartPoint());
 		attributes.put("procurationEndPoint", getProcurationEndPoint());
+		attributes.put("otherProcurationMode", getOtherProcurationMode());
 
 		return attributes;
 	}
@@ -228,6 +229,13 @@ public class ProcurationWrapper
 		if (procurationEndPoint != null) {
 			setProcurationEndPoint(procurationEndPoint);
 		}
+
+		String otherProcurationMode = (String)attributes.get(
+			"otherProcurationMode");
+
+		if (otherProcurationMode != null) {
+			setOtherProcurationMode(otherProcurationMode);
+		}
 	}
 
 	@Override
@@ -343,6 +351,16 @@ public class ProcurationWrapper
 	@Override
 	public long getOfficialVotersId() {
 		return _procuration.getOfficialVotersId();
+	}
+
+	/**
+	 * Returns the other procuration mode of this procuration.
+	 *
+	 * @return the other procuration mode of this procuration
+	 */
+	@Override
+	public String getOtherProcurationMode() {
+		return _procuration.getOtherProcurationMode();
 	}
 
 	/**
@@ -760,6 +778,16 @@ public class ProcurationWrapper
 	@Override
 	public void setOfficialVotersId(long officialVotersId) {
 		_procuration.setOfficialVotersId(officialVotersId);
+	}
+
+	/**
+	 * Sets the other procuration mode of this procuration.
+	 *
+	 * @param otherProcurationMode the other procuration mode of this procuration
+	 */
+	@Override
+	public void setOtherProcurationMode(String otherProcurationMode) {
+		_procuration.setOtherProcurationMode(otherProcurationMode);
 	}
 
 	/**

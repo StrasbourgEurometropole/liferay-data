@@ -98,6 +98,7 @@
 		<field name="procurationEndHour" type="Date" />
 		<field name="procurationStartPoint" type="long" />
 		<field name="procurationEndPoint" type="long" />
+		<field name="otherProcurationMode" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.council.model.Type">
 		<field name="uuid" type="String" />

@@ -95,7 +95,8 @@ create table council_Procuration (
 	procurationStartHour DATE null,
 	procurationEndHour DATE null,
 	procurationStartPoint LONG,
-	procurationEndPoint LONG
+	procurationEndPoint LONG,
+	otherProcurationMode VARCHAR(75) null
 );
 
 create table council_Type (

@@ -461,6 +461,21 @@ public interface ProcurationModel
 	public void setProcurationEndPoint(long procurationEndPoint);
 
 	/**
+	 * Returns the other procuration mode of this procuration.
+	 *
+	 * @return the other procuration mode of this procuration
+	 */
+	@AutoEscape
+	public String getOtherProcurationMode();
+
+	/**
+	 * Sets the other procuration mode of this procuration.
+	 *
+	 * @param otherProcurationMode the other procuration mode of this procuration
+	 */
+	public void setOtherProcurationMode(String otherProcurationMode);
+
+	/**
 	 * Returns <code>true</code> if this procuration is approved.
 	 *
 	 * @return <code>true</code> if this procuration is approved; <code>false</code> otherwise

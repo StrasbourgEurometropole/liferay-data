@@ -57,6 +57,7 @@ public class ProcurationSoap implements Serializable {
 		soapModel.setProcurationEndHour(model.getProcurationEndHour());
 		soapModel.setProcurationStartPoint(model.getProcurationStartPoint());
 		soapModel.setProcurationEndPoint(model.getProcurationEndPoint());
+		soapModel.setOtherProcurationMode(model.getOtherProcurationMode());
 
 		return soapModel;
 	}
@@ -302,6 +303,14 @@ public class ProcurationSoap implements Serializable {
 		_procurationEndPoint = procurationEndPoint;
 	}
 
+	public String getOtherProcurationMode() {
+		return _otherProcurationMode;
+	}
+
+	public void setOtherProcurationMode(String otherProcurationMode) {
+		_otherProcurationMode = otherProcurationMode;
+	}
+
 	private String _uuid;
 	private long _procurationId;
 	private long _groupId;
@@ -325,5 +334,6 @@ public class ProcurationSoap implements Serializable {
 	private Date _procurationEndHour;
 	private long _procurationStartPoint;
 	private long _procurationEndPoint;
+	private String _otherProcurationMode;
 
 }

@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.utils.UserRoleType;
+import eu.strasbourg.service.council.constants.ProcurationModeEnum;
 import eu.strasbourg.service.council.constants.ProcurationPresentialEnum;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class ManageProcurationsDisplayContext {
 
-    private List<Procuration> procuration;
+    private Procuration procuration;
     private CouncilSession councilSession;
     private final RenderRequest request;
     private final ThemeDisplay themeDisplay;
@@ -115,4 +116,19 @@ public class ManageProcurationsDisplayContext {
         return ProcurationPresentialEnum.get(presential).getName();
     }
 
+    /**
+     * Recherche le type de presentiel
+     */
+    @SuppressWarnings("unused")
+    public List<ProcurationPresentialEnum> getAllProcurationPresential() {
+        return ProcurationPresentialEnum.getAll();
+    }
+
+    /**
+     * Recherche le type de presentiel
+     */
+    @SuppressWarnings("unused")
+    public List<ProcurationModeEnum> getAllProcurationMode() {
+        return ProcurationModeEnum.getAll();
+    }
 }
