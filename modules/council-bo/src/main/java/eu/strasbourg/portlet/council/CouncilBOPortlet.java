@@ -4,11 +4,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -16,15 +12,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.constants.CouncilConstants;
-import eu.strasbourg.portlet.council.display.context.EditCouncilSessionDisplayContext;
-import eu.strasbourg.portlet.council.display.context.EditDeliberationDisplayContext;
-import eu.strasbourg.portlet.council.display.context.EditOfficialDisplayContext;
-import eu.strasbourg.portlet.council.display.context.EditTypeDisplayContext;
-import eu.strasbourg.portlet.council.display.context.ViewCouncilSessionsDisplayContext;
-import eu.strasbourg.portlet.council.display.context.ViewDeliberationsDisplayContext;
-import eu.strasbourg.portlet.council.display.context.ViewOfficialsConnectionDisplayContext;
-import eu.strasbourg.portlet.council.display.context.ViewOfficialsDisplayContext;
-import eu.strasbourg.portlet.council.display.context.ViewTypesDisplayContext;
+import eu.strasbourg.portlet.council.display.context.*;
 import eu.strasbourg.portlet.council.utils.UserRoleType;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Type;
@@ -43,9 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -108,6 +94,9 @@ public class CouncilBOPortlet extends MVCPortlet {
 			renderRequest.setAttribute("dc", dc);
 		} else if (cmd.equals("importDeliberation") || mvcPath.equals("/council-bo-import-deliberation.jsp")) {
 			EditDeliberationDisplayContext dc = new EditDeliberationDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+		} else if (cmd.equals("manageProcurations") || mvcPath.equals("/council-bo-manage-procurations.jsp")) {
+			ManageProcurationsDisplayContext dc = new ManageProcurationsDisplayContext(renderRequest);
 			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("deliberations")) {
 			String sessionCategoryId = getCategoryIdSession(renderRequest, themeDisplay);

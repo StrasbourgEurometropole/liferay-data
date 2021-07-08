@@ -47,6 +47,13 @@
 					<portlet:param name="mvcPath" value="/council-bo-edit-council-session.jsp" />
 				</liferay-portlet:renderURL>
 
+				<liferay-portlet:renderURL varImpl="manageProcurationsURL">
+                		<portlet:param name="cmd" value="manageProcurations" />
+                		<portlet:param name="councilSessionId" value="${councilSession.councilSessionId}" />
+                		<portlet:param name="returnURL" value="${councilSessionsURL}" />
+                		<portlet:param name="mvcPath" value="/council-bo-manage-procurations.jsp" />
+                </liferay-portlet:renderURL>
+
                 <!-- Colonne : Titre -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editCouncilSessionURL}" name="title" truncate="true"
@@ -87,6 +94,14 @@
                             <portlet:param name="councilSessionId" value="${councilSession.councilSessionId}" />
                         </liferay-portlet:resourceURL>
                         <liferay-ui:icon message="export-results" url="${exportCouncilSessionResultsURL}" />
+
+
+
+                        <!-- RESOURCE ACTION : Gestion des procurations -->
+                      	<c:if test="${dc.hasPermission('EDIT_COUNCIL_SESSION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                            <liferay-ui:icon message="manage-procurations" url="${manageProcurationsURL}" />
+                      	</c:if>
+
 
                         <!-- ACTION : Supprimer -->
 						<liferay-portlet:actionURL name="deleteCouncilSession" var="deleteCouncilSessionURL">
