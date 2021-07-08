@@ -85,10 +85,10 @@
                             <th class="th-hidden"/>
                             <th class="th-hidden"/>
                             <th colspan="2">
-                                <strong>DEBUT</strong>
+                                <strong><liferay-ui:message key="start" /></strong>
                             </th>
                             <th colspan="2">
-                                <strong>FIN</strong>
+                                <strong><liferay-ui:message key="end" /></strong>
                             </th>
                         </tr>
 
@@ -97,25 +97,25 @@
                                 <strong><liferay-ui:message key="official" /></strong>
                             </th>
                             <th>
-                                <strong>Mode procuration</strong>
+                                <strong><liferay-ui:message key="procuration-mode" /></strong>
                             </th>
                             <th>
-                                <strong>Présentiel</strong>
+                                <strong><liferay-ui:message key="presential" /></strong>
                             </th>
                             <th>
                                 <strong><liferay-ui:message key="official-receiver" /></strong>
                             </th>
                             <th>
-                                <strong>heure</strong>
+                                <strong><liferay-ui:message key="hour" /></strong>
                             </th>
                             <th>
-                                <strong>A partir du point</strong>
+                                <strong><liferay-ui:message key="from-point" /></strong>
                             </th>
                             <th>
-                                <strong>heure</strong>
+                                <strong><liferay-ui:message key="hour" /></strong>
                             </th>
                             <th>
-                                <strong>A partir du point</strong>
+                                <strong><liferay-ui:message key="to-point" /></strong>
                             </th>
                         </tr>
 
@@ -131,10 +131,10 @@
                                     ${official.fullName}
                                 </td>
                                 <td>
-                                    ${procuration.procurationMode}
+                                    ${empty procuration.procurationMode?"-":procuration.procurationMode}
                                 </td>
                                 <td>
-                                    ${dc.getProcurationPresential(procuration.presential)}
+                                    ${empty dc.getProcurationPresential(procuration.presential)?"-":dc.getProcurationPresential(procuration.presential)}
                                 </td>
                                 <td>
                                     <div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper-${official.officialId}">
@@ -147,16 +147,16 @@
                                     </div>
                                 </td>
                                 <td>
-                                    ${procuration.procurationStartHour}
+                                    <fmt:formatDate value="${procuration.procurationStartHour}" pattern="HH:mm:ss" />
                                 </td>
                                 <td>
-                                    ${procuration.procurationStartPoint}
+                                    ${procuration.procurationStartPoint}${procuration.isAfterVote?" - Intervenu apres le vote":""}
                                 </td>
                                 <td>
-                                    ${procuration.procurationEndHour}
+                                    <fmt:formatDate value="${procuration.procurationEndHour}" pattern="HH:mm:ss" />
                                 </td>
                                 <td>
-                                    ${procuration.procurationEndPoint}
+                                    ${procuration.procurationEndPoint eq -1?"":procuration.procurationEndPoint}
                                 </td>
                             </tr>
                         </c:forEach>
