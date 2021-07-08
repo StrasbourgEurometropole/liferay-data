@@ -80,42 +80,61 @@
                     <table border="1">
 
                         <tr>
+                            <th class="th-hidden"/>
+                            <th class="th-hidden"/>
+                            <th class="th-hidden"/>
+                            <th class="th-hidden"/>
+                            <th colspan="2">
+                                <strong>DEBUT</strong>
+                            </th>
+                            <th colspan="2">
+                                <strong>FIN</strong>
+                            </th>
+                        </tr>
+
+                        <tr>
                             <th>
                                 <strong><liferay-ui:message key="official" /></strong>
                             </th>
                             <th>
-                                <strong><liferay-ui:message key="is-absent" /></strong>
+                                <strong>Mode procuration</strong>
+                            </th>
+                            <th>
+                                <strong>Présentiel</strong>
                             </th>
                             <th>
                                 <strong><liferay-ui:message key="official-receiver" /></strong>
                             </th>
+                            <th>
+                                <strong>heure</strong>
+                            </th>
+                            <th>
+                                <strong>A partir du point</strong>
+                            </th>
+                            <th>
+                                <strong>heure</strong>
+                            </th>
+                            <th>
+                                <strong>A partir du point</strong>
+                            </th>
                         </tr>
 
-                        <c:set var="allActiveOfficials" value="${dc.getAllActiveOfficials()}" />
-                        <c:forEach var="official" items="${allActiveOfficials}">
-                            <c:set var="procuration" value="${dc.findAssociatedProcuration(official.officialId)}" />
-                            <c:choose>
-                                <c:when test="${procuration != null}">
-                                    <c:set var="isAbsentValue" value="${procuration.isAbsent ? 'true' : 'false'}" />
-                                    <c:set var="officialVotersIdValue" value="${procuration.officialVotersId}" />
-                                    <c:set var="officialVotersFullName" value="${procuration.officialVotersFullName}" />
-                                    <c:set var="disabledInput" value="false" />
-                                </c:when>
-                                <c:otherwise>
-                                    <c:set var="isAbsentValue" value="false" />
-                                    <c:set var="officialVotersIdValue" value="0" />
-                                    <c:set var="officialVotersFullName" value="" />
-                                    <c:set var="disabledInput" value="true" />
-                                </c:otherwise>
-                            </c:choose>
+                        <c:set var="procurationsHistoric" value="${dc.getProcurationsHistoric()}" />
+                        <c:forEach var="procuration" items="${procurationsHistoric}">
+                            <c:set var="official" value="${dc.getOfficial(procuration.officialUnavailableId)}" />
+                            <c:set var="officialVotersIdValue" value="${procuration.officialVotersId}" />
+                            <c:set var="officialVotersFullName" value="${procuration.officialVotersFullName}" />
+                            <c:set var="disabledInput" value="true" />
 
                             <tr data-council-types="${official.councilTypesIds}">
                                 <td class="text-left" >
                                     ${official.fullName}
                                 </td>
                                 <td>
-                                    <aui:input name="${official.officialId}-isAbsent" label="" type="checkbox"
-                                        title="is-absent" checked="${isAbsentValue}" value="isAbsent" />
+                                    ${procuration.procurationMode}
+                                </td>
+                                <td>
+                                    ${dc.getProcurationPresential(procuration.presential)}
                                 </td>
                                 <td>
                                     <div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper-${official.officialId}">
@@ -126,6 +145,18 @@
                                             name="${official.officialId}-officialVotersId"
                                             value="${officialVotersIdValue}" />
                                     </div>
+                                </td>
+                                <td>
+                                    ${procuration.procurationStartHour}
+                                </td>
+                                <td>
+                                    ${procuration.procurationStartPoint}
+                                </td>
+                                <td>
+                                    ${procuration.procurationEndHour}
+                                </td>
+                                <td>
+                                    ${procuration.procurationEndPoint}
                                 </td>
                             </tr>
                         </c:forEach>

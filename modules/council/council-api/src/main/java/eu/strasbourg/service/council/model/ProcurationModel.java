@@ -370,25 +370,18 @@ public interface ProcurationModel
 	public void setProcurationMode(String procurationMode);
 
 	/**
-	 * Returns the is presential of this procuration.
+	 * Returns the presential of this procuration.
 	 *
-	 * @return the is presential of this procuration
+	 * @return the presential of this procuration
 	 */
-	public boolean getIsPresential();
+	public int getPresential();
 
 	/**
-	 * Returns <code>true</code> if this procuration is is presential.
+	 * Sets the presential of this procuration.
 	 *
-	 * @return <code>true</code> if this procuration is is presential; <code>false</code> otherwise
+	 * @param presential the presential of this procuration
 	 */
-	public boolean isIsPresential();
-
-	/**
-	 * Sets whether this procuration is is presential.
-	 *
-	 * @param isPresential the is presential of this procuration
-	 */
-	public void setIsPresential(boolean isPresential);
+	public void setPresential(int presential);
 
 	/**
 	 * Returns the is after vote of this procuration.
@@ -444,28 +437,28 @@ public interface ProcurationModel
 	 *
 	 * @return the procuration start point of this procuration
 	 */
-	public int getProcurationStartPoint();
+	public long getProcurationStartPoint();
 
 	/**
 	 * Sets the procuration start point of this procuration.
 	 *
 	 * @param procurationStartPoint the procuration start point of this procuration
 	 */
-	public void setProcurationStartPoint(int procurationStartPoint);
+	public void setProcurationStartPoint(long procurationStartPoint);
 
 	/**
 	 * Returns the procuration end point of this procuration.
 	 *
 	 * @return the procuration end point of this procuration
 	 */
-	public int getProcurationEndPoint();
+	public long getProcurationEndPoint();
 
 	/**
 	 * Sets the procuration end point of this procuration.
 	 *
 	 * @param procurationEndPoint the procuration end point of this procuration
 	 */
-	public void setProcurationEndPoint(int procurationEndPoint);
+	public void setProcurationEndPoint(long procurationEndPoint);
 
 	/**
 	 * Returns <code>true</code> if this procuration is approved.

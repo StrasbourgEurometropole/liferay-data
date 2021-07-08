@@ -97,11 +97,11 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
 
             // Champs : procurations
             // suppression des anciennes procurations
-            List<Procuration> oldProcurations = this.procurationLocalService.findByCouncilSessionId(
+            /**List<Procuration> oldProcurations = this.procurationLocalService.findByCouncilSessionId(
                     councilSession.getCouncilSessionId());
             for (Procuration oldProcuration : oldProcurations) {
                 this.procurationLocalService.removeProcuration(oldProcuration.getProcurationId());
-            }
+            }*/
 
             boolean isAbsent;
             long officialVotersId;

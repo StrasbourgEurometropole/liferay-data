@@ -102,8 +102,8 @@ public class ProcurationCacheModel
 		sb.append(isAbsent);
 		sb.append(", procurationMode=");
 		sb.append(procurationMode);
-		sb.append(", isPresential=");
-		sb.append(isPresential);
+		sb.append(", presential=");
+		sb.append(presential);
 		sb.append(", isAfterVote=");
 		sb.append(isAfterVote);
 		sb.append(", procurationStartHour=");
@@ -185,7 +185,7 @@ public class ProcurationCacheModel
 			procurationImpl.setProcurationMode(procurationMode);
 		}
 
-		procurationImpl.setIsPresential(isPresential);
+		procurationImpl.setPresential(presential);
 		procurationImpl.setIsAfterVote(isAfterVote);
 
 		if (procurationStartHour == Long.MIN_VALUE) {
@@ -241,15 +241,15 @@ public class ProcurationCacheModel
 		isAbsent = objectInput.readBoolean();
 		procurationMode = objectInput.readUTF();
 
-		isPresential = objectInput.readBoolean();
+		presential = objectInput.readInt();
 
 		isAfterVote = objectInput.readBoolean();
 		procurationStartHour = objectInput.readLong();
 		procurationEndHour = objectInput.readLong();
 
-		procurationStartPoint = objectInput.readInt();
+		procurationStartPoint = objectInput.readLong();
 
-		procurationEndPoint = objectInput.readInt();
+		procurationEndPoint = objectInput.readLong();
 	}
 
 	@Override
@@ -307,15 +307,15 @@ public class ProcurationCacheModel
 			objectOutput.writeUTF(procurationMode);
 		}
 
-		objectOutput.writeBoolean(isPresential);
+		objectOutput.writeInt(presential);
 
 		objectOutput.writeBoolean(isAfterVote);
 		objectOutput.writeLong(procurationStartHour);
 		objectOutput.writeLong(procurationEndHour);
 
-		objectOutput.writeInt(procurationStartPoint);
+		objectOutput.writeLong(procurationStartPoint);
 
-		objectOutput.writeInt(procurationEndPoint);
+		objectOutput.writeLong(procurationEndPoint);
 	}
 
 	public String uuid;
@@ -335,11 +335,11 @@ public class ProcurationCacheModel
 	public long councilSessionId;
 	public boolean isAbsent;
 	public String procurationMode;
-	public boolean isPresential;
+	public int presential;
 	public boolean isAfterVote;
 	public long procurationStartHour;
 	public long procurationEndHour;
-	public int procurationStartPoint;
-	public int procurationEndPoint;
+	public long procurationStartPoint;
+	public long procurationEndPoint;
 
 }
