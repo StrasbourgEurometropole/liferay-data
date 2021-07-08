@@ -55,6 +55,12 @@
                                 <strong><liferay-ui:message key="is-absent" /></strong>
                             </th>
                             <th>
+                                <strong><liferay-ui:message key="procuration-mode" /></strong>
+                            </th>
+                            <th>
+                                <strong><liferay-ui:message key="is-presential" /></strong>
+                            </th>
+                            <th>
                                 <strong><liferay-ui:message key="official-receiver" /></strong>
                             </th>
                         </tr>
@@ -68,7 +74,6 @@
                                     <c:set var="officialVotersIdValue" value="${procuration.officialVotersId}" />
                                     <c:set var="officialVotersFullName" value="${procuration.officialVotersFullName}" />
                                     <c:set var="disabledInput" value="false" />
-                                    <c:set var="isPresentiAlValue" value="${procuration.isPresential ? 'true' : 'false'}" />
                                 </c:when>
                                 <c:otherwise>
                                     <c:set var="isAbsentValue" value="false" />
@@ -88,6 +93,13 @@
                                         title="is-absent" checked="${isAbsentValue}" value="isAbsent" />
                                 </td>
                                 <td>
+                                    <%-- TODO --%>
+                                    wololo
+                                </td>
+                                <td>
+                                    ${dc.getProcurationPresential(procuration.presential)}
+                                </td>
+                                <td>
                                     <div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper-${official.officialId}">
                                         <aui:input cssClass="autocomplete-shown" label="" type="text"
                                             title="official-receiver" name="${official.officialId}-officialVoters"
@@ -96,10 +108,6 @@
                                             name="${official.officialId}-officialVotersId"
                                             value="${officialVotersIdValue}" />
                                     </div>
-                                </td>
-                                <td>
-                                    <aui:input name="isPresential" label="" type="checkbox"
-                                        title="is-presential" checked="${isPresentialValue}" value="isPresential" />
                                 </td>
                              </tr>
                         </c:forEach>

@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.utils.UserRoleType;
+import eu.strasbourg.service.council.constants.ProcurationPresentialEnum;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Procuration;
@@ -104,6 +105,14 @@ public class ManageProcurationsDisplayContext {
         return this.themeDisplay.getPermissionChecker().hasPermission(
                 this.themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.COUNCIL_BO,
                 StrasbourgPortletKeys.COUNCIL_BO, actionId);
+    }
+
+    /**
+     * Recherche le type de presentiel
+     */
+    @SuppressWarnings("unused")
+    public String getProcurationPresential(int presential) {
+        return ProcurationPresentialEnum.get(presential).getName();
     }
 
 }
