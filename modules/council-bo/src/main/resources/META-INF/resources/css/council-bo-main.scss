@@ -178,3 +178,19 @@
     background-color: white !important;
     border : none;
 }
+
+.inputMode{
+    display: none;
+}
+
+.inputMode, .selectMode{
+    padding: 10px;
+    label {
+        display: none;
+    }
+}
+
+.checkAbsent {
+    height: 25px;
+    width: 25px;
+}

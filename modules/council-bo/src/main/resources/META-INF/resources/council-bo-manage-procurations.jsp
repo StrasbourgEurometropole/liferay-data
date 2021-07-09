@@ -58,9 +58,6 @@
                                 <strong><liferay-ui:message key="procuration-mode"/></strong>
                             </th>
                             <th>
-                                <strong><liferay-ui:message key="other-procuration-mode"/></strong>
-                            </th>
-                            <th>
                                 <strong><liferay-ui:message key="is-presential" /></strong>
                             </th>
                             <th>
@@ -70,6 +67,7 @@
 
                         <c:set var="allActiveOfficials" value="${dc.getAllActiveOfficials()}" />
                         <c:forEach var="official" items="${allActiveOfficials}">
+
                             <c:set var="procuration" value="${dc.findAssociatedProcuration(official.officialId)}" />
                             <c:choose>
                                 <c:when test="${procuration != null}">
@@ -92,27 +90,30 @@
                                 </td>
 
                                 <td>
-                                    <aui:input name="${official.officialId}-isAbsent" label="" type="checkbox"
+                                    <aui:input cssClass="checkAbsent" name="${official.officialId}-isAbsent" label="" type="checkbox"
                                         title="is-absent" checked="${isAbsentValue}" value="isAbsent" />
                                 </td>
-                                <td>
-                                    <aui:select cssClass="toCustomSelect" id="procurationModeChoice" name="choice">
-                                        <aui:option style="display: none" selected="-"></aui:option>
+                                <td id="procurationMode">
+                                    <div class="selectMode">
+                                        <aui:select cssClass="modeSelect" id="procurationModeChoice" name="choice">
                                             <c:forEach items="${dc.getAllProcurationMode()}" var="procurationMode">
                                                 <aui:option value="${procurationMode.getName()}"> ${procurationMode.getName()} </aui:option>
                                             </c:forEach>
-                                    </aui:select>
-                                </td>
-                                <td id ="procmode">
-                                    col to hide
+                                        </aui:select>
+                                    </div>
+                                    <div class="inputMode">
+                                        <aui:input type="text" name="autre" />
+                                    </div>
                                 </td>
                                 <td>
-                                    <aui:select cssClass="toCustomSelect" id="presentialChoice" name="choice">
-                                        <aui:option style="display: none" ></aui:option>
-                                            <c:forEach items="${dc.getAllProcurationPresential()}" var="presential">
-                                                <aui:option value="${presential.getName()}" >${empty presential.getName()?"-":presential.getName()}</aui:option>
-                                            </c:forEach>
-                                    </aui:select>
+                                    <div class="selectMode">
+                                        <aui:select cssClass="presentialSelect" id="presentialChoice" name="choice">
+                                            <aui:option style="display: none" ></aui:option>
+                                                <c:forEach items="${dc.getAllProcurationPresential()}" var="presential">
+                                                    <aui:option value="${presential.getName()}" >${presential.getName()}</aui:option>
+                                                </c:forEach>
+                                        </aui:select>
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper-${official.officialId}">

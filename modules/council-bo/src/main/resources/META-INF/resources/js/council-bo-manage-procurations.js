@@ -1,22 +1,26 @@
 var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
 
-///** Cache les noms des selecteurs **/
-//function hideAllOfficials() {
-//    $('td[choice]').hide();
-//}
 
-/** Lors du chargement de la page **/
-//$(document).ready(function() {
-//    hideColumn(3)
-//});
 
-function showColumn() {
-//    var col = document.getElementsByTagName('procmode');
-//    col.style.display = 'none';
-$('td[procmode]').hide();
+    var procurationMode = document.getElementById("procurationMode");
+    var customSelect = document.getElementsByClassName("modeSelect");
+    var autre = document.getElementsByClassName("inputMode");
+    var autreInput = document.querySelectorAll('input[name=' + namespace + 'autre');
+    var selector = document.querySelectorAll('select[name=' + namespace + 'procurationModeChoice');
 
-}
-
+    Array.prototype.forEach.call(customSelect, function(el, i){
+        el.onchange = function(){
+            var valueSelector = el.value;
+            if (valueSelector == 'Autre') {
+                var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
+                autreInput[i].required = true;
+                autre[i].style.display = "block";
+            } else {
+                autreInput[i].required = false;
+                autre[i].style.display = "none";
+            }
+        }
+    });
 
 /** Lors d'un check/unchecked d'une absence **/
 $('input[name$=-isAbsent]').on('change',function(){

@@ -8,7 +8,7 @@ public enum ProcurationModeEnum {
     MAIL(0, "Mail"),
     PAPIER(1, "Papier"),
     TCHAT(2, "Tchat"),
-    AUTRE(3, "voir colonne ci-contre");
+    AUTRE(3, "Autre");
 
     private long id;
     private String name;
