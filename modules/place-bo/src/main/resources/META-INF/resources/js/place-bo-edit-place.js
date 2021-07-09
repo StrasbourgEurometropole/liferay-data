@@ -62,7 +62,8 @@ jQuery(function() {
             }
         }
         catch(err) {
-            $('.error').html("<div class='alert alert-danger'><strong>Erreur JavaScript : </strong>" + err.message + ".<br> Veuillez prendre une capture d'ecran et contacter le support</div>");
+            $('.error').html("<div class='alert alert-danger'>Enregistrement impossible : un problème technique est survenu dans la prise en compte des périodes.<br>Merci de faire une capture d’écran du message ci-dessous et contacter l’administrateur.<br>" + err.message + "</div>");
+            $('html,body').animate({scrollTop: 0}, 'slow');
             event.preventDefault();
         }
 	});
