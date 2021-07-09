@@ -186,7 +186,7 @@ public class ProcurationWrapper
 			setIsAbsent(isAbsent);
 		}
 
-		String procurationMode = (String)attributes.get("procurationMode");
+		Integer procurationMode = (Integer)attributes.get("procurationMode");
 
 		if (procurationMode != null) {
 			setProcurationMode(procurationMode);
@@ -424,7 +424,7 @@ public class ProcurationWrapper
 	 * @return the procuration mode of this procuration
 	 */
 	@Override
-	public String getProcurationMode() {
+	public int getProcurationMode() {
 		return _procuration.getProcurationMode();
 	}
 
@@ -851,7 +851,7 @@ public class ProcurationWrapper
 	 * @param procurationMode the procuration mode of this procuration
 	 */
 	@Override
-	public void setProcurationMode(String procurationMode) {
+	public void setProcurationMode(int procurationMode) {
 		_procuration.setProcurationMode(procurationMode);
 	}
 

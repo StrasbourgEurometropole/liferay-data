@@ -83,7 +83,7 @@ public class ProcurationModelImpl
 		{"officialVotersId", Types.BIGINT},
 		{"officialUnavailableId", Types.BIGINT},
 		{"councilSessionId", Types.BIGINT}, {"isAbsent", Types.BOOLEAN},
-		{"procurationMode", Types.VARCHAR}, {"presential", Types.INTEGER},
+		{"procurationMode", Types.INTEGER}, {"presential", Types.INTEGER},
 		{"isAfterVote", Types.BOOLEAN},
 		{"procurationStartHour", Types.TIMESTAMP},
 		{"procurationEndHour", Types.TIMESTAMP},
@@ -112,7 +112,7 @@ public class ProcurationModelImpl
 		TABLE_COLUMNS_MAP.put("officialUnavailableId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("councilSessionId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("isAbsent", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("procurationMode", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("procurationMode", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("presential", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("isAfterVote", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("procurationStartHour", Types.TIMESTAMP);
@@ -123,7 +123,7 @@ public class ProcurationModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,councilSessionId LONG,isAbsent BOOLEAN,procurationMode VARCHAR(75) null,presential INTEGER,isAfterVote BOOLEAN,procurationStartHour DATE null,procurationEndHour DATE null,procurationStartPoint LONG,procurationEndPoint LONG,otherProcurationMode VARCHAR(75) null)";
+		"create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,councilSessionId LONG,isAbsent BOOLEAN,procurationMode INTEGER,presential INTEGER,isAfterVote BOOLEAN,procurationStartHour DATE null,procurationEndHour DATE null,procurationStartPoint LONG,procurationEndPoint LONG,otherProcurationMode VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table council_Procuration";
@@ -653,7 +653,7 @@ public class ProcurationModelImpl
 				public void accept(
 					Procuration procuration, Object procurationMode) {
 
-					procuration.setProcurationMode((String)procurationMode);
+					procuration.setProcurationMode((Integer)procurationMode);
 				}
 
 			});
@@ -1123,17 +1123,12 @@ public class ProcurationModelImpl
 	}
 
 	@Override
-	public String getProcurationMode() {
-		if (_procurationMode == null) {
-			return "";
-		}
-		else {
-			return _procurationMode;
-		}
+	public int getProcurationMode() {
+		return _procurationMode;
 	}
 
 	@Override
-	public void setProcurationMode(String procurationMode) {
+	public void setProcurationMode(int procurationMode) {
 		_procurationMode = procurationMode;
 	}
 
@@ -1542,12 +1537,6 @@ public class ProcurationModelImpl
 
 		procurationCacheModel.procurationMode = getProcurationMode();
 
-		String procurationMode = procurationCacheModel.procurationMode;
-
-		if ((procurationMode != null) && (procurationMode.length() == 0)) {
-			procurationCacheModel.procurationMode = null;
-		}
-
 		procurationCacheModel.presential = getPresential();
 
 		procurationCacheModel.isAfterVote = isIsAfterVote();
@@ -1687,7 +1676,7 @@ public class ProcurationModelImpl
 	private boolean _isAbsent;
 	private boolean _originalIsAbsent;
 	private boolean _setOriginalIsAbsent;
-	private String _procurationMode;
+	private int _procurationMode;
 	private int _presential;
 	private boolean _isAfterVote;
 	private Date _procurationStartHour;
