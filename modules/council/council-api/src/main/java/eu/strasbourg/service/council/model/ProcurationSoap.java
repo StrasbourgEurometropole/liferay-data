@@ -243,11 +243,11 @@ public class ProcurationSoap implements Serializable {
 		_isAbsent = isAbsent;
 	}
 
-	public String getProcurationMode() {
+	public int getProcurationMode() {
 		return _procurationMode;
 	}
 
-	public void setProcurationMode(String procurationMode) {
+	public void setProcurationMode(int procurationMode) {
 		_procurationMode = procurationMode;
 	}
 
@@ -327,7 +327,7 @@ public class ProcurationSoap implements Serializable {
 	private long _officialUnavailableId;
 	private long _councilSessionId;
 	private boolean _isAbsent;
-	private String _procurationMode;
+	private int _procurationMode;
 	private int _presential;
 	private boolean _isAfterVote;
 	private Date _procurationStartHour;

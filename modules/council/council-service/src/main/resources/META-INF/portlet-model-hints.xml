@@ -91,7 +91,7 @@
 		<field name="officialUnavailableId" type="long" />
 		<field name="councilSessionId" type="long" />
 		<field name="isAbsent" type="boolean" />
-		<field name="procurationMode" type="String" />
+		<field name="procurationMode" type="int" />
 		<field name="presential" type="int" />
 		<field name="isAfterVote" type="boolean" />
 		<field name="procurationStartHour" type="Date" />

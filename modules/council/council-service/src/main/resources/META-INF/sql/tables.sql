@@ -89,7 +89,7 @@ create table council_Procuration (
 	officialUnavailableId LONG,
 	councilSessionId LONG,
 	isAbsent BOOLEAN,
-	procurationMode VARCHAR(75) null,
+	procurationMode INTEGER,
 	presential INTEGER,
 	isAfterVote BOOLEAN,
 	procurationStartHour DATE null,

@@ -179,14 +179,7 @@ public class ProcurationCacheModel
 		procurationImpl.setOfficialUnavailableId(officialUnavailableId);
 		procurationImpl.setCouncilSessionId(councilSessionId);
 		procurationImpl.setIsAbsent(isAbsent);
-
-		if (procurationMode == null) {
-			procurationImpl.setProcurationMode("");
-		}
-		else {
-			procurationImpl.setProcurationMode(procurationMode);
-		}
-
+		procurationImpl.setProcurationMode(procurationMode);
 		procurationImpl.setPresential(presential);
 		procurationImpl.setIsAfterVote(isAfterVote);
 
@@ -248,7 +241,8 @@ public class ProcurationCacheModel
 		councilSessionId = objectInput.readLong();
 
 		isAbsent = objectInput.readBoolean();
-		procurationMode = objectInput.readUTF();
+
+		procurationMode = objectInput.readInt();
 
 		presential = objectInput.readInt();
 
@@ -310,12 +304,7 @@ public class ProcurationCacheModel
 
 		objectOutput.writeBoolean(isAbsent);
 
-		if (procurationMode == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(procurationMode);
-		}
+		objectOutput.writeInt(procurationMode);
 
 		objectOutput.writeInt(presential);
 
@@ -351,7 +340,7 @@ public class ProcurationCacheModel
 	public long officialUnavailableId;
 	public long councilSessionId;
 	public boolean isAbsent;
-	public String procurationMode;
+	public int procurationMode;
 	public int presential;
 	public boolean isAfterVote;
 	public long procurationStartHour;

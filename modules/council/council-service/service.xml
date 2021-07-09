@@ -264,7 +264,7 @@
 		<column name="councilSessionId" type="long" />
 		<column name="isAbsent" type="boolean" />
 
-		<column name="procurationMode" type="String" />
+		<column name="procurationMode" type="int" />
 		<column name="presential" type="int" />
 		<column name="isAfterVote" type="boolean" />
 		<column name="procurationStartHour" type="Date" />

@@ -359,15 +359,14 @@ public interface ProcurationModel
 	 *
 	 * @return the procuration mode of this procuration
 	 */
-	@AutoEscape
-	public String getProcurationMode();
+	public int getProcurationMode();
 
 	/**
 	 * Sets the procuration mode of this procuration.
 	 *
 	 * @param procurationMode the procuration mode of this procuration
 	 */
-	public void setProcurationMode(String procurationMode);
+	public void setProcurationMode(int procurationMode);
 
 	/**
 	 * Returns the presential of this procuration.

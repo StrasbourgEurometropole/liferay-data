@@ -127,24 +127,17 @@
                             <c:set var="disabledInput" value="true" />
 
                             <tr data-council-types="${official.councilTypesIds}">
-                                <td class="text-left" >
+                                <td class="text-left">
                                     ${official.fullName}
                                 </td>
                                 <td>
-                                    ${empty procuration.procurationMode?"-":procuration.procurationMode}
+                                    ${procuration.procurationMode eq 3?procuration.otherProcurationMode:dc.getProcurationMode(procuration.procurationMode)}
                                 </td>
                                 <td>
                                     ${empty dc.getProcurationPresential(procuration.presential)?"-":dc.getProcurationPresential(procuration.presential)}
                                 </td>
-                                <td>
-                                    <div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper-${official.officialId}">
-                                        <aui:input cssClass="autocomplete-shown" label="" type="text"
-                                            title="official-receiver" name="${official.officialId}-officialVoters"
-                                            value="${officialVotersFullName}" disabled="${disabledInput}" />
-                                        <aui:input cssClass="autocomplete-hidden" type="hidden"
-                                            name="${official.officialId}-officialVotersId"
-                                            value="${officialVotersIdValue}" />
-                                    </div>
+                                <td class="text-left">
+                                    ${empty officialVotersFullName?"Aucun":officialVotersFullName}
                                 </td>
                                 <td>
                                     <fmt:formatDate value="${procuration.procurationStartHour}" pattern="HH:mm:ss" />

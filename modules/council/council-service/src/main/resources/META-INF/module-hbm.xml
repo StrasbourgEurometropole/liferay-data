@@ -105,7 +105,7 @@
 		<property name="officialUnavailableId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="councilSessionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="isAbsent" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="procurationMode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="procurationMode" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="presential" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="isAfterVote" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="procurationStartHour" type="org.hibernate.type.TimestampType" />
