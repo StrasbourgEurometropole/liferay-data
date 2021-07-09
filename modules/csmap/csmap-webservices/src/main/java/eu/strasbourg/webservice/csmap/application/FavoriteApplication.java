@@ -126,7 +126,7 @@ public class FavoriteApplication extends Application {
             log.error(e.getMessage());
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
         }  catch (Exception e){
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
 
@@ -230,6 +230,7 @@ public class FavoriteApplication extends Application {
             log.error(e.getMessage());
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
         } catch (Exception e) {
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
         return WSResponseUtil.buildOkResponse(json);
