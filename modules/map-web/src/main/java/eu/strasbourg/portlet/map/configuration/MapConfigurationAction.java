@@ -104,7 +104,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				}
 				setPreference(request, "typesContenu", typesContenuString.toString());
 				json.put("typesContenu", jsonArrayTypeContenu);
-				hasEventPOIs = typesContenuString.indexOf("eu.strasbourg.service.agenda.model.Event") > 0;
+				hasEventPOIs = typesContenuString.indexOf("eu.strasbourg.service.agenda.model.Event") >= 0;
 			}
 
 			// texte explicatif sur les évènements

@@ -207,9 +207,6 @@ public class MapPortlet extends MVCPortlet {
                                 break;
                             }
                         }
-                        if (Validator.isNull(eventExplanationText)) {
-                            eventExplanationText = "No configuration";
-                        }
                     }
 
                     showConfig = configuration.showConfig();
