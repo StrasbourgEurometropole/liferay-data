@@ -284,6 +284,7 @@
 
 		<!-- main fields -->
 		<column name="title" type="String" />
+		<column name="summary" type="String" />
 		<column name="description" type="String" />
 		<column name="placeTextArea" type="String" />
 		<column name="filesDownload" type="String" />

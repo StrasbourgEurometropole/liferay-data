@@ -173,6 +173,7 @@ create table project_Petition (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	title VARCHAR(400) null,
+	summary VARCHAR(500) null,
 	description TEXT null,
 	placeTextArea VARCHAR(400) null,
 	filesDownload VARCHAR(75) null,

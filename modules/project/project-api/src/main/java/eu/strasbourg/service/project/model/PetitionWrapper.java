@@ -71,6 +71,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
+		attributes.put("summary", getSummary());
 		attributes.put("description", getDescription());
 		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("filesDownload", getFilesDownload());
@@ -178,6 +179,12 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		String summary = (String)attributes.get("summary");
+
+		if (summary != null) {
+			setSummary(summary);
 		}
 
 		String description = (String)attributes.get("description");
@@ -1010,6 +1017,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	 * Returns the summary of this petition.
+	 *
+	 * @return the summary of this petition
+	 */
+	@Override
+	public String getSummary() {
+		return _petition.getSummary();
+	}
+
+	/**
 	 * Returns the supported by of this petition.
 	 *
 	 * @return the supported by of this petition
@@ -1627,6 +1644,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_petition.setStatusDate(statusDate);
+	}
+
+	/**
+	 * Sets the summary of this petition.
+	 *
+	 * @param summary the summary of this petition
+	 */
+	@Override
+	public void setSummary(String summary) {
+		_petition.setSummary(summary);
 	}
 
 	/**
