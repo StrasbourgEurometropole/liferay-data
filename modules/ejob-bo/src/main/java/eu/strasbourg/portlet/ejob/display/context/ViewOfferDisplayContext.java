@@ -106,4 +106,22 @@ public class ViewOfferDisplayContext
 		return this.niveauEtudes;
 	}
 
+	/**
+	 * Renvoie le nom de la colonne sur laquelle on fait le tri pour
+	 * ElasticSearch
+	 */
+	@Override
+	public String getOrderByColSearchField() {
+		switch (this.getOrderByCol()) {
+			case "title":
+				return "localized_title_fr_FR_sortable";
+			case "end-date":
+				return "endDate_Number_sortable";
+			case "status":
+				return "status_sortable";
+			default:
+				return "publishDate_sortable";
+		}
+	}
+
 }
