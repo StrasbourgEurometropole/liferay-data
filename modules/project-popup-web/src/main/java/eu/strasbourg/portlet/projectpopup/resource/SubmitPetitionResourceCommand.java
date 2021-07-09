@@ -274,7 +274,7 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
             //Chargement du template contenant le corps du mail
             TemplateResource templateResourceBody = new URLTemplateResource("0",
                     Objects.requireNonNull(this.getClass().getClassLoader()
-                            .getResource("META-INF/resources/templates/contact-mail-copy-body-fr_FR.ftl")));
+                            .getResource("META-INF/resources/templates/contact-mail-petition-copy-body-fr_FR.ftl")));
             Template bodyTemplate = TemplateManagerUtil.getTemplate(
                     TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
 
@@ -283,7 +283,7 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
             bodyTemplate.processTemplate(out);
             String mailBody = out.toString();
 			
-			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submitPetition.mail.information");
+			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submitpetition.mail.information");
 			
 			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
 					themeDisplay.getScopeGroup().getName(request.getLocale()));
