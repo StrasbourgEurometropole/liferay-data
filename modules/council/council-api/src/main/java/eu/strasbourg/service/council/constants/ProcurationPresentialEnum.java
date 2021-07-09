@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum ProcurationPresentialEnum {
+    VIDE(0, null),
     OUI(1, "Oui"),
-    NON(2, "Non"),
-    VIDE(3, null);
+    NON(2, "Non");
 
     private long id;
     private String name;
