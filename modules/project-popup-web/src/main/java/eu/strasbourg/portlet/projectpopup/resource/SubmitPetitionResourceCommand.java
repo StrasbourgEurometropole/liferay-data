@@ -283,7 +283,7 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
             bodyTemplate.processTemplate(out);
             String mailBody = out.toString();
 			
-			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submitPetition.mail.information");
+			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submitpetition.mail.information");
 			
 			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
 					themeDisplay.getScopeGroup().getName(request.getLocale()));
