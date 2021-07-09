@@ -50,7 +50,7 @@ public class OffersXlsxExporterImpl implements OffersXlsxExporter {
 
 		Object[][] offerData = { { LanguageUtil.get(bundle, "offer-title"), LanguageUtil.get(bundle, "direction-service"),
 				LanguageUtil.get(bundle, "contact-rrh"), LanguageUtil.get(bundle, "publication-start-date"),
-				LanguageUtil.get(bundle, "candidate-end-date") } };
+				LanguageUtil.get(bundle, "application-end-date") } };
 
 		List<Offer> offers = offerLocalService.getOffers(-1, -1);
 		// on ne prend que les offres validées
