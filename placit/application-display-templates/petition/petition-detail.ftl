@@ -145,9 +145,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </#if>
                         </div>
 
-                        <div id="summary">
+                        <div class="row pro-bloc pro-bloc-texte">
                             <#if entry.summary?has_content>
-                                <h3>Résumé</h3>
+                                <h4>Résumé</h4>
                                 <p>${entry.summary}</p>
                             </#if>
                         </div>
