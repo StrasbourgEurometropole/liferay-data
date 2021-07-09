@@ -21,6 +21,14 @@
 	<portlet:param name="tab" value="councilSessions" />
 </liferay-portlet:actionURL>
 
+<%-- URL : definit le lien menant vers la gestion des procurations --%>
+<liferay-portlet:renderURL varImpl="manageProcurationsURL">
+    <portlet:param name="cmd" value="manageProcurations" />
+    <portlet:param name="councilSessionId" value="${dc.councilSession.councilSessionId}" />
+    <portlet:param name="returnURL" value="${councilSessionsURL}" />
+    <portlet:param name="mvcPath" value="/council-bo-manage-procurations.jsp" />
+</liferay-portlet:renderURL>
+
 <%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body council-bo">
 
@@ -183,6 +191,9 @@
 
 			<%-- Composant : bouton de retour a la liste des entites --%>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+
+			<%-- Composant : bouton de retour a la liste des entites --%>
+            <aui:button cssClass="btn-lg" href="${manageProcurationsURL}" type="cancel" value="Gestion des procurations" />
 
 		</aui:button-row>
 
