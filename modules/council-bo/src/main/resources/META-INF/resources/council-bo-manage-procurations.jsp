@@ -96,8 +96,9 @@
                                 <td id="procurationMode">
                                     <div class="selectMode">
                                         <aui:select cssClass="modeSelect" id="procurationModeChoice" name="choice">
+                                            <aui:option style="display: none" selected="${empty procuration}"></aui:option>
                                             <c:forEach items="${dc.getAllProcurationMode()}" var="procurationMode">
-                                                <aui:option value="${procurationMode.getName()}"> ${procurationMode.getName()} </aui:option>
+                                                <aui:option value="${procurationMode.getName()}" selected="${dc.verifId(procuration.procurationMode, procurationMode.getId())}">${procurationMode.name}</aui:option>
                                             </c:forEach>
                                         </aui:select>
                                     </div>
@@ -108,9 +109,9 @@
                                 <td>
                                     <div class="selectMode">
                                         <aui:select cssClass="presentialSelect" id="presentialChoice" name="choice">
-                                            <aui:option style="display: none" ></aui:option>
+                                            <aui:option style="display: none" selected="${empty procuration}"></aui:option>
                                                 <c:forEach items="${dc.getAllProcurationPresential()}" var="presential">
-                                                    <aui:option value="${presential.getName()}" >${presential.getName()}</aui:option>
+                                                    <aui:option value="${presential.getName()}" selected="${dc.verifId(procuration.presential, presential.getId())}">${presential.getName()}</aui:option>
                                                 </c:forEach>
                                         </aui:select>
                                     </div>

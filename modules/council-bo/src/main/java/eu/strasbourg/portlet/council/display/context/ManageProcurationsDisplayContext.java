@@ -131,4 +131,9 @@ public class ManageProcurationsDisplayContext {
     public List<ProcurationModeEnum> getAllProcurationMode() {
         return ProcurationModeEnum.getAll();
     }
+
+    @SuppressWarnings("unused")
+    public Boolean verifId(int id1, int id2) {
+        return id1==id2;
+    }
 }

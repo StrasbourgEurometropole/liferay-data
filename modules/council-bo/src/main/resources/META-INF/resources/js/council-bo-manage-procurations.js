@@ -1,7 +1,5 @@
 var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
 
-
-
     var procurationMode = document.getElementById("procurationMode");
     var customSelect = document.getElementsByClassName("modeSelect");
     var autre = document.getElementsByClassName("inputMode");
@@ -12,7 +10,6 @@ var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
         el.onchange = function(){
             var valueSelector = el.value;
             if (valueSelector == 'Autre') {
-                var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
                 autreInput[i].required = true;
                 autre[i].style.display = "block";
             } else {
@@ -20,6 +17,14 @@ var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
                 autre[i].style.display = "none";
             }
         }
+            var valueSelector = el.value;
+            if (valueSelector == 'Autre') {
+                autreInput[i].required = true;
+                autre[i].style.display = "block";
+            } else {
+                autreInput[i].required = false;
+                autre[i].style.display = "none";
+            }
     });
 
 /** Lors d'un check/unchecked d'une absence **/

@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum ProcurationModeEnum {
-    MAIL(0, "Mail"),
-    PAPIER(1, "Papier"),
-    TCHAT(2, "Tchat"),
-    AUTRE(3, "Autre");
+    MAIL(1, "Mail"),
+    PAPIER(2, "Papier"),
+    TCHAT(3, "Tchat"),
+    AUTRE(4, "Autre");
 
     private long id;
     private String name;
