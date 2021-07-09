@@ -276,6 +276,15 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 			isValid = false;
 		}
 
+		// Périodes
+		long nbPeriod = request.getActionParameters().getNames().stream().filter(p -> p.contains("periodId")).count();
+		String periodsIndexes = ParamUtil.getString(request, "periodsIndexes");
+		long nbIndex = periodsIndexes.split(",").length;
+		if(nbIndex != nbPeriod) {
+			SessionErrors.add(request, "period-error");
+			isValid = false;
+		}
+
 		return isValid;
 	}
 
