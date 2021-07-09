@@ -25,13 +25,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <h3><@liferay_ui.message key="eu.offer-direction" /></h3>
                             <p>${entry.direction.getTitle(locale)}</p>
                         </div>
-                        <#if entry.service??>
+                        <#if entry.service?? && entry.service?has_content>
                             <div id="service">
                                 <h3><@liferay_ui.message key="eu.offer-service" /></h3>
                                 <p>${entry.service.getTitle(locale)}</p>
                             </div>
                         </#if>
-                        <#if entry.offerCategories?? && entry.typeRecrutement.getTitle(locale)!="Stage">
+                        <#if entry.offerCategories?? && entry.offerCategories?has_content && entry.typeRecrutement.getTitle(locale)!="Stage">
                             <div id="filiereCategorie">
                                 <h3><@liferay_ui.message key="eu.offer-filiere-categorie" /></h3>
                                 <p>
@@ -46,7 +46,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <p>${entry.typeRecrutement.getTitle(locale)}<br />
                             ${entry.getPermanentDescription(locale)}</p>
                         </div>
-                        <#if entry.getIsFullTime()?? && entry.typeRecrutement.getTitle(locale)!="Stage">
+                        <#if entry.getIsFullTime()?? && entry.getIsFullTime()?has_content && entry.typeRecrutement.getTitle(locale)!="Stage">
                             <div id="isFullTime">
                                 <h3><@liferay_ui.message key="eu.offer-is-full-time" /></h3>
                                 <p>
@@ -55,11 +55,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <#else>
                                     <@liferay_ui.message key="eu.offer-full-time-false" />
                                 </#if>  
+                                - ${entry.getFullTimeDescription(locale)}
                                 </p>
                             </div>                   
                         </#if>
                         <#assign gradeRanges = entry.gradeRanges /> 
-                        <#if gradeRanges?? && entry.typeRecrutement.getTitle(locale)!="Stage">
+                        <#if gradeRanges?? && gradeRanges?has_content && entry.typeRecrutement.getTitle(locale)!="Stage">
                             <div id="grade">
                                 <h3><@liferay_ui.message key="eu.offer-grade" /></h3>
                                 <p>
@@ -82,14 +83,14 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <p>${entry.getDuration(locale)}</p>
                             </div> 
                         </#if> 
-                        <#if entry.niveauEtude?? && entry.typeRecrutement.getTitle(locale)=="Stage">
+                        <#if entry.niveauEtude?? && entry.niveauEtude?has_content && entry.typeRecrutement.getTitle(locale)=="Stage">
                             <div id="niveauEtude">
                                 <h3><@liferay_ui.message key="eu.offer-niveau-etude" /></h3>
                                 <p>${entry.niveauEtude.getTitle(locale)}</p>
                             </div>
                         </#if>
 
-				        <#if entry.contact?? && entry.typePublication?? && (entry.typePublication.getTitle(locale)=="Interne uniquement" || (entry.typePublication.getTitle(locale)=="Interne et externe" && portletHelper.isUserAuthorizedToConsultInternOffer()))>
+				        <#if entry.contact?? && entry.contact?has_content && entry.typePublication?? && entry.typePublication?has_content && (entry.typePublication.getTitle(locale)=="Interne uniquement" || (entry.typePublication.getTitle(locale)=="Interne et externe" && portletHelper.isUserAuthorizedToConsultInternOffer()))>
                             <div id="contactRH">
                                 <h3><@liferay_ui.message key="eu.offer-contact-RH" /></h3>
                                 <p>${entry.contact}</p>
@@ -166,12 +167,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     </div>
 
     <#assign StrasbourgPropsUtil = serviceLocator.findService("eu.strasbourg.utils.api.StrasbourgPropsUtilService") />
-        
+    
     <script>
         document.getElementById("candidater").onclick = function(e){
             // on vérifie que l'utilisateur est connecté
             if(window.publikInternalId != undefined){
-                window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLOfferApply()}?refposte=${entry.publicationId}&libposte=${entry.getPost(locale)?js_string}";
+                    window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLOfferApply()}?refposte=${entry.publicationId}&libposte=${entry.getPost(locale)?js_string}";
             }else{
                 window.createPopin(Liferay.Language.get('log-in-to-apply'),function() {
                     window.location = window.location + ((window.location.href.indexOf("?") > -1)? '&' : '?') + 'auth=publik';
