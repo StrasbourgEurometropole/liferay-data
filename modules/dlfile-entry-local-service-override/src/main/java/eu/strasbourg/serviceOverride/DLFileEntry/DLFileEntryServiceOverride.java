@@ -125,7 +125,7 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
             } else {
                 int limitNbPixels = height * width / 4;
                 boolean isPng = entry == null && mimeType.equals("image/png");
-                boolean isSizeBiggerThan500ko = size > 500000;
+                boolean isSizeBiggerThan500ko = size >= 500000;
                 boolean isSizeSmallerThan500ko = size < 500000;
 
                 boolean isPngBiggerThan500ko = isPng && isSizeBiggerThan500ko;
