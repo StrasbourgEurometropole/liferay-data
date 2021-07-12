@@ -66,7 +66,7 @@ public class CouncilSessionCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -96,6 +96,8 @@ public class CouncilSessionCacheModel
 		sb.append(title);
 		sb.append(", date=");
 		sb.append(date);
+		sb.append(", lastDelibProcessed =");
+		sb.append(lastDelibProcessed);
 		sb.append(", officialLeaderId=");
 		sb.append(officialLeaderId);
 		sb.append(", typeId=");
@@ -173,6 +175,7 @@ public class CouncilSessionCacheModel
 			councilSessionImpl.setDate(new Date(date));
 		}
 
+		councilSessionImpl.setLastDelibProcessed(lastDelibProcessed);
 		councilSessionImpl.setOfficialLeaderId(officialLeaderId);
 		councilSessionImpl.setTypeId(typeId);
 
@@ -203,6 +206,8 @@ public class CouncilSessionCacheModel
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		date = objectInput.readLong();
+
+		lastDelibProcessed = objectInput.readLong();
 
 		officialLeaderId = objectInput.readLong();
 
@@ -258,6 +263,8 @@ public class CouncilSessionCacheModel
 
 		objectOutput.writeLong(date);
 
+		objectOutput.writeLong(lastDelibProcessed);
+
 		objectOutput.writeLong(officialLeaderId);
 
 		objectOutput.writeLong(typeId);
@@ -277,6 +284,7 @@ public class CouncilSessionCacheModel
 	public long statusDate;
 	public String title;
 	public long date;
+	public long lastDelibProcessed;
 	public long officialLeaderId;
 	public long typeId;
 

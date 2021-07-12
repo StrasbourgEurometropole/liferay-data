@@ -53,10 +53,10 @@ public class ProcurationSoap implements Serializable {
 		soapModel.setProcurationMode(model.getProcurationMode());
 		soapModel.setPresential(model.getPresential());
 		soapModel.setIsAfterVote(model.isIsAfterVote());
-		soapModel.setProcurationStartHour(model.getProcurationStartHour());
-		soapModel.setProcurationEndHour(model.getProcurationEndHour());
-		soapModel.setProcurationStartPoint(model.getProcurationStartPoint());
-		soapModel.setProcurationEndPoint(model.getProcurationEndPoint());
+		soapModel.setStartHour(model.getStartHour());
+		soapModel.setEndHour(model.getEndHour());
+		soapModel.setStartDelib(model.getStartDelib());
+		soapModel.setEndDelib(model.getEndDelib());
 		soapModel.setOtherProcurationMode(model.getOtherProcurationMode());
 
 		return soapModel;
@@ -271,36 +271,36 @@ public class ProcurationSoap implements Serializable {
 		_isAfterVote = isAfterVote;
 	}
 
-	public Date getProcurationStartHour() {
-		return _procurationStartHour;
+	public Date getStartHour() {
+		return _startHour;
 	}
 
-	public void setProcurationStartHour(Date procurationStartHour) {
-		_procurationStartHour = procurationStartHour;
+	public void setStartHour(Date startHour) {
+		_startHour = startHour;
 	}
 
-	public Date getProcurationEndHour() {
-		return _procurationEndHour;
+	public Date getEndHour() {
+		return _endHour;
 	}
 
-	public void setProcurationEndHour(Date procurationEndHour) {
-		_procurationEndHour = procurationEndHour;
+	public void setEndHour(Date endHour) {
+		_endHour = endHour;
 	}
 
-	public long getProcurationStartPoint() {
-		return _procurationStartPoint;
+	public long getStartDelib() {
+		return _startDelib;
 	}
 
-	public void setProcurationStartPoint(long procurationStartPoint) {
-		_procurationStartPoint = procurationStartPoint;
+	public void setStartDelib(long startDelib) {
+		_startDelib = startDelib;
 	}
 
-	public long getProcurationEndPoint() {
-		return _procurationEndPoint;
+	public long getEndDelib() {
+		return _endDelib;
 	}
 
-	public void setProcurationEndPoint(long procurationEndPoint) {
-		_procurationEndPoint = procurationEndPoint;
+	public void setEndDelib(long endDelib) {
+		_endDelib = endDelib;
 	}
 
 	public String getOtherProcurationMode() {
@@ -330,10 +330,10 @@ public class ProcurationSoap implements Serializable {
 	private int _procurationMode;
 	private int _presential;
 	private boolean _isAfterVote;
-	private Date _procurationStartHour;
-	private Date _procurationEndHour;
-	private long _procurationStartPoint;
-	private long _procurationEndPoint;
+	private Date _startHour;
+	private Date _endHour;
+	private long _startDelib;
+	private long _endDelib;
 	private String _otherProcurationMode;
 
 }

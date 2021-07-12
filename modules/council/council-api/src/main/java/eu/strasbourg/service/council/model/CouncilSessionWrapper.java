@@ -73,6 +73,7 @@ public class CouncilSessionWrapper
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("date", getDate());
+		attributes.put("lastDelibProcessed ", getLastDelibProcessed());
 		attributes.put("officialLeaderId", getOfficialLeaderId());
 		attributes.put("typeId", getTypeId());
 
@@ -163,6 +164,12 @@ public class CouncilSessionWrapper
 
 		if (date != null) {
 			setDate(date);
+		}
+
+		Long lastDelibProcessed = (Long)attributes.get("lastDelibProcessed ");
+
+		if (lastDelibProcessed != null) {
+			setLastDelibProcessed(lastDelibProcessed);
 		}
 
 		Long officialLeaderId = (Long)attributes.get("officialLeaderId");
@@ -262,6 +269,16 @@ public class CouncilSessionWrapper
 	@Override
 	public long getGroupId() {
 		return _councilSession.getGroupId();
+	}
+
+	/**
+	 * Returns the last delib processed of this council session.
+	 *
+	 * @return the last delib processed of this council session
+	 */
+	@Override
+	public long getLastDelibProcessed() {
+		return _councilSession.getLastDelibProcessed();
 	}
 
 	/**
@@ -618,6 +635,16 @@ public class CouncilSessionWrapper
 	@Override
 	public void setGroupId(long groupId) {
 		_councilSession.setGroupId(groupId);
+	}
+
+	/**
+	 * Sets the last delib processed of this council session.
+	 *
+	 * @param lastDelibProcessed  the last delib processed of this council session
+	 */
+	@Override
+	public void setLastDelibProcessed(long lastDelibProcessed) {
+		_councilSession.setLastDelibProcessed(lastDelibProcessed);
 	}
 
 	/**

@@ -106,14 +106,14 @@ public class ProcurationCacheModel
 		sb.append(presential);
 		sb.append(", isAfterVote=");
 		sb.append(isAfterVote);
-		sb.append(", procurationStartHour=");
-		sb.append(procurationStartHour);
-		sb.append(", procurationEndHour=");
-		sb.append(procurationEndHour);
-		sb.append(", procurationStartPoint=");
-		sb.append(procurationStartPoint);
-		sb.append(", procurationEndPoint=");
-		sb.append(procurationEndPoint);
+		sb.append(", startHour=");
+		sb.append(startHour);
+		sb.append(", endHour=");
+		sb.append(endHour);
+		sb.append(", startDelib=");
+		sb.append(startDelib);
+		sb.append(", endDelib=");
+		sb.append(endDelib);
 		sb.append(", otherProcurationMode=");
 		sb.append(otherProcurationMode);
 		sb.append("}");
@@ -183,23 +183,22 @@ public class ProcurationCacheModel
 		procurationImpl.setPresential(presential);
 		procurationImpl.setIsAfterVote(isAfterVote);
 
-		if (procurationStartHour == Long.MIN_VALUE) {
-			procurationImpl.setProcurationStartHour(null);
+		if (startHour == Long.MIN_VALUE) {
+			procurationImpl.setStartHour(null);
 		}
 		else {
-			procurationImpl.setProcurationStartHour(
-				new Date(procurationStartHour));
+			procurationImpl.setStartHour(new Date(startHour));
 		}
 
-		if (procurationEndHour == Long.MIN_VALUE) {
-			procurationImpl.setProcurationEndHour(null);
+		if (endHour == Long.MIN_VALUE) {
+			procurationImpl.setEndHour(null);
 		}
 		else {
-			procurationImpl.setProcurationEndHour(new Date(procurationEndHour));
+			procurationImpl.setEndHour(new Date(endHour));
 		}
 
-		procurationImpl.setProcurationStartPoint(procurationStartPoint);
-		procurationImpl.setProcurationEndPoint(procurationEndPoint);
+		procurationImpl.setStartDelib(startDelib);
+		procurationImpl.setEndDelib(endDelib);
 
 		if (otherProcurationMode == null) {
 			procurationImpl.setOtherProcurationMode("");
@@ -247,12 +246,12 @@ public class ProcurationCacheModel
 		presential = objectInput.readInt();
 
 		isAfterVote = objectInput.readBoolean();
-		procurationStartHour = objectInput.readLong();
-		procurationEndHour = objectInput.readLong();
+		startHour = objectInput.readLong();
+		endHour = objectInput.readLong();
 
-		procurationStartPoint = objectInput.readLong();
+		startDelib = objectInput.readLong();
 
-		procurationEndPoint = objectInput.readLong();
+		endDelib = objectInput.readLong();
 		otherProcurationMode = objectInput.readUTF();
 	}
 
@@ -309,12 +308,12 @@ public class ProcurationCacheModel
 		objectOutput.writeInt(presential);
 
 		objectOutput.writeBoolean(isAfterVote);
-		objectOutput.writeLong(procurationStartHour);
-		objectOutput.writeLong(procurationEndHour);
+		objectOutput.writeLong(startHour);
+		objectOutput.writeLong(endHour);
 
-		objectOutput.writeLong(procurationStartPoint);
+		objectOutput.writeLong(startDelib);
 
-		objectOutput.writeLong(procurationEndPoint);
+		objectOutput.writeLong(endDelib);
 
 		if (otherProcurationMode == null) {
 			objectOutput.writeUTF("");
@@ -343,10 +342,10 @@ public class ProcurationCacheModel
 	public int procurationMode;
 	public int presential;
 	public boolean isAfterVote;
-	public long procurationStartHour;
-	public long procurationEndHour;
-	public long procurationStartPoint;
-	public long procurationEndPoint;
+	public long startHour;
+	public long endHour;
+	public long startDelib;
+	public long endDelib;
 	public String otherProcurationMode;
 
 }

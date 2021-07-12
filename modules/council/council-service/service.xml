@@ -159,6 +159,7 @@
 		<!-- Business fields -->
 		<column name="title" type="String" />
 		<column name="date" type="Date" />
+		<column name="lastDelibProcessed " type="long" />
 
 		<!-- Links with other entities -->
 		<column name="officialLeaderId" type="long" />
@@ -267,10 +268,10 @@
 		<column name="procurationMode" type="int" />
 		<column name="presential" type="int" />
 		<column name="isAfterVote" type="boolean" />
-		<column name="procurationStartHour" type="Date" />
-		<column name="procurationEndHour" type="Date" />
-		<column name="procurationStartPoint" type="long" />
-		<column name="procurationEndPoint" type="long" />
+		<column name="startHour" type="Date" />
+		<column name="endHour" type="Date" />
+		<column name="startDelib" type="long" />
+		<column name="endDelib" type="long" />
 		<column name="otherProcurationMode" type="String" />
 
 

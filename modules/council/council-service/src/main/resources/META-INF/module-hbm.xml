@@ -26,6 +26,7 @@
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="date_" name="date" type="org.hibernate.type.TimestampType" />
+		<property name="lastDelibProcessed " type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="officialLeaderId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="typeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
@@ -108,10 +109,10 @@
 		<property name="procurationMode" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="presential" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="isAfterVote" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="procurationStartHour" type="org.hibernate.type.TimestampType" />
-		<property name="procurationEndHour" type="org.hibernate.type.TimestampType" />
-		<property name="procurationStartPoint" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="procurationEndPoint" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="startHour" type="org.hibernate.type.TimestampType" />
+		<property name="endHour" type="org.hibernate.type.TimestampType" />
+		<property name="startDelib" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="endDelib" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="otherProcurationMode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.council.model.impl.TypeImpl" table="council_Type">

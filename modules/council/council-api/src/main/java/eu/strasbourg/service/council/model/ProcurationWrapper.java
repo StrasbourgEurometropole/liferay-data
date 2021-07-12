@@ -78,10 +78,10 @@ public class ProcurationWrapper
 		attributes.put("procurationMode", getProcurationMode());
 		attributes.put("presential", getPresential());
 		attributes.put("isAfterVote", isIsAfterVote());
-		attributes.put("procurationStartHour", getProcurationStartHour());
-		attributes.put("procurationEndHour", getProcurationEndHour());
-		attributes.put("procurationStartPoint", getProcurationStartPoint());
-		attributes.put("procurationEndPoint", getProcurationEndPoint());
+		attributes.put("startHour", getStartHour());
+		attributes.put("endHour", getEndHour());
+		attributes.put("startDelib", getStartDelib());
+		attributes.put("endDelib", getEndDelib());
 		attributes.put("otherProcurationMode", getOtherProcurationMode());
 
 		return attributes;
@@ -204,30 +204,28 @@ public class ProcurationWrapper
 			setIsAfterVote(isAfterVote);
 		}
 
-		Date procurationStartHour = (Date)attributes.get(
-			"procurationStartHour");
+		Date startHour = (Date)attributes.get("startHour");
 
-		if (procurationStartHour != null) {
-			setProcurationStartHour(procurationStartHour);
+		if (startHour != null) {
+			setStartHour(startHour);
 		}
 
-		Date procurationEndHour = (Date)attributes.get("procurationEndHour");
+		Date endHour = (Date)attributes.get("endHour");
 
-		if (procurationEndHour != null) {
-			setProcurationEndHour(procurationEndHour);
+		if (endHour != null) {
+			setEndHour(endHour);
 		}
 
-		Long procurationStartPoint = (Long)attributes.get(
-			"procurationStartPoint");
+		Long startDelib = (Long)attributes.get("startDelib");
 
-		if (procurationStartPoint != null) {
-			setProcurationStartPoint(procurationStartPoint);
+		if (startDelib != null) {
+			setStartDelib(startDelib);
 		}
 
-		Long procurationEndPoint = (Long)attributes.get("procurationEndPoint");
+		Long endDelib = (Long)attributes.get("endDelib");
 
-		if (procurationEndPoint != null) {
-			setProcurationEndPoint(procurationEndPoint);
+		if (endDelib != null) {
+			setEndDelib(endDelib);
 		}
 
 		String otherProcurationMode = (String)attributes.get(
@@ -278,6 +276,26 @@ public class ProcurationWrapper
 	@Override
 	public Date getCreateDate() {
 		return _procuration.getCreateDate();
+	}
+
+	/**
+	 * Returns the end delib of this procuration.
+	 *
+	 * @return the end delib of this procuration
+	 */
+	@Override
+	public long getEndDelib() {
+		return _procuration.getEndDelib();
+	}
+
+	/**
+	 * Returns the end hour of this procuration.
+	 *
+	 * @return the end hour of this procuration
+	 */
+	@Override
+	public Date getEndHour() {
+		return _procuration.getEndHour();
 	}
 
 	@Override
@@ -389,26 +407,6 @@ public class ProcurationWrapper
 	}
 
 	/**
-	 * Returns the procuration end hour of this procuration.
-	 *
-	 * @return the procuration end hour of this procuration
-	 */
-	@Override
-	public Date getProcurationEndHour() {
-		return _procuration.getProcurationEndHour();
-	}
-
-	/**
-	 * Returns the procuration end point of this procuration.
-	 *
-	 * @return the procuration end point of this procuration
-	 */
-	@Override
-	public long getProcurationEndPoint() {
-		return _procuration.getProcurationEndPoint();
-	}
-
-	/**
 	 * Returns the procuration ID of this procuration.
 	 *
 	 * @return the procuration ID of this procuration
@@ -429,23 +427,23 @@ public class ProcurationWrapper
 	}
 
 	/**
-	 * Returns the procuration start hour of this procuration.
+	 * Returns the start delib of this procuration.
 	 *
-	 * @return the procuration start hour of this procuration
+	 * @return the start delib of this procuration
 	 */
 	@Override
-	public Date getProcurationStartHour() {
-		return _procuration.getProcurationStartHour();
+	public long getStartDelib() {
+		return _procuration.getStartDelib();
 	}
 
 	/**
-	 * Returns the procuration start point of this procuration.
+	 * Returns the start hour of this procuration.
 	 *
-	 * @return the procuration start point of this procuration
+	 * @return the start hour of this procuration
 	 */
 	@Override
-	public long getProcurationStartPoint() {
-		return _procuration.getProcurationStartPoint();
+	public Date getStartHour() {
+		return _procuration.getStartHour();
 	}
 
 	/**
@@ -698,6 +696,26 @@ public class ProcurationWrapper
 		_procuration.setCreateDate(createDate);
 	}
 
+	/**
+	 * Sets the end delib of this procuration.
+	 *
+	 * @param endDelib the end delib of this procuration
+	 */
+	@Override
+	public void setEndDelib(long endDelib) {
+		_procuration.setEndDelib(endDelib);
+	}
+
+	/**
+	 * Sets the end hour of this procuration.
+	 *
+	 * @param endHour the end hour of this procuration
+	 */
+	@Override
+	public void setEndHour(Date endHour) {
+		_procuration.setEndHour(endHour);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(
 		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
@@ -816,26 +834,6 @@ public class ProcurationWrapper
 	}
 
 	/**
-	 * Sets the procuration end hour of this procuration.
-	 *
-	 * @param procurationEndHour the procuration end hour of this procuration
-	 */
-	@Override
-	public void setProcurationEndHour(Date procurationEndHour) {
-		_procuration.setProcurationEndHour(procurationEndHour);
-	}
-
-	/**
-	 * Sets the procuration end point of this procuration.
-	 *
-	 * @param procurationEndPoint the procuration end point of this procuration
-	 */
-	@Override
-	public void setProcurationEndPoint(long procurationEndPoint) {
-		_procuration.setProcurationEndPoint(procurationEndPoint);
-	}
-
-	/**
 	 * Sets the procuration ID of this procuration.
 	 *
 	 * @param procurationId the procuration ID of this procuration
@@ -856,23 +854,23 @@ public class ProcurationWrapper
 	}
 
 	/**
-	 * Sets the procuration start hour of this procuration.
+	 * Sets the start delib of this procuration.
 	 *
-	 * @param procurationStartHour the procuration start hour of this procuration
+	 * @param startDelib the start delib of this procuration
 	 */
 	@Override
-	public void setProcurationStartHour(Date procurationStartHour) {
-		_procuration.setProcurationStartHour(procurationStartHour);
+	public void setStartDelib(long startDelib) {
+		_procuration.setStartDelib(startDelib);
 	}
 
 	/**
-	 * Sets the procuration start point of this procuration.
+	 * Sets the start hour of this procuration.
 	 *
-	 * @param procurationStartPoint the procuration start point of this procuration
+	 * @param startHour the start hour of this procuration
 	 */
 	@Override
-	public void setProcurationStartPoint(long procurationStartPoint) {
-		_procuration.setProcurationStartPoint(procurationStartPoint);
+	public void setStartHour(Date startHour) {
+		_procuration.setStartHour(startHour);
 	}
 
 	/**

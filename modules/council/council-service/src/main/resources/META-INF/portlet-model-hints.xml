@@ -16,6 +16,7 @@
 		<field name="statusDate" type="Date" />
 		<field name="title" type="String" />
 		<field name="date" type="Date" />
+		<field name="lastDelibProcessed " type="long" />
 		<field name="officialLeaderId" type="long" />
 		<field name="typeId" type="long" />
 	</model>
@@ -94,10 +95,10 @@
 		<field name="procurationMode" type="int" />
 		<field name="presential" type="int" />
 		<field name="isAfterVote" type="boolean" />
-		<field name="procurationStartHour" type="Date" />
-		<field name="procurationEndHour" type="Date" />
-		<field name="procurationStartPoint" type="long" />
-		<field name="procurationEndPoint" type="long" />
+		<field name="startHour" type="Date" />
+		<field name="endHour" type="Date" />
+		<field name="startDelib" type="long" />
+		<field name="endDelib" type="long" />
 		<field name="otherProcurationMode" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.council.model.Type">

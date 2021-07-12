@@ -321,6 +321,20 @@ public interface CouncilSessionModel
 	public void setDate(Date date);
 
 	/**
+	 * Returns the last delib processed of this council session.
+	 *
+	 * @return the last delib processed of this council session
+	 */
+	public long getLastDelibProcessed();
+
+	/**
+	 * Sets the last delib processed of this council session.
+	 *
+	 * @param lastDelibProcessed  the last delib processed of this council session
+	 */
+	public void setLastDelibProcessed(long lastDelibProcessed);
+
+	/**
 	 * Returns the official leader ID of this council session.
 	 *
 	 * @return the official leader ID of this council session

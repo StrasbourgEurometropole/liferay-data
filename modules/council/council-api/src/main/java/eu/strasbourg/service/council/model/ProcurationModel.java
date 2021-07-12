@@ -404,60 +404,60 @@ public interface ProcurationModel
 	public void setIsAfterVote(boolean isAfterVote);
 
 	/**
-	 * Returns the procuration start hour of this procuration.
+	 * Returns the start hour of this procuration.
 	 *
-	 * @return the procuration start hour of this procuration
+	 * @return the start hour of this procuration
 	 */
-	public Date getProcurationStartHour();
+	public Date getStartHour();
 
 	/**
-	 * Sets the procuration start hour of this procuration.
+	 * Sets the start hour of this procuration.
 	 *
-	 * @param procurationStartHour the procuration start hour of this procuration
+	 * @param startHour the start hour of this procuration
 	 */
-	public void setProcurationStartHour(Date procurationStartHour);
+	public void setStartHour(Date startHour);
 
 	/**
-	 * Returns the procuration end hour of this procuration.
+	 * Returns the end hour of this procuration.
 	 *
-	 * @return the procuration end hour of this procuration
+	 * @return the end hour of this procuration
 	 */
-	public Date getProcurationEndHour();
+	public Date getEndHour();
 
 	/**
-	 * Sets the procuration end hour of this procuration.
+	 * Sets the end hour of this procuration.
 	 *
-	 * @param procurationEndHour the procuration end hour of this procuration
+	 * @param endHour the end hour of this procuration
 	 */
-	public void setProcurationEndHour(Date procurationEndHour);
+	public void setEndHour(Date endHour);
 
 	/**
-	 * Returns the procuration start point of this procuration.
+	 * Returns the start delib of this procuration.
 	 *
-	 * @return the procuration start point of this procuration
+	 * @return the start delib of this procuration
 	 */
-	public long getProcurationStartPoint();
+	public long getStartDelib();
 
 	/**
-	 * Sets the procuration start point of this procuration.
+	 * Sets the start delib of this procuration.
 	 *
-	 * @param procurationStartPoint the procuration start point of this procuration
+	 * @param startDelib the start delib of this procuration
 	 */
-	public void setProcurationStartPoint(long procurationStartPoint);
+	public void setStartDelib(long startDelib);
 
 	/**
-	 * Returns the procuration end point of this procuration.
+	 * Returns the end delib of this procuration.
 	 *
-	 * @return the procuration end point of this procuration
+	 * @return the end delib of this procuration
 	 */
-	public long getProcurationEndPoint();
+	public long getEndDelib();
 
 	/**
-	 * Sets the procuration end point of this procuration.
+	 * Sets the end delib of this procuration.
 	 *
-	 * @param procurationEndPoint the procuration end point of this procuration
+	 * @param endDelib the end delib of this procuration
 	 */
-	public void setProcurationEndPoint(long procurationEndPoint);
+	public void setEndDelib(long endDelib);
 
 	/**
 	 * Returns the other procuration mode of this procuration.

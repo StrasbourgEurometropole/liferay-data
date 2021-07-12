@@ -13,6 +13,7 @@ create table council_CouncilSession (
 	statusDate DATE null,
 	title VARCHAR(75) null,
 	date_ DATE null,
+	lastDelibProcessed  LONG,
 	officialLeaderId LONG,
 	typeId LONG
 );
@@ -92,10 +93,10 @@ create table council_Procuration (
 	procurationMode INTEGER,
 	presential INTEGER,
 	isAfterVote BOOLEAN,
-	procurationStartHour DATE null,
-	procurationEndHour DATE null,
-	procurationStartPoint LONG,
-	procurationEndPoint LONG,
+	startHour DATE null,
+	endHour DATE null,
+	startDelib LONG,
+	endDelib LONG,
 	otherProcurationMode VARCHAR(75) null
 );
 
