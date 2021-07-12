@@ -330,7 +330,7 @@ public interface CouncilSessionModel
 	/**
 	 * Sets the last delib processed of this council session.
 	 *
-	 * @param lastDelibProcessed  the last delib processed of this council session
+	 * @param lastDelibProcessed the last delib processed of this council session
 	 */
 	public void setLastDelibProcessed(long lastDelibProcessed);
 

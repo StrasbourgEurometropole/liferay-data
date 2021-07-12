@@ -81,7 +81,7 @@ public class CouncilSessionModelImpl
 		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
 		{"title", Types.VARCHAR}, {"date_", Types.TIMESTAMP},
-		{"lastDelibProcessed ", Types.BIGINT},
+		{"lastDelibProcessed", Types.BIGINT},
 		{"officialLeaderId", Types.BIGINT}, {"typeId", Types.BIGINT}
 	};
 
@@ -103,13 +103,13 @@ public class CouncilSessionModelImpl
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("date_", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("lastDelibProcessed ", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("lastDelibProcessed", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("officialLeaderId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("typeId", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table council_CouncilSession (uuid_ VARCHAR(75) null,councilSessionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,date_ DATE null,lastDelibProcessed  LONG,officialLeaderId LONG,typeId LONG)";
+		"create table council_CouncilSession (uuid_ VARCHAR(75) null,councilSessionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,date_ DATE null,lastDelibProcessed LONG,officialLeaderId LONG,typeId LONG)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table council_CouncilSession";
@@ -588,7 +588,7 @@ public class CouncilSessionModelImpl
 
 			});
 		attributeGetterFunctions.put(
-			"lastDelibProcessed ",
+			"lastDelibProcessed",
 			new Function<CouncilSession, Object>() {
 
 				@Override
@@ -598,7 +598,7 @@ public class CouncilSessionModelImpl
 
 			});
 		attributeSetterBiConsumers.put(
-			"lastDelibProcessed ",
+			"lastDelibProcessed",
 			new BiConsumer<CouncilSession, Object>() {
 
 				@Override

@@ -159,7 +159,7 @@
 		<!-- Business fields -->
 		<column name="title" type="String" />
 		<column name="date" type="Date" />
-		<column name="lastDelibProcessed " type="long" />
+		<column name="lastDelibProcessed" type="long" />
 
 		<!-- Links with other entities -->
 		<column name="officialLeaderId" type="long" />

@@ -13,14 +13,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.council.model.CouncilSession;
-import eu.strasbourg.service.council.model.Official;
-import eu.strasbourg.service.council.model.OfficialTypeCouncil;
-import eu.strasbourg.service.council.model.Procuration;
-import eu.strasbourg.service.council.service.CouncilSessionLocalService;
-import eu.strasbourg.service.council.service.OfficialLocalService;
-import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService;
-import eu.strasbourg.service.council.service.ProcurationLocalService;
+import eu.strasbourg.service.council.model.*;
+import eu.strasbourg.service.council.service.*;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -30,10 +24,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component(
@@ -49,11 +40,12 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
     private List<OfficialTypeCouncil> availableOfficials;
-    private long councilSessionId;
-    private long typeId;
-    private String title;
-    private Date date;
+    private int isPresential;
+    private int procurationMode;
+    private String otherProcurationMode;
+    private long startDelib;
     private long procurationId;
+    private long councilSessionId;
 
     @Override
     public boolean processAction(ActionRequest request, ActionResponse response) {
@@ -80,15 +72,44 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
 
             // Si édition ou création d'une nouvelle entrée
             Procuration procuration;
+            this.procurationId = ParamUtil.getLong(request, "procurationId");
+            this.isPresential = ParamUtil.getInteger(request, "isPresential");
+            this.procurationMode = ParamUtil.getInteger(request, "procurationMode");
+            this.otherProcurationMode = ParamUtil.getString(request, "otherProcurationMode");
+            this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
+//            Official official = ParamUtil.getO(request, "official");
+            
             if (this.procurationId == 0) {
                 procuration = this.procurationLocalService.createProcuration(sc);
             } else {
                 procuration = this.procurationLocalService.getProcuration(procurationId);
             }
 
-
             // Champ : presential, procurationMode, otherProcurationMode (if procurationMode ) startDelib, councilSessionId
             procuration.setStartHour(new Date());
+            procuration.setPresential(isPresential);
+            procuration.setProcurationMode(procurationMode);
+            procuration.setOtherProcurationMode(otherProcurationMode);
+            procuration.setCouncilSessionId(councilSessionId);
+            // TODO set isAfterVote à false ?? a test
+
+            List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
+            Optional<Deliberation> delibAffichageEnCours = deliberations.stream().filter(Deliberation::isAffichageEnCours).findFirst();
+            Optional<Deliberation> delibVoteEnCours = deliberations.stream().filter(Deliberation::isVoteOuvert).findFirst();
+            Optional<Deliberation> delibAdopteOrRejeteOrCommunique = deliberations.stream().filter((d -> d.isAdopte() || d.isRejete() || d.isCommunique())).findFirst();
+
+            if (deliberations.stream().allMatch(Deliberation::isCree)) {
+                procuration.setStartDelib(-1);
+            } else if (delibAffichageEnCours.isPresent()) {
+                    procuration.setStartDelib(delibAffichageEnCours.get().getDeliberationId());
+            } else if (delibVoteEnCours.isPresent()) {
+                // TODO erreur pas possible de creer une procuration lors d'un vote en cours
+            } else {
+                procuration.setStartDelib(delibAdopteOrRejeteOrCommunique.get().getDeliberationId());
+                procuration.setIsAfterVote(true);
+            }
+
+
 
             boolean isAbsent;
             long officialVotersId;
@@ -103,7 +124,6 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
 
                     newProcuration = this.procurationLocalService.createProcuration(sc);
 
-                    newProcuration.setCouncilSessionId(councilSession.getCouncilSessionId());
                     newProcuration.setOfficialUnavailableId(availableOfficial.getOfficialId());
                     newProcuration.setOfficialVotersId(officialVotersId);
                     newProcuration.setIsAbsent(isAbsent);
@@ -114,7 +134,7 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
             // Fin Champs : procurations
 
             // Mise à jour de l'entrée en base
-            this.councilSessionLocalService.updateCouncilSession(councilSession, sc);
+//            this.councilSessionLocalService.updateCouncilSession(councilSession, sc);
 
         } catch (PortalException e) {
             log.error(e);
@@ -130,79 +150,39 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
 
         ServiceContext sc = ServiceContextFactory.getInstance(request);
 
-        this.procurationId = ParamUtil.getLong(request, "procurationId");
-
-        // Récupération du type
-        this.typeId = ParamUtil.getLong(request, "council-type");
-
-        // Titre
-        this.title = ParamUtil.getString(request, "title");
-        if (Validator.isNull(title)) {
-            SessionErrors.add(request, "title-error");
-            isValid = false;
-        }
-
-        // Titre déjà utilisé ?
-        if (this.councilSessionLocalService.isTitleAlreadyUsedInCouncilTypeId(this.title, this.councilSessionId, this.typeId)) {
-            SessionErrors.add(request, "title-already-used-error");
-            isValid = false;
-        }
-
-        // Date
-        if (Validator.isNull(ParamUtil.getString(request, "date"))) {
-            SessionErrors.add(request, "date-error");
-            isValid = false;
-        }
-        this.date = ParamUtil.getDate(request, "date", new SimpleDateFormat("dd/MM/yyyy"));
-
-        // Official leader
-        long officialLeaderId = ParamUtil.getLong(request, "officialLeaderId");
-        if (Validator.isNull(officialLeaderId)) {
-            SessionErrors.add(request, "official-leader-not-found-error");
-            isValid = false;
-        }
-        Official official = this.officialLocalService.fetchOfficial(officialLeaderId);
-        if (Validator.isNull(officialLeaderId)) {
-            SessionErrors.add(request, "official-leader-not-found-error");
-            isValid = false;
-        } else if (!official.getCouncilTypesIds().contains(""+this.typeId)) {
-            SessionErrors.add(request, "official-leader-type-error");
-            isValid = false;
-        }
-
         // Procurations : test du nombre de procuration recevable max
         // recherche des élus ayant potentiellement une procuration
-        this.availableOfficials = this.officialTypeCouncilLocalService.findByTypeId(this.typeId)
-            .stream().filter(o -> o.getGroupId() == sc.getScopeGroupId()).collect(Collectors.toList());
+//        this.availableOfficials = this.officialTypeCouncilLocalService.findByTypeId(this.typeId)
+//            .stream().filter(o -> o.getGroupId() == sc.getScopeGroupId()).collect(Collectors.toList());
 
         boolean isAbsent;
         long officialVotersId;
         Map<Long, Integer> officialProcurationCounts = new HashMap<>();
 
         // parcours des élus potentiels et recherche de procurations rempliess
-        for (OfficialTypeCouncil availableOfficial : availableOfficials) {
-            isAbsent = ParamUtil.getString(request, availableOfficial.getOfficialId() + "-isAbsent")
-                    .equals("isAbsent");
-            if (isAbsent) {
-                officialVotersId = ParamUtil.getLong(request, availableOfficial.getOfficialId() + "-officialVotersId");
-                if (officialVotersId > 0) {
-                    Official officialVoter = this.officialLocalService.fetchOfficial(officialVotersId);
-                    if (!officialVoter.getCouncilTypesIds().contains(""+this.typeId)) {
-                        SessionErrors.add(request, "official-voter-type-error");
-                        isValid = false;
-                    }else {
-                        if (officialProcurationCounts.containsKey(officialVotersId)) {
-                            officialProcurationCounts.put(
-                                    officialVotersId,
-                                    officialProcurationCounts.get(officialVotersId) + 1
-                            );
-                        } else {
-                            officialProcurationCounts.put(officialVotersId, 1);
-                        }
-                    }
-                }
-            }
-        }
+//        for (OfficialTypeCouncil availableOfficial : availableOfficials) {
+//            isAbsent = ParamUtil.getString(request, availableOfficial.getOfficialId() + "-isAbsent")
+//                    .equals("isAbsent");
+//            if (isAbsent) {
+//                officialVotersId = ParamUtil.getLong(request, availableOfficial.getOfficialId() + "-officialVotersId");
+//                if (officialVotersId > 0) {
+//                    Official officialVoter = this.officialLocalService.fetchOfficial(officialVotersId);
+//                    if (!officialVoter.getCouncilTypesIds().contains(""+this.typeId)) {
+//                        SessionErrors.add(request, "official-voter-type-error");
+//                        isValid = false;
+//                    }else {
+//                        if (officialProcurationCounts.containsKey(officialVotersId)) {
+//                            officialProcurationCounts.put(
+//                                    officialVotersId,
+//                                    officialProcurationCounts.get(officialVotersId) + 1
+//                            );
+//                        } else {
+//                            officialProcurationCounts.put(officialVotersId, 1);
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         for (Map.Entry<Long, Integer> entry : officialProcurationCounts.entrySet()) {
             if (entry.getValue() > 2) {

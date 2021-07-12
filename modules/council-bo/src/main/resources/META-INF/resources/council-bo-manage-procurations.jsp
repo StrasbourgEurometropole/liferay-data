@@ -44,6 +44,10 @@
 			<%-- Groupe de champs : Procuration --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="absents-and-procurations">
 
+            <aui:input cssClass="officalId-hidden" type="hidden"
+                name="${official.officialId}"
+                value="${officialIdValue}" />
+
                 <div id="procurations-table">
                     <table border="1">
 
@@ -69,6 +73,9 @@
                         <c:forEach var="official" items="${allActiveOfficials}">
 
                             <c:set var="procuration" value="${dc.findAssociatedProcuration(official.officialId)}" />
+
+                            <button id="officalIdButton" class="officalIdButton" data-official-id="${official.officialId}" />
+
                             <c:choose>
                                 <c:when test="${procuration != null}">
                                     <c:set var="isAbsentValue" value="${procuration.isAbsent ? 'true' : 'false'}" />

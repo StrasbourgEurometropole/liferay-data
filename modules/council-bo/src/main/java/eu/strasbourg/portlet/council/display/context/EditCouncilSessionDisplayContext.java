@@ -97,7 +97,7 @@ public class EditCouncilSessionDisplayContext {
             procurations = this.getCouncilSession().getProcurations();
 
         return procurations.stream()
-                .sorted(Comparator.comparing(ProcurationModel::getProcurationStartHour))
+                .sorted(Comparator.comparing(ProcurationModel::getStartHour))
                 .sorted(Comparator.comparing(p -> OfficialLocalServiceUtil.fetchOfficial(p.getOfficialUnavailableId()).getFullName()))
                 .collect(Collectors.toList());
     }

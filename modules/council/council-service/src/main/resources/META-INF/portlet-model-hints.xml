@@ -16,7 +16,7 @@
 		<field name="statusDate" type="Date" />
 		<field name="title" type="String" />
 		<field name="date" type="Date" />
-		<field name="lastDelibProcessed " type="long" />
+		<field name="lastDelibProcessed" type="long" />
 		<field name="officialLeaderId" type="long" />
 		<field name="typeId" type="long" />
 	</model>

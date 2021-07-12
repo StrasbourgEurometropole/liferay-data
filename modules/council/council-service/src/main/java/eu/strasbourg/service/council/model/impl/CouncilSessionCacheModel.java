@@ -96,7 +96,7 @@ public class CouncilSessionCacheModel
 		sb.append(title);
 		sb.append(", date=");
 		sb.append(date);
-		sb.append(", lastDelibProcessed =");
+		sb.append(", lastDelibProcessed=");
 		sb.append(lastDelibProcessed);
 		sb.append(", officialLeaderId=");
 		sb.append(officialLeaderId);

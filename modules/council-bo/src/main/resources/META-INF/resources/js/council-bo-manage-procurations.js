@@ -27,6 +27,19 @@ var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
             }
     });
 
+var allValidateButtons = document.getElementsByClassName("officalIdButton");
+var hiddenOfficialId = document.getElementById("officalId-hidden");
+    Array.prototype.forEach.call(allValidateButtons, function(el, i){
+        el.onClick = function(){
+            hiddenOfficialId.setVal(el.data.offical.id);
+        }
+
+
+recup tous les boutons validate getByClassName  (remplace le customSelect)
+faire comme au dessus
+onClick set le input hidden(recup vi getById) avec la valeur du bouton avec attribut de typed data //input.setVar(el.data.officalID)
+
+
 /** Lors d'un check/unchecked d'une absence **/
 $('input[name$=-isAbsent]').on('change',function(){
     var val = $(this).is(':checked');
