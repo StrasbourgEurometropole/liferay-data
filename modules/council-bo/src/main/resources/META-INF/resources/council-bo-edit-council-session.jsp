@@ -139,7 +139,14 @@
                                     ${official.fullName}
                                 </td>
                                 <td>
-                                    ${procuration.procurationMode eq 3?procuration.otherProcurationMode:dc.getProcurationMode(procuration.procurationMode)}
+                                <c:choose>
+                                    <c:when test="${procuration.procurationMode eq 0}">
+                                        -
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${procuration.procurationMode eq 3?procuration.otherProcurationMode:dc.getProcurationMode(procuration.procurationMode)}
+                                    </c:otherwise>
+                                </c:choose>
                                 </td>
                                 <td>
                                     ${empty dc.getProcurationPresential(procuration.presential)?"-":dc.getProcurationPresential(procuration.presential)}
@@ -148,16 +155,16 @@
                                     ${empty officialVotersFullName?"Aucun":officialVotersFullName}
                                 </td>
                                 <td>
-                                    <fmt:formatDate value="${procuration.procurationStartHour}" pattern="HH:mm:ss" />
+                                    <fmt:formatDate value="${procuration.startHour}" pattern="HH:mm:ss" />
                                 </td>
                                 <td>
-                                    ${procuration.procurationStartPoint}${procuration.isAfterVote?" - Intervenu apres le vote":""}
+                                    ${procuration.startDelib}${procuration.isAfterVote?" - Intervenu apres le vote":""}
                                 </td>
                                 <td>
-                                    <fmt:formatDate value="${procuration.procurationEndHour}" pattern="HH:mm:ss" />
+                                    <fmt:formatDate value="${procuration.endHour}" pattern="HH:mm:ss" />
                                 </td>
                                 <td>
-                                    ${procuration.procurationEndPoint eq -1?"":procuration.procurationEndPoint}
+                                    ${procuration.endDelib eq -1?"":procuration.endDelib}
                                 </td>
                             </tr>
                         </c:forEach>
