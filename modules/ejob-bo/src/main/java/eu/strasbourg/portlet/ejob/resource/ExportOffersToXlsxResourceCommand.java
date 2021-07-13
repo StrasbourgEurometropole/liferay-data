@@ -29,7 +29,7 @@ public class ExportOffersToXlsxResourceCommand implements MVCResourceCommand {
 	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws PortletException {
 		resourceResponse.setContentType("application/force-download");
-		resourceResponse.setProperty("content-disposition", "attachment; filename=Offers.xlsx");
+		resourceResponse.setProperty("content-disposition", "attachment; filename=Offres.xlsx");
 
 		try {
 			offersXlsExporter.exportPublishedOffers(resourceResponse.getPortletOutputStream());

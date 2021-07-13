@@ -164,7 +164,7 @@
         <form method="POST" action="${exportXlsxURL}">
             <aui:button-row>
                 <aui:button cssClass="btn-lg" type="submit"
-                    value="export XLS" />
+                    value="Export XLSX" />
             </aui:button-row>
         </form>
     </c:if>

@@ -311,7 +311,7 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
     	
     	// utilisateur 
         if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non recconu";
+            this.message = "Utilisateur non reconnu";
             return false;
         } else {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);

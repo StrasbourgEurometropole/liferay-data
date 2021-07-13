@@ -1,5 +1,6 @@
 package eu.strasbourg.service.office.exporter.impl;
 
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
@@ -46,9 +47,9 @@ public class OffersXlsxExporterImpl implements OffersXlsxExporter {
 
 	public void exportPublishedOffers(OutputStream stream) {
 		XSSFWorkbook workbook = new XSSFWorkbook();
-		XSSFSheet sheet = workbook.createSheet("offers");
+		XSSFSheet sheet = workbook.createSheet("Offres");
 
-		Object[][] offerData = { { LanguageUtil.get(bundle, "offer-title"), LanguageUtil.get(bundle, "direction-service"),
+		Object[][] offerData = { {LanguageUtil.get(bundle,"offer-number"), LanguageUtil.get(bundle, "offer-title"), LanguageUtil.get(bundle, "direction-service"),
 				LanguageUtil.get(bundle, "contact-rrh"), LanguageUtil.get(bundle, "publication-start-date"),
 				LanguageUtil.get(bundle, "application-end-date") } };
 
@@ -63,11 +64,12 @@ public class OffersXlsxExporterImpl implements OffersXlsxExporter {
 				.filter(o -> o.getPublicationStartDate().compareTo(now) <= 0 && o.getPublicationEndDate().after(now))
 				.collect(Collectors.toList());
 		for (Offer offer : offers) {
+			String numero = offer.getPublicationId();
 			String direction = offer.getDirection().getTitle(Locale.FRANCE);
 			String service = "";
 			if(Validator.isNotNull(offer.getService()))
 				service = " - " + offer.getService().getTitle(Locale.FRANCE);
-			Object[] offerRow = { offer.getPost(Locale.FRANCE), direction + service,
+			Object[] offerRow = { numero, offer.getPost(Locale.FRANCE), direction + service,
 					offer.getContact(), dateFormat.format(offer.getPublicationStartDate()),
 					dateFormat.format(offer.getLimitDate()) };
 			offerData = ArrayUtil.append(offerData, offerRow);

@@ -186,7 +186,7 @@
                             curCategoryIds="${parentsCategoriesIds}" />
                         <div class="margin">
                             <label><liferay-ui:message key="filters-vocabularies-label"/></label>
-                            <p class="margin">
+                            <p>
                                 <liferay-ui:message key="filters-vocabularies-help" />
                             </p>
                             <select name="<portlet:namespace />vocabulariesIds" id="<portlet:namespace />vocabulariesIds" label="" multiple

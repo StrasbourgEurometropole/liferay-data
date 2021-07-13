@@ -109,7 +109,9 @@
 
 	        <%-- Champ : Corps du résumé --%>
             <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-summary">
-                <aui:input name="summary" required="false"/>
+                <aui:input name="summary" label="input-summary" type="textarea" required="false" maxLength="500">
+				    <aui:validator name="maxLength">500</aui:validator>
+				</aui:input>
             </aui:fieldset>
 
 			<%-- Groupe de champs : Soutien --%>
