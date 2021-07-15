@@ -149,13 +149,6 @@ $ docker service logs SERVICE_ID -f
 
     **Notes** : `ctrl + c` pour quitter les logs.
 
-10. [ONLY PRODUCTION] relancer les serveurs Apache dès que Liferay est complétement opérationnel :
-
-    **Notes** : effectuer d'abord cette action sur le noeud maître de Docker Swarm, puis sur le noeud escalve (cela demande d'être connecté au deux machines).
-
-    ```shell
-    $ sudo systemctl start httpd
-    ```
 
 
 # Commandes Docker utiles
