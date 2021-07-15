@@ -144,7 +144,7 @@
                                         -
                                     </c:when>
                                     <c:otherwise>
-                                        ${procuration.procurationMode eq 3?procuration.otherProcurationMode:dc.getProcurationMode(procuration.procurationMode)}
+                                        ${procuration.procurationMode eq 4?procuration.otherProcurationMode:dc.getProcurationMode(procuration.procurationMode)}
                                     </c:otherwise>
                                 </c:choose>
                                 </td>
@@ -201,6 +201,14 @@
 
 			<%-- Composant : bouton de retour a la liste des entites --%>
             <aui:button cssClass="btn-lg" href="${manageProcurationsURL}" type="cancel" value="Gestion des procurations" />
+
+            <!-- RESOURCE ACTION : Export de historique des procurations -->
+            <liferay-portlet:resourceURL id="exportProcurationsHistoric" var="exportProcurationsHistoricURL"
+                    copyCurrentRenderParameters="false">
+                <portlet:param name="councilSessionId"
+	                value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
+            </liferay-portlet:resourceURL>
+            <aui:button cssClass="btn-lg" href="${exportProcurationsHistoricURL}" type="cancel" value="export-procurations" />
 
 		</aui:button-row>
 
