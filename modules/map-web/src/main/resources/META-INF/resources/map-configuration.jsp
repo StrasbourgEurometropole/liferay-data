@@ -25,7 +25,6 @@
                 <!-- Type de contenu carto autre que widget -->
                 <aui:fieldset collapsed="true" collapsible="true"
                         label="type-contenu" cssClass="noWidgetMode" >
-
                     <!-- Lieux -->
                     <aui:input type="checkbox" name="typeContenu" id="placeContentType" value="eu.strasbourg.service.place.model.Place" label="eu.places"
                         checked="${fn:contains(typesContenu, 'eu.strasbourg.service.place.model.Place') || !hasConfig}" ></aui:input>
@@ -42,26 +41,47 @@
                     <div class="eventExplanation">
                         <aui:input name="eventExplanationMap" value="${eventExplanation}" localized="true" type="editor" label="event-explanation-text" />
                     </div>
-
                 </aui:fieldset>
 
                 <!-- Affichage -->
                 <aui:fieldset collapsed="true" collapsible="true" label="display-label">
+                    <!-- Choix de l'affichage de la zone de configuration -->
+                    <div class="showConfig noWidgetMode">
+                        <aui:input type="checkbox" name="showConfig" value="${showConfig || !hasConfig}" label="show-config" />
+                    </div>
 
+                    <!-- Choix de l'affichage des pictos dans la configuration -->
+                    <div class="showPictos noWidgetMode">
+                        <aui:input type="checkbox" name="showPictos" value="${showPictos || !hasConfig}" label="show-pictos" />
+                    </div>
+
+                    <!-- Choix de l'affichage de la liste -->
                     <div class="noWidgetMode">
-                        <!-- Choix de l'affichage de la zone de configuration -->
-                        <div>
-                            <aui:input type="checkbox" name="showConfig" value="${showConfig || !hasConfig}" label="show-config" />
+                        <aui:input type="checkbox" name="showList" value="${showList}" label="show-list" />
+                    </div>
+
+                    <!-- Détourage d'un quartier ou d'une commune -->
+                    <div class="normalMode clippingTerritory">
+                        <div >
+                            <aui:input type="checkbox" name="clippingTerritory" value="${clippingTerritory}" label="clipping-territory" />
                         </div>
 
-                        <!-- Choix de l'affichage de la liste -->
-                        <div>
-                            <aui:input type="checkbox" name="showList" value="${showList || !hasConfig}" label="show-list" />
+                        <!-- Choix de la zone à détourer -->
+                        <div class="clippingTerritoryChecked">
+                            <label><liferay-ui:message key="choise-territory" /></label>
+                            <select class="toCustomSelect" id="clippingCategoryId" name="<portlet:namespace />clippingCategoryId">
+                                <aui:option value=""></aui:option>
+                                <c:forEach items="${territories}" var="territory">
+                                    <aui:option value="${territory[0]}"
+                                        label="${territory[1]}"
+                                        selected="${territory[0] == clippingCategoryId}" />
+                                </c:forEach>
+                            </select>
                         </div>
                     </div>
 
                     <!-- Choix du site pour la cible des lien -->
-                    <aui:select name="groupId" label="detail-target-site">
+                    <aui:select name="groupId" label="detail-target-site" cssClass="group">
                         <c:forEach var="site" items="${sites}">
                             <aui:option value="${site.groupId}" selected="${site.groupId eq selectedGroupId}">${site.name}</aui:option>
                         </c:forEach>
@@ -74,185 +94,200 @@
 
                     <!-- Niveau de zoom de la carte -->
                     <div>
-                        <aui:input type="text" name="zoom" value="${zoom}" label="zoom" />
+                        <label><liferay-ui:message key="zoom" /></label>
+                        <p>
+                            <liferay-ui:message key="zoom-help" />
+                        </p>
+                        <aui:input type="text" name="zoom" value="${zoom}" label="" cssClass="zoom" />
                     </div>
 
                     <!-- Cadrage de la carte -->
                     <div>
                         <label><liferay-ui:message key="cadrage"/></label>
-                        <aui:input type="text" name="cadrageX" value="${cadrageX}" label="X" />
-                        <aui:input type="text" name="cadrageY" value="${cadrageY}" label="Y" />
+                        <p>
+                            <liferay-ui:message key="cadrage-help" />
+                        </p>
+                        <div class="cadrage">
+                            <aui:input type="text" name="cadrageX" value="${cadrageX}" label="X"/>
+                        </div>
+                        <div class="cadrage">
+                            <aui:input type="text" name="cadrageY" value="${cadrageY}" label="Y"/>
+                        </div>
                     </div>
-
-                    <!-- Choix de l'affichage des pictos dans la configuration -->
-                    <div>
-                        <aui:input type="checkbox" name="showPictos" value="${showPictos || !hasConfig}" label="show-pictos" />
-                    </div>
-
-                    <!-- Détourage d'un quartier ou d'une commune -->
-                    <div class="clippingTerritory">
-                        <aui:input type="checkbox" name="clippingTerritory" value="${clippingTerritory || !hasConfig}" label="clipping-territory" />
-                    </div>
-
-                    <div class="clippingTerritoryChecked">
-
-                        <!-- Choix de la zone à détourer -->
-                        <label><liferay-ui:message key="choise-territory" /></label>
-                        <select class="toCustomSelect" id="clippingCategoryId" name="<portlet:namespace />clippingCategoryId">
-                            <aui:option value=""></aui:option>
-                            <c:forEach items="${territories}" var="territory">
-                                <aui:option value="${territory[0]}"
-                                    label="${territory[1]}"
-                                    selected="${territory[0] == clippingCategoryId}" />
-                            </c:forEach>
-                        </select>
-
-                    </div>
-
                 </aui:fieldset>
 
                 <!-- Carto normale -->
+                <!-- Préfiltres -->
                 <aui:fieldset collapsed="true" collapsible="true"
-                        label="filters-and-prefilters" cssClass="normalMode">
-
-                    <!-- Préfiltres -->
+                        label="prefilters" cssClass="normalMode">
                     <div>
                         <label><liferay-ui:message key="prefilter-label" /></label>
                         <p>
                             <liferay-ui:message key="prefilter-help" />
                         </p>
-                        <p>
-                            <liferay-ui:asset-categories-selector
-                                hiddenInput="prefilterCategoriesIds"
-                                curCategoryIds="${prefilterCategoriesIds}" />
-                        </p><br>
                     </div>
 
-                    <!-- Filtres -->
                     <div>
-                        <label><liferay-ui:message key="filters-label"/></label>
-                        <p>
-                            <liferay-ui:message key="filters-help" />
-                        </p>
-                        <p>
-                            <liferay-ui:asset-categories-selector
-                                hiddenInput="categoriesIds"
-                                curCategoryIds="${categoriesIds}" />
-                        </p>
-                        <label><liferay-ui:message key="default-filters-label" /></label>
-                        <p>
-                            <liferay-ui:message key="default-filters-help" />
-                        </p>
-                        <p>
-                            <liferay-ui:asset-categories-selector
-                                hiddenInput="categoriesDefaultsIds"
-                                curCategoryIds="${categoriesDefaultsIds}" />
-                        </p><br>
+                        <label><liferay-ui:message key="categories" /></label>
+                        <liferay-ui:asset-categories-selector
+                                hiddenInput="prefilterCategoriesIds"
+                                curCategoryIds="${prefilterCategoriesIds}" />
+                    </div>
+
+                    <div>
+                        <label><liferay-ui:message key="tags" /></label>
+                        <liferay-ui:asset-tags-selector
+                            hiddenInput="prefilterTags"
+                            curTags="${prefilterTags}" />
                     </div>
 
                     <!-- Filtre sur le quartier de l'utilisateur -->
-                    <div class="districtMode">
+                    <div class="districtUser">
                         <aui:input type="checkbox" name="districtUser" value="${districtUser}" label="district-user" />
+                    </div>
+                </aui:fieldset>
+
+                <!-- Filtres -->
+                <aui:fieldset collapsed="true" collapsible="true"
+                        label="filters" cssClass="normalMode">
+                    <div>
+                        <label><liferay-ui:message key="filter-label" /></label>
+                        <p>
+                            <liferay-ui:message key="filter-help" />
+                        </p>
+                    </div>
+
+                    <!-- Choix d'affichage (checkbox ou liste) -->
+                    <div class="filter-type">
+                        <label><liferay-ui:message key="filter-type" /></label>
+                        <aui:input type="radio" name="filterType" value="checkbox" checked="${filterType == 'checkbox' || !hasConfig}" label="checkbox" />
+                        <aui:input type="radio" name="filterType" value="list" checked="${filterType == 'list'}" label="list" />
+                    </div>
+
+                    <div class="checkboxChosen">
+                        <label class="default-filters-label"><liferay-ui:message key="default-filters-with-config-label" /></label>
+                        <liferay-ui:asset-categories-selector
+                            hiddenInput="categoriesDefaultsIds"
+                            curCategoryIds="${categoriesDefaultsIds}" />
+                        <div class="margin filters">
+                            <label><liferay-ui:message key="filters-label"/></label>
+                            <liferay-ui:asset-categories-selector
+                                hiddenInput="categoriesIds"
+                                curCategoryIds="${categoriesIds}" />
+                        </div>
+                    </div>
+                    <div class="listChosen">
+                        <label><liferay-ui:message key="filters-categ-label" /></label>
+                        <p>
+                            <liferay-ui:message key="filters-categ-help" />
+                        </p>
+                        <liferay-ui:asset-categories-selector
+                            hiddenInput="parentsCategoriesIds"
+                            curCategoryIds="${parentsCategoriesIds}" />
+                        <div class="margin">
+                            <label><liferay-ui:message key="filters-vocabularies-label"/></label>
+                            <p>
+                                <liferay-ui:message key="filters-vocabularies-help" />
+                            </p>
+                            <select name="<portlet:namespace />vocabulariesIds" id="<portlet:namespace />vocabulariesIds" label="" multiple
+                                placeholder="<liferay-ui:message key="select-vocabularies" />">
+                                <c:forEach items="${vocabularies}" var="vocabulary">
+                                    <option value="${vocabulary[0]}"
+                                        <c:if test="${fn:contains(vocabulariesIds, vocabulary[0])}">
+                                            selected
+                                        </c:if>
+                                    >
+                                        ${vocabulary[1]} (${vocabulary[2]})
+                                    </option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Filtre par date -->
+                    <div class="dateField">
+                        <aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" inlineField="true" />
+
+                        <div class="defaultDateRange">
+                            <aui:input type="number" name="defaultDateRange" min="-1000" max="+1000" cssClass="date-range" value="${defaultDateRange}" label="default-date-range" inlineField="true"/>
+                        </div>
                     </div>
                 </aui:fieldset>
 
                 <!-- MonStrabourg -->
                 <aui:fieldset collapsed="true" collapsible="true"
                         label="mon-strasbourg" cssClass="monStrasbourgMode">
-
                     <!-- Mode widget -->
+                    <!-- Texte d'intro mode widget -->
                     <div class="widgetMode">
+                        <aui:input type="text" name="widgetIntro" value="${widgetIntro}" label="widget-intro" />
+                    </div>
 
-                        <!-- Texte d'intro mode widget -->
-                        <div>
-                            <aui:input type="text" name="widgetIntro" value="${widgetIntro}" label="widget-intro" />
-                        </div>
-
-                        <!-- Label bouton mode widget -->
-                        <div>
-                            <aui:input type="text" name="widgetLink" value="${widgetLink}" label="widget-link" />
-                        </div>
-
+                    <!-- Label bouton mode widget -->
+                    <div class="widgetMode">
+                        <aui:input type="text" name="widgetLink" value="${widgetLink}" label="widget-link" />
                     </div>
 
                     <!-- Mode autour de moi -->
-                    <div class="aroundMeMode">
-
+                    <div class="aroundMeMode margin-less">
                         <!-- Centres d'intérêts -->
                         <label><liferay-ui:message key="interest-choice"/></label>
-                        <br>
-                        <br>
-                        <div>
-                            <table style="text-align: center; width: 100%;">
-                                <tr style="border-bottom: solid 3px;">
-                                    <td width="100px"><liferay-ui:message key="interest-choice-disabled-help"/></td>
-                                    <td width="100px"><liferay-ui:message key="interest-choice-help"/></td>
-                                    <td></td>
+                        <table style="text-align: center; width: 100%;">
+                            <tr style="border-bottom: solid 3px;">
+                                <td width="100px"><liferay-ui:message key="interest-choice-disabled-help"/></td>
+                                <td width="100px"><liferay-ui:message key="interest-choice-help"/></td>
+                                <td></td>
+                            </tr>
+                            <c:forEach var="interest" items="${interests}" varStatus="intStatus">
+                                <c:if test="${intStatus.count % 2 == 0}">
+                                    <tr>
+                                </c:if>
+                                <c:if test="${intStatus.count % 2 != 0}">
+                                    <tr style="background-color: #f9f9f9">
+                                </c:if>
+                                <td style="padding-top: 10px">
+                                    <aui:input type="radio" name="interestStatus${interest.interestId}" value="disabled" label=""
+                                               checked="${!fn:contains(interestsIds, interest.interestId) || !hasConfig}" ></aui:input>
+                                </td>
+                                <td style="padding-top: 10px">
+                                    <aui:input type="radio" name="interestStatus${interest.interestId}" value="unchecked" label=""
+                                               checked="${fn:contains(interestsIds, interest.interestId)}" ></aui:input>
+                                </td>
+                                <td style="text-align: left">${interest.getTitle(locale)}</td>
                                 </tr>
-                                <c:forEach var="interest" items="${interests}" varStatus="intStatus">
-                                    <c:if test="${intStatus.count % 2 == 0}">
-                                        <tr>
-                                    </c:if>
-                                    <c:if test="${intStatus.count % 2 != 0}">
-                                        <tr style="background-color: #f9f9f9">
-                                    </c:if>
-                                    <td style="padding-top: 10px">
-                                        <aui:input type="radio" name="interestStatus${interest.interestId}" value="disabled" label=""
-                                                   checked="${!fn:contains(interestsIds, interest.interestId) || !hasConfig}" ></aui:input>
-                                    </td>
-                                    <td style="padding-top: 10px">
-                                        <aui:input type="radio" name="interestStatus${interest.interestId}" value="unchecked" label=""
-                                                   checked="${fn:contains(interestsIds, interest.interestId)}" ></aui:input>
-                                    </td>
-                                    <td style="text-align: left">${interest.getTitle(locale)}</td>
-                                    </tr>
 
-                                </c:forEach>
-                            </table>
-                        </div>
+                            </c:forEach>
+                        </table>
+                    </div>
 
-                        <p>
-                            <!-- Affichage des favoris par défaut" -->
-                            <div>
-                                <aui:input type="checkbox" name="showFavorites" value="${showFavorites || !hasConfig}" label="show-favorites" />
-                            </div>
-
-                        </p>
+                    <!-- Affichage des favoris par défaut" -->
+                    <div class="aroundMeMode">
+                        <aui:input type="checkbox" name="showFavorites" value="${showFavorites || !hasConfig}" label="show-favorites" />
                     </div>
                 </aui:fieldset>
 
                 <!-- Info trafic -->
                 <aui:fieldset collapsed="true" collapsible="true"
                         label="traffic" cssClass="noWidgetMode infoTraffic">
-
-                    <p>
-                        <!-- Affichage de l'info trafic -->
-                        <div>
-                            <aui:input type="checkbox" name="showTraffic" value="${showTraffic || !hasConfig}" label="show-traffic" />
-                        </div>
-
-                    </p>
+                    <!-- Affichage de l'info trafic -->
+                    <div>
+                        <aui:input type="checkbox" name="showTraffic" value="${showTraffic}" label="show-traffic" />
+                    </div>
 
                     <div class="infoTrafficChecked">
                         <!-- Mode normal -->
                         <div class="normalMode">
-
                             <!-- Choix de la catégorie qui affichera l'info trafic -->
                             <label><liferay-ui:message key="category-link" /></label>
-                            <p>
-                                <div id="categorySelectorLabel"></div>
-                                <div id="categorySelector"></div>
-                                <aui:input type="hidden" name="linkCategoryId" />
-                            </p>
-
+                            <div id="categorySelectorLabel"></div>
+                            <div id="categorySelector"></div>
+                            <aui:input type="hidden" name="linkCategoryId" />
                         </div>
 
                         <!-- Mode autour de moi -->
                         <div class="aroundMeMode">
-
                             <!-- Choix du CI qui affichera l'info trafic -->
                             <label><liferay-ui:message key="interest-link" /></label>
-
                             <select class="toCustomSelect" id="linkInterestId" name="<portlet:namespace />linkInterestId">
                                 <aui:option value=""></aui:option>
                                 <c:forEach var="interest" items="${interests}" varStatus="intStatus">
@@ -270,43 +305,76 @@
                                     </c:choose>
                                 </c:forEach>
                             </select>
-
                         </div>
                     </div>
-
                 </aui:fieldset>
                 
                 <script>
                     var refreshConfigDisplay = function() {
-                       var mode = $('.modeSelection input[type=radio]:checked').val();
-                       if (mode === 'widget') {
-                           $('.monStrasbourgMode').show();
-                           $('.widgetMode').show();
-                           $('.aroundMeMode').hide();
-                           $('.normalMode').hide();
-                           $('.noWidgetMode').hide();
-                       } else if (mode == 'aroundme') {
-                           $('.monStrasbourgMode').show();
-                           $('.widgetMode').hide();
-                           $('.aroundMeMode').show();
-                           $('.normalMode').hide();
-                           $('.noWidgetMode').show();
-                       } else {
-                           $('.monStrasbourgMode').hide();
-                           $('.widgetMode').hide();
-                           $('.aroundMeMode').hide();
-                           $('.normalMode').show();
-                           if(mode == 'district'){
-                                $('.districtMode').show();
-                           }else{
-                                $('.districtMode').hide();
-                           }
-                           $('.noWidgetMode').show();
-                       }
+                        var mode = $('.modeSelection input[type=radio]:checked').val();
+                        if (mode === 'widget') {
+                            $('.monStrasbourgMode').show();
+                            $('.widgetMode').show();
+                            $('.aroundMeMode').hide();
+                            $('.normalMode').hide();
+                            $('.noWidgetMode').hide();
+                            $(".group").closest(".form-group").addClass("margin-less");
+                            $('.clippingTerritory').hide();
+                        } else if (mode == 'aroundme') {
+                            $('.monStrasbourgMode').show();
+                            $('.widgetMode').hide();
+                            $('.aroundMeMode').show();
+                            $('.normalMode').hide();
+                            $('.noWidgetMode').show();
+                            $(".group").closest(".form-group").removeClass("margin-less");
+                            $('.clippingTerritory').hide();
+                        } else {
+                            $('.monStrasbourgMode').hide();
+                            $('.widgetMode').hide();
+                            $('.aroundMeMode').hide();
+                            $('.normalMode').show();
+                            $('.noWidgetMode').show();
+                            $(".group").closest(".form-group").removeClass("margin-less");
+                            if(mode == 'district'){
+                                $('.districtUser').show();
+                                $('.infoTraffic').hide();
+                                $('.clippingTerritory').hide();
+                            }else{
+                                $('.districtUser').hide();
+                                $('.infoTraffic').show();
+                                $('.clippingTerritory').show();
+                            }
+                        }
+                    }
+
+                    var refreshTypeEvent = function() {
                        if ($('.typeEvent').is(":checked")) {
                            $('.eventExplanation').show();
+                           $('.dateField').show();
+
                        } else {
                            $('.eventExplanation').hide();
+                           $('.dateField').hide();
+                       }
+                    }
+
+                    var refreshConfigShowConfig = function() {
+                       if ($('.showConfig input[type=checkbox]').is(":checked")) {
+                           $('.showPictos').show();
+                           $('.filter-type').show();
+                           refreshTypeFilterChoice();
+                           $('.default-filters-label').html(Liferay.Language.get("default-filters-with-config-label"));
+                           $('.filters').show();
+                           $('.dateField').show();
+                       } else {
+                           $('.showPictos').hide();
+                           $('.filter-type').hide();
+                           $('.default-filters-label').html(Liferay.Language.get("default-filters-without-config-label"));
+                           $('.checkboxChosen').show();
+                           $('.filters').hide();
+                           $('.listChosen').hide();
+                           $('.dateField').hide();
+
                        }
                     }
 
@@ -318,6 +386,24 @@
                        }
                     }
 
+                    var refreshTypeFilterChoice = function() {
+                       if ($('.filter-type input[type=radio][value="checkbox"]').is(":checked")) {
+                           $('.checkboxChosen').show();
+                           $('.listChosen').hide();
+                       } else {
+                           $('.checkboxChosen').hide();
+                           $('.listChosen').show();
+                       }
+                    }
+
+                    var refreshFilterDate = function() {
+                        if ($('.dateField input[type=checkbox]').is(":checked")) {
+                            $('.defaultDateRange').show();
+                        } else {
+                            $('.defaultDateRange').hide();
+                        }
+                    }
+
                     var refreshConfigTrafficDisplay = function() {
                        if ($('.infoTraffic input[type=checkbox]').is(":checked")) {
                            $('.infoTrafficChecked').show();
@@ -325,20 +411,29 @@
                            $('.infoTrafficChecked').hide();
                        }
                     }
+
                     $('.modeSelection input[type=radio]').on('change', function() {
                         refreshConfigDisplay();
                     })
 
                     $('.typeEvent').on('change', function() {
-                       if ($(this).is(":checked")) {
-                           $('.eventExplanation').show();
-                       } else {
-                           $('.eventExplanation').hide();
-                       }
+                       refreshTypeEvent();
+                    })
+
+                    $('.showConfig input[type=checkbox]').on('change', function() {
+                        refreshConfigShowConfig();
                     })
 
                     $('.clippingTerritory input[type=checkbox]').on('change', function() {
                         refreshConfigClipping();
+                    })
+
+                    $('.filter-type input[type=radio]').on('change', function() {
+                        refreshTypeFilterChoice();
+                    })
+
+                    $('.dateField input[type=checkbox]').on('change', function() {
+                        refreshFilterDate();
                     })
 
                     $('.infoTraffic input[type=checkbox]').on('change', function() {
@@ -347,7 +442,11 @@
 
                     $(function() {
                         refreshConfigDisplay();
+                        refreshConfigShowConfig();
                         refreshConfigClipping();
+                        refreshTypeFilterChoice();
+                        refreshFilterDate();
+                        refreshTypeEvent();
                         refreshConfigTrafficDisplay();
                     })
                 </script>
@@ -372,14 +471,9 @@
 			labelNode: "#categorySelectorLabel",
 			singleSelect: true,
 			vocabularyGroupIds: ${themeDisplay.companyGroupId},
-			vocabularyIds: "${vocabularies}"
+			vocabularyIds: "${vocabulariesStr}"
 		}
 	).render();
 </aui:script>
 
-<style>
-.important{
-    color: red;
-    font-weight: 700;
-}
-</style>
+<link rel="stylesheet" href="/o/mapweb/css/config-map.css" />

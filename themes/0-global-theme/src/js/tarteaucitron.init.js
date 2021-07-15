@@ -211,6 +211,7 @@ tarteaucitron.services.recaptcha_ems = {
         
         tarteaucitron.fallback(['g-recaptcha'], function (x) {
             tarteaucitron.user.hasRecaptcha = true;
+            return '';
         });  
 
         if(tarteaucitron.user.hasRecaptcha){

@@ -124,7 +124,7 @@
         .filtres{
 
 
-            &__title{
+            &__title, &__title label{
                 font-family: f_txt;
             }
             &__item{
@@ -201,9 +201,12 @@
 
                 .filtres{
                     &__title{
-
                         .icon{
                             background-image: url( svg-bg-uri($svg-filters, $c_grey) );
+                        }
+                        
+                        input{
+                            background-color: #fff;
                         }
                     }
                     &__list{
@@ -221,19 +224,6 @@
                                 font-weight: 700;
                                 &:after{
                                     background-color: #FFFFFF;
-                                }
-                            }
-                        }
-                        &--favorite{
-                            [type="checkbox"]{
-                                & + label{
-                                    color: $third-color !important;
-                                    &:before{
-                                        border-color: $third-color !important;
-                                    }
-                                    &:after{
-                                        background-color: $third-color !important;
-                                    }
                                 }
                             }
                         }
@@ -449,4 +439,10 @@
             background-image: url( svg-bg-uri($svg-smallscreen, #FFFFFF) );
         }
     }
+}
+
+/* ------------------------------ calendrier */
+    
+#ui-datepicker-div .ui-datepicker-header {
+	background-color: black !important;
 }

@@ -26228,6 +26228,9 @@ tarteaucitron.user.analyticsMore = function () {  };
 //<div class="tac_iframevideosfacebook" scrolling="yes | no | auto" data-url="url" width="width" height="height" frameborder ="0 | 1" allow="allow" allowfullscreen="true | false"></div>
 (tarteaucitron.job = tarteaucitron.job || []).push('iframevideosfacebook');
 
+// Service custom : Vidéos créacast
+(tarteaucitron.job = tarteaucitron.job || []).push('iframevideoscreacast');
+
   
 if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
 

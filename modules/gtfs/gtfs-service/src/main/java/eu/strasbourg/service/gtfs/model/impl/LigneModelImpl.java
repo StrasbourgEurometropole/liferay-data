@@ -150,9 +150,13 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 
 	public static final long ROUTEID_COLUMN_BITMASK = 4L;
 
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long SHORTNAME_COLUMN_BITMASK = 8L;
 
-	public static final long LIGNEID_COLUMN_BITMASK = 16L;
+	public static final long STATUS_COLUMN_BITMASK = 16L;
+
+	public static final long UUID_COLUMN_BITMASK = 32L;
+
+	public static final long LIGNEID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -863,7 +867,19 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!_setOriginalStatus) {
+			_setOriginalStatus = true;
+
+			_originalStatus = _status;
+		}
+
 		_status = status;
+	}
+
+	public int getOriginalStatus() {
+		return _originalStatus;
 	}
 
 	@JSON
@@ -959,7 +975,17 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 
 	@Override
 	public void setShortName(String shortName) {
+		_columnBitmask |= SHORTNAME_COLUMN_BITMASK;
+
+		if (_originalShortName == null) {
+			_originalShortName = _shortName;
+		}
+
 		_shortName = shortName;
+	}
+
+	public String getOriginalShortName() {
+		return GetterUtil.getString(_originalShortName);
 	}
 
 	@JSON
@@ -1238,7 +1264,13 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 
 		ligneModelImpl._setModifiedDate = false;
 
+		ligneModelImpl._originalStatus = ligneModelImpl._status;
+
+		ligneModelImpl._setOriginalStatus = false;
+
 		ligneModelImpl._originalRouteId = ligneModelImpl._routeId;
+
+		ligneModelImpl._originalShortName = ligneModelImpl._shortName;
 
 		ligneModelImpl._columnBitmask = 0;
 	}
@@ -1434,12 +1466,15 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
+	private int _originalStatus;
+	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _routeId;
 	private String _originalRouteId;
 	private String _shortName;
+	private String _originalShortName;
 	private String _title;
 	private int _type;
 	private String _backgroundColor;

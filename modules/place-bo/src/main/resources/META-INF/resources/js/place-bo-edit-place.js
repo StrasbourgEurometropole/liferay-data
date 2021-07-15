@@ -44,20 +44,28 @@ jQuery(function() {
 
 
 	$(":submit").on('click', function(e) {
-        allValidate = true;
+        try{
+            allValidate = true;
+            $('.error').html("");
 
-		setSiteConditionalValidators(e);
-		setFacebookConditionalValidators(e);
-		setInstagramConditionalValidators();
-        setScheduleConditionalValidators(e);
-        if(!$(namespaceAUI + 'hasURLSchedule').is(':checked')){
-            setScheduleExceptionValidators(e);
-            setPeriodValidators(e);
+            setSiteConditionalValidators(e);
+            setFacebookConditionalValidators(e);
+            setInstagramConditionalValidators();
+            setScheduleConditionalValidators(e);
+            if(!$(namespaceAUI + 'hasURLSchedule').is(':checked')){
+                setScheduleExceptionValidators(e);
+                setPeriodValidators(e);
+            }
+
+            if (!allValidate) {
+                event.preventDefault();
+            }
         }
-
-		if (!allValidate) {
-			event.preventDefault();
-		}
+        catch(err) {
+            $('.error').html("<div class='alert alert-danger'>Enregistrement impossible : un problème technique est survenu dans la prise en compte des périodes.<br>Merci de faire une capture d’écran du message ci-dessous et contacter l’administrateur.<br>" + err.message + "</div>");
+            $('html,body').animate({scrollTop: 0}, 'slow');
+            event.preventDefault();
+        }
 	});
 
 	function setSiteConditionalValidators(event) {

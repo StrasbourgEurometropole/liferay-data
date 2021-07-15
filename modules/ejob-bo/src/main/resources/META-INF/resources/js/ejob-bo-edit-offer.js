@@ -9,8 +9,6 @@ var namespace = "_eu_strasbourg_portlet_ejob_EjobBOPortlet_";
 var publicationId = document.getElementById(namespace + "publicationId");
 publicationId.disabled = true;
 var typeRecrutements = document.getElementById(namespace + "ejobTypeRecrutement");
-var typeExportTotem = document.getElementById("typeExportTotem");
-var postNumber = document.getElementById(namespace + "postNumber");
 var jobCreationDescription = document.querySelectorAll('[for=' + namespace + 'jobCreationDescription]')[0];
 var startDate = document.querySelectorAll('[for=' + namespace + 'startDate2]')[0];
 var ejobMotif = document.getElementById(namespace + "ejobMotif");
@@ -66,13 +64,16 @@ function initialise(){
         document.getElementById(namespace + "startDate2").value = "";
         startDate.parentNode.style.display="none";
         ejobMotif.options[0].selected = 'selected';
-        ejobMotif.style.display="none";
-        document.getElementById(namespace + "permanentDescription").value = Liferay.Language.get('ejob-permanent-description-value');
+        ejobMotif.parentNode.style.display="none";
+        document.getElementById(namespace + "permanentDescription").value = Liferay.Language.get('eu.offer-job-permanent-description-value');
         permanentDescription.parentNode.style.display="none";
-        // réinitialise en temps complet par défaut
-        fullTime[0].checked = "true";
-        document.getElementById(namespace + "fullTimeDescription").value = "";
-        blockFullTime.style.display="none";
+        if(typeRecrutementsValue == "Stage"){
+            // réinitialise en temps complet par défaut
+            fullTime[0].checked = "true";
+            document.getElementById(namespace + "fullTimeDescription").value = "";
+            blockFullTime.style.display="none";
+        }else
+            blockFullTime.style.display="block";
         if(gradeRangeAutoFields != null)
             gradeRangeAutoFields.reset();
         gradeRangeFields.style.display="none";
@@ -120,6 +121,21 @@ submitButton.onclick = function(event){
     if (!isStage && !isApprentissage && !isVacataire) {
         setFiliereConditionalValidators(event);
     }
+    // Validation des champos obligatoires conditionnels
+    AUI().use('liferay-form',function() {
+        var rules = Liferay.Form.get(namespace + 'fm').formValidator
+                .get('rules');
+        if (isStage) {
+            rules[namespace + 'fullTimeDescription'].required = false;
+        } else {
+            var fullTimeDescription = document.getElementById(namespace + "fullTimeDescription");
+            if (fullTimeDescription.value == "") {
+                rules[namespace + 'fullTimeDescription'].required = true;
+            } else {
+                rules[namespace + 'fullTimeDescription'].required = false;
+            }
+        }
+    });
 
     if (!allValidate) {
        event.preventDefault();

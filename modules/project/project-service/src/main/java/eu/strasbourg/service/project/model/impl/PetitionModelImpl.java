@@ -85,9 +85,9 @@ public class PetitionModelImpl
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
 		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
-		{"title", Types.VARCHAR}, {"description", Types.CLOB},
-		{"placeTextArea", Types.VARCHAR}, {"filesDownload", Types.VARCHAR},
-		{"publicationDate", Types.TIMESTAMP},
+		{"title", Types.VARCHAR}, {"summary", Types.VARCHAR},
+		{"description", Types.CLOB}, {"placeTextArea", Types.VARCHAR},
+		{"filesDownload", Types.VARCHAR}, {"publicationDate", Types.TIMESTAMP},
 		{"expirationDate", Types.TIMESTAMP}, {"extensionDate", Types.TIMESTAMP},
 		{"quotaSignature", Types.BIGINT}, {"inTheNameOf", Types.VARCHAR},
 		{"petitionnaireLastname", Types.VARCHAR},
@@ -122,6 +122,7 @@ public class PetitionModelImpl
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("summary", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("filesDownload", Types.VARCHAR);
@@ -150,7 +151,7 @@ public class PetitionModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,placeTextArea VARCHAR(400) null,filesDownload VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,extensionDate DATE null,quotaSignature LONG,inTheNameOf VARCHAR(400) null,petitionnaireLastname VARCHAR(75) null,petitionnaireFirstname VARCHAR(75) null,petitionnaireBirthday DATE null,petitionnaireAdresse VARCHAR(400) null,petitionnairePostalCode LONG,petitionnaireCity VARCHAR(400) null,petitionnairePhone VARCHAR(75) null,petitionnaireEmail VARCHAR(400) null,isSupported BOOLEAN,supportedBy VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(400) null)";
+		"create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,summary VARCHAR(500) null,description TEXT null,placeTextArea VARCHAR(400) null,filesDownload VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,extensionDate DATE null,quotaSignature LONG,inTheNameOf VARCHAR(400) null,petitionnaireLastname VARCHAR(75) null,petitionnaireFirstname VARCHAR(75) null,petitionnaireBirthday DATE null,petitionnaireAdresse VARCHAR(400) null,petitionnairePostalCode LONG,petitionnaireCity VARCHAR(400) null,petitionnairePhone VARCHAR(75) null,petitionnaireEmail VARCHAR(400) null,isSupported BOOLEAN,supportedBy VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(400) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table project_Petition";
 
@@ -218,6 +219,7 @@ public class PetitionModelImpl
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setTitle(soapModel.getTitle());
+		model.setSummary(soapModel.getSummary());
 		model.setDescription(soapModel.getDescription());
 		model.setPlaceTextArea(soapModel.getPlaceTextArea());
 		model.setFilesDownload(soapModel.getFilesDownload());
@@ -653,6 +655,26 @@ public class PetitionModelImpl
 				@Override
 				public void accept(Petition petition, Object title) {
 					petition.setTitle((String)title);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"summary",
+			new Function<Petition, Object>() {
+
+				@Override
+				public Object apply(Petition petition) {
+					return petition.getSummary();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"summary",
+			new BiConsumer<Petition, Object>() {
+
+				@Override
+				public void accept(Petition petition, Object summary) {
+					petition.setSummary((String)summary);
 				}
 
 			});
@@ -1438,6 +1460,22 @@ public class PetitionModelImpl
 
 	@JSON
 	@Override
+	public String getSummary() {
+		if (_summary == null) {
+			return "";
+		}
+		else {
+			return _summary;
+		}
+	}
+
+	@Override
+	public void setSummary(String summary) {
+		_summary = summary;
+	}
+
+	@JSON
+	@Override
 	public String getDescription() {
 		if (_description == null) {
 			return "";
@@ -1943,6 +1981,7 @@ public class PetitionModelImpl
 		petitionImpl.setStatusByUserName(getStatusByUserName());
 		petitionImpl.setStatusDate(getStatusDate());
 		petitionImpl.setTitle(getTitle());
+		petitionImpl.setSummary(getSummary());
 		petitionImpl.setDescription(getDescription());
 		petitionImpl.setPlaceTextArea(getPlaceTextArea());
 		petitionImpl.setFilesDownload(getFilesDownload());
@@ -2122,6 +2161,14 @@ public class PetitionModelImpl
 
 		if ((title != null) && (title.length() == 0)) {
 			petitionCacheModel.title = null;
+		}
+
+		petitionCacheModel.summary = getSummary();
+
+		String summary = petitionCacheModel.summary;
+
+		if ((summary != null) && (summary.length() == 0)) {
+			petitionCacheModel.summary = null;
 		}
 
 		petitionCacheModel.description = getDescription();
@@ -2404,6 +2451,7 @@ public class PetitionModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
+	private String _summary;
 	private String _description;
 	private String _placeTextArea;
 	private String _filesDownload;

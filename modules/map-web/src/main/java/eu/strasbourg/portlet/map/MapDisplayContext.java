@@ -1,7 +1,6 @@
 package eu.strasbourg.portlet.map;
 
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import eu.strasbourg.service.strasbourg.service.StrasbourgServiceUtil;
 import eu.strasbourg.utils.PortletHelper;
 
 public class MapDisplayContext {
@@ -12,17 +11,21 @@ public class MapDisplayContext {
 		this.themeDisplay = themeDisplay;
 	}
 
+	//AngelTODO à réintégrer un fois que la gestion du territoire et des coordonnées de tous les events physiques sans exception sera faite
+	/*public int getPoisCategoryCount(long idCategory, String prefilters, String tags, long groupId, String typesContenu,
+									boolean dateField, String fromDate, String toDate, String localeId, long globalGroupId){
+		return StrasbourgServiceUtil.getPoisCategoryCount(idCategory, prefilters, tags, groupId, typesContenu,
+				dateField, fromDate, toDate, localeId, globalGroupId);
+	}
+
+	public int getPoisInterestCount(long idInterest, long groupId, String typesContenu,
+									String localeId, long globalGroupId){
+		return StrasbourgServiceUtil.getPoisInterestCount(idInterest, groupId, typesContenu, localeId, globalGroupId);
+	}
+
 	public int getFavoritesPoisCount(long groupId, String typesContenu){
 		return StrasbourgServiceUtil.getFavoritesPoisCount(groupId, typesContenu);
-	}
-
-	public int getPoisCategoryCount(long idCategory, String prefilters, long groupId, String typesContenu){
-		return StrasbourgServiceUtil.getPoisCategoryCount(idCategory, prefilters, groupId, typesContenu);
-	}
-
-	public int getPoisInterestCount(long idInterest, long groupId, String typesContenu){
-		return StrasbourgServiceUtil.getPoisInterestCount(idInterest, groupId, typesContenu);
-	}
+	}*/
 
 	public boolean showDeleteButton() {
 		return PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());

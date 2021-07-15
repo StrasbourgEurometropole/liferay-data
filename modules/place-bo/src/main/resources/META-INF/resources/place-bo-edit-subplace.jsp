@@ -22,6 +22,8 @@
 <div class="container-fluid-1280 main-content-body">
 	<liferay-ui:error key="name-error" message="name-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
+	<liferay-ui:error key="period-error" message="period-error" />
+	<div class="error"></div>
 
 	<aui:form action="${saveSubPlaceURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
@@ -156,7 +158,7 @@
 							<div class="lfr-form-row lfr-form-row-inline">
 								<div class="row-fields">
 									<liferay-util:include page="/includes/exceptional-schedule-row.jsp" servletContext="<%=application %>">
-										<liferay-util:param name="index" value="1" />
+										<liferay-util:param name="index" value="0" />
 									</liferay-util:include>
 								</div>
 							</div>
@@ -168,7 +170,7 @@
 									<fmt:formatDate value="${scheduleException.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
 									<fmt:formatDate value="${scheduleException.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
 									<liferay-util:include page="/includes/exceptional-schedule-row.jsp" servletContext="<%=application %>">
-										<liferay-util:param name="index" value="${status.count}" />
+										<liferay-util:param name="index" value="${status.count - 1}" />
 										<liferay-util:param name="startHour1" value="${scheduleException.getStartHour(0)}" />
 										<liferay-util:param name="endHour1" value="${scheduleException.getEndHour(0)}" />
 										<liferay-util:param name="firstComment" value="${scheduleException.firstComment}" />
