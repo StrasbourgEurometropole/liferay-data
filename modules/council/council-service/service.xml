@@ -299,7 +299,6 @@
 			<finder-column name="officialUnavailableId" />
 			<finder-column name="isAbsent" />
 		</finder>
-
 	</entity>
 
 	<entity local-service="true" remote-service="false" cache-enabled="false" name="Vote" uuid="true">

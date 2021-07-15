@@ -1,15 +1,13 @@
 var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
 
-    var procurationMode = document.getElementById("procurationMode");
     var customSelect = document.getElementsByClassName("modeSelect");
     var autre = document.getElementsByClassName("inputMode");
-    var autreInput = document.querySelectorAll('input[name=' + namespace + 'autre');
-    var selector = document.querySelectorAll('select[name=' + namespace + 'procurationModeChoice');
+    var autreInput = document.querySelectorAll('input[name$=autre');
 
     Array.prototype.forEach.call(customSelect, function(el, i){
         el.onchange = function(){
             var valueSelector = el.value;
-            if (valueSelector == 'Autre') {
+            if (valueSelector == 4) {
                 autreInput[i].required = true;
                 autre[i].style.display = "block";
             } else {
@@ -18,7 +16,7 @@ var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
             }
         }
             var valueSelector = el.value;
-            if (valueSelector == 'Autre') {
+            if (valueSelector == 4) {
                 autreInput[i].required = true;
                 autre[i].style.display = "block";
             } else {
@@ -27,18 +25,13 @@ var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
             }
     });
 
-var allValidateButtons = document.getElementsByClassName("officalIdButton");
-var hiddenOfficialId = document.getElementById("officalId-hidden");
+var allValidateButtons = document.getElementsByClassName("saveButton");
+var hiddenOfficialId = document.getElementById(namespace+"officalIdHidden");
     Array.prototype.forEach.call(allValidateButtons, function(el, i){
-        el.onClick = function(){
-            hiddenOfficialId.setVal(el.data.offical.id);
-        }
-
-
-recup tous les boutons validate getByClassName  (remplace le customSelect)
-faire comme au dessus
-onClick set le input hidden(recup vi getById) avec la valeur du bouton avec attribut de typed data //input.setVar(el.data.officalID)
-
+        el.addEventListener("click", function(element) {
+        hiddenOfficialId.value = element.currentTarget.attributes["data-official-id"].value;
+        }, false);
+});
 
 /** Lors d'un check/unchecked d'une absence **/
 $('input[name$=-isAbsent]').on('change',function(){

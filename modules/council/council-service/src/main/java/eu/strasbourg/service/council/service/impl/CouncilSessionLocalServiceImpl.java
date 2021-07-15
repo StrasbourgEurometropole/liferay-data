@@ -386,7 +386,6 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 		gregorianCalendar.set(Calendar.SECOND, 0);
 		gregorianCalendar.set(Calendar.MILLISECOND, 0);
 
-
 		return gregorianCalendar;
 	}
 }

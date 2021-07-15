@@ -23,7 +23,6 @@
 <%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body council-bo">
 
-
 	<%-- TODO--%>
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "doProcessAction" dans le deleteAction de l'entite) --%>
@@ -44,8 +43,8 @@
 			<%-- Groupe de champs : Procuration --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="absents-and-procurations">
 
-            <aui:input cssClass="officalId-hidden" type="hidden"
-                name="${official.officialId}"
+            <aui:input cssClass="officalIdHidden" id="officalIdHidden" type="hidden"
+                name="officalIdHidden"
                 value="${officialIdValue}" />
 
                 <div id="procurations-table">
@@ -67,14 +66,15 @@
                             <th>
                                 <strong><liferay-ui:message key="official-receiver" /></strong>
                             </th>
+                            <th>
+                                <strong><liferay-ui:message key="action" /></strong>
+                            </th>
                         </tr>
 
                         <c:set var="allActiveOfficials" value="${dc.getAllActiveOfficials()}" />
                         <c:forEach var="official" items="${allActiveOfficials}">
 
                             <c:set var="procuration" value="${dc.findAssociatedProcuration(official.officialId)}" />
-
-                            <button id="officalIdButton" class="officalIdButton" data-official-id="${official.officialId}" />
 
                             <c:choose>
                                 <c:when test="${procuration != null}">
@@ -102,23 +102,23 @@
                                 </td>
                                 <td id="procurationMode">
                                     <div class="selectMode">
-                                        <aui:select cssClass="modeSelect" id="procurationModeChoice" name="choice">
+                                        <aui:select cssClass="modeSelect" id="modeSelect" name="${official.officialId}-modeSelect">
                                             <aui:option style="display: none" selected="${empty procuration}"></aui:option>
                                             <c:forEach items="${dc.getAllProcurationMode()}" var="procurationMode">
-                                                <aui:option value="${procurationMode.getName()}" selected="${dc.verifId(procuration.procurationMode, procurationMode.getId())}">${procurationMode.name}</aui:option>
+                                                <aui:option value="${procurationMode.getId()}" selected="${dc.verifId(procuration.procurationMode, procurationMode.getId())}">${procurationMode.name}</aui:option>
                                             </c:forEach>
                                         </aui:select>
                                     </div>
                                     <div class="inputMode">
-                                        <aui:input type="text" name="autre" />
+                                        <aui:input type="text" name="${official.officialId}-autre" />
                                     </div>
                                 </td>
                                 <td>
                                     <div class="selectMode">
-                                        <aui:select cssClass="presentialSelect" id="presentialChoice" name="choice">
+                                        <aui:select cssClass="presentialSelect" id="presentialSelect" name="${official.officialId}-presentialSelect">
                                             <aui:option style="display: none" selected="${empty procuration}"></aui:option>
                                                 <c:forEach items="${dc.getAllProcurationPresential()}" var="presential">
-                                                    <aui:option value="${presential.getName()}" selected="${dc.verifId(procuration.presential, presential.getId())}">${presential.getName()}</aui:option>
+                                                    <aui:option value="${presential.getId()}" selected="${dc.verifId(procuration.presential, presential.getId())}">${presential.getName()}</aui:option>
                                                 </c:forEach>
                                         </aui:select>
                                     </div>
@@ -128,10 +128,14 @@
                                         <aui:input cssClass="autocomplete-shown" label="" type="text"
                                             title="official-receiver" name="${official.officialId}-officialVoters"
                                             value="${officialVotersFullName}" disabled="${disabledInput}" />
-                                        <aui:input cssClass="autocomplete-hidden" type="hidden"
+
+                                        <aui:input cssClass="hiddenBeneficiary" id ="hiddenBeneficiary" type="hidden"
                                             name="${official.officialId}-officialVotersId"
                                             value="${officialVotersIdValue}" />
                                     </div>
+                                </td>
+                                <td>
+                                    <button id="saveButton" class="saveButton" data-official-id="${official.officialId}" />
                                 </td>
                              </tr>
                         </c:forEach>
@@ -147,17 +151,6 @@
 		<aui:button-row>
 
 			<aui:input type="hidden" name="workflowAction" value="" />
-
-			<%-- Test : Verification des droits d'edition et de sauvegarde --%>
-			<c:if test="${(dc.hasPermission('ADD_COUNCIL_SESSION') and empty dc.councilSession or dc.hasPermission('EDIT_COUNCIL_SESSION') and not empty dc.councilSession) and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<c:if test="${dc.workflowEnabled}">
-					<aui:button cssClass="btn-lg" type="submit" value="save" />
-				</c:if>
-                <c:if test="${not dc.workflowEnabled}">
-                    <aui:button cssClass="btn-lg" type="submit" name="publish" value="save" />
-                </c:if>
-			</c:if>
-
 			<%-- Test : Verification des droits de supression --%>
 			<c:if test="${not empty dc.councilSession && dc.hasPermission('DELETE_COUNCIL_SESSION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />

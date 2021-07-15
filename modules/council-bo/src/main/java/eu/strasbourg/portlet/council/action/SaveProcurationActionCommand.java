@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.*;
 import eu.strasbourg.service.council.service.*;
+import eu.strasbourg.service.council.service.persistence.ProcurationUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -39,13 +40,13 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
-    private List<OfficialTypeCouncil> availableOfficials;
     private int isPresential;
     private int procurationMode;
     private String otherProcurationMode;
-    private long startDelib;
-    private long procurationId;
     private long councilSessionId;
+    private boolean isAbsent;
+    private long officialId;
+    private long beneficiaryId;
 
     @Override
     public boolean processAction(ActionRequest request, ActionResponse response) {
@@ -54,87 +55,58 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
             ServiceContext sc = ServiceContextFactory.getInstance(request);
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
-            // Validation
-            boolean isValid = this.validate(request);
-            if (!isValid) {
-                // Si pas valide : on reste sur la page d'édition
-                PortalUtil.copyRequestParameters(request, response);
-
-                String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-                PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
-                        PortletRequest.RENDER_PHASE);
-
-                response.setRenderParameter("returnURL", returnURL.toString());
-                response.setRenderParameter("cmd", "manageProcurations");
-                response.setRenderParameter("mvcPath", "/council-bo-manage-procurations.jsp");
-                return false;
-            }
-
             // Si édition ou création d'une nouvelle entrée
-            Procuration procuration;
-            this.procurationId = ParamUtil.getLong(request, "procurationId");
-            this.isPresential = ParamUtil.getInteger(request, "isPresential");
-            this.procurationMode = ParamUtil.getInteger(request, "procurationMode");
-            this.otherProcurationMode = ParamUtil.getString(request, "otherProcurationMode");
-            this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
-//            Official official = ParamUtil.getO(request, "official");
-            
-            if (this.procurationId == 0) {
-                procuration = this.procurationLocalService.createProcuration(sc);
-            } else {
-                procuration = this.procurationLocalService.getProcuration(procurationId);
+            this.officialId = ParamUtil.getLong(request, "officalIdHidden");
+            this.beneficiaryId = ParamUtil.getLong(request, this.officialId + "-officialVotersId");
+            this.isPresential = ParamUtil.getInteger(request, this.officialId + "-presentialSelect");
+            this.isAbsent = ParamUtil.getString(request, this.officialId + "-isAbsent").equals("isAbsent");
+            this.procurationMode = ParamUtil.getInteger(request, this.officialId + "-modeSelect");
+            if (this.procurationMode == 4) {
+                this.otherProcurationMode = ParamUtil.getString(request, this.officialId + "-autre");
             }
+            this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
 
-            // Champ : presential, procurationMode, otherProcurationMode (if procurationMode ) startDelib, councilSessionId
+            // Set des champs de la procuration
+            Procuration procuration = this.procurationLocalService.createProcuration(sc);
             procuration.setStartHour(new Date());
             procuration.setPresential(isPresential);
             procuration.setProcurationMode(procurationMode);
             procuration.setOtherProcurationMode(otherProcurationMode);
             procuration.setCouncilSessionId(councilSessionId);
-            // TODO set isAfterVote à false ?? a test
+            procuration.setOfficialUnavailableId(officialId);
+            procuration.setOfficialVotersId(beneficiaryId);
+            procuration.setIsAbsent(isAbsent);
 
             List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
             Optional<Deliberation> delibAffichageEnCours = deliberations.stream().filter(Deliberation::isAffichageEnCours).findFirst();
             Optional<Deliberation> delibVoteEnCours = deliberations.stream().filter(Deliberation::isVoteOuvert).findFirst();
             Optional<Deliberation> delibAdopteOrRejeteOrCommunique = deliberations.stream().filter((d -> d.isAdopte() || d.isRejete() || d.isCommunique())).findFirst();
 
-            if (deliberations.stream().allMatch(Deliberation::isCree)) {
+            if (deliberations.stream().allMatch(Deliberation::isCree) || deliberations.isEmpty()) {
                 procuration.setStartDelib(-1);
             } else if (delibAffichageEnCours.isPresent()) {
-                    procuration.setStartDelib(delibAffichageEnCours.get().getDeliberationId());
+                procuration.setStartDelib(delibAffichageEnCours.get().getDeliberationId());
             } else if (delibVoteEnCours.isPresent()) {
-                // TODO erreur pas possible de creer une procuration lors d'un vote en cours
+                SessionErrors.add(request, "ongoing-vote-error");
+                return unValid(request, response, themeDisplay);
             } else {
                 procuration.setStartDelib(delibAdopteOrRejeteOrCommunique.get().getDeliberationId());
                 procuration.setIsAfterVote(true);
             }
 
 
+            // TODO renvoi sur la page et pas sur la view des conseils
 
-            boolean isAbsent;
-            long officialVotersId;
-            Procuration newProcuration;
 
-            // parcours des élus potentiels et recherche de procurations rempliess
-            for (OfficialTypeCouncil availableOfficial : availableOfficials) {
-                isAbsent = ParamUtil.getString(request, availableOfficial.getOfficialId() + "-isAbsent")
-                        .equals("isAbsent");
-                if (isAbsent) {
-                    officialVotersId = ParamUtil.getLong(request, availableOfficial.getOfficialId() + "-officialVotersId");
-
-                    newProcuration = this.procurationLocalService.createProcuration(sc);
-
-                    newProcuration.setOfficialUnavailableId(availableOfficial.getOfficialId());
-                    newProcuration.setOfficialVotersId(officialVotersId);
-                    newProcuration.setIsAbsent(isAbsent);
-
-                    this.procurationLocalService.updateProcuration(newProcuration, sc);
-                }
+            // Validation
+            boolean isValid = this.validate(request);
+            if (!isValid) {
+                // Si pas valide : on reste sur la page d'édition
+                return unValid(request, response, themeDisplay);
             }
-            // Fin Champs : procurations
 
             // Mise à jour de l'entrée en base
-//            this.councilSessionLocalService.updateCouncilSession(councilSession, sc);
+            this.procurationLocalService.updateProcuration(procuration, sc);
 
         } catch (PortalException e) {
             log.error(e);
@@ -148,50 +120,59 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
     private boolean validate(ActionRequest request) throws PortalException {
         boolean isValid = true;
 
-        ServiceContext sc = ServiceContextFactory.getInstance(request);
+        List<Procuration> listProcurationsForBeneficiary = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialVotersId(councilSessionId, beneficiaryId);
+        int nbProcurations = listProcurationsForBeneficiary.size();
 
-        // Procurations : test du nombre de procuration recevable max
-        // recherche des élus ayant potentiellement une procuration
-//        this.availableOfficials = this.officialTypeCouncilLocalService.findByTypeId(this.typeId)
-//            .stream().filter(o -> o.getGroupId() == sc.getScopeGroupId()).collect(Collectors.toList());
+        // Vérification qu'un élu n'a pas plus de 2 procurations à son nom
+        if (nbProcurations > 2) {
+            SessionErrors.add(request, "official-voters-limit-error");
+            isValid = false;
+        }
 
-        boolean isAbsent;
-        long officialVotersId;
-        Map<Long, Integer> officialProcurationCounts = new HashMap<>();
-
-        // parcours des élus potentiels et recherche de procurations rempliess
-//        for (OfficialTypeCouncil availableOfficial : availableOfficials) {
-//            isAbsent = ParamUtil.getString(request, availableOfficial.getOfficialId() + "-isAbsent")
-//                    .equals("isAbsent");
-//            if (isAbsent) {
-//                officialVotersId = ParamUtil.getLong(request, availableOfficial.getOfficialId() + "-officialVotersId");
-//                if (officialVotersId > 0) {
-//                    Official officialVoter = this.officialLocalService.fetchOfficial(officialVotersId);
-//                    if (!officialVoter.getCouncilTypesIds().contains(""+this.typeId)) {
-//                        SessionErrors.add(request, "official-voter-type-error");
-//                        isValid = false;
-//                    }else {
-//                        if (officialProcurationCounts.containsKey(officialVotersId)) {
-//                            officialProcurationCounts.put(
-//                                    officialVotersId,
-//                                    officialProcurationCounts.get(officialVotersId) + 1
-//                            );
-//                        } else {
-//                            officialProcurationCounts.put(officialVotersId, 1);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
-        for (Map.Entry<Long, Integer> entry : officialProcurationCounts.entrySet()) {
-            if (entry.getValue() > 2) {
-                SessionErrors.add(request, "official-voters-limit-error");
-                isValid = false;
+        // Check si le bénéficiare est absent
+        Procuration procuration = ProcurationLocalServiceUtil.findAbsenceForCouncilSession(councilSessionId, beneficiaryId);
+        if (procuration != null) {
+            if (procuration.getIsAbsent()) {
+                // TODO  warn
+                SessionErrors.add(request, "beneficiary-absent-error");
             }
         }
 
+        // Check du statut de l'officiel qu'on modifie
+        if (nbProcurations != 0) {
+            // TODO  warn
+            SessionErrors.add(request, "official-has-procurations-error");
+        }
+
+        // Vérification conseil du jour ou à venir
+        GregorianCalendar gregorianCalendar = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
+
+        Date date = gregorianCalendar.getTime();
+        List<CouncilSession> councilSessions = CouncilSessionLocalServiceUtil.getFutureCouncilSessions(date);
+        boolean isCouncilValid = councilSessions.stream().anyMatch(c -> c.getCouncilSessionId() == councilSessionId);
+        if (!isCouncilValid) {
+            isValid = false;
+            SessionErrors.add(request, "not-valid-council-error");
+        }
+
         return isValid;
+    }
+
+    /**
+     * Gestion du retour orsqu'une erreur se produit
+     */
+    private boolean unValid(ActionRequest request, ActionResponse response, ThemeDisplay themeDisplay) {
+
+        PortalUtil.copyRequestParameters(request, response);
+
+        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
+        PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
+                PortletRequest.RENDER_PHASE);
+
+        response.setRenderParameter("returnURL", returnURL.toString());
+        response.setRenderParameter("cmd", "manageProcurations");
+        response.setRenderParameter("mvcPath", "/council-bo-manage-procurations.jsp");
+        return false;
     }
 
     @Reference(unbind = "-")
