@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.portlet.council.utils.PrintPDF;
+import eu.strasbourg.portlet.council.utils.PrintProcurationsPDF;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.utils.ZipHelper;
@@ -41,7 +42,7 @@ public class ExportCouncilSessionResultsResourceCommand implements MVCResourceCo
 
         long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
         try {
-            String repository = PrintPDF.printPDFs(councilSessionId);
+            String repository = PrintProcurationsPDF.printPDFs(councilSessionId);
 
             // Définition d'un téléchargement dans le content-type
             response.setContentType("application/force-download");
