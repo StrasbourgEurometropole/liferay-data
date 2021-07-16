@@ -22,9 +22,11 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.council.constants.ProcurationModeEnum;
 import eu.strasbourg.service.council.constants.ProcurationPresentialEnum;
 import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.model.ProcurationModel;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
+import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
@@ -111,8 +113,6 @@ public class PrintProcurationsPDF {
 	PdfFont fontBold = PdfFontFactory.createRegisteredFont("Helvetica-Bold");
 	PdfFont font = PdfFontFactory.createRegisteredFont("Helvetica");
 
-	// mise en page paysage
-	//pdf.setDefaultPageSize(PageSize.A4.rotate());
 	try (Document document = new Document(pdf)) {
 		document.setMargins(40f, 0f, 40f, 0f);
 		document.setFont(fontBold).setFontSize(10f);
@@ -141,10 +141,32 @@ public class PrintProcurationsPDF {
 				.setMarginTop(10f)
 				.setFontSize(12f);
 		document.add(title);
+		// sous titre d'entête
 		Paragraph subTitle = new Paragraph("Historique des procurations")
 				.setTextAlignment(TextAlignment.CENTER)
 				.setFontSize(12f);
 		document.add(subTitle);
+		// alerte si des procurations n'ont pas ete fermees
+		Paragraph stillOpen = new Paragraph("Des procurations sont encore ouvertes, veuillez toutes les fermer pour permettre le recalcul")
+				.setTextAlignment(TextAlignment.CENTER)
+				.setFontColor(new DeviceRgb(255, 0, 0))
+				.setFontSize(10f);
+		// Verifie s'il y a encore des procurations ouvertes
+		Boolean isStillOpen = false;
+		for(Procuration procuration : procurations){
+			if(Validator.isNull(procuration.getEndHour()) || procuration.getEndDelib()==-1){
+				isStillOpen = true;
+			} else {
+				try{
+					if(Validator.isNull(DeliberationLocalServiceUtil.getDeliberation(procuration.getEndDelib()))){
+						isStillOpen = true;
+					}
+				} catch(Exception e) {}
+			}
+		}
+		if(isStillOpen) {
+			document.add(stillOpen);
+		}
 
 		//specify column widths
 		float[] columnWidths = {2f,2f,2f,2f,1f,1f,1f,1f};
@@ -163,17 +185,18 @@ public class PrintProcurationsPDF {
 		insertCell(table, "Votant", 1, font, new DeviceRgb(221, 221, 221),null,120f);
 		insertCell(table, "Mode de procuration", 1, font, new DeviceRgb(221, 221, 221),null,80f);
 		insertCell(table, "Pr\u00E9sentiel", 1, font, new DeviceRgb(221, 221, 221),null,50f);
-		insertCell(table, "Procuration \u00E0", 1, font, new DeviceRgb(221, 221, 221),null,120f);
+		insertCell(table, "B\u00E9n\u00E9ficiaire procuration", 1, font, new DeviceRgb(221, 221, 221),null,120f);
 		insertCell(table, "Heure", 1, font, new DeviceRgb(221, 221, 221),null,30f);
 		insertCell(table, "Du point", 1, font, new DeviceRgb(221, 221, 221),null,30f);
 		insertCell(table, "Heure", 1, font, new DeviceRgb(221, 221, 221),null,30f);
 		insertCell(table, "Au point", 1, font, new DeviceRgb(221, 221, 221),null,30f);
 
-		//just some random data to fill
 		for(Procuration procuration : procurations){
 
+			// Votant
 			insertCell(table, OfficialLocalServiceUtil.fetchOfficial(procuration.getOfficialUnavailableId()).getFullName(),
 					1, font,null,null,120f);
+			// Mode de procuration
 			int procurationMode = procuration.getProcurationMode();
 			if(procurationMode==0){
 				insertCell(table, "-", 1, font,null,null,80f);
@@ -181,17 +204,19 @@ public class PrintProcurationsPDF {
 				String procurationModeValue = procurationMode==4 ? procuration.getOtherProcurationMode() :ProcurationModeEnum.get(procurationMode).getName();
 				insertCell(table, procurationModeValue, 1, font,null,null,80f);
 			}
+			// Présentiel
 			int presential = procuration.getPresential();
 			String presentialValue = ProcurationPresentialEnum.get(presential).getName();
 			String value = Validator.isNull(presentialValue) ? "-" : presentialValue;
 			insertCell(table, value, 1, font,null,null,50f);
-
+			// Bénéficiaire de procuration
 			String OfficialVoter = procuration.getOfficialVotersFullName();
 			String OfficialVoterValue = Validator.isNull(OfficialVoter) ? "Aucun" : OfficialVoter;
 			insertCell(table, OfficialVoterValue, 1, font,null,null,120f);
-
+			// Traitement pour l'affichga des heures de debut et fin de procuration
 			DateFormat hour = new SimpleDateFormat("hh");
 			DateFormat minute = new SimpleDateFormat("mm");
+			// Si minute 00 alors on affiche rien pour avoir 12h et pas 12h00
 			String startMinute = minute.format(procuration.getStartHour()).equals("00") ? "" : minute.format(procuration.getStartHour());
 			String startTime = hour.format(procuration.getStartHour())+"h"+startMinute;
 			String endTime = null;
@@ -199,11 +224,27 @@ public class PrintProcurationsPDF {
 				String endMinute = minute.format(procuration.getEndHour()).equals("00") ? "" : minute.format(procuration.getEndHour());
 				endTime = hour.format(procuration.getEndHour())+"h"+endMinute;
 			}
+			// Traitement pour l'affichage des points de deliberation d'ouverture et de fermeture de procuration
+			String startDelibValue = "";
+			Deliberation startDelib = null;
+			try {
+				startDelib = DeliberationLocalServiceUtil.getDeliberation(procuration.getStartDelib());
+			} catch(Exception e){}
+			if(Validator.isNotNull(startDelib)){
+				startDelibValue = procuration.getStartDelib() == -1?"": String.valueOf(startDelib.getOrder());
+			}
+			String endDelibValue = "";
+			Deliberation endDelib = null;
+			try {
+				endDelib = DeliberationLocalServiceUtil.getDeliberation(procuration.getEndDelib());
+			} catch(Exception e){}
+			if(Validator.isNotNull(endDelib)){
+				endDelibValue = procuration.getEndDelib() == -1?"": String.valueOf(endDelib.getOrder());
+			}
 			insertCell(table, startTime, 1, font,null,null,30f);
-			insertCell(table, String.valueOf(procuration.getStartDelib()), 1, font,null,null,30f);
+			insertCell(table, startDelibValue, 1, font,null,null,30f);
 			insertCell(table, Validator.isNull(endTime) ? "" : endTime, 1, font,null,null,30f);
-			insertCell(table, procuration.getEndDelib() == -1 ? "" : String.valueOf(procuration.getEndDelib()),
-					1, font,null,null,30f);
+			insertCell(table, endDelibValue,1, font,null,null,30f);
 
 		}
 		document.add(table);

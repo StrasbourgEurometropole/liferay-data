@@ -84,6 +84,12 @@
 			<%-- Groupe de champs : Procuration --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="absents-and-procurations">
 
+                <c:choose>
+                    <c:when test="${dc.isStillOpen()}">
+                        <p style="color: red; text-align:center;">Des procurations sont encore ouvertes, veuillez toutes les fermer pour permettre le recalcul</p>
+                    </c:when>
+                </c:choose>
+
                 <div id="procurations-table">
                     <table border="1">
 
@@ -155,16 +161,16 @@
                                     ${empty officialVotersFullName?"Aucun":officialVotersFullName}
                                 </td>
                                 <td>
-                                    <fmt:formatDate value="${procuration.startHour}" pattern="HH:mm:ss" />
+                                    ${dc.getStartHour(procuration)}
                                 </td>
                                 <td>
-                                    ${procuration.startDelib}${procuration.isAfterVote?" - Intervenu apres le vote":""}
+                                    ${dc.getStartDelibOrder(procuration.startDelib)}${procuration.isAfterVote && not empty dc.getStartDelibOrder(procuration.startDelib)?" - Intervenu apres le vote":""}
                                 </td>
                                 <td>
-                                    <fmt:formatDate value="${procuration.endHour}" pattern="HH:mm:ss" />
+                                    ${dc.getEndHour(procuration)}
                                 </td>
                                 <td>
-                                    ${procuration.endDelib eq -1?"":procuration.endDelib}
+                                    ${dc.getEndDelibOrder(procuration.endDelib)}
                                 </td>
                             </tr>
                         </c:forEach>
