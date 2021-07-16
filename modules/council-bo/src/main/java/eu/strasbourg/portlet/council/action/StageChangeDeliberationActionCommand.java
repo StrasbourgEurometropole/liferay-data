@@ -14,6 +14,8 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
+import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.DeliberationLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -43,6 +45,14 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
         this.deliberationLocalService = deliberationLocalService;
     }
 
+    private CouncilSessionLocalService councilSessionLocalService;
+
+    @Reference(unbind = "-")
+    protected void setCouncilSessionLocalService(
+            CouncilSessionLocalService councilSessionLocalService) {
+        this.councilSessionLocalService = councilSessionLocalService;
+    }
+
     @Override
     protected void doProcessAction(ActionRequest request,
                                    ActionResponse response) throws Exception {
@@ -57,7 +67,7 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
         Deliberation deliberation = deliberationLocalService.getDeliberation(deliberationId);
 
         // Si on essaie de passer à "Affichage en cours"
-        if(stage.equals(StageDeliberation.get(2).getName())) {
+        if(stage.equals(StageDeliberation.AFFICHAGE_EN_COURS.getName())) {
             // On vérifie qu'il n'y ait pas d'autres délibs en "Affichae en cours" ou "Vote ouvert" pour la session
             List<Deliberation> delibsCouncilSession = deliberationLocalService.findByCouncilSessionId(deliberation.getCouncilSessionId());
             if(delibsCouncilSession.stream().anyMatch(x-> x.isVoteOuvert() || x.isAffichageEnCours())) {
@@ -68,6 +78,18 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
                 renderURL.setParameter("tab", request.getParameter("tab"));
                 response.sendRedirect(renderURL.toString());
                 return;
+            }
+        }
+
+        // Partie procuration
+        // Récupération des procurations du conseil de la deliberation
+        if(stage.equals(StageDeliberation.VOTE_OUVERT.getName())) {
+            List<Procuration> procurations = councilSessionLocalService.getCouncilSession(deliberation.getCouncilSessionId()).getProcurations();
+            for (Procuration procuration : procurations) {
+                if (procuration.getIsAfterVote()) {
+                    procuration.setStartDelib(deliberation.getDeliberationId());
+                    procuration.setIsAfterVote(false);
+                }
             }
         }
 
