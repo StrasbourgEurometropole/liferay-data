@@ -84,6 +84,12 @@
 			<%-- Groupe de champs : Procuration --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="absents-and-procurations">
 
+                <c:choose>
+                    <c:when test="${dc.isStillOpen()}">
+                        <p style="color: red; text-align:center;">Des procurations sont encore ouvertes, veuillez toutes les fermer pour permettre le recalcul</p>
+                    </c:when>
+                </c:choose>
+
                 <div id="procurations-table">
                     <table border="1">
 
@@ -144,7 +150,7 @@
                                         -
                                     </c:when>
                                     <c:otherwise>
-                                        ${procuration.procurationMode eq 3?procuration.otherProcurationMode:dc.getProcurationMode(procuration.procurationMode)}
+                                        ${procuration.procurationMode eq 4?procuration.otherProcurationMode:dc.getProcurationMode(procuration.procurationMode)}
                                     </c:otherwise>
                                 </c:choose>
                                 </td>
@@ -155,16 +161,16 @@
                                     ${empty officialVotersFullName?"Aucun":officialVotersFullName}
                                 </td>
                                 <td>
-                                    <fmt:formatDate value="${procuration.startHour}" pattern="HH:mm:ss" />
+                                    ${dc.getStartHour(procuration)}
                                 </td>
                                 <td>
-                                    ${procuration.startDelib}${procuration.isAfterVote?" - Intervenu apres le vote":""}
+                                    ${dc.getStartDelibOrder(procuration.startDelib)}${procuration.isAfterVote && not empty dc.getStartDelibOrder(procuration.startDelib)?" - Intervenu apres le vote":""}
                                 </td>
                                 <td>
-                                    <fmt:formatDate value="${procuration.endHour}" pattern="HH:mm:ss" />
+                                    ${dc.getEndHour(procuration)}
                                 </td>
                                 <td>
-                                    ${procuration.endDelib eq -1?"":procuration.endDelib}
+                                    ${dc.getEndDelibOrder(procuration.endDelib)}
                                 </td>
                             </tr>
                         </c:forEach>
@@ -201,6 +207,14 @@
 
 			<%-- Composant : bouton de retour a la liste des entites --%>
             <aui:button cssClass="btn-lg" href="${manageProcurationsURL}" type="cancel" value="Gestion des procurations" />
+
+            <!-- RESOURCE ACTION : Export de historique des procurations -->
+            <liferay-portlet:resourceURL id="exportProcurationsHistoric" var="exportProcurationsHistoricURL"
+                    copyCurrentRenderParameters="false">
+                <portlet:param name="councilSessionId"
+	                value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
+            </liferay-portlet:resourceURL>
+            <aui:button cssClass="btn-lg" href="${exportProcurationsHistoricURL}" type="cancel" value="export-procurations" />
 
 		</aui:button-row>
 

@@ -15,12 +15,8 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
-import eu.strasbourg.service.council.model.OfficialTypeCouncil;
-import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.OfficialLocalService;
-import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService;
-import eu.strasbourg.service.council.service.ProcurationLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -28,10 +24,6 @@ import org.osgi.service.component.annotations.Reference;
 import javax.portlet.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component(
         immediate = true,
@@ -45,7 +37,6 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
-    private List<OfficialTypeCouncil> availableOfficials;
     private long councilSessionId;
     private long typeId;
     private String title;
@@ -95,37 +86,6 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             long officialLeaderId = ParamUtil.getLong(request, "officialLeaderId");
             councilSession.setOfficialLeaderId(officialLeaderId);
 
-            // Champs : procurations
-            // suppression des anciennes procurations
-            /**List<Procuration> oldProcurations = this.procurationLocalService.findByCouncilSessionId(
-                    councilSession.getCouncilSessionId());
-            for (Procuration oldProcuration : oldProcurations) {
-                this.procurationLocalService.removeProcuration(oldProcuration.getProcurationId());
-            }*/
-
-            boolean isAbsent;
-            long officialVotersId;
-            Procuration newProcuration;
-
-            // parcours des élus potentiels et recherche de procurations rempliess
-            for (OfficialTypeCouncil availableOfficial : availableOfficials) {
-                isAbsent = ParamUtil.getString(request, availableOfficial.getOfficialId() + "-isAbsent")
-                        .equals("isAbsent");
-                if (isAbsent) {
-                    officialVotersId = ParamUtil.getLong(request, availableOfficial.getOfficialId() + "-officialVotersId");
-
-                    newProcuration = this.procurationLocalService.createProcuration(sc);
-
-                    newProcuration.setCouncilSessionId(councilSession.getCouncilSessionId());
-                    newProcuration.setOfficialUnavailableId(availableOfficial.getOfficialId());
-                    newProcuration.setOfficialVotersId(officialVotersId);
-                    newProcuration.setIsAbsent(isAbsent);
-
-                    this.procurationLocalService.updateProcuration(newProcuration, sc);
-                }
-            }
-            // Fin Champs : procurations
-
             // Mise à jour de l'entrée en base
             this.councilSessionLocalService.updateCouncilSession(councilSession, sc);
 
@@ -138,10 +98,8 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
     /**
      * Validation de la requête
      */
-    private boolean validate(ActionRequest request) throws PortalException {
+    private boolean validate(ActionRequest request)  {
         boolean isValid = true;
-
-        ServiceContext sc = ServiceContextFactory.getInstance(request);
 
         this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
 
@@ -183,47 +141,6 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             isValid = false;
         }
 
-        // Procurations : test du nombre de procuration recevable max
-        // recherche des élus ayant potentiellement une procuration
-        this.availableOfficials = this.officialTypeCouncilLocalService.findByTypeId(this.typeId)
-            .stream().filter(o -> o.getGroupId() == sc.getScopeGroupId()).collect(Collectors.toList());
-
-        boolean isAbsent;
-        long officialVotersId;
-        Map<Long, Integer> officialProcurationCounts = new HashMap<>();
-
-        // parcours des élus potentiels et recherche de procurations rempliess
-        for (OfficialTypeCouncil availableOfficial : availableOfficials) {
-            isAbsent = ParamUtil.getString(request, availableOfficial.getOfficialId() + "-isAbsent")
-                    .equals("isAbsent");
-            if (isAbsent) {
-                officialVotersId = ParamUtil.getLong(request, availableOfficial.getOfficialId() + "-officialVotersId");
-                if (officialVotersId > 0) {
-                    Official officialVoter = this.officialLocalService.fetchOfficial(officialVotersId);
-                    if (!officialVoter.getCouncilTypesIds().contains(""+this.typeId)) {
-                        SessionErrors.add(request, "official-voter-type-error");
-                        isValid = false;
-                    }else {
-                        if (officialProcurationCounts.containsKey(officialVotersId)) {
-                            officialProcurationCounts.put(
-                                    officialVotersId,
-                                    officialProcurationCounts.get(officialVotersId) + 1
-                            );
-                        } else {
-                            officialProcurationCounts.put(officialVotersId, 1);
-                        }
-                    }
-                }
-            }
-        }
-
-        for (Map.Entry<Long, Integer> entry : officialProcurationCounts.entrySet()) {
-            if (entry.getValue() > 2) {
-                SessionErrors.add(request, "official-voters-limit-error");
-                isValid = false;
-            }
-        }
-
         return isValid;
     }
 
@@ -237,19 +154,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
         this.officialLocalService = officialLocalService;
     }
 
-    @Reference(unbind = "-")
-    protected void setOfficialTypeCouncilLocalService(OfficialTypeCouncilLocalService officialTypeCouncilLocalService) {
-        this.officialTypeCouncilLocalService = officialTypeCouncilLocalService;
-    }
-
-    @Reference(unbind = "-")
-    protected void setProcurationLocalService(ProcurationLocalService procurationLocalService) {
-        this.procurationLocalService = procurationLocalService;
-    }
-
     private CouncilSessionLocalService councilSessionLocalService;
     private OfficialLocalService officialLocalService;
-    private OfficialTypeCouncilLocalService officialTypeCouncilLocalService;
-    private ProcurationLocalService procurationLocalService;
 
 }

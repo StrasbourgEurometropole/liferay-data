@@ -100,6 +100,14 @@
                         </liferay-portlet:resourceURL>
                         <liferay-ui:icon message="export-results" url="${exportCouncilSessionResultsURL}" />
 
+						<!-- RESOURCE ACTION : Export de historique des procurations -->
+						<liferay-portlet:resourceURL id="exportProcurationsHistoric" var="exportProcurationsHistoricURL"
+						        copyCurrentRenderParameters="false">
+                            <portlet:param name="councilSessionId" value="${councilSession.councilSessionId}" />
+                        </liferay-portlet:resourceURL>
+                        <liferay-ui:icon message="export-procurations" url="${exportProcurationsHistoricURL}" />
+
+
                         <!-- ACTION : Supprimer -->
 						<liferay-portlet:actionURL name="deleteCouncilSession" var="deleteCouncilSessionURL">
 							<portlet:param name="cmd" value="deleteCouncilSession" />
