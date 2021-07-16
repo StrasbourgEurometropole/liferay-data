@@ -155,7 +155,7 @@ public class PrintProcurationsPDF {
 		//specify column widths
 		float[] columnWidths = {2f,2f,2f,2f,1f,1f,1f,1f};
 		//create PDF table with the given widths
-		Table table = new Ttable(columnWidths);
+		Table table = new Table(columnWidths);
 
 		//insert column headings
 		insertCell(table, "", 8, font, null, "no_border");

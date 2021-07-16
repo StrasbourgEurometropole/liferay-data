@@ -78,7 +78,9 @@
 
                             <c:choose>
                                 <c:when test="${procuration != null}">
-                                    <c:set var="isAbsentValue" value="${procuration.isAbsent ? 'true' : 'false'}" />
+                                    <c:set var="hasStartHour" value = "${not empty procuration.startHour ? 'true' : 'false'}"/>
+                                    <c:set var="hasEndHour" value = "${not empty procuration.endHour ? 'true' : 'false'}"/>
+                                    <c:set var="isAbsentValue" value= "${hasStartHour && !hasEndHour}" />
                                     <c:set var="officialVotersIdValue" value="${procuration.officialVotersId}" />
                                     <c:set var="officialVotersFullName" value="${procuration.officialVotersFullName}" />
                                     <c:set var="disabledInput" value="false" />
@@ -91,18 +93,24 @@
                                 </c:otherwise>
                             </c:choose>
 
+
                             <tr data-council-types="${official.councilTypesIds}">
                                 <td class="text-left" >
                                     ${official.fullName}
                                 </td>
 
                                 <td>
-                                    <aui:input cssClass="checkAbsent" name="${official.officialId}-isAbsent" label="" type="checkbox"
-                                        title="is-absent" checked="${isAbsentValue}" value="isAbsent" />
+                                    <span id="checkAbsent" name="${official.officialId}-checkAbsent" style="display: none">
+                                        <liferay-ui:icon
+                                            icon="check-circle"
+                                            markupView="lexicon"
+                                        />
+                                    </span>
+                                    <input id="inputAbsent" class="inputAbsent" name="${official.officialId}-inputAbsent" type="hidden" value ="${isAbsentValue}"/>
                                 </td>
                                 <td id="procurationMode">
-                                    <div class="selectMode">
-                                        <aui:select cssClass="modeSelect" id="modeSelect" name="${official.officialId}-modeSelect">
+                                    <div class="selectMode" id="selectMode">
+                                        <aui:select cssClass="modeSelect" id="modeSelect" name="${official.officialId}-modeSelect" disabled="true">
                                             <aui:option style="display: none" selected="${empty procuration}"></aui:option>
                                             <c:forEach items="${dc.getAllProcurationMode()}" var="procurationMode">
                                                 <aui:option value="${procurationMode.getId()}" selected="${dc.verifId(procuration.procurationMode, procurationMode.getId())}">${procurationMode.name}</aui:option>
@@ -110,12 +118,12 @@
                                         </aui:select>
                                     </div>
                                     <div class="inputMode">
-                                        <aui:input type="text" name="${official.officialId}-autre" />
+                                        <aui:input type="text" name="${official.officialId}-autre" disabled="true"/>
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="selectMode">
-                                        <aui:select cssClass="presentialSelect" id="presentialSelect" name="${official.officialId}-presentialSelect">
+                                    <div class="selectMode"  >
+                                        <aui:select cssClass="presentialSelect" id="presentialSelect" name="${official.officialId}-presentialSelect" disabled="true">
                                             <aui:option style="display: none" selected="${empty procuration}"></aui:option>
                                                 <c:forEach items="${dc.getAllProcurationPresential()}" var="presential">
                                                     <aui:option value="${presential.getId()}" selected="${dc.verifId(procuration.presential, presential.getId())}">${presential.getName()}</aui:option>
@@ -127,7 +135,7 @@
                                     <div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper-${official.officialId}">
                                         <aui:input cssClass="autocomplete-shown" label="" type="text"
                                             title="official-receiver" name="${official.officialId}-officialVoters"
-                                            value="${officialVotersFullName}" disabled="${disabledInput}" />
+                                            value="${officialVotersFullName}" disabled="true"/>
 
                                         <aui:input cssClass="hiddenBeneficiary" id ="hiddenBeneficiary" type="hidden"
                                             name="${official.officialId}-officialVotersId"
@@ -135,7 +143,35 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <button id="saveButton" class="saveButton" data-official-id="${official.officialId}" />
+                                     <button type="button" name="${official.officialId}-editButton" class="editButton" title ="Editer la ligne">
+                                        <liferay-ui:icon
+                                            icon="pencil"
+                                            markupView="lexicon"
+                                        />
+                                     </button>
+
+                                     <button id="saveButton" class="saveButton" data-official-id="${official.officialId}" title ="Enregistrer la procuration">
+                                        <liferay-ui:icon
+                                            icon="check"
+                                            markupView="lexicon"
+                                        />
+                                     </button>
+
+                                     <button type="button" name="${official.officialId}-resetButton" class="resetButton" title ="Vider la ligne">
+                                        <liferay-ui:icon
+                                            icon="undo"
+                                            markupView="lexicon"
+                                        />
+                                     </button>
+
+                                     <aui:form action="${closeProcurationURL}" method="post" name="fm" onSubmit="submitForm(event);">
+                                        <button id="closeButton" class="closeButton" name="${official.officialId}-closeButton" type="button" title ="Fermer la procuration">
+                                            <liferay-ui:icon
+                                                    icon="trash"
+                                                    markupView="lexicon"
+                                                />
+                                        </button>
+                                     </aui:form>
                                 </td>
                              </tr>
                         </c:forEach>

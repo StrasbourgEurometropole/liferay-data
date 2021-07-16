@@ -88,17 +88,17 @@
 							<liferay-ui:icon message="edit" url="${editCouncilSessionURL}" />
 						</c:if>
 
+                        <!-- RESOURCE ACTION : Gestion des procurations -->
+                      	<c:if test="${dc.hasPermission('EDIT_COUNCIL_SESSION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                            <liferay-ui:icon message="manage-procurations" url="${manageProcurationsURL}" />
+                      	</c:if>
+
 						<!-- RESOURCE ACTION : Export des résultats de la session -->
 						<liferay-portlet:resourceURL id="exportCouncilSessionResults" var="exportCouncilSessionResultsURL"
 						        copyCurrentRenderParameters="false">
                             <portlet:param name="councilSessionId" value="${councilSession.councilSessionId}" />
                         </liferay-portlet:resourceURL>
                         <liferay-ui:icon message="export-results" url="${exportCouncilSessionResultsURL}" />
-
-                        <!-- RESOURCE ACTION : Gestion des procurations -->
-                      	<c:if test="${dc.hasPermission('EDIT_COUNCIL_SESSION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="manage-procurations" url="${manageProcurationsURL}" />
-                      	</c:if>
 
                         <!-- ACTION : Supprimer -->
 						<liferay-portlet:actionURL name="deleteCouncilSession" var="deleteCouncilSessionURL">

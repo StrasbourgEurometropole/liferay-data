@@ -29,19 +29,48 @@ var allValidateButtons = document.getElementsByClassName("saveButton");
 var hiddenOfficialId = document.getElementById(namespace+"officalIdHidden");
     Array.prototype.forEach.call(allValidateButtons, function(el, i){
         el.addEventListener("click", function(element) {
-        hiddenOfficialId.value = element.currentTarget.attributes["data-official-id"].value;
+            hiddenOfficialId.value = element.currentTarget.attributes["data-official-id"].value;
         }, false);
 });
 
-/** Lors d'un check/unchecked d'une absence **/
-$('input[name$=-isAbsent]').on('change',function(){
-    var val = $(this).is(':checked');
-    var officialId = $(this).attr("name").replace(namespace,'').replace("-isAbsent",'');;
-    if (val)
-        $("input[name=" + namespace + "" + officialId + "-officialVoters]").prop('disabled', false);
-    else
-        $("input[name=" + namespace + "" + officialId + "-officialVoters]").prop('disabled', true);
+var allEditButtons = document.getElementsByClassName("editButton");
+    Array.prototype.forEach.call(allEditButtons, function(el, i){
+        el.addEventListener("click", function() {
+            var officialId = $(this).attr("name").replace(namespace,'').replace("-editButton",'');
+            $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', false);
+            $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', false);
+            $("input[name=" + namespace + "" + officialId + "-officialVoters]").prop('disabled', false);
+            $("input[name=" + namespace + officialId + "-autre]").prop('disabled', false);
+            $("span[name="+ officialId + "-checkAbsent]")[0].style.display="block";
+        }, false);
 });
+
+
+var allCheckAbsent = document.getElementsByClassName("inputAbsent");
+    Array.prototype.forEach.call(allCheckAbsent, function(el, i){
+       var officialId = el.name.replace(namespace,'').replace("-inputAbsent",'');
+       var isAbsent = el.value;
+       if (isAbsent == "true") {
+           $("span[name="+ officialId + "-checkAbsent]")[0].style.display="block";
+       }
+});
+
+
+
+var allResetButtons = document.getElementsByClassName("resetButton");
+    Array.prototype.forEach.call(allResetButtons, function(el, i){
+        el.addEventListener("click", function() {
+            var officialId = $(this).attr("name").replace(namespace,'').replace("-resetButton",'');
+            $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = 0;
+            $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = 0;
+            $("input[name=" + namespace + officialId + "-officialVoters]")[0].value='';
+            $("input[name=" + namespace + officialId + "-autre]")[0].value='';
+            // TODO verifier display none le checkabs
+            $("span[name="+ officialId + "-checkAbsent]")[0].style.display="none";
+        }, false);
+});
+
+
 
 jQuery(function() {
     /** Autocomplete des élus */

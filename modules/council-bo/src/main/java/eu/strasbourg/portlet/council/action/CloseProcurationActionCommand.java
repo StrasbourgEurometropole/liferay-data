@@ -11,11 +11,11 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.council.model.*;
+import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Deliberation;
+import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.service.*;
-import eu.strasbourg.service.council.service.persistence.ProcurationUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -24,19 +24,20 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Optional;
 
 @Component(
         immediate = true,
         property = {
                 "javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_BO,
-                "mvc.command.name=saveProcuration"
+                "mvc.command.name=closeProcuration"
         },
         service = MVCActionCommand.class
 )
-public class SaveProcurationActionCommand implements MVCActionCommand {
+public class CloseProcurationActionCommand implements MVCActionCommand {
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
@@ -44,7 +45,7 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
     private int procurationMode;
     private String otherProcurationMode;
     private long councilSessionId;
-    private boolean isAbsent = true;
+    private boolean isAbsent;
     private long officialId;
     private long beneficiaryId;
 
@@ -59,11 +60,14 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
             this.officialId = ParamUtil.getLong(request, "officalIdHidden");
             this.beneficiaryId = ParamUtil.getLong(request, this.officialId + "-officialVotersId");
             this.isPresential = ParamUtil.getInteger(request, this.officialId + "-presentialSelect");
+            this.isAbsent = ParamUtil.getString(request, this.officialId + "-isAbsent").equals("isAbsent");
             this.procurationMode = ParamUtil.getInteger(request, this.officialId + "-modeSelect");
             if (this.procurationMode == 4) {
                 this.otherProcurationMode = ParamUtil.getString(request, this.officialId + "-autre");
             }
             this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
+
+            long id = ParamUtil.getLong(request, "procurationId");
 
             // Set des champs de la procuration
             Procuration procuration = this.procurationLocalService.createProcuration(sc);
@@ -129,14 +133,12 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
         }
 
         // Check si le bénéficiare est absent
-        // TODO et pas de startHour
-        List<Procuration> procurations = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialVotersId(councilSessionId, beneficiaryId);
-        boolean hasOngoingProcuration = procurations.stream().anyMatch(p -> p.getEndHour() == null);
-
-        // Si le bénéficiare a une procuration qui n'est pas fermée (en cours) alors il est absent
-        if (hasOngoingProcuration) {
-            // TODO  warn
-            SessionErrors.add(request, "beneficiary-absent-error");
+        Procuration procuration = ProcurationLocalServiceUtil.findAbsenceForCouncilSession(councilSessionId, beneficiaryId);
+        if (procuration != null) {
+            if (procuration.getIsAbsent()) {
+                // TODO  warn
+                SessionErrors.add(request, "beneficiary-absent-error");
+            }
         }
 
         // Check du statut de l'officiel qu'on modifie
