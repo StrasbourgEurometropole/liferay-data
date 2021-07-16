@@ -81,18 +81,6 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
             }
         }
 
-        // Partie procuration
-        // Récupération des procurations du conseil de la deliberation
-        if(stage.equals(StageDeliberation.VOTE_OUVERT.getName())) {
-            List<Procuration> procurations = councilSessionLocalService.getCouncilSession(deliberation.getCouncilSessionId()).getProcurations();
-            for (Procuration procuration : procurations) {
-                if (procuration.getIsAfterVote()) {
-                    procuration.setStartDelib(deliberation.getDeliberationId());
-                    procuration.setIsAfterVote(false);
-                }
-            }
-        }
-
         deliberation.setStage(stage);
         deliberation.setStatusDate(new Date());
 

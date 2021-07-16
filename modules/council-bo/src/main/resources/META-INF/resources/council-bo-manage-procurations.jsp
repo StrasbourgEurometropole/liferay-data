@@ -47,6 +47,8 @@
                 name="officalIdHidden"
                 value="${officialIdValue}" />
 
+                <h3>${dc.getCouncilSession().title}</h3>
+
                 <div id="procurations-table">
                     <table border="1">
 
@@ -83,6 +85,7 @@
                                     <c:set var="isAbsentValue" value= "${hasStartHour && !hasEndHour}" />
                                     <c:set var="officialVotersIdValue" value="${procuration.officialVotersId}" />
                                     <c:set var="officialVotersFullName" value="${procuration.officialVotersFullName}" />
+                                    <c:set var="otherProcurationMode" value="${procuration.otherProcurationMode}" />
                                     <c:set var="disabledInput" value="false" />
                                 </c:when>
                                 <c:otherwise>
@@ -118,7 +121,7 @@
                                         </aui:select>
                                     </div>
                                     <div class="inputMode">
-                                        <aui:input type="text" name="${official.officialId}-autre" disabled="true"/>
+                                        <aui:input type="text" name="${official.officialId}-autre" disabled="true" value="${otherProcurationMode}"/>
                                     </div>
                                 </td>
                                 <td>

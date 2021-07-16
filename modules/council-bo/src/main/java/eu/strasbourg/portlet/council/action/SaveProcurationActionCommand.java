@@ -129,9 +129,8 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
         }
 
         // Check si le bénéficiare est absent
-        // TODO et pas de startHour
         List<Procuration> procurations = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialVotersId(councilSessionId, beneficiaryId);
-        boolean hasOngoingProcuration = procurations.stream().anyMatch(p -> p.getEndHour() == null);
+        boolean hasOngoingProcuration = procurations.stream().anyMatch(p -> p.getEndHour() == null && p.getStartHour() != null);
 
         // Si le bénéficiare a une procuration qui n'est pas fermée (en cours) alors il est absent
         if (hasOngoingProcuration) {

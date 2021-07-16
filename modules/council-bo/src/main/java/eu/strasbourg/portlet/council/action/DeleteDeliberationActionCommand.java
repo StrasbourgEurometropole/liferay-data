@@ -18,6 +18,7 @@ import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.model.ProcurationModel;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.DeliberationLocalService;
+import eu.strasbourg.service.council.service.ProcurationLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -53,6 +54,14 @@ public class DeleteDeliberationActionCommand extends BaseMVCActionCommand {
         this.councilSessionLocalService = councilSessionLocalService;
     }
 
+    private ProcurationLocalService procurationLocalService;
+
+    @Reference(unbind = "-")
+    protected void setProcurationLocalService(
+            ProcurationLocalService procurationLocalService) {
+        this.procurationLocalService = procurationLocalService;
+    }
+
     @Override
     protected void doProcessAction(ActionRequest request,
                                    ActionResponse response) throws Exception {
@@ -72,13 +81,16 @@ public class DeleteDeliberationActionCommand extends BaseMVCActionCommand {
                 .filter(d -> d.getStage() != StageDeliberation.CREE.getName())
                 .collect(Collectors.toList());
         for(Procuration procuration : procurations){
+            Boolean updateProc = false;
             if(procuration.getStartDelib()==deliberationId){
                 procuration.setStartDelib(-1);
                 procuration.setIsAfterVote(true);
+                updateProc = true;
             }
             if(notCreated.size()==1 && notCreated.contains(deliberation)){
                 if(procuration.getEndDelib()==deliberationId){
                     procuration.setEndDelib(-1);
+                    updateProc = true;
                 }
             } else {
                 List<Deliberation> voteds = deliberationLocalService.findByCouncilSessionId(deliberation.getCouncilSessionId()).stream()
@@ -88,11 +100,15 @@ public class DeleteDeliberationActionCommand extends BaseMVCActionCommand {
                         .collect(Collectors.toList());
                 if (voteds.isEmpty()){
                     procuration.setEndDelib(-1);
+                    updateProc = true;
                 } else {
                     Deliberation voted = voteds.get(voteds.size()-1);
                     procuration.setEndDelib(voted.getDeliberationId());
+                    updateProc = true;
                 }
             }
+            if(updateProc)
+                procurationLocalService.updateProcuration(procuration);
         }
 
         // Suppression de l'entité

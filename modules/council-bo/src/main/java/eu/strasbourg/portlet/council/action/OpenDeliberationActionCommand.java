@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.Official;
@@ -85,6 +86,18 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
         CouncilSession councilSession = councilSessionLocalService.fetchCouncilSession(deliberation.getCouncilSessionId());
 
         List<Procuration> procurations = procurationLocalService.findByCouncilSessionId(deliberation.getCouncilSessionId());
+
+        // Partie procuration
+        // Récupération des procurations du conseil de la deliberation
+        if(stage.equals(StageDeliberation.VOTE_OUVERT.getName())) {
+            for (Procuration procuration : procurations) {
+                if (procuration.getIsAfterVote()) {
+                    procuration.setStartDelib(deliberation.getDeliberationId());
+                    procuration.setIsAfterVote(false);
+                    procurationLocalService.updateProcuration(procuration);
+                }
+            }
+        }
 
         long typeId = councilSession.getTypeId();
 
