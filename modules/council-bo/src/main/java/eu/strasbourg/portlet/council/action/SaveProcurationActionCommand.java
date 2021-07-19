@@ -47,6 +47,7 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
     private boolean isAbsent = true;
     private long officialId;
     private long beneficiaryId;
+    private String action;
 
     @Override
     public boolean processAction(ActionRequest request, ActionResponse response) {
@@ -54,58 +55,69 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
             // Récupération du contexte de la requêtes
             ServiceContext sc = ServiceContextFactory.getInstance(request);
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+            this.action = ParamUtil.getString(request, "actionHidden");
 
-            // Si édition ou création d'une nouvelle entrée
-            this.officialId = ParamUtil.getLong(request, "officalIdHidden");
-            this.beneficiaryId = ParamUtil.getLong(request, this.officialId + "-officialVotersId");
-            this.isPresential = ParamUtil.getInteger(request, this.officialId + "-presentialSelect");
-            this.procurationMode = ParamUtil.getInteger(request, this.officialId + "-modeSelect");
-            if (this.procurationMode == 4) {
-                this.otherProcurationMode = ParamUtil.getString(request, this.officialId + "-autre");
-            }
-            this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
+            // Soit on veut enregistrer une procuration, soit la supprimer
+            if (this.action.equals("save")) {
 
-            // Set des champs de la procuration
-            Procuration procuration = this.procurationLocalService.createProcuration(sc);
-            procuration.setStartHour(new Date());
-            procuration.setPresential(isPresential);
-            procuration.setProcurationMode(procurationMode);
-            procuration.setOtherProcurationMode(otherProcurationMode);
-            procuration.setCouncilSessionId(councilSessionId);
-            procuration.setOfficialUnavailableId(officialId);
-            procuration.setOfficialVotersId(beneficiaryId);
-            procuration.setIsAbsent(isAbsent);
+                // Si édition ou création d'une nouvelle entrée
+                this.officialId = ParamUtil.getLong(request, "officalIdHidden");
+                this.beneficiaryId = ParamUtil.getLong(request, this.officialId + "-officialVotersId");
+                this.isPresential = ParamUtil.getInteger(request, this.officialId + "-presentialSelect");
+                this.procurationMode = ParamUtil.getInteger(request, this.officialId + "-modeSelect");
+                if (this.procurationMode == 4) {
+                    this.otherProcurationMode = ParamUtil.getString(request, this.officialId + "-autre");
+                }
+                this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
 
-            List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
-            Optional<Deliberation> delibAffichageEnCours = deliberations.stream().filter(Deliberation::isAffichageEnCours).findFirst();
-            Optional<Deliberation> delibVoteEnCours = deliberations.stream().filter(Deliberation::isVoteOuvert).findFirst();
-            Optional<Deliberation> delibAdopteOrRejeteOrCommunique = deliberations.stream().filter((d -> d.isAdopte() || d.isRejete() || d.isCommunique())).findFirst();
 
-            if (deliberations.stream().allMatch(Deliberation::isCree) || deliberations.isEmpty()) {
-                procuration.setStartDelib(-1);
-            } else if (delibAffichageEnCours.isPresent()) {
-                procuration.setStartDelib(delibAffichageEnCours.get().getDeliberationId());
-            } else if (delibVoteEnCours.isPresent()) {
-                SessionErrors.add(request, "ongoing-vote-error");
-                return unValid(request, response, themeDisplay);
+                // Set des champs de la procuration
+                Procuration procuration = this.procurationLocalService.createProcuration(sc);
+                procuration.setStartHour(new Date());
+                procuration.setPresential(isPresential);
+                procuration.setProcurationMode(procurationMode);
+                procuration.setOtherProcurationMode(otherProcurationMode);
+                procuration.setCouncilSessionId(councilSessionId);
+                procuration.setOfficialUnavailableId(officialId);
+                procuration.setOfficialVotersId(beneficiaryId);
+                procuration.setIsAbsent(isAbsent);
+
+                List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
+                Optional<Deliberation> delibAffichageEnCours = deliberations.stream().filter(Deliberation::isAffichageEnCours).findFirst();
+                Optional<Deliberation> delibVoteEnCours = deliberations.stream().filter(Deliberation::isVoteOuvert).findFirst();
+                Optional<Deliberation> delibAdopteOrRejeteOrCommunique = deliberations.stream().filter((d -> d.isAdopte() || d.isRejete() || d.isCommunique())).findFirst();
+
+                if (deliberations.stream().allMatch(Deliberation::isCree) || deliberations.isEmpty()) {
+                    procuration.setStartDelib(-1);
+                } else if (delibAffichageEnCours.isPresent()) {
+                    procuration.setStartDelib(delibAffichageEnCours.get().getDeliberationId());
+                } else if (delibVoteEnCours.isPresent()) {
+                    SessionErrors.add(request, "ongoing-vote-error");
+                    return unValid(request, response, themeDisplay);
+                } else {
+                    procuration.setStartDelib(delibAdopteOrRejeteOrCommunique.get().getDeliberationId());
+                    procuration.setIsAfterVote(true);
+                }
+
+
+                // TODO renvoi sur la page et pas sur la view des conseils
+
+
+                // Validation
+                boolean isValid = this.validate(request);
+                if (!isValid) {
+                    // Si pas valide : on reste sur la page d'édition
+                    return unValid(request, response, themeDisplay);
+                }
+
+                // Mise à jour de l'entrée en base
+                this.procurationLocalService.updateProcuration(procuration, sc);
+
             } else {
-                procuration.setStartDelib(delibAdopteOrRejeteOrCommunique.get().getDeliberationId());
-                procuration.setIsAfterVote(true);
+
             }
 
 
-            // TODO renvoi sur la page et pas sur la view des conseils
-
-
-            // Validation
-            boolean isValid = this.validate(request);
-            if (!isValid) {
-                // Si pas valide : on reste sur la page d'édition
-                return unValid(request, response, themeDisplay);
-            }
-
-            // Mise à jour de l'entrée en base
-            this.procurationLocalService.updateProcuration(procuration, sc);
 
         } catch (PortalException e) {
             log.error(e);
@@ -123,13 +135,13 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
         int nbProcurations = listProcurationsForBeneficiary.size();
 
         // Vérification qu'un élu n'a pas plus de 2 procurations à son nom
-        if (nbProcurations > 2) {
+        if (nbProcurations >= 2) {
             SessionErrors.add(request, "official-voters-limit-error");
             isValid = false;
         }
 
         // Check si le bénéficiare est absent
-        List<Procuration> procurations = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialVotersId(councilSessionId, beneficiaryId);
+        List<Procuration> procurations = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialUnavailableId(councilSessionId, beneficiaryId);
         boolean hasOngoingProcuration = procurations.stream().anyMatch(p -> p.getEndHour() == null && p.getStartHour() != null);
 
         // Si le bénéficiare a une procuration qui n'est pas fermée (en cours) alors il est absent
@@ -143,6 +155,12 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
             // TODO  warn
             SessionErrors.add(request, "official-has-procurations-error");
         }
+
+        // Vérification de la longueur du champ
+         if (this.otherProcurationMode != null && this.otherProcurationMode.length() > 20) {
+             SessionErrors.add(request, "other-procuration-mode-too-long-error");
+             isValid = false;
+         }
 
         // Vérification conseil du jour ou à venir
         GregorianCalendar gregorianCalendar = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();

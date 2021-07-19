@@ -289,6 +289,10 @@
 			<finder-column name="councilSessionId" />
 			<finder-column name="officialVotersId" />
 		</finder>
+		<finder name="CouncilSessionIdAndOfficialUnavailableId" return-type="Collection">
+			<finder-column name="councilSessionId" />
+			<finder-column name="officialUnavailableId" />
+		</finder>
 		<finder name="CouncilSessionIdAndOfficialVotersAndUnavailableIds" return-type="Procuration">
 			<finder-column name="councilSessionId" />
 			<finder-column name="officialVotersId" />

@@ -240,6 +240,18 @@ public class ProcurationLocalServiceUtil {
 	}
 
 	/**
+	 * Recherche d'une procuration pour un officiel
+	 */
+	public static java.util.List
+		<eu.strasbourg.service.council.model.Procuration>
+			findByCouncilSessionIdAndOfficialUnavailableId(
+				long councilSessionId, long officialId) {
+
+		return getService().findByCouncilSessionIdAndOfficialUnavailableId(
+			councilSessionId, officialId);
+	}
+
+	/**
 	 * Recherche par ID de CouncilSession, élu et mandataire,
 	 */
 	public static eu.strasbourg.service.council.model.Procuration

@@ -47,28 +47,32 @@
                 name="officalIdHidden"
                 value="${officialIdValue}" />
 
+            <aui:input cssClass="actionHidden" id="actionHidden" type="hidden"
+                name="actionHidden"
+                value="${actionValue}" />
+
                 <h3>${dc.getCouncilSession().title}</h3>
 
                 <div id="procurations-table">
                     <table border="1">
 
                         <tr>
-                            <th>
+                            <th class="largeColumn">
                                 <strong><liferay-ui:message key="official" /></strong>
                             </th>
-                            <th>
+                            <th class="reduceColumn">
                                 <strong><liferay-ui:message key="is-absent" /></strong>
                             </th>
-                            <th>
+                            <th class="largeColumn">
                                 <strong><liferay-ui:message key="procuration-mode"/></strong>
                             </th>
-                            <th>
+                            <th class="largeColumn">
                                 <strong><liferay-ui:message key="is-presential" /></strong>
                             </th>
-                            <th>
+                            <th class="largeColumn">
                                 <strong><liferay-ui:message key="official-receiver" /></strong>
                             </th>
-                            <th>
+                            <th class="reduceColumn">
                                 <strong><liferay-ui:message key="action" /></strong>
                             </th>
                         </tr>
@@ -103,16 +107,16 @@
                                 </td>
 
                                 <td>
-                                    <span id="checkAbsent" name="${official.officialId}-checkAbsent" style="display: none">
+                                    <div id="checkAbsent" name="${official.officialId}-checkAbsent" style="display: none">
                                         <liferay-ui:icon
                                             icon="check-circle"
                                             markupView="lexicon"
                                         />
-                                    </span>
+                                    </div>
                                     <input id="inputAbsent" class="inputAbsent" name="${official.officialId}-inputAbsent" type="hidden" value ="${isAbsentValue}"/>
                                 </td>
                                 <td id="procurationMode">
-                                    <div class="selectMode" id="selectMode">
+                                    <div class="selectMode" id="selectMode" name="${official.officialId}-selectMode">
                                         <aui:select cssClass="modeSelect" id="modeSelect" name="${official.officialId}-modeSelect" disabled="true">
                                             <aui:option style="display: none" selected="${empty procuration}"></aui:option>
                                             <c:forEach items="${dc.getAllProcurationMode()}" var="procurationMode">
@@ -146,35 +150,32 @@
                                     </div>
                                 </td>
                                 <td>
-                                     <button type="button" name="${official.officialId}-editButton" class="editButton" title ="Editer la ligne">
-                                        <liferay-ui:icon
-                                            icon="pencil"
-                                            markupView="lexicon"
-                                        />
-                                     </button>
-
-                                     <button id="saveButton" class="saveButton" data-official-id="${official.officialId}" title ="Enregistrer la procuration">
-                                        <liferay-ui:icon
-                                            icon="check"
-                                            markupView="lexicon"
-                                        />
-                                     </button>
-
-                                     <button type="button" name="${official.officialId}-resetButton" class="resetButton" title ="Vider la ligne">
-                                        <liferay-ui:icon
-                                            icon="undo"
-                                            markupView="lexicon"
-                                        />
-                                     </button>
-
-                                     <aui:form action="${closeProcurationURL}" method="post" name="fm" onSubmit="submitForm(event);">
-                                        <button id="closeButton" class="closeButton" name="${official.officialId}-closeButton" type="button" title ="Fermer la procuration">
+                                    <div style="text-align: center;">
+                                        <button type="button" name="${official.officialId}-editButton" class="editButton" title ="Editer la ligne">
+                                           <liferay-ui:icon
+                                               icon="pencil"
+                                               markupView="lexicon"
+                                           />
+                                        </button>
+                                        <button id="saveButton" class="saveButton" name="${official.officialId}-saveButton" data-official-id="${official.officialId}" action="save" title ="Enregistrer la procuration">
+                                           <liferay-ui:icon
+                                               icon="check"
+                                               markupView="lexicon"
+                                           />
+                                        </button>
+                                        <button type="button" name="${official.officialId}-resetButton" class="resetButton" title ="Vider la ligne">
+                                           <liferay-ui:icon
+                                               icon="undo"
+                                               markupView="lexicon"
+                                           />
+                                        </button>
+                                        <button id="closeButton" class="closeButton" name="${official.officialId}-closeButton" title ="Fermer la procuration">
                                             <liferay-ui:icon
                                                     icon="trash"
                                                     markupView="lexicon"
                                                 />
                                         </button>
-                                     </aui:form>
+                                    </div>
                                 </td>
                              </tr>
                         </c:forEach>

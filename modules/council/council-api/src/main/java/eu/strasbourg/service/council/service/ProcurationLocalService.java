@@ -209,6 +209,12 @@ public interface ProcurationLocalService
 	public List<Procuration> findByCouncilSessionId(long councilSessionId);
 
 	/**
+	 * Recherche d'une procuration pour un officiel
+	 */
+	public List<Procuration> findByCouncilSessionIdAndOfficialUnavailableId(
+		long councilSessionId, long officialId);
+
+	/**
 	 * Recherche par ID de CouncilSession, élu et mandataire,
 	 */
 	public Procuration findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(

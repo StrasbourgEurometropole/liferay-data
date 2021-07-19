@@ -1,76 +1,97 @@
 var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
 
-    var customSelect = document.getElementsByClassName("modeSelect");
-    var autre = document.getElementsByClassName("inputMode");
-    var autreInput = document.querySelectorAll('input[name$=autre');
+// Permet de gérer l'affichage du selecteur pour otherProcurationMode
+var customSelect = document.getElementsByClassName("modeSelect");
+var autre = document.getElementsByClassName("inputMode");
+var autreInput = document.querySelectorAll('input[name$=autre');
 
-    Array.prototype.forEach.call(customSelect, function(el, i){
-        el.onchange = function(){
-            var valueSelector = el.value;
-            if (valueSelector == 4) {
-                autreInput[i].required = true;
-                autre[i].style.display = "block";
-            } else {
-                autreInput[i].required = false;
-                autre[i].style.display = "none";
-            }
+Array.prototype.forEach.call(customSelect, function(el, i){
+    el.onchange = function(){
+        var valueSelector = el.value;
+        if (valueSelector == 4) {
+            autreInput[i].required = true;
+            autre[i].style.display = "block";
+        } else {
+            autreInput[i].required = false;
+            autre[i].style.display = "none";
         }
-            var valueSelector = el.value;
-            if (valueSelector == 4) {
-                autreInput[i].required = true;
-                autre[i].style.display = "block";
-            } else {
-                autreInput[i].required = false;
-                autre[i].style.display = "none";
-            }
-    });
+    }
+        var valueSelector = el.value;
+        if (valueSelector == 4) {
+            autreInput[i].required = true;
+            autre[i].style.display = "block";
+        } else {
+            autreInput[i].required = false;
+            autre[i].style.display = "none";
+        }
+});
 
+// Variables communes
 var allValidateButtons = document.getElementsByClassName("saveButton");
+var allEditButtons = document.getElementsByClassName("editButton");
+var allCheckAbsent = document.getElementsByClassName("inputAbsent");
+var allResetButtons = document.getElementsByClassName("resetButton");
+var allCloseButtons = document.getElementsByClassName("closeButton");
+
+// Permet de passer des paramètre au bouton save
 var hiddenOfficialId = document.getElementById(namespace+"officalIdHidden");
-    Array.prototype.forEach.call(allValidateButtons, function(el, i){
+var saveValue = document.getElementById(namespace+"actionHidden");
+    Array.prototype.forEach.call(allValidateButtons, function(el, i) {
         el.addEventListener("click", function(element) {
             hiddenOfficialId.value = element.currentTarget.attributes["data-official-id"].value;
+            saveValue.value = element.currentTarget.attributes["action"].value;
         }, false);
 });
 
-var allEditButtons = document.getElementsByClassName("editButton");
-    Array.prototype.forEach.call(allEditButtons, function(el, i){
-        el.addEventListener("click", function() {
-            var officialId = $(this).attr("name").replace(namespace,'').replace("-editButton",'');
-            $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', false);
-            $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', false);
-            $("input[name=" + namespace + "" + officialId + "-officialVoters]").prop('disabled', false);
-            $("input[name=" + namespace + officialId + "-autre]").prop('disabled', false);
-            $("span[name="+ officialId + "-checkAbsent]")[0].style.display="block";
-        }, false);
+// Permet de enabled les champ pour la saisie d'une ligne
+Array.prototype.forEach.call(allEditButtons, function(el, i) {
+    el.addEventListener("click", function() {
+        var officialId = $(this).attr("name").replace(namespace,'').replace("-editButton",'');
+        $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', false);
+        $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', false);
+        $("input[name=" + namespace + "" + officialId + "-officialVoters]").prop('disabled', false);
+        $("input[name=" + namespace + officialId + "-autre]").prop('disabled', false);
+        $("div[name="+ officialId + "-checkAbsent]")[0].style.display="block";
+        $("button[name="+ officialId + "-saveButton]")[0].style.display="inline-block";
+        $("button[name="+ officialId + "-resetButton]")[0].style.display="inline-block";
+        $("button[name="+ officialId + "-closeButton]")[0].style.display="none";
+        $("button[name="+ officialId + "-editButton]")[0].style.display="none";
+    }, false);
 });
 
-
-var allCheckAbsent = document.getElementsByClassName("inputAbsent");
-    Array.prototype.forEach.call(allCheckAbsent, function(el, i){
-       var officialId = el.name.replace(namespace,'').replace("-inputAbsent",'');
-       var isAbsent = el.value;
-       if (isAbsent == "true") {
-           $("span[name="+ officialId + "-checkAbsent]")[0].style.display="block";
+// Permet d'afficher l'image d'absence et de cacher/afficher les différents boutons d'action
+Array.prototype.forEach.call(allCheckAbsent, function(el, i) {
+   var officialId = el.name.replace(namespace,'').replace("-inputAbsent",'');
+   var isAbsent = el.value;
+   if (isAbsent == "true") {
+       $("div[name="+ officialId + "-checkAbsent]")[0].style.display="block";
+       $("button[name="+ officialId + "-closeButton]")[0].style.display="inline-block";
+       $("button[name="+ officialId + "-editButton]")[0].style.display="none";
+       $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
+       $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
+       var select = $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex;
+       if (select == 4) {
+        $("div[name=" + officialId + "-selectMode]")[0].style.display="none";
        }
+   } else {
+         $("button[name="+ officialId + "-editButton]")[0].style.display="inline-block";
+         $("button[name="+ officialId + "-closeButton]")[0].style.display="none";
+         $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
+         $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
+   }
 });
 
-
-
-var allResetButtons = document.getElementsByClassName("resetButton");
-    Array.prototype.forEach.call(allResetButtons, function(el, i){
-        el.addEventListener("click", function() {
-            var officialId = $(this).attr("name").replace(namespace,'').replace("-resetButton",'');
-            $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = 0;
-            $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = 0;
-            $("input[name=" + namespace + officialId + "-officialVoters]")[0].value='';
-            $("input[name=" + namespace + officialId + "-autre]")[0].value='';
-            // TODO verifier display none le checkabs
-            $("span[name="+ officialId + "-checkAbsent]")[0].style.display="none";
-        }, false);
+// Permet de reset les champs de la ligne
+Array.prototype.forEach.call(allResetButtons, function(el, i){
+    el.addEventListener("click", function() {
+        var officialId = $(this).attr("name").replace(namespace,'').replace("-resetButton",'');
+        $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = 0;
+        $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = 0;
+        $("input[name=" + namespace + officialId + "-officialVoters]")[0].value='';
+        $("input[name=" + namespace + officialId + "-autre]")[0].value='';
+        $("div[name="+ officialId + "-checkAbsent]")[0].style.display="none";
+    }, false);
 });
-
-
 
 jQuery(function() {
     /** Autocomplete des élus */

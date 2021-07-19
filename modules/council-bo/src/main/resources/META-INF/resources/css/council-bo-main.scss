@@ -44,9 +44,7 @@
 #procurations-table table {
 	border: #869CAD;
 	width: 100%;
-	table-layout: fixed;
 }
-
 #procurations-table table tr{
 	vertical-align: middle;
 	text-align: center !important;
@@ -57,9 +55,16 @@
 	text-align: center !important;
 	font-size: 18px;
 	background-color: #ddd;
-	width: 25%;
 	height: 50px;
+
+	.reduceColumn{
+	    width : 8%;
+	}
+	.largeColumn {
+		width: 25%;
+	}
 }
+
 
 #procurations-table table td{
 	height: 35px;
@@ -173,6 +178,7 @@
         margin-right: auto;
     }
 }
+
 
 .th-hidden{
     background-color: white !important;

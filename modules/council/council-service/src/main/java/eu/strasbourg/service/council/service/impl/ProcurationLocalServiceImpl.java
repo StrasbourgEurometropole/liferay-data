@@ -171,4 +171,12 @@ public class ProcurationLocalServiceImpl extends ProcurationLocalServiceBaseImpl
 		return this.procurationPersistence.fetchByAbsenceForCouncilSession(councilSessionId, officialId, true);
 	}
 
+	/**
+	 * Recherche d'une procuration pour un officiel
+	 */
+	@Override
+	public List<Procuration> findByCouncilSessionIdAndOfficialUnavailableId(long councilSessionId, long officialId) {
+		return this.procurationPersistence.findByCouncilSessionIdAndOfficialUnavailableId(councilSessionId, officialId);
+	}
+
 }

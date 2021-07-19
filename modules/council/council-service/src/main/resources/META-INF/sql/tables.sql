@@ -97,7 +97,7 @@ create table council_Procuration (
 	endHour DATE null,
 	startDelib LONG,
 	endDelib LONG,
-	otherProcurationMode VARCHAR(75) null
+	otherProcurationMode VARCHAR(20) null
 );
 
 create table council_Type (

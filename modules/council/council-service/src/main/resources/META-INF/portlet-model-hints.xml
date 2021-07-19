@@ -99,7 +99,9 @@
 		<field name="endHour" type="Date" />
 		<field name="startDelib" type="long" />
 		<field name="endDelib" type="long" />
-		<field name="otherProcurationMode" type="String" />
+		<field name="otherProcurationMode" type="String">
+			<hint name="max-length">20</hint>
+		</field>
 	</model>
 	<model name="eu.strasbourg.service.council.model.Type">
 		<field name="uuid" type="String" />

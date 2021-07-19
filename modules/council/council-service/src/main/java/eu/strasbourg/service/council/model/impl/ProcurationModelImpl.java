@@ -120,7 +120,7 @@ public class ProcurationModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,councilSessionId LONG,isAbsent BOOLEAN,procurationMode INTEGER,presential INTEGER,isAfterVote BOOLEAN,startHour DATE null,endHour DATE null,startDelib LONG,endDelib LONG,otherProcurationMode VARCHAR(75) null)";
+		"create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,councilSessionId LONG,isAbsent BOOLEAN,procurationMode INTEGER,presential INTEGER,isAfterVote BOOLEAN,startHour DATE null,endHour DATE null,startDelib LONG,endDelib LONG,otherProcurationMode VARCHAR(20) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table council_Procuration";
