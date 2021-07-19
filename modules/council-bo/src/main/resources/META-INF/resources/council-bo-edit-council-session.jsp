@@ -82,7 +82,7 @@
 			</aui:fieldset>
 
 			<%-- Groupe de champs : Procuration --%>
-			<aui:fieldset collapsed="true" collapsible="true" label="absents-and-procurations" >
+			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="absents-and-procurations" >
 
                 <c:choose>
                     <c:when test="${dc.isStillOpen()}">
