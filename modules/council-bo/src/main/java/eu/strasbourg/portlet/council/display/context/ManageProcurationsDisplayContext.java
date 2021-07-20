@@ -78,7 +78,7 @@ public class ManageProcurationsDisplayContext {
             procurations = this.getCouncilSession().getProcurations();
 
         return procurations.stream()
-                .filter(procuration -> procuration.getOfficialUnavailableId() == officialId)
+                .filter(procuration -> procuration.getOfficialUnavailableId() == officialId && procuration.getEndHour() == null)
                 .findFirst()
                 .orElse(null);
     }

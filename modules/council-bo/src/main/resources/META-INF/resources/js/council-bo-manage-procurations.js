@@ -43,6 +43,14 @@ var saveValue = document.getElementById(namespace+"actionHidden");
         }, false);
 });
 
+// Permet de passer des paramètre au bouton close
+var procurationId = document.getElementById(namespace+"procurationIdHidden");
+    Array.prototype.forEach.call(allCloseButtons, function(el, i) {
+        el.addEventListener("click", function(element) {
+            procurationId.value = element.currentTarget.attributes["procuration-id"].value;
+        }, false);
+});
+
 // Permet de enabled les champ pour la saisie d'une ligne
 Array.prototype.forEach.call(allEditButtons, function(el, i) {
     el.addEventListener("click", function() {
@@ -81,7 +89,7 @@ Array.prototype.forEach.call(allCheckAbsent, function(el, i) {
    }
 });
 
-// Permet de reset les champs de la ligne
+// Permet de reset les champs de la ligne et de les disable
 Array.prototype.forEach.call(allResetButtons, function(el, i){
     el.addEventListener("click", function() {
         var officialId = $(this).attr("name").replace(namespace,'').replace("-resetButton",'');
@@ -90,6 +98,15 @@ Array.prototype.forEach.call(allResetButtons, function(el, i){
         $("input[name=" + namespace + officialId + "-officialVoters]")[0].value='';
         $("input[name=" + namespace + officialId + "-autre]")[0].value='';
         $("div[name="+ officialId + "-checkAbsent]")[0].style.display="none";
+
+        $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
+        $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
+        $("input[name=" + namespace + "" + officialId + "-officialVoters]").prop('disabled', true);
+        $("input[name=" + namespace + officialId + "-autre]").prop('disabled', true);
+        $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
+        $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
+        $("button[name="+ officialId + "-closeButton]")[0].style.display="none";
+        $("button[name="+ officialId + "-editButton]")[0].style.display="inline-block";
     }, false);
 });
 

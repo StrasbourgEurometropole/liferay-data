@@ -11,11 +11,9 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.*;
 import eu.strasbourg.service.council.service.*;
-import eu.strasbourg.service.council.service.persistence.ProcurationUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -24,9 +22,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component(
         immediate = true,
@@ -36,10 +32,11 @@ import java.util.stream.Collectors;
         },
         service = MVCActionCommand.class
 )
-public class SaveProcurationActionCommand implements MVCActionCommand {
+public class ManageProcurationActionCommand implements MVCActionCommand {
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
+    private long procurationId;
     private int isPresential;
     private int procurationMode;
     private String otherProcurationMode;
@@ -51,11 +48,16 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
 
     @Override
     public boolean processAction(ActionRequest request, ActionResponse response) {
+
+        // Récupération du contexte de la requêtes
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+
         try {
-            // Récupération du contexte de la requêtes
             ServiceContext sc = ServiceContextFactory.getInstance(request);
-            ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
             this.action = ParamUtil.getString(request, "actionHidden");
+            this.procurationId = ParamUtil.getLong(request, "procurationIdHidden");
+            this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
+
 
             // Soit on veut enregistrer une procuration, soit la supprimer
             if (this.action.equals("save")) {
@@ -68,8 +70,6 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
                 if (this.procurationMode == 4) {
                     this.otherProcurationMode = ParamUtil.getString(request, this.officialId + "-autre");
                 }
-                this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
-
 
                 // Set des champs de la procuration
                 Procuration procuration = this.procurationLocalService.createProcuration(sc);
@@ -99,12 +99,8 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
                     procuration.setIsAfterVote(true);
                 }
 
-
-                // TODO renvoi sur la page et pas sur la view des conseils
-
-
                 // Validation
-                boolean isValid = this.validate(request);
+                boolean isValid = this.validateSave(request);
                 if (!isValid) {
                     // Si pas valide : on reste sur la page d'édition
                     return unValid(request, response, themeDisplay);
@@ -115,20 +111,39 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
 
             } else {
 
+                Procuration savedProcuration = ProcurationLocalServiceUtil.fetchProcuration(this.procurationId);
+                if (savedProcuration.getStartDelib() == -1 && savedProcuration.isIsAfterVote()) {
+                    ProcurationLocalServiceUtil.removeProcuration(this.procurationId);
+                }
+
+                List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
+                Optional<Deliberation> delibAfficheOrAdopteOrRejeteOrCommunique = deliberations.stream().filter((d -> d.isAdopte() || d.isRejete() || d.isCommunique() || d.isAffichageEnCours())).findFirst();
+                CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
+
+                if (delibAfficheOrAdopteOrRejeteOrCommunique.isPresent()) {
+                    savedProcuration.setEndDelib(councilSession.getLastDelibProcessed());
+                }
+
+                boolean isValid = validateClose(request, deliberations, savedProcuration);
+                if (!isValid) {
+                    // Si pas valide : on reste sur la page d'édition
+                    return unValid(request, response, themeDisplay);
+                }
+
+                // Uodate de l'entité
+                savedProcuration.setEndHour(new Date());
+                this.procurationLocalService.updateProcuration(savedProcuration, sc);
             }
-
-
-
         } catch (PortalException e) {
             log.error(e);
         }
-        return true;
+        return valid(request, response, themeDisplay);
     }
 
     /**
-     * Validation de la requête
+     * Validation de la requête du save de l'entité
      */
-    private boolean validate(ActionRequest request) throws PortalException {
+    private boolean validateSave(ActionRequest request) {
         boolean isValid = true;
 
         List<Procuration> listProcurationsForBeneficiary = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialVotersId(councilSessionId, beneficiaryId);
@@ -137,12 +152,20 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
         // Vérification qu'un élu n'a pas plus de 2 procurations à son nom
         if (nbProcurations >= 2) {
             SessionErrors.add(request, "official-voters-limit-error");
-            isValid = false;
+            return false;
+        }
+
+        // Vérification qu'il n'y a pas déjà de procuration ouverte pour cet élu
+        List<Procuration> procurationsOfficial = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialUnavailableId(councilSessionId, officialId);
+        boolean officialHasOngoingProcuration = hasOngoingProcuration(procurationsOfficial);
+        if (officialHasOngoingProcuration) {
+            SessionErrors.add(request, "official-has-ongoing-procuration-error");
+            return false;
         }
 
         // Check si le bénéficiare est absent
         List<Procuration> procurations = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialUnavailableId(councilSessionId, beneficiaryId);
-        boolean hasOngoingProcuration = procurations.stream().anyMatch(p -> p.getEndHour() == null && p.getStartHour() != null);
+        boolean hasOngoingProcuration = hasOngoingProcuration(procurations);
 
         // Si le bénéficiare a une procuration qui n'est pas fermée (en cours) alors il est absent
         if (hasOngoingProcuration) {
@@ -157,10 +180,10 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
         }
 
         // Vérification de la longueur du champ
-         if (this.otherProcurationMode != null && this.otherProcurationMode.length() > 20) {
-             SessionErrors.add(request, "other-procuration-mode-too-long-error");
-             isValid = false;
-         }
+        if (this.otherProcurationMode != null && this.otherProcurationMode.length() > 20) {
+            SessionErrors.add(request, "other-procuration-mode-too-long-error");
+            return false;
+        }
 
         // Vérification conseil du jour ou à venir
         GregorianCalendar gregorianCalendar = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
@@ -169,11 +192,40 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
         List<CouncilSession> councilSessions = CouncilSessionLocalServiceUtil.getFutureCouncilSessions(date);
         boolean isCouncilValid = councilSessions.stream().anyMatch(c -> c.getCouncilSessionId() == councilSessionId);
         if (!isCouncilValid) {
-            isValid = false;
             SessionErrors.add(request, "not-valid-council-error");
+            return false;
         }
 
         return isValid;
+    }
+
+    /**
+     * Validation de la requête du delete de l'entité
+     */
+    private boolean validateClose(ActionRequest request, List<Deliberation> deliberations, Procuration savedProcuration) {
+
+        boolean isValid = true;
+
+        // Vérification si un vote est en cours
+        Optional<Deliberation> delibVoteEnCours = deliberations.stream().filter(Deliberation::isVoteOuvert).findFirst();
+        if (delibVoteEnCours.isPresent()) {
+            SessionErrors.add(request, "ongoing-vote-delete-error");
+            return false;
+        }
+        // Vérification si la procuration est déjà fermée
+        if (savedProcuration.getEndHour() != null) {
+            SessionErrors.add(request, "already-closed-procuration-error");
+            return false;
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Retourne true si une procuration est en cours
+     */
+    private boolean hasOngoingProcuration(List<Procuration> procurations) {
+        return procurations.stream().anyMatch(p -> p.getEndHour() == null && p.getStartHour() != null);
     }
 
     /**
@@ -191,6 +243,23 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
         response.setRenderParameter("cmd", "manageProcurations");
         response.setRenderParameter("mvcPath", "/council-bo-manage-procurations.jsp");
         return false;
+    }
+
+    /**
+     * Gestion du retour sans erreur
+     */
+    private boolean valid(ActionRequest request, ActionResponse response, ThemeDisplay themeDisplay) {
+
+        PortalUtil.copyRequestParameters(request, response);
+
+        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
+        PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
+                PortletRequest.RENDER_PHASE);
+
+        response.setRenderParameter("returnURL", returnURL.toString());
+        response.setRenderParameter("cmd", "manageProcurations");
+        response.setRenderParameter("mvcPath", "/council-bo-manage-procurations.jsp");
+        return true;
     }
 
     @Reference(unbind = "-")
@@ -217,5 +286,4 @@ public class SaveProcurationActionCommand implements MVCActionCommand {
     private OfficialLocalService officialLocalService;
     private OfficialTypeCouncilLocalService officialTypeCouncilLocalService;
     private ProcurationLocalService procurationLocalService;
-
 }

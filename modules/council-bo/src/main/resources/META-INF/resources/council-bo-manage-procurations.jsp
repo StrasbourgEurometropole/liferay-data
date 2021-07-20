@@ -7,15 +7,7 @@
 	<portlet:param name="tab" value="councilSessions" />
 </liferay-portlet:renderURL>
 
-<%-- TODO --%>
-<%-- URL : definit le lien menant vers la fermeture de la procuration --%>
-<liferay-portlet:actionURL name="closeProcuration" var="closeProcurationURL">
-	<portlet:param name="cmd" value="deleteCouncilSession" />
-	<portlet:param name="procurationId"
-	    value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
-</liferay-portlet:actionURL>
-
-<%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
+<%-- URL : definit le lien menant vers la sauvegarde ou la suprpession de l'entite --%>
 <liferay-portlet:actionURL name="saveProcuration" varImpl="saveProcurationURL">
 	<portlet:param name="cmd" value="saveProcuration" />
 </liferay-portlet:actionURL>
@@ -50,6 +42,10 @@
             <aui:input cssClass="actionHidden" id="actionHidden" type="hidden"
                 name="actionHidden"
                 value="${actionValue}" />
+
+            <aui:input cssClass="procurationIdHidden" id="procurationIdHidden" type="hidden"
+                name="procurationIdHidden"
+                value="${procurationId}" />
 
                 <h3>${dc.getCouncilSession().title}</h3>
 
@@ -91,6 +87,7 @@
                                     <c:set var="officialVotersFullName" value="${procuration.officialVotersFullName}" />
                                     <c:set var="otherProcurationMode" value="${procuration.otherProcurationMode}" />
                                     <c:set var="disabledInput" value="false" />
+                                    <c:set var="procurationId" value="${procuration.procurationId}" />
                                 </c:when>
                                 <c:otherwise>
                                     <c:set var="isAbsentValue" value="false" />
@@ -157,7 +154,8 @@
                                                markupView="lexicon"
                                            />
                                         </button>
-                                        <button id="saveButton" class="saveButton" name="${official.officialId}-saveButton" data-official-id="${official.officialId}" action="save" title ="Enregistrer la procuration">
+                                        <button id="saveButton" class="saveButton" name="${official.officialId}-saveButton" title ="Enregistrer la procuration"
+                                            data-official-id="${official.officialId}" action="save" >
                                            <liferay-ui:icon
                                                icon="check"
                                                markupView="lexicon"
@@ -169,7 +167,8 @@
                                                markupView="lexicon"
                                            />
                                         </button>
-                                        <button id="closeButton" class="closeButton" name="${official.officialId}-closeButton" title ="Fermer la procuration">
+                                        <button id="closeButton" class="closeButton" name="${official.officialId}-closeButton" title ="Fermer la procuration"
+                                            procuration-id="${procurationId}">
                                             <liferay-ui:icon
                                                     icon="trash"
                                                     markupView="lexicon"
