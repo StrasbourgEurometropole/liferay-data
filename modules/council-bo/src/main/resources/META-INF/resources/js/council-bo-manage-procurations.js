@@ -143,3 +143,49 @@ jQuery(function() {
     	$('.autocomplete-shown', this).autocomplete(options);
     });
  });
+
+ var refreshCount = setInterval(function() {
+
+     var timeleft = document.getElementById("refreshTimerValue").innerHTML-1000;
+
+     // Calculating the days, hours, minutes and seconds left
+     var minutes = Math.floor(timeleft / (1000 * 60));
+     var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+
+     // Result is output to the specific element
+     document.getElementById("refreshTimer").innerHTML = minutes + ":" + seconds;
+     document.getElementById("refreshTimerValue").innerHTML = timeleft;
+
+     // Display the message when countdown is over
+     if (timeleft == 0) {
+        document.getElementById("refreshTimerValue").innerHTML = 5000;
+        Liferay.Service(
+          '/council.procuration/find-associated-procuration-json',
+          {
+            councilSessionId: document.getElementById(namespace+"councilIdHidden").value
+          },
+          function(obj) {
+            displayInfos(obj);
+          }
+        );
+     }
+ }, 1000);
+
+ function displayInfos(obj) {
+    Array.prototype.forEach.call(obj.official, function(official, i){
+            var officialId = official.officialId;
+            if(official.hasProcuration==true){
+                $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = official.procurationMode;
+                $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = official.presential;
+                $("input[name=" + namespace + officialId + "-officialVoters]")[0].value=official.officialVoter;
+                $("input[name=" + namespace + officialId + "-autre]")[0].value=official.otherProcurationMode;
+                $("span[name="+ officialId + "-checkAbsent]")[0].style.display="block";
+            } else {
+                $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = 0;
+                $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = 0;
+                $("input[name=" + namespace + officialId + "-officialVoters]")[0].value='';
+                $("input[name=" + namespace + officialId + "-autre]")[0].value='';
+                $("span[name="+ officialId + "-checkAbsent]")[0].style.display="none";
+            }
+    });
+ }

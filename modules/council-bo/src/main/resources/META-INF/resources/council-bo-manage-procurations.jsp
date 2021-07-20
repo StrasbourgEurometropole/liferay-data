@@ -39,6 +39,10 @@
                 name="officalIdHidden"
                 value="${officialIdValue}" />
 
+            <aui:input cssClass="officalIdHidden" id="councilIdHidden" type="hidden"
+                name="councilIdHidden"
+                value="${dc.councilSession.councilSessionId}" />
+
             <aui:input cssClass="actionHidden" id="actionHidden" type="hidden"
                 name="actionHidden"
                 value="${actionValue}" />
@@ -49,6 +53,16 @@
 
                 <h3>${dc.getCouncilSession().title}</h3>
 
+                <div id="refresh" name="refresh">
+                     <button type="button" name="reloadButton" class="reloadButton" title ="refresh tableau">
+                        <liferay-ui:icon
+                            icon="reload"
+                            markupView="lexicon"
+                        />
+                     </button>
+                    <p id="refreshTimer" name="refreshTimer"></p>
+                    <p id="refreshTimerValue" name="refreshTimerValue" style="display : none;">5000</p>
+                </div>
                 <div id="procurations-table">
                     <table border="1">
 

@@ -229,6 +229,12 @@ public class ProcurationLocalServiceUtil {
 			councilSessionId, officialId);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject
+		findAssociatedProcurationJSON(long councilSessionId) {
+
+		return getService().findAssociatedProcurationJSON(councilSessionId);
+	}
+
 	/**
 	 * Recherche par ID de CouncilSession
 	 */
