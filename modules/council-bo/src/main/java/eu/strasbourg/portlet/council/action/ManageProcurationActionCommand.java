@@ -116,7 +116,10 @@ public class ManageProcurationActionCommand implements MVCActionCommand {
                 List<Procuration> openedProcurationsForCouncil = allProcurationsForCouncil.stream().filter(p -> p.getEndHour() == null).collect(Collectors.toList());
 
                 for (Procuration procuration : openedProcurationsForCouncil) {
-                    isUnvalid(request, sc, procuration);
+                    boolean isRequestUnvalid = isUnvalid(request, sc, procuration);
+                    if (isRequestUnvalid) {
+                        return unValid(request, response, themeDisplay);
+                    }
                 }
 
             } else {
@@ -178,7 +181,7 @@ public class ManageProcurationActionCommand implements MVCActionCommand {
         List<Procuration> procurationsOfficial = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialUnavailableId(councilSessionId, officialId);
         boolean officialHasOngoingProcuration = hasOngoingProcuration(procurationsOfficial);
         if (officialHasOngoingProcuration) {
-            SessionErrors.add(request, "official-has-ongoing-procuration-error");
+            SessionErrors.add(request, "ongoing-procuration-error");
             return false;
         }
 
@@ -234,7 +237,6 @@ public class ManageProcurationActionCommand implements MVCActionCommand {
         // Vérification si la procuration est déjà fermée
         if (savedProcuration.getEndHour() != null) {
             SessionErrors.add(request, "already-closed-procuration-error");
-            return false;
         }
 
         return isValid;

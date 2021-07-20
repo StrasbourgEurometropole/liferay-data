@@ -15,12 +15,17 @@
 <%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body council-bo">
 
-	<%-- TODO--%>
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
-	<%-- Composant : definit la liste des messages d'erreur  (voir methode "doProcessAction" dans le deleteAction de l'entite) --%>
-
-
-
+	<liferay-ui:error key="council-has-delib-error" message="council-has-delib-error" />
+	<liferay-ui:error key="not-valid-council-error" message="not-valid-council-error" />
+	<liferay-ui:error key="official-has-procurations-error" message="official-has-procurations-error" />
+	<liferay-ui:error key="not-valid-council-error" message="not-valid-council-error" />
+	<liferay-ui:error key="ongoing-vote-error" message="ongoing-vote-error" />
+    <liferay-ui:error key="beneficiary-absent-error" message="beneficiary-absent-error" />
+    <liferay-ui:error key="ongoing-procuration-error" message="ongoing-procuration-error" />
+    <liferay-ui:error key="other-procuration-mode-too-long-error" message="other-procuration-mode-too-long-error" />
+	<liferay-ui:error key="ongoing-vote-delete-error" message="ongoing-vote-delete-error" />
+    <liferay-ui:error key="already-closed-procuration-error" message="already-closed-procuration-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveProcurationURL}" method="post" name="fm" onSubmit="submitForm(event);">
@@ -200,6 +205,14 @@
                     </table>
                 </div>
 
+			<button id="closeAllProcurationsButton" class="closeAll" name="closeAllProcurationsButton" title ="Fermer toues les procurations"
+                                action="closeAll" >
+                                <liferay-ui:icon
+                                        icon="trash"
+                                        markupView="lexicon"
+                                />
+                                Fermer les procurations
+                        </button>
 			</aui:fieldset>
 
 		</aui:fieldset-group>
@@ -208,13 +221,6 @@
 		<aui:button-row>
 
 			<aui:input type="hidden" name="workflowAction" value="" />
-			<button id="closeAllProcurationsButton" class="closeAllProcurationsButton" name="closeAllProcurationsButton" title ="Fermer toues les procurations"
-                    action="closeAll" value="Fermer les procurations">
-                    <liferay-ui:icon
-                            icon="trash"
-                            markupView="lexicon"
-                        />
-                </button>
 
 			<%-- Composant : bouton de retour a la liste des entites --%>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
