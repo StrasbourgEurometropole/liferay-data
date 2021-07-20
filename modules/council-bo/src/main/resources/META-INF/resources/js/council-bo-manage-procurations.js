@@ -51,6 +51,13 @@ var procurationId = document.getElementById(namespace+"procurationIdHidden");
         }, false);
 });
 
+// Permet de passer des paramètre au bouton close all prcurations
+var closeAllProcurationsButton = document.getElementById("closeAllProcurationsButton");
+var action = document.getElementById(namespace+"actionHidden");
+closeAllProcurationsButton.addEventListener("click", function(element) {
+    action.value = element.currentTarget.attributes["action"].value;
+});
+
 // Permet de enabled les champ pour la saisie d'une ligne
 Array.prototype.forEach.call(allEditButtons, function(el, i) {
     el.addEventListener("click", function() {

@@ -204,10 +204,13 @@
 		<aui:button-row>
 
 			<aui:input type="hidden" name="workflowAction" value="" />
-			<%-- Test : Verification des droits de supression --%>
-			<c:if test="${not empty dc.councilSession && dc.hasPermission('DELETE_COUNCIL_SESSION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
-			</c:if>
+			<button id="closeAllProcurationsButton" class="closeAllProcurationsButton" name="closeAllProcurationsButton" title ="Fermer toues les procurations"
+                    action="closeAll" value="Fermer les procurations">
+                    <liferay-ui:icon
+                            icon="trash"
+                            markupView="lexicon"
+                        />
+                </button>
 
 			<%-- Composant : bouton de retour a la liste des entites --%>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />

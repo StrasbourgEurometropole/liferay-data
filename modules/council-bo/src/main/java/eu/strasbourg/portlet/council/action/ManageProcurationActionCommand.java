@@ -23,6 +23,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component(
         immediate = true,
@@ -109,35 +110,53 @@ public class ManageProcurationActionCommand implements MVCActionCommand {
                 // Mise à jour de l'entrée en base
                 this.procurationLocalService.updateProcuration(procuration, sc);
 
+            } else if (this.action.equals("closeAll")) {
+
+                List<Procuration> allProcurationsForCouncil = ProcurationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
+                List<Procuration> openedProcurationsForCouncil = allProcurationsForCouncil.stream().filter(p -> p.getEndHour() == null).collect(Collectors.toList());
+
+                for (Procuration procuration : openedProcurationsForCouncil) {
+                    isUnvalid(request, sc, procuration);
+                }
+
             } else {
 
                 Procuration savedProcuration = ProcurationLocalServiceUtil.fetchProcuration(this.procurationId);
-                if (savedProcuration.getStartDelib() == -1 && savedProcuration.isIsAfterVote()) {
-                    ProcurationLocalServiceUtil.removeProcuration(this.procurationId);
-                }
-
-                List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
-                Optional<Deliberation> delibAfficheOrAdopteOrRejeteOrCommunique = deliberations.stream().filter((d -> d.isAdopte() || d.isRejete() || d.isCommunique() || d.isAffichageEnCours())).findFirst();
-                CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
-
-                if (delibAfficheOrAdopteOrRejeteOrCommunique.isPresent()) {
-                    savedProcuration.setEndDelib(councilSession.getLastDelibProcessed());
-                }
-
-                boolean isValid = validateClose(request, deliberations, savedProcuration);
-                if (!isValid) {
-                    // Si pas valide : on reste sur la page d'édition
+                boolean isUnvalidRequest = isUnvalid(request, sc, savedProcuration);
+                if (isUnvalidRequest) {
                     return unValid(request, response, themeDisplay);
                 }
-
-                // Uodate de l'entité
-                savedProcuration.setEndHour(new Date());
-                this.procurationLocalService.updateProcuration(savedProcuration, sc);
             }
         } catch (PortalException e) {
             log.error(e);
         }
         return valid(request, response, themeDisplay);
+    }
+
+    private boolean isUnvalid(ActionRequest request, ServiceContext sc, Procuration savedProcuration) throws PortalException {
+
+        if (savedProcuration.getStartDelib() == -1 && savedProcuration.isIsAfterVote()) {
+            ProcurationLocalServiceUtil.removeProcuration(savedProcuration.getProcurationId());
+        }
+
+        List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
+        Optional<Deliberation> delibAfficheOrAdopteOrRejeteOrCommunique = deliberations.stream().filter((d -> d.isAdopte() || d.isRejete() || d.isCommunique() || d.isAffichageEnCours())).findFirst();
+        CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
+
+        if (delibAfficheOrAdopteOrRejeteOrCommunique.isPresent()) {
+            savedProcuration.setEndDelib(councilSession.getLastDelibProcessed());
+        }
+
+        boolean isValid = validateClose(request, deliberations, savedProcuration);
+        if (!isValid) {
+            // Si pas valide : on reste sur la page d'édition
+            return true;
+        }
+
+        // Update de l'entité
+        savedProcuration.setEndHour(new Date());
+        this.procurationLocalService.updateProcuration(savedProcuration, sc);
+        return false;
     }
 
     /**
