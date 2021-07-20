@@ -61,16 +61,23 @@ closeAllProcurationsButton.addEventListener("click", function(element) {
 // Permet de enabled les champ pour la saisie d'une ligne
 Array.prototype.forEach.call(allEditButtons, function(el, i) {
     el.addEventListener("click", function() {
-        var officialId = $(this).attr("name").replace(namespace,'').replace("-editButton",'');
-        $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', false);
-        $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', false);
-        $("input[name=" + namespace + "" + officialId + "-officialVoters]").prop('disabled', false);
-        $("input[name=" + namespace + officialId + "-autre]").prop('disabled', false);
-        $("div[name="+ officialId + "-checkAbsent]")[0].style.display="block";
-        $("button[name="+ officialId + "-saveButton]")[0].style.display="inline-block";
-        $("button[name="+ officialId + "-resetButton]")[0].style.display="inline-block";
-        $("button[name="+ officialId + "-closeButton]")[0].style.display="none";
-        $("button[name="+ officialId + "-editButton]")[0].style.display="none";
+        var editValue =  document.getElementById(namespace+"editHidden");
+        if(editValue.value=="false"){
+            clearInterval(refreshCount)
+            var officialId = $(this).attr("name").replace(namespace,'').replace("-editButton",'');
+            $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', false);
+            $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', false);
+            $("input[name=" + namespace + "" + officialId + "-officialVoters]").prop('disabled', false);
+            $("input[name=" + namespace + officialId + "-autre]").prop('disabled', false);
+            $("div[name="+ officialId + "-checkAbsent]")[0].style.display="block";
+            $("button[name="+ officialId + "-saveButton]")[0].style.display="inline-block";
+            $("button[name="+ officialId + "-resetButton]")[0].style.display="inline-block";
+            $("button[name="+ officialId + "-closeButton]")[0].style.display="none";
+            $("button[name="+ officialId + "-editButton]")[0].style.display="none";
+            editValue.value=true;
+        } else {
+            window.alert("Edit deja en cours");
+        }
     }, false);
 });
 
@@ -99,6 +106,8 @@ Array.prototype.forEach.call(allCheckAbsent, function(el, i) {
 // Permet de reset les champs de la ligne et de les disable
 Array.prototype.forEach.call(allResetButtons, function(el, i){
     el.addEventListener("click", function() {
+        refreshCount = setInterval(refreshTab, 1000);
+        document.getElementById(namespace+"editHidden").value=false;
         var officialId = $(this).attr("name").replace(namespace,'').replace("-resetButton",'');
         $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = 0;
         $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = 0;
@@ -151,7 +160,7 @@ jQuery(function() {
     });
  });
 
- var refreshCount = setInterval(function() {
+function refreshTab() {
 
      var timeleft = document.getElementById("refreshTimerValue").innerHTML-1000;
 
@@ -160,23 +169,42 @@ jQuery(function() {
      var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
 
      // Result is output to the specific element
+     if(seconds < 10){
+     document.getElementById("refreshTimer").innerHTML = minutes + ":0" + seconds;
+     } else {
      document.getElementById("refreshTimer").innerHTML = minutes + ":" + seconds;
+     }
      document.getElementById("refreshTimerValue").innerHTML = timeleft;
 
      // Display the message when countdown is over
      if (timeleft == 0) {
         document.getElementById("refreshTimerValue").innerHTML = 5000;
+        document.getElementById(namespace+"editHidden").value=true;
         Liferay.Service(
           '/council.procuration/find-associated-procuration-json',
           {
-            councilSessionId: document.getElementById(namespace+"councilIdHidden").value
+            councilSessionId: document.getElementById(namespace+"councilIdHidden").value,
+
           },
           function(obj) {
             displayInfos(obj);
           }
         );
      }
- }, 1000);
+ }
+
+ var refreshCount = setInterval(refreshTab, 1000);
+
+var reloadButton = document.getElementById("reloadButton");
+reloadButton.addEventListener("click", function() {
+    var editValue =  document.getElementById(namespace+"editHidden").value;
+    if(editValue==false){
+        clearInterval(refreshCount)
+        refreshCount = setInterval(refreshTab, 1000);
+    } else {
+        window.alert("Edit en cours");
+    }
+}, false);
 
  function displayInfos(obj) {
     Array.prototype.forEach.call(obj.official, function(official, i){
@@ -186,13 +214,26 @@ jQuery(function() {
                 $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = official.presential;
                 $("input[name=" + namespace + officialId + "-officialVoters]")[0].value=official.officialVoter;
                 $("input[name=" + namespace + officialId + "-autre]")[0].value=official.otherProcurationMode;
-                $("span[name="+ officialId + "-checkAbsent]")[0].style.display="block";
+                if ($("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex == 4) {
+                    $("div[name=" + officialId + "-selectMode]")[0].style.display="none";
+                    $("input[name=" + namespace + officialId + "-autre]")[0].style.display="block";
+                }
+                $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
+                $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
+                $("button[name="+ officialId + "-closeButton]")[0].style.display="inline-block";
+                $("button[name="+ officialId + "-editButton]")[0].style.display="none";
+                $("div[name="+ officialId + "-checkAbsent]")[0].style.display="block";
             } else {
                 $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = 0;
                 $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = 0;
                 $("input[name=" + namespace + officialId + "-officialVoters]")[0].value='';
                 $("input[name=" + namespace + officialId + "-autre]")[0].value='';
-                $("span[name="+ officialId + "-checkAbsent]")[0].style.display="none";
+                $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
+                $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
+                $("button[name="+ officialId + "-closeButton]")[0].style.display="none";
+                $("button[name="+ officialId + "-editButton]")[0].style.display="inline-block";
+                $("div[name="+ officialId + "-checkAbsent]")[0].style.display="none";
             }
     });
+    document.getElementById(namespace+"editHidden").value=false;
  }
