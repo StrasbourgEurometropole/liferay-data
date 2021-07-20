@@ -189,57 +189,6 @@ public class ProcurationLocalServiceImpl extends ProcurationLocalServiceBaseImpl
 		return this.procurationPersistence.fetchByAbsenceForCouncilSession(councilSessionId, officialId, true);
 	}
 
-	@Override
-	public JSONObject findAssociatedProcurationJSON (long councilSessionId) {
-		JSONObject associatedProcuration = JSONFactoryUtil.createJSONObject();
-
-		try {
-			Group group = GroupLocalServiceUtil.getGroups(-1, -1).stream().filter(g -> g.getGroupKey().equals("Evote conseils")).findFirst().orElse(null);
-			if(group != null) {
-				List<Official> officials = OfficialLocalServiceUtil.findByGroupIdAndIsActive(group.getGroupId(), true);
-
-				List<Procuration> procurations = new ArrayList<>();
-				CouncilSession councilSession = CouncilSessionLocalServiceUtil.getCouncilSession(councilSessionId);
-				if(councilSession != null) {
-					procurations = councilSession.getProcurations();
-				}
-				for(Official official : officials) {
-					Procuration procuration = procurations.stream()
-						.filter(p -> p.getOfficialUnavailableId() == official.getOfficialId())
-						.findFirst()
-						.orElse(null);
-					JSONArray officialsJSON = JSONFactoryUtil.createJSONArray();
-					if(procuration != null){
-						JSONObject officialJSON = JSONFactoryUtil.createJSONObject();
-						officialJSON.put("officialId", official.getOfficialId());
-						officialJSON.put("hasProcuration", true);
-						officialJSON.put("officialFullName", official.getFullName());
-						officialJSON.put("procurationMode", procuration.getProcurationMode());
-						if(procuration.getProcurationMode()== ProcurationModeEnum.AUTRE.getId()){
-							officialJSON.put("otherProcurationMode", procuration.getOtherProcurationMode());
-						}
-						officialJSON.put("presential", procuration.getPresential());
-						officialJSON.put("officialVoter", procuration.getOfficialVotersFullName());
-						officialsJSON.put(officialJSON);
-
-					} else {
-						JSONObject officialJSON = JSONFactoryUtil.createJSONObject();
-						officialJSON.put("officialId", official.getOfficialId());
-						officialJSON.put("hasProcuration", false);
-						officialJSON.put("officialFullName", official.getFullName());
-						officialJSON.put("procurationMode", 0);
-						officialJSON.put("presential", 0);
-						officialJSON.put("officialVoter", "");
-						officialsJSON.put(officialJSON);
-					}
-					associatedProcuration.put("official", officialsJSON);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return associatedProcuration;
-	}
 	/**
 	 * Recherche d'une procuration pour un officiel
 	 */

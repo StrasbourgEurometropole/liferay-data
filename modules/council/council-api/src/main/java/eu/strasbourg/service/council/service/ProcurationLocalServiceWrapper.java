@@ -235,14 +235,6 @@ public class ProcurationLocalServiceWrapper
 			councilSessionId, officialId);
 	}
 
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject
-		findAssociatedProcurationJSON(long councilSessionId) {
-
-		return _procurationLocalService.findAssociatedProcurationJSON(
-			councilSessionId);
-	}
-
 	/**
 	 * Recherche par ID de CouncilSession
 	 */
