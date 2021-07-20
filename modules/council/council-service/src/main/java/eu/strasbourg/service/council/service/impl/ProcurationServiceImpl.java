@@ -69,7 +69,7 @@ public class ProcurationServiceImpl extends ProcurationServiceBaseImpl {
 				JSONArray officialsJSON = JSONFactoryUtil.createJSONArray();
 				for(Official official : officials) {
 					Procuration procuration = procurations.stream()
-							.filter(p -> p.getOfficialUnavailableId() == official.getOfficialId())
+							.filter(p -> p.getOfficialUnavailableId() == official.getOfficialId() && p.getEndHour() == null)
 							.findFirst()
 							.orElse(null);
 					if(procuration != null){
