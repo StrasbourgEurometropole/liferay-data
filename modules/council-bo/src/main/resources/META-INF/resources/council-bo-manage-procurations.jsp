@@ -65,7 +65,7 @@
                         />
                      </button>
                     <p id="refreshTimer" name="refreshTimer" style="display: inline-block;"></p>
-                    <p id="refreshTimerValue" name="refreshTimerValue" style="display : none;">5000</p>
+                    <p id="refreshTimerValue" name="refreshTimerValue" style="display : none;">30000</p>
                 </div>
                 <div id="procurations-table">
                     <table border="1">

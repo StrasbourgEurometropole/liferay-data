@@ -153,8 +153,19 @@ jQuery(function() {
     });
  });
 
-function refreshTab() {
+function getProcurations() {
+Liferay.Service(
+    '/council.procuration/find-associated-procuration-json',
+    {
+        councilSessionId: document.getElementById(namespace+"councilIdHidden").value,
+    },
+    function(obj) {
+        displayInfos(obj);
+    }
+);
+}
 
+function refreshTab() {
      var timeleft = document.getElementById("refreshTimerValue").innerHTML-1000;
 
      // Calculating the days, hours, minutes and seconds left
@@ -171,33 +182,11 @@ function refreshTab() {
 
      // Display the message when countdown is over
      if (timeleft == 0) {
-        document.getElementById("refreshTimerValue").innerHTML = 5000;
+        document.getElementById("refreshTimerValue").innerHTML = 30000;
         document.getElementById(namespace+"editHidden").value=true;
-        Liferay.Service(
-          '/council.procuration/find-associated-procuration-json',
-          {
-            councilSessionId: document.getElementById(namespace+"councilIdHidden").value,
-
-          },
-          function(obj) {
-            displayInfos(obj);
-          }
-        );
+        getProcurations();
      }
  }
-
- var refreshCount = setInterval(refreshTab, 1000);
-
-var reloadButton = document.getElementById("reloadButton");
-reloadButton.addEventListener("click", function() {
-    var editValue =  document.getElementById(namespace+"editHidden").value;
-    if(editValue==false){
-        clearInterval(refreshCount)
-        refreshCount = setInterval(refreshTab, 1000);
-    } else {
-        window.alert("Edit en cours");
-    }
-}, false);
 
  function displayInfos(obj) {
     Array.prototype.forEach.call(obj.official, function(official, i){
@@ -230,3 +219,15 @@ reloadButton.addEventListener("click", function() {
     });
     document.getElementById(namespace+"editHidden").value=false;
  }
+
+var refreshCount = setInterval(refreshTab, 1000);
+
+var reloadButton = document.getElementById("reloadButton");
+reloadButton.addEventListener("click", function() {
+    var editValue =  document.getElementById(namespace+"editHidden");
+    if(editValue.value=="false"){
+        getProcurations();
+    } else {
+        alert("Edit en cours");
+    }
+}, false);
