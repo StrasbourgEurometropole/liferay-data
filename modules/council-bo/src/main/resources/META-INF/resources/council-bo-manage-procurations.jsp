@@ -12,6 +12,12 @@
 	<portlet:param name="cmd" value="saveProcuration" />
 </liferay-portlet:actionURL>
 
+<%-- URL : definit le lien menant vers la fonction de reload des procurations pour le tableau --%>
+<liferay-portlet:resourceURL id="reloadProcurations" var="reloadProcurationsURL"
+        copyCurrentRenderParameters="false">
+    <portlet:param name="councilSessionId" value="${dc.councilSession.councilSessionId}" />
+</liferay-portlet:resourceURL>
+
 <portlet:resourceURL id="saveProcurationDynamic" var="saveProcurationDynamicURL">
 </portlet:resourceURL>
 
@@ -45,10 +51,6 @@
             <aui:input cssClass="officalIdHidden" id="officalIdHidden" type="hidden"
                 name="officalIdHidden"
                 value="${officialIdValue}" />
-
-            <aui:input cssClass="officalIdHidden" id="councilIdHidden" type="hidden"
-                name="councilIdHidden"
-                value="${dc.councilSession.councilSessionId}" />
 
             <aui:input cssClass="actionHidden" id="actionHidden" type="hidden"
                 name="actionHidden"
@@ -242,55 +244,157 @@
 	<script src="/o/councilbo/js/council-bo-manage-procurations.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
 
-<script>
-     /**
-     * Lors du click sur le bouton save
-     */
-     var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
-     var allValidateButtons = document.getElementsByClassName("saveButton");
+<%-- Script : permet l'affichage des alertes de validation d'action --%>
+<aui:script>
+    function getProcurations() {
+        AUI().use('aui-io-request', function(A) {
+            try {
+                A.io.request('${reloadProcurationsURL}', {
+                    method : 'POST',
+                    dataType: 'json',
+                    on: {
+                        complete: function(e) {
+                            var data = JSON.parse(e.details[1].responseText);
+                            Array.prototype.forEach.call(data.official, function(official, i){
+                                    var officialId = official.officialId;
+                                    if(official.hasProcuration==true){
+                                        $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = official.procurationMode;
+                                        $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = official.presential;
+                                        $("input[name=" + namespace + officialId + "-officialVoters]")[0].value=official.officialVoter;
+                                        $("input[name=" + namespace + officialId + "-autre]")[0].value=official.otherProcurationMode;
+                                        if ($("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex == 4) {
+                                            $("div[name=" + officialId + "-selectMode]")[0].style.display="none";
+                                            $("input[name=" + namespace + officialId + "-autre]")[0].style.display="block";
+                                        }
+                                        $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
+                                        $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
+                                        $("button[name="+ officialId + "-closeButton]")[0].style.display="inline-block";
+                                        $("button[name="+ officialId + "-editButton]")[0].style.display="none";
+                                        $("div[name="+ officialId + "-checkAbsent]")[0].style.display="block";
+                                    } else {
+                                        $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = 0;
+                                        $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = 0;
+                                        $("input[name=" + namespace + officialId + "-officialVoters]")[0].value='';
+                                        $("input[name=" + namespace + officialId + "-autre]")[0].value='';
+                                        $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
+                                        $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
+                                        $("button[name="+ officialId + "-closeButton]")[0].style.display="none";
+                                        $("button[name="+ officialId + "-editButton]")[0].style.display="inline-block";
+                                        $("div[name="+ officialId + "-checkAbsent]")[0].style.display="none";
+                                    }
+                            });
+                            document.getElementById(namespace+"editHidden").value=false;
+                            /* var data = this.get('responseData');
+                            var data = JSON.parse(e.details[1].responseText);
+                            if(data.result){
+                                $("#modalInitiativeContact").modal('hide');
+                                $("#<portlet:namespace />modalConfirm").modal('show');
+                                contactAuthorResetValues();
+                            }else{
+                                $("#<portlet:namespace />modalError h4").text(data.message);
+                                $("#<portlet:namespace />modalError").modal('show');
+                            }*/
+                        }
+                    }
+                });
+            }
+            catch(error) {
+                if(!(error instanceof TypeError)){
+                    console.log(error);
+                } else console.log("petite erreur sans importance")
+            }
+        });
+    }
 
-     // Permet de passer des paramètre au bouton save
-     var hiddenOfficialId = document.getElementById(namespace+"officalIdHidden");
-     var saveValue = document.getElementById(namespace+"actionHidden");
-         Array.prototype.forEach.call(allValidateButtons, function(el, i) {
-             el.addEventListener("click", function(element) {
-                 hiddenOfficialId.value = element.currentTarget.attributes["data-official-id"].value;
-                 saveValue.value = element.currentTarget.attributes["action"].value;
-                 saveProcuration();
-             }, false);
-     });
+    function refreshTab() {
+         var timeleft = document.getElementById("refreshTimerValue").innerHTML-1000;
 
-    function saveProcuration () {
+         // Calculating the days, hours, minutes and seconds left
+         var minutes = Math.floor(timeleft / (1000 * 60));
+         var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
 
-        event.preventDefault();
+         // Result is output to the specific element
+         if(seconds < 10){
+         document.getElementById("refreshTimer").innerHTML = minutes + ":0" + seconds;
+         } else {
+         document.getElementById("refreshTimer").innerHTML = minutes + ":" + seconds;
+         }
+         document.getElementById("refreshTimerValue").innerHTML = timeleft;
+
+         // Display the message when countdown is over
+         if (timeleft == 0) {
+            document.getElementById("refreshTimerValue").innerHTML = 30000;
+            document.getElementById(namespace+"editHidden").value=true;
+            getProcurations();
+         }
+     }
+
+    var refreshCount = setInterval(refreshTab, 1000);
+
+    var reloadButton = document.getElementById("reloadButton");
+    reloadButton.addEventListener("click", function() {
+        var editValue =  document.getElementById(namespace+"editHidden");
+        if(editValue.value=="false"){
+            getProcurations();
+        } else {
+            alert("Edit en cours");
+        }
+    }, false);
+
+	function <portlet:namespace />deleteEntity() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			window.location = '${deleteCouncilSessionURL}';
+		}
+	}
+
+	  /**
+         * Lors du click sur le bouton save
+         */
+         var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
+         var allValidateButtons = document.getElementsByClassName("saveButton");
+
+         // Permet de passer des paramètre au bouton save
+         var hiddenOfficialId = document.getElementById(namespace+"officalIdHidden");
+         var saveValue = document.getElementById(namespace+"actionHidden");
+             Array.prototype.forEach.call(allValidateButtons, function(el, i) {
+                 el.addEventListener("click", function(element) {
+                     hiddenOfficialId.value = element.currentTarget.attributes["data-official-id"].value;
+                     saveValue.value = element.currentTarget.attributes["action"].value;
+                     saveProcuration();
+                 }, false);
+         });
+
+        function saveProcuration () {
+
+            event.preventDefault();
 
 
-            AUI().use('aui-io-request', function(A) {
-                try {
-                    A.io.request('${saveProcurationDynamicURL}', {
-                        method : 'POST',
-                        dataType: 'json',
-                        on: {
-                            complete: function(e) {
-                                // var data = this.get('responseData');
-                                var data = JSON.parse(e.details[1].responseText);
-                                if(data.result){
-                                    $("#modalInitiativeContact").modal('hide');
-                                    $("#<portlet:namespace />modalConfirm").modal('show');
-                                    contactAuthorResetValues();
-                                }else{
-                                    $("#<portlet:namespace />modalError h4").text(data.message);
-                                    $("#<portlet:namespace />modalError").modal('show');
+                AUI().use('aui-io-request', function(A) {
+                    try {
+                        A.io.request('${saveProcurationDynamicURL}', {
+                            method : 'POST',
+                            dataType: 'json',
+                            on: {
+                                complete: function(e) {
+                                    // var data = this.get('responseData');
+                                    var data = JSON.parse(e.details[1].responseText);
+                                    if(data.result){
+                                        $("#modalInitiativeContact").modal('hide');
+                                        $("#<portlet:namespace />modalConfirm").modal('show');
+                                        contactAuthorResetValues();
+                                    }else{
+                                        $("#<portlet:namespace />modalError h4").text(data.message);
+                                        $("#<portlet:namespace />modalError").modal('show');
+                                    }
                                 }
                             }
-                        }
-                    });
-                }
-                catch(error) {
-                    if(!(error instanceof TypeError)){
-                        console.log(error);
-                    } else console.log("petite erreur sans importance")
-                }
-            });
-        }
-</script>
+                        });
+                    }
+                    catch(error) {
+                        if(!(error instanceof TypeError)){
+                            console.log(error);
+                        } else console.log("petite erreur sans importance")
+                    }
+                });
+            }
+</aui:script>

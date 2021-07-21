@@ -301,29 +301,6 @@ public abstract class DeliberationServiceBaseImpl
 	}
 
 	/**
-	 * Returns the procuration remote service.
-	 *
-	 * @return the procuration remote service
-	 */
-	public eu.strasbourg.service.council.service.ProcurationService
-		getProcurationService() {
-
-		return procurationService;
-	}
-
-	/**
-	 * Sets the procuration remote service.
-	 *
-	 * @param procurationService the procuration remote service
-	 */
-	public void setProcurationService(
-		eu.strasbourg.service.council.service.ProcurationService
-			procurationService) {
-
-		this.procurationService = procurationService;
-	}
-
-	/**
 	 * Returns the procuration persistence.
 	 *
 	 * @return the procuration persistence
@@ -888,12 +865,6 @@ public abstract class DeliberationServiceBaseImpl
 	)
 	protected eu.strasbourg.service.council.service.ProcurationLocalService
 		procurationLocalService;
-
-	@BeanReference(
-		type = eu.strasbourg.service.council.service.ProcurationService.class
-	)
-	protected eu.strasbourg.service.council.service.ProcurationService
-		procurationService;
 
 	@BeanReference(type = ProcurationPersistence.class)
 	protected ProcurationPersistence procurationPersistence;
