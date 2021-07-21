@@ -21,7 +21,6 @@ import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.User;
@@ -36,7 +35,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.model.ProcurationModel;
-import eu.strasbourg.service.council.model.ProcurationSoap;
 
 import java.io.Serializable;
 
@@ -45,12 +43,10 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -66,7 +62,6 @@ import java.util.function.Function;
  * @see ProcurationImpl
  * @generated
  */
-@JSON(strict = true)
 @ProviderType
 public class ProcurationModelImpl
 	extends BaseModelImpl<Procuration> implements ProcurationModel {
@@ -172,68 +167,6 @@ public class ProcurationModelImpl
 	public static final long UUID_COLUMN_BITMASK = 64L;
 
 	public static final long PROCURATIONID_COLUMN_BITMASK = 128L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Procuration toModel(ProcurationSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Procuration model = new ProcurationImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setProcurationId(soapModel.getProcurationId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setOfficialVotersId(soapModel.getOfficialVotersId());
-		model.setOfficialUnavailableId(soapModel.getOfficialUnavailableId());
-		model.setCouncilSessionId(soapModel.getCouncilSessionId());
-		model.setIsAbsent(soapModel.isIsAbsent());
-		model.setProcurationMode(soapModel.getProcurationMode());
-		model.setPresential(soapModel.getPresential());
-		model.setIsAfterVote(soapModel.isIsAfterVote());
-		model.setStartHour(soapModel.getStartHour());
-		model.setEndHour(soapModel.getEndHour());
-		model.setStartDelib(soapModel.getStartDelib());
-		model.setEndDelib(soapModel.getEndDelib());
-		model.setOtherProcurationMode(soapModel.getOtherProcurationMode());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Procuration> toModels(ProcurationSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Procuration> models = new ArrayList<Procuration>(
-			soapModels.length);
-
-		for (ProcurationSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.council.service.util.ServiceProps.get(
@@ -873,7 +806,6 @@ public class ProcurationModelImpl
 			(Map)attributeSetterBiConsumers);
 	}
 
-	@JSON
 	@Override
 	public String getUuid() {
 		if (_uuid == null) {
@@ -899,7 +831,6 @@ public class ProcurationModelImpl
 		return GetterUtil.getString(_originalUuid);
 	}
 
-	@JSON
 	@Override
 	public long getProcurationId() {
 		return _procurationId;
@@ -912,7 +843,6 @@ public class ProcurationModelImpl
 		_procurationId = procurationId;
 	}
 
-	@JSON
 	@Override
 	public long getGroupId() {
 		return _groupId;
@@ -935,7 +865,6 @@ public class ProcurationModelImpl
 		return _originalGroupId;
 	}
 
-	@JSON
 	@Override
 	public long getCompanyId() {
 		return _companyId;
@@ -958,7 +887,6 @@ public class ProcurationModelImpl
 		return _originalCompanyId;
 	}
 
-	@JSON
 	@Override
 	public long getUserId() {
 		return _userId;
@@ -985,7 +913,6 @@ public class ProcurationModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
-	@JSON
 	@Override
 	public String getUserName() {
 		if (_userName == null) {
@@ -1001,7 +928,6 @@ public class ProcurationModelImpl
 		_userName = userName;
 	}
 
-	@JSON
 	@Override
 	public Date getCreateDate() {
 		return _createDate;
@@ -1012,7 +938,6 @@ public class ProcurationModelImpl
 		_createDate = createDate;
 	}
 
-	@JSON
 	@Override
 	public Date getModifiedDate() {
 		return _modifiedDate;
@@ -1029,7 +954,6 @@ public class ProcurationModelImpl
 		_modifiedDate = modifiedDate;
 	}
 
-	@JSON
 	@Override
 	public int getStatus() {
 		return _status;
@@ -1040,7 +964,6 @@ public class ProcurationModelImpl
 		_status = status;
 	}
 
-	@JSON
 	@Override
 	public long getStatusByUserId() {
 		return _statusByUserId;
@@ -1067,7 +990,6 @@ public class ProcurationModelImpl
 	public void setStatusByUserUuid(String statusByUserUuid) {
 	}
 
-	@JSON
 	@Override
 	public String getStatusByUserName() {
 		if (_statusByUserName == null) {
@@ -1083,7 +1005,6 @@ public class ProcurationModelImpl
 		_statusByUserName = statusByUserName;
 	}
 
-	@JSON
 	@Override
 	public Date getStatusDate() {
 		return _statusDate;
@@ -1094,7 +1015,6 @@ public class ProcurationModelImpl
 		_statusDate = statusDate;
 	}
 
-	@JSON
 	@Override
 	public long getOfficialVotersId() {
 		return _officialVotersId;
@@ -1117,7 +1037,6 @@ public class ProcurationModelImpl
 		return _originalOfficialVotersId;
 	}
 
-	@JSON
 	@Override
 	public long getOfficialUnavailableId() {
 		return _officialUnavailableId;
@@ -1140,7 +1059,6 @@ public class ProcurationModelImpl
 		return _originalOfficialUnavailableId;
 	}
 
-	@JSON
 	@Override
 	public long getCouncilSessionId() {
 		return _councilSessionId;
@@ -1163,13 +1081,11 @@ public class ProcurationModelImpl
 		return _originalCouncilSessionId;
 	}
 
-	@JSON
 	@Override
 	public boolean getIsAbsent() {
 		return _isAbsent;
 	}
 
-	@JSON
 	@Override
 	public boolean isIsAbsent() {
 		return _isAbsent;
@@ -1192,7 +1108,6 @@ public class ProcurationModelImpl
 		return _originalIsAbsent;
 	}
 
-	@JSON
 	@Override
 	public int getProcurationMode() {
 		return _procurationMode;
@@ -1203,7 +1118,6 @@ public class ProcurationModelImpl
 		_procurationMode = procurationMode;
 	}
 
-	@JSON
 	@Override
 	public int getPresential() {
 		return _presential;
@@ -1214,13 +1128,11 @@ public class ProcurationModelImpl
 		_presential = presential;
 	}
 
-	@JSON
 	@Override
 	public boolean getIsAfterVote() {
 		return _isAfterVote;
 	}
 
-	@JSON
 	@Override
 	public boolean isIsAfterVote() {
 		return _isAfterVote;
@@ -1231,7 +1143,6 @@ public class ProcurationModelImpl
 		_isAfterVote = isAfterVote;
 	}
 
-	@JSON
 	@Override
 	public Date getStartHour() {
 		return _startHour;
@@ -1242,7 +1153,6 @@ public class ProcurationModelImpl
 		_startHour = startHour;
 	}
 
-	@JSON
 	@Override
 	public Date getEndHour() {
 		return _endHour;
@@ -1253,7 +1163,6 @@ public class ProcurationModelImpl
 		_endHour = endHour;
 	}
 
-	@JSON
 	@Override
 	public long getStartDelib() {
 		return _startDelib;
@@ -1264,7 +1173,6 @@ public class ProcurationModelImpl
 		_startDelib = startDelib;
 	}
 
-	@JSON
 	@Override
 	public long getEndDelib() {
 		return _endDelib;
@@ -1275,7 +1183,6 @@ public class ProcurationModelImpl
 		_endDelib = endDelib;
 	}
 
-	@JSON
 	@Override
 	public String getOtherProcurationMode() {
 		if (_otherProcurationMode == null) {

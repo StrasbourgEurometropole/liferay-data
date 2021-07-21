@@ -238,7 +238,7 @@
 
 	</entity>
 
-	<entity local-service="true" remote-service="true" cache-enabled="false" name="Procuration" uuid="true">
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="Procuration" uuid="true">
 
 		<!-- PK fields -->
 		<column name="procurationId" primary="true" type="long" />
