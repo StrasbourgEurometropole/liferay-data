@@ -197,4 +197,15 @@ public class ProcurationLocalServiceImpl extends ProcurationLocalServiceBaseImpl
 		return this.procurationPersistence.findByCouncilSessionIdAndOfficialUnavailableId(councilSessionId, officialId);
 	}
 
+	/**
+	 * Recherche d'une procuration active
+	 * Si une procuration est active, alors l'élu est absent
+	 */
+	@Override
+	public boolean isOfficialAbsent(long councilSessionId, long officialId) {
+
+		List<Procuration> procurations = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialUnavailableId(councilSessionId, officialId);
+		return procurations.stream().anyMatch(p -> p.getEndHour() == null);
+	}
+
 }

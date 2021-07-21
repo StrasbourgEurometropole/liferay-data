@@ -18,7 +18,7 @@
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="council-has-delib-error" message="council-has-delib-error" />
 	<liferay-ui:error key="not-valid-council-error" message="not-valid-council-error" />
-	<liferay-ui:error key="official-has-procurations-error" message="official-has-procurations-error" />
+	<liferay-ui:error key="official-has-procurations-warn" message="official-has-procurations-warn" />
 	<liferay-ui:error key="not-valid-council-error" message="not-valid-council-error" />
 	<liferay-ui:error key="ongoing-vote-error" message="ongoing-vote-error" />
     <liferay-ui:error key="beneficiary-absent-error" message="beneficiary-absent-error" />

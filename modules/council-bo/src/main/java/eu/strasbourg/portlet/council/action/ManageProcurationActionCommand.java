@@ -169,6 +169,7 @@ public class ManageProcurationActionCommand implements MVCActionCommand {
         boolean isValid = true;
 
         List<Procuration> listProcurationsForBeneficiary = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialVotersId(councilSessionId, beneficiaryId);
+        List<Procuration> openedProcurations = listProcurationsForBeneficiary.stream().filter(p -> p.getEndHour() == null).collect(Collectors.toList());
         int nbProcurations = listProcurationsForBeneficiary.size();
 
         // Vérification qu'un élu n'a pas plus de 2 procurations à son nom
@@ -178,16 +179,14 @@ public class ManageProcurationActionCommand implements MVCActionCommand {
         }
 
         // Vérification qu'il n'y a pas déjà de procuration ouverte pour cet élu
-        List<Procuration> procurationsOfficial = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialUnavailableId(councilSessionId, officialId);
-        boolean officialHasOngoingProcuration = hasOngoingProcuration(procurationsOfficial);
+        boolean officialHasOngoingProcuration = ProcurationLocalServiceUtil.isOfficialAbsent(councilSessionId, officialId);
         if (officialHasOngoingProcuration) {
             SessionErrors.add(request, "ongoing-procuration-error");
             return false;
         }
 
         // Check si le bénéficiare est absent
-        List<Procuration> procurations = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialUnavailableId(councilSessionId, beneficiaryId);
-        boolean hasOngoingProcuration = hasOngoingProcuration(procurations);
+        boolean hasOngoingProcuration = ProcurationLocalServiceUtil.isOfficialAbsent(councilSessionId, beneficiaryId);
 
         // Si le bénéficiare a une procuration qui n'est pas fermée (en cours) alors il est absent
         if (hasOngoingProcuration) {
@@ -198,7 +197,7 @@ public class ManageProcurationActionCommand implements MVCActionCommand {
         // Check du statut de l'officiel qu'on modifie
         if (nbProcurations != 0) {
             // TODO  warn
-            SessionErrors.add(request, "official-has-procurations-error");
+            SessionErrors.add(request, "official-has-procurations-warn");
         }
 
         // Vérification de la longueur du champ
@@ -240,13 +239,6 @@ public class ManageProcurationActionCommand implements MVCActionCommand {
         }
 
         return isValid;
-    }
-
-    /**
-     * Retourne true si une procuration est en cours
-     */
-    private boolean hasOngoingProcuration(List<Procuration> procurations) {
-        return procurations.stream().anyMatch(p -> p.getEndHour() == null && p.getStartHour() != null);
     }
 
     /**

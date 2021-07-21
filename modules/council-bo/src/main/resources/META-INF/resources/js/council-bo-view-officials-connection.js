@@ -53,11 +53,25 @@ function feedOfficialList(officials, element) {
 	var sortedOfficials = officials.sort(sortByProperty('fullName'));
 	for(var i = 0; i < sortedOfficials.length; i++) {
 	    var official = sortedOfficials[i];
-	    element.innerHTML += 
-			'<div class="row" id="official-' + official.officialId + '">'
-				+ '<div class="col-md-3">' + official.fullName + '</div>'
-				+ '<div class="col-md-9">' + official.lastSingInDeviceInfo + '</div>'
-			+ '</div>';
+
+        var hasInfoLastActivity = Date.parse(official.lastActivity);
+        if (isNaN(hasInfoLastActivity) == false) {
+            var date = new Date(hasInfoLastActivity);
+	        var datestring = ("0" + date.getDate()).slice(-2) + "/" + ("0"+(date.getMonth()+1)).slice(-2) + "/" +
+            date.getFullYear() + " " + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+            element.innerHTML +=
+                '<div class="row" id="official-' + official.officialId + '">'
+                    + '<div class="col-md-3">' + official.fullName + '</div>'
+                    + '<div class="col-md-4">' + datestring + '</div>'
+                    + '<div class="col-md-5">' + official.lastSingInDeviceInfo + '</div>'
+                + '</div>';
+        } else {
+	          element.innerHTML +=
+                            '<div class="row" id="official-' + official.officialId + '">'
+                                + '<div class="col-md-3">' + official.fullName + '</div>'
+                                + '<div class="col-md-5">' + official.lastSingInDeviceInfo + '</div>'
+                            + '</div>';
+	    }
 	}
 }
 

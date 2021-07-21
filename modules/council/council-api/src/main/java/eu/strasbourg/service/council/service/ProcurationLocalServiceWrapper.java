@@ -425,6 +425,12 @@ public class ProcurationLocalServiceWrapper
 		return _procurationLocalService.getProcurationsCount();
 	}
 
+	@Override
+	public boolean isOfficialAbsent(long councilSessionId, long officialId) {
+		return _procurationLocalService.isOfficialAbsent(
+			councilSessionId, officialId);
+	}
+
 	/**
 	 * Supprime une entité
 	 */

@@ -19,6 +19,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import javax.portlet.RenderRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ManageProcurationsDisplayContext {
 
@@ -63,7 +64,12 @@ public class ManageProcurationsDisplayContext {
      */
     @SuppressWarnings("unused")
     public List<Official> getAllActiveOfficials() {
-        return OfficialLocalServiceUtil.findByGroupIdAndIsActive(this.themeDisplay.getSiteGroupId(), true);
+        List<Official> allActiveOfficials = OfficialLocalServiceUtil.findByGroupIdAndIsActive(this.themeDisplay.getSiteGroupId(), true);
+
+        long typeId = councilSession.getTypeId();
+        Type type = TypeLocalServiceUtil.fetchType(typeId);
+
+        return allActiveOfficials.stream().filter(o -> o.getCouncilTypes().contains(type)).collect(Collectors.toList());
     }
 
     /**

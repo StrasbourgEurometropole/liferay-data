@@ -319,6 +319,9 @@ public interface ProcurationLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getProcurationsCount();
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isOfficialAbsent(long councilSessionId, long officialId);
+
 	/**
 	 * Supprime une entité
 	 */

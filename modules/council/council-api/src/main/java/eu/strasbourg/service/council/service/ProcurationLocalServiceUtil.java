@@ -405,6 +405,12 @@ public class ProcurationLocalServiceUtil {
 		return getService().getProcurationsCount();
 	}
 
+	public static boolean isOfficialAbsent(
+		long councilSessionId, long officialId) {
+
+		return getService().isOfficialAbsent(councilSessionId, officialId);
+	}
+
 	/**
 	 * Supprime une entité
 	 */

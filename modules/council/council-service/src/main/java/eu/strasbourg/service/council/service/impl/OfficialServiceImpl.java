@@ -28,6 +28,7 @@ import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.OfficialModel;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
+import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
 import eu.strasbourg.service.council.service.base.OfficialServiceBaseImpl;
 import eu.strasbourg.utils.SearchHelper;
 
@@ -132,8 +133,10 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 					.findByGroupIdAndTypeId(groupId, councilSession.getTypeId());
 
 			jsonData.put("councilSessionTitle", councilSession.getTitle());
-;			for(Official official : concernedOfficial) {
-				if (official.isNotedAbsent(councilSessionId)) {
+			for(Official official : concernedOfficial) {
+				long officialId = official.getOfficialId();
+				boolean isAbsent = ProcurationLocalServiceUtil.isOfficialAbsent(councilSessionId, officialId);
+				if (isAbsent) {
 					jsonAbsents.put(official.toJSON());
 				} else if (official.isConnected()) {
 					jsonConnected.put(official.toJSON());
