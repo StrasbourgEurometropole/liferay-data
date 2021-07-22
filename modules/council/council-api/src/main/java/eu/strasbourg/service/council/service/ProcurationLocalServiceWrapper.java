@@ -425,6 +425,10 @@ public class ProcurationLocalServiceWrapper
 		return _procurationLocalService.getProcurationsCount();
 	}
 
+	/**
+	 * Recherche d'une procuration active
+	 * Si une procuration est active, alors l'élu est absent
+	 */
 	@Override
 	public boolean isOfficialAbsent(long councilSessionId, long officialId) {
 		return _procurationLocalService.isOfficialAbsent(

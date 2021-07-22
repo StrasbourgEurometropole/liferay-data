@@ -7,19 +7,15 @@
 	<portlet:param name="tab" value="councilSessions" />
 </liferay-portlet:renderURL>
 
-<%-- URL : definit le lien menant vers la sauvegarde ou la suprpession de l'entite --%>
-<liferay-portlet:actionURL name="saveProcuration" varImpl="saveProcurationURL">
-	<portlet:param name="cmd" value="saveProcuration" />
-</liferay-portlet:actionURL>
-
 <%-- URL : definit le lien menant vers la fonction de reload des procurations pour le tableau --%>
 <liferay-portlet:resourceURL id="reloadProcurations" var="reloadProcurationsURL"
         copyCurrentRenderParameters="false">
     <portlet:param name="councilSessionId" value="${dc.councilSession.councilSessionId}" />
 </liferay-portlet:resourceURL>
 
-<portlet:resourceURL id="saveProcurationDynamic" var="saveProcurationDynamicURL">
-</portlet:resourceURL>
+<liferay-portlet:resourceURL id="saveProcurationDynamic" var="saveProcurationDynamicURL"
+        copyCurrentRenderParameters="false">
+</liferay-portlet:resourceURL>
 
 <%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body council-bo">
@@ -284,16 +280,6 @@
                                     }
                             });
                             document.getElementById(namespace+"editHidden").value=false;
-                            /* var data = this.get('responseData');
-                            var data = JSON.parse(e.details[1].responseText);
-                            if(data.result){
-                                $("#modalInitiativeContact").modal('hide');
-                                $("#<portlet:namespace />modalConfirm").modal('show');
-                                contactAuthorResetValues();
-                            }else{
-                                $("#<portlet:namespace />modalError h4").text(data.message);
-                                $("#<portlet:namespace />modalError").modal('show');
-                            }*/
                         }
                     }
                 });
@@ -347,54 +333,68 @@
 		}
 	}
 
-	  /**
-         * Lors du click sur le bouton save
-         */
-         var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
-         var allValidateButtons = document.getElementsByClassName("saveButton");
 
-         // Permet de passer des paramètre au bouton save
-         var hiddenOfficialId = document.getElementById(namespace+"officalIdHidden");
-         var saveValue = document.getElementById(namespace+"actionHidden");
-             Array.prototype.forEach.call(allValidateButtons, function(el, i) {
-                 el.addEventListener("click", function(element) {
-                     hiddenOfficialId.value = element.currentTarget.attributes["data-official-id"].value;
-                     saveValue.value = element.currentTarget.attributes["action"].value;
-                     saveProcuration();
-                 }, false);
-         });
+    /**
+    * Lors du click sur le bouton save
+    */
+    var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
+    var allValidateButtons = document.getElementsByClassName("saveButton");
 
-        function saveProcuration () {
+    // Permet de passer des paramètre au bouton save
+    var hiddenOfficialId = document.getElementById(namespace+"officalIdHidden");
+    var saveValue = document.getElementById(namespace+"actionHidden");
 
-            event.preventDefault();
+    Array.prototype.forEach.call(allValidateButtons, function(el, i) {
+        el.addEventListener("click", function(element) {
+            hiddenOfficialId.value = element.currentTarget.attributes["data-official-id"].value;
+            saveValue.value = element.currentTarget.attributes["action"].value;
+            var officialId = $(this).attr("name").replace(namespace,'').replace("-saveButton",'');
 
+            saveProcuration(officialId);
+            getProcurations();
+            refreshCount = setInterval(refreshTab, 1000);
+        }, false);
+     });
 
-                AUI().use('aui-io-request', function(A) {
-                    try {
-                        A.io.request('${saveProcurationDynamicURL}', {
-                            method : 'POST',
-                            dataType: 'json',
-                            on: {
-                                complete: function(e) {
-                                    // var data = this.get('responseData');
-                                    var data = JSON.parse(e.details[1].responseText);
-                                    if(data.result){
-                                        $("#modalInitiativeContact").modal('hide');
-                                        $("#<portlet:namespace />modalConfirm").modal('show');
-                                        contactAuthorResetValues();
-                                    }else{
-                                        $("#<portlet:namespace />modalError h4").text(data.message);
-                                        $("#<portlet:namespace />modalError").modal('show');
-                                    }
-                                }
-                            }
-                        });
-                    }
-                    catch(error) {
-                        if(!(error instanceof TypeError)){
-                            console.log(error);
-                        } else console.log("petite erreur sans importance")
+    function saveProcuration (officialId) {
+
+        event.preventDefault();
+
+        var councilSessionId = ${dc.councilSession.councilSessionId}
+        var beneficiaryId = $("input[name=" + namespace + officialId + "-officialVotersId]")[0].value;
+        var procurationMode = $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex;
+        var otherProcurationMode = $("input[name=" + namespace + officialId + "-autre]")[0].value;
+        var presential = $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex;
+
+        AUI().use('aui-io-request', function(A) {
+            try {
+                A.io.request('${saveProcurationDynamicURL}', {
+                    method : 'POST',
+                    dataType: 'json',
+
+                    data:{
+                        <portlet:namespace/>councilSessionId: councilSessionId,
+                        <portlet:namespace/>beneficiaryId: beneficiaryId,
+                        <portlet:namespace/>officialId: officialId,
+                        <portlet:namespace/>procurationMode: procurationMode,
+                        <portlet:namespace/>otherProcurationMode: otherProcurationMode,
+                        <portlet:namespace/>presential: presential
+                    },
+                     on: {
+                        complete: function(e) {
+                            $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
+                            $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
+                            $("input[name=" + namespace + officialId + "-officialVoters]").prop('disabled', true);
+                            $("input[name=" + namespace + officialId + "-autre]").prop('disabled', true);
+                        }
                     }
                 });
             }
+            catch(error) {
+                if(!(error instanceof TypeError)){
+                    console.log(error);
+                } else console.log("petite erreur sans importance")
+            }
+        });
+        }
 </aui:script>

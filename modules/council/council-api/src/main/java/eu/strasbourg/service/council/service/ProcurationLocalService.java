@@ -319,6 +319,10 @@ public interface ProcurationLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getProcurationsCount();
 
+	/**
+	 * Recherche d'une procuration active
+	 * Si une procuration est active, alors l'élu est absent
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean isOfficialAbsent(long councilSessionId, long officialId);
 
