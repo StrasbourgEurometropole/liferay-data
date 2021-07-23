@@ -16,21 +16,55 @@
 <liferay-portlet:resourceURL id="saveProcurationDynamic" var="saveProcurationDynamicURL"
         copyCurrentRenderParameters="false">
 </liferay-portlet:resourceURL>
+<liferay-portlet:resourceURL id="closeProcuration" var="closeProcurationURL"
+        copyCurrentRenderParameters="false">
+</liferay-portlet:resourceURL>
+
+<%-- Header --%>
+<div class="navbar navbar-default collapse-basic-search" id="iqzh">
+	<div class="container-fluid-1280">
+		<div class="navbar-header visible-xs">
+			<button class="collapsed navbar-toggle navbar-toggle-left navbar-toggle-page-name" data-target="#_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTag_1NavbarCollapse" data-toggle="collapse" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_NavbarBtn" type="button">
+				<span class="sr-only">Basculer la navigation</span>
+				<span class="page-name">Utilisateurs Publik</span>
+				<span class="caret"></span>
+			</button>
+		</div>
+		<!-- Liste des onglet -->
+		<div class="collapse navbar-collapse" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTagNavbarCollapse">
+			<ul aria-label="Gestion Utilisateurs Publik" class="lfr-nav nav navbar-nav" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTag" role="menubar">
+				<li class=" active " id="nraf_" role="presentation" style="margin: auto; position: inherit; font-weight: bold">
+					<a class="" role="menuitem" title="Utilisateurs Publik">
+					<span class="nav-item-label">
+					<liferay-ui:message key="council-title"/>
+                    <liferay-ui:message key=" : ${dc.getCouncilSession().title}"></liferay-ui:message>
+					</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+<div name="warnDiv" class="warnDiv" style="display: none;">
+    <span name="warnMessageInput"> </span>
+        <button id="closeMessageWarn" class="closeMessageWarn" name="closeMessageWarn">
+            <liferay-ui:icon icon="times" markupView="lexicon"/>
+        </button>
+</div>
+<div name="errorDiv" class="errorDiv" style="display: none;">
+    <span name="errorMessageInput"> </span>
+        <button id="closeMessageError" class="closeMessageError" name="closeMessageError">
+            <liferay-ui:icon icon="times" markupView="lexicon"/>
+        </button>
+</div>
+
+
+
 
 <%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body council-bo">
-
-	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
-	<liferay-ui:error key="council-has-delib-error" message="council-has-delib-error" />
-	<liferay-ui:error key="not-valid-council-error" message="not-valid-council-error" />
-	<liferay-ui:error key="official-has-procurations-warn" message="official-has-procurations-warn" />
-	<liferay-ui:error key="not-valid-council-error" message="not-valid-council-error" />
-	<liferay-ui:error key="ongoing-vote-error" message="ongoing-vote-error" />
-    <liferay-ui:error key="beneficiary-absent-error" message="beneficiary-absent-error" />
-    <liferay-ui:error key="ongoing-procuration-error" message="ongoing-procuration-error" />
-    <liferay-ui:error key="other-procuration-mode-too-long-error" message="other-procuration-mode-too-long-error" />
-	<liferay-ui:error key="ongoing-vote-delete-error" message="ongoing-vote-delete-error" />
-    <liferay-ui:error key="already-closed-procuration-error" message="already-closed-procuration-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 
@@ -42,7 +76,6 @@
 			<aui:input name="councilSessionId" type="hidden" />
 
 			<%-- Groupe de champs : Procuration --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="absents-and-procurations">
 
             <aui:input cssClass="officalIdHidden" id="officalIdHidden" type="hidden"
                 name="officalIdHidden"
@@ -60,7 +93,6 @@
                 name="procurationIdHidden"
                 value="${procurationId}" />
 
-                <h3>${dc.getCouncilSession().title}</h3>
 
                 <div id="refresh" name="refresh">
                      <button type="button" name="reloadButton" id="reloadButton" class="reloadButton" title ="refresh tableau" style="display: inline-block;">
@@ -137,14 +169,14 @@
                                 </td>
                                 <td id="procurationMode">
                                     <div class="selectMode" id="selectMode" name="${official.officialId}-selectMode">
-                                        <aui:select cssClass="modeSelect" id="modeSelect" name="${official.officialId}-modeSelect" disabled="true">
+                                        <aui:select cssClass="modeSelect" id="modeSelect" name="${official.officialId}-modeSelect" disabled="true" required="true">
                                             <aui:option style="display: none" selected="${empty procuration}"></aui:option>
                                             <c:forEach items="${dc.getAllProcurationMode()}" var="procurationMode">
                                                 <aui:option value="${procurationMode.getId()}" selected="${dc.verifId(procuration.procurationMode, procurationMode.getId())}">${procurationMode.name}</aui:option>
                                             </c:forEach>
                                         </aui:select>
                                     </div>
-                                    <div class="inputMode">
+                                    <div class="inputMode" name="${official.officialId}-inputMode">
                                         <aui:input type="text" name="${official.officialId}-autre" disabled="true" value="${otherProcurationMode}"/>
                                     </div>
                                 </td>
@@ -190,7 +222,7 @@
                                                markupView="lexicon"
                                            />
                                         </button>
-                                        <button id="closeButton" class="closeButton" name="${official.officialId}-closeButton" title ="Fermer la procuration"
+                                        <button id="closeButton" class="closeButton" name="${official.officialId}-closeButton" type="submit" title ="Fermer la procuration"
                                             procuration-id="${procurationId}">
                                             <liferay-ui:icon
                                                     icon="trash"
@@ -212,8 +244,7 @@
                                         markupView="lexicon"
                                 />
                                 Fermer les procurations
-                        </button>
-			</aui:fieldset>
+            </button>
 
 		</aui:fieldset-group>
 
@@ -260,7 +291,7 @@
                                         $("input[name=" + namespace + officialId + "-autre]")[0].value=official.otherProcurationMode;
                                         if ($("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex == 4) {
                                             $("div[name=" + officialId + "-selectMode]")[0].style.display="none";
-                                            $("input[name=" + namespace + officialId + "-autre]")[0].style.display="block";
+                                            $("div[name=" + officialId + "-inputMode]")[0].style.display="block";
                                         }
                                         $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
                                         $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
@@ -272,6 +303,7 @@
                                         $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = 0;
                                         $("input[name=" + namespace + officialId + "-officialVoters]")[0].value='';
                                         $("input[name=" + namespace + officialId + "-autre]")[0].value='';
+                                        $("div[name=" + officialId + "-inputMode]")[0].style.display="none";
                                         $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
                                         $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
                                         $("button[name="+ officialId + "-closeButton]")[0].style.display="none";
@@ -351,7 +383,13 @@
             var officialId = $(this).attr("name").replace(namespace,'').replace("-saveButton",'');
 
             saveProcuration(officialId);
-            getProcurations();
+
+            var refreshSave = setInterval(function(){
+                getProcurations();
+                clearInterval(refreshSave);
+
+            }, 1000);
+
             refreshCount = setInterval(refreshTab, 1000);
         }, false);
      });
@@ -382,6 +420,25 @@
                     },
                      on: {
                         complete: function(e) {
+                        var response = e.details[1].responseText;
+                        if (response != "") {
+                            var data = JSON.parse(response);
+
+                            if (!JSON.stringify(data.error) === '{}') {
+                                if(data.error.length != 0) {
+                                    var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
+                                    var errorDiv = $("div[name=" + "errorDiv]")[0];
+                                    errorInputSpan.innerHTML=data.error.error;
+                                    errorDiv.style.display="block";
+                                }
+                            }
+                            if (data.warn != "" && data.warn.length != 0) {
+                                var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
+                                var warnDiv = $("div[name=" + "warnDiv]")[0];
+                                warnInputSpan.innerHTML=data.warn.warn;
+                                warnDiv.style.display="block";
+                            }
+                        }
                             $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
                             $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
                             $("input[name=" + namespace + officialId + "-officialVoters]").prop('disabled', true);

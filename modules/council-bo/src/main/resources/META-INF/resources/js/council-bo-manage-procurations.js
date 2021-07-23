@@ -8,21 +8,25 @@ var autreInput = document.querySelectorAll('input[name$=autre');
 Array.prototype.forEach.call(customSelect, function(el, i){
     el.onchange = function(){
         var valueSelector = el.value;
+        autre[i].value='';
         if (valueSelector == 4) {
             autreInput[i].required = true;
             autre[i].style.display = "block";
         } else {
             autreInput[i].required = false;
             autre[i].style.display = "none";
+            autre[i].value='';
         }
     }
         var valueSelector = el.value;
+
         if (valueSelector == 4) {
             autreInput[i].required = true;
             autre[i].style.display = "block";
         } else {
             autreInput[i].required = false;
             autre[i].style.display = "none";
+            autre[i].value='';
         }
 });
 
@@ -58,14 +62,27 @@ closeAllProcurationsButton.addEventListener("click", function(element) {
     action.value = element.currentTarget.attributes["action"].value;
 });
 
+// Permet de fermer la div d'erreur
+var closeErrorButton = document.getElementById("closeMessageError");
+closeErrorButton.addEventListener("click", function(element) {
+    $("div[name=" + "errorDiv]")[0].style.display="none";
+});
+
+// Permet de fermer la div de warn
+var closeWarnButton = document.getElementById("closeMessageWarn");
+closeWarnButton.addEventListener("click", function(element) {
+    $("div[name=" + "warnDiv]")[0].style.display="none";
+});
+
 // Permet de enabled les champ pour la saisie d'une ligne
 Array.prototype.forEach.call(allEditButtons, function(el, i) {
     el.addEventListener("click", function() {
         var editValue =  document.getElementById(namespace+"editHidden");
         if(editValue.value=="false"){
-            clearInterval(refreshCount)
+            clearInterval(refreshCount);
             var officialId = $(this).attr("name").replace(namespace,'').replace("-editButton",'');
             $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', false);
+            $("select[name=" + namespace + officialId + "-modeSelect]").prop('required', true);
             $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', false);
             $("input[name=" + namespace + "" + officialId + "-officialVoters]").prop('disabled', false);
             $("input[name=" + namespace + officialId + "-autre]").prop('disabled', false);
@@ -114,7 +131,7 @@ Array.prototype.forEach.call(allResetButtons, function(el, i){
         $("input[name=" + namespace + officialId + "-officialVoters]")[0].value='';
         $("input[name=" + namespace + officialId + "-autre]")[0].value='';
         $("div[name="+ officialId + "-checkAbsent]")[0].style.display="none";
-
+        $("div[name=" + officialId + "-inputMode]")[0].style.display="none";
         $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
         $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
         $("input[name=" + namespace + "" + officialId + "-officialVoters]").prop('disabled', true);
