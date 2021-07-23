@@ -37,24 +37,6 @@ var allCheckAbsent = document.getElementsByClassName("inputAbsent");
 var allResetButtons = document.getElementsByClassName("resetButton");
 var allCloseButtons = document.getElementsByClassName("closeButton");
 
-// Permet de passer des paramètre au bouton save
-var hiddenOfficialId = document.getElementById(namespace+"officalIdHidden");
-var saveValue = document.getElementById(namespace+"actionHidden");
-    Array.prototype.forEach.call(allValidateButtons, function(el, i) {
-        el.addEventListener("click", function(element) {
-            hiddenOfficialId.value = element.currentTarget.attributes["data-official-id"].value;
-            saveValue.value = element.currentTarget.attributes["action"].value;
-        }, false);
-});
-
-// Permet de passer des paramètre au bouton close
-var procurationId = document.getElementById(namespace+"procurationIdHidden");
-    Array.prototype.forEach.call(allCloseButtons, function(el, i) {
-        el.addEventListener("click", function(element) {
-            procurationId.value = element.currentTarget.attributes["procuration-id"].value;
-        }, false);
-});
-
 // Permet de passer des paramètre au bouton close all prcurations
 var closeAllProcurationsButton = document.getElementById("closeAllProcurationsButton");
 var action = document.getElementById(namespace+"actionHidden");

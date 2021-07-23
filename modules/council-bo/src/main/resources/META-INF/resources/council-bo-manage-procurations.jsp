@@ -355,7 +355,7 @@
         if(editValue.value=="false"){
             getProcurations();
         } else {
-            alert("Edit en cours");
+            alert("Une édition de ligne est déjà en cours");
         }
     }, false);
 
@@ -366,10 +366,10 @@
 	}
 
 
+    var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
     /**
     * Lors du click sur le bouton save
     */
-    var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
     var allValidateButtons = document.getElementsByClassName("saveButton");
 
     // Permet de passer des paramètre au bouton save
@@ -393,6 +393,25 @@
             refreshCount = setInterval(refreshTab, 1000);
         }, false);
      });
+
+    // Permet de passer des paramètres au bouton close
+    var allCloseButtons = document.getElementsByClassName("closeButton");
+    var procurationId = document.getElementById(namespace+"procurationIdHidden");
+        Array.prototype.forEach.call(allCloseButtons, function(el, i) {
+            el.addEventListener("click", function(element) {
+                procurationId.value = element.currentTarget.attributes["procuration-id"].value;
+                var officialId = $(this).attr("name").replace(namespace,'').replace("-closeButton",'');
+
+                closeProcuration(officialId);
+
+                 var refreshSave = setInterval(function() {
+                 getProcurations();
+                 clearInterval(refreshSave);
+
+                }, 1000);
+         }, false);
+      });
+
 
     function saveProcuration (officialId) {
 
@@ -429,14 +448,16 @@
                                     var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
                                     var errorDiv = $("div[name=" + "errorDiv]")[0];
                                     errorInputSpan.innerHTML=data.error.error;
-                                    errorDiv.style.display="block";
+                                    errorDiv.style.display="flex";
                                 }
                             }
-                            if (data.warn != "" && data.warn.length != 0) {
-                                var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
-                                var warnDiv = $("div[name=" + "warnDiv]")[0];
-                                warnInputSpan.innerHTML=data.warn.warn;
-                                warnDiv.style.display="block";
+                            if (!JSON.stringify(data.warn) === '{}') {
+                                if (data.warn.length != 0) {
+                                    var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
+                                    var warnDiv = $("div[name=" + "warnDiv]")[0];
+                                    warnInputSpan.innerHTML=data.warn.warn;
+                                    warnDiv.style.display="flex";
+                                }
                             }
                         }
                             $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
@@ -454,4 +475,61 @@
             }
         });
         }
+
+     function closeProcuration(officialId) {
+
+             event.preventDefault();
+
+             var councilSessionId = ${dc.councilSession.councilSessionId}
+             var procurationId = document.getElementById(namespace+"procurationIdHidden").value;
+
+             AUI().use('aui-io-request', function(A) {
+                     try {
+                         A.io.request('${closeProcurationURL}', {
+                             method : 'POST',
+                             dataType: 'json',
+
+                             data:{
+                                 <portlet:namespace/>officialId: officialId,
+                                 <portlet:namespace/>councilSessionId: councilSessionId,
+                                 <portlet:namespace/>procurationId: procurationId
+                             },
+                              on: {
+                                 complete: function(e) {
+                                 var response = e.details[1].responseText;
+                                 if (response != "") {
+                                     var data = JSON.parse(response);
+
+                                     if (JSON.stringify(data.error) !== '{}') {
+                                         if(data.error.length != 0) {
+                                             var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
+                                             var errorDiv = $("div[name=" + "errorDiv]")[0];
+                                             errorInputSpan.innerHTML=data.error.error;
+                                             errorDiv.style.display="flex";
+                                         }
+                                     }
+                                     if (!JSON.stringify(data.warn) === '{}') {
+                                         if (data.warn.length != 0) {
+                                             var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
+                                             var warnDiv = $("div[name=" + "warnDiv]")[0];
+                                             warnInputSpan.innerHTML=data.warn.warn;
+                                             warnDiv.style.display="flex";
+                                         }
+                                     }
+                                 }
+                                     $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
+                                     $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
+                                     $("input[name=" + namespace + officialId + "-officialVoters]").prop('disabled', true);
+                                     $("input[name=" + namespace + officialId + "-autre]").prop('disabled', true);
+                                 }
+                             }
+                         });
+                     }
+                     catch(error) {
+                         if(!(error instanceof TypeError)){
+                             console.log(error);
+                         } else console.log("petite erreur sans importance")
+                     }
+                 });
+                 }
 </aui:script>

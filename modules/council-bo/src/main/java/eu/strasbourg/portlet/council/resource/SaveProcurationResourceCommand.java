@@ -8,7 +8,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
-import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
@@ -40,11 +39,6 @@ import java.util.stream.Collectors;
 public class SaveProcurationResourceCommand implements MVCResourceCommand {
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
-
-    /**
-     * Service
-     */
-    private CouncilSessionLocalService councilSessionLocalService;
 
     /**
      * Params
@@ -98,7 +92,7 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
             } else if (delibAffichageEnCours.isPresent()) {
                 procuration.setStartDelib(delibAffichageEnCours.get().getDeliberationId());
             } else if (delibVoteEnCours.isPresent()) {
-                SessionErrors.add(request, "ongoing-vote-error");
+                this.error.put("error", "Erreur : Impossible de cr\u00E9er la procuration, un vote est en cours");
                 return false;
             } else {
                 procuration.setStartDelib(delibAdopteOrRejeteOrCommunique.get().getDeliberationId());
@@ -126,6 +120,9 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
         return true;
     }
 
+    /**
+     * Permet de créer le JSON de warn ou d'erreur pour le retour
+     */
     private void createJsonMessage(ResourceResponse response, JSONObject json, boolean isError) {
 
         // On passe le JSON dans la reponse pour l'utiliser dans le JS
@@ -218,11 +215,6 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
         }
 
         return isValid;
-    }
-
-    @Reference(unbind = "-")
-    protected void setCouncilSessionLocalService(CouncilSessionLocalService councilSessionLocalService) {
-        this.councilSessionLocalService = councilSessionLocalService;
     }
 
     @Reference(unbind = "-")
