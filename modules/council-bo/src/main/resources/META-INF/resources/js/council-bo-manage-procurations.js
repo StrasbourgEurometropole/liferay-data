@@ -37,13 +37,6 @@ var allCheckAbsent = document.getElementsByClassName("inputAbsent");
 var allResetButtons = document.getElementsByClassName("resetButton");
 var allCloseButtons = document.getElementsByClassName("closeButton");
 
-// Permet de passer des paramètre au bouton close all prcurations
-var closeAllProcurationsButton = document.getElementById("closeAllProcurationsButton");
-var action = document.getElementById(namespace+"actionHidden");
-closeAllProcurationsButton.addEventListener("click", function(element) {
-    action.value = element.currentTarget.attributes["action"].value;
-});
-
 // Permet de fermer la div d'erreur
 var closeErrorButton = document.getElementById("closeMessageError");
 closeErrorButton.addEventListener("click", function(element) {
@@ -62,6 +55,7 @@ Array.prototype.forEach.call(allEditButtons, function(el, i) {
         var editValue =  document.getElementById(namespace+"editHidden");
         if(editValue.value=="false"){
             clearInterval(refreshCount);
+            document.getElementById("refreshTimer").innerHTML = document.getElementById("refreshTimer").innerHTML + " Rafraichissement automatique mis en pause"
             var officialId = $(this).attr("name").replace(namespace,'').replace("-editButton",'');
             $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', false);
             $("select[name=" + namespace + officialId + "-modeSelect]").prop('required', true);
@@ -75,7 +69,7 @@ Array.prototype.forEach.call(allEditButtons, function(el, i) {
             $("button[name="+ officialId + "-editButton]")[0].style.display="none";
             editValue.value=true;
         } else {
-            window.alert("Edit deja en cours");
+            window.alert("Une \u00E9dition de ligne est d\u00E9j\u00E0 en cours");
         }
     }, false);
 });

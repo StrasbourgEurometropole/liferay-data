@@ -97,6 +97,7 @@ public class ReloadProcurationsResourceCommand implements MVCResourceCommand {
                         // Si procuration ouverte on recupere les informations dont on a besoin
                         JSONObject officialJSON = JSONFactoryUtil.createJSONObject();
                         officialJSON.put("officialId", official.getOfficialId());
+                        officialJSON.put("procurationId", procuration.getProcurationId());
                         officialJSON.put("hasProcuration", true);
                         officialJSON.put("officialFullName", official.getFullName());
                         officialJSON.put("procurationMode", procuration.getProcurationMode());

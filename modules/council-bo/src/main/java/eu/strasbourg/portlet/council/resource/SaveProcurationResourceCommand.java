@@ -99,19 +99,32 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
                 procuration.setIsAfterVote(true);
             }
 
+            // On passe le JSON dans la reponse pour l'utiliser dans le JS
+            // Recuperation de l'élément d'écriture de la réponse
+            PrintWriter writer = null;
+
+            try {
+                writer = response.getWriter();
+            } catch (IOException e) {
+                log.error(e);
+            }
             // Validation
-            boolean isValid = this.validate(request);
+            boolean isValid = this.validate();
             if (!isValid) {
-                createJsonMessage(response, error, true);
+                message.put("error", error);
+                // On passe le JSON dans la reponse pour l'utiliser dans le JS
+                writer.print(message.toString());
                 return false;
             }
 
-            // Création du message de warn
-            createJsonMessage(response, warn, false);
+            message.put("warn", warn);
+            message.put("procurationId", procuration.getProcurationId());
+
+            // On passe le JSON dans la reponse pour l'utiliser dans le JS
+            writer.print(message.toString());
 
             // Mise à jour de l'entrée en base
             this.procurationLocalService.updateProcuration(procuration, sc);
-
 
         } catch (PortalException e) {
             log.error(e);
@@ -121,34 +134,9 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
     }
 
     /**
-     * Permet de créer le JSON de warn ou d'erreur pour le retour
-     */
-    private void createJsonMessage(ResourceResponse response, JSONObject json, boolean isError) {
-
-        // On passe le JSON dans la reponse pour l'utiliser dans le JS
-        // Recuperation de l'élément d'écriture de la réponse
-        PrintWriter writer = null;
-
-        try {
-            writer = response.getWriter();
-        } catch (IOException e) {
-            log.error(e);
-        }
-
-        if (isError) {
-            message.put("error", json);
-        } else {
-            message.put("warn", json);
-        }
-
-        // On passe le JSON dans la reponse pour l'utiliser dans le JS
-        writer.print(message.toString());
-    }
-
-    /**
      * Validation de la requête du save de l'entité
      */
-    private boolean validate(ResourceRequest request) {
+    private boolean validate() {
         boolean isValid = true;
 
         Official absentOfficial = OfficialLocalServiceUtil.fetchOfficial(officialId);

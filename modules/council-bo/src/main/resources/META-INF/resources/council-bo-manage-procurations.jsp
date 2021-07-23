@@ -94,7 +94,7 @@
                 value="${procurationId}" />
 
 
-                <div id="refresh" name="refresh">
+                <div id="refresh" name="refresh" class="refresh">
                      <button type="button" name="reloadButton" id="reloadButton" class="reloadButton" title ="refresh tableau" style="display: inline-block;">
                         <liferay-ui:icon
                             icon="reload"
@@ -223,7 +223,7 @@
                                            />
                                         </button>
                                         <button id="closeButton" class="closeButton" name="${official.officialId}-closeButton" type="submit" title ="Fermer la procuration"
-                                            procuration-id="${procurationId}">
+                                            procuration-id="${procuration.procurationId}">
                                             <liferay-ui:icon
                                                     icon="trash"
                                                     markupView="lexicon"
@@ -285,6 +285,7 @@
                             Array.prototype.forEach.call(data.official, function(official, i){
                                     var officialId = official.officialId;
                                     if(official.hasProcuration==true){
+                                        $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value=official.procurationId;
                                         $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = official.procurationMode;
                                         $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = official.presential;
                                         $("input[name=" + namespace + officialId + "-officialVoters]")[0].value=official.officialVoter;
@@ -299,6 +300,7 @@
                                         $("button[name="+ officialId + "-editButton]")[0].style.display="none";
                                         $("div[name="+ officialId + "-checkAbsent]")[0].style.display="block";
                                     } else {
+                                        $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';
                                         $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = 0;
                                         $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = 0;
                                         $("input[name=" + namespace + officialId + "-officialVoters]")[0].value='';
@@ -355,7 +357,7 @@
         if(editValue.value=="false"){
             getProcurations();
         } else {
-            alert("Une édition de ligne est déjà en cours");
+            alert("Une \u00E9dition de ligne est d\u00E9j\u00E0 en cours");
         }
     }, false);
 
@@ -404,13 +406,28 @@
 
                 closeProcuration(officialId);
 
-                 var refreshSave = setInterval(function() {
+                 var refreshClose = setInterval(function() {
                  getProcurations();
-                 clearInterval(refreshSave);
-
+                 clearInterval(refreshClose);
                 }, 1000);
          }, false);
       });
+
+    // Permet de passer des paramètres au bouton closeAllProcurations
+    var closeAllProcurationsButton = document.getElementById("closeAllProcurationsButton");
+    var action = document.getElementById(namespace+"actionHidden");
+    closeAllProcurationsButton.addEventListener("click", function(element) {
+        action.value = element.currentTarget.attributes["action"].value;
+
+        if (window.confirm("Voulez-vous vraiment fermer toutes les procurations ?")) {
+            closeProcuration(null);
+
+             var refreshCloseAll = setInterval(function() {
+             getProcurations();
+             clearInterval(refreshCloseAll);
+            }, 1000);
+        }
+    });
 
 
     function saveProcuration (officialId) {
@@ -460,6 +477,8 @@
                                 }
                             }
                         }
+
+                            $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value=response.data.procurationId;
                             $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
                             $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
                             $("input[name=" + namespace + officialId + "-officialVoters]").prop('disabled', true);
@@ -474,14 +493,18 @@
                 } else console.log("petite erreur sans importance")
             }
         });
-        }
+    }
 
      function closeProcuration(officialId) {
 
              event.preventDefault();
 
              var councilSessionId = ${dc.councilSession.councilSessionId}
-             var procurationId = document.getElementById(namespace+"procurationIdHidden").value;
+             if (officialId != null) {
+                 var procurationId = document.getElementById(namespace+"procurationIdHidden").value;
+             } else {
+                 var action = document.getElementById(namespace+"actionHidden").value;
+             }
 
              AUI().use('aui-io-request', function(A) {
                      try {
@@ -490,6 +513,7 @@
                              dataType: 'json',
 
                              data:{
+                                 <portlet:namespace/>action: action,
                                  <portlet:namespace/>officialId: officialId,
                                  <portlet:namespace/>councilSessionId: councilSessionId,
                                  <portlet:namespace/>procurationId: procurationId
@@ -517,6 +541,7 @@
                                          }
                                      }
                                  }
+                                     $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';
                                      $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
                                      $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
                                      $("input[name=" + namespace + officialId + "-officialVoters]").prop('disabled', true);
