@@ -51,12 +51,16 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
     private boolean isAbsent = true;
     private long officialId;
 
-    private JSONObject message = JSONFactoryUtil.createJSONObject();
-    private JSONObject error = JSONFactoryUtil.createJSONObject();
-    private JSONObject warn = JSONFactoryUtil.createJSONObject();
+    private JSONObject message;
+    private JSONObject error;
+    private JSONObject warn;
 
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) {
+
+        this.warn = JSONFactoryUtil.createJSONObject();
+        this.error = JSONFactoryUtil.createJSONObject();
+        this.message = JSONFactoryUtil.createJSONObject();
 
         try {
             ServiceContext sc = ServiceContextFactory.getInstance(request);
@@ -117,7 +121,9 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
                 return false;
             }
 
-            message.put("warn", warn);
+            if (!this.warn.toString().equals("{}")) {
+                message.put("warn", warn);
+            }
             message.put("procurationId", procuration.getProcurationId());
 
             // On passe le JSON dans la reponse pour l'utiliser dans le JS
@@ -181,7 +187,10 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
         }
 
         // Check du statut de l'officiel qu'on modifie
-        if (nbProcurations != 0) {
+        List<Procuration> listProcurationsForOfficial = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialVotersId(councilSessionId, officialId);
+        List<Procuration> openedProcurationsForOfficial = listProcurationsForOfficial.stream().filter(p -> p.getEndHour() == null).collect(Collectors.toList());
+        int nbProcurationsOfficial = openedProcurationsForOfficial.size();
+        if (nbProcurationsOfficial != 0 ) {
             this.warn.put("warn", "Warning : L'\u00E9lu " + absentOfficialName + " est b\u00E9n\u00E9ficiare d'une ou plusieurs procurations");
         }
 

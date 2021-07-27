@@ -145,7 +145,7 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
 
         // Set du dernier point traité dans le conseil et update de l'entité
         council.setLastDelibProcessed(deliberationId);
-        councilSessionLocalService.updateCouncilSession(deliberation.getCouncilSession());
+        councilSessionLocalService.updateCouncilSession(council, sc);
 
         // Post / Redirect / Get si tout est bon
         PortletURL renderURL = PortletURLFactoryUtil.create(request,

@@ -438,7 +438,7 @@
         var beneficiaryId = $("input[name=" + namespace + officialId + "-officialVotersId]")[0].value;
         var procurationMode = $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex;
         var otherProcurationMode = $("input[name=" + namespace + officialId + "-autre]")[0].value;
-        var presential = $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex;
+        var presential = $("select[name=" + namespace + officialId + "-presentialSelect]")[0].value;
 
         AUI().use('aui-io-request', function(A) {
             try {
@@ -458,9 +458,10 @@
                         complete: function(e) {
                         var response = e.details[1].responseText;
                         if (response != "") {
-                            var data = JSON.parse(response);
 
-                            if (!JSON.stringify(data.error) === '{}') {
+                            var data = JSON.parse(response);
+                            var dataError = JSON.stringify(data.error);
+                            if (typeof dataError !== "undefined") {
                                 if(data.error.length != 0) {
                                     var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
                                     var errorDiv = $("div[name=" + "errorDiv]")[0];
@@ -468,17 +469,18 @@
                                     errorDiv.style.display="flex";
                                 }
                             }
-                            if (!JSON.stringify(data.warn) === '{}') {
-                                if (data.warn.length != 0) {
+                            var dataWarn = JSON.stringify(data.warn);
+                            if (typeof dataWarn !== "undefined") {
+                                if (dataWarn.length != 0) {
                                     var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
                                     var warnDiv = $("div[name=" + "warnDiv]")[0];
                                     warnInputSpan.innerHTML=data.warn.warn;
                                     warnDiv.style.display="flex";
                                 }
                             }
+                            $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value=data.procurationId;
                         }
 
-                            $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value=response.data.procurationId;
                             $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
                             $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
                             $("input[name=" + namespace + officialId + "-officialVoters]").prop('disabled', true);
@@ -524,7 +526,8 @@
                                  if (response != "") {
                                      var data = JSON.parse(response);
 
-                                     if (JSON.stringify(data.error) !== '{}') {
+                                    var dataError = JSON.stringify(data.error);
+                                    if (typeof dataError !== "undefined") {
                                          if(data.error.length != 0) {
                                              var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
                                              var errorDiv = $("div[name=" + "errorDiv]")[0];
@@ -532,8 +535,9 @@
                                              errorDiv.style.display="flex";
                                          }
                                      }
-                                     if (!JSON.stringify(data.warn) === '{}') {
-                                         if (data.warn.length != 0) {
+                                    var dataWarn = JSON.stringify(data.warn);
+                                    if ( dataWarn !== {} || typeof dataWarn !== "undefined") {
+                                         if (dataWarn.length != 0) {
                                              var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
                                              var warnDiv = $("div[name=" + "warnDiv]")[0];
                                              warnInputSpan.innerHTML=data.warn.warn;

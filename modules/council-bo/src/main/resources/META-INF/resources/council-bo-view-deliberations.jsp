@@ -158,15 +158,6 @@
                             <liferay-ui:icon message="pull-out" url="${pullOutDeliberationURL}" />
                         </c:if>
 
-                        <liferay-portlet:renderURL varImpl="manageProcurationsURL">
-                            <portlet:param name="cmd" value="manageProcurations" />
-                            <portlet:param name="councilSessionId" value="${deliberation.councilSessionId}" />
-                            <portlet:param name="returnURL" value="${councilSessionsURL}" />
-                            <portlet:param name="mvcPath" value="/council-bo-manage-procurations.jsp" />
-                        </liferay-portlet:renderURL>
-                        <c:if test="${dc.hasPermission('EDIT_COUNCIL_SESSION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="manage-procurations" url="${manageProcurationsURL}" />
-                        </c:if>
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 

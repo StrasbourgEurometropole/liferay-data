@@ -97,9 +97,9 @@ public class CloseProcurationResourceCommand implements MVCResourceCommand {
             ProcurationLocalServiceUtil.removeProcuration(savedProcuration.getProcurationId());
         }
 
+        CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
         List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
         Optional<Deliberation> delibAfficheOrAdopteOrRejeteOrCommunique = deliberations.stream().filter((d -> d.isAdopte() || d.isRejete() || d.isCommunique() || d.isAffichageEnCours())).findFirst();
-        CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
 
         if (delibAfficheOrAdopteOrRejeteOrCommunique.isPresent()) {
             savedProcuration.setEndDelib(councilSession.getLastDelibProcessed());
