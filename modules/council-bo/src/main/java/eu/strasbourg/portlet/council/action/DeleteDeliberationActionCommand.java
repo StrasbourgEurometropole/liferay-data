@@ -33,8 +33,8 @@ import java.util.stream.Collectors;
 
 @Component(
         immediate = true,
-        property = { "javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_BO,
-                "mvc.command.name=deleteDeliberation" },
+        property = {"javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_BO,
+                "mvc.command.name=deleteDeliberation"},
         service = MVCActionCommand.class)
 public class DeleteDeliberationActionCommand extends BaseMVCActionCommand {
 
@@ -78,36 +78,46 @@ public class DeleteDeliberationActionCommand extends BaseMVCActionCommand {
         List<Procuration> procurations = councilSessionLocalService.getCouncilSession(deliberation.getCouncilSessionId()).getProcurations();
         // Récupère les delibs qui ne sont pas en CREE
         List<Deliberation> notCreated = deliberationLocalService.findByCouncilSessionId(deliberation.getCouncilSessionId()).stream()
-                .filter(d -> d.getStage() != StageDeliberation.CREE.getName())
+                .filter(d -> !d.getStage().equals(StageDeliberation.CREE.getName()))
                 .collect(Collectors.toList());
-        for(Procuration procuration : procurations){
-            Boolean updateProc = false;
-            if(procuration.getStartDelib()==deliberationId){
+        for (Procuration procuration : procurations) {
+            boolean updateProc = false;
+            // Verifie si la procuration a pour startDelib la delib qui va être supprimé si oui on set à -1
+            if (procuration.getStartDelib() == deliberationId) {
                 procuration.setStartDelib(-1);
-                procuration.setIsAfterVote(true);
+                // Si la procuration n'a pas de delib de fin alors on set le isAfterVote a true
+                if (Validator.isNull(procuration.getEndHour())) {
+                    procuration.setIsAfterVote(true);
+                }
                 updateProc = true;
             }
-            if(notCreated.size()==1 && notCreated.contains(deliberation)){
-                if(procuration.getEndDelib()==deliberationId){
+            // Verifie si la liste des delibs contient seulement la delib en cours de suppression
+            if (notCreated.size() == 1 && notCreated.contains(deliberation)) {
+                // Si oui mettre -1 en endDelib car pas d'autre deliberation possible
+                if (procuration.getEndDelib() == deliberationId) {
                     procuration.setEndDelib(-1);
                     updateProc = true;
                 }
             } else {
-                List<Deliberation> voteds = deliberationLocalService.findByCouncilSessionId(deliberation.getCouncilSessionId()).stream()
-                        .filter(d -> Validator.isNotNull(d.getEndVoteDate()))
-                        .filter(d ->  d.getEndVoteDate().after(procuration.getStartHour()) && d.getEndVoteDate().before(procuration.getEndHour()))
-                        .sorted(Comparator.comparing(DeliberationModel::getEndVoteDate))
-                        .collect(Collectors.toList());
-                if (voteds.isEmpty()){
-                    procuration.setEndDelib(-1);
-                    updateProc = true;
-                } else {
-                    Deliberation voted = voteds.get(voteds.size()-1);
-                    procuration.setEndDelib(voted.getDeliberationId());
-                    updateProc = true;
+                // Si non recuperer les delib qui sont comprisent entre start et end Hour de la proc et utiliser la derniere pour set endDelib
+                if (Validator.isNotNull(procuration.getEndHour())) {
+                    List<Deliberation> voteds = notCreated.stream()
+                            .filter(d -> Validator.isNotNull(d.getEndVoteDate()))
+                            .filter(d -> d.getEndVoteDate().after(procuration.getStartHour()) && d.getEndVoteDate().before(procuration.getEndHour()))
+                            .sorted(Comparator.comparing(DeliberationModel::getEndVoteDate))
+                            .collect(Collectors.toList());
+                    if (voteds.isEmpty()) {
+                        // Si pas de delib dans la liste set à -1
+                        procuration.setEndDelib(-1);
+                        updateProc = true;
+                    } else {
+                        Deliberation voted = voteds.get(voteds.size() - 1);
+                        procuration.setEndDelib(voted.getDeliberationId());
+                        updateProc = true;
+                    }
                 }
             }
-            if(updateProc)
+            if (updateProc)
                 procurationLocalService.updateProcuration(procuration);
         }
 

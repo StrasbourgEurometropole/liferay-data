@@ -9,10 +9,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.util.ParamUtil;
-import eu.strasbourg.service.council.model.CouncilSession;
-import eu.strasbourg.service.council.model.Deliberation;
-import eu.strasbourg.service.council.model.Official;
-import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.service.council.model.*;
 import eu.strasbourg.service.council.service.*;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -22,6 +19,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -70,7 +68,6 @@ public class CloseProcurationResourceCommand implements MVCResourceCommand {
                         return false;
                     }
                 }
-
             } else {
                 this.officialId = ParamUtil.getLong(request, "officialId");
                 this.procurationId = ParamUtil.getLong(request, "procurationId");
@@ -83,7 +80,6 @@ public class CloseProcurationResourceCommand implements MVCResourceCommand {
                 }
             }
 
-
         } catch (PortalException e) {
             log.error(e);
         }
@@ -93,20 +89,32 @@ public class CloseProcurationResourceCommand implements MVCResourceCommand {
 
     private boolean isUnvalid(ResourceResponse response, ServiceContext sc, Procuration savedProcuration) throws PortalException {
 
-        if (savedProcuration.getStartDelib() == -1 && savedProcuration.isIsAfterVote()) {
-            ProcurationLocalServiceUtil.removeProcuration(savedProcuration.getProcurationId());
-        }
-
         CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
         List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
-        Optional<Deliberation> delibAfficheOrAdopteOrRejeteOrCommunique = deliberations.stream().filter((d -> d.isAdopte() || d.isRejete() || d.isCommunique() || d.isAffichageEnCours())).findFirst();
+        Deliberation lastDelib = deliberations.stream().max(Comparator.comparing(DeliberationModel::getOrder)).get();
 
-        if (delibAfficheOrAdopteOrRejeteOrCommunique.isPresent()) {
-            savedProcuration.setEndDelib(councilSession.getLastDelibProcessed());
+        if (lastDelib.isAdopte() || lastDelib.isRejete() || lastDelib.isCommunique() || lastDelib.isAffichageEnCours()) {
+
+            long idLastDelibProcessed = councilSession.getLastDelibProcessed();
+            Deliberation lastDelibProcessed = DeliberationLocalServiceUtil.fetchDeliberation(idLastDelibProcessed);
+            Date endVoteDate = lastDelibProcessed.getEndVoteDate();
+            Date startHour = savedProcuration.getStartHour();
+
+            if (endVoteDate.before(startHour)) {
+                ProcurationLocalServiceUtil.removeProcuration(savedProcuration.getProcurationId());
+                return true;
+            } else {
+                savedProcuration.setEndDelib(idLastDelibProcessed);
+            }
         }
 
         boolean isValid = validate(deliberations, savedProcuration);
         if (isValid) {
+            if (savedProcuration.getStartDelib() == -1 && savedProcuration.isIsAfterVote()) {
+                ProcurationLocalServiceUtil.removeProcuration(savedProcuration.getProcurationId());
+                return true;
+            }
+
             // Update de l'entité
             savedProcuration.setEndHour(new Date());
             this.procurationLocalService.updateProcuration(savedProcuration, sc);
@@ -120,7 +128,6 @@ public class CloseProcurationResourceCommand implements MVCResourceCommand {
             } catch (IOException e) {
                 log.error(e);
             }
-
             message.put("error", error);
 
             // On passe le JSON dans la reponse pour l'utiliser dans le JS
@@ -147,12 +154,12 @@ public class CloseProcurationResourceCommand implements MVCResourceCommand {
             this.error.put("error", "Erreur : Impossible de supprimer la procuration pour " + absentOfficialName + ", un vote est en cours");
             return false;
         }
+
         // Vérification si la procuration est déjà fermée
         if (savedProcuration.getEndHour() != null) {
-            this.error.put("error", "Erreur : La procuration pour " + absentOfficialName + "est d\u00E9j\u00E0 ferm\u00E0e");
+            this.error.put("error", "Erreur : La procuration pour " + absentOfficialName + " est d\u00E9j\u00E0 ferm\u00E9e");
             return false;
         }
-
         return isValid;
     }
 

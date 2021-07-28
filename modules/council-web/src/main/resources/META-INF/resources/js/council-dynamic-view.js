@@ -142,14 +142,14 @@ function displayInfos(obj) {
                     frontProcuOne.style.display="none";
                     frontProcuTwo.style.display="none";
 
+                    frontNombreVotes.textContent='';
+                    frontNombreVotes.style.display = "block";
+                    var nbVotesJSON = obj.totalVotes;
+                    var votesTotal = nbVotesJSON.nbTotalVotes;
+                    displayNbVotes(votesTotal, frontNombreVotes);
+
                     if(useSkypeView) {
                        frontVoteEnCours.style.display="block";
-
-                       frontNombreVotes.textContent='';
-                       var nbVotesJSON = obj.totalVotes;
-                       var votesTotal = nbVotesJSON.nbTotalVotes;
-                       displayNbVotes(votesTotal, frontNombreVotes);
-
 
                     } else {
                         var procurationsJSON = obj.official.procurations;

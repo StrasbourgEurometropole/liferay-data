@@ -283,8 +283,9 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
             deliberationMap.put(delib.getOrder(), delib);
         }
 
-        List<Integer> orderDelibInFileList = new ArrayList<>();
         int i = 0;
+
+        List<Integer> orderFileList = new ArrayList<>();
         for (Map<String, String> record : recordsMapList) {
             i++;
             if (i % 1000 == 0) {
@@ -295,42 +296,42 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
             int order = Integer.parseInt(record.get(DeliberationDataConstants.ORDER));
             String title = record.get(DeliberationDataConstants.TITLE);
 
+            orderFileList.add(order);
             if (!deliberationMap.containsKey(order)) {
-            	// Création d'une nouvelle délibération
+                // Création d'une nouvelle délibération
                 deliberation = this.createDeliberation(serviceContext);
                 deliberation.setOrder(order);
                 deliberation.setTitle(title);
                 deliberation.setCouncilSessionId(councilSessionId);
                 deliberation.setStage(StageDeliberation.get(1).getName());
+
                 this.updateDeliberation(deliberation, serviceContext);
 
-                orderDelibInFileList.add(order);
+                deliberation.setStatusDate(new Date());
+                deliberationLocalService.updateDeliberation(deliberation);
             } else {
-				Deliberation deliberationBDD = deliberationMap.get(order);
-
-				if (deliberationMap.containsKey(order) && deliberationBDD.isCree()) {
-					if (!deliberationBDD.getTitle().equals(title)) {
-						// Mise à jour d'une délibération existante
-						deliberationBDD.setTitle(title);
-						deliberationBDD.setOrder(order);
-						this.updateDeliberation(deliberationBDD, serviceContext);
-                        orderDelibInFileList.add(order);
-					}
-				}
-			}
+                Deliberation deliberationBDD = deliberationMap.get(order);
+                if (deliberationBDD.isCree()) {
+                    if (!deliberationBDD.getTitle().equals(title)) {
+                        // Mise à jour d'une délibération existante
+                        deliberationBDD.setTitle(title);
+                        deliberationBDD.setOrder(order);
+                        this.updateDeliberation(deliberationBDD, serviceContext);
+                    }
+                }
+            }
         }
-
-        List<Deliberation> deliberationsStatutCreesList = deliberationsInDbList.stream().filter(d -> d.isCree()).collect(Collectors.toList());
+        List<Deliberation> deliberationsStatutCreesList = deliberationsInDbList.stream().filter(Deliberation::isCree).collect(Collectors.toList());
 
         for (Deliberation delib : deliberationsStatutCreesList) {
-            if (!orderDelibInFileList.contains(delib.getOrder())) {
-        		this.removeDeliberation(delib.getDeliberationId());
-			}
-		}
+            if (!orderFileList.contains(delib.getOrder())) {
+                this.removeDeliberation(delib.getDeliberationId());
+            }
+        }
     }
 
     /**
-     * Permet de mettre à jour le ServiceCOntext avec les informations des catégories
+     * Permet de mettre à jour le ServiceContext avec les informations des catégories
      */
     private void updateServiceContextForCategory(ServiceContext serviceContext, ThemeDisplay themeDisplay, CouncilSession council) {
 

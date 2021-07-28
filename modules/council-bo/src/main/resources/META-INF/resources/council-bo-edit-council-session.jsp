@@ -33,6 +33,7 @@
         copyCurrentRenderParameters="false">
 </liferay-portlet:resourceURL>
 
+
 <div name="warnDiv" class="warnDiv" style="display: none;">
     <span name="warnMessageInput"> </span>
         <button id="closeMessageWarn" class="closeMessageWarn" name="closeMessageWarn">
@@ -45,6 +46,10 @@
             <liferay-ui:icon icon="times" markupView="lexicon"/>
         </button>
 </div>
+
+<aui:input cssClass="officalIdHidden" id="councilIdHidden" type="hidden"
+    name="councilIdHidden"
+    value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
 
 <%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body council-bo">
@@ -288,65 +293,68 @@
 
              event.preventDefault();
 
-             var councilSessionId = ${dc.councilSession.councilSessionId}
-             if (officialId != null) {
-                 var procurationId = document.getElementById(namespace+"procurationIdHidden").value;
-             } else {
-                 var action = document.getElementById(namespace+"actionHidden").value;
-             }
-
-             AUI().use('aui-io-request', function(A) {
-                     try {
-                         A.io.request('${closeProcurationURL}', {
-                             method : 'POST',
-                             dataType: 'json',
-
-                             data:{
-                                 <portlet:namespace/>action: action,
-                                 <portlet:namespace/>officialId: officialId,
-                                 <portlet:namespace/>councilSessionId: councilSessionId,
-                                 <portlet:namespace/>procurationId: procurationId
-                             },
-                              on: {
-                                 complete: function(e) {
-                                 var response = e.details[1].responseText;
-                                 if (response != "") {
-                                     var data = JSON.parse(response);
-
-                                    var dataError = JSON.stringify(data.error);
-                                    if (typeof dataError !== "undefined") {
-                                         if(data.error.length != 0) {
-                                             var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
-                                             var errorDiv = $("div[name=" + "errorDiv]")[0];
-                                             errorInputSpan.innerHTML=data.error.error;
-                                             errorDiv.style.display="flex";
-                                         }
-                                     }
-                                    var dataWarn = JSON.stringify(data.warn);
-                                    if ( dataWarn !== {} || typeof dataWarn !== "undefined") {
-                                         if (data.warn.length != 0) {
-                                             var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
-                                             var warnDiv = $("div[name=" + "warnDiv]")[0];
-                                             warnInputSpan.innerHTML=data.warn.warn;
-                                             warnDiv.style.display="flex";
-                                         }
-                                     }
-                                 }
-                                     window.location.reload();
-                                     $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';
-                                     $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
-                                     $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
-                                     $("input[name=" + namespace + officialId + "-officialVoters]").prop('disabled', true);
-                                     $("input[name=" + namespace + officialId + "-autre]").prop('disabled', true);
-                                 }
-                             }
-                         });
-                     }
-                     catch(error) {
-                         if(!(error instanceof TypeError)){
-                             console.log(error);
-                         } else console.log("petite erreur sans importance")
-                     }
-                 });
+             var councilSessionId = document.getElementById(namespace+"councilIdHidden").value;
+             if(councilSessionId != ""){
+                 if (officialId != null) {
+                     var procurationId = document.getElementById(namespace+"procurationIdHidden").value;
+                 } else {
+                     var action = document.getElementById(namespace+"actionHidden").value;
                  }
+
+                 AUI().use('aui-io-request', function(A) {
+                         try {
+                             A.io.request('${closeProcurationURL}', {
+                                 method : 'POST',
+                                 dataType: 'json',
+
+                                 data:{
+                                     <portlet:namespace/>action: action,
+                                     <portlet:namespace/>officialId: officialId,
+                                     <portlet:namespace/>councilSessionId: councilSessionId,
+                                     <portlet:namespace/>procurationId: procurationId
+                                 },
+                                  on: {
+                                     complete: function(e) {
+                                     var response = e.details[1].responseText;
+                                     if (response != "") {
+                                         var data = JSON.parse(response);
+
+                                        var dataError = JSON.stringify(data.error);
+                                        if (typeof dataError !== "undefined") {
+                                             if(data.error.length != 0) {
+                                                 var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
+                                                 var errorDiv = $("div[name=" + "errorDiv]")[0];
+                                                 errorInputSpan.innerHTML=data.error.error;
+                                                 errorDiv.style.display="flex";
+                                             }
+                                         }
+                                        var dataWarn = JSON.stringify(data.warn);
+                                        if ( dataWarn !== {} || typeof dataWarn !== "undefined") {
+                                             if (data.warn.length != 0) {
+                                                 var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
+                                                 var warnDiv = $("div[name=" + "warnDiv]")[0];
+                                                 warnInputSpan.innerHTML=data.warn.warn;
+                                                 warnDiv.style.display="flex";
+                                             }
+                                         }
+                                     }
+                                         window.location.reload();
+                                         $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';
+                                         $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
+                                         $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
+                                         $("input[name=" + namespace + officialId + "-officialVoters]").prop('disabled', true);
+                                         $("input[name=" + namespace + officialId + "-autre]").prop('disabled', true);
+                                     }
+                                 }
+                             });
+                         }
+                         catch(error) {
+                             if(!(error instanceof TypeError)){
+                                 console.log(error);
+                             } else console.log("petite erreur sans importance")
+                         }
+                     });
+                     }
+                 }
+
 </aui:script>

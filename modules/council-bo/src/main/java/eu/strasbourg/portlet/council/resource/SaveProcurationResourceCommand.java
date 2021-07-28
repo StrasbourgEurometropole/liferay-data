@@ -9,10 +9,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.util.ParamUtil;
-import eu.strasbourg.service.council.model.CouncilSession;
-import eu.strasbourg.service.council.model.Deliberation;
-import eu.strasbourg.service.council.model.Official;
-import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.service.council.model.*;
 import eu.strasbourg.service.council.service.*;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -22,10 +19,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component(
@@ -86,23 +80,6 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
             procuration.setOfficialVotersId(beneficiaryId);
             procuration.setIsAbsent(isAbsent);
 
-            List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
-            Optional<Deliberation> delibAffichageEnCours = deliberations.stream().filter(Deliberation::isAffichageEnCours).findFirst();
-            Optional<Deliberation> delibVoteEnCours = deliberations.stream().filter(Deliberation::isVoteOuvert).findFirst();
-            Optional<Deliberation> delibAdopteOrRejeteOrCommunique = deliberations.stream().filter((d -> d.isAdopte() || d.isRejete() || d.isCommunique())).findFirst();
-
-            if (deliberations.stream().allMatch(Deliberation::isCree) || deliberations.isEmpty()) {
-                procuration.setStartDelib(-1);
-            } else if (delibAffichageEnCours.isPresent()) {
-                procuration.setStartDelib(delibAffichageEnCours.get().getDeliberationId());
-            } else if (delibVoteEnCours.isPresent()) {
-                this.error.put("error", "Erreur : Impossible de cr\u00E9er la procuration, un vote est en cours");
-                return false;
-            } else {
-                procuration.setStartDelib(delibAdopteOrRejeteOrCommunique.get().getDeliberationId());
-                procuration.setIsAfterVote(true);
-            }
-
             // On passe le JSON dans la reponse pour l'utiliser dans le JS
             // Recuperation de l'élément d'écriture de la réponse
             PrintWriter writer = null;
@@ -112,6 +89,30 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
             } catch (IOException e) {
                 log.error(e);
             }
+
+            List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
+            Optional<Deliberation> delibAffichageEnCours = deliberations.stream().filter(Deliberation::isAffichageEnCours).findFirst();
+            Optional<Deliberation> delibVoteEnCours = deliberations.stream().filter(Deliberation::isVoteOuvert).findFirst();
+            if (deliberations.stream().allMatch(Deliberation::isCree) || deliberations.isEmpty()) {
+                procuration.setStartDelib(-1);
+                procuration.setIsAfterVote(true);
+            } else if (delibAffichageEnCours.isPresent()) {
+                procuration.setStartDelib(delibAffichageEnCours.get().getDeliberationId());
+            } else if (delibVoteEnCours.isPresent()) {
+                Official absentOfficial = OfficialLocalServiceUtil.fetchOfficial(officialId);
+                String absentOfficialName = absentOfficial.getFullName();
+                this.error.put("error", "Erreur : Impossible de cr\u00E9er la procuration pour "+ absentOfficialName +", un vote est en cours");
+                message.put("error", error);
+                // On passe le JSON dans la reponse pour l'utiliser dans le JS
+                writer.print(message.toString());
+                return false;
+            } else {
+                List<Deliberation> delibAdopteOrRejeteOrCommunique = deliberations.stream().filter((d -> d.isAdopte() || d.isRejete() || d.isCommunique())).collect(Collectors.toList());
+                Deliberation deliberation = delibAdopteOrRejeteOrCommunique.stream().max(Comparator.comparing(DeliberationModel::getOrder)).get();
+                procuration.setStartDelib(deliberation.getDeliberationId());
+                procuration.setIsAfterVote(true);
+            }
+
             // Validation
             boolean isValid = this.validate();
             if (!isValid) {
@@ -145,30 +146,41 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
     private boolean validate() {
         boolean isValid = true;
 
+        // Vérification conseil du jour ou à venir
+        GregorianCalendar gregorianCalendar = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
+
+        Date date = gregorianCalendar.getTime();
+        List<CouncilSession> councilSessions = CouncilSessionLocalServiceUtil.getFutureCouncilSessions(date);
+        boolean isCouncilValid = councilSessions.stream().anyMatch(c -> c.getCouncilSessionId() == councilSessionId);
+        if (!isCouncilValid) {
+            this.error.put("error", "Erreur : Le conseil n'est pas valide, ce doit \u00EAtre un conseil du jour ou \u00E0 venir");
+            return false;
+        }
+
+        // Vérification qu'un élu n'a pas plus de 2 procurations à son nom
         Official absentOfficial = OfficialLocalServiceUtil.fetchOfficial(officialId);
         String absentOfficialName = absentOfficial.getFullName();
         Official beneficiary = OfficialLocalServiceUtil.fetchOfficial(beneficiaryId);
-        String beneficiaryName = beneficiary.getFullName();
-
-        // Champs obligatoires
-        if (procurationMode == 0) {
-            this.error.put("error", "Erreur : Il faut choisir un mode de procuration pour l'\u00E9lu " + absentOfficialName);
-            return false;
-        }
-
-        if (beneficiaryId == 0) {
-            this.error.put("error", "Erreur : il faut choisir un b\u00E9n\u00E9ficiaire pour l'\u00E9lu " + absentOfficialName);
-            return false;
-        }
 
         List<Procuration> listProcurationsForBeneficiary = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialVotersId(councilSessionId, beneficiaryId);
         List<Procuration> openedProcurations = listProcurationsForBeneficiary.stream().filter(p -> p.getEndHour() == null).collect(Collectors.toList());
         int nbProcurations = openedProcurations.size();
 
-        // Vérification qu'un élu n'a pas plus de 2 procurations à son nom
-        if (nbProcurations >= 2) {
-            this.error.put("error", "Erreur : Le b\u00E9n\u00E9ficiare " + beneficiaryName + " a d\u00E9j\u00E0 deux procurations à son nom");
-            return false;
+        // Si le bénéficiaire est null c'est que l'élu n'a pas donné de procuration
+        if (beneficiary != null) {
+            String beneficiaryName = beneficiary.getFullName();
+
+            if (nbProcurations >= 2) {
+                this.error.put("error", "Erreur : Le b\u00E9n\u00E9ficiare " + beneficiaryName + " a d\u00E9j\u00E0 deux procurations à son nom");
+                return false;
+            }
+            // Check si le bénéficiare est absent
+            boolean hasOngoingProcuration = ProcurationLocalServiceUtil.isOfficialAbsent(councilSessionId, beneficiaryId);
+
+            // Si le bénéficiare a une procuration qui n'est pas fermée (en cours) alors il est absent
+            if (hasOngoingProcuration) {
+                this.warn.put("warn", "Warning : Le b\u00E9n\u00E9ficiaire " + beneficiaryName + " de la procuration est absent");
+            }
         }
 
         // Vérification qu'il n'y a pas déjà de procuration ouverte pour cet élu
@@ -178,36 +190,17 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
             return false;
         }
 
-        // Check si le bénéficiare est absent
-        boolean hasOngoingProcuration = ProcurationLocalServiceUtil.isOfficialAbsent(councilSessionId, beneficiaryId);
-
-        // Si le bénéficiare a une procuration qui n'est pas fermée (en cours) alors il est absent
-        if (hasOngoingProcuration) {
-            this.warn.put("warn", "Warning : Le b\u00E9n\u00E9ficiaire " + beneficiaryName + " de la procuration est absent");
-        }
-
         // Check du statut de l'officiel qu'on modifie
         List<Procuration> listProcurationsForOfficial = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialVotersId(councilSessionId, officialId);
         List<Procuration> openedProcurationsForOfficial = listProcurationsForOfficial.stream().filter(p -> p.getEndHour() == null).collect(Collectors.toList());
         int nbProcurationsOfficial = openedProcurationsForOfficial.size();
-        if (nbProcurationsOfficial != 0 ) {
+        if (nbProcurationsOfficial != 0) {
             this.warn.put("warn", "Warning : L'\u00E9lu " + absentOfficialName + " est b\u00E9n\u00E9ficiare d'une ou plusieurs procurations");
         }
 
         // Vérification de la longueur du champ
         if (this.otherProcurationMode != null && this.otherProcurationMode.length() > 20) {
             this.error.put("error", "Erreur : Le mode de procuration saisi pour l'\u00E9lu " + absentOfficialName + " est trop long");
-            return false;
-        }
-
-        // Vérification conseil du jour ou à venir
-        GregorianCalendar gregorianCalendar = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
-
-        Date date = gregorianCalendar.getTime();
-        List<CouncilSession> councilSessions = CouncilSessionLocalServiceUtil.getFutureCouncilSessions(date);
-        boolean isCouncilValid = councilSessions.stream().anyMatch(c -> c.getCouncilSessionId() == councilSessionId);
-        if (!isCouncilValid) {
-            this.error.put("error", "Erreur : Le conseil n'est pas valide, ce doit \u00EAtre un conseil du jour ou \u00E0 venir");
             return false;
         }
 

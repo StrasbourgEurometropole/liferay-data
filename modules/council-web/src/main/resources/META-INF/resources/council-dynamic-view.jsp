@@ -18,18 +18,20 @@
                     <a href="${returnURL}"> <span class="returnButton">Retour a la liste des conseils</span></a>
                 </c:if>
 
-                <%-- Nombre de votants --%>
-                <h3 class="nbVotes" id="nombre-votes"></h3>
 
                 <input type="hidden" id="deliberationId" value=""/>
                 <input type="hidden" id="stage" value=""/>
                 <input type="hidden" id="absent" value=""/>
-
                 <%-- INCLUSION DES TEMPLATES --%>
                 <%@ include file="/templates/message.jsp"%>
                 <%@ include file="/templates/presentation-delib.jsp"%>
+
+                <%-- Nombre de votants --%>
+                <h3 class="nbVotes" id="nombre-votes"></h3>
+
                 <%@ include file="/templates/result.jsp"%>
                 <%@ include file="/templates/vote-form.jsp"%>
+
             </div>
         </div>
 

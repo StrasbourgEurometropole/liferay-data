@@ -278,3 +278,9 @@ h3 {
 .refresh {
     padding: 10px;
     }
+
+tr:nth-child(even){
+    background:#ffffff;}
+
+tr:nth-child(odd){
+    background:#f2f2f2;}

@@ -169,7 +169,7 @@
                                 </td>
                                 <td id="procurationMode">
                                     <div class="selectMode" id="selectMode" name="${official.officialId}-selectMode">
-                                        <aui:select cssClass="modeSelect" id="modeSelect" name="${official.officialId}-modeSelect" disabled="true" required="true">
+                                        <aui:select cssClass="modeSelect" id="modeSelect" name="${official.officialId}-modeSelect" disabled="true" >
                                             <aui:option style="display: none" selected="${empty procuration}"></aui:option>
                                             <c:forEach items="${dc.getAllProcurationMode()}" var="procurationMode">
                                                 <aui:option value="${procurationMode.getId()}" selected="${dc.verifId(procuration.procurationMode, procurationMode.getId())}">${procurationMode.name}</aui:option>
@@ -287,7 +287,7 @@
                                     if(official.hasProcuration==true){
                                         $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value=official.procurationId;
                                         $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = official.procurationMode;
-                                        $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = official.presential;
+                                        $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = official.presential+1;
                                         $("input[name=" + namespace + officialId + "-officialVoters]")[0].value=official.officialVoter;
                                         $("input[name=" + namespace + officialId + "-autre]")[0].value=official.otherProcurationMode;
                                         if ($("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex == 4) {
@@ -404,12 +404,14 @@
                 procurationId.value = element.currentTarget.attributes["procuration-id"].value;
                 var officialId = $(this).attr("name").replace(namespace,'').replace("-closeButton",'');
 
-                closeProcuration(officialId);
+                if (window.confirm("Voulez-vous vraiment fermer cette procuration ?")) {
+                    closeProcuration(officialId);
 
-                 var refreshClose = setInterval(function() {
-                 getProcurations();
-                 clearInterval(refreshClose);
-                }, 1000);
+                     var refreshClose = setInterval(function() {
+                     getProcurations();
+                     clearInterval(refreshClose);
+                    }, 1000);
+                }
          }, false);
       });
 
@@ -434,7 +436,7 @@
 
         event.preventDefault();
 
-        var councilSessionId = ${dc.councilSession.councilSessionId}
+        var councilSessionId = ${dc.councilSession.councilSessionId};
         var beneficiaryId = $("input[name=" + namespace + officialId + "-officialVotersId]")[0].value;
         var procurationMode = $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex;
         var otherProcurationMode = $("input[name=" + namespace + officialId + "-autre]")[0].value;
@@ -547,6 +549,8 @@
                                  }
                                      $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';
                                      $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
+                                     $("div[name=" + officialId + "-selectMode]")[0].style.display="block";
+                                     $("div[name=" + officialId + "-inputMode]")[0].style.display="none";
                                      $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
                                      $("input[name=" + namespace + officialId + "-officialVoters]").prop('disabled', true);
                                      $("input[name=" + namespace + officialId + "-autre]").prop('disabled', true);

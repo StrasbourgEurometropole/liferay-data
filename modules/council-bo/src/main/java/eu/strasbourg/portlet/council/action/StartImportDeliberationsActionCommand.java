@@ -87,7 +87,7 @@ public class StartImportDeliberationsActionCommand implements MVCActionCommand {
             }
 
             CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader(DeliberationDataConstants.DELIBERATIONS_HEADER_MAPPING).withDelimiter(';');
-            CSVParser csvFileParser = CSVParser.parse(deliberationsCsv, StandardCharsets.ISO_8859_1, csvFileFormat);
+            CSVParser csvFileParser = CSVParser.parse(deliberationsCsv, StandardCharsets.UTF_8, csvFileFormat);
 
             List<Map<String, String>> recordsListMap = new ArrayList<>();
             List<CSVRecord> csvRecords = csvFileParser.getRecords();
