@@ -46,7 +46,6 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -321,6 +320,7 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
                 }
             }
         }
+        // Si la déliberation n'existe pas dans le fichier
         List<Deliberation> deliberationsStatutCreesList = deliberationsInDbList.stream().filter(Deliberation::isCree).collect(Collectors.toList());
 
         for (Deliberation delib : deliberationsStatutCreesList) {

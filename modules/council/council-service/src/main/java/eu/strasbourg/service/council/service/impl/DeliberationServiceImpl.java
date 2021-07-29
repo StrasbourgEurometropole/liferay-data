@@ -19,12 +19,13 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.*;
 import eu.strasbourg.service.council.service.*;
 import eu.strasbourg.service.council.service.base.DeliberationServiceBaseImpl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -131,7 +132,6 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 						Vote voteFromUser = VoteLocalServiceUtil.findByDeliberationIdandOfficialId(delibVoteOuvert.getDeliberationId(), officialId);
 						List<Procuration> procurationsUserHave = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialVotersId(delibVoteOuvert.getCouncilSessionId(), officialId);
 
-						// TODO filtrer la liste sur endHour
 						List<Vote> votesFromDelib = VoteLocalServiceUtil.findByDeliberationId(delibVoteOuvert.getDeliberationId());
 						totalVotes.put("nbTotalVotes", votesFromDelib.size());
 

@@ -90,6 +90,7 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
                 log.error(e);
             }
 
+            // Set des champs en focntion du statut des déliberations
             List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
             Optional<Deliberation> delibAffichageEnCours = deliberations.stream().filter(Deliberation::isAffichageEnCours).findFirst();
             Optional<Deliberation> delibVoteEnCours = deliberations.stream().filter(Deliberation::isVoteOuvert).findFirst();
@@ -101,7 +102,7 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
             } else if (delibVoteEnCours.isPresent()) {
                 Official absentOfficial = OfficialLocalServiceUtil.fetchOfficial(officialId);
                 String absentOfficialName = absentOfficial.getFullName();
-                this.error.put("error", "Erreur : Impossible de cr\u00E9er la procuration pour "+ absentOfficialName +", un vote est en cours");
+                this.error.put("error", "Erreur : Impossible de cr\u00E9er la procuration pour " + absentOfficialName + ", un vote est en cours");
                 message.put("error", error);
                 // On passe le JSON dans la reponse pour l'utiliser dans le JS
                 writer.print(message.toString());
@@ -203,7 +204,6 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
             this.error.put("error", "Erreur : Le mode de procuration saisi pour l'\u00E9lu " + absentOfficialName + " est trop long");
             return false;
         }
-
         return isValid;
     }
 
@@ -213,5 +213,4 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
     }
 
     private ProcurationLocalService procurationLocalService;
-
 }

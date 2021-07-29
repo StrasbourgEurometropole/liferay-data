@@ -57,6 +57,7 @@ public class CloseProcurationResourceCommand implements MVCResourceCommand {
             this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
             this.action = ParamUtil.getString(request, "action");
 
+            // Correspond au bouton pour fermer toutes les procurations d'un coup ou une par une
             if (this.action.equals("closeAll")) {
 
                 List<Procuration> allProcurationsForCouncil = ProcurationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
@@ -87,6 +88,9 @@ public class CloseProcurationResourceCommand implements MVCResourceCommand {
         return true;
     }
 
+    /**
+     * Permet de fermer une procuration
+     */
     private boolean isUnvalid(ResourceResponse response, ServiceContext sc, Procuration savedProcuration) throws PortalException {
 
         CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
