@@ -14,8 +14,10 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.CouncilSessionModel;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
+import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -23,7 +25,11 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.*;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component(
         immediate = true,
@@ -124,7 +130,33 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             SessionErrors.add(request, "date-error");
             isValid = false;
         }
-        this.date = ParamUtil.getDate(request, "date", new SimpleDateFormat("dd/MM/yyyy"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        this.date = ParamUtil.getDate(request, "date", dateFormat);
+
+        // Vérification conseil du même type sur le même jour
+        GregorianCalendar gregorianCalendar = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
+        Date date = gregorianCalendar.getTime();
+
+        List<CouncilSession> councilSessions = CouncilSessionLocalServiceUtil.getFutureCouncilSessions(date); // tous les conseils a partir d'aujourd'hui
+        List<CouncilSession> councilSessionListByType = CouncilSessionLocalServiceUtil.findByTypeId(this.typeId); // tous les conseils d'un type (passés et futurs)
+
+        List<Date> datesForCouncilsToCome = councilSessions.stream().map(CouncilSessionModel::getDate).collect(Collectors.toList());
+        List<Date> datesForCouncilsOfType = councilSessions.stream().map(CouncilSessionModel::getDate).collect(Collectors.toList());
+
+        List<Date> commonDatesList = datesForCouncilsOfType.stream()
+                .filter(councilDate -> datesForCouncilsToCome.contains(councilDate)).collect(Collectors.toList());
+
+        if (!commonDatesList.isEmpty()) {
+            for (Date dateToCome : commonDatesList) {
+                String formattedDate = dateFormat.format(dateToCome);
+                String formattedWantedDate = dateFormat.format(this.date);
+                if (formattedDate.equals(formattedWantedDate)) {
+                    SessionErrors.add(request, "council-of-type-already-exist-error");
+                    isValid = false;
+                }
+            }
+        }
+
 
         // Official leader
         long officialLeaderId = ParamUtil.getLong(request, "officialLeaderId");

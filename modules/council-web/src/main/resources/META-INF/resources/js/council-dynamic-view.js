@@ -329,3 +329,24 @@ function displayNbVotes(nbVotes, element) {
 			+ nbVotes
 			+ '</div>';
 }
+
+//Loading page
+document.onreadystatechange=function () {
+          if (document.readyState=="complete"){
+               loadingFade();
+          }
+}
+function loadingFade() {
+     var opacity=1;
+     var loadingBackground=document.getElementById('loading_animation');
+     var time=setInterval(function () {
+          if (opacity<=0){
+               clearInterval(time);
+               //loadingPage.remove();
+               $('loading_animation').remove();
+          }
+
+          loadingBackground.style.opacity=opacity;
+          opacity-=0.4;
+     },100);
+}

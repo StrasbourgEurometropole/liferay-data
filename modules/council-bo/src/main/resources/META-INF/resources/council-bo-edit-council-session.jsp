@@ -63,6 +63,7 @@
 	<liferay-ui:error key="official-leader-type-error" message="official-leader-type-error" />
     <liferay-ui:error key="official-voter-type-error" message="official-voter-type-error" />
     <liferay-ui:error key="official-voters-limit-error" message="official-voters-limit-error" />
+    <liferay-ui:error key="council-of-type-already-exist-error" message="council-of-type-already-exist-error" />
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "doProcessAction" dans le deleteAction de l'entite) --%>
 	<liferay-ui:error key="council-has-delib-error" message="council-has-delib-error" />

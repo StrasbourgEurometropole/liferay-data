@@ -131,6 +131,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 						Vote voteFromUser = VoteLocalServiceUtil.findByDeliberationIdandOfficialId(delibVoteOuvert.getDeliberationId(), officialId);
 						List<Procuration> procurationsUserHave = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialVotersId(delibVoteOuvert.getCouncilSessionId(), officialId);
 
+						// TODO filtrer la liste sur endHour
 						List<Vote> votesFromDelib = VoteLocalServiceUtil.findByDeliberationId(delibVoteOuvert.getDeliberationId());
 						totalVotes.put("nbTotalVotes", votesFromDelib.size());
 
