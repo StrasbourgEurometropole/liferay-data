@@ -31,13 +31,13 @@ import java.util.List;
 
 @Component(
         immediate = true,
-        property = { "javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_BO,
-                "mvc.command.name=closeDeliberation" },
+        property = {"javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_BO,
+                "mvc.command.name=closeDeliberation"},
         service = MVCActionCommand.class)
 public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
 
-    final private static String POUR="pour";
-    final private static String CONTRE="contre";
+    final private static String POUR = "pour";
+    final private static String CONTRE = "contre";
 
     private VoteLocalService voteLocalService;
     private DeliberationLocalService deliberationLocalService;
@@ -73,15 +73,15 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
         Deliberation deliberation = deliberationLocalService.getDeliberation(deliberationId);
 
         //Récupération des votes associés
-        List<Vote> votes  = voteLocalService.findByDeliberationId(deliberationId);
+        List<Vote> votes = voteLocalService.findByDeliberationId(deliberationId);
 
-        int countPour=0;
-        int countContre=0;
+        int countPour = 0;
+        int countContre = 0;
 
-        for (Vote vote:votes) {
-            if(vote.getResult().toLowerCase().equals(POUR)) {
+        for (Vote vote : votes) {
+            if (vote.getResult().toLowerCase().equals(POUR)) {
                 countPour++;
-            } else if(vote.getResult().toLowerCase().equals(CONTRE)) {
+            } else if (vote.getResult().toLowerCase().equals(CONTRE)) {
                 countContre++;
             }
         }
@@ -89,28 +89,27 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
         int majoriteAbsolue = 0;
 
         // Calcule la majorité absolue
-        if((countContre + countPour) % 2 ==0  ) {
-            majoriteAbsolue = ((countContre + countPour)/2);
-        }
-        else {
-            majoriteAbsolue = (countContre + countPour - 1)/2;
+        if ((countContre + countPour) % 2 == 0) {
+            majoriteAbsolue = ((countContre + countPour) / 2);
+        } else {
+            majoriteAbsolue = (countContre + countPour - 1) / 2;
         }
 
         // Calcule le résultat
+        CouncilSession council = councilSessionLocalService.getCouncilSession(deliberation.getCouncilSessionId());
         if (countPour < 1) {
             // Si pas de vote Pour => REJETE
             deliberation.setStage(StageDeliberation.get(5).getName());
-        } else if(countPour > majoriteAbsolue) {
+        } else if (countPour > majoriteAbsolue) {
             // Majorité absolue de Pour => ADOPTE
             deliberation.setStage(StageDeliberation.get(4).getName());
         } else if (countPour == countContre) {
             // Egalite, on va cherche le chef de session
-            CouncilSession council = councilSessionLocalService.getCouncilSession(deliberation.getCouncilSessionId());
             Vote voteLeader = voteLocalService.findByDeliberationIdandOfficialId(deliberationId, council.getOfficialLeaderId());
 
             // S'il a voté
-            if(voteLeader != null) {
-                if(voteLeader.getResult().toLowerCase().equals(CONTRE)) {
+            if (voteLeader != null) {
+                if (voteLeader.getResult().toLowerCase().equals(CONTRE)) {
                     // Si il a voté Contre => REJETE
                     deliberation.setStage(StageDeliberation.get(5).getName());
                 } else {
@@ -129,17 +128,24 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
         }
         deliberation.setStatusDate(new Date());
 
+        // Set de la date de fin de vote
+        deliberation.setEndVoteDate(new Date());
+
         AssetCategory stageCategory = AssetVocabularyHelper.getCategory(deliberation.getStage(), themeDisplay.getScopeGroupId());
         //Récupère les anciennes catégories liées au statut pour les effacer (on veut qu'un seul abonnement à une catégorie de statut, celui en cours)
         List<AssetCategory> existingStageCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(deliberation.getAssetEntry(), "Statut");
         for (AssetCategory existingCat : existingStageCategories) {
             AssetEntryLocalServiceUtil.deleteAssetCategoryAssetEntry(existingCat.getCategoryId(), deliberation.getAssetEntry().getEntryId());
         }
-        if(stageCategory != null)
+        if (stageCategory != null)
             AssetEntryLocalServiceUtil.addAssetCategoryAssetEntry(stageCategory.getCategoryId(), deliberation.getAssetEntry().getEntryId());
 
         // Update de l'entité
         deliberationLocalService.updateDeliberation(deliberation);
+
+        // Set du dernier point traité dans le conseil et update de l'entité
+        council.setLastDelibProcessed(deliberationId);
+        councilSessionLocalService.updateCouncilSession(council, sc);
 
         // Post / Redirect / Get si tout est bon
         PortletURL renderURL = PortletURLFactoryUtil.create(request,

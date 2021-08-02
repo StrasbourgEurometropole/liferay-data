@@ -209,6 +209,12 @@ public interface ProcurationLocalService
 	public List<Procuration> findByCouncilSessionId(long councilSessionId);
 
 	/**
+	 * Recherche d'une procuration pour un officiel
+	 */
+	public List<Procuration> findByCouncilSessionIdAndOfficialUnavailableId(
+		long councilSessionId, long officialId);
+
+	/**
 	 * Recherche par ID de CouncilSession, élu et mandataire,
 	 */
 	public Procuration findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
@@ -312,6 +318,13 @@ public interface ProcurationLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getProcurationsCount();
+
+	/**
+	 * Recherche d'une procuration active
+	 * Si une procuration est active, alors l'élu est absent
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isOfficialAbsent(long councilSessionId, long officialId);
 
 	/**
 	 * Supprime une entité

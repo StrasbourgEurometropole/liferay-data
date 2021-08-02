@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.Official;
@@ -86,6 +87,18 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
 
         List<Procuration> procurations = procurationLocalService.findByCouncilSessionId(deliberation.getCouncilSessionId());
 
+        // Partie procuration
+        // Récupération des procurations du conseil de la deliberation
+        if(stage.equals(StageDeliberation.VOTE_OUVERT.getName())) {
+            for (Procuration procuration : procurations) {
+                if (procuration.getIsAfterVote()) {
+                    procuration.setStartDelib(deliberation.getDeliberationId());
+                    procuration.setIsAfterVote(false);
+                    procurationLocalService.updateProcuration(procuration);
+                }
+            }
+        }
+
         long typeId = councilSession.getTypeId();
 
         List<Long> officialsType = OfficialTypeCouncilLocalServiceUtil.findByTypeId(typeId).stream()
@@ -102,24 +115,60 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
         }
 
         int countOfficialActive = officials.size();
-        int countAbsentWithoutProc = Math.toIntExact(procurations.stream().filter(x -> x.isIsAbsent() && x.getOfficialVotersId() == 0).count());
-        int countOfficialVoting = countOfficialActive - countAbsentWithoutProc;
+        // List des elus qui sont absents mais ont pas donné de procuration
+        List<Procuration> absentsWithNoProc = new ArrayList<>(procurations.stream().filter(x -> x.getOfficialVotersId() == 0 && x.getEndDelib()==-1).collect(Collectors.toList()));
+        // List des elus qui sont absents et ont  donné  procuration
+        List<Procuration> absentsWithProc = new ArrayList<>(procurations.stream().filter(x -> x.getOfficialVotersId() != 0 && x.getEndDelib()==-1).collect(Collectors.toList()));
+        // List d'id des elus qui sont absents mais ont pas donné de procuration
+        List<Long> absentsWithNoProcId = new ArrayList<>();
+        // List d'id des elus qui sont absents et ont donné procuration
+        List<Long> absentsWithProcId = new ArrayList<>();
+        // List d'id des elus qui sont absents et ont donné procuration à une personne absente
+        List<Long> notCountedInQuorum = new ArrayList<>();
+        // Verifie qu'il n'y pas plusieurs fois le meme elu
+        for(Procuration absentWithNoProc : absentsWithNoProc){
+            if(!absentsWithNoProcId.contains(absentWithNoProc.getOfficialUnavailableId())){
+                absentsWithNoProcId.add(absentWithNoProc.getOfficialUnavailableId());
+            }
+        }
+        // Verifie qu'il n'y pas plusieurs fois le meme elu
+        for(Procuration absentWithProc : absentsWithProc){
+            if(!absentsWithProcId.contains(absentWithProc.getOfficialUnavailableId())){
+                absentsWithProcId.add(absentWithProc.getOfficialUnavailableId());
+            } else {
+                absentsWithProc.remove(absentWithProc);
+            }
+        }
+        // Verifie si un elu a donné sa procuration à un elu absent
+        for(Procuration absentWithProc : absentsWithProc){
+            if(absentsWithNoProc.contains(absentWithProc.getOfficialVotersId())){
+                notCountedInQuorum.add(absentWithProc.getOfficialUnavailableId());
+            }
+            if(absentsWithProcId.contains(absentWithProc.getOfficialVotersId())){
+                notCountedInQuorum.add(absentWithProc.getOfficialUnavailableId());
+            }
+        }
+        int countAbsent = absentsWithNoProcId.size()+notCountedInQuorum.size();
+        int countOfficialVoting = countOfficialActive - countAbsent;
 
         deliberation.setCountOfficialsActive(countOfficialActive);
         deliberation.setCountOfficialsVoting(countOfficialVoting);
 
+        //  Set de la date de début de vote
+        deliberation.setBeginningVoteDate(new Date());
 
-        // Calcule la valeur du quorum
+
+        //  Calcule la valeur du quorum
         int quorum = (int)Math.floor(((double) countOfficialActive / 3) + 1);
 
-        // Vérifie la présence du quorum
+        //  Vérifie la présence du quorum
         if(countOfficialVoting >= quorum) {
-            // Passe au statut "Vote ouvert"
+            //  Passe au statut "Vote ouvert"
             deliberation.setStage(stage);
             deliberation.setStatusDate(new Date());
 
             AssetCategory stageCategory = AssetVocabularyHelper.getCategory(deliberation.getStage(), themeDisplay.getScopeGroupId());
-            //Récupère les anciennes catégories liées au statut pour les effacer (on veut qu'un seul abonnement à une catégorie de statut, celui en cours)
+            // Récupère les anciennes catégories liées au statut pour les effacer (on veut qu'un seul abonnement à une catégorie de statut, celui en cours)
             List<AssetCategory> existingStageCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(deliberation.getAssetEntry(), "Statut");
             for (AssetCategory existingCat : existingStageCategories) {
                 AssetEntryLocalServiceUtil.deleteAssetCategoryAssetEntry(existingCat.getCategoryId(), deliberation.getAssetEntry().getEntryId());
@@ -128,15 +177,15 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
                 AssetEntryLocalServiceUtil.addAssetCategoryAssetEntry(stageCategory.getCategoryId(), deliberation.getAssetEntry().getEntryId());
 
         } else {
-            // Pas de quorum, on avertit
+            //  Pas de quorum, on avertit
             String[] args = new String[]{String.valueOf(countOfficialVoting), String.valueOf(countOfficialActive), String.valueOf(quorum)};
             SessionErrors.add(request, "quorum-error", args);
         }
 
-        // Update de l'entité (même si pas de quorum on enregistre les chiffres pour que les gens puissent vérifier
+        //  Update de l'entité (même si pas de quorum on enregistre les chiffres pour que les gens puissent vérifier
         deliberationLocalService.updateDeliberation(deliberation);
 
-        // Post / Redirect / Get si tout est bon
+        //  Post / Redirect / Get si tout est bon
         PortletURL renderURL = PortletURLFactoryUtil.create(request,
                 portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
         renderURL.setParameter("tab", request.getParameter("tab"));

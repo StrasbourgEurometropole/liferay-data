@@ -7,14 +7,30 @@
 
 		<c:choose>
 		
-			<c:when test = "${dc.currentCouncilSession != null}">
-			
-				<%-- Titre de la session --%>
-				<h1 class="council-title">
-					${dc.currentCouncilSessionTitle}
+			<c:when test = "${fn:length(dc.getCouncilSessions()) > 0}">
+
+                <%-- Champ : Session --%>
+                <aui:select name="councilSessionIdSelect" label="Choix du conseil" >
+                    <c:forEach var="council" items="${dc.getCouncilSessions()}">
+                        <aui:option value="${council.councilSessionId}"
+                            label="${council.getTitle()}"
+                             />
+                    </c:forEach>
+                </aui:select>
+                <aui:script>
+                    AUI().use('aui-base', function(A){
+                        A.one("#<portlet:namespace />councilSessionIdSelect").on('change',function(){
+                            currentCouncilSessionId = A.one('#<portlet:namespace />councilSessionIdSelect').get('value');
+                            refreshConnectionInformations(currentCouncilSessionId);
+                        })
+                    });
+                </aui:script>
+
+                <%-- Titre de la session --%>
+				<h1 class="council-title" id="councilTitle">
 				</h1>
-				
-				<%-- Liste des non connectés --%>
+
+				<%-- Liste des non connectï¿½s --%>
 				<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" cssClass="officials-unconnected" label="eu.council.bo.unconnected">
 					
 					<div class="connexion-list" id="unconnected-list"></div>
@@ -28,7 +44,7 @@
 					
 				</aui:fieldset>
 				
-				<%-- Liste des connectés --%>
+				<%-- Liste des connectï¿½s --%>
 				<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" cssClass="officials-connected" label="eu.council.bo.connected">
 					
 					<div class="connexion-list" id="connected-list"></div>
@@ -44,17 +60,17 @@
          	</c:otherwise>
 			
 		</c:choose>
-		
+
 	</aui:fieldset-group>
 
 </div>
 
-<liferay-util:html-top>
+<liferay-util:html-bottom>
 	<script>
 		var currentGroupId = ${dc.groupId};
-		var currentCouncilSessionId = ${dc.currentCouncilSessionId};
+		var currentCouncilSessionId = $('#<portlet:namespace />councilSessionIdSelect').val();
 	</script>
-</liferay-util:html-top>
+</liferay-util:html-bottom>
 
 <liferay-util:html-bottom>
 	<script src="/o/councilbo/js/council-bo-view-officials-connection.js" type="text/javascript"></script>

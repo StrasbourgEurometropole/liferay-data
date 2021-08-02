@@ -66,7 +66,7 @@ public class DeliberationCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -102,6 +102,10 @@ public class DeliberationCacheModel
 		sb.append(countOfficialsVoting);
 		sb.append(", countOfficialsActive=");
 		sb.append(countOfficialsActive);
+		sb.append(", beginningVoteDate=");
+		sb.append(beginningVoteDate);
+		sb.append(", endVoteDate=");
+		sb.append(endVoteDate);
 		sb.append(", councilSessionId=");
 		sb.append(councilSessionId);
 		sb.append("}");
@@ -181,6 +185,21 @@ public class DeliberationCacheModel
 
 		deliberationImpl.setCountOfficialsVoting(countOfficialsVoting);
 		deliberationImpl.setCountOfficialsActive(countOfficialsActive);
+
+		if (beginningVoteDate == Long.MIN_VALUE) {
+			deliberationImpl.setBeginningVoteDate(null);
+		}
+		else {
+			deliberationImpl.setBeginningVoteDate(new Date(beginningVoteDate));
+		}
+
+		if (endVoteDate == Long.MIN_VALUE) {
+			deliberationImpl.setEndVoteDate(null);
+		}
+		else {
+			deliberationImpl.setEndVoteDate(new Date(endVoteDate));
+		}
+
 		deliberationImpl.setCouncilSessionId(councilSessionId);
 
 		deliberationImpl.resetOriginalValues();
@@ -216,6 +235,8 @@ public class DeliberationCacheModel
 		countOfficialsVoting = objectInput.readInt();
 
 		countOfficialsActive = objectInput.readInt();
+		beginningVoteDate = objectInput.readLong();
+		endVoteDate = objectInput.readLong();
 
 		councilSessionId = objectInput.readLong();
 	}
@@ -279,6 +300,8 @@ public class DeliberationCacheModel
 		objectOutput.writeInt(countOfficialsVoting);
 
 		objectOutput.writeInt(countOfficialsActive);
+		objectOutput.writeLong(beginningVoteDate);
+		objectOutput.writeLong(endVoteDate);
 
 		objectOutput.writeLong(councilSessionId);
 	}
@@ -300,6 +323,8 @@ public class DeliberationCacheModel
 	public String stage;
 	public int countOfficialsVoting;
 	public int countOfficialsActive;
+	public long beginningVoteDate;
+	public long endVoteDate;
 	public long councilSessionId;
 
 }

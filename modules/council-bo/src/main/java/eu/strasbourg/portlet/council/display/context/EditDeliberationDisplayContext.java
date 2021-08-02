@@ -20,6 +20,10 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,6 +32,7 @@ public class EditDeliberationDisplayContext {
     final static private String  POUR="Pour";
     final static private String  CONTRE="Contre";
     final static private String  ABSTENTION="Abstention";
+    final static private String  TOTAL = "Total des votes";
 
     private Deliberation deliberation;
     private final RenderRequest request;
@@ -61,16 +66,13 @@ public class EditDeliberationDisplayContext {
         List<CouncilSession> availableCouncilSessions = new ArrayList<>();
         List<CouncilSession>  otherList= new ArrayList<>();
 
-        // Récupère la date d'aujourd'hui, minuit
-        GregorianCalendar gc = new GregorianCalendar();
-        gc.setTime(new Date());
-        gc.set(Calendar.HOUR_OF_DAY, 0);
-        gc.set(Calendar.MINUTE, 0);
-        gc.set(Calendar.SECOND, 0);
-        gc.set(Calendar.MILLISECOND, 0);
+        // Calcul de la date sur laquelle on recherche les conseils
+        GregorianCalendar gregorianCalendar = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
 
         //On filtre la liste des futurs conseils en fonction des rôles du User
-        for (CouncilSession council : CouncilSessionLocalServiceUtil.getFutureCouncilSessions(gc.getTime())) {
+        Date date = gregorianCalendar.getTime();
+        List<CouncilSession> councilSessions = CouncilSessionLocalServiceUtil.getFutureCouncilSessions(date);
+        for (CouncilSession council : councilSessions) {
             if(typeCouncilIds.contains(council.getTypeId())) {
                 otherList.add(council);
             }
@@ -198,6 +200,26 @@ public class EditDeliberationDisplayContext {
         return quorum;
     }
 
+    public Date getBeginningVoteDate() {
+
+        Deliberation deliberation = this.getDeliberation();
+        if (deliberation != null) {
+            return deliberation.getBeginningVoteDate();
+        } else {
+            return null;
+        }
+    }
+
+    public Date getEndVoteDate() {
+
+        Deliberation deliberation = this.getDeliberation();
+        if (deliberation != null) {
+            return deliberation.getEndVoteDate();
+        } else {
+            return null;
+        }
+    }
+
     public static String getPOUR() {
         return POUR;
     }
@@ -210,8 +232,11 @@ public class EditDeliberationDisplayContext {
         return ABSTENTION;
     }
 
+    public static String getTOTAL() {
+        return TOTAL;
+    }
+
     public List<VoteBean> getVoteBeans() {
         return voteBeans;
     }
-
 }

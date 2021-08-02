@@ -16,6 +16,7 @@
 		<field name="statusDate" type="Date" />
 		<field name="title" type="String" />
 		<field name="date" type="Date" />
+		<field name="lastDelibProcessed" type="long" />
 		<field name="officialLeaderId" type="long" />
 		<field name="typeId" type="long" />
 	</model>
@@ -39,6 +40,8 @@
 		<field name="stage" type="String" />
 		<field name="countOfficialsVoting" type="int" />
 		<field name="countOfficialsActive" type="int" />
+		<field name="beginningVoteDate" type="Date" />
+		<field name="endVoteDate" type="Date" />
 		<field name="councilSessionId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.council.model.Official">
@@ -89,6 +92,16 @@
 		<field name="officialUnavailableId" type="long" />
 		<field name="councilSessionId" type="long" />
 		<field name="isAbsent" type="boolean" />
+		<field name="procurationMode" type="int" />
+		<field name="presential" type="int" />
+		<field name="isAfterVote" type="boolean" />
+		<field name="startHour" type="Date" />
+		<field name="endHour" type="Date" />
+		<field name="startDelib" type="long" />
+		<field name="endDelib" type="long" />
+		<field name="otherProcurationMode" type="String">
+			<hint name="max-length">20</hint>
+		</field>
 	</model>
 	<model name="eu.strasbourg.service.council.model.Type">
 		<field name="uuid" type="String" />
