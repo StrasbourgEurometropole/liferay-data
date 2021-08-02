@@ -37,7 +37,6 @@ $('[name=serviceType]').on('click change', function(e) {
 
 //Autocomplete des lieux
 jQuery(function() {
-	if (!!window.placeAutocompleteURL) {
 		var options = {
 			type : "POST",
 			serviceUrl : "/api/jsonws/place.place/get-places-by-name-and-language/",
@@ -71,7 +70,6 @@ jQuery(function() {
 		};
 		jQuery('.place-autocomplete-input-wrapper input').autocomplete(
 				options);
-	}
 	setConditionalValidators();
 });
 
