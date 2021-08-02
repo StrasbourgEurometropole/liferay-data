@@ -68,10 +68,9 @@
 
 
 
-
-    <div id="favConfirm" style="display: none;"> 
-        <div class="favMessage">${message}</div> 
-        <div class="favActions"> 
+    <div id="rubricPopup" style="display: none;"> 
+        <div class="rubricMessage">${message}</div> 
+        <div class="rubricActions"> 
             <button class="seu-btn-square--bordered--core deny"><span class="seu-flexbox"><span class="seu-btn-text">Annuler</span><span class="seu-btn-arrow"></span></span>
             </button> 
             <button class="seu-btn-square--filled--second confirm"><span class="seu-flexbox"><span class="seu-btn-text">Valider</span><span class="seu-btn-arrow"></span></span>
