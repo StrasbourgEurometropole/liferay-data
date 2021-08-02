@@ -36,6 +36,12 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.comment.exception.NoSuchCommentException;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.like.model.Like;
+import eu.strasbourg.service.like.model.LikeType;
+import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.exception.NoSuchProjectException;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Project;
@@ -260,7 +266,38 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 			for (ProjectTimeline projectTimeline : projectTimelines) {
 				ProjectTimelineLocalServiceUtil.deleteProjectTimeline(projectTimeline);
 			}
-			
+
+			// Supprime les timelines associées au projet
+			List<ProjectFollowed> projectFolloweds = this.projectFollowedLocalService.getByProjectId(projectId);
+			for (ProjectFollowed projectFollowed : projectFolloweds) {
+				this.projectFollowedLocalService.deleteProjectFollowed(projectFollowed.getProjectFollowedId());
+			}
+
+			// Supprime les Comments
+			try {
+				// Récupère uniquement les commentaires de niveau 1, les enfants sont gérés par la méthode de supprssion
+				List<Comment> comments = CommentLocalServiceUtil.getByAssetEntryAndLevel(entry.getEntryId(), 1,0);
+				if (comments != null && !comments.isEmpty()) {
+					for (Comment comment : comments) {
+						CommentLocalServiceUtil.removeComment(comment.getCommentId());
+					}
+				}
+			} catch (NoSuchCommentException e) {
+				_log.error(e);
+			}
+
+			// Supprime les Likes
+			try {
+				List<Like> likes = LikeLocalServiceUtil.getByEntityIdAndTypeId(projectId, LikeType.PROJECT.getId());
+				if (likes != null && !likes.isEmpty()) {
+					for (Like like : likes) {
+						LikeLocalServiceUtil.deleteLike(like);
+					}
+				}
+			} catch (Exception e) {
+				_log.error(e);
+			}
+
 			// Supprime les lieux
 			List<PlacitPlace> placitPlaces = this.placitPlaceLocalService
 				.getByProject(projectId);

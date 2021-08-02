@@ -30,6 +30,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
@@ -40,11 +42,13 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
-import eu.strasbourg.service.project.model.BudgetParticipatif;
-import eu.strasbourg.service.project.model.Initiative;
-import eu.strasbourg.service.project.model.InitiativeModel;
-import eu.strasbourg.service.project.model.PlacitPlace;
-import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.comment.exception.NoSuchCommentException;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.like.model.Like;
+import eu.strasbourg.service.like.model.LikeType;
+import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
+import eu.strasbourg.service.project.model.*;
 import eu.strasbourg.service.project.service.base.InitiativeLocalServiceBaseImpl;
 
 /**
@@ -67,8 +71,9 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.project.service.InitiativeLocalServiceUtil} to access the initiative local service.
 	 */
-	
-	
+
+	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
 	/**
 	 * Crée une initiative vide avec une PK, non ajouté à la base de donnée
 	 */
@@ -253,6 +258,36 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 						placitPlace.getPlacitPlaceId());
 			}
 
+			// Supprime les InitiativeHelp
+			List<InitiativeHelp> initiativeHelps = this.initiativeHelpLocalService.getByInitiativeId(initiativeId);
+			for (InitiativeHelp initiativeHelp : initiativeHelps) {
+				this.initiativeHelpLocalService.removeInitiativeHelp(initiativeHelp.getInitiativeHelpId());
+			}
+
+			// Supprime les Comments
+			try {
+				// Récupère uniquement les commentaires de niveau 1, les enfants sont gérés par la méthode de supprssion
+				List<Comment> comments = CommentLocalServiceUtil.getByAssetEntryAndLevel(entry.getEntryId(), 1,0);
+				if (comments != null && !comments.isEmpty()) {
+					for (Comment comment : comments) {
+						CommentLocalServiceUtil.removeComment(comment.getCommentId());
+					}
+				}
+			} catch (NoSuchCommentException e) {
+				_log.error(e);
+			}
+
+			// Supprime les Likes
+			try {
+				List<Like> likes = LikeLocalServiceUtil.getByEntityIdAndTypeId(initiativeId, LikeType.INITIATIVE.getId());
+				if (likes != null && !likes.isEmpty()) {
+					for (Like like : likes) {
+						LikeLocalServiceUtil.deleteLike(like);
+					}
+				}
+			} catch (Exception e) {
+				_log.error(e);
+			}
 		}
 
 		// Supprime la initiative
