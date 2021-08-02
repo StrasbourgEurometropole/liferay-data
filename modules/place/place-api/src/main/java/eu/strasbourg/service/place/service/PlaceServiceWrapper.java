@@ -34,34 +34,6 @@ public class PlaceServiceWrapper
 	}
 
 	/**
-	 * Retourne l'ancien web service LR6 concernant les Types de lieu
-	 */
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getLegacyCategoriesJSON()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _placeService.getLegacyCategoriesJSON();
-	}
-
-	/**
-	 * Retourne l'horrible ancien web service LR6
-	 */
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getLegacyJSON() {
-		return _placeService.getLegacyJSON();
-	}
-
-	/**
-	 * Retourne l'ancien web service LR6 concernant les Territoires
-	 */
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getLegacyTerritoriesJSON()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _placeService.getLegacyTerritoriesJSON();
-	}
-
-	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
