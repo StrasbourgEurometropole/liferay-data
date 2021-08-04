@@ -58,7 +58,6 @@ Array.prototype.forEach.call(allEditButtons, function(el, i) {
             document.getElementById("refreshTimer").innerHTML = document.getElementById("refreshTimer").innerHTML + " Rafraichissement automatique mis en pause"
             var officialId = $(this).attr("name").replace(namespace,'').replace("-editButton",'');
             $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', false);
-            $("select[name=" + namespace + officialId + "-modeSelect]").prop('required', true);
             $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', false);
             $("input[name=" + namespace + "" + officialId + "-officialVoters]").prop('disabled', false);
             $("input[name=" + namespace + officialId + "-autre]").prop('disabled', false);
@@ -121,12 +120,13 @@ Array.prototype.forEach.call(allResetButtons, function(el, i){
 
 jQuery(function() {
     /** Autocomplete des élus */
+    var typeCouncilSession = document.getElementById(namespace+"typeCouncilSessionHidden").value;
     var options = {
         type : "POST",
         serviceUrl : "/api/jsonws/council.official/get-official-by-full-name-and-type/",
         params : {
             fullName : '[fullName]',
-            type : "",
+            type : typeCouncilSession,
             removedOfficialId : 0,
             groupId : currentGroupId,
             p_auth: Liferay.authToken

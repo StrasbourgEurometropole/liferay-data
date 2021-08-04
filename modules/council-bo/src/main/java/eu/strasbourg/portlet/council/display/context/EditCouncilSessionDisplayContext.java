@@ -9,12 +9,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.utils.UserRoleType;
 import eu.strasbourg.service.council.constants.ProcurationModeEnum;
 import eu.strasbourg.service.council.constants.ProcurationPresentialEnum;
-import eu.strasbourg.service.council.model.CouncilSession;
-import eu.strasbourg.service.council.model.Deliberation;
-import eu.strasbourg.service.council.model.Official;
-import eu.strasbourg.service.council.model.Procuration;
-import eu.strasbourg.service.council.model.ProcurationModel;
-import eu.strasbourg.service.council.model.Type;
+import eu.strasbourg.service.council.model.*;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
@@ -26,6 +21,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,13 +95,24 @@ public class EditCouncilSessionDisplayContext {
     public List<Procuration> getProcurationsHistoric() {
         List<Procuration> procurations = new ArrayList<>();
 
-        if(this.getCouncilSession() != null)
+        if (this.getCouncilSession() != null)
             procurations = this.getCouncilSession().getProcurations();
 
-        return procurations.stream()
+        List<Procuration> sortedByName = procurations.stream()
+            .sorted(Comparator.comparing(p -> OfficialLocalServiceUtil.fetchOfficial(p.getOfficialUnavailableId()).getFullName()))
+            .collect(Collectors.toList());
+
+        // Il s'agit d'un conseil pré-évolution multiconseil si les startHour des deliberations sont null
+        boolean isOldCouncil = sortedByName.stream().allMatch(p -> p.getStartHour() == null);
+        if (isOldCouncil) {
+            return sortedByName;
+        } else {
+            List<Procuration> sortedByNameAndStartHour = sortedByName.stream()
                 .sorted(Comparator.comparing(ProcurationModel::getStartHour))
-                .sorted(Comparator.comparing(p -> OfficialLocalServiceUtil.fetchOfficial(p.getOfficialUnavailableId()).getFullName()))
                 .collect(Collectors.toList());
+
+            return  sortedByNameAndStartHour;
+        }
     }
 
     /**
@@ -178,12 +185,18 @@ public class EditCouncilSessionDisplayContext {
      * @return String
      */
     @SuppressWarnings("unused")
-    public String getStartHour(Procuration procuration){
-        DateFormat hour = new SimpleDateFormat("hh");
-        DateFormat minute = new SimpleDateFormat("mm");
-        String startMinute = minute.format(procuration.getStartHour()).equals("00") ? "" : minute.format(procuration.getStartHour());
-        String startTime = hour.format(procuration.getStartHour())+"h"+startMinute;
-        return startTime;
+    public String getStartHour(Procuration procuration) {
+        Date startHour = procuration.getStartHour();
+        if (startHour != null) {
+            DateFormat hour = new SimpleDateFormat("hh");
+            DateFormat minute = new SimpleDateFormat("mm");
+            String startMinute = minute.format(startHour).equals("00") ? "" : minute.format(startHour);
+            String startTime = hour.format(startHour)+"h"+startMinute;
+
+            return startTime;
+        } else {
+            return "";
+        }
     }
 
     /**
@@ -191,15 +204,21 @@ public class EditCouncilSessionDisplayContext {
      * @return String
      */
     @SuppressWarnings("unused")
-    public String getEndHour(Procuration procuration){
-        DateFormat hour = new SimpleDateFormat("hh");
-        DateFormat minute = new SimpleDateFormat("mm");
-        String endTime = null;
-        if(Validator.isNotNull(procuration.getEndHour())){
-            String endMinute = minute.format(procuration.getEndHour()).equals("00") ? "" : minute.format(procuration.getEndHour());
-            endTime = hour.format(procuration.getEndHour())+"h"+endMinute;
+    public String getEndHour(Procuration procuration) {
+
+        Date endHour = procuration.getEndHour();
+        if (endHour != null) {
+            DateFormat hour = new SimpleDateFormat("hh");
+            DateFormat minute = new SimpleDateFormat("mm");
+            String endTime = null;
+            if(Validator.isNotNull(endHour)){
+                String endMinute = minute.format(endHour).equals("00") ? "" : minute.format(endHour);
+                endTime = hour.format(endHour)+"h"+endMinute;
+            }
+            return endTime;
+        } else {
+            return "";
         }
-        return endTime;
     }
 
     /**
