@@ -51,6 +51,10 @@
     name="councilIdHidden"
     value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
 
+<aui:input cssClass="typeCouncilSessionHidden" id="typeCouncilSessionHidden" type="hidden"
+    name="typeCouncilSessionHidden"
+    value="${dc.councilSession.getTypeCouncil().getTitle()}" />
+
 <%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body council-bo">
 
@@ -105,7 +109,7 @@
 			</aui:fieldset>
 
 			<%-- Groupe de champs : Procuration --%>
-			<aui:fieldset collapsed="true" collapsible="<%=true%>" label="absents-and-procurations" >
+			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="absents-and-procurations" >
 
                 <c:choose>
                     <c:when test="${dc.isStillOpen()}">
@@ -204,8 +208,10 @@
                 <button id="closeAllProcurationsButton" class="closeAll" name="closeAllProcurationsButton" title ="Fermer toues les procurations"
                     action="closeAll" >
                     <liferay-ui:icon
-                            icon="trash"
-                            markupView="lexicon"/>
+                        icon="times-circle"
+                        markupView="lexicon"
+                        cssClass="closeAllIcon"
+                    />
                     Fermer les procurations
                 </button>
 			</aui:fieldset>
@@ -238,16 +244,18 @@
 			<%-- Composant : bouton de retour a la liste des entites --%>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 
-			<%-- Composant : bouton de retour a la liste des entites --%>
-            <aui:button cssClass="btn-lg" href="${manageProcurationsURL}" type="cancel" value="Gestion des procurations" />
+            <c:if test="${not empty dc.councilSession}">
+                <%-- Composant : bouton de gestion des procurations --%>
+                <aui:button cssClass="btn-lg" href="${manageProcurationsURL}" type="cancel" value="Gestion des procurations" />
 
-            <!-- RESOURCE ACTION : Export de historique des procurations -->
-            <liferay-portlet:resourceURL id="exportProcurationsHistoric" var="exportProcurationsHistoricURL"
-                    copyCurrentRenderParameters="false">
-                <portlet:param name="councilSessionId"
-	                value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
-            </liferay-portlet:resourceURL>
-            <aui:button cssClass="btn-lg" href="${exportProcurationsHistoricURL}" type="cancel" value="export-procurations" />
+                <!-- RESOURCE ACTION : Export de historique des procurations -->
+                <liferay-portlet:resourceURL id="exportProcurationsHistoric" var="exportProcurationsHistoricURL"
+                        copyCurrentRenderParameters="false">
+                    <portlet:param name="councilSessionId"
+                        value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
+                </liferay-portlet:resourceURL>
+                <aui:button cssClass="btn-lg" href="${exportProcurationsHistoricURL}" type="cancel" value="export-procurations" />
+            </c:if>
 
 		</aui:button-row>
 

@@ -141,7 +141,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
         List<CouncilSession> councilSessionListByType = CouncilSessionLocalServiceUtil.findByTypeId(this.typeId); // tous les conseils d'un type (passés et futurs)
 
         List<Date> datesForCouncilsToCome = councilSessions.stream().map(CouncilSessionModel::getDate).collect(Collectors.toList());
-        List<Date> datesForCouncilsOfType = councilSessions.stream().map(CouncilSessionModel::getDate).collect(Collectors.toList());
+        List<Date> datesForCouncilsOfType = councilSessionListByType.stream().map(CouncilSessionModel::getDate).collect(Collectors.toList());
 
         List<Date> commonDatesList = datesForCouncilsOfType.stream()
                 .filter(councilDate -> datesForCouncilsToCome.contains(councilDate)).collect(Collectors.toList());

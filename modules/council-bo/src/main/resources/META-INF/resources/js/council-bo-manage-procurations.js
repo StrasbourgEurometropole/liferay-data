@@ -126,7 +126,7 @@ jQuery(function() {
         serviceUrl : "/api/jsonws/council.official/get-official-by-full-name-and-type/",
         params : {
             fullName : '[fullName]',
-            type : typeCouncilSession,
+            type : "",
             removedOfficialId : 0,
             groupId : currentGroupId,
             p_auth: Liferay.authToken
