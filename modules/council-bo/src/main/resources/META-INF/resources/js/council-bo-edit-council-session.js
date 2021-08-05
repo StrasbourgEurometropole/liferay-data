@@ -35,11 +35,12 @@ $('input[name$=-isAbsent]').on('change',function(){
 jQuery(function() {
     /** Autocomplete des élus */
     var typeCouncilSession = document.getElementById(namespace+"typeCouncilSessionHidden").value;
+    var options = {
         type : "POST",
         serviceUrl : "/api/jsonws/council.official/get-official-by-full-name-and-type/",
         params : {
             fullName : '[fullName]',
-            type : "",
+            type : typeCouncilSession,
             removedOfficialId : 0,
             groupId : currentGroupId,
             p_auth: Liferay.authToken

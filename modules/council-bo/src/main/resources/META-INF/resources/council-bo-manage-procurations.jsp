@@ -60,8 +60,9 @@
         </button>
 </div>
 
-
-
+<aui:input cssClass="typeCouncilSessionHidden" id="typeCouncilSessionHidden" type="hidden"
+    name="typeCouncilSessionHidden"
+    value="${dc.councilSession.getTypeCouncil().getTitle()}" />
 
 <%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body council-bo">
