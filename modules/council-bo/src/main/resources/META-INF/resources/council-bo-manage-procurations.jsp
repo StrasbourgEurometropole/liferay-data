@@ -165,7 +165,7 @@
                                 <td>
                                     <div id="checkAbsent" name="${official.officialId}-checkAbsent" style="display: none">
                                         <liferay-ui:icon
-                                            icon="check-circle"
+                                            icon="time"
                                             markupView="lexicon"
                                         />
                                     </div>
