@@ -101,10 +101,14 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
                 Official official = this.officialLocalService.fetchOfficial(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 
                 if (official != null && official.getOfficialId() != removedOfficialId) {
-                    List<Type> officialCouncilTypes = official.getCouncilTypes();
-                    Optional<Type> optionalType = officialCouncilTypes.stream().filter(t -> t.getTitle().equals(type)).findFirst();
-                    if (optionalType.isPresent()) {
+                    if (type.isEmpty()) {
                         results.add(official);
+                    } else {
+                        List<Type> officialCouncilTypes = official.getCouncilTypes();
+                        Optional<Type> optionalType = officialCouncilTypes.stream().filter(t -> t.getTitle().equals(type)).findFirst();
+                        if (optionalType.isPresent()) {
+                            results.add(official);
+                        }
                     }
                 }
             }
