@@ -47,10 +47,6 @@
         </button>
 </div>
 
-<aui:input cssClass="officalIdHidden" id="councilIdHidden" type="hidden"
-    name="councilIdHidden"
-    value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
-
 <aui:input cssClass="typeCouncilSessionHidden" id="typeCouncilSessionHidden" type="hidden"
     name="typeCouncilSessionHidden"
     value="${dc.councilSession.getTypeCouncil().getTitle()}" />
