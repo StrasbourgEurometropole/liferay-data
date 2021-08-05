@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.constants.DeliberationDataConstants;
 import eu.strasbourg.service.council.constants.StageDeliberation;
+import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.DeliberationModel;
 import eu.strasbourg.service.council.model.Procuration;
@@ -81,6 +82,7 @@ DeleteDeliberationActionCommand extends BaseMVCActionCommand {
         List<Deliberation> notCreated = deliberationLocalService.findByCouncilSessionId(deliberation.getCouncilSessionId()).stream()
                 .filter(d -> !d.getStage().equals(StageDeliberation.CREE.getName()))
                 .collect(Collectors.toList());
+        List<Deliberation> filtered = notCreated.stream().filter(d -> d.getDeliberationId() != deliberationId).collect(Collectors.toList());
         for (Procuration procuration : procurations) {
             boolean updateProc = false;
             // Verifie si la procuration a pour startDelib la delib qui va être supprimé si oui on set à -1
@@ -92,35 +94,58 @@ DeleteDeliberationActionCommand extends BaseMVCActionCommand {
                 }
                 updateProc = true;
             }
-            // Verifie si la liste des delibs contient seulement la delib en cours de suppression
-            if (notCreated.size() == 1 && notCreated.contains(deliberation)) {
-                // Si oui mettre -1 en endDelib car pas d'autre deliberation possible
-                if (procuration.getEndDelib() == deliberationId) {
+            //Dans le cas où la délib en cours de suppression est la délibération de fin de la procuration
+            if (procuration.getEndDelib() == deliberationId) {
+                // Verifie si la liste des delibs contient seulement la delib en cours de suppression
+                if (notCreated.size() == 1 && notCreated.contains(deliberation)) {
+                    // Si oui mettre -1 en endDelib car pas d'autre deliberation possible
                     procuration.setEndDelib(-1);
                     updateProc = true;
-                }
-            } else {
-                // Sinon recuperer les delib qui sont comprises entre start et end Hour de la proc et utiliser la derniere pour set endDelib
-                if (Validator.isNotNull(procuration.getEndHour())) {
-                    List<Deliberation> filtered = notCreated.stream().filter(d -> d.getDeliberationId() != deliberationId).collect(Collectors.toList());
-                    List<Deliberation> voteds = filtered.stream()
-                            .filter(d -> Validator.isNotNull(d.getEndVoteDate()))
-                            .filter(d -> d.getEndVoteDate().after(procuration.getStartHour()) && d.getEndVoteDate().before(procuration.getEndHour()))
-                            .sorted(Comparator.comparing(DeliberationModel::getEndVoteDate))
-                            .collect(Collectors.toList());
-                    if (voteds.isEmpty()) {
-                        // Si pas de delib dans la liste set à -1
-                        procuration.setEndDelib(-1);
-                        updateProc = true;
-                    } else {
-                        Deliberation voted = voteds.get(voteds.size() - 1);
-                        procuration.setEndDelib(voted.getDeliberationId());
-                        updateProc = true;
+                } else {
+                    // Sinon recuperer les delib qui sont comprises entre start et end Hour de la proc et utiliser la derniere pour set endDelib
+                    if (Validator.isNotNull(procuration.getEndHour())) {
+                        List<Deliberation> voteds = filtered.stream()
+                                .filter(d -> Validator.isNotNull(d.getEndVoteDate()))
+                                .filter(d -> d.getEndVoteDate().after(procuration.getStartHour()) && d.getEndVoteDate().before(procuration.getEndHour()))
+                                .sorted(Comparator.comparing(DeliberationModel::getEndVoteDate))
+                                .collect(Collectors.toList());
+                        if (voteds.isEmpty()) {
+                            // Si pas de delib dans la liste set à -1
+                            procuration.setEndDelib(-1);
+                            updateProc = true;
+                        } else {
+                            Deliberation voted = voteds.get(voteds.size() - 1);
+                            procuration.setEndDelib(voted.getDeliberationId());
+                            updateProc = true;
+                        }
                     }
                 }
             }
             if (updateProc)
                 procurationLocalService.updateProcuration(procuration);
+        }
+
+        CouncilSession council = councilSessionLocalService.fetchCouncilSession(deliberation.getCouncilSessionId());
+
+        if(council != null) {
+            // Si la dernière délibération traitée du conseil est celle qu'on supprime
+            if(council.getLastDelibProcessed() == deliberationId) {
+                // On cherche la dernière délibération votée avant celle là
+                List<Deliberation> lastVotedDelibs = filtered.stream()
+                        .filter(d -> d.getEndVoteDate() != null)
+                        .sorted(Comparator.comparing(DeliberationModel::getEndVoteDate).reversed())
+                        .collect(Collectors.toList());
+
+                if (lastVotedDelibs.isEmpty()) {
+                    // Si pas de delib voté avant, on repasse la dernière délib traitée du conseil à 0
+                    council.setLastDelibProcessed(0);
+                } else {
+                    // Sinon c'est cette délib qui devient la dernière délib traitée du conseil
+                    Deliberation lastVoted = lastVotedDelibs.get(0);
+                    council.setLastDelibProcessed(lastVoted.getDeliberationId());
+                }
+                councilSessionLocalService.updateCouncilSession(council);
+            }
         }
 
         // Suppression de l'entité
