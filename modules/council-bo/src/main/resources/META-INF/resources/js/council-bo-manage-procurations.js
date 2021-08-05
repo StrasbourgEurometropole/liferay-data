@@ -12,6 +12,7 @@ Array.prototype.forEach.call(customSelect, function(el, i){
         if (valueSelector == 4) {
             autreInput[i].required = true;
             autre[i].style.display = "block";
+            autre[i].setAttribute('required', true);
         } else {
             autreInput[i].required = false;
             autre[i].style.display = "none";

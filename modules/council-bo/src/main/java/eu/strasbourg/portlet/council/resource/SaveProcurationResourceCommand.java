@@ -206,6 +206,14 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
             this.error.put("error", "Erreur : Le mode de procuration saisi pour l'\u00E9lu " + absentOfficialName + " est trop long");
             return false;
         }
+
+        if (this.procurationMode == 4) {
+            if (this.otherProcurationMode != null && this.otherProcurationMode.isEmpty()) {
+                this.error.put("error", "Erreur : Un autre mode de procuration doit \u00EAtre saisi pour l'\u00E9lu " + absentOfficialName);
+                return false;
+            }
+        }
+
         return isValid;
     }
 

@@ -36,7 +36,8 @@ import java.util.stream.Collectors;
         property = {"javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_BO,
                 "mvc.command.name=deleteDeliberation"},
         service = MVCActionCommand.class)
-public class DeleteDeliberationActionCommand extends BaseMVCActionCommand {
+public class
+DeleteDeliberationActionCommand extends BaseMVCActionCommand {
 
     private DeliberationLocalService deliberationLocalService;
 
@@ -99,9 +100,10 @@ public class DeleteDeliberationActionCommand extends BaseMVCActionCommand {
                     updateProc = true;
                 }
             } else {
-                // Si non recuperer les delib qui sont comprisent entre start et end Hour de la proc et utiliser la derniere pour set endDelib
+                // Sinon recuperer les delib qui sont comprises entre start et end Hour de la proc et utiliser la derniere pour set endDelib
                 if (Validator.isNotNull(procuration.getEndHour())) {
-                    List<Deliberation> voteds = notCreated.stream()
+                    List<Deliberation> filtered = notCreated.stream().filter(d -> d.getDeliberationId() != deliberationId).collect(Collectors.toList());
+                    List<Deliberation> voteds = filtered.stream()
                             .filter(d -> Validator.isNotNull(d.getEndVoteDate()))
                             .filter(d -> d.getEndVoteDate().after(procuration.getStartHour()) && d.getEndVoteDate().before(procuration.getEndHour()))
                             .sorted(Comparator.comparing(DeliberationModel::getEndVoteDate))
