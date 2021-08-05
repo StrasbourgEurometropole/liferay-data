@@ -19,10 +19,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import javax.portlet.RenderRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class EditCouncilSessionDisplayContext {
@@ -188,10 +185,13 @@ public class EditCouncilSessionDisplayContext {
     public String getStartHour(Procuration procuration) {
         Date startHour = procuration.getStartHour();
         if (startHour != null) {
-            DateFormat hour = new SimpleDateFormat("hh");
-            DateFormat minute = new SimpleDateFormat("mm");
-            String startMinute = minute.format(startHour).equals("00") ? "" : minute.format(startHour);
-            String startTime = hour.format(startHour)+"h"+startMinute;
+            SimpleDateFormat hour = new SimpleDateFormat("HH", Locale.FRANCE);
+            SimpleDateFormat minute = new SimpleDateFormat("mm", Locale.FRANCE);
+
+            String startMinuteFormatted = minute.format(startHour).equals("00") ? "" : minute.format(startHour);
+            String startHourFormatted = hour.format(startHour);
+
+            String startTime = startHourFormatted +"h"+ startMinuteFormatted;
 
             return startTime;
         } else {
@@ -208,12 +208,13 @@ public class EditCouncilSessionDisplayContext {
 
         Date endHour = procuration.getEndHour();
         if (endHour != null) {
-            DateFormat hour = new SimpleDateFormat("hh");
-            DateFormat minute = new SimpleDateFormat("mm");
+            SimpleDateFormat hour = new SimpleDateFormat("HH", Locale.FRANCE);
+            SimpleDateFormat minute = new SimpleDateFormat("mm", Locale.FRANCE);
+
             String endTime = null;
             if(Validator.isNotNull(endHour)){
                 String endMinute = minute.format(endHour).equals("00") ? "" : minute.format(endHour);
-                endTime = hour.format(endHour)+"h"+endMinute;
+                endTime = hour.format(endHour) +"h"+ endMinute;
             }
             return endTime;
         } else {

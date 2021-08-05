@@ -59,21 +59,26 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
      * Never reference this class directly. Always use {@link eu.strasbourg.service.council.service.OfficialServiceUtil} to access the official remote service.
      */
 
-    /**  Types de conseil */
+    /**
+     * Types de conseil
+     */
     public static final String MUNICIPAL = "municipal";
     public static final String EUROMETROPOLITAN = "eurometropolitan";
 
-    /** JSON var names des types de statut de connexion */
+    /**
+     * JSON var names des types de statut de connexion
+     */
     public static final String JSON_UNCONNECTED = "unconnected";
     public static final String JSON_ABSENTS = "absents";
     public static final String JSON_CONNECTED = "connected";
 
     /**
      * Recherche d'élu pour l'autocompletion
-     * @param fullName Nom, prénom ou les deux de l'élu à trouver
-     * @param type Type de l'élu recherché (peut être vide)
+     *
+     * @param fullName          Nom, prénom ou les deux de l'élu à trouver
+     * @param type              Type de l'élu recherché (peut être vide)
      * @param removedOfficialId ID de l'élu à retirer de la liste des résultats (0 si non-utilisé)
-     * @param groupId Site sur lequel cherchés
+     * @param groupId           Site sur lequel cherchés
      * @return Liste des élus au format JSON
      */
     @Override
@@ -93,11 +98,9 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 
         if (hits != null) {
             for (Document document : hits.getDocs()) {
-                Official official = this.officialLocalService.fetchOfficial(
-                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+                Official official = this.officialLocalService.fetchOfficial(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 
                 if (official != null && official.getOfficialId() != removedOfficialId) {
-
                     List<Type> officialCouncilTypes = official.getCouncilTypes();
                     Optional<Type> optionalType = officialCouncilTypes.stream().filter(t -> t.getTitle().equals(type)).findFirst();
                     if (optionalType.isPresent()) {
@@ -122,8 +125,9 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 
     /**
      * Recherche des électeurs pour une session données groupés par statut de connexion et nom complet
+     *
      * @param councilSessionId
-     * @param groupId ID du site
+     * @param groupId          ID du site
      * @return Tableaux des statuts possibles contenant la liste des électeurs assimilables auxdits statuts
      */
     @Override

@@ -108,6 +108,7 @@
                     <p id="refreshTimer" name="refreshTimer" style="display: inline-block;"></p>
                     <p id="refreshTimerValue" name="refreshTimerValue" style="display : none;">30000</p>
                 </div>
+
                 <div id="procurations-table">
                     <table border="1">
 
@@ -185,7 +186,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="selectMode"  >
+                                    <div class="selectMode">
                                         <aui:select cssClass="presentialSelect" id="presentialSelect" name="${official.officialId}-presentialSelect" disabled="true">
                                             <aui:option style="display: none" selected="${empty procuration}"></aui:option>
                                                 <c:forEach items="${dc.getAllProcurationPresential()}" var="presential">
@@ -241,14 +242,16 @@
                     </table>
                 </div>
 
-			<button id="closeAllProcurationsButton" class="closeAll" name="closeAllProcurationsButton" title ="Fermer toutes les procurations"
-                                action="closeAll" >
-                                <liferay-ui:icon
-                                        icon="times-circle"
-                                        markupView="lexicon"
-                                />
-                                Fermer les procurations
-            </button>
+            <div style="padding-bottom: 20px;">
+                <button id="closeAllProcurationsButton" class="closeAll" name="closeAllProcurationsButton" title ="Fermer toues les procurations" action="closeAll">
+                    <liferay-ui:icon
+                        icon="times-circle"
+                        markupView="lexicon"
+                        cssClass="closeAllIcon"
+                    />
+                    Fermer les procurations
+                </button>
+            </div>
 
 		</aui:fieldset-group>
 
@@ -278,6 +281,14 @@
 <%-- Script : permet l'affichage des alertes de validation d'action --%>
 <aui:script>
     function getProcurations() {
+
+    var procurationsTable = document.getElementById("procurations-table");
+    procurationsTable.style.display="none"
+    var refreshTable = setTimeout(function(){
+        procurationsTable.style.display="block"
+
+    }, 500);
+
         AUI().use('aui-io-request', function(A) {
             try {
                 A.io.request('${reloadProcurationsURL}', {

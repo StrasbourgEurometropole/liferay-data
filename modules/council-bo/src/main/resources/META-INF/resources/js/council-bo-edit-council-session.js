@@ -34,7 +34,7 @@ $('input[name$=-isAbsent]').on('change',function(){
 
 jQuery(function() {
     /** Autocomplete des élus */
-    var options = {
+    var typeCouncilSession = document.getElementById(namespace+"typeCouncilSessionHidden").value;
         type : "POST",
         serviceUrl : "/api/jsonws/council.official/get-official-by-full-name-and-type/",
         params : {
