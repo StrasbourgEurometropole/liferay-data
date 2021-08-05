@@ -93,6 +93,10 @@
                 name="procurationIdHidden"
                 value="${procurationId}" />
 
+            <aui:input cssClass="typeCouncilSessionHidden" id="typeCouncilSessionHidden" type="hidden"
+                name="typeCouncilSessionHidden"
+                value="${dc.councilSession.getTypeCouncil().getTitle()}" />
+
 
                 <div id="refresh" name="refresh" class="refresh">
                      <button type="button" name="reloadButton" id="reloadButton" class="reloadButton" title ="refresh tableau" style="display: inline-block;">
@@ -225,7 +229,7 @@
                                         <button id="closeButton" class="closeButton" name="${official.officialId}-closeButton" type="submit" title ="Fermer la procuration"
                                             procuration-id="${procuration.procurationId}">
                                             <liferay-ui:icon
-                                                    icon="trash"
+                                                    icon="times-circle"
                                                     markupView="lexicon"
                                                 />
                                         </button>
@@ -240,7 +244,7 @@
 			<button id="closeAllProcurationsButton" class="closeAll" name="closeAllProcurationsButton" title ="Fermer toues les procurations"
                                 action="closeAll" >
                                 <liferay-ui:icon
-                                        icon="trash"
+                                        icon="times-circle"
                                         markupView="lexicon"
                                 />
                                 Fermer les procurations
@@ -355,6 +359,7 @@
     reloadButton.addEventListener("click", function() {
         var editValue =  document.getElementById(namespace+"editHidden");
         if(editValue.value=="false"){
+            document.getElementById("refreshTimerValue").innerHTML = 30000;
             getProcurations();
         } else {
             alert("Une \u00E9dition de ligne est d\u00E9j\u00E0 en cours");
@@ -428,6 +433,8 @@
              getProcurations();
              clearInterval(refreshCloseAll);
             }, 1000);
+        } else {
+            element.preventDefault();
         }
     });
 
@@ -460,7 +467,7 @@
                         complete: function(e) {
                         var response = e.details[1].responseText;
                         if (response != "") {
-
+                            window.scrollTo(0, 0);
                             var data = JSON.parse(response);
                             var dataError = JSON.stringify(data.error);
                             if (typeof dataError !== "undefined") {
@@ -526,6 +533,7 @@
                                  complete: function(e) {
                                  var response = e.details[1].responseText;
                                  if (response != "") {
+                                     window.scrollTo(0, 0);
                                      var data = JSON.parse(response);
 
                                     var dataError = JSON.stringify(data.error);
@@ -545,9 +553,10 @@
                                              warnInputSpan.innerHTML=data.warn.warn;
                                              warnDiv.style.display="flex";
                                          }
-                                     }
+                                    }
                                  }
                                      $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';
+                                     $("input[name=" + namespace + officialId + "-officialVotersId]")[0].value='';
                                      $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
                                      $("div[name=" + officialId + "-selectMode]")[0].style.display="block";
                                      $("div[name=" + officialId + "-inputMode]")[0].style.display="none";

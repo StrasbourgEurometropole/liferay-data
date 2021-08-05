@@ -19,7 +19,6 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -64,10 +63,7 @@ public class CloseProcurationResourceCommand implements MVCResourceCommand {
                 List<Procuration> openedProcurationsForCouncil = allProcurationsForCouncil.stream().filter(p -> p.getEndHour() == null).collect(Collectors.toList());
 
                 for (Procuration procuration : openedProcurationsForCouncil) {
-                    boolean isRequestUnvalid = isUnvalid(response, sc, procuration);
-                    if (isRequestUnvalid) {
-                        return false;
-                    }
+                    closeProcuration(response, sc, procuration);
                 }
             } else {
                 this.officialId = ParamUtil.getLong(request, "officialId");
@@ -75,7 +71,7 @@ public class CloseProcurationResourceCommand implements MVCResourceCommand {
 
                 Procuration savedProcuration = ProcurationLocalServiceUtil.fetchProcuration(this.procurationId);
 
-                boolean unvalid = isUnvalid(response, sc, savedProcuration);
+                boolean unvalid = closeProcuration(response, sc, savedProcuration);
                 if (unvalid) {
                     return false;
                 }
@@ -91,28 +87,34 @@ public class CloseProcurationResourceCommand implements MVCResourceCommand {
     /**
      * Permet de fermer une procuration
      */
-    private boolean isUnvalid(ResourceResponse response, ServiceContext sc, Procuration savedProcuration) throws PortalException {
+    private boolean closeProcuration(ResourceResponse response, ServiceContext sc, Procuration savedProcuration) throws PortalException {
 
         CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
         List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(councilSessionId);
-        Deliberation lastDelib = deliberations.stream().max(Comparator.comparing(DeliberationModel::getOrder)).get();
+        boolean isValid = true;
 
-        if (lastDelib.isAdopte() || lastDelib.isRejete() || lastDelib.isCommunique() || lastDelib.isAffichageEnCours()) {
+        if (!deliberations.isEmpty()) {
+            isValid = validate(deliberations, savedProcuration);
 
             long idLastDelibProcessed = councilSession.getLastDelibProcessed();
             Deliberation lastDelibProcessed = DeliberationLocalServiceUtil.fetchDeliberation(idLastDelibProcessed);
-            Date endVoteDate = lastDelibProcessed.getEndVoteDate();
-            Date startHour = savedProcuration.getStartHour();
 
-            if (endVoteDate.before(startHour)) {
+            if (lastDelibProcessed == null) {
                 ProcurationLocalServiceUtil.removeProcuration(savedProcuration.getProcurationId());
                 return true;
             } else {
-                savedProcuration.setEndDelib(idLastDelibProcessed);
+                Date endVoteDate = lastDelibProcessed.getEndVoteDate();
+                Date startHour = savedProcuration.getStartHour();
+
+                if (endVoteDate.before(startHour)) {
+                    ProcurationLocalServiceUtil.removeProcuration(savedProcuration.getProcurationId());
+                    return true;
+                } else {
+                    savedProcuration.setEndDelib(lastDelibProcessed.getDeliberationId());
+                }
             }
         }
 
-        boolean isValid = validate(deliberations, savedProcuration);
         if (isValid) {
             if (savedProcuration.getStartDelib() == -1 && savedProcuration.isIsAfterVote()) {
                 ProcurationLocalServiceUtil.removeProcuration(savedProcuration.getProcurationId());

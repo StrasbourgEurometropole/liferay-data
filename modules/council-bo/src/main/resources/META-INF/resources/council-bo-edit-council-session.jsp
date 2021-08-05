@@ -105,7 +105,7 @@
 			</aui:fieldset>
 
 			<%-- Groupe de champs : Procuration --%>
-			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="absents-and-procurations" >
+			<aui:fieldset collapsed="true" collapsible="<%=true%>" label="absents-and-procurations" >
 
                 <c:choose>
                     <c:when test="${dc.isStillOpen()}">
@@ -201,18 +201,18 @@
                     </table>
                 </div>
 
+                <button id="closeAllProcurationsButton" class="closeAll" name="closeAllProcurationsButton" title ="Fermer toues les procurations"
+                    action="closeAll" >
+                    <liferay-ui:icon
+                            icon="trash"
+                            markupView="lexicon"/>
+                    Fermer les procurations
+                </button>
 			</aui:fieldset>
 
             <aui:input cssClass="actionHidden" id="actionHidden" type="hidden"
                 name="actionHidden"
                 value="${actionValue}" />
-			<button id="closeAllProcurationsButton" class="closeAll" name="closeAllProcurationsButton" title ="Fermer toues les procurations"
-                action="closeAll" >
-                <liferay-ui:icon
-                        icon="trash"
-                        markupView="lexicon"/>
-                Fermer les procurations
-            </button>
 		</aui:fieldset-group>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
@@ -285,6 +285,8 @@
 
         if (window.confirm("Voulez-vous vraiment fermer toutes les procurations ?")) {
             closeProcuration(null);
+        } else {
+            element.preventDefault();
         }
     });
 
@@ -318,6 +320,7 @@
                                      complete: function(e) {
                                      var response = e.details[1].responseText;
                                      if (response != "") {
+                                         window.scrollTo(0, 0);
                                          var data = JSON.parse(response);
 
                                         var dataError = JSON.stringify(data.error);
@@ -337,7 +340,7 @@
                                                  warnInputSpan.innerHTML=data.warn.warn;
                                                  warnDiv.style.display="flex";
                                              }
-                                         }
+                                        }
                                      }
                                          window.location.reload();
                                          $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';

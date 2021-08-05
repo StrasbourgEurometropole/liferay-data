@@ -67,6 +67,8 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
             this.procurationMode = ParamUtil.getInteger(request, "procurationMode");
             if (this.procurationMode == 4) {
                 this.otherProcurationMode = ParamUtil.getString(request, "otherProcurationMode");
+            } else {
+                this.otherProcurationMode = null;
             }
 
             // Set des champs de la procuration
