@@ -88,8 +88,10 @@ DeleteDeliberationActionCommand extends BaseMVCActionCommand {
             // Verifie si la procuration a pour startDelib la delib qui va être supprimé si oui on set à -1
             if (procuration.getStartDelib() == deliberationId) {
                 procuration.setStartDelib(-1);
-                // Si la procuration n'a pas de delib de fin alors on set le isAfterVote a true
-                if (Validator.isNull(procuration.getEndHour())) {
+                // Si la procuration n'a pas de delib de fin
+                // //Et que c'est la dernière délib différente du statut "CREEE" alors on set le isAfterVote a true
+                // Utile lors de la suppression des Délibérations de TEST
+                if (Validator.isNull(procuration.getEndHour()) && notCreated.size() == 1 && notCreated.contains(deliberation)) {
                     procuration.setIsAfterVote(true);
                 }
                 updateProc = true;
