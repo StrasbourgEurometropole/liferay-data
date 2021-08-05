@@ -54,7 +54,7 @@
             <script src="/o/councilweb/js/council-dynamic-view.js" type="text/javascript"></script>
             <script>
                 var councilSessionId = ${dc.getSession(renderRequest).getAttribute("councilSessionId")};
-                var obj = ${dc.fetchUserFront(officialConnectedId, userDeviceInfo, councilSessionId)};
+                var obj = ${dc.fetchUserFront(dc.officialId, userDeviceInfo, councilSessionId)};
                 displayInfos(obj)
             </script>
         </liferay-util:html-bottom>
