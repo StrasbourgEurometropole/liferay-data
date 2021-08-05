@@ -288,7 +288,7 @@
     var refreshTable = setTimeout(function(){
         procurationsTable.style.display="block"
 
-    }, 500);
+    }, 300);
 
         AUI().use('aui-io-request', function(A) {
             try {
