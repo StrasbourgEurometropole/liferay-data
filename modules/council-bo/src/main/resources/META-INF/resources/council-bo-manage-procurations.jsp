@@ -241,7 +241,7 @@
                     </table>
                 </div>
 
-			<button id="closeAllProcurationsButton" class="closeAll" name="closeAllProcurationsButton" title ="Fermer toues les procurations"
+			<button id="closeAllProcurationsButton" class="closeAll" name="closeAllProcurationsButton" title ="Fermer toutes les procurations"
                                 action="closeAll" >
                                 <liferay-ui:icon
                                         icon="times-circle"
