@@ -174,7 +174,7 @@
                                 <td id="procurationMode">
                                     <div class="selectMode" id="selectMode" name="${official.officialId}-selectMode">
                                         <aui:select cssClass="modeSelect" id="modeSelect" name="${official.officialId}-modeSelect" disabled="true" >
-                                            <aui:option style="display: none" selected="${empty procuration}"></aui:option>
+                                            <aui:option selected="${empty procuration}"></aui:option>
                                             <c:forEach items="${dc.getAllProcurationMode()}" var="procurationMode">
                                                 <aui:option value="${procurationMode.getId()}" selected="${dc.verifId(procuration.procurationMode, procurationMode.getId())}">${procurationMode.name}</aui:option>
                                             </c:forEach>
