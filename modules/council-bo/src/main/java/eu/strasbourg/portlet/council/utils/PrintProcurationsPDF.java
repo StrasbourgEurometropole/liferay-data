@@ -147,7 +147,7 @@ public class PrintProcurationsPDF {
 				.setFontSize(12f);
 		document.add(subTitle);
 		// alerte si des procurations n'ont pas ete fermees
-		Paragraph stillOpen = new Paragraph("Des procurations sont encore ouvertes, veuillez toutes les fermer pour permettre le recalcul")
+		Paragraph stillOpen = new Paragraph("Des procurations sont encore ouvertes, veuillez toutes les fermer en fin de conseil pour permettre le recalcul")
 				.setTextAlignment(TextAlignment.CENTER)
 				.setFontColor(new DeviceRgb(255, 0, 0))
 				.setFontSize(10f);

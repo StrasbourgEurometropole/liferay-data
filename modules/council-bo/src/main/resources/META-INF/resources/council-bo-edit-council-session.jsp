@@ -109,7 +109,7 @@
 
                 <c:choose>
                     <c:when test="${dc.isStillOpen()}">
-                        <p style="color: red; text-align:center;">Des procurations sont encore ouvertes, veuillez toutes les fermer pour permettre le recalcul</p>
+                        <p style="color: red; text-align:center;">Des procurations sont encore ouvertes, veuillez toutes les fermer en fin de conseil pour permettre le recalcul</p>
                     </c:when>
                 </c:choose>
 
