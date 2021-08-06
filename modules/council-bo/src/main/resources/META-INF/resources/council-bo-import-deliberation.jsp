@@ -8,6 +8,8 @@
 	<portlet:param name="tab" value="deliberations" />
 </liferay-portlet:actionURL>
 
+<liferay-ui:error key="error-import-deliberations" message="error-import-deliberations"/>
+
 <%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body">
 
@@ -30,7 +32,4 @@
     	    <aui:button cssClass="btn-lg" type="submit" value="Import" />
     	</aui:button-row>
     </aui:form>
-
-    <liferay-ui:error key="error-import-deliberations" message="error-import-deliberations"/>
-
 </div>

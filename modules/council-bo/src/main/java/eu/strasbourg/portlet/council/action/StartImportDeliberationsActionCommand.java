@@ -18,6 +18,7 @@ package eu.strasbourg.portlet.council.action;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
@@ -38,9 +39,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
+import javax.portlet.*;
 import java.io.File;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -48,17 +47,14 @@ import java.util.*;
 
 @Component(immediate = true, property = {"javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_BO,
         "mvc.command.name=startImportDeliberations"}, service = MVCActionCommand.class)
-public class StartImportDeliberationsActionCommand implements MVCActionCommand {
+public class  StartImportDeliberationsActionCommand implements MVCActionCommand {
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
+    private String error;
+
     private DeliberationLocalService deliberationLocalService;
 
-    // TODO test
-    public static final String[] DELIBERATIONS_HEADER_MAPPING = new String[] {
-            "ORDER",
-            "TITLE"
-    };
     @Reference(unbind = "-")
     protected void setDeliberationLocalService(DeliberationLocalService deliberationLocalService) {
 
@@ -69,6 +65,7 @@ public class StartImportDeliberationsActionCommand implements MVCActionCommand {
     public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
 
         String extension = StringUtils.EMPTY;
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
         try {
             UploadPortletRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
@@ -78,11 +75,19 @@ public class StartImportDeliberationsActionCommand implements MVCActionCommand {
             String filename = deliberationsCsv.getName();
             int pos = filename.lastIndexOf('.');
             extension = pos > 0 ? filename.substring(pos + 1) : "";
-            String errorCsvCheck = ImportCsvHelper.csvCheckHeader(deliberationsCsv, DeliberationDataConstants.DELIBERATIONS_HEADER_MAPPING);
-            if (Validator.isNotNull(errorCsvCheck) || !extension.equals("csv")) {
-                SessionErrors.add(request, "error-import-deliberations");
-                request.setAttribute("error", errorCsvCheck);
-                _log.error(errorCsvCheck);
+
+            boolean isValid = validate(request, extension, deliberationsCsv);
+            if (!isValid) {
+                // Si pas valide : on reste sur la page d'édition
+                PortalUtil.copyRequestParameters(request, response);
+
+                String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
+                PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
+                        PortletRequest.RENDER_PHASE);
+
+                response.setRenderParameter("returnURL", returnURL.toString());
+                response.setRenderParameter("cmd", "startImportDeliberations");
+                response.setRenderParameter("mvcPath", "/council-bo-import-deliberation.jsp");
                 return false;
             }
 
@@ -100,7 +105,6 @@ public class StartImportDeliberationsActionCommand implements MVCActionCommand {
             }
 
             long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
-            ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
             ServiceContext serviceContext = ServiceContextFactory.getInstance(request);
 
@@ -110,6 +114,21 @@ public class StartImportDeliberationsActionCommand implements MVCActionCommand {
 
         } catch (IOException | PortalException e) {
             _log.error(e);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Effectue les vérifications sur le header
+     */
+    private boolean validate(ActionRequest request, String extension, File deliberationsCsv) throws IOException {
+
+        String errorCsvCheck = ImportCsvHelper.csvCheckHeader(deliberationsCsv, DeliberationDataConstants.DELIBERATIONS_HEADER_MAPPING);
+        if (Validator.isNotNull(errorCsvCheck) || !extension.equals("csv")) {
+            SessionErrors.add(request, "error-import-deliberations");
+            request.setAttribute("error", errorCsvCheck);
+            _log.error(errorCsvCheck);
             return false;
         }
         return true;
