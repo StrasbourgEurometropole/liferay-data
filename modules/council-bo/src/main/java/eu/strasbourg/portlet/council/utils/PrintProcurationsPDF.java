@@ -20,6 +20,7 @@ import com.itextpdf.layout.property.VerticalAlignment;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.council.constants.ProcurationModeEnum;
 import eu.strasbourg.service.council.constants.ProcurationPresentialEnum;
@@ -243,7 +244,7 @@ public class PrintProcurationsPDF {
                 if (Validator.isNotNull(startDelib)) {
                     startDelibValue = procuration.getStartDelib() == -1 ? "" : String.valueOf(startDelib.getOrder());
                     if (procuration.isIsAfterVote() && procuration.getStartHour() != null) {
-                        startDelibValue += " - Intervenu apres le vote";
+                        startDelibValue += "-AV";
                     }
                 }
                 String endDelibValue = "";
@@ -263,6 +264,16 @@ public class PrintProcurationsPDF {
 
             }
             document.add(table);
+
+            Paragraph asterisk = new Paragraph("AV : Intervenu Apr\u00e8s le vote")
+                .setItalic()
+                .setMarginLeft(35f)
+                .setMarginTop(5f)
+                .setFontColor(new DeviceRgb(0, 0, 0))
+                .setFont(font)
+                .setFontSize(10f);
+
+            document.add(asterisk);
 
             if (pdf != null)
                 pdf.close();
