@@ -3,15 +3,16 @@
 <%@page import="eu.strasbourg.service.council.constants.StageDeliberation"%>
 <%@page import="com.liferay.portal.kernel.servlet.SessionErrors"%>
 <%@page import="eu.strasbourg.service.council.model.Deliberation"%>
+<%@page import="com.liferay.portal.kernel.language.LanguageUtil"%>
 
 <liferay-portlet:actionURL name="startImportDeliberations" var="startImportDeliberationsURL">
 	<portlet:param name="tab" value="deliberations" />
 </liferay-portlet:actionURL>
 
-<liferay-ui:error key="error-import-deliberations" message="error-import-deliberations"/>
 
 <%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body">
+<liferay-ui:error key="error-import-deliberations" message="${requestScope.error}"/>
 
     <%-- Champ : Import du fichier --%>
     <aui:form action="${startImportDeliberationsURL}" method="post" name="fmPlaces" enctype="multipart/form-data" >
