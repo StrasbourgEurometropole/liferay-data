@@ -47,15 +47,20 @@
     }
 
     .returnButton {
-            font-size: 20px;
+            font-size: 15px;
             color: white;
             background-color: #31455d;
             border-radius: 5px;
             text-decoration: none;
             display: block;
-            max-width : 330px;
-            padding: 10px 20px;
+            max-width : 220px;
+            padding: 5px 10px;
             margin-bottom: 20px;
+
+            &:hover {
+                background-color: #46cfc0;
+                color:#31455d;
+            }
         }
 
     a:hover { text-decoration: none; }
