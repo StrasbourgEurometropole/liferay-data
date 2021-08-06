@@ -74,18 +74,9 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
             int pos = filename.lastIndexOf('.');
             extension = pos > 0 ? filename.substring(pos + 1) : "";
 
-            boolean isValid = validate(request, response, extension, deliberationsCsv);
+            boolean isValid = validate(request, extension, deliberationsCsv);
             if (!isValid) {
-                // Si pas valide : on reste sur la page d'édition
-                PortalUtil.copyRequestParameters(request, response);
-
-                String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-                PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
-                        PortletRequest.RENDER_PHASE);
-
-                response.setRenderParameter("returnURL", returnURL.toString());
-                response.setRenderParameter("cmd", "startImportDeliberations");
-                response.setRenderParameter("mvcPath", "/council-bo-import-deliberation.jsp");
+                prepareErrorResponse(request, response, themeDisplay);
                 return false;
             }
 
@@ -107,8 +98,15 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
             ServiceContext serviceContext = ServiceContextFactory.getInstance(request);
 
             // Import des données du fichier et gestion en base de données
-            deliberationLocalService.importData(recordsListMap, serviceContext, councilSessionId, themeDisplay);
-            SessionMessages.add(request, "import-successful");
+            String errorParse = deliberationLocalService.importData(recordsListMap, serviceContext, councilSessionId, themeDisplay);
+            if (errorParse.isEmpty()) {
+                SessionMessages.add(request, "import-successful");
+            } else {
+                SessionErrors.add(request, "error-parse-order");
+                request.setAttribute("errorParse", errorParse);
+                prepareErrorResponse(request, response, themeDisplay);
+                return false;
+            }
 
         } catch (IOException | PortalException e) {
             _log.error(e);
@@ -118,9 +116,26 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
     }
 
     /**
+     * Permet de préparer la réponse dans le cas d'une erreur et de rester sur la même page
+     */
+    private void prepareErrorResponse(ActionRequest request, ActionResponse response, ThemeDisplay themeDisplay) {
+
+        // Si pas valide : on reste sur la page d'édition
+        PortalUtil.copyRequestParameters(request, response);
+
+        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
+        PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
+                PortletRequest.RENDER_PHASE);
+
+        response.setRenderParameter("returnURL", returnURL.toString());
+        response.setRenderParameter("cmd", "startImportDeliberations");
+        response.setRenderParameter("mvcPath", "/council-bo-import-deliberation.jsp");
+    }
+
+    /**
      * Effectue les vérifications sur le header
      */
-    private boolean validate(ActionRequest actionRequest, ActionResponse actionResponse, String extension, File deliberationsCsv) throws IOException {
+    private boolean validate(ActionRequest actionRequest, String extension, File deliberationsCsv) throws IOException {
 
         String errorCsvCheck = ImportCsvHelper.csvCheckHeader(deliberationsCsv, DeliberationDataConstants.DELIBERATIONS_HEADER_MAPPING);
         if (Validator.isNotNull(errorCsvCheck) || !extension.equals("csv")) {

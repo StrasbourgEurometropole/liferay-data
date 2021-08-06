@@ -267,7 +267,7 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
      * Création ou mise à jour ou suppression en base de données
      */
     @Override
-    public void importData(List<Map<String, String>> recordsMapList, ServiceContext serviceContext, long councilSessionId, ThemeDisplay themeDisplay) throws PortalException {
+    public String importData(List<Map<String, String>> recordsMapList, ServiceContext serviceContext, long councilSessionId, ThemeDisplay themeDisplay) throws PortalException {
 
         Deliberation deliberation;
 
@@ -292,32 +292,37 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
             }
 
             // Récupération des données de la ligne CSV
-            int order = Integer.parseInt(record.get(DeliberationDataConstants.ORDER));
-            String title = record.get(DeliberationDataConstants.TITLE);
+            try {
+                int order = Integer.parseInt(record.get(DeliberationDataConstants.ORDER));
+                String title = record.get(DeliberationDataConstants.TITLE);
 
-            orderFileList.add(order);
-            if (!deliberationMap.containsKey(order)) {
-                // Création d'une nouvelle délibération
-                deliberation = this.createDeliberation(serviceContext);
-                deliberation.setOrder(order);
-                deliberation.setTitle(title);
-                deliberation.setCouncilSessionId(councilSessionId);
-                deliberation.setStage(StageDeliberation.get(1).getName());
+                orderFileList.add(order);
+                if (!deliberationMap.containsKey(order)) {
+                    // Création d'une nouvelle délibération
+                    deliberation = this.createDeliberation(serviceContext);
+                    deliberation.setOrder(order);
+                    deliberation.setTitle(title);
+                    deliberation.setCouncilSessionId(councilSessionId);
+                    deliberation.setStage(StageDeliberation.get(1).getName());
 
-                this.updateDeliberation(deliberation, serviceContext);
+                    this.updateDeliberation(deliberation, serviceContext);
 
-                deliberation.setStatusDate(new Date());
-                deliberationLocalService.updateDeliberation(deliberation);
-            } else {
-                Deliberation deliberationBDD = deliberationMap.get(order);
-                if (deliberationBDD.isCree()) {
-                    if (!deliberationBDD.getTitle().equals(title)) {
-                        // Mise à jour d'une délibération existante
-                        deliberationBDD.setTitle(title);
-                        deliberationBDD.setOrder(order);
-                        this.updateDeliberation(deliberationBDD, serviceContext);
+                    deliberation.setStatusDate(new Date());
+                    deliberationLocalService.updateDeliberation(deliberation);
+                } else {
+                    Deliberation deliberationBDD = deliberationMap.get(order);
+                    if (deliberationBDD.isCree()) {
+                        if (!deliberationBDD.getTitle().equals(title)) {
+                            // Mise à jour d'une délibération existante
+                            deliberationBDD.setTitle(title);
+                            deliberationBDD.setOrder(order);
+                            this.updateDeliberation(deliberationBDD, serviceContext);
+                        }
                     }
                 }
+            } catch (NumberFormatException e) {
+                log.error(e);
+                return "Une erreur s'est produite, l'order : " + record.get(DeliberationDataConstants.ORDER) + " n'est pas un entier";
             }
         }
         // Si la déliberation n'existe pas dans le fichier
@@ -328,6 +333,7 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
                 this.removeDeliberation(delib.getDeliberationId());
             }
         }
+        return null;
     }
 
     /**
