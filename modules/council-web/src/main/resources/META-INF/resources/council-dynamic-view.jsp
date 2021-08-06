@@ -18,9 +18,6 @@
                     <a href="${returnURL}"> <span class="returnButton">Retour a la liste des conseils</span></a>
                 </c:if>
 
-                <div class="loading-animation" id="loading_animation"></div>
-
-
                 <input type="hidden" id="deliberationId" value=""/>
                 <input type="hidden" id="stage" value=""/>
                 <input type="hidden" id="absent" value=""/>

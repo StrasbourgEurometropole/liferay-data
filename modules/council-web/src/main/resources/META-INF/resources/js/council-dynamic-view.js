@@ -329,7 +329,7 @@ function displayNbVotes(nbVotes, element) {
 			+ nbVotes
 			+ '</div>';
 }
-
+/*
 //Loading page
 document.onreadystatechange=function () {
           if (document.readyState=="complete"){
@@ -349,4 +349,4 @@ function loadingFade() {
           loadingBackground.style.opacity=opacity;
           opacity-=0.4;
      },100);
-}
+}*/
