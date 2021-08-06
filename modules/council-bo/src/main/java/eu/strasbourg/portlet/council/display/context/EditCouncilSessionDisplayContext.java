@@ -95,20 +95,20 @@ public class EditCouncilSessionDisplayContext {
         if (this.getCouncilSession() != null)
             procurations = this.getCouncilSession().getProcurations();
 
-        List<Procuration> sortedByName = procurations.stream()
-            .sorted(Comparator.comparing(p -> OfficialLocalServiceUtil.fetchOfficial(p.getOfficialUnavailableId()).getFullName()))
-            .collect(Collectors.toList());
-
         // Il s'agit d'un conseil pré-évolution multiconseil si les startHour des deliberations sont null
-        boolean isOldCouncil = sortedByName.stream().allMatch(p -> p.getStartHour() == null);
+        boolean isOldCouncil = procurations.stream().allMatch(p -> p.getStartHour() == null);
         if (isOldCouncil) {
-            return sortedByName;
-        } else {
-            List<Procuration> sortedByNameAndStartHour = sortedByName.stream()
-                .sorted(Comparator.comparing(ProcurationModel::getStartHour))
+            List<Procuration> sortedByName = procurations.stream()
+                .sorted(Comparator.comparing(p -> OfficialLocalServiceUtil.fetchOfficial(p.getOfficialUnavailableId()).getFullName()))
                 .collect(Collectors.toList());
+            return sortedByName;
 
-            return  sortedByNameAndStartHour;
+        } else {
+            List<Procuration> sortedByNameAndStartHour = procurations.stream()
+                .sorted(Comparator.comparing(ProcurationModel::getStartHour))
+                .sorted(Comparator.comparing(p -> OfficialLocalServiceUtil.fetchOfficial(p.getOfficialUnavailableId()).getFullName()))
+                .collect(Collectors.toList());
+            return sortedByNameAndStartHour;
         }
     }
 
