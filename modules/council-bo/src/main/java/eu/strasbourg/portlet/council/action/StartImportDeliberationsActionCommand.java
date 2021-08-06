@@ -51,8 +51,6 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
-    private String error;
-
     private DeliberationLocalService deliberationLocalService;
 
     @Reference(unbind = "-")
@@ -76,7 +74,7 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
             int pos = filename.lastIndexOf('.');
             extension = pos > 0 ? filename.substring(pos + 1) : "";
 
-            boolean isValid = validate(request, extension, deliberationsCsv);
+            boolean isValid = validate(request, response, extension, deliberationsCsv);
             if (!isValid) {
                 // Si pas valide : on reste sur la page d'édition
                 PortalUtil.copyRequestParameters(request, response);
@@ -122,12 +120,13 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
     /**
      * Effectue les vérifications sur le header
      */
-    private boolean validate(ActionRequest request, String extension, File deliberationsCsv) throws IOException {
+    private boolean validate(ActionRequest actionRequest, ActionResponse actionResponse, String extension, File deliberationsCsv) throws IOException {
 
         String errorCsvCheck = ImportCsvHelper.csvCheckHeader(deliberationsCsv, DeliberationDataConstants.DELIBERATIONS_HEADER_MAPPING);
         if (Validator.isNotNull(errorCsvCheck) || !extension.equals("csv")) {
-            SessionErrors.add(request, "error-import-deliberations");
-            request.setAttribute("error", errorCsvCheck);
+            SessionErrors.add(actionRequest, "error-import-deliberations");
+            actionRequest.setAttribute("error", errorCsvCheck);
+
             _log.error(errorCsvCheck);
             return false;
         }
