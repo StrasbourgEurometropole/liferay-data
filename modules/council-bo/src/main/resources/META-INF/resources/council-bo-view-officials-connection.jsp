@@ -10,7 +10,7 @@
 			<c:when test = "${fn:length(dc.getCouncilSessions()) > 0}">
 
                 <%-- Champ : Session --%>
-                <aui:select name="councilSessionIdSelect" label="Choix du conseil" >
+                <aui:select name="councilSessionIdSelect" label="Choix du conseil">
                     <c:forEach var="council" items="${dc.getCouncilSessions()}">
                         <aui:option value="${council.councilSessionId}"
                             label="${council.getTitle()}"
@@ -75,3 +75,9 @@
 <liferay-util:html-bottom>
 	<script src="/o/councilbo/js/council-bo-view-officials-connection.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
+
+<style>
+    .form-group.input-select-wrapper {
+        padding: 20px 20px 0px 20px;
+    }
+</style>
