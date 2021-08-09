@@ -50,6 +50,8 @@ import java.util.*;
 public class  StartImportDeliberationsActionCommand implements MVCActionCommand {
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+    private final String ERROR_INFO = "</br></br></br>  Le fichier doit avoir pour header exact  : ORDER;TITLE " +
+            "</br> Il doit y avoir deux colonnes s\u00e9par\u00e9es par un point-virgule et le fichier doit \u00eatre encod\u00e9 en UTF8 et l'extension doit \u00eatre csv";
 
     private DeliberationLocalService deliberationLocalService;
 
@@ -102,6 +104,7 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
             if (errorParse.isEmpty()) {
                 SessionMessages.add(request, "import-successful");
             } else {
+                errorParse += ERROR_INFO;
                 SessionErrors.add(request, "error-parse-order");
                 request.setAttribute("errorParse", errorParse);
                 prepareErrorResponse(request, response, themeDisplay);
@@ -139,6 +142,7 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
 
         String errorCsvCheck = ImportCsvHelper.csvCheckHeader(deliberationsCsv, DeliberationDataConstants.DELIBERATIONS_HEADER_MAPPING);
         if (Validator.isNotNull(errorCsvCheck) || !extension.equals("csv")) {
+            errorCsvCheck += ERROR_INFO;
             SessionErrors.add(actionRequest, "error-import-deliberations");
             actionRequest.setAttribute("error", errorCsvCheck);
 
