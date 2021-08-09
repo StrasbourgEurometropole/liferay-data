@@ -82,16 +82,17 @@ public class CouncilDisplayContext {
     @SuppressWarnings("unused")
     public List<CouncilSession> getCouncilSessions() {
 
-        List<CouncilSession> councilSessionList = new ArrayList<>();
 
         // Calcul de la date
         GregorianCalendar gc = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
         List<CouncilSession> todayCouncils = CouncilSessionLocalServiceUtil.findByDate(gc.getTime());
 
         Official official = getOfficialFromPublikMail();
-        councilSessionList = getCouncilSessionsForOffical(todayCouncils, official);
-
-        return councilSessionList;
+        if (official != null) {
+            List<CouncilSession> councilSessionList = getCouncilSessionsForOffical(todayCouncils, official);
+            return councilSessionList;
+        }
+        return todayCouncils;
     }
 
     private List<CouncilSession> getCouncilSessionsForOffical(List<CouncilSession> todayCouncils, Official official) {
