@@ -301,7 +301,7 @@ public interface DeliberationLocalService
 	 * Import des délibérations à partir du fichier csv
 	 * Création ou mise à jour ou suppression en base de données
 	 */
-	public void importData(
+	public String importData(
 			List<java.util.Map<String, String>> recordsMapList,
 			ServiceContext serviceContext, long councilSessionId,
 			ThemeDisplay themeDisplay)

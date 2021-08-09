@@ -13,6 +13,7 @@
 <%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body">
 <liferay-ui:error key="error-import-deliberations" message="${requestScope.error}"/>
+<liferay-ui:error key="error-parse-order" message="${requestScope.errorParse}"/>
 
     <%-- Champ : Import du fichier --%>
     <aui:form action="${startImportDeliberationsURL}" method="post" name="fmPlaces" enctype="multipart/form-data" >

@@ -362,14 +362,14 @@ public class DeliberationLocalServiceUtil {
 	 * Import des délibérations à partir du fichier csv
 	 * Création ou mise à jour ou suppression en base de données
 	 */
-	public static void importData(
+	public static String importData(
 			java.util.List<java.util.Map<String, String>> recordsMapList,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext,
 			long councilSessionId,
 			com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		getService().importData(
+		return getService().importData(
 			recordsMapList, serviceContext, councilSessionId, themeDisplay);
 	}
 
