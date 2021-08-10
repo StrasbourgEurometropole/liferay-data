@@ -93,11 +93,13 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 
 				//Vérifie si l'élu est noté absent ou non pour le conseil
 				Procuration absenceProcuration = ProcurationLocalServiceUtil.findAbsenceForCouncilSession(todayCouncil.getCouncilSessionId(), officialId);
-				official.put("absent", absenceProcuration != null);
-				if (absenceProcuration != null) {
-					Official officialVoters = OfficialLocalServiceUtil.fetchOfficial(absenceProcuration.getOfficialVotersId());
-					if (officialVoters != null) {
-						official.put("officialVoters", officialVoters.getFullName());
+				if (absenceProcuration.getEndHour() == null) {
+					official.put("absent", absenceProcuration != null);
+					if (absenceProcuration != null) {
+						Official officialVoters = OfficialLocalServiceUtil.fetchOfficial(absenceProcuration.getOfficialVotersId());
+						if (officialVoters != null) {
+							official.put("officialVoters", officialVoters.getFullName());
+						}
 					}
 				}
 
