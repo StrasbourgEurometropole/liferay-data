@@ -7,6 +7,15 @@
 	<portlet:param name="tab" value="councilSessions" />
 </liferay-portlet:renderURL>
 
+
+<%-- URL : definit le lien menant vers la page de listage de l'entite --%>
+<liferay-portlet:renderURL varImpl="editCouncilSessionURL">
+	<portlet:param name="councilSessionId"
+	    value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
+    <portlet:param name="mvcPath" value="/council-bo-edit-council-session.jsp" />
+</liferay-portlet:renderURL>
+
+
 <%-- URL : definit le lien menant vers la suppression de l'entite --%>
 <liferay-portlet:actionURL name="deleteCouncilSession" var="deleteCouncilSessionURL">
 	<portlet:param name="cmd" value="deleteCouncilSession" />
@@ -242,7 +251,7 @@
 			</c:if>
 
 			<%-- Composant : bouton de retour a la liste des entites --%>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${editCouncilSessionURL}" type="cancel" />
 
             <c:if test="${not empty dc.councilSession}">
                 <%-- Composant : bouton de gestion des procurations --%>
