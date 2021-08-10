@@ -25,7 +25,7 @@
 <div class="wi-search-result">
     <div class="seu-result-left seu-result-thumbnail">
         <a href="${detailURLFilter}" title="${entry.getTitle(locale)}">
-            <div class="thumbnail-background" style="background-image: url(${entry.imageURL});"></div>
+            <div class="thumbnail-background" data-background-src="${uriHelperService.appendUriImagePreview(entry.imageURL)}"></div>
         </a>
     </div>
     <div class="seu-result-right">

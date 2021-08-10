@@ -24,7 +24,7 @@
 <li class="grid-item ${cssClass}">
     <div class="item-visu">
         <!-- <button class="item-favoris"></button> -->
-        <div class="item-background" style="background-image: url(${entry.imageURL});"></div>
+        <div class="item-background" data-background-src="${uriHelperService.appendUriImagePreview(entry.imageURL)}"></div>
     </div>
     <div class="item-right">
         <a href="${detailURL}" class="item-content">

@@ -16,7 +16,7 @@
 
 <div class="official-thumbnail seu-mag">
     <a href="${detailURLFilter}" class="seu-link" title="${entry.firstName} ${entry.lastName}">
-        <div class="seu-picture" style="background-image: url(${entry.imageURL})"></div>
+        <div class="seu-picture" data-background-src="${uriHelperService.appendUriImagePreview(entry.imageURL)}";></div>
         <div class="seu-text">
             <div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${entry.firstName} ${entry.lastName}</div>
             <div class="seu-lead dotme" data-dot="3" style="word-wrap: break-word;">${entry.getName(entry.fonctionCity,locale)}</div>

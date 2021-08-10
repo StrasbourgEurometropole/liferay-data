@@ -6,6 +6,7 @@
 </#if>
 
 <#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
+<#assign uriHelperService = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
   <@liferay_portlet.param name="classPK" value="${entry.getEventId()}" />
@@ -29,7 +30,11 @@
 <li class="grid-item ${cssClass}">
     <div class="item-visu">
         <!-- <button class="item-favoris"></button> -->
-        <div class="item-background" style="background-image: url(${entry.imageURL});"></div>
+        <#if entry.imageURL?contains("strasbourg.eu")>     
+            <div class="item-background" data-background-src="${uriHelperService.appendUriImagePreview(entry.imageURL)}"></div>
+        <#else>
+            <div class="item-background" data-background-src="${entry.imageURL}"></div>
+        </#if>
     </div>
     <div class="item-right">
         <a href="${detailURLFilter}" class="item-content">
