@@ -317,6 +317,8 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
                             deliberationBDD.setTitle(title);
                             deliberationBDD.setOrder(order);
                             this.updateDeliberation(deliberationBDD, serviceContext);
+                            deliberationBDD.setStatusDate(new Date());
+                            deliberationLocalService.updateDeliberation(deliberationBDD);
                         }
                     }
                 }

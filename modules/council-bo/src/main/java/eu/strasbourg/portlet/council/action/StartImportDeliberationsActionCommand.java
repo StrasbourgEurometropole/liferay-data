@@ -26,7 +26,10 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.constants.DeliberationDataConstants;
 import eu.strasbourg.service.council.service.DeliberationLocalService;
 import eu.strasbourg.utils.ImportCsvHelper;
@@ -34,22 +37,29 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.*;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 import java.io.File;
-import java.io.*;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Component(immediate = true, property = {"javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_BO,
         "mvc.command.name=startImportDeliberations"}, service = MVCActionCommand.class)
 public class  StartImportDeliberationsActionCommand implements MVCActionCommand {
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+    private final String ERROR_INFO = "</br></br></br>  Le fichier doit avoir pour header exact  : ORDER;TITLE " +
+            "</br> Il doit y avoir deux colonnes s\u00e9par\u00e9es par un point-virgule et le fichier doit \u00eatre encod\u00e9 en UTF8 et l'extension doit \u00eatre csv";
 
     private DeliberationLocalService deliberationLocalService;
 
@@ -99,9 +109,10 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
 
             // Import des données du fichier et gestion en base de données
             String errorParse = deliberationLocalService.importData(recordsListMap, serviceContext, councilSessionId, themeDisplay);
-            if (errorParse.isEmpty()) {
+            if (Validator.isNull(errorParse)) {
                 SessionMessages.add(request, "import-successful");
             } else {
+                errorParse += ERROR_INFO;
                 SessionErrors.add(request, "error-parse-order");
                 request.setAttribute("errorParse", errorParse);
                 prepareErrorResponse(request, response, themeDisplay);
@@ -139,6 +150,7 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
 
         String errorCsvCheck = ImportCsvHelper.csvCheckHeader(deliberationsCsv, DeliberationDataConstants.DELIBERATIONS_HEADER_MAPPING);
         if (Validator.isNotNull(errorCsvCheck) || !extension.equals("csv")) {
+            errorCsvCheck += ERROR_INFO;
             SessionErrors.add(actionRequest, "error-import-deliberations");
             actionRequest.setAttribute("error", errorCsvCheck);
 

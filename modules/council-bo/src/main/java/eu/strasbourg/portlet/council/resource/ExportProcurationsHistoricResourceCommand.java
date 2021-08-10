@@ -1,7 +1,16 @@
 package eu.strasbourg.portlet.council.resource;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import eu.strasbourg.portlet.council.utils.PrintProcurationsPDF;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
@@ -40,6 +49,17 @@ public class ExportProcurationsHistoricResourceCommand implements MVCResourceCom
         CouncilSession councilSession = this.councilSessionLocalService.fetchCouncilSession(this.councilSessionId);
 
         if (councilSession != null) {
+
+            Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId() , "/strasbourg.eu");
+            User admin = null;
+            try {
+                admin = UserLocalServiceUtil.getDefaultUser(group.getCompanyId());
+            } catch (PortalException e) {
+                e.printStackTrace();
+            }
+            PermissionChecker checker = PermissionCheckerFactoryUtil.create(admin);
+            PermissionThreadLocal.setPermissionChecker(checker);
+
             File pdfFile;
             try {
                 pdfFile = PrintProcurationsPDF.printPDFs(this.councilSessionId);

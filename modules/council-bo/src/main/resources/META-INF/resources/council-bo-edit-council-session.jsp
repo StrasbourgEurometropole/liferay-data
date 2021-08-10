@@ -51,6 +51,10 @@
     name="typeCouncilSessionHidden"
     value="${dc.councilSession.getTypeCouncil().getTitle()}" />
 
+<aui:input cssClass="officalIdHidden" id="councilIdHidden" type="hidden"
+    name="councilIdHidden"
+    value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
+
 <%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body council-bo">
 
