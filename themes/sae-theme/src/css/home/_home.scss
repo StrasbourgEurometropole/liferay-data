@@ -260,7 +260,7 @@
 			text-transform: uppercase;
 			display: block;
 		}
-		p{	
+		p{
 			font-family: 'robotoregular';
 			font-size:15px;
 			font-size:1.5rem;
@@ -450,6 +450,164 @@
 	}
 }
 
+#new-activities{
+	@extend %flex;
+	justify-content: center;
+	margin: 100px 0;
+	@include RWD(tablet){
+		margin: 50px 0;
+	}
+
+	.item{
+		position: relative;
+			width:28.125%;
+			@include RWD(tablet){
+				width:100%;
+			}
+
+		.background{
+			position: relative;
+			background-repeat: no-repeat;
+			background-position:center center;
+			background-size: cover;
+			height: 700px;
+			@include RWD(tablet){
+				height: 340px;
+			}
+			@include RWD(mobile){
+				height: 265px;
+			}
+			@include scale(1);
+			@include transition(transform 0.3s ease 0s);
+
+			//Ajout du bloc noir
+			&:after{
+				content:'';
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				background: rgba(0, 0, 0, 0.5);
+			}
+		}
+
+		//Contenu de chaque block activités
+		.block-content{
+			position: absolute;
+			//top: 530px;
+			bottom: 120px;
+			@include RWD(tablet){
+				//top: 220px;
+				bottom: 25px;
+				padding: 0 110px 0 90px;
+			}
+			@include RWD(mobile){
+				//top: 175px;
+				padding: 0 25px 0 40px;
+			}
+			width: 100%;
+			@include RWD(desktop){
+				text-align: center;
+			}
+
+			div{
+				.titre{
+					font-family: Poppins;
+					color:#ffffff;
+					text-transform: uppercase;
+					font-size: 3.6rem;
+					line-height: 5.4rem;
+					@include RWD(tablet){
+						font-size: 3rem;
+						line-height: 4.5rem;
+						&:before{
+							content: '';
+							display: inline-block;
+							background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
+							background-repeat: no-repeat;
+							background-size: contain;
+							background-position: center;
+							width: 30px;
+							height: 18px;
+							margin-right: 20px;
+						}
+					}
+					@include RWD(mobile){
+						font-size: 1.8rem;
+						line-height: 2.7rem;
+					}
+				}
+				.chapo{ 
+					height: calc(10px + 4 * 2.1rem);
+					overflow: hidden;
+					@include RWD(desktop){
+						display: none;
+					}
+					@include RWD(tablet){
+						height: calc(10px + 2 * 1.9rem);
+					}
+					@include RWD(mobile){
+						height: calc(10px + 2 * 1.4rem);
+					}
+
+					p{	
+						font-family: 'robotoregular';
+						color:#ffffff;
+						margin-top: 10px;
+						word-wrap: break-word;
+						font-size:1.8rem;
+						line-height: 2.1rem;
+						display: -webkit-box;
+						-webkit-line-clamp: 4;
+						-webkit-box-orient: vertical;
+						@include RWD(tablet){
+							font-size:1.6rem;
+							line-height: 1.9rem;
+							-webkit-line-clamp: 2;
+						}
+						@include RWD(mobile){
+							font-size: 1.2rem;
+							line-height: 1.4rem;
+						}
+					}
+				} 
+			}
+		}
+
+		@include RWD(desktop){
+			&:hover, &:active, &:focus{
+				@include scale(1.18);
+				z-index: 1;
+
+				.background{
+					//Suppression du bloc noir
+					&:after{
+						background: none;
+					}
+				}
+
+				.block-content{
+					//top:460px;
+					bottom: 0;
+					padding-top: 70px;
+					padding-bottom: 20px;
+					background: rgba(0, 175, 234, 0.7);
+					clip-path: polygon(0% 0%, 100% 15%, 100% 100%, 0% 100%);
+
+					div{
+						@include scale(0.8475);
+					}
+
+					.chapo{
+						display: block;
+					}
+				}
+			}
+		}
+	}
+}
+
 //Section twitter
 #twitter{
 	background-repeat:no-repeat;
@@ -580,6 +738,54 @@
 		width:18px;
 		margin-left:4px;
 		margin-right:4px;
+	}
+	.social-network{
+		float: none;
+		text-align: center;
+		margin-top: 15px;
+
+		span{
+			font-family: Poppins;
+			font-size: 2.4rem;
+			line-height: 3.6rem;
+			color:#33383A;
+		}
+		
+		ul li a{
+			width: 6vw;
+			height: 6vw;
+			@include RWD(tablet){
+				width: 11.4vw;
+				height: 11.4vw;
+			}
+			@include RWD(mobile){
+				width: 18.6vw;
+				height: 18.6vw;
+			}
+			margin-top: 40px;
+			background-size: contain;
+			background-position: center;
+			background-repeat: no-repeat;
+
+			&:before, &:after{
+				content: none;
+			}
+
+			&:hover, &:active, &:focus{
+				box-shadow: 0px 0px 35px 9px rgba(0, 0, 0, 0.25);
+				border-radius: 10px;
+			}
+
+			&.btn-fb {
+				background-image: url(../images/pictos/facebook-lg-round.png);
+			}
+			&.btn-twitter {
+				background-image: url(../images/pictos/twitter-lg-round.png);
+			}
+			&.btn-insta {
+				background-image: url(../images/pictos/instagram-lg-round.png);
+			}
+		}
 	}
 }
 
