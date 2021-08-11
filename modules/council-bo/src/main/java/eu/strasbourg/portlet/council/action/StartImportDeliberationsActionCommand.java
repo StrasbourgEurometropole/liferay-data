@@ -104,20 +104,27 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
             }
 
             long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
+            if (councilSessionId != 0) {
 
-            ServiceContext serviceContext = ServiceContextFactory.getInstance(request);
+                ServiceContext serviceContext = ServiceContextFactory.getInstance(request);
 
-            // Import des données du fichier et gestion en base de données
-            String errorParse = deliberationLocalService.importData(recordsListMap, serviceContext, councilSessionId, themeDisplay);
-            if (Validator.isNull(errorParse)) {
-                SessionMessages.add(request, "import-successful");
+                // Import des données du fichier et gestion en base de données
+                String errorParse = deliberationLocalService.importData(recordsListMap, serviceContext, councilSessionId, themeDisplay);
+                if (Validator.isNull(errorParse)) {
+                    SessionMessages.add(request, "import-successful");
+                } else {
+                    errorParse += ERROR_INFO;
+                    SessionErrors.add(request, "error-parse-order");
+                    request.setAttribute("errorParse", errorParse);
+                    prepareErrorResponse(request, response, themeDisplay);
+                    return false;
+                }
             } else {
-                errorParse += ERROR_INFO;
-                SessionErrors.add(request, "error-parse-order");
-                request.setAttribute("errorParse", errorParse);
+                SessionErrors.add(request, "error-no-council");
                 prepareErrorResponse(request, response, themeDisplay);
                 return false;
             }
+
 
         } catch (IOException | PortalException e) {
             _log.error(e);
