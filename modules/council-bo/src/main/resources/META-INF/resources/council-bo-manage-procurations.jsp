@@ -204,7 +204,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper-${official.officialId}">
+                                    <div class="official-autocomplete-input-wrapper-procurations" id="official-autocomplete-input-wrapper-procurations-${official.officialId}">
                                         <aui:input cssClass="autocomplete-shown" label="" type="text"
                                             title="official-receiver" name="${official.officialId}-officialVoters"
                                             value="${officialVotersFullName}" disabled="true"/>

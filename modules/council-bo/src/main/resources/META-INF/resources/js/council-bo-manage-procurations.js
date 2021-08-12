@@ -149,7 +149,7 @@ jQuery(function() {
             $(this).parent().siblings().val(suggestion.data);
         }
     };
-    jQuery('.official-autocomplete-input-wrapper').each(function() {
+    jQuery('.official-autocomplete-input-wrapper-procurations').each(function() {
     	$('.autocomplete-shown', this).autocomplete(options);
     });
  });
