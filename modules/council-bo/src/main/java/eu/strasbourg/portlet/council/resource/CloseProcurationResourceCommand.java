@@ -96,21 +96,23 @@ public class CloseProcurationResourceCommand implements MVCResourceCommand {
         if (!deliberations.isEmpty()) {
             isValid = validate(deliberations, savedProcuration);
 
-            long idLastDelibProcessed = councilSession.getLastDelibProcessed();
-            Deliberation lastDelibProcessed = DeliberationLocalServiceUtil.fetchDeliberation(idLastDelibProcessed);
+            if (isValid) {
+                long idLastDelibProcessed = councilSession.getLastDelibProcessed();
+                Deliberation lastDelibProcessed = DeliberationLocalServiceUtil.fetchDeliberation(idLastDelibProcessed);
 
-            if (lastDelibProcessed == null) {
-                ProcurationLocalServiceUtil.removeProcuration(savedProcuration.getProcurationId());
-                return true;
-            } else {
-                Date endVoteDate = lastDelibProcessed.getEndVoteDate();
-                Date startHour = savedProcuration.getStartHour();
-
-                if (endVoteDate.before(startHour)) {
+                if (lastDelibProcessed == null) {
                     ProcurationLocalServiceUtil.removeProcuration(savedProcuration.getProcurationId());
                     return true;
                 } else {
-                    savedProcuration.setEndDelib(lastDelibProcessed.getDeliberationId());
+                    Date endVoteDate = lastDelibProcessed.getEndVoteDate();
+                    Date startHour = savedProcuration.getStartHour();
+
+                    if (endVoteDate.before(startHour)) {
+                        ProcurationLocalServiceUtil.removeProcuration(savedProcuration.getProcurationId());
+                        return true;
+                    } else {
+                        savedProcuration.setEndDelib(lastDelibProcessed.getDeliberationId());
+                    }
                 }
             }
         }
