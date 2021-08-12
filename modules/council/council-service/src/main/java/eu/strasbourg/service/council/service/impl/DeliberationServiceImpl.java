@@ -131,6 +131,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 
 						Vote voteFromUser = VoteLocalServiceUtil.findByDeliberationIdandOfficialId(delibVoteOuvert.getDeliberationId(), officialId);
 						List<Procuration> procurationsUserHave = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialVotersId(delibVoteOuvert.getCouncilSessionId(), officialId);
+						List<Procuration> procurationsUserHaveNotClosed = procurationsUserHave.stream().filter(p-> p.getEndHour() == null).collect(Collectors.toList());
 
 						List<Vote> votesFromDelib = VoteLocalServiceUtil.findByDeliberationId(delibVoteOuvert.getDeliberationId());
 						totalVotes.put("nbTotalVotes", votesFromDelib.size());
@@ -139,7 +140,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 						if (voteFromUser != null) {
 							official.put("vote", voteFromUser.getResult());
 						}
-						for (Procuration procuration : procurationsUserHave) {
+						for (Procuration procuration : procurationsUserHaveNotClosed) {
 							Vote voteAbsent = VoteLocalServiceUtil.findByDeliberationIdandOfficialId(delibVoteOuvert.getDeliberationId(), procuration.getOfficialUnavailableId());
 							Official officalUnavailable = OfficialLocalServiceUtil.fetchOfficial(procuration.getOfficialUnavailableId());
 							// On ajoute l'info JSON des procurations
