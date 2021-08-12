@@ -157,7 +157,6 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             }
         }
 
-
         // Official leader
         long officialLeaderId = ParamUtil.getLong(request, "officialLeaderId");
         if (Validator.isNull(officialLeaderId)) {

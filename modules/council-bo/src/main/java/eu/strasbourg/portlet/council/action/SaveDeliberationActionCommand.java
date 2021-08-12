@@ -61,64 +61,65 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
     @Override
     protected void doProcessAction(ActionRequest request,
                                    ActionResponse response) throws Exception {
+
+        // Récupération des paramètres
         ServiceContext sc = ServiceContextFactory.getInstance(request);
         ThemeDisplay themeDisplay = (ThemeDisplay) request
                 .getAttribute(WebKeys.THEME_DISPLAY);
         String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
 
         long deliberationId = ParamUtil.getLong(request, "deliberationId");
+        int order = ParamUtil.getInteger(request, "order");
+        String title = ParamUtil.getString(request, "title");
+        long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
+
         Deliberation deliberation;
         String stage;
         Date dateStatus = null;
-        boolean isNew=false;
+        boolean isNew = false;
+        boolean isValid;
+
+        // Création ou mise à jour de la déliberation
         if (deliberationId == 0) {
             deliberation = deliberationLocalService.createDeliberation(sc);
             stage = StageDeliberation.get(1).getName();
             deliberation.setStage(stage);
-            isNew=true;
+            isNew = true;
         } else {
             stage = ParamUtil.getString(request, "stage");
             deliberation = deliberationLocalService.getDeliberation(deliberationId);
             dateStatus = deliberation.getStatusDate();
+
+            String deliberationStage = deliberation.getStage();
+            if (deliberationStage.equals(StageDeliberation.ADOPTE.getName()) || deliberationStage.equals(StageDeliberation.REJETE.getName()) || deliberationStage.equals(StageDeliberation.COMMUNIQUE.getName())) {
+                if (!title.equals(deliberation.getTitle()) || councilSessionId != deliberation.getCouncilSessionId()) {
+                    SessionErrors.add(request, "stage-deliberation-error");
+                    errorResponse(request, response, themeDisplay, portletName);
+                    return;
+                }
+            }
         }
 
         // Validation
-        boolean isValid = validate(request);
+        isValid = validate(request);
         if (!isValid) {
-            // Si pas valide : on reste sur la page d'édition
-            PortalUtil.copyRequestParameters(request, response);
-
-            PortletURL returnURL = PortletURLFactoryUtil.create(request,
-                    portletName, themeDisplay.getPlid(),
-                    PortletRequest.RENDER_PHASE);
-            returnURL.setParameter("tab", request.getParameter("tab"));
-
-            response.setRenderParameter("returnURL", returnURL.toString());
-            response.setRenderParameter("mvcPath",
-                    "/council-bo-edit-deliberation.jsp");
+            errorResponse(request, response, themeDisplay, portletName);
             return;
         }
 
-        // ordre
-        int order = ParamUtil.getInteger(request, "order");
+        // Set des champs de la délibération
         deliberation.setOrder(order);
-
-        // Titre
-        String title = ParamUtil.getString(request, "title");
         deliberation.setTitle(title);
-
-        // Conseil
-        long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
         deliberation.setCouncilSessionId(councilSessionId);
 
         CouncilSession council = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
-        // récupère la catégorie du conseil
+        // Récupère la catégorie du conseil
         AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, themeDisplay.getScopeGroupId());
         Type type = this.typeLocalService.fetchType(council.getTypeId());
         AssetCategory typeCategory = conseil.getCategories().stream().filter(c -> c.getName().equals(type.getTitle())).findFirst().get();
         AssetCategory councilCategory = AssetCategoryLocalServiceUtil.getChildCategories(typeCategory.getCategoryId()).stream().filter(c -> c.getName().equals(council.getTitle())).findFirst().get();
 
-        if(deliberation != null && deliberation.getAssetEntry() != null) {
+        if (deliberation != null && deliberation.getAssetEntry() != null) {
             //Récupère les anciennes catégories liées au statut pour les effacer (on veut qu'un seul abonnement à une catégorie de statut, celui en cours)
             List<AssetCategory> existingStageCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(deliberation.getAssetEntry(), "Statut");
             for (AssetCategory existingCat : existingStageCategories) {
@@ -127,10 +128,9 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         }
         AssetCategory stageCategory = AssetVocabularyHelper.getCategory(deliberation.getStage(), themeDisplay.getScopeGroupId());
 
-        if(councilCategory != null && stageCategory != null) {
+        if (councilCategory != null && stageCategory != null) {
             sc.setAssetCategoryIds(new long[]{councilCategory.getCategoryId(), stageCategory.getCategoryId()});
-        }
-        else if (councilCategory != null)
+        } else if (councilCategory != null)
             sc.setAssetCategoryIds(new long[]{councilCategory.getCategoryId()});
         else if (stageCategory != null)
             sc.setAssetCategoryIds(new long[]{stageCategory.getCategoryId()});
@@ -139,7 +139,7 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         deliberationLocalService.updateDeliberation(deliberation, sc);
 
         // Parce que le SC enregistre une date NULL
-        if(isNew) {
+        if (isNew) {
             deliberation.setStatusDate(new Date());
             deliberationLocalService.updateDeliberation(deliberation);
         } else {
@@ -148,8 +148,7 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         }
 
         // Post / Redirect / Get si tout est bon
-        PortletURL renderURL = PortletURLFactoryUtil.create(request,
-                portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+        PortletURL renderURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
         renderURL.setParameter("tab", request.getParameter("tab"));
         response.sendRedirect(renderURL.toString());
     }
@@ -164,18 +163,29 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
             SessionErrors.add(request, "order-error");
             isValid = false;
         }
-
         if (Validator.isNull(ParamUtil.getString(request, "title"))) {
             SessionErrors.add(request, "title-error");
             isValid = false;
         }
-
         if (Validator.isNull(ParamUtil.getString(request, "councilSessionId"))) {
             SessionErrors.add(request, "council-session-error");
             isValid = false;
         }
-
         return isValid;
     }
 
+    /**
+     * Permet de rester sur la même page lors d'une erreur
+     */
+    private void errorResponse(ActionRequest request, ActionResponse response, ThemeDisplay themeDisplay, String portletName) {
+
+        // Si pas valide : on reste sur la page d'édition
+        PortalUtil.copyRequestParameters(request, response);
+
+        PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+        returnURL.setParameter("tab", request.getParameter("tab"));
+
+        response.setRenderParameter("returnURL", returnURL.toString());
+        response.setRenderParameter("mvcPath", "/council-bo-edit-deliberation.jsp");
+    }
 }
