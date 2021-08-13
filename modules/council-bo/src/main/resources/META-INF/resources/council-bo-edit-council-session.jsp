@@ -30,6 +30,17 @@
     <portlet:param name="mvcPath" value="/council-bo-manage-procurations.jsp" />
 </liferay-portlet:renderURL>
 
+
+<%-- URL : definit le lien menant vers la gestion des déliberations --%>
+<liferay-portlet:renderURL varImpl="deliberationsURL">
+    <portlet:param name="cmd" value="viewDeliberations" />
+    <portlet:param name="mvcPath" value="/council-bo-view-deliberations.jsp" />
+</liferay-portlet:renderURL>
+
+
+
+
+
 <liferay-portlet:resourceURL id="closeProcuration" var="closeProcurationURL"
         copyCurrentRenderParameters="false">
 </liferay-portlet:resourceURL>
@@ -249,13 +260,16 @@
                 <%-- Composant : bouton de gestion des procurations --%>
                 <aui:button cssClass="btn-lg" href="${manageProcurationsURL}" type="cancel" value="Gestion des procurations" />
 
+                <%-- Composant : bouton de gestion des deliberations --%>
+                <aui:button cssClass="btn-lg" href="${deliberationsURL}" type="cancel" value="gestion-deliberations" />
+
                 <!-- RESOURCE ACTION : Export de historique des procurations -->
                 <liferay-portlet:resourceURL id="exportProcurationsHistoric" var="exportProcurationsHistoricURL"
                         copyCurrentRenderParameters="false">
                     <portlet:param name="councilSessionId"
                         value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
                 </liferay-portlet:resourceURL>
-                <aui:button cssClass="btn-lg" href="${exportProcurationsHistoricURL}" type="cancel" value="export-procurations" />
+                <aui:button cssClass="btn-lg exportProcurations" href="${exportProcurationsHistoricURL}" type="cancel" value="export-procurations" />
             </c:if>
 
 		</aui:button-row>
