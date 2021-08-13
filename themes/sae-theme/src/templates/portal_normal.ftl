@@ -41,8 +41,10 @@
     <link rel="icon" type="image/png" href="${images_folder}/favicon/favicon-16x16.png" sizes="16x16">
 
     <link rel="stylesheet" type="text/css" href="${css_folder}/sae.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="${css_folder}/swiper-bundle.min.css" media="screen" />
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+    <script type="text/javascript" src="${javascript_folder}/swiper-bundle.min.js" charset="utf-8"></script>
     <@liferay_util["include"] page=top_head_include />
 
     <#assign currentUrlOG = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
