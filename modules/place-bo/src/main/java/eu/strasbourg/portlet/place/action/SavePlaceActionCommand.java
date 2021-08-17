@@ -513,7 +513,7 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 		// Périodes
 		long nbPeriod = request.getActionParameters().getNames().stream().filter(p -> p.contains("namePeriod") && !p.contains("_")).count();
 		String periodsIndexes = ParamUtil.getString(request, "periodsIndexes");
-		long nbIndex = periodsIndexes.split(",").length;
+		long nbIndex = periodsIndexes.isEmpty()?0:periodsIndexes.split(",").length;
 		if(nbIndex != nbPeriod) {
 			SessionErrors.add(request, "period-error");
 			isValid = false;
