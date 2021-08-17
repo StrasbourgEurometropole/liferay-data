@@ -5,16 +5,21 @@
 	}
 }
 
+.content .portlet-content-editable{
+	border: none;
+}
+
+.portlet-layout .portlet-header {
+    margin-bottom: 0;
+}
+
 //Section news
 #news{
 	width: calc(100% + 15px);
 	margin-bottom: 100px;
 	@include RWD(tablet){
 		width: 100%;
-		margin-bottom: 50px;
-	}
-	@include RWD(mobile){
-		margin-bottom: 60px;
+		margin-bottom: 0px;
 	}
 	background: #00AFEA;
 	overflow: hidden;
@@ -435,6 +440,8 @@
 		margin-top: 40px;
 		margin-bottom: 50px;
 		padding: 0;
+		width: 100%;
+		margin-left: 0;
 	}
 	@include RWD(mobile){
 		margin-top: 60px;

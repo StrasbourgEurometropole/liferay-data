@@ -97,6 +97,43 @@
 			display:none;
 		}
 	}
+	
+	.nav-social-network{
+		float:right;
+		li{
+			display: inline-block;
+			a{
+				display: inline-block;
+				transform: translateY(calc((22px - 35px) / 2));
+				background-size: contain;
+				background-position: center;
+				background-repeat: no-repeat;
+				width: 35px;
+				height: 35px;
+				@include RWD(tablet){
+					width: 25px;
+					height: 25px;
+				}
+				@include RWD(mobile){
+					width: 20px;
+					height: 20px;
+				}
+
+				&.btn-fb {
+					background-image: url(../images/pictos/facebook-sml.png);
+				}
+				&.btn-twitter {
+					background-image: url(../images/pictos/twitter-sml.png);
+				}
+				&.btn-insta {
+					background-image: url(../images/pictos/instagram-sml.png);
+				}
+			}
+		}
+		@include RWD(tablet){
+			display:none;
+		}
+	}
 
 	.menu-category{
 		display: none;

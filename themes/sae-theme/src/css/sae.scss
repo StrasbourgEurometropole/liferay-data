@@ -17,6 +17,7 @@
 	// Modules
 	@import 'builders/modules/_owl-carousel';
 	@import 'builders/modules/_custom-select';
+	@import 'builders/modules/_atom-form-customSelect';
 
 // Vendors (external plug-ins, optionnal)
 @import 'vendors/_formValidation';
@@ -50,6 +51,7 @@
 	@import 'int/_page-int';
 	@import 'int/_form';
 	@import 'int/_form-assembly'; 
+	@import 'int/_page-results';
 
 	.rubrique{
 		@import 'int/_page-carrefour';

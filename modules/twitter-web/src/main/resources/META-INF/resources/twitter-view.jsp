@@ -39,9 +39,9 @@
 				<div class="social-network">
 				    <span><liferay-ui:message key="tw.partage" /></span>
                     <ul>
-                        <li><a class="btn-fb" href="//www.facebook.com/Strasbourg.aime.ses.etudiants/" target="_blank" title="Page Facebook de Strasbourg aime ses étudiants (nouvelle fenêtre)"></a></li>
-                        <li><a class="btn-twitter" href="//twitter.com/StrasEtudiants" target="_blank" title="Fil Twitter de Strasbourg aime ses étudiants(nouvelle fenêtre)"></a></li>
-                        <li><a class="btn-insta" href="//www.instagram.com/strasetudiants" target="_blank" title="Instagram de Strasbourg aime ses étudiants (nouvelle fenêtre)"></a></li>
+                        <li><a class="btn-fb" href="//www.facebook.com/Strasbourg.aime.ses.etudiants/" target="_blank"></a></li>
+                        <li><a class="btn-twitter" href="//twitter.com/StrasEtudiants" target="_blank"></a></li>
+                        <li><a class="btn-insta" href="//www.instagram.com/strasetudiants" target="_blank"></a></li>
                     </ul>
                 </div>
 			</div>
