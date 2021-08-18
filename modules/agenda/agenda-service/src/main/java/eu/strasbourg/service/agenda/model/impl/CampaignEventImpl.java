@@ -45,16 +45,17 @@ import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.FileEntryHelper;
-import eu.strasbourg.utils.JSONHelper;
-import eu.strasbourg.utils.MailHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.*;
 import eu.strasbourg.utils.models.LegacyPlace;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -598,6 +599,15 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		jsonEvent.put("externalId",
 				this.getCampaign().getTitleCurrentValue().substring(0, 3) + "_" + this.getCampaignEventId());
 
+		// date de création chez nous (YYYY-MM-DD HH:MM:SS)
+		DateFormat dateTimeFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		jsonEvent.put("creation_date",
+				dateTimeFormat.format(this.getCreateDate()));
+
+		// date de modification chez nous (YYYY-MM-DD HH:MM:SS)
+		jsonEvent.put("modification_date",
+				dateTimeFormat.format(this.getModifiedDate()));
+
 		// Titre, sous-titre, description
 		jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
 		if (Validator.isNotNull(this.getSubtitle())) {
@@ -607,7 +617,11 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 		// Image et copyright
 		if (Validator.isNotNull(this.getWebImageURL())) {
-			jsonEvent.put("imageURL", StrasbourgPropsUtil.getAgendaPlatformURL() + this.getWebImageURL());
+			try{
+				jsonEvent.put("imageURL", UriHelper.appendUriImagePreview(StrasbourgPropsUtil.getAgendaPlatformURL() + this.getWebImageURL()).toString());
+			} catch(URISyntaxException e) {
+				jsonEvent.put("imageURL", StrasbourgPropsUtil.getAgendaPlatformURL() + this.getWebImageURL());
+			}
 		} else {
 			String defaultImageURL = this.getCampaign().getDefaultImageURL();
 			if (Validator.isNotNull(defaultImageURL)) {
@@ -688,6 +702,21 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 			periodsJSON.put(periodJSON);
 		}
 		jsonEvent.put("periods", periodsJSON);
+
+		// Inscription
+		if(this.getRegistration()){
+			JSONObject jsonRegistration = JSONFactoryUtil.createJSONObject();
+			jsonRegistration.put("maxGauge", this.getMaxGauge());
+			LocalDate startDate = this.getRegistrationStartDate().toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
+			LocalDate endDate = this.getRegistrationEndDate().toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
+			jsonRegistration.put("startDate", startDate);
+			jsonRegistration.put("endDate", endDate);
+			jsonEvent.put("registration", jsonRegistration);
+		}
 
 		// Manifestations
 		JSONArray jsonManifestations = JSONFactoryUtil.createJSONArray();

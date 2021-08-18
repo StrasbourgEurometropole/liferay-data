@@ -1,0 +1,44 @@
+@keyframes blink {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+}
+
+@keyframes slowZoom {
+	from {
+		transform: scale(1);
+	}
+	to {
+		transform: scale(1.1);
+	}
+}
+
+@keyframes check {
+	0% {
+		height: 0;
+		width: 0;
+	}
+
+	33.3333% {
+		width: 6px;
+		height: 0;
+	}
+}
+
+@keyframes movePencil {
+	0% {
+		margin-top: -9px;
+	}
+	100% {
+		margin-top: -20px;
+	}
+}
+
+@keyframes pulse {
+	to {
+		box-shadow: 0 0 0 6px transparent, 0 0 0 12px rgba($c_main, 0);
+	}
+}

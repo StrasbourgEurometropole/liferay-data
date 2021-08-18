@@ -66,7 +66,7 @@ public class ImportReportCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -86,12 +86,20 @@ public class ImportReportCacheModel
 		sb.append(modifiedEventsCount);
 		sb.append(", errorEventsCount=");
 		sb.append(errorEventsCount);
+		sb.append(", unmodifiedEventsCount=");
+		sb.append(unmodifiedEventsCount);
+		sb.append(", deletedEventsCount=");
+		sb.append(deletedEventsCount);
 		sb.append(", newManifestationsCount=");
 		sb.append(newManifestationsCount);
 		sb.append(", modifiedManifestationsCount=");
 		sb.append(modifiedManifestationsCount);
 		sb.append(", errorManifestationsCount=");
 		sb.append(errorManifestationsCount);
+		sb.append(", unmodifiedManifestationsCount=");
+		sb.append(unmodifiedManifestationsCount);
+		sb.append(", deletedManifestationsCount=");
+		sb.append(deletedManifestationsCount);
 		sb.append(", startDate=");
 		sb.append(startDate);
 		sb.append(", endDate=");
@@ -140,10 +148,16 @@ public class ImportReportCacheModel
 		importReportImpl.setNewEventsCount(newEventsCount);
 		importReportImpl.setModifiedEventsCount(modifiedEventsCount);
 		importReportImpl.setErrorEventsCount(errorEventsCount);
+		importReportImpl.setUnmodifiedEventsCount(unmodifiedEventsCount);
+		importReportImpl.setDeletedEventsCount(deletedEventsCount);
 		importReportImpl.setNewManifestationsCount(newManifestationsCount);
 		importReportImpl.setModifiedManifestationsCount(
 			modifiedManifestationsCount);
 		importReportImpl.setErrorManifestationsCount(errorManifestationsCount);
+		importReportImpl.setUnmodifiedManifestationsCount(
+			unmodifiedManifestationsCount);
+		importReportImpl.setDeletedManifestationsCount(
+			deletedManifestationsCount);
 
 		if (startDate == Long.MIN_VALUE) {
 			importReportImpl.setStartDate(null);
@@ -181,11 +195,19 @@ public class ImportReportCacheModel
 
 		errorEventsCount = objectInput.readLong();
 
+		unmodifiedEventsCount = objectInput.readLong();
+
+		deletedEventsCount = objectInput.readLong();
+
 		newManifestationsCount = objectInput.readLong();
 
 		modifiedManifestationsCount = objectInput.readLong();
 
 		errorManifestationsCount = objectInput.readLong();
+
+		unmodifiedManifestationsCount = objectInput.readLong();
+
+		deletedManifestationsCount = objectInput.readLong();
 		startDate = objectInput.readLong();
 		endDate = objectInput.readLong();
 	}
@@ -230,11 +252,19 @@ public class ImportReportCacheModel
 
 		objectOutput.writeLong(errorEventsCount);
 
+		objectOutput.writeLong(unmodifiedEventsCount);
+
+		objectOutput.writeLong(deletedEventsCount);
+
 		objectOutput.writeLong(newManifestationsCount);
 
 		objectOutput.writeLong(modifiedManifestationsCount);
 
 		objectOutput.writeLong(errorManifestationsCount);
+
+		objectOutput.writeLong(unmodifiedManifestationsCount);
+
+		objectOutput.writeLong(deletedManifestationsCount);
 		objectOutput.writeLong(startDate);
 		objectOutput.writeLong(endDate);
 	}
@@ -248,9 +278,13 @@ public class ImportReportCacheModel
 	public long newEventsCount;
 	public long modifiedEventsCount;
 	public long errorEventsCount;
+	public long unmodifiedEventsCount;
+	public long deletedEventsCount;
 	public long newManifestationsCount;
 	public long modifiedManifestationsCount;
 	public long errorManifestationsCount;
+	public long unmodifiedManifestationsCount;
+	public long deletedManifestationsCount;
 	public long startDate;
 	public long endDate;
 

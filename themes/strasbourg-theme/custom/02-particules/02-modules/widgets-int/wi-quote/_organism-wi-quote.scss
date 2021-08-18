@@ -1,7 +1,7 @@
 %organism-wi-quote{
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
-    background-color: $third-color;
+    background-color: #F6F6F6;
     @extend %wi-centered-text;
     // Couleurs Titre
     .seu-container{
@@ -14,7 +14,7 @@
             background-size: 165px;
             background-position: center;
             background-repeat: no-repeat;
-            background-image: url( svg-bg-uri($svg-quote, #ffc24d) );
+            background-image: url( svg-bg-uri($svg-quote, #E5E5E5) );
             position: absolute;
             @include RWD(mobile){
                 width: 40px;
@@ -36,7 +36,7 @@
         .seu-title{
             color: $core-color;
             font-weight: 500; 
-            font-size: 4.5rem;
+            font-size: 2.3rem;
             line-height: 1.2;
             margin-bottom: 40px;
             text-transform: none;

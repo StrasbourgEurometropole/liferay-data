@@ -1515,6 +1515,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		return new OfficialWrapper(_official.toEscapedModel());
 	}
 
+	/**
+	 * Retourne la version JSON de l'élu
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _official.toJSON();
+	}
+
 	@Override
 	public String toString() {
 		return _official.toString();

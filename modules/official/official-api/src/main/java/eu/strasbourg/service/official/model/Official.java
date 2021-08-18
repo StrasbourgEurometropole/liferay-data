@@ -178,4 +178,9 @@ public interface Official extends OfficialModel, PersistedModel {
 	public boolean getCommunalMembership()
 		throws com.liferay.portal.kernel.exception.PortalException;
 
+	/**
+	 * Retourne la version JSON de l'élu
+	 */
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
 }

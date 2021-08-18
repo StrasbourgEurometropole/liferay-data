@@ -25558,13 +25558,14 @@ function getResult(searchPage, data) {
             for (indexPage; indexPage <= nbEntries / delta; indexPage++) {
                 selecteur +=
                     '<option value="' + indexPage + '">' +
-                        'Page ' + indexPage + ' ( ' + (nbEntries < (indexPage * delta) ? nbEntries : delta) + ' )' +
+                        'Page ' + indexPage + ' ( ' + delta + ' )' +
                     '</option>';
             }
-            if((indexPage - 1) * delta < nbEntries){
+            var nbEntitesRestantes = (nbEntries - delta * (indexPage - 1));
+            if(nbEntitesRestantes > 0){
                 selecteur +=
                     '<option value="' + indexPage + '">' +
-                        'Page ' + indexPage + ' ( ' + nbEntries + ' )' +
+                        'Page ' + indexPage + ' ( ' + nbEntitesRestantes + ' )' +
                     '</option>';
             }
             selecteur +=
@@ -25613,7 +25614,7 @@ function createVideo(video){
             '<div class="pro-card pro-card-video vignette" data-linkall="> a">' +
                 '<div class="pro-header">' +
                     '<figure class="fit-cover" role="group">' +
-                        '<img alt="' + video.title["fr_FR"] + '" width="280" height="175" src="' + video.imageURL + '">' +
+                        '<img alt="' + video.title["fr_FR"] + '" width="280" height="175" src="' + video.imageURL + '?imagePreview=1" loading="lazy">' +
                     '</figure>' +
                     '<span class="icon-ico-lecteur"></span>' +
                 '</div>' +
@@ -25662,7 +25663,7 @@ function createProject(project){
                 '<a href="' + homeURL + project.detailURL + '" title="lien de la page">' +
                     '<div class="img">' +
                         '<figure role="group">' +
-                            '<img src=' + project.imageURL + ' alt="Image projet" width="360" height="242" class="fit-cover"/>' +
+                            '<img src="' + project.imageURL + '?imagePreview=1" loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>' +
                         '</figure>' +
                         '<span>Voir le projet</span>' +
                     '</div>' +
@@ -25723,7 +25724,7 @@ function createParticipation(participation){
             '<div>' +
                 '<div class="pro-header-participation">' +
                     '<figure role="group">';                       
-                            vignette += '<img src="' + participation.authorImageURL + '" width="40" height="40" alt="Image participation"/>';                       
+                            vignette += '<img src="' + participation.authorImageURL + '?imagePreview=1" loading="lazy" width="40" height="40" alt="Image participation"/>';                       
     vignette +=     '</figure>' +
                     '<p>Participation publiée par :</p>' +
                     '<p><strong>' + participation.author + '</strong></p>' +
@@ -25868,7 +25869,7 @@ function createNews(news){
         '<a href="' + news.detailURL + '" title="Lien vers la page (' + news.title + ')" class="pro-bloc-actu">' +          
             '<div class="img">' +
                 '<figure role="group">' +
-                    '<img src="' + news.thumbnail + '" alt="Image" width="360" height="174" class="fit-cover"/>' +
+                    '<img src="' + news.thumbnail + '?imagePreview=1" loading="lazy" alt="Image" width="360" height="174" class="fit-cover"/>' +
                 '</figure>' +
                 '<span>';
                 for(var i = 0 ; i < news.jsonVocabulariesTitle.length ; i++){
@@ -25899,7 +25900,7 @@ function createPetition(petition){
     '<div class="item pro-bloc-card-petition vignette" data-linkall="a">' +
         '<div class="pro-header-petition">' +
             '<figure role="group">' +
-                '<img src="' + petition.authorImageURL + '" width="40" height="40" alt="Image petition"/>' +
+                '<img src="' + petition.authorImageURL + '?imagePreview=1" loading="lazy" width="40" height="40" alt="Image petition"/>' +
             '</figure>' +
             '<p>Pétition publiée par :</p>' +
             '<p><strong>' + petition.author + ' adressé à : Ville de Strasbourg</strong></p>' +
@@ -25983,14 +25984,14 @@ function createBudgetParticipatif(budgetParticipatif){
         '<div class="item pro-bloc-card-budget vignette ' + cssClassBPStatus + '" data-linkall="a">' +
                 (budgetParticipatif.imageURL != "" ? 
                 '<figure role="group" class="fit-cover">' +
-                    '<img src="' + budgetParticipatif.imageURL + '" width="155" height="200" alt="Image projet citoyen"/>' +
+                    '<img src="' + budgetParticipatif.imageURL + '?imagePreview=1" loading="lazy" width="155" height="200" alt="Image projet citoyen"/>' +
                 '</figure>'
                 :
                 ''
             ) +
             '<div class="pro-header-budget">' +
                 '<figure role="group">' +
-                    '<img src="' + budgetParticipatif.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
+                    '<img src="' + budgetParticipatif.authorImageURL + '?imagePreview=1" loading="lazy" width="40" height="40" alt="Arrière plan page standard"/>' +
                 '</figure>' +
                 '<p>Projet déposé par :</p>' +
                 '<p><strong>' + budgetParticipatif.author + '</strong></p>' +
@@ -26023,7 +26024,7 @@ function createInitiative(initiative){
             '<div class="wrapper-card-initiative">' +
                 (initiative.imageURL != "" ? 
                     '<figure role="group" class="fit-cover">' +
-                        '<img src="' + initiative.imageURL + '" width="240" height="250" alt="Image initiative"/>' +
+                        '<img src="' + initiative.imageURL + '?imagePreview=1" loading="lazy" width="240" height="250" alt="Image initiative"/>' +
                     '</figure>'
                     :
                     ''
@@ -26031,7 +26032,7 @@ function createInitiative(initiative){
                 '<div>' +
                     '<div class="pro-header-initiative">' +
                         '<figure role="group">' +
-                            '<img src="' + initiative.authorImageURL + '" width="40" height="40" alt="Image de profil auteur"/>' +
+                            '<img src="' + initiative.authorImageURL + '?imagePreview=1" loading="lazy" width="40" height="40" alt="Image de profil auteur"/>' +
                         '</figure>' +
                         '<p>Initiative publiée par :</p>' +
                         '<p><strong>' + initiative.author + '</strong></p>' +
@@ -26147,7 +26148,7 @@ function goToPage(wi, index){
     // Gestion affichage du résultat de la pagination
     var indexDernierItemPage = index * delta;
     var pageResult = 'Affichage des résultats ' +
-                    (wi.items_count > 0 ? (index > 1 ? (indexDernierItemPage - 2) : '1') : '0') + ' - ' +
+                    (wi.items_count > 0 ? (index > 1 ? ((index-1)*delta+1) : '1') : '0') + ' - ' +
                     (wi.items_count < indexDernierItemPage ? wi.items_count : indexDernierItemPage) +
                     ' parmi ' + wi.items_count;
     wi.$widget.find('.pro-pagination .pull-left .hidden-xs').text(pageResult);
@@ -26207,6 +26208,30 @@ function scrollToAnchor(anchorId) {
        // On fait maintenant l'animation vers le haut (scrollTop) vers notre ancre target.
        .animate({scrollTop: $(anchorId).offset().top}, 1000 );
 }
+// Service custom : Livechat Creacast
+(tarteaucitron.job = tarteaucitron.job || []).push('iframelivechatcreacast');
+
+// Service Google Analytics (universal)
+tarteaucitron.user.analyticsUa = 'UA-33301756-14'; // Ne pas oublier de vider le champ Identifiant Google Analytics dans les paramètres avancés du site
+tarteaucitron.user.analyticsMore = function () {  };
+(tarteaucitron.job = tarteaucitron.job || []).push('analytics');
+
+// Service Youtube
+//<div class="youtube_player" videoID="video_id" width="width" height="height" theme="theme (dark | light)" rel="rel (1 | 0)" controls="controls (1 | 0)" showinfo="showinfo (1 | 0)" autoplay="autoplay (0 | 1)" mute="mute (0 | 1)"></div>
+(tarteaucitron.job = tarteaucitron.job || []).push('youtube');
+
+// Service Daylimotion
+//<div class="dailymotion_player" videoID="video_id" width="width" height="height" showinfo="showinfo (1 | 0)" autoplay="autoplay (0 | 1)" embedType="embedType (video | playlist)"></div>
+(tarteaucitron.job = tarteaucitron.job || []).push('dailymotion');
+
+// Service custom : Vidéos Facebook
+//<div class="tac_iframevideosfacebook" scrolling="yes | no | auto" data-url="url" width="width" height="height" frameborder ="0 | 1" allow="allow" allowfullscreen="true | false"></div>
+(tarteaucitron.job = tarteaucitron.job || []).push('iframevideosfacebook');
+
+// Service custom : Vidéos créacast
+(tarteaucitron.job = tarteaucitron.job || []).push('iframevideoscreacast');
+
+  
 if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
 
     var footer = $('footer').offset().top;

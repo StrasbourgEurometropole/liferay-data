@@ -82,10 +82,20 @@ public class StrasbourgServiceUtil {
 			groupIds, className);
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray
-		getCoordinateForAddress(String address) {
+	public static com.liferay.portal.kernel.json.JSONObject getCategoriesPois(
+		String categories, String vocabulariesEmptyIds, String prefilters,
+		String tags, long groupId, String typeContenu, boolean dateField,
+		String fromDate, String toDate, String localeId, long globalGroupId) {
 
-		return getService().getCoordinateForAddress(address);
+		return getService().getCategoriesPois(
+			categories, vocabulariesEmptyIds, prefilters, tags, groupId,
+			typeContenu, dateField, fromDate, toDate, localeId, globalGroupId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray
+		getCoordinateForAddress(String address, String zipCode, String city) {
+
+		return getService().getCoordinateForAddress(address, zipCode, city);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getCopyright(
@@ -95,31 +105,23 @@ public class StrasbourgServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
-		long groupId) {
-
-		return getService().getFavoritesPois(groupId);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
-		long groupId, String typeContenu) {
-
-		return getService().getFavoritesPois(groupId, typeContenu);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
 		long groupId, String typeContenu, String localeId) {
 
 		return getService().getFavoritesPois(groupId, typeContenu, localeId);
-	}
-
-	public static int getFavoritesPoisCount(long groupId, String typeContenu) {
-		return getService().getFavoritesPoisCount(groupId, typeContenu);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getFileDetails(
 		long groupId, String uuid, String language) {
 
 		return getService().getFileDetails(groupId, uuid, language);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getInterestsPois(
+		String interests, long groupId, String typeContenu, String localeId,
+		long globalGroupId) {
+
+		return getService().getInterestsPois(
+			interests, groupId, typeContenu, localeId, globalGroupId);
 	}
 
 	/**
@@ -129,48 +131,6 @@ public class StrasbourgServiceUtil {
 	 */
 	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		String interests, long groupId) {
-
-		return getService().getPois(interests, groupId);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		String interests, long groupId, String localeId) {
-
-		return getService().getPois(interests, groupId, localeId);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		String interests, String categories, String prefilters, long groupId,
-		String typeContenu) {
-
-		return getService().getPois(
-			interests, categories, prefilters, groupId, typeContenu);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		String interests, String categories, String prefilters, long groupId,
-		String typeContenu, String localeId) {
-
-		return getService().getPois(
-			interests, categories, prefilters, groupId, typeContenu, localeId);
-	}
-
-	public static int getPoisCategoryCount(
-		long idCategory, String prefilters, long groupId, String typeContenu) {
-
-		return getService().getPoisCategoryCount(
-			idCategory, prefilters, groupId, typeContenu);
-	}
-
-	public static int getPoisInterestCount(
-		long idCategory, long groupId, String typeContenu) {
-
-		return getService().getPoisInterestCount(
-			idCategory, groupId, typeContenu);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray

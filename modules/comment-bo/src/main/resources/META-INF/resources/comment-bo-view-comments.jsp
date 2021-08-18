@@ -68,7 +68,7 @@
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.comment.model.Comment" modelVar="comment"
-				keyProperty="commentId" rowIdProperty="commentId">
+				keyProperty="commentId" rowIdProperty="commentId" escapedModel="true">
 				
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
 				<liferay-portlet:renderURL varImpl="editCommentURL">
@@ -83,9 +83,10 @@
 					href="${editCommentURL}" name="userName" truncate="true" orderable="true"
 					value="${comment.userName}" />
 
+                <%-- Colonne : comment --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-														 href="${editCommentURL}" name="comment" truncate="true" orderable="true"
-														 value="${comment.text}" />
+                     href="${editCommentURL}" name="comment" truncate="true" orderable="true"
+                     value="${comment.text}" />
 				
 				<%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${comment.modifiedDate}"

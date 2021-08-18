@@ -43,11 +43,17 @@ public class ImportReportSoap implements Serializable {
 		soapModel.setNewEventsCount(model.getNewEventsCount());
 		soapModel.setModifiedEventsCount(model.getModifiedEventsCount());
 		soapModel.setErrorEventsCount(model.getErrorEventsCount());
+		soapModel.setUnmodifiedEventsCount(model.getUnmodifiedEventsCount());
+		soapModel.setDeletedEventsCount(model.getDeletedEventsCount());
 		soapModel.setNewManifestationsCount(model.getNewManifestationsCount());
 		soapModel.setModifiedManifestationsCount(
 			model.getModifiedManifestationsCount());
 		soapModel.setErrorManifestationsCount(
 			model.getErrorManifestationsCount());
+		soapModel.setUnmodifiedManifestationsCount(
+			model.getUnmodifiedManifestationsCount());
+		soapModel.setDeletedManifestationsCount(
+			model.getDeletedManifestationsCount());
 		soapModel.setStartDate(model.getStartDate());
 		soapModel.setEndDate(model.getEndDate());
 
@@ -175,6 +181,22 @@ public class ImportReportSoap implements Serializable {
 		_errorEventsCount = errorEventsCount;
 	}
 
+	public long getUnmodifiedEventsCount() {
+		return _unmodifiedEventsCount;
+	}
+
+	public void setUnmodifiedEventsCount(long unmodifiedEventsCount) {
+		_unmodifiedEventsCount = unmodifiedEventsCount;
+	}
+
+	public long getDeletedEventsCount() {
+		return _deletedEventsCount;
+	}
+
+	public void setDeletedEventsCount(long deletedEventsCount) {
+		_deletedEventsCount = deletedEventsCount;
+	}
+
 	public long getNewManifestationsCount() {
 		return _newManifestationsCount;
 	}
@@ -199,6 +221,24 @@ public class ImportReportSoap implements Serializable {
 
 	public void setErrorManifestationsCount(long errorManifestationsCount) {
 		_errorManifestationsCount = errorManifestationsCount;
+	}
+
+	public long getUnmodifiedManifestationsCount() {
+		return _unmodifiedManifestationsCount;
+	}
+
+	public void setUnmodifiedManifestationsCount(
+		long unmodifiedManifestationsCount) {
+
+		_unmodifiedManifestationsCount = unmodifiedManifestationsCount;
+	}
+
+	public long getDeletedManifestationsCount() {
+		return _deletedManifestationsCount;
+	}
+
+	public void setDeletedManifestationsCount(long deletedManifestationsCount) {
+		_deletedManifestationsCount = deletedManifestationsCount;
 	}
 
 	public Date getStartDate() {
@@ -226,9 +266,13 @@ public class ImportReportSoap implements Serializable {
 	private long _newEventsCount;
 	private long _modifiedEventsCount;
 	private long _errorEventsCount;
+	private long _unmodifiedEventsCount;
+	private long _deletedEventsCount;
 	private long _newManifestationsCount;
 	private long _modifiedManifestationsCount;
 	private long _errorManifestationsCount;
+	private long _unmodifiedManifestationsCount;
+	private long _deletedManifestationsCount;
 	private Date _startDate;
 	private Date _endDate;
 

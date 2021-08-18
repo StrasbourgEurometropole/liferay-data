@@ -47,6 +47,7 @@ public class PetitionSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
+		soapModel.setSummary(model.getSummary());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setPlaceTextArea(model.getPlaceTextArea());
 		soapModel.setFilesDownload(model.getFilesDownload());
@@ -228,6 +229,14 @@ public class PetitionSoap implements Serializable {
 
 	public void setTitle(String title) {
 		_title = title;
+	}
+
+	public String getSummary() {
+		return _summary;
+	}
+
+	public void setSummary(String summary) {
+		_summary = summary;
 	}
 
 	public String getDescription() {
@@ -451,6 +460,7 @@ public class PetitionSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
+	private String _summary;
 	private String _description;
 	private String _placeTextArea;
 	private String _filesDownload;

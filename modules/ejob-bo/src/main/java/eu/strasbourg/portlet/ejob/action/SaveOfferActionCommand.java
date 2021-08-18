@@ -215,40 +215,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                 categories.add(Long.toString(typePublication));
             }
 
-            if(!this.typeRecrutementString.equals("Stage") && !this.typeRecrutementString.equals("Apprentissage")){
-                // Champ : jobCreationDescription
-                Map<Locale, String> jobCreationDescription = LocalizationUtil
-                        .getLocalizationMap(request, "jobCreationDescription");
-                offer.setJobCreationDescriptionMap(jobCreationDescription);
-
-                // Champ : startDate
-                String startDateString = ParamUtil.getString(request,
-                        "startDate2");
-                if(Validator.isNotNull(startDateString)) {
-                    Date startDate = ParamUtil.getDate(request,
-                            "startDate2", dateFormat);
-                    offer.setStartDate(startDate);
-                }else{
-                    offer.setStartDate(null);
-                }
-
-                // Champ : motif
-                long motifCategoryID = ParamUtil.getLong(request, "ejobMotif");
-                if (Validator.isNotNull(AssetCategoryLocalServiceUtil
-                        .fetchAssetCategory(motifCategoryID))) {
-                    categories.add(""+motifCategoryID);
-                }
-
-                if(this.typeRecrutementString.equals("Permanent")) {
-                    // Champ : permanentDescription
-                    Map<Locale, String> permanentDescription = LocalizationUtil
-                            .getLocalizationMap(request, "permanentDescription");
-                    offer.setPermanentDescriptionMap(permanentDescription);
-                }else{
-                    // Champ : permanentDescription
-                    offer.setPermanentDescriptionMap(new HashMap<>());
-                }
-
+            if(!this.typeRecrutementString.equals("Stage")){
                 // Champ : isFullTime
                 boolean isFullTime = ParamUtil.getBoolean(request,
                         "isFullTime");
@@ -259,59 +226,110 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                         .getLocalizationMap(request, "fullTimeDescription");
                 offer.setFullTimeDescriptionMap(fullTimeDescription);
 
-                if(!this.typeRecrutementString.equals("Vacataire")) {
-                    // Champs : ejobCategorie, ejobFiliere, ejobCategorie label, ejobGrade minimun et ejobGrade maximum
-                    String gradeRangeIndexes = ParamUtil.getString(request, "offerGradeRangeIndexes");
-                    for (String gradeRangeIndex : gradeRangeIndexes.split(",")) {
-                        if (Validator.isNotNull(gradeRangeIndex)){
-                            // Champ : ejobCategorie A/B/C
-                            long ejobCategory = ParamUtil.getLong(request, "ejobCategory" + gradeRangeIndex);
-                            if (Validator.isNotNull(AssetCategoryLocalServiceUtil
-                                    .fetchAssetCategory(ejobCategory))) {
-                                categories.add("" + ejobCategory);
-                            }
+                if(!this.typeRecrutementString.equals("Apprentissage")) {
+                    // Champ : jobCreationDescription
+                    Map<Locale, String> jobCreationDescription = LocalizationUtil
+                            .getLocalizationMap(request, "jobCreationDescription");
+                    offer.setJobCreationDescriptionMap(jobCreationDescription);
 
-                            // Champ : ejobFiliere
-                            long ejobFiliere = ParamUtil.getLong(request, "ejobFiliere" + gradeRangeIndex);
-                            if (Validator.isNotNull(AssetCategoryLocalServiceUtil
-                                    .fetchAssetCategory(ejobFiliere))) {
-                                categories.add("" + ejobFiliere);
-                            }
+                    // Champ : startDate
+                    String startDateString = ParamUtil.getString(request,
+                            "startDate2");
+                    if (Validator.isNotNull(startDateString)) {
+                        Date startDate = ParamUtil.getDate(request,
+                                "startDate2", dateFormat);
+                        offer.setStartDate(startDate);
+                    } else {
+                        offer.setStartDate(null);
+                    }
 
-                            // Champ : ejobGradeMin
-                            long ejobGradeMin = ParamUtil.getLong(request, "ejobGradeMin" + gradeRangeIndex);
-                            if (Validator.isNotNull(AssetCategoryLocalServiceUtil
-                                    .fetchAssetCategory(ejobGradeMin))) {
-                                categories.add("" + ejobGradeMin);
+                    // Champ : motif
+                    long motifCategoryID = ParamUtil.getLong(request, "ejobMotif");
+                    if (Validator.isNotNull(AssetCategoryLocalServiceUtil
+                            .fetchAssetCategory(motifCategoryID))) {
+                        categories.add("" + motifCategoryID);
+                    }
 
-                                // Champ : ejobCategorie label
-                                AssetCategory categoryFiliere = AssetCategoryLocalServiceUtil.fetchAssetCategory(ejobGradeMin).getParentCategory();
-                                categories.add("" + categoryFiliere.getCategoryId());
-                            }
-                            // Champ : ejobGradeMax
-                            long ejobGradeMax = ParamUtil.getLong(request, "ejobGradeMax" + gradeRangeIndex);
-                            if (Validator.isNotNull(AssetCategoryLocalServiceUtil
-                                    .fetchAssetCategory(ejobGradeMax))) {
-                                categories.add("" + ejobGradeMax);
+                    if (this.typeRecrutementString.equals("Permanent")) {
+                        // Champ : permanentDescription
+                        Map<Locale, String> permanentDescription = LocalizationUtil
+                                .getLocalizationMap(request, "permanentDescription");
+                        offer.setPermanentDescriptionMap(permanentDescription);
+                    } else {
+                        // Champ : permanentDescription
+                        offer.setPermanentDescriptionMap(new HashMap<>());
+                    }
+
+                    if (!this.typeRecrutementString.equals("Vacataire")) {
+                        // Champs : ejobCategorie, ejobFiliere, ejobCategorie label, ejobGrade minimun et ejobGrade maximum
+                        String gradeRangeIndexes = ParamUtil.getString(request, "offerGradeRangeIndexes");
+                        for (String gradeRangeIndex : gradeRangeIndexes.split(",")) {
+                            if (Validator.isNotNull(gradeRangeIndex)) {
+                                // Champ : ejobCategorie A/B/C
+                                long ejobCategory = ParamUtil.getLong(request, "ejobCategory" + gradeRangeIndex);
+                                if (Validator.isNotNull(AssetCategoryLocalServiceUtil
+                                        .fetchAssetCategory(ejobCategory))) {
+                                    categories.add("" + ejobCategory);
+                                }
+
+                                // Champ : ejobFiliere
+                                long ejobFiliere = ParamUtil.getLong(request, "ejobFiliere" + gradeRangeIndex);
+                                if (Validator.isNotNull(AssetCategoryLocalServiceUtil
+                                        .fetchAssetCategory(ejobFiliere))) {
+                                    categories.add("" + ejobFiliere);
+                                }
+
+                                // Champ : ejobGradeMin
+                                long ejobGradeMin = ParamUtil.getLong(request, "ejobGradeMin" + gradeRangeIndex);
+                                if (Validator.isNotNull(AssetCategoryLocalServiceUtil
+                                        .fetchAssetCategory(ejobGradeMin))) {
+                                    categories.add("" + ejobGradeMin);
+
+                                    // Champ : ejobCategorie label
+                                    AssetCategory categoryFiliere = AssetCategoryLocalServiceUtil.fetchAssetCategory(ejobGradeMin).getParentCategory();
+                                    categories.add("" + categoryFiliere.getCategoryId());
+                                }
+                                // Champ : ejobGradeMax
+                                long ejobGradeMax = ParamUtil.getLong(request, "ejobGradeMax" + gradeRangeIndex);
+                                if (Validator.isNotNull(AssetCategoryLocalServiceUtil
+                                        .fetchAssetCategory(ejobGradeMax))) {
+                                    categories.add("" + ejobGradeMax);
+                                }
                             }
                         }
                     }
-                    offer.setEmails(emails);
 
-                }
+                    // Champ : avantages
+                    Map<Locale, String> avantages = LocalizationUtil
+                            .getLocalizationMap(request, "avantages");
+                    offer.setAvantagesMap(avantages);
 
-                // Champ : avantages
-                Map<Locale, String> avantages = LocalizationUtil
-                        .getLocalizationMap(request, "avantages");
-                offer.setAvantagesMap(avantages);
+                    // Champ : ejobContact
+                    long ejobContact = ParamUtil.getLong(request, "ejobContact");
+                    if (Validator.isNotNull(AssetCategoryLocalServiceUtil
+                            .fetchAssetCategory(ejobContact))) {
+                        categories.add("" + ejobContact);
+                    }
+                }else{
+                    // Champ : jobCreationDescription
+                    offer.setJobCreationDescriptionMap(new HashMap<>());
 
-                // Champ : ejobContact
-                long ejobContact = ParamUtil.getLong(request, "ejobContact");
-                if (Validator.isNotNull(AssetCategoryLocalServiceUtil
-                        .fetchAssetCategory(ejobContact))) {
-                    categories.add(""+ejobContact);
+                    // Champ : startDate
+                    offer.setStartDate(null);
+
+                    // Champ : permanentDescription
+                    offer.setPermanentDescriptionMap(new HashMap<>());
+
+                    // Champ : avantages
+                    offer.setAvantagesMap(new HashMap<>());
                 }
             }else{
+                // Champ : isFullTime
+                offer.setIsFullTime(false);
+
+                // Champ : fullTimeDescription
+                offer.setFullTimeDescriptionMap(new HashMap<>());
+
                 // Champ : jobCreationDescription
                 offer.setJobCreationDescriptionMap(new HashMap<>());
 
@@ -320,12 +338,6 @@ public class SaveOfferActionCommand implements MVCActionCommand {
 
                 // Champ : permanentDescription
                 offer.setPermanentDescriptionMap(new HashMap<>());
-
-                // Champ : isFullTime
-                offer.setIsFullTime(false);
-
-                // Champ : fullTimeDescription
-                offer.setFullTimeDescriptionMap(new HashMap<>());
 
                 // Champ : avantages
                 offer.setAvantagesMap(new HashMap<>());
@@ -470,15 +482,22 @@ public class SaveOfferActionCommand implements MVCActionCommand {
             isValid = false;
         }
 
-        // si offre pas stage
-        if(!this.typeRecrutementString.equals("Stage") && !this.typeRecrutementString.equals("Apprentissage")) {
+        // si offre différente de stage
+        if(!this.typeRecrutementString.equals("Stage")) {
             // si temps complet
             if (Validator.isNull(ParamUtil.getBoolean(request, "isFullTime"))) {
                 SessionErrors.add(request, "full-time-error");
                 isValid = false;
             }
 
-            if(!this.typeRecrutementString.equals("Vacataire")) {
+            // durée du temps de travail
+            if (Validator.isNull(ParamUtil.getString(request, "fullTimeDescription"))) {
+                SessionErrors.add(request, "full-time-description-error");
+                isValid = false;
+            }
+
+            // si offre différente de stage, d'apprentissage et de vacataire
+            if(!this.typeRecrutementString.equals("Apprentissage") && !this.typeRecrutementString.equals("Vacataire")) {
                 String indexes = ParamUtil.getString(request, "offerGradeRangeIndexes");
                 for (String index: indexes.split(",")) {
                     if (Validator.isNotNull(index)){
@@ -493,7 +512,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                         AssetCategory gradeMin = AssetCategoryLocalServiceUtil.fetchAssetCategory(ParamUtil.getLong(request, "ejobGradeMin" + index));
                         AssetCategory gradeMax = AssetCategoryLocalServiceUtil.fetchAssetCategory(ParamUtil.getLong(request, "ejobGradeMax" + index));
                         if (Validator.isNotNull(gradeMin) && Validator.isNotNull(gradeMax)
-                            && gradeMin.getParentCategoryId() != gradeMax.getParentCategoryId()) {
+                                && gradeMin.getParentCategoryId() != gradeMax.getParentCategoryId()) {
                             SessionErrors.add(request, "grades-error");
                             isValid = false;
                             break;

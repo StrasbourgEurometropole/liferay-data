@@ -23,6 +23,8 @@
 
 <div class="container-fluid-1280 main-content-body">
 	<liferay-ui:error key="alias-error" message="alias-error" />
+	<liferay-ui:error key="period-error" message="period-error" />
+	<div class="error"></div>
 
 	<aui:form action="${savePlaceURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"

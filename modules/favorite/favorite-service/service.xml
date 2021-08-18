@@ -16,6 +16,10 @@
         <column name="entityId" type="long" />
 		<column name="entityGroupId" type="long" />
 		<column name="onDashboardDate" type="Date" />
+		<column name="order" type="int" />
+		<column name="content" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
         
 		<finder name="PublikUserId" return-type="Collection" db-index="true" >
 			<finder-column name="publikUserId" />
@@ -29,6 +33,12 @@
 		<finder name="EntityIdAndTypeId" return-type="Collection"  >
 			<finder-column name="entityId" />	
 			<finder-column name="typeId" />	
+		</finder>
+		<finder name="TypeIdAndEntityIdAndPublikUserIdAndContent" return-type="Collection">
+			<finder-column name="typeId" />
+			<finder-column name="entityId" />
+			<finder-column name="publikUserId" />
+			<finder-column name="content" />
 		</finder>
 	</entity>
 	

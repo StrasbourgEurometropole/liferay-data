@@ -25,6 +25,7 @@
     <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>
 
     <CookieProcessor className="org.apache.tomcat.util.http.LegacyCookieProcessor"/>
+    <Valve className="org.apache.catalina.valves.StuckThreadDetectionValve" threshold="50" />
 
     <!-- Uncomment this to disable session persistence across Tomcat restarts -->
     <!--

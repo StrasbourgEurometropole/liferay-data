@@ -145,12 +145,15 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static String getPois(String interests, long groupId)
+	public static String getInterestsPois(
+			String interests, long groupId, String typeContenu, String localeId,
+			long globalGroupId)
 		throws RemoteException {
 
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue =
-				StrasbourgServiceUtil.getPois(interests, groupId);
+				StrasbourgServiceUtil.getInterestsPois(
+					interests, groupId, typeContenu, localeId, globalGroupId);
 
 			return returnValue.toString();
 		}
@@ -161,117 +164,18 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static String getPois(
-			String interests, long groupId, String localeId)
+	public static String getCategoriesPois(
+			String categories, String vocabulariesEmptyIds, String prefilters,
+			String tags, long groupId, String typeContenu, boolean dateField,
+			String fromDate, String toDate, String localeId, long globalGroupId)
 		throws RemoteException {
 
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue =
-				StrasbourgServiceUtil.getPois(interests, groupId, localeId);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static String getFavoritesPois(long groupId) throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue =
-				StrasbourgServiceUtil.getFavoritesPois(groupId);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static String getPois(
-			String interests, String categories, String prefilters,
-			long groupId, String typeContenu)
-		throws RemoteException {
-
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue =
-				StrasbourgServiceUtil.getPois(
-					interests, categories, prefilters, groupId, typeContenu);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static String getPois(
-			String interests, String categories, String prefilters,
-			long groupId, String typeContenu, String localeId)
-		throws RemoteException {
-
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue =
-				StrasbourgServiceUtil.getPois(
-					interests, categories, prefilters, groupId, typeContenu,
-					localeId);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static int getPoisCategoryCount(
-			long idCategory, String prefilters, long groupId,
-			String typeContenu)
-		throws RemoteException {
-
-		try {
-			int returnValue = StrasbourgServiceUtil.getPoisCategoryCount(
-				idCategory, prefilters, groupId, typeContenu);
-
-			return returnValue;
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static int getPoisInterestCount(
-			long idCategory, long groupId, String typeContenu)
-		throws RemoteException {
-
-		try {
-			int returnValue = StrasbourgServiceUtil.getPoisInterestCount(
-				idCategory, groupId, typeContenu);
-
-			return returnValue;
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static String getFavoritesPois(long groupId, String typeContenu)
-		throws RemoteException {
-
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue =
-				StrasbourgServiceUtil.getFavoritesPois(groupId, typeContenu);
+				StrasbourgServiceUtil.getCategoriesPois(
+					categories, vocabulariesEmptyIds, prefilters, tags, groupId,
+					typeContenu, dateField, fromDate, toDate, localeId,
+					globalGroupId);
 
 			return returnValue.toString();
 		}
@@ -300,22 +204,6 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static int getFavoritesPoisCount(long groupId, String typeContenu)
-		throws RemoteException {
-
-		try {
-			int returnValue = StrasbourgServiceUtil.getFavoritesPoisCount(
-				groupId, typeContenu);
-
-			return returnValue;
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
 	public static void hidePortlet(String portletId) throws RemoteException {
 		try {
 			StrasbourgServiceUtil.hidePortlet(portletId);
@@ -327,12 +215,14 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static String getCoordinateForAddress(String address)
+	public static String getCoordinateForAddress(
+			String address, String zipCode, String city)
 		throws RemoteException {
 
 		try {
 			com.liferay.portal.kernel.json.JSONArray returnValue =
-				StrasbourgServiceUtil.getCoordinateForAddress(address);
+				StrasbourgServiceUtil.getCoordinateForAddress(
+					address, zipCode, city);
 
 			return returnValue.toString();
 		}

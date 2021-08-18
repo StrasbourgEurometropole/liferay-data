@@ -99,8 +99,6 @@ public class StrasbourgPortletKeys {
 	public static final String GRAVEYARD_WEB = "eu_strasbourg_portlet_graveyard_GraveyardWebPortlet";
 
 	public static final String RESID_WEB = "eu_strasbourg_portlet_resid_ResidWebPortlet";
-	
-	public static final String ZONE_WEB = "eu_strasbourg_portlet_zone_ZonedWebPortlet";
 
 	public static final String PACTE_WEB = "eu_strasbourg_portlet_pacte_PacteWebPortlet";
 
@@ -130,4 +128,8 @@ public class StrasbourgPortletKeys {
 	public static final String EJOB_BO = "eu_strasbourg_portlet_ejob_EjobBOPortlet";
 	public static final String EJOB_WEB = "eu_strasbourg_portlet_ejob_EjobPortlet";
 	public static final String OFFER_WEB = "eu_strasbourg_portlet_offer_OfferPortlet";
+
+    public static final String HELP_BO = "eu_strasbourg_portlet_help_HelpBOPortlet";
+	public static final String HELP_POPUP_WEB = "eu_strasbourg_portlet_help_HelpPopupPortlet";
+	public static final String HELP_WEB = "eu_strasbourg_portlet_help_HelpPortlet";
 }

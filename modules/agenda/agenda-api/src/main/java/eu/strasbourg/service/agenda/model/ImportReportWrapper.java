@@ -67,11 +67,18 @@ public class ImportReportWrapper
 		attributes.put("newEventsCount", getNewEventsCount());
 		attributes.put("modifiedEventsCount", getModifiedEventsCount());
 		attributes.put("errorEventsCount", getErrorEventsCount());
+		attributes.put("unmodifiedEventsCount", getUnmodifiedEventsCount());
+		attributes.put("deletedEventsCount", getDeletedEventsCount());
 		attributes.put("newManifestationsCount", getNewManifestationsCount());
 		attributes.put(
 			"modifiedManifestationsCount", getModifiedManifestationsCount());
 		attributes.put(
 			"errorManifestationsCount", getErrorManifestationsCount());
+		attributes.put(
+			"unmodifiedManifestationsCount",
+			getUnmodifiedManifestationsCount());
+		attributes.put(
+			"deletedManifestationsCount", getDeletedManifestationsCount());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
 
@@ -134,6 +141,19 @@ public class ImportReportWrapper
 			setErrorEventsCount(errorEventsCount);
 		}
 
+		Long unmodifiedEventsCount = (Long)attributes.get(
+			"unmodifiedEventsCount");
+
+		if (unmodifiedEventsCount != null) {
+			setUnmodifiedEventsCount(unmodifiedEventsCount);
+		}
+
+		Long deletedEventsCount = (Long)attributes.get("deletedEventsCount");
+
+		if (deletedEventsCount != null) {
+			setDeletedEventsCount(deletedEventsCount);
+		}
+
 		Long newManifestationsCount = (Long)attributes.get(
 			"newManifestationsCount");
 
@@ -153,6 +173,20 @@ public class ImportReportWrapper
 
 		if (errorManifestationsCount != null) {
 			setErrorManifestationsCount(errorManifestationsCount);
+		}
+
+		Long unmodifiedManifestationsCount = (Long)attributes.get(
+			"unmodifiedManifestationsCount");
+
+		if (unmodifiedManifestationsCount != null) {
+			setUnmodifiedManifestationsCount(unmodifiedManifestationsCount);
+		}
+
+		Long deletedManifestationsCount = (Long)attributes.get(
+			"deletedManifestationsCount");
+
+		if (deletedManifestationsCount != null) {
+			setDeletedManifestationsCount(deletedManifestationsCount);
 		}
 
 		Date startDate = (Date)attributes.get("startDate");
@@ -178,6 +212,40 @@ public class ImportReportWrapper
 		eu.strasbourg.service.agenda.model.ImportReport importReport) {
 
 		return _importReport.compareTo(importReport);
+	}
+
+	/**
+	 * Returns the deleted events count of this import report.
+	 *
+	 * @return the deleted events count of this import report
+	 */
+	@Override
+	public long getDeletedEventsCount() {
+		return _importReport.getDeletedEventsCount();
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
+		getDeletedEventsLines() {
+
+		return _importReport.getDeletedEventsLines();
+	}
+
+	/**
+	 * Returns the deleted manifestations count of this import report.
+	 *
+	 * @return the deleted manifestations count of this import report
+	 */
+	@Override
+	public long getDeletedManifestationsCount() {
+		return _importReport.getDeletedManifestationsCount();
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
+		getDeletedManifestationsLines() {
+
+		return _importReport.getDeletedManifestationsLines();
 	}
 
 	/**
@@ -380,6 +448,26 @@ public class ImportReportWrapper
 	}
 
 	/**
+	 * Returns the unmodified events count of this import report.
+	 *
+	 * @return the unmodified events count of this import report
+	 */
+	@Override
+	public long getUnmodifiedEventsCount() {
+		return _importReport.getUnmodifiedEventsCount();
+	}
+
+	/**
+	 * Returns the unmodified manifestations count of this import report.
+	 *
+	 * @return the unmodified manifestations count of this import report
+	 */
+	@Override
+	public long getUnmodifiedManifestationsCount() {
+		return _importReport.getUnmodifiedManifestationsCount();
+	}
+
+	/**
 	 * Returns the uuid of this import report.
 	 *
 	 * @return the uuid of this import report
@@ -397,6 +485,16 @@ public class ImportReportWrapper
 	@Override
 	public int hashCode() {
 		return _importReport.hashCode();
+	}
+
+	@Override
+	public void incrementDeletedEvents() {
+		_importReport.incrementDeletedEvents();
+	}
+
+	@Override
+	public void incrementDeletedManifestations() {
+		_importReport.incrementDeletedManifestations();
 	}
 
 	@Override
@@ -430,6 +528,16 @@ public class ImportReportWrapper
 	}
 
 	@Override
+	public void incrementUnmodifiedEvents() {
+		_importReport.incrementUnmodifiedEvents();
+	}
+
+	@Override
+	public void incrementUnmodifiedManifestations() {
+		_importReport.incrementUnmodifiedManifestations();
+	}
+
+	@Override
 	public boolean isCachedModel() {
 		return _importReport.isCachedModel();
 	}
@@ -457,6 +565,26 @@ public class ImportReportWrapper
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_importReport.setCachedModel(cachedModel);
+	}
+
+	/**
+	 * Sets the deleted events count of this import report.
+	 *
+	 * @param deletedEventsCount the deleted events count of this import report
+	 */
+	@Override
+	public void setDeletedEventsCount(long deletedEventsCount) {
+		_importReport.setDeletedEventsCount(deletedEventsCount);
+	}
+
+	/**
+	 * Sets the deleted manifestations count of this import report.
+	 *
+	 * @param deletedManifestationsCount the deleted manifestations count of this import report
+	 */
+	@Override
+	public void setDeletedManifestationsCount(long deletedManifestationsCount) {
+		_importReport.setDeletedManifestationsCount(deletedManifestationsCount);
 	}
 
 	/**
@@ -627,6 +755,29 @@ public class ImportReportWrapper
 	@Override
 	public void setStatus(long status) {
 		_importReport.setStatus(status);
+	}
+
+	/**
+	 * Sets the unmodified events count of this import report.
+	 *
+	 * @param unmodifiedEventsCount the unmodified events count of this import report
+	 */
+	@Override
+	public void setUnmodifiedEventsCount(long unmodifiedEventsCount) {
+		_importReport.setUnmodifiedEventsCount(unmodifiedEventsCount);
+	}
+
+	/**
+	 * Sets the unmodified manifestations count of this import report.
+	 *
+	 * @param unmodifiedManifestationsCount the unmodified manifestations count of this import report
+	 */
+	@Override
+	public void setUnmodifiedManifestationsCount(
+		long unmodifiedManifestationsCount) {
+
+		_importReport.setUnmodifiedManifestationsCount(
+			unmodifiedManifestationsCount);
 	}
 
 	/**

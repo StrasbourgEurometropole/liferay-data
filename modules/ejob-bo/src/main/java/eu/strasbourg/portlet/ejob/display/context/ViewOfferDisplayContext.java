@@ -71,15 +71,26 @@ public class ViewOfferDisplayContext
 
 	public boolean isContribOnly(){
 		try {
+			if(isAdminOrResp())
+				return false;
+
+			Role assistantRecrutement = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.ASSISTANT_RECRUTEMENT);
+			return UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), assistantRecrutement.getRoleId());
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+
+	public boolean isAdminOrResp(){
+		try {
 			Role  responsableEmploi = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.RESPONSABLE_EMPLOI);
 			Role siteAdministrator = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.SITE_ADMLINISTRATOR);
 			if(themeDisplay.getPermissionChecker().isOmniadmin()
 					|| UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), responsableEmploi.getRoleId())
 					|| UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), siteAdministrator.getRoleId()))
-				return false;
-
-			Role assistantRecrutement = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.ASSISTANT_RECRUTEMENT);
-			return UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), assistantRecrutement.getRoleId());
+				return true;
 		} catch (PortalException e) {
 			e.printStackTrace();
 		}
@@ -104,6 +115,24 @@ public class ViewOfferDisplayContext
 		long groupId = themeDisplay.getLayout().getGroupId();
 		this.niveauEtudes = AssetVocabularyAccessor.getEJobNiveauEtude(groupId);
 		return this.niveauEtudes;
+	}
+
+	/**
+	 * Renvoie le nom de la colonne sur laquelle on fait le tri pour
+	 * ElasticSearch
+	 */
+	@Override
+	public String getOrderByColSearchField() {
+		switch (this.getOrderByCol()) {
+			case "title":
+				return "localized_title_fr_FR_sortable";
+			case "end-date":
+				return "endDate_Number_sortable";
+			case "status":
+				return "status_sortable";
+			default:
+				return "publishDate_sortable";
+		}
 	}
 
 }

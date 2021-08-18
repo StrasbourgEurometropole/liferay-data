@@ -64,7 +64,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(109);
+		StringBundler sb = new StringBundler(121);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -172,8 +172,20 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(firstStartDate);
 		sb.append(", lastEndDate=");
 		sb.append(lastEndDate);
+		sb.append(", createDateSource=");
+		sb.append(createDateSource);
+		sb.append(", modifiedDateSource=");
+		sb.append(modifiedDateSource);
 		sb.append(", imageId=");
 		sb.append(imageId);
+		sb.append(", registration=");
+		sb.append(registration);
+		sb.append(", registrationStartDate=");
+		sb.append(registrationStartDate);
+		sb.append(", registrationEndDate=");
+		sb.append(registrationEndDate);
+		sb.append(", maxGauge=");
+		sb.append(maxGauge);
 		sb.append("}");
 
 		return sb.toString();
@@ -475,7 +487,38 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			eventImpl.setLastEndDate(new Date(lastEndDate));
 		}
 
+		if (createDateSource == Long.MIN_VALUE) {
+			eventImpl.setCreateDateSource(null);
+		}
+		else {
+			eventImpl.setCreateDateSource(new Date(createDateSource));
+		}
+
+		if (modifiedDateSource == Long.MIN_VALUE) {
+			eventImpl.setModifiedDateSource(null);
+		}
+		else {
+			eventImpl.setModifiedDateSource(new Date(modifiedDateSource));
+		}
+
 		eventImpl.setImageId(imageId);
+		eventImpl.setRegistration(registration);
+
+		if (registrationStartDate == Long.MIN_VALUE) {
+			eventImpl.setRegistrationStartDate(null);
+		}
+		else {
+			eventImpl.setRegistrationStartDate(new Date(registrationStartDate));
+		}
+
+		if (registrationEndDate == Long.MIN_VALUE) {
+			eventImpl.setRegistrationEndDate(null);
+		}
+		else {
+			eventImpl.setRegistrationEndDate(new Date(registrationEndDate));
+		}
+
+		eventImpl.setMaxGauge(maxGauge);
 
 		eventImpl.resetOriginalValues();
 
@@ -551,8 +594,16 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		program = objectInput.readUTF();
 		firstStartDate = objectInput.readLong();
 		lastEndDate = objectInput.readLong();
+		createDateSource = objectInput.readLong();
+		modifiedDateSource = objectInput.readLong();
 
 		imageId = objectInput.readLong();
+
+		registration = objectInput.readBoolean();
+		registrationStartDate = objectInput.readLong();
+		registrationEndDate = objectInput.readLong();
+
+		maxGauge = objectInput.readLong();
 	}
 
 	@Override
@@ -819,8 +870,16 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 		objectOutput.writeLong(firstStartDate);
 		objectOutput.writeLong(lastEndDate);
+		objectOutput.writeLong(createDateSource);
+		objectOutput.writeLong(modifiedDateSource);
 
 		objectOutput.writeLong(imageId);
+
+		objectOutput.writeBoolean(registration);
+		objectOutput.writeLong(registrationStartDate);
+		objectOutput.writeLong(registrationEndDate);
+
+		objectOutput.writeLong(maxGauge);
 	}
 
 	public String uuid;
@@ -876,6 +935,12 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public String program;
 	public long firstStartDate;
 	public long lastEndDate;
+	public long createDateSource;
+	public long modifiedDateSource;
 	public long imageId;
+	public boolean registration;
+	public long registrationStartDate;
+	public long registrationEndDate;
+	public long maxGauge;
 
 }

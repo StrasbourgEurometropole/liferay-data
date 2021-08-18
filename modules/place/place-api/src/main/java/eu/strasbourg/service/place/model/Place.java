@@ -186,6 +186,11 @@ public interface Place extends PersistedModel, PlaceModel {
 	public java.util.List<String> getImagesURLs();
 
 	/**
+	 * Retourne la liste des URL publiques des images additionnelles avec la version et le timastamp
+	 */
+	public java.util.List<String> getImageURLsWithTimeStamp();
+
+	/**
 	 * Retourne une map d'URL et de titre des images additionnelles et des
 	 * vidéos
 	 *
@@ -398,5 +403,15 @@ public interface Place extends PersistedModel, PlaceModel {
 	 */
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
 		long groupId, java.util.Locale locale);
+
+	/**
+	 * Renvoie le JSON de l'entite au format CSMap
+	 */
+	public com.liferay.portal.kernel.json.JSONObject getCSMapJSON();
+
+	/**
+	 * Renvoie le JSON des horaires sur 7 jours au format CSMap
+	 */
+	public com.liferay.portal.kernel.json.JSONObject getScheduleCSMapJSON();
 
 }

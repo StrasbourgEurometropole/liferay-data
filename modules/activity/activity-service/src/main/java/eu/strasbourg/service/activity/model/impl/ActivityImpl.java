@@ -14,11 +14,7 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -28,8 +24,6 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.service.ActivityCourseLocalServiceUtil;
@@ -39,7 +33,15 @@ import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Activity service. Represents a row
@@ -207,6 +209,15 @@ public class ActivityImpl extends ActivityBaseImpl {
 		
 		json.put("id", this.getActivityId());
 		json.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
+
+		Map<Locale, String> descriptionMap = this.getDescriptionMap();
+		Map<Locale, String> descriptionWithNewURLsMap = new HashMap<Locale, String>();
+		for (Map.Entry<Locale, String> descriptionEntry : descriptionMap.entrySet()) {
+			String description = descriptionEntry.getValue().replace("\"/documents/",
+					"\"" + StrasbourgPropsUtil.getURL() + "/documents/");
+			descriptionWithNewURLsMap.put(descriptionEntry.getKey(), description);
+		}
+		json.put("description", JSONHelper.getJSONFromI18nMap(descriptionWithNewURLsMap));
 
 		return json;
 	}

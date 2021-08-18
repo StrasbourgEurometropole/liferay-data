@@ -35,6 +35,14 @@
 		<field name="endDate" type="Date" />
 		<field name="agendaExportId" type="long" />
 	</model>
+	<model name="eu.strasbourg.service.agenda.model.CacheJson">
+		<field name="uuid" type="String" />
+		<field name="eventId" type="long" />
+		<field name="jsonEvent" type="String" />
+		<field name="createEvent" type="Date" />
+		<field name="modifiedEvent" type="Date" />
+		<field name="isActive" type="boolean" />
+	</model>
 	<model name="eu.strasbourg.service.agenda.model.Campaign">
 		<field name="uuid" type="String" />
 		<field name="campaignId" type="long" />
@@ -118,6 +126,10 @@
 		<field name="bookingURL" type="String">
 			<hint name="max-length">400</hint>
 		</field>
+		<field name="registration" type="boolean" />
+		<field name="registrationStartDate" type="Date" />
+		<field name="registrationEndDate" type="Date" />
+		<field name="maxGauge" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.CampaignEventStatus">
 		<field name="uuid" type="String" />
@@ -221,7 +233,13 @@
 		</field>
 		<field name="firstStartDate" type="Date" />
 		<field name="lastEndDate" type="Date" />
+		<field name="createDateSource" type="Date" />
+		<field name="modifiedDateSource" type="Date" />
 		<field name="imageId" type="Long" />
+		<field name="registration" type="boolean" />
+		<field name="registrationStartDate" type="Date" />
+		<field name="registrationEndDate" type="Date" />
+		<field name="maxGauge" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.EventParticipation">
 		<field name="eventParticipationId" type="long" />
@@ -239,6 +257,12 @@
 		<field name="eventId" type="long" />
 		<field name="campaignEventId" type="long" />
 	</model>
+	<model name="eu.strasbourg.service.agenda.model.Historic">
+		<field name="uuid" type="String" />
+		<field name="eventId" type="long" />
+		<field name="title" type="String" />
+		<field name="suppressionDate" type="Date" />
+	</model>
 	<model name="eu.strasbourg.service.agenda.model.ImportReport">
 		<field name="uuid" type="String" />
 		<field name="reportId" type="long" />
@@ -249,9 +273,13 @@
 		<field name="newEventsCount" type="long" />
 		<field name="modifiedEventsCount" type="long" />
 		<field name="errorEventsCount" type="long" />
+		<field name="unmodifiedEventsCount" type="long" />
+		<field name="deletedEventsCount" type="long" />
 		<field name="newManifestationsCount" type="long" />
 		<field name="modifiedManifestationsCount" type="long" />
 		<field name="errorManifestationsCount" type="long" />
+		<field name="unmodifiedManifestationsCount" type="long" />
+		<field name="deletedManifestationsCount" type="long" />
 		<field name="startDate" type="Date" />
 		<field name="endDate" type="Date" />
 	</model>
@@ -302,5 +330,7 @@
 		<field name="source" type="String" />
 		<field name="idSource" type="String" />
 		<field name="publicationDate" type="Date" />
+		<field name="createDateSource" type="Date" />
+		<field name="modifiedDateSource" type="Date" />
 	</model>
 </model-hints>

@@ -235,6 +235,12 @@ public interface LigneLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Ligne getByRouteId(String routeId);
 
+	/**
+	 * Retourne les lignes qui possedent les memes donnees
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Ligne> getByShortNameAndStatus(String shortName, int status);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		PortletDataContext portletDataContext);

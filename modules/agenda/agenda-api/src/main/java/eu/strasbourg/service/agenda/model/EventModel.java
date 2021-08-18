@@ -1928,6 +1928,34 @@ public interface EventModel
 	public void setLastEndDate(Date lastEndDate);
 
 	/**
+	 * Returns the create date source of this event.
+	 *
+	 * @return the create date source of this event
+	 */
+	public Date getCreateDateSource();
+
+	/**
+	 * Sets the create date source of this event.
+	 *
+	 * @param createDateSource the create date source of this event
+	 */
+	public void setCreateDateSource(Date createDateSource);
+
+	/**
+	 * Returns the modified date source of this event.
+	 *
+	 * @return the modified date source of this event
+	 */
+	public Date getModifiedDateSource();
+
+	/**
+	 * Sets the modified date source of this event.
+	 *
+	 * @param modifiedDateSource the modified date source of this event
+	 */
+	public void setModifiedDateSource(Date modifiedDateSource);
+
+	/**
 	 * Returns the image ID of this event.
 	 *
 	 * @return the image ID of this event
@@ -1940,6 +1968,69 @@ public interface EventModel
 	 * @param imageId the image ID of this event
 	 */
 	public void setImageId(Long imageId);
+
+	/**
+	 * Returns the registration of this event.
+	 *
+	 * @return the registration of this event
+	 */
+	public boolean getRegistration();
+
+	/**
+	 * Returns <code>true</code> if this event is registration.
+	 *
+	 * @return <code>true</code> if this event is registration; <code>false</code> otherwise
+	 */
+	public boolean isRegistration();
+
+	/**
+	 * Sets whether this event is registration.
+	 *
+	 * @param registration the registration of this event
+	 */
+	public void setRegistration(boolean registration);
+
+	/**
+	 * Returns the registration start date of this event.
+	 *
+	 * @return the registration start date of this event
+	 */
+	public Date getRegistrationStartDate();
+
+	/**
+	 * Sets the registration start date of this event.
+	 *
+	 * @param registrationStartDate the registration start date of this event
+	 */
+	public void setRegistrationStartDate(Date registrationStartDate);
+
+	/**
+	 * Returns the registration end date of this event.
+	 *
+	 * @return the registration end date of this event
+	 */
+	public Date getRegistrationEndDate();
+
+	/**
+	 * Sets the registration end date of this event.
+	 *
+	 * @param registrationEndDate the registration end date of this event
+	 */
+	public void setRegistrationEndDate(Date registrationEndDate);
+
+	/**
+	 * Returns the max gauge of this event.
+	 *
+	 * @return the max gauge of this event
+	 */
+	public long getMaxGauge();
+
+	/**
+	 * Sets the max gauge of this event.
+	 *
+	 * @param maxGauge the max gauge of this event
+	 */
+	public void setMaxGauge(long maxGauge);
 
 	/**
 	 * Returns <code>true</code> if this event is approved.

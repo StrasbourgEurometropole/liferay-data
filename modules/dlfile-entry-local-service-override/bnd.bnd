@@ -1,0 +1,3 @@
+Bundle-Name: dlfile-entry-local-service-override
+Bundle-SymbolicName: eu.strasbourg.serviceOverride.DLFileEntry
+Bundle-Version: 1.0.0

@@ -5,14 +5,23 @@ jQuery(function() {
     var allValidate = true;
 
 	$(":submit").on('click', function(e) {
-        allValidate = true;
 
-		setScheduleExceptionValidators(e);
-		setPeriodValidators(e);
+        try{
+            allValidate = true;
+            $('.error').html("");
 
-		if (!allValidate) {
-			event.preventDefault();
-		}
+            setScheduleExceptionValidators(e);
+            setPeriodValidators(e);
+
+            if (!allValidate) {
+                event.preventDefault();
+            }
+        }
+        catch(err) {
+            $('.error').html("<div class='alert alert-danger'>Enregistrement impossible : un problème technique est survenu dans la prise en compte des périodes.<br>Merci de faire une capture d’écran du message ci-dessous et contacter l’administrateur.<br>" + err.message + "</div>");
+            $('html,body').animate({scrollTop: 0}, 'slow');
+            event.preventDefault();
+        }
 	});	
 
 	function setPeriodValidators(event) {
@@ -23,70 +32,6 @@ jQuery(function() {
 			var periodLabel = periodLabels[i];
 			var index = $(periodLabel).children('input[id*=numPeriod]').val();
 			periodsIndexes += index + ",";
-			/*var nom = $(namespaceAUI + "namePeriod" + index).val();
-			if (nom == "") {
-				$('.place-period-name', $(periodLabel).parent()).show();
-				if(allValidate){
-				    activePeriod(index);
-                    $('html,body').animate({scrollTop: $(namespaceAUI + "namePeriod" + index).offset().top - 100}, 'slow');
-                    allValidate = false;
-                }
-			}else{
-				$('.place-period-name', $(periodLabel).parent()).hide();
-			}
-
-			var periodDefault = $(namespaceAUI + "defaultPeriod" + index).get(0).checked;
-			if (periodDefault) {
-				/*$('.place-period-start-date', $(periodLabel).parent()).hide();
-				$('.place-period-end-date', $(periodLabel).parent()).hide();
-				if (nbPeriodDefault == 0) {
-					nbPeriodDefault++;
-					$('.place-period-default', $(periodLabel).parent()).hide();
-				} else {
-					$('.place-period-default', $(periodLabel).parent()).show();
-                    if(allValidate){
-                        activePeriod(index);
-                        $('html,body').animate({scrollTop: $(namespaceAUI + "defaultPeriod" + index).offset().top - 100}, 'slow');
-                        allValidate = false;
-                    }
-				}
-			} else{
-				$('.place-period-default', $(periodLabel).parent()).hide();
-				var startDatePeriod = $(namespaceAUI + "startDatePeriod" + index).val();
-				if(startDatePeriod == ""){
-					$('.place-period-start-date', $(periodLabel).parent()).show();
-                    if(allValidate){
-                        activePeriod(index);
-                        $('html,body').animate({scrollTop: $(namespaceAUI + "startDatePeriod" + index).offset().top - 100}, 'slow');
-                        allValidate = false;
-                    }
-				}else{
-					$('.place-period-start-date', $(periodLabel).parent()).hide();
-				}
-				var endDatePeriod = $(namespaceAUI + "endDatePeriod" + index).val();
-				if(endDatePeriod == ""){
-					$('.place-period-end-date', $(periodLabel).parent()).show();
-                    if(allValidate){
-                        activePeriod(index);
-                        $('html,body').animate({scrollTop: $(namespaceAUI + "endDatePeriod" + index).offset().top - 100}, 'slow');
-                        allValidate = false;
-                    }
-				}else{
-					$('.place-period-end-date', $(periodLabel).parent()).hide();
-				}
-				
-				// on vérifie que la date de début soit <= à la date de fin
-				if(!comparDatesYMD(startDatePeriod, endDatePeriod)){
-					$('.place-period-incorrect-date', $(periodLabel).parent()).show();
-                    if(allValidate){
-                        activePeriod(index);
-                        $('html,body').animate({scrollTop: $(namespaceAUI + "startDatePeriod" + index).offset().top - 100}, 'slow');
-                        allValidate = false;
-                    }
-				}else{
-					$('.place-period-incorrect-date', $(periodLabel).parent()).hide();
-				}
-			}*/
 			setSlotValidators(index, periodLabel);
 		}
 

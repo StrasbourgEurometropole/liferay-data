@@ -97,7 +97,7 @@
 				
 				<%-- Colonne : Depositaire (Publik) --%>
                 <liferay-ui:search-container-column-text name="depositary">
-                    ${budgetParticipatif.author}
+                    <c:out value="${budgetParticipatif.author}" escapeXml='true'/>
                 </liferay-ui:search-container-column-text>
                 
                 <%-- Colonne : Phase --%>

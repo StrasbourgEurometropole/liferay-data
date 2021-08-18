@@ -1,35 +1,11 @@
 package eu.strasbourg.portlet.dynamic_search_asset;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.Collator;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import eu.strasbourg.utils.AssetPublisherTemplateHelper;
-import eu.strasbourg.utils.LayoutHelper;
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
-import com.liferay.journal.service.JournalArticleServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -53,12 +29,24 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.kernel.xml.DocumentException;
-import com.liferay.portal.kernel.xml.SAXReaderUtil;
-
 import eu.strasbourg.portlet.dynamic_search_asset.configuration.DynamicSearchAssetConfiguration;
+import eu.strasbourg.portlet.dynamic_search_asset.constants.Constants;
+import eu.strasbourg.service.activity.model.Activity;
+import eu.strasbourg.service.activity.model.ActivityCourse;
+import eu.strasbourg.service.activity.service.ActivityCourseLocalServiceUtil;
+import eu.strasbourg.service.activity.service.ActivityLocalServiceUtil;
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
+import eu.strasbourg.service.edition.model.Edition;
+import eu.strasbourg.service.edition.model.EditionGallery;
+import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
+import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
+import eu.strasbourg.service.official.model.Official;
+import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.Initiative;
@@ -75,6 +63,25 @@ import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.Collator;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * @author cedric.henry
@@ -96,29 +103,13 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 	service = Portlet.class
 )
 public class DynamicSearchAssetWebPortlet extends MVCPortlet {
-	
-	private static final String PLACIT_TAG = "participer";
-	private static final String SEARCH_FORM_PLACIT = "placit";
-	private static final String ATTRIBUTE_CLASSNAME = "className";
-	private static final String ATTRIBUTE_LINK = "link";
-	private static final String ATTRIBUTE_TITLE = "title";
-	private static final String ATTRIBUTE_CHAPO = "chapo";
-	private static final String ATTRIBUTE_IMAGE_URL = "imageURL";
-	private static final String ATTRIBUTE_PUBLISH_DATE = "publishDate";
-	private static final String ATTRIBUTE_IS_USER_PARTICIPATE = "isUserPart";
-	private static final String DETAIL_PARTICIPATION_URL = "detail-participation/-/entity/id/";
-	private static final String DETAIL_PETITION_URL = "detail-petition/-/entity/id/";
-	private static final String DETAIL_BUDGET_PARTICIPATIF_URL = "detail-budget-participatif/-/entity/id/";
-	private static final String DETAIL_INITIATIVE_URL = "detail-initiative/-/entity/id/";
-	private static final String DETAIL_EVENT_URL = "detail-evenement/-/entity/id/";
-	private static final String DETAIL_VIDEO_URL = "detail-video/-/entity/id/";
-	private static final String NEWS_TAG_NAME = "actualite";
-	private static final String ARTICLES_TAG_NAME = "article";
+
 	
 	private DynamicSearchAssetConfiguration configuration;
 	
 	private List<AssetEntry> assetEntries;
-	
+	private long totalResult;
+
 	/**
 	 * Initialisation de la vue
 	 */
@@ -135,7 +126,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			request.setAttribute("publikUserId", publikUserId);
 			
 			// Recuperation et attribution de l'URL de base du site
-			String homeUrl = getHomeURL(request);
+			String homeUrl = Utils.getHomeURL(themeDisplay);
 			request.setAttribute("homeURL", homeUrl);
 			
 			// Recuperation du formulaire configuré
@@ -147,7 +138,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			request.setAttribute("dynamicSearch", dynamicSearch);
 			
 			// Recuperation des classes demandees
-			List<String> classNames = this.getConfiguredClassNames();
+			List<String> classNames = this.getConfiguredClassNamesList();
 			request.setAttribute("classNames", classNames);
 			
 		} catch (ConfigurationException e) {
@@ -171,7 +162,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		try {
 			// Recuperation du contexte de la requete
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-			long groupId = new Long(themeDisplay.getLayout().getGroupId());
+			long groupId = themeDisplay.getLayout().getGroupId();
 			String resourceID = request.getResourceID();	
 			
 			// ---------------------------------------------------------------
@@ -184,9 +175,16 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
 				
 				// Recuperation des classNames selectionnes demandes par l'utilisateur
+				String[] classNames;
 				String selectedClassNames = ParamUtil.getString(request, "selectedClassNames");
-				String[] classNames = selectedClassNames.split(",");
-				
+				if(Validator.isNotNull(selectedClassNames))
+					classNames = selectedClassNames.split(",");
+				else {
+					// si le paramètre n'existe pas on prend les className de la configuration
+					String configurationClassNames = this.getConfiguredClassNames();
+					classNames = configurationClassNames.split(",");
+				}
+
 				// Recuperation des mots clefs demandes par l'utilisateur
 				String keywords = ParamUtil.getString(request, "keywords");
 				
@@ -206,7 +204,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				
 				// Recuperation de la configuration des prefiltre sur les categories
 				String prefilterCategoriesIdsString = this.configuration.prefilterCategoriesIds();
-				List<Long[]> prefilterCategoriesIds = new ArrayList<Long[]>();
+				List<Long[]> prefilterCategoriesIds = new ArrayList<>();
 				for (String prefilterCategoriesIdsGroupByVocabulary : prefilterCategoriesIdsString.split(";")) {
 					Long[] prefilterCategoriesIdsForVocabulary = ArrayUtil
 							.toLongArray(StringUtil.split(prefilterCategoriesIdsGroupByVocabulary, ",", 0));
@@ -219,11 +217,11 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				
 				// Recherche
 				Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, globalScope,
-						keywords, useDatePrefilter, "publishDate_sortable", fromDate, toDate, new ArrayList<Long[]>(),
+						keywords, useDatePrefilter, "publishDate_sortable", fromDate, toDate, new ArrayList<>(),
 						prefilterCategoriesIds, prefilterTagsNames, themeDisplay.getLocale(), 0,
 						maxResults, "score", false);
 				
-				List<AssetEntry> results = new ArrayList<AssetEntry>();
+				List<AssetEntry> results = new ArrayList<>();
 				BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(groupId);
 				AssetCategory activePhaseCategory = activePhase != null ? activePhase.getPhaseCategory() : null;
 				
@@ -244,8 +242,8 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 						//C'est dommage de faire le filtrage après la recherche mais la configuration actuelle de la recherche ne permet pas
 						//de préfiltrer sur la catégorie pour une seule entité en particuler
 						if(document.get(Field.ENTRY_CLASS_NAME).equals("eu.strasbourg.service.project.model.BudgetParticipatif") &&
-								(activePhaseCategory == null || (activePhaseCategory != null
-								&& !AssetCategoryLocalServiceUtil.hasAssetEntryAssetCategory(entry.getEntryId(), activePhaseCategory.getCategoryId())))) {
+								(activePhaseCategory == null ||
+										!AssetCategoryLocalServiceUtil.hasAssetEntryAssetCategory(entry.getEntryId(), activePhaseCategory.getCategoryId()))) {
 							entry = null;
 						}
 						
@@ -253,11 +251,14 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 							results.add(entry);
 						}
 					}
+					this.totalResult = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
+							globalScope, keywords, useDatePrefilter, "publishDate_sortable", fromDate, toDate, new ArrayList<>(),
+							prefilterCategoriesIds, prefilterTagsNames, themeDisplay.getLocale());
 				}
 
 				this.assetEntries = results;
 				
-				this.applyTemplateBehaviors(request);
+				this.applyTemplateBehaviors();
 				
 				JSONArray jsonResponse = this.constructJSONSelection(request);
 				
@@ -275,45 +276,37 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	/**
 	 * Applique un comportement de filtrage suplémentaire selon le template 
 	 * de formulaire configuré
-	 * @throws PortalException 
 	 */
-	private void applyTemplateBehaviors(ResourceRequest request) throws PortalException {
+	private void applyTemplateBehaviors() {
 		
 		String searchForm = configuration.searchForm();
-		
-		switch (searchForm) {
-			
-			/**
-			 * Comportement(s) : Plateforme-Citoyenne
-			 */
-			case SEARCH_FORM_PLACIT :
-				
-				// Parcours des résultats
-				for (Iterator <AssetEntry> results = this.assetEntries.iterator(); results.hasNext();) {
-					AssetEntry assetEntry = results.next();
-					
-					String assetClassName = assetEntry.getClassName();
-					
-					// Retirer les événements n'appartenant pas à Placit via le tag dédié
-					if (assetClassName.equals(Event.class.getName())) {
-						List<String> assetTags =  Arrays.asList(assetEntry.getTagNames());
-						
-						if (!assetTags.contains(PLACIT_TAG)) {
-							results.remove();
-						}
+
+		// Comportement(s) : Plateforme-Citoyenne
+		if (Constants.SEARCH_FORM_PLACIT.equals(searchForm)) {// Parcours des résultats
+			for (Iterator<AssetEntry> results = this.assetEntries.iterator(); results.hasNext(); ) {
+				AssetEntry assetEntry = results.next();
+
+				String assetClassName = assetEntry.getClassName();
+
+				// Retirer les événements n'appartenant pas à Placit via le tag dédié
+				if (assetClassName.equals(Event.class.getName())) {
+					List<String> assetTags = Arrays.asList(assetEntry.getTagNames());
+
+					if (!assetTags.contains(Constants.PLACIT_TAG)) {
+						results.remove();
 					}
-					
-					// Retirer les vidéos n'appartenant pas à Placit via le tag dédié
-					if (assetClassName.equals(Video.class.getName())) {
-						List<String> assetTags =  Arrays.asList(assetEntry.getTagNames());
-						
-						if (!assetTags.contains(PLACIT_TAG)) {
-							results.remove();
-						}
-					}
-					
 				}
-				break;
+
+				// Retirer les vidéos n'appartenant pas à Placit via le tag dédié
+				if (assetClassName.equals(Video.class.getName())) {
+					List<String> assetTags = Arrays.asList(assetEntry.getTagNames());
+
+					if (!assetTags.contains(Constants.PLACIT_TAG)) {
+						results.remove();
+					}
+				}
+
+			}
 		}
 	}
 	
@@ -334,254 +327,191 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	 * 			"events" :
 	 * 				[{...}],
 	 * 		}
-	 * @throws PortalException 
-	 * @throws DocumentException 
+	 * @throws  PortalException
 	 */
-	private JSONArray constructJSONSelection(ResourceRequest request) throws PortalException, DocumentException {
+	@SuppressWarnings("JavaDoc")
+	private JSONArray constructJSONSelection(ResourceRequest request) throws PortalException {
 		
 		// Récupération du contexte de la requète
 		String publikUserId = this.getPublikID(request);
 		
 		// Initialisation du JSON de réponse
 		JSONArray jsonResponse = JSONFactoryUtil.createJSONArray();
+
+		JSONObject jsonTotalResult = JSONFactoryUtil.createJSONObject();
+		jsonTotalResult.put("totalResult", this.totalResult);
+		jsonResponse.put(jsonTotalResult);
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		Locale locale = themeDisplay.getLocale();
+		String configAffichage = configuration.searchForm();
 		
 		// Parcours des résultats
 		for (AssetEntry assetEntry : this.assetEntries) {
 			
 			String assetClassName = assetEntry.getClassName();
+
+			int descriptionMaxLength = configAffichage.equals("strasbourg")?100:-1;
 			
 			// Récupération du JSON de l'entité selon le type d'assetEntry
 			// Note : impossibilité d'utilisé un switch case pour cause d'utilisation de non-constante
 			// TODO : Trouver comment contrer l'archaïssité de java sur le sujet des constantes sur les switch
-			
-			/**
-			 * AssetEntry : Événement
-			 */
+
+			// AssetEntry : Événement
 			if (assetClassName.equals(Event.class.getName())) {
+
 				Event event = EventLocalServiceUtil.getEvent(assetEntry.getClassPK());
-				
-				JSONObject jsonEvent = event.toJSON();
-				
-				jsonEvent.put(
-					ATTRIBUTE_CLASSNAME,
-					Event.class.getName()
-				);
-				jsonEvent.put(
-					ATTRIBUTE_LINK,
-					this.getHomeURL(request) + DETAIL_EVENT_URL + event.getEventId()
-				);
-				jsonEvent.put(
-					ATTRIBUTE_IS_USER_PARTICIPATE, 
-					publikUserId != "" ? event.isUserParticipates(publikUserId) : false
-				);
-				
+				JSONObject jsonEvent = JSONSearchHelper.createEventSearchJson(event, locale, themeDisplay, publikUserId, configAffichage, descriptionMaxLength);
 				jsonResponse.put(jsonEvent);
 			}
 			
-			/**
-			 * AssetEntry : Projet
-			 */
+			// AssetEntry : Projet
 			else if (assetClassName.equals(Project.class.getName())) {
 				Project project = ProjectLocalServiceUtil.getProject(assetEntry.getClassPK());
-				
-				JSONObject jsonProject = project.toJSON(publikUserId);
-				
-				jsonProject.put(
-					ATTRIBUTE_CLASSNAME,
-					Project.class.getName()
-				);
-				jsonProject.put(
-					ATTRIBUTE_LINK, 
-					this.getHomeURL(request) + project.getDetailURL()
-				);
-				
+				JSONObject jsonProject = JSONSearchHelper.createProjectSearchJson(project, themeDisplay, configAffichage, descriptionMaxLength);
 				jsonResponse.put(jsonProject);
 			}
-			
-			/**
-			 * AssetEntry : Participation
-			 */
+
+			// AssetEntry : Participation
 			else if (assetClassName.equals(Participation.class.getName())) {
 				Participation participation = ParticipationLocalServiceUtil.getParticipation(assetEntry.getClassPK());
-				
-				JSONObject jsonParticipation = participation.toJSON(themeDisplay);
-				
-				jsonParticipation.put(
-					ATTRIBUTE_CLASSNAME,
-					Participation.class.getName()
-				);
-				jsonParticipation.put(
-					ATTRIBUTE_LINK,
-					this.getHomeURL(request) + DETAIL_PARTICIPATION_URL + participation.getParticipationId()
-				);
-				
+				JSONObject jsonParticipation = JSONSearchHelper.createParticipationSearchJson(participation, locale, themeDisplay, configAffichage);
 				jsonResponse.put(jsonParticipation);
 			}
-			
-			/**
-			 * AssetEntry : Vidéo
-			 */
+
+			// AssetEntry : Vidéo
 			else if (assetClassName.equals(Video.class.getName())) {
 				Video video = VideoLocalServiceUtil.getVideo(assetEntry.getClassPK());
-				
-				JSONObject jsonVideo = video.toJSON();
-				
-				jsonVideo.put(
-					ATTRIBUTE_CLASSNAME,
-					Video.class.getName()
-				);
-				jsonVideo.put(
-					ATTRIBUTE_LINK,
-					this.getHomeURL(request) + DETAIL_VIDEO_URL + video.getVideoId()
-				);
-				
+				JSONObject jsonVideo = JSONSearchHelper.createVideoSearchJson(video, locale, themeDisplay, configAffichage);
 				jsonResponse.put(jsonVideo);
 			}
-			
-			/**
-			 * AssetEntry : Pétition
-			 */
+
+			// AssetEntry : Pétition
 			else if (assetClassName.equals(Petition.class.getName())) {
 				Petition petition = PetitionLocalServiceUtil.fetchPetition(assetEntry.getClassPK());
-				
-				JSONObject jsonPetition = petition.toJSON(publikUserId);
-				
-				jsonPetition.put(
-					ATTRIBUTE_CLASSNAME,
-					Petition.class.getName()
-				);
-				jsonPetition.put(
-					ATTRIBUTE_LINK,
-					this.getHomeURL(request) + DETAIL_PETITION_URL + petition.getPetitionId()
-				);
-				
+				JSONObject jsonPetition = JSONSearchHelper.createPetitionSearchJson(petition, themeDisplay, configAffichage);
 				jsonResponse.put(jsonPetition);
 			}
 			
-			/**
-			 * AssetEntry : Budget Participatif (Projet citoyen)
-			 */
+			// AssetEntry : Budget Participatif (Projet citoyen)
 			else if (assetClassName.equals(BudgetParticipatif.class.getName())) {
 				BudgetParticipatif bp = BudgetParticipatifLocalServiceUtil.fetchBudgetParticipatif(assetEntry.getClassPK());
-				
-				JSONObject jsonBP = bp.toJSON(publikUserId);
-				
-				jsonBP.put(
-					ATTRIBUTE_CLASSNAME,
-					BudgetParticipatif.class.getName()
-				);
-				jsonBP.put(
-					ATTRIBUTE_LINK,
-					this.getHomeURL(request) + DETAIL_BUDGET_PARTICIPATIF_URL + bp.getBudgetParticipatifId()
-				);
-				
+				JSONObject jsonBP = JSONSearchHelper.createBudgetParticipatifSearchJson(bp, locale, themeDisplay, configAffichage);
 				jsonResponse.put(jsonBP);
 			}
 			
-			/**
-			 * AssetEntry : Initiatives
-			 */
+			// AssetEntry : Initiatives
 			else if (assetClassName.equals(Initiative.class.getName())) {
 				Initiative initiative = InitiativeLocalServiceUtil.fetchInitiative(assetEntry.getClassPK());
-				
-				JSONObject jsonInitiative = initiative.toJSON();
-				
-				jsonInitiative.put(
-						ATTRIBUTE_CLASSNAME,
-						Initiative.class.getName()
-				);
-				jsonInitiative.put(
-						ATTRIBUTE_LINK,
-						this.getHomeURL(request) + DETAIL_INITIATIVE_URL + initiative.getInitiativeId()
-				);
-				
+				JSONObject jsonInitiative = JSONSearchHelper.createInitiativeSearchJson(initiative, themeDisplay, configAffichage);
 				jsonResponse.put(jsonInitiative);
 			}
 			
-			/**
-			 * AssetEntry : JournalArticle avant identification d'un potentiel Article
-			 */
+			// AssetEntry : JournalArticle avant identification d'un potentiel Article
 			else if (assetClassName.equals(JournalArticle.class.getName())) {
-				
-				List<String> tagNames = Arrays.asList(assetEntry.getTagNames());
-				
+				String[] tagNames = assetEntry.getTagNames();
+
 				// Outil permettant de passer outre les accents lors d'un test d'équivalence
 				Collator collator = Collator.getInstance();
 				collator.setStrength(Collator.NO_DECOMPOSITION);
-				Boolean containsNewsTagName = false;
-				
-				// Vérification de la véracité d'un JournalArticle de type actualité
+				boolean containsNewsTagName = false;
+
+				// Vérification de la véracité d'un JournalArticle de type actualité pour placit
 				for (String nameToTest : tagNames) {
-					if (collator.compare(nameToTest, NEWS_TAG_NAME) == 0 || collator.compare(nameToTest, ARTICLES_TAG_NAME) == 0) {
+					if (collator.compare(nameToTest, Constants.NEWS_TAG_NAME) == 0 || collator.compare(nameToTest, Constants.ARTICLES_TAG_NAME) == 0) {
 						containsNewsTagName = true;
 					}
 				}
-				
+
 				// Si tel est le cas
-				if (containsNewsTagName) {
-					JournalArticle journalArticle = JournalArticleServiceUtil.getLatestArticle(assetEntry.getClassPK());
-					SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
-					
-					// Récupération du contenu dynamique en XML de l'article
-					com.liferay.portal.kernel.xml.Document docXML = SAXReaderUtil.read(journalArticle.getContentByLocale("fr_FR"));
-					
-					JSONObject jsonArticle = JSONFactoryUtil.createJSONObject();
-					
-					jsonArticle.put(
-						ATTRIBUTE_CLASSNAME,
-						JournalArticle.class.getName()
-					);
-					jsonArticle.put(
-						ATTRIBUTE_LINK,
-						LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay)
-					);
-					jsonArticle.put(
-						ATTRIBUTE_TITLE,
-						docXML.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")
-					);
-					jsonArticle.put(
-						ATTRIBUTE_CHAPO,
-						docXML.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()")
-					);
-					jsonArticle.put(
-						ATTRIBUTE_PUBLISH_DATE,
-						dateFormat.format(journalArticle.getDisplayDate())
-					);
-					jsonArticle.put(
-						ATTRIBUTE_IMAGE_URL,
-							AssetPublisherTemplateHelper.getDocumentUrl(docXML.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()"))
-					);
-					
-					jsonResponse.put(jsonArticle);
-					
-				} else {
-					continue;
+				if (containsNewsTagName || !configAffichage.equals(Constants.SEARCH_FORM_PLACIT)) {
+					try {
+						JSONObject jsonArticle = JSONSearchHelper.createJournalArticleSearchJson(assetEntry, locale, themeDisplay, configAffichage, descriptionMaxLength);
+						jsonResponse.put(jsonArticle);
+					}catch (Exception e){
+						_log.error(e);
+					}
 				}
 			}
-			
+
+			// AssetEntry : Official
+			else if (assetClassName.equals(Official.class.getName())) {
+				Official official = OfficialLocalServiceUtil.getOfficial(assetEntry.getClassPK());
+				JSONObject jsonOfficial = JSONSearchHelper.createOfficialSearchJson(official, locale, themeDisplay, configAffichage);
+				jsonResponse.put(jsonOfficial);
+			}
+
+			// AssetEntry : Edition
+			else if (assetClassName.equals(Edition.class.getName())) {
+				Edition edition = EditionLocalServiceUtil.getEdition(assetEntry.getClassPK());
+				JSONObject jsonEdition = JSONSearchHelper.createEditionSearchJson(edition, locale, themeDisplay, configAffichage, descriptionMaxLength);
+				jsonResponse.put(jsonEdition);
+			}
+
+			// AssetEntry : Manifestation
+			else if (assetClassName.equals(Manifestation.class.getName())) {
+				Manifestation manifestation = ManifestationLocalServiceUtil.getManifestation(assetEntry.getClassPK());
+				JSONObject jsonManifestation = JSONSearchHelper.createManifestationSearchJson(manifestation, locale, themeDisplay, configAffichage, descriptionMaxLength);
+				jsonResponse.put(jsonManifestation);
+			}
+
+			// AssetEntry : EditionGallery
+			else if (assetClassName.equals(EditionGallery.class.getName())) {
+				EditionGallery editionGallery = EditionGalleryLocalServiceUtil.getEditionGallery(assetEntry.getClassPK());
+				JSONObject jsonEditionGallery = JSONSearchHelper.createEditionGallerySearchJson(editionGallery, locale, themeDisplay, configAffichage, descriptionMaxLength);
+				jsonResponse.put(jsonEditionGallery);
+			}
+
+			// AssetEntry : Place
+			else if (assetClassName.equals(Place.class.getName())) {
+				Place place = PlaceLocalServiceUtil.getPlace(assetEntry.getClassPK());
+				JSONObject jsonPlace = JSONSearchHelper.createPlaceSearchJson(place, locale, themeDisplay, configAffichage);
+				jsonResponse.put(jsonPlace);
+			}
+
+			// AssetEntry : ActivityCourse
+			else if (assetClassName.equals(ActivityCourse.class.getName())) {
+				ActivityCourse activityCourse = ActivityCourseLocalServiceUtil.getActivityCourse(assetEntry.getClassPK());
+				JSONObject jsonActivityCourse = JSONSearchHelper.createActivityCourseSearchJson(activityCourse, locale, themeDisplay, configAffichage);
+				jsonResponse.put(jsonActivityCourse);
+			}
+
+			// AssetEntry : Activity
+			else if (assetClassName.equals(Activity.class.getName())) {
+				Activity activity = ActivityLocalServiceUtil.getActivity(assetEntry.getClassPK());
+				JSONObject jsonActivity = JSONSearchHelper.createActivitySearchJson(activity, locale, themeDisplay, configAffichage, descriptionMaxLength);
+				jsonResponse.put(jsonActivity);
+			}
 		}
 		
 		return  jsonResponse;
 	}
-	
+
 	/**
 	 * Retourne la liste des class names configurés recherchable
 	 */
-	public List<String> getConfiguredClassNames() {
-		List<String> classNames = new ArrayList<String>();
-		for (String className : this.configuration.assetClassNames().split(",")) {
-			if (Validator.isNotNull(className)) {
-				classNames.add(className);
-			}
-		}
+	public String getConfiguredClassNames() {
+		String classNames = this.configuration.assetClassNames();
 		if (this.configuration.searchNews()) {
-			classNames.add(JournalArticle.class.getName());
+			if (Validator.isNotNull(classNames)) {
+				classNames += ",";
+			}
+			classNames += JournalArticle.class.getName();
 		}
 		if (this.configuration.searchDocument()) {
-			classNames.add(DLFileEntry.class.getName());
+			if (Validator.isNotNull(classNames)) {
+				classNames += ",";
+			}
+			classNames += DLFileEntry.class.getName();
 		}
+		return classNames;
+	}
+
+	/**
+	 * Retourne la liste des class names configurés recherchable
+	 */
+	public List<String> getConfiguredClassNamesList() {
+		List<String> classNames = new ArrayList<String>(Arrays.asList(this.getConfiguredClassNames().split(",")));
 		return classNames;
 	}
 	
@@ -594,19 +524,6 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
 		
 		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
-	}
-	
-	/**
-	 * Récupération de l'URL de base du site pour le lien vers les pages des entités
-	 */
-	private String getHomeURL(PortletRequest request) {
-		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-		if (themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty()
-				|| themeDisplay.getScopeGroup().isStagingGroup()) {
-			return "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
-		} else {
-			return "/";
-		}
 	}
 	
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

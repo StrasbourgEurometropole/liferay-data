@@ -33,6 +33,7 @@ create unique index IX_B213A8A5 on gtfs_ImportHistoric (uuid_[$COLUMN_LENGTH:75$
 
 create index IX_DCE6BE88 on gtfs_Ligne (groupId);
 create index IX_3F498552 on gtfs_Ligne (routeId[$COLUMN_LENGTH:75$]);
+create index IX_EEDA135B on gtfs_Ligne (shortName[$COLUMN_LENGTH:75$], status);
 create index IX_AC2B71D6 on gtfs_Ligne (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_387275D8 on gtfs_Ligne (uuid_[$COLUMN_LENGTH:75$], groupId);
 

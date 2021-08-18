@@ -42,46 +42,38 @@
   <div class="seu">
     
     <#if isHome>
-      <header class="seu-header">
+      <header class="seu-header" id="th-header">
     <#else>
-      <header class="seu-header scrolled scrolled-hp">
+      <header class="seu-header  scrolled scrolled-hp" id="th-header">
     </#if>
-      <div class="seu-scrolled-search-engine">
-        <form action="${homeURL}recherche" method="get" class="seu-search">
-          <button type="submit"></button>
-          <label for="main_search_banner" class="sr-only"><@liferay.language key="to-research" /></label>
-          <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="<@liferay.language key="to-research" /> ..." id="main_search_banner">
-          <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
-          <input type="hidden" name="p_p_lifecycle" value="1" />
-          <button type="button" class="seu-search-close"></button>
-        </form>
-      </div>
       <@subnavtop "seu"/>
       <@subnavigation "seu"/>
     </header>
 
-    <!--Banner-->
-    <#if isHome>
-      <#include "${full_templates_path}/home_banner.ftl" />
-    <#else>
-      <#assign layoutImage = layout.expandoBridge.getAttribute('image') />
-      <div class="region-post-header <#if layoutImage?has_content>has-banner</#if>">
-        <#if layoutImage?has_content>
-          <div class="region-banner" style="background-image: url(${layoutImage})">
-          </div>
-        </#if>
-        <@liferay.breadcrumbs />
-      </div>
-    </#if>
+    <main>
+      <!--Banner-->
+      <#if isHome>
+        <#include "${full_templates_path}/home_banner.ftl" />
+      <#else>
+        <#assign layoutImage = layout.expandoBridge.getAttribute('image') />
+        <div class="region-post-header <#if layoutImage?has_content>has-banner</#if>">
+          <#if layoutImage?has_content>
+            <div class="region-banner" style="background-image: url(${layoutImage})">
+            </div>
+          </#if>
+          <@liferay.breadcrumbs />
+        </div>
+      </#if>
 
-    <#if selectable>
-      <@liferay_util["include"] page=content_include />
-    <#else>
-      ${portletDisplay.recycle()}
-      ${portletDisplay.setTitle(the_title)}
-      <@liferay_theme["wrap-portlet"] page="portlet.ftl" />
-      <@liferay_util["include"] page=content_include />
-    </#if>
+      <#if selectable>
+        <@liferay_util["include"] page=content_include />
+      <#else>
+        ${portletDisplay.recycle()}
+        ${portletDisplay.setTitle(the_title)}
+        <@liferay_theme["wrap-portlet"] page="portlet.ftl" />
+        <@liferay_util["include"] page=content_include />
+      </#if>
+    </main>
     
     <!-- Social Share sur chaque page - Apparait au moment du scroll de la page -->
     <div class="social-share">

@@ -63,6 +63,8 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.AdictServiceTracker;
 import eu.strasbourg.service.adict.Street;
+import eu.strasbourg.service.opendata.geo.address.OpenDataGeoAddressService;
+import eu.strasbourg.service.opendata.geo.address.OpenDataGeoAddressServiceTracker;
 import eu.strasbourg.service.poi.PoiService;
 import eu.strasbourg.service.poi.PoiServiceTracker;
 import eu.strasbourg.service.strasbourg.service.base.StrasbourgServiceBaseImpl;
@@ -123,6 +125,18 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 			adictService = adictServiceTracker.getService();
 		}
 		return adictService;
+	}
+
+	private OpenDataGeoAddressService openDataGeoAddressService;
+	private OpenDataGeoAddressServiceTracker openDataGeoAddressServiceTracker;
+
+	private OpenDataGeoAddressService getOpenDataGeoAddressService() {
+		if (openDataGeoAddressService == null) {
+			openDataGeoAddressServiceTracker = new OpenDataGeoAddressServiceTracker(this);
+			openDataGeoAddressServiceTracker.open();
+			openDataGeoAddressService = openDataGeoAddressServiceTracker.getService();
+		}
+		return openDataGeoAddressService;
 	}
 
 	private PoiService poiService;
@@ -196,58 +210,41 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 
 	}
 
-	@Override
-	public JSONObject getPois(String interests, long groupId) {
-		return getPoiService().getPois(interests, groupId);
-	}
-	
-	@Override
-	public JSONObject getPois(String interests, long groupId, String localeId) {
-		return getPoiService().getPois(interests, groupId, localeId);
+	//AngelTODO à réintégrer un fois que la gestion du territoire et des coordonnées de tous les events physiques sans exception sera faite
+	/*@Override
+	public int getPoisCategoryCount(long idCategory, String prefilters, String tags, long groupId, String typeContenu,
+									boolean dateField, String fromDate, String toDate, String localeId, long globalGroupId) {
+		return getPoiService().getPoisCategoryCount(idCategory, prefilters, tags, groupId, typeContenu,
+				dateField, fromDate, toDate, localeId, globalGroupId);
 	}
 
 	@Override
-	public JSONObject getFavoritesPois(long groupId) {
+	public int getPoisInterestCount(long idInterest, long groupId, String typeContenu, String localeId, long globalGroupId) {
+		return getPoiService().getPoisInterestCount(idInterest, groupId, typeContenu, localeId, globalGroupId);
+	}
+
+	@Override
+	public int getFavoritesPoisCount(long groupId, String typeContenu) {
 		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
 		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
 		String userId = null;
 		if (isLoggedIn) {
 			userId = SessionParamUtil.getString(request, "publik_internal_id");
 		}
+		return getPoiService().getFavoritesPoisCount(userId, groupId, typeContenu);
+	}*/
 
-		return getPoiService().getFavoritesPois(userId, groupId);
+	@Override
+	public JSONObject getInterestsPois(String interests, long groupId, String typeContenu, String localeId, long globalGroupId) {
+		return getPoiService().getPois(interests, "", "", "", "",  groupId, typeContenu,
+				true, "", "", localeId, globalGroupId);
 	}
 
 	@Override
-	public JSONObject getPois(String interests, String categories, String prefilters, long groupId, String typeContenu) {
-		return getPoiService().getPois(interests, categories, prefilters, groupId, typeContenu);
-	}
-	
-	@Override
-	public JSONObject getPois(String interests, String categories, String prefilters, long groupId, String typeContenu, String localeId) {
-		return getPoiService().getPois(interests, categories, prefilters, groupId, typeContenu, localeId);
-	}
-
-	@Override
-	public int getPoisCategoryCount(long idCategory, String prefilters, long groupId, String typeContenu) {
-		return getPoiService().getPoisCategoryCount(idCategory, prefilters, groupId, typeContenu);
-	}
-
-	@Override
-	public int getPoisInterestCount(long idCategory, long groupId, String typeContenu) {
-		return getPoiService().getPoisInterestCount(idCategory, groupId, typeContenu);
-	}
-
-	@Override
-	public JSONObject getFavoritesPois(long groupId, String typeContenu) {
-		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
-		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
-		String userId = null;
-		if (isLoggedIn) {
-			userId = SessionParamUtil.getString(request, "publik_internal_id");
-		}
-
-		return getPoiService().getFavoritesPois(userId, groupId, typeContenu);
+	public JSONObject getCategoriesPois(String categories, String vocabulariesEmptyIds, String prefilters, String tags,
+			long groupId, String typeContenu, boolean dateField, String fromDate, String toDate, String localeId, long globalGroupId) {
+		return getPoiService().getPois("", categories, vocabulariesEmptyIds, prefilters, tags, groupId, typeContenu,
+				dateField,  fromDate, toDate, localeId, globalGroupId);
 	}
 	
 	@Override
@@ -263,26 +260,15 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	}
 
 	@Override
-	public int getFavoritesPoisCount(long groupId, String typeContenu) {
-		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
-		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
-		String userId = null;
-		if (isLoggedIn) {
-			userId = SessionParamUtil.getString(request, "publik_internal_id");
-		}
-		return getPoiService().getFavoritesPoisCount(userId, groupId, typeContenu);
-	}
-
-	@Override
 	public void hidePortlet(String portletId) {
 		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
 		PortletHelper.hidePortlet(portletId);
 	}
 
 	@Override
-	public JSONArray getCoordinateForAddress(String address) {
+	public JSONArray getCoordinateForAddress(String address, String zipCode, String city) {
 		try {
-			return getAdictService().getCoordinateForAddress(address);
+			return getOpenDataGeoAddressService().getCoordinateForAddress(address, zipCode, city);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

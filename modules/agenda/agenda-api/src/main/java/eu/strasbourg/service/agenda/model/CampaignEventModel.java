@@ -1461,6 +1461,69 @@ public interface CampaignEventModel
 	 */
 	public void setBookingURL(String bookingURL);
 
+	/**
+	 * Returns the registration of this campaign event.
+	 *
+	 * @return the registration of this campaign event
+	 */
+	public boolean getRegistration();
+
+	/**
+	 * Returns <code>true</code> if this campaign event is registration.
+	 *
+	 * @return <code>true</code> if this campaign event is registration; <code>false</code> otherwise
+	 */
+	public boolean isRegistration();
+
+	/**
+	 * Sets whether this campaign event is registration.
+	 *
+	 * @param registration the registration of this campaign event
+	 */
+	public void setRegistration(boolean registration);
+
+	/**
+	 * Returns the registration start date of this campaign event.
+	 *
+	 * @return the registration start date of this campaign event
+	 */
+	public Date getRegistrationStartDate();
+
+	/**
+	 * Sets the registration start date of this campaign event.
+	 *
+	 * @param registrationStartDate the registration start date of this campaign event
+	 */
+	public void setRegistrationStartDate(Date registrationStartDate);
+
+	/**
+	 * Returns the registration end date of this campaign event.
+	 *
+	 * @return the registration end date of this campaign event
+	 */
+	public Date getRegistrationEndDate();
+
+	/**
+	 * Sets the registration end date of this campaign event.
+	 *
+	 * @param registrationEndDate the registration end date of this campaign event
+	 */
+	public void setRegistrationEndDate(Date registrationEndDate);
+
+	/**
+	 * Returns the max gauge of this campaign event.
+	 *
+	 * @return the max gauge of this campaign event
+	 */
+	public long getMaxGauge();
+
+	/**
+	 * Sets the max gauge of this campaign event.
+	 *
+	 * @param maxGauge the max gauge of this campaign event
+	 */
+	public void setMaxGauge(long maxGauge);
+
 	@Override
 	public boolean isNew();
 

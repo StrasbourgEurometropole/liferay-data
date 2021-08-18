@@ -128,3 +128,7 @@
 span[id $= "displayTime"]{
     display: none;
 }
+
+#registrationDiv input{
+    max-width: 300px;
+}

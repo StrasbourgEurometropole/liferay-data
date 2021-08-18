@@ -1,6 +1,14 @@
+create index IX_7FD0DC67 on place_CacheJson (createPlace, isActive);
+create index IX_A479C42F on place_CacheJson (createPlace, modifiedPlace, isActive);
+create index IX_F4D484BA on place_CacheJson (modifiedPlace, isActive);
+create index IX_A2123D3C on place_CacheJson (uuid_[$COLUMN_LENGTH:75$]);
+
 create index IX_6AE2BDA8 on place_GoogleMyBusinessHistoric (groupId);
 create index IX_596C76B6 on place_GoogleMyBusinessHistoric (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_51EF32B8 on place_GoogleMyBusinessHistoric (uuid_[$COLUMN_LENGTH:75$], groupId);
+
+create index IX_6FFF5F54 on place_Historic (suppressionDate);
+create index IX_B161B857 on place_Historic (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_20653473 on place_Period (placeId);
 create index IX_FF05E735 on place_Period (uuid_[$COLUMN_LENGTH:75$]);

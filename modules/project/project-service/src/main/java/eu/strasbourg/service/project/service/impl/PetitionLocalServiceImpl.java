@@ -292,7 +292,7 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
             }
         }
 
-        List<Signataire> signataires = signataireLocalService.getSignatairesByPetitionId(petitionId);
+        List<Signataire> signataires = signataireLocalService.getAllSignatairesByPetitionId(petitionId);
         if (signataires!=null&&!signataires.isEmpty()){
             signataires.forEach(signataire -> signataireLocalService.removeSignataire(signataire.getSignataireId()));
         }

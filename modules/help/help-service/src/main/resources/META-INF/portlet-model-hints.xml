@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.help.model.HelpProposal">
+		<field name="uuid" type="String" />
+		<field name="helpProposalId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field localized="true" name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="inTheNameOf" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="address" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="city" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="postalCode" type="long" />
+		<field name="phoneNumber" type="String" />
+		<field name="modifiedByUserDate" type="Date" />
+		<field localized="true" name="spokenLanguages" type="String" />
+		<field name="agreementSigned1" type="boolean" />
+		<field name="agreementSigned2" type="boolean" />
+		<field name="agreementSigned3" type="boolean" />
+		<field name="imageId" type="long" />
+		<field name="publikId" type="String" />
+		<field localized="true" name="comment" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+	</model>
+	<model name="eu.strasbourg.service.help.model.HelpRequest">
+		<field name="uuid" type="String" />
+		<field name="helpRequestId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="publikId" type="String" />
+		<field name="helpProposalId" type="long" />
+		<field name="phoneNumber" type="String" />
+		<field name="message" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="studentCardImageId" type="long" />
+		<field name="agreementSigned1" type="boolean" />
+		<field name="agreementSigned2" type="boolean" />
+		<field name="agreementSigned3" type="boolean" />
+		<field localized="true" name="comment" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+	</model>
+</model-hints>

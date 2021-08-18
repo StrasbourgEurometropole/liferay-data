@@ -1,6 +1,13 @@
 
 @import 'lib/font-lineicons.css';
 @import 'lib/toastr.min.css';
+@import "tarteaucitron";
+
+// Enleve les border autour des labels de contact
+.form-assembly-portlet form label.preField
+{
+	border-style: none;
+}
 .see .fa,
 .see .gallery-thumb-link:after {
   text-rendering: auto;
@@ -7006,7 +7013,7 @@ body >  .container {
 .has-control-menu .see {
   margin-top: 56px;
 }
-.portlet-title-text {
+.see .portlet-title-text {
   display: none;
 }
 .portlet {
@@ -7230,3 +7237,23 @@ body >  .container {
     }
   }
 }
+
+/* Fix du menu burger manquant en mobile mantis 5647 */
+@media (max-width: 767px) {
+  .see .navbar-toggler {
+    background-color: white;
+    float: right;
+  }
+
+  .see .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0,0,0, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  }
+
+  .see .header-wrapper > .container {
+    max-width: 100%;
+  }
+  .see .header-wrapper .container .col-sm-2, .see .header-wrapper .container .col-sm-10, .see #presentation .container .col-sm-6, .see #medias .container .col-sm-4 {
+    max-width: 100%;
+  }
+}
+  /* Fin fix */

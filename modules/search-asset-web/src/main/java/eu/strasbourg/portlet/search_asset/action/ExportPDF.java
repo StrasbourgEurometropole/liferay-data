@@ -8,12 +8,17 @@ import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.WriterProperties;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.Style;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
-import com.itextpdf.layout.element.*;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.IBlockElement;
+import com.itextpdf.layout.element.IElement;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.ListItem;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -21,7 +26,12 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.search_asset.constants.OfficialsConstants;
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
@@ -144,12 +154,17 @@ public class ExportPDF {
 		List<Official> elus = getPeopleList(req);
 		for (Official elu : elus) {
 			// photo de l'élu
-			ImageData image = ImageDataFactory.create(domaine + elu.getImageURL());
-			Image img = new Image(image);
-			float newWidth = 90;
-			float newHeight = (img.getImageHeight() / img.getImageWidth()) * newWidth;
-			img.scaleAbsolute(newWidth, newHeight).setPadding(0f).setMargins(0f, 0f, 0f, 0f);
-			Cell cell = new Cell().add(img).setBorder(Border.NO_BORDER).setPaddings(10f, 0f, 10f, 0f);
+			Cell cell = new Cell().setBorder(Border.NO_BORDER).setPaddings(10f, 0f, 10f, 0f);
+			try {
+				ImageData image = ImageDataFactory.create(domaine + elu.getImageURL());
+				Image img = new Image(image);
+				float newWidth = 90;
+				float newHeight = (img.getImageHeight() / img.getImageWidth()) * newWidth;
+				img.scaleAbsolute(newWidth, newHeight).setPadding(0f).setMargins(0f, 0f, 0f, 0f);
+				cell = cell.add(img);
+			}catch (Exception e){
+				System.out.println(elu.getFirstName() + " " + elu.getLastName() + " : " + e.getMessage());
+			}
 			table.addCell(cell);
 
 			// info de l'élu

@@ -1366,6 +1366,14 @@ public class ScheduleExceptionWrapper
 		return _scheduleException.toCacheModel();
 	}
 
+	/**
+	 * Retourne la version CSMap JSON des exceptions
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toCSMapJSON() {
+		return _scheduleException.toCSMapJSON();
+	}
+
 	@Override
 	public eu.strasbourg.service.place.model.ScheduleException
 		toEscapedModel() {

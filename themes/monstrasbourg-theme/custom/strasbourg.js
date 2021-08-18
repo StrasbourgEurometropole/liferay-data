@@ -4,3 +4,4 @@
 //=require 02-particules/03-pages/**/*.js 
 //=require 02-particules/04-hacks/**/*.js 
 //=require 03-strasbourg/only-js/**/*.js 
+//=require override/**/*.js

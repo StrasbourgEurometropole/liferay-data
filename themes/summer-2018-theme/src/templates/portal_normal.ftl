@@ -20,6 +20,24 @@
     <link href="/o/summer-2018-theme/css/t_main.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700" rel="stylesheet">
 
+  <script>
+      window.userFavorites = [
+      ];
+    <#if request.session.getAttribute("publik_logged_in")!false>
+      <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService") />
+      <#assign favorites = favoriteLocalService.getByPublikUser(request.session.getAttribute("publik_internal_id")) />
+      window.userFavorites = [
+        <#list favorites as favorite>
+          {
+            entityId: ${favorite.entityId},
+            typeId: ${favorite.typeId}
+          }<#sep>,</#sep>
+        </#list>
+      ];
+    </#if>
+
+  </script>
+
 
     <#assign currentUrlOG = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
@@ -76,6 +94,8 @@
 
 		<!-- Magnific Popup core JS file -->
 		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js" charset="utf-8"></script> 
+  	<script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
+    <script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
 
   </head>
 
@@ -180,19 +200,6 @@
             document.getElementById("ShareMail").setAttribute("href","mailto:?body="+url);
         }
     </script>
-
-
-    <#if  propsUtil.get('eu.strasbourg.environment') == "PROD">
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-4"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'UA-16973980-1');
-        </script>
-    </#if>
 		
 		<!-- Lightbox implementation and Vendors JS -->
 		<script src="${javascript_folder}/lightbox-custom.js" charset="utf-8"></script>  

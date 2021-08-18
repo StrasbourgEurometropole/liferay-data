@@ -29,7 +29,8 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 public class JSONHelper {
-    private static String readAll(Reader rd) throws IOException {
+
+    public static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
         int cp;
         while ((cp = rd.read()) != -1) {
@@ -273,6 +274,18 @@ public class JSONHelper {
         }
         return valid;
     }
+
+    public static JSONObject readJsonFromInputStream(InputStream is) throws IOException, JSONException {
+        try {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String jsonText = readAll(rd);
+            JSONObject json = JSONFactoryUtil.createJSONObject(jsonText);
+            return json;
+        } finally {
+            is.close();
+        }
+    }
+
 
     public static long[] convertJSONArraytoLongArray (JSONArray jsonArray) {
         long[] results = new long[jsonArray.length()];

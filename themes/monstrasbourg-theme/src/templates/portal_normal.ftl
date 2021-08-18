@@ -42,6 +42,8 @@
   <@liferay_util["include"] page=top_head_include />
    
   <link type="text/css" rel="stylesheet" href="/o/monstrasbourg-theme/css/strasbourg.css">
+  <script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
+  <script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
   <title>${the_title?replace('-', '|')}</title>
 </head>
 <#assign isHome = layout.getFriendlyURL() == "/accueil" />
@@ -63,22 +65,6 @@
 </script>
 
   <header class="header">
-
-    <div id="cookies" class="cookies-top clearfix" data-site-id="UA-999999">
-      <div class="popup-content info">
-        <div id="popup-text">
-          <p>
-            Ce site web utilise des cookies. En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de cookies.
-            Pour en savoir plus <a href="https://www.cnil.fr/fr/cookies-les-outils-pour-les-maitriser" target=_blank>Cliquez-ici</a>.
-          </p>
-        </div>
-        <div id="popup-buttons">
-          <button type="button" class="agree-button">
-            <span class="sr-only">OK</span>
-          </button>
-        </div>
-      </div>
-    </div>
 
     <#include "${full_templates_path}/nav_top.ftl" />
 

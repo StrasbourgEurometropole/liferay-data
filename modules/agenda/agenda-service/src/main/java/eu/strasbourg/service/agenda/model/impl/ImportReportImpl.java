@@ -14,18 +14,17 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import java.io.StringWriter;
-import java.util.*;
-import java.util.stream.Collectors;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.template.*;
+import com.liferay.portal.kernel.template.Template;
+import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateManagerUtil;
+import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.URLTemplateResource;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.ImportReportLine;
 import eu.strasbourg.service.agenda.model.Manifestation;
@@ -34,6 +33,14 @@ import eu.strasbourg.service.agenda.utils.ImportReportLineStatus;
 import eu.strasbourg.service.agenda.utils.ImportReportStatus;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+
+import java.io.StringWriter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 /**
@@ -108,6 +115,28 @@ public class ImportReportImpl extends ImportReportBaseImpl {
 	}
 
 	@Override
+	public void incrementUnmodifiedEvents() {
+		this.setUnmodifiedEventsCount(this.getUnmodifiedEventsCount() + 1);
+	}
+
+	@Override
+	public void incrementUnmodifiedManifestations() {
+		this.setUnmodifiedManifestationsCount(
+				this.getUnmodifiedManifestationsCount() + 1);
+	}
+
+	@Override
+	public void incrementDeletedEvents() {
+		this.setDeletedEventsCount(this.getDeletedEventsCount() + 1);
+	}
+
+	@Override
+	public void incrementDeletedManifestations() {
+		this.setDeletedManifestationsCount(
+				this.getDeletedManifestationsCount() + 1);
+	}
+
+	@Override
 	public List<ImportReportLine> getLines() {
 		if (this._lines == null) {
 			this._lines = ImportReportLocalServiceUtil.getReportLines(this);
@@ -134,9 +163,17 @@ public class ImportReportImpl extends ImportReportBaseImpl {
 	@Override
 	public List<ImportReportLine> getErrorManifestationsLines() {
 		return this.getLines().stream()
-			.filter(l -> l.getType().equals(Manifestation.class.getName())
-				&& l.getStatus() == ImportReportLineStatus.FAILURE)
-			.collect(Collectors.toList());
+				.filter(l -> l.getType().equals(Manifestation.class.getName())
+						&& l.getStatus() == ImportReportLineStatus.FAILURE)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ImportReportLine> getDeletedManifestationsLines() {
+		return this.getLines().stream()
+				.filter(l -> l.getType().equals(Manifestation.class.getName())
+						&& l.getStatus() == ImportReportLineStatus.DELETED)
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -158,9 +195,17 @@ public class ImportReportImpl extends ImportReportBaseImpl {
 	@Override
 	public List<ImportReportLine> getErrorEventsLines() {
 		return this.getLines().stream()
-			.filter(l -> l.getType().equals(Event.class.getName())
-				&& l.getStatus() == ImportReportLineStatus.FAILURE)
-			.collect(Collectors.toList());
+				.filter(l -> l.getType().equals(Event.class.getName())
+						&& l.getStatus() == ImportReportLineStatus.FAILURE)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ImportReportLine> getDeletedEventsLines() {
+		return this.getLines().stream()
+				.filter(l -> l.getType().equals(Event.class.getName())
+						&& l.getStatus() == ImportReportLineStatus.DELETED)
+				.collect(Collectors.toList());
 	}
 
 	@Override

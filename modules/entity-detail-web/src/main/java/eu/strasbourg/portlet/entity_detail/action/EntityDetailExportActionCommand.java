@@ -62,7 +62,7 @@ public class EntityDetailExportActionCommand implements MVCActionCommand {
 			// ouverture du PDF dans le navigateur
 			HttpServletResponse httpResponse = PortalUtil.getHttpServletResponse(response);
 			httpResponse.setContentType("application/pdf");
-			httpResponse.addHeader("Content-Disposition", "inline; filename=" + titrePortlet + ".pdf");
+			httpResponse.addHeader("Content-Disposition", "inline; filename=\"" + titrePortlet + ".pdf\"");
 
 			httpResponse.setContentLength(baos.size());
 			OutputStream os = null;

@@ -44,7 +44,9 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.SubPlaceLocalService;
+import eu.strasbourg.service.place.service.persistence.CacheJsonPersistence;
 import eu.strasbourg.service.place.service.persistence.GoogleMyBusinessHistoricPersistence;
+import eu.strasbourg.service.place.service.persistence.HistoricPersistence;
 import eu.strasbourg.service.place.service.persistence.PeriodPersistence;
 import eu.strasbourg.service.place.service.persistence.PlacePersistence;
 import eu.strasbourg.service.place.service.persistence.PricePersistence;
@@ -333,6 +335,49 @@ public abstract class SubPlaceLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the cache json local service.
+	 *
+	 * @return the cache json local service
+	 */
+	public eu.strasbourg.service.place.service.CacheJsonLocalService
+		getCacheJsonLocalService() {
+
+		return cacheJsonLocalService;
+	}
+
+	/**
+	 * Sets the cache json local service.
+	 *
+	 * @param cacheJsonLocalService the cache json local service
+	 */
+	public void setCacheJsonLocalService(
+		eu.strasbourg.service.place.service.CacheJsonLocalService
+			cacheJsonLocalService) {
+
+		this.cacheJsonLocalService = cacheJsonLocalService;
+	}
+
+	/**
+	 * Returns the cache json persistence.
+	 *
+	 * @return the cache json persistence
+	 */
+	public CacheJsonPersistence getCacheJsonPersistence() {
+		return cacheJsonPersistence;
+	}
+
+	/**
+	 * Sets the cache json persistence.
+	 *
+	 * @param cacheJsonPersistence the cache json persistence
+	 */
+	public void setCacheJsonPersistence(
+		CacheJsonPersistence cacheJsonPersistence) {
+
+		this.cacheJsonPersistence = cacheJsonPersistence;
+	}
+
+	/**
 	 * Returns the google my business historic local service.
 	 *
 	 * @return the google my business historic local service
@@ -379,6 +424,49 @@ public abstract class SubPlaceLocalServiceBaseImpl
 
 		this.googleMyBusinessHistoricPersistence =
 			googleMyBusinessHistoricPersistence;
+	}
+
+	/**
+	 * Returns the historic local service.
+	 *
+	 * @return the historic local service
+	 */
+	public eu.strasbourg.service.place.service.HistoricLocalService
+		getHistoricLocalService() {
+
+		return historicLocalService;
+	}
+
+	/**
+	 * Sets the historic local service.
+	 *
+	 * @param historicLocalService the historic local service
+	 */
+	public void setHistoricLocalService(
+		eu.strasbourg.service.place.service.HistoricLocalService
+			historicLocalService) {
+
+		this.historicLocalService = historicLocalService;
+	}
+
+	/**
+	 * Returns the historic persistence.
+	 *
+	 * @return the historic persistence
+	 */
+	public HistoricPersistence getHistoricPersistence() {
+		return historicPersistence;
+	}
+
+	/**
+	 * Sets the historic persistence.
+	 *
+	 * @param historicPersistence the historic persistence
+	 */
+	public void setHistoricPersistence(
+		HistoricPersistence historicPersistence) {
+
+		this.historicPersistence = historicPersistence;
 	}
 
 	/**
@@ -852,6 +940,15 @@ public abstract class SubPlaceLocalServiceBaseImpl
 	}
 
 	@BeanReference(
+		type = eu.strasbourg.service.place.service.CacheJsonLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.CacheJsonLocalService
+		cacheJsonLocalService;
+
+	@BeanReference(type = CacheJsonPersistence.class)
+	protected CacheJsonPersistence cacheJsonPersistence;
+
+	@BeanReference(
 		type = eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService.class
 	)
 	protected
@@ -861,6 +958,15 @@ public abstract class SubPlaceLocalServiceBaseImpl
 	@BeanReference(type = GoogleMyBusinessHistoricPersistence.class)
 	protected GoogleMyBusinessHistoricPersistence
 		googleMyBusinessHistoricPersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.HistoricLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.HistoricLocalService
+		historicLocalService;
+
+	@BeanReference(type = HistoricPersistence.class)
+	protected HistoricPersistence historicPersistence;
 
 	@BeanReference(
 		type = eu.strasbourg.service.place.service.PeriodLocalService.class

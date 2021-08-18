@@ -354,9 +354,7 @@
 } 
 // Fin style pour les alertes de modifications de budget participatifs
 
-
-
-// affichage des menus des portlets
+// Affichage des menus des portlets
 .portlet:hover > .portlet-topper{
     width: calc(100% - 35px);
     height: auto;
@@ -386,3 +384,35 @@
       }
     }
   }
+// Fin affichage des menus des portlets
+
+// Correctifs d'affichage des liens après renouvellement de charte grahique de fin 2020
+.journal-content-article, .pro-comment, .pro-comment-response, .pro-bloc-accordion {
+
+    li, p, h3 {
+        a, a:hover{
+            color: #000;
+            text-decoration: underline;
+        }
+    }
+
+}
+.journal-content-article .pro-header-medium .caption p {
+    a, a:hover{
+        color: #fff;
+        text-decoration: underline;
+    }
+
+}
+// Fin correctifs d'affichage des liens après renouvellement de charte grahique de fin 2020
+
+// Hotfix de SimplebarJS (version 5.3.0) ne permettant plus le scroll plus sous Chrome 89 et Safari
+#th-global .pro-modal .modal-dialog {
+    pointer-events: inherit;
+}
+
+// Correctifs border sur les label (mantis 5606)
+#th-global .label {
+    border-style: none;
+}
+// Fin correctifs border sur les label (mantis 5606)

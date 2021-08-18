@@ -50,9 +50,17 @@
 					${report.modifiedEventsCount} <liferay-ui:message key="events" /><br>
 					${report.modifiedManifestationsCount} <liferay-ui:message key="manifestations" />
 				</liferay-ui:search-container-column-text>
+				<liferay-ui:search-container-column-text name="no-modifications" cssClass="content-column table-cell-content">
+					${report.unmodifiedEventsCount} <liferay-ui:message key="events" /><br>
+					${report.unmodifiedManifestationsCount} <liferay-ui:message key="manifestations" />
+				</liferay-ui:search-container-column-text>
 				<liferay-ui:search-container-column-text name="errors" cssClass="content-column table-cell-content">
 					${report.errorEventsCount} <liferay-ui:message key="events" /><br>
 					${report.errorManifestationsCount} <liferay-ui:message key="manifestations" />
+				</liferay-ui:search-container-column-text>
+				<liferay-ui:search-container-column-text name="delets" cssClass="content-column table-cell-content">
+					${report.deletedEventsCount} <liferay-ui:message key="events" /><br>
+					${report.deletedManifestationsCount} <liferay-ui:message key="manifestations" />
 				</liferay-ui:search-container-column-text>
 			</liferay-ui:search-container-row>
 

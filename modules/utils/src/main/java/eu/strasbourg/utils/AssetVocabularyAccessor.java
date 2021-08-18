@@ -285,4 +285,36 @@ public class AssetVocabularyAccessor {
 			return null;
 		}
 	}
+
+	public static AssetVocabulary getHelpHelperType(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_HELPER_TYPE, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static AssetVocabulary getHelpProposalType(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_PROPOSAL_TYPE, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static AssetVocabulary getHelpProposalActivityStatus(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_PROPOSAL_ACTIVITY_STATUS, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static AssetVocabulary getHelpProposalModerationStatus(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.HELP_PROPOSAL_MODERATION_STATUS, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

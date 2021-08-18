@@ -18,25 +18,32 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <liferay-util:body-top>
     <aui:script>
         window.userAddress = '${fn:escapeXml(address)}';
+        window.zipCode = '${fn:escapeXml(zipCode)}';
+        window.city = '${fn:escapeXml(city)}';
+
+        window.mode = '${mode}';
+        window.isWidgetMode = ${widgetMod};
+        window.typesContenu = "${typesContenu}";
+        window.coordinatesZone = '${coordinatesZone}';
         window.groupId = ${groupId};
         window.newTab = ${openInNewTab};
-        window.typesContenu = "${typesContenu}";
-        window.categoriesCheckedIds = "${fn:replace(categoriesCheckedIds, '"', '')}";
-        window.prefilterCategoriesIds = "${fn:replace(prefilterCategoriesIds,'"','')}";
-        window.interestsCheckedIds = "${fn:replace(interestsCheckedIds, '"', '')}";
-        window.showFavoritesByDefault = ${showFavorites};
-        window.isWidgetMode = ${widgetMod};
-        window.aroundMePortletNamespace = '<portlet:namespace />';
-        window.publikProfileURL = '${strasbourgPropsUtil.getPublikProfileURL()}';
-        window.publikInternalId = '${internalId}';
-        window.showTraffic = ${showTraffic};
-        window.mode = '${mode}';
-        window.linkCategoryId = '${trafficCategoryId}';
-        window.linkInterestId = '${trafficInterestId}';
-        window.coordinateZone = ${coordinateZone};
         window.zoom = '${zoom}';
         window.cadrageX = '${cadrageX}';
         window.cadrageY = '${cadrageY}';
+        window.prefilterCategoriesIds = "${prefilterCategoriesIds}";
+        window.prefilterTags = "${prefilterTags}";
+        window.interestsCheckedIds = "${fn:replace(interestsCheckedIds, '"', '')}";
+        window.showFavoritesByDefault = ${showFavorites};
+        window.showTraffic = ${showTraffic};
+        window.dateField = ${dateField};
+        window.defaultDateRange = ${defaultDateRange};
+        window.globalGroupId = ${globalGroupId};
+
+        window.aroundMePortletNamespace = '<portlet:namespace />';
+        window.publikProfileURL = '${strasbourgPropsUtil.getPublikProfileURL()}';
+        window.publikInternalId = '${internalId}';
+        window.linkCategoryId = '${trafficCategoryId}';
+        window.linkInterestId = '${trafficInterestId}';
 
         mymap = '';
     </aui:script>
@@ -46,6 +53,7 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.css" />
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.Default.css" />
 <link rel="stylesheet" href="/o/mapweb/css/leaflet-gesture-handling.css" />
+<link rel="stylesheet" href="/o/mapweb/css/map.css" />
 
 <liferay-util:html-bottom>
     <script src="/o/mapweb/js/leaflet.js"></script>

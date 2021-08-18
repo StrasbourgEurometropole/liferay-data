@@ -2,10 +2,12 @@ package eu.strasbourg.utils.api;
 
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import java.io.File;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Classe de service qui peut être utilisée dans les templates L'implémentation
@@ -34,5 +36,8 @@ public interface FileEntryHelperService {
 	public DLFileEntry getFileEntryByRelativeURL(String url);
 
 	public String scanFile(File file);
+
+	public Map<String, DLFileEntry> getPictoForVocabulary(String nomRepertoireVocabulaire, String nomRepertoire)
+			throws PortalException;
 
 }

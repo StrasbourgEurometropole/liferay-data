@@ -15,29 +15,22 @@
  */
 package eu.strasbourg.portlet.place.action;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.portlet.*;
-
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
-import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
-
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.model.Slot;
@@ -48,6 +41,19 @@ import eu.strasbourg.service.place.service.SlotLocalService;
 import eu.strasbourg.service.place.service.SlotLocalServiceUtil;
 import eu.strasbourg.service.place.service.SubPlaceLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(immediate = true, property = { "javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
 		"mvc.command.name=saveSubPlace" }, service = MVCActionCommand.class)
@@ -110,7 +116,7 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 			// suppression des slots du sous lieu
 			List<Period> periods = subPlace.getPeriods();
 			for (Period period : periods) {
-				List<Slot> slots = period.getSlots(subPlaceId);
+				List<Slot> slots = period.getSlots(subPlace.getSubPlaceId());
 				for (Slot slot : slots) {
 					SlotLocalServiceUtil.deleteSlot(slot);
 				}
@@ -267,6 +273,15 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 		// Description
 		if (Validator.isNull(ParamUtil.getString(request, "descriptionEditor"))) {
 			SessionErrors.add(request, "description-error");
+			isValid = false;
+		}
+
+		// Périodes
+		long nbPeriod = request.getActionParameters().getNames().stream().filter(p -> p.contains("periodId")).count();
+		String periodsIndexes = ParamUtil.getString(request, "periodsIndexes");
+		long nbIndex = periodsIndexes.split(",").length;
+		if(nbIndex != nbPeriod) {
+			SessionErrors.add(request, "period-error");
 			isValid = false;
 		}
 

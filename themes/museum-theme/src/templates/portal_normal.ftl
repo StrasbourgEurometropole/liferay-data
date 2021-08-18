@@ -8,6 +8,8 @@
 	<title>${the_title}</title>
 
 	<meta content="initial-scale=1.0, width=device-width" name="viewport" />
+  	<script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
+	<script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
 
 	<@liferay_util["include"] page=top_head_include />
 </head>
@@ -184,7 +186,7 @@
 -->
 	</header>
 
-
+<script type="text/javascript" src="/o/museum-theme/js/tarteaucitron.custom.js"></script>
 <script>
 	window.homeURL = '${homeURL}';
 </script>

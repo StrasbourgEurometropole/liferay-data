@@ -35,6 +35,9 @@ public class StrasbourgPropsUtil {
 	public static String getAgendaImportMailsForProvider(String provider) {
 		return PropsUtil.get("eu.strasbourg.agenda.mail." + provider);
 	}
+	public static String getUrlCozeJson() {
+		return PropsUtil.get("eu.strasbourg.agenda.url.coze");
+	}
 
 	public static String getAgendaImportDirectory() {
 		return PropsUtil.get("eu.strasbourg.agenda.file");
@@ -319,6 +322,8 @@ public class StrasbourgPropsUtil {
 
 	public static String getEJobURLOffer() {return PropsUtil.get("eu.strasbourg.ejob.url.offer");}
 
+	public static String getEJobURLOfferIntern() {return PropsUtil.get("eu.strasbourg.ejob.url.offer.intern");}
+
 	public static String getEJobFTPHost() {return PropsUtil.get("eu.strasbourg.ejob.ftp.host");}
 
 	public static String getEJobFTPPort() {return PropsUtil.get("eu.strasbourg.ejob.ftp.port");}
@@ -330,4 +335,59 @@ public class StrasbourgPropsUtil {
 	public static String getEJobIP() {return PropsUtil.get("eu.strasbourg.ejob.ip");}
 
 	public static String getURLPorteDocument() {return PropsUtil.get("eu.strasbourg.url.porte.document");}
+	
+	public static String getDocLibResizeAndCompressEnabled() {return PropsUtil.get("eu.strasbourg.dlfileentry.service.wrapper.resizeandcompress.enable");}
+
+	public static String getCSMAPPublikClientId() {
+		return PropsUtil.get("eu.strasbourg.csmap.publik.client.id");
+	}
+
+	public static String getCSMAPPublikClientSecret() {
+		return PropsUtil.get("eu.strasbourg.csmap.publik.client.secret");
+	}
+
+	public static String getCSMAPInternalSecret() {
+		return PropsUtil.get("eu.strasbourg.csmap.internal.secret");
+	}
+
+	public static String getBaseURL() {
+		return PropsUtil.get("eu.base.url");
+	}
+
+	public static int getCSMAPRefreshTokenNbValidityDays() {
+		int result;
+		try {
+			String property = PropsUtil.get("eu.strasbourg.entraide.user.submit.bcc.mail");
+			result = Integer.parseInt(property);
+		} catch (Exception ignored) {
+			result = 90;
+		}
+		return result;
+	}
+	
+	public static String getEntraideUserSubmitBCCMail() {
+		String result;
+		try {
+			result = PropsUtil.get("eu.strasbourg.entraide.user.submit.bcc.mail");
+		} catch (Exception ignored) {
+			result = "";
+		}
+		return result;
+	}
+
+	public static String getOpenDataBaseURL() {
+		return PropsUtil.get("eu.strasbourg.opendata.url");
+	}
+
+	public static String getOpenDataAddresses() {
+		return PropsUtil.get("eu.strasbourg.opendata.addresses");
+	}
+
+	public static String getOpenDataDistricts() {
+		return PropsUtil.get("eu.strasbourg.opendata.districts");
+	}
+
+	public static String getOpenDataCities() {
+		return PropsUtil.get("eu.strasbourg.opendata.cities");
+	}
 }

@@ -82,7 +82,9 @@
   </script>
 
 		<!-- Magnific Popup core JS file -->
-		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js" charset="utf-8"></script> 
+		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js?languageId=${locale}" charset="utf-8"></script> 
+    <script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
+    <script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
 
     <meta name="twitter:card" content="summary" />
     <#list openGraph?keys as keyOG>
@@ -222,7 +224,7 @@
 
     <@liferay_util["include"] page=body_bottom_include />
     <@liferay_util["include"] page=bottom_include />
-    <script src="/o/christmas-2018-theme/js/t_main.js"></script>
+    <script src="/o/christmas-2018-theme/js/t_main.js?languageId=${locale}"></script>
     <script type="text/javascript">
       if ($(window).width() >= 1280) {
         $(window).stellar();
@@ -246,8 +248,8 @@
     </style>
 		
 		<!-- Lightbox implementation and Vendors JS -->
-		<script src="${javascript_folder}/lightbox-custom.js" charset="utf-8"></script>  
-    <script type="text/javascript" src="/o/christmas-2018-theme/js/lightbox.js" charset="utf-8"></script> 
+		<script src="${javascript_folder}/lightbox-custom.js?languageId=${locale}" charset="utf-8"></script>  
+    <script type="text/javascript" src="/o/christmas-2018-theme/js/lightbox.js?languageId=${locale}" charset="utf-8"></script> 
 
   </body>
 </html>

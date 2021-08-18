@@ -1,16 +1,5 @@
 package eu.strasbourg.portlet.sectorized;
 
-import java.io.IOException;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -18,10 +7,17 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.sectorized.configuration.SectorizedPlacesConfiguration;
 import eu.strasbourg.service.adict.AdictService;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.io.IOException;
 
 @Component(immediate = true, configurationPid = "eu.strasbourg.portlet.sectorized.configuration.SectorizedPlacesConfiguration", property = {
 		"com.liferay.portlet.display-category=Strasbourg", "com.liferay.portlet.instanceable=true",
@@ -48,10 +44,6 @@ public class SectorizedPlacesPortlet extends MVCPortlet {
 
 			// Utilisation uniquement des rues de Strasbourg
 			renderRequest.setAttribute("forceStrasbourg", configuration.forceStrasbourg());
-			
-			// Clé recaptcha
-			String recaptchaKey = StrasbourgPropsUtil.getRecaptchaPublicKey();
-			renderRequest.setAttribute("recaptchaKey", recaptchaKey);
 
 			include("/templates/" + template + ".jsp", renderRequest, renderResponse);
 

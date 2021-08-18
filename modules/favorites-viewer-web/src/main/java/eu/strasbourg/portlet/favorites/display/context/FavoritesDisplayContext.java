@@ -150,7 +150,7 @@ public class FavoritesDisplayContext {
 	public List<Favorite> getAllFavorites() {
 		if(favorites == null) {
 			String publikUserId = getPublikUserId();
-			favorites = FavoriteLocalServiceUtil.getByPublikUser(publikUserId);
+			favorites = FavoriteLocalServiceUtil.getLiferayFavoriteByPublikUser(publikUserId);
 		}
 		return favorites;
 	}

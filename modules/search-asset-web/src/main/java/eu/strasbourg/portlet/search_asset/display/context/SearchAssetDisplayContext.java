@@ -77,7 +77,7 @@ public class SearchAssetDisplayContext {
 			this._entriesCount = 0;
 		}
 		// Gestion du log
-		if (this.isUserSearch()) {
+		if (this.isUserSearch() && Validator.isNotNull(this._keywords)) {
 			this.logSearch();
 		}
 		long logSearchId = ParamUtil.getLong(request, "searchLogId");
@@ -341,6 +341,29 @@ public class SearchAssetDisplayContext {
 		return this._filterCategoriesIdString;
 	}
 
+	public String getFilterActivityCategoriesIdsString() {
+		if (Validator.isNull(this._filterCategoriesIdString)) {
+			String filterCategoriesIdsString = "";
+			if(this.getFilterCategoriesIds().isEmpty()){
+				// on récupère la catégorie active du statut de modération de l'aide
+				long groupId = this._themeDisplay.getScopeGroupId();
+				AssetCategory active = AssetVocabularyHelper.getCategory("Active", groupId);
+				filterCategoriesIdsString = ""+active.getCategoryId();
+			}else {
+				for (Long[] filterCategoriesForVoc : this.getFilterCategoriesIds()) {
+					for (long filterCategoryId : filterCategoriesForVoc) {
+						if (filterCategoriesIdsString.length() > 0) {
+							filterCategoriesIdsString += ",";
+						}
+						filterCategoriesIdsString += filterCategoryId;
+					}
+				}
+			}
+			this._filterCategoriesIdString = filterCategoriesIdsString;
+		}
+		return this._filterCategoriesIdString;
+	}
+
 	/**
 	 * Renvoie la liste des types d'entités sur lesquels on souhaite rechercher
 	 * les entries
@@ -452,6 +475,7 @@ public class SearchAssetDisplayContext {
 			long[] prefilterCategoriesIds = Arrays.stream(prefilterCategoriesIdsString.split("(,)|(;)"))
 					.mapToLong(Long::valueOf).toArray();
 
+
 			// Et on fait l'interersection avec la liste de toutes les
 			// catégories du vocabulaire
 			List<AssetCategory> prefilteredCategoriesForVocabulary = allCategories.stream()
@@ -466,6 +490,13 @@ public class SearchAssetDisplayContext {
 
 		// Sinon on renvoie les catégories racines du vocabulaire
 		return allCategories.stream().filter(c -> c.isRootCategory()).collect(Collectors.toList());
+	}
+
+	/**
+	 * Retourne les AssetCategory des quartiers de Strasbourg
+	 */
+	public List<AssetCategory> getStrasbourgDistricts() {
+		return AssetVocabularyHelper.getAllDistrictsFromCity("Strasbourg");
 	}
 
 	/**
@@ -536,7 +567,7 @@ public class SearchAssetDisplayContext {
 					return Validator.isNotNull(this._configuration.defaultSortField())
 						? this._configuration.defaultSortField() : "modified_sortable";
 			} else {
-				return "score";
+				return "_score";
 			}
 		} else {
 			return sortFieldFromParam.split(",")[0];
@@ -547,8 +578,9 @@ public class SearchAssetDisplayContext {
 	 * Retourne le type de classement des résultats (croissant ou décroissant)
 	 */
 	public String getSortType() {
-		if (this.getSortField() == "score") {
-			return "desc";
+		if (this.getSortField() == "_score") {
+			// Avec la FP9, on veut reverse = false, parce que Reverse donne ASC, mais que pour _score
+			return "descmaispasceluila";
 		} else {
 			String sortTypeFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
 			if (Validator.isNull(sortTypeFromParam)) {

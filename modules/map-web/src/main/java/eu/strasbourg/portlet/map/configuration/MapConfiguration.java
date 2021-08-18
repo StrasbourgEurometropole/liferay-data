@@ -22,6 +22,27 @@ public interface MapConfiguration {
 
 	@Meta.AD(name = "districtMod", required = false)
 	public boolean districtMod();
+
+	@Meta.AD(name = "typesContenu", required = false)
+	public String typesContenu();
+
+	@Meta.AD(name = "eventExplanationXML", deflt = "", required = false)
+	public String eventExplanationXML();
+
+	@Meta.AD(name = "showConfig", required = false)
+	public boolean showConfig();
+
+	@Meta.AD(name = "showPictos", required = false)
+	public boolean showPictos();
+
+	@Meta.AD(name = "showList", required = false)
+	public boolean showList();
+
+	@Meta.AD(name = "clippingTerritory", required = false)
+	public boolean clippingTerritory();
+
+	@Meta.AD(name = "clippingCategoryId", deflt = "", required = false)
+	public String clippingCategoryId();
 	
 	@Meta.AD(name = "groupId", required = false)
 	public long groupId();
@@ -38,38 +59,41 @@ public interface MapConfiguration {
 	@Meta.AD(name = "cadrageY", deflt = "", required = false)
 	public String cadrageY();
 
-	@Meta.AD(name = "showPictos", required = false)
-	public boolean showPictos();
-	
-	@Meta.AD(name = "typesContenu", required = false)
-	public String typesContenu();
+	@Meta.AD(name = "prefilterCategoriesIds", required = false)
+	public String prefilterCategoriesIds();
 
-	@Meta.AD(name = "eventExplanationXML", deflt = "", required = false)
-	public String eventExplanationXML();
+	@Meta.AD(name = "prefilterTags", required = false)
+	public String prefilterTags();
 
-	@Meta.AD(name = "showConfig", required = false)
-	public boolean showConfig();
-	
-	@Meta.AD(name = "showList", required = false)
-	public boolean showList();
+	@Meta.AD(name = "districtUser", required = false)
+	public boolean districtUser();
+
+	@Meta.AD(name = "filterType", required = false)
+	public String filterType();
+
+	@Meta.AD(name = "categoriesDefaultsIds", required = false)
+	public String categoriesDefaultsIds();
+
+	@Meta.AD(name = "categoriesIds", required = false)
+	public String categoriesIds();
+
+	@Meta.AD(name = "parentsCategoriesIds", required = false)
+	public String parentsCategoriesIds();
+
+	@Meta.AD(name = "vocabulariesIds", deflt = "", required = false)
+	public String vocabulariesIds();
+
+	@Meta.AD(name = "dateField", deflt = "", required = false)
+	public boolean dateField();
+
+	@Meta.AD(name = "defaultDateRange", deflt = "", required = false)
+	public long defaultDateRange();
 	
 	@Meta.AD(name = "widgetIntro", required = false)
 	public String widgetIntro();
 
 	@Meta.AD(name = "widgetLink", required = false)
 	public String widgetLink();
-	
-	@Meta.AD(name = "prefilterCategoriesIds", required = false)
-	public String prefilterCategoriesIds();
-	
-	@Meta.AD(name = "categoriesIds", required = false)
-	public String categoriesIds();
-	
-	@Meta.AD(name = "categoriesDefaultsIds", required = false)
-	public String categoriesDefaultsIds();
-	
-	@Meta.AD(name = "districtUser", required = false)
-	public boolean districtUser();
 	
 	@Meta.AD(name = "interestsIds", required = false)
 	public String interestsIds();

@@ -31,7 +31,7 @@
 			</c:forEach>
             <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
                 orderByType="${dc.orderByType}"
-                orderColumns='<%= new String[] {"title", "date"} %>'
+                orderColumns='<%= new String[] {"title", "publication-date", "end-date"} %>'
                 portletURL="${offersURL}" />
     </liferay-frontend:management-bar-filters>
 </liferay-frontend:management-bar>
@@ -92,6 +92,13 @@
 					name="publication-date" truncate="true"
 					orderable="true" value="${formattedPublicationStartDate}" />
 
+                <!-- Colonne : date de fin de publication -->
+				<fmt:formatDate value="${offer.publicationEndDate}"
+					var="formattedPublicationEndDate" type="date" pattern="dd/MM/yyyy" />
+				<liferay-ui:search-container-column-text cssClass="content-column"
+					name="end-date" truncate="true"
+					orderable="true" value="${formattedPublicationEndDate}" />
+
                 <!-- Colonne : date de modification -->
 				<fmt:formatDate value="${offer.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy" />
@@ -149,6 +156,18 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
+
+
+    <c:if test="${dc.isAdminOrResp()}">
+        <liferay-portlet:resourceURL var="exportXlsxURL" id="exportXlsx">
+        </liferay-portlet:resourceURL>
+        <form method="POST" action="${exportXlsxURL}">
+            <aui:button-row>
+                <aui:button cssClass="btn-lg" type="submit"
+                    value="Export XLSX" />
+            </aui:button-row>
+        </form>
+    </c:if>
 </div>
 
 <c:if test="${dc.hasPermission('ADD_OFFER') and empty themeDisplay.scopeGroup.getStagingGroup()}">

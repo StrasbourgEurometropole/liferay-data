@@ -72,6 +72,14 @@ public interface ImportReport extends ImportReportModel, PersistedModel {
 
 	public void incrementErrorManifestations();
 
+	public void incrementUnmodifiedEvents();
+
+	public void incrementUnmodifiedManifestations();
+
+	public void incrementDeletedEvents();
+
+	public void incrementDeletedManifestations();
+
 	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
 		getLines();
 
@@ -85,6 +93,9 @@ public interface ImportReport extends ImportReportModel, PersistedModel {
 		getErrorManifestationsLines();
 
 	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
+		getDeletedManifestationsLines();
+
+	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
 		getNewEventsLines();
 
 	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
@@ -92,6 +103,9 @@ public interface ImportReport extends ImportReportModel, PersistedModel {
 
 	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
 		getErrorEventsLines();
+
+	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
+		getDeletedEventsLines();
 
 	public void sendMail();
 

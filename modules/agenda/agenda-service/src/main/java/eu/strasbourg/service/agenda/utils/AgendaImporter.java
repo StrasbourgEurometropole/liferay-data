@@ -3,6 +3,7 @@ package eu.strasbourg.service.agenda.utils;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -11,6 +12,8 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
@@ -29,12 +32,7 @@ import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.model.ImportReport;
 import eu.strasbourg.service.agenda.model.ImportReportLine;
 import eu.strasbourg.service.agenda.model.Manifestation;
-import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.ImportReportLineLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.ImportReportLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.*;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -43,13 +41,16 @@ import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -57,12 +58,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class AgendaImporter {
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 
 	private DateFormat dateFormat;
+	private DateFormat dateTimeFormat;
 	private long defaultUserId;
 	private long companyId;
 	private long globalGroupId;
@@ -89,7 +92,9 @@ public class AgendaImporter {
 			_log.error(e);
 		}
 		this.dateFormat = DateFormatFactoryUtil
-			.getSimpleDateFormat("yyyy-MM-dd");
+				.getSimpleDateFormat("yyyy-MM-dd");
+		this.dateTimeFormat = DateFormatFactoryUtil
+				.getSimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		// On récupère les vocabulaires obligatoires et facultatifs
 		long manifestationClassNameId = ClassNameLocalServiceUtil
@@ -109,6 +114,49 @@ public class AgendaImporter {
 			.getVocabulariesForAssetType(this.globalGroupId, eventClassNameId);
 	}
 
+	public String getJSON(String url, int timeout) {
+		HttpURLConnection c = null;
+		try {
+			URL u = new URL(url);
+			c = (HttpURLConnection) u.openConnection();
+			c.setRequestMethod("GET");
+			c.setRequestProperty("Content-length", "0");
+			c.setUseCaches(false);
+			c.setAllowUserInteraction(false);
+			c.setConnectTimeout(timeout);
+			c.setReadTimeout(timeout);
+			c.connect();
+			int status = c.getResponseCode();
+
+			switch (status) {
+				case 200:
+				case 201:
+					BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+					StringBuilder sb = new StringBuilder();
+					String line;
+					while ((line = br.readLine()) != null) {
+						sb.append(line+"\n");
+					}
+					br.close();
+					return sb.toString();
+			}
+
+		} catch (MalformedURLException ex) {
+			_log.error(ex.getMessage());
+		} catch (IOException ex) {
+			_log.error(ex.getMessage());
+		} finally {
+			if (c != null) {
+				try {
+					c.disconnect();
+				} catch (Exception ex) {
+					_log.error(ex.getMessage());
+				}
+			}
+		}
+		return null;
+	}
+
 	public boolean doImport() throws IOException {
 		// On prépare le rapport, l'objet JSON et le répertoire qui
 		// contient les fichiers à importer
@@ -117,6 +165,27 @@ public class AgendaImporter {
 		JSONObject json = null;
 		File directory = new File(
 			StrasbourgPropsUtil.getAgendaImportDirectory());
+
+		File f = new File(Paths.get(directory.getAbsolutePath(),"coze.json").toString());
+		f.createNewFile();
+
+		String jsonCozeString = getJSON(StrasbourgPropsUtil.getUrlCozeJson(),StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+
+		Writer writer = null;
+		try {
+			writer = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(f), "utf-8"));
+			writer.write(jsonCozeString);
+		} catch (IOException ex) {
+			_log.error(ex.getMessage());
+		} catch (Exception ex) {
+			_log.error(ex.getMessage());
+		} finally {
+			try {
+				writer.close();
+			} catch (Exception ex) {
+				_log.error(ex.getMessage());}
+		}
 		int fileIndex = 0;
 		// On boucle sur les fichiers du répertoire
 		for (File file : directory.listFiles()) {
@@ -211,12 +280,14 @@ public class AgendaImporter {
 				continue;
 			}
 
+			List<String> manifestationsImportExternalId = new ArrayList<>();
 			// On s'occupe des manifestations
 			for (int i = 0; i < manifestations.length(); i++) {
 				_log.info("Import manifestation: " + (i + 1) + "/"
 					+ manifestations.length());
 
 				JSONObject jsonManifestation = manifestations.getJSONObject(i);
+				manifestationsImportExternalId.add(jsonManifestation.getString("externalId"));
 				ImportReportLine line = this
 					.importManifestation(jsonManifestation, provider);
 				if (line == null
@@ -226,17 +297,21 @@ public class AgendaImporter {
 				} else if (line
 					.getStatus() == ImportReportLineStatus.SUCCESS_ADD) {
 					report.incrementNewManifestations();
-				} else {
+				} else if (line
+						.getStatus() == ImportReportLineStatus.SUCCESS_MODIFIED){
 					report.incrementModifiedManifestations();
+				} else {
+					report.incrementUnmodifiedManifestations();
 				}
 				line.setReportId(report.getReportId());
 				ImportReportLineLocalServiceUtil.updateImportReportLine(line);
 			}
-
+			List<String> eventsImportExternalId = new ArrayList<>();
 			// On passe maintenant aux événements !
 			for (int i = 0; i < events.length(); i++) {
 				_log.info("Import event: " + (i + 1) + "/" + events.length());
 				JSONObject jsonEvent = events.getJSONObject(i);
+				eventsImportExternalId.add(jsonEvent.getString("externalId"));
 				ImportReportLine line = this.importEvent(jsonEvent, provider);
 				if (line == null
 					|| line.getStatus() == ImportReportLineStatus.FAILURE) {
@@ -245,11 +320,63 @@ public class AgendaImporter {
 				} else if (line
 					.getStatus() == ImportReportLineStatus.SUCCESS_ADD) {
 					report.incrementNewEvents();
-				} else {
+				} else if (line
+						.getStatus() == ImportReportLineStatus.SUCCESS_MODIFIED) {
 					report.incrementModifiedEvents();
+				} else {
+					report.incrementUnmodifiedEvents();
 				}
 				line.setReportId(report.getReportId());
 				ImportReportLineLocalServiceUtil.updateImportReportLine(line);
+			}
+
+			List<Manifestation> manifestationsFromProvider = ManifestationLocalServiceUtil.getManifestations(-1,-1).stream().filter(m -> m.getSource().equals(provider)).distinct().collect(Collectors.toList());
+			int j = 0;
+			for(Manifestation manifestationFromProvider : manifestationsFromProvider){
+				if(!manifestationsImportExternalId.contains(manifestationFromProvider.getIdSource())){
+					j += 1;
+					_log.info("Delete Manifestation: " + j + "/" + manifestationsFromProvider.size() + " id :" + manifestationFromProvider.getIdSource());
+					ImportReportLine line;
+					try {
+						line = ImportReportLineLocalServiceUtil
+								.createImportReportLine();
+						line.setEntityExternalId(manifestationFromProvider.getIdSource());
+						line.setEntityName(manifestationFromProvider.getTitle(Locale.FRANCE));
+						line.setEntityId(manifestationFromProvider.getManifestationId());
+						line.setType(Manifestation.class.getName());
+						line.setStatus(ImportReportLineStatus.DELETED);
+						line.setReportId(report.getReportId());
+						ImportReportLineLocalServiceUtil.updateImportReportLine(line);
+						ManifestationLocalServiceUtil.removeManifestation(manifestationFromProvider.getManifestationId());
+						report.incrementDeletedManifestations();
+					} catch (PortalException e) {
+						_log.error(e);
+					}
+				}
+			}
+
+			List<Event> eventsFromProvider = EventLocalServiceUtil.getEvents(-1,-1).stream().filter(e -> e.getSource().equals(provider)).distinct().collect(Collectors.toList());
+			int i = 0;
+			for(Event eventFromProvider : eventsFromProvider){
+				if(!eventsImportExternalId.contains(eventFromProvider.getIdSource())){
+					i += 1;
+					_log.info("Delete event: " + i + "/" + eventsFromProvider.size() + " id :" + eventFromProvider.getIdSource());
+					ImportReportLine line;
+					try {
+						line = ImportReportLineLocalServiceUtil
+								.createImportReportLine();
+						line.setEntityExternalId(eventFromProvider.getIdSource());
+						line.setEntityName(eventFromProvider.getTitle(Locale.FRANCE));
+						line.setType(Event.class.getName());
+						line.setStatus(ImportReportLineStatus.DELETED);
+						line.setReportId(report.getReportId());
+						ImportReportLineLocalServiceUtil.updateImportReportLine(line);
+						EventLocalServiceUtil.removeEvent(eventFromProvider.getEventId());
+						report.incrementDeletedEvents();
+					} catch (PortalException e) {
+						_log.error(e);
+					}
+				}
 			}
 
 			report.setEndDate(new Date());
@@ -258,10 +385,11 @@ public class AgendaImporter {
 		}
 		if (fileIndex == 0) {
 			_log.info("No file to import");
+			String environment = StrasbourgPropsUtil.getEnvironment();
 			String from = "no-reply@no-reply.strasbourg.eu";
 			String to = StrasbourgPropsUtil.getAgendaImportMails();
-			String subject = "Aucun fichier dans le dossier d'import";
-			String body = "Aucun fichier ne se trouve dans le dossier d'import.";
+			String subject = "[" + environment + "] " + LanguageUtil.get(bundle, "no-file");
+			String body = LanguageUtil.get(bundle, "no-file-text");
 			MailHelper.sendMailWithPlainText(from, to, subject, body);
 		}
 
@@ -311,6 +439,42 @@ public class AgendaImporter {
 		}
 		_log.info("externalId: " + id);
 		reportLine.setEntityExternalId(id);
+
+		String createDateSourceString = jsonManifestation.getString("creation_date");
+		Date createDateSource = null;
+		if (createDateSourceString != null) {
+			try {
+				createDateSource = dateTimeFormat.parse(createDateSourceString);
+				if (createDateSource == null) {
+					throw new Exception();
+				}
+			} catch (Exception e) {
+				reportLine.error(
+						LanguageUtil.get(Locale.FRANCE, "wrong-creation-date-format"));
+			}
+		}else{
+			reportLine.error(LanguageUtil.get(bundle, "no-creation-date"));
+			ImportReportLineLocalServiceUtil.updateImportReportLine(reportLine);
+			return reportLine;
+		}
+
+		String modifiedDateSourceString = jsonManifestation.getString("modification_date");
+		Date modifiedDateSource = null;
+		if (modifiedDateSourceString != null) {
+			try {
+				modifiedDateSource = dateTimeFormat.parse(modifiedDateSourceString);
+				if (modifiedDateSource == null) {
+					throw new Exception();
+				}
+			} catch (Exception e) {
+				reportLine.error(
+						LanguageUtil.get(Locale.FRANCE, "wrong-modification-date-format"));
+			}
+		}else{
+			reportLine.error(LanguageUtil.get(bundle, "no-modification-date"));
+			ImportReportLineLocalServiceUtil.updateImportReportLine(reportLine);
+			return reportLine;
+		}
 		String imageURL = jsonManifestation.getString("imageURL");
 		if (Validator.isNull(imageURL)) {
 			reportLine.error(LanguageUtil.get(bundle, "no-image"));
@@ -440,11 +604,13 @@ public class AgendaImporter {
 				.findBySourceAndIdSource(provider, id);
 
 			// Si elle n'existe pas on la crée
+			boolean isCreated = false;
 			if (manifestation == null) {
 				try {
 					manifestation = ManifestationLocalServiceUtil
 						.createManifestation(sc);
 					reportLine.setEntityId(manifestation.getManifestationId());
+					isCreated = true;
 				} catch (PortalException e) {
 					reportLine.error(LanguageUtil.get(bundle,
 						"error-while-creating-manifestation"));
@@ -453,40 +619,49 @@ public class AgendaImporter {
 			}
 			// Si elle existe on récupère les tags
 			else {
-				reportLine.setStatus(ImportReportLineStatus.SUCCESS_MODIFIED);
 				sc.setAssetTagNames(
 					manifestation.getAssetEntry().getTagNames());
 			}
 
-			// On set les champs obligatoires
-			manifestation.setIdSource(id);
-			manifestation.setSource(provider);
-			manifestation.setExternalImageURL(imageURL);
-			manifestation.setExternalImageCopyright(imageCopyright);
-			manifestation.setImageId((long) 0);
-			manifestation.setPublicationDate(new Date());
+			if(manifestation.getModifiedDateSource().compareTo(modifiedDateSource) != 0) {
+				// On set les champs obligatoires
+				manifestation.setIdSource(id);
+				manifestation.setSource(provider);
+				manifestation.setExternalImageURL(imageURL);
+				manifestation.setExternalImageCopyright(imageCopyright);
+				manifestation.setImageId((long) 0);
+				manifestation.setPublicationDate(new Date());
 
-			// Puis les dates
-			if (startDate != null && endDate != null) {
-				manifestation.setStartDate(startDate);
-				manifestation.setEndDate(endDate);
-			}
+				// Puis les dates
+				if (startDate != null && endDate != null) {
+					manifestation.setStartDate(startDate);
+					manifestation.setEndDate(endDate);
+				}
 
-			// Et enfin les champs multilingues
-			for (Locale locale : locales) {
-				manifestation.setTitle(jsonTitle.getString(locale.toString()),
-					locale);
-				manifestation.setDescription(
-					jsonDescription.getString(locale.toString()), locale);
-			}
+				// Puis les dates de la source
+				manifestation.setCreateDateSource(createDateSource);
+				manifestation.setModifiedDateSource(modifiedDateSource);
 
-			// Et enfin on enregistre la manifestation
-			try {
-				ManifestationLocalServiceUtil.updateManifestation(manifestation,
-					sc);
-			} catch (PortalException e) {
-				reportLine.error(LanguageUtil.get(bundle,
-					"error-while-saving-manifestation"));
+				// Et enfin les champs multilingues
+				for (Locale locale : locales) {
+					manifestation.setTitle(jsonTitle.getString(locale.toString()),
+							locale);
+					manifestation.setDescription(
+							jsonDescription.getString(locale.toString()), locale);
+				}
+
+				// Et enfin on enregistre la manifestation
+				try {
+					ManifestationLocalServiceUtil.updateManifestation(manifestation,
+							sc);
+					if(isCreated)
+						reportLine.setStatus(ImportReportLineStatus.SUCCESS_ADD);
+					else
+						reportLine.setStatus(ImportReportLineStatus.SUCCESS_MODIFIED);
+				} catch (PortalException e) {
+					reportLine.error(LanguageUtil.get(bundle,
+							"error-while-saving-manifestation"));
+				}
 			}
 
 		}
@@ -516,6 +691,43 @@ public class AgendaImporter {
 		}
 		_log.info("externalId: " + id);
 		reportLine.setEntityExternalId(id);
+
+		String createDateSourceString = jsonEvent.getString("creation_date");
+		Date createDateSource = null;
+		if (Validator.isNotNull(createDateSourceString)) {
+			try {
+				createDateSource = dateTimeFormat.parse(createDateSourceString);
+				if (createDateSource == null) {
+					throw new Exception();
+				}
+			} catch (Exception e) {
+				reportLine.error(
+						LanguageUtil.get(Locale.FRANCE, "wrong-creation-date-format"));
+			}
+		}else{
+			reportLine.error(LanguageUtil.get(bundle, "no-creation-date"));
+			ImportReportLineLocalServiceUtil.updateImportReportLine(reportLine);
+			return reportLine;
+		}
+
+		String modifiedDateSourceString = jsonEvent.getString("modification_date");
+		Date modifiedDateSource = null;
+		if (Validator.isNotNull(modifiedDateSourceString)) {
+			try {
+				modifiedDateSource = dateTimeFormat.parse(modifiedDateSourceString);
+				if (modifiedDateSource == null) {
+					throw new Exception();
+				}
+			} catch (Exception e) {
+				reportLine.error(
+						LanguageUtil.get(Locale.FRANCE, "wrong-modification-date-format"));
+			}
+		}else{
+			reportLine.error(LanguageUtil.get(bundle, "no-modification-date"));
+			ImportReportLineLocalServiceUtil.updateImportReportLine(reportLine);
+			return reportLine;
+		}
+
 		String imageURL = jsonEvent.getString("imageURL");
 		if (Validator.isNull(imageURL)) {
 			reportLine.error(LanguageUtil.get(bundle, "no-image"));
@@ -745,9 +957,11 @@ public class AgendaImporter {
 				.findBySourceAndIdSource(provider, id);
 
 			// Si il n'existe pas on la crée
+			boolean isCreated = false;
 			if (event == null) {
 				try {
 					event = EventLocalServiceUtil.createEvent(sc);
+					isCreated = true;
 				} catch (PortalException e) {
 					reportLine.error(
 						LanguageUtil.get(bundle, "error-while-creating-event"));
@@ -758,213 +972,246 @@ public class AgendaImporter {
 			}
 			// Si il existe on récupère les tags
 			else {
-				reportLine.setStatus(ImportReportLineStatus.SUCCESS_MODIFIED);
 				AssetEntry entry = event.getAssetEntry();
 				if (entry != null) {
 					sc.setAssetTagNames(event.getAssetEntry().getTagNames());
 				}
 			}
 
-			// On set les champs
-			event.setIdSource(id);
-			event.setSource(provider);
-			event.setExternalImageURL(imageURL);
-			event.setExternalImageCopyright(imageCopyright);
-			event.setImageId((long) 0);
-			event.setPublicationDate(new Date());
-			event.setPromoter(jsonEvent.getString("promoter"));
-			event.setPhone(jsonEvent.getString("phone"));
-			event.setEmail(jsonEvent.getString("mail"));
-			event.setFree(freeEntry);
-			String jsonBookingURL = jsonEvent.getString("bookingURL");
-			if(Validator.isNotNull(jsonBookingURL)){
-				for (char c : jsonBookingURL.toCharArray()) {
-					if((int) c > 5000){
-						reportLine.error(LanguageUtil.format(bundle,
-								"error-forbidden-char","bookingURL"));
-						break;
+			if(Validator.isNull(event.getModifiedDateSource()) || event.getModifiedDateSource().compareTo(modifiedDateSource) != 0) {
+				// On set les champs
+				event.setIdSource(id);
+				event.setSource(provider);
+
+				// les dates de la source
+				event.setCreateDateSource(createDateSource);
+				event.setModifiedDateSource(modifiedDateSource);
+				event.setExternalImageURL(imageURL);
+				event.setExternalImageCopyright(imageCopyright);
+				event.setImageId((long) 0);
+				event.setPublicationDate(new Date());
+				event.setPromoter(jsonEvent.getString("promoter"));
+				event.setPhone(jsonEvent.getString("phone"));
+				event.setEmail(jsonEvent.getString("mail"));
+				event.setFree(freeEntry);
+				String jsonBookingURL = jsonEvent.getString("bookingURL");
+				if(Validator.isNotNull(jsonBookingURL)){
+					for (char c : jsonBookingURL.toCharArray()) {
+						if((int) c > 5000){
+							reportLine.error(LanguageUtil.format(bundle,
+									"error-forbidden-char","bookingURL"));
+							break;
+						}
 					}
 				}
-			}
-			event.setBookingURL(jsonBookingURL);
+				event.setBookingURL(jsonBookingURL);
 
-			// Lieu
-			if (Validator.isNotNull(placeSIGId)) {
-				event.setPlaceSIGId(placeSIGId);
-				event.setAccessForBlind(false);
-				event.setAccessForDeaf(false);
-				event.setAccessForWheelchair(false);
-				event.setAccessForElder(false);
-				event.setAccessForDeficient(false);
+				JSONObject jsonRegistration = jsonEvent.getJSONObject("registration");
+				if(Validator.isNotNull(jsonRegistration)){
+					event.setRegistration(true);
+					event.setMaxGauge(jsonRegistration.getLong("maxGauge"));
+					String registrationStartDateString = jsonRegistration.getString("startDate");
+					String registrationEndDateString = jsonRegistration.getString("endDate");
+					Date registrationStartDate = null;
+					Date registrationEndDate = null;
+					try {
+						registrationStartDate = dateFormat.parse(registrationStartDateString);
+						registrationEndDate = dateFormat.parse(registrationEndDateString);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					event.setRegistrationStartDate(registrationStartDate);
+					event.setRegistrationEndDate(registrationEndDate);
+				}
+				else{
+					event.setRegistration(false);
+					event.setMaxGauge(0);
+					event.setRegistrationStartDate(null);
+					event.setRegistrationEndDate(null);
+				}
 
-				// Dans le cas d'un lieu SIG, on ajoute automatiquement les
-				// catégories territoires du lieu aux catégories à ajouter à
-				// l'entité
-				Place place = PlaceLocalServiceUtil.getPlaceBySIGId(placeSIGId);
-				List<AssetCategory> territories = place.getTerritories();
-				long[] newCategories = sc.getAssetCategoryIds();
-				for (AssetCategory territory : territories) {
-					if (!ArrayUtil.contains(newCategories,
-						territory.getCategoryId())) {
-						newCategories = ArrayUtil.append(newCategories,
-							territory.getCategoryId());
+				// Lieu
+				if (Validator.isNotNull(placeSIGId)) {
+					event.setPlaceSIGId(placeSIGId);
+					event.setAccessForBlind(false);
+					event.setAccessForDeaf(false);
+					event.setAccessForWheelchair(false);
+					event.setAccessForElder(false);
+					event.setAccessForDeficient(false);
+
+					// Dans le cas d'un lieu SIG, on ajoute automatiquement les
+					// catégories territoires du lieu aux catégories à ajouter à
+					// l'entité
+					Place place = PlaceLocalServiceUtil.getPlaceBySIGId(placeSIGId);
+					List<AssetCategory> territories = place.getTerritories();
+					long[] newCategories = sc.getAssetCategoryIds();
+					for (AssetCategory territory : territories) {
+						if (!ArrayUtil.contains(newCategories,
+								territory.getCategoryId())) {
+							newCategories = ArrayUtil.append(newCategories,
+									territory.getCategoryId());
+						}
+					}
+					sc.setAssetCategoryIds(newCategories);
+				} else {
+					JSONObject jsonPlace = jsonEvent.getJSONObject("place");
+					event.setPlaceStreetNumber(jsonPlace.getString("streetNumber"));
+					event.setPlaceStreetName(jsonPlace.getString("streetName"));
+					event.setPlaceCity(jsonPlace.getString("city"));
+					event.setPlaceCountry(jsonPlace.getString("country"));
+					event.setPlaceZipCode(jsonPlace.getString("zipCode"));
+
+					JSONObject jsonPlaceName = jsonPlace.getJSONObject("name");
+					JSONObject jsonPlaceAccess = jsonPlace.getJSONObject("access");
+					JSONObject jsonPlaceAccessForDisabled = jsonPlace
+							.getJSONObject("accessForDisabled");
+					for (Locale locale : locales) {
+						if (jsonPlaceName != null) {
+							String placeName = jsonPlaceName
+									.getString(locale.toString());
+							if (Validator.isNotNull(placeName)) {
+								event.setPlaceName(placeName, locale);
+							}
+						}
+						if (jsonPlaceAccess != null) {
+							String placeAccess = jsonPlaceAccess
+									.getString(locale.toString());
+							if (Validator.isNotNull(placeAccess)) {
+								event.setAccess(placeAccess, locale);
+							}
+						}
+						if (jsonPlaceAccessForDisabled != null) {
+
+							String placeAccessForDisabled = jsonPlaceAccessForDisabled
+									.getString(locale.toString());
+							if (Validator.isNotNull(placeAccessForDisabled)) {
+								event.setAccessForDisabled(placeAccessForDisabled,
+										locale);
+							}
+						}
+					}
+					event.setAccessForBlind(jsonPlace.getBoolean("accessForBlind"));
+					event.setAccessForDeaf(jsonPlace.getBoolean("accessForDeaf"));
+					event.setAccessForWheelchair(
+							jsonPlace.getBoolean("accessForWheelchair"));
+					event.setAccessForElder(jsonPlace.getBoolean("accessForElder"));
+					event.setAccessForDeficient(
+							jsonPlace.getBoolean("accessForDeficient"));
+				}
+
+				// Les champs multilingues
+				JSONObject jsonSubtitle = jsonEvent.getJSONObject("subtitle");
+				if (jsonEvent.getString("websiteURL") != null) {
+					for (char c : jsonEvent.getString("websiteURL").toCharArray()) {
+						if ((int) c > 5000) {
+							reportLine.error(LanguageUtil.format(bundle,
+									"error-forbidden-char", "websiteURL"));
+							break;
+						}
 					}
 				}
-				sc.setAssetCategoryIds(newCategories);
-			} else {
-				JSONObject jsonPlace = jsonEvent.getJSONObject("place");
-				event.setPlaceStreetNumber(jsonPlace.getString("streetNumber"));
-				event.setPlaceStreetName(jsonPlace.getString("streetName"));
-				event.setPlaceCity(jsonPlace.getString("city"));
-				event.setPlaceCountry(jsonPlace.getString("country"));
-				event.setPlaceZipCode(jsonPlace.getString("zipCode"));
+				JSONObject jsonWebsiteURL = jsonEvent.getJSONObject("websiteURL");
+				if (jsonEvent.getString("websiteName") != null) {
+					for (char c : jsonEvent.getString("websiteName").toCharArray()) {
+						if ((int) c > 5000) {
+							reportLine.error(LanguageUtil.format(bundle,
+									"error-forbidden-char", "websiteName"));
+							break;
+						}
+					}
+				}
+				JSONObject jsonWebsiteName = jsonEvent.getJSONObject("websiteName");
+				if (jsonEvent.getString("price") != null) {
+					for (char c : jsonEvent.getString("price").toCharArray()) {
+						if ((int) c > 5000) {
+							reportLine.error(LanguageUtil.format(bundle,
+									"error-forbidden-char", "price"));
+							break;
+						}
+					}
+				}
 
-				JSONObject jsonPlaceName = jsonPlace.getJSONObject("name");
-				JSONObject jsonPlaceAccess = jsonPlace.getJSONObject("access");
-				JSONObject jsonPlaceAccessForDisabled = jsonPlace
-					.getJSONObject("accessForDisabled");
+				JSONObject jsonPrice = jsonEvent.getJSONObject("price");
+				JSONObject jsonBookingDescription = jsonEvent.getJSONObject("bookingDescription");
+
 				for (Locale locale : locales) {
-					if (jsonPlaceName != null) {
-						String placeName = jsonPlaceName
-							.getString(locale.toString());
-						if (Validator.isNotNull(placeName)) {
-							event.setPlaceName(placeName, locale);
+					event.setTitle(jsonTitle.getString(locale.toString()), locale);
+					event.setDescription(
+							jsonDescription.getString(locale.toString()), locale);
+
+					if (Validator.isNotNull(jsonSubtitle)) {
+						String subtitle = jsonSubtitle.getString(locale.toString());
+						if (Validator.isNotNull(subtitle)) {
+							event.setSubtitle(subtitle, locale);
 						}
 					}
-					if (jsonPlaceAccess != null) {
-						String placeAccess = jsonPlaceAccess
-							.getString(locale.toString());
-						if (Validator.isNotNull(placeAccess)) {
-							event.setAccess(placeAccess, locale);
+
+					if (Validator.isNotNull(jsonWebsiteURL)) {
+						String websiteURL = jsonWebsiteURL
+								.getString(locale.toString());
+						if (Validator.isNotNull(websiteURL)) {
+							event.setWebsiteURL(websiteURL, locale);
 						}
 					}
-					if (jsonPlaceAccessForDisabled != null) {
-
-						String placeAccessForDisabled = jsonPlaceAccessForDisabled
-							.getString(locale.toString());
-						if (Validator.isNotNull(placeAccessForDisabled)) {
-							event.setAccessForDisabled(placeAccessForDisabled,
-								locale);
+					if (Validator.isNotNull(jsonWebsiteName)) {
+						String websiteName = jsonWebsiteName
+								.getString(locale.toString());
+						if (Validator.isNotNull(websiteName)) {
+							event.setWebsiteName(websiteName, locale);
+						}
+					}
+					if (Validator.isNotNull(jsonPrice)) {
+						String price = jsonPrice.getString(locale.toString());
+						if (Validator.isNotNull(price)) {
+							event.setPrice(price, locale);
+						}
+					}
+					if (Validator.isNotNull(jsonBookingDescription)) {
+						String bookingDescription = jsonBookingDescription.getString(locale.toString());
+						if (Validator.isNotNull(bookingDescription)) {
+							event.setBookingDescription(bookingDescription, locale);
 						}
 					}
 				}
-				event.setAccessForBlind(jsonPlace.getBoolean("accessForBlind"));
-				event.setAccessForDeaf(jsonPlace.getBoolean("accessForDeaf"));
-				event.setAccessForWheelchair(
-					jsonPlace.getBoolean("accessForWheelchair"));
-				event.setAccessForElder(jsonPlace.getBoolean("accessForElder"));
-				event.setAccessForDeficient(
-					jsonPlace.getBoolean("accessForDeficient"));
-			}
 
-			// Les champs multilingues
-			JSONObject jsonSubtitle = jsonEvent.getJSONObject("subtitle");
-			if(jsonEvent.getString("websiteURL") != null){
-				for (char c : jsonEvent.getString("websiteURL").toCharArray()) {
-					if((int) c > 5000){
-						reportLine.error(LanguageUtil.format(bundle,
-								"error-forbidden-char","websiteURL"));
-						break;
-					}
+				// On enregistre les périodes de l'événement
+				List<EventPeriod> oldPeriods = event.getEventPeriods();
+				for (EventPeriod eventPeriod : oldPeriods) {
+					EventPeriodLocalServiceUtil.deleteEventPeriod(eventPeriod);
 				}
-			}
-			JSONObject jsonWebsiteURL = jsonEvent.getJSONObject("websiteURL");
-			if(jsonEvent.getString("websiteName") != null){
-				for (char c : jsonEvent.getString("websiteName").toCharArray()) {
-					if((int) c > 5000){
-						reportLine.error(LanguageUtil.format(bundle,
-								"error-forbidden-char","websiteName"));
-						break;
-					}
-				}
-			}
-			JSONObject jsonWebsiteName = jsonEvent.getJSONObject("websiteName");
-			if(jsonEvent.getString("price") != null){
-				for (char c : jsonEvent.getString("price").toCharArray()) {
-					if((int) c > 5000){
-						reportLine.error(LanguageUtil.format(bundle,
-								"error-forbidden-char","price"));
-						break;
-					}
-				}
-			}
-			JSONObject jsonPrice = jsonEvent.getJSONObject("price");
-			JSONObject jsonBookingDescription = jsonEvent.getJSONObject("bookingDescription");
-
-			for (Locale locale : locales) {
-				event.setTitle(jsonTitle.getString(locale.toString()), locale);
-				event.setDescription(
-					jsonDescription.getString(locale.toString()), locale);
-
-				if (Validator.isNotNull(jsonSubtitle)) {
-					String subtitle = jsonSubtitle.getString(locale.toString());
-					if (Validator.isNotNull(subtitle)) {
-						event.setSubtitle(subtitle, locale);
-					}
+				for (EventPeriod period : periods) {
+					period.setEventId(event.getEventId());
+					EventPeriodLocalServiceUtil.updateEventPeriod(period);
 				}
 
-				if (Validator.isNotNull(jsonWebsiteURL)) {
-					String websiteURL = jsonWebsiteURL
-						.getString(locale.toString());
-					if (Validator.isNotNull(websiteURL)) {
-						event.setWebsiteURL(websiteURL, locale);
-					}
-				}
-				if (Validator.isNotNull(jsonWebsiteName)) {
-					String websiteName = jsonWebsiteName
-						.getString(locale.toString());
-					if (Validator.isNotNull(websiteName)) {
-						event.setWebsiteName(websiteName, locale);
-					}
-				}
-				if (Validator.isNotNull(jsonPrice)) {
-					String price = jsonPrice.getString(locale.toString());
-					if (Validator.isNotNull(price)) {
-						event.setPrice(price, locale);
-					}
-				}
-				if (Validator.isNotNull(jsonBookingDescription)) {
-					String bookingDescription = jsonBookingDescription.getString(locale.toString());
-					if (Validator.isNotNull(bookingDescription)) {
-						event.setBookingDescription(bookingDescription, locale);
-					}
+				// On enregistre l'événement
+				try {
+					EventLocalServiceUtil.updateEvent(event, sc);
+					if (isCreated)
+						reportLine.setStatus(ImportReportLineStatus.SUCCESS_ADD);
+					else
+						reportLine.setStatus(ImportReportLineStatus.SUCCESS_MODIFIED);
+				} catch (PortalException e) {
+					reportLine.error(
+							LanguageUtil.get(bundle, "error-while-saving-event"));
 				}
 
-			}
-
-			// On enregistre les périodes de l'événement
-			List<EventPeriod> oldPeriods = event.getEventPeriods();
-			for (EventPeriod eventPeriod : oldPeriods) {
-				EventPeriodLocalServiceUtil.deleteEventPeriod(eventPeriod);
-			}
-			for (EventPeriod period : periods) {
-				period.setEventId(event.getEventId());
-				EventPeriodLocalServiceUtil.updateEventPeriod(period);
-			}
-
-			// On enregistre l'événement
-			try {
-				EventLocalServiceUtil.updateEvent(event, sc);
-			} catch (PortalException e) {
-				reportLine.error(
-					LanguageUtil.get(bundle, "error-while-saving-event"));
-			}
-
-			// On enregistre le lien avec les manifestations
-			List<Manifestation> oldManifestations = event.getManifestations();
-			for (Manifestation manifestation : oldManifestations) {
-				EventLocalServiceUtil.deleteManifestationEvent(
-					manifestation.getManifestationId(), event);
-			}
-			if (jsonManifestations != null) {
-				for (int j = 0; j < jsonManifestations.length(); j++) {
-					String manifestationExternalId = jsonManifestations
-						.getString(j);
-					Manifestation manifestation = ManifestationLocalServiceUtil
-						.findByIdSource(manifestationExternalId);
-					if (Validator.isNotNull(manifestation)) {
-						EventLocalServiceUtil.addManifestationEvent(
+				// On enregistre le lien avec les manifestations
+				List<Manifestation> oldManifestations = event.getManifestations();
+				for (Manifestation manifestation : oldManifestations) {
+					EventLocalServiceUtil.deleteManifestationEvent(
 							manifestation.getManifestationId(), event);
+				}
+				if (jsonManifestations != null) {
+					for (int j = 0; j < jsonManifestations.length(); j++) {
+						String manifestationExternalId = jsonManifestations
+								.getString(j);
+						Manifestation manifestation = ManifestationLocalServiceUtil
+								.findByIdSource(manifestationExternalId);
+						if (Validator.isNotNull(manifestation)) {
+							EventLocalServiceUtil.addManifestationEvent(
+									manifestation.getManifestationId(), event);
+						}
 					}
 				}
 			}
@@ -998,18 +1245,42 @@ public class AgendaImporter {
 				JSONArray categoryArray = json.getJSONArray(field);
 				if (categoryArray != null) {
 					for (int i = 0; i < categoryArray.length(); i++) {
-						String externalId = categoryArray.getString(i);
+						String oldExternalId = categoryArray.getString(i);
 						AssetVocabulary fieldVocabulary = fieldVocabularies
-							.get(field);
-						AssetCategory category = AssetVocabularyHelper
-							.getCategoryByExternalId(fieldVocabulary,
-								externalId);
-						if (category == null) {
-							reportLine.error(LanguageUtil.format(bundle,
-								"wrong-category",
-								new String[] { String.valueOf(externalId) }));
-						} else {
-							categories.add(category);
+								.get(field);
+
+						// On transforme les anciens quartiers en nouveaux
+						Map<String, String> districtMapping = new HashMap<String, String>() {
+							{
+								put("SQ_01", "SQ_120,SQ_107");
+								put("SQ_02", "SQ_101,SQ_105");
+								put("SQ_03", "SQ_106,SQ_107");
+								put("SQ_04", "SQ_115");
+								put("SQ_05", "SQ_118,SQ_119");
+								put("SQ_06", "SQ_102,SQ_103,SQ_108,SQ_117");
+								put("SQ_07", "SQ_110");
+								put("SQ_08", "SQ_112,SQ_116");
+								put("SQ_09", "SQ_104,SQ_109,SQ_111");
+								put("SQ_10", "SQ_113,SQ_114");
+							}
+						};
+						String newExternalId = districtMapping.get(oldExternalId);
+						if(Validator.isNull(newExternalId)){
+							newExternalId = oldExternalId;
+						}
+
+						String[] externalsId = newExternalId.split(",");
+						for( String externalId : externalsId ) {
+							AssetCategory category = AssetVocabularyHelper
+									.getCategoryByExternalId(fieldVocabulary,
+											externalId);
+							if (category == null) {
+								reportLine.error(LanguageUtil.format(bundle,
+										"wrong-category",
+										new String[] { String.valueOf(oldExternalId) }));
+							} else {
+								categories.add(category);
+							}
 						}
 					}
 				}

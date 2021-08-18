@@ -36,7 +36,10 @@
                             <div class="grades">
                                 <font style="line-height: 1.2; color: #5c5c5c;" >
                                     <#list gradeRanges as gradeRange>
-                                        ${gradeRange[2].getTitle(locale)} à ${gradeRange[3].getTitle(locale)}<#sep>, </#sep>
+                                        ${gradeRange[2].getTitle(locale)}
+                                        <#if gradeRange[3]??>
+                                            à ${gradeRange[3].getTitle(locale)}<#sep>, </#sep>
+                                        </#if>
                                     </#list>
                                 </font>
                             </div>

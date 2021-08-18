@@ -307,6 +307,21 @@ public interface PetitionModel
 	public void setTitle(String title);
 
 	/**
+	 * Returns the summary of this petition.
+	 *
+	 * @return the summary of this petition
+	 */
+	@AutoEscape
+	public String getSummary();
+
+	/**
+	 * Sets the summary of this petition.
+	 *
+	 * @param summary the summary of this petition
+	 */
+	public void setSummary(String summary);
+
+	/**
 	 * Returns the description of this petition.
 	 *
 	 * @return the description of this petition

@@ -19,6 +19,9 @@
 	<@liferay_util["include"] page=top_head_include />
 	<link rel="icon" type="image/png" href="${images_folder}/logo/favicon.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  	<script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
+  	<script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
+  	<script type="text/javascript" src="${javascript_folder}/tarteaucitron.custom.js"></script>
 </head>
 
 <body class="${css_class}">
@@ -95,19 +98,6 @@
 	<script src="${javascript_folder}/carrousel.js"></script>
     <script src="${images_folder}/../bower_components/owl.carousel.js/owl.carousel.min.js"></script>
     <script src="${images_folder}/../bower_components/retina.js/src/retina.js"></script>
-
-
-	<#if  propsUtil.get('eu.strasbourg.environment') == "PROD">
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-4"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
-
-		  gtag('config', 'UA-33301756-4');
-		</script>
-	</#if>
 </body>
 
 	<@liferay_util["include"] page=body_bottom_include />

@@ -1,30 +1,21 @@
 package eu.strasbourg.service.adict.impl;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.liferay.portal.kernel.json.JSONException;
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.SectorType;
 import eu.strasbourg.service.adict.Street;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Benjamin Bini
@@ -149,29 +140,6 @@ public class AdictServiceImpl implements AdictService {
     }
 
     /**
-     * Retourne la catégorie du quartier de l'utilisateur
-     */
-    @Override
-    public AssetCategory getDistrictByAddress(String address) throws Exception {
-        AssetCategory district = null;
-        String sectorType = "quartier_elus";
-        JSONArray coordinates = getCoordinateForAddress(address);
-        List<String> sigIds = getSectorizedPlaceIdsForCoordinates(coordinates.get(0).toString(),
-                coordinates.get(1).toString(), sectorType);
-        if (!sigIds.isEmpty()) {
-            AssetVocabulary territoryVocabulary;
-            try {
-                territoryVocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
-                district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, sigIds.get(0));
-            } catch (PortalException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return district;
-    }
-
-    /**
      * Retourne la liste des SIGId des écoles du secteur de l'utilisateur
      */
     @Override
@@ -200,67 +168,6 @@ public class AdictServiceImpl implements AdictService {
             coordinates = geometry.getJSONArray("coordinates");
         }
         return coordinates;
-    }
-
-    /**
-     * Retourne les coordonnées du secteur
-     */
-    @Override
-    public JSONObject getCoordinatesForZone(String x, String y, String sectorType) {
-        JSONObject json = null;
-        try {
-            x = HtmlUtil.escape(x);
-            y = HtmlUtil.escape(y);
-            sectorType = HtmlUtil.escape(sectorType);
-            String adictSectorBaseURL = StrasbourgPropsUtil.getAdictSectorBaseURL();
-            json = JSONHelper.readJsonFromURL(
-                    adictSectorBaseURL + "&x=" + x + "&y=" + y + "&srid=4326&sector_type=" + sectorType);
-        } catch (Exception e) {
-            log.error(e);
-        }
-
-        return json;
-    }
-
-    /**
-     * Retourne les coordonnées des quartiers
-     */
-    @Override
-    public JSONObject getCoordinatesForDistrict() {
-        JSONObject json = null;
-        try {
-            String adictSectorBaseURL = StrasbourgPropsUtil.getAdictSectorBaseURL();
-            adictSectorBaseURL= "http://adict.strasbourg.eu/api/v1.0/secteurs?token=aa72a01e643db472f3e7843ac1f3e48c";
-            json = JSONHelper.readJsonFromURL(
-                    adictSectorBaseURL + "&srid=4326&sector_type=quartier_elus&radius=-1");
-        } catch (Exception e) {
-            log.error(e);
-        }
-
-        return json;
-    }
-
-    /**
-     * Retourne les coordonnées d'un quartier
-     */
-    @Override
-    public JSONObject getCoordinatesForDistrict(String sigID) {
-        JSONObject json = null;
-        try {
-            JSONArray features = getCoordinatesForDistrict().getJSONArray("features");
-            for (int i = 0; i < features.length(); i++) {
-                JSONObject properties = features.getJSONObject(i).getJSONObject("properties");
-                String description = properties.getString("description");
-                if(sigID.equals(description)){
-                    json = features.getJSONObject(i);
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            log.error(e);
-        }
-
-        return json;
     }
 
     /**

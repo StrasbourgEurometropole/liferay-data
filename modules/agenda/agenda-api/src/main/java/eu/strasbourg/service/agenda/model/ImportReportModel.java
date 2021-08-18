@@ -191,6 +191,34 @@ public interface ImportReportModel extends BaseModel<ImportReport> {
 	public void setErrorEventsCount(long errorEventsCount);
 
 	/**
+	 * Returns the unmodified events count of this import report.
+	 *
+	 * @return the unmodified events count of this import report
+	 */
+	public long getUnmodifiedEventsCount();
+
+	/**
+	 * Sets the unmodified events count of this import report.
+	 *
+	 * @param unmodifiedEventsCount the unmodified events count of this import report
+	 */
+	public void setUnmodifiedEventsCount(long unmodifiedEventsCount);
+
+	/**
+	 * Returns the deleted events count of this import report.
+	 *
+	 * @return the deleted events count of this import report
+	 */
+	public long getDeletedEventsCount();
+
+	/**
+	 * Sets the deleted events count of this import report.
+	 *
+	 * @param deletedEventsCount the deleted events count of this import report
+	 */
+	public void setDeletedEventsCount(long deletedEventsCount);
+
+	/**
 	 * Returns the new manifestations count of this import report.
 	 *
 	 * @return the new manifestations count of this import report
@@ -232,6 +260,35 @@ public interface ImportReportModel extends BaseModel<ImportReport> {
 	 * @param errorManifestationsCount the error manifestations count of this import report
 	 */
 	public void setErrorManifestationsCount(long errorManifestationsCount);
+
+	/**
+	 * Returns the unmodified manifestations count of this import report.
+	 *
+	 * @return the unmodified manifestations count of this import report
+	 */
+	public long getUnmodifiedManifestationsCount();
+
+	/**
+	 * Sets the unmodified manifestations count of this import report.
+	 *
+	 * @param unmodifiedManifestationsCount the unmodified manifestations count of this import report
+	 */
+	public void setUnmodifiedManifestationsCount(
+		long unmodifiedManifestationsCount);
+
+	/**
+	 * Returns the deleted manifestations count of this import report.
+	 *
+	 * @return the deleted manifestations count of this import report
+	 */
+	public long getDeletedManifestationsCount();
+
+	/**
+	 * Sets the deleted manifestations count of this import report.
+	 *
+	 * @param deletedManifestationsCount the deleted manifestations count of this import report
+	 */
+	public void setDeletedManifestationsCount(long deletedManifestationsCount);
 
 	/**
 	 * Returns the start date of this import report.
