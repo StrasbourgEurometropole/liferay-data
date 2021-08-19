@@ -26,7 +26,7 @@
 		<property name="assetEntryId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="publikId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="parentCommentId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="urlProjectCommentaire" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="urlProjectCommentaire" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 	</class>
 	<class name="eu.strasbourg.service.comment.model.impl.SignalementImpl" table="comment_Signalement">
 		<id name="signalementId" type="long">
