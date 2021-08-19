@@ -141,7 +141,7 @@ public class WSConstants {
     /** Erreurs */
     // Global
     public static final String ERROR_NO_JWT_IN_HEADER = "No JWT in header";
-    public static final String ERROR_INVALID_TOKEN = "Invalid token receives during authentication";
+    public static final String ERROR_INVALID_TOKEN = "Invalid token received during authentication";
     public static final String ERROR_NO_SUB_IN_JWT = "No sub in JWT";
     public static final String ERROR_SUB_NOT_RECOGNISE = "Sub not recognise";
     // Auth
