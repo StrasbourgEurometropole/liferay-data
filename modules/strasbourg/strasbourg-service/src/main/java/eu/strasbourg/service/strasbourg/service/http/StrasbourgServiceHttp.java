@@ -543,7 +543,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getStructuresByGroupIds",
-				_getStructuresByGroupIdsParameterTypes25);
+				_getStructuresByGroupIdsParameterTypes19);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds);
@@ -575,7 +575,7 @@ public class StrasbourgServiceHttp {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class,
 				"getTagsAndCategoriesByGroupIdsAndClassName",
-				_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes26);
+				_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes20);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds, className);
@@ -605,7 +605,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getTagsByGroupIds",
-				_getTagsByGroupIdsParameterTypes27);
+				_getTagsByGroupIdsParameterTypes21);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds);
@@ -637,7 +637,7 @@ public class StrasbourgServiceHttp {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class,
 				"getCategoriesByClassNameAndGroupIds",
-				_getCategoriesByClassNameAndGroupIdsParameterTypes29);
+				_getCategoriesByClassNameAndGroupIdsParameterTypes23);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds, className);
@@ -668,7 +668,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getVocabulariesByGroupIds",
-				_getVocabulariesByGroupIdsParameterTypes30);
+				_getVocabulariesByGroupIdsParameterTypes24);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds);
@@ -738,18 +738,18 @@ public class StrasbourgServiceHttp {
 		String.class, String.class, String.class, String.class, String.class,
 		String.class
 	};
-	private static final Class<?>[] _getStructuresByGroupIdsParameterTypes25 =
+	private static final Class<?>[] _getStructuresByGroupIdsParameterTypes19 =
 		new Class[] {long[].class};
 	private static final Class<?>[]
-		_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes26 =
+		_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes20 =
 			new Class[] {long[].class, String.class};
-	private static final Class<?>[] _getTagsByGroupIdsParameterTypes27 =
+	private static final Class<?>[] _getTagsByGroupIdsParameterTypes21 =
 		new Class[] {long[].class};
 	private static final Class<?>[]
-		_getCategoriesByClassNameAndGroupIdsParameterTypes29 = new Class[] {
+		_getCategoriesByClassNameAndGroupIdsParameterTypes23 = new Class[] {
 			long[].class, String.class
 		};
-	private static final Class<?>[] _getVocabulariesByGroupIdsParameterTypes30 =
+	private static final Class<?>[] _getVocabulariesByGroupIdsParameterTypes24 =
 		new Class[] {long[].class};
 
 }
