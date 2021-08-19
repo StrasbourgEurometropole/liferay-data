@@ -46,4 +46,5 @@ dependencies {
 	compile project (':modules:link:link-api')
 	compile project (':modules:place:place-api')
 	compile project (':modules:project:project-api')
+	compile project (':modules:help:help-api')
 }

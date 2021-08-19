@@ -23,14 +23,12 @@ import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import com.liferay.portal.search.hits.SearchHit;
 import com.liferay.portal.search.hits.SearchHits;
 import eu.strasbourg.portlet.search_asset_v2.action.ExportPDF;
@@ -41,6 +39,8 @@ import eu.strasbourg.portlet.search_asset_v2.constants.SearchAssetPortletKeys;
 import eu.strasbourg.portlet.search_asset_v2.context.SearchAssetDisplayContext;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.help.model.HelpProposal;
+import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
@@ -62,6 +62,7 @@ import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.LayoutHelper;
 import eu.strasbourg.utils.SearchHelperV2;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -103,6 +104,7 @@ import java.util.concurrent.ConcurrentHashMap;
 				"com.liferay.portlet.display-category=Strasbourg",
 				"com.liferay.portlet.instanceable=false",
 				"com.liferay.portlet.css-class-wrapper=search-asset-portlet",
+				"com.liferay.portlet.header-portlet-css=/css/search-asset-web.css",
 				"com.liferay.portlet.single-page-application=false",
 				"javax.portlet.version=3.0",
 				"javax.portlet.init-param.template-path=/",
@@ -121,6 +123,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 	public final static String PARTICIPATION = "eu.strasbourg.service.project.model.Participation";
 	public final static String BUDGET = "eu.strasbourg.service.project.model.BudgetParticipatif";
 	public final static String INITIATIVE = "eu.strasbourg.service.project.model.Initiative";
+	public final static String AIDE = "eu.strasbourg.service.help.model.HelpProposal";
 
 	@Override
 	public void render(RenderRequest renderRequest,
@@ -364,6 +367,14 @@ public class SearchAssetPortlet extends MVCPortlet {
 							jsonInitiative.put("json", initiative.toJSON());
 							jsonEntries.put(jsonInitiative);
 							break;
+						case "eu.strasbourg.service.help.model.HelpProposal":
+							HelpProposal helpProposal = HelpProposalLocalServiceUtil.fetchHelpProposal(entry.getClassPK());
+							JSONObject jsonHelpProposal = JSONFactoryUtil.createJSONObject();
+							jsonHelpProposal.put("class", className);
+							Locale locale = themeDisplay.getLocale();
+							jsonHelpProposal.put("json", helpProposal.toJSON(locale));
+							jsonEntries.put(jsonHelpProposal);
+							break;
 						case "eu.strasbourg.service.video.model.Video":
 							Video video = VideoLocalServiceUtil.fetchVideo(entry.getClassPK());
 							JSONObject jsonVideo = JSONFactoryUtil.createJSONObject();
@@ -377,14 +388,12 @@ public class SearchAssetPortlet extends MVCPortlet {
 							jsonJournalArticle.put("class", className);
 							json = JSONFactoryUtil.createJSONObject();
 							json.put("detailURL", LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay));
-							String document = journalArticle.getContentByLocale(LocaleUtil.toLanguageId(Locale.FRANCE));
-							com.liferay.portal.kernel.xml.Document docXML = SAXReaderUtil.read(document);
-							String title = docXML.valueOf("//dynamic-element[@name='title']/dynamic-content/text()");
+							String title = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "title", Locale.FRANCE);
 							if (Validator.isNull(title)) {
 								title = journalArticle.getTitle(Locale.FRANCE);
 							}
 							json.put("title", title);
-							String thumbnail = docXML.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()");
+							String thumbnail = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "thumbnail", Locale.FRANCE);
 							String imageURL ="";
 							if(!thumbnail.isEmpty()){
 								imageURL = AssetPublisherTemplateHelper.getDocumentUrl(thumbnail);
@@ -397,9 +406,9 @@ public class SearchAssetPortlet extends MVCPortlet {
 								jsonVocabulariesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
 							}
 							json.put("jsonVocabulariesTitle", jsonVocabulariesTitle);
-							SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+							SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
 							json.put("modifiedDate", dateFormat.format(journalArticle.getModifiedDate()));
-							String chapo = docXML.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()");
+							String chapo = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "chapo", Locale.FRANCE);
 							json.put("chapo", chapo.replaceAll("<[^>]*>", "").substring(0, Math.min(chapo.length(), 100)));
 							jsonJournalArticle.put("json", json);
 							jsonEntries.put(jsonJournalArticle);
@@ -443,6 +452,9 @@ public class SearchAssetPortlet extends MVCPortlet {
 		long[] statuts = new long[]{};
 		long[] bpStatus  = new long[]{};
 		long[] initiativeStatus = new long[]{};
+		long[] helpProposalActivityStatus = new long[]{};
+		long[] helpProposalTypes = new long[]{};
+		long[] localisations = new long[]{};
 		long[] projects = new long[]{};
 		long[] districts = new long[]{};
 		long[] thematics = new long[]{};
@@ -542,6 +554,20 @@ public class SearchAssetPortlet extends MVCPortlet {
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
 			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
+
+		if (resourceID.equals("entrySelectionHelpProposal")) {
+			keywords = ParamUtil.getString(request, "selectedKeyWords");
+			startDay = ParamUtil.getInteger(request, "selectedStartDay");
+			startMonth = ParamUtil.getString(request, "selectedStartMonth");
+			startYear = ParamUtil.getInteger(request, "selectedStartYear");
+			endDay = ParamUtil.getInteger(request, "selectedEndDay");
+			endMonth = ParamUtil.getString(request, "selectedEndMonth");
+			endYear = ParamUtil.getInteger(request, "selectedEndYear");
+			helpProposalTypes = ParamUtil.getLongValues(request, "selectedHelpProposalTypes");
+			helpProposalActivityStatus = ParamUtil.getLongValues(request, "selectedHelpProposalActivityStatus");
+			localisations = ParamUtil.getLongValues(request, "selectedLocalisations");
+			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+		}
 		if (resourceID.equals("entrySelectionNews")) {
 			startDay = ParamUtil.getInteger(request, "selectedStartDay");
 			startMonth = ParamUtil.getString(request, "selectedStartMonth");
@@ -562,7 +588,8 @@ public class SearchAssetPortlet extends MVCPortlet {
 				getToDay(configurationData, endDay));
 
 		// Catégories sélectionnées par l'utilisateur
-		List<Long[]> categoriesIds = this.getFilterCategoriesIds(states, statuts, bpStatus, initiativeStatus, projects, districts, thematics, types);
+		List<Long[]> categoriesIds = this.getFilterCategoriesIds(states, statuts, bpStatus, initiativeStatus, projects,
+				districts, thematics, types, helpProposalTypes, helpProposalActivityStatus, localisations);
 
 		// Permet de remonter la hiérarchie des Request
 		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
@@ -715,11 +742,13 @@ public class SearchAssetPortlet extends MVCPortlet {
 	 * entries. L'opérateur entre chaque id de catégorie d'un array est un "OU", celui entre chaque liste d'array est un "ET"
 	 */
 	private List<Long[]> getFilterCategoriesIds(long[] states, long[] statuts, long[] bpStatus, long[] initiativeStatus,
-												long[] projects, long [] districts, long[] thematics, long[] types) {
+												long[] projects, long [] districts, long[] thematics, long[] types,
+												long[] helpProposalTypes, long[] helpProposalActivityStatus, long[] localisations) {
 		List<Long[]> filterCategoriesIds = new ArrayList<>();
 		List<Long> categoriesIds = new ArrayList<>();
 
 		// On récupère les états s'il y en a
+		categoriesIds = new ArrayList<>();
 		for (long state : states) {
 			if (state > 0) {
 				categoriesIds.add(state);
@@ -730,6 +759,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 		}
 
 		// On récupère les statuts s'il y en a
+		categoriesIds = new ArrayList<>();
 		for (long statut : statuts) {
 			if (statut > 0) {
 				categoriesIds.add(statut);
@@ -740,6 +770,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 		}
 
 		// On recupere les statuts BP s'il y en a
+		categoriesIds = new ArrayList<>();
 		for (long bpStatu : bpStatus) {
 			if (bpStatu > 0) {
 				categoriesIds.add(bpStatu);
@@ -750,6 +781,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 		}
 
 		// On recupere les statuts initiative s'il y en a
+		categoriesIds = new ArrayList<>();
 		for (long initiativeStatu : initiativeStatus) {
 			if (initiativeStatu > 0) {
 				categoriesIds.add(initiativeStatu);
@@ -760,6 +792,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 		}
 
 		// On récupère les projets s'il y en a
+		categoriesIds = new ArrayList<>();
 		for (long project : projects) {
 			if (project > 0) {
 				categoriesIds.add(project);
@@ -792,9 +825,43 @@ public class SearchAssetPortlet extends MVCPortlet {
 		}
 
 		// On récupère les types s'il y en a
+		categoriesIds = new ArrayList<>();
 		for (long type : types) {
 			if (type > 0) {
 				categoriesIds.add(type);
+			}
+		}
+		if (categoriesIds.size() > 0) {
+			filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+		}
+
+		// On recupere les types d'aide s'il y en a
+		categoriesIds = new ArrayList<>();
+		for (long helpProposalType : helpProposalTypes) {
+			if (helpProposalType > 0) {
+				categoriesIds.add(helpProposalType);
+			}
+		}
+		if (categoriesIds.size() > 0) {
+			filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+		}
+
+		// On récupère l'état d'activité s'il y en a
+		categoriesIds = new ArrayList<>();
+		for (long helpProposalActivity : helpProposalActivityStatus) {
+			if (helpProposalActivity > 0) {
+				categoriesIds.add(helpProposalActivity);
+			}
+		}
+		if (categoriesIds.size() > 0) {
+			filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+		}
+
+		// On récupère les localisation s'il y en a
+		categoriesIds = new ArrayList<>();
+		for (long localisation : localisations) {
+			if (localisation > 0) {
+				categoriesIds.add(localisation);
 			}
 		}
 		if (categoriesIds.size() > 0) {

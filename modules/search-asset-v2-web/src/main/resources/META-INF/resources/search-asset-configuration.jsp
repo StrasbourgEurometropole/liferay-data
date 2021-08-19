@@ -305,6 +305,9 @@
                         <aui:option value="ops-news" selected="${dc.configurationData.searchForm eq 'ops-news'}">
                             <liferay-ui:message key="ops-news" />
                         </aui:option>
+                        <aui:option value="help" selected="${dc.configurationData.searchForm eq 'help'}">
+                            <liferay-ui:message key="aide" />
+                        </aui:option>
                     </aui:select>
 
                 </aui:fieldset>
