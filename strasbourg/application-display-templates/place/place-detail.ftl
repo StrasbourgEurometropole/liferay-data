@@ -830,14 +830,19 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <#assign isIceRink = entry.isIceRink() />
                                 <#assign isMairie = entry.isMairie() />
                                 <#assign isParking = entry.isParking() />
+                                <#assign isVelhopStation = entry.isVelhopStation() />
                                 <#if isSwimmingPool || isIceRink >
                                     <h3><@liferay_ui.message key="live-frequentation" /></h3>
                                 <#else>
                                     <#if isMairie>
                                         <h3><@liferay_ui.message key="estimated-time" /></h3>
                                     <#else>
-                                        <#if isParking>
+                                        <#if isParking >
                                             <h3><@liferay_ui.message key="live-occupation" /></h3>
+                                        <#else>
+                                            <#if isVelhopStation >
+                                                <h3><@liferay_ui.message key="live-disponibility" /></h3>
+                                            </#if>
                                         </#if>
                                     </#if>
                                 </#if>
@@ -849,7 +854,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     <#if isSwimmingPool || isIceRink || isMairie>
                                         ${occupationState.occupationLabel}
                                     <#else>
-                                        <#if isParking>
+                                        <#if isParking || isVelhopStation >
                                             ${occupationState.available}
                                         </#if>
                                     </#if>
@@ -860,8 +865,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <#if isSwimmingPool || isIceRink || isMairie>
                                 <@liferay_ui.message key="${occupationState.label}" />
                             <#else>
-                                <#if isParking>
+                                <#if isParking >
                                     <@liferay_ui.message key="eu.place.available-spots" /> ${occupationState.available}
+                                <#else>
+                                    <#if isVelhopStation >
+                                        <@liferay_ui.message key="eu.place.available-velhop" /> ${occupationState.available}
+                                    </#if>
                                 </#if>
                             </#if>
                         </div>
