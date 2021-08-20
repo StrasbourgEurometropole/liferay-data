@@ -7,6 +7,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.portlet.mediatheque.constants.CodeErreurMediathequeConstants;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -59,28 +60,28 @@ public class MediathequeWebPortlet extends MVCPortlet {
 					request.setAttribute("error", "");
 				} else {
 					switch (borrower.getCode_erreur()) {
-					case "AUCUNE_ASSOCIATION":
+					case CodeErreurMediathequeConstants.AUCUNE_ASSOCIATION:
 						// Aucune association trouvée
 						template = "etape1";
 						break;
-					case "DELAI_DEPASSE":
+					case CodeErreurMediathequeConstants.DELAI_DEPASSE:
 						// le compte n'a pas été activé dans le temps imparti
 						template = "etape1";
 						break;
-					case "ASSOCIATION_A_VALIDER":
+					case CodeErreurMediathequeConstants.ASSOCIATION_A_VALIDER:
 						// si l'utilisateur n'a pas activé son lien
 						template = "etape2C";
 						break;
-					case "AUCUN_EMAIL":
+					case CodeErreurMediathequeConstants.AUCUN_EMAIL:
 						// son email n'est pas renseigné
 						template = "etape2B";
 						break;
-					case "AUCUNE_CARTE":
+					case CodeErreurMediathequeConstants.AUCUNE_CARTE:
 						// le numéro de carte n'existe pas
 						template = "etape1";
 						request.setAttribute("error", borrower.getErreur());
 						break;
-					case "ASSOCIATION_SUPPRIMEE":
+					case CodeErreurMediathequeConstants.ASSOCIATION_SUPPRIMEE:
 						// Une association a été supprimée
 						template = "etape1";
 						request.setAttribute("error", borrower.getErreur());

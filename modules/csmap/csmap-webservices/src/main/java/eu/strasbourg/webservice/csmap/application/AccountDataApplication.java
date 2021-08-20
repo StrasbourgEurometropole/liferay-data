@@ -106,7 +106,38 @@ public class AccountDataApplication extends Application {
         try {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
 
-            response = WSAccountData.sendRequest(publikUser.getPublikId());
+            response = WSAccountData.getMediatheque(publikUser.getPublikId());
+            int httpResponseCode = (int)response.get("responseCode");
+            String httpResponseMessage = (String)response.get("errorDescription");
+
+            if (httpResponseCode == 200) {
+                return WSResponseUtil.buildOkResponse(response);
+            }
+            if (httpResponseCode == 500 || httpResponseCode == 400) {
+                return WSResponseUtil.buildErrorResponse(httpResponseCode, httpResponseMessage);
+            }
+
+        } catch (NoJWTInHeaderException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(response);
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("get-resid")
+    public Response getResid(@Context HttpHeaders httpHeaders) {
+
+        JSONObject response = JSONFactoryUtil.createJSONObject();
+
+        try {
+            PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
+
+            response = WSAccountData.getResid(publikUser.getPublikId());
             int httpResponseCode = (int)response.get("responseCode");
             String httpResponseMessage = (String)response.get("errorDescription");
 

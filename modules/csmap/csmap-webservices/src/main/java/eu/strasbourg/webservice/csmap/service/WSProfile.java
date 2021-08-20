@@ -29,6 +29,7 @@ public class WSProfile {
         String url = buildUrl(publikUserId);
 
         // Construction de la requête
+        // Patch ne fonctionne pas avec URLConnection, il faut contourner et simuler un post
         allowMethods("PATCH");
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 
@@ -45,7 +46,6 @@ public class WSProfile {
         // Set toutes les Propriétés/méthodes pour notre appel HTTP
         connection.setRequestProperty("Authorization", "Basic " + encoded);
         connection.setDoOutput(true);
-        // Patch ne fonctionne pas avec URLConnection, il faut contourner et simuler un post
         connection.setRequestMethod("PATCH");
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         connection.setRequestProperty("charset", "utf-8");
