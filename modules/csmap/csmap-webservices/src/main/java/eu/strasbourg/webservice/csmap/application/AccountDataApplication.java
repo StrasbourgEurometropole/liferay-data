@@ -15,6 +15,7 @@ import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
 import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
 import eu.strasbourg.webservice.csmap.exception.NoSubInJWTException;
+import eu.strasbourg.webservice.csmap.service.WSAccountData;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
@@ -93,6 +94,37 @@ public class AccountDataApplication extends Application {
         }
 
         return WSResponseUtil.buildOkResponse(jsonProcedures);
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("get-mediatheque")
+    public Response getMediatheque(@Context HttpHeaders httpHeaders) {
+
+        JSONObject response = JSONFactoryUtil.createJSONObject();
+
+        try {
+            PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
+
+            response = WSAccountData.sendRequest(publikUser.getPublikId());
+            int httpResponseCode = (int)response.get("responseCode");
+            String httpResponseMessage = (String)response.get("errorDescription");
+
+            if (httpResponseCode == 200) {
+                return WSResponseUtil.buildOkResponse(response);
+            }
+            if (httpResponseCode == 500 || httpResponseCode == 400) {
+                return WSResponseUtil.buildErrorResponse(httpResponseCode, httpResponseMessage);
+            }
+
+        } catch (NoJWTInHeaderException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(response);
     }
 
     @Reference(unbind = "-")

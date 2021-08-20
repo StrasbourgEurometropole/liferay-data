@@ -39,7 +39,7 @@ public class MediathequeWebPortlet extends MVCPortlet {
 		MediathequeDisplayContext dc = new MediathequeDisplayContext(themeDisplay);
 		String publikInternalId = dc.getPublikID(request);
 
-		BorrowerResponse borrower = BorrowerWebService.getResponse(publikInternalId, request);
+		BorrowerResponse borrower = BorrowerWebService.getResponse(publikInternalId);
 		String template = "";
 
 		if (Validator.isNull(borrower)) {
