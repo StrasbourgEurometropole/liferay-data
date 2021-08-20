@@ -45,6 +45,7 @@ import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.place.MairieStateSOAPClient;
 import eu.strasbourg.service.place.ParkingStateClient;
 import eu.strasbourg.service.place.PoolStateSOAPClient;
+import eu.strasbourg.service.place.VelhopStateClient;
 import eu.strasbourg.service.place.exception.NoSuchPlaceException;
 import eu.strasbourg.service.place.model.CacheJson;
 import eu.strasbourg.service.place.model.Historic;
@@ -305,11 +306,14 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 					} else if (typeSigId.toLowerCase().contains("cat_06_04")){ // Patinoire
 						rtType = "4";
 						// System.out.println("Type 4");
+					} else if (typeSigId.toLowerCase().contains("cat_02_14")){ // Station Vélhop
+						rtType = "5";
+						// System.out.println("Type 4");
 					}
 				}
 			}
 
-			// On récupère les données temps réel
+			// On récupère les données temps réels
 			if (!place.getRTExternalId().equals("NO")) {
 				switch (place.getRTType()) {
 					case "1":
@@ -354,6 +358,20 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 							rtOccupation = iceRinkOccupation;
 						} catch (Exception ex) {
 							log.error("Can not update real time data for 'patinoire'");
+							rtOccupation = -1;
+						}
+						break;
+
+					case "5":
+						try {
+							JSONObject velhopData = VelhopStateClient.getOccupationState(place);
+							long capacity = Long.parseLong(velhopData.getString("to"));
+							long available = Long.parseLong(velhopData.getString("av"));
+							rtAvailable = available;
+							rtOccupation  = capacity - available;
+							rtCapacity = capacity;
+						} catch (Exception ex) {
+							log.error("Can not update real time data for 'station vélhop'");
 							rtOccupation = -1;
 						}
 						break;

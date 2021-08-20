@@ -3154,6 +3154,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		return _place.isSwimmingPool();
 	}
 
+	/**
+	 * Retourne true si le lieu est une station vélhop
+	 *
+	 * @return
+	 */
+	@Override
+	public boolean isVelhopStation() {
+		return _place.isVelhopStation();
+	}
+
 	@Override
 	public void persist() {
 		_place.persist();

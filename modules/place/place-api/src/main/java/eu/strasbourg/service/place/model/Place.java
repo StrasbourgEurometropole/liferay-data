@@ -296,6 +296,13 @@ public interface Place extends PersistedModel, PlaceModel {
 	public boolean isIceRink();
 
 	/**
+	 * Retourne true si le lieu est une station vélhop
+	 *
+	 * @return
+	 */
+	public boolean isVelhopStation();
+
+	/**
 	 * Retourne le temps réel (en gérant automatiquement le fait que ce soit une
 	 * piscine,une mairie ou un parking)
 	 *

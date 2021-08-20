@@ -390,4 +390,8 @@ public class StrasbourgPropsUtil {
 	public static String getOpenDataCities() {
 		return PropsUtil.get("eu.strasbourg.opendata.cities");
 	}
+
+	public static String getOpenDataVelhops() {
+		return PropsUtil.get("eu.strasbourg.opendata.velhops");
+	}
 }
