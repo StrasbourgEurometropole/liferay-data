@@ -1867,6 +1867,10 @@ public class PlaceImpl extends PlaceBaseImpl {
                 title = "occupation-real";
                 frequentation = occupation.getAvailable();
                 label = "available-spots";
+            } else if(this.isVelhopStation()){
+                title = "live-disponibility";
+                frequentation = occupation.getAvailable();
+                label = "eu.place.available-velhop";
             }
             JSONObject amountProperty = JSONFactoryUtil.createJSONObject();
             amountProperty.put("title", title);
