@@ -14,4 +14,5 @@ dependencies {
 	compileOnly project (':modules:csmap:csmap-api')
 	compileOnly project (':modules:mediatheque-web')
 	compileOnly project (':modules:resid-web')
+	compileOnly project (':modules:family-space-web')
 }

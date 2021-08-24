@@ -4,6 +4,10 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.portlet.familySpace.Family;
+import eu.strasbourg.portlet.familySpace.FamilySpaceResponse;
+import eu.strasbourg.portlet.familySpace.FamilySpaceWebService;
+import eu.strasbourg.portlet.familySpace.Person;
 import eu.strasbourg.portlet.mediatheque.borrower.BorrowerResponse;
 import eu.strasbourg.portlet.mediatheque.borrower.BorrowerWebService;
 import eu.strasbourg.portlet.mediatheque.borrower.Media;
@@ -239,6 +243,55 @@ public class WSAccountData {
     }
 
     /**
+     * Appelle le WS Famille et renvoie les familles
+     */
+    public static JSONObject getFamily(String publicUserId) {
+
+        JSONObject response = JSONFactoryUtil.createJSONObject();
+        FamilySpaceResponse familySpaceResponse = FamilySpaceWebService.getResponse(publicUserId);
+
+        if (Validator.isNull(familySpaceResponse)) {
+            response.put("responseCode", 500);
+            response.put("errorDescription", "Une erreur technique est survenue");
+            // TODO url
+            return response;
+        } else if (familySpaceResponse.getCodeRetour() == 1 || familySpaceResponse.getCount() == 0) {
+            response.put("responseCode", 500);
+            response.put("errorDescription", "Une erreur technique est survenue");
+            // TODO url
+            return response;
+        } else if (!familySpaceResponse.getFamilies().isEmpty()) {
+
+            List<Family> families = familySpaceResponse.getFamilies();
+            for (Family family : families) {
+                JSONObject familyJson = JSONFactoryUtil.createJSONObject();
+                familyJson.put("familyId", family.getIdFamily());
+                List<Person> persons = family.getPersons();
+
+                if (persons.isEmpty()) {
+                    familyJson.put("messageNoKids", "Aucun enfant n'est actuellement inscrit \u00e0 la cantine scolaire");
+                } else {
+                    JSONArray kidsJson = JSONFactoryUtil.createJSONArray();
+                    for (Person person : persons) {
+                        JSONObject personJson = JSONFactoryUtil.createJSONObject();
+                        personJson.put("firstname", person.getFirstName());
+                        personJson.put("lastname", person.getLastName());
+
+                        if (person.getHasLunchBooked()) {
+                            manageLunchPeriod(person, personJson);
+                        }
+                        kidsJson.put(personJson);
+                    }
+                    familyJson.put("kids", kidsJson);
+                }
+            }
+        }
+        // TODO url
+        response.put("responseCode", 200);
+        return response;
+    }
+
+    /**
      * Renvoie la liste des périodes des forfait pour un dossier
      */
     private static List<String> getListPeriodesForfaits(List<Forfait> forfaits) {
@@ -257,7 +310,7 @@ public class WSAccountData {
             } else {
                 Forfait pastForfait = forfaits.get(i - 1);
                 if (pastForfait.getDateFin().plusDays(1) == forfait.getDateDebut()) {
-                    periodesForfaits.remove(periodesForfaits.size() -1);
+                    periodesForfaits.remove(periodesForfaits.size() - 1);
                     dateFin = forfait.getDateDebut();
                     String perdiode = formatPeriode(pastForfait.getDateDebut(), dateFin);
                     periodesForfaits.add(perdiode);
@@ -283,6 +336,25 @@ public class WSAccountData {
         String dateFinString = dateFin.format(formatter);
         stringBuilder.append("Du ").append(dateDebutString).append(" au ").append(dateFinString);
 
-       return stringBuilder.toString();
+        return stringBuilder.toString();
+    }
+
+    /**
+     * Gère les lunchPeriod pour les familles
+     */
+    private static void manageLunchPeriod(Person person, JSONObject personJson) {
+
+        LocalDate firstBookingDate = person.getFirstBookingDate();
+        LocalDate lastBookingDate = person.getLastBookingDate();
+        String formattedFirstBookingDate = firstBookingDate.format(formatter);
+        String formattedLastBookingDate = lastBookingDate.format(formatter);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("R\u00e9serv\u00e9(s) \u00e0 partir du ").append(formattedFirstBookingDate).append(" jusqu'au ").append(formattedLastBookingDate);
+        personJson.put("lunchBookedPeriod", stringBuilder.toString());
+
+        if (LocalDate.now().plusDays(13).isAfter(lastBookingDate)) {
+            String warning = "Le dernier jour r\u00e9serv\u00e9 est le " + lastBookingDate + ", pensez \u00e0 r\u00e9server les repas de votre enfant le mercredi pr\u00e9c\u00e9dent le jour \u00e0 r\u00e9server.";
+            personJson.put("messageWarningLunchBooked", warning);
+        }
     }
 }

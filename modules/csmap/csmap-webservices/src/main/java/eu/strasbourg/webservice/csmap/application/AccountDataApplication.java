@@ -158,6 +158,37 @@ public class AccountDataApplication extends Application {
         return WSResponseUtil.buildOkResponse(response);
     }
 
+    @GET
+    @Produces("application/json")
+    @Path("get-family-space")
+    public Response getFamily(@Context HttpHeaders httpHeaders) {
+
+        JSONObject response = JSONFactoryUtil.createJSONObject();
+
+        try {
+            PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
+
+            response = WSAccountData.getFamily(publikUser.getPublikId());
+            int httpResponseCode = (int)response.get("responseCode");
+            String httpResponseMessage = (String)response.get("errorDescription");
+
+            if (httpResponseCode == 200) {
+                return WSResponseUtil.buildOkResponse(response);
+            }
+            if (httpResponseCode == 500 || httpResponseCode == 400) {
+                return WSResponseUtil.buildErrorResponse(httpResponseCode, httpResponseMessage);
+            }
+
+        } catch (NoJWTInHeaderException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(response);
+    }
+
     @Reference(unbind = "-")
     protected void setWSAuthenticator(WSAuthenticator authenticator) {
         this.authenticator = authenticator;
@@ -165,5 +196,4 @@ public class AccountDataApplication extends Application {
 
     @Reference
     protected WSAuthenticator authenticator;
-
 }

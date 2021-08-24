@@ -45,7 +45,7 @@ public class FamilySpaceWebPortlet extends MVCPortlet {
         String publikInternalId = dc.getPublikID(renderRequest);
         String template = "";
         try {
-            FamilySpaceResponse familySpace = FamilySpaceWebService.getResponse(publikInternalId, renderRequest);
+            FamilySpaceResponse familySpace = FamilySpaceWebService.getResponse(publikInternalId);
 
             if (Validator.isNull(familySpace)) {
                 // erreur technique
