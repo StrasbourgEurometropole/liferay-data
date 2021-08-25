@@ -53,7 +53,7 @@
 			font-family: Poppins;
 			text-transform: uppercase;
 			transition: all,.3s;
-			color: #000;
+			color: #33383A;
 			font-size: 2rem;
 			line-height: 3rem;
 			@include RWD(tablet){
@@ -68,7 +68,7 @@
 
 		&:hover, &:active, &:focus{
 			text-decoration: none;
-			border-color: #000;
+			border-color: #33383A;
 		}
 	}
 
@@ -212,9 +212,9 @@
 				bottom: 35px;
 
 				&:hover, &:active, &:focus{
-					color: #000;
+					color:#33383A;
 					background-color: #fff;
-					border: 1px solid #000;
+					border: 1px solid #33383A;
 				}
 			}
 		}
@@ -483,7 +483,7 @@
 		@include transition();
 
 		&:hover, &:active, &:focus{
-			@include scale(1.2);
+			@include scale(1.1);
 			@include box-shadow($left:0px, $top:3px, $blur:7px, $color:rgba(0,0,0,0.55));
 			text-decoration: none;
 		}
@@ -1153,6 +1153,7 @@
 		@include RWD(desktop){
 			&:hover, &:active, &:focus{
 				@include scale(1.18);
+				transition: all 0.3s;
 				z-index: 1;
 
 				.background{
