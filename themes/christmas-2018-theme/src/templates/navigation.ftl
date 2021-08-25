@@ -113,3 +113,11 @@
         </div>
     </div>
 </nav>
+
+<script>
+jQuery(function($) {
+    $('.dropdown > a').click(function(){
+        location.href = this.href;
+    });
+});
+</script>
