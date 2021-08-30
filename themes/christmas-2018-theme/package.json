@@ -1,6 +1,6 @@
 {
 	"devDependencies": {
-		"compass-mixins": "0.12.10",
+		"compass-mixins": "^0.12.10",
 		"gulp": "^3.9.1",
 		"del": "^2.2.1",
 		"gulp-autoprefixer": "latest",
@@ -29,7 +29,7 @@
 	},
 	"main": "package.json",
 	"name": "christmas-2018-theme",
-	"version": "1.0.0",
+	"version": "^1.0.0",
 	"dependencies": {
 		"del": "^3.0.0",
 		"gulp-remove-sourcemaps": "^1.0.0"

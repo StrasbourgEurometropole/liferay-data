@@ -14,7 +14,7 @@
 		"fontAwesome": false
 	},
 	"devDependencies": {
-		"compass-mixins": "0.12.10",
+		"compass-mixins": "^0.12.10",
 		"gulp": "^3.9.1",
 		"del": "^2.2.1",
 		"gulp-load-plugins": "^1.0.0-rc.1",
