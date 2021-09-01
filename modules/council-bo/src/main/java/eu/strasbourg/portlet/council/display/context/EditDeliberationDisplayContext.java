@@ -29,10 +29,10 @@ import java.util.stream.Collectors;
 
 public class EditDeliberationDisplayContext {
 
-    final static private String  POUR="Pour";
-    final static private String  CONTRE="Contre";
-    final static private String  ABSTENTION="Abstention";
-    final static private String  TOTAL = "Total des votes";
+    final static private String POUR="Pour";
+    final static private String CONTRE="Contre";
+    final static private String ABSTENTION="Abstention";
+    final static private String TOTAL = "Total des votes";
 
     private Deliberation deliberation;
     private final RenderRequest request;
@@ -218,6 +218,15 @@ public class EditDeliberationDisplayContext {
         } else {
             return null;
         }
+    }
+
+    public boolean isAdopteOrRejeteOrCommunique() {
+
+        if (deliberation != null) {
+            String deliberationStage = deliberation.getStage();
+            return deliberationStage.equals(StageDeliberation.ADOPTE.getName()) || deliberationStage.equals(StageDeliberation.REJETE.getName()) || deliberationStage.equals(StageDeliberation.COMMUNIQUE.getName());
+        }
+        return false;
     }
 
     public static String getPOUR() {

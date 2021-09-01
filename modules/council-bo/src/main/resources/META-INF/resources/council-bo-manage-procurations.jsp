@@ -20,6 +20,13 @@
         copyCurrentRenderParameters="false">
 </liferay-portlet:resourceURL>
 
+<%-- URL : definit le lien menant vers la page de listage de l'entite --%>
+<liferay-portlet:renderURL varImpl="editCouncilSessionURL">
+	<portlet:param name="councilSessionId"
+	    value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
+    <portlet:param name="mvcPath" value="/council-bo-edit-council-session.jsp" />
+</liferay-portlet:renderURL>
+
 <%-- Header --%>
 <div class="navbar navbar-default collapse-basic-search" id="iqzh">
 	<div class="container-fluid-1280">
@@ -197,7 +204,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper-${official.officialId}">
+                                    <div class="official-autocomplete-input-wrapper-procurations" id="official-autocomplete-input-wrapper-procurations-${official.officialId}">
                                         <aui:input cssClass="autocomplete-shown" label="" type="text"
                                             title="official-receiver" name="${official.officialId}-officialVoters"
                                             value="${officialVotersFullName}" disabled="true"/>
@@ -262,7 +269,7 @@
 			<aui:input type="hidden" name="workflowAction" value="" />
 
 			<%-- Composant : bouton de retour a la liste des entites --%>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${editCouncilSessionURL}" type="cancel" />
 
 		</aui:button-row>
 

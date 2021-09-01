@@ -10,12 +10,14 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.Validator_IW;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.constants.CouncilConstants;
 import eu.strasbourg.portlet.council.display.context.*;
 import eu.strasbourg.portlet.council.utils.UserRoleType;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Type;
+import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -83,6 +85,10 @@ public class CouncilBOPortlet extends MVCPortlet {
 		if (cmd.equals("editCouncilSession") || mvcPath.equals("/council-bo-edit-council-session.jsp")) {
 			EditCouncilSessionDisplayContext dc = new EditCouncilSessionDisplayContext(renderRequest);
 			renderRequest.setAttribute("dc", dc);
+			long councilSessionId = ParamUtil.getLong(renderRequest, "councilSessionId");
+			HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
+			HttpSession session = originalRequest.getSession();
+			session.setAttribute("councilSessionId", councilSessionId);
 		} else if (cmd.equals("editDeliberation") || mvcPath.equals("/council-bo-edit-deliberation.jsp")) {
 			EditDeliberationDisplayContext dc = new EditDeliberationDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
@@ -97,6 +103,21 @@ public class CouncilBOPortlet extends MVCPortlet {
 			renderRequest.setAttribute("dc", dc);
 		} else if (cmd.equals("manageProcurations") || mvcPath.equals("/council-bo-manage-procurations.jsp")) {
 			ManageProcurationsDisplayContext dc = new ManageProcurationsDisplayContext(renderRequest);
+			renderRequest.setAttribute("dc", dc);
+		} else if (cmd.equals("deliberations") || mvcPath.equals("/council-bo-view-deliberations.jsp")) {
+
+			HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
+			HttpSession session = originalRequest.getSession();
+			String categoryCouncilId = null;
+					
+			long councilSessionId = (long) session.getAttribute("councilSessionId");
+			CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
+			if (Validator.isNotNull(councilSession)) {
+				categoryCouncilId = getCategorieCouncilId(themeDisplay, councilSession);
+				session.setAttribute("categoryCouncilId", categoryCouncilId);
+			}
+
+			ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse, categoryCouncilId);
 			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("deliberations")) {
 			String sessionCategoryId = getCategoryIdSession(renderRequest, themeDisplay);

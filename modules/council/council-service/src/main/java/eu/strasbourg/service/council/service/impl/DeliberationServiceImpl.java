@@ -93,8 +93,8 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 
 				//Vérifie si l'élu est noté absent ou non pour le conseil
 				Procuration absenceProcuration = ProcurationLocalServiceUtil.findAbsenceForCouncilSession(todayCouncil.getCouncilSessionId(), officialId);
-				official.put("absent", absenceProcuration != null);
-				if (absenceProcuration != null) {
+				if (absenceProcuration != null && absenceProcuration.getEndHour() == null) {
+					official.put("absent", true);
 					Official officialVoters = OfficialLocalServiceUtil.fetchOfficial(absenceProcuration.getOfficialVotersId());
 					if (officialVoters != null) {
 						official.put("officialVoters", officialVoters.getFullName());
@@ -131,6 +131,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 
 						Vote voteFromUser = VoteLocalServiceUtil.findByDeliberationIdandOfficialId(delibVoteOuvert.getDeliberationId(), officialId);
 						List<Procuration> procurationsUserHave = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialVotersId(delibVoteOuvert.getCouncilSessionId(), officialId);
+						List<Procuration> procurationsUserHaveNotClosed = procurationsUserHave.stream().filter(p-> p.getEndHour() == null).collect(Collectors.toList());
 
 						List<Vote> votesFromDelib = VoteLocalServiceUtil.findByDeliberationId(delibVoteOuvert.getDeliberationId());
 						totalVotes.put("nbTotalVotes", votesFromDelib.size());
@@ -139,7 +140,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 						if (voteFromUser != null) {
 							official.put("vote", voteFromUser.getResult());
 						}
-						for (Procuration procuration : procurationsUserHave) {
+						for (Procuration procuration : procurationsUserHaveNotClosed) {
 							Vote voteAbsent = VoteLocalServiceUtil.findByDeliberationIdandOfficialId(delibVoteOuvert.getDeliberationId(), procuration.getOfficialUnavailableId());
 							Official officalUnavailable = OfficialLocalServiceUtil.fetchOfficial(procuration.getOfficialUnavailableId());
 							// On ajoute l'info JSON des procurations

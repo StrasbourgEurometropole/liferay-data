@@ -37,6 +37,7 @@
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="order-error" message="order-error" />
 	<liferay-ui:error key="council-session-error" message="council-session-error" />
+	<liferay-ui:error key="stage-deliberation-error" message="stage-deliberation-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveDeliberationURL}" method="post" name="fm" onSubmit="submitForm(event);">
@@ -55,21 +56,34 @@
                 <aui:input name="order" required="true" />
 
 			    <%-- Champ : Titre --%>
-                <aui:input type="textarea" name="title" required="true">
-                    <aui:validator name="maxLength">500</aui:validator>
-                </aui:input>
+			    <c:choose>
+                    <c:when test= "${dc.isAdopteOrRejeteOrCommunique()}">
+                        <aui:input type="textarea" name="title" required="true" cssClass="title" readonly="readonly">
+                            <aui:validator name="maxLength">500</aui:validator>
+                        </aui:input>
+                    </c:when>
+                    <c:otherwise>
+                        <aui:input type="textarea" name="title" required="true" cssClass="title">
+                            <aui:validator name="maxLength">500</aui:validator>
+                        </aui:input>
+                    </c:otherwise>
+                </c:choose>
 
 			    <%-- Champ : Session --%>
-                <aui:select name="councilSessionId" label="councilSession" required="true">
+                <aui:select name="councilSessionId" label="councilSession" required="true" id="selectorCouncil" disabled="${dc.isAdopteOrRejeteOrCommunique()}">
                     <c:forEach var="council" items="${dc.availableCouncilSessions}">
                         <aui:option value="${council.councilSessionId}"
                             label="${council.getTitle()}"
                             selected="${council.councilSessionId eq dc.deliberation.councilSessionId}" />
                     </c:forEach>
                 </aui:select>
+                <c:if test = "${dc.isAdopteOrRejeteOrCommunique()}">
+                    <aui:input type="hidden" name="councilSessionId" value="${dc.deliberation.councilSessionId}"/>
+                </c:if>
+
 
 			    <%-- Champ : Statut --%>
-                <aui:input name="stage" disabled="true" />
+                <aui:input name="stage" disabled="true"/>
 
 			</aui:fieldset>
 
@@ -227,4 +241,5 @@
             window.location = '${resetDeliberationURL}';
         }
     }
+
 </aui:script>

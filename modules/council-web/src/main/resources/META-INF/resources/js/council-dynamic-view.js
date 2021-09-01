@@ -162,7 +162,7 @@ function displayInfos(obj) {
                                 document.getElementById('pour').checked= true;
                             } else if (officialVote == "Contre") {
                                 document.getElementById('contre').checked= true;
-                            }else if (officialVote == "Pour") {
+                            }else if (officialVote == "Abstention") {
                                 document.getElementById('abstention').checked= true;
                             }
 
@@ -172,7 +172,7 @@ function displayInfos(obj) {
                                     document.getElementById('pour1').checked= true;
                                 } else if (procurationOneVote == "Contre") {
                                     document.getElementById('contre1').checked= true;
-                                }else if (procurationOneVote == "Pour") {
+                                }else if (procurationOneVote == "Abstention") {
                                     document.getElementById('abstention1').checked= true;
                                 }
                             }
@@ -183,7 +183,7 @@ function displayInfos(obj) {
                                     document.getElementById('pour2').checked= true;
                                 } else if (procurationTwoVote == "Contre") {
                                     document.getElementById('contre2').checked= true;
-                                }else if (procurationTwoVote == "Pour") {
+                                }else if (procurationTwoVote == "Abstention") {
                                     document.getElementById('abstention2').checked= true;
                                 }
                             }

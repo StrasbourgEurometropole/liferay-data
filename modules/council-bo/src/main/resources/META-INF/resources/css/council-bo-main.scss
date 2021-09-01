@@ -189,7 +189,7 @@
     display: none;
 }
 
-.inputMode, .selectMode, .autocomplete-shown, .official-autocomplete-input-wrapper{
+.inputMode, .selectMode, .autocomplete-shown, .official-autocomplete-input-wrapper-procurations{
     padding: 10px;
     label {
         display: none;
@@ -293,4 +293,19 @@ button:focus {
 
 .closeAllIcon {
     margin-right: 4px;
+}
+
+.import {
+    padding: 20px;
+}
+
+.form-group .form-control[readonly] {
+    background-color: #F1F2F5;
+    border-color: #F1F2F5;
+    color: #A7A9BC;
+    cursor: not-allowed;
+}
+
+.exportProcurations {
+    margin-top: 15px;
 }
