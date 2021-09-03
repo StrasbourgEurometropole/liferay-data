@@ -588,7 +588,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	 * @throws IOException 
 	 */
 	@Override
-	public boolean doImport() throws IOException {
+	public boolean doImport() throws Exception {
 		AgendaImporter agendaImporter = new AgendaImporter();
 		agendaImporter.doImport();
 		return true;

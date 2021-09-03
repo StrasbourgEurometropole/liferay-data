@@ -33,6 +33,7 @@ import eu.strasbourg.service.agenda.model.ImportReport;
 import eu.strasbourg.service.agenda.model.ImportReportLine;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.*;
+import eu.strasbourg.service.opendata.geo.address.OpenDataGeoAddressService;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -40,6 +41,7 @@ import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -75,6 +77,14 @@ public class AgendaImporter {
 	private List<AssetVocabulary> eventVocabularies;
 	private ResourceBundle bundle = ResourceBundleUtil
 		.getBundle("content.ImportErrors", this.getClass().getClassLoader());
+
+	private OpenDataGeoAddressService _openDataGeoAddressService;
+
+	@Reference(unbind = "-")
+	protected void setOpenDataGeoAddressService(OpenDataGeoAddressService openDataGeoAddressService) {
+
+		_openDataGeoAddressService = openDataGeoAddressService;
+	}
 
 	public AgendaImporter() {
 		try {
@@ -157,7 +167,7 @@ public class AgendaImporter {
 		return null;
 	}
 
-	public boolean doImport() throws IOException {
+	public boolean doImport() throws Exception {
 		// On prépare le rapport, l'objet JSON et le répertoire qui
 		// contient les fichiers à importer
 		_log.info("Start import");
@@ -670,7 +680,7 @@ public class AgendaImporter {
 	}
 
 	private ImportReportLine importEvent(JSONObject jsonEvent,
-		String provider) throws IOException {
+		String provider) throws Exception {
 		ImportReportLine reportLine;
 		try {
 			reportLine = ImportReportLineLocalServiceUtil
@@ -1053,13 +1063,29 @@ public class AgendaImporter {
 						}
 					}
 					sc.setAssetCategoryIds(newCategories);
+
+					// Récupération des coordonées X et Y
+					event.setMercatorX(place.getMercatorX());
+					event.setMercatorY(place.getMercatorY());
+
 				} else {
 					JSONObject jsonPlace = jsonEvent.getJSONObject("place");
-					event.setPlaceStreetNumber(jsonPlace.getString("streetNumber"));
-					event.setPlaceStreetName(jsonPlace.getString("streetName"));
-					event.setPlaceCity(jsonPlace.getString("city"));
+					String placeStreetNumber = jsonPlace.getString("streetNumber");
+					String placeStreetName = jsonPlace.getString("streetName");
+					String placeCity = jsonPlace.getString("city");
+					String placeZipCode = jsonPlace.getString("zipCode");
+
+					event.setPlaceStreetNumber(placeStreetNumber);
+					event.setPlaceStreetName(placeStreetName);
+					event.setPlaceCity(placeCity);
 					event.setPlaceCountry(jsonPlace.getString("country"));
-					event.setPlaceZipCode(jsonPlace.getString("zipCode"));
+					event.setPlaceZipCode(placeZipCode);
+
+					// Récupération des coordonées X et Y
+					String address = placeStreetNumber + " " + placeStreetName;
+					JSONArray coordinateForAddress = _openDataGeoAddressService.getCoordinateForAddress(address, placeZipCode, placeCity);
+					event.setMercatorX(coordinateForAddress.get(0).toString());
+					event.setMercatorY(coordinateForAddress.get(1).toString());
 
 					JSONObject jsonPlaceName = jsonPlace.getJSONObject("name");
 					JSONObject jsonPlaceAccess = jsonPlace.getJSONObject("access");

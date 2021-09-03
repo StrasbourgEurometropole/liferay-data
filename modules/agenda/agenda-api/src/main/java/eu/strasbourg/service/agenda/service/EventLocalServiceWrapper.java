@@ -190,7 +190,7 @@ public class EventLocalServiceWrapper
 	 * @throws IOException
 	 */
 	@Override
-	public boolean doImport() throws java.io.IOException {
+	public boolean doImport() throws Exception {
 		return _eventLocalService.doImport();
 	}
 

@@ -179,6 +179,8 @@
 		<property name="placeZipCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="placeCity" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="placeCountry" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mercatorX" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mercatorY" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="access_" name="access" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="accessForDisabled" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="accessForBlind" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />

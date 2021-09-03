@@ -85,6 +85,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("placeZipCode", getPlaceZipCode());
 		attributes.put("placeCity", getPlaceCity());
 		attributes.put("placeCountry", getPlaceCountry());
+		attributes.put("mercatorX", getMercatorX());
+		attributes.put("mercatorY", getMercatorY());
 		attributes.put("access", getAccess());
 		attributes.put("accessForDisabled", getAccessForDisabled());
 		attributes.put("accessForBlind", getAccessForBlind());
@@ -285,6 +287,18 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 
 		if (placeCountry != null) {
 			setPlaceCountry(placeCountry);
+		}
+
+		String mercatorX = (String)attributes.get("mercatorX");
+
+		if (mercatorX != null) {
+			setMercatorX(mercatorX);
+		}
+
+		String mercatorY = (String)attributes.get("mercatorY");
+
+		if (mercatorY != null) {
+			setMercatorY(mercatorY);
 		}
 
 		String access = (String)attributes.get("access");
@@ -1344,7 +1358,9 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	 * Retourne les coordonnees mercator en axe X (longitude)
+	 * Returns the mercator x of this event.
+	 *
+	 * @return the mercator x of this event
 	 */
 	@Override
 	public String getMercatorX() {
@@ -1352,7 +1368,9 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	 * Retourne les coordonnees mercator en axe Y (latitude)
+	 * Returns the mercator y of this event.
+	 *
+	 * @return the mercator y of this event
 	 */
 	@Override
 	public String getMercatorY() {
@@ -3143,6 +3161,26 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setMaxGauge(long maxGauge) {
 		_event.setMaxGauge(maxGauge);
+	}
+
+	/**
+	 * Sets the mercator x of this event.
+	 *
+	 * @param mercatorX the mercator x of this event
+	 */
+	@Override
+	public void setMercatorX(String mercatorX) {
+		_event.setMercatorX(mercatorX);
+	}
+
+	/**
+	 * Sets the mercator y of this event.
+	 *
+	 * @param mercatorY the mercator y of this event
+	 */
+	@Override
+	public void setMercatorY(String mercatorY) {
+		_event.setMercatorY(mercatorY);
 	}
 
 	/**

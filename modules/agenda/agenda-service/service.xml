@@ -44,6 +44,8 @@
         <column name="placeZipCode" type="String" />
         <column name="placeCity" type="String" />
         <column name="placeCountry" type="String" />
+		<column name="mercatorX" type="String" />
+		<column name="mercatorY" type="String" />
 
 		<!-- Accès -->
 		<column name="access" type="String" localized="true" />

@@ -154,6 +154,8 @@ create table agenda_Event (
 	placeZipCode VARCHAR(75) null,
 	placeCity VARCHAR(75) null,
 	placeCountry VARCHAR(75) null,
+	mercatorX VARCHAR(75) null,
+	mercatorY VARCHAR(75) null,
 	access_ TEXT null,
 	accessForDisabled TEXT null,
 	accessForBlind BOOLEAN,
