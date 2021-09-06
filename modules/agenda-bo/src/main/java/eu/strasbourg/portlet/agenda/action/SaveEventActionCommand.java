@@ -201,8 +201,10 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				// Récupération des coordonées X et Y
 				String address = placeStreetNumber + " " + placeStreetName;
 				JSONArray coordinateForAddress = _openDataGeoAddressService.getCoordinateForAddress(address, placeZipCode, placeCity);
-				event.setMercatorX(coordinateForAddress.get(0).toString());
-				event.setMercatorY(coordinateForAddress.get(1).toString());
+				if (coordinateForAddress.length() == 2) {
+					event.setMercatorX(coordinateForAddress.get(0).toString());
+					event.setMercatorY(coordinateForAddress.get(1).toString());
+				}
 			}
 
 			Map<Locale, String> access = LocalizationUtil
