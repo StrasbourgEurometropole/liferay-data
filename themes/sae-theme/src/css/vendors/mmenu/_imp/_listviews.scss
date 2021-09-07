@@ -80,7 +80,9 @@
 			span {
 				margin: auto 0;
 
-				.mm-listview{			
+				.mm-listview{	
+					display: flex !important;
+							
 					> li{
 						display: inline-block;
 			
