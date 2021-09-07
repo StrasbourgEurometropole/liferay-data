@@ -27,6 +27,30 @@
             "required": false,
             "showLabel": true,
             "type": "ddm-image"
+        },
+        {
+            "label": {
+                "fr_FR": "background-video"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "document-library",
+            "fieldNamespace": "ddm",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "backgroundvideo",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-documentlibrary"
         }
     ]
 }
