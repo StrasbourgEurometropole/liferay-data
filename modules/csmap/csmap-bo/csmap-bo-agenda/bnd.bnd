@@ -1,0 +1,4 @@
+Bundle-Name: csmap-bo-agenda
+Bundle-SymbolicName: eu.strasbourg.portlet.agenda.csmap
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.agenda.csmap.constants

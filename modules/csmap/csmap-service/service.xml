@@ -29,4 +29,14 @@
 
 	</entity>
 
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="PlaceCategories" uuid="true">
+		<!-- PK fields -->
+		<column name="placeCategoriesId" primary="true" type="long" />
+		<column name="categoriesIds" type="String" />
+		<!-- Finder methods -->
+		<finder name="CategoriesIds" return-type="Place_Categories">
+			<finder-column name="categoriesIds" />
+		</finder>
+	</entity>
+
 </service-builder>
