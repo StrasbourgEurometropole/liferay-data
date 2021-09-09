@@ -22,6 +22,7 @@ import javax.portlet.RenderRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class EditOfferDisplayContext {
 
@@ -297,6 +298,32 @@ public class EditOfferDisplayContext {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public List<Long> getFamilyCategories() {
+
+        List<Long> idCategories = new ArrayList<>();
+        Offer offer = this.getOffer();
+        if (offer == null) {
+            return idCategories;
+        }
+
+        List<AssetCategory> categoriesString = offer.getCategories();
+        if( categoriesString == null) {
+            return idCategories;
+        }
+
+        List<Long> allCategoriesId = new ArrayList<>();
+        for (AssetCategory asset : categoriesString) {
+            long categoryId = asset.getCategoryId();
+            allCategoriesId.add(categoryId);
+        }
+
+        List<AssetCategory> familles = getFamilles();
+        List<Long> idFamilles = familles.stream().map(AssetCategory::getCategoryId).collect(Collectors.toList());
+        allCategoriesId.retainAll(idFamilles);
+
+        return allCategoriesId;
     }
 
 }
