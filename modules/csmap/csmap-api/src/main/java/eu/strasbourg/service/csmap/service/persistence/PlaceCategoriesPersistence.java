@@ -186,51 +186,6 @@ public interface PlaceCategoriesPersistence
 	public int countByUuid(String uuid);
 
 	/**
-	 * Returns the place categories where categoriesIds = &#63; or throws a <code>NoSuchPlaceCategoriesException</code> if it could not be found.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @return the matching place categories
-	 * @throws NoSuchPlaceCategoriesException if a matching place categories could not be found
-	 */
-	public PlaceCategories findByCategoriesIds(String categoriesIds)
-		throws NoSuchPlaceCategoriesException;
-
-	/**
-	 * Returns the place categories where categoriesIds = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @return the matching place categories, or <code>null</code> if a matching place categories could not be found
-	 */
-	public PlaceCategories fetchByCategoriesIds(String categoriesIds);
-
-	/**
-	 * Returns the place categories where categoriesIds = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the matching place categories, or <code>null</code> if a matching place categories could not be found
-	 */
-	public PlaceCategories fetchByCategoriesIds(
-		String categoriesIds, boolean retrieveFromCache);
-
-	/**
-	 * Removes the place categories where categoriesIds = &#63; from the database.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @return the place categories that was removed
-	 */
-	public PlaceCategories removeByCategoriesIds(String categoriesIds)
-		throws NoSuchPlaceCategoriesException;
-
-	/**
-	 * Returns the number of place categorieses where categoriesIds = &#63;.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @return the number of matching place categorieses
-	 */
-	public int countByCategoriesIds(String categoriesIds);
-
-	/**
 	 * Caches the place categories in the entity cache if it is enabled.
 	 *
 	 * @param placeCategories the place categories

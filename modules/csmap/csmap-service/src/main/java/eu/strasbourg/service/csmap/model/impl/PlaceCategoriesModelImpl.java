@@ -98,11 +98,9 @@ public class PlaceCategoriesModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CATEGORIESIDS_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long UUID_COLUMN_BITMASK = 2L;
-
-	public static final long PLACECATEGORIESID_COLUMN_BITMASK = 4L;
+	public static final long PLACECATEGORIESID_COLUMN_BITMASK = 2L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -308,17 +306,7 @@ public class PlaceCategoriesModelImpl
 
 	@Override
 	public void setCategoriesIds(String categoriesIds) {
-		_columnBitmask |= CATEGORIESIDS_COLUMN_BITMASK;
-
-		if (_originalCategoriesIds == null) {
-			_originalCategoriesIds = _categoriesIds;
-		}
-
 		_categoriesIds = categoriesIds;
-	}
-
-	public String getOriginalCategoriesIds() {
-		return GetterUtil.getString(_originalCategoriesIds);
 	}
 
 	public long getColumnBitmask() {
@@ -418,9 +406,6 @@ public class PlaceCategoriesModelImpl
 		PlaceCategoriesModelImpl placeCategoriesModelImpl = this;
 
 		placeCategoriesModelImpl._originalUuid = placeCategoriesModelImpl._uuid;
-
-		placeCategoriesModelImpl._originalCategoriesIds =
-			placeCategoriesModelImpl._categoriesIds;
 
 		placeCategoriesModelImpl._columnBitmask = 0;
 	}
@@ -523,7 +508,6 @@ public class PlaceCategoriesModelImpl
 	private String _originalUuid;
 	private long _placeCategoriesId;
 	private String _categoriesIds;
-	private String _originalCategoriesIds;
 	private long _columnBitmask;
 	private PlaceCategories _escapedModel;
 

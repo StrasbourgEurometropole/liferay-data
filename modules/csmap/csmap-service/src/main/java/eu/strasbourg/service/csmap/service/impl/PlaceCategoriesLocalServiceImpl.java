@@ -63,7 +63,7 @@ public class PlaceCategoriesLocalServiceImpl
 	}
 	@Override
 	public PlaceCategories getPlaceCategories() {
-		List<PlaceCategories> allPlaceCategories = PlaceCategoriesLocalServiceUtil.getPlaceCategorieses(-1,-1);
+		List<PlaceCategories> allPlaceCategories = this.placeCategoriesLocalService.getPlaceCategorieses(-1,-1);
 		if(allPlaceCategories.isEmpty()){
 			return null;
 		} else {

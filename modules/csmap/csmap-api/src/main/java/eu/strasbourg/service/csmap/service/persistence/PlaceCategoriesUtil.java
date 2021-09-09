@@ -294,67 +294,6 @@ public class PlaceCategoriesUtil {
 	}
 
 	/**
-	 * Returns the place categories where categoriesIds = &#63; or throws a <code>NoSuchPlaceCategoriesException</code> if it could not be found.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @return the matching place categories
-	 * @throws NoSuchPlaceCategoriesException if a matching place categories could not be found
-	 */
-	public static PlaceCategories findByCategoriesIds(String categoriesIds)
-		throws eu.strasbourg.service.csmap.exception.
-			NoSuchPlaceCategoriesException {
-
-		return getPersistence().findByCategoriesIds(categoriesIds);
-	}
-
-	/**
-	 * Returns the place categories where categoriesIds = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @return the matching place categories, or <code>null</code> if a matching place categories could not be found
-	 */
-	public static PlaceCategories fetchByCategoriesIds(String categoriesIds) {
-		return getPersistence().fetchByCategoriesIds(categoriesIds);
-	}
-
-	/**
-	 * Returns the place categories where categoriesIds = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the matching place categories, or <code>null</code> if a matching place categories could not be found
-	 */
-	public static PlaceCategories fetchByCategoriesIds(
-		String categoriesIds, boolean retrieveFromCache) {
-
-		return getPersistence().fetchByCategoriesIds(
-			categoriesIds, retrieveFromCache);
-	}
-
-	/**
-	 * Removes the place categories where categoriesIds = &#63; from the database.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @return the place categories that was removed
-	 */
-	public static PlaceCategories removeByCategoriesIds(String categoriesIds)
-		throws eu.strasbourg.service.csmap.exception.
-			NoSuchPlaceCategoriesException {
-
-		return getPersistence().removeByCategoriesIds(categoriesIds);
-	}
-
-	/**
-	 * Returns the number of place categorieses where categoriesIds = &#63;.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @return the number of matching place categorieses
-	 */
-	public static int countByCategoriesIds(String categoriesIds) {
-		return getPersistence().countByCategoriesIds(categoriesIds);
-	}
-
-	/**
 	 * Caches the place categories in the entity cache if it is enabled.
 	 *
 	 * @param placeCategories the place categories

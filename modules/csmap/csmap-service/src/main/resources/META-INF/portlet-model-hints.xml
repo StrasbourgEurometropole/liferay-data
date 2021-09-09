@@ -1,6 +1,34 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="eu.strasbourg.service.csmap.model.Agenda">
+		<field name="uuid" type="String" />
+		<field name="agendaId" type="long" />
+		<field name="title" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="editorialTitle" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="subtitle" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="imageId" type="Long" />
+		<field name="isPrincipal" type="Boolean" />
+		<field name="isActive" type="Boolean" />
+		<field name="campaignsIds" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="themesIds" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="typesIds" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="tags" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+	</model>
 	<model name="eu.strasbourg.service.csmap.model.PlaceCategories">
 		<field name="uuid" type="String" />
 		<field name="placeCategoriesId" type="long" />

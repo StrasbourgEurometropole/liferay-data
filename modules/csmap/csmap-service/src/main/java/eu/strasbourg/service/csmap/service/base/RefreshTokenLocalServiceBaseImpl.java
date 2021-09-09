@@ -39,6 +39,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.service.RefreshTokenLocalService;
+import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
 import eu.strasbourg.service.csmap.service.persistence.PlaceCategoriesPersistence;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
 
@@ -384,6 +385,9 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 			throw new SystemException(e);
 		}
 	}
+
+	@Reference
+	protected AgendaPersistence agendaPersistence;
 
 	@Reference
 	protected PlaceCategoriesPersistence placeCategoriesPersistence;

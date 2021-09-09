@@ -6,6 +6,9 @@ dependencies {
 	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 	compileOnly group: "jstl", name: "jstl"
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+
+	compile project (':modules:agenda:agenda-api')
+	compile project (':modules:csmap:csmap-api')
 	compile project (':modules:utils')
 	compile project (':modules:csmap:csmap-bo:csmap-bo-panel-category')
 }

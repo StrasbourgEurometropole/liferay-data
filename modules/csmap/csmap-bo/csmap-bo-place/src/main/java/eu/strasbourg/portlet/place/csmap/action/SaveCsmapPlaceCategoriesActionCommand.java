@@ -31,7 +31,7 @@ public class SaveCsmapPlaceCategoriesActionCommand extends BaseMVCActionCommand 
                 placeCategories = _placeCategoriesLocalService.createPlaceCategories(placeCategoriesId);
             }
         } else {
-            placeCategories = PlaceCategoriesLocalServiceUtil.createPlaceCategories();
+            placeCategories = _placeCategoriesLocalService.createPlaceCategories();
         }
 
         int vocabularyNumber = ParamUtil.getInteger(request, "vocabulary_number");

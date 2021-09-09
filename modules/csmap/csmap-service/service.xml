@@ -33,9 +33,25 @@
 		<!-- PK fields -->
 		<column name="placeCategoriesId" primary="true" type="long" />
 		<column name="categoriesIds" type="String" />
+	</entity>
+
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="Agenda" uuid="true">
+		<!-- PK fields -->
+		<column name="agendaId" primary="true" type="long" />
+		<column name="title" type="String" />
+		<column name="editorialTitle" type="String" />
+		<column name="subtitle" type="String" />
+		<column name="imageId" type="Long" />
+		<column name="isPrincipal" type="Boolean" />
+		<column name="isActive" type="Boolean" />
+		<column name="campaignsIds" type="String" />
+		<column name="themesIds" type="String" />
+		<column name="typesIds" type="String" />
+		<column name="tags" type="String" />
 		<!-- Finder methods -->
-		<finder name="CategoriesIds" return-type="Place_Categories">
-			<finder-column name="categoriesIds" />
+		<finder name="IsPrincipalAndIsActive" return-type="Collection">
+			<finder-column name="isPrincipal" />
+			<finder-column name="isActive" />
 		</finder>
 	</entity>
 

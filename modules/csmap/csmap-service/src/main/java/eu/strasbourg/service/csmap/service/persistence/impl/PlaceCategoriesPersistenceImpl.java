@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
@@ -639,245 +638,6 @@ public class PlaceCategoriesPersistenceImpl
 	private static final String _FINDER_COLUMN_UUID_UUID_3 =
 		"(placeCategories.uuid IS NULL OR placeCategories.uuid = '')";
 
-	private FinderPath _finderPathFetchByCategoriesIds;
-	private FinderPath _finderPathCountByCategoriesIds;
-
-	/**
-	 * Returns the place categories where categoriesIds = &#63; or throws a <code>NoSuchPlaceCategoriesException</code> if it could not be found.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @return the matching place categories
-	 * @throws NoSuchPlaceCategoriesException if a matching place categories could not be found
-	 */
-	@Override
-	public PlaceCategories findByCategoriesIds(String categoriesIds)
-		throws NoSuchPlaceCategoriesException {
-
-		PlaceCategories placeCategories = fetchByCategoriesIds(categoriesIds);
-
-		if (placeCategories == null) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("categoriesIds=");
-			msg.append(categoriesIds);
-
-			msg.append("}");
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(msg.toString());
-			}
-
-			throw new NoSuchPlaceCategoriesException(msg.toString());
-		}
-
-		return placeCategories;
-	}
-
-	/**
-	 * Returns the place categories where categoriesIds = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @return the matching place categories, or <code>null</code> if a matching place categories could not be found
-	 */
-	@Override
-	public PlaceCategories fetchByCategoriesIds(String categoriesIds) {
-		return fetchByCategoriesIds(categoriesIds, true);
-	}
-
-	/**
-	 * Returns the place categories where categoriesIds = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the matching place categories, or <code>null</code> if a matching place categories could not be found
-	 */
-	@Override
-	public PlaceCategories fetchByCategoriesIds(
-		String categoriesIds, boolean retrieveFromCache) {
-
-		categoriesIds = Objects.toString(categoriesIds, "");
-
-		Object[] finderArgs = new Object[] {categoriesIds};
-
-		Object result = null;
-
-		if (retrieveFromCache) {
-			result = finderCache.getResult(
-				_finderPathFetchByCategoriesIds, finderArgs, this);
-		}
-
-		if (result instanceof PlaceCategories) {
-			PlaceCategories placeCategories = (PlaceCategories)result;
-
-			if (!Objects.equals(
-					categoriesIds, placeCategories.getCategoriesIds())) {
-
-				result = null;
-			}
-		}
-
-		if (result == null) {
-			StringBundler query = new StringBundler(3);
-
-			query.append(_SQL_SELECT_PLACECATEGORIES_WHERE);
-
-			boolean bindCategoriesIds = false;
-
-			if (categoriesIds.isEmpty()) {
-				query.append(_FINDER_COLUMN_CATEGORIESIDS_CATEGORIESIDS_3);
-			}
-			else {
-				bindCategoriesIds = true;
-
-				query.append(_FINDER_COLUMN_CATEGORIESIDS_CATEGORIESIDS_2);
-			}
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				if (bindCategoriesIds) {
-					qPos.add(categoriesIds);
-				}
-
-				List<PlaceCategories> list = q.list();
-
-				if (list.isEmpty()) {
-					finderCache.putResult(
-						_finderPathFetchByCategoriesIds, finderArgs, list);
-				}
-				else {
-					if (list.size() > 1) {
-						Collections.sort(list, Collections.reverseOrder());
-
-						if (_log.isWarnEnabled()) {
-							_log.warn(
-								"PlaceCategoriesPersistenceImpl.fetchByCategoriesIds(String, boolean) with parameters (" +
-									StringUtil.merge(finderArgs) +
-										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
-						}
-					}
-
-					PlaceCategories placeCategories = list.get(0);
-
-					result = placeCategories;
-
-					cacheResult(placeCategories);
-				}
-			}
-			catch (Exception e) {
-				finderCache.removeResult(
-					_finderPathFetchByCategoriesIds, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		if (result instanceof List<?>) {
-			return null;
-		}
-		else {
-			return (PlaceCategories)result;
-		}
-	}
-
-	/**
-	 * Removes the place categories where categoriesIds = &#63; from the database.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @return the place categories that was removed
-	 */
-	@Override
-	public PlaceCategories removeByCategoriesIds(String categoriesIds)
-		throws NoSuchPlaceCategoriesException {
-
-		PlaceCategories placeCategories = findByCategoriesIds(categoriesIds);
-
-		return remove(placeCategories);
-	}
-
-	/**
-	 * Returns the number of place categorieses where categoriesIds = &#63;.
-	 *
-	 * @param categoriesIds the categories IDs
-	 * @return the number of matching place categorieses
-	 */
-	@Override
-	public int countByCategoriesIds(String categoriesIds) {
-		categoriesIds = Objects.toString(categoriesIds, "");
-
-		FinderPath finderPath = _finderPathCountByCategoriesIds;
-
-		Object[] finderArgs = new Object[] {categoriesIds};
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler query = new StringBundler(2);
-
-			query.append(_SQL_COUNT_PLACECATEGORIES_WHERE);
-
-			boolean bindCategoriesIds = false;
-
-			if (categoriesIds.isEmpty()) {
-				query.append(_FINDER_COLUMN_CATEGORIESIDS_CATEGORIESIDS_3);
-			}
-			else {
-				bindCategoriesIds = true;
-
-				query.append(_FINDER_COLUMN_CATEGORIESIDS_CATEGORIESIDS_2);
-			}
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				if (bindCategoriesIds) {
-					qPos.add(categoriesIds);
-				}
-
-				count = (Long)q.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String _FINDER_COLUMN_CATEGORIESIDS_CATEGORIESIDS_2 =
-		"placeCategories.categoriesIds = ?";
-
-	private static final String _FINDER_COLUMN_CATEGORIESIDS_CATEGORIESIDS_3 =
-		"(placeCategories.categoriesIds IS NULL OR placeCategories.categoriesIds = '')";
-
 	public PlaceCategoriesPersistenceImpl() {
 		setModelClass(PlaceCategories.class);
 
@@ -901,10 +661,6 @@ public class PlaceCategoriesPersistenceImpl
 		entityCache.putResult(
 			entityCacheEnabled, PlaceCategoriesImpl.class,
 			placeCategories.getPrimaryKey(), placeCategories);
-
-		finderCache.putResult(
-			_finderPathFetchByCategoriesIds,
-			new Object[] {placeCategories.getCategoriesIds()}, placeCategories);
 
 		placeCategories.resetOriginalValues();
 	}
@@ -960,9 +716,6 @@ public class PlaceCategoriesPersistenceImpl
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(PlaceCategoriesModelImpl)placeCategories, true);
 	}
 
 	@Override
@@ -974,48 +727,6 @@ public class PlaceCategoriesPersistenceImpl
 			entityCache.removeResult(
 				entityCacheEnabled, PlaceCategoriesImpl.class,
 				placeCategories.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(PlaceCategoriesModelImpl)placeCategories, true);
-		}
-	}
-
-	protected void cacheUniqueFindersCache(
-		PlaceCategoriesModelImpl placeCategoriesModelImpl) {
-
-		Object[] args = new Object[] {
-			placeCategoriesModelImpl.getCategoriesIds()
-		};
-
-		finderCache.putResult(
-			_finderPathCountByCategoriesIds, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByCategoriesIds, args, placeCategoriesModelImpl,
-			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		PlaceCategoriesModelImpl placeCategoriesModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				placeCategoriesModelImpl.getCategoriesIds()
-			};
-
-			finderCache.removeResult(_finderPathCountByCategoriesIds, args);
-			finderCache.removeResult(_finderPathFetchByCategoriesIds, args);
-		}
-
-		if ((placeCategoriesModelImpl.getColumnBitmask() &
-			 _finderPathFetchByCategoriesIds.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				placeCategoriesModelImpl.getOriginalCategoriesIds()
-			};
-
-			finderCache.removeResult(_finderPathCountByCategoriesIds, args);
-			finderCache.removeResult(_finderPathFetchByCategoriesIds, args);
 		}
 	}
 
@@ -1217,9 +928,6 @@ public class PlaceCategoriesPersistenceImpl
 		entityCache.putResult(
 			entityCacheEnabled, PlaceCategoriesImpl.class,
 			placeCategories.getPrimaryKey(), placeCategories, false);
-
-		clearUniqueFindersCache(placeCategoriesModelImpl, false);
-		cacheUniqueFindersCache(placeCategoriesModelImpl);
 
 		placeCategories.resetOriginalValues();
 
@@ -1536,17 +1244,6 @@ public class PlaceCategoriesPersistenceImpl
 		_finderPathCountByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
-
-		_finderPathFetchByCategoriesIds = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, PlaceCategoriesImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByCategoriesIds",
-			new String[] {String.class.getName()},
-			PlaceCategoriesModelImpl.CATEGORIESIDS_COLUMN_BITMASK);
-
-		_finderPathCountByCategoriesIds = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCategoriesIds",
 			new String[] {String.class.getName()});
 	}
 
