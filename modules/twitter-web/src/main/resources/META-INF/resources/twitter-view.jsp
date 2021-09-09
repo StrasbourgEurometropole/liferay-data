@@ -5,7 +5,7 @@
 		<liferay-ui:message key="no-config" />
 	</c:when>
 	<c:otherwise>
-		<section id="twitter" style="background-image:url(/o/sae-theme/images/background/bg_twitter.png);">
+		<section id="twitter" style="background-image:url(/o/sae-theme/images/background/bg_twitter.jpg);">
 			<div class="container">
 				<div class="content-center"><h3><liferay-ui:message key="tw.follow-us" /></h3></div>
 				<div class="flex">
