@@ -246,8 +246,8 @@
                 </div>
 
                 <%-- Champ : Famille de métiers --%>
-                <label><liferay-ui:message key="ejobFamille" /></label>
-                    <select class="choices-element" required="true"
+                <label><liferay-ui:message key="ejobFamille" /><span style="color:#B95000;font-weight:600;"> *</span></label>
+                    <select class="choices-element"
                         id="ejobFamille"
                         name="<portlet:namespace />ejobFamille"
                         placeholder="<liferay-ui:message key="choose-famille" />" multiple>
