@@ -1,4 +1,4 @@
-<#if backgroundvideo.data?has_content>
+<#if backgroundvideo?? && backgroundvideo.data?has_content>
   <video class="parameter-video" autoplay muted loop>
       <source src="${backgroundvideo.getData()}" type="video/mp4">
   </video>
