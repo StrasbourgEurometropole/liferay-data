@@ -11,6 +11,7 @@
 
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
     <@liferay_portlet.param name="sigId" value="${entry.getSIGid()}" />
+    <@liferay_portlet.param name="title" value="${entry.getName()}" />
     <@liferay_portlet.param name="returnURL" value="${currentURL}" />
 </@liferay_portlet.renderURL>
 
@@ -40,7 +41,7 @@
                 <a href="#" class="seu-add-favorites"
                 data-type="1" 
                 data-title="${entry.getAlias(locale)}"
-                data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}" 
+                data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getName()}"
                 data-id="${entry.placeId}">
                     <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
                 </a>

@@ -9,6 +9,7 @@
 
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
   <@liferay_portlet.param name="classPK" value="${entry.getEventId()}" />
+  <@liferay_portlet.param name="title" value="${entry.getTitle(locale)}" />
   <@liferay_portlet.param name="returnURL" value="${currentURL}" />
 </@liferay_portlet.renderURL>
 
@@ -58,7 +59,7 @@
             <a href="#" class="item-misc"
             data-type="2" 
             data-title="${entry.getTitle(locale)}" 
-            data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}" 
+            data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getTitle(locale)}" 
             data-id="${entry.eventId}">
                 <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
             </a>
