@@ -186,15 +186,6 @@
 	        </script>
         </#if>
         <#include "${full_templates_path}/navigation.ftl" />
-        <#if isHome>
-          <!-- Contenu web header-title-sae -->
-          <@liferay_portlet["runtime"]
-            defaultPreferences="${freeMarkerPortletPreferences}"
-            portletProviderAction=portletProviderAction.VIEW
-            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-            instanceId="header-title-sae"
-            settingsScope="group" />
-        </#if>
       
         <#if !isHome>
           <div class="fil-ariane">

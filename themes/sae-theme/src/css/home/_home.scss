@@ -28,7 +28,7 @@
 	.btn-square{
 		border: 1px solid #fff;
 		background-color: #fff;
-		padding: 5px 0;
+		padding: 15px 20px;
 		display: inline-block;
 		transition: all,.5s;
 		position: absolute;
@@ -36,7 +36,7 @@
 		z-index: 2;
 		top: 60px;
 		left: 40px;
-		width: 100px;
+		width: 140px;
 		@include RWD(tablet){
 			width: auto;
 			padding: 10px 20px;
@@ -53,7 +53,7 @@
 			font-family: Poppins;
 			text-transform: uppercase;
 			transition: all,.3s;
-			color: #000;
+			color: #33383A;
 			font-size: 2rem;
 			line-height: 3rem;
 			@include RWD(tablet){
@@ -68,7 +68,7 @@
 
 		&:hover, &:active, &:focus{
 			text-decoration: none;
-			border-color: #000;
+			border-color: #33383A;
 		}
 	}
 
@@ -84,9 +84,9 @@
 		}
 
 		.news-image{
-			width:calc(100% - 180px);
+			width:calc(100% - 200px);
 			height: 650px;
-			margin: 60px 0 110px 180px;
+			margin: 60px 0 110px 200px;
 			@include RWD(tablet){
 				width: 45%;
 				height: 400px;
@@ -106,13 +106,15 @@
 		.news-meta{
 			position: absolute;
 			right: 0;
-			width: calc((100% - 180px) * 0.55);
+			width: calc((100% - 200px) * 0.55);
 			top: calc(650px - 360px + 60px);
 			height: 360px;
+			padding: 50px 25px 50px 50px;
 			@include RWD(tablet){
 				width: calc(50% * 0.7);
 				top: calc(400px - 270px + 50px);
 				height: 270px;
+				padding: 25px;
 				left: 50%;
 				transform: translateX(calc(-50% * 0.7));
 			}
@@ -124,7 +126,6 @@
 				transform: none;
 			}
 			background: rgba(0, 0, 0, 0.6);
-			padding: 25px;
 
 			.news-title{
 				overflow: hidden;
@@ -178,20 +179,22 @@
 					font-size: 1.8rem;
 					line-height: 2.1rem;
 					margin-top: 15px;
+					-webkit-line-clamp: 5;
 					@include RWD(tablet){
 						font-size:1.6rem;
 						line-height: 1.9rem;
 						margin-top: 10px;
+						-webkit-line-clamp: 6;
 					}
 					@include RWD(mobile){
 						font-size:1.2rem;
 						line-height: 1.4rem;
+						-webkit-line-clamp: 5;
 					}
 
 					color: #ffffff;
 					display: block;
 					display: -webkit-box;
-					-webkit-line-clamp: 6;
 					-webkit-box-orient: vertical;
 				}
 			}
@@ -212,9 +215,9 @@
 				bottom: 35px;
 
 				&:hover, &:active, &:focus{
-					color: #000;
+					color:#33383A;
 					background-color: #fff;
-					border: 1px solid #000;
+					border: 1px solid #33383A;
 				}
 			}
 		}
@@ -223,15 +226,20 @@
 			display: none;
 			position: absolute;
 			right: 0;
-			width: calc(calc(100% - 180px) * 55 / 100);
 			@include RWD(tablet){
 				display: block;
 				height: 270px;
-				top: calc(400px - 270px + 60px);
+				top: calc(400px - 270px + 50px);
+				width: calc(50% * 0.7);
+				left: 50%;
+				transform: translateX(calc(-50% * 0.7));
 			}
 			@include RWD(mobile){
-				height: 300px;
-				top: calc(300px - 300px + 60px);
+				height: 200px;
+				top: calc(300px - 200px + 50px);
+				width: calc((100% - 80px) * 0.8);
+				left: auto;
+				transform: none;
 			}
 		}
 	}
@@ -289,7 +297,7 @@
 		position: absolute;
 		font-size: 3.6rem;
 		line-height: 5.4rem;
-		left: calc((180px - 5.4rem) / 2);
+		left: calc((200px - 5.4rem) / 2);
 		bottom: 110px;
 		@include RWD(tablet){
 			font-size: 3rem;
@@ -483,7 +491,7 @@
 		@include transition();
 
 		&:hover, &:active, &:focus{
-			@include scale(1.2);
+			@include scale(1.1);
 			@include box-shadow($left:0px, $top:3px, $blur:7px, $color:rgba(0,0,0,0.55));
 			text-decoration: none;
 		}
@@ -520,15 +528,14 @@
 			width: max-content;
 			font-family: 'robotoregular';
 			font-size:1.8rem;
-			line-height: 2.1rem;
+			line-height: 3rem;
 			@include RWD(tablet){
 				font-size:1.6rem;
-				line-height: 1.9rem;
 				bottom: calc(90px - 5px - 0.95rem);
 			}
 			@include RWD(mobile){
 				font-size:1.2rem;
-				line-height: 1.4rem;
+				line-height: 2rem;
 				bottom: calc(60px - 5px - 0.7rem);
 			}
 			color:#fff;
@@ -1153,6 +1160,7 @@
 		@include RWD(desktop){
 			&:hover, &:active, &:focus{
 				@include scale(1.18);
+				transition: all 0.3s;
 				z-index: 1;
 
 				.background{
@@ -1317,13 +1325,14 @@
 	.social-network{
 		float: none;
 		text-align: center;
-		margin-top: 15px;
+		margin-top: 30px;
 
 		span{
 			font-family: Poppins;
 			font-size: 2.4rem;
 			line-height: 3.6rem;
 			color:#33383A;
+			text-transform: uppercase;
 		}
 		
 		ul li a{
