@@ -22,11 +22,11 @@
 </aui:nav-bar>
 <c:choose>
     <c:when test="${tab eq 'agendaPrincipal'}">
-		<liferay-util:include page="/csmap-bo-agenda-edit-principal.jsp" servletContext="<%=application %>">>
+		<liferay-util:include page="/csmap-bo-agenda-edit-principal.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
     <c:when test="${tab eq 'agendaThematique'}">
-		<liferay-util:include page="/csmap-bo-agenda-view-thematique.jsp" servletContext="<%=application %>">
+		<liferay-util:include page="/csmap-bo-agenda-view-thematiques.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
 </c:choose>

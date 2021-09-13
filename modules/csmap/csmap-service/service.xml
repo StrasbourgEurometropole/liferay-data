@@ -49,6 +49,9 @@
 		<column name="typesIds" type="String" />
 		<column name="tags" type="String" />
 		<!-- Finder methods -->
+		<finder name="IsPrincipal" return-type="Collection">
+			<finder-column name="isPrincipal" />
+		</finder>
 		<finder name="IsPrincipalAndIsActive" return-type="Collection">
 			<finder-column name="isPrincipal" />
 			<finder-column name="isActive" />

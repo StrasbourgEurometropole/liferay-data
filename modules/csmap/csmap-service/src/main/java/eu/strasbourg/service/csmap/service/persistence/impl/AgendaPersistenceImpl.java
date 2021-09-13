@@ -33,32 +33,27 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
-
 import eu.strasbourg.service.csmap.exception.NoSuchAgendaException;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.model.impl.AgendaImpl;
 import eu.strasbourg.service.csmap.model.impl.AgendaModelImpl;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
 import eu.strasbourg.service.csmap.service.persistence.impl.constants.csmapPersistenceConstants;
+import org.osgi.annotation.versioning.ProviderType;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
+import javax.sql.DataSource;
 import java.io.Serializable;
-
 import java.lang.reflect.InvocationHandler;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-
-import javax.sql.DataSource;
-
-import org.osgi.annotation.versioning.ProviderType;
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * The persistence implementation for the agenda service.
@@ -631,6 +626,514 @@ public class AgendaPersistenceImpl
 
 	private static final String _FINDER_COLUMN_UUID_UUID_3 =
 		"(agenda.uuid IS NULL OR agenda.uuid = '')";
+
+	private FinderPath _finderPathWithPaginationFindByIsPrincipal;
+	private FinderPath _finderPathWithoutPaginationFindByIsPrincipal;
+	private FinderPath _finderPathCountByIsPrincipal;
+
+	/**
+	 * Returns all the agendas where isPrincipal = &#63;.
+	 *
+	 * @param isPrincipal the is principal
+	 * @return the matching agendas
+	 */
+	@Override
+	public List<Agenda> findByIsPrincipal(Boolean isPrincipal) {
+		return findByIsPrincipal(
+			isPrincipal, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the agendas where isPrincipal = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param isPrincipal the is principal
+	 * @param start the lower bound of the range of agendas
+	 * @param end the upper bound of the range of agendas (not inclusive)
+	 * @return the range of matching agendas
+	 */
+	@Override
+	public List<Agenda> findByIsPrincipal(
+		Boolean isPrincipal, int start, int end) {
+
+		return findByIsPrincipal(isPrincipal, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the agendas where isPrincipal = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param isPrincipal the is principal
+	 * @param start the lower bound of the range of agendas
+	 * @param end the upper bound of the range of agendas (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching agendas
+	 */
+	@Override
+	public List<Agenda> findByIsPrincipal(
+		Boolean isPrincipal, int start, int end,
+		OrderByComparator<Agenda> orderByComparator) {
+
+		return findByIsPrincipal(
+			isPrincipal, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the agendas where isPrincipal = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param isPrincipal the is principal
+	 * @param start the lower bound of the range of agendas
+	 * @param end the upper bound of the range of agendas (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching agendas
+	 */
+	@Override
+	public List<Agenda> findByIsPrincipal(
+		Boolean isPrincipal, int start, int end,
+		OrderByComparator<Agenda> orderByComparator,
+		boolean retrieveFromCache) {
+
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			pagination = false;
+			finderPath = _finderPathWithoutPaginationFindByIsPrincipal;
+			finderArgs = new Object[] {isPrincipal};
+		}
+		else {
+			finderPath = _finderPathWithPaginationFindByIsPrincipal;
+			finderArgs = new Object[] {
+				isPrincipal, start, end, orderByComparator
+			};
+		}
+
+		List<Agenda> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Agenda>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Agenda agenda : list) {
+					if (!Objects.equals(isPrincipal, agenda.getIsPrincipal())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_AGENDA_WHERE);
+
+			query.append(_FINDER_COLUMN_ISPRINCIPAL_ISPRINCIPAL_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(AgendaModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(isPrincipal.booleanValue());
+
+				if (!pagination) {
+					list = (List<Agenda>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Agenda>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first agenda in the ordered set where isPrincipal = &#63;.
+	 *
+	 * @param isPrincipal the is principal
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching agenda
+	 * @throws NoSuchAgendaException if a matching agenda could not be found
+	 */
+	@Override
+	public Agenda findByIsPrincipal_First(
+			Boolean isPrincipal, OrderByComparator<Agenda> orderByComparator)
+		throws NoSuchAgendaException {
+
+		Agenda agenda = fetchByIsPrincipal_First(
+			isPrincipal, orderByComparator);
+
+		if (agenda != null) {
+			return agenda;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("isPrincipal=");
+		msg.append(isPrincipal);
+
+		msg.append("}");
+
+		throw new NoSuchAgendaException(msg.toString());
+	}
+
+	/**
+	 * Returns the first agenda in the ordered set where isPrincipal = &#63;.
+	 *
+	 * @param isPrincipal the is principal
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching agenda, or <code>null</code> if a matching agenda could not be found
+	 */
+	@Override
+	public Agenda fetchByIsPrincipal_First(
+		Boolean isPrincipal, OrderByComparator<Agenda> orderByComparator) {
+
+		List<Agenda> list = findByIsPrincipal(
+			isPrincipal, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last agenda in the ordered set where isPrincipal = &#63;.
+	 *
+	 * @param isPrincipal the is principal
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching agenda
+	 * @throws NoSuchAgendaException if a matching agenda could not be found
+	 */
+	@Override
+	public Agenda findByIsPrincipal_Last(
+			Boolean isPrincipal, OrderByComparator<Agenda> orderByComparator)
+		throws NoSuchAgendaException {
+
+		Agenda agenda = fetchByIsPrincipal_Last(isPrincipal, orderByComparator);
+
+		if (agenda != null) {
+			return agenda;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("isPrincipal=");
+		msg.append(isPrincipal);
+
+		msg.append("}");
+
+		throw new NoSuchAgendaException(msg.toString());
+	}
+
+	/**
+	 * Returns the last agenda in the ordered set where isPrincipal = &#63;.
+	 *
+	 * @param isPrincipal the is principal
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching agenda, or <code>null</code> if a matching agenda could not be found
+	 */
+	@Override
+	public Agenda fetchByIsPrincipal_Last(
+		Boolean isPrincipal, OrderByComparator<Agenda> orderByComparator) {
+
+		int count = countByIsPrincipal(isPrincipal);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Agenda> list = findByIsPrincipal(
+			isPrincipal, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the agendas before and after the current agenda in the ordered set where isPrincipal = &#63;.
+	 *
+	 * @param agendaId the primary key of the current agenda
+	 * @param isPrincipal the is principal
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next agenda
+	 * @throws NoSuchAgendaException if a agenda with the primary key could not be found
+	 */
+	@Override
+	public Agenda[] findByIsPrincipal_PrevAndNext(
+			long agendaId, Boolean isPrincipal,
+			OrderByComparator<Agenda> orderByComparator)
+		throws NoSuchAgendaException {
+
+		Agenda agenda = findByPrimaryKey(agendaId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Agenda[] array = new AgendaImpl[3];
+
+			array[0] = getByIsPrincipal_PrevAndNext(
+				session, agenda, isPrincipal, orderByComparator, true);
+
+			array[1] = agenda;
+
+			array[2] = getByIsPrincipal_PrevAndNext(
+				session, agenda, isPrincipal, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Agenda getByIsPrincipal_PrevAndNext(
+		Session session, Agenda agenda, Boolean isPrincipal,
+		OrderByComparator<Agenda> orderByComparator, boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_AGENDA_WHERE);
+
+		query.append(_FINDER_COLUMN_ISPRINCIPAL_ISPRINCIPAL_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(AgendaModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(isPrincipal.booleanValue());
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(agenda)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Agenda> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the agendas where isPrincipal = &#63; from the database.
+	 *
+	 * @param isPrincipal the is principal
+	 */
+	@Override
+	public void removeByIsPrincipal(Boolean isPrincipal) {
+		for (Agenda agenda :
+				findByIsPrincipal(
+					isPrincipal, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			remove(agenda);
+		}
+	}
+
+	/**
+	 * Returns the number of agendas where isPrincipal = &#63;.
+	 *
+	 * @param isPrincipal the is principal
+	 * @return the number of matching agendas
+	 */
+	@Override
+	public int countByIsPrincipal(Boolean isPrincipal) {
+		FinderPath finderPath = _finderPathCountByIsPrincipal;
+
+		Object[] finderArgs = new Object[] {isPrincipal};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_AGENDA_WHERE);
+
+			query.append(_FINDER_COLUMN_ISPRINCIPAL_ISPRINCIPAL_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(isPrincipal.booleanValue());
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ISPRINCIPAL_ISPRINCIPAL_2 =
+		"agenda.isPrincipal = ?";
 
 	private FinderPath _finderPathWithPaginationFindByIsPrincipalAndIsActive;
 	private FinderPath _finderPathWithoutPaginationFindByIsPrincipalAndIsActive;
@@ -1443,6 +1946,12 @@ public class AgendaPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByUuid, args);
 
+			args = new Object[] {agendaModelImpl.getIsPrincipal()};
+
+			finderCache.removeResult(_finderPathCountByIsPrincipal, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByIsPrincipal, args);
+
 			args = new Object[] {
 				agendaModelImpl.getIsPrincipal(), agendaModelImpl.getIsActive()
 			};
@@ -1474,6 +1983,25 @@ public class AgendaPersistenceImpl
 				finderCache.removeResult(_finderPathCountByUuid, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByUuid, args);
+			}
+
+			if ((agendaModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByIsPrincipal.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					agendaModelImpl.getOriginalIsPrincipal()
+				};
+
+				finderCache.removeResult(_finderPathCountByIsPrincipal, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByIsPrincipal, args);
+
+				args = new Object[] {agendaModelImpl.getIsPrincipal()};
+
+				finderCache.removeResult(_finderPathCountByIsPrincipal, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByIsPrincipal, args);
 			}
 
 			if ((agendaModelImpl.getColumnBitmask() &
@@ -1820,6 +2348,25 @@ public class AgendaPersistenceImpl
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByIsPrincipal = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, AgendaImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByIsPrincipal",
+			new String[] {
+				Boolean.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByIsPrincipal = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, AgendaImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByIsPrincipal",
+			new String[] {Boolean.class.getName()},
+			AgendaModelImpl.ISPRINCIPAL_COLUMN_BITMASK);
+
+		_finderPathCountByIsPrincipal = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByIsPrincipal",
+			new String[] {Boolean.class.getName()});
 
 		_finderPathWithPaginationFindByIsPrincipalAndIsActive = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, AgendaImpl.class,

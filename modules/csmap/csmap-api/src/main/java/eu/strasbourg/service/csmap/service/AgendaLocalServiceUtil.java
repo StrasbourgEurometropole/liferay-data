@@ -196,12 +196,6 @@ public class AgendaLocalServiceUtil {
 		return getService().fetchAgenda(agendaId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.csmap.model.Agenda>
-		findByIsPrincipalAndIsActive(Boolean isPrincipal, Boolean isActive) {
-
-		return getService().findByIsPrincipalAndIsActive(isPrincipal, isActive);
-	}
-
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
@@ -252,6 +246,18 @@ public class AgendaLocalServiceUtil {
 	 */
 	public static int getAgendasCount() {
 		return getService().getAgendasCount();
+	}
+
+	public static java.util.List<eu.strasbourg.service.csmap.model.Agenda>
+		getAgendasThematique() {
+
+		return getService().getAgendasThematique();
+	}
+
+	public static eu.strasbourg.service.csmap.model.Agenda
+		getAgendaThematiqueActif() {
+
+		return getService().getAgendaThematiqueActif();
 	}
 
 	public static

@@ -15,13 +15,8 @@
 package eu.strasbourg.service.csmap.service.impl;
 
 import com.liferay.portal.aop.AopService;
-
-import eu.strasbourg.service.csmap.exception.NoSuchAgendaException;
 import eu.strasbourg.service.csmap.model.Agenda;
-import eu.strasbourg.service.csmap.model.PlaceCategories;
-import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalServiceUtil;
 import eu.strasbourg.service.csmap.service.base.AgendaLocalServiceBaseImpl;
-
 import org.osgi.service.component.annotations.Component;
 
 import java.util.List;
@@ -50,23 +45,35 @@ public class AgendaLocalServiceImpl extends AgendaLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Use <code>eu.strasbourg.service.csmap.service.AgendaLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.csmap.service.AgendaLocalServiceUtil</code>.
 	 */
-	@Override
-	public List<Agenda> findByIsPrincipalAndIsActive(Boolean isPrincipal, Boolean isActive){
-		return this.agendaPersistence.findByIsPrincipalAndIsActive(isPrincipal,isActive);
-	}
 
 	@Override
 	public Agenda createAgenda() {
 		long pk = this.counterLocalService.increment();
 		return this.agendaLocalService.createAgenda(pk);
 	}
+
 	@Override
 	public Agenda getAgendaPrincipal() {
-		List<Agenda> agendaPrincipal = this.agendaLocalService.findByIsPrincipalAndIsActive(true,true);
+		List<Agenda> agendaPrincipal = this.agendaPersistence.findByIsPrincipalAndIsActive(true, true);
 		if(agendaPrincipal.isEmpty()){
 			return null;
 		} else {
 			return agendaPrincipal.get(0);
 		}
+	}
+
+	@Override
+	public Agenda getAgendaThematiqueActif() {
+		List<Agenda> agendaPrincipal = this.agendaPersistence.findByIsPrincipalAndIsActive(false, true);
+		if(agendaPrincipal.isEmpty()){
+			return null;
+		} else {
+			return agendaPrincipal.get(0);
+		}
+	}
+
+	@Override
+	public List<Agenda> getAgendasThematique() {
+		return this.agendaPersistence.findByIsPrincipal(false);
 	}
 }

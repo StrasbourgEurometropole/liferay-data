@@ -1,17 +1,15 @@
 package eu.strasbourg.panel.category.csmap.application.list;
 
-import eu.strasbourg.panel.category.csmap.constants.CsmapBoPanelCategoryPanelCategoryKeys;
-
 import com.liferay.application.list.BasePanelCategory;
 import com.liferay.application.list.PanelCategory;
 import com.liferay.application.list.constants.PanelCategoryKeys;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import eu.strasbourg.panel.category.csmap.constants.CsmapBoPanelCategoryPanelCategoryKeys;
+import org.osgi.service.component.annotations.Component;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-
-import org.osgi.service.component.annotations.Component;
 
 /**
  * @author quentin.mayer
