@@ -67,6 +67,9 @@ public class ResetDeliberationActionCommand extends BaseMVCActionCommand {
         deliberation.setCountOfficialsVoting(0);
         deliberation.setCountOfficialsActive(0);
 
+        // Set de la date de début et de fin de vote
+        deliberation.setBeginningVoteDate(null);
+        deliberation.setEndVoteDate(null);
 
         AssetCategory stageCategory = AssetVocabularyHelper.getCategory(deliberation.getStage(), themeDisplay.getScopeGroupId());
         //Récupère les anciennes catégories liées au statut pour les effacer (on veut qu'un seul abonnement à une catégorie de statut, celui en cours)

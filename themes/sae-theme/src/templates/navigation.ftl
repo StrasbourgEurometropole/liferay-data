@@ -1,6 +1,11 @@
 <nav id="main-menu">
   <div class="container">
     <a href="/" class="logo"><img src="${images_folder}/header/logo.png" alt=""></a>
+    <ul class="nav-social-network">
+        <li><a class="btn-fb" href="//www.facebook.com/Strasbourg.aime.ses.etudiants/" target="_blank" ></a></li>
+        <li><a class="btn-twitter" href="//twitter.com/StrasEtudiants" target="_blank" ></a></li>
+        <li><a class="btn-insta" href="//www.instagram.com/strasetudiants" target="_blank" ></a></li>
+    </ul>
     <ul class="main-nav">
       <#list nav_items as nav_item>
         <#if !nav_item.getURL()?contains("Accueil")>

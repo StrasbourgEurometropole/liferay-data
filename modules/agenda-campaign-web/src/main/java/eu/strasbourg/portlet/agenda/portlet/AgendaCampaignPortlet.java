@@ -55,24 +55,4 @@ public class AgendaCampaignPortlet extends MVCPortlet {
 
 		super.render(renderRequest, renderResponse);
 	}
-	
-	/**
-	 * Gestion de l'autocomplétion des anciens lieux, en attendant d'avoir les
-	 * lieux intégrés
-	 */
-	@Override
-	public void serveResource(ResourceRequest request,
-		ResourceResponse response) throws PortletException, IOException {
-		response.setContentType("text/javascript");
-
-		JSONObject json;
-		String name = ParamUtil.getString(request, "name");
-		try {
-			String url = StrasbourgPropsUtil.getLegacyPlaceApiAutocompleteUrl();
-			url = url.replace("[NAME]", name);
-			json = JSONHelper.readJsonFromURL(url);
-			response.getWriter().write(json.toString());
-		} catch (JSONException e) {
-		}
-	}
 }

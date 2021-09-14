@@ -47,6 +47,13 @@
 					<portlet:param name="mvcPath" value="/council-bo-edit-council-session.jsp" />
 				</liferay-portlet:renderURL>
 
+				<liferay-portlet:renderURL varImpl="manageProcurationsURL">
+                		<portlet:param name="cmd" value="manageProcurations" />
+                		<portlet:param name="councilSessionId" value="${councilSession.councilSessionId}" />
+                		<portlet:param name="returnURL" value="${councilSessionsURL}" />
+                		<portlet:param name="mvcPath" value="/council-bo-manage-procurations.jsp" />
+                </liferay-portlet:renderURL>
+
                 <!-- Colonne : Titre -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editCouncilSessionURL}" name="title" truncate="true"
@@ -81,12 +88,25 @@
 							<liferay-ui:icon message="edit" url="${editCouncilSessionURL}" />
 						</c:if>
 
+                        <!-- RESOURCE ACTION : Gestion des procurations -->
+                      	<c:if test="${dc.hasPermission('EDIT_COUNCIL_SESSION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                            <liferay-ui:icon message="manage-procurations" url="${manageProcurationsURL}" />
+                      	</c:if>
+
 						<!-- RESOURCE ACTION : Export des résultats de la session -->
 						<liferay-portlet:resourceURL id="exportCouncilSessionResults" var="exportCouncilSessionResultsURL"
 						        copyCurrentRenderParameters="false">
                             <portlet:param name="councilSessionId" value="${councilSession.councilSessionId}" />
                         </liferay-portlet:resourceURL>
                         <liferay-ui:icon message="export-results" url="${exportCouncilSessionResultsURL}" />
+
+						<!-- RESOURCE ACTION : Export de historique des procurations -->
+						<liferay-portlet:resourceURL id="exportProcurationsHistoric" var="exportProcurationsHistoricURL"
+						        copyCurrentRenderParameters="false">
+                            <portlet:param name="councilSessionId" value="${councilSession.councilSessionId}" />
+                        </liferay-portlet:resourceURL>
+                        <liferay-ui:icon message="export-procurations" url="${exportProcurationsHistoricURL}" />
+
 
                         <!-- ACTION : Supprimer -->
 						<liferay-portlet:actionURL name="deleteCouncilSession" var="deleteCouncilSessionURL">

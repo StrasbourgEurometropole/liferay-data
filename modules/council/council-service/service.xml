@@ -159,6 +159,7 @@
 		<!-- Business fields -->
 		<column name="title" type="String" />
 		<column name="date" type="Date" />
+		<column name="lastDelibProcessed" type="long" />
 
 		<!-- Links with other entities -->
 		<column name="officialLeaderId" type="long" />
@@ -214,6 +215,8 @@
 		<column name="stage" type="String" />
 		<column name="countOfficialsVoting" type="int" />
 		<column name="countOfficialsActive" type="int" />
+		<column name="beginningVoteDate" type="Date" />
+		<column name="endVoteDate" type="Date" />
 
 		<!-- Links with other entities -->
 		<column name="councilSessionId" type="long" />
@@ -262,6 +265,17 @@
 		<column name="councilSessionId" type="long" />
 		<column name="isAbsent" type="boolean" />
 
+		<column name="procurationMode" type="int" />
+		<column name="presential" type="int" />
+		<column name="isAfterVote" type="boolean" />
+		<column name="startHour" type="Date" />
+		<column name="endHour" type="Date" />
+		<column name="startDelib" type="long" />
+		<column name="endDelib" type="long" />
+		<column name="otherProcurationMode" type="String" />
+
+
+
 		<!-- Order -->
 		<order by="desc">
 			<order-column name="procurationId" />
@@ -275,6 +289,10 @@
 			<finder-column name="councilSessionId" />
 			<finder-column name="officialVotersId" />
 		</finder>
+		<finder name="CouncilSessionIdAndOfficialUnavailableId" return-type="Collection">
+			<finder-column name="councilSessionId" />
+			<finder-column name="officialUnavailableId" />
+		</finder>
 		<finder name="CouncilSessionIdAndOfficialVotersAndUnavailableIds" return-type="Procuration">
 			<finder-column name="councilSessionId" />
 			<finder-column name="officialVotersId" />
@@ -285,7 +303,6 @@
 			<finder-column name="officialUnavailableId" />
 			<finder-column name="isAbsent" />
 		</finder>
-
 	</entity>
 
 	<entity local-service="true" remote-service="false" cache-enabled="false" name="Vote" uuid="true">

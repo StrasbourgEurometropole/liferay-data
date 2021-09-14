@@ -8,6 +8,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import eu.strasbourg.portlet.council.constants.CouncilConstants;
 import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -50,6 +51,10 @@ public class UserRoleType {
      */
     public static List<AssetCategory> typeCategoriesForUser(ThemeDisplay themeDisplay)  {
         List<AssetCategory> typeCategories = new ArrayList<>();
+
+        long groupId = themeDisplay.getScopeGroupId();
+        AssetCategory categoryAucunConseil = AssetVocabularyHelper.getCategory(CouncilConstants.NO_COUNCIL_CATEGORY_NAME, groupId);
+        typeCategories.add(categoryAucunConseil);
 
         // Si l'utilisateur est Admin liferay ou Admin Evote, il a tous les types Ids
         if(themeDisplay.getPermissionChecker().isOmniadmin() || IsAdminEvote(themeDisplay)) {

@@ -42,33 +42,6 @@ public class PlaceServiceUtil {
 	 */
 
 	/**
-	 * Retourne l'ancien web service LR6 concernant les Types de lieu
-	 */
-	public static com.liferay.portal.kernel.json.JSONObject
-			getLegacyCategoriesJSON()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return getService().getLegacyCategoriesJSON();
-	}
-
-	/**
-	 * Retourne l'horrible ancien web service LR6
-	 */
-	public static com.liferay.portal.kernel.json.JSONObject getLegacyJSON() {
-		return getService().getLegacyJSON();
-	}
-
-	/**
-	 * Retourne l'ancien web service LR6 concernant les Territoires
-	 */
-	public static com.liferay.portal.kernel.json.JSONObject
-			getLegacyTerritoriesJSON()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return getService().getLegacyTerritoriesJSON();
-	}
-
-	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier

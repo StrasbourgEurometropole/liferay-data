@@ -15,20 +15,38 @@
 package eu.strasbourg.service.council.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.council.constants.ProcurationModeEnum;
+import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Deliberation;
+import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.service.council.model.Vote;
+import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
+import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
+import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
+import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
+import eu.strasbourg.service.council.service.VoteLocalServiceUtil;
 import eu.strasbourg.service.council.service.base.ProcurationLocalServiceBaseImpl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the procuration local service.
@@ -169,6 +187,25 @@ public class ProcurationLocalServiceImpl extends ProcurationLocalServiceBaseImpl
 	@Override
 	public Procuration findAbsenceForCouncilSession(long councilSessionId, long officialId){
 		return this.procurationPersistence.fetchByAbsenceForCouncilSession(councilSessionId, officialId, true);
+	}
+
+	/**
+	 * Recherche d'une procuration pour un officiel
+	 */
+	@Override
+	public List<Procuration> findByCouncilSessionIdAndOfficialUnavailableId(long councilSessionId, long officialId) {
+		return this.procurationPersistence.findByCouncilSessionIdAndOfficialUnavailableId(councilSessionId, officialId);
+	}
+
+	/**
+	 * Recherche d'une procuration active
+	 * Si une procuration est active, alors l'élu est absent
+	 */
+	@Override
+	public boolean isOfficialAbsent(long councilSessionId, long officialId) {
+
+		List<Procuration> procurations = ProcurationLocalServiceUtil.findByCouncilSessionIdAndOfficialUnavailableId(councilSessionId, officialId);
+		return procurations.stream().anyMatch(p -> p.getEndHour() == null);
 	}
 
 }

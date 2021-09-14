@@ -224,88 +224,21 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		}
 		return this.getApprovedJSONPlaces(places);
 	}
+
+
 	
-	/**
-	 * Retourne l'horrible ancien web service LR6
-	 */
-	@Override
-	public JSONObject getLegacyJSON() {
-		JSONObject json = JSONFactoryUtil.createJSONObject();
-		json.put("javaClass", "java.util.ArrayList");
-
-		List<Place> places = this.placeLocalService.getPlaces(-1, -1);
-		json.put("list", this.getApprovedJSONPlaces(places, true));
-		return json;		
-	}
-
 	private JSONArray getApprovedJSONPlaces(List<Place> places) {
-		return getApprovedJSONPlaces(places, false);
-	}
-	
-	private JSONArray getApprovedJSONPlaces(List<Place> places, boolean legacy) {
 		JSONArray jsonPlaces = JSONFactoryUtil.createJSONArray();
 		for (Place place : places) {
 			try {
 				if (place.isApproved()) {
-					if (legacy) {
-						jsonPlaces.put(place.toLegacyJSON());
-					} else {
-						jsonPlaces.put(place.toJSON());
-					}
+					jsonPlaces.put(place.toJSON());
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		return jsonPlaces;
-	}
-
-	
-	/**
-	 * Retourne l'ancien web service LR6 concernant les Types de lieu
-	 */
-	public JSONObject getLegacyCategoriesJSON() throws PortalException {
-		JSONObject json = JSONFactoryUtil.createJSONObject();
-		
-		
-		List<AssetCategory> assetCategories = new ArrayList<>();
-		AssetVocabulary vocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
-		
-		assetCategories = vocabulary.getCategories();
-		
-		for(AssetCategory asset : assetCategories)
-		{
-			JSONObject jsonbis = JSONFactoryUtil.createJSONObject();		
-			jsonbis.put("parentCode", AssetVocabularyHelper.getCategoryProperty(asset.getParentCategoryId(), "SIG"));
-			jsonbis.put("nom", asset.getName());
-			json.put(AssetVocabularyHelper.getCategoryProperty(asset.getCategoryId(), "SIG"), jsonbis);
-		}
-		
-		return json;		
-	}
-	
-	
-	/**
-	 * Retourne l'ancien web service LR6 concernant les Territoires
-	 */
-	public JSONObject getLegacyTerritoriesJSON() throws PortalException {
-		JSONObject json = JSONFactoryUtil.createJSONObject();
-		
-		
-		List<AssetCategory> assetCategories = new ArrayList<>();
-		AssetVocabulary vocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
-		
-		assetCategories = vocabulary.getCategories();
-		
-		for(AssetCategory asset : assetCategories)
-		{
-			JSONObject jsonbis = JSONFactoryUtil.createJSONObject();		
-			jsonbis.put("parentCode", AssetVocabularyHelper.getCategoryProperty(asset.getParentCategoryId(), "SIG"));
-			jsonbis.put("nom", asset.getName());
-			json.put(AssetVocabularyHelper.getCategoryProperty(asset.getCategoryId(), "SIG"), jsonbis);
-		}
-		
-		return json;		
 	}
 	
 	@Override

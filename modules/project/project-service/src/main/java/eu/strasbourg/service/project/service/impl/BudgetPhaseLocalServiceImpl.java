@@ -44,7 +44,10 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.BudgetPhaseLocalServiceBaseImpl;
 
 /**
@@ -228,6 +231,14 @@ public final static Log log = LogFactoryUtil.getLog(ProjectLocalServiceImpl.clas
 			// Delete the AssetEntry
 			AssetEntryLocalServiceUtil.deleteEntry(BudgetPhase.class.getName(),
 					budgetPhaseId);
+		}
+
+		// Supprime les BudgetParticipatif
+		List<BudgetParticipatif> budgets = this.budgetParticipatifLocalService.getByBudgetPhase(budgetPhaseId);
+		if (budgets != null && !budgets.isEmpty()) {
+			for (BudgetParticipatif budget : budgets) {
+				this.budgetParticipatifLocalService.removeBudgetParticipatif(budget.getBudgetParticipatifId());
+			}
 		}
 
 		// Supprime le projet

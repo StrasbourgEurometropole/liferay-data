@@ -18,6 +18,11 @@
 	<portlet:param name="returnURL" value="${deliberationsURL}" />
 </liferay-portlet:renderURL>
 
+<liferay-portlet:renderURL varImpl="importDeliberationURL">
+	<portlet:param name="cmd" value="importDeliberation" />
+	<portlet:param name="mvcPath" value="/council-bo-import-deliberation.jsp" />
+	<portlet:param name="returnURL" value="${importDeliberationURL}" />
+</liferay-portlet:renderURL>
 
 <liferay-frontend:management-bar includeCheckBox="true" searchContainerId="deliberationsSearchContainer">
 		<liferay-frontend:management-bar-filters>
@@ -36,7 +41,6 @@
 		</liferay-frontend:management-bar-filters>
 </liferay-frontend:management-bar>
 
-
 <div class="container-fluid-1280 main-content-body">
 
     <%-- Composant : definit la liste des messages d'erreur --%>
@@ -44,6 +48,8 @@
         <liferay-ui:message key="quorum-error" arguments='<%= SessionErrors.get(liferayPortletRequest, "quorum-error") %>' />
     </liferay-ui:error>
     <liferay-ui:error key="council.deliberation-already-open" message="council.deliberation-already-open" />
+
+    <liferay-ui:success key="import-successful" message="import-successful" />
 
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
@@ -151,6 +157,7 @@
                         <c:if test="${deliberation.isCree() and empty themeDisplay.scopeGroup.getStagingGroup()}">
                             <liferay-ui:icon message="pull-out" url="${pullOutDeliberationURL}" />
                         </c:if>
+
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 
@@ -160,11 +167,15 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
+
+	<aui:button-row>
+        <aui:button cssClass="btn-lg" type="submit" href="${importDeliberationURL}" value="Nouvel import" title="Importer des deliberations"/>
+    </aui:button-row>
 </div>
 
 <c:if test="${dc.hasPermission('ADD_DELIBERATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title="Ajouter une deliberation" url="${addDeliberationURL}" />
+		<liferay-frontend:add-menu-item title="Ajouter une deliberation" url="${addDeliberationURL}"/>
 	</liferay-frontend:add-menu>
 </c:if>
 

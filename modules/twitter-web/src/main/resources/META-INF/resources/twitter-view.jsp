@@ -5,7 +5,7 @@
 		<liferay-ui:message key="no-config" />
 	</c:when>
 	<c:otherwise>
-		<section id="twitter" style="background-image:url(/o/sae-theme/images/background/bg_twitter.png);">
+		<section id="twitter" style="background-image:url(/o/sae-theme/images/background/bg_twitter.jpg);">
 			<div class="container">
 				<div class="content-center"><h3><liferay-ui:message key="tw.follow-us" /></h3></div>
 				<div class="flex">
@@ -35,7 +35,15 @@
 							</div>
 						</div>
 					</c:forEach>
-				</div>	
+				</div>
+				<div class="social-network">
+				    <span><liferay-ui:message key="tw.partage" /></span>
+                    <ul>
+                        <li><a class="btn-fb" href="//www.facebook.com/Strasbourg.aime.ses.etudiants/" target="_blank"></a></li>
+                        <li><a class="btn-twitter" href="//twitter.com/StrasEtudiants" target="_blank"></a></li>
+                        <li><a class="btn-insta" href="//www.instagram.com/strasetudiants" target="_blank"></a></li>
+                    </ul>
+                </div>
 			</div>
 		</section>
 		<script src="//twemoji.maxcdn.com/twemoji.min.js"></script>

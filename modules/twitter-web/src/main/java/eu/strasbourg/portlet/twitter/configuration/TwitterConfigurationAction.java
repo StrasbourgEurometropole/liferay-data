@@ -1,14 +1,5 @@
 package eu.strasbourg.portlet.twitter.configuration;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
-
 import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -18,8 +9,15 @@ import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Component(
 	configurationPid = "eu.strasbourg.portlet.twitter.configuration.TwitterConfiguration",
@@ -28,11 +26,6 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 	property = { "javax.portlet.name=" + StrasbourgPortletKeys.TWITTER_WEB },
 	service = ConfigurationAction.class)
 public class TwitterConfigurationAction extends DefaultConfigurationAction {
-
-	@Override
-	public String getJspPath(HttpServletRequest request) {
-		return "/configuration/twitter-configuration.jsp";
-	}
 
 	@Override
 	public void processAction(PortletConfig portletConfig,
@@ -65,7 +58,6 @@ public class TwitterConfigurationAction extends DefaultConfigurationAction {
 				.getPortletInstanceConfiguration(TwitterConfiguration.class);
 
 			request.setAttribute("twitterAccount", configuration.twitterAccount());
-
 			request.setAttribute("tweetCount", configuration.tweetCount());
 
 			super.include(portletConfig, request, response);

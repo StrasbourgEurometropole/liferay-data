@@ -188,57 +188,6 @@ public class PlaceServiceSoap {
 		}
 	}
 
-	/**
-	 * Retourne l'horrible ancien web service LR6
-	 */
-	public static String getLegacyJSON() throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue =
-				PlaceServiceUtil.getLegacyJSON();
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	/**
-	 * Retourne l'ancien web service LR6 concernant les Types de lieu
-	 */
-	public static String getLegacyCategoriesJSON() throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue =
-				PlaceServiceUtil.getLegacyCategoriesJSON();
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	/**
-	 * Retourne l'ancien web service LR6 concernant les Territoires
-	 */
-	public static String getLegacyTerritoriesJSON() throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue =
-				PlaceServiceUtil.getLegacyTerritoriesJSON();
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
 	public static String getTypes() throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONArray returnValue =

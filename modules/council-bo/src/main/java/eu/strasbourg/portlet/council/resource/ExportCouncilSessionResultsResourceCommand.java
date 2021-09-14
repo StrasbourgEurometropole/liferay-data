@@ -39,9 +39,9 @@ public class ExportCouncilSessionResultsResourceCommand implements MVCResourceCo
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) {
 
-        long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
+        this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
         try {
-            String repository = PrintPDF.printPDFs(councilSessionId);
+            String repository = PrintPDF.printPDFs(this.councilSessionId);
 
             // Définition d'un téléchargement dans le content-type
             response.setContentType("application/force-download");

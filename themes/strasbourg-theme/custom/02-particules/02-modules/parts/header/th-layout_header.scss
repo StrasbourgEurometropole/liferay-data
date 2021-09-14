@@ -69,6 +69,12 @@
 		height: 45px;
 	}
 
+@media(min-width:740px) {
+	.seu-scrolled-logo {
+		display: none;
+	}
+}
+@media(max-width:740px) {
 	.th-logo-strasbourg {
 		display: block;
 		padding-left: 40px;
@@ -88,6 +94,7 @@
 				width: 100px;
 			}
 		}
+	}
 	}
 }
 

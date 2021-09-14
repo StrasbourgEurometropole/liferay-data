@@ -37,6 +37,7 @@
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="order-error" message="order-error" />
 	<liferay-ui:error key="council-session-error" message="council-session-error" />
+	<liferay-ui:error key="stage-deliberation-error" message="stage-deliberation-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveDeliberationURL}" method="post" name="fm" onSubmit="submitForm(event);">
@@ -55,21 +56,34 @@
                 <aui:input name="order" required="true" />
 
 			    <%-- Champ : Titre --%>
-                <aui:input type="textarea" name="title" required="true">
-                    <aui:validator name="maxLength">500</aui:validator>
-                </aui:input>
+			    <c:choose>
+                    <c:when test= "${dc.isAdopteOrRejeteOrCommunique()}">
+                        <aui:input type="textarea" name="title" required="true" cssClass="title" readonly="readonly">
+                            <aui:validator name="maxLength">500</aui:validator>
+                        </aui:input>
+                    </c:when>
+                    <c:otherwise>
+                        <aui:input type="textarea" name="title" required="true" cssClass="title">
+                            <aui:validator name="maxLength">500</aui:validator>
+                        </aui:input>
+                    </c:otherwise>
+                </c:choose>
 
 			    <%-- Champ : Session --%>
-                <aui:select name="councilSessionId" label="councilSession" required="true">
+                <aui:select name="councilSessionId" label="councilSession" required="true" id="selectorCouncil" disabled="${dc.isAdopteOrRejeteOrCommunique()}">
                     <c:forEach var="council" items="${dc.availableCouncilSessions}">
                         <aui:option value="${council.councilSessionId}"
                             label="${council.getTitle()}"
                             selected="${council.councilSessionId eq dc.deliberation.councilSessionId}" />
                     </c:forEach>
                 </aui:select>
+                <c:if test = "${dc.isAdopteOrRejeteOrCommunique()}">
+                    <aui:input type="hidden" name="councilSessionId" value="${dc.deliberation.councilSessionId}"/>
+                </c:if>
+
 
 			    <%-- Champ : Statut --%>
-                <aui:input name="stage" disabled="true" />
+                <aui:input name="stage" disabled="true"/>
 
 			</aui:fieldset>
 
@@ -78,6 +92,10 @@
                 <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="votes">
                     <div class="wrapper-vote">
                         <div class="wrapper-column">
+                            <div class="wrapper-row">
+                                <label><liferay-ui:message key="beginning-vote-date"/></label>
+                                <span><fmt:formatDate type="date" value="${dc.getBeginningVoteDate()}" pattern="dd/MM/yyyy HH:mm:ss" /></span>
+                            </div>
                             <div class="wrapper-row">
                                 <label>${dc.getPOUR()}</label>
                                 <span>${dc.getVoteCountForAResult(dc.getPOUR())}</span>
@@ -89,6 +107,10 @@
                         </div>
                         <div class="wrapper-column">
                             <div class="wrapper-row">
+                                <label><liferay-ui:message key="end-vote-date"/></label>
+                                <span><fmt:formatDate type="date" value="${dc.getEndVoteDate()}" pattern="dd/MM/yyyy HH:mm:ss"/></span>
+                            </div>
+                            <div class="wrapper-row">
                                 <label>${dc.getCONTRE()}</label>
                                 <span>${dc.getVoteCountForAResult(dc.getCONTRE())}</span>
                             </div>
@@ -98,6 +120,10 @@
                             </div>
                         </div>
                         <div class="wrapper-column">
+                            <div class="wrapper-row">
+                                <label>${dc.getTOTAL()}</label>
+                                <span>${dc.getVoteCountForAResult(dc.getPOUR()) + dc.getVoteCountForAResult(dc.getCONTRE()) + dc.getVoteCountForAResult(dc.getABSTENTION())}</span>
+                            </div>
                             <div class="wrapper-row">
                                 <label>${dc.getABSTENTION()}</label>
                                 <span>${dc.getVoteCountForAResult(dc.getABSTENTION())}</span>
@@ -113,6 +139,7 @@
                 <%-- Groupe de champs : Détai des Votes --%>
                 <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="detail-votes">
                     <div id="procurations-table">
+
                         <table border="1">
                             <tr>
                                 <th>
@@ -214,4 +241,5 @@
             window.location = '${resetDeliberationURL}';
         }
     }
+
 </aui:script>

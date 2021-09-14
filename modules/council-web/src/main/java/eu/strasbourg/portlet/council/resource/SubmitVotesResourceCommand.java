@@ -204,7 +204,7 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
         // Vérification qu'il n'existe pas une procuration définissant l'absence de l'élu
         Procuration absenceProcuration = this.procurationLocalService.findAbsenceForCouncilSession(
                 paramSessionId, paramOfficialId);
-        if (absenceProcuration != null) {
+        if (absenceProcuration != null && absenceProcuration.getEndHour() == null) {
             this.log.info("Validation de vote refusee : le votant " + paramOfficialId + " a voulu voter " +
                     " pour la deliberation " + paramDeliberationId + "alors qu'il est defini absent");
             return LanguageUtil.get(this.bundle, "defined.as.absent.error");

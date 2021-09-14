@@ -366,6 +366,7 @@ public class AssetVocabularyHelper {
 	public static AssetCategory getCategory(String categoryName, long groupId) {
 		List<AssetCategory> categories = AssetCategoryLocalServiceUtil.getAssetCategories(-1, -1);
 		for (AssetCategory category : categories) {
+
 			if (StringHelper.compareIgnoringAccentuation(category.getName().toLowerCase(), categoryName)
 					&& category.getGroupId() == groupId) {
 				return category;

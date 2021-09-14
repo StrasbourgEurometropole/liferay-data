@@ -293,7 +293,6 @@ function validatePeriods(event) {
 
 // Autocomplete des lieux
 jQuery(function() {
-	if (!!window.placeAutocompleteURL) {
 		var options = {
 			type : "POST",
 			serviceUrl : "/api/jsonws/place.place/get-places-by-name-and-language/",
@@ -325,7 +324,6 @@ jQuery(function() {
 		};
 		jQuery('.place-autocomplete-input-wrapper input').autocomplete(
 				options);
-	}
 });
 
 var registrationTrue = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[0];

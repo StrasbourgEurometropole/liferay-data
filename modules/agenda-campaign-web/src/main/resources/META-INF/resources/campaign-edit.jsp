@@ -599,15 +599,12 @@
 		</aui:button-row>
 	</aui:form>
 </div>
-<liferay-portlet:resourceURL var="placeAutocompleteURL">
-</liferay-portlet:resourceURL>
 <liferay-portlet:actionURL name="getPeriodRow" var="periodRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
 	<liferay-portlet:param name="mvcPath" value="/includes/period-row.jsp" />
 </liferay-portlet:actionURL>
 <liferay-util:html-bottom>
 	<aui:script>
 		var namespace = '<portlet:namespace />';
-		var placeAutocompleteURL = '${placeAutocompleteURL}';
 		var getPeriodRowJSPURL = '${periodRowURL}';
 		var themeLabels = ${dc.themeLabels};
 		var campaignThemes = ${dc.campaignThemes};

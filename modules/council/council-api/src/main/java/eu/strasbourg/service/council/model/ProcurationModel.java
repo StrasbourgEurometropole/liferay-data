@@ -355,6 +355,126 @@ public interface ProcurationModel
 	public void setIsAbsent(boolean isAbsent);
 
 	/**
+	 * Returns the procuration mode of this procuration.
+	 *
+	 * @return the procuration mode of this procuration
+	 */
+	public int getProcurationMode();
+
+	/**
+	 * Sets the procuration mode of this procuration.
+	 *
+	 * @param procurationMode the procuration mode of this procuration
+	 */
+	public void setProcurationMode(int procurationMode);
+
+	/**
+	 * Returns the presential of this procuration.
+	 *
+	 * @return the presential of this procuration
+	 */
+	public int getPresential();
+
+	/**
+	 * Sets the presential of this procuration.
+	 *
+	 * @param presential the presential of this procuration
+	 */
+	public void setPresential(int presential);
+
+	/**
+	 * Returns the is after vote of this procuration.
+	 *
+	 * @return the is after vote of this procuration
+	 */
+	public boolean getIsAfterVote();
+
+	/**
+	 * Returns <code>true</code> if this procuration is is after vote.
+	 *
+	 * @return <code>true</code> if this procuration is is after vote; <code>false</code> otherwise
+	 */
+	public boolean isIsAfterVote();
+
+	/**
+	 * Sets whether this procuration is is after vote.
+	 *
+	 * @param isAfterVote the is after vote of this procuration
+	 */
+	public void setIsAfterVote(boolean isAfterVote);
+
+	/**
+	 * Returns the start hour of this procuration.
+	 *
+	 * @return the start hour of this procuration
+	 */
+	public Date getStartHour();
+
+	/**
+	 * Sets the start hour of this procuration.
+	 *
+	 * @param startHour the start hour of this procuration
+	 */
+	public void setStartHour(Date startHour);
+
+	/**
+	 * Returns the end hour of this procuration.
+	 *
+	 * @return the end hour of this procuration
+	 */
+	public Date getEndHour();
+
+	/**
+	 * Sets the end hour of this procuration.
+	 *
+	 * @param endHour the end hour of this procuration
+	 */
+	public void setEndHour(Date endHour);
+
+	/**
+	 * Returns the start delib of this procuration.
+	 *
+	 * @return the start delib of this procuration
+	 */
+	public long getStartDelib();
+
+	/**
+	 * Sets the start delib of this procuration.
+	 *
+	 * @param startDelib the start delib of this procuration
+	 */
+	public void setStartDelib(long startDelib);
+
+	/**
+	 * Returns the end delib of this procuration.
+	 *
+	 * @return the end delib of this procuration
+	 */
+	public long getEndDelib();
+
+	/**
+	 * Sets the end delib of this procuration.
+	 *
+	 * @param endDelib the end delib of this procuration
+	 */
+	public void setEndDelib(long endDelib);
+
+	/**
+	 * Returns the other procuration mode of this procuration.
+	 *
+	 * @return the other procuration mode of this procuration
+	 */
+	@AutoEscape
+	public String getOtherProcurationMode();
+
+	/**
+	 * Sets the other procuration mode of this procuration.
+	 *
+	 * @param otherProcurationMode the other procuration mode of this procuration
+	 */
+	public void setOtherProcurationMode(String otherProcurationMode);
+
+	/**
 	 * Returns <code>true</code> if this procuration is approved.
 	 *
 	 * @return <code>true</code> if this procuration is approved; <code>false</code> otherwise

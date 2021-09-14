@@ -63,6 +63,9 @@ import eu.strasbourg.service.agenda.service.base.EventLocalServiceBaseImpl;
 import eu.strasbourg.service.agenda.utils.AgendaImporter;
 import eu.strasbourg.service.agenda.model.CacheJson;
 import eu.strasbourg.service.agenda.model.Historic;
+import eu.strasbourg.service.comment.exception.NoSuchCommentException;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
@@ -392,6 +395,19 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			// Supprime l'assetEntry
 			AssetEntryLocalServiceUtil.deleteEntry(Event.class.getName(),
 				eventId);
+
+			// Supprime les Comments
+			try {
+				// Récupère uniquement les commentaires de niveau 1, les enfants sont gérés par la méthode de supprssion
+				List<Comment> comments = CommentLocalServiceUtil.getByAssetEntryAndLevel(entry.getEntryId(), 1,0);
+				if (comments != null && !comments.isEmpty()) {
+					for (Comment comment : comments) {
+						CommentLocalServiceUtil.removeComment(comment.getCommentId());
+					}
+				}
+			} catch (NoSuchCommentException e) {
+				_log.error(e);
+			}
 
 			// Supprime les périodes
 			List<EventPeriod> periods = EventPeriodLocalServiceUtil

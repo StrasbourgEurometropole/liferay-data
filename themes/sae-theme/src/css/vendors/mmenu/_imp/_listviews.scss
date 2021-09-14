@@ -68,6 +68,51 @@
 				left: $mm_listitemIndent;
 			}
 		}
+
+		&.network{
+			display: flex;
+			height: 80px;
+
+			&:after{
+				content: none;
+			}
+
+			span {
+				margin: auto 0;
+
+				.mm-listview{	
+					display: flex !important;
+							
+					> li{
+						display: inline-block;
+			
+						&:after{
+							content: none;
+						}
+			
+						> a, > span{
+							&.btn-fb, &.btn-twitter, &.btn-insta {
+								background-size: contain;
+								background-position: center;
+								background-repeat: no-repeat;
+								width: 30px;
+								height: 30px;
+							}
+			
+							&.btn-fb {
+								background-image: url(../images/pictos/facebook-sml.png);
+							}
+							&.btn-twitter {
+								background-image: url(../images/pictos/twitter-sml.png);
+							}
+							&.btn-insta {
+								background-image: url(../images/pictos/instagram-sml.png);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	// subopen

@@ -1,27 +1,5 @@
 package eu.strasbourg.portlet.event_viewer;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -40,12 +18,32 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.event_viewer.configuration.EventViewerConfiguration;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component(
 	immediate = true,
@@ -102,7 +100,7 @@ public class EventViewerPortlet extends MVCPortlet {
 		List<AssetEntry> entries = this.getEvents();
 		request.setAttribute("entries", entries);
 
-		Map<String, Object> contextObjects = new HashMap<String, Object>();
+		Map<String, Object> contextObjects = new HashMap<>();
 		contextObjects.put("agendaURL", this.configuration.agendaURL());
 		contextObjects.put("agendaURLText", this.configuration.agendaURLText());
 		request.setAttribute("contextObjects", contextObjects);
@@ -114,7 +112,7 @@ public class EventViewerPortlet extends MVCPortlet {
 	}
 
 	private List<AssetEntry> getEvents() {
-		List<AssetEntry> entries = new ArrayList<AssetEntry>();
+		List<AssetEntry> entries = new ArrayList<>();
 
 		// Search context
 		HttpServletRequest servletRequest = PortalUtil
@@ -124,7 +122,7 @@ public class EventViewerPortlet extends MVCPortlet {
 
 		// Catégories
 		String categoriesIdsString = this.configuration.categoriesIds();
-		List<Long[]> prefilterCategoriesIds = new ArrayList<Long[]>();
+		List<Long[]> prefilterCategoriesIds = new ArrayList<>();
 		for (String categoriesIdsGroupByVocabulary : categoriesIdsString
 			.split(";")) {
 			Long[] categoriesIdsForVocabulary = ArrayUtil.toLongArray(
@@ -171,7 +169,7 @@ public class EventViewerPortlet extends MVCPortlet {
 
 		// Catégories de la recherche utilisateur (non existantes pour ce
 		// portlet)
-		List<Long[]> categoriesIds = new ArrayList<Long[]>();
+		List<Long[]> categoriesIds = new ArrayList<>();
 
 		// Locale
 		Locale locale = this.themeDisplay.getLocale();
@@ -192,20 +190,25 @@ public class EventViewerPortlet extends MVCPortlet {
 		// On renvoie la liste des événements :
 		// d'abord les événements du jour classés par date de fin
 		// ensuite les autres, classés par date de fin également
-		List<Event> eventsOfTheDay = new ArrayList<Event>();
-		List<Event> otherEvents = new ArrayList<Event>();
+		List<Event> allEvents = EventLocalServiceUtil.getEvents(-1,-1).stream()
+				.filter(e -> e.getGroupId() == groupId || e.getGroupId() == globalGroupId)
+				.collect(Collectors.toList());
+		List<EventPeriod> allPeriods = EventPeriodLocalServiceUtil.getEventPeriods(-1, -1);
+		List<Event> eventsOfTheDay = new ArrayList<>();
+		List<Event> otherEvents = new ArrayList<>();
 		for (Document document : hits.getDocs()) {
-			Event event = EventLocalServiceUtil.fetchEvent(
-				GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+			Event event = allEvents.stream()
+					.filter(e -> e.getEventId() == GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))
+					.findFirst().orElse(null);
 			if (event != null) {
-				if (this.eventIsHappeningToday(event)) {
+				if (this.eventIsHappeningToday(allPeriods, GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))) {
 					eventsOfTheDay.add(event);
 				} else {
 					otherEvents.add(event);
 				}
 			}
 		}
-		
+
 		eventsOfTheDay = eventsOfTheDay.stream().sorted((e1, e2) -> {
 			Date e1EndDate = e1.getLastEndDate() != null ? e1.getLastEndDate() : new Date(Long.MAX_VALUE);
 			Date e2EndDate = e2.getLastEndDate() != null ? e2.getLastEndDate() : new Date(Long.MAX_VALUE);
@@ -228,9 +231,11 @@ public class EventViewerPortlet extends MVCPortlet {
 		return entries;
 	}
 
-	private boolean eventIsHappeningToday(Event event) {
+	private boolean eventIsHappeningToday(List<EventPeriod> allPeriods, long eventId) {
 		LocalDate today = LocalDate.now(ZoneId.of("Europe/Berlin"));
-		for (EventPeriod period : event.getEventPeriods()) {
+
+		for (EventPeriod period : allPeriods.stream()
+				.filter(p -> p.getEventId() == eventId).collect(Collectors.toList())) {
 			LocalDate startDate = period.getStartDate().toInstant()
 				.atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate endDate = period.getEndDate().toInstant()
