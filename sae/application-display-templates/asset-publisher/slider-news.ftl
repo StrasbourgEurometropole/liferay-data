@@ -32,7 +32,7 @@
                 <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
                 <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
                 <div class="swiper-slide news-content">
-                    <img class="news-image" src="${imageURL}" loading="lazy" alt="${title}" />
+                    <img class="news-image" src="${imageURL}?imagePreview=1" loading="lazy" alt="${title}" />
                     <div class="news-meta">
                         <div class="news-title"> 
                             <span>${title}</span>

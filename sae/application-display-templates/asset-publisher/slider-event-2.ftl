@@ -22,7 +22,7 @@
 
                 <div class="swiper-slide">
                     <a class="event-content" href="${homeURL}evenement/-/entity/id/${entry.eventId}">
-                        <img class="event-image" src="${entry.getImageURL()}?imagePreview=1" loading="lazy" />
+                        <img class="event-image" src="${entry.getImageURL()}" loading="lazy" />
                         <div class="event-date">
                             ${entry.getEventScheduleDisplay(locale)}
                         </div>
