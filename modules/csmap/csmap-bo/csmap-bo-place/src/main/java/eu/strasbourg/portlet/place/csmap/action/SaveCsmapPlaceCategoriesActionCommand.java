@@ -1,12 +1,16 @@
 package eu.strasbourg.portlet.place.csmap.action;
 
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.csmap.model.PlaceCategories;
 import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalService;
-import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -34,22 +38,17 @@ public class SaveCsmapPlaceCategoriesActionCommand extends BaseMVCActionCommand 
             placeCategories = _placeCategoriesLocalService.createPlaceCategories();
         }
 
-        int vocabularyNumber = ParamUtil.getInteger(request, "vocabulary_number");
-        StringBuilder categories = new StringBuilder();
-        for (int i = 0; i < vocabularyNumber; i++) {
-            long[] categoryIds = ParamUtil.getLongValues(request, "vocabulary_" + i + "_select");
-            if (categoryIds.length == 0) {
-                continue;
-            }
-            for (long categoryId : categoryIds) {
-                if (categories.toString().equals("")) {
-                    categories = new StringBuilder(String.valueOf(categoryId));
-                } else {
-                    categories.append(",").append(categoryId);
-                }
+        StringBuilder placeTypes = new StringBuilder();
+        long[] placeTypesIds = ParamUtil.getLongValues(request, "Vocabulary_" + getTypeVocabularyId());
+        for (long placeTypesId : placeTypesIds) {
+            if (placeTypes.toString().equals("")) {
+                placeTypes = new StringBuilder(String.valueOf(placeTypesId));
+            } else {
+                placeTypes.append(",").append(placeTypesId);
             }
         }
-        placeCategories.setCategoriesIds(categories.toString());
+        placeCategories.setCategoriesIds(placeTypes.toString());
+
         _placeCategoriesLocalService.updatePlaceCategories(placeCategories);
     }
 
@@ -59,5 +58,16 @@ public class SaveCsmapPlaceCategoriesActionCommand extends BaseMVCActionCommand 
     protected void setAgendaExportLocalService(PlaceCategoriesLocalService placeCategoriesLocalService) {
 
         _placeCategoriesLocalService = placeCategoriesLocalService;
+    }
+
+    private String getTypeVocabularyId(){
+        try {
+            AssetVocabulary type = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
+            if(Validator.isNotNull(type))
+                return String.valueOf(type.getVocabularyId());
+        } catch (PortalException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -1,6 +1,6 @@
 package eu.strasbourg.portlet.agenda.csmap.display.context;
 
-import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -8,6 +8,7 @@ import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ViewCsmapAgendaThematiqueDisplayContext extends ViewListBaseDisplayContext<Agenda> {
@@ -19,12 +20,27 @@ public class ViewCsmapAgendaThematiqueDisplayContext extends ViewListBaseDisplay
         super(Agenda.class, request, response);
     }
 
-    public List<Agenda> getAgendas() throws PortalException {
+    public List<Agenda> getAgendas() {
         if (this._agendas == null) {
-            this._agendas = AgendaLocalServiceUtil.getAgendasThematique();
+            this._agendas = new ArrayList<>(AgendaLocalServiceUtil.getAgendasThematiqueInactif());
+            Agenda agendaActif = AgendaLocalServiceUtil.getAgendaThematiqueActif();
+            if(Validator.isNotNull(agendaActif))
+                this._agendas.add(0, agendaActif);
         }
-//        this._searchContainer.setResults(this._agendas);
         return this._agendas;
+    }
+
+    /**
+     * Class CSS de la couleur du Statut
+     */
+    @SuppressWarnings("unused")
+    public String getCSSClass(Boolean isActif) {
+        String cssClass="red";
+        if(isActif) {
+            cssClass="green";
+        }
+
+        return cssClass;
     }
 
     /**

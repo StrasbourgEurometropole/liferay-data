@@ -1,13 +1,14 @@
 package eu.strasbourg.portlet.place.csmap.display.context;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.csmap.model.PlaceCategories;
 import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalServiceUtil;
+import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
-
-import java.util.LinkedList;
-import java.util.List;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 public class EditCsmapPlaceCategoriesDisplayContext {
     private PlaceCategories placeCategories;
@@ -16,7 +17,6 @@ public class EditCsmapPlaceCategoriesDisplayContext {
     public EditCsmapPlaceCategoriesDisplayContext() {
         _assetVocabularyAccessor = new AssetVocabularyAccessor();
     }
-
     public PlaceCategories getPlaceCategories() {
         placeCategories = PlaceCategoriesLocalServiceUtil.getPlaceCategories();
         if(Validator.isNull(placeCategories)){
@@ -25,13 +25,18 @@ public class EditCsmapPlaceCategoriesDisplayContext {
         return placeCategories;
     }
 
-    public  List<AssetVocabulary> getPlaceVocabularies() {
-        List<AssetVocabulary> vocabularies = new LinkedList<>();
-        vocabularies.add(_assetVocabularyAccessor.getPlaceTypes());
-        return vocabularies;
+    public String getClassName(){
+        return Place.class.getName();
     }
 
-    public Boolean verifId(int id) {
-        return placeCategories.getCategoriesIds().contains(String.valueOf(id));
+    public String getTypeVocabularyId(){
+        try {
+            AssetVocabulary type = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
+            if(Validator.isNotNull(type))
+                return String.valueOf(type.getVocabularyId());
+        } catch (PortalException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -44,8 +44,8 @@ import eu.strasbourg.service.agenda.model.Event;
 import java.io.IOException;
 import java.io.Serializable;
 
-import java.util.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Event. Methods of this
@@ -465,7 +465,7 @@ public interface EventLocalService
 	 */
 	public Event updateStatus(
 			long userId, long entryId, int status, ServiceContext sc,
-			java.util.Map<String, Serializable> workflowContext)
+			Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 }

@@ -57,7 +57,7 @@
                     <c:forEach var="campaign" items="${dc.campaings}">
                         <option
                             value="${campaign.campaignId}"
-                            <c:if test="${dc.agendaThematiqueVerifId(campaign.campaignId)}">
+                            <c:if test="${fn:contains(dc.agendaThematique.campaignsIds,campaign.campaignId)}">
                                 selected="selected"
                             </c:if>
                         >
@@ -66,66 +66,15 @@
                     </c:forEach>
                 </select>
 
-                <c:forEach var="vocabulary" items="${dc.agendaThemes}" varStatus="status">
-                    <label><span>${vocabulary.getTitle(locale)}</span></label>
-                    <select
-                        id="agendaThemes"
-                        class="choices-element"
-                        name="<portlet:namespace />agendaThemes"
-                        placeholder="<liferay-ui:message key="select-multiple" />"
-                    multiple>
-                        <c:forEach var="category" items="${vocabulary.categories}">
-                            <option
-                                value="${category.categoryId}"
-                                <c:if test="${dc.agendaThematiqueVerifId(category.categoryId)}">
-                                    selected="selected"
-                                </c:if>
-                            >
-                                ${category.getTitle(locale)}
-                            </option>
-                        </c:forEach>
-                    </select>
-                </c:forEach>
+                <liferay-ui:asset-categories-selector
+                    className="${dc.className}"
+                    hiddenInput="Vocabulary"
+                    curCategoryIds="${dc.allCategoriesAgenda}" />
 
-                <c:forEach var="vocabulary" items="${dc.agendaTypes}" varStatus="status">
-                    <label><span>${vocabulary.getTitle(locale)}</span></label>
-                    <select
-                        id="agendaTypes"
-                        class="choices-element"
-                        name="<portlet:namespace />agendaTypes"
-                        placeholder="<liferay-ui:message key="select-multiple" />"
-                    multiple>
-                        <c:forEach var="category" items="${vocabulary.categories}">
-                            <option
-                                value="${category.categoryId}"
-                                <c:if test="${dc.agendaThematiqueVerifId(category.categoryId)}">
-                                    selected="selected"
-                                </c:if>
-                            >
-                                ${category.getTitle(locale)}
-                            </option>
-                        </c:forEach>
-                    </select>
-                </c:forEach>
-
-                <label><span>Liste de Tags</span></label>
-                <select
-                    id="tags"
-                    class="choices-element"
-                    name="<portlet:namespace />tags"
-                    placeholder="<liferay-ui:message key="select-multiple" />"
-                multiple>
-                    <c:forEach var="tag" items="${dc.assetTags}">
-                        <option
-                            value="${tag.tagId}"
-                            <c:if test="${dc.agendaThematiqueVerifId(tag.tagId)}">
-                                selected="selected"
-                            </c:if>
-                        >
-                            ${tag.getName()}
-                        </option>
-                    </c:forEach>
-                </select>
+                <label><span>Tags</span></label>
+                <liferay-ui:asset-tags-selector
+                    hiddenInput="tags"
+                    curTags="${dc.agendaThematique.tags}" />
             </aui:fieldset>
 
 		</aui:fieldset-group>
@@ -155,6 +104,34 @@
             }
 		});
 	</aui:script>
+
+	<style>
+	    label[id^='<portlet:namespace />assetCategoriesLabel_']{
+	        display:none;
+        }
+	    div[id^='<portlet:namespace />sxvx___assetCategoriesSelector_']{
+	        display:none;
+	        margin-bottom: 30px;
+        }
+
+        label[id^='<portlet:namespace />assetCategoriesLabel_'] .icon-asterisk {
+            display: none;
+        }
+
+	    #<portlet:namespace />assetCategoriesLabel_${dc.themeVocabularyId}{
+	        display:block;
+        }
+	    #<portlet:namespace />sxvx___assetCategoriesSelector_${dc.themeVocabularyId}{
+	        display:block;
+        }
+
+	    #<portlet:namespace />assetCategoriesLabel_${dc.typeVocabularyId}{
+	        display:block;
+        }
+	    #<portlet:namespace />sxvx___assetCategoriesSelector_${dc.typeVocabularyId}{
+	        display:block;
+        }
+	</style>
 
     <!-- Include Choices CSS -->
 	<link rel="stylesheet" href="/o/csmapboagenda/css/vendors/choices.min.css">

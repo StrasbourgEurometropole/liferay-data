@@ -1044,6 +1044,201 @@ public class CacheJsonUtil {
 	}
 
 	/**
+	 * Returns all the cache jsons where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @return the matching cache jsons
+	 */
+	public static List<CacheJson> findByRegeneratedDateAndIsActive(
+		Date regeneratedDate, boolean isActive) {
+
+		return getPersistence().findByRegeneratedDateAndIsActive(
+			regeneratedDate, isActive);
+	}
+
+	/**
+	 * Returns a range of all the cache jsons where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param start the lower bound of the range of cache jsons
+	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @return the range of matching cache jsons
+	 */
+	public static List<CacheJson> findByRegeneratedDateAndIsActive(
+		Date regeneratedDate, boolean isActive, int start, int end) {
+
+		return getPersistence().findByRegeneratedDateAndIsActive(
+			regeneratedDate, isActive, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the cache jsons where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param start the lower bound of the range of cache jsons
+	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching cache jsons
+	 */
+	public static List<CacheJson> findByRegeneratedDateAndIsActive(
+		Date regeneratedDate, boolean isActive, int start, int end,
+		OrderByComparator<CacheJson> orderByComparator) {
+
+		return getPersistence().findByRegeneratedDateAndIsActive(
+			regeneratedDate, isActive, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the cache jsons where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param start the lower bound of the range of cache jsons
+	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching cache jsons
+	 */
+	public static List<CacheJson> findByRegeneratedDateAndIsActive(
+		Date regeneratedDate, boolean isActive, int start, int end,
+		OrderByComparator<CacheJson> orderByComparator,
+		boolean retrieveFromCache) {
+
+		return getPersistence().findByRegeneratedDateAndIsActive(
+			regeneratedDate, isActive, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	 * Returns the first cache json in the ordered set where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching cache json
+	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 */
+	public static CacheJson findByRegeneratedDateAndIsActive_First(
+			Date regeneratedDate, boolean isActive,
+			OrderByComparator<CacheJson> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchCacheJsonException {
+
+		return getPersistence().findByRegeneratedDateAndIsActive_First(
+			regeneratedDate, isActive, orderByComparator);
+	}
+
+	/**
+	 * Returns the first cache json in the ordered set where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
+	 */
+	public static CacheJson fetchByRegeneratedDateAndIsActive_First(
+		Date regeneratedDate, boolean isActive,
+		OrderByComparator<CacheJson> orderByComparator) {
+
+		return getPersistence().fetchByRegeneratedDateAndIsActive_First(
+			regeneratedDate, isActive, orderByComparator);
+	}
+
+	/**
+	 * Returns the last cache json in the ordered set where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching cache json
+	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 */
+	public static CacheJson findByRegeneratedDateAndIsActive_Last(
+			Date regeneratedDate, boolean isActive,
+			OrderByComparator<CacheJson> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchCacheJsonException {
+
+		return getPersistence().findByRegeneratedDateAndIsActive_Last(
+			regeneratedDate, isActive, orderByComparator);
+	}
+
+	/**
+	 * Returns the last cache json in the ordered set where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
+	 */
+	public static CacheJson fetchByRegeneratedDateAndIsActive_Last(
+		Date regeneratedDate, boolean isActive,
+		OrderByComparator<CacheJson> orderByComparator) {
+
+		return getPersistence().fetchByRegeneratedDateAndIsActive_Last(
+			regeneratedDate, isActive, orderByComparator);
+	}
+
+	/**
+	 * Returns the cache jsons before and after the current cache json in the ordered set where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * @param eventId the primary key of the current cache json
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next cache json
+	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
+	 */
+	public static CacheJson[] findByRegeneratedDateAndIsActive_PrevAndNext(
+			long eventId, Date regeneratedDate, boolean isActive,
+			OrderByComparator<CacheJson> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchCacheJsonException {
+
+		return getPersistence().findByRegeneratedDateAndIsActive_PrevAndNext(
+			eventId, regeneratedDate, isActive, orderByComparator);
+	}
+
+	/**
+	 * Removes all the cache jsons where regeneratedDate &le; &#63; and isActive = &#63; from the database.
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 */
+	public static void removeByRegeneratedDateAndIsActive(
+		Date regeneratedDate, boolean isActive) {
+
+		getPersistence().removeByRegeneratedDateAndIsActive(
+			regeneratedDate, isActive);
+	}
+
+	/**
+	 * Returns the number of cache jsons where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @return the number of matching cache jsons
+	 */
+	public static int countByRegeneratedDateAndIsActive(
+		Date regeneratedDate, boolean isActive) {
+
+		return getPersistence().countByRegeneratedDateAndIsActive(
+			regeneratedDate, isActive);
+	}
+
+	/**
 	 * Caches the cache json in the entity cache if it is enabled.
 	 *
 	 * @param cacheJson the cache json

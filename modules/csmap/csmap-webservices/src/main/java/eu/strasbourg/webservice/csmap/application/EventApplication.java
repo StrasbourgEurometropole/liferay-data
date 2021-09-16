@@ -2,7 +2,6 @@ package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -10,27 +9,51 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.model.CacheJson;
+import eu.strasbourg.service.agenda.model.Campaign;
+import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Historic;
 import eu.strasbourg.service.agenda.service.CacheJsonLocalService;
+import eu.strasbourg.service.agenda.service.CampaignLocalService;
 import eu.strasbourg.service.agenda.service.HistoricLocalService;
+import eu.strasbourg.service.csmap.model.Agenda;
+import eu.strasbourg.service.csmap.service.AgendaLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.exception.place.NoDefaultPictoException;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
-import javax.ws.rs.*;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.*;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 @Component(
         property = {
@@ -270,6 +293,104 @@ public class EventApplication extends Application {
         return WSResponseUtil.buildOkResponse(json);
     }
 
+    @GET
+    @Produces("application/json")
+    @Path("/get-agendas")
+    public Response getAgendas() {
+
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        // On récupère tous les ids events de l'agenda principal
+        Agenda principal = agendaLocalService.getAgendaPrincipal();
+        JSONObject jsonPrincipal = JSONFactoryUtil.createJSONObject();
+        System.out.println("principal");
+        JSONArray jsonIds = getJsonIds(principal);
+        jsonPrincipal.put(WSConstants.JSON_IDS, jsonIds);
+        json.put(WSConstants.JSON_AGENDA_PRINCIPAL, jsonPrincipal);
+
+        // On récupère tous les ids events de l'agenda thématique s'il y en a un
+        Agenda thematique = agendaLocalService.getAgendaThematiqueActif();
+        JSONObject jsonThematique = JSONFactoryUtil.createJSONObject();
+        if(Validator.isNotNull(thematique)) {
+            System.out.println("thématique");
+            jsonIds = getJsonIds(thematique);
+            jsonThematique.put(WSConstants.JSON_IDS, jsonIds);
+
+            JSONObject jsonTitle = JSONFactoryUtil.createJSONObject();
+            jsonTitle.put(WSConstants.JSON_LANGUAGE_FRANCE, thematique.getTitle(Locale.FRANCE));
+            jsonThematique.put(WSConstants.JSON_TITLE, jsonTitle);
+
+            JSONObject jsonSubtitle = JSONFactoryUtil.createJSONObject();
+            jsonSubtitle.put(WSConstants.JSON_LANGUAGE_FRANCE, thematique.getSubtitle(Locale.FRANCE));
+            jsonThematique.put(WSConstants.JSON_SUBTITLE, jsonSubtitle);
+
+            String imageURL = "";
+            try {
+                imageURL = StrasbourgPropsUtil.getURL() + UriHelper.appendUriImagePreview(FileEntryHelper.getFileEntryURLWithTimeStamp(thematique.getImageId()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            jsonThematique.put(WSConstants.JSON_IMAGE_URL, imageURL);
+        }
+        json.put(WSConstants.JSON_AGENDA_THEMATIQUE, jsonThematique);
+
+        if(jsonPrincipal.length() == 0)
+            return WSResponseUtil.buildErrorResponse(500, "agenda principal inexistant");
+
+        return WSResponseUtil.buildOkResponse(json);
+    }
+
+    private JSONArray getJsonIds(Agenda agenda) {
+
+        // ClassNames de la configuration
+        String className = Event.class.getName();
+
+        // catégories
+        List<Long[]> categoriesIds = new ArrayList<>();
+        Long[] categoriesIdsForTheme = ArrayUtil
+                .toLongArray(StringUtil.split(agenda.getThemesIds(), ",", 0));
+        categoriesIds.add(categoriesIdsForTheme);
+        Long[] categoriesIdsForType = ArrayUtil
+                .toLongArray(StringUtil.split(agenda.getTypesIds(), ",", 0));
+        categoriesIds.add(categoriesIdsForType);
+
+        // tags
+        String[] tagsArray = StringUtil.split(agenda.getTags());
+
+        // campaigns
+        // on récupère le nom de la campagne et non l'id
+        String campaignsTitle = "";
+        if (!agenda.getCampaignsIds().isEmpty()){
+            for (String campaignId : agenda.getCampaignsIds().split(",")) {
+                Campaign campaign = campaignLocalService.fetchCampaign(Long.parseLong(campaignId));
+                if (Validator.isNotNull(campaign)) {
+                    if (!campaignsTitle.isEmpty())
+                        campaignsTitle += ",";
+                    campaignsTitle += FriendlyURLNormalizerUtil
+                            .normalize(campaign.getTitleCurrentValue());
+                }
+            }
+        }
+        String[] campaignsArray = StringUtil.split(campaignsTitle);
+        System.out.println(campaignsTitle);
+
+        // Recherche
+        Hits hits = SearchHelper.getEventsAgendaWebServiceSearchHits(className, categoriesIds, tagsArray, campaignsArray);
+
+        JSONArray jsonIds = JSONFactoryUtil.createJSONArray();
+        if (hits != null) {
+            for (Document document : hits.getDocs()) {
+                long id = Long.parseLong(document.get(Field.ENTRY_CLASS_PK));
+                if(campaignsTitle.isEmpty() || campaignsTitle.contains(document.get("campaign"))) {
+                    jsonIds.put(id);
+                    System.out.println(document.get("campaign"));
+                }
+            }
+        }
+
+        return jsonIds;
+    }
+
     @Reference(unbind = "-")
     protected void setCacheJsonLocalService(CacheJsonLocalService cacheJsonLocalService) {
         this.cacheJsonLocalService = cacheJsonLocalService;
@@ -285,4 +406,21 @@ public class EventApplication extends Application {
 
     @Reference
     protected eu.strasbourg.service.agenda.service.HistoricLocalService historicLocalService;
+
+    @Reference(unbind = "-")
+    protected void setAgendaLocalService(AgendaLocalService agendaLocalService) {
+        this.agendaLocalService = agendaLocalService;
+    }
+
+
+    @Reference
+    protected AgendaLocalService agendaLocalService;
+
+    @Reference
+    protected CampaignLocalService campaignLocalService;
+
+    @Reference(unbind = "-")
+    protected void setCampaignLocalService(CampaignLocalService campaignLocalService) {
+        this.campaignLocalService = campaignLocalService;
+    }
 }

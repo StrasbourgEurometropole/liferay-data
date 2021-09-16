@@ -55,9 +55,9 @@
 					name="title" truncate="true" orderable="true" value="${agenda.getTitle()}" />
 
 				<%-- Colonne : IsActive --%>
-				<liferay-ui:search-container-column-text cssClass="content-column"
+				<liferay-ui:search-container-column-text cssClass="content-column ${dc.getCSSClass(agenda.getIsActive())}"
 					name="isActive" truncate="true" orderable="true"
-					value="${agenda.getIsActive()}" />
+					value="${agenda.getIsActive()?'oui':'non'}" />
 
 
 				<liferay-ui:search-container-column-text>
@@ -106,3 +106,9 @@
 		}
 	}
 </aui:script>
+
+<style>
+    .green {color: #76BD4A;}
+
+    .red {color: #C73C42;}
+</style>

@@ -258,6 +258,13 @@ public class AgendaLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<eu.strasbourg.service.csmap.model.Agenda>
+		getAgendasThematiqueInactif() {
+
+		return _agendaLocalService.getAgendasThematiqueInactif();
+	}
+
+	@Override
 	public eu.strasbourg.service.csmap.model.Agenda getAgendaThematiqueActif() {
 		return _agendaLocalService.getAgendaThematiqueActif();
 	}

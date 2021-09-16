@@ -216,6 +216,9 @@ public interface AgendaLocalService
 	public List<Agenda> getAgendasThematique();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Agenda> getAgendasThematiqueInactif();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Agenda getAgendaThematiqueActif();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

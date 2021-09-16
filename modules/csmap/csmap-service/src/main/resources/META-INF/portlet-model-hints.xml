@@ -4,14 +4,14 @@
 	<model name="eu.strasbourg.service.csmap.model.Agenda">
 		<field name="uuid" type="String" />
 		<field name="agendaId" type="long" />
-		<field name="title" type="String">
-			<hint name="max-length">200</hint>
+		<field localized="true" name="title" type="String">
+			<hint name="max-length">400</hint>
 		</field>
-		<field name="editorialTitle" type="String">
-			<hint name="max-length">200</hint>
+		<field localized="true" name="editorialTitle" type="String">
+			<hint name="max-length">400</hint>
 		</field>
-		<field name="subtitle" type="String">
-			<hint name="max-length">200</hint>
+		<field localized="true" name="subtitle" type="String">
+			<hint name="max-length">400</hint>
 		</field>
 		<field name="imageId" type="Long" />
 		<field name="isPrincipal" type="Boolean" />

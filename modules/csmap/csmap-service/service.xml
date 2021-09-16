@@ -38,9 +38,9 @@
 	<entity local-service="true" remote-service="false" cache-enabled="false" name="Agenda" uuid="true">
 		<!-- PK fields -->
 		<column name="agendaId" primary="true" type="long" />
-		<column name="title" type="String" />
-		<column name="editorialTitle" type="String" />
-		<column name="subtitle" type="String" />
+		<column name="title" type="String" localized="true" />
+		<column name="editorialTitle" type="String" localized="true" />
+		<column name="subtitle" type="String" localized="true" />
 		<column name="imageId" type="Long" />
 		<column name="isPrincipal" type="Boolean" />
 		<column name="isActive" type="Boolean" />

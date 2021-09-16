@@ -1,11 +1,16 @@
 package eu.strasbourg.portlet.agenda.csmap.action;
 
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalService;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -45,7 +50,7 @@ public class SaveCsmapAgendaPrincipalActionCommand extends BaseMVCActionCommand 
         agenda.setCampaignsIds(campaigns.toString());
 
         StringBuilder agendaThemes = new StringBuilder();
-        long[] agendaThemesIds = ParamUtil.getLongValues(request, "agendaThemes");
+        long[] agendaThemesIds = ParamUtil.getLongValues(request, "Vocabulary_" + getThemeVocabularyId());
         for (long agendaThemesId : agendaThemesIds) {
             if (agendaThemes.toString().equals("")) {
                 agendaThemes = new StringBuilder(String.valueOf(agendaThemesId));
@@ -56,7 +61,7 @@ public class SaveCsmapAgendaPrincipalActionCommand extends BaseMVCActionCommand 
         agenda.setThemesIds(agendaThemes.toString());
 
         StringBuilder agendaTypes = new StringBuilder();
-        long[] agendaTypesIds = ParamUtil.getLongValues(request, "agendaTypes");
+        long[] agendaTypesIds = ParamUtil.getLongValues(request, "Vocabulary_" + getTypeVocabularyId());
         for (long agendaTypesId : agendaTypesIds) {
             if (agendaTypes.toString().equals("")) {
                 agendaTypes = new StringBuilder(String.valueOf(agendaTypesId));
@@ -66,16 +71,10 @@ public class SaveCsmapAgendaPrincipalActionCommand extends BaseMVCActionCommand 
         }
         agenda.setTypesIds(agendaTypes.toString());
 
-        StringBuilder tags = new StringBuilder();
-        long[] tagsIds = ParamUtil.getLongValues(request, "tags");
-        for (long tagsId : tagsIds) {
-            if (tags.toString().equals("")) {
-                tags = new StringBuilder(String.valueOf(tagsId));
-            } else {
-                tags.append(",").append(tagsId);
-            }
-        }
-        agenda.setTags(tags.toString());
+        String tags = ParamUtil.getString(request,
+                "tags");
+        agenda.setTags(tags);
+
         agenda.setIsPrincipal(true);
         agenda.setIsActive(true);
         agenda.setImageId((long) 0);
@@ -89,6 +88,28 @@ public class SaveCsmapAgendaPrincipalActionCommand extends BaseMVCActionCommand 
     protected void setAgendaExportLocalService(AgendaLocalService agendaLocalService) {
 
         _agendaLocalService = agendaLocalService;
+    }
+
+    private String getThemeVocabularyId(){
+        try {
+            AssetVocabulary theme = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.EVENT_THEME);
+            if(Validator.isNotNull(theme))
+                return String.valueOf(theme.getVocabularyId());
+        } catch (PortalException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String getTypeVocabularyId(){
+        try {
+            AssetVocabulary type = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.EVENT_TYPE);
+            if(Validator.isNotNull(type))
+                return String.valueOf(type.getVocabularyId());
+        } catch (PortalException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 

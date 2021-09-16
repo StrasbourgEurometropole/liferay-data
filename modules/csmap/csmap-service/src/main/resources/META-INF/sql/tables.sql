@@ -1,9 +1,9 @@
 create table csmap_Agenda (
 	uuid_ VARCHAR(75) null,
 	agendaId LONG not null primary key,
-	title VARCHAR(200) null,
-	editorialTitle VARCHAR(200) null,
-	subtitle VARCHAR(200) null,
+	title STRING null,
+	editorialTitle STRING null,
+	subtitle STRING null,
 	imageId LONG,
 	isPrincipal BOOLEAN,
 	isActive BOOLEAN,

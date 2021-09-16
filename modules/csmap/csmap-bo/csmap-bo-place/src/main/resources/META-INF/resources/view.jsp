@@ -2,8 +2,6 @@
 
 <%@page import="eu.strasbourg.service.csmap.model.PlaceCategories"%>
 
-<%-- URL : definit le lien menant vers la suppression de l'entite --%>
-
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="savePlaceCategories" varImpl="savePlaceCategoriesURL">
 	<portlet:param name="cmd" value="savePlaceCategories" />
@@ -26,32 +24,12 @@
 
             <%-- Champ : CategoriesIds --%>
             <aui:fieldset collapsed="false" collapsible="false">
-                <c:forEach var="vocabulary" items="${dc.placeVocabularies}" varStatus="status">
-                    <label><span>${vocabulary.getTitle(locale)}</span></label>
-                    <select
-                        id="vocabulary${status.index}"
-                        class="choices-element"
-                        name="<portlet:namespace />vocabulary_${status.index}_select"
-                        placeholder="<liferay-ui:message key="select-multiple" />"
-                    multiple>
-                        <c:forEach var="category" items="${vocabulary.categories}">
-                            <option
-                                value="${category.categoryId}"
-                                <c:if test="${dc.verifId(category.categoryId)}">
-                                    selected="selected"
-                                </c:if>
-                            >
-                                ${category.getTitle(locale)}
-                            </option>
-                        </c:forEach>
-                    </select>
-                    <aui:input
-                        type="hidden"
-                        name="vocabulary_${status.index}_id"
-                        value="${vocabulary.vocabularyId}"
-                    />
-                </c:forEach>
-                <aui:input type="hidden" name="vocabulary_number" value="${dc.placeVocabularies.size()}"/>
+
+                <liferay-ui:asset-categories-selector
+                    className="${dc.className}"
+                    hiddenInput="Vocabulary"
+                    curCategoryIds="${dc.placeCategories.getCategoriesIds()}" />
+
             </aui:fieldset>
 
 		</aui:fieldset-group>
@@ -71,13 +49,27 @@
 </div>
 
 <liferay-util:html-bottom>
-    <!-- Include Choices CSS -->
-	<link rel="stylesheet" href="/o/csmapboplace/css/vendors/choices.min.css">
-	<!-- Include Choices JavaScript -->
-    <script src="/o/csmapboplace/js/vendors/choices.min.js"
-            type="text/javascript"></script>
-	<script	src="/o/csmapboplace/js/vendors/jquery.autocomplete.js"
-		type="text/javascript"></script>
-	<script	src="/o/csmapboplace/js/main.js"
-		type="text/javascript"></script>
+
+	<style>
+	    label[id^='<portlet:namespace />assetCategoriesLabel_']{
+	        display:none;
+        }
+	    div[id^='<portlet:namespace />sxvx___assetCategoriesSelector_']{
+	        display:none;
+	        margin-bottom: 30px;
+        }
+
+        label[id^='<portlet:namespace />assetCategoriesLabel_'] .icon-asterisk {
+            display: none;
+        }
+
+	    #<portlet:namespace />assetCategoriesLabel_${dc.typeVocabularyId}{
+	        display:block;
+        }
+	    #<portlet:namespace />sxvx___assetCategoriesSelector_${dc.typeVocabularyId}{
+	        display:block;
+        }
+	</style>
+
+	<script	src="/o/csmapboplace/js/main.js" type="text/javascript"></script>
 </liferay-util:html-bottom>

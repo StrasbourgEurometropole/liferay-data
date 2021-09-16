@@ -18,31 +18,34 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.model.AgendaModel;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
 import java.sql.Types;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-
-import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Agenda service. Represents a row in the &quot;csmap_Agenda&quot; database table, with each column mapped to a property of this class.
@@ -94,7 +97,7 @@ public class AgendaModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table csmap_Agenda (uuid_ VARCHAR(75) null,agendaId LONG not null primary key,title VARCHAR(200) null,editorialTitle VARCHAR(200) null,subtitle VARCHAR(200) null,imageId LONG,isPrincipal BOOLEAN,isActive BOOLEAN,campaignsIds STRING null,themesIds STRING null,typesIds STRING null,tags STRING null)";
+		"create table csmap_Agenda (uuid_ VARCHAR(75) null,agendaId LONG not null primary key,title STRING null,editorialTitle STRING null,subtitle STRING null,imageId LONG,isPrincipal BOOLEAN,isActive BOOLEAN,campaignsIds STRING null,themesIds STRING null,typesIds STRING null,tags STRING null)";
 
 	public static final String TABLE_SQL_DROP = "drop table csmap_Agenda";
 
@@ -337,8 +340,97 @@ public class AgendaModelImpl
 	}
 
 	@Override
+	public String getTitle(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getTitle(languageId);
+	}
+
+	@Override
+	public String getTitle(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getTitle(languageId, useDefault);
+	}
+
+	@Override
+	public String getTitle(String languageId) {
+		return LocalizationUtil.getLocalization(getTitle(), languageId);
+	}
+
+	@Override
+	public String getTitle(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getTitle(), languageId, useDefault);
+	}
+
+	@Override
+	public String getTitleCurrentLanguageId() {
+		return _titleCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getTitleCurrentValue() {
+		Locale locale = getLocale(_titleCurrentLanguageId);
+
+		return getTitle(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getTitleMap() {
+		return LocalizationUtil.getLocalizationMap(getTitle());
+	}
+
+	@Override
 	public void setTitle(String title) {
 		_title = title;
+	}
+
+	@Override
+	public void setTitle(String title, Locale locale) {
+		setTitle(title, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setTitle(String title, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(title)) {
+			setTitle(
+				LocalizationUtil.updateLocalization(
+					getTitle(), "Title", title, languageId, defaultLanguageId));
+		}
+		else {
+			setTitle(
+				LocalizationUtil.removeLocalization(
+					getTitle(), "Title", languageId));
+		}
+	}
+
+	@Override
+	public void setTitleCurrentLanguageId(String languageId) {
+		_titleCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setTitleMap(Map<Locale, String> titleMap) {
+		setTitleMap(titleMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setTitleMap(
+		Map<Locale, String> titleMap, Locale defaultLocale) {
+
+		if (titleMap == null) {
+			return;
+		}
+
+		setTitle(
+			LocalizationUtil.updateLocalization(
+				titleMap, getTitle(), "Title",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -352,8 +444,101 @@ public class AgendaModelImpl
 	}
 
 	@Override
+	public String getEditorialTitle(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getEditorialTitle(languageId);
+	}
+
+	@Override
+	public String getEditorialTitle(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getEditorialTitle(languageId, useDefault);
+	}
+
+	@Override
+	public String getEditorialTitle(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getEditorialTitle(), languageId);
+	}
+
+	@Override
+	public String getEditorialTitle(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getEditorialTitle(), languageId, useDefault);
+	}
+
+	@Override
+	public String getEditorialTitleCurrentLanguageId() {
+		return _editorialTitleCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getEditorialTitleCurrentValue() {
+		Locale locale = getLocale(_editorialTitleCurrentLanguageId);
+
+		return getEditorialTitle(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getEditorialTitleMap() {
+		return LocalizationUtil.getLocalizationMap(getEditorialTitle());
+	}
+
+	@Override
 	public void setEditorialTitle(String editorialTitle) {
 		_editorialTitle = editorialTitle;
+	}
+
+	@Override
+	public void setEditorialTitle(String editorialTitle, Locale locale) {
+		setEditorialTitle(editorialTitle, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setEditorialTitle(
+		String editorialTitle, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(editorialTitle)) {
+			setEditorialTitle(
+				LocalizationUtil.updateLocalization(
+					getEditorialTitle(), "EditorialTitle", editorialTitle,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setEditorialTitle(
+				LocalizationUtil.removeLocalization(
+					getEditorialTitle(), "EditorialTitle", languageId));
+		}
+	}
+
+	@Override
+	public void setEditorialTitleCurrentLanguageId(String languageId) {
+		_editorialTitleCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setEditorialTitleMap(Map<Locale, String> editorialTitleMap) {
+		setEditorialTitleMap(editorialTitleMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setEditorialTitleMap(
+		Map<Locale, String> editorialTitleMap, Locale defaultLocale) {
+
+		if (editorialTitleMap == null) {
+			return;
+		}
+
+		setEditorialTitle(
+			LocalizationUtil.updateLocalization(
+				editorialTitleMap, getEditorialTitle(), "EditorialTitle",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -367,8 +552,100 @@ public class AgendaModelImpl
 	}
 
 	@Override
+	public String getSubtitle(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getSubtitle(languageId);
+	}
+
+	@Override
+	public String getSubtitle(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getSubtitle(languageId, useDefault);
+	}
+
+	@Override
+	public String getSubtitle(String languageId) {
+		return LocalizationUtil.getLocalization(getSubtitle(), languageId);
+	}
+
+	@Override
+	public String getSubtitle(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getSubtitle(), languageId, useDefault);
+	}
+
+	@Override
+	public String getSubtitleCurrentLanguageId() {
+		return _subtitleCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getSubtitleCurrentValue() {
+		Locale locale = getLocale(_subtitleCurrentLanguageId);
+
+		return getSubtitle(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getSubtitleMap() {
+		return LocalizationUtil.getLocalizationMap(getSubtitle());
+	}
+
+	@Override
 	public void setSubtitle(String subtitle) {
 		_subtitle = subtitle;
+	}
+
+	@Override
+	public void setSubtitle(String subtitle, Locale locale) {
+		setSubtitle(subtitle, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setSubtitle(
+		String subtitle, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(subtitle)) {
+			setSubtitle(
+				LocalizationUtil.updateLocalization(
+					getSubtitle(), "Subtitle", subtitle, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setSubtitle(
+				LocalizationUtil.removeLocalization(
+					getSubtitle(), "Subtitle", languageId));
+		}
+	}
+
+	@Override
+	public void setSubtitleCurrentLanguageId(String languageId) {
+		_subtitleCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setSubtitleMap(Map<Locale, String> subtitleMap) {
+		setSubtitleMap(subtitleMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setSubtitleMap(
+		Map<Locale, String> subtitleMap, Locale defaultLocale) {
+
+		if (subtitleMap == null) {
+			return;
+		}
+
+		setSubtitle(
+			LocalizationUtil.updateLocalization(
+				subtitleMap, getSubtitle(), "Subtitle",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -500,6 +777,115 @@ public class AgendaModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> titleMap = getTitleMap();
+
+		for (Map.Entry<Locale, String> entry : titleMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> editorialTitleMap = getEditorialTitleMap();
+
+		for (Map.Entry<Locale, String> entry : editorialTitleMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> subtitleMap = getSubtitleMap();
+
+		for (Map.Entry<Locale, String> entry : subtitleMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getTitle();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			Agenda.class.getName(), getPrimaryKey(), defaultLocale,
+			availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String title = getTitle(defaultLocale);
+
+		if (Validator.isNull(title)) {
+			setTitle(getTitle(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setTitle(getTitle(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String editorialTitle = getEditorialTitle(defaultLocale);
+
+		if (Validator.isNull(editorialTitle)) {
+			setEditorialTitle(
+				getEditorialTitle(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setEditorialTitle(
+				getEditorialTitle(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String subtitle = getSubtitle(defaultLocale);
+
+		if (Validator.isNull(subtitle)) {
+			setSubtitle(getSubtitle(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setSubtitle(
+				getSubtitle(defaultLocale), defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -752,8 +1138,11 @@ public class AgendaModelImpl
 	private String _originalUuid;
 	private long _agendaId;
 	private String _title;
+	private String _titleCurrentLanguageId;
 	private String _editorialTitle;
+	private String _editorialTitleCurrentLanguageId;
 	private String _subtitle;
+	private String _subtitleCurrentLanguageId;
 	private Long _imageId;
 	private Boolean _isPrincipal;
 	private Boolean _originalIsPrincipal;

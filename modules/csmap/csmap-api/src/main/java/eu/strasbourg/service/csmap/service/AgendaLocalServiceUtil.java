@@ -254,6 +254,12 @@ public class AgendaLocalServiceUtil {
 		return getService().getAgendasThematique();
 	}
 
+	public static java.util.List<eu.strasbourg.service.csmap.model.Agenda>
+		getAgendasThematiqueInactif() {
+
+		return getService().getAgendasThematiqueInactif();
+	}
+
 	public static eu.strasbourg.service.csmap.model.Agenda
 		getAgendaThematiqueActif() {
 

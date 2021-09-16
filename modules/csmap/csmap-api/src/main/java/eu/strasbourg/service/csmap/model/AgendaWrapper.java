@@ -16,11 +16,10 @@ package eu.strasbourg.service.csmap.model;
 
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -144,6 +143,11 @@ public class AgendaWrapper
 		return model.getAgendaId();
 	}
 
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
+	}
+
 	/**
 	 * Returns the campaigns IDs of this agenda.
 	 *
@@ -154,6 +158,11 @@ public class AgendaWrapper
 		return model.getCampaignsIds();
 	}
 
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
+	}
+
 	/**
 	 * Returns the editorial title of this agenda.
 	 *
@@ -162,6 +171,74 @@ public class AgendaWrapper
 	@Override
 	public String getEditorialTitle() {
 		return model.getEditorialTitle();
+	}
+
+	/**
+	 * Returns the localized editorial title of this agenda in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized editorial title of this agenda
+	 */
+	@Override
+	public String getEditorialTitle(java.util.Locale locale) {
+		return model.getEditorialTitle(locale);
+	}
+
+	/**
+	 * Returns the localized editorial title of this agenda in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized editorial title of this agenda. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getEditorialTitle(
+		java.util.Locale locale, boolean useDefault) {
+
+		return model.getEditorialTitle(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized editorial title of this agenda in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized editorial title of this agenda
+	 */
+	@Override
+	public String getEditorialTitle(String languageId) {
+		return model.getEditorialTitle(languageId);
+	}
+
+	/**
+	 * Returns the localized editorial title of this agenda in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized editorial title of this agenda
+	 */
+	@Override
+	public String getEditorialTitle(String languageId, boolean useDefault) {
+		return model.getEditorialTitle(languageId, useDefault);
+	}
+
+	@Override
+	public String getEditorialTitleCurrentLanguageId() {
+		return model.getEditorialTitleCurrentLanguageId();
+	}
+
+	@Override
+	public String getEditorialTitleCurrentValue() {
+		return model.getEditorialTitleCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized editorial titles of this agenda.
+	 *
+	 * @return the locales and localized editorial titles of this agenda
+	 */
+	@Override
+	public Map<java.util.Locale, String> getEditorialTitleMap() {
+		return model.getEditorialTitleMap();
 	}
 
 	/**
@@ -215,6 +292,72 @@ public class AgendaWrapper
 	}
 
 	/**
+	 * Returns the localized subtitle of this agenda in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized subtitle of this agenda
+	 */
+	@Override
+	public String getSubtitle(java.util.Locale locale) {
+		return model.getSubtitle(locale);
+	}
+
+	/**
+	 * Returns the localized subtitle of this agenda in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized subtitle of this agenda. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getSubtitle(java.util.Locale locale, boolean useDefault) {
+		return model.getSubtitle(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized subtitle of this agenda in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized subtitle of this agenda
+	 */
+	@Override
+	public String getSubtitle(String languageId) {
+		return model.getSubtitle(languageId);
+	}
+
+	/**
+	 * Returns the localized subtitle of this agenda in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized subtitle of this agenda
+	 */
+	@Override
+	public String getSubtitle(String languageId, boolean useDefault) {
+		return model.getSubtitle(languageId, useDefault);
+	}
+
+	@Override
+	public String getSubtitleCurrentLanguageId() {
+		return model.getSubtitleCurrentLanguageId();
+	}
+
+	@Override
+	public String getSubtitleCurrentValue() {
+		return model.getSubtitleCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized subtitles of this agenda.
+	 *
+	 * @return the locales and localized subtitles of this agenda
+	 */
+	@Override
+	public Map<java.util.Locale, String> getSubtitleMap() {
+		return model.getSubtitleMap();
+	}
+
+	/**
 	 * Returns the tags of this agenda.
 	 *
 	 * @return the tags of this agenda
@@ -245,6 +388,72 @@ public class AgendaWrapper
 	}
 
 	/**
+	 * Returns the localized title of this agenda in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized title of this agenda
+	 */
+	@Override
+	public String getTitle(java.util.Locale locale) {
+		return model.getTitle(locale);
+	}
+
+	/**
+	 * Returns the localized title of this agenda in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized title of this agenda. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getTitle(java.util.Locale locale, boolean useDefault) {
+		return model.getTitle(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized title of this agenda in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized title of this agenda
+	 */
+	@Override
+	public String getTitle(String languageId) {
+		return model.getTitle(languageId);
+	}
+
+	/**
+	 * Returns the localized title of this agenda in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized title of this agenda
+	 */
+	@Override
+	public String getTitle(String languageId, boolean useDefault) {
+		return model.getTitle(languageId, useDefault);
+	}
+
+	@Override
+	public String getTitleCurrentLanguageId() {
+		return model.getTitleCurrentLanguageId();
+	}
+
+	@Override
+	public String getTitleCurrentValue() {
+		return model.getTitleCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized titles of this agenda.
+	 *
+	 * @return the locales and localized titles of this agenda
+	 */
+	@Override
+	public Map<java.util.Locale, String> getTitleMap() {
+		return model.getTitleMap();
+	}
+
+	/**
 	 * Returns the types IDs of this agenda.
 	 *
 	 * @return the types IDs of this agenda
@@ -267,6 +476,21 @@ public class AgendaWrapper
 	@Override
 	public void persist() {
 		model.persist();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -297,6 +521,65 @@ public class AgendaWrapper
 	@Override
 	public void setEditorialTitle(String editorialTitle) {
 		model.setEditorialTitle(editorialTitle);
+	}
+
+	/**
+	 * Sets the localized editorial title of this agenda in the language.
+	 *
+	 * @param editorialTitle the localized editorial title of this agenda
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setEditorialTitle(
+		String editorialTitle, java.util.Locale locale) {
+
+		model.setEditorialTitle(editorialTitle, locale);
+	}
+
+	/**
+	 * Sets the localized editorial title of this agenda in the language, and sets the default locale.
+	 *
+	 * @param editorialTitle the localized editorial title of this agenda
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setEditorialTitle(
+		String editorialTitle, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setEditorialTitle(editorialTitle, locale, defaultLocale);
+	}
+
+	@Override
+	public void setEditorialTitleCurrentLanguageId(String languageId) {
+		model.setEditorialTitleCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized editorial titles of this agenda from the map of locales and localized editorial titles.
+	 *
+	 * @param editorialTitleMap the locales and localized editorial titles of this agenda
+	 */
+	@Override
+	public void setEditorialTitleMap(
+		Map<java.util.Locale, String> editorialTitleMap) {
+
+		model.setEditorialTitleMap(editorialTitleMap);
+	}
+
+	/**
+	 * Sets the localized editorial titles of this agenda from the map of locales and localized editorial titles, and sets the default locale.
+	 *
+	 * @param editorialTitleMap the locales and localized editorial titles of this agenda
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setEditorialTitleMap(
+		Map<java.util.Locale, String> editorialTitleMap,
+		java.util.Locale defaultLocale) {
+
+		model.setEditorialTitleMap(editorialTitleMap, defaultLocale);
 	}
 
 	/**
@@ -350,6 +633,61 @@ public class AgendaWrapper
 	}
 
 	/**
+	 * Sets the localized subtitle of this agenda in the language.
+	 *
+	 * @param subtitle the localized subtitle of this agenda
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setSubtitle(String subtitle, java.util.Locale locale) {
+		model.setSubtitle(subtitle, locale);
+	}
+
+	/**
+	 * Sets the localized subtitle of this agenda in the language, and sets the default locale.
+	 *
+	 * @param subtitle the localized subtitle of this agenda
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setSubtitle(
+		String subtitle, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setSubtitle(subtitle, locale, defaultLocale);
+	}
+
+	@Override
+	public void setSubtitleCurrentLanguageId(String languageId) {
+		model.setSubtitleCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized subtitles of this agenda from the map of locales and localized subtitles.
+	 *
+	 * @param subtitleMap the locales and localized subtitles of this agenda
+	 */
+	@Override
+	public void setSubtitleMap(Map<java.util.Locale, String> subtitleMap) {
+		model.setSubtitleMap(subtitleMap);
+	}
+
+	/**
+	 * Sets the localized subtitles of this agenda from the map of locales and localized subtitles, and sets the default locale.
+	 *
+	 * @param subtitleMap the locales and localized subtitles of this agenda
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setSubtitleMap(
+		Map<java.util.Locale, String> subtitleMap,
+		java.util.Locale defaultLocale) {
+
+		model.setSubtitleMap(subtitleMap, defaultLocale);
+	}
+
+	/**
 	 * Sets the tags of this agenda.
 	 *
 	 * @param tags the tags of this agenda
@@ -377,6 +715,60 @@ public class AgendaWrapper
 	@Override
 	public void setTitle(String title) {
 		model.setTitle(title);
+	}
+
+	/**
+	 * Sets the localized title of this agenda in the language.
+	 *
+	 * @param title the localized title of this agenda
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setTitle(String title, java.util.Locale locale) {
+		model.setTitle(title, locale);
+	}
+
+	/**
+	 * Sets the localized title of this agenda in the language, and sets the default locale.
+	 *
+	 * @param title the localized title of this agenda
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setTitle(
+		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
+
+		model.setTitle(title, locale, defaultLocale);
+	}
+
+	@Override
+	public void setTitleCurrentLanguageId(String languageId) {
+		model.setTitleCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized titles of this agenda from the map of locales and localized titles.
+	 *
+	 * @param titleMap the locales and localized titles of this agenda
+	 */
+	@Override
+	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
+		model.setTitleMap(titleMap);
+	}
+
+	/**
+	 * Sets the localized titles of this agenda from the map of locales and localized titles, and sets the default locale.
+	 *
+	 * @param titleMap the locales and localized titles of this agenda
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setTitleMap(
+		Map<java.util.Locale, String> titleMap,
+		java.util.Locale defaultLocale) {
+
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**

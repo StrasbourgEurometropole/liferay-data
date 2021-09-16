@@ -1473,28 +1473,34 @@ public class EventImpl extends EventBaseImpl {
 			}
 		}
 
-		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
+		Date now = new Date();
+		Date datePlusDays = Date.from(LocalDate.now().plusDays(60).atStartOfDay()
+				.atZone(ZoneId.systemDefault()).toInstant());
+		Map<List<Date>, Map<Locale, String>> periods = new HashMap<>();
 		for (EventPeriod period : this.getEventPeriods()) {
-			SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = period.getStartDate();
-			LocalDate currentDate = LocalDate.now();
-			LocalDate datePlusDays = currentDate.plusDays(30);
-			LocalDate localDate = date.toInstant()
-					.atZone(ZoneId.systemDefault())
-					.toLocalDate();
-			if (localDate.isBefore(datePlusDays)) {
-				JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
-
-				periodJSON.put("date", dateFormat.format(date));
-
-				if (Validator.isNotNull(period.getTimeDetail())) {
-					periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
-				}
-				periodsJSON.put(periodJSON);
+			Map<Locale, String> timeDetail = new HashMap<>();
+			if (Validator.isNotNull(period.getTimeDetail())) {
+				timeDetail = period.getTimeDetailMap();
+			}
+			Date startDate = period.getStartDate().after(now) ?  period.getStartDate() : now;
+			Date endDate = period.getEndDate().after(datePlusDays) ?  datePlusDays : period.getEndDate();
+			periods.put(DateHelper.getDaysBetweenDates(startDate, endDate), timeDetail);
+		}
+		JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
+		SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		for (Entry<List<Date>, Map<Locale, String>> period : periods.entrySet()) {
+			JSONObject timeDetailJSON = JSONFactoryUtil.createJSONObject();
+			String timeDetail = period.getValue().get(Locale.FRANCE);
+			timeDetailJSON.put("fr_FR", timeDetail);
+			List<Date> dates = period.getKey();
+			for(Date date : dates){
+				JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
+				scheduleJSON.put("date", dateFormat.format(date));
+				scheduleJSON.put("timeDetail", timeDetailJSON);
+				schedulesJSON.put(scheduleJSON);
 			}
 		}
-
-		jsonEvent.put("schedules", periodsJSON);
+		jsonEvent.put("schedules", schedulesJSON);
 
 		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
 		if (jsonTypes.length() > 0) {
