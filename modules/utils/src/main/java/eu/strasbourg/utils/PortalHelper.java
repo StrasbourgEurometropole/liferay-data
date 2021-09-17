@@ -1,14 +1,8 @@
 package eu.strasbourg.utils;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import javax.portlet.RenderRequest;
-import java.util.logging.Logger;
 
 public class PortalHelper {
 
@@ -30,7 +24,7 @@ public class PortalHelper {
             String virtualHostName = themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname();
             boolean stagingGroup = themeDisplay.getScopeGroup().isStagingGroup();
             if (Validator.isNotNull(virtualHostName) && !stagingGroup) {
-                home = virtualHostName;
+                home = "https://"+virtualHostName;
             } else {
                 home = PortalUtil.getPortalURL(themeDisplay);
             }
