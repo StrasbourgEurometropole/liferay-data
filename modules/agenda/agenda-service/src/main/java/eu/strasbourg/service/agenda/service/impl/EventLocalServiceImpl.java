@@ -74,6 +74,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -650,6 +652,54 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	@Override
 	public List<Event> findByPlaceSIGId(String placeSIGId) {
 		return eventPersistence.findByPlaceSIGId(placeSIGId);
+	}
+
+	/**
+	 * Transform le timeDetail en startTime et endTime si on peut
+	 */
+	@Override
+	public String getTimeDetailFormated(String timeDetail){
+		// regexp de l'heure
+		String timePattern = "(\\d|([01]\\d|2[0-4]))( ?(h|:) ?)([0-5]\\d)?";
+		Pattern pattern = Pattern.compile(timePattern, Pattern.CASE_INSENSITIVE);
+
+		// on sépare les heures du timeDetail dans une liste
+		Matcher times = pattern.matcher(timeDetail);
+		List<String> texts = pattern.splitAsStream(timeDetail).collect(Collectors.toList());
+
+		String startTime = "", endTime = "", otherTime = "";
+		int i = 0;
+		while(times.find()) {
+			if(startTime.isEmpty())
+				startTime = getTimeFormated(times.group());
+			else {
+				String betweenTimes = texts.get(i);
+				Pattern betweenPattern = Pattern.compile("[-àa>]", Pattern.CASE_INSENSITIVE);
+				if (endTime.isEmpty() && pattern.matcher(timeDetail).find())
+					endTime = getTimeFormated(times.group());
+				else {
+					otherTime += texts.get(i) + times.group();
+				}
+			}
+			i++;
+		}
+
+		// c'est une phrase et non un horaire
+		if(i == 0)
+			otherTime = texts.get(0);
+		else if(texts.size() == i+1)
+			otherTime += texts.get(i);
+
+		return startTime + (endTime.isEmpty() ? "" : " - " + endTime) + (otherTime.isEmpty() ? "" : otherTime);
+	}
+
+	private String getTimeFormated(String time){
+		String formatTimePattern = "( ?(h|:) ?)";
+		Pattern formatPattern = Pattern.compile(formatTimePattern, Pattern.CASE_INSENSITIVE);
+		List<String> heureMinute = formatPattern.splitAsStream(time).collect(Collectors.toList());
+		String heure = String.valueOf(heureMinute.get(0)).length() == 1 ? "0" : "" + heureMinute.get(0);
+		String minute = heureMinute.size() > 1 ? heureMinute.get(heureMinute.size()-1) : "00";
+		return heure + ":" + minute;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());

@@ -1491,9 +1491,12 @@ public class EventImpl extends EventBaseImpl {
 		for (Entry<List<Date>, Map<Locale, String>> period : periods.entrySet()) {
 			JSONObject timeDetailJSON = JSONFactoryUtil.createJSONObject();
 			String timeDetail = period.getValue().get(Locale.FRANCE);
+			if(Validator.isNotNull(timeDetail))
+				timeDetail = EventLocalServiceUtil.getTimeDetailFormated(timeDetail);
+
 			timeDetailJSON.put("fr_FR", timeDetail);
 			List<Date> dates = period.getKey();
-			for(Date date : dates){
+			for (Date date : dates) {
 				JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
 				scheduleJSON.put("date", dateFormat.format(date));
 				scheduleJSON.put("timeDetail", timeDetailJSON);
