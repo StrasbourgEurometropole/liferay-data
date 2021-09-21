@@ -22,3 +22,9 @@ dependencies {
 	compile project(':modules:place:place-api')
 	compile project(':modules:video:video-api')
 }
+
+buildService {
+	apiDir = "../place-api/src/main/java"
+	osgiModule = true
+	propsUtil = "eu.strasbourg.service.place.service.util.PropsUtil"
+}
