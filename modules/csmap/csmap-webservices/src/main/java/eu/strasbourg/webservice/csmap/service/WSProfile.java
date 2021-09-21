@@ -29,8 +29,6 @@ public class WSProfile {
         String url = buildUrl(publikUserId);
 
         // Construction de la requête
-        // Patch ne fonctionne pas avec URLConnection, il faut contourner et simuler un post
-        allowMethods("PATCH");
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 
         // Authentification
@@ -46,7 +44,9 @@ public class WSProfile {
         // Set toutes les Propriétés/méthodes pour notre appel HTTP
         connection.setRequestProperty("Authorization", "Basic " + encoded);
         connection.setDoOutput(true);
-        connection.setRequestMethod("PATCH");
+        // Normalement c'est du patch sur l'API, mais PATCH est aps dispo en JAVA
+        // Mais heureusement pour nous l'API prend du PUT de la même façon
+        connection.setRequestMethod("PUT");
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         connection.setRequestProperty("charset", "utf-8");
         connection.setRequestProperty("Content-Length", Integer.toString(postDataLength));
@@ -68,26 +68,5 @@ public class WSProfile {
 
         String url = StrasbourgPropsUtil.getEntrouvertURL();
         return url + PATH + publikUserId + "/";
-    }
-
-    private static void allowMethods(String... methods) {
-        try {
-            Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
-
-            Field modifiersField = Field.class.getDeclaredField("modifiers");
-            modifiersField.setAccessible(true);
-            modifiersField.setInt(methodsField, methodsField.getModifiers() & ~Modifier.FINAL);
-
-            methodsField.setAccessible(true);
-
-            String[] oldMethods = (String[]) methodsField.get(null);
-            Set<String> methodsSet = new LinkedHashSet<>(Arrays.asList(oldMethods));
-            methodsSet.addAll(Arrays.asList(methods));
-            String[] newMethods = methodsSet.toArray(new String[0]);
-
-            methodsField.set(null/*static field*/, newMethods);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        }
     }
 }
