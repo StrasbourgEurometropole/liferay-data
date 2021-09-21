@@ -34,7 +34,7 @@
                     <c:forEach var="campaign" items="${dc.campaings}">
                         <option
                             value="${campaign.campaignId}"
-                            <c:if test="${fn:contains(dc.agendaPrincipal.campaignsIds,campaign.campaignId)}}">
+                            <c:if test="${fn:contains(dc.agendaPrincipal.campaignsIds,campaign.campaignId)}">
                                 selected="selected"
                             </c:if>
                         >
