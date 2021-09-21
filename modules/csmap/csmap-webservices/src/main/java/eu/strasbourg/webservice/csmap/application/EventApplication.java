@@ -303,7 +303,6 @@ public class EventApplication extends Application {
         // On récupère tous les ids events de l'agenda principal
         Agenda principal = agendaLocalService.getAgendaPrincipal();
         JSONObject jsonPrincipal = JSONFactoryUtil.createJSONObject();
-        System.out.println("principal");
         JSONArray jsonIds = getJsonIds(principal);
         jsonPrincipal.put(WSConstants.JSON_IDS, jsonIds);
         json.put(WSConstants.JSON_AGENDA_PRINCIPAL, jsonPrincipal);
@@ -312,7 +311,6 @@ public class EventApplication extends Application {
         Agenda thematique = agendaLocalService.getAgendaThematiqueActif();
         JSONObject jsonThematique = JSONFactoryUtil.createJSONObject();
         if(Validator.isNotNull(thematique)) {
-            System.out.println("thematique");
             jsonIds = getJsonIds(thematique);
             jsonThematique.put(WSConstants.JSON_IDS, jsonIds);
 
@@ -374,7 +372,6 @@ public class EventApplication extends Application {
             }
         }
         String[] campaignsArray = StringUtil.split(campaignsTitle);
-        System.out.println(campaignsTitle);
 
         // Recherche
         Hits hits = SearchHelper.getEventsAgendaWebServiceSearchHits(className, categoriesIds, tagsArray, campaignsArray);
@@ -385,7 +382,6 @@ public class EventApplication extends Application {
                 long id = Long.parseLong(document.get(Field.ENTRY_CLASS_PK));
                 if(campaignsTitle.isEmpty() || campaignsTitle.contains(document.get("campaign"))) {
                     jsonIds.put(id);
-                    System.out.println(document.get("campaign"));
                 }
             }
         }
