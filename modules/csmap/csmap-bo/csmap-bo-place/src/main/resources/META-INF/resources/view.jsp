@@ -23,13 +23,23 @@
             <aui:input name="placeCategoriesId" type="hidden" />
 
             <%-- Champ : CategoriesIds --%>
-            <aui:fieldset collapsed="false" collapsible="false">
+            <aui:fieldset collapsed="false" collapsible="true" label="csmap.bo.place.categories.select.title">
+
+                <p style="font-style:italic"><liferay-ui:message key="csmap.bo.place.categories.select" /></p>
 
                 <liferay-ui:asset-categories-selector
                     className="${dc.className}"
                     hiddenInput="Vocabulary"
                     curCategoryIds="${dc.placeCategories.getCategoriesIds()}" />
 
+            </aui:fieldset>
+
+            <aui:fieldset collapsed="true" collapsible="true" label="csmap.bo.place.gradient.title">
+                <p><liferay-ui:message key="csmap.bo.place.gradient" /></p>
+            </aui:fieldset>
+
+            <aui:fieldset collapsed="true" collapsible="true" label="csmap.bo.place.picto.title">
+                <p><liferay-ui:message key="csmap.bo.place.picto" /></p>
             </aui:fieldset>
 
 		</aui:fieldset-group>
