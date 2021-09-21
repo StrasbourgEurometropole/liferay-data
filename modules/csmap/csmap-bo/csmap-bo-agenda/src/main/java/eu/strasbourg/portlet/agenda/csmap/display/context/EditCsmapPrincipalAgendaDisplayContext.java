@@ -40,8 +40,15 @@ public class EditCsmapPrincipalAgendaDisplayContext {
 
     public String getAllCategoriesAgenda(){
         String categories = this.agendaPrincipal.getTypesIds();
-        if(!categories.isEmpty() && !this.agendaPrincipal.getThemesIds().isEmpty())
-            categories += "," + this.agendaPrincipal.getThemesIds();
+
+        if(!this.agendaPrincipal.getThemesIds().isEmpty()) {
+            if(!categories.isEmpty()) {
+                categories += "," + this.agendaPrincipal.getThemesIds();
+            } else {
+                categories = this.agendaPrincipal.getThemesIds();
+            }
+        }
+
         return categories;
     }
 

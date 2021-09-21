@@ -45,9 +45,18 @@ public class EditCsmapThematiqueAgendaDisplayContext {
     }
 
     public String getAllCategoriesAgenda(){
-        String categories = this.agendaThematique.getTypesIds();
-        if(!categories.isEmpty() && !this.agendaThematique.getThemesIds().isEmpty())
-            categories += "," + this.agendaThematique.getThemesIds();
+        String categories = "";
+        if (this.agendaThematique != null) {
+            categories= this.agendaThematique.getTypesIds();
+
+            if(!this.agendaThematique.getThemesIds().isEmpty()) {
+                if(!categories.isEmpty()) {
+                    categories += "," + this.agendaThematique.getThemesIds();
+                } else {
+                    categories = this.agendaThematique.getThemesIds();
+                }
+            }
+        }
         return categories;
     }
 
