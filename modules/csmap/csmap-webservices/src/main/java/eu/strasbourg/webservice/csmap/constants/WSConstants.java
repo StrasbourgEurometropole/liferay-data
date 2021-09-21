@@ -111,7 +111,7 @@ public class WSConstants {
     public static final String JSON_SETTINGS_ISACTIVE = "isActive";
     // Agenda
     public static final String JSON_AGENDA_PRINCIPAL = "principal";
-    public static final String JSON_AGENDA_THEMATIQUE = "thématique";
+    public static final String JSON_AGENDA_THEMATIQUE = "thematique";
     public static final String JSON_IDS = "ids";
 
 

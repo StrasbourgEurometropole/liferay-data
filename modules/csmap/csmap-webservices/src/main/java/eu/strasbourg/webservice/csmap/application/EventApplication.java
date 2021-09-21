@@ -324,7 +324,7 @@ public class EventApplication extends Application {
 
             String imageURL = "";
             try {
-                if (thematique.getImageId() != null)
+                if (thematique.getImageId() != null && thematique.getImageId() > 0)
                     imageURL = StrasbourgPropsUtil.getURL() + UriHelper.appendUriImagePreview(FileEntryHelper.getFileEntryURLWithTimeStamp(thematique.getImageId()));
             } catch (URISyntaxException e) {
                 log.error(e);
