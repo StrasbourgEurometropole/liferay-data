@@ -1,0 +1,73 @@
+#canopee {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    div{
+        background-repeat: no-repeat;
+        background-size: contain;
+        font-family: $amiko;
+        font-weight: 700;
+        width: 25%;
+        @include RWD(tablet){
+            width: 30%;
+        }
+        @include RWD(mobile){
+            width: 100%;
+        }
+        
+        &:before {
+            content: "";
+            float: left;
+            padding-top: 100%; 	/* initial ratio of 1:1*/
+        }
+        
+        + div{
+            margin-left: 25px;
+            @include RWD(tablet){
+                margin-left: 15px;
+            }
+            @include RWD(mobile){
+                margin-left: 0;
+            }
+        }
+
+        &.arbres{
+            background-image: url("../images/canopee/COMPTEUR_ARBRE PLANTES.png");
+            color: #00693c;
+        }
+
+        &.ecole{
+            background-image: url("../images/canopee/COMPTEUR_COURS ECOLE.png");
+            color: #fade09;
+        }
+
+        &.demineralisee{
+            background-image: url("../images/canopee/COMPTEUR_DEMINERALISEE.png");
+            color: white;
+        }
+
+        .number{
+            margin-top: 38%;
+            text-align: center;
+            font-size: 7.5rem;
+            line-height: 7rem;
+            @include RWD(tablet_only){
+                font-size: 5.5rem;
+                line-height: 5rem;
+            }
+        }
+
+        .label{
+            padding: 0 25px;
+            border: none;
+            font-size: 3.4rem;
+            @include RWD(tablet){
+                font-size: 2rem;
+            }
+            @include RWD(mobile){
+                font-size: 3rem;
+            }
+        }
+    }
+}
