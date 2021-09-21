@@ -326,11 +326,13 @@ public class EventApplication extends Application {
 
             String imageURL = "";
             try {
-                imageURL = StrasbourgPropsUtil.getURL() + UriHelper.appendUriImagePreview(FileEntryHelper.getFileEntryURLWithTimeStamp(thematique.getImageId()));
+                if (thematique.getImageId() != null)
+                    imageURL = StrasbourgPropsUtil.getURL() + UriHelper.appendUriImagePreview(FileEntryHelper.getFileEntryURLWithTimeStamp(thematique.getImageId()));
             } catch (URISyntaxException e) {
-                e.printStackTrace();
+                log.error(e);
             }
             jsonThematique.put(WSConstants.JSON_IMAGE_URL, imageURL);
+
         }
         json.put(WSConstants.JSON_AGENDA_THEMATIQUE, jsonThematique);
 
