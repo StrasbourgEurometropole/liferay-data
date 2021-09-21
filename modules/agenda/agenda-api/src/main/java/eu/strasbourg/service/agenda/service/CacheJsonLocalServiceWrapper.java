@@ -316,6 +316,14 @@ public class CacheJsonLocalServiceWrapper
 		return _cacheJsonLocalService.updateCacheJson(cacheJson);
 	}
 
+	/**
+	 * Met à jour les jsonEvent des event
+	 */
+	@Override
+	public void updateJsonEvent() {
+		_cacheJsonLocalService.updateJsonEvent();
+	}
+
 	@Override
 	public CacheJsonLocalService getWrappedService() {
 		return _cacheJsonLocalService;

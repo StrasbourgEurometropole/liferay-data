@@ -2857,6 +2857,607 @@ public class CacheJsonPersistenceImpl
 		_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_ISACTIVE_2 =
 			"cacheJson.isActive = ?";
 
+	private FinderPath
+		_finderPathWithPaginationFindByRegeneratedDateAndIsActive;
+	private FinderPath
+		_finderPathWithPaginationCountByRegeneratedDateAndIsActive;
+
+	/**
+	 * Returns all the cache jsons where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @return the matching cache jsons
+	 */
+	@Override
+	public List<CacheJson> findByRegeneratedDateAndIsActive(
+		Date regeneratedDate, boolean isActive) {
+
+		return findByRegeneratedDateAndIsActive(
+			regeneratedDate, isActive, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
+	}
+
+	/**
+	 * Returns a range of all the cache jsons where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param start the lower bound of the range of cache jsons
+	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @return the range of matching cache jsons
+	 */
+	@Override
+	public List<CacheJson> findByRegeneratedDateAndIsActive(
+		Date regeneratedDate, boolean isActive, int start, int end) {
+
+		return findByRegeneratedDateAndIsActive(
+			regeneratedDate, isActive, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the cache jsons where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param start the lower bound of the range of cache jsons
+	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching cache jsons
+	 */
+	@Override
+	public List<CacheJson> findByRegeneratedDateAndIsActive(
+		Date regeneratedDate, boolean isActive, int start, int end,
+		OrderByComparator<CacheJson> orderByComparator) {
+
+		return findByRegeneratedDateAndIsActive(
+			regeneratedDate, isActive, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the cache jsons where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param start the lower bound of the range of cache jsons
+	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching cache jsons
+	 */
+	@Override
+	public List<CacheJson> findByRegeneratedDateAndIsActive(
+		Date regeneratedDate, boolean isActive, int start, int end,
+		OrderByComparator<CacheJson> orderByComparator,
+		boolean retrieveFromCache) {
+
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		finderPath = _finderPathWithPaginationFindByRegeneratedDateAndIsActive;
+		finderArgs = new Object[] {
+			_getTime(regeneratedDate), isActive, start, end, orderByComparator
+		};
+
+		List<CacheJson> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<CacheJson>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (CacheJson cacheJson : list) {
+					if ((regeneratedDate.getTime() <
+							cacheJson.getRegeneratedDate().getTime()) ||
+						(isActive != cacheJson.isIsActive())) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_CACHEJSON_WHERE);
+
+			boolean bindRegeneratedDate = false;
+
+			if (regeneratedDate == null) {
+				query.append(
+					_FINDER_COLUMN_REGENERATEDDATEANDISACTIVE_REGENERATEDDATE_1);
+			}
+			else {
+				bindRegeneratedDate = true;
+
+				query.append(
+					_FINDER_COLUMN_REGENERATEDDATEANDISACTIVE_REGENERATEDDATE_2);
+			}
+
+			query.append(_FINDER_COLUMN_REGENERATEDDATEANDISACTIVE_ISACTIVE_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindRegeneratedDate) {
+					qPos.add(new Timestamp(regeneratedDate.getTime()));
+				}
+
+				qPos.add(isActive);
+
+				if (!pagination) {
+					list = (List<CacheJson>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<CacheJson>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first cache json in the ordered set where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching cache json
+	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 */
+	@Override
+	public CacheJson findByRegeneratedDateAndIsActive_First(
+			Date regeneratedDate, boolean isActive,
+			OrderByComparator<CacheJson> orderByComparator)
+		throws NoSuchCacheJsonException {
+
+		CacheJson cacheJson = fetchByRegeneratedDateAndIsActive_First(
+			regeneratedDate, isActive, orderByComparator);
+
+		if (cacheJson != null) {
+			return cacheJson;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("regeneratedDate=");
+		msg.append(regeneratedDate);
+
+		msg.append(", isActive=");
+		msg.append(isActive);
+
+		msg.append("}");
+
+		throw new NoSuchCacheJsonException(msg.toString());
+	}
+
+	/**
+	 * Returns the first cache json in the ordered set where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
+	 */
+	@Override
+	public CacheJson fetchByRegeneratedDateAndIsActive_First(
+		Date regeneratedDate, boolean isActive,
+		OrderByComparator<CacheJson> orderByComparator) {
+
+		List<CacheJson> list = findByRegeneratedDateAndIsActive(
+			regeneratedDate, isActive, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last cache json in the ordered set where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching cache json
+	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 */
+	@Override
+	public CacheJson findByRegeneratedDateAndIsActive_Last(
+			Date regeneratedDate, boolean isActive,
+			OrderByComparator<CacheJson> orderByComparator)
+		throws NoSuchCacheJsonException {
+
+		CacheJson cacheJson = fetchByRegeneratedDateAndIsActive_Last(
+			regeneratedDate, isActive, orderByComparator);
+
+		if (cacheJson != null) {
+			return cacheJson;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("regeneratedDate=");
+		msg.append(regeneratedDate);
+
+		msg.append(", isActive=");
+		msg.append(isActive);
+
+		msg.append("}");
+
+		throw new NoSuchCacheJsonException(msg.toString());
+	}
+
+	/**
+	 * Returns the last cache json in the ordered set where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
+	 */
+	@Override
+	public CacheJson fetchByRegeneratedDateAndIsActive_Last(
+		Date regeneratedDate, boolean isActive,
+		OrderByComparator<CacheJson> orderByComparator) {
+
+		int count = countByRegeneratedDateAndIsActive(
+			regeneratedDate, isActive);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<CacheJson> list = findByRegeneratedDateAndIsActive(
+			regeneratedDate, isActive, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the cache jsons before and after the current cache json in the ordered set where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * @param eventId the primary key of the current cache json
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next cache json
+	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
+	 */
+	@Override
+	public CacheJson[] findByRegeneratedDateAndIsActive_PrevAndNext(
+			long eventId, Date regeneratedDate, boolean isActive,
+			OrderByComparator<CacheJson> orderByComparator)
+		throws NoSuchCacheJsonException {
+
+		CacheJson cacheJson = findByPrimaryKey(eventId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			CacheJson[] array = new CacheJsonImpl[3];
+
+			array[0] = getByRegeneratedDateAndIsActive_PrevAndNext(
+				session, cacheJson, regeneratedDate, isActive,
+				orderByComparator, true);
+
+			array[1] = cacheJson;
+
+			array[2] = getByRegeneratedDateAndIsActive_PrevAndNext(
+				session, cacheJson, regeneratedDate, isActive,
+				orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected CacheJson getByRegeneratedDateAndIsActive_PrevAndNext(
+		Session session, CacheJson cacheJson, Date regeneratedDate,
+		boolean isActive, OrderByComparator<CacheJson> orderByComparator,
+		boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(4);
+		}
+
+		query.append(_SQL_SELECT_CACHEJSON_WHERE);
+
+		boolean bindRegeneratedDate = false;
+
+		if (regeneratedDate == null) {
+			query.append(
+				_FINDER_COLUMN_REGENERATEDDATEANDISACTIVE_REGENERATEDDATE_1);
+		}
+		else {
+			bindRegeneratedDate = true;
+
+			query.append(
+				_FINDER_COLUMN_REGENERATEDDATEANDISACTIVE_REGENERATEDDATE_2);
+		}
+
+		query.append(_FINDER_COLUMN_REGENERATEDDATEANDISACTIVE_ISACTIVE_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindRegeneratedDate) {
+			qPos.add(new Timestamp(regeneratedDate.getTime()));
+		}
+
+		qPos.add(isActive);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(cacheJson)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<CacheJson> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the cache jsons where regeneratedDate &le; &#63; and isActive = &#63; from the database.
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 */
+	@Override
+	public void removeByRegeneratedDateAndIsActive(
+		Date regeneratedDate, boolean isActive) {
+
+		for (CacheJson cacheJson :
+				findByRegeneratedDateAndIsActive(
+					regeneratedDate, isActive, QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS, null)) {
+
+			remove(cacheJson);
+		}
+	}
+
+	/**
+	 * Returns the number of cache jsons where regeneratedDate &le; &#63; and isActive = &#63;.
+	 *
+	 * @param regeneratedDate the regenerated date
+	 * @param isActive the is active
+	 * @return the number of matching cache jsons
+	 */
+	@Override
+	public int countByRegeneratedDateAndIsActive(
+		Date regeneratedDate, boolean isActive) {
+
+		FinderPath finderPath =
+			_finderPathWithPaginationCountByRegeneratedDateAndIsActive;
+
+		Object[] finderArgs = new Object[] {
+			_getTime(regeneratedDate), isActive
+		};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_CACHEJSON_WHERE);
+
+			boolean bindRegeneratedDate = false;
+
+			if (regeneratedDate == null) {
+				query.append(
+					_FINDER_COLUMN_REGENERATEDDATEANDISACTIVE_REGENERATEDDATE_1);
+			}
+			else {
+				bindRegeneratedDate = true;
+
+				query.append(
+					_FINDER_COLUMN_REGENERATEDDATEANDISACTIVE_REGENERATEDDATE_2);
+			}
+
+			query.append(_FINDER_COLUMN_REGENERATEDDATEANDISACTIVE_ISACTIVE_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindRegeneratedDate) {
+					qPos.add(new Timestamp(regeneratedDate.getTime()));
+				}
+
+				qPos.add(isActive);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String
+		_FINDER_COLUMN_REGENERATEDDATEANDISACTIVE_REGENERATEDDATE_1 =
+			"cacheJson.regeneratedDate IS NULL AND ";
+
+	private static final String
+		_FINDER_COLUMN_REGENERATEDDATEANDISACTIVE_REGENERATEDDATE_2 =
+			"cacheJson.regeneratedDate <= ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_REGENERATEDDATEANDISACTIVE_ISACTIVE_2 =
+			"cacheJson.isActive = ?";
+
 	public CacheJsonPersistenceImpl() {
 		setModelClass(CacheJson.class);
 
@@ -3707,6 +4308,26 @@ public class CacheJsonPersistenceImpl
 				CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"countByModifiedDateAndIsActive",
+				new String[] {Date.class.getName(), Boolean.class.getName()});
+
+		_finderPathWithPaginationFindByRegeneratedDateAndIsActive =
+			new FinderPath(
+				CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+				CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"findByRegeneratedDateAndIsActive",
+				new String[] {
+					Date.class.getName(), Boolean.class.getName(),
+					Integer.class.getName(), Integer.class.getName(),
+					OrderByComparator.class.getName()
+				});
+
+		_finderPathWithPaginationCountByRegeneratedDateAndIsActive =
+			new FinderPath(
+				CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+				CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"countByRegeneratedDateAndIsActive",
 				new String[] {Date.class.getName(), Boolean.class.getName()});
 	}
 

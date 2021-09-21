@@ -17,7 +17,7 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 public class FamilySpaceWebService {
 
-	public static FamilySpaceResponse getResponse(String publikInternalId, PortletRequest resourceRequest) {
+	public static FamilySpaceResponse getResponse(String publikInternalId) {
 
 		Map<String, Object> params = new LinkedHashMap<String, Object>();
 		FamilySpaceResponse familySpaceResponse = null;

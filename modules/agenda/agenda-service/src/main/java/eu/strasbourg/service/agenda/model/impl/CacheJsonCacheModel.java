@@ -65,7 +65,7 @@ public class CacheJsonCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -79,6 +79,8 @@ public class CacheJsonCacheModel
 		sb.append(modifiedEvent);
 		sb.append(", isActive=");
 		sb.append(isActive);
+		sb.append(", regeneratedDate=");
+		sb.append(regeneratedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -120,6 +122,13 @@ public class CacheJsonCacheModel
 
 		cacheJsonImpl.setIsActive(isActive);
 
+		if (regeneratedDate == Long.MIN_VALUE) {
+			cacheJsonImpl.setRegeneratedDate(null);
+		}
+		else {
+			cacheJsonImpl.setRegeneratedDate(new Date(regeneratedDate));
+		}
+
 		cacheJsonImpl.resetOriginalValues();
 
 		return cacheJsonImpl;
@@ -135,6 +144,7 @@ public class CacheJsonCacheModel
 		modifiedEvent = objectInput.readLong();
 
 		isActive = objectInput.readBoolean();
+		regeneratedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -159,6 +169,7 @@ public class CacheJsonCacheModel
 		objectOutput.writeLong(modifiedEvent);
 
 		objectOutput.writeBoolean(isActive);
+		objectOutput.writeLong(regeneratedDate);
 	}
 
 	public String uuid;
@@ -167,5 +178,6 @@ public class CacheJsonCacheModel
 	public long createEvent;
 	public long modifiedEvent;
 	public boolean isActive;
+	public long regeneratedDate;
 
 }

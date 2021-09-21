@@ -14,9 +14,14 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import eu.strasbourg.service.agenda.service.base.CacheJsonLocalServiceBaseImpl;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.model.CacheJson;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.base.CacheJsonLocalServiceBaseImpl;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -65,5 +70,28 @@ public class CacheJsonLocalServiceImpl extends CacheJsonLocalServiceBaseImpl {
 	@Override
 	public List<CacheJson> getByModifiedDateAndIsNotActive(Date date) {
 		return this.cacheJsonPersistence.findByModifiedDateAndIsActive(date, false);
+	}
+
+	/**
+	 * Met à jour les jsonEvent des event
+	 */
+	@Override
+	public void updateJsonEvent() {
+		// récupère tous les caches actifs ayant regeneratedDate <= à aujourd'hui - 30j
+		LocalDate verificationDate = LocalDate.now().minusDays(30);
+		Date verifDate = Date.from(verificationDate.atStartOfDay()
+				.atZone(ZoneId.systemDefault())
+				.toInstant());
+		List<CacheJson> caches = this.cacheJsonPersistence
+				.findByRegeneratedDateAndIsActive(verifDate, true);
+		for (CacheJson cache : caches) {
+			Event event = EventLocalServiceUtil.fetchEvent(cache.getEventId());
+			if(Validator.isNotNull(event)){
+				cache.setJsonEvent(event.getCSMapJSON().toString());
+				cache.setRegeneratedDate(new Date());
+				cache.setModifiedEvent(new Date());
+				this.updateCacheJson(cache);
+			}
+		}
 	}
 }

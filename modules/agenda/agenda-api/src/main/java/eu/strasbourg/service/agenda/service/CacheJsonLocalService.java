@@ -254,4 +254,9 @@ public interface CacheJsonLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public CacheJson updateCacheJson(CacheJson cacheJson);
 
+	/**
+	 * Met à jour les jsonEvent des event
+	 */
+	public void updateJsonEvent();
+
 }
