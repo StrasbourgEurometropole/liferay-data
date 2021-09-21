@@ -33,27 +33,32 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
+
 import eu.strasbourg.service.csmap.exception.NoSuchAgendaException;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.model.impl.AgendaImpl;
 import eu.strasbourg.service.csmap.model.impl.AgendaModelImpl;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
 import eu.strasbourg.service.csmap.service.persistence.impl.constants.csmapPersistenceConstants;
-import org.osgi.annotation.versioning.ProviderType;
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Reference;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.InvocationHandler;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
+import javax.sql.DataSource;
+
+import org.osgi.annotation.versioning.ProviderType;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * The persistence implementation for the agenda service.

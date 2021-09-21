@@ -16,10 +16,11 @@ package eu.strasbourg.service.csmap.model;
 
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
