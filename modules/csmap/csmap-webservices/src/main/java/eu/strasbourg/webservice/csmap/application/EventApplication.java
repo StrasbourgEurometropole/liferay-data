@@ -312,7 +312,7 @@ public class EventApplication extends Application {
         Agenda thematique = agendaLocalService.getAgendaThematiqueActif();
         JSONObject jsonThematique = JSONFactoryUtil.createJSONObject();
         if(Validator.isNotNull(thematique)) {
-            System.out.println("thématique");
+            System.out.println("thematique");
             jsonIds = getJsonIds(thematique);
             jsonThematique.put(WSConstants.JSON_IDS, jsonIds);
 
