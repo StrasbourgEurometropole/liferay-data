@@ -2,18 +2,20 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    @include RWD(mobile){
+        flex-direction: column;
+        align-content: center;
+    
+    }
 
     div{
         background-repeat: no-repeat;
         background-size: contain;
         font-family: $amiko;
         font-weight: 700;
-        width: 25%;
-        @include RWD(tablet){
-            width: 30%;
-        }
-        @include RWD(mobile){
-            width: 100%;
+        width: 300px;
+        @include RWD(tablet_only){
+            width: 220px;
         }
         
         &:before {
@@ -24,49 +26,54 @@
         
         + div{
             margin-left: 25px;
-            @include RWD(tablet){
-                margin-left: 15px;
+            @include RWD(tablet_only){
+                margin-left: 10px;
             }
             @include RWD(mobile){
                 margin-left: 0;
+                margin-top: 10px;
             }
         }
 
         &.arbres{
-            background-image: url("../images/canopee/COMPTEUR_ARBRE PLANTES.png");
-            color: #00693c;
+            background-image: url("../images/canopee/ARBRE_PLANTES.png");
+            color: #00701c;
         }
 
         &.ecole{
-            background-image: url("../images/canopee/COMPTEUR_COURS ECOLE.png");
-            color: #fade09;
+            background-image: url("../images/canopee/COURS_ECOLE.png");
+            color: #f2f230;
         }
 
         &.demineralisee{
-            background-image: url("../images/canopee/COMPTEUR_DEMINERALISEE.png");
+            background-image: url("../images/canopee/DEMINERALISEE.png");
             color: white;
         }
 
         .number{
-            margin-top: 38%;
             text-align: center;
-            font-size: 7.5rem;
-            line-height: 7rem;
+            font-size: 70px;
+            letter-spacing: 7px;
+            line-height: 70px;
+            margin-top: 110px;
             @include RWD(tablet_only){
-                font-size: 5.5rem;
-                line-height: 5rem;
+                font-size: 54px;
+                letter-spacing: 5px;
+                line-height: 42px;
+                margin-top: 90px;
             }
         }
 
         .label{
-            padding: 0 25px;
             border: none;
-            font-size: 3.4rem;
-            @include RWD(tablet){
-                font-size: 2rem;
-            }
-            @include RWD(mobile){
-                font-size: 3rem;
+            padding: 0;
+            font-size: 35px;
+            line-height: 36px;
+            margin: 0 0 0 24px;
+            @include RWD(tablet_only){
+                font-size: 27px;
+                line-height: 28px;
+                margin-left: 19px;
             }
         }
     }
