@@ -250,6 +250,7 @@
 
 				figure{
 					margin: 0;
+					aspect-ratio: 1;
 					transform: translate(15px, -15px);
 					transition: all 0.5s;
 					@include mobile{
