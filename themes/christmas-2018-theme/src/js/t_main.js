@@ -3528,6 +3528,33 @@ $('.owl-instagram').each(function () {
         _self.owlCarousel(options);
     }
 });
+
+// Carsousel Section Slider Social Wall
+$('#owl-social-wall').owlCarousel({
+    responsive:{
+        0:{
+            loop: true,
+            items:1.5,
+            margin: 20
+        },
+        768:{
+            loop: false,
+            items:2,
+            margin: 20
+        },
+        1024:{
+            loop: false,
+            items: 4,
+            margin: 60
+        }
+    },
+    loop: false,
+    dots: false,
+    nav:true,
+    autoplay: false,
+    navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
+});
+
 // Bloc video
 $('.mns-bloc-video').each(function() {
 
