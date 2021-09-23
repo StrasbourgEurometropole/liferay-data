@@ -217,6 +217,7 @@ public class PlaceApplication extends Application {
 
 			// On récupère la configuration pour les catégorie de lieu (fait dans le BO)
 			String categoriesBo = placeCategoriesLocalService.getPlaceCategories().getCategoriesIds();
+			String sigIdCategoriesBo="";
 
 			// On récupère les catégories du vocabulaire des lieux
 			AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
@@ -231,6 +232,7 @@ public class PlaceApplication extends Application {
 				if(Validator.isNotNull(categoriesBo)) {
 					if(categoriesBo.contains(String.valueOf(category.getCategoryId()))){
 						sortedCategories.add(category);
+						sigIdCategoriesBo += "," + AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(),"SIG");
 					}
 				} else {
 					sortedCategories.add(category);
@@ -269,7 +271,7 @@ public class PlaceApplication extends Application {
 				if (Validator.isNotNull(placeTypeVocabulary))
 					for (String idCategory : idsCategory.split(",")) {
 						if (AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null ||
-								(Validator.isNotNull(categoriesBo) && !categoriesBo.contains(String.valueOf(idCategory))))
+								(Validator.isNotNull(sigIdCategoriesBo) && !sigIdCategoriesBo.contains(String.valueOf(idCategory))))
 							jsonSuppr.put(idCategory);
 					}
 			}
