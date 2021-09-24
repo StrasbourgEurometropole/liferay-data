@@ -197,6 +197,9 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.graveyard.url");
 	}
 
+	public static String getMediathequeURL(){
+		return PropsUtil.get("eu.strasbourg.mediatheque.home.url");
+	}
 	public static String getMediathequeBorrower(){
 		return PropsUtil.get("eu.strasbourg.mediatheque.borrower");
 	}
@@ -214,8 +217,13 @@ public class StrasbourgPropsUtil {
 	}
 
 	public static String getResidantURL(){
-		return PropsUtil.get("eu.strasbourg.resid.url");
+		return PropsUtil.get("eu.strasbourg.resid.home.url");
 	}
+
+	public static String getResidantWebServiceURL(){
+		return PropsUtil.get("eu.strasbourg.resid.webservice.url");
+	}
+
 
 	public static String getDailymotionApiUrl() {
 		return PropsUtil.get("eu.strasbourg.dailymotion.api.url");
@@ -238,14 +246,18 @@ public class StrasbourgPropsUtil {
 
 	}
 
-	public static String getFamilySpace(){
-		return PropsUtil.get("eu.strasbourg.family.space.url");
+	public static String getFamilySpaceURL(){
+		return PropsUtil.get("eu.strasbourg.family.space.home.url");
 	}
+
+	public static String getFamilySpaceWebServiceURL(){
+		return PropsUtil.get("eu.strasbourg.family.space.webservice.url");
+	}
+
 
 	public static String getDashboardURL() {
 		return PropsUtil.get("eu.strasbourg.dashboard.url");
 	}
-
 
 	public static String getGTFSPath() {
 		return PropsUtil.get("eu.strasbourg.gtfs.files.path");
