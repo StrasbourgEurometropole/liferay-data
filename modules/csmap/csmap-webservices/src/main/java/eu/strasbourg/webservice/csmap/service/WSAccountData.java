@@ -181,7 +181,6 @@ public class WSAccountData {
         List<Dossier> dossiers = dossierResponse.getDossiers();
         // Pas de dossier
         if (dossiers.isEmpty()) {
-            response.put("errorTechnical", "Pas de dossier");
             return response;
         }
 
@@ -330,7 +329,6 @@ public class WSAccountData {
 
         // Pas de comptes liés
         if (familySpaceResponse.getCount() == 0) {
-            response.put("errorTechnical", "Pas de comptes liés");
             return response;
         }
 
