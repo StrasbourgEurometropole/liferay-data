@@ -172,11 +172,7 @@
 }
 
 .mns-bottom-social-wall{
-	padding-left: 100px;
-	@include mobile{
-		padding-left: 0;
-		text-align: center;
-	}
+	text-align: center;
 	
 	a.large-link{
 		margin-top: 0;
@@ -262,15 +258,9 @@
 	}
 
 	.owl-nav {
-		display: flex;
-		justify-content: space-between;
-		position: absolute;
-		top: 50%;
-		left: -30px;
-		width: calc(100% + 30px);
+		position: static;
 		@include desktop{
-			left: -10px;
-			width: 100%;
+			margin-left: -10px;
 		}
 
 		&:before{
@@ -278,11 +268,27 @@
 		}
 
 		[class*=owl-] {
+			position: absolute;
+			top: 50%;
+			left: -30px;
 			background-color: $c_main;
 			border-color: $c_main;
+			@include desktop{
+				left: -10px;
+			}
 			@include mobile{
 				width: 30px;
 				height: 30px;
+			}
+
+			&.owl-next{
+				left: calc(100% - 50px);
+				@include desktop{
+					left: calc(100% - 70px);
+				}
+				@include mobile{
+					left: calc(100% - 50px);
+				}
 			}
 
 			&:hover{
