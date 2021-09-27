@@ -38,7 +38,7 @@
                             <span>${title}</span>
                         </div>
                         <span class="publication">
-                                ${dateHelperService.displayShortDate(curEntry.getModifiedDate()?date, locale)}
+                                ${dateHelperService.displayShortDate(publishDate?date, locale)}
                         </span>
                         <div class="news-chapo"> 
                             <span>${catcher?replace("<[^>]*>", "", "r")}</span>
