@@ -19,6 +19,9 @@
                     </#if>
                 </span>
             </h2>
+            <#if official.imageURL?has_content>
+                <div class="seu-picture" style="background-image: url(${official.imageURL}); width: 247px; height: 325px; margin: auto auto 25px auto;"></div>
+            </#if>
             <div class="seu-wi-content">
                 <div class="seu-wi-text">
                 <div class="seu-wi-title">${official.firstName} ${official.lastName}</div>
