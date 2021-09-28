@@ -1,6 +1,7 @@
 package eu.strasbourg.webservice.csmap.utils;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetCategoryProperty;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -22,17 +23,23 @@ import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
-import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.service.WSPlace;
 
 import java.net.URISyntaxException;
 import java.text.DateFormat;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class CSMapJSonHelper {
     static public JSONObject placeCategoryCSMapJSON(AssetCategory category, String urlPicto, boolean maj) {
@@ -139,7 +146,14 @@ public class CSMapJSonHelper {
             List<JournalArticle> emergencyHelps = (List<JournalArticle>) emergencyHelpEntry.getValue();
 
             emergencyHelpJSON.put(WSConstants.JSON_WC_CATEGORY_ID, category.getCategoryId());
-            emergencyHelpJSON.put(WSConstants.JSON_WC_CATEGORY_ORDER, AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "order").getValue());
+            int order = 1;
+            try {
+                AssetCategoryProperty assetCategoryProperty = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "order");
+                if(Validator.isNotNull(assetCategoryProperty) && Validator.isNotNull(assetCategoryProperty.getValue()))
+                    order = Integer.parseInt(assetCategoryProperty.getValue());
+            } catch (PortalException | NumberFormatException e) {
+            }
+            emergencyHelpJSON.put(WSConstants.JSON_WC_CATEGORY_ORDER, order);
             // CategoryTitle en fonction des differentes langues
             JSONObject categoryTitleJSON = JSONFactoryUtil.createJSONObject();
             categoryTitleJSON.put("fr_FR", category.getTitle(Locale.FRANCE));
