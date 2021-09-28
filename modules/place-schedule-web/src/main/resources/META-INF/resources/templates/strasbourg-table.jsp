@@ -310,7 +310,7 @@
 							</c:forEach>
 							<tr class="${placeStatus.index % 2 eq 0 ? 'bg-white' : 'bg-grey'} see-more-row">
 								<td style="padding-top: 0">
-									<a href="${homeURL}lieu/-/entity/sig/${place.getSIGid()}"
+									<a href="${homeURL}lieu/-/entity/sig/${place.getSIGid()}/${place.getAlias(locale)}"
 										class="seu-btn-square seu-bordered seu-core" 
 										title="${place.getAlias(locale)}"> 
 											<span class="seu-flexbox"> 

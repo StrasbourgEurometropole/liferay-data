@@ -253,7 +253,7 @@
                                                     <!-- Localisation de la concession -->
                                                     <div class="form-group">
                                                         <div class="form-label">
-                                                            <a href="${homeURL}lieu/-/entity/sig/${tot.graveyardMapping.sigId}" target="_blank" title="${tot.graveyardMapping.name} (<liferay-ui:message key="eu.new-window" />)">${tot.graveyardMapping.name}</a>
+                                                            <a href="${homeURL}lieu/-/entity/sig/${tot.graveyardMapping.sigId}/${tot.graveyardMapping.name}" target="_blank" title="${tot.graveyardMapping.name} (<liferay-ui:message key="eu.new-window" />)">${tot.graveyardMapping.name}</a>
                                                         </div>
                                                         <div class="form-field"><liferay-ui:message key="graveyard.gravesector" /> : ${tot.graveSector}</div>
                                                         <div class="form-field"><liferay-ui:message key="graveyard.graverow" /> : ${tot.graveRow}</div>

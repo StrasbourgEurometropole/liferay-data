@@ -87,7 +87,7 @@ public class JSONSearchHelper {
 
                 jsonEvent.put(
                         Constants.ATTRIBUTE_LINK_ABSOLUTE,
-                        themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_STRAS_URL + event.getEventId()
+                        themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_STRAS_URL + event.getEventId() + "/" + event.getTitle(locale)
                 );
 
                 jsonEvent.put(
@@ -110,7 +110,7 @@ public class JSONSearchHelper {
 
                 jsonEvent.put(
                         Constants.ATTRIBUTE_LINK_STRAS,
-                        Utils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_STRAS_URL + event.getEventId()
+                        Utils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_STRAS_URL + event.getEventId() + "/" + event.getTitle(locale)
                 );
                 break;
         }
@@ -809,7 +809,7 @@ public class JSONSearchHelper {
 
         jsonPlace.put(
                 Constants.ATTRIBUTE_LINK,
-                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_PLACE_URL + place.getSIGid()
+                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_PLACE_URL + place.getSIGid() + "/" + place.getAlias(locale)
         );
 
         switch (configAffichage) {
@@ -823,7 +823,7 @@ public class JSONSearchHelper {
 
                 jsonPlace.put(
                         Constants.ATTRIBUTE_LINK_ABSOLUTE,
-                        themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_PLACE_URL + place.getSIGid()
+                        themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_PLACE_URL + place.getSIGid() + "/" + place.getAlias(locale)
                 );
 
                 jsonPlace.put(
