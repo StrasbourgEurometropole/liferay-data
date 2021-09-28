@@ -21,7 +21,7 @@
                 <#assign entry = curEntry.getAssetRenderer().getEvent() />
 
                 <div class="swiper-slide">
-                    <a class="event-content" href="${homeURL}evenement/-/entity/id/${entry.eventId}">
+                    <a class="event-content" href="${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getTitle(locale)}">
                         <img class="event-image" src="${entry.getImageURL()}?imagePreview=1" loading="lazy" />
                         <div class="event-date">
                             ${entry.getEventScheduleDisplay(locale)}
