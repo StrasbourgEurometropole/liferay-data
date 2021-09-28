@@ -172,6 +172,8 @@ public class OIDCFilter extends BaseFilter {
                             StrasbourgPropsUtil.getPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
                     String listingPlacit = JWTUtils.getJWTClaim(jwt, "accord_placit_listing",
                             StrasbourgPropsUtil.getPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+                    LOG.info(accordPlacit);
+                    LOG.info(listingPlacit);
 
                     // Recuperation des donnees inherantes a la plateforme participative
                     PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
