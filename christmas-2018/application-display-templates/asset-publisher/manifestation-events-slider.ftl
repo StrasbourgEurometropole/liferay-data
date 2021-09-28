@@ -23,7 +23,7 @@
                             <#if (event.status = 0)>
                                 <div class="item">
                                     <div class="mns-bloc-agenda" itemscope itemtype="http://schema.org/Event">
-                                        <a href="${homeURL}event/-/entity/id/${event.eventId}">
+                                        <a href="${homeURL}event/-/entity/id/${event.eventId}/${event.getTitle(locale)}">
                                             <span class="date">${event.getEventScheduleDisplay(locale)}</span>
                                             <figure>
                                                 <img src='${event.getImageURL()}' alt="${event.getTitle(locale)}" width="270" height="400" class="fit-cover" />
