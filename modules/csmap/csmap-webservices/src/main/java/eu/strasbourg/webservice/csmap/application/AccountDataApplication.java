@@ -118,11 +118,14 @@ public class AccountDataApplication extends Application {
             }
 
         } catch (NoJWTInHeaderException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
         } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        } catch (Exception e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
         return WSResponseUtil.buildOkResponse(response);
     }
@@ -154,6 +157,9 @@ public class AccountDataApplication extends Application {
         } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
             log.error(e.getMessage());
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        } catch (Exception e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
         return WSResponseUtil.buildOkResponse(response);
     }
@@ -185,6 +191,9 @@ public class AccountDataApplication extends Application {
         } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
             log.error(e.getMessage());
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        } catch (Exception e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
         return WSResponseUtil.buildOkResponse(response);
     }
