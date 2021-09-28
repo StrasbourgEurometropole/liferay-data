@@ -436,10 +436,12 @@ public class PublikUserLocalServiceWrapper
 	@Override
 	public void updateUserInfoInDatabase(
 		String internalId, String accessToken, String givenName,
-		String familyName, String email, String photo) {
+		String familyName, String email, String photo, String accordPlacit,
+		String listingPlacit) {
 
 		_publikUserLocalService.updateUserInfoInDatabase(
-			internalId, accessToken, givenName, familyName, email, photo);
+			internalId, accessToken, givenName, familyName, email, photo,
+			accordPlacit, listingPlacit);
 	}
 
 	@Override
