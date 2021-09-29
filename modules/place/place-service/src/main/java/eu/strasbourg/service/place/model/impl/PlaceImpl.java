@@ -1725,7 +1725,7 @@ public class PlaceImpl extends PlaceBaseImpl {
             } else {
                 url = "https://" + virtualHostName + "/";
             }
-            url += "lieu/-/entity/sig/" + this.getSIGid();
+            url += "lieu/-/entity/sig/" + this.getSIGid() + "/" + this.getAlias(locale);
             properties.put("url", url);
         }
 
