@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="eu.strasbourg.service.notif.service.impl.MessageLocalServiceImpl" id="eu.strasbourg.service.notif.service.MessageLocalService" />
+	<bean class="eu.strasbourg.service.notif.service.impl.MessageServiceImpl" id="eu.strasbourg.service.notif.service.MessageService" />
+	<bean class="eu.strasbourg.service.notif.service.persistence.impl.MessagePersistenceImpl" id="eu.strasbourg.service.notif.service.persistence.MessagePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.notif.service.impl.NatureNotifLocalServiceImpl" id="eu.strasbourg.service.notif.service.NatureNotifLocalService" />
+	<bean class="eu.strasbourg.service.notif.service.impl.NatureNotifServiceImpl" id="eu.strasbourg.service.notif.service.NatureNotifService" />
+	<bean class="eu.strasbourg.service.notif.service.persistence.impl.NatureNotifPersistenceImpl" id="eu.strasbourg.service.notif.service.persistence.NatureNotifPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.notif.service.impl.NotificationLocalServiceImpl" id="eu.strasbourg.service.notif.service.NotificationLocalService" />
+	<bean class="eu.strasbourg.service.notif.service.impl.NotificationServiceImpl" id="eu.strasbourg.service.notif.service.NotificationService" />
+	<bean class="eu.strasbourg.service.notif.service.persistence.impl.NotificationPersistenceImpl" id="eu.strasbourg.service.notif.service.persistence.NotificationPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.notif.service.impl.ServiceNotifLocalServiceImpl" id="eu.strasbourg.service.notif.service.ServiceNotifLocalService" />
+	<bean class="eu.strasbourg.service.notif.service.impl.ServiceNotifServiceImpl" id="eu.strasbourg.service.notif.service.ServiceNotifService" />
+	<bean class="eu.strasbourg.service.notif.service.persistence.impl.ServiceNotifPersistenceImpl" id="eu.strasbourg.service.notif.service.persistence.ServiceNotifPersistence" parent="basePersistence" />
+</beans>
