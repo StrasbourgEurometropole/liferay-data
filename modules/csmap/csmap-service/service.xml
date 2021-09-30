@@ -29,4 +29,33 @@
 
 	</entity>
 
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="PlaceCategories" uuid="true">
+		<!-- PK fields -->
+		<column name="placeCategoriesId" primary="true" type="long" />
+		<column name="categoriesIds" type="String" />
+	</entity>
+
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="Agenda" uuid="true">
+		<!-- PK fields -->
+		<column name="agendaId" primary="true" type="long" />
+		<column name="title" type="String" localized="true" />
+		<column name="editorialTitle" type="String" localized="true" />
+		<column name="subtitle" type="String" localized="true" />
+		<column name="imageId" type="Long" />
+		<column name="isPrincipal" type="Boolean" />
+		<column name="isActive" type="Boolean" />
+		<column name="campaignsIds" type="String" />
+		<column name="themesIds" type="String" />
+		<column name="typesIds" type="String" />
+		<column name="tags" type="String" />
+		<!-- Finder methods -->
+		<finder name="IsPrincipal" return-type="Collection">
+			<finder-column name="isPrincipal" />
+		</finder>
+		<finder name="IsPrincipalAndIsActive" return-type="Collection">
+			<finder-column name="isPrincipal" />
+			<finder-column name="isActive" />
+		</finder>
+	</entity>
+
 </service-builder>

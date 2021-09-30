@@ -9,6 +9,7 @@ create index IX_144F1DBA on agenda_AgendaExportPeriod (uuid_[$COLUMN_LENGTH:75$]
 create index IX_DB52A855 on agenda_CacheJson (createEvent, isActive);
 create index IX_856DB394 on agenda_CacheJson (createEvent, modifiedEvent, isActive);
 create index IX_D5F405E8 on agenda_CacheJson (modifiedEvent, isActive);
+create index IX_DE613961 on agenda_CacheJson (regeneratedDate, isActive);
 create index IX_17D24A17 on agenda_CacheJson (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_33C5F7C1 on agenda_Campaign (groupId);

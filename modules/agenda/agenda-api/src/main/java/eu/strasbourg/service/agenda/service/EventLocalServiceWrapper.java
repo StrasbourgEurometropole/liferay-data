@@ -582,6 +582,14 @@ public class EventLocalServiceWrapper
 		return _eventLocalService.getPublished();
 	}
 
+	/**
+	 * Transform le timeDetail en startTime et endTime si on peut
+	 */
+	@Override
+	public String getTimeDetailFormated(String timeDetail) {
+		return _eventLocalService.getTimeDetailFormated(timeDetail);
+	}
+
 	@Override
 	public boolean hasManifestationEvent(long manifestationId, long eventId) {
 		return _eventLocalService.hasManifestationEvent(

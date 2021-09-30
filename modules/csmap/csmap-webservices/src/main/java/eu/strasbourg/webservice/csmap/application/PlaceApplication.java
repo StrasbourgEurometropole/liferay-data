@@ -20,6 +20,9 @@ import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.csmap.model.PlaceCategories;
+import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalService;
+import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalServiceUtil;
 import eu.strasbourg.service.place.model.CacheJson;
 import eu.strasbourg.service.place.model.Historic;
 import eu.strasbourg.service.place.service.CacheJsonLocalService;
@@ -212,18 +215,35 @@ public class PlaceApplication extends Application {
 				throw new NoDefaultPictoException();
 			pictoDefaultURL = FileEntryHelper.getFileEntryURL(picto);
 
+			// On récupère la configuration pour les catégorie de lieu (fait dans le BO)
+			String categoriesBo = placeCategoriesLocalService.getPlaceCategories().getCategoriesIds();
+			String sigIdCategoriesBo="";
+
 			// On récupère les catégories du vocabulaire des lieux
 			AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
 					.getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
 			List<AssetCategory> categories = new ArrayList<>();
+			List<AssetCategory> sortedCategories = new ArrayList<>();
+
 			if(Validator.isNotNull(placeTypeVocabulary))
 				categories = placeTypeVocabulary.getCategories();
+
+			for(AssetCategory category : categories){
+				if(Validator.isNotNull(categoriesBo)) {
+					if(categoriesBo.contains(String.valueOf(category.getCategoryId()))){
+						sortedCategories.add(category);
+						sigIdCategoriesBo += "," + AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(),"SIG");
+					}
+				} else {
+					sortedCategories.add(category);
+				}
+			}
 
 			// On récupère toutes les catégories qui ont été ajoutées ou modifiées
 			JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
 			JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
 
-			for (AssetCategory categ: categories) {
+			for (AssetCategory categ: sortedCategories) {
 				// récupère l'URL du picto de la catégorie
 				String pictoURL;
 				picto = pictos.get(AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(),"SIG"));
@@ -250,7 +270,8 @@ public class PlaceApplication extends Application {
 			if(Validator.isNotNull(idsCategory)) {
 				if (Validator.isNotNull(placeTypeVocabulary))
 					for (String idCategory : idsCategory.split(",")) {
-						if (AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null)
+						if (AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null ||
+								(Validator.isNotNull(sigIdCategoriesBo) && !sigIdCategoriesBo.contains(String.valueOf(idCategory))))
 							jsonSuppr.put(idCategory);
 					}
 			}
@@ -265,30 +286,6 @@ public class PlaceApplication extends Application {
 
 		return WSResponseUtil.buildOkResponse(json);
 	}
-
-	@Reference(unbind = "-")
-	protected void setPlaceLocalService(PlaceLocalService placeLocalService) {
-		this.placeLocalService = placeLocalService;
-	}
-
-	@Reference
-	protected PlaceLocalService placeLocalService;
-
-	@Reference(unbind = "-")
-	protected void setCacheJsonLocalService(CacheJsonLocalService cacheJsonLocalService) {
-		this.cacheJsonLocalService = cacheJsonLocalService;
-	}
-
-	@Reference
-	protected CacheJsonLocalService cacheJsonLocalService;
-
-	@Reference(unbind = "-")
-	protected void setHistoricLocalService(HistoricLocalService historicLocalService) {
-		this.historicLocalService = historicLocalService;
-	}
-
-	@Reference
-	protected eu.strasbourg.service.place.service.HistoricLocalService historicLocalService;
 
 	@POST
 	@Produces("application/json")
@@ -385,5 +382,37 @@ public class PlaceApplication extends Application {
 		return WSResponseUtil.buildOkResponse(json);
 
 	}
+
+	@Reference(unbind = "-")
+	protected void setPlaceLocalService(PlaceLocalService placeLocalService) {
+		this.placeLocalService = placeLocalService;
+	}
+
+	@Reference
+	protected PlaceLocalService placeLocalService;
+
+	@Reference(unbind = "-")
+	protected void setCacheJsonLocalService(CacheJsonLocalService cacheJsonLocalService) {
+		this.cacheJsonLocalService = cacheJsonLocalService;
+	}
+
+	@Reference
+	protected CacheJsonLocalService cacheJsonLocalService;
+
+	@Reference(unbind = "-")
+	protected void setHistoricLocalService(HistoricLocalService historicLocalService) {
+		this.historicLocalService = historicLocalService;
+	}
+
+	@Reference
+	protected eu.strasbourg.service.place.service.HistoricLocalService historicLocalService;
+
+	@Reference(unbind = "-")
+	protected void setPlaceCategoriesLocalService(PlaceCategoriesLocalService placeCategoriesLocalService) {
+		this.placeCategoriesLocalService = placeCategoriesLocalService;
+	}
+
+	@Reference
+	protected PlaceCategoriesLocalService placeCategoriesLocalService;
 
 }

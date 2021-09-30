@@ -63,6 +63,7 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 		attributes.put("createEvent", getCreateEvent());
 		attributes.put("modifiedEvent", getModifiedEvent());
 		attributes.put("isActive", isIsActive());
+		attributes.put("regeneratedDate", getRegeneratedDate());
 
 		return attributes;
 	}
@@ -103,6 +104,12 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 
 		if (isActive != null) {
 			setIsActive(isActive);
+		}
+
+		Date regeneratedDate = (Date)attributes.get("regeneratedDate");
+
+		if (regeneratedDate != null) {
+			setRegeneratedDate(regeneratedDate);
 		}
 	}
 
@@ -186,6 +193,16 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	@Override
 	public Serializable getPrimaryKeyObj() {
 		return _cacheJson.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the regenerated date of this cache json.
+	 *
+	 * @return the regenerated date of this cache json
+	 */
+	@Override
+	public Date getRegeneratedDate() {
+		return _cacheJson.getRegeneratedDate();
 	}
 
 	/**
@@ -323,6 +340,16 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_cacheJson.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	 * Sets the regenerated date of this cache json.
+	 *
+	 * @param regeneratedDate the regenerated date of this cache json
+	 */
+	@Override
+	public void setRegeneratedDate(Date regeneratedDate) {
+		_cacheJson.setRegeneratedDate(regeneratedDate);
 	}
 
 	/**

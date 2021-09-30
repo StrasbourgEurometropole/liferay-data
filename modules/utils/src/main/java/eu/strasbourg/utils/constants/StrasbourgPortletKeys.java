@@ -132,4 +132,7 @@ public class StrasbourgPortletKeys {
     public static final String HELP_BO = "eu_strasbourg_portlet_help_HelpBOPortlet";
 	public static final String HELP_POPUP_WEB = "eu_strasbourg_portlet_help_HelpPopupPortlet";
 	public static final String HELP_WEB = "eu_strasbourg_portlet_help_HelpPortlet";
+
+	public static final String CSMAP_BO_PLACE = "eu_strasbourg_portlet_place_csmap_CsmapBoPlacePortlet";
+	public static final String CSMAP_BO_AGENDA = "eu_strasbourg_portlet_agenda_csmap_CsmapBoAgendaPortlet";
 }

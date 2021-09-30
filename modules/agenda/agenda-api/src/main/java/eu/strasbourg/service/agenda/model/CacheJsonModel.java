@@ -153,6 +153,20 @@ public interface CacheJsonModel extends BaseModel<CacheJson> {
 	 */
 	public void setIsActive(boolean isActive);
 
+	/**
+	 * Returns the regenerated date of this cache json.
+	 *
+	 * @return the regenerated date of this cache json
+	 */
+	public Date getRegeneratedDate();
+
+	/**
+	 * Sets the regenerated date of this cache json.
+	 *
+	 * @param regeneratedDate the regenerated date of this cache json
+	 */
+	public void setRegeneratedDate(Date regeneratedDate);
+
 	@Override
 	public boolean isNew();
 

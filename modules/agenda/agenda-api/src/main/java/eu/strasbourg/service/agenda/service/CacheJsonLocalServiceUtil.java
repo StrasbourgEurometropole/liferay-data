@@ -301,6 +301,13 @@ public class CacheJsonLocalServiceUtil {
 		return getService().updateCacheJson(cacheJson);
 	}
 
+	/**
+	 * Met à jour les jsonEvent des event
+	 */
+	public static void updateJsonEvent() {
+		getService().updateJsonEvent();
+	}
+
 	public static CacheJsonLocalService getService() {
 		return _serviceTracker.getService();
 	}
