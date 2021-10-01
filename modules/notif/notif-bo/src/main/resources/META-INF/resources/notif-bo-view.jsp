@@ -26,12 +26,12 @@
 <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
     <c:if test="${isAdminCsmap}">
         <aui:nav cssClass="navbar-nav">
-            <aui:nav-item href="${servicesURL}" label="services"
+            <aui:nav-item href="${servicesURL}" label="eu.strasbourg.notif.services"
                 selected="${tab eq 'services'}" />
         </aui:nav>
     </c:if>
 	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${notificationsURL}" label="notifications"
+		<aui:nav-item href="${notificationsURL}" label="eu.strasbourg.notif.notifications"
 			selected="${tab eq 'notifications'}" />
 	</aui:nav>
 
@@ -41,14 +41,13 @@
 		</aui:form>
 	</aui:nav-bar-search>
 </aui:nav-bar>
-
 <c:choose>
     <c:when test="${tab eq 'services'}">
-        <liferay-util:include page="/ejob-bo-view-services.jsp" servletContext="<%=application %>">
+        <liferay-util:include page="/notif-bo-view-services.jsp" servletContext="<%=application %>">
         </liferay-util:include>
     </c:when>
     <c:when test="${tab eq 'notifications'}">
-		<liferay-util:include page="/ejob-bo-view-notifications.jsp" servletContext="<%=application %>">
+		<liferay-util:include page="/notif-bo-view-notifications.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
 </c:choose>

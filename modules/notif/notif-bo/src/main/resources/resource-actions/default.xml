@@ -13,8 +13,7 @@
 				<action-key>DELETE_SERVICE</action-key>
 				<action-key>EDIT_SERVICE</action-key>
 			</supports>
-			<site-member-defaults>
-			</site-member-defaults>
+			<site-member-defaults />
 			<guest-defaults />
 			<guest-unsupported>
 				<action-key>ADD_TO_PAGE</action-key>

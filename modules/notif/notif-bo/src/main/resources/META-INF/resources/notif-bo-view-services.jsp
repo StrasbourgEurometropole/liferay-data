@@ -1,7 +1,7 @@
 <%@ include file="/notif-bo-init.jsp"%>
 
-<liferay-portlet:renderURL varImpl="notifsURL">
-	<portlet:param name="tab" value="notifs" />
+<liferay-portlet:renderURL varImpl="servicesURL">
+	<portlet:param name="tab" value="services" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
@@ -11,17 +11,14 @@
 
 <div class="container-fluid-1280 main-content-body">
 
-	<%-- Composant : definit la liste des messages d'erreur  (voir methode "doProcessAction" dans le deleteAction de l'entite) --%>
-	<liferay-ui:error key="notifs-error" message="notifs-error" />
-
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="notifsSearchContainer" searchContainer="${dc.searchContainer}">
-			<liferay-ui:search-container-results results="${dc.notifs}" />
+			<liferay-ui:search-container-results results="${dc.services}" />
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.notif.model.ServiceNotif"
-				modelVar="offer" keyProperty="serviceId" rowIdProperty="serviceId">
+				modelVar="service" keyProperty="serviceId" rowIdProperty="serviceId">
 
 				<liferay-portlet:renderURL varImpl="editServiceURL">
 					<portlet:param name="cmd" value="editService" />
@@ -32,8 +29,8 @@
 
                 <!-- Colonne : nom du service -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="post" truncate="true"
-					orderable="true" value="${service.name}" />
+					name="eu.strasbourg.notif.service.name" truncate="true"
+					href="${editServiceURL}" orderable="true" value="${service.name}" />
 
                 <!-- ACTIONS -->
 				<liferay-ui:search-container-column-text>
@@ -51,7 +48,7 @@
 							<portlet:param name="serviceId" value="${service.serviceId}" />
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('DELETE_SERVICE') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="delete" url="${deleteOfferURL}" />
+                            <liferay-ui:icon message="delete" url="javascript:areYouSure('${deleteServiceURL}')" />
 						</c:if>
 
 					</liferay-ui:icon-menu>
@@ -76,3 +73,13 @@
 		<liferay-frontend:add-menu-item title="Ajouter un service" url="${addServiceURL}" />
 	</liferay-frontend:add-menu>
 </c:if>
+
+<%-- Script : permet l'affichage des alertes de validation d'action --%>
+<aui:script>
+	function areYouSure(url) {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			submitForm(form, url);
+		}
+	}
+</aui:script>

@@ -92,10 +92,10 @@ public class ServiceNotifModelImpl
 	public static final String TABLE_SQL_DROP = "drop table notif_ServiceNotif";
 
 	public static final String ORDER_BY_JPQL =
-		" ORDER BY serviceNotif.name DESC";
+		" ORDER BY serviceNotif.name ASC";
 
 	public static final String ORDER_BY_SQL =
-		" ORDER BY notif_ServiceNotif.name DESC";
+		" ORDER BY notif_ServiceNotif.name ASC";
 
 	public static final String DATA_SOURCE = "liferayDataSource";
 
@@ -468,8 +468,6 @@ public class ServiceNotifModelImpl
 		int value = 0;
 
 		value = getName().compareToIgnoreCase(serviceNotif.getName());
-
-		value = value * -1;
 
 		if (value != 0) {
 			return value;

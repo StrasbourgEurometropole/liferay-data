@@ -1,7 +1,8 @@
 package eu.strasbourg.portlet.notif.display.context;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Organization;
-import com.liferay.portal.kernel.service.OrganizationLocalService;
+import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -9,11 +10,11 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.notif.model.Message;
 import eu.strasbourg.service.notif.model.NatureNotif;
 import eu.strasbourg.service.notif.model.ServiceNotif;
-import eu.strasbourg.service.notif.service.MessageLocalService;
-import eu.strasbourg.service.notif.service.NatureNotifLocalService;
-import eu.strasbourg.service.notif.service.ServiceNotifLocalService;
+import eu.strasbourg.service.notif.service.MessageLocalServiceUtil;
+import eu.strasbourg.service.notif.service.NatureNotifLocalServiceUtil;
+import eu.strasbourg.service.notif.service.ServiceNotifLocalServiceUtil;
+import eu.strasbourg.utils.constants.OrganizationNames;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.RenderRequest;
 import java.util.List;
@@ -34,39 +35,47 @@ public class EditServiceDisplayContext {
         if (this.service == null) {
             long serviceId = ParamUtil.getLong(this.request, "serviceId");
             if (serviceId > 0) {
-                this.service = _serviceNotifLocalService.fetchServiceNotif(serviceId);
+                this.service = ServiceNotifLocalServiceUtil.fetchServiceNotif(serviceId);
             }
         }
         return service;
     }
 
+    @SuppressWarnings("unused")
     public List<Organization> getOrganizations() {
         if (this.organizations == null) {
-            this.organizations = _organizationLocalService.getOrganizations(-1, -1);
+            try {
+                Organization parentOrganization = OrganizationLocalServiceUtil.getOrganization(themeDisplay.getCompanyId(), OrganizationNames.SERVICES_NOTIFICATION);
+                this.organizations = parentOrganization.getSuborganizations();
+            } catch (PortalException e) {
+                e.printStackTrace();
+            }
         }
         return organizations;
     }
 
-    public String getDefaultNatureIndexes() {
+    @SuppressWarnings("unused")
+    public String getDefaultNaturesIndexes() {
         if(this.service != null){
-            String indexes = "0";
-            List<NatureNotif> natures = _natureNotifLocalService.getByServiceid(this.service.getServiceId());
+            StringBuilder indexes = new StringBuilder("0");
+            List<NatureNotif> natures = NatureNotifLocalServiceUtil.getByServiceid(this.service.getServiceId());
             for (int i = 1; i < natures.size(); i++) {
-                indexes += "," + i;
+                indexes.append(",").append(i);
             }
-            return indexes;
+            return indexes.toString();
         }
         return "";
     }
 
-    public String getDefaultMessageIndexes() {
+    @SuppressWarnings("unused")
+    public String getDefaultMessagesIndexes() {
         if(this.service != null){
-            String indexes = "0";
-            List<Message> messages = _messageLocalService.getByServiceid(this.service.getServiceId());
+            StringBuilder indexes = new StringBuilder("0");
+            List<Message> messages = MessageLocalServiceUtil.getByServiceid(this.service.getServiceId());
             for (int i = 1; i < messages.size(); i++) {
-                indexes += "," + i;
+                indexes.append(",").append(i);
             }
-            return indexes;
+            return indexes.toString();
         }
         return "";
     }
@@ -89,33 +98,5 @@ public class EditServiceDisplayContext {
         return this.themeDisplay.getPermissionChecker().hasPermission(
                 this.themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.NOTIF_BO,
                 StrasbourgPortletKeys.NOTIF_BO, actionId);
-    }
-
-    private OrganizationLocalService _organizationLocalService;
-
-    @Reference(unbind = "-")
-    protected void setOrganizationLocalService(OrganizationLocalService organizationLocalService) {
-        _organizationLocalService = organizationLocalService;
-    }
-
-    private ServiceNotifLocalService _serviceNotifLocalService;
-
-    @Reference(unbind = "-")
-    protected void setServiceNotifLocalService(ServiceNotifLocalService serviceNotifLocalService) {
-        _serviceNotifLocalService = serviceNotifLocalService;
-    }
-
-    private NatureNotifLocalService _natureNotifLocalService;
-
-    @Reference(unbind = "-")
-    protected void setNatureNotifLocalService(NatureNotifLocalService natureNotifLocalService) {
-        _natureNotifLocalService = natureNotifLocalService;
-    }
-
-    private MessageLocalService _messageLocalService;
-
-    @Reference(unbind = "-")
-    protected void setMessageLocalService(MessageLocalService messageLocalService) {
-        _messageLocalService = messageLocalService;
     }
 }

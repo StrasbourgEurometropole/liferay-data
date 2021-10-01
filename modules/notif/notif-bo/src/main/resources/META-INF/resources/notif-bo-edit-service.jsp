@@ -17,10 +17,12 @@
 <div class="container-fluid-1280 main-content-body ejob-bo">
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
-	<liferay-ui:error key="name-error" message="name-error" />
-	<liferay-ui:error key="organization-error" message="organization-error" />
-	<liferay-ui:error key="natures-error" message="natures-error" />
-    <liferay-ui:error key="messages-error" message="messages-error" />
+	<liferay-ui:error key="name-error" message="eu.strasbourg.service.name-error" />
+	<liferay-ui:error key="organization-error" message="eu.strasbourg.service.organization-error" />
+	<liferay-ui:error key="nb-nature-error" message="eu.strasbourg.service.nb-nature-error" />
+	<liferay-ui:error key="natures-error" message="eu.strasbourg.service.natures-error" />
+    <liferay-ui:error key="nb-indexes-error" message="eu.strasbourg.service.nb-indexes-error" />
+	<div class="error"></div>
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveServiceURL}" method="post" name="fm" onSubmit="submitForm(event);">
@@ -33,14 +35,13 @@
 			<aui:input name="serviceId" type="hidden" />
 
 			<%-- Groupe de champs : Generale --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="general">
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="eu.strasbourg.service.general">
 
                 <%-- Champ : Nom --%>
                 <aui:input name="name" id="name" required="true"/>
 
                 <%-- Champ : Organisation   --%>
-                <aui:select cssClass="toCustomSelect" id="organization" name="organization" label="organization" required="true">
-                    <aui:option style="display: none" selected="${empty dc.service}"><liferay-ui:message key="choose-organization" /></aui:option>
+                <aui:select cssClass="toCustomSelect" id="organization" name="organization" label="eu.strasbourg.service.organization" required="true">
                     <c:forEach items="${dc.organizations}" var="organization">
                         <aui:option value="${organization.organizationId}" selected="${dc.service.organisationId == organization.organizationId}" >${organization.name}</aui:option>
                     </c:forEach>
@@ -49,13 +50,13 @@
                     <liferay-ui:message key="this-field-is-required" />
                 </div>
 
-				<strasbourg-picker:image label="picto" name="pictoId"
+				<strasbourg-picker:image label="eu.strasbourg.service.picto" name="pictoId"
 					required="false" value="${dc.service.pictoId}" global="true" />
 
             </aui:fieldset>
 
 			<%-- Groupe de champs : Nature du service --%>
-			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="nature">
+			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="eu.strasbourg.service.natures">
 
                 <div id="nature-fields">
                     <c:if test="${dc.service == null || empty dc.service.natures}">
@@ -84,10 +85,9 @@
                  </div>
 
             </aui:fieldset>
-		</aui:fieldset-group>
 
 			<%-- Groupe de champs : Messages prédéfinies --%>
-			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="message">
+			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="eu.strasbourg.service.messages">
 
                 <div id="message-fields">
                     <c:if test="${dc.service == null || empty dc.service.messages}">

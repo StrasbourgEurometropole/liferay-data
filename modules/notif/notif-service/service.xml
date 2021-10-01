@@ -13,7 +13,7 @@
 		<column name="pictoId" type="long" />
 
 		<!-- Order -->
-		<order by="desc">
+		<order by="asc">
 			<order-column case-sensitive="false" name="name" />
 		</order>
 		<!--

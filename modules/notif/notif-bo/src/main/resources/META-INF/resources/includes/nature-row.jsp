@@ -1,9 +1,9 @@
 <%@ include file="/notif-bo-init.jsp"%>
 
-<aui:input name="name{param.index}" label="" type="text"
-    value="${nature.name}" >
-  <aui:validator name="nature"/>
-</aui:input>
+<aui:input name="natureName${param.index}" label="eu.strasbourg.notif.nature.name" value="${nature.name}" type="text"  />
+<div class="form-validator-stack help-block" style="display: none">
+	<liferay-ui:message key="this-field-is-required" />
+</div>
 
 <c:if test="${not empty fromAjaxNature}">
 	<aui:script>

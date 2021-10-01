@@ -28,12 +28,14 @@ import java.io.IOException;
 @Component(
 	immediate = true,
 	property = {
+		"javax.portlet.version=3.0",
 		"com.liferay.portlet.instanceable=false",
+		"com.liferay.portlet.footer-portlet-css=/css/notif-bo-main.css",
 		"com.liferay.portlet.footer-portlet-javascript=/js/notif-bo-main.js",
 		"com.liferay.portlet.layout-cacheable=true",
 		"com.liferay.portlet.single-page-application=false",
 		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/notif-bo-notif-bo-view.jsp",
+		"javax.portlet.init-param.view-template=/notif-bo-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},

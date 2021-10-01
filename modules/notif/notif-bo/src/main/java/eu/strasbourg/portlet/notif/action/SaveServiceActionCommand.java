@@ -97,11 +97,11 @@ public class SaveServiceActionCommand implements MVCActionCommand {
             for (String serviceNaturesIndex : serviceNaturesIndexes.split(",")) {
                 if (Validator.isNotNull(serviceNaturesIndex)
                         && Validator.isNotNull(
-                        ParamUtil.getString(request, "name" + serviceNaturesIndex))) {
-                    String natureName = ParamUtil.getString(request, "name" + serviceNaturesIndex);
+                        ParamUtil.getString(request, "natureName" + serviceNaturesIndex))) {
+                    String natureName = ParamUtil.getString(request, "natureName" + serviceNaturesIndex);
                     NatureNotif nature = _natureNotifLocalService.createNature();
                     nature.setName(natureName);
-                    nature.setServiceId(serviceId);
+                    nature.setServiceId(service.getServiceId());
                     _natureNotifLocalService.updateNatureNotif(nature);
                 }
             }
@@ -117,11 +117,11 @@ public class SaveServiceActionCommand implements MVCActionCommand {
             for (String serviceMessagesIndex : serviceMessagesIndexes.split(",")) {
                 if (Validator.isNotNull(serviceMessagesIndex)
                         && Validator.isNotNull(
-                        ParamUtil.getString(request, "name" + serviceMessagesIndex))) {
+                        ParamUtil.getString(request, "content" + serviceMessagesIndex))) {
                     Map<Locale, String> content = LocalizationUtil.getLocalizationMap(request, "content" + serviceMessagesIndex);
                     Message message = _messageLocalService.createMessage();
                     message.setContentMap(content);
-                    message.setServiceId(serviceId);
+                    message.setServiceId(service.getServiceId());
                     _messageLocalService.updateMessage(message);
                 }
             }
@@ -156,9 +156,16 @@ public class SaveServiceActionCommand implements MVCActionCommand {
         }
 
         // natures
+        // on vérifie que le nombre de natures récupérées correspond bien au nombre d'indexes reçus
         String naturesIndexes = ParamUtil.getString(request, "serviceNaturesIndexes");
+        long nbNature = request.getActionParameters().getNames().stream().filter(p -> p.contains("natureName") && !p.contains("_")).count();
+        long nbIndexNature = naturesIndexes.isEmpty()?0:naturesIndexes.split(",").length;
+        if(nbIndexNature != nbNature) {
+            SessionErrors.add(request, "nb-indexes-error");
+            isValid = false;
+        }
         for (String index: naturesIndexes.split(",")) {
-            if (Validator.isNull(ParamUtil.getString(request, "name" + index))) {
+            if (Validator.isNull(ParamUtil.getString(request, "natureName" + index))) {
                 SessionErrors.add(request, "natures-error");
                 isValid = false;
                 break;
@@ -166,7 +173,14 @@ public class SaveServiceActionCommand implements MVCActionCommand {
         }
 
         // messages
+        // on vérifie que le nombre de messages récupérés correspond bien au nombre d'indexes reçus
         String messagesIndexes = ParamUtil.getString(request, "serviceMessagesIndexes");
+        long nbMessage = request.getActionParameters().getNames().stream().filter(p -> p.contains("natureName") && !p.contains("_")).count();
+        long nbIndexMessage = messagesIndexes.isEmpty()?0:messagesIndexes.split(",").length;
+        if(nbIndexMessage != nbMessage) {
+            SessionErrors.add(request, "nb-indexes-error");
+            isValid = false;
+        }
         for (String index: messagesIndexes.split(",")) {
             if (Validator.isNull(ParamUtil.getString(request, "content" + index))) {
                 SessionErrors.add(request, "messages-error");
