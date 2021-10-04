@@ -656,7 +656,7 @@ public class AssetVocabularyHelper {
 
 		if ((assetCityCategories == null || assetCityCategories.isEmpty()) && (assetDistrictCategories == null || assetDistrictCategories.isEmpty())) {
 			result.append("Aucune commune");
-		} else if (AssetVocabularyHelper.isAllFrenchCity(assetCityCategories.size())) {
+		} else if (isAllCities) {
 			result.append("Toutes les communes de l\u2019Eurom\u00e9tropole");
 		} else {
 			if (!assetDistrictCategories.isEmpty()) {
