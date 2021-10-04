@@ -596,6 +596,17 @@ public class BudgetParticipatifLocalServiceWrapper
 			groupId, phase);
 	}
 
+	/**
+	 * On randomise la date de modifications des budgets participatifs
+	 * Cela permet de simuler un tri aléatoire
+	 */
+	@Override
+	public void randomizeModifiedDate()
+		throws com.liferay.portal.kernel.search.SearchException {
+
+		_budgetParticipatifLocalService.randomizeModifiedDate();
+	}
+
 	@Override
 	public void removeBudgetParticipatif(long budgetId)
 		throws com.liferay.portal.kernel.exception.PortalException {
