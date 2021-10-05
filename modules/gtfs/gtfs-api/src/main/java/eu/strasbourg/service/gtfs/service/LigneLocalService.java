@@ -241,6 +241,12 @@ public interface LigneLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Ligne> getByShortNameAndStatus(String shortName, int status);
 
+	/**
+	 * Retourne toutes les lignes avec un status choisi
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Ligne> getByStatus(int status);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		PortletDataContext portletDataContext);

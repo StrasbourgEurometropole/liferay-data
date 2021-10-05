@@ -310,13 +310,21 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 		}
 		return attachedVocabularies;
 	}
-	
+
 	/**
 	 * Retourne toutes les entrees d'un groupe
 	 */
 	@Override
 	public List<Arret> getByGroupId(long groupId) {
 		return this.arretPersistence.findByGroupId(groupId);
+	}
+
+	/**
+	 * Retourne tous les arret avec un status choisi
+	 */
+	@Override
+	public List<Arret> getByStatus(int status) {
+		return this.arretPersistence.findByStatus(status);
 	}
 	
 	/**

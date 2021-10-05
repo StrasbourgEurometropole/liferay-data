@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.LongStream;
 
+import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
@@ -312,6 +313,14 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 	@Override
 	public List<Ligne> getByGroupId(long groupId) {
 		return this.lignePersistence.findByGroupId(groupId);
+	}
+
+	/**
+	 * Retourne toutes les lignes avec un status choisi
+	 */
+	@Override
+	public List<Ligne> getByStatus(int status) {
+		return this.lignePersistence.findByStatus(status);
 	}
 	
 	/**

@@ -298,6 +298,12 @@ public interface ArretLocalService
 	public List<Arret> getByGroupId(long groupId);
 
 	/**
+	 * Retourne tous les arret avec un status choisi
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Arret> getByStatus(int status);
+
+	/**
 	 * Retourne un arret via son stopId CTS
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
