@@ -40,16 +40,14 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.model.Ligne;
+import eu.strasbourg.service.gtfs.model.LigneModel;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.LigneLocalServiceBaseImpl;
 
@@ -321,6 +319,16 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 	@Override
 	public List<Ligne> getByStatus(int status) {
 		return this.lignePersistence.findByStatus(status);
+	}
+
+	/**
+	 * Retourne toutes les lignes avec un status choisi par modifiedDate
+	 */
+	@Override
+	public List<Ligne> getByStatusAndModifiedDate(int status) {
+		return this.lignePersistence.findByStatus(status).stream()
+				.sorted(Comparator.comparing(LigneModel::getModifiedDate))
+				.collect(Collectors.toList());
 	}
 	
 	/**

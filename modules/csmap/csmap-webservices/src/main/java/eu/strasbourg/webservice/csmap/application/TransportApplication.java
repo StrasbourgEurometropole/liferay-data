@@ -103,7 +103,7 @@ public class TransportApplication extends Application {
                                         jsonArretModif.put(CSMapJSonHelper.arretCSMapJSON(arret));
                                 }
                         }
-                        List<Ligne> lignes = _ligneLocalService.getByStatus(WorkflowConstants.STATUS_APPROVED);
+                        List<Ligne> lignes = _ligneLocalService.getByStatusAndModifiedDate(WorkflowConstants.STATUS_APPROVED);
                         JSONArray jsonLigneAjout = JSONFactoryUtil.createJSONArray();
                         JSONArray jsonLigneModif = JSONFactoryUtil.createJSONArray();
                         List<String> lineNumbers = new ArrayList<>();
