@@ -63,6 +63,17 @@ public class NotificationLocalServiceWrapper
 	}
 
 	/**
+	 * Crée une offre vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public eu.strasbourg.service.notif.model.Notification createNotification(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _notificationLocalService.createNotification(sc);
+	}
+
+	/**
 	 * Deletes the notification with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
 	 * @param notificationId the primary key of the notification
@@ -99,6 +110,16 @@ public class NotificationLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _notificationLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public eu.strasbourg.service.notif.model.Notification duplicateNotification(
+			com.liferay.portal.kernel.service.ServiceContext sc,
+			eu.strasbourg.service.notif.model.Notification notificationToCopy)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _notificationLocalService.duplicateNotification(
+			sc, notificationToCopy);
 	}
 
 	@Override
@@ -218,6 +239,13 @@ public class NotificationLocalServiceWrapper
 		getActionableDynamicQuery() {
 
 		return _notificationLocalService.getActionableDynamicQuery();
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.notif.model.Notification>
+		getByServiceIds(long[] serviceIds) {
+
+		return _notificationLocalService.getByServiceIds(serviceIds);
 	}
 
 	@Override
@@ -353,6 +381,17 @@ public class NotificationLocalServiceWrapper
 	}
 
 	/**
+	 * Supprime une notification
+	 */
+	@Override
+	public eu.strasbourg.service.notif.model.Notification removeNotification(
+			long notificationId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _notificationLocalService.removeNotification(notificationId);
+	}
+
+	/**
 	 * Updates the notification in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
 	 * @param notification the notification
@@ -363,6 +402,18 @@ public class NotificationLocalServiceWrapper
 		eu.strasbourg.service.notif.model.Notification notification) {
 
 		return _notificationLocalService.updateNotification(notification);
+	}
+
+	/**
+	 * Met à jour une notification et l'enregistre en base de données
+	 */
+	@Override
+	public eu.strasbourg.service.notif.model.Notification updateNotification(
+			eu.strasbourg.service.notif.model.Notification notification,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _notificationLocalService.updateNotification(notification, sc);
 	}
 
 	@Override

@@ -11,7 +11,9 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.notif.display.context.EditNotificationDisplayContext;
 import eu.strasbourg.portlet.notif.display.context.EditServiceDisplayContext;
+import eu.strasbourg.portlet.notif.display.context.ViewNotificationsDisplayContext;
 import eu.strasbourg.portlet.notif.display.context.ViewServicesDisplayContext;
 import eu.strasbourg.utils.constants.RoleNames;
 import org.osgi.service.component.annotations.Component;
@@ -74,29 +76,26 @@ public class NotifBOPortlet extends MVCPortlet {
 		if (cmd.equals("editService") || mvcPath.equals("/notif-bo-edit-service.jsp") || fromAjaxNature || fromAjaxMessage) {
 			EditServiceDisplayContext dc = new EditServiceDisplayContext(renderRequest);
 			renderRequest.setAttribute("dc", dc);
-		} /*else if (cmd.equals("editNotification") || mvcPath.equals("/ejob-bo-edit-notification.jsp") || fromAjaxEmail || fromAjaxGradeRange) {
+		} else if (cmd.equals("editNotification") || mvcPath.equals("/notif-bo-edit-notification.jsp")) {
 			EditNotificationDisplayContext dc = new EditNotificationDisplayContext(renderRequest);
 			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("notifications")) {
-			ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest);
+			ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		} */else {
+		} else {
 			ViewServicesDisplayContext dc = new ViewServicesDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		}
 
-		// Admin ou pas
-		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
-
-		// Admin CSMAP ou pas
-		renderRequest.setAttribute("isAdminCsmap", this.isAdminCsmap());
+		// Admin Notif ou pas
+		renderRequest.setAttribute("isAdminNotification", this.isAdminNotification());
 
 		super.render(renderRequest, renderResponse);
 	}
 
 
-	public boolean isAdminCsmap(){
+	public boolean isAdminNotification(){
 		try {
 			Role siteAdministrator = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.SITE_ADMLINISTRATOR);
 			if(themeDisplay.getPermissionChecker().isOmniadmin()

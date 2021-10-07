@@ -87,7 +87,7 @@ public class ServiceNotifModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table notif_ServiceNotif (serviceId LONG not null primary key,organisationId LONG,name VARCHAR(75) null,pictoId LONG)";
+		"create table notif_ServiceNotif (serviceId LONG not null primary key,organisationId LONG,name VARCHAR(400) null,pictoId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table notif_ServiceNotif";
 
@@ -113,7 +113,14 @@ public class ServiceNotifModelImpl
 			"value.object.finder.cache.enabled.eu.strasbourg.service.notif.model.ServiceNotif"),
 		true);
 
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
+		eu.strasbourg.service.notif.service.util.ServiceProps.get(
+			"value.object.column.bitmask.enabled.eu.strasbourg.service.notif.model.ServiceNotif"),
+		true);
+
+	public static final long ORGANISATIONID_COLUMN_BITMASK = 1L;
+
+	public static final long NAME_COLUMN_BITMASK = 2L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -396,7 +403,19 @@ public class ServiceNotifModelImpl
 
 	@Override
 	public void setOrganisationId(long organisationId) {
+		_columnBitmask |= ORGANISATIONID_COLUMN_BITMASK;
+
+		if (!_setOriginalOrganisationId) {
+			_setOriginalOrganisationId = true;
+
+			_originalOrganisationId = _organisationId;
+		}
+
 		_organisationId = organisationId;
+	}
+
+	public long getOriginalOrganisationId() {
+		return _originalOrganisationId;
 	}
 
 	@JSON
@@ -412,6 +431,8 @@ public class ServiceNotifModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask = -1L;
+
 		_name = name;
 	}
 
@@ -424,6 +445,10 @@ public class ServiceNotifModelImpl
 	@Override
 	public void setPictoId(long pictoId) {
 		_pictoId = pictoId;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -515,6 +540,14 @@ public class ServiceNotifModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		ServiceNotifModelImpl serviceNotifModelImpl = this;
+
+		serviceNotifModelImpl._originalOrganisationId =
+			serviceNotifModelImpl._organisationId;
+
+		serviceNotifModelImpl._setOriginalOrganisationId = false;
+
+		serviceNotifModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -607,8 +640,11 @@ public class ServiceNotifModelImpl
 
 	private long _serviceId;
 	private long _organisationId;
+	private long _originalOrganisationId;
+	private boolean _setOriginalOrganisationId;
 	private String _name;
 	private long _pictoId;
+	private long _columnBitmask;
 	private ServiceNotif _escapedModel;
 
 }

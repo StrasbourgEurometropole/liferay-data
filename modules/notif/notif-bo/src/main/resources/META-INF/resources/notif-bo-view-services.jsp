@@ -30,7 +30,7 @@
                 <!-- Colonne : nom du service -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="eu.strasbourg.notif.service.name" truncate="true"
-					href="${editServiceURL}" orderable="true" value="${service.name}" />
+					href="${editServiceURL}" value="${service.name}" />
 
                 <!-- ACTIONS -->
 				<liferay-ui:search-container-column-text>
@@ -38,7 +38,7 @@
 
 						<!-- ACTION : Modifier -->
 						<c:if test="${dc.hasPermission('EDIT_SERVICE') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="edit" url="${editServiceURL}" />
+                            <liferay-ui:icon message="eu.strasbourg.notif.edit" url="${editServiceURL}" />
 						</c:if>
 
                         <!-- ACTION : Supprimer -->
@@ -48,7 +48,7 @@
 							<portlet:param name="serviceId" value="${service.serviceId}" />
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('DELETE_SERVICE') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="delete" url="javascript:areYouSure('${deleteServiceURL}')" />
+                            <liferay-ui:icon message="eu.strasbourg.notif.delete" url="javascript:areYouSure('${deleteServiceURL}')" />
 						</c:if>
 
 					</liferay-ui:icon-menu>

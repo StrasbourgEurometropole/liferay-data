@@ -108,8 +108,8 @@ public class NotificationCacheModel
 		sb.append(endDate);
 		sb.append(", broadcastDate=");
 		sb.append(broadcastDate);
-		sb.append(", isAutomaticMessage=");
-		sb.append(isAutomaticMessage);
+		sb.append(", messageId=");
+		sb.append(messageId);
 		sb.append(", content=");
 		sb.append(content);
 		sb.append(", labelUrl=");
@@ -228,7 +228,7 @@ public class NotificationCacheModel
 			notificationImpl.setBroadcastDate(new Date(broadcastDate));
 		}
 
-		notificationImpl.setIsAutomaticMessage(isAutomaticMessage);
+		notificationImpl.setMessageId(messageId);
 
 		if (content == null) {
 			notificationImpl.setContent("");
@@ -303,7 +303,7 @@ public class NotificationCacheModel
 		endDate = objectInput.readLong();
 		broadcastDate = objectInput.readLong();
 
-		isAutomaticMessage = objectInput.readInt();
+		messageId = objectInput.readLong();
 		content = objectInput.readUTF();
 		labelUrl = objectInput.readUTF();
 		url = objectInput.readUTF();
@@ -386,7 +386,7 @@ public class NotificationCacheModel
 		objectOutput.writeLong(endDate);
 		objectOutput.writeLong(broadcastDate);
 
-		objectOutput.writeInt(isAutomaticMessage);
+		objectOutput.writeLong(messageId);
 
 		if (content == null) {
 			objectOutput.writeUTF("");
@@ -449,7 +449,7 @@ public class NotificationCacheModel
 	public long startDate;
 	public long endDate;
 	public long broadcastDate;
-	public int isAutomaticMessage;
+	public long messageId;
 	public String content;
 	public String labelUrl;
 	public String url;

@@ -4,14 +4,12 @@
 	<model name="eu.strasbourg.service.notif.model.Message">
 		<field name="messageId" type="long" />
 		<field name="serviceId" type="long" />
-		<field localized="true" name="content" type="String">
-			<hint-collection name="EDITOR" />
-		</field>
+		<field localized="true" name="content" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.notif.model.NatureNotif">
 		<field name="natureId" type="long" />
 		<field name="serviceId" type="long" />
-		<field name="name" type="String" />
+		<field localized="true" name="name" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.notif.model.Notification">
 		<field name="uuid" type="String" />
@@ -34,7 +32,7 @@
 		<field name="startDate" type="Date" />
 		<field name="endDate" type="Date" />
 		<field name="broadcastDate" type="Date" />
-		<field name="isAutomaticMessage" type="int" />
+		<field name="messageId" type="long" />
 		<field localized="true" name="content" type="String" />
 		<field localized="true" name="labelUrl" type="String" />
 		<field localized="true" name="url" type="String" />
@@ -49,7 +47,9 @@
 	<model name="eu.strasbourg.service.notif.model.ServiceNotif">
 		<field name="serviceId" type="long" />
 		<field name="organisationId" type="long" />
-		<field name="name" type="String" />
+		<field name="name" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="pictoId" type="long" />
 	</model>
 </model-hints>

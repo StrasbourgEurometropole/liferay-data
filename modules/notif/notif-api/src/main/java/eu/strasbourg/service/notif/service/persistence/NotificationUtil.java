@@ -547,6 +547,264 @@ public class NotificationUtil {
 	}
 
 	/**
+	 * Returns all the notifications where serviceId = &#63;.
+	 *
+	 * @param serviceId the service ID
+	 * @return the matching notifications
+	 */
+	public static List<Notification> findByServiceIds(long serviceId) {
+		return getPersistence().findByServiceIds(serviceId);
+	}
+
+	/**
+	 * Returns a range of all the notifications where serviceId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param serviceId the service ID
+	 * @param start the lower bound of the range of notifications
+	 * @param end the upper bound of the range of notifications (not inclusive)
+	 * @return the range of matching notifications
+	 */
+	public static List<Notification> findByServiceIds(
+		long serviceId, int start, int end) {
+
+		return getPersistence().findByServiceIds(serviceId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the notifications where serviceId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param serviceId the service ID
+	 * @param start the lower bound of the range of notifications
+	 * @param end the upper bound of the range of notifications (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching notifications
+	 */
+	public static List<Notification> findByServiceIds(
+		long serviceId, int start, int end,
+		OrderByComparator<Notification> orderByComparator) {
+
+		return getPersistence().findByServiceIds(
+			serviceId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the notifications where serviceId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param serviceId the service ID
+	 * @param start the lower bound of the range of notifications
+	 * @param end the upper bound of the range of notifications (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching notifications
+	 */
+	public static List<Notification> findByServiceIds(
+		long serviceId, int start, int end,
+		OrderByComparator<Notification> orderByComparator,
+		boolean retrieveFromCache) {
+
+		return getPersistence().findByServiceIds(
+			serviceId, start, end, orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	 * Returns the first notification in the ordered set where serviceId = &#63;.
+	 *
+	 * @param serviceId the service ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching notification
+	 * @throws NoSuchNotificationException if a matching notification could not be found
+	 */
+	public static Notification findByServiceIds_First(
+			long serviceId, OrderByComparator<Notification> orderByComparator)
+		throws eu.strasbourg.service.notif.exception.
+			NoSuchNotificationException {
+
+		return getPersistence().findByServiceIds_First(
+			serviceId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first notification in the ordered set where serviceId = &#63;.
+	 *
+	 * @param serviceId the service ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching notification, or <code>null</code> if a matching notification could not be found
+	 */
+	public static Notification fetchByServiceIds_First(
+		long serviceId, OrderByComparator<Notification> orderByComparator) {
+
+		return getPersistence().fetchByServiceIds_First(
+			serviceId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last notification in the ordered set where serviceId = &#63;.
+	 *
+	 * @param serviceId the service ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching notification
+	 * @throws NoSuchNotificationException if a matching notification could not be found
+	 */
+	public static Notification findByServiceIds_Last(
+			long serviceId, OrderByComparator<Notification> orderByComparator)
+		throws eu.strasbourg.service.notif.exception.
+			NoSuchNotificationException {
+
+		return getPersistence().findByServiceIds_Last(
+			serviceId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last notification in the ordered set where serviceId = &#63;.
+	 *
+	 * @param serviceId the service ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching notification, or <code>null</code> if a matching notification could not be found
+	 */
+	public static Notification fetchByServiceIds_Last(
+		long serviceId, OrderByComparator<Notification> orderByComparator) {
+
+		return getPersistence().fetchByServiceIds_Last(
+			serviceId, orderByComparator);
+	}
+
+	/**
+	 * Returns the notifications before and after the current notification in the ordered set where serviceId = &#63;.
+	 *
+	 * @param notificationId the primary key of the current notification
+	 * @param serviceId the service ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next notification
+	 * @throws NoSuchNotificationException if a notification with the primary key could not be found
+	 */
+	public static Notification[] findByServiceIds_PrevAndNext(
+			long notificationId, long serviceId,
+			OrderByComparator<Notification> orderByComparator)
+		throws eu.strasbourg.service.notif.exception.
+			NoSuchNotificationException {
+
+		return getPersistence().findByServiceIds_PrevAndNext(
+			notificationId, serviceId, orderByComparator);
+	}
+
+	/**
+	 * Returns all the notifications where serviceId = any &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param serviceIds the service IDs
+	 * @return the matching notifications
+	 */
+	public static List<Notification> findByServiceIds(long[] serviceIds) {
+		return getPersistence().findByServiceIds(serviceIds);
+	}
+
+	/**
+	 * Returns a range of all the notifications where serviceId = any &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param serviceIds the service IDs
+	 * @param start the lower bound of the range of notifications
+	 * @param end the upper bound of the range of notifications (not inclusive)
+	 * @return the range of matching notifications
+	 */
+	public static List<Notification> findByServiceIds(
+		long[] serviceIds, int start, int end) {
+
+		return getPersistence().findByServiceIds(serviceIds, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the notifications where serviceId = any &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param serviceIds the service IDs
+	 * @param start the lower bound of the range of notifications
+	 * @param end the upper bound of the range of notifications (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching notifications
+	 */
+	public static List<Notification> findByServiceIds(
+		long[] serviceIds, int start, int end,
+		OrderByComparator<Notification> orderByComparator) {
+
+		return getPersistence().findByServiceIds(
+			serviceIds, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the notifications where serviceId = &#63;, optionally using the finder cache.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param serviceId the service ID
+	 * @param start the lower bound of the range of notifications
+	 * @param end the upper bound of the range of notifications (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching notifications
+	 */
+	public static List<Notification> findByServiceIds(
+		long[] serviceIds, int start, int end,
+		OrderByComparator<Notification> orderByComparator,
+		boolean retrieveFromCache) {
+
+		return getPersistence().findByServiceIds(
+			serviceIds, start, end, orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	 * Removes all the notifications where serviceId = &#63; from the database.
+	 *
+	 * @param serviceId the service ID
+	 */
+	public static void removeByServiceIds(long serviceId) {
+		getPersistence().removeByServiceIds(serviceId);
+	}
+
+	/**
+	 * Returns the number of notifications where serviceId = &#63;.
+	 *
+	 * @param serviceId the service ID
+	 * @return the number of matching notifications
+	 */
+	public static int countByServiceIds(long serviceId) {
+		return getPersistence().countByServiceIds(serviceId);
+	}
+
+	/**
+	 * Returns the number of notifications where serviceId = any &#63;.
+	 *
+	 * @param serviceIds the service IDs
+	 * @return the number of matching notifications
+	 */
+	public static int countByServiceIds(long[] serviceIds) {
+		return getPersistence().countByServiceIds(serviceIds);
+	}
+
+	/**
 	 * Caches the notification in the entity cache if it is enabled.
 	 *
 	 * @param notification the notification

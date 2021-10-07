@@ -208,9 +208,9 @@ public class NatureNotifLocalServiceUtil {
 	}
 
 	public static java.util.List<eu.strasbourg.service.notif.model.NatureNotif>
-		getByServiceid(long serviceId) {
+		getByServiceId(long serviceId) {
 
-		return getService().getByServiceid(serviceId);
+		return getService().getByServiceId(serviceId);
 	}
 
 	public static

@@ -11,7 +11,7 @@
 			<generator class="assigned" />
 		</id>
 		<property name="serviceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.notif.model.impl.NatureNotifImpl" table="notif_NatureNotif">
 		<id name="natureId" type="long">
@@ -43,7 +43,7 @@
 		<property name="startDate" type="org.hibernate.type.TimestampType" />
 		<property name="endDate" type="org.hibernate.type.TimestampType" />
 		<property name="broadcastDate" type="org.hibernate.type.TimestampType" />
-		<property name="isAutomaticMessage" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="messageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="labelUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />

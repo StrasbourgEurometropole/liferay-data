@@ -47,7 +47,7 @@ public class ServiceNotifImpl extends ServiceNotifBaseImpl {
 	 */
 	@Override
 	public List<NatureNotif> getNatures() {
-		return NatureNotifLocalServiceUtil.getByServiceid(this.getServiceId());
+		return NatureNotifLocalServiceUtil.getByServiceId(this.getServiceId());
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class ServiceNotifImpl extends ServiceNotifBaseImpl {
 	 */
 	@Override
 	public List<Message> getMessages() {
-		return MessageLocalServiceUtil.getByServiceid(this.getServiceId());
+		return MessageLocalServiceUtil.getByServiceId(this.getServiceId());
 	}
 
 }

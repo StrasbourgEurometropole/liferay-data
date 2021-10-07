@@ -98,6 +98,16 @@ public class NatureNotifWrapper
 	}
 
 	@Override
+	public String[] getAvailableLanguageIds() {
+		return _natureNotif.getAvailableLanguageIds();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return _natureNotif.getDefaultLanguageId();
+	}
+
+	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _natureNotif.getExpandoBridge();
 	}
@@ -110,6 +120,72 @@ public class NatureNotifWrapper
 	@Override
 	public String getName() {
 		return _natureNotif.getName();
+	}
+
+	/**
+	 * Returns the localized name of this nature notif in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized name of this nature notif
+	 */
+	@Override
+	public String getName(java.util.Locale locale) {
+		return _natureNotif.getName(locale);
+	}
+
+	/**
+	 * Returns the localized name of this nature notif in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized name of this nature notif. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getName(java.util.Locale locale, boolean useDefault) {
+		return _natureNotif.getName(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized name of this nature notif in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized name of this nature notif
+	 */
+	@Override
+	public String getName(String languageId) {
+		return _natureNotif.getName(languageId);
+	}
+
+	/**
+	 * Returns the localized name of this nature notif in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized name of this nature notif
+	 */
+	@Override
+	public String getName(String languageId, boolean useDefault) {
+		return _natureNotif.getName(languageId, useDefault);
+	}
+
+	@Override
+	public String getNameCurrentLanguageId() {
+		return _natureNotif.getNameCurrentLanguageId();
+	}
+
+	@Override
+	public String getNameCurrentValue() {
+		return _natureNotif.getNameCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized names of this nature notif.
+	 *
+	 * @return the locales and localized names of this nature notif
+	 */
+	@Override
+	public Map<java.util.Locale, String> getNameMap() {
+		return _natureNotif.getNameMap();
 	}
 
 	/**
@@ -173,6 +249,21 @@ public class NatureNotifWrapper
 	}
 
 	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		_natureNotif.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		_natureNotif.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_natureNotif.setCachedModel(cachedModel);
 	}
@@ -202,6 +293,59 @@ public class NatureNotifWrapper
 	@Override
 	public void setName(String name) {
 		_natureNotif.setName(name);
+	}
+
+	/**
+	 * Sets the localized name of this nature notif in the language.
+	 *
+	 * @param name the localized name of this nature notif
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setName(String name, java.util.Locale locale) {
+		_natureNotif.setName(name, locale);
+	}
+
+	/**
+	 * Sets the localized name of this nature notif in the language, and sets the default locale.
+	 *
+	 * @param name the localized name of this nature notif
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setName(
+		String name, java.util.Locale locale, java.util.Locale defaultLocale) {
+
+		_natureNotif.setName(name, locale, defaultLocale);
+	}
+
+	@Override
+	public void setNameCurrentLanguageId(String languageId) {
+		_natureNotif.setNameCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized names of this nature notif from the map of locales and localized names.
+	 *
+	 * @param nameMap the locales and localized names of this nature notif
+	 */
+	@Override
+	public void setNameMap(Map<java.util.Locale, String> nameMap) {
+		_natureNotif.setNameMap(nameMap);
+	}
+
+	/**
+	 * Sets the localized names of this nature notif from the map of locales and localized names, and sets the default locale.
+	 *
+	 * @param nameMap the locales and localized names of this nature notif
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setNameMap(
+		Map<java.util.Locale, String> nameMap, java.util.Locale defaultLocale) {
+
+		_natureNotif.setNameMap(nameMap, defaultLocale);
 	}
 
 	/**

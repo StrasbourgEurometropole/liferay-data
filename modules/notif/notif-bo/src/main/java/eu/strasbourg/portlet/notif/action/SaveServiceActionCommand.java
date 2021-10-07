@@ -98,9 +98,9 @@ public class SaveServiceActionCommand implements MVCActionCommand {
                 if (Validator.isNotNull(serviceNaturesIndex)
                         && Validator.isNotNull(
                         ParamUtil.getString(request, "natureName" + serviceNaturesIndex))) {
-                    String natureName = ParamUtil.getString(request, "natureName" + serviceNaturesIndex);
+                    Map<Locale, String> natureName = LocalizationUtil.getLocalizationMap(request, "natureName" + serviceNaturesIndex);
                     NatureNotif nature = _natureNotifLocalService.createNature();
-                    nature.setName(natureName);
+                    nature.setNameMap(natureName);
                     nature.setServiceId(service.getServiceId());
                     _natureNotifLocalService.updateNatureNotif(nature);
                 }
@@ -175,7 +175,7 @@ public class SaveServiceActionCommand implements MVCActionCommand {
         // messages
         // on vérifie que le nombre de messages récupérés correspond bien au nombre d'indexes reçus
         String messagesIndexes = ParamUtil.getString(request, "serviceMessagesIndexes");
-        long nbMessage = request.getActionParameters().getNames().stream().filter(p -> p.contains("natureName") && !p.contains("_")).count();
+        long nbMessage = request.getActionParameters().getNames().stream().filter(p -> p.contains("content") && !p.contains("_")).count();
         long nbIndexMessage = messagesIndexes.isEmpty()?0:messagesIndexes.split(",").length;
         if(nbIndexMessage != nbMessage) {
             SessionErrors.add(request, "nb-indexes-error");

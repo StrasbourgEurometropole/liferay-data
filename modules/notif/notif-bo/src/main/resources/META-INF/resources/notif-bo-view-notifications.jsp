@@ -1,7 +1,7 @@
 <%@ include file="/notif-bo-init.jsp"%>
 
-<liferay-portlet:renderURL varImpl="offersURL">
-	<portlet:param name="tab" value="offers" />
+<liferay-portlet:renderURL varImpl="notificationsURL">
+	<portlet:param name="tab" value="notifications" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
@@ -9,141 +9,96 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 
-<liferay-portlet:renderURL varImpl="addOffersURL">
-	<portlet:param name="cmd" value="editOffers" />
-	<portlet:param name="mvcPath" value="/ejob-bo-edit-offer.jsp" />
-	<portlet:param name="returnURL" value="${offersURL}" />
-</liferay-portlet:renderURL>
-
-
-<liferay-frontend:management-bar includeCheckBox="true" searchContainerId="offersSearchContainer">
-    <liferay-frontend:management-bar-filters>
-			<c:if test="${fn:length(dc.vocabularies) > 0}">
-				<li><a>Filtrer par :</a></li>
-			</c:if>
-			<c:forEach var="vocabulary" items="${dc.vocabularies}">
-                <c:if test="${(vocabulary != dc.filieres) && (vocabulary != dc.niveauEtudes)}">
-                <liferay-frontend:management-bar-filter
-                    managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}"
-                    value="${dc.getVocabularyFilterLabel(vocabulary)}" />
-                </c:if>
-
-			</c:forEach>
-            <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
-                orderByType="${dc.orderByType}"
-                orderColumns='<%= new String[] {"title", "publication-date", "end-date"} %>'
-                portletURL="${offersURL}" />
-    </liferay-frontend:management-bar-filters>
-</liferay-frontend:management-bar>
-
-
 <div class="container-fluid-1280 main-content-body">
-
-	<%-- Composant : definit la liste des messages d'erreur  (voir methode "doProcessAction" dans le deleteAction de l'entite) --%>
-	<liferay-ui:error key="offers-error" message="offers-error" />
 
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
-		<liferay-ui:search-container id="offersSearchContainer" searchContainer="${dc.searchContainer}">
-			<liferay-ui:search-container-results results="${dc.offers}" />
+		<liferay-ui:search-container id="notifsSearchContainer" searchContainer="${dc.searchContainer}">
+			<liferay-ui:search-container-results results="${dc.notifications}" />
 
 			<liferay-ui:search-container-row
-				className="eu.strasbourg.service.ejob.model.Offer"
-				modelVar="offer" keyProperty="offerId" rowIdProperty="offerId">
+				className="eu.strasbourg.service.notif.model.Notification"
+				modelVar="notification" keyProperty="notificationId" rowIdProperty="notificationId">
 
-				<liferay-portlet:renderURL varImpl="editOfferURL">
-					<portlet:param name="cmd" value="editOffer" />
-					<portlet:param name="offerId" value="${offer.offerId}" />
-					<portlet:param name="returnURL" value="${offersURL}" />
-					<portlet:param name="mvcPath" value="/ejob-bo-edit-offer.jsp" />
-				</liferay-portlet:renderURL>
+                <!-- Colonne : nom du service -->
+                <c:if test="${isAdminNotification || dc.hasMultipleServices()}">
+                    <liferay-ui:search-container-column-text cssClass="content-column"
+                        name="eu.strasbourg.notif.service.name" truncate="true"
+                        value="${dc.getService(notification.serviceId)}" />
+                </c:if>
 
-                <!-- Colonne : Publication -->
+                <!-- Colonne : type -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editOfferURL}" name="publication-id" truncate="true"
-					orderable="true" value="${offer.publicationId}" />
+					name="eu.strasbourg.notif.notification.type" truncate="true"
+					value="${notification.isAlert == 1 ? 'Alerte' : 'Notification'}" />
 
-                <!-- Colonne : type d'export' -->
-               <c:set var="isExported" value=""/>
-                <c:choose>
-                   <c:when test="${offer.isExported==0}">
-                       <c:set var="isExported"><liferay-ui:message key='ejob-not-concerned' /></c:set>
-                   </c:when>
-                   <c:when test="${offer.isExported==1}">
-                       <c:set var="isExported"><liferay-ui:message key='ejob-not-exported' /></c:set>
-                   </c:when>
-                   <c:otherwise>
-                       <c:set var="isExported"><liferay-ui:message key='ejob-exported' /></c:set>
-                   </c:otherwise>
-                </c:choose>
+                <!-- Colonne : nature -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="ejob-export-totem" truncate="true"
-					orderable="true" value="${isExported}" />
+					name="eu.strasbourg.notif.nature" truncate="true"
+					value="${dc.getNature(notification.natureId)}" />
 
-                <!-- Colonne : intitulé du post -->
+                <!-- Colonne : titre -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="post" truncate="true"
-					orderable="true" value="${offer.post}" />
+					name="eu.strasbourg.notif.notification.title" truncate="true"
+					value="${notification.getTitle(locale)}" />
 
-                <!-- Colonne : date de début de publication -->
-				<fmt:formatDate value="${offer.publicationStartDate}"
-					var="formattedPublicationStartDate" type="date" pattern="dd/MM/yyyy" />
+                <!-- Colonne : date de début -->
+				<fmt:formatDate value="${notification.startDate}"
+					var="formattedStartDate" type="date" pattern="dd/MM/yyyy" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="publication-date" truncate="true"
-					orderable="true" value="${formattedPublicationStartDate}" />
+					name="eu.strasbourg.notif.notification.start-date" truncate="true"
+					value="${formattedStartDate}" />
 
-                <!-- Colonne : date de fin de publication -->
-				<fmt:formatDate value="${offer.publicationEndDate}"
-					var="formattedPublicationEndDate" type="date" pattern="dd/MM/yyyy" />
+                <!-- Colonne : date de fin -->
+				<fmt:formatDate value="${notification.endDate}"
+					var="formattedEndDate" type="date" pattern="dd/MM/yyyy" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="end-date" truncate="true"
-					orderable="true" value="${formattedPublicationEndDate}" />
+					name="eu.strasbourg.notif.notification.end-date" truncate="true"
+					value="${formattedEndDate}" />
 
-                <!-- Colonne : date de modification -->
-				<fmt:formatDate value="${offer.modifiedDate}"
-					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy" />
+                <!-- Colonne : status -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true"
-					orderable="true" value="${formattedModifiedDate}" />
-
-                <!-- Colonne : statut -->
-				<liferay-ui:search-container-column-text name="status">
-					<aui:workflow-status markupView="lexicon" showIcon="false"
-						showLabel="false" status="${offer.status}" />
-				</liferay-ui:search-container-column-text>
+					name="eu.strasbourg.notif.notification.status" truncate="true"
+					value="${notification.status}" />
 
                 <!-- ACTIONS -->
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
 
 						<!-- ACTION : Modifier -->
-						<c:if test="${dc.hasPermission('EDIT_OFFER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <c:if test="${offer.status != 0 or !dc.isContribOnly()}">
-                                <liferay-ui:icon message="edit" url="${editOfferURL}" />
+                        <liferay-portlet:renderURL varImpl="editNotificationURL">
+                            <portlet:param name="cmd" value="editNotification" />
+                            <portlet:param name="notificationId" value="${notification.notificationId}" />
+                            <portlet:param name="returnURL" value="${notificationsURL}" />
+                            <portlet:param name="mvcPath" value="/notif-bo-edit-notification.jsp" />
+                        </liferay-portlet:renderURL>
+						<c:if test="${dc.hasPermission('EDIT_NOTIFICATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                            <c:if test="${dc.canUpdateOrDeleteNotification(notification.userId)}">
+                                <liferay-ui:icon message="edit" url="${editNotificationURL}" />
                             </c:if>
 						</c:if>
 
 						<%-- ACTION : Dupliquer --%>
-                        <liferay-portlet:renderURL varImpl="copyEditOfferURL">
-                            <portlet:param name="cmd" value="editOffer" />
-                            <portlet:param name="offerId" value="${offer.offerId}" />
+                        <liferay-portlet:renderURL varImpl="copyEditNotificationURL">
+                            <portlet:param name="cmd" value="editNotification" />
+                            <portlet:param name="notificationId" value="${notification.notificationId}" />
                             <portlet:param name="isDuplication" value="true" />
-                            <portlet:param name="returnURL" value="${offersURL}" />
-                            <portlet:param name="mvcPath" value="/ejob-bo-edit-offer.jsp" />
+                            <portlet:param name="returnURL" value="${notificationsURL}" />
+                            <portlet:param name="mvcPath" value="/notif-bo-edit-notification.jsp" />
                         </liferay-portlet:renderURL>
-						<c:if test="${dc.hasPermission('EDIT_OFFER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="duplicate" url="${copyEditOfferURL}" />
+						<c:if test="${dc.hasPermission('EDIT_NOTIFICATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                            <liferay-ui:icon message="duplicate" url="${copyEditNotificationURL}" />
                         </c:if>
 
                         <!-- ACTION : Supprimer -->
-						<liferay-portlet:actionURL name="deleteOffer" var="deleteOfferURL">
-							<portlet:param name="cmd" value="deleteOffer" />
-							<portlet:param name="tab" value="offers" />
-							<portlet:param name="offerId" value="${offer.offerId}" />
+						<liferay-portlet:actionURL name="deleteNotification" var="deleteNotificationURL">
+							<portlet:param name="cmd" value="deleteNotification" />
+							<portlet:param name="tab" value="notifications" />
+							<portlet:param name="notificationId" value="${notification.notificationId}" />
 						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('DELETE_OFFER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <c:if test="${offer.status != 0 or !dc.isContribOnly()}">
-                                <liferay-ui:icon message="delete" url="${deleteOfferURL}" />
+						<c:if test="${dc.hasPermission('DELETE_NOTIFICATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                            <c:if test="${dc.canUpdateOrDeleteNotification(notification.userId)}">
+                                <liferay-ui:icon message="delete" url="javascript:areYouSure('${deleteNotificationURL}')" />
                             </c:if>
 						</c:if>
 
@@ -156,22 +111,26 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
-
-
-    <c:if test="${dc.isAdminOrResp()}">
-        <liferay-portlet:resourceURL var="exportXlsxURL" id="exportXlsx">
-        </liferay-portlet:resourceURL>
-        <form method="POST" action="${exportXlsxURL}">
-            <aui:button-row>
-                <aui:button cssClass="btn-lg" type="submit"
-                    value="Export XLSX" />
-            </aui:button-row>
-        </form>
-    </c:if>
 </div>
 
-<c:if test="${dc.hasPermission('ADD_OFFER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+
+<liferay-portlet:renderURL varImpl="addNotificationURL">
+	<portlet:param name="cmd" value="editNotification" />
+	<portlet:param name="mvcPath" value="/notif-bo-edit-notification.jsp" />
+	<portlet:param name="returnURL" value="${notificationsURL}" />
+</liferay-portlet:renderURL>
+<c:if test="${dc.hasPermission('ADD_NOTIFICATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title="Ajouter une offre" url="${addOffersURL}" />
+		<liferay-frontend:add-menu-item title="Ajouter une notification" url="${addNotificationURL}" />
 	</liferay-frontend:add-menu>
 </c:if>
+
+<%-- Script : permet l'affichage des alertes de validation d'action --%>
+<aui:script>
+	function areYouSure(url) {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			submitForm(form, url);
+		}
+	}
+</aui:script>

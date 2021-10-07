@@ -1,0 +1,135 @@
+package eu.strasbourg.portlet.notif.display.context;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.notif.model.NatureNotif;
+import eu.strasbourg.service.notif.model.Notification;
+import eu.strasbourg.service.notif.model.ServiceNotif;
+import eu.strasbourg.service.notif.service.NatureNotifLocalServiceUtil;
+import eu.strasbourg.service.notif.service.NotificationLocalServiceUtil;
+import eu.strasbourg.service.notif.service.ServiceNotifLocalServiceUtil;
+import eu.strasbourg.utils.constants.RoleNames;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.List;
+
+public class ViewNotificationsDisplayContext
+	extends ViewListBaseDisplayContext<ServiceNotif> {
+	private List<Notification> notifications;
+	private ThemeDisplay themeDisplay;
+	private long[] serviceIds;
+
+	public ViewNotificationsDisplayContext(RenderRequest request,
+                                           RenderResponse response) {
+		super(ServiceNotif.class, request, response);
+		this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+	}
+
+	@SuppressWarnings("unused")
+	public List<Notification> getNotifications() throws PortalException {
+
+		int countResults = 0;
+
+		if (this.notifications == null) {
+			if(isAdminNotification())
+				this.notifications = NotificationLocalServiceUtil.getNotifications(
+						this.getSearchContainer().getStart(),
+						this.getSearchContainer().getEnd());
+			else{
+				long[] organisationIds = themeDisplay.getUser().getOrganizationIds();
+				List<ServiceNotif> services = ServiceNotifLocalServiceUtil.getByOrganisationIds(organisationIds);
+				this.serviceIds = services.stream().mapToLong(ServiceNotif::getServiceId).toArray();
+				this.notifications = NotificationLocalServiceUtil.getByServiceIds(serviceIds);
+			}
+
+			countResults = ServiceNotifLocalServiceUtil.getServiceNotifs(-1, -1).size();
+		}
+		this.getSearchContainer().setTotal(countResults);
+		return this.notifications;
+	}
+
+	@SuppressWarnings("unused")
+	public boolean hasMultipleServices(){
+		return this.serviceIds.length > 1;
+	}
+
+	@SuppressWarnings("unused")
+	public String getService(long serviceId){
+		ServiceNotif service = ServiceNotifLocalServiceUtil.fetchServiceNotif(serviceId);
+		if(Validator.isNotNull(service))
+			return service.getName();
+		return "";
+	}
+
+	@SuppressWarnings("unused")
+	public String getNature(long natureId){
+		NatureNotif nature = NatureNotifLocalServiceUtil.fetchNatureNotif(natureId);
+		if(Validator.isNotNull(nature))
+			return nature.getName();
+		return "";
+	}
+
+	@SuppressWarnings("unused")
+	public boolean canUpdateOrDeleteNotification(long createUserId){
+		if(isContribOnly()) {
+			return this.themeDisplay.getUserId() == createUserId;
+		}
+		return true;
+	}
+
+	public boolean isAdminNotification(){
+		try {
+			Role siteAdministrator = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.SITE_ADMLINISTRATOR);
+			if(themeDisplay.getPermissionChecker().isOmniadmin()
+				|| UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), siteAdministrator.getRoleId()))
+				return true;
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+
+	public boolean isRespNotification(){
+		try {
+			Role  responsableNotification = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.RESPONSABLE_NOTIFICATION);
+			return UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), responsableNotification.getRoleId());
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+
+	public boolean isContribOnly(){
+		try {
+			if(isAdminNotification() ||isRespNotification())
+				return false;
+
+			Role contributorNotification = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.CONTRIBUTEUR_NOTIFICATION);
+			return UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), contributorNotification.getRoleId());
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	/**
+	 * Wrapper autour du permission checker pour les permissions de module
+	 */
+	@SuppressWarnings("unused")
+	public boolean hasPermission(String actionId) {
+		return _themeDisplay.getPermissionChecker().hasPermission(
+			this._themeDisplay.getScopeGroupId(),
+			StrasbourgPortletKeys.NOTIF_BO, StrasbourgPortletKeys.NOTIF_BO,
+			actionId);
+	}
+}

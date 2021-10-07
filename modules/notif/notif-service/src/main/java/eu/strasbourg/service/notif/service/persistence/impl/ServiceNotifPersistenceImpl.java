@@ -20,13 +20,17 @@ import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
+import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.notif.exception.NoSuchServiceNotifException;
@@ -37,6 +41,9 @@ import eu.strasbourg.service.notif.service.persistence.ServiceNotifPersistence;
 
 import java.io.Serializable;
 
+import java.lang.reflect.InvocationHandler;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -77,6 +84,797 @@ public class ServiceNotifPersistenceImpl
 	private FinderPath _finderPathWithPaginationFindAll;
 	private FinderPath _finderPathWithoutPaginationFindAll;
 	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByOrganisationIds;
+	private FinderPath _finderPathWithoutPaginationFindByOrganisationIds;
+	private FinderPath _finderPathCountByOrganisationIds;
+	private FinderPath _finderPathWithPaginationCountByOrganisationIds;
+
+	/**
+	 * Returns all the service notifs where organisationId = &#63;.
+	 *
+	 * @param organisationId the organisation ID
+	 * @return the matching service notifs
+	 */
+	@Override
+	public List<ServiceNotif> findByOrganisationIds(long organisationId) {
+		return findByOrganisationIds(
+			organisationId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the service notifs where organisationId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ServiceNotifModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param organisationId the organisation ID
+	 * @param start the lower bound of the range of service notifs
+	 * @param end the upper bound of the range of service notifs (not inclusive)
+	 * @return the range of matching service notifs
+	 */
+	@Override
+	public List<ServiceNotif> findByOrganisationIds(
+		long organisationId, int start, int end) {
+
+		return findByOrganisationIds(organisationId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the service notifs where organisationId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ServiceNotifModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param organisationId the organisation ID
+	 * @param start the lower bound of the range of service notifs
+	 * @param end the upper bound of the range of service notifs (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching service notifs
+	 */
+	@Override
+	public List<ServiceNotif> findByOrganisationIds(
+		long organisationId, int start, int end,
+		OrderByComparator<ServiceNotif> orderByComparator) {
+
+		return findByOrganisationIds(
+			organisationId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the service notifs where organisationId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ServiceNotifModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param organisationId the organisation ID
+	 * @param start the lower bound of the range of service notifs
+	 * @param end the upper bound of the range of service notifs (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching service notifs
+	 */
+	@Override
+	public List<ServiceNotif> findByOrganisationIds(
+		long organisationId, int start, int end,
+		OrderByComparator<ServiceNotif> orderByComparator,
+		boolean retrieveFromCache) {
+
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			pagination = false;
+			finderPath = _finderPathWithoutPaginationFindByOrganisationIds;
+			finderArgs = new Object[] {organisationId};
+		}
+		else {
+			finderPath = _finderPathWithPaginationFindByOrganisationIds;
+			finderArgs = new Object[] {
+				organisationId, start, end, orderByComparator
+			};
+		}
+
+		List<ServiceNotif> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<ServiceNotif>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (ServiceNotif serviceNotif : list) {
+					if ((organisationId != serviceNotif.getOrganisationId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_SERVICENOTIF_WHERE);
+
+			query.append(_FINDER_COLUMN_ORGANISATIONIDS_ORGANISATIONID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(ServiceNotifModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(organisationId);
+
+				if (!pagination) {
+					list = (List<ServiceNotif>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<ServiceNotif>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first service notif in the ordered set where organisationId = &#63;.
+	 *
+	 * @param organisationId the organisation ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching service notif
+	 * @throws NoSuchServiceNotifException if a matching service notif could not be found
+	 */
+	@Override
+	public ServiceNotif findByOrganisationIds_First(
+			long organisationId,
+			OrderByComparator<ServiceNotif> orderByComparator)
+		throws NoSuchServiceNotifException {
+
+		ServiceNotif serviceNotif = fetchByOrganisationIds_First(
+			organisationId, orderByComparator);
+
+		if (serviceNotif != null) {
+			return serviceNotif;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("organisationId=");
+		msg.append(organisationId);
+
+		msg.append("}");
+
+		throw new NoSuchServiceNotifException(msg.toString());
+	}
+
+	/**
+	 * Returns the first service notif in the ordered set where organisationId = &#63;.
+	 *
+	 * @param organisationId the organisation ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching service notif, or <code>null</code> if a matching service notif could not be found
+	 */
+	@Override
+	public ServiceNotif fetchByOrganisationIds_First(
+		long organisationId,
+		OrderByComparator<ServiceNotif> orderByComparator) {
+
+		List<ServiceNotif> list = findByOrganisationIds(
+			organisationId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last service notif in the ordered set where organisationId = &#63;.
+	 *
+	 * @param organisationId the organisation ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching service notif
+	 * @throws NoSuchServiceNotifException if a matching service notif could not be found
+	 */
+	@Override
+	public ServiceNotif findByOrganisationIds_Last(
+			long organisationId,
+			OrderByComparator<ServiceNotif> orderByComparator)
+		throws NoSuchServiceNotifException {
+
+		ServiceNotif serviceNotif = fetchByOrganisationIds_Last(
+			organisationId, orderByComparator);
+
+		if (serviceNotif != null) {
+			return serviceNotif;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("organisationId=");
+		msg.append(organisationId);
+
+		msg.append("}");
+
+		throw new NoSuchServiceNotifException(msg.toString());
+	}
+
+	/**
+	 * Returns the last service notif in the ordered set where organisationId = &#63;.
+	 *
+	 * @param organisationId the organisation ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching service notif, or <code>null</code> if a matching service notif could not be found
+	 */
+	@Override
+	public ServiceNotif fetchByOrganisationIds_Last(
+		long organisationId,
+		OrderByComparator<ServiceNotif> orderByComparator) {
+
+		int count = countByOrganisationIds(organisationId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<ServiceNotif> list = findByOrganisationIds(
+			organisationId, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the service notifs before and after the current service notif in the ordered set where organisationId = &#63;.
+	 *
+	 * @param serviceId the primary key of the current service notif
+	 * @param organisationId the organisation ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next service notif
+	 * @throws NoSuchServiceNotifException if a service notif with the primary key could not be found
+	 */
+	@Override
+	public ServiceNotif[] findByOrganisationIds_PrevAndNext(
+			long serviceId, long organisationId,
+			OrderByComparator<ServiceNotif> orderByComparator)
+		throws NoSuchServiceNotifException {
+
+		ServiceNotif serviceNotif = findByPrimaryKey(serviceId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			ServiceNotif[] array = new ServiceNotifImpl[3];
+
+			array[0] = getByOrganisationIds_PrevAndNext(
+				session, serviceNotif, organisationId, orderByComparator, true);
+
+			array[1] = serviceNotif;
+
+			array[2] = getByOrganisationIds_PrevAndNext(
+				session, serviceNotif, organisationId, orderByComparator,
+				false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected ServiceNotif getByOrganisationIds_PrevAndNext(
+		Session session, ServiceNotif serviceNotif, long organisationId,
+		OrderByComparator<ServiceNotif> orderByComparator, boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_SERVICENOTIF_WHERE);
+
+		query.append(_FINDER_COLUMN_ORGANISATIONIDS_ORGANISATIONID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(ServiceNotifModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(organisationId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(serviceNotif)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<ServiceNotif> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Returns all the service notifs where organisationId = any &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ServiceNotifModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param organisationIds the organisation IDs
+	 * @return the matching service notifs
+	 */
+	@Override
+	public List<ServiceNotif> findByOrganisationIds(long[] organisationIds) {
+		return findByOrganisationIds(
+			organisationIds, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the service notifs where organisationId = any &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ServiceNotifModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param organisationIds the organisation IDs
+	 * @param start the lower bound of the range of service notifs
+	 * @param end the upper bound of the range of service notifs (not inclusive)
+	 * @return the range of matching service notifs
+	 */
+	@Override
+	public List<ServiceNotif> findByOrganisationIds(
+		long[] organisationIds, int start, int end) {
+
+		return findByOrganisationIds(organisationIds, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the service notifs where organisationId = any &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ServiceNotifModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param organisationIds the organisation IDs
+	 * @param start the lower bound of the range of service notifs
+	 * @param end the upper bound of the range of service notifs (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching service notifs
+	 */
+	@Override
+	public List<ServiceNotif> findByOrganisationIds(
+		long[] organisationIds, int start, int end,
+		OrderByComparator<ServiceNotif> orderByComparator) {
+
+		return findByOrganisationIds(
+			organisationIds, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the service notifs where organisationId = &#63;, optionally using the finder cache.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ServiceNotifModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param organisationId the organisation ID
+	 * @param start the lower bound of the range of service notifs
+	 * @param end the upper bound of the range of service notifs (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching service notifs
+	 */
+	@Override
+	public List<ServiceNotif> findByOrganisationIds(
+		long[] organisationIds, int start, int end,
+		OrderByComparator<ServiceNotif> orderByComparator,
+		boolean retrieveFromCache) {
+
+		if (organisationIds == null) {
+			organisationIds = new long[0];
+		}
+		else if (organisationIds.length > 1) {
+			organisationIds = ArrayUtil.unique(organisationIds);
+
+			Arrays.sort(organisationIds);
+		}
+
+		if (organisationIds.length == 1) {
+			return findByOrganisationIds(
+				organisationIds[0], start, end, orderByComparator);
+		}
+
+		boolean pagination = true;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			pagination = false;
+			finderArgs = new Object[] {StringUtil.merge(organisationIds)};
+		}
+		else {
+			finderArgs = new Object[] {
+				StringUtil.merge(organisationIds), start, end, orderByComparator
+			};
+		}
+
+		List<ServiceNotif> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<ServiceNotif>)finderCache.getResult(
+				_finderPathWithPaginationFindByOrganisationIds, finderArgs,
+				this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (ServiceNotif serviceNotif : list) {
+					if (!ArrayUtil.contains(
+							organisationIds,
+							serviceNotif.getOrganisationId())) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = new StringBundler();
+
+			query.append(_SQL_SELECT_SERVICENOTIF_WHERE);
+
+			if (organisationIds.length > 0) {
+				query.append("(");
+
+				query.append(_FINDER_COLUMN_ORGANISATIONIDS_ORGANISATIONID_7);
+
+				query.append(StringUtil.merge(organisationIds));
+
+				query.append(")");
+
+				query.append(")");
+			}
+
+			query.setStringAt(
+				removeConjunction(query.stringAt(query.index() - 1)),
+				query.index() - 1);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(ServiceNotifModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				if (!pagination) {
+					list = (List<ServiceNotif>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<ServiceNotif>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(
+					_finderPathWithPaginationFindByOrganisationIds, finderArgs,
+					list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(
+					_finderPathWithPaginationFindByOrganisationIds, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Removes all the service notifs where organisationId = &#63; from the database.
+	 *
+	 * @param organisationId the organisation ID
+	 */
+	@Override
+	public void removeByOrganisationIds(long organisationId) {
+		for (ServiceNotif serviceNotif :
+				findByOrganisationIds(
+					organisationId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
+			remove(serviceNotif);
+		}
+	}
+
+	/**
+	 * Returns the number of service notifs where organisationId = &#63;.
+	 *
+	 * @param organisationId the organisation ID
+	 * @return the number of matching service notifs
+	 */
+	@Override
+	public int countByOrganisationIds(long organisationId) {
+		FinderPath finderPath = _finderPathCountByOrganisationIds;
+
+		Object[] finderArgs = new Object[] {organisationId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_SERVICENOTIF_WHERE);
+
+			query.append(_FINDER_COLUMN_ORGANISATIONIDS_ORGANISATIONID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(organisationId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	/**
+	 * Returns the number of service notifs where organisationId = any &#63;.
+	 *
+	 * @param organisationIds the organisation IDs
+	 * @return the number of matching service notifs
+	 */
+	@Override
+	public int countByOrganisationIds(long[] organisationIds) {
+		if (organisationIds == null) {
+			organisationIds = new long[0];
+		}
+		else if (organisationIds.length > 1) {
+			organisationIds = ArrayUtil.unique(organisationIds);
+
+			Arrays.sort(organisationIds);
+		}
+
+		Object[] finderArgs = new Object[] {StringUtil.merge(organisationIds)};
+
+		Long count = (Long)finderCache.getResult(
+			_finderPathWithPaginationCountByOrganisationIds, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler();
+
+			query.append(_SQL_COUNT_SERVICENOTIF_WHERE);
+
+			if (organisationIds.length > 0) {
+				query.append("(");
+
+				query.append(_FINDER_COLUMN_ORGANISATIONIDS_ORGANISATIONID_7);
+
+				query.append(StringUtil.merge(organisationIds));
+
+				query.append(")");
+
+				query.append(")");
+			}
+
+			query.setStringAt(
+				removeConjunction(query.stringAt(query.index() - 1)),
+				query.index() - 1);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(
+					_finderPathWithPaginationCountByOrganisationIds, finderArgs,
+					count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(
+					_finderPathWithPaginationCountByOrganisationIds,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String
+		_FINDER_COLUMN_ORGANISATIONIDS_ORGANISATIONID_2 =
+			"serviceNotif.organisationId = ?";
+
+	private static final String
+		_FINDER_COLUMN_ORGANISATIONIDS_ORGANISATIONID_7 =
+			"serviceNotif.organisationId IN (";
 
 	public ServiceNotifPersistenceImpl() {
 		setModelClass(ServiceNotif.class);
@@ -267,6 +1065,26 @@ public class ServiceNotifPersistenceImpl
 	public ServiceNotif updateImpl(ServiceNotif serviceNotif) {
 		boolean isNew = serviceNotif.isNew();
 
+		if (!(serviceNotif instanceof ServiceNotifModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(serviceNotif.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(
+					serviceNotif);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in serviceNotif proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom ServiceNotif implementation " +
+					serviceNotif.getClass());
+		}
+
+		ServiceNotifModelImpl serviceNotifModelImpl =
+			(ServiceNotifModelImpl)serviceNotif;
+
 		Session session = null;
 
 		try {
@@ -290,10 +1108,43 @@ public class ServiceNotifPersistenceImpl
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew) {
+		if (!ServiceNotifModelImpl.COLUMN_BITMASK_ENABLED) {
+			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else if (isNew) {
+			Object[] args = new Object[] {
+				serviceNotifModelImpl.getOrganisationId()
+			};
+
+			finderCache.removeResult(_finderPathCountByOrganisationIds, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByOrganisationIds, args);
+
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((serviceNotifModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByOrganisationIds.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					serviceNotifModelImpl.getOriginalOrganisationId()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByOrganisationIds, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByOrganisationIds, args);
+
+				args = new Object[] {serviceNotifModelImpl.getOrganisationId()};
+
+				finderCache.removeResult(
+					_finderPathCountByOrganisationIds, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByOrganisationIds, args);
+			}
 		}
 
 		entityCache.putResult(
@@ -723,6 +1574,35 @@ public class ServiceNotifPersistenceImpl
 			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
+
+		_finderPathWithPaginationFindByOrganisationIds = new FinderPath(
+			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
+			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, ServiceNotifImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByOrganisationIds",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByOrganisationIds = new FinderPath(
+			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
+			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, ServiceNotifImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByOrganisationIds",
+			new String[] {Long.class.getName()},
+			ServiceNotifModelImpl.ORGANISATIONID_COLUMN_BITMASK |
+			ServiceNotifModelImpl.NAME_COLUMN_BITMASK);
+
+		_finderPathCountByOrganisationIds = new FinderPath(
+			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
+			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByOrganisationIds",
+			new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationCountByOrganisationIds = new FinderPath(
+			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
+			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByOrganisationIds",
+			new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -744,13 +1624,22 @@ public class ServiceNotifPersistenceImpl
 	private static final String _SQL_SELECT_SERVICENOTIF_WHERE_PKS_IN =
 		"SELECT serviceNotif FROM ServiceNotif serviceNotif WHERE serviceId IN (";
 
+	private static final String _SQL_SELECT_SERVICENOTIF_WHERE =
+		"SELECT serviceNotif FROM ServiceNotif serviceNotif WHERE ";
+
 	private static final String _SQL_COUNT_SERVICENOTIF =
 		"SELECT COUNT(serviceNotif) FROM ServiceNotif serviceNotif";
+
+	private static final String _SQL_COUNT_SERVICENOTIF_WHERE =
+		"SELECT COUNT(serviceNotif) FROM ServiceNotif serviceNotif WHERE ";
 
 	private static final String _ORDER_BY_ENTITY_ALIAS = "serviceNotif.";
 
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
 		"No ServiceNotif exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No ServiceNotif exists with the key {";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ServiceNotifPersistenceImpl.class);

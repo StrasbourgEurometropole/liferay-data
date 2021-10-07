@@ -80,7 +80,7 @@ public class MessageModelImpl
 
 	public static final Object[][] TABLE_COLUMNS = {
 		{"messageId", Types.BIGINT}, {"serviceId", Types.BIGINT},
-		{"content", Types.CLOB}
+		{"content", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -89,11 +89,11 @@ public class MessageModelImpl
 	static {
 		TABLE_COLUMNS_MAP.put("messageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("serviceId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("content", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("content", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table notif_Message (messageId LONG not null primary key,serviceId LONG,content TEXT null)";
+		"create table notif_Message (messageId LONG not null primary key,serviceId LONG,content STRING null)";
 
 	public static final String TABLE_SQL_DROP = "drop table notif_Message";
 

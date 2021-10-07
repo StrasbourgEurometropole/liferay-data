@@ -1,6 +1,12 @@
 <%-- pour c:set, c:choose, c:when, c:if, c:forEach... --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<%-- pour fn:length, fn:contains... --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+<%-- pour fmt:formatDate... --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <%-- pour liferay-portlet:renderURL, liferay-portlet:actionURL... --%>
 <%@taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %>
 <%-- pour portlet:param --%>

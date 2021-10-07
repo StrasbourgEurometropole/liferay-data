@@ -214,6 +214,13 @@ public class ServiceNotifLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<eu.strasbourg.service.notif.model.ServiceNotif>
+		getByOrganisationIds(long[] organisationIds) {
+
+		return _serviceNotifLocalService.getByOrganisationIds(organisationIds);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 		getIndexableActionableDynamicQuery() {
 

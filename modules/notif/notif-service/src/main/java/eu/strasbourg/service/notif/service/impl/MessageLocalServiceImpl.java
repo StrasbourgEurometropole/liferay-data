@@ -15,7 +15,6 @@
 package eu.strasbourg.service.notif.service.impl;
 
 import eu.strasbourg.service.notif.model.Message;
-import eu.strasbourg.service.notif.model.NatureNotif;
 import eu.strasbourg.service.notif.service.base.MessageLocalServiceBaseImpl;
 
 import java.util.List;
@@ -51,7 +50,7 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
 	}
 
 	@Override
-	public List<Message> getByServiceid(long serviceId) {
+	public List<Message> getByServiceId(long serviceId) {
 		return messagePersistence.findByServiceId(serviceId);
 	}
 }

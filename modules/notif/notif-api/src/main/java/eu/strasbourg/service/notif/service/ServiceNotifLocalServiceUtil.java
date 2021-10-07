@@ -210,6 +210,12 @@ public class ServiceNotifLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
+	public static java.util.List<eu.strasbourg.service.notif.model.ServiceNotif>
+		getByOrganisationIds(long[] organisationIds) {
+
+		return getService().getByOrganisationIds(organisationIds);
+	}
+
 	public static
 		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 			getIndexableActionableDynamicQuery() {

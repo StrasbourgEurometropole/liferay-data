@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -83,6 +84,12 @@ public interface NotificationLocalService
 	public Notification createNotification(long notificationId);
 
 	/**
+	 * Crée une offre vide avec une PK, non ajouté à la base de donnée
+	 */
+	public Notification createNotification(ServiceContext sc)
+		throws PortalException;
+
+	/**
 	 * Deletes the notification with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
 	 * @param notificationId the primary key of the notification
@@ -107,6 +114,10 @@ public interface NotificationLocalService
 	 */
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
+		throws PortalException;
+
+	public Notification duplicateNotification(
+			ServiceContext sc, Notification notificationToCopy)
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -191,6 +202,9 @@ public interface NotificationLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Notification> getByServiceIds(long[] serviceIds);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
@@ -284,6 +298,12 @@ public interface NotificationLocalService
 		throws PortalException;
 
 	/**
+	 * Supprime une notification
+	 */
+	public Notification removeNotification(long notificationId)
+		throws PortalException;
+
+	/**
 	 * Updates the notification in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
 	 * @param notification the notification
@@ -291,5 +311,12 @@ public interface NotificationLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Notification updateNotification(Notification notification);
+
+	/**
+	 * Met à jour une notification et l'enregistre en base de données
+	 */
+	public Notification updateNotification(
+			Notification notification, ServiceContext sc)
+		throws PortalException;
 
 }

@@ -79,7 +79,7 @@ public class NotificationWrapper
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
 		attributes.put("broadcastDate", getBroadcastDate());
-		attributes.put("isAutomaticMessage", getIsAutomaticMessage());
+		attributes.put("messageId", getMessageId());
 		attributes.put("content", getContent());
 		attributes.put("labelUrl", getLabelUrl());
 		attributes.put("url", getUrl());
@@ -216,11 +216,10 @@ public class NotificationWrapper
 			setBroadcastDate(broadcastDate);
 		}
 
-		Integer isAutomaticMessage = (Integer)attributes.get(
-			"isAutomaticMessage");
+		Long messageId = (Long)attributes.get("messageId");
 
-		if (isAutomaticMessage != null) {
-			setIsAutomaticMessage(isAutomaticMessage);
+		if (messageId != null) {
+			setMessageId(messageId);
 		}
 
 		String content = (String)attributes.get("content");
@@ -458,16 +457,6 @@ public class NotificationWrapper
 	}
 
 	/**
-	 * Returns the is automatic message of this notification.
-	 *
-	 * @return the is automatic message of this notification
-	 */
-	@Override
-	public int getIsAutomaticMessage() {
-		return _notification.getIsAutomaticMessage();
-	}
-
-	/**
 	 * Returns the label url of this notification.
 	 *
 	 * @return the label url of this notification
@@ -541,6 +530,16 @@ public class NotificationWrapper
 	@Override
 	public Map<java.util.Locale, String> getLabelUrlMap() {
 		return _notification.getLabelUrlMap();
+	}
+
+	/**
+	 * Returns the message ID of this notification.
+	 *
+	 * @return the message ID of this notification
+	 */
+	@Override
+	public long getMessageId() {
+		return _notification.getMessageId();
 	}
 
 	/**
@@ -1264,16 +1263,6 @@ public class NotificationWrapper
 	}
 
 	/**
-	 * Sets the is automatic message of this notification.
-	 *
-	 * @param isAutomaticMessage the is automatic message of this notification
-	 */
-	@Override
-	public void setIsAutomaticMessage(int isAutomaticMessage) {
-		_notification.setIsAutomaticMessage(isAutomaticMessage);
-	}
-
-	/**
 	 * Sets the label url of this notification.
 	 *
 	 * @param labelUrl the label url of this notification
@@ -1336,6 +1325,16 @@ public class NotificationWrapper
 		java.util.Locale defaultLocale) {
 
 		_notification.setLabelUrlMap(labelUrlMap, defaultLocale);
+	}
+
+	/**
+	 * Sets the message ID of this notification.
+	 *
+	 * @param messageId the message ID of this notification
+	 */
+	@Override
+	public void setMessageId(long messageId) {
+		_notification.setMessageId(messageId);
 	}
 
 	/**

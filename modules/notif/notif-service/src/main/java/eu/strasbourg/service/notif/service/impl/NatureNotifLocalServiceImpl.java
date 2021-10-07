@@ -14,9 +14,7 @@
 
 package eu.strasbourg.service.notif.service.impl;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import eu.strasbourg.service.notif.model.NatureNotif;
-import eu.strasbourg.service.notif.model.ServiceNotif;
 import eu.strasbourg.service.notif.service.base.NatureNotifLocalServiceBaseImpl;
 
 import java.util.List;
@@ -53,7 +51,7 @@ public class NatureNotifLocalServiceImpl
 	}
 
 	@Override
-	public List<NatureNotif> getByServiceid(long serviceId) {
+	public List<NatureNotif> getByServiceId(long serviceId) {
 		return natureNotifPersistence.findByServiceId(serviceId);
 	}
 }

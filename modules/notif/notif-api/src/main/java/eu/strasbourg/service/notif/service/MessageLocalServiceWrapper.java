@@ -211,9 +211,9 @@ public class MessageLocalServiceWrapper
 
 	@Override
 	public java.util.List<eu.strasbourg.service.notif.model.Message>
-		getByServiceid(long serviceId) {
+		getByServiceId(long serviceId) {
 
-		return _messageLocalService.getByServiceid(serviceId);
+		return _messageLocalService.getByServiceId(serviceId);
 	}
 
 	@Override

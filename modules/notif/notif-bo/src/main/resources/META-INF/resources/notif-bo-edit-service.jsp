@@ -2,11 +2,6 @@
 
 <%@page import="eu.strasbourg.service.notif.model.ServiceNotif"%>
 
-<%-- URL : definit le lien menant vers la page de listage de l'entite --%>
-<liferay-portlet:renderURL varImpl="servicesURL">
-	<portlet:param name="tab" value="services" />
-</liferay-portlet:renderURL>
-
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveService" varImpl="saveServiceURL">
 	<portlet:param name="cmd" value="saveService" />
@@ -35,13 +30,13 @@
 			<aui:input name="serviceId" type="hidden" />
 
 			<%-- Groupe de champs : Generale --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="eu.strasbourg.service.general">
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="eu.strasbourg.notif.general">
 
                 <%-- Champ : Nom --%>
-                <aui:input name="name" id="name" required="true"/>
+                <aui:input name="name" id="name" label="eu.strasbourg.notif.name" required="true"/>
 
                 <%-- Champ : Organisation   --%>
-                <aui:select cssClass="toCustomSelect" id="organization" name="organization" label="eu.strasbourg.service.organization" required="true">
+                <aui:select cssClass="toCustomSelect" id="organization" name="organization" label="eu.strasbourg.notif.organization" required="true">
                     <c:forEach items="${dc.organizations}" var="organization">
                         <aui:option value="${organization.organizationId}" selected="${dc.service.organisationId == organization.organizationId}" >${organization.name}</aui:option>
                     </c:forEach>
@@ -50,13 +45,14 @@
                     <liferay-ui:message key="this-field-is-required" />
                 </div>
 
-				<strasbourg-picker:image label="eu.strasbourg.service.picto" name="pictoId"
+                <%-- Champ : Pictogramme   --%>
+				<strasbourg-picker:image label="eu.strasbourg.notif.service.picto" name="pictoId"
 					required="false" value="${dc.service.pictoId}" global="true" />
 
             </aui:fieldset>
 
 			<%-- Groupe de champs : Nature du service --%>
-			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="eu.strasbourg.service.natures">
+			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="eu.strasbourg.notif.natures">
 
                 <div id="nature-fields">
                     <c:if test="${dc.service == null || empty dc.service.natures}">
@@ -87,7 +83,7 @@
             </aui:fieldset>
 
 			<%-- Groupe de champs : Messages prédéfinies --%>
-			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="eu.strasbourg.service.messages">
+			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="eu.strasbourg.notif.messages">
 
                 <div id="message-fields">
                     <c:if test="${dc.service == null || empty dc.service.messages}">
@@ -121,7 +117,6 @@
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>
 
-			<aui:input type="hidden" name="workflowAction" value="" />
 			<%-- Test : Verification des droits d'edition et de sauvegarde --%>
 			<c:if test="${(dc.hasPermission('ADD_SERVICE') and empty dc.service or dc.hasPermission('EDIT_SERVICE') and not empty dc.service) and empty themeDisplay.scopeGroup.getStagingGroup()}">
                 <aui:button cssClass="btn-lg saveButton" type="submit" value="save" />
@@ -166,11 +161,6 @@
 
 <liferay-util:html-bottom>
 	<script src="/o/notifbo/js/notif-bo-edit-service.js" type="text/javascript"></script>
-	<style>
-	    strong.required{color: #B95000;}
-	    [type="radio"]{margin-right: 10px;}
-	    .lfr-input-time { display: none;}
-	</style>
 </liferay-util:html-bottom>
 
 <%-- Script : permet l'affichage des alertes de validation d'action --%>

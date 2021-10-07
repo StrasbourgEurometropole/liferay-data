@@ -215,9 +215,9 @@ public class NatureNotifLocalServiceWrapper
 
 	@Override
 	public java.util.List<eu.strasbourg.service.notif.model.NatureNotif>
-		getByServiceid(long serviceId) {
+		getByServiceId(long serviceId) {
 
-		return _natureNotifLocalService.getByServiceid(serviceId);
+		return _natureNotifLocalService.getByServiceId(serviceId);
 	}
 
 	@Override

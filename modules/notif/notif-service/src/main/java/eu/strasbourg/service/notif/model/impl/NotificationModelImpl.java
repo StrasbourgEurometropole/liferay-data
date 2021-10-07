@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
@@ -96,7 +97,7 @@ public class NotificationModelImpl
 		{"natureId", Types.BIGINT}, {"title", Types.VARCHAR},
 		{"subtitle", Types.VARCHAR}, {"startDate", Types.TIMESTAMP},
 		{"endDate", Types.TIMESTAMP}, {"broadcastDate", Types.TIMESTAMP},
-		{"isAutomaticMessage", Types.INTEGER}, {"content", Types.VARCHAR},
+		{"messageId", Types.BIGINT}, {"content", Types.VARCHAR},
 		{"labelUrl", Types.VARCHAR}, {"url", Types.VARCHAR},
 		{"typeBroadcast", Types.BIGINT}, {"broadcastChannels", Types.VARCHAR},
 		{"sendStatusCsmap", Types.BIGINT}, {"sendStatusTwitter", Types.BIGINT},
@@ -128,7 +129,7 @@ public class NotificationModelImpl
 		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("broadcastDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("isAutomaticMessage", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("messageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("content", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("labelUrl", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("url", Types.VARCHAR);
@@ -142,15 +143,15 @@ public class NotificationModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table notif_Notification (uuid_ VARCHAR(75) null,notificationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,serviceId LONG,isAlert INTEGER,natureId LONG,title STRING null,subtitle STRING null,startDate DATE null,endDate DATE null,broadcastDate DATE null,isAutomaticMessage INTEGER,content STRING null,labelUrl STRING null,url STRING null,typeBroadcast LONG,broadcastChannels VARCHAR(75) null,sendStatusCsmap LONG,sendStatusTwitter LONG,sendStatusMonst LONG,sendStatusMail LONG,sendStatusSegur LONG)";
+		"create table notif_Notification (uuid_ VARCHAR(75) null,notificationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,serviceId LONG,isAlert INTEGER,natureId LONG,title STRING null,subtitle STRING null,startDate DATE null,endDate DATE null,broadcastDate DATE null,messageId LONG,content STRING null,labelUrl STRING null,url STRING null,typeBroadcast LONG,broadcastChannels VARCHAR(75) null,sendStatusCsmap LONG,sendStatusTwitter LONG,sendStatusMonst LONG,sendStatusMail LONG,sendStatusSegur LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table notif_Notification";
 
 	public static final String ORDER_BY_JPQL =
-		" ORDER BY notification.notificationId ASC";
+		" ORDER BY notification.startDate DESC";
 
 	public static final String ORDER_BY_SQL =
-		" ORDER BY notif_Notification.notificationId ASC";
+		" ORDER BY notif_Notification.startDate DESC";
 
 	public static final String DATA_SOURCE = "liferayDataSource";
 
@@ -177,9 +178,11 @@ public class NotificationModelImpl
 
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long SERVICEID_COLUMN_BITMASK = 4L;
 
-	public static final long NOTIFICATIONID_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+
+	public static final long STARTDATE_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -214,7 +217,7 @@ public class NotificationModelImpl
 		model.setStartDate(soapModel.getStartDate());
 		model.setEndDate(soapModel.getEndDate());
 		model.setBroadcastDate(soapModel.getBroadcastDate());
-		model.setIsAutomaticMessage(soapModel.getIsAutomaticMessage());
+		model.setMessageId(soapModel.getMessageId());
 		model.setContent(soapModel.getContent());
 		model.setLabelUrl(soapModel.getLabelUrl());
 		model.setUrl(soapModel.getUrl());
@@ -800,25 +803,24 @@ public class NotificationModelImpl
 
 			});
 		attributeGetterFunctions.put(
-			"isAutomaticMessage",
+			"messageId",
 			new Function<Notification, Object>() {
 
 				@Override
 				public Object apply(Notification notification) {
-					return notification.getIsAutomaticMessage();
+					return notification.getMessageId();
 				}
 
 			});
 		attributeSetterBiConsumers.put(
-			"isAutomaticMessage",
+			"messageId",
 			new BiConsumer<Notification, Object>() {
 
 				@Override
 				public void accept(
-					Notification notification, Object isAutomaticMessage) {
+					Notification notification, Object messageId) {
 
-					notification.setIsAutomaticMessage(
-						(Integer)isAutomaticMessage);
+					notification.setMessageId((Long)messageId);
 				}
 
 			});
@@ -1271,7 +1273,19 @@ public class NotificationModelImpl
 
 	@Override
 	public void setServiceId(long serviceId) {
+		_columnBitmask |= SERVICEID_COLUMN_BITMASK;
+
+		if (!_setOriginalServiceId) {
+			_setOriginalServiceId = true;
+
+			_originalServiceId = _serviceId;
+		}
+
 		_serviceId = serviceId;
+	}
+
+	public long getOriginalServiceId() {
+		return _originalServiceId;
 	}
 
 	@JSON
@@ -1517,6 +1531,8 @@ public class NotificationModelImpl
 
 	@Override
 	public void setStartDate(Date startDate) {
+		_columnBitmask = -1L;
+
 		_startDate = startDate;
 	}
 
@@ -1544,13 +1560,13 @@ public class NotificationModelImpl
 
 	@JSON
 	@Override
-	public int getIsAutomaticMessage() {
-		return _isAutomaticMessage;
+	public long getMessageId() {
+		return _messageId;
 	}
 
 	@Override
-	public void setIsAutomaticMessage(int isAutomaticMessage) {
-		_isAutomaticMessage = isAutomaticMessage;
+	public void setMessageId(long messageId) {
+		_messageId = messageId;
 	}
 
 	@JSON
@@ -2239,7 +2255,7 @@ public class NotificationModelImpl
 		notificationImpl.setStartDate(getStartDate());
 		notificationImpl.setEndDate(getEndDate());
 		notificationImpl.setBroadcastDate(getBroadcastDate());
-		notificationImpl.setIsAutomaticMessage(getIsAutomaticMessage());
+		notificationImpl.setMessageId(getMessageId());
 		notificationImpl.setContent(getContent());
 		notificationImpl.setLabelUrl(getLabelUrl());
 		notificationImpl.setUrl(getUrl());
@@ -2258,17 +2274,17 @@ public class NotificationModelImpl
 
 	@Override
 	public int compareTo(Notification notification) {
-		long primaryKey = notification.getPrimaryKey();
+		int value = 0;
 
-		if (getPrimaryKey() < primaryKey) {
-			return -1;
+		value = DateUtil.compareTo(getStartDate(), notification.getStartDate());
+
+		value = value * -1;
+
+		if (value != 0) {
+			return value;
 		}
-		else if (getPrimaryKey() > primaryKey) {
-			return 1;
-		}
-		else {
-			return 0;
-		}
+
+		return 0;
 	}
 
 	@Override
@@ -2324,6 +2340,11 @@ public class NotificationModelImpl
 		notificationModelImpl._setOriginalCompanyId = false;
 
 		notificationModelImpl._setModifiedDate = false;
+
+		notificationModelImpl._originalServiceId =
+			notificationModelImpl._serviceId;
+
+		notificationModelImpl._setOriginalServiceId = false;
 
 		notificationModelImpl._columnBitmask = 0;
 	}
@@ -2445,7 +2466,7 @@ public class NotificationModelImpl
 			notificationCacheModel.broadcastDate = Long.MIN_VALUE;
 		}
 
-		notificationCacheModel.isAutomaticMessage = getIsAutomaticMessage();
+		notificationCacheModel.messageId = getMessageId();
 
 		notificationCacheModel.content = getContent();
 
@@ -2579,6 +2600,8 @@ public class NotificationModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _serviceId;
+	private long _originalServiceId;
+	private boolean _setOriginalServiceId;
 	private int _isAlert;
 	private long _natureId;
 	private String _title;
@@ -2588,7 +2611,7 @@ public class NotificationModelImpl
 	private Date _startDate;
 	private Date _endDate;
 	private Date _broadcastDate;
-	private int _isAutomaticMessage;
+	private long _messageId;
 	private String _content;
 	private String _contentCurrentLanguageId;
 	private String _labelUrl;

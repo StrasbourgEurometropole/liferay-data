@@ -1,10 +1,8 @@
 <%@ include file="/notif-bo-init.jsp" %>
 
-<c:if test="${isAdminCsmap}">
+<c:set var="tab" value="notifications}" />
+<c:if test="${isAdminNotification}">
     <c:set var="tab" value="${not empty param.tab ? param.tab : 'services' }" />
-</c:if>
-<c:if test="${!isAdminCsmap}">
-    <c:set var="tab" value="${not empty param.tab ? param.tab : 'notifications' }" />
 </c:if>
 
 <liferay-portlet:renderURL var="servicesURL">
@@ -24,16 +22,16 @@
 </liferay-portlet:renderURL>
 
 <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
-    <c:if test="${isAdminCsmap}">
+    <c:if test="${isAdminNotification}">
         <aui:nav cssClass="navbar-nav">
             <aui:nav-item href="${servicesURL}" label="eu.strasbourg.notif.services"
                 selected="${tab eq 'services'}" />
         </aui:nav>
     </c:if>
-	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${notificationsURL}" label="eu.strasbourg.notif.notifications"
-			selected="${tab eq 'notifications'}" />
-	</aui:nav>
+    <aui:nav cssClass="navbar-nav">
+        <aui:nav-item href="${notificationsURL}" label="eu.strasbourg.notif.notifications"
+            selected="${tab eq 'notifications'}" />
+    </aui:nav>
 
 	<aui:nav-bar-search>
 		<aui:form action="${searchURL}" name="searchFm">

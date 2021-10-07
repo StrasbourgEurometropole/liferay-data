@@ -580,18 +580,18 @@ public interface NotificationModel
 	public void setBroadcastDate(Date broadcastDate);
 
 	/**
-	 * Returns the is automatic message of this notification.
+	 * Returns the message ID of this notification.
 	 *
-	 * @return the is automatic message of this notification
+	 * @return the message ID of this notification
 	 */
-	public int getIsAutomaticMessage();
+	public long getMessageId();
 
 	/**
-	 * Sets the is automatic message of this notification.
+	 * Sets the message ID of this notification.
 	 *
-	 * @param isAutomaticMessage the is automatic message of this notification
+	 * @param messageId the message ID of this notification
 	 */
-	public void setIsAutomaticMessage(int isAutomaticMessage);
+	public void setMessageId(long messageId);
 
 	/**
 	 * Returns the content of this notification.

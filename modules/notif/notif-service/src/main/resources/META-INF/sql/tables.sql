@@ -1,13 +1,13 @@
 create table notif_Message (
 	messageId LONG not null primary key,
 	serviceId LONG,
-	content TEXT null
+	content STRING null
 );
 
 create table notif_NatureNotif (
 	natureId LONG not null primary key,
 	serviceId LONG,
-	name VARCHAR(75) null
+	name STRING null
 );
 
 create table notif_Notification (
@@ -31,7 +31,7 @@ create table notif_Notification (
 	startDate DATE null,
 	endDate DATE null,
 	broadcastDate DATE null,
-	isAutomaticMessage INTEGER,
+	messageId LONG,
 	content STRING null,
 	labelUrl STRING null,
 	url STRING null,
@@ -47,6 +47,6 @@ create table notif_Notification (
 create table notif_ServiceNotif (
 	serviceId LONG not null primary key,
 	organisationId LONG,
-	name VARCHAR(75) null,
+	name VARCHAR(400) null,
 	pictoId LONG
 );

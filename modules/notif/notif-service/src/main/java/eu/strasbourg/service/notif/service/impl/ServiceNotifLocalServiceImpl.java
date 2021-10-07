@@ -76,4 +76,9 @@ public class ServiceNotifLocalServiceImpl
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public List<ServiceNotif> getByOrganisationIds(long[] organisationIds) {
+		return serviceNotifPersistence.findByOrganisationIds(organisationIds);
+	}
 }

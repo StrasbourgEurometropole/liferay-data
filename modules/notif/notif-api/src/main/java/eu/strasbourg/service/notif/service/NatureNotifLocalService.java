@@ -184,7 +184,7 @@ public interface NatureNotifLocalService
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<NatureNotif> getByServiceid(long serviceId);
+	public List<NatureNotif> getByServiceId(long serviceId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();

@@ -67,6 +67,17 @@ public class NotificationLocalServiceUtil {
 	}
 
 	/**
+	 * Crée une offre vide avec une PK, non ajouté à la base de donnée
+	 */
+	public static eu.strasbourg.service.notif.model.Notification
+			createNotification(
+				com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().createNotification(sc);
+	}
+
+	/**
 	 * Deletes the notification with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
 	 * @param notificationId the primary key of the notification
@@ -102,6 +113,16 @@ public class NotificationLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
+	}
+
+	public static eu.strasbourg.service.notif.model.Notification
+			duplicateNotification(
+				com.liferay.portal.kernel.service.ServiceContext sc,
+				eu.strasbourg.service.notif.model.Notification
+					notificationToCopy)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().duplicateNotification(sc, notificationToCopy);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
@@ -212,6 +233,12 @@ public class NotificationLocalServiceUtil {
 		getActionableDynamicQuery() {
 
 		return getService().getActionableDynamicQuery();
+	}
+
+	public static java.util.List<eu.strasbourg.service.notif.model.Notification>
+		getByServiceIds(long[] serviceIds) {
+
+		return getService().getByServiceIds(serviceIds);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
@@ -335,6 +362,16 @@ public class NotificationLocalServiceUtil {
 	}
 
 	/**
+	 * Supprime une notification
+	 */
+	public static eu.strasbourg.service.notif.model.Notification
+			removeNotification(long notificationId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().removeNotification(notificationId);
+	}
+
+	/**
 	 * Updates the notification in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
 	 * @param notification the notification
@@ -345,6 +382,18 @@ public class NotificationLocalServiceUtil {
 			eu.strasbourg.service.notif.model.Notification notification) {
 
 		return getService().updateNotification(notification);
+	}
+
+	/**
+	 * Met à jour une notification et l'enregistre en base de données
+	 */
+	public static eu.strasbourg.service.notif.model.Notification
+			updateNotification(
+				eu.strasbourg.service.notif.model.Notification notification,
+				com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().updateNotification(notification, sc);
 	}
 
 	public static NotificationLocalService getService() {

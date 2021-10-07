@@ -54,7 +54,7 @@ public class NotificationSoap implements Serializable {
 		soapModel.setStartDate(model.getStartDate());
 		soapModel.setEndDate(model.getEndDate());
 		soapModel.setBroadcastDate(model.getBroadcastDate());
-		soapModel.setIsAutomaticMessage(model.getIsAutomaticMessage());
+		soapModel.setMessageId(model.getMessageId());
 		soapModel.setContent(model.getContent());
 		soapModel.setLabelUrl(model.getLabelUrl());
 		soapModel.setUrl(model.getUrl());
@@ -278,12 +278,12 @@ public class NotificationSoap implements Serializable {
 		_broadcastDate = broadcastDate;
 	}
 
-	public int getIsAutomaticMessage() {
-		return _isAutomaticMessage;
+	public long getMessageId() {
+		return _messageId;
 	}
 
-	public void setIsAutomaticMessage(int isAutomaticMessage) {
-		_isAutomaticMessage = isAutomaticMessage;
+	public void setMessageId(long messageId) {
+		_messageId = messageId;
 	}
 
 	public String getContent() {
@@ -386,7 +386,7 @@ public class NotificationSoap implements Serializable {
 	private Date _startDate;
 	private Date _endDate;
 	private Date _broadcastDate;
-	private int _isAutomaticMessage;
+	private long _messageId;
 	private String _content;
 	private String _labelUrl;
 	private String _url;

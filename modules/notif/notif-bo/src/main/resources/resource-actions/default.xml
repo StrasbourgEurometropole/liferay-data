@@ -12,6 +12,9 @@
 				<action-key>ADD_SERVICE</action-key>
 				<action-key>DELETE_SERVICE</action-key>
 				<action-key>EDIT_SERVICE</action-key>
+				<action-key>ADD_NOTIFICATION</action-key>
+				<action-key>DELETE_NOTIFICATION</action-key>
+				<action-key>EDIT_NOTIFICATION</action-key>
 			</supports>
 			<site-member-defaults />
 			<guest-defaults />
@@ -23,6 +26,9 @@
 				<action-key>ADD_SERVICE</action-key>
 				<action-key>DELETE_SERVICE</action-key>
 				<action-key>EDIT_SERVICE</action-key>
+				<action-key>ADD_NOTIFICATION</action-key>
+				<action-key>DELETE_NOTIFICATION</action-key>
+				<action-key>EDIT_NOTIFICATION</action-key>
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>

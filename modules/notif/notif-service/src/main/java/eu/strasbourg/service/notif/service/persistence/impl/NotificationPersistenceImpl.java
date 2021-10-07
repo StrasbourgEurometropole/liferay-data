@@ -30,10 +30,12 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -49,6 +51,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -1470,6 +1473,786 @@ public class NotificationPersistenceImpl
 	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
 		"notification.companyId = ?";
 
+	private FinderPath _finderPathWithPaginationFindByServiceIds;
+	private FinderPath _finderPathWithoutPaginationFindByServiceIds;
+	private FinderPath _finderPathCountByServiceIds;
+	private FinderPath _finderPathWithPaginationCountByServiceIds;
+
+	/**
+	 * Returns all the notifications where serviceId = &#63;.
+	 *
+	 * @param serviceId the service ID
+	 * @return the matching notifications
+	 */
+	@Override
+	public List<Notification> findByServiceIds(long serviceId) {
+		return findByServiceIds(
+			serviceId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the notifications where serviceId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param serviceId the service ID
+	 * @param start the lower bound of the range of notifications
+	 * @param end the upper bound of the range of notifications (not inclusive)
+	 * @return the range of matching notifications
+	 */
+	@Override
+	public List<Notification> findByServiceIds(
+		long serviceId, int start, int end) {
+
+		return findByServiceIds(serviceId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the notifications where serviceId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param serviceId the service ID
+	 * @param start the lower bound of the range of notifications
+	 * @param end the upper bound of the range of notifications (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching notifications
+	 */
+	@Override
+	public List<Notification> findByServiceIds(
+		long serviceId, int start, int end,
+		OrderByComparator<Notification> orderByComparator) {
+
+		return findByServiceIds(serviceId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the notifications where serviceId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param serviceId the service ID
+	 * @param start the lower bound of the range of notifications
+	 * @param end the upper bound of the range of notifications (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching notifications
+	 */
+	@Override
+	public List<Notification> findByServiceIds(
+		long serviceId, int start, int end,
+		OrderByComparator<Notification> orderByComparator,
+		boolean retrieveFromCache) {
+
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			pagination = false;
+			finderPath = _finderPathWithoutPaginationFindByServiceIds;
+			finderArgs = new Object[] {serviceId};
+		}
+		else {
+			finderPath = _finderPathWithPaginationFindByServiceIds;
+			finderArgs = new Object[] {
+				serviceId, start, end, orderByComparator
+			};
+		}
+
+		List<Notification> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Notification>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Notification notification : list) {
+					if ((serviceId != notification.getServiceId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_NOTIFICATION_WHERE);
+
+			query.append(_FINDER_COLUMN_SERVICEIDS_SERVICEID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(NotificationModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(serviceId);
+
+				if (!pagination) {
+					list = (List<Notification>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Notification>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first notification in the ordered set where serviceId = &#63;.
+	 *
+	 * @param serviceId the service ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching notification
+	 * @throws NoSuchNotificationException if a matching notification could not be found
+	 */
+	@Override
+	public Notification findByServiceIds_First(
+			long serviceId, OrderByComparator<Notification> orderByComparator)
+		throws NoSuchNotificationException {
+
+		Notification notification = fetchByServiceIds_First(
+			serviceId, orderByComparator);
+
+		if (notification != null) {
+			return notification;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("serviceId=");
+		msg.append(serviceId);
+
+		msg.append("}");
+
+		throw new NoSuchNotificationException(msg.toString());
+	}
+
+	/**
+	 * Returns the first notification in the ordered set where serviceId = &#63;.
+	 *
+	 * @param serviceId the service ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching notification, or <code>null</code> if a matching notification could not be found
+	 */
+	@Override
+	public Notification fetchByServiceIds_First(
+		long serviceId, OrderByComparator<Notification> orderByComparator) {
+
+		List<Notification> list = findByServiceIds(
+			serviceId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last notification in the ordered set where serviceId = &#63;.
+	 *
+	 * @param serviceId the service ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching notification
+	 * @throws NoSuchNotificationException if a matching notification could not be found
+	 */
+	@Override
+	public Notification findByServiceIds_Last(
+			long serviceId, OrderByComparator<Notification> orderByComparator)
+		throws NoSuchNotificationException {
+
+		Notification notification = fetchByServiceIds_Last(
+			serviceId, orderByComparator);
+
+		if (notification != null) {
+			return notification;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("serviceId=");
+		msg.append(serviceId);
+
+		msg.append("}");
+
+		throw new NoSuchNotificationException(msg.toString());
+	}
+
+	/**
+	 * Returns the last notification in the ordered set where serviceId = &#63;.
+	 *
+	 * @param serviceId the service ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching notification, or <code>null</code> if a matching notification could not be found
+	 */
+	@Override
+	public Notification fetchByServiceIds_Last(
+		long serviceId, OrderByComparator<Notification> orderByComparator) {
+
+		int count = countByServiceIds(serviceId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Notification> list = findByServiceIds(
+			serviceId, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the notifications before and after the current notification in the ordered set where serviceId = &#63;.
+	 *
+	 * @param notificationId the primary key of the current notification
+	 * @param serviceId the service ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next notification
+	 * @throws NoSuchNotificationException if a notification with the primary key could not be found
+	 */
+	@Override
+	public Notification[] findByServiceIds_PrevAndNext(
+			long notificationId, long serviceId,
+			OrderByComparator<Notification> orderByComparator)
+		throws NoSuchNotificationException {
+
+		Notification notification = findByPrimaryKey(notificationId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Notification[] array = new NotificationImpl[3];
+
+			array[0] = getByServiceIds_PrevAndNext(
+				session, notification, serviceId, orderByComparator, true);
+
+			array[1] = notification;
+
+			array[2] = getByServiceIds_PrevAndNext(
+				session, notification, serviceId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Notification getByServiceIds_PrevAndNext(
+		Session session, Notification notification, long serviceId,
+		OrderByComparator<Notification> orderByComparator, boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_NOTIFICATION_WHERE);
+
+		query.append(_FINDER_COLUMN_SERVICEIDS_SERVICEID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(NotificationModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(serviceId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(notification)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Notification> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Returns all the notifications where serviceId = any &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param serviceIds the service IDs
+	 * @return the matching notifications
+	 */
+	@Override
+	public List<Notification> findByServiceIds(long[] serviceIds) {
+		return findByServiceIds(
+			serviceIds, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the notifications where serviceId = any &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param serviceIds the service IDs
+	 * @param start the lower bound of the range of notifications
+	 * @param end the upper bound of the range of notifications (not inclusive)
+	 * @return the range of matching notifications
+	 */
+	@Override
+	public List<Notification> findByServiceIds(
+		long[] serviceIds, int start, int end) {
+
+		return findByServiceIds(serviceIds, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the notifications where serviceId = any &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param serviceIds the service IDs
+	 * @param start the lower bound of the range of notifications
+	 * @param end the upper bound of the range of notifications (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching notifications
+	 */
+	@Override
+	public List<Notification> findByServiceIds(
+		long[] serviceIds, int start, int end,
+		OrderByComparator<Notification> orderByComparator) {
+
+		return findByServiceIds(
+			serviceIds, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the notifications where serviceId = &#63;, optionally using the finder cache.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param serviceId the service ID
+	 * @param start the lower bound of the range of notifications
+	 * @param end the upper bound of the range of notifications (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching notifications
+	 */
+	@Override
+	public List<Notification> findByServiceIds(
+		long[] serviceIds, int start, int end,
+		OrderByComparator<Notification> orderByComparator,
+		boolean retrieveFromCache) {
+
+		if (serviceIds == null) {
+			serviceIds = new long[0];
+		}
+		else if (serviceIds.length > 1) {
+			serviceIds = ArrayUtil.unique(serviceIds);
+
+			Arrays.sort(serviceIds);
+		}
+
+		if (serviceIds.length == 1) {
+			return findByServiceIds(
+				serviceIds[0], start, end, orderByComparator);
+		}
+
+		boolean pagination = true;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			pagination = false;
+			finderArgs = new Object[] {StringUtil.merge(serviceIds)};
+		}
+		else {
+			finderArgs = new Object[] {
+				StringUtil.merge(serviceIds), start, end, orderByComparator
+			};
+		}
+
+		List<Notification> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Notification>)finderCache.getResult(
+				_finderPathWithPaginationFindByServiceIds, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Notification notification : list) {
+					if (!ArrayUtil.contains(
+							serviceIds, notification.getServiceId())) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = new StringBundler();
+
+			query.append(_SQL_SELECT_NOTIFICATION_WHERE);
+
+			if (serviceIds.length > 0) {
+				query.append("(");
+
+				query.append(_FINDER_COLUMN_SERVICEIDS_SERVICEID_7);
+
+				query.append(StringUtil.merge(serviceIds));
+
+				query.append(")");
+
+				query.append(")");
+			}
+
+			query.setStringAt(
+				removeConjunction(query.stringAt(query.index() - 1)),
+				query.index() - 1);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(NotificationModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				if (!pagination) {
+					list = (List<Notification>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Notification>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(
+					_finderPathWithPaginationFindByServiceIds, finderArgs,
+					list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(
+					_finderPathWithPaginationFindByServiceIds, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Removes all the notifications where serviceId = &#63; from the database.
+	 *
+	 * @param serviceId the service ID
+	 */
+	@Override
+	public void removeByServiceIds(long serviceId) {
+		for (Notification notification :
+				findByServiceIds(
+					serviceId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			remove(notification);
+		}
+	}
+
+	/**
+	 * Returns the number of notifications where serviceId = &#63;.
+	 *
+	 * @param serviceId the service ID
+	 * @return the number of matching notifications
+	 */
+	@Override
+	public int countByServiceIds(long serviceId) {
+		FinderPath finderPath = _finderPathCountByServiceIds;
+
+		Object[] finderArgs = new Object[] {serviceId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_NOTIFICATION_WHERE);
+
+			query.append(_FINDER_COLUMN_SERVICEIDS_SERVICEID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(serviceId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	/**
+	 * Returns the number of notifications where serviceId = any &#63;.
+	 *
+	 * @param serviceIds the service IDs
+	 * @return the number of matching notifications
+	 */
+	@Override
+	public int countByServiceIds(long[] serviceIds) {
+		if (serviceIds == null) {
+			serviceIds = new long[0];
+		}
+		else if (serviceIds.length > 1) {
+			serviceIds = ArrayUtil.unique(serviceIds);
+
+			Arrays.sort(serviceIds);
+		}
+
+		Object[] finderArgs = new Object[] {StringUtil.merge(serviceIds)};
+
+		Long count = (Long)finderCache.getResult(
+			_finderPathWithPaginationCountByServiceIds, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler();
+
+			query.append(_SQL_COUNT_NOTIFICATION_WHERE);
+
+			if (serviceIds.length > 0) {
+				query.append("(");
+
+				query.append(_FINDER_COLUMN_SERVICEIDS_SERVICEID_7);
+
+				query.append(StringUtil.merge(serviceIds));
+
+				query.append(")");
+
+				query.append(")");
+			}
+
+			query.setStringAt(
+				removeConjunction(query.stringAt(query.index() - 1)),
+				query.index() - 1);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(
+					_finderPathWithPaginationCountByServiceIds, finderArgs,
+					count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(
+					_finderPathWithPaginationCountByServiceIds, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SERVICEIDS_SERVICEID_2 =
+		"notification.serviceId = ?";
+
+	private static final String _FINDER_COLUMN_SERVICEIDS_SERVICEID_7 =
+		"notification.serviceId IN (";
+
 	public NotificationPersistenceImpl() {
 		setModelClass(Notification.class);
 
@@ -1823,6 +2606,12 @@ public class NotificationPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByUuid_C, args);
 
+			args = new Object[] {notificationModelImpl.getServiceId()};
+
+			finderCache.removeResult(_finderPathCountByServiceIds, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByServiceIds, args);
+
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
@@ -1868,6 +2657,25 @@ public class NotificationPersistenceImpl
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByUuid_C, args);
+			}
+
+			if ((notificationModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByServiceIds.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					notificationModelImpl.getOriginalServiceId()
+				};
+
+				finderCache.removeResult(_finderPathCountByServiceIds, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByServiceIds, args);
+
+				args = new Object[] {notificationModelImpl.getServiceId()};
+
+				finderCache.removeResult(_finderPathCountByServiceIds, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByServiceIds, args);
 			}
 		}
 
@@ -2321,7 +3129,8 @@ public class NotificationPersistenceImpl
 			NotificationModelImpl.FINDER_CACHE_ENABLED, NotificationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
-			NotificationModelImpl.UUID_COLUMN_BITMASK);
+			NotificationModelImpl.UUID_COLUMN_BITMASK |
+			NotificationModelImpl.STARTDATE_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
 			NotificationModelImpl.ENTITY_CACHE_ENABLED,
@@ -2359,13 +3168,43 @@ public class NotificationPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			NotificationModelImpl.UUID_COLUMN_BITMASK |
-			NotificationModelImpl.COMPANYID_COLUMN_BITMASK);
+			NotificationModelImpl.COMPANYID_COLUMN_BITMASK |
+			NotificationModelImpl.STARTDATE_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
 			NotificationModelImpl.ENTITY_CACHE_ENABLED,
 			NotificationModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByServiceIds = new FinderPath(
+			NotificationModelImpl.ENTITY_CACHE_ENABLED,
+			NotificationModelImpl.FINDER_CACHE_ENABLED, NotificationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByServiceIds",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByServiceIds = new FinderPath(
+			NotificationModelImpl.ENTITY_CACHE_ENABLED,
+			NotificationModelImpl.FINDER_CACHE_ENABLED, NotificationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByServiceIds",
+			new String[] {Long.class.getName()},
+			NotificationModelImpl.SERVICEID_COLUMN_BITMASK |
+			NotificationModelImpl.STARTDATE_COLUMN_BITMASK);
+
+		_finderPathCountByServiceIds = new FinderPath(
+			NotificationModelImpl.ENTITY_CACHE_ENABLED,
+			NotificationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByServiceIds",
+			new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationCountByServiceIds = new FinderPath(
+			NotificationModelImpl.ENTITY_CACHE_ENABLED,
+			NotificationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByServiceIds",
+			new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {

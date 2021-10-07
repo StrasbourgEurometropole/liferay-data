@@ -207,9 +207,9 @@ public class MessageLocalServiceUtil {
 	}
 
 	public static java.util.List<eu.strasbourg.service.notif.model.Message>
-		getByServiceid(long serviceId) {
+		getByServiceId(long serviceId) {
 
-		return getService().getByServiceid(serviceId);
+		return getService().getByServiceId(serviceId);
 	}
 
 	public static

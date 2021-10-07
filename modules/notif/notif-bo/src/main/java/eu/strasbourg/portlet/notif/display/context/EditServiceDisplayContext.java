@@ -3,7 +3,6 @@ package eu.strasbourg.portlet.notif.display.context;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
-import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -58,7 +57,7 @@ public class EditServiceDisplayContext {
     public String getDefaultNaturesIndexes() {
         if(this.service != null){
             StringBuilder indexes = new StringBuilder("0");
-            List<NatureNotif> natures = NatureNotifLocalServiceUtil.getByServiceid(this.service.getServiceId());
+            List<NatureNotif> natures = NatureNotifLocalServiceUtil.getByServiceId(this.service.getServiceId());
             for (int i = 1; i < natures.size(); i++) {
                 indexes.append(",").append(i);
             }
@@ -71,23 +70,13 @@ public class EditServiceDisplayContext {
     public String getDefaultMessagesIndexes() {
         if(this.service != null){
             StringBuilder indexes = new StringBuilder("0");
-            List<Message> messages = MessageLocalServiceUtil.getByServiceid(this.service.getServiceId());
+            List<Message> messages = MessageLocalServiceUtil.getByServiceId(this.service.getServiceId());
             for (int i = 1; i < messages.size(); i++) {
                 indexes.append(",").append(i);
             }
             return indexes.toString();
         }
         return "";
-    }
-
-    /**
-     * @return True si le framework workflow est actif pour ce type d'entité
-     */
-    @SuppressWarnings("unused")
-    public boolean isWorkflowEnabled() {
-        return WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
-                this.themeDisplay.getCompanyId(), this.themeDisplay.getCompanyGroupId(),
-                ServiceNotif.class.getName());
     }
 
     /**

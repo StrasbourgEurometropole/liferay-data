@@ -19,7 +19,7 @@ function submitForm(event) {
         Array.prototype.forEach.call(natureFields.getElementsByClassName("lfr-form-row"), function(natureField) {
             // On ne lance la validation que si l'élément ne contient pas la classe "hide"
             if(!natureField.classList.contains("hide")){
-                var natureName = natureField.querySelectorAll('[id^=' + namespace + 'natureName]')[0];
+                var natureName = natureField.querySelectorAll('input[id^=' + namespace + 'natureName]')[0];
                 if(natureName.value == ""){
                     // on affiche le message d'erreur
                     natureField.getElementsByClassName('help-block')[0].style.display = "block";
@@ -41,7 +41,7 @@ function submitForm(event) {
         var messageFields = document.getElementById("message-fields");
         Array.prototype.forEach.call(messageFields.getElementsByClassName("lfr-form-row"), function(messageField) {
             if(!messageField.classList.contains("hide")){
-                var content = messageField.querySelectorAll('[id^=' + namespace + 'content][id$=_fr_FR]')[0];
+                var content = messageField.querySelectorAll('input[id^=' + namespace + 'content]')[0];
                 if(content.value == ""){
                     // on affiche le message d'erreur
                     messageField.getElementsByClassName('help-block')[0].style.display = "block";
