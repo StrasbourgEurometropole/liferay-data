@@ -36,9 +36,8 @@
 		<model-name>eu.strasbourg.service.notif.model.ServiceNotif</model-name>
 		<portlet-ref>
 			<portlet-name>eu_strasbourg_portlet_notif_NotifBOPortlet</portlet-name>
-			<portlet-name>eu_strasbourg_portlet_notif_NotifPortlet</portlet-name>
 		</portlet-ref>
-		<weight>2</weight>
+		<weight>3</weight>
 		<permissions>
 			<supports>
 				<action-key>VIEW</action-key>
@@ -56,7 +55,6 @@
 		<model-name>eu.strasbourg.service.notif.model.Notification</model-name>
 		<portlet-ref>
 			<portlet-name>eu_strasbourg_portlet_notif_NotifBOPortlet</portlet-name>
-			<portlet-name>eu_strasbourg_portlet_notif_NotifPortlet</portlet-name>
 		</portlet-ref>
 		<weight>3</weight>
 		<permissions>

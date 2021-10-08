@@ -1,6 +1,6 @@
 <%@ include file="/notif-bo-init.jsp" %>
 
-<c:set var="tab" value="notifications}" />
+<c:set var="tab" value="${not empty param.tab ? param.tab : 'notifications' }" />
 <c:if test="${isAdminNotification}">
     <c:set var="tab" value="${not empty param.tab ? param.tab : 'services' }" />
 </c:if>

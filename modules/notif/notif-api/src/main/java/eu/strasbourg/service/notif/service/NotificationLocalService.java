@@ -40,6 +40,7 @@ import eu.strasbourg.service.notif.model.Notification;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Notification. Methods of this
@@ -317,6 +318,14 @@ public interface NotificationLocalService
 	 */
 	public Notification updateNotification(
 			Notification notification, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	 * Met à jour le statut de l'edition par le framework workflow
+	 */
+	public Notification updateStatus(
+			long userId, long entryId, int status, ServiceContext sc,
+			Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 }

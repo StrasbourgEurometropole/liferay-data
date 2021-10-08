@@ -396,6 +396,19 @@ public class NotificationLocalServiceUtil {
 		return getService().updateNotification(notification, sc);
 	}
 
+	/**
+	 * Met à jour le statut de l'edition par le framework workflow
+	 */
+	public static eu.strasbourg.service.notif.model.Notification updateStatus(
+			long userId, long entryId, int status,
+			com.liferay.portal.kernel.service.ServiceContext sc,
+			java.util.Map<String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().updateStatus(
+			userId, entryId, status, sc, workflowContext);
+	}
+
 	public static NotificationLocalService getService() {
 		return _serviceTracker.getService();
 	}

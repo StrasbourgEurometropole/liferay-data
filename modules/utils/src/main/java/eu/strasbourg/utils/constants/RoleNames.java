@@ -9,7 +9,7 @@ public class RoleNames {
     public static final String VALIDATION_HIERARCHIQUE = "validation hierarchique";
 
 
-    public static final String ADMINISTRATEUR_NOTIFICATION = "administrateur notification";
-    public static final String RESPONSABLE_NOTIFICATION = "responsable notification";
-    public static final String CONTRIBUTEUR_NOTIFICATION = "contributeur notification";
+    public static final String ADMINISTRATEUR_NOTIFICATION = "Administrateur notification";
+    public static final String RESPONSABLE_NOTIFICATION = "Responsable notification";
+    public static final String CONTRIBUTEUR_NOTIFICATION = "Contributeur notification";
 }

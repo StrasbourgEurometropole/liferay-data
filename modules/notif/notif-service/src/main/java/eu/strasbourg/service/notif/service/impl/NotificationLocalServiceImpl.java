@@ -33,7 +33,10 @@ import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.service.notif.service.base.NotificationLocalServiceBaseImpl;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The implementation of the notification local service.
@@ -169,6 +172,39 @@ public class NotificationLocalServiceImpl
 
 		// Réindexe l'edition
 		this.reindex(notification, false);
+	}
+
+	/**
+	 * Met à jour le statut de l'edition par le framework workflow
+	 */
+	@Override
+	public Notification updateStatus(long userId, long entryId, int status,
+							  ServiceContext sc, Map<String, Serializable> workflowContext)
+			throws PortalException {
+		Date now = new Date();
+		// Statut de l'entité
+		Notification notification = this.getNotification(entryId);
+		notification.setStatus(status);
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			notification.setStatusByUserId(user.getUserId());
+			notification.setStatusByUserName(user.getFullName());
+		}
+		notification.setStatusDate(new Date());
+		notification = this.notificationLocalService.updateNotification(notification);
+
+		// Statut de l'entry
+		AssetEntry entry = this.assetEntryLocalService
+				.getEntry(Notification.class.getName(), notification.getPrimaryKey());
+		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
+		if (entry.isVisible()) {
+			entry.setPublishDate(now);
+		}
+		this.assetEntryLocalService.updateAssetEntry(entry);
+
+		this.reindex(notification, false);
+
+		return notification;
 	}
 
 	/**

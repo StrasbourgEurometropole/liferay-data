@@ -131,6 +131,7 @@
                 <%-- Champ : Message --%>
                 <aui:select cssClass="toCustomSelect" id="message" name="message" label="eu.strasbourg.notif.message" required="false">
                     <aui:option style="display: none" selected="${empty dc.notification}"><liferay-ui:message key="eu.strasbourg.notif.choose-message" /></aui:option>
+                    <aui:option value="0" ></aui:option>
                     <c:forEach items="${dc.messages}" var="message">
                         <aui:option value="${message.messageId}" data-service-id="${message.serviceId}" data-content-fr="${fn:escapeXml(message.getContent('fr_FR'))}" data-content-de="${fn:escapeXml(message.getContent('de_DE'))}" data-content-en="${fn:escapeXml(message.getContent('en_US'))}" selected="${dc.notification.messageId == message.messageId}" >${message.getContent(locale)}</aui:option>
                     </c:forEach>
@@ -204,7 +205,7 @@
                     value="${not empty dc.notification ? dc.notification.notificationId : ''}" />
             </liferay-portlet:actionURL>
 			<c:if test="${not empty dc.notification && dc.hasPermission('DELETE_NOTIFICATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                <c:if test="${dc.canUpdateOrDeleteNotification(notification.userId)}">
+                <c:if test="${dc.canUpdateOrDeleteNotification(dc.notification.userId)}">
                     <aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
                 </c:if>
 			</c:if>

@@ -26,7 +26,7 @@ selectServices.onchange = function(){
     content.value = "";
 }
 selectMessages.onchange = function(){
-    if(selectMessages.value != ""){
+    if(selectMessages.value != "0"){
         content.value = selectMessages.selectedOptions[0].label;
         var content_fr = document.getElementById(namespace + 'content_fr_FR');
         if(content_fr != undefined)
@@ -74,8 +74,6 @@ function initialiseMessages(){
             }else{
                 option.style.display="none";
             }
-        }else{
-            option.style.display="none";
         }
     });
     initialiseContent();
@@ -83,7 +81,7 @@ function initialiseMessages(){
 
 // gestion du champs Contenu
 function initialiseContent(){
-    if(selectMessages.value != "" && isContribOnly){
+    if(selectMessages.value != "0" && isContribOnly){
         content.disabled = true;
     }else{
         content.disabled = false;

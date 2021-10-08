@@ -416,6 +416,20 @@ public class NotificationLocalServiceWrapper
 		return _notificationLocalService.updateNotification(notification, sc);
 	}
 
+	/**
+	 * Met à jour le statut de l'edition par le framework workflow
+	 */
+	@Override
+	public eu.strasbourg.service.notif.model.Notification updateStatus(
+			long userId, long entryId, int status,
+			com.liferay.portal.kernel.service.ServiceContext sc,
+			java.util.Map<String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _notificationLocalService.updateStatus(
+			userId, entryId, status, sc, workflowContext);
+	}
+
 	@Override
 	public NotificationLocalService getWrappedService() {
 		return _notificationLocalService;

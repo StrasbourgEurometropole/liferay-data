@@ -79,7 +79,7 @@ public class NotifBOPortlet extends MVCPortlet {
 		} else if (cmd.equals("editNotification") || mvcPath.equals("/notif-bo-edit-notification.jsp")) {
 			EditNotificationDisplayContext dc = new EditNotificationDisplayContext(renderRequest);
 			renderRequest.setAttribute("dc", dc);
-		} else if (tab.equals("notifications")) {
+		} else if (tab.equals("notifications") || !this.isAdminNotification()) {
 			ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else {
@@ -97,7 +97,7 @@ public class NotifBOPortlet extends MVCPortlet {
 
 	public boolean isAdminNotification(){
 		try {
-			Role siteAdministrator = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.SITE_ADMLINISTRATOR);
+			Role siteAdministrator = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.ADMINISTRATEUR_NOTIFICATION);
 			if(themeDisplay.getPermissionChecker().isOmniadmin()
 					|| UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), siteAdministrator.getRoleId()))
 				return true;

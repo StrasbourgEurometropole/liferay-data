@@ -19,6 +19,7 @@ import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ViewNotificationsDisplayContext
@@ -45,9 +46,12 @@ public class ViewNotificationsDisplayContext
 						this.getSearchContainer().getEnd());
 			else{
 				long[] organisationIds = themeDisplay.getUser().getOrganizationIds();
-				List<ServiceNotif> services = ServiceNotifLocalServiceUtil.getByOrganisationIds(organisationIds);
-				this.serviceIds = services.stream().mapToLong(ServiceNotif::getServiceId).toArray();
-				this.notifications = NotificationLocalServiceUtil.getByServiceIds(serviceIds);
+				List<ServiceNotif> services = new ArrayList<>();
+				if(organisationIds.length > 0) {
+					services = ServiceNotifLocalServiceUtil.getByOrganisationIds(organisationIds);
+					this.serviceIds = services.stream().mapToLong(ServiceNotif::getServiceId).toArray();
+					this.notifications = NotificationLocalServiceUtil.getByServiceIds(serviceIds);
+				}
 			}
 
 			countResults = ServiceNotifLocalServiceUtil.getServiceNotifs(-1, -1).size();
@@ -87,7 +91,7 @@ public class ViewNotificationsDisplayContext
 
 	public boolean isAdminNotification(){
 		try {
-			Role siteAdministrator = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.SITE_ADMLINISTRATOR);
+			Role siteAdministrator = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.ADMINISTRATEUR_NOTIFICATION);
 			if(themeDisplay.getPermissionChecker().isOmniadmin()
 				|| UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), siteAdministrator.getRoleId()))
 				return true;

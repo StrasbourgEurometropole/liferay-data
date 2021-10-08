@@ -57,9 +57,10 @@
 					value="${formattedEndDate}" />
 
                 <!-- Colonne : status -->
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="eu.strasbourg.notif.notification.status" truncate="true"
-					value="${notification.status}" />
+				<liferay-ui:search-container-column-text name="status">
+					<aui:workflow-status markupView="lexicon" showIcon="false"
+						showLabel="false" status="${notification.status}" />
+				</liferay-ui:search-container-column-text>
 
                 <!-- ACTIONS -->
 				<liferay-ui:search-container-column-text>
