@@ -376,6 +376,26 @@ public class AssetVocabularyHelper {
 	}
 
 	/**
+	 * Retourne la category ayant la propriété "externalId" ou "SIGId".
+	 *  Retourne null si aucune catégorie ne correspond à ces critères.
+	 */
+	public static AssetCategory getCategoryByExternalId(String externalId) {
+		List<AssetCategory> categories = AssetCategoryLocalServiceUtil.getAssetCategories(-1, -1);
+		for (AssetCategory category : categories) {
+			String SIGIdProperty = AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), "SIG");
+			if (SIGIdProperty.equals(externalId)) {
+				return category;
+			}
+			String externalIdProperty = AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(),
+					"externalId");
+			if (externalIdProperty.equals(externalId)) {
+				return category;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Retourne la category ayant le vocabulaire "vocabulary" et une propriété
 	 * "externalId" ou "SIGId" ayant pour valeur "externalId". Retourne null si
 	 * aucune catégorie ne correspond à ces critéres.
