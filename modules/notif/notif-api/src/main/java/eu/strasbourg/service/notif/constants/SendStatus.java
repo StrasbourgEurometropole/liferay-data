@@ -5,11 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum SendStatus {
-    NOT_CONCERNED(1, "Non concern\u00E9"),
-    COMING(2, "A venir"),
-    SENDING(3, "En cours d’envoi"),
-    SEND(4, "Envoy\u00E9"),
-    ERROR(5, "Erreur");
+    NOT_CONCERNED(0, "Non concern\u00E9"),
+    COMING(1, "A venir"),
+    SENDING(2, "En cours d’envoi"),
+    SEND(3, "Envoy\u00E9"),
+    ERROR(4, "Erreur");
 
     private long id;
     private String label;

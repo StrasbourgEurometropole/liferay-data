@@ -113,14 +113,19 @@ public class EditNotificationDisplayContext {
         switch (field){
            case "sendStatusCsmap":
                statusId = this.notification.getSendStatusCsmap();
+               break;
            case "sendStatusTwitter":
                statusId = this.notification.getSendStatusTwitter();
+               break;
            case "sendStatusMonst":
                statusId = this.notification.getSendStatusMonst();
+               break;
            case "sendStatusMail":
                statusId = this.notification.getSendStatusMail();
+               break;
            case "sendStatusSegur":
                statusId = this.notification.getSendStatusSegur();
+               break;
         }
 
         SendStatus sendStatus = SendStatus.get(statusId);

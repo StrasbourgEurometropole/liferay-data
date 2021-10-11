@@ -50,6 +50,11 @@ notificationType.onchange = function(){
     initialiseBroadcastTypes();
 }
 
+// Transformation des champs select-multiple
+new Choices('.choices-element', {
+	removeItemButton: true
+});
+
 // gestion de l'affichage du sélecteur de natures
 function initialiseNatures(){
     Array.prototype.forEach.call(selectNactures.children, function(option, i){

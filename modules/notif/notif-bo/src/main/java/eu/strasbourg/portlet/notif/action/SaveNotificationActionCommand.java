@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.notif.constants.BroadcastChannel;
 import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.service.notif.service.NotificationLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -160,6 +161,46 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
             // Champ : broadcast-channels
             String broadcastChannels = ParamUtil.getString(request, "broadcast-channels");
             notification.setBroadcastChannels(broadcastChannels);
+
+            // mise à 1 du sendStatus des channels choisis
+            for (String broadcastChannelId : broadcastChannels.split(",")) {
+                // on réinitialise les statuts d'envoi si le scheduler n'est pas encore passé dessus
+                if(notification.getSendStatusCsmap() == 1)
+                    notification.setSendStatusCsmap(0);
+                if(notification.getSendStatusTwitter() == 1)
+                    notification.setSendStatusTwitter(0);
+                if(notification.getSendStatusMonst() == 1)
+                    notification.setSendStatusMonst(0);
+                if(notification.getSendStatusMail() == 1)
+                    notification.setSendStatusMail(0);
+                if(notification.getSendStatusSegur() == 1)
+                    notification.setSendStatusSegur(0);
+
+                // on met à jour les statuts d'envoi si le scheduler n'est pas encore passé dessus
+                BroadcastChannel broadcastChannel = BroadcastChannel.get(Long.parseLong(broadcastChannelId));
+                switch (broadcastChannel.getStatusField()){
+                    case "sendStatusCsmap":
+                        if(notification.getSendStatusCsmap() == 0)
+                            notification.setSendStatusCsmap(1);
+                        break;
+                    case "sendStatusTwitter":
+                        if(notification.getSendStatusTwitter() == 0)
+                            notification.setSendStatusTwitter(1);
+                        break;
+                    case "sendStatusMonst":
+                        if(notification.getSendStatusMonst() == 0)
+                            notification.setSendStatusMonst(1);
+                        break;
+                    case "sendStatusMail":
+                        if(notification.getSendStatusMail() == 0)
+                            notification.setSendStatusMail(1);
+                        break;
+                    case "sendStatusSegur":
+                        if(notification.getSendStatusSegur() == 0)
+                            notification.setSendStatusSegur(1);
+                        break;
+                }
+            }
 
             _notificationLocalService.updateNotification(notification, sc);
 

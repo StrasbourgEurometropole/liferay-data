@@ -14,6 +14,7 @@ public enum BroadcastChannel {
     BroadcastChannel(int id, String label, String statusField) {
         this.id = id;
         this.label = label;
+        this.statusField = statusField;
     }
 
     public long getId() {

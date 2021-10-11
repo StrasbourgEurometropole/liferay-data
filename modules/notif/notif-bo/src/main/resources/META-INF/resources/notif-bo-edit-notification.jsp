@@ -163,7 +163,7 @@
                 </div>
 
                 <%-- Champ : Canaux de diffusion --%>
-                <aui:select multiple="true" cssClass="toCustomSelect" id="broadcast-channels" name="broadcast-channels" label="eu.strasbourg.notif.broadcast-channels" required="true">
+                <aui:select multiple="true" cssClass="choices-element" id="broadcast-channels" name="broadcast-channels" label="eu.strasbourg.notif.broadcast-channels" required="true">
                     <c:forEach items="${dc.broadcastChannels}" var="broadcastChannel">
                         <aui:option value="${broadcastChannel.id}" selected="${fn:contains(dc.notification.broadcastChannels, broadcastChannel.id)}" >${broadcastChannel.label}</aui:option>
                     </c:forEach>
@@ -237,7 +237,11 @@
 </liferay-util:body-top>
 
 <liferay-util:html-bottom>
-    	<!-- Include Choices JavaScript -->
+    <!-- Include Choices CSS -->
+	<link rel="stylesheet" href="/o/notifbo/css/vendors/choices.min.css">
+    <!-- Include Choices JavaScript -->
+    <script src="/o/notifbo/js/vendors/choices.min.js"
+            type="text/javascript"></script>
 	<script src="/o/notifbo/js/notif-bo-edit-notification.js" type="text/javascript"> </script>
 </liferay-util:html-bottom>
 
