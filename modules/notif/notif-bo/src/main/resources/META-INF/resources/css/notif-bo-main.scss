@@ -5,3 +5,21 @@
 .lfr-input-time {
     display: none;
 }
+
+table {
+	border: #869CAD;
+}
+
+table tr{
+	vertical-align: middle;
+	text-align: center !important;
+	height: 50px;
+}
+
+table th{
+	padding: 10px;
+	text-align: center !important;
+	font-size: 18px;
+	background-color: #ddd;
+	width: 25%;
+}

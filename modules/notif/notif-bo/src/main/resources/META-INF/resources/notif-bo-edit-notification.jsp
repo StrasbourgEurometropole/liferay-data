@@ -174,10 +174,21 @@
 
             </aui:fieldset>
 
-            <c:if test="${not empty dc.notification}">
+            <c:if test="${not empty dc.notification && not dc.notification.new}">
                 <%-- Groupe de champs : Statut d'envoi --%>
                 <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="eu.strasbourg.notif.statut">
-                    ???
+                    <table border="1" cellspacing="0">
+                        <tr>
+                            <th><strong><liferay-ui:message key="eu.strasbourg.notif.channel" /></strong></th>
+                            <th><strong><liferay-ui:message key="eu.strasbourg.notif.send-status" /></strong></th>
+                        </tr>
+                        <c:forEach items="${dc.broadcastChannels}" var="broadcastChannel">
+                            <tr>
+                                <td>${broadcastChannel.label}</td>
+                                <td>${dc.getStatusByField(broadcastChannel.statusField)}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
                 </aui:fieldset>
             </c:if>
 		</aui:fieldset-group>

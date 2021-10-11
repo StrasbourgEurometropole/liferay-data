@@ -201,6 +201,11 @@ public interface NotificationLocalService
 	public Notification fetchNotificationByUuidAndGroupId(
 		String uuid, long groupId);
 
+	public List<Notification> findByKeyword(
+		String keyword, long groupId, int start, int end);
+
+	public long findByKeywordCount(String keyword, long groupId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 

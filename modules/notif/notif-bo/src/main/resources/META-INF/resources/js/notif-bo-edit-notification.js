@@ -26,7 +26,7 @@ selectServices.onchange = function(){
     content.value = "";
 }
 selectMessages.onchange = function(){
-    if(selectMessages.value != "0"){
+    if(selectMessages.value != "0" && selectMessages.value != ""){
         content.value = selectMessages.selectedOptions[0].label;
         var content_fr = document.getElementById(namespace + 'content_fr_FR');
         if(content_fr != undefined)
@@ -81,7 +81,7 @@ function initialiseMessages(){
 
 // gestion du champs Contenu
 function initialiseContent(){
-    if(selectMessages.value != "0" && isContribOnly){
+    if(selectMessages.value != "0" && selectMessages.value != "" && isContribOnly){
         content.disabled = true;
     }else{
         content.disabled = false;

@@ -137,4 +137,5 @@ public class StrasbourgPortletKeys {
 	public static final String CSMAP_BO_AGENDA = "eu_strasbourg_portlet_agenda_csmap_CsmapBoAgendaPortlet";
 
 	public static final String NOTIF_BO = "eu_strasbourg_portlet_notif_NotifBOPortlet";
+	public static final String NOTIF_WEB = "eu_strasbourg_portlet_notif_NotifPortlet";
 }

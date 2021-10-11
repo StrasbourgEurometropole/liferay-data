@@ -229,6 +229,16 @@ public class NotificationLocalServiceUtil {
 		return getService().fetchNotificationByUuidAndGroupId(uuid, groupId);
 	}
 
+	public static java.util.List<eu.strasbourg.service.notif.model.Notification>
+		findByKeyword(String keyword, long groupId, int start, int end) {
+
+		return getService().findByKeyword(keyword, groupId, start, end);
+	}
+
+	public static long findByKeywordCount(String keyword, long groupId) {
+		return getService().findByKeywordCount(keyword, groupId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.notif.constants.BroadcastChannel;
+import eu.strasbourg.service.notif.constants.SendStatus;
 import eu.strasbourg.service.notif.constants.TypeBroadcast;
 import eu.strasbourg.service.notif.model.Message;
 import eu.strasbourg.service.notif.model.NatureNotif;
@@ -32,8 +33,8 @@ public class EditNotificationDisplayContext {
     private List<ServiceNotif> services;
     private List<NatureNotif> natures;
     private List<Message> messages;
-    private List<TypeBroadcast> BroadcastTypes;
-    private List<BroadcastChannel> BroadcastChannels;
+    private List<TypeBroadcast> broadcastTypes;
+    private List<BroadcastChannel> broadcastChannels;
     private final RenderRequest request;
     private final ThemeDisplay themeDisplay;
 
@@ -42,6 +43,7 @@ public class EditNotificationDisplayContext {
         this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     }
 
+    @SuppressWarnings("unused")
     public Notification getNotification() {
         if (this.notification == null) {
             long notificationId = ParamUtil.getLong(this.request, "notificationId");
@@ -89,18 +91,43 @@ public class EditNotificationDisplayContext {
 
     @SuppressWarnings("unused")
     public List<TypeBroadcast> getBroadcastTypes() {
-        if (this.BroadcastTypes == null) {
-            this.BroadcastTypes = TypeBroadcast.getAll();
+        if (this.broadcastTypes == null) {
+            this.broadcastTypes = TypeBroadcast.getAll();
         }
-        return BroadcastTypes;
+        return broadcastTypes;
     }
 
     @SuppressWarnings("unused")
     public List<BroadcastChannel> getBroadcastChannels() {
-        if (this.BroadcastChannels == null) {
-            this.BroadcastChannels = BroadcastChannel.getAll();
+        if (this.broadcastChannels == null) {
+            this.broadcastChannels = BroadcastChannel.getAll();
         }
-        return BroadcastChannels;
+        return broadcastChannels;
+    }
+
+    @SuppressWarnings("unused")
+    public String getStatusByField(String field) {
+        String status = "";
+
+        long statusId = 0;
+        switch (field){
+           case "sendStatusCsmap":
+               statusId = this.notification.getSendStatusCsmap();
+           case "sendStatusTwitter":
+               statusId = this.notification.getSendStatusTwitter();
+           case "sendStatusMonst":
+               statusId = this.notification.getSendStatusMonst();
+           case "sendStatusMail":
+               statusId = this.notification.getSendStatusMail();
+           case "sendStatusSegur":
+               statusId = this.notification.getSendStatusSegur();
+        }
+
+        SendStatus sendStatus = SendStatus.get(statusId);
+        if(Validator.isNotNull(sendStatus))
+            status = sendStatus.getLabel();
+
+        return status;
     }
 
     @SuppressWarnings("unused")

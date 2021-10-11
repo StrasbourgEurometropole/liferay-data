@@ -235,6 +235,19 @@ public class NotificationLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<eu.strasbourg.service.notif.model.Notification>
+		findByKeyword(String keyword, long groupId, int start, int end) {
+
+		return _notificationLocalService.findByKeyword(
+			keyword, groupId, start, end);
+	}
+
+	@Override
+	public long findByKeywordCount(String keyword, long groupId) {
+		return _notificationLocalService.findByKeywordCount(keyword, groupId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
