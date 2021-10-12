@@ -184,6 +184,9 @@
 		<finder name="RouteId" return-type="Ligne">
 			<finder-column name="routeId" />
 		</finder>
+		<finder name="Status" return-type="Collection">
+			<finder-column name="status" />
+		</finder>
 		<finder name="ShortNameAndStatus" return-type="Collection">
 			<finder-column name="shortName" />
 			<finder-column name="status" />

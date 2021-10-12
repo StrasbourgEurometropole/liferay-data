@@ -283,6 +283,24 @@ public class LigneLocalServiceUtil {
 		return getService().getByShortNameAndStatus(shortName, status);
 	}
 
+	/**
+	 * Retourne toutes les lignes avec un status choisi
+	 */
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Ligne>
+		getByStatus(int status) {
+
+		return getService().getByStatus(status);
+	}
+
+	/**
+	 * Retourne toutes les lignes avec un status choisi par modifiedDate
+	 */
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Ligne>
+		getByStatusAndModifiedDate(int status) {
+
+		return getService().getByStatusAndModifiedDate(status);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(
 			com.liferay.exportimport.kernel.lar.PortletDataContext

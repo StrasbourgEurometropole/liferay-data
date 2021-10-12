@@ -7,16 +7,19 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalService;
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.Ligne;
-import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.ArretLocalService;
 import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
-import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.LigneLocalService;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
 import javax.ws.rs.FormParam;
@@ -90,28 +93,29 @@ public class TransportApplication extends Application {
                 try {
                         JSONObject jsonStop = JSONFactoryUtil.createJSONObject();
                         JSONObject jsonLine = JSONFactoryUtil.createJSONObject();
-                        List<Arret> arrets = ArretLocalServiceUtil.getArrets(-1,-1);
+                        List<Arret> arrets = _arretLocalService.getByStatus(WorkflowConstants.STATUS_APPROVED);
                         JSONArray jsonArretAjout = JSONFactoryUtil.createJSONArray();
                         JSONArray jsonArretModif = JSONFactoryUtil.createJSONArray();
                         for(Arret arret : arrets){
-                                if(lastUpdateTime.before(arret.getCreateDate()) && arret.getStatus() == WorkflowConstants.STATUS_APPROVED){
+                                if(lastUpdateTime.before(arret.getCreateDate())){
                                         jsonArretAjout.put(CSMapJSonHelper.arretCSMapJSON(arret));
-                                } else if(lastUpdateTime.before(arret.getModifiedDate()) && arret.getStatus() == WorkflowConstants.STATUS_APPROVED){
+                                } else if(lastUpdateTime.before(arret.getModifiedDate())){
                                         jsonArretModif.put(CSMapJSonHelper.arretCSMapJSON(arret));
                                 }
                         }
-                        List<Ligne> lignes = LigneLocalServiceUtil.getLignes(-1,-1);
+                        List<Ligne> lignes = _ligneLocalService.getByStatusAndModifiedDate(WorkflowConstants.STATUS_APPROVED);
                         JSONArray jsonLigneAjout = JSONFactoryUtil.createJSONArray();
                         JSONArray jsonLigneModif = JSONFactoryUtil.createJSONArray();
                         List<String> lineNumbers = new ArrayList<>();
                         for(Ligne ligne : lignes){
                                 String lineName = ligne.getShortName();
                                 if(!lineNumbers.contains(lineName)) {
-                                        lineNumbers.add(lineName);
-                                        if(lastUpdateTime.before(ligne.getCreateDate()) && ligne.getStatus() == WorkflowConstants.STATUS_APPROVED){
+                                        if(!ids_lines.contains(lineName)){
                                                 jsonLigneAjout.put(CSMapJSonHelper.lineCSMapJSON(ligne));
-                                        } else if(lastUpdateTime.before(ligne.getModifiedDate()) && ligne.getStatus() == WorkflowConstants.STATUS_APPROVED){
+                                                lineNumbers.add(lineName);
+                                        } else {
                                                 jsonLigneModif.put(CSMapJSonHelper.lineCSMapJSON(ligne));
+                                                lineNumbers.add(lineName);
                                         }
                                 }
                         }
@@ -120,7 +124,7 @@ public class TransportApplication extends Application {
                         JSONArray stopsJSONDelete = JSONFactoryUtil.createJSONArray();
                         for (String idStop : ids_stops.split(",")) {
                                 if(Validator.isNotNull(idStop)) {
-                                        Arret arret = ArretLocalServiceUtil.getByStopId(idStop);
+                                        Arret arret = _arretLocalService.getByStopId(idStop);
                                         if (Validator.isNull(arret) || arret.getStatus() != WorkflowConstants.STATUS_APPROVED) {
                                                 JSONObject stopJSONDelete = JSONFactoryUtil.createJSONObject();
                                                 stopJSONDelete.put("stopId", idStop);
@@ -132,7 +136,7 @@ public class TransportApplication extends Application {
                         JSONArray linesJSONDelete = JSONFactoryUtil.createJSONArray();
                         for (String idLine : ids_lines.split(",")) {
                                 if(Validator.isNotNull(idLine)) {
-                                        List<Ligne> lines = LigneLocalServiceUtil.getByShortNameAndStatus(idLine,0);
+                                        List<Ligne> lines = _ligneLocalService.getByShortNameAndStatus(idLine,0);
                                         if (Validator.isNull(lines) || lines.isEmpty()) {
                                                 JSONObject lineJSONDelete = JSONFactoryUtil.createJSONObject();
                                                 lineJSONDelete.put("lineNumber", idLine);
@@ -169,7 +173,7 @@ public class TransportApplication extends Application {
                 if(Validator.isNull(stopCode)){
                         return WSResponseUtil.buildErrorResponse(500, "No stopCode");
                 }
-                List<Arret> arrets = ArretLocalServiceUtil.getArrets(-1,-1).stream().filter(a -> a.getCode().equals(stopCode)).collect(Collectors.toList());
+                List<Arret> arrets = _arretLocalService.getArrets(-1,-1).stream().filter(a -> a.getCode().equals(stopCode)).collect(Collectors.toList());
                 if(Validator.isNull(arrets) || arrets.isEmpty()){
                         return WSResponseUtil.buildErrorResponse(500, "Not valid stopCode");
                 }
@@ -195,4 +199,20 @@ public class TransportApplication extends Application {
                 }
                 return WSResponseUtil.buildOkResponse(json);
         }
+
+        @Reference(unbind = "-")
+        protected void setLigneLocalService(LigneLocalService ligneLocalService) {
+                _ligneLocalService = ligneLocalService;
+        }
+
+        @Reference
+        protected LigneLocalService _ligneLocalService;
+
+        @Reference(unbind = "-")
+        protected void setArretLocalService(ArretLocalService arretLocalService) {
+                _arretLocalService = arretLocalService;
+        }
+
+        @Reference
+        protected ArretLocalService _arretLocalService;
 }
