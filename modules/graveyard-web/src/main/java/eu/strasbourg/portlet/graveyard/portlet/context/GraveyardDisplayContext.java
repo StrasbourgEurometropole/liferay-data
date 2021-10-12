@@ -35,6 +35,7 @@ import eu.strasbourg.portlet.graveyard.portlet.GraveyardWebServiceClient;
 import eu.strasbourg.portlet.graveyard.portlet.configuration.GraveyardConfiguration;
 import eu.strasbourg.portlet.graveyard.portlet.mapping.GraveyardMapping;
 import eu.strasbourg.utils.Pager;
+import eu.strasbourg.utils.UriHelper;
 
 public class GraveyardDisplayContext {
 
@@ -286,4 +287,6 @@ public class GraveyardDisplayContext {
 		url.setParameter("cur", String.valueOf(this.getSearchContainer().getCur()));
 		return valueToReturn;
 	}
+
+	public String getNormalizedForURL(String s){ return UriHelper.normalizeToFriendlyUrl(s); }
 }

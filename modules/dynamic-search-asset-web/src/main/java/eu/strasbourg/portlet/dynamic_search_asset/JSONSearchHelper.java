@@ -25,11 +25,7 @@ import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.video.model.Video;
-import eu.strasbourg.utils.AssetPublisherTemplateHelper;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.JournalArticleHelper;
-import eu.strasbourg.utils.LayoutHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.*;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.text.SimpleDateFormat;
@@ -87,7 +83,7 @@ public class JSONSearchHelper {
 
                 jsonEvent.put(
                         Constants.ATTRIBUTE_LINK_ABSOLUTE,
-                        themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_STRAS_URL + event.getEventId() + "/" + event.getTitle(locale)
+                        themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_STRAS_URL + event.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(event.getTitle(locale))
                 );
 
                 jsonEvent.put(
@@ -110,7 +106,7 @@ public class JSONSearchHelper {
 
                 jsonEvent.put(
                         Constants.ATTRIBUTE_LINK_STRAS,
-                        Utils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_STRAS_URL + event.getEventId() + "/" + event.getTitle(locale)
+                        Utils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_STRAS_URL + event.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(event.getTitle(locale))
                 );
                 break;
         }
@@ -809,7 +805,7 @@ public class JSONSearchHelper {
 
         jsonPlace.put(
                 Constants.ATTRIBUTE_LINK,
-                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_PLACE_URL + place.getSIGid() + "/" + place.getAlias(locale)
+                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_PLACE_URL + place.getSIGid() + "/" + UriHelper.normalizeToFriendlyUrl(place.getAlias(locale))
         );
 
         switch (configAffichage) {
@@ -823,7 +819,7 @@ public class JSONSearchHelper {
 
                 jsonPlace.put(
                         Constants.ATTRIBUTE_LINK_ABSOLUTE,
-                        themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_PLACE_URL + place.getSIGid() + "/" + place.getAlias(locale)
+                        themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_PLACE_URL + place.getSIGid() + "/" + UriHelper.normalizeToFriendlyUrl(place.getAlias(locale))
                 );
 
                 jsonPlace.put(
