@@ -2,6 +2,7 @@
 
 <!-- Liste de lieux -->
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
   <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
@@ -20,7 +21,7 @@
                         <ul class="seu-wi-lieux-list unstyled" data-page="1">
                             <#list entries as curEntry>
                                 <#assign place = curEntry.assetRenderer.place />
-                                <li class="seu-wi-lieux-item"><a href="${homeURL}lieu/-/entity/id/${place.placeId}/${place.getAlias(locale)}">${place.getAlias(locale)}</a></li>
+                                <li class="seu-wi-lieux-item"><a href="${homeURL}lieu/-/entity/id/${place.placeId}/${uriHelper.normalizeToFriendlyUrl(place.getAlias(locale))}">${place.getAlias(locale)}</a></li>
                             </#list>
                         </ul>
                     </#if>

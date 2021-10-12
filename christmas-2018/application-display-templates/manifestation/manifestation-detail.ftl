@@ -9,6 +9,7 @@
     </#if>
     <#assign imageUrl = imageUrl + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
+<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
@@ -61,7 +62,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <#list entry.getPublishedEvents() as event>
                         <div class="item">
                             <div class="mns-bloc-agenda" itemscope itemtype="http://schema.org/Event">
-                                <a href="${homeURL}event/-/entity/id/${event.eventId}/${event.getTitle(locale)}">
+                                <a href="${homeURL}event/-/entity/id/${event.eventId}/${uriHelper.normalizeToFriendlyUrl(event.getTitle(locale))}">
                                     <span class="date">${event.getEventScheduleDisplay(locale)}</span>
                                     <figure>
                                         <img src='${event.imageURL}' alt="${event.getTitle(locale)}" width="270" height="400" class="fit-cover" />

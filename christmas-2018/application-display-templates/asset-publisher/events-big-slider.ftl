@@ -5,6 +5,8 @@
 <#else>
     <#assign homeURL = "/" />
 </#if>
+<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
+
 <header class="mns-header-agenda">
     <#if entries?has_content>
         <div class="owl-carousel owl-theme" id="owl-full">
@@ -23,7 +25,7 @@
                                 <span class="mns-slider-date-event">${event.getEventScheduleDisplay(locale)}</span>
                                 <h2>${event.getTitle(locale)[0..*50]}<#if (event.getTitle(locale)?length > 50)>...</#if></h2>
                                 <p>${event.getDescription(locale)?replace("<[^>]*>", "", "r")[0..*200]}...</p>
-                                <a href="${homeURL}event/-/entity/id/${event.eventId}/${event.getTitle(locale)}" class="basic-link">Découvrir</a>
+                                <a href="${homeURL}event/-/entity/id/${event.eventId}/${uriHelper.normalizeToFriendlyUrl(event.getTitle(locale))}" class="basic-link">Découvrir</a>
                             </div>
                         </div>
                     </div>

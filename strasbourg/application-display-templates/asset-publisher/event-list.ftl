@@ -5,6 +5,7 @@
   <#assign homeURL = "/" />
 </#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
             
 <!-- Liste d'événements -->
 <div class="seu-wi seu-wi-agenda">
@@ -20,7 +21,7 @@
                     </#if>
                     <#assign entry = curEntry.getAssetRenderer().getEvent() />
                     <div class="seu-wi-item seu-has-ville">
-                        <a href="${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getTitle(locale)}" class="seu-link" title="${entry.getTitle(locale)}">
+                        <a href="${homeURL}evenement/-/entity/id/${entry.eventId}/${uriHelper.normalizeToFriendlyUrl(entry.getTitle(locale))}" class="seu-link" title="${entry.getTitle(locale)}">
                             <#if entry.firstStartDate?has_content>
                                 <div class="seu-date">
                                     <div class="seu-date-sup">
@@ -45,7 +46,7 @@
                         <a href="#" class="seu-add-favorites" 
                             data-type="2" 
                             data-title="${entry.getTitle(locale)}" 
-                            data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getTitle(locale)}" 
+                            data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}/${uriHelper.normalizeToFriendlyUrl(entry.getTitle(locale))}" 
                             data-id="${entry.eventId}">
                             <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
                         </a>

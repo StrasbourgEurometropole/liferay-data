@@ -5,8 +5,10 @@
 <#else>
     <#assign homeURL = "/" />
 </#if>
+<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
+
 <div class="mns-bloc-agenda" itemscope itemtype="http://schema.org/Event">
-    <a href="${homeURL}event/-/entity/id/${entry.eventId}/${entry.getTitle(locale)}">
+    <a href="${homeURL}event/-/entity/id/${entry.eventId}/${uriHelper.normalizeToFriendlyUrl(entry.getTitle(locale))}">
         <span class="date">${entry.getEventScheduleDisplay(locale)}</span>
         <figure>
             <img src='${entry.getImageURL()}' alt="${entry.getTitle(locale)}" width="270" height="400" class="fit-cover" />

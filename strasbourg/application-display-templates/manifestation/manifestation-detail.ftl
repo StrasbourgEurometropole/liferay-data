@@ -13,6 +13,7 @@
     </#if>
     <#assign imageUrl = imageUrl + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
+<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
@@ -67,7 +68,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <div class="seu-wi-grid">
                     <#list events as event>
                         <div class="seu-wi-item seu-has-ville">
-                            <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getTitle(locale)}" class="seu-link" title="${event.getTitle(locale)}">
+                            <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${uriHelper.normalizeToFriendlyUrl(event.getTitle(locale))}" class="seu-link" title="${event.getTitle(locale)}">
                                 <div class="seu-date">
                                     <div class="seu-date-sup">
                                         <#if event.firstStartDate?has_content && event.lastEndDate?has_content>

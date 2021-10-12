@@ -28,6 +28,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") /> 
 <#assign EventLocalService = serviceLocator.findService("eu.strasbourg.service.agenda.service.EventLocalService")/>
+<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 
 <@liferay_util["body-top"]>
     <script>
@@ -48,7 +49,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <a href="#" class="add-favorites"
             data-type="1" 
             data-title="${entry.getAlias(locale)}" 
-            data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getAlias(locale)}" 
+            data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${uriHelper.normalizeToFriendlyUrl(entry.getAlias(locale))}" 
             data-id="${entry.placeId}">
             <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
         </a>
@@ -427,7 +428,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                             <#break>
                                         </#if>
                                         <div class="seu-agenda-slider-item seu-has-ville">
-                                            <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getTitle(locale)}" class="seu-link" title="${event.getTitle(locale)}">
+                                            <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${uriHelper.normalizeToFriendlyUrl(event.getTitle(locale))}" class="seu-link" title="${event.getTitle(locale)}">
                                                 <div class="seu-date">
                                                     <div class="seu-date-sup">
                                                         <#if event.firstStartDate?date == event.lastEndDate?date>

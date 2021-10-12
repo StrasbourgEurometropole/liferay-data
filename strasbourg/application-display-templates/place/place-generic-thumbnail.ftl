@@ -22,6 +22,7 @@
     <@liferay_portlet.param name="detailURL" value="${detailURL}" />
     <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
 </@liferay_portlet.actionURL>
+<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 
 
 <div class="wi-search-result wi-place-thumbnail">
@@ -41,7 +42,7 @@
                 <a href="#" class="seu-add-favorites"
                 data-type="1" 
                 data-title="${entry.getAlias(locale)}"
-                data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getAlias(locale)}}"
+                data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${uriHelper.normalizeToFriendlyUrl(entry.getAlias(locale))}}"
                 data-id="${entry.placeId}">
                     <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
                 </a>
