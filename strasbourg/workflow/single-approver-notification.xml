@@ -87,7 +87,6 @@
 				<description><![CDATA[Envoi une notification d'acceptation de soumission à l'utilisateur]]></description>
 				<template><![CDATA[Votre soumission de notification a été acceptée.]]></template>
 				<template-language>freemarker</template-language>
-				<notification-type>email</notification-type>
 				<notification-type>user-notification</notification-type>
 				<recipients receptionType="to">
 					<user/>
@@ -116,7 +115,6 @@
 					<#if taskComments?has_content> et le validateur a émis le commentaire suivant : ${taskComments}</#if>.
 					Veuillez la modifier et la soumettre à nouveau.]]></template>
 				<template-language>freemarker</template-language>
-				<notification-type>email</notification-type>
 				<notification-type>user-notification</notification-type>
 				<recipients receptionType="to">
 					<user/>
@@ -134,7 +132,6 @@
 				<description><![CDATA[Envoi une notification d'assignement aux validateurs]]></description>
 				<template><![CDATA[Vous avez une nouvelle soumission de notification.]]></template>
 				<template-language>text</template-language>
-				<notification-type>email</notification-type>
 				<notification-type>user-notification</notification-type>
 				<recipients receptionType="to">
 					<assignees/>
