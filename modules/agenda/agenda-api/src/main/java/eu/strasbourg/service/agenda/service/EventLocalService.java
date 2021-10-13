@@ -413,7 +413,7 @@ public interface EventLocalService
 	 * Transform le timeDetail en startTime et endTime si on peut
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public String getTimeDetailFormated(String timeDetail);
+	public List<String[]> getTimeDetailFormated(String timeDetail);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasManifestationEvent(long manifestationId, long eventId);
