@@ -885,7 +885,7 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("services", jsonServices);
 		}
 
-		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
+		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
 
 		List<String> mercators = this.getMercators();
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
@@ -1048,7 +1048,7 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("services", jsonServices);
 		}
 
-		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
+		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
 
 		List<String> mercators = this.getMercators();
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);

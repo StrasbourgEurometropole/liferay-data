@@ -1290,7 +1290,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
 
         // URL du lieu
-        jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId());
+        jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getAlias(Locale.FRANCE)));
 
         // Image principale
         if (Validator.isNotNull(this.getImageURL())) {
@@ -1488,7 +1488,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
 
         // URL du lieu
-        properties.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId());
+        properties.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getAlias(Locale.FRANCE)));
 
         // Image principale
         if (Validator.isNotNull(this.getImageURL())) {
@@ -1659,7 +1659,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("caracteristiques", this.getCharacteristics(Locale.FRANCE));
         jsonPlace.put("idSurfs", this.getSIGid());
         jsonPlace.put("nomLieu", this.getAlias(Locale.FRANCE));
-        jsonPlace.put("friendlyUrl", "https://www.strasbourg.eu/lieu/-/entity/sig/" + this.getSIGid());
+        jsonPlace.put("friendlyUrl", "https://www.strasbourg.eu/lieu/-/entity/sig/" + this.getSIGid() + "/" + UriHelper.normalizeToFriendlyUrl(this.getAlias(Locale.FRANCE)));
         jsonPlace.put("infosComplementaires", this.getAdditionalInformation(Locale.FRANCE));
 
         JSONObject territory = JSONFactoryUtil.createJSONObject();
@@ -1954,7 +1954,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         if (Validator.isNotNull(this.getMercatorY())) {
             jsonPlace.put("mercatorY", this.getMercatorY());
         }
-        jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId());
+        jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getAlias(Locale.FRANCE)));
 
         return jsonPlace;
     }
