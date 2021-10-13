@@ -3,8 +3,8 @@ package eu.strasbourg.portlet.notif;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
-import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.RoleLocalService;
+import com.liferay.portal.kernel.service.UserGroupRoleLocalService;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -15,14 +15,25 @@ import eu.strasbourg.portlet.notif.display.context.EditNotificationDisplayContex
 import eu.strasbourg.portlet.notif.display.context.EditServiceDisplayContext;
 import eu.strasbourg.portlet.notif.display.context.ViewNotificationsDisplayContext;
 import eu.strasbourg.portlet.notif.display.context.ViewServicesDisplayContext;
+import eu.strasbourg.service.notif.model.Message;
+import eu.strasbourg.service.notif.model.NatureNotif;
+import eu.strasbourg.service.notif.model.Notification;
+import eu.strasbourg.service.notif.model.ServiceNotif;
+import eu.strasbourg.service.notif.service.MessageLocalService;
+import eu.strasbourg.service.notif.service.NatureNotifLocalService;
+import eu.strasbourg.service.notif.service.NotificationLocalService;
+import eu.strasbourg.service.notif.service.ServiceNotifLocalService;
 import eu.strasbourg.utils.constants.RoleNames;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author angelique.champougny
@@ -74,10 +85,35 @@ public class NotifBOPortlet extends MVCPortlet {
 		// If we are on the Session, we add the corresponding
 		// display context
 		if (cmd.equals("editService") || mvcPath.equals("/notif-bo-edit-service.jsp") || fromAjaxNature || fromAjaxMessage) {
-			EditServiceDisplayContext dc = new EditServiceDisplayContext(renderRequest);
+			long serviceId = ParamUtil.getLong(renderRequest, "serviceId");
+			ServiceNotif service = null;
+			if (serviceId > 0) {
+				service = _serviceNotifLocalService.fetchServiceNotif(serviceId);
+			}
+			List<NatureNotif> natures = _natureNotifLocalService.getByServiceId(service.getServiceId());
+			List<Message> messages = _messageLocalService.getByServiceId(service.getServiceId());
+
+			EditServiceDisplayContext dc = new EditServiceDisplayContext(renderRequest, service, natures, messages);
 			renderRequest.setAttribute("dc", dc);
 		} else if (cmd.equals("editNotification") || mvcPath.equals("/notif-bo-edit-notification.jsp")) {
-			EditNotificationDisplayContext dc = new EditNotificationDisplayContext(renderRequest);
+			long notificationId = ParamUtil.getLong(renderRequest, "notificationId");
+			Notification notification = null;
+			if (notificationId > 0) {
+				notification = _notificationLocalService.fetchNotification(notificationId);
+			}
+			List<ServiceNotif> services = new ArrayList<>();
+			try {
+				long[] organisationIds = themeDisplay.getUser().getOrganizationIds();
+				if(Validator.isNotNull(organisationIds) && organisationIds.length > 0)
+					services = _serviceNotifLocalService.getByOrganisationIds(organisationIds);
+			} catch (PortalException e) {
+				e.printStackTrace();
+			}
+			List<NatureNotif> natures = _natureNotifLocalService.getNatureNotifs(-1, -1);
+			List<Message> messages = _messageLocalService.getMessages(-1, -1);
+
+			EditNotificationDisplayContext dc = new EditNotificationDisplayContext(renderRequest, notification, services,
+					natures, messages);
 			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("notifications") || !this.isAdminNotification()) {
 			ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse);
@@ -94,16 +130,57 @@ public class NotifBOPortlet extends MVCPortlet {
 		super.render(renderRequest, renderResponse);
 	}
 
-
 	public boolean isAdminNotification(){
 		try {
-			Role siteAdministrator = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.ADMINISTRATEUR_NOTIFICATION);
+			Role siteAdministrator = _roleLocalService.getRole(this.themeDisplay.getCompanyId(), RoleNames.ADMINISTRATEUR_NOTIFICATION);
 			if(themeDisplay.getPermissionChecker().isOmniadmin()
-					|| UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), siteAdministrator.getRoleId()))
+					|| _userGroupRoleLocalService.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), siteAdministrator.getRoleId()))
 				return true;
 		} catch (PortalException e) {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	private NotificationLocalService _notificationLocalService;
+
+	@Reference(unbind = "-")
+	protected void setNotificationLocalService(NotificationLocalService notificationLocalService) {
+		_notificationLocalService = notificationLocalService;
+	}
+
+	private ServiceNotifLocalService _serviceNotifLocalService;
+
+	@Reference(unbind = "-")
+	protected void setServiceNotifLocalService(ServiceNotifLocalService serviceNotifLocalService) {
+		_serviceNotifLocalService = serviceNotifLocalService;
+	}
+
+	private NatureNotifLocalService _natureNotifLocalService;
+
+	@Reference(unbind = "-")
+	protected void setNatureNotifLocalService(NatureNotifLocalService natureNotifLocalService) {
+		_natureNotifLocalService = natureNotifLocalService;
+	}
+
+	private MessageLocalService _messageLocalService;
+
+	@Reference(unbind = "-")
+	protected void setMessageLocalService(MessageLocalService messageLocalService) {
+		_messageLocalService = messageLocalService;
+	}
+
+	private RoleLocalService _roleLocalService;
+
+	@Reference(unbind = "-")
+	protected void setRoleLocalService(RoleLocalService roleLocalService) {
+		_roleLocalService = roleLocalService;
+	}
+
+	private UserGroupRoleLocalService _userGroupRoleLocalService;
+
+	@Reference(unbind = "-")
+	protected void setUserGroupRoleLocalService(UserGroupRoleLocalService userGroupRoleLocalService) {
+		_userGroupRoleLocalService = userGroupRoleLocalService;
 	}
 }

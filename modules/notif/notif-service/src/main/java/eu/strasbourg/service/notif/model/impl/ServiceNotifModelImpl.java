@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
-import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
@@ -30,7 +29,6 @@ import com.liferay.portal.kernel.util.StringBundler;
 
 import eu.strasbourg.service.notif.model.ServiceNotif;
 import eu.strasbourg.service.notif.model.ServiceNotifModel;
-import eu.strasbourg.service.notif.model.ServiceNotifSoap;
 
 import java.io.Serializable;
 
@@ -39,11 +37,9 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -59,7 +55,6 @@ import java.util.function.Function;
  * @see ServiceNotifImpl
  * @generated
  */
-@JSON(strict = true)
 @ProviderType
 public class ServiceNotifModelImpl
 	extends BaseModelImpl<ServiceNotif> implements ServiceNotifModel {
@@ -121,48 +116,6 @@ public class ServiceNotifModelImpl
 	public static final long ORGANISATIONID_COLUMN_BITMASK = 1L;
 
 	public static final long NAME_COLUMN_BITMASK = 2L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static ServiceNotif toModel(ServiceNotifSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		ServiceNotif model = new ServiceNotifImpl();
-
-		model.setServiceId(soapModel.getServiceId());
-		model.setOrganisationId(soapModel.getOrganisationId());
-		model.setName(soapModel.getName());
-		model.setPictoId(soapModel.getPictoId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<ServiceNotif> toModels(ServiceNotifSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<ServiceNotif> models = new ArrayList<ServiceNotif>(
-			soapModels.length);
-
-		for (ServiceNotifSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.notif.service.util.ServiceProps.get(
@@ -384,7 +337,6 @@ public class ServiceNotifModelImpl
 			(Map)attributeSetterBiConsumers);
 	}
 
-	@JSON
 	@Override
 	public long getServiceId() {
 		return _serviceId;
@@ -395,7 +347,6 @@ public class ServiceNotifModelImpl
 		_serviceId = serviceId;
 	}
 
-	@JSON
 	@Override
 	public long getOrganisationId() {
 		return _organisationId;
@@ -418,7 +369,6 @@ public class ServiceNotifModelImpl
 		return _originalOrganisationId;
 	}
 
-	@JSON
 	@Override
 	public String getName() {
 		if (_name == null) {
@@ -436,7 +386,6 @@ public class ServiceNotifModelImpl
 		_name = name;
 	}
 
-	@JSON
 	@Override
 	public long getPictoId() {
 		return _pictoId;

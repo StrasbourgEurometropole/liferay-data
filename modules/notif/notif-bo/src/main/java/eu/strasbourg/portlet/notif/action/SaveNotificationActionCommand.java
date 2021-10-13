@@ -8,6 +8,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -104,11 +105,11 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
             notification.setNatureId(natureId);
 
             // Champ : date de diffusion
-            Date broadcastDate = ParamUtil.getDate(request,
-                    "broadcastDate" , dateFormat);
-            LocalDateTime broadcast = new Timestamp(broadcastDate.getTime())
-                    .toLocalDateTime().withHour(0).withMinute(0).withSecond(0).withNano(0);
-            notification.setBroadcastDate(Timestamp.valueOf(broadcast));
+            String broadcastDateString = ParamUtil.getString(request, "broadcastDate");
+            String broadcastDateTimeString = ParamUtil.getString(request, "broadcastDateTime");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Date broadcastDate = GetterUtil.getDate(broadcastDateString + " " + broadcastDateTimeString, sdf);
+            notification.setBroadcastDate(broadcastDate);
 
             // Champ : titre
             Map<Locale, String> title = LocalizationUtil
@@ -157,6 +158,13 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
             // Champ : broadcast-type
             Long broadcastType = ParamUtil.getLong(request, "broadcast-type");
             notification.setTypeBroadcast(broadcastType);
+            notification.setUrlMap(url);
+
+            // Champ : quartier
+            if(broadcastType == 3) {
+                Long district = ParamUtil.getLong(request, "district");
+                notification.setDistrict(district);
+            }
 
             // Champ : broadcast-channels
             String broadcastChannels = ParamUtil.getString(request, "broadcast-channels");
@@ -203,7 +211,6 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
             }
 
             _notificationLocalService.updateNotification(notification, sc);
-
 
         } catch (Exception e) {
             log.error(e);
@@ -262,9 +269,18 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
         }
 
         // Type de diffusion
-        if (Validator.isNull(ParamUtil.getLong(request, "broadcast-type"))) {
+        long broadcastType = ParamUtil.getLong(request, "broadcast-type");
+        if (Validator.isNull(broadcastType)) {
             SessionErrors.add(request, "broadcast-type-error");
             isValid = false;
+        }
+
+        // Quartier
+        if(broadcastType == 3) {
+            if (Validator.isNull(ParamUtil.getLong(request, "district"))) {
+                SessionErrors.add(request, "district-error");
+                isValid = false;
+            }
         }
 
         // Canaux de diffusion

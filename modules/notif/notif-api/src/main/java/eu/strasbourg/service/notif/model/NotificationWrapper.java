@@ -84,6 +84,7 @@ public class NotificationWrapper
 		attributes.put("labelUrl", getLabelUrl());
 		attributes.put("url", getUrl());
 		attributes.put("typeBroadcast", getTypeBroadcast());
+		attributes.put("district", getDistrict());
 		attributes.put("broadcastChannels", getBroadcastChannels());
 		attributes.put("sendStatusCsmap", getSendStatusCsmap());
 		attributes.put("sendStatusTwitter", getSendStatusTwitter());
@@ -244,6 +245,12 @@ public class NotificationWrapper
 
 		if (typeBroadcast != null) {
 			setTypeBroadcast(typeBroadcast);
+		}
+
+		Long district = (Long)attributes.get("district");
+
+		if (district != null) {
+			setDistrict(district);
 		}
 
 		String broadcastChannels = (String)attributes.get("broadcastChannels");
@@ -419,6 +426,16 @@ public class NotificationWrapper
 	@Override
 	public String getDefaultLanguageId() {
 		return _notification.getDefaultLanguageId();
+	}
+
+	/**
+	 * Returns the district of this notification.
+	 *
+	 * @return the district of this notification
+	 */
+	@Override
+	public long getDistrict() {
+		return _notification.getDistrict();
 	}
 
 	/**
@@ -1213,6 +1230,16 @@ public class NotificationWrapper
 	@Override
 	public void setCreateDate(Date createDate) {
 		_notification.setCreateDate(createDate);
+	}
+
+	/**
+	 * Sets the district of this notification.
+	 *
+	 * @param district the district of this notification
+	 */
+	@Override
+	public void setDistrict(long district) {
+		_notification.setDistrict(district);
 	}
 
 	/**

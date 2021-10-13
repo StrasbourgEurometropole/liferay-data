@@ -48,6 +48,7 @@
 		<property name="labelUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="typeBroadcast" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="district" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="broadcastChannels" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="sendStatusCsmap" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="sendStatusTwitter" type="com.liferay.portal.dao.orm.hibernate.LongType" />

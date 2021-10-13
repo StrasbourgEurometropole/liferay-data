@@ -66,7 +66,7 @@ public class NotificationCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(63);
+		StringBundler sb = new StringBundler(65);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -118,6 +118,8 @@ public class NotificationCacheModel
 		sb.append(url);
 		sb.append(", typeBroadcast=");
 		sb.append(typeBroadcast);
+		sb.append(", district=");
+		sb.append(district);
 		sb.append(", broadcastChannels=");
 		sb.append(broadcastChannels);
 		sb.append(", sendStatusCsmap=");
@@ -252,6 +254,7 @@ public class NotificationCacheModel
 		}
 
 		notificationImpl.setTypeBroadcast(typeBroadcast);
+		notificationImpl.setDistrict(district);
 
 		if (broadcastChannels == null) {
 			notificationImpl.setBroadcastChannels("");
@@ -309,6 +312,8 @@ public class NotificationCacheModel
 		url = objectInput.readUTF();
 
 		typeBroadcast = objectInput.readLong();
+
+		district = objectInput.readLong();
 		broadcastChannels = objectInput.readUTF();
 
 		sendStatusCsmap = objectInput.readLong();
@@ -411,6 +416,8 @@ public class NotificationCacheModel
 
 		objectOutput.writeLong(typeBroadcast);
 
+		objectOutput.writeLong(district);
+
 		if (broadcastChannels == null) {
 			objectOutput.writeUTF("");
 		}
@@ -454,6 +461,7 @@ public class NotificationCacheModel
 	public String labelUrl;
 	public String url;
 	public long typeBroadcast;
+	public long district;
 	public String broadcastChannels;
 	public long sendStatusCsmap;
 	public long sendStatusTwitter;

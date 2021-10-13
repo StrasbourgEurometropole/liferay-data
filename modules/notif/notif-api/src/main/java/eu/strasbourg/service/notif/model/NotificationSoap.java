@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.notif.service.http.NotificationServiceSoap}.
+ * This class is used by SOAP remote services.
  *
  * @author Brian Wing Shun Chan
  * @generated
@@ -59,6 +59,7 @@ public class NotificationSoap implements Serializable {
 		soapModel.setLabelUrl(model.getLabelUrl());
 		soapModel.setUrl(model.getUrl());
 		soapModel.setTypeBroadcast(model.getTypeBroadcast());
+		soapModel.setDistrict(model.getDistrict());
 		soapModel.setBroadcastChannels(model.getBroadcastChannels());
 		soapModel.setSendStatusCsmap(model.getSendStatusCsmap());
 		soapModel.setSendStatusTwitter(model.getSendStatusTwitter());
@@ -318,6 +319,14 @@ public class NotificationSoap implements Serializable {
 		_typeBroadcast = typeBroadcast;
 	}
 
+	public long getDistrict() {
+		return _district;
+	}
+
+	public void setDistrict(long district) {
+		_district = district;
+	}
+
 	public String getBroadcastChannels() {
 		return _broadcastChannels;
 	}
@@ -391,6 +400,7 @@ public class NotificationSoap implements Serializable {
 	private String _labelUrl;
 	private String _url;
 	private long _typeBroadcast;
+	private long _district;
 	private String _broadcastChannels;
 	private long _sendStatusCsmap;
 	private long _sendStatusTwitter;

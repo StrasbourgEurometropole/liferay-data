@@ -36,6 +36,7 @@ create table notif_Notification (
 	labelUrl STRING null,
 	url STRING null,
 	typeBroadcast LONG,
+	district LONG,
 	broadcastChannels VARCHAR(75) null,
 	sendStatusCsmap LONG,
 	sendStatusTwitter LONG,

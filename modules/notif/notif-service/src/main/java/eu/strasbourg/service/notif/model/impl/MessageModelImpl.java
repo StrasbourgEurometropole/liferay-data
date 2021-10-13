@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.notif.model.Message;
 import eu.strasbourg.service.notif.model.MessageModel;
-import eu.strasbourg.service.notif.model.MessageSoap;
 
 import java.io.Serializable;
 
@@ -43,11 +42,9 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -66,7 +63,6 @@ import java.util.function.Function;
  * @see MessageImpl
  * @generated
  */
-@JSON(strict = true)
 @ProviderType
 public class MessageModelImpl
 	extends BaseModelImpl<Message> implements MessageModel {
@@ -127,46 +123,6 @@ public class MessageModelImpl
 	public static final long SERVICEID_COLUMN_BITMASK = 1L;
 
 	public static final long MESSAGEID_COLUMN_BITMASK = 2L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Message toModel(MessageSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Message model = new MessageImpl();
-
-		model.setMessageId(soapModel.getMessageId());
-		model.setServiceId(soapModel.getServiceId());
-		model.setContent(soapModel.getContent());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Message> toModels(MessageSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Message> models = new ArrayList<Message>(soapModels.length);
-
-		for (MessageSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.notif.service.util.ServiceProps.get(
@@ -362,7 +318,6 @@ public class MessageModelImpl
 			(Map)attributeSetterBiConsumers);
 	}
 
-	@JSON
 	@Override
 	public long getMessageId() {
 		return _messageId;
@@ -373,7 +328,6 @@ public class MessageModelImpl
 		_messageId = messageId;
 	}
 
-	@JSON
 	@Override
 	public long getServiceId() {
 		return _serviceId;
@@ -396,7 +350,6 @@ public class MessageModelImpl
 		return _originalServiceId;
 	}
 
-	@JSON
 	@Override
 	public String getContent() {
 		if (_content == null) {

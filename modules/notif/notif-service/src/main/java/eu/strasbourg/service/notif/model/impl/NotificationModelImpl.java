@@ -41,7 +41,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.service.notif.model.NotificationModel;
-import eu.strasbourg.service.notif.model.NotificationSoap;
 
 import java.io.Serializable;
 
@@ -50,12 +49,10 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -74,7 +71,6 @@ import java.util.function.Function;
  * @see NotificationImpl
  * @generated
  */
-@JSON(strict = true)
 @ProviderType
 public class NotificationModelImpl
 	extends BaseModelImpl<Notification> implements NotificationModel {
@@ -99,10 +95,10 @@ public class NotificationModelImpl
 		{"endDate", Types.TIMESTAMP}, {"broadcastDate", Types.TIMESTAMP},
 		{"messageId", Types.BIGINT}, {"content", Types.VARCHAR},
 		{"labelUrl", Types.VARCHAR}, {"url", Types.VARCHAR},
-		{"typeBroadcast", Types.BIGINT}, {"broadcastChannels", Types.VARCHAR},
-		{"sendStatusCsmap", Types.BIGINT}, {"sendStatusTwitter", Types.BIGINT},
-		{"sendStatusMonst", Types.BIGINT}, {"sendStatusMail", Types.BIGINT},
-		{"sendStatusSegur", Types.BIGINT}
+		{"typeBroadcast", Types.BIGINT}, {"district", Types.BIGINT},
+		{"broadcastChannels", Types.VARCHAR}, {"sendStatusCsmap", Types.BIGINT},
+		{"sendStatusTwitter", Types.BIGINT}, {"sendStatusMonst", Types.BIGINT},
+		{"sendStatusMail", Types.BIGINT}, {"sendStatusSegur", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -134,6 +130,7 @@ public class NotificationModelImpl
 		TABLE_COLUMNS_MAP.put("labelUrl", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("url", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("typeBroadcast", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("district", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("broadcastChannels", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("sendStatusCsmap", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("sendStatusTwitter", Types.BIGINT);
@@ -143,7 +140,7 @@ public class NotificationModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table notif_Notification (uuid_ VARCHAR(75) null,notificationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,serviceId LONG,isAlert INTEGER,natureId LONG,title STRING null,subtitle STRING null,startDate DATE null,endDate DATE null,broadcastDate DATE null,messageId LONG,content STRING null,labelUrl STRING null,url STRING null,typeBroadcast LONG,broadcastChannels VARCHAR(75) null,sendStatusCsmap LONG,sendStatusTwitter LONG,sendStatusMonst LONG,sendStatusMail LONG,sendStatusSegur LONG)";
+		"create table notif_Notification (uuid_ VARCHAR(75) null,notificationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,serviceId LONG,isAlert INTEGER,natureId LONG,title STRING null,subtitle STRING null,startDate DATE null,endDate DATE null,broadcastDate DATE null,messageId LONG,content STRING null,labelUrl STRING null,url STRING null,typeBroadcast LONG,district LONG,broadcastChannels VARCHAR(75) null,sendStatusCsmap LONG,sendStatusTwitter LONG,sendStatusMonst LONG,sendStatusMail LONG,sendStatusSegur LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table notif_Notification";
 
@@ -183,75 +180,6 @@ public class NotificationModelImpl
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
 	public static final long STARTDATE_COLUMN_BITMASK = 16L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Notification toModel(NotificationSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Notification model = new NotificationImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setNotificationId(soapModel.getNotificationId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setServiceId(soapModel.getServiceId());
-		model.setIsAlert(soapModel.getIsAlert());
-		model.setNatureId(soapModel.getNatureId());
-		model.setTitle(soapModel.getTitle());
-		model.setSubtitle(soapModel.getSubtitle());
-		model.setStartDate(soapModel.getStartDate());
-		model.setEndDate(soapModel.getEndDate());
-		model.setBroadcastDate(soapModel.getBroadcastDate());
-		model.setMessageId(soapModel.getMessageId());
-		model.setContent(soapModel.getContent());
-		model.setLabelUrl(soapModel.getLabelUrl());
-		model.setUrl(soapModel.getUrl());
-		model.setTypeBroadcast(soapModel.getTypeBroadcast());
-		model.setBroadcastChannels(soapModel.getBroadcastChannels());
-		model.setSendStatusCsmap(soapModel.getSendStatusCsmap());
-		model.setSendStatusTwitter(soapModel.getSendStatusTwitter());
-		model.setSendStatusMonst(soapModel.getSendStatusMonst());
-		model.setSendStatusMail(soapModel.getSendStatusMail());
-		model.setSendStatusSegur(soapModel.getSendStatusSegur());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Notification> toModels(NotificationSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Notification> models = new ArrayList<Notification>(
-			soapModels.length);
-
-		for (NotificationSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.notif.service.util.ServiceProps.get(
@@ -907,6 +835,26 @@ public class NotificationModelImpl
 
 			});
 		attributeGetterFunctions.put(
+			"district",
+			new Function<Notification, Object>() {
+
+				@Override
+				public Object apply(Notification notification) {
+					return notification.getDistrict();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"district",
+			new BiConsumer<Notification, Object>() {
+
+				@Override
+				public void accept(Notification notification, Object district) {
+					notification.setDistrict((Long)district);
+				}
+
+			});
+		attributeGetterFunctions.put(
 			"broadcastChannels",
 			new Function<Notification, Object>() {
 
@@ -1046,7 +994,6 @@ public class NotificationModelImpl
 			(Map)attributeSetterBiConsumers);
 	}
 
-	@JSON
 	@Override
 	public String getUuid() {
 		if (_uuid == null) {
@@ -1072,7 +1019,6 @@ public class NotificationModelImpl
 		return GetterUtil.getString(_originalUuid);
 	}
 
-	@JSON
 	@Override
 	public long getNotificationId() {
 		return _notificationId;
@@ -1083,7 +1029,6 @@ public class NotificationModelImpl
 		_notificationId = notificationId;
 	}
 
-	@JSON
 	@Override
 	public long getGroupId() {
 		return _groupId;
@@ -1106,7 +1051,6 @@ public class NotificationModelImpl
 		return _originalGroupId;
 	}
 
-	@JSON
 	@Override
 	public long getCompanyId() {
 		return _companyId;
@@ -1129,7 +1073,6 @@ public class NotificationModelImpl
 		return _originalCompanyId;
 	}
 
-	@JSON
 	@Override
 	public long getUserId() {
 		return _userId;
@@ -1156,7 +1099,6 @@ public class NotificationModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
-	@JSON
 	@Override
 	public String getUserName() {
 		if (_userName == null) {
@@ -1172,7 +1114,6 @@ public class NotificationModelImpl
 		_userName = userName;
 	}
 
-	@JSON
 	@Override
 	public Date getCreateDate() {
 		return _createDate;
@@ -1183,7 +1124,6 @@ public class NotificationModelImpl
 		_createDate = createDate;
 	}
 
-	@JSON
 	@Override
 	public Date getModifiedDate() {
 		return _modifiedDate;
@@ -1200,7 +1140,6 @@ public class NotificationModelImpl
 		_modifiedDate = modifiedDate;
 	}
 
-	@JSON
 	@Override
 	public int getStatus() {
 		return _status;
@@ -1211,7 +1150,6 @@ public class NotificationModelImpl
 		_status = status;
 	}
 
-	@JSON
 	@Override
 	public long getStatusByUserId() {
 		return _statusByUserId;
@@ -1238,7 +1176,6 @@ public class NotificationModelImpl
 	public void setStatusByUserUuid(String statusByUserUuid) {
 	}
 
-	@JSON
 	@Override
 	public String getStatusByUserName() {
 		if (_statusByUserName == null) {
@@ -1254,7 +1191,6 @@ public class NotificationModelImpl
 		_statusByUserName = statusByUserName;
 	}
 
-	@JSON
 	@Override
 	public Date getStatusDate() {
 		return _statusDate;
@@ -1265,7 +1201,6 @@ public class NotificationModelImpl
 		_statusDate = statusDate;
 	}
 
-	@JSON
 	@Override
 	public long getServiceId() {
 		return _serviceId;
@@ -1288,7 +1223,6 @@ public class NotificationModelImpl
 		return _originalServiceId;
 	}
 
-	@JSON
 	@Override
 	public int getIsAlert() {
 		return _isAlert;
@@ -1299,7 +1233,6 @@ public class NotificationModelImpl
 		_isAlert = isAlert;
 	}
 
-	@JSON
 	@Override
 	public long getNatureId() {
 		return _natureId;
@@ -1310,7 +1243,6 @@ public class NotificationModelImpl
 		_natureId = natureId;
 	}
 
-	@JSON
 	@Override
 	public String getTitle() {
 		if (_title == null) {
@@ -1415,7 +1347,6 @@ public class NotificationModelImpl
 				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
-	@JSON
 	@Override
 	public String getSubtitle() {
 		if (_subtitle == null) {
@@ -1523,7 +1454,6 @@ public class NotificationModelImpl
 				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
-	@JSON
 	@Override
 	public Date getStartDate() {
 		return _startDate;
@@ -1536,7 +1466,6 @@ public class NotificationModelImpl
 		_startDate = startDate;
 	}
 
-	@JSON
 	@Override
 	public Date getEndDate() {
 		return _endDate;
@@ -1547,7 +1476,6 @@ public class NotificationModelImpl
 		_endDate = endDate;
 	}
 
-	@JSON
 	@Override
 	public Date getBroadcastDate() {
 		return _broadcastDate;
@@ -1558,7 +1486,6 @@ public class NotificationModelImpl
 		_broadcastDate = broadcastDate;
 	}
 
-	@JSON
 	@Override
 	public long getMessageId() {
 		return _messageId;
@@ -1569,7 +1496,6 @@ public class NotificationModelImpl
 		_messageId = messageId;
 	}
 
-	@JSON
 	@Override
 	public String getContent() {
 		if (_content == null) {
@@ -1677,7 +1603,6 @@ public class NotificationModelImpl
 				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
-	@JSON
 	@Override
 	public String getLabelUrl() {
 		if (_labelUrl == null) {
@@ -1785,7 +1710,6 @@ public class NotificationModelImpl
 				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
-	@JSON
 	@Override
 	public String getUrl() {
 		if (_url == null) {
@@ -1888,7 +1812,6 @@ public class NotificationModelImpl
 				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
-	@JSON
 	@Override
 	public long getTypeBroadcast() {
 		return _typeBroadcast;
@@ -1899,7 +1822,16 @@ public class NotificationModelImpl
 		_typeBroadcast = typeBroadcast;
 	}
 
-	@JSON
+	@Override
+	public long getDistrict() {
+		return _district;
+	}
+
+	@Override
+	public void setDistrict(long district) {
+		_district = district;
+	}
+
 	@Override
 	public String getBroadcastChannels() {
 		if (_broadcastChannels == null) {
@@ -1915,7 +1847,6 @@ public class NotificationModelImpl
 		_broadcastChannels = broadcastChannels;
 	}
 
-	@JSON
 	@Override
 	public long getSendStatusCsmap() {
 		return _sendStatusCsmap;
@@ -1926,7 +1857,6 @@ public class NotificationModelImpl
 		_sendStatusCsmap = sendStatusCsmap;
 	}
 
-	@JSON
 	@Override
 	public long getSendStatusTwitter() {
 		return _sendStatusTwitter;
@@ -1937,7 +1867,6 @@ public class NotificationModelImpl
 		_sendStatusTwitter = sendStatusTwitter;
 	}
 
-	@JSON
 	@Override
 	public long getSendStatusMonst() {
 		return _sendStatusMonst;
@@ -1948,7 +1877,6 @@ public class NotificationModelImpl
 		_sendStatusMonst = sendStatusMonst;
 	}
 
-	@JSON
 	@Override
 	public long getSendStatusMail() {
 		return _sendStatusMail;
@@ -1959,7 +1887,6 @@ public class NotificationModelImpl
 		_sendStatusMail = sendStatusMail;
 	}
 
-	@JSON
 	@Override
 	public long getSendStatusSegur() {
 		return _sendStatusSegur;
@@ -2260,6 +2187,7 @@ public class NotificationModelImpl
 		notificationImpl.setLabelUrl(getLabelUrl());
 		notificationImpl.setUrl(getUrl());
 		notificationImpl.setTypeBroadcast(getTypeBroadcast());
+		notificationImpl.setDistrict(getDistrict());
 		notificationImpl.setBroadcastChannels(getBroadcastChannels());
 		notificationImpl.setSendStatusCsmap(getSendStatusCsmap());
 		notificationImpl.setSendStatusTwitter(getSendStatusTwitter());
@@ -2494,6 +2422,8 @@ public class NotificationModelImpl
 
 		notificationCacheModel.typeBroadcast = getTypeBroadcast();
 
+		notificationCacheModel.district = getDistrict();
+
 		notificationCacheModel.broadcastChannels = getBroadcastChannels();
 
 		String broadcastChannels = notificationCacheModel.broadcastChannels;
@@ -2619,6 +2549,7 @@ public class NotificationModelImpl
 	private String _url;
 	private String _urlCurrentLanguageId;
 	private long _typeBroadcast;
+	private long _district;
 	private String _broadcastChannels;
 	private long _sendStatusCsmap;
 	private long _sendStatusTwitter;

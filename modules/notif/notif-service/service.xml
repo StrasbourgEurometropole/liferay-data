@@ -5,7 +5,7 @@
 	<namespace>notif</namespace>
 
 	<!-- Message -->
-	<entity local-service="true" cache-enabled="true" name="Message" remote-service="true" uuid="false" >
+	<entity local-service="true" cache-enabled="true" name="Message" remote-service="false" uuid="false" >
 
 		<column name="messageId" primary="true" type="long" />
 		<column name="serviceId" type="long" />
@@ -22,7 +22,7 @@
 	</entity>
 
 	<!-- Nature -->
-	<entity local-service="true" cache-enabled="true" name="NatureNotif" remote-service="true" uuid="false" >
+	<entity local-service="true" cache-enabled="true" name="NatureNotif" remote-service="false" uuid="false" >
 
 		<column name="natureId" primary="true" type="long" />
 		<column name="serviceId" type="long" />
@@ -39,7 +39,7 @@
 	</entity>
 
 	<!-- Notification -->
-	<entity local-service="true" name="Notification" remote-service="true" uuid="true">
+	<entity local-service="true" name="Notification" remote-service="false" uuid="true">
 
 		<column name="notificationId" primary="true" type="long" />
 
@@ -72,6 +72,7 @@
 		<column name="labelUrl" type="String" localized="true" />
 		<column name="url" type="String" localized="true" />
 		<column name="typeBroadcast" type="long" />
+		<column name="district" type="long" />
 		<column name="broadcastChannels" type="String" />
 		<column name="sendStatusCsmap" type="long" />
 		<column name="sendStatusTwitter" type="long" />
@@ -120,7 +121,7 @@
 	</entity>
 
 	<!-- Service -->
-	<entity local-service="true" cache-enabled="true" name="ServiceNotif" remote-service="true" uuid="false" >
+	<entity local-service="true" cache-enabled="true" name="ServiceNotif" remote-service="false" uuid="false" >
 
 		<column name="serviceId" primary="true" type="long" />
 		<column name="organisationId" type="long" />

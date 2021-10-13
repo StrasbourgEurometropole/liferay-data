@@ -908,6 +908,20 @@ public interface NotificationModel
 	public void setTypeBroadcast(long typeBroadcast);
 
 	/**
+	 * Returns the district of this notification.
+	 *
+	 * @return the district of this notification
+	 */
+	public long getDistrict();
+
+	/**
+	 * Sets the district of this notification.
+	 *
+	 * @param district the district of this notification
+	 */
+	public void setDistrict(long district);
+
+	/**
 	 * Returns the broadcast channels of this notification.
 	 *
 	 * @return the broadcast channels of this notification

@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.notif.display.context;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
@@ -17,76 +18,60 @@ import eu.strasbourg.service.notif.model.Message;
 import eu.strasbourg.service.notif.model.NatureNotif;
 import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.service.notif.model.ServiceNotif;
-import eu.strasbourg.service.notif.service.MessageLocalServiceUtil;
-import eu.strasbourg.service.notif.service.NatureNotifLocalServiceUtil;
-import eu.strasbourg.service.notif.service.NotificationLocalServiceUtil;
-import eu.strasbourg.service.notif.service.ServiceNotifLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.RoleNames;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
+import java.util.Date;
 import java.util.List;
 
 public class EditNotificationDisplayContext {
 
     private Notification notification;
+    private Boolean isOnlyView;
     private List<ServiceNotif> services;
     private List<NatureNotif> natures;
     private List<Message> messages;
     private List<TypeBroadcast> broadcastTypes;
+    private List<AssetCategory> districts;
     private List<BroadcastChannel> broadcastChannels;
     private final RenderRequest request;
     private final ThemeDisplay themeDisplay;
 
-    public EditNotificationDisplayContext(RenderRequest request) {
+    public EditNotificationDisplayContext(RenderRequest request, Notification notification, List<ServiceNotif> services,
+          List<NatureNotif> natures, List<Message> messages) {
         this.request = request;
+        this.notification = notification;
+        this.services = services;
+        this.natures = natures;
+        this.messages = messages;
+        String isDuplication = ParamUtil.getString(this.request, "isDuplication");
+        if (isDuplication.equals("true")) {
+            this.notification.setNew(true);
+            this.notification.setStatus(WorkflowConstants.STATUS_DRAFT);
+        }
         this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     }
 
     @SuppressWarnings("unused")
     public Notification getNotification() {
-        if (this.notification == null) {
-            long notificationId = ParamUtil.getLong(this.request, "notificationId");
-            if (notificationId > 0) {
-                this.notification = NotificationLocalServiceUtil.fetchNotification(notificationId);
-            }
-            String isDuplication = ParamUtil.getString(this.request, "isDuplication");
-            if (isDuplication.equals("true")) {
-                this.notification.setNew(true);
-                this.notification.setStatus(WorkflowConstants.STATUS_DRAFT);
-            }
-        }
-        return notification;
+        return this.notification;
     }
 
     @SuppressWarnings("unused")
     public List<ServiceNotif> getServices() {
-        if (this.services == null) {
-            try {
-                long[] organisationIds = themeDisplay.getUser().getOrganizationIds();
-                if(Validator.isNotNull(organisationIds) && organisationIds.length > 0)
-                    this.services = ServiceNotifLocalServiceUtil.getByOrganisationIds(organisationIds);
-            } catch (PortalException e) {
-                e.printStackTrace();
-            }
-        }
-        return services;
+        return this.services;
     }
 
     @SuppressWarnings("unused")
     public List<NatureNotif> getNatures() {
-        if (this.natures == null) {
-            this.natures = NatureNotifLocalServiceUtil.getNatureNotifs(-1, -1);
-        }
-        return natures;
+        return this.natures;
     }
 
     @SuppressWarnings("unused")
     public List<Message> getMessages() {
-        if (this.messages == null) {
-            this.messages = MessageLocalServiceUtil.getMessages(-1, -1);
-        }
-        return messages;
+        return this.messages;
     }
 
     @SuppressWarnings("unused")
@@ -95,6 +80,15 @@ public class EditNotificationDisplayContext {
             this.broadcastTypes = TypeBroadcast.getAll();
         }
         return broadcastTypes;
+    }
+
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getDistricts() {
+        if (this.districts == null) {
+            String CITY_NAME = "Strasbourg";
+            this.districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
+        }
+        return districts;
     }
 
     @SuppressWarnings("unused")
@@ -136,9 +130,19 @@ public class EditNotificationDisplayContext {
     }
 
     @SuppressWarnings("unused")
-    public boolean canUpdateOrDeleteNotification(long createUserId){
+    public Boolean isOnlyView() {
+        if (this.isOnlyView == null) {
+            this.isOnlyView = false;
+            if(!canUpdateOrDeleteNotification() || this.notification.getBroadcastDate().before(new Date()))
+                this.isOnlyView = true;
+        }
+        return this.isOnlyView;
+    }
+
+    @SuppressWarnings("unused")
+    public boolean canUpdateOrDeleteNotification(){
         if(isContribOnly()) {
-            return this.themeDisplay.getUserId() == createUserId;
+            return this.themeDisplay.getUserId() == this.notification.getUserId();
         }
         return true;
     }
@@ -155,7 +159,6 @@ public class EditNotificationDisplayContext {
         return false;
     }
 
-
     public boolean isRespNotification(){
         try {
             Role  responsableNotification = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.RESPONSABLE_NOTIFICATION);
@@ -165,7 +168,6 @@ public class EditNotificationDisplayContext {
         }
         return false;
     }
-
 
     public boolean isContribOnly(){
         try {

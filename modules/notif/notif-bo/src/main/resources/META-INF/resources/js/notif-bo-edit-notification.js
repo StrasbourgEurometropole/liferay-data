@@ -6,12 +6,14 @@ var selectMessages = document.getElementById(namespace + 'message');
 var content = document.getElementById(namespace + 'content');
 var notificationType = document.getElementById(namespace + "notificationType");
 var selectBroadcastTypes = document.getElementById(namespace + 'broadcast-type');
+var selectDistricts = document.getElementById(namespace + 'district');
 
 //Initialisation de l'affichage des champs
 initialiseNatures();
 initialiseMessages();
 initialiseContent();
 initialiseBroadcastTypes();
+initialiseDistricts();
 
 //Appel à réinitilisation de l'affichage des champs en fonction du service,
 // du message et du type de notification
@@ -48,6 +50,9 @@ notificationType.onchange = function(){
         selectBroadcastTypes.options[0].selected = 'selected';
     }
     initialiseBroadcastTypes();
+}
+selectBroadcastTypes.onchange = function(){
+    initialiseDistricts();
 }
 
 // Transformation des champs select-multiple
@@ -86,7 +91,7 @@ function initialiseMessages(){
 
 // gestion du champs Contenu
 function initialiseContent(){
-    if(selectMessages.value != "0" && selectMessages.value != "" && isContribOnly){
+    if(isOnlyView || (selectMessages.value != "0" && selectMessages.value != "" && isContribOnly)){
         content.disabled = true;
     }else{
         content.disabled = false;
@@ -103,8 +108,41 @@ function initialiseBroadcastTypes(){
         selectBroadcastTypes.options[1].style.display="none";
         selectBroadcastTypes.disabled = false;
     }
+    initialiseDistricts();
+    if(isOnlyView)
+        selectBroadcastTypes.disabled = true;
 }
 
+// gestion du champs Contenu
+function initialiseDistricts(){
+    if(selectBroadcastTypes.value == "3"){
+        selectDistricts.closest(".form-group").style.display = "block";
+    }else{
+        // on désélectionne le selecteur de natures
+        selectDistricts.options[0].selected = 'selected';
+        selectDistricts.closest(".form-group").style.display = "none";
+    }
+}
+
+var submitButton = document.getElementsByClassName('saveButton')[0];
+submitButton.onclick = function(event){
+    allValidate = true;
+
+    // Validation des champs obligatoires conditionnels
+    AUI().use('liferay-form',function() {
+        var rules = Liferay.Form.get(namespace + 'fm').formValidator
+                .get('rules');
+        if (selectBroadcastTypes.value != "3") {
+            rules[namespace + 'district'].required = false;
+        } else {
+            rules[namespace + 'district'].required = true;
+        }
+    });
+
+    if (!allValidate) {
+       event.preventDefault();
+    }
+}
 
 //Soumission du formulaire
 function submitForm(event) {

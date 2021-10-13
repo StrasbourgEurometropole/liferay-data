@@ -49,7 +49,7 @@ public class NotificationWorkflowHandler extends BaseWorkflowHandler<Notificatio
 	}
 
 	@Reference(unbind = "-")
-	protected void setOfferLocalService(NotificationLocalService notificationLocalService) {
+	protected void setNotificationLocalService(NotificationLocalService notificationLocalService) {
 
 		_notificationLocalService = notificationLocalService;
 	}

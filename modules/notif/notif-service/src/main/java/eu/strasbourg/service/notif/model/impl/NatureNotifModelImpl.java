@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.notif.model.NatureNotif;
 import eu.strasbourg.service.notif.model.NatureNotifModel;
-import eu.strasbourg.service.notif.model.NatureNotifSoap;
 
 import java.io.Serializable;
 
@@ -43,11 +42,9 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -66,7 +63,6 @@ import java.util.function.Function;
  * @see NatureNotifImpl
  * @generated
  */
-@JSON(strict = true)
 @ProviderType
 public class NatureNotifModelImpl
 	extends BaseModelImpl<NatureNotif> implements NatureNotifModel {
@@ -127,47 +123,6 @@ public class NatureNotifModelImpl
 	public static final long SERVICEID_COLUMN_BITMASK = 1L;
 
 	public static final long NATUREID_COLUMN_BITMASK = 2L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static NatureNotif toModel(NatureNotifSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		NatureNotif model = new NatureNotifImpl();
-
-		model.setNatureId(soapModel.getNatureId());
-		model.setServiceId(soapModel.getServiceId());
-		model.setName(soapModel.getName());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<NatureNotif> toModels(NatureNotifSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<NatureNotif> models = new ArrayList<NatureNotif>(
-			soapModels.length);
-
-		for (NatureNotifSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.notif.service.util.ServiceProps.get(
@@ -365,7 +320,6 @@ public class NatureNotifModelImpl
 			(Map)attributeSetterBiConsumers);
 	}
 
-	@JSON
 	@Override
 	public long getNatureId() {
 		return _natureId;
@@ -376,7 +330,6 @@ public class NatureNotifModelImpl
 		_natureId = natureId;
 	}
 
-	@JSON
 	@Override
 	public long getServiceId() {
 		return _serviceId;
@@ -399,7 +352,6 @@ public class NatureNotifModelImpl
 		return _originalServiceId;
 	}
 
-	@JSON
 	@Override
 	public String getName() {
 		if (_name == null) {

@@ -66,7 +66,7 @@
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
 
-						<!-- ACTION : Modifier -->
+						<!-- ACTION : Modifier/Voir -->
                         <liferay-portlet:renderURL varImpl="editNotificationURL">
                             <portlet:param name="cmd" value="editNotification" />
                             <portlet:param name="notificationId" value="${notification.notificationId}" />
@@ -76,6 +76,9 @@
 						<c:if test="${dc.hasPermission('EDIT_NOTIFICATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
                             <c:if test="${dc.canUpdateOrDeleteNotification(notification.userId)}">
                                 <liferay-ui:icon message="edit" url="${editNotificationURL}" />
+                            </c:if>
+                            <c:if test="${not dc.canUpdateOrDeleteNotification(notification.userId)}">
+                                <liferay-ui:icon message="view" url="${editNotificationURL}" />
                             </c:if>
 						</c:if>
 

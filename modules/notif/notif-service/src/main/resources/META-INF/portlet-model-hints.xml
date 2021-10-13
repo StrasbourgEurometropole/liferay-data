@@ -37,6 +37,7 @@
 		<field localized="true" name="labelUrl" type="String" />
 		<field localized="true" name="url" type="String" />
 		<field name="typeBroadcast" type="long" />
+		<field name="district" type="long" />
 		<field name="broadcastChannels" type="String" />
 		<field name="sendStatusCsmap" type="long" />
 		<field name="sendStatusTwitter" type="long" />

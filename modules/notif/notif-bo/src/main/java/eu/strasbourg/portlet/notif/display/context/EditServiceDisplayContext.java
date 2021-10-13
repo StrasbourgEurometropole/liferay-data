@@ -4,14 +4,10 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.notif.model.Message;
 import eu.strasbourg.service.notif.model.NatureNotif;
 import eu.strasbourg.service.notif.model.ServiceNotif;
-import eu.strasbourg.service.notif.service.MessageLocalServiceUtil;
-import eu.strasbourg.service.notif.service.NatureNotifLocalServiceUtil;
-import eu.strasbourg.service.notif.service.ServiceNotifLocalServiceUtil;
 import eu.strasbourg.utils.constants.OrganizationNames;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -22,22 +18,22 @@ public class EditServiceDisplayContext {
 
     private ServiceNotif service;
     private List<Organization> organizations;
+    private List<NatureNotif> natures;
+    private List<Message> messages;
     private final RenderRequest request;
     private final ThemeDisplay themeDisplay;
 
-    public EditServiceDisplayContext(RenderRequest request) {
+    public EditServiceDisplayContext(RenderRequest request, ServiceNotif service, List<NatureNotif> natures,
+                             List<Message> messages ) {
         this.request = request;
+        this.service = service;
+        this.natures = natures;
+        this.messages = messages;
         this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     }
 
     public ServiceNotif getService() {
-        if (this.service == null) {
-            long serviceId = ParamUtil.getLong(this.request, "serviceId");
-            if (serviceId > 0) {
-                this.service = ServiceNotifLocalServiceUtil.fetchServiceNotif(serviceId);
-            }
-        }
-        return service;
+        return this.service;
     }
 
     @SuppressWarnings("unused")
@@ -57,8 +53,7 @@ public class EditServiceDisplayContext {
     public String getDefaultNaturesIndexes() {
         if(this.service != null){
             StringBuilder indexes = new StringBuilder("0");
-            List<NatureNotif> natures = NatureNotifLocalServiceUtil.getByServiceId(this.service.getServiceId());
-            for (int i = 1; i < natures.size(); i++) {
+            for (int i = 1; i < this.natures.size(); i++) {
                 indexes.append(",").append(i);
             }
             return indexes.toString();
@@ -70,8 +65,7 @@ public class EditServiceDisplayContext {
     public String getDefaultMessagesIndexes() {
         if(this.service != null){
             StringBuilder indexes = new StringBuilder("0");
-            List<Message> messages = MessageLocalServiceUtil.getByServiceId(this.service.getServiceId());
-            for (int i = 1; i < messages.size(); i++) {
+            for (int i = 1; i < this.messages.size(); i++) {
                 indexes.append(",").append(i);
             }
             return indexes.toString();
