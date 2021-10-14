@@ -1502,14 +1502,16 @@ public class EventImpl extends EventBaseImpl {
 					scheduleJSON.put("startDate", dateFormat.format(date) + " " + timeDetailSchedule[0]);
 					// si l'heure de fin est < à l'heure de début, on ajoute 1 à la date de fin
 					LocalTime startTime = LocalTime.parse(timeDetailSchedule[0]);
-					LocalTime endTime = LocalTime.parse(timeDetailSchedule[1]);
-					if(!timeDetailSchedule[1].equals("00:00:00") && startTime.isAfter(endTime)) {
-						LocalDate tomorrow = date.toInstant().atZone(ZoneId.systemDefault())
-								.toLocalDate().plusDays(1);
-						scheduleJSON.put("endDate", dateFormat.format(Date.from(tomorrow.atStartOfDay().atZone(ZoneId.systemDefault())
-								.toInstant())) + " " + timeDetailSchedule[1]);
-					}else
-						scheduleJSON.put("endDate", dateFormat.format(date) + " " + timeDetailSchedule[1]);
+					if(Validator.isNotNull(timeDetailSchedule[1])) {
+						LocalTime endTime = LocalTime.parse(timeDetailSchedule[1]);
+						if (startTime.isAfter(endTime)) {
+							LocalDate tomorrow = date.toInstant().atZone(ZoneId.systemDefault())
+									.toLocalDate().plusDays(1);
+							scheduleJSON.put("endDate", dateFormat.format(Date.from(tomorrow.atStartOfDay().atZone(ZoneId.systemDefault())
+									.toInstant())) + " " + timeDetailSchedule[1]);
+						} else
+							scheduleJSON.put("endDate", dateFormat.format(date) + " " + timeDetailSchedule[1]);
+					}
 					schedulesJSON.put(scheduleJSON);
 				}
 			}

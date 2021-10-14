@@ -691,7 +691,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 					}
 				}else{
 					// si on rentre là c'est qu'on n'a pas d'heure de fin
-					endTime = "00:00:00";
+					endTime = null;
 					String[] timeSchedule = {startTime, endTime};
 					timesSchedule.add(timeSchedule);
 					startTime = getTimeFormated(timesMatcher.group());
@@ -704,13 +704,13 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		// c'est une phrase et non un horaire on renvoi minuit
 		if(i == 0) {
 			startTime = "00:00:00";
-			endTime = "00:00:00";
+			endTime = null;
 			String[] timeSchedule = {startTime, endTime};
 			timesSchedule.add(timeSchedule);
 		}else{
 			if(Validator.isNotNull(startTime)) {
 				if(Validator.isNull(endTime)) {
-					endTime = "00:00:00";
+					endTime = null;
 				}
 				String[] timeSchedule = {startTime, endTime};
 				timesSchedule.add(timeSchedule);
