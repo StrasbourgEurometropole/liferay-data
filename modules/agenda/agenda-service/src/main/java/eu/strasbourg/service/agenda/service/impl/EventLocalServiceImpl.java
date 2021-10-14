@@ -658,48 +658,93 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	 * Transform le timeDetail en startTime et endTime si on peut
 	 */
 	@Override
-	public String getTimeDetailFormated(String timeDetail){
+	public List<String[]> getTimeDetailFormated(String timeDetail){
+		List<String[]> timesSchedule = new ArrayList<>();
+
 		// regexp de l'heure
-		String timePattern = "(\\d|([01]\\d|2[0-4]))( ?(h|:) ?)([0-5]\\d)?";
-		Pattern pattern = Pattern.compile(timePattern, Pattern.CASE_INSENSITIVE);
+		String timeRegex = "(\\d|([01]\\d|2[0-4]))( ?(h|:) ?)([0-5](\\d)?)?(( ?(m|:) ?)([0-5](\\d)?)?)?";
 
-		// on sépare les heures du timeDetail dans une liste
-		Matcher times = pattern.matcher(timeDetail);
-		List<String> texts = pattern.splitAsStream(timeDetail).collect(Collectors.toList());
+		Pattern timePattern = Pattern.compile(timeRegex, Pattern.CASE_INSENSITIVE);
+		Pattern between2TimesPattern = Pattern.compile("( ?[-àa>\\u00E0] ?)", Pattern.CASE_INSENSITIVE);
 
-		String startTime = "", endTime = "", otherTime = "";
+		// on récupère toutes les heures trouvées
+		Matcher timesMatcher = timePattern.matcher(timeDetail);
+		// on récupère dans une liste tout ce qu'il y a entre les heures
+		List<String> timesTexts = timePattern.splitAsStream(timeDetail).collect(Collectors.toList());
+
+		String startTime = "", endTime = "";
 		int i = 0;
-		while(times.find()) {
-			if(startTime.isEmpty())
-				startTime = getTimeFormated(times.group());
+		while(timesMatcher.find()) { // se positionne sur l'heure suivante (commence par la 1ere)
+			if(Validator.isNull(startTime))
+				startTime = getTimeFormated(timesMatcher.group()); // .group récupère la valeur de l'heure
 			else {
-				String betweenTimes = texts.get(i);
-				Pattern betweenPattern = Pattern.compile("[-àa>]", Pattern.CASE_INSENSITIVE);
-				if (endTime.isEmpty() && pattern.matcher(timeDetail).find())
-					endTime = getTimeFormated(times.group());
-				else {
-					otherTime += texts.get(i) + times.group();
+				String between2Times = timesTexts.get(i);
+				List<String> between2TimesTexts = between2TimesPattern.splitAsStream(between2Times).collect(Collectors.toList());
+				if (between2TimesTexts.size() == 0 || Validator.isNull(between2TimesTexts.get(0))) {
+					Matcher between2TimesMarcher = between2TimesPattern.matcher(between2Times);
+					if (between2TimesMarcher.find()) {
+						endTime = getTimeFormated(timesMatcher.group());
+						String[] timeSchedule = {startTime, endTime};
+						timesSchedule.add(timeSchedule);
+						startTime = "";
+						endTime = "";
+					}
+				}else{
+					// si on rentre là c'est qu'on n'a pas d'heure de fin
+					endTime = "00:00:00";
+					String[] timeSchedule = {startTime, endTime};
+					timesSchedule.add(timeSchedule);
+					startTime = getTimeFormated(timesMatcher.group());
+					endTime = "";
 				}
 			}
 			i++;
 		}
 
-		// c'est une phrase et non un horaire
-		if(i == 0)
-			otherTime = texts.get(0);
-		else if(texts.size() == i+1)
-			otherTime += texts.get(i);
+		// c'est une phrase et non un horaire on renvoi minuit
+		if(i == 0) {
+			startTime = "00:00:00";
+			endTime = "00:00:00";
+			String[] timeSchedule = {startTime, endTime};
+			timesSchedule.add(timeSchedule);
+		}else{
+			if(Validator.isNotNull(startTime)) {
+				if(Validator.isNull(endTime)) {
+					endTime = "00:00:00";
+				}
+				String[] timeSchedule = {startTime, endTime};
+				timesSchedule.add(timeSchedule);
+			}
+		}
 
-		return startTime + (endTime.isEmpty() ? "" : " - " + endTime) + (otherTime.isEmpty() ? "" : otherTime);
+		return timesSchedule;
 	}
 
 	private String getTimeFormated(String time){
-		String formatTimePattern = "( ?(h|:) ?)";
-		Pattern formatPattern = Pattern.compile(formatTimePattern, Pattern.CASE_INSENSITIVE);
-		List<String> heureMinute = formatPattern.splitAsStream(time).collect(Collectors.toList());
-		String heure = String.valueOf(heureMinute.get(0)).length() == 1 ? "0" : "" + heureMinute.get(0);
-		String minute = heureMinute.size() > 1 ? heureMinute.get(heureMinute.size()-1) : "00";
-		return heure + ":" + minute;
+		String hourRegex = "( ?(h|:) ?)";
+		Pattern formatHourPattern = Pattern.compile(hourRegex, Pattern.CASE_INSENSITIVE);
+		// on récupère dans une liste tout ce qu'il y a entre les regex trouvé
+		List<String> heureMinuteSeconde = formatHourPattern.splitAsStream(time).collect(Collectors.toList());
+		String heure = (String.valueOf(heureMinuteSeconde.get(0)).length() == 1 ? "0" : "") + heureMinuteSeconde.get(0);
+
+		String minute = "00";
+		String seconde = "00";
+		if(heureMinuteSeconde.size() > 1){
+			if(heureMinuteSeconde.size() == 2){
+				String minuteRegex = "( ?m ?)";
+				Pattern formatMinutePattern = Pattern.compile(minuteRegex, Pattern.CASE_INSENSITIVE);
+				List<String> minuteSeconde = formatMinutePattern.splitAsStream(heureMinuteSeconde.get(heureMinuteSeconde.size() - 1)).collect(Collectors.toList());
+				minute = (String.valueOf(minuteSeconde.get(0)).length() == 1 ? "0" : "") + minuteSeconde.get(0);
+				if(minuteSeconde.size() > 1){
+					seconde = (String.valueOf(minuteSeconde.get(minuteSeconde.size()-1)).length() == 1 ? "0" : "") + minuteSeconde.get(minuteSeconde.size()-1);
+				}
+			}else{
+				minute = (String.valueOf(heureMinuteSeconde.get(1)).length() == 1 ? "0" : "") + heureMinuteSeconde.get(1);
+				seconde = (String.valueOf(heureMinuteSeconde.get(2)).length() == 1 ? "0" : "") + heureMinuteSeconde.get(2);
+			}
+		}
+
+		return heure + ":" + minute + ":" + seconde;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());

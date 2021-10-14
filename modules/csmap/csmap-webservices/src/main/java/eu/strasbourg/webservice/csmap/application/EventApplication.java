@@ -97,7 +97,7 @@ public class EventApplication extends Application {
         JSONObject json = JSONFactoryUtil.createJSONObject();
 
         try {
-            // On récupère tous les lieux qui ont été ajoutés
+            // On récupère tous les events qui ont été ajoutés
             List<CacheJson> ajouts = cacheJsonLocalService.getByCreatedDateAndIsActive(lastUpdateTime);
             JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
             for (CacheJson cache: ajouts) {
@@ -105,7 +105,7 @@ public class EventApplication extends Application {
             }
             json.put(WSConstants.JSON_ADD, jsonAjout);
 
-            // On récupère tous les lieux qui ont été modifiés
+            // On récupère tous les events qui ont été modifiés
             List<CacheJson> modifications = cacheJsonLocalService.getByCreatedDateAndModifiedDateAndIsActive(lastUpdateTime);
             JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
             for (CacheJson cache: modifications) {
@@ -114,13 +114,13 @@ public class EventApplication extends Application {
             json.put(WSConstants.JSON_UPDATE, jsonModif);
 
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-            // On récupère tous les lieux qui ont été dépubliés
+            // On récupère tous les events qui ont été dépubliés
             List<CacheJson> depubications = cacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
             for (CacheJson cache: depubications) {
                 jsonSuppr.put(cache.getEventId());
             }
 
-            // On récupère tous les lieux qui ont été supprimés
+            // On récupère tous les events qui ont été supprimés
             List<Historic> suppressions = historicLocalService.getBySuppressionDate(lastUpdateTime);
             for (Historic histo: suppressions) {
                 jsonSuppr.put(histo.getEventId());
@@ -213,8 +213,6 @@ public class EventApplication extends Application {
         }
         return WSResponseUtil.buildOkResponse(json);
     }
-
-
 
     @POST
     @Produces("application/json")
@@ -389,13 +387,16 @@ public class EventApplication extends Application {
         return jsonIds;
     }
 
+    @Reference
+    protected CacheJsonLocalService cacheJsonLocalService;
+
     @Reference(unbind = "-")
     protected void setCacheJsonLocalService(CacheJsonLocalService cacheJsonLocalService) {
         this.cacheJsonLocalService = cacheJsonLocalService;
     }
 
     @Reference
-    protected eu.strasbourg.service.agenda.service.CacheJsonLocalService cacheJsonLocalService;
+    protected HistoricLocalService historicLocalService;
 
     @Reference(unbind = "-")
     protected void setHistoricLocalService(HistoricLocalService historicLocalService) {
@@ -403,16 +404,12 @@ public class EventApplication extends Application {
     }
 
     @Reference
-    protected eu.strasbourg.service.agenda.service.HistoricLocalService historicLocalService;
+    protected AgendaLocalService agendaLocalService;
 
     @Reference(unbind = "-")
     protected void setAgendaLocalService(AgendaLocalService agendaLocalService) {
         this.agendaLocalService = agendaLocalService;
     }
-
-
-    @Reference
-    protected AgendaLocalService agendaLocalService;
 
     @Reference
     protected CampaignLocalService campaignLocalService;

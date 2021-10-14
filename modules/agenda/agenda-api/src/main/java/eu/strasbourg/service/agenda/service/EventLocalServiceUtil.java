@@ -553,7 +553,9 @@ public class EventLocalServiceUtil {
 	/**
 	 * Transform le timeDetail en startTime et endTime si on peut
 	 */
-	public static String getTimeDetailFormated(String timeDetail) {
+	public static java.util.List<String[]> getTimeDetailFormated(
+		String timeDetail) {
+
 		return getService().getTimeDetailFormated(timeDetail);
 	}
 
