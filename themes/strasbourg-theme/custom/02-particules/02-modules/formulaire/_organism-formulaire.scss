@@ -1,0 +1,36 @@
+%organism-formulaire{
+     .ddm-form-basic-info {
+
+        .ddm-form-name {
+            font-family: MontSerrat,arial;
+            color: #505050;
+            font-size: 3.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            line-height: 1.2;
+            word-break: break-word;
+            hyphens: auto;
+            margin-bottom: 10px;
+            margin-top: 50px;
+            z-index: 1;
+        }
+
+        .ddm-form-description{
+            margin-bottom: 30px;
+        }
+    }
+
+    .form-builder-layout{
+        * {
+            font-size: 1.8rem;
+        }
+
+        .btn:focus, .btn.focus {
+            box-shadow: 0 0 0 0.2rem rgba(49, 69, 83, 0.25);
+        }
+
+        label{
+            color: #505050;
+        }
+    }
+}
