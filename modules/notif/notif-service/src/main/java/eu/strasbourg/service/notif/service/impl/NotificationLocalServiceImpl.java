@@ -17,6 +17,7 @@ package eu.strasbourg.service.notif.service.impl;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -34,9 +35,12 @@ import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.notif.model.Notification;
+import eu.strasbourg.service.notif.service.NotificationLocalServiceUtil;
 import eu.strasbourg.service.notif.service.base.NotificationLocalServiceBaseImpl;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -309,5 +313,28 @@ public class NotificationLocalServiceImpl
 		}
 
 		return notificationPersistence.countWithDynamicQuery(dynamicQuery);
+	}
+	@Override
+	public List<Notification> getInProgressNotifications() {
+		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
+		Criterion greater = RestrictionsFactoryUtil.ge("startDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		Criterion lesser = RestrictionsFactoryUtil.le("endDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		dq.add(greater);
+		dq.add(lesser);
+		return NotificationLocalServiceUtil.dynamicQuery(dq);
+	}
+	@Override
+	public List<Notification> getToComeNotifications() {
+		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
+		Criterion lesser = RestrictionsFactoryUtil.lt("startDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		dq.add(lesser);
+		return NotificationLocalServiceUtil.dynamicQuery(dq);
+	}
+	@Override
+	public List<Notification> getPastNotifications() {
+		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
+		Criterion greater = RestrictionsFactoryUtil.gt("endDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		dq.add(greater);
+		return NotificationLocalServiceUtil.dynamicQuery(dq);
 	}
 }

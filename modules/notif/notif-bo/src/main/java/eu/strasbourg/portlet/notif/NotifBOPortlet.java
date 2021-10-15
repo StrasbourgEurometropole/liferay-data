@@ -7,10 +7,8 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalService;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
+import eu.strasbourg.portlet.notif.constants.NotifConstants;
 import eu.strasbourg.portlet.notif.display.context.EditNotificationDisplayContext;
 import eu.strasbourg.portlet.notif.display.context.EditServiceDisplayContext;
 import eu.strasbourg.portlet.notif.display.context.ViewNotificationsDisplayContext;
@@ -31,6 +29,8 @@ import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +77,8 @@ public class NotifBOPortlet extends MVCPortlet {
 		// If we are on an "add" page, we set a return URL and show the "back"
 		// button
 		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
+		HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
+		HttpSession session = originalRequest.getSession();
 		boolean showBackButton = Validator.isNotNull(returnURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
@@ -87,11 +89,13 @@ public class NotifBOPortlet extends MVCPortlet {
 		if (cmd.equals("editService") || mvcPath.equals("/notif-bo-edit-service.jsp") || fromAjaxNature || fromAjaxMessage) {
 			long serviceId = ParamUtil.getLong(renderRequest, "serviceId");
 			ServiceNotif service = null;
+			List<NatureNotif> natures = new ArrayList<>();
+			List<Message> messages = new ArrayList<>();
 			if (serviceId > 0) {
 				service = _serviceNotifLocalService.fetchServiceNotif(serviceId);
+				natures = _natureNotifLocalService.getByServiceId(service.getServiceId());
+				messages = _messageLocalService.getByServiceId(service.getServiceId());
 			}
-			List<NatureNotif> natures = _natureNotifLocalService.getByServiceId(service.getServiceId());
-			List<Message> messages = _messageLocalService.getByServiceId(service.getServiceId());
 
 			EditServiceDisplayContext dc = new EditServiceDisplayContext(renderRequest, service, natures, messages);
 			renderRequest.setAttribute("dc", dc);
@@ -115,8 +119,18 @@ public class NotifBOPortlet extends MVCPortlet {
 			EditNotificationDisplayContext dc = new EditNotificationDisplayContext(renderRequest, notification, services,
 					natures, messages);
 			renderRequest.setAttribute("dc", dc);
+
+		} else if (cmd.equals("notificationsByInProgress")) {
+			ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.IN_PROGRESS);
+			renderRequest.setAttribute("dc", dc);
+		} else if (cmd.equals("notificationsByToCome")) {
+			ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.TO_COME);
+			renderRequest.setAttribute("dc", dc);
+		} else if (cmd.equals("notificationsByPast")) {
+			ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.PAST);
+			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("notifications") || !this.isAdminNotification()) {
-			ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse);
+			ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.ALL);
 			renderRequest.setAttribute("dc", dc);
 		} else {
 			ViewServicesDisplayContext dc = new ViewServicesDisplayContext(

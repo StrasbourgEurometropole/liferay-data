@@ -133,8 +133,9 @@ public class EditNotificationDisplayContext {
     public Boolean isOnlyView() {
         if (this.isOnlyView == null) {
             this.isOnlyView = false;
-            if(!canUpdateOrDeleteNotification() || this.notification.getBroadcastDate().before(new Date()))
-                this.isOnlyView = true;
+            if(Validator.isNotNull(this.notification))
+                if(!canUpdateOrDeleteNotification() || this.notification.getBroadcastDate().before(new Date()))
+                    this.isOnlyView = true;
         }
         return this.isOnlyView;
     }

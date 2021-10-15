@@ -11,10 +11,59 @@
 
 <div class="container-fluid-1280 main-content-body">
 
+	<liferay-portlet:renderURL varImpl="notificationsByInProgressURL">
+		<portlet:param name="cmd" value="notificationsByInProgress" />
+		<portlet:param name="tab" value="notifications" />
+		<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+		<portlet:param name="orderByType" value="${dc.orderByType}" />
+		<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+		<portlet:param name="keywords" value="${dc.keywords}" />
+		<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	</liferay-portlet:renderURL>
+
+	<liferay-portlet:renderURL varImpl="notificationsByToComeURL">
+		<portlet:param name="cmd" value="notificationsByToCome" />
+		<portlet:param name="tab" value="notifications" />
+		<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+		<portlet:param name="orderByType" value="${dc.orderByType}" />
+		<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+		<portlet:param name="keywords" value="${dc.keywords}" />
+		<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	</liferay-portlet:renderURL>
+
+	<liferay-portlet:renderURL varImpl="notificationsByPastURL">
+		<portlet:param name="cmd" value="notificationsByPast" />
+		<portlet:param name="tab" value="notifications" />
+		<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+		<portlet:param name="orderByType" value="${dc.orderByType}" />
+		<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+		<portlet:param name="keywords" value="${dc.keywords}" />
+		<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	</liferay-portlet:renderURL>
+
+	<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "filterByInProgress();"%>' type="cancel" value="filterByInProgress" />
+	<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "filterByToCome();"%>' type="cancel" value="filterByToCome" />
+	<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "filterByPast();"%>' type="cancel" value="filterByPast" />
+	<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "filterByAll();"%>' type="cancel" value="filterByAll" />
+
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="notifsSearchContainer" searchContainer="${dc.searchContainer}">
-			<liferay-ui:search-container-results results="${dc.notifications}" />
+			<!-- Recupere les notifications en fonction du filtre -->
+			<c:choose>
+				<c:when test="${dc.filter == dc.IN_PROGRESS}">
+					<liferay-ui:search-container-results results="${dc.inProgressNotifications}" />
+				</c:when>
+				<c:when test="${dc.filter == dc.TO_COME}">
+					<liferay-ui:search-container-results results="${dc.toComeNotifications}" />
+				</c:when>
+				<c:when test="${dc.filter == dc.PAST}">
+					<liferay-ui:search-container-results results="${dc.pastNotifications}" />
+				</c:when>
+				<c:otherwise>
+					<liferay-ui:search-container-results results="${dc.notifications}" />
+				</c:otherwise>
+			</c:choose>
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.notif.model.Notification"
@@ -136,5 +185,21 @@
 			var form = AUI.$(document.<portlet:namespace />fm);
 			submitForm(form, url);
 		}
+	}
+
+	function <portlet:namespace />filterByInProgress() {
+		window.location = '${notificationsByInProgressURL}';
+	}
+
+	function <portlet:namespace />filterByToCome() {
+		window.location = '${notificationsByToComeURL}';
+	}
+
+	function <portlet:namespace />filterByPast() {
+		window.location = '${notificationsByPastURL}';
+	}
+
+	function <portlet:namespace />filterByAll() {
+		window.location = '${notificationsURL}';
 	}
 </aui:script>

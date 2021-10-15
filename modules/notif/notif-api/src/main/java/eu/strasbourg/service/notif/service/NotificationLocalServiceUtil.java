@@ -266,6 +266,12 @@ public class NotificationLocalServiceUtil {
 		return getService().getIndexableActionableDynamicQuery();
 	}
 
+	public static java.util.List<eu.strasbourg.service.notif.model.Notification>
+		getInProgressNotifications() {
+
+		return getService().getInProgressNotifications();
+	}
+
 	/**
 	 * Returns the notification with the primary key.
 	 *
@@ -364,11 +370,23 @@ public class NotificationLocalServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	public static java.util.List<eu.strasbourg.service.notif.model.Notification>
+		getPastNotifications() {
+
+		return getService().getPastNotifications();
+	}
+
 	public static com.liferay.portal.kernel.model.PersistedModel
 			getPersistedModel(java.io.Serializable primaryKeyObj)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
+	}
+
+	public static java.util.List<eu.strasbourg.service.notif.model.Notification>
+		getToComeNotifications() {
+
+		return getService().getToComeNotifications();
 	}
 
 	/**

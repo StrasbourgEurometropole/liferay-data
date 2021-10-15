@@ -219,6 +219,9 @@ public interface NotificationLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Notification> getInProgressNotifications();
+
 	/**
 	 * Returns the notification with the primary key.
 	 *
@@ -298,10 +301,16 @@ public interface NotificationLocalService
 	 */
 	public String getOSGiServiceIdentifier();
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Notification> getPastNotifications();
+
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Notification> getToComeNotifications();
 
 	/**
 	 * Supprime une notification

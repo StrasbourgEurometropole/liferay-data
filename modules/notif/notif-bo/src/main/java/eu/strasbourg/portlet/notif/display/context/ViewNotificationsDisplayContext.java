@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.notif.constants.NotifConstants;
 import eu.strasbourg.service.notif.model.NatureNotif;
 import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.service.notif.model.ServiceNotif;
@@ -19,6 +20,7 @@ import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +28,15 @@ public class ViewNotificationsDisplayContext
 	extends ViewListBaseDisplayContext<ServiceNotif> {
 	private List<Notification> notifications;
 	private ThemeDisplay themeDisplay;
+	private String filter;
 	private long[] serviceIds;
 
 	public ViewNotificationsDisplayContext(RenderRequest request,
-                                           RenderResponse response) {
+										   RenderResponse response,
+										   String filter) {
 		super(ServiceNotif.class, request, response);
 		this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		this.filter = filter;
 	}
 
 	@SuppressWarnings("unused")
@@ -59,6 +64,16 @@ public class ViewNotificationsDisplayContext
 		this.getSearchContainer().setTotal(countResults);
 		return this.notifications;
 	}
+	public List<Notification> getInProgressNotifications() throws PortalException {
+		return NotificationLocalServiceUtil.getInProgressNotifications();
+	}
+	public List<Notification> getToComeNotifications() throws PortalException {
+		return NotificationLocalServiceUtil.getToComeNotifications();
+	}
+	public List<Notification> getPastNotifications() throws PortalException {
+		return NotificationLocalServiceUtil.getPastNotifications();
+	}
+
 
 	@SuppressWarnings("unused")
 	public boolean hasMultipleServices(){
@@ -124,6 +139,26 @@ public class ViewNotificationsDisplayContext
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public String getFilter() {
+		return filter;
+	}
+
+	public String getALL() {
+		return NotifConstants.ALL;
+	}
+
+	public String getIN_PROGRESS() {
+		return NotifConstants.IN_PROGRESS;
+	}
+
+	public String getTO_COME() {
+		return NotifConstants.TO_COME;
+	}
+
+	public String getPAST() {
+		return NotifConstants.PAST;
 	}
 
 	/**
