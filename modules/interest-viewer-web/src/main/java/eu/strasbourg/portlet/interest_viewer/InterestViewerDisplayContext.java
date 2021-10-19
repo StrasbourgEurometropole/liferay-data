@@ -479,6 +479,4 @@ public class InterestViewerDisplayContext {
 	public boolean isFolded() {
 		return PortletHelper.isPortletFoldedOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
 	}
-
-	public String getNormalizedForURL(String s){ return UriHelper.normalizeToFriendlyUrl(s); }
 }

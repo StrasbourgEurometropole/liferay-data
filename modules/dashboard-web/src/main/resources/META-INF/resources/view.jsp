@@ -328,7 +328,7 @@
 											${event.getPlaceAlias(locale)}
 										</p>
 										<a
-											href="${homeURL}detail-evenement/-/entity/id/${event.eventId}/${uriHelper.normalizeToFriendlyUrl(event.getTitle(locale))}"
+											href="${homeURL}detail-evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}"
 											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${event.getTitle(locale)}</h3></a>
 									</div>
 									<div class="pro-footer-event">

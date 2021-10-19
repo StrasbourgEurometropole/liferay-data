@@ -478,6 +478,4 @@ public class MyDistrictDisplayContext {
     public void setOpenDataGeoDistrictService(OpenDataGeoDistrictService openDataGeoDistrictService) {
         this.openDataGeoDistrictService = openDataGeoDistrictService;
     }
-
-    public String getNormalizedForURL(String s){ return UriHelper.normalizeToFriendlyUrl(s); }
 }

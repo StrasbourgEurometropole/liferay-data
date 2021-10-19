@@ -1,5 +1,4 @@
 <%@ include file="/vote-place-init.jsp" %>
-<jsp:useBean id="uriHelper" class="eu.strasbourg.utils.UriHelper"/>
 <c:if test="${empty virtualHostName}">
     <c:set var="homeURL" value="/web/strasbourg.eu/"/>
 </c:if>
@@ -135,7 +134,7 @@
                         <a href="#" class="add-favorites"
                             data-type="1"
                             data-title="${office.getAlias(locale)}"
-                            data-url="${homeURL}lieu/-/entity/sig/${office.getSIGid()}/${uriHelper.normalizeToFriendlyUrl(office.getAlias(locale))}"
+                            data-url="${homeURL}lieu/-/entity/sig/${office.getSIGid()}/${office.getNormalizedAlias(locale)}"
                             data-id="${office.placeId}">
                             <span><liferay-ui:message key="eu.add-to-favorite" /></span>
                         </a>

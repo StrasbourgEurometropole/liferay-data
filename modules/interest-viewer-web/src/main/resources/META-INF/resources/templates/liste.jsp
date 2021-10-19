@@ -79,7 +79,7 @@
         			<c:forEach var="curEntry" items="${dc.events}" varStatus="loopStatus">
 						<c:set var="event" value="${curEntry.getAssetRenderer().getEvent()}"/>
 						<div class="seu-wi-item seu-has-ville"> 
-							<a href="${homeURL}evenement/-/entity/id/${event.eventId}/${dc.getNormalizedForURL(event.getTitle(locale))}" class="seu-link" title="${dc.DeleteTag(event.getTitle(locale))}">
+							<a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" class="seu-link" title="${dc.DeleteTag(event.getTitle(locale))}">
                             	<c:if test="${event.getFirstStartDate() != null}">
 									<div class="seu-date"> 
 										<div class="seu-date-sup"> 
@@ -104,7 +104,7 @@
 								<button href="#"
 								   class="add-favorites"
 								   data-type="2" data-title="${event.getTitle(locale)}"
-								   data-url="${homeURL}evenement/-/entity/id/${event.eventId}/${dc.getNormalizedForURL(event.getTitle(locale))}"
+								   data-url="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}"
 								   data-id="${event.getEventId()}"
 								   style="
 										margin-bottom: 0;

@@ -1,6 +1,5 @@
 <%@ include file="/place-schedule-init.jsp" %>
 <jsp:useBean id="now" class="java.util.Date" />
-<jsp:useBean id="uriHelper" class="eu.strasbourg.utils.UriHelper"/>
 <fmt:setLocale value="${locale}" />
 <c:choose>
 	<c:when test="${empty themeDisplay.scopeGroup.publicLayoutSet.virtualHostname or themeDisplay.scopeGroup.isStagingGroup()}">
@@ -311,7 +310,7 @@
 							</c:forEach>
 							<tr class="${placeStatus.index % 2 eq 0 ? 'bg-white' : 'bg-grey'} see-more-row">
 								<td style="padding-top: 0">
-									<a href="${homeURL}lieu/-/entity/sig/${place.getSIGid()}/${uriHelper.normalizeToFriendlyUrl(place.getAlias(locale))}"
+									<a href="${homeURL}lieu/-/entity/sig/${place.getSIGid()}/${place.getNormalizedAlias(locale)}"
 										class="seu-btn-square seu-bordered seu-core" 
 										title="${place.getAlias(locale)}"> 
 											<span class="seu-flexbox"> 
