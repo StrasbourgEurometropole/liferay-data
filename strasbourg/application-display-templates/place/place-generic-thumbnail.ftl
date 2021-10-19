@@ -42,7 +42,7 @@
                 <a href="#" class="seu-add-favorites"
                 data-type="1" 
                 data-title="${entry.getAlias(locale)}"
-                data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${uriHelper.normalizeToFriendlyUrl(entry.getAlias(locale))}}"
+                data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}"
                 data-id="${entry.placeId}">
                     <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
                 </a>

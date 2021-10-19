@@ -13,7 +13,6 @@
     </#if>
     <#assign imageUrl= imageUrl + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
-<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
@@ -29,7 +28,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     <a href="#" class="add-favorites"
         data-type="2" 
         data-title="${entry.getTitle(locale)}" 
-        data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}/${uriHelper.normalizeToFriendlyUrl(entry.getTitle(locale))}" 
+        data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}" 
         data-id="${entry.eventId}">
         <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
     </a>
@@ -79,7 +78,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <div class="item-geoloc">
                     <span class="text">
                         <#if (entry.placeId > 0)>
-                            <a href="${homeURL}lieu/-/entity/id/${entry.placeId}/${uriHelper.normalizeToFriendlyUrl(entry.getPlaceAlias(locale))}">
+                            <a href="${homeURL}lieu/-/entity/id/${entry.placeId}/${entry.getNormalizedAlias(locale)}">
                                 <strong>${entry.getPlaceAlias(locale)}</strong> 
                             </a>
                         <#else>

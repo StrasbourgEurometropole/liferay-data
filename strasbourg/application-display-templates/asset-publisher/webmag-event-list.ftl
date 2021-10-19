@@ -4,7 +4,6 @@
 <#else>
   <#assign homeURL = "/" />
 </#if>
-<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 
 <!-- Webmag - List d'event -->
 <section class="hp-agenda" data-scroll-animation>
@@ -31,7 +30,7 @@
                     <li class="slider-agenda-main__slider-item">
                         <div class="slider-agenda-main__slide" style="background-image: url(${entry.imageURL});">
                             <div class="slider-agenda-main__slide-text flexbox">
-                                <a class="left unstyled" href="${homeURL}evenement/-/entity/id/${entry.eventId}/${uriHelper.normalizeToFriendlyUrl(entry.getTitle(locale))}">
+                                <a class="left unstyled" href="${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}">
                                     <div class="slider-agenda-main__slide-date-prefix">
                                         <#if entry.firstStartDate?date == entry.lastEndDate?date>
                                             Le
@@ -44,11 +43,11 @@
                                     <div class="slider-agenda-main__slide-category" data-dot="2">${entry.getTypeLabel(locale)}</div>
                                 </a>
                                 <div class="right">
-                                    <a href="${homeURL}lieu/-/entity/id/${entry.placeId}/${uriHelper.normalizeToFriendlyUrl(entry.getPlaceAlias(locale))}" class="slider-agenda-main__slide-tag unstyled"> ${entry.getPlaceAlias(locale)} - ${entry.getPlaceCity(locale)}</a>
+                                    <a href="${homeURL}lieu/-/entity/id/${entry.placeId}/${entry.getNormalizedAlias(locale)}" class="slider-agenda-main__slide-tag unstyled"> ${entry.getPlaceAlias(locale)} - ${entry.getPlaceCity(locale)}</a>
                                     <a href="#" class="slider-agenda-main__slide-favorite unstyled add-favorites" 
                                         data-type="2" 
                                         data-title="${entry.getTitle(locale)}" 
-                                        data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}/${uriHelper.normalizeToFriendlyUrl(entry.getTitle(locale))}" 
+                                        data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}" 
                                         data-id="${entry.eventId}">
                                         <span>Ajouter à mes favoris</span>
                                     </a>

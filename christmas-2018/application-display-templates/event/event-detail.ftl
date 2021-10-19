@@ -14,7 +14,6 @@
     </#if>
     <#assign imageUrl = imageUrl + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
-<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
@@ -58,7 +57,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <a href="#" class="add-favorites"
                 data-type="2" 
                 data-title="${entry.getTitle(locale)}" 
-                data-url="${themeDisplay.getPortalURL()}${homeURL}event/-/entity/id/${entry.eventId}/${uriHelper.normalizeToFriendlyUrl(entry.getTitle(locale))}" 
+                data-url="${themeDisplay.getPortalURL()}${homeURL}event/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}" 
                 data-id="${entry.eventId}">
                 <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
             </a>
