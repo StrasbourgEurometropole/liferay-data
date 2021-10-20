@@ -99,7 +99,7 @@
 							<liferay-ui:icon message="examinate" url="${examinateDeliberationURL}" />
 						</c:if>
 
-						<liferay-portlet:actionURL name="openDeliberation"
+						<liferay-portlet:actionURL name="officials-votingopenDeliberation"
                             var="openDeliberationURL">
                             <portlet:param name="tab" value="deliberations" />
                             <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />

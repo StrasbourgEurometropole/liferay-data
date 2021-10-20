@@ -23,7 +23,8 @@ import java.util.stream.Collectors;
 
 public class ManageProcurationsDisplayContext {
 
-    private Procuration procuration;
+    private List<Official> allActiveOfficials;
+    private Integer countOfficialVoting;
     private CouncilSession councilSession;
     private final RenderRequest request;
     private final ThemeDisplay themeDisplay;
@@ -64,12 +65,15 @@ public class ManageProcurationsDisplayContext {
      */
     @SuppressWarnings("unused")
     public List<Official> getAllActiveOfficials() {
-        List<Official> allActiveOfficials = OfficialLocalServiceUtil.findByGroupIdAndIsActive(this.themeDisplay.getSiteGroupId(), true);
+        if(allActiveOfficials == null) {
+            allActiveOfficials = OfficialLocalServiceUtil.findByGroupIdAndIsActive(this.themeDisplay.getSiteGroupId(), true);
 
-        long typeId = councilSession.getTypeId();
-        Type type = TypeLocalServiceUtil.fetchType(typeId);
+            long typeId = councilSession.getTypeId();
+            Type type = TypeLocalServiceUtil.fetchType(typeId);
+            allActiveOfficials = allActiveOfficials.stream().filter(o -> o.getCouncilTypes().contains(type)).collect(Collectors.toList());
+        }
 
-        return allActiveOfficials.stream().filter(o -> o.getCouncilTypes().contains(type)).collect(Collectors.toList());
+        return allActiveOfficials;
     }
 
     /**
@@ -120,6 +124,34 @@ public class ManageProcurationsDisplayContext {
     @SuppressWarnings("unused")
     public String getProcurationPresential(int presential) {
         return ProcurationPresentialEnum.get(presential).getName();
+    }
+
+    /**
+     * Retourne le nombre de votants
+     */
+    @SuppressWarnings("unused")
+    public int getCountOfficialVoting() {
+        List<Procuration> procurations = new ArrayList<>();
+
+        if(this.getCouncilSession() != null)
+            procurations = this.getCouncilSession().getProcurations();
+        List<Procuration> absents = new ArrayList<>(procurations.stream().filter(x -> x.getEndDelib()==0).collect(Collectors.toList()));
+        // nombre de votants
+        countOfficialVoting = getAllActiveOfficials().size() - absents.size();
+        return countOfficialVoting;
+    }
+
+    /**
+     * Retourne la couleur du nombre de votants
+     */
+    @SuppressWarnings("unused")
+    public String getColor() {
+        String color = "red";
+        //  Calcule la valeur du quorum
+        int quorum = (int)Math.floor(((double) getAllActiveOfficials().size() / 2) + 1);
+        if(getCountOfficialVoting() >= quorum)
+            color = "green";
+        return color;
     }
 
     /**

@@ -2,7 +2,6 @@ package eu.strasbourg.portlet.council.display.context;
 
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.bean.VoteBean;
@@ -20,11 +19,11 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class EditDeliberationDisplayContext {
@@ -195,7 +194,7 @@ public class EditDeliberationDisplayContext {
     public int getQuorum() {
         int quorum = 0;
         if(deliberation!=null) {
-            quorum= (int)Math.floor(((double) deliberation.getCountOfficialsActive() / 3) + 1);
+            quorum= (int)Math.floor(((double) deliberation.getCountOfficialsActive() / 2) + 1);
         }
         return quorum;
     }
