@@ -317,8 +317,8 @@ public class NotificationLocalServiceImpl
 	@Override
 	public List<Notification> getInProgressNotifications() {
 		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
-		Criterion greater = RestrictionsFactoryUtil.ge("startDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
-		Criterion lesser = RestrictionsFactoryUtil.le("endDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		Criterion greater = RestrictionsFactoryUtil.le("startDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		Criterion lesser = RestrictionsFactoryUtil.ge("endDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
 		dq.add(greater);
 		dq.add(lesser);
 		return NotificationLocalServiceUtil.dynamicQuery(dq);
@@ -326,14 +326,14 @@ public class NotificationLocalServiceImpl
 	@Override
 	public List<Notification> getToComeNotifications() {
 		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
-		Criterion lesser = RestrictionsFactoryUtil.lt("startDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		Criterion lesser = RestrictionsFactoryUtil.gt("startDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
 		dq.add(lesser);
 		return NotificationLocalServiceUtil.dynamicQuery(dq);
 	}
 	@Override
 	public List<Notification> getPastNotifications() {
 		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
-		Criterion greater = RestrictionsFactoryUtil.gt("endDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		Criterion greater = RestrictionsFactoryUtil.lt("endDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
 		dq.add(greater);
 		return NotificationLocalServiceUtil.dynamicQuery(dq);
 	}
