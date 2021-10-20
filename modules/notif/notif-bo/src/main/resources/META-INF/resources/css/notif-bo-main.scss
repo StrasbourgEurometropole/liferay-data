@@ -1,0 +1,25 @@
+.help-block {
+    color: #DA1414;
+}
+
+.lfr-input-time input:not(.hasTime) {
+    display: none;
+}
+
+table {
+	border: #869CAD;
+}
+
+table.broadcast-channels tr{
+	vertical-align: middle;
+	text-align: center;
+	height: 50px;
+}
+
+table.broadcast-channels th{
+	padding: 10px;
+	text-align: center;
+	font-size: 18px;
+	background-color: #ddd;
+	width: 25%;
+}
