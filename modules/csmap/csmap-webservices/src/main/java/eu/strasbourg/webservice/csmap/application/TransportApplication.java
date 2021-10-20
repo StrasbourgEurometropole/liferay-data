@@ -13,9 +13,9 @@ import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.ArretLocalService;
 import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
 import eu.strasbourg.service.gtfs.service.LigneLocalService;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.*;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.service.WSTransport;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
@@ -30,11 +30,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component(
@@ -193,6 +189,34 @@ public class TransportApplication extends Application {
                                 }
                         }
                         json.put("schedules", schedulesJSON);
+                } catch(Exception e){
+                        log.error(e);
+                        return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+                }
+                return WSResponseUtil.buildOkResponse(json);
+        }
+
+        @GET
+        @Produces("application/json")
+        @Path("/get-alerts")
+        public Response getAlerts() {
+                JSONObject json;
+                try{
+                        // Recuperation des constantes de requetage de l'API19f7805f-0b98-4451-aa1b-96939a844dfe
+                        String urlSearch = StrasbourgPropsUtil.getCTSServiceRealTimeURL();
+                        String basicAuthUser = StrasbourgPropsUtil.getCTSServiceRealTimeToken();
+                        String basicAuthPwd = "";
+
+                        // Construction de l'URL
+                        String url = urlSearch + "general-message";
+
+                        // Envoie de la requete
+                        JSONObject response = JSONHelper.readJsonFromURL(url, basicAuthUser, basicAuthPwd);
+
+                        // Traitement de la reponse
+                        JSONArray generalMessageDeliveries = response.getJSONObject("ServiceDelivery").getJSONArray("GeneralMessageDelivery");
+                        json = CSMapJSonHelper.alertCSMapJSON(generalMessageDeliveries);
+
                 } catch(Exception e){
                         log.error(e);
                         return WSResponseUtil.buildErrorResponse(500, e.getMessage());
