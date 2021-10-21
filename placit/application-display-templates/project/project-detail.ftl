@@ -220,7 +220,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             // des évenements, d'où le [0] pour avoir le JSON et le [1] pour la participation à l'évenements
             var eventJSON = eventsJSON[i];
             // Ajout du lien vers le détail (effectué ici pour éviter le double parcours)
-            eventJSON.link = '${homeURL}detail-evenement/-/entity/id/' +  eventJSON.id;
+            eventJSON.link = '${homeURL}detail-evenement/-/entity/id/' +  eventJSON.id + '/' + eventJSON.normalizedTitle;
 
             markersCluster.addLayer(marker);
             eventMarkers.push(marker);

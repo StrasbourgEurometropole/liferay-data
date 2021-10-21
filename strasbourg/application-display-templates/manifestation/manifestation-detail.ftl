@@ -67,7 +67,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <div class="seu-wi-grid">
                     <#list events as event>
                         <div class="seu-wi-item seu-has-ville">
-                            <a href="${homeURL}evenement/-/entity/id/${event.eventId}" class="seu-link" title="${event.getTitle(locale)}">
+                            <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" class="seu-link" title="${event.getTitle(locale)}">
                                 <div class="seu-date">
                                     <div class="seu-date-sup">
                                         <#if event.firstStartDate?has_content && event.lastEndDate?has_content>
