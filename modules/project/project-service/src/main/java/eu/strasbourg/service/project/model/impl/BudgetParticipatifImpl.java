@@ -622,12 +622,23 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 			
 			//La même phase
 			mainQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(this.getPhaseCategory().getCategoryId()));
-			
+
 			//Le même projet
 			if(this.getProjectCategory() != null) {
 				BooleanQuery projetQuery = new BooleanQueryImpl();
 				projetQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(this.getProjectCategory().getCategoryId()));
 				mainQuery.add(projetQuery, BooleanClauseOccur.MUST);
+			}
+
+			//Projets faisable en priorité
+			if(this.getBudgetParticipatifStatus() == BP_FEASIBLE) {
+				// on récupère la categ faisable
+				AssetCategory category = AssetVocabularyHelper.getCategory(BP_FEASIBLE.getName(), this.getGroupId());
+				if(Validator.isNotNull(category)) {
+					BooleanQuery statusQuery = new BooleanQueryImpl();
+					statusQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(category.getCategoryId()));
+					mainQuery.add(statusQuery, BooleanClauseOccur.SHOULD);
+				}
 			}
 			
 			BooleanClause booleanClause = BooleanClauseFactoryUtil.create(mainQuery, BooleanClauseOccur.MUST.getName());
