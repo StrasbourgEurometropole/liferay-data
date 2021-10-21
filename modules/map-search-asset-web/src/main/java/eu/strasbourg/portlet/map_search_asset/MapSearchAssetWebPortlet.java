@@ -29,6 +29,7 @@ import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import java.io.IOException;
@@ -337,7 +338,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			JSONObject jsonEvent = event.toJSON(publikUserId);
 			jsonEvent.put(
 				ATTRIBUTE_LINK, 
-				this.getHomeURL(request) + DETAIL_EVENT_URL + event.getEventId()
+				this.getHomeURL(request) + DETAIL_EVENT_URL + event.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(event.getTitle(themeDisplay.getLocale()))
 			);
 			jsonEvents.put(jsonEvent);
 		}

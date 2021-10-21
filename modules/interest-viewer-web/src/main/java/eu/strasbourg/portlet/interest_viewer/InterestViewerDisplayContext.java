@@ -30,6 +30,7 @@ import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.UriHelper;
 
 import javax.portlet.RenderRequest;
 import javax.servlet.http.HttpServletRequest;
