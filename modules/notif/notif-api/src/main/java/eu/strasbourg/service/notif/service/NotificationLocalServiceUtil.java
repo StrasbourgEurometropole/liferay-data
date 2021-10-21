@@ -115,16 +115,6 @@ public class NotificationLocalServiceUtil {
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static eu.strasbourg.service.notif.model.Notification
-			duplicateNotification(
-				com.liferay.portal.kernel.service.ServiceContext sc,
-				eu.strasbourg.service.notif.model.Notification
-					notificationToCopy)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return getService().duplicateNotification(sc, notificationToCopy);
-	}
-
 	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
 		dynamicQuery() {
 

@@ -226,7 +226,7 @@
                     value="${not empty dc.notification ? dc.notification.notificationId : ''}" />
             </liferay-portlet:actionURL>
 			<c:if test="${not empty dc.notification && dc.hasPermission('DELETE_NOTIFICATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                <c:if test="${dc.canUpdateOrDeleteNotification()}">
+                <c:if test="${!dc.notification.new and dc.canUpdateOrDeleteNotification()}">
                     <aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
                 </c:if>
 			</c:if>

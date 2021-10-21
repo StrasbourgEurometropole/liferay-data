@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
-import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.notif.model.Notification;
@@ -83,27 +82,6 @@ public class NotificationLocalServiceImpl
 		notification.setUserId(sc.getUserId());
 
 		notification.setStatus(WorkflowConstants.STATUS_DRAFT);
-
-		return notification;
-	}
-
-	@Override
-	public Notification duplicateNotification(ServiceContext sc, Notification notificationToCopy) throws PortalException {
-		User user = UserLocalServiceUtil.getUser(sc.getUserId());
-
-		long pk = counterLocalService.increment();
-
-		Notification notification = (Notification)notificationToCopy.clone();
-
-		notification.setGroupId(sc.getScopeGroupId());
-		notification.setUserName(user.getFullName());
-		notification.setUserId(sc.getUserId());
-		notification.setNew(true);
-		notification.setPrimaryKey(pk);
-
-		String uuid = PortalUUIDUtil.generate();
-
-		notification.setUuid(uuid);
 
 		return notification;
 	}

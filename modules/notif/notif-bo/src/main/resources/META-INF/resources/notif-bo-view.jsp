@@ -22,23 +22,16 @@
 </liferay-portlet:renderURL>
 
 <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
-    <c:if test="${isAdminNotification}">
-        <aui:nav cssClass="navbar-nav">
+    <aui:nav cssClass="navbar-nav">
+        <c:if test="${isAdminNotification}">
             <aui:nav-item href="${servicesURL}" label="eu.strasbourg.notif.services"
                 selected="${tab eq 'services'}" />
-        </aui:nav>
-    </c:if>
-    <aui:nav cssClass="navbar-nav">
+        </c:if>
         <aui:nav-item href="${notificationsURL}" label="eu.strasbourg.notif.notifications"
             selected="${tab eq 'notifications'}" />
     </aui:nav>
-
-	<aui:nav-bar-search>
-		<aui:form action="${searchURL}" name="searchFm">
-			<liferay-ui:input-search markupView="lexicon" />
-		</aui:form>
-	</aui:nav-bar-search>
 </aui:nav-bar>
+
 <c:choose>
     <c:when test="${tab eq 'services'}">
         <liferay-util:include page="/notif-bo-view-services.jsp" servletContext="<%=application %>">

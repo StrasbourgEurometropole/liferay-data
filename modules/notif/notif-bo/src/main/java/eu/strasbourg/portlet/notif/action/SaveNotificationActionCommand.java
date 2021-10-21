@@ -59,13 +59,7 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
 
 
             // Validation
-            boolean isValid;
-            // Si duplication
-            boolean isDuplication = ParamUtil.getBoolean(request, "new");
-            if (isDuplication) {
-                isValid = true;
-            }else
-                isValid = this.validate(request);
+            boolean isValid = this.validate(request);
             if (!isValid) {
                 // Si pas valide : on reste sur la page d'édition
                 PortalUtil.copyRequestParameters(request, response);
@@ -82,15 +76,13 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
 
             // Si édition ou création d'une nouvelle entrée
             Notification notification;
-            if (this.notificationId == 0) {
+            // Si duplication
+            boolean isDuplication = ParamUtil.getBoolean(request, "new");
+            if (this.notificationId == 0 || isDuplication) {
                 notification = _notificationLocalService.createNotification(sc);
             } else {
                 notification = _notificationLocalService.getNotification(this.notificationId);
             }
-
-            // Si duplication
-            if (isDuplication)
-                notification = _notificationLocalService.duplicateNotification(sc, notification);
 
             // Champ : service
             long serviceId = ParamUtil.getLong(request, "service");

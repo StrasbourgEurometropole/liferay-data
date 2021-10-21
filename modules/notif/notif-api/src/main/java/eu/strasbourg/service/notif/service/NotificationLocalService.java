@@ -117,10 +117,6 @@ public interface NotificationLocalService
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
 
-	public Notification duplicateNotification(
-			ServiceContext sc, Notification notificationToCopy)
-		throws PortalException;
-
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();
 
