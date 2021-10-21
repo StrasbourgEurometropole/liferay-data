@@ -41,10 +41,12 @@
 		<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 	</liferay-portlet:renderURL>
 
-	<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "filterByInProgress();"%>' type="cancel" value="filterByInProgress" />
-	<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "filterByToCome();"%>' type="cancel" value="filterByToCome" />
-	<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "filterByPast();"%>' type="cancel" value="filterByPast" />
-	<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "filterByAll();"%>' type="cancel" value="filterByAll" />
+    <div class="filterButtons">
+        <aui:button cssClass="btn-lg ${(dc.filter == dc.ALL)?'selected':''}" onClick='<%=renderResponse.getNamespace() + "filterByAll();"%>' type="button" value="eu.strasbourg.notif.filter.all" />
+        <aui:button cssClass="btn-lg ${(dc.filter == dc.IN_PROGRESS)?'selected':''}" onClick='<%=renderResponse.getNamespace() + "filterByInProgress();"%>' type="button" value="eu.strasbourg.notif.filter.in-progress" />
+        <aui:button cssClass="btn-lg ${(dc.filter == dc.TO_COME)?'selected':''}" onClick='<%=renderResponse.getNamespace() + "filterByToCome();"%>' type="button" value="eu.strasbourg.notif.filter.to-come" />
+        <aui:button cssClass="btn-lg ${(dc.filter == dc.PAST)?'selected':''}" onClick='<%=renderResponse.getNamespace() + "filterByPast();"%>' type="button" value="eu.strasbourg.notif.filter.past" />
+    </div>
 
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />

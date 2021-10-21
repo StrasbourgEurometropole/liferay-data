@@ -23,3 +23,17 @@ table.broadcast-channels th{
 	background-color: #ddd;
 	width: 25%;
 }
+
+.filterButtons{
+    display: flex;
+    justify-content: space-around;
+    max-width: 800px;
+    margin: 0 auto 20px;
+}
+
+.btn.selected{
+    color: #FFF;
+    background-color: #0B5FFF;
+    border-color: #0B5FFF;
+    box-shadow: none;
+}
