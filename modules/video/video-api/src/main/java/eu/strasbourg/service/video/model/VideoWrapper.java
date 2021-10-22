@@ -857,6 +857,14 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	 * Retourne les thèmes de la vidéo
+	 */
+	@Override
+	public String getThemesLabel(java.util.Locale locale) {
+		return _video.getThemesLabel(locale);
+	}
+
+	/**
 	 * Returns the title of this video.
 	 *
 	 * @return the title of this video
