@@ -23,7 +23,20 @@
         }
     }
 
+    .video-player {
+        position: relative;
+        padding-top: 56.25%;
+        margin-bottom: 20px;
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+    }
+
     .description {
-        margin: 20px 0;
+        margin: 40px 0;
     }
 }
