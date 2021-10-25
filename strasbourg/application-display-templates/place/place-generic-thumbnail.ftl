@@ -7,11 +7,12 @@
     <#assign homeURL = "/" />
 </#if>
 
+<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 <#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
 
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
     <@liferay_portlet.param name="sigId" value="${entry.getSIGid()}" />
-    <@liferay_portlet.param name="title" value="${entry.getName()}" />
+    <@liferay_portlet.param name="title" value="${uriHelper.normalizeToFriendlyUrl(entry.getName())}" />
     <@liferay_portlet.param name="returnURL" value="${currentURL}" />
 </@liferay_portlet.renderURL>
 
@@ -22,7 +23,6 @@
     <@liferay_portlet.param name="detailURL" value="${detailURL}" />
     <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
 </@liferay_portlet.actionURL>
-<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 
 
 <div class="wi-search-result wi-place-thumbnail">

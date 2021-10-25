@@ -6,8 +6,11 @@
   <#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
 </#if>
 
+<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
+
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
   <@liferay_portlet.param name="classPK" value="${entry.getEventId()}" />
+  <@liferay_portlet.param name="title" value="${uriHelper.normalizeToFriendlyUrl(entry.getTitle(locale))}" />
   <@liferay_portlet.param name="returnURL" value="${currentURL}" />
 </@liferay_portlet.renderURL>
 
