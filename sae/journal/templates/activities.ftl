@@ -4,7 +4,9 @@
 		<div class="block-content">
 			<div>
 				<span class="titre">${title1.getData()}</span> 
-				<div class="chapo"><p>${text1.getData()}</p></div>
+				<#if text1?? && text1.getData()?has_content>
+					<div class="chapo"><p>${text1.getData()}</p></div>
+				</#if>
 			</div> 
 		</div> 
 	</a> 
@@ -13,7 +15,9 @@
 		<div class="block-content">
 			<div>
 				<span class="titre">${title2.getData()}</span>
-				<div class="chapo"><p>${text2.getData()}</p></div>
+				<#if text2?? && text2.getData()?has_content>
+					<div class="chapo"><p>${text2.getData()}</p></div>
+				</#if>
 			</div>
 		</div>
 	</a> 
@@ -22,7 +26,9 @@
 		<div class="block-content">
 			<div>  
 				<span class="titre">${title3.getData()}</span> 
-				<div class="chapo"><p>${text3.getData()}</p></div>
+				<#if text3?? && text3.getData()?has_content>
+					<div class="chapo"><p>${text3.getData()}</p></div>
+				</#if>
 			</div> 
 		</div> 
 	</a> 

@@ -12,7 +12,7 @@
 
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
     <@liferay_portlet.param name="sigId" value="${entry.getSIGid()}" />
-    <@liferay_portlet.param name="title" value="${uriHelper.normalizeToFriendlyUrl(entry.getName())}" />
+    <@liferay_portlet.param name="title" value="${entry.getNormalizedAlias(locale)}" />
     <@liferay_portlet.param name="returnURL" value="${currentURL}" />
 </@liferay_portlet.renderURL>
 

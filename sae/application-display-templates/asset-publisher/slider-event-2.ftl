@@ -4,7 +4,6 @@
 <#else>
   <#assign homeURL = "/" />
 </#if>
-<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 
 <div id="events">
     <h3><@liferay_ui.message key="sae.events" /></h3>
@@ -23,7 +22,7 @@
 
                 <div class="swiper-slide">
                     <a class="event-content" href="${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.normalizedTitle}">
-                        <img class="event-image" src="${entry.getImageURL()}?imagePreview=1" loading="lazy" />
+                        <img class="event-image" src="${entry.getImageURL()}" loading="lazy" />
                         <div class="event-date">
                             ${entry.getEventScheduleDisplay(locale)}
                         </div>

@@ -11,7 +11,7 @@
 
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
     <@liferay_portlet.param name="classPK" value="${entry.assetEntry.classPK}" />
-    <@liferay_portlet.param name="title" value="${uriHelper.normalizeToFriendlyUrl(entry.getTitle(locale))}" />
+    <@liferay_portlet.param name="title" value="${entry.getNormalizedTitle(locale)}" />
     <@liferay_portlet.param name="returnURL" value="${currentURL}" />
 </@liferay_portlet.renderURL>
 

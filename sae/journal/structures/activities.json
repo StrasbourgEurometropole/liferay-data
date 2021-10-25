@@ -6,7 +6,7 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "image-1"
+                "fr_FR": "Image du premier onglet"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -30,7 +30,7 @@
         },
         {
             "label": {
-                "fr_FR": "title-1"
+                "fr_FR": "Titre du premier onglet"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -53,7 +53,7 @@
         },
         {
             "label": {
-                "fr_FR": "text-1"
+                "fr_FR": "Texte du premier onglet"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -76,7 +76,7 @@
         },
         {
             "label": {
-                "fr_FR": "link-1"
+                "fr_FR": "Lien du premier onglet"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -99,7 +99,7 @@
         },
         {
             "label": {
-                "fr_FR": "image2"
+                "fr_FR": "Image du deuxième onglet"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -123,7 +123,7 @@
         },
         {
             "label": {
-                "fr_FR": "title-2"
+                "fr_FR": "Titre du deuxième onglet"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -146,7 +146,7 @@
         },
         {
             "label": {
-                "fr_FR": "text-2"
+                "fr_FR": "Texte du deuxième onglet"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -169,7 +169,7 @@
         },
         {
             "label": {
-                "fr_FR": "link-2"
+                "fr_FR": "Lien du deuxième onglet"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -192,7 +192,7 @@
         },
         {
             "label": {
-                "fr_FR": "image-3"
+                "fr_FR": "Image du troisième onglet"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -216,7 +216,7 @@
         },
         {
             "label": {
-                "fr_FR": "title-3"
+                "fr_FR": "Titre du troisième onglet"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -239,7 +239,7 @@
         },
         {
             "label": {
-                "fr_FR": "text-3"
+                "fr_FR": "Texte du troisième onglet"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -262,7 +262,7 @@
         },
         {
             "label": {
-                "fr_FR": "link-3"
+                "fr_FR": "Lien du troisième onglet"
             },
             "predefinedValue": {
                 "fr_FR": ""

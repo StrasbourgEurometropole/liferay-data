@@ -32,13 +32,13 @@
                 <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
                 <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
                 <div class="swiper-slide news-content">
-                    <img class="news-image" src="${imageURL}" loading="lazy" alt="${title}" />
+                    <img class="news-image" src="${imageURL}?imagePreview=1" loading="lazy" alt="${title}" />
                     <div class="news-meta">
                         <div class="news-title"> 
                             <span>${title}</span>
                         </div>
                         <span class="publication">
-                                ${dateHelperService.displayShortDate(curEntry.getModifiedDate()?date, locale)}
+                                ${dateHelperService.displayShortDate(publishDate?date, locale)}
                         </span>
                         <div class="news-chapo"> 
                             <span>${catcher?replace("<[^>]*>", "", "r")}</span>

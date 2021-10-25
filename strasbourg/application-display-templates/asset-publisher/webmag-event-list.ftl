@@ -5,6 +5,8 @@
   <#assign homeURL = "/" />
 </#if>
 
+<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
+
 <!-- Webmag - List d'event -->
 <section class="hp-agenda" data-scroll-animation>
     <h2 class="waved-title waved-title--center waved-title--t-white waved-title--w-transparent hp-agenda__title">Agenda</h2>
@@ -43,7 +45,7 @@
                                     <div class="slider-agenda-main__slide-category" data-dot="2">${entry.getTypeLabel(locale)}</div>
                                 </a>
                                 <div class="right">
-                                    <a href="${homeURL}lieu/-/entity/id/${entry.placeId}/${entry.getNormalizedAlias(locale)}" class="slider-agenda-main__slide-tag unstyled"> ${entry.getPlaceAlias(locale)} - ${entry.getPlaceCity(locale)}</a>
+                                    <a href="${homeURL}lieu/-/entity/id/${entry.placeId}/${uriHelper.normalizeToFriendlyUrl(entry.getPlaceAlias(locale))}" class="slider-agenda-main__slide-tag unstyled"> ${entry.getPlaceAlias(locale)} - ${entry.getPlaceCity(locale)}</a>
                                     <a href="#" class="slider-agenda-main__slide-favorite unstyled add-favorites" 
                                         data-type="2" 
                                         data-title="${entry.getTitle(locale)}" 
