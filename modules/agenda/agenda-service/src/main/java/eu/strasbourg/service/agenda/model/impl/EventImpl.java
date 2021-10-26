@@ -750,7 +750,6 @@ public class EventImpl extends EventBaseImpl {
 				dateTimeFormat.format(this.getModifiedDate()));
 
 		jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
-		jsonEvent.put("normalizedTitle", UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
 
 		if (Validator.isNotNull(this.getSubtitle())) {
 			jsonEvent.put("subtitle", JSONHelper.getJSONFromI18nMap(this.getSubtitleMap()));
@@ -887,7 +886,7 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("services", jsonServices);
 		}
 
-		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
+		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
 
 		List<String> mercators = this.getMercators();
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
@@ -1050,7 +1049,7 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("services", jsonServices);
 		}
 
-		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
+		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
 
 		List<String> mercators = this.getMercators();
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
@@ -1244,7 +1243,7 @@ public class EventImpl extends EventBaseImpl {
 			} else {
 				url = "https://" + virtualHostName + "/";
 			}
-			url += "evenement/-/entity/id/" + this.getEventId() + "/" + this.getNormalizedTitle(locale);
+			url += "evenement/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(locale));
 			properties.put("url", url);
 		}
 		properties.put("sigId", this.getPlaceSIGId() + "_" + this.getEventId());
@@ -1552,21 +1551,4 @@ public class EventImpl extends EventBaseImpl {
 
 		return jsonEvent;
 	}
-
-	/**
-	 * Renvoie le titre de l'event pour friendlyUrl
-	 */
-	@Override
-	public String getNormalizedTitle() {
-		return UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE));
-	}
-
-	/**
-	 * Renvoie le titre de l'event pour friendlyUrl
-	 */
-	@Override
-	public String getNormalizedTitle(Locale locale) {
-		return UriHelper.normalizeToFriendlyUrl(this.getTitle(locale));
-	}
-
 }

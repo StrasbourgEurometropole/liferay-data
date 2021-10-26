@@ -134,7 +134,7 @@
                         <a href="#" class="add-favorites"
                             data-type="1"
                             data-title="${office.getAlias(locale)}"
-                            data-url="${homeURL}lieu/-/entity/sig/${office.getSIGid()}/${office.getNormalizedAlias(locale)}"
+                            data-url="${homeURL}lieu/-/entity/sig/${office.getSIGid()}"
                             data-id="${office.placeId}">
                             <span><liferay-ui:message key="eu.add-to-favorite" /></span>
                         </a>

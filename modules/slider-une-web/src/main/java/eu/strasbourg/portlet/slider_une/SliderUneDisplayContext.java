@@ -150,4 +150,6 @@ public class SliderUneDisplayContext {
         else
             return false;
     }
+
+    public String getNormalizedForURL(String s){ return UriHelper.normalizeToFriendlyUrl(s); }
 }

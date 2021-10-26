@@ -414,14 +414,4 @@ public interface Place extends PersistedModel, PlaceModel {
 	 */
 	public com.liferay.portal.kernel.json.JSONObject getScheduleCSMapJSON();
 
-	/**
-	 * Renvoie le titre du lieu pour friendlyUrl
-	 */
-	public String getNormalizedAlias();
-
-	/**
-	 * Renvoie le titre du lieu pour friendlyUrl
-	 */
-	public String getNormalizedAlias(java.util.Locale locale);
-
 }
