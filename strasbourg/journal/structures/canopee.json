@@ -9,13 +9,13 @@
                 "fr_FR": "Arbres plantés"
             },
             "predefinedValue": {
-                "fr_FR": "00000"
+                "fr_FR": ""
             },
             "style": {
                 "fr_FR": ""
             },
             "tip": {
-                "fr_FR": "00000"
+                "fr_FR": ""
             },
             "dataType": "integer",
             "fieldNamespace": "ddm",
@@ -33,13 +33,13 @@
                 "fr_FR": "Arbres plantés dans les cours d'école"
             },
             "predefinedValue": {
-                "fr_FR": "00000"
+                "fr_FR": ""
             },
             "style": {
                 "fr_FR": ""
             },
             "tip": {
-                "fr_FR": "00000"
+                "fr_FR": ""
             },
             "dataType": "integer",
             "fieldNamespace": "ddm",
@@ -57,13 +57,13 @@
                 "fr_FR": "m² de surface déminéralisée"
             },
             "predefinedValue": {
-                "fr_FR": "00000"
+                "fr_FR": ""
             },
             "style": {
                 "fr_FR": ""
             },
             "tip": {
-                "fr_FR": "00000"
+                "fr_FR": ""
             },
             "dataType": "integer",
             "fieldNamespace": "ddm",
