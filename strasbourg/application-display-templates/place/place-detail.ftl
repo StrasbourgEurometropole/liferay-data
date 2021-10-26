@@ -48,7 +48,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <a href="#" class="add-favorites"
             data-type="1" 
             data-title="${entry.getAlias(locale)}" 
-            data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" 
+            data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}" 
             data-id="${entry.placeId}">
             <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
         </a>
@@ -427,7 +427,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                             <#break>
                                         </#if>
                                         <div class="seu-agenda-slider-item seu-has-ville">
-                                            <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" class="seu-link" title="${event.getTitle(locale)}">
+                                            <a href="${homeURL}evenement/-/entity/id/${event.eventId}" class="seu-link" title="${event.getTitle(locale)}">
                                                 <div class="seu-date">
                                                     <div class="seu-date-sup">
                                                         <#if event.firstStartDate?date == event.lastEndDate?date>

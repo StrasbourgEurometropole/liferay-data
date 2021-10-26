@@ -28,7 +28,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     <a href="#" class="add-favorites"
         data-type="2" 
         data-title="${entry.getTitle(locale)}" 
-        data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}" 
+        data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}" 
         data-id="${entry.eventId}">
         <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
     </a>
@@ -78,7 +78,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <div class="item-geoloc">
                     <span class="text">
                         <#if (entry.placeId > 0)>
-                            <a href="${homeURL}lieu/-/entity/id/${entry.placeId}/${entry.getNormalizedAlias(locale)}">
+                            <a href="${homeURL}lieu/-/entity/id/${entry.placeId}">
                                 <strong>${entry.getPlaceAlias(locale)}</strong> 
                             </a>
                         <#else>

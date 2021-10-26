@@ -8,7 +8,7 @@
     <#assign homeURL = "/" />
 </#if>
 
-<a href="${homeURL}detail-evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}" class="ops-card ops-card-concert">
+<a href="${homeURL}detail-evenement/-/entity/id/${entry.eventId}" class="ops-card ops-card-concert">
 	<div>
 		<time>
 			${entry.getEventScheduleDisplay(locale, false, true)}

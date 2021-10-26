@@ -11,17 +11,17 @@
             <#assign entry = curEntry.getAssetRenderer().getEvent() />
 
             <div class="event-content"> 
-                <a href="${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}">
+                <a href="${homeURL}evenement/-/entity/id/${entry.eventId}">
                     <img class="event-image" src="${entry.getImageURL()}" />
                 </a>
                 <div class="event-meta"> 
                     <span class="event-category">${entry.getThemeLabel(locale)}</span>
                     <span class="event-date">
-                        <a href="${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}">
+                        <a href="${homeURL}evenement/-/entity/id/${entry.eventId}">
                             ${entry.getEventScheduleDisplay(locale)}
                         </a>
                     </span>
-                    <a class="btn-tps-forts" href="${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}">
+                    <a class="btn-tps-forts" href="${homeURL}evenement/-/entity/id/${entry.eventId}">
                         <h4>${entry.getTitle(locale)}</h4> 
                     </a>
                 </div>

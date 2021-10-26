@@ -1,8 +1,6 @@
 <!-- Détail cours -->
 <#setting locale = locale />
 
-<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
-
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
   <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
@@ -168,7 +166,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     <div class="tab-title">${periodPlace.placeName}</div>
                                     <#if periodPlace.placeSigId?has_content>
                                         <div class="rte" style="margin-top: -5px; margin-bottom: 10px;">
-                                            <a href="${homeURL}lieu/-/entity/sig/${periodPlace.placeSigId}/${periodPlace.getNormalizedAlias(locale)}"><@liferay_ui.message key="eu.activity.see-place-detail" /></a>
+                                            <a href="${homeURL}lieu/-/entity/sig/${periodPlace.placeSigId}"><@liferay_ui.message key="eu.activity.see-place-detail" /></a>
                                         </div>
                                     </#if>
                                     <ul class="schedule-list" style="margin-bottom: 10px;">
@@ -203,7 +201,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <#list entry.getPlaceSIGIds(locale) as sigId>
                     <div class="tab-title">${entry.getPlaceNames(locale)[sigId?index]}</div>
                     <div class="rte" style="margin-top: -5px; margin-bottom: 10px;">
-                        <a href="${homeURL}lieu/-/entity/sig/${sigId}/${uriHelper.normalizeToFriendlyUrl(entry.getPlaceNames(locale)[sigId?index])}"><@liferay_ui.message key="eu.activity.see-place-detail" /></a>
+                        <a href="${homeURL}lieu/-/entity/sig/${sigId}"><@liferay_ui.message key="eu.activity.see-place-detail" /></a>
                     </div>
                 </#list>
             </div>

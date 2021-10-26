@@ -11,7 +11,6 @@
 
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
     <@liferay_portlet.param name="sigId" value="${entry.getSIGid()}" />
-    <@liferay_portlet.param name="title" value="${entry.getName()}" />
     <@liferay_portlet.param name="returnURL" value="${currentURL}" />
 </@liferay_portlet.renderURL>
 
@@ -22,7 +21,6 @@
     <@liferay_portlet.param name="detailURL" value="${detailURL}" />
     <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
 </@liferay_portlet.actionURL>
-<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 
 
 <div class="wi-search-result wi-place-thumbnail">
@@ -42,7 +40,7 @@
                 <a href="#" class="seu-add-favorites"
                 data-type="1" 
                 data-title="${entry.getAlias(locale)}"
-                data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}"
+                data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}" 
                 data-id="${entry.placeId}">
                     <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
                 </a>
