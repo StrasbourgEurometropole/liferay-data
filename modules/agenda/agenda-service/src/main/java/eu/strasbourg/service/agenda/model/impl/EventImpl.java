@@ -1243,7 +1243,7 @@ public class EventImpl extends EventBaseImpl {
 			} else {
 				url = "https://" + virtualHostName + "/";
 			}
-			url += "evenement/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(locale));
+			url += "evenement/-/entity/id/" + this.getEventId();
 			properties.put("url", url);
 		}
 		properties.put("sigId", this.getPlaceSIGId() + "_" + this.getEventId());

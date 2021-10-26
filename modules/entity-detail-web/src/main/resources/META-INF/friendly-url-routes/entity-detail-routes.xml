@@ -3,17 +3,7 @@
 
 <routes>
 	<route>
-		<pattern>/id/{classPK}/{title}</pattern>
-		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
-		<implicit-parameter name="p_p_state">normal</implicit-parameter>
-	</route>
-	<route>
 		<pattern>/id/{classPK}</pattern>
-		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
-		<implicit-parameter name="p_p_state">normal</implicit-parameter>
-	</route>
-	<route>
-		<pattern>/sig/{sigId}/{title}</pattern>
 		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
 		<implicit-parameter name="p_p_state">normal</implicit-parameter>
 	</route>

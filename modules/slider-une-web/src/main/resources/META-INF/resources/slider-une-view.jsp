@@ -43,7 +43,7 @@
                     category: 'agenda',
                     title: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTitle(locale)))}',
                     type: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTypeLabel(locale)))}',
-                    link: '${dc.getPortalURL()}${dc.getHomeURL()}/evenement/-/entity/id/${event.eventId}/${dc.getNormalizedForURL(event.getTitle(locale))}',
+                    link: '${dc.getPortalURL()}${dc.getHomeURL()}/evenement/-/entity/id/${event.eventId}',
                     ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
                     id: '${event.eventId}',
                     <c:if test="${event.firstStartDate.equals(event.lastEndDate)}">
