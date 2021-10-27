@@ -6,6 +6,7 @@ Export-Package: \
 	eu.strasbourg.service.notif.exception,\
 	eu.strasbourg.service.notif.model,\
 	eu.strasbourg.service.notif.service,\
-	eu.strasbourg.service.notif.service.persistence
+	eu.strasbourg.service.notif.service.persistence,\
+    eu.strasbourg.service.notif.helper
 -check: EXPORTS
 -includeresource: META-INF/service.xml=../notif-service/service.xml

@@ -399,4 +399,8 @@ public class StrasbourgPropsUtil {
 	public static String getEntrouvertURL() {
 		return PropsUtil.get("eu.strasbourg.publik.issuer");
 	}
+
+	public static String getFCMConfigurationFile(){
+		return PropsUtil.get("eu.strasbourg.notif.app.fcm.configuration.file");
+	}
 }
