@@ -114,16 +114,18 @@ public class EventApplication extends Application {
             json.put(WSConstants.JSON_UPDATE, jsonModif);
 
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-            // On récupère tous les events qui ont été dépubliés
-            List<CacheJson> depubications = cacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
-            for (CacheJson cache: depubications) {
-                jsonSuppr.put(cache.getEventId());
-            }
+            if(!lastUpdateTimeString.equals("0")) {
+                // On récupère tous les events qui ont été dépubliés
+                List<CacheJson> depubications = cacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
+                for (CacheJson cache : depubications) {
+                    jsonSuppr.put(cache.getEventId());
+                }
 
-            // On récupère tous les events qui ont été supprimés
-            List<Historic> suppressions = historicLocalService.getBySuppressionDate(lastUpdateTime);
-            for (Historic histo: suppressions) {
-                jsonSuppr.put(histo.getEventId());
+                // On récupère tous les events qui ont été supprimés
+                List<Historic> suppressions = historicLocalService.getBySuppressionDate(lastUpdateTime);
+                for (Historic histo : suppressions) {
+                    jsonSuppr.put(histo.getEventId());
+                }
             }
             json.put(WSConstants.JSON_DELETE, jsonSuppr);
 
