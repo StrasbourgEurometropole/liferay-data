@@ -73,15 +73,17 @@
 
                 <!-- Colonne : nom du service -->
                 <c:if test="${isAdminNotification || dc.hasMultipleServices()}">
-                    <liferay-ui:search-container-column-text cssClass="content-column"
-                        name="eu.strasbourg.notif.service.name" truncate="true"
-                        value="${dc.getService(notification.serviceId)}" />
+                    <liferay-ui:search-container-column-text
+                        name="eu.strasbourg.notif.service.name">
+                        ${dc.getService(notification.serviceId)}
+					</liferay-ui:search-container-column-text>
                 </c:if>
 
                 <!-- Colonne : type -->
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="eu.strasbourg.notif.notification.type" truncate="true"
-					value="${notification.isAlert == 1 ? 'Alerte' : 'Notification'}" />
+				<liferay-ui:search-container-column-text
+					name="eu.strasbourg.notif.notification.type">
+					${notification.isAlert == 1 ? 'Alerte' : 'Notification'}
+				</liferay-ui:search-container-column-text>
 
                 <!-- Colonne : nature -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
@@ -96,16 +98,18 @@
                 <!-- Colonne : date de début -->
 				<fmt:formatDate value="${notification.startDate}"
 					var="formattedStartDate" type="date" pattern="dd/MM/yyyy" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="eu.strasbourg.notif.notification.start-date" truncate="true"
-					value="${formattedStartDate}" />
+				<liferay-ui:search-container-column-text
+					name="eu.strasbourg.notif.notification.start-date">
+					${formattedStartDate}
+				</liferay-ui:search-container-column-text>
 
                 <!-- Colonne : date de fin -->
 				<fmt:formatDate value="${notification.endDate}"
 					var="formattedEndDate" type="date" pattern="dd/MM/yyyy" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="eu.strasbourg.notif.notification.end-date" truncate="true"
-					value="${formattedEndDate}" />
+				<liferay-ui:search-container-column-text
+					name="eu.strasbourg.notif.notification.end-date">
+					${formattedEndDate}
+				</liferay-ui:search-container-column-text>
 
                 <!-- Colonne : status -->
 				<liferay-ui:search-container-column-text name="status">
