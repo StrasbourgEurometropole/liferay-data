@@ -12,7 +12,7 @@
     <div class="seu-result-right">
         <a class="seu-result-content" href="${detailURL}">
             <h2 class="seu-result-title">${entry.getPost()}</h2>
-            <div class="seu-result-catcher">${entry.direction.getTitle(locale)}
+            <div class="seu-result-catcher"><#if entry.direction ??>${entry.direction.getTitle(locale)}</#if>
                 <#if entry.service??>
                   / ${entry.service.getTitle(locale)}
                 </#if>

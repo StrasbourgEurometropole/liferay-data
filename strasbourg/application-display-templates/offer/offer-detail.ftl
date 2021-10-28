@@ -23,7 +23,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </div>
                         <div id="direction">
                             <h3><@liferay_ui.message key="eu.offer-direction" /></h3>
-                            <p>${entry.direction.getTitle(locale)}</p>
+                            <#if entry.direction ??>
+                                <p>${entry.direction.getTitle(locale)}</p>
+                            </#if>
                         </div>
                         <#if entry.service?? && entry.service?has_content>
                             <div id="service">
@@ -182,4 +184,4 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     </script>
 <#else>
     <p><@liferay_ui.message key="eu.offer-not-visible" /></p>
-</#if> 
+</#if>
