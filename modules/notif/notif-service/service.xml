@@ -10,11 +10,6 @@
 		<column name="messageId" primary="true" type="long" />
 		<column name="serviceId" type="long" />
 		<column name="content" type="String" localized="true" />
-		<!--
-                <finder name="MessageIdAndServiceId" return-type="Collection">
-                    <finder-column name="messageId" />
-                    <finder-column name="serviceId" />
-                </finder>-->
 
 		<finder name="ServiceId" return-type="Collection">
 			<finder-column name="serviceId" />
@@ -27,11 +22,6 @@
 		<column name="natureId" primary="true" type="long" />
 		<column name="serviceId" type="long" />
 		<column name="name" type="String" localized="true" />
-		<!--
-                <finder name="NatureIdAndServiceId" return-type="Collection">
-                    <finder-column name="natureId" />
-                    <finder-column name="serviceId" />
-                </finder>-->
 
 		<finder name="ServiceId" return-type="Collection">
 			<finder-column name="serviceId" />
@@ -88,32 +78,7 @@
 		<finder name="ServiceIds" return-type="Collection">
 			<finder-column name="serviceId" arrayable-operator="OR" />
 		</finder>
-		<!--
-                <finder name="NotificationIdAndServiceIdAndNatureId" return-type="Collection">
-                    <finder-column name="notificationId" />
-                    <finder-column name="serviceId" />
-                    <finder-column name="natureId" />
-                </finder>
 
-                <finder name="NotificationIdAndServiceId" return-type="Collection">
-                    <finder-column name="notificationId" />
-                    <finder-column name="serviceId" />
-                </finder>
-
-                <finder name="NotificationIdAndNatureId" return-type="Collection">
-                    <finder-column name="notificationId" />
-                    <finder-column name="natureId" />
-                </finder>
-
-                <finder name="ServiceIdAndNatureId" return-type="Collection">
-                    <finder-column name="serviceId" />
-                    <finder-column name="natureId" />
-                </finder>
-
-                <finder name="NatureId" return-type="Collection">
-                    <finder-column name="natureId" />
-                </finder>
-        -->
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
@@ -136,10 +101,5 @@
 		<finder name="OrganisationIds" return-type="Collection">
 			<finder-column name="organisationId" arrayable-operator="OR" />
 		</finder>
-		<!--
-                <finder name="ServiceIdAndOrganisationId" return-type="Collection">
-                    <finder-column name="serviceId" />
-                    <finder-column name="organisationId" />
-                </finder>-->
 	</entity>
 </service-builder>

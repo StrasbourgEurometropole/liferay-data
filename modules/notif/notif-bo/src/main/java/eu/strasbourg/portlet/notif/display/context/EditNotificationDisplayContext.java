@@ -42,6 +42,8 @@ public class EditNotificationDisplayContext {
     public EditNotificationDisplayContext(RenderRequest request, Notification notification, List<ServiceNotif> services,
           List<NatureNotif> natures, List<Message> messages) {
         this.request = request;
+        this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+
         this.notification = notification;
         this.services = services;
         this.natures = natures;
@@ -49,9 +51,10 @@ public class EditNotificationDisplayContext {
         String isDuplication = ParamUtil.getString(this.request, "isDuplication");
         if (isDuplication.equals("true")) {
             this.notification.setNew(true);
+            this.notification.setUserId(this.themeDisplay.getUserId());
+            this.notification.setBroadcastDate(null);
             this.notification.setStatus(WorkflowConstants.STATUS_DRAFT);
         }
-        this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     }
 
     @SuppressWarnings("unused")
@@ -133,7 +136,7 @@ public class EditNotificationDisplayContext {
     public Boolean isOnlyView() {
         if (this.isOnlyView == null) {
             this.isOnlyView = false;
-            if(Validator.isNotNull(this.notification))
+            if(Validator.isNotNull(this.notification) && Validator.isNotNull(this.notification.getBroadcastDate()))
                 if(!canUpdateOrDeleteNotification() || this.notification.getBroadcastDate().before(new Date()))
                     this.isOnlyView = true;
         }

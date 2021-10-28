@@ -20,8 +20,6 @@ import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ViewNotificationsDisplayContext
@@ -50,12 +48,8 @@ public class ViewNotificationsDisplayContext
 						this.getSearchContainer().getStart(),
 						this.getSearchContainer().getEnd());
 			else{
-				long[] organisationIds = themeDisplay.getUser().getOrganizationIds();
-				List<ServiceNotif> services = new ArrayList<>();
-				if(organisationIds.length > 0) {
-					services = ServiceNotifLocalServiceUtil.getByOrganisationIds(organisationIds);
-					this.serviceIds = services.stream().mapToLong(ServiceNotif::getServiceId).toArray();
-					this.notifications = NotificationLocalServiceUtil.getByServiceIds(serviceIds);
+				if(getServicesId().length > 0) {
+					this.notifications = NotificationLocalServiceUtil.getByServiceIds(getServicesId());
 				}
 			}
 
@@ -64,20 +58,36 @@ public class ViewNotificationsDisplayContext
 		this.getSearchContainer().setTotal(countResults);
 		return this.notifications;
 	}
-	public List<Notification> getInProgressNotifications() throws PortalException {
+
+	@SuppressWarnings("unused")
+	public List<Notification> getInProgressNotifications() {
 		return NotificationLocalServiceUtil.getInProgressNotifications();
 	}
-	public List<Notification> getToComeNotifications() throws PortalException {
+
+	@SuppressWarnings("unused")
+	public List<Notification> getToComeNotifications() {
 		return NotificationLocalServiceUtil.getToComeNotifications();
 	}
-	public List<Notification> getPastNotifications() throws PortalException {
+
+	@SuppressWarnings("unused")
+	public List<Notification> getPastNotifications() {
 		return NotificationLocalServiceUtil.getPastNotifications();
 	}
 
+	public long[] getServicesId() throws PortalException{
+		if(Validator.isNull(this.serviceIds)) {
+			long[] organisationIds = themeDisplay.getUser().getOrganizationIds();
+			if (organisationIds.length > 0) {
+				List<ServiceNotif> services = ServiceNotifLocalServiceUtil.getByOrganisationIds(organisationIds);
+				this.serviceIds = services.stream().mapToLong(ServiceNotif::getServiceId).toArray();
+			}
+		}
+		return this.serviceIds;
+	}
 
 	@SuppressWarnings("unused")
-	public boolean hasMultipleServices(){
-		return this.serviceIds.length > 1;
+	public boolean hasMultipleServices() throws PortalException{
+		return getServicesId().length > 1;
 	}
 
 	@SuppressWarnings("unused")
@@ -141,22 +151,27 @@ public class ViewNotificationsDisplayContext
 		return false;
 	}
 
+	@SuppressWarnings("unused")
 	public String getFilter() {
 		return filter;
 	}
 
+	@SuppressWarnings("unused")
 	public String getALL() {
 		return NotifConstants.ALL;
 	}
 
+	@SuppressWarnings("unused")
 	public String getIN_PROGRESS() {
 		return NotifConstants.IN_PROGRESS;
 	}
 
+	@SuppressWarnings("unused")
 	public String getTO_COME() {
 		return NotifConstants.TO_COME;
 	}
 
+	@SuppressWarnings("unused")
 	public String getPAST() {
 		return NotifConstants.PAST;
 	}

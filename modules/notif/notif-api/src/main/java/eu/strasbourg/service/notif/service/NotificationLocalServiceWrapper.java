@@ -113,16 +113,6 @@ public class NotificationLocalServiceWrapper
 	}
 
 	@Override
-	public eu.strasbourg.service.notif.model.Notification duplicateNotification(
-			com.liferay.portal.kernel.service.ServiceContext sc,
-			eu.strasbourg.service.notif.model.Notification notificationToCopy)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _notificationLocalService.duplicateNotification(
-			sc, notificationToCopy);
-	}
-
-	@Override
 	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
 		return _notificationLocalService.dynamicQuery();
 	}
