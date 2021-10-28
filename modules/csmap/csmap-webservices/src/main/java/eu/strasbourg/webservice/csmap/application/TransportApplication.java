@@ -7,14 +7,14 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalService;
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.ArretLocalService;
 import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
 import eu.strasbourg.service.gtfs.service.LigneLocalService;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
@@ -195,6 +195,34 @@ public class TransportApplication extends Application {
                                 }
                         }
                         json.put("schedules", schedulesJSON);
+                } catch(Exception e){
+                        log.error(e);
+                        return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+                }
+                return WSResponseUtil.buildOkResponse(json);
+        }
+
+        @GET
+        @Produces("application/json")
+        @Path("/get-alerts")
+        public Response getAlerts() {
+                JSONObject json;
+                try{
+                        // Recuperation des constantes de requetage de l'API19f7805f-0b98-4451-aa1b-96939a844dfe
+                        String urlSearch = StrasbourgPropsUtil.getCTSServiceRealTimeURL();
+                        String basicAuthUser = StrasbourgPropsUtil.getCTSServiceRealTimeToken();
+                        String basicAuthPwd = "";
+
+                        // Construction de l'URL
+                        String url = urlSearch + "general-message";
+
+                        // Envoie de la requete
+                        JSONObject response = JSONHelper.readJsonFromURL(url, basicAuthUser, basicAuthPwd);
+
+                        // Traitement de la reponse
+                        JSONArray generalMessageDeliveries = response.getJSONObject("ServiceDelivery").getJSONArray("GeneralMessageDelivery");
+                        json = CSMapJSonHelper.alertCSMapJSON(generalMessageDeliveries);
+
                 } catch(Exception e){
                         log.error(e);
                         return WSResponseUtil.buildErrorResponse(500, e.getMessage());
