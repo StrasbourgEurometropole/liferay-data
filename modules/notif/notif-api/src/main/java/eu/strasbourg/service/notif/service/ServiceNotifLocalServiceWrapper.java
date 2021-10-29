@@ -221,6 +221,15 @@ public class ServiceNotifLocalServiceWrapper
 	}
 
 	@Override
+	public eu.strasbourg.service.notif.model.ServiceNotif getByTopic(
+			String topic)
+		throws eu.strasbourg.service.notif.exception.
+			NoSuchServiceNotifException {
+
+		return _serviceNotifLocalService.getByTopic(topic);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 		getIndexableActionableDynamicQuery() {
 

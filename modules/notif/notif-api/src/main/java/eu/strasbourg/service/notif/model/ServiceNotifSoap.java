@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,6 +38,12 @@ public class ServiceNotifSoap implements Serializable {
 		soapModel.setOrganisationId(model.getOrganisationId());
 		soapModel.setName(model.getName());
 		soapModel.setPictoId(model.getPictoId());
+		soapModel.setCsmapSubscriptionLabel(model.getCsmapSubscriptionLabel());
+		soapModel.setCsmapSubscriptionMandatory(
+			model.isCsmapSubscriptionMandatory());
+		soapModel.setCsmapTopic(model.getCsmapTopic());
+		soapModel.setCreateDate(model.getCreateDate());
+		soapModel.setModifiedDate(model.getModifiedDate());
 
 		return soapModel;
 	}
@@ -122,9 +129,60 @@ public class ServiceNotifSoap implements Serializable {
 		_pictoId = pictoId;
 	}
 
+	public String getCsmapSubscriptionLabel() {
+		return _csmapSubscriptionLabel;
+	}
+
+	public void setCsmapSubscriptionLabel(String csmapSubscriptionLabel) {
+		_csmapSubscriptionLabel = csmapSubscriptionLabel;
+	}
+
+	public boolean getCsmapSubscriptionMandatory() {
+		return _csmapSubscriptionMandatory;
+	}
+
+	public boolean isCsmapSubscriptionMandatory() {
+		return _csmapSubscriptionMandatory;
+	}
+
+	public void setCsmapSubscriptionMandatory(
+		boolean csmapSubscriptionMandatory) {
+
+		_csmapSubscriptionMandatory = csmapSubscriptionMandatory;
+	}
+
+	public String getCsmapTopic() {
+		return _csmapTopic;
+	}
+
+	public void setCsmapTopic(String csmapTopic) {
+		_csmapTopic = csmapTopic;
+	}
+
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		_modifiedDate = modifiedDate;
+	}
+
 	private long _serviceId;
 	private long _organisationId;
 	private String _name;
 	private long _pictoId;
+	private String _csmapSubscriptionLabel;
+	private boolean _csmapSubscriptionMandatory;
+	private String _csmapTopic;
+	private Date _createDate;
+	private Date _modifiedDate;
 
 }

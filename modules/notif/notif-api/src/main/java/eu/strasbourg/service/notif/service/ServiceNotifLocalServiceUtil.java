@@ -216,6 +216,14 @@ public class ServiceNotifLocalServiceUtil {
 		return getService().getByOrganisationIds(organisationIds);
 	}
 
+	public static eu.strasbourg.service.notif.model.ServiceNotif getByTopic(
+			String topic)
+		throws eu.strasbourg.service.notif.exception.
+			NoSuchServiceNotifException {
+
+		return getService().getByTopic(topic);
+	}
+
 	public static
 		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 			getIndexableActionableDynamicQuery() {

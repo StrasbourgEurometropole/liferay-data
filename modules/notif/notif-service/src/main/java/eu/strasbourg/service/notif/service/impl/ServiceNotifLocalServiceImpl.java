@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.notif.service.impl;
 
+import eu.strasbourg.service.notif.exception.NoSuchServiceNotifException;
 import eu.strasbourg.service.notif.model.Message;
 import eu.strasbourg.service.notif.model.NatureNotif;
 import eu.strasbourg.service.notif.model.ServiceNotif;
@@ -80,5 +81,10 @@ public class ServiceNotifLocalServiceImpl
 	@Override
 	public List<ServiceNotif> getByOrganisationIds(long[] organisationIds) {
 		return serviceNotifPersistence.findByOrganisationIds(organisationIds);
+	}
+
+	@Override
+	public ServiceNotif getByTopic(String topic) throws NoSuchServiceNotifException {
+		return serviceNotifPersistence.findByTopic(topic);
 	}
 }

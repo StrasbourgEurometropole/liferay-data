@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -61,6 +62,12 @@ public class ServiceNotifWrapper
 		attributes.put("organisationId", getOrganisationId());
 		attributes.put("name", getName());
 		attributes.put("pictoId", getPictoId());
+		attributes.put("csmapSubscriptionLabel", getCsmapSubscriptionLabel());
+		attributes.put(
+			"csmapSubscriptionMandatory", isCsmapSubscriptionMandatory());
+		attributes.put("csmapTopic", getCsmapTopic());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -90,6 +97,38 @@ public class ServiceNotifWrapper
 		if (pictoId != null) {
 			setPictoId(pictoId);
 		}
+
+		String csmapSubscriptionLabel = (String)attributes.get(
+			"csmapSubscriptionLabel");
+
+		if (csmapSubscriptionLabel != null) {
+			setCsmapSubscriptionLabel(csmapSubscriptionLabel);
+		}
+
+		Boolean csmapSubscriptionMandatory = (Boolean)attributes.get(
+			"csmapSubscriptionMandatory");
+
+		if (csmapSubscriptionMandatory != null) {
+			setCsmapSubscriptionMandatory(csmapSubscriptionMandatory);
+		}
+
+		String csmapTopic = (String)attributes.get("csmapTopic");
+
+		if (csmapTopic != null) {
+			setCsmapTopic(csmapTopic);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
+		}
 	}
 
 	@Override
@@ -102,6 +141,46 @@ public class ServiceNotifWrapper
 		eu.strasbourg.service.notif.model.ServiceNotif serviceNotif) {
 
 		return _serviceNotif.compareTo(serviceNotif);
+	}
+
+	/**
+	 * Returns the create date of this service notif.
+	 *
+	 * @return the create date of this service notif
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _serviceNotif.getCreateDate();
+	}
+
+	/**
+	 * Returns the csmap subscription label of this service notif.
+	 *
+	 * @return the csmap subscription label of this service notif
+	 */
+	@Override
+	public String getCsmapSubscriptionLabel() {
+		return _serviceNotif.getCsmapSubscriptionLabel();
+	}
+
+	/**
+	 * Returns the csmap subscription mandatory of this service notif.
+	 *
+	 * @return the csmap subscription mandatory of this service notif
+	 */
+	@Override
+	public boolean getCsmapSubscriptionMandatory() {
+		return _serviceNotif.getCsmapSubscriptionMandatory();
+	}
+
+	/**
+	 * Returns the csmap topic of this service notif.
+	 *
+	 * @return the csmap topic of this service notif
+	 */
+	@Override
+	public String getCsmapTopic() {
+		return _serviceNotif.getCsmapTopic();
 	}
 
 	@Override
@@ -117,6 +196,16 @@ public class ServiceNotifWrapper
 		getMessages() {
 
 		return _serviceNotif.getMessages();
+	}
+
+	/**
+	 * Returns the modified date of this service notif.
+	 *
+	 * @return the modified date of this service notif
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return _serviceNotif.getModifiedDate();
 	}
 
 	/**
@@ -194,6 +283,16 @@ public class ServiceNotifWrapper
 		return _serviceNotif.isCachedModel();
 	}
 
+	/**
+	 * Returns <code>true</code> if this service notif is csmap subscription mandatory.
+	 *
+	 * @return <code>true</code> if this service notif is csmap subscription mandatory; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isCsmapSubscriptionMandatory() {
+		return _serviceNotif.isCsmapSubscriptionMandatory();
+	}
+
 	@Override
 	public boolean isEscapedModel() {
 		return _serviceNotif.isEscapedModel();
@@ -214,6 +313,48 @@ public class ServiceNotifWrapper
 		_serviceNotif.setCachedModel(cachedModel);
 	}
 
+	/**
+	 * Sets the create date of this service notif.
+	 *
+	 * @param createDate the create date of this service notif
+	 */
+	@Override
+	public void setCreateDate(Date createDate) {
+		_serviceNotif.setCreateDate(createDate);
+	}
+
+	/**
+	 * Sets the csmap subscription label of this service notif.
+	 *
+	 * @param csmapSubscriptionLabel the csmap subscription label of this service notif
+	 */
+	@Override
+	public void setCsmapSubscriptionLabel(String csmapSubscriptionLabel) {
+		_serviceNotif.setCsmapSubscriptionLabel(csmapSubscriptionLabel);
+	}
+
+	/**
+	 * Sets whether this service notif is csmap subscription mandatory.
+	 *
+	 * @param csmapSubscriptionMandatory the csmap subscription mandatory of this service notif
+	 */
+	@Override
+	public void setCsmapSubscriptionMandatory(
+		boolean csmapSubscriptionMandatory) {
+
+		_serviceNotif.setCsmapSubscriptionMandatory(csmapSubscriptionMandatory);
+	}
+
+	/**
+	 * Sets the csmap topic of this service notif.
+	 *
+	 * @param csmapTopic the csmap topic of this service notif
+	 */
+	@Override
+	public void setCsmapTopic(String csmapTopic) {
+		_serviceNotif.setCsmapTopic(csmapTopic);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(
 		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
@@ -229,6 +370,16 @@ public class ServiceNotifWrapper
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_serviceNotif.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	 * Sets the modified date of this service notif.
+	 *
+	 * @param modifiedDate the modified date of this service notif
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_serviceNotif.setModifiedDate(modifiedDate);
 	}
 
 	/**

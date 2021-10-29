@@ -25,6 +25,8 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -45,11 +47,13 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -876,6 +880,242 @@ public class ServiceNotifPersistenceImpl
 		_FINDER_COLUMN_ORGANISATIONIDS_ORGANISATIONID_7 =
 			"serviceNotif.organisationId IN (";
 
+	private FinderPath _finderPathFetchByTopic;
+	private FinderPath _finderPathCountByTopic;
+
+	/**
+	 * Returns the service notif where csmapTopic = &#63; or throws a <code>NoSuchServiceNotifException</code> if it could not be found.
+	 *
+	 * @param csmapTopic the csmap topic
+	 * @return the matching service notif
+	 * @throws NoSuchServiceNotifException if a matching service notif could not be found
+	 */
+	@Override
+	public ServiceNotif findByTopic(String csmapTopic)
+		throws NoSuchServiceNotifException {
+
+		ServiceNotif serviceNotif = fetchByTopic(csmapTopic);
+
+		if (serviceNotif == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("csmapTopic=");
+			msg.append(csmapTopic);
+
+			msg.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchServiceNotifException(msg.toString());
+		}
+
+		return serviceNotif;
+	}
+
+	/**
+	 * Returns the service notif where csmapTopic = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param csmapTopic the csmap topic
+	 * @return the matching service notif, or <code>null</code> if a matching service notif could not be found
+	 */
+	@Override
+	public ServiceNotif fetchByTopic(String csmapTopic) {
+		return fetchByTopic(csmapTopic, true);
+	}
+
+	/**
+	 * Returns the service notif where csmapTopic = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param csmapTopic the csmap topic
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching service notif, or <code>null</code> if a matching service notif could not be found
+	 */
+	@Override
+	public ServiceNotif fetchByTopic(
+		String csmapTopic, boolean retrieveFromCache) {
+
+		csmapTopic = Objects.toString(csmapTopic, "");
+
+		Object[] finderArgs = new Object[] {csmapTopic};
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByTopic, finderArgs, this);
+		}
+
+		if (result instanceof ServiceNotif) {
+			ServiceNotif serviceNotif = (ServiceNotif)result;
+
+			if (!Objects.equals(csmapTopic, serviceNotif.getCsmapTopic())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_SERVICENOTIF_WHERE);
+
+			boolean bindCsmapTopic = false;
+
+			if (csmapTopic.isEmpty()) {
+				query.append(_FINDER_COLUMN_TOPIC_CSMAPTOPIC_3);
+			}
+			else {
+				bindCsmapTopic = true;
+
+				query.append(_FINDER_COLUMN_TOPIC_CSMAPTOPIC_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindCsmapTopic) {
+					qPos.add(csmapTopic);
+				}
+
+				List<ServiceNotif> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(
+						_finderPathFetchByTopic, finderArgs, list);
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"ServiceNotifPersistenceImpl.fetchByTopic(String, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					ServiceNotif serviceNotif = list.get(0);
+
+					result = serviceNotif;
+
+					cacheResult(serviceNotif);
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(_finderPathFetchByTopic, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (ServiceNotif)result;
+		}
+	}
+
+	/**
+	 * Removes the service notif where csmapTopic = &#63; from the database.
+	 *
+	 * @param csmapTopic the csmap topic
+	 * @return the service notif that was removed
+	 */
+	@Override
+	public ServiceNotif removeByTopic(String csmapTopic)
+		throws NoSuchServiceNotifException {
+
+		ServiceNotif serviceNotif = findByTopic(csmapTopic);
+
+		return remove(serviceNotif);
+	}
+
+	/**
+	 * Returns the number of service notifs where csmapTopic = &#63;.
+	 *
+	 * @param csmapTopic the csmap topic
+	 * @return the number of matching service notifs
+	 */
+	@Override
+	public int countByTopic(String csmapTopic) {
+		csmapTopic = Objects.toString(csmapTopic, "");
+
+		FinderPath finderPath = _finderPathCountByTopic;
+
+		Object[] finderArgs = new Object[] {csmapTopic};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_SERVICENOTIF_WHERE);
+
+			boolean bindCsmapTopic = false;
+
+			if (csmapTopic.isEmpty()) {
+				query.append(_FINDER_COLUMN_TOPIC_CSMAPTOPIC_3);
+			}
+			else {
+				bindCsmapTopic = true;
+
+				query.append(_FINDER_COLUMN_TOPIC_CSMAPTOPIC_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindCsmapTopic) {
+					qPos.add(csmapTopic);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_TOPIC_CSMAPTOPIC_2 =
+		"serviceNotif.csmapTopic = ?";
+
+	private static final String _FINDER_COLUMN_TOPIC_CSMAPTOPIC_3 =
+		"(serviceNotif.csmapTopic IS NULL OR serviceNotif.csmapTopic = '')";
+
 	public ServiceNotifPersistenceImpl() {
 		setModelClass(ServiceNotif.class);
 	}
@@ -890,6 +1130,10 @@ public class ServiceNotifPersistenceImpl
 		entityCache.putResult(
 			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED, ServiceNotifImpl.class,
 			serviceNotif.getPrimaryKey(), serviceNotif);
+
+		finderCache.putResult(
+			_finderPathFetchByTopic,
+			new Object[] {serviceNotif.getCsmapTopic()}, serviceNotif);
 
 		serviceNotif.resetOriginalValues();
 	}
@@ -946,6 +1190,8 @@ public class ServiceNotifPersistenceImpl
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		clearUniqueFindersCache((ServiceNotifModelImpl)serviceNotif, true);
 	}
 
 	@Override
@@ -957,6 +1203,43 @@ public class ServiceNotifPersistenceImpl
 			entityCache.removeResult(
 				ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
 				ServiceNotifImpl.class, serviceNotif.getPrimaryKey());
+
+			clearUniqueFindersCache((ServiceNotifModelImpl)serviceNotif, true);
+		}
+	}
+
+	protected void cacheUniqueFindersCache(
+		ServiceNotifModelImpl serviceNotifModelImpl) {
+
+		Object[] args = new Object[] {serviceNotifModelImpl.getCsmapTopic()};
+
+		finderCache.putResult(
+			_finderPathCountByTopic, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByTopic, args, serviceNotifModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		ServiceNotifModelImpl serviceNotifModelImpl, boolean clearCurrent) {
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+				serviceNotifModelImpl.getCsmapTopic()
+			};
+
+			finderCache.removeResult(_finderPathCountByTopic, args);
+			finderCache.removeResult(_finderPathFetchByTopic, args);
+		}
+
+		if ((serviceNotifModelImpl.getColumnBitmask() &
+			 _finderPathFetchByTopic.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				serviceNotifModelImpl.getOriginalCsmapTopic()
+			};
+
+			finderCache.removeResult(_finderPathCountByTopic, args);
+			finderCache.removeResult(_finderPathFetchByTopic, args);
 		}
 	}
 
@@ -1085,6 +1368,30 @@ public class ServiceNotifPersistenceImpl
 		ServiceNotifModelImpl serviceNotifModelImpl =
 			(ServiceNotifModelImpl)serviceNotif;
 
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (serviceNotif.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				serviceNotif.setCreateDate(now);
+			}
+			else {
+				serviceNotif.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!serviceNotifModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				serviceNotif.setModifiedDate(now);
+			}
+			else {
+				serviceNotif.setModifiedDate(
+					serviceContext.getModifiedDate(now));
+			}
+		}
+
 		Session session = null;
 
 		try {
@@ -1150,6 +1457,9 @@ public class ServiceNotifPersistenceImpl
 		entityCache.putResult(
 			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED, ServiceNotifImpl.class,
 			serviceNotif.getPrimaryKey(), serviceNotif, false);
+
+		clearUniqueFindersCache(serviceNotifModelImpl, false);
+		cacheUniqueFindersCache(serviceNotifModelImpl);
 
 		serviceNotif.resetOriginalValues();
 
@@ -1603,6 +1913,19 @@ public class ServiceNotifPersistenceImpl
 			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByOrganisationIds",
 			new String[] {Long.class.getName()});
+
+		_finderPathFetchByTopic = new FinderPath(
+			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
+			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, ServiceNotifImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByTopic",
+			new String[] {String.class.getName()},
+			ServiceNotifModelImpl.CSMAPTOPIC_COLUMN_BITMASK);
+
+		_finderPathCountByTopic = new FinderPath(
+			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
+			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTopic",
+			new String[] {String.class.getName()});
 	}
 
 	public void destroy() {

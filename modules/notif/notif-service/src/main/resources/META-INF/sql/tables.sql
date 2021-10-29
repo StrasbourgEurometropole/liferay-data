@@ -49,5 +49,10 @@ create table notif_ServiceNotif (
 	serviceId LONG not null primary key,
 	organisationId LONG,
 	name VARCHAR(400) null,
-	pictoId LONG
+	pictoId LONG,
+	csmapSubscriptionLabel VARCHAR(200) null,
+	csmapSubscriptionMandatory BOOLEAN,
+	csmapTopic VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );

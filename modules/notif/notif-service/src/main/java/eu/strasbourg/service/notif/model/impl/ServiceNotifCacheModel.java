@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing ServiceNotif in entity cache.
  *
@@ -64,7 +66,7 @@ public class ServiceNotifCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{serviceId=");
 		sb.append(serviceId);
@@ -74,6 +76,16 @@ public class ServiceNotifCacheModel
 		sb.append(name);
 		sb.append(", pictoId=");
 		sb.append(pictoId);
+		sb.append(", csmapSubscriptionLabel=");
+		sb.append(csmapSubscriptionLabel);
+		sb.append(", csmapSubscriptionMandatory=");
+		sb.append(csmapSubscriptionMandatory);
+		sb.append(", csmapTopic=");
+		sb.append(csmapTopic);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -95,6 +107,37 @@ public class ServiceNotifCacheModel
 
 		serviceNotifImpl.setPictoId(pictoId);
 
+		if (csmapSubscriptionLabel == null) {
+			serviceNotifImpl.setCsmapSubscriptionLabel("");
+		}
+		else {
+			serviceNotifImpl.setCsmapSubscriptionLabel(csmapSubscriptionLabel);
+		}
+
+		serviceNotifImpl.setCsmapSubscriptionMandatory(
+			csmapSubscriptionMandatory);
+
+		if (csmapTopic == null) {
+			serviceNotifImpl.setCsmapTopic("");
+		}
+		else {
+			serviceNotifImpl.setCsmapTopic(csmapTopic);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			serviceNotifImpl.setCreateDate(null);
+		}
+		else {
+			serviceNotifImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			serviceNotifImpl.setModifiedDate(null);
+		}
+		else {
+			serviceNotifImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
 		serviceNotifImpl.resetOriginalValues();
 
 		return serviceNotifImpl;
@@ -108,6 +151,12 @@ public class ServiceNotifCacheModel
 		name = objectInput.readUTF();
 
 		pictoId = objectInput.readLong();
+		csmapSubscriptionLabel = objectInput.readUTF();
+
+		csmapSubscriptionMandatory = objectInput.readBoolean();
+		csmapTopic = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -124,11 +173,35 @@ public class ServiceNotifCacheModel
 		}
 
 		objectOutput.writeLong(pictoId);
+
+		if (csmapSubscriptionLabel == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(csmapSubscriptionLabel);
+		}
+
+		objectOutput.writeBoolean(csmapSubscriptionMandatory);
+
+		if (csmapTopic == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(csmapTopic);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public long serviceId;
 	public long organisationId;
 	public String name;
 	public long pictoId;
+	public String csmapSubscriptionLabel;
+	public boolean csmapSubscriptionMandatory;
+	public String csmapTopic;
+	public long createDate;
+	public long modifiedDate;
 
 }

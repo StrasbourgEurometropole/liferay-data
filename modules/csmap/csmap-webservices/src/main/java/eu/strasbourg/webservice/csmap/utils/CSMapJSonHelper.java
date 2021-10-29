@@ -23,6 +23,7 @@ import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
+import eu.strasbourg.service.notif.model.ServiceNotif;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -380,6 +381,20 @@ public class CSMapJSonHelper {
             }
         }
         json.put("alerts", jsonArray);
+        return json;
+    }
+    static public JSONObject serviceCSMapJSON(ServiceNotif service) {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+        json.put("topic",service.getCsmapTopic());
+        String name = "";
+        String label = service.getCsmapSubscriptionLabel();
+        if(Validator.isNotNull(label) ||label!=""){
+            name = label;
+        } else {
+            name = service.getName();
+        }
+        json.put("name",name);
+        json.put("mandatory",service.getCsmapSubscriptionMandatory());
         return json;
     }
 
