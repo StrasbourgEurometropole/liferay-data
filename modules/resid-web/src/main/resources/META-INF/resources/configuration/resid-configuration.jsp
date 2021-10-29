@@ -20,10 +20,6 @@
 		</aui:fieldset>
 		
 		<aui:fieldset>
-			<aui:input name="residURL" value="${residURL}" type="text" label="resid-URL" />
-		</aui:fieldset>
-		
-		<aui:fieldset>
 			<label><liferay-ui:message key="zone-pdf" /></label>
 			<section id="newZone">
 				<aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addZone(); return false;"/>

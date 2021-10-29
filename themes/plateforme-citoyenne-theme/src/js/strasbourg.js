@@ -25836,9 +25836,10 @@ function createParticipation(participation){
  * @return
 */
 function createAgenda(agenda){
+    debugger;
     var vignette =
     '<div class="vignette">' +
-        '<a href="' + homeURL + 'detail-evenement/-/entity/id/' + agenda.id + '" title="lien de la page" class="item pro-bloc-card-event"' + 
+        '<a href="' + homeURL + 'detail-evenement/-/entity/id/' + agenda.id + '/' + agenda.normalizedTitle + '" title="lien de la page" class="item pro-bloc-card-event"' + 
             'data-lat="' + agenda.mercatorY + '"' +  
             'data-lng="' + agenda.mercatorX + '"' + 
         '>' + 
@@ -25872,10 +25873,8 @@ function createNews(news){
                     '<img src="' + news.thumbnail + '?imagePreview=1" loading="lazy" alt="Image" width="360" height="174" class="fit-cover"/>' +
                 '</figure>' +
                 '<span>';
-                for(var i = 0 ; i < news.jsonVocabulariesTitle.length ; i++){
-                    vignette += news.jsonVocabulariesTitle[i]["fr_FR"] + (i != (news.jsonVocabulariesTitle.length - 1) ? ', ' : '');
+                    vignette += news.jsonVocabulariesTitle;
 
-                }
     vignette +=
                 '</span>' +
             '</div>' +

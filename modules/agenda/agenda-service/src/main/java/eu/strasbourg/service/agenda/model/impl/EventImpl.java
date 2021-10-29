@@ -112,7 +112,7 @@ public class EventImpl extends EventBaseImpl {
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a event model
-	 * instance should use the {@link eu.strasbourg.service.agenda.model.Event}
+	 * instance should use the {@link eu.strasbourg.service.agenda.getCSmodel.Event}
 	 * interface instead.
 	 */
 	public EventImpl() {
@@ -1475,7 +1475,7 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		Date now = new Date();
-		Date datePlusDays = Date.from(LocalDate.now().plusDays(60).atStartOfDay()
+		Date datePlusDays = Date.from(LocalDate.now().plusDays(120).atStartOfDay()
 				.atZone(ZoneId.systemDefault()).toInstant());
 		Map<List<Date>, Map<Locale, String>> periods = new HashMap<>();
 		for (EventPeriod period : this.getEventPeriods()) {

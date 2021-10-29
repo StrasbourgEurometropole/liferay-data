@@ -7,15 +7,15 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalService;
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.ArretLocalService;
 import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
 import eu.strasbourg.service.gtfs.service.LigneLocalService;
-import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.service.WSTransport;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
@@ -30,7 +30,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component(
@@ -86,6 +91,7 @@ public class TransportApplication extends Application {
                 if (Validator.isNull(ids_lines)) {
                         ids_lines = "";
                 }
+                List<String> linesListUser = Arrays.asList(ids_lines.split(","));
                 try {
                         JSONObject jsonStop = JSONFactoryUtil.createJSONObject();
                         JSONObject jsonLine = JSONFactoryUtil.createJSONObject();
@@ -106,7 +112,7 @@ public class TransportApplication extends Application {
                         for(Ligne ligne : lignes){
                                 String lineName = ligne.getShortName();
                                 if(!lineNumbers.contains(lineName)) {
-                                        if(!ids_lines.contains(lineName)){
+                                        if(!linesListUser.contains(lineName)){
                                                 jsonLigneAjout.put(CSMapJSonHelper.lineCSMapJSON(ligne));
                                                 lineNumbers.add(lineName);
                                         } else {

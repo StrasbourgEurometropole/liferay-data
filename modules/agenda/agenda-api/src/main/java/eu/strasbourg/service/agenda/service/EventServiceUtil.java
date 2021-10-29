@@ -65,7 +65,7 @@ public class EventServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByCategory(
-			long categoryId)
+			String categoryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getEventsByCategory(categoryId);

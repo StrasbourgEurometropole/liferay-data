@@ -23,12 +23,4 @@ public class CsmapBOPlacePanelApp extends BasePanelApp {
 		return StrasbourgPortletKeys.CSMAP_BO_PLACE;
 	}
 
-	@Override
-	@Reference(
-			target = "(javax.portlet.name=" + StrasbourgPortletKeys.CSMAP_BO_PLACE + ")",
-			unbind = "-"
-	)
-	public void setPortlet(Portlet portlet) {
-		super.setPortlet(portlet);
-	}
 }
