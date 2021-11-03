@@ -98,7 +98,7 @@ public class EventApplication extends Application {
 
         try {
             // On récupère tous les events qui ont été ajoutés
-            List<CacheJson> ajouts = cacheJsonLocalService.getByCreatedDateAndIsActive(lastUpdateTime);
+            List<CacheJson> ajouts = cacheJsonLocalService.getByCreatedDateAndIsActiveAndWithSchedules(lastUpdateTime);
             JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
             for (CacheJson cache: ajouts) {
                 jsonAjout.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
@@ -106,7 +106,7 @@ public class EventApplication extends Application {
             json.put(WSConstants.JSON_ADD, jsonAjout);
 
             // On récupère tous les events qui ont été modifiés
-            List<CacheJson> modifications = cacheJsonLocalService.getByCreatedDateAndModifiedDateAndIsActive(lastUpdateTime);
+            List<CacheJson> modifications = cacheJsonLocalService.getByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(lastUpdateTime);
             JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
             for (CacheJson cache: modifications) {
                 jsonModif.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
@@ -115,8 +115,8 @@ public class EventApplication extends Application {
 
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
             // On récupère tous les events qui ont été dépubliés
-            List<CacheJson> depubications = cacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
-            for (CacheJson cache: depubications) {
+            List<CacheJson> depublications = cacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
+            for (CacheJson cache: depublications) {
                 jsonSuppr.put(cache.getEventId());
             }
 

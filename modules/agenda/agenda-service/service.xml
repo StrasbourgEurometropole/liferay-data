@@ -576,6 +576,7 @@
 		<column name="modifiedEvent" type="Date" />
 		<column name="isActive" type="boolean" />
 		<column name="regeneratedDate" type="Date" />
+		<column name="hasSchedules" type="boolean" />
 
 		<finder name="eventId" return-type="Collection">
 			<finder-column name="eventId" />
@@ -589,6 +590,17 @@
 			<finder-column comparator="&lt;" name="createEvent" />
 			<finder-column comparator="&gt;=" name="modifiedEvent" />
 			<finder-column name="isActive" />
+		</finder>
+		<finder name="CreatedDateAndIsActiveAndWithSchedules" return-type="Collection">
+			<finder-column comparator="&gt;=" name="createEvent" />
+			<finder-column name="isActive" />
+			<finder-column name="hasSchedules" />
+		</finder>
+		<finder name="CreatedDateAndModifiedDateAndIsActiveAndWithSchedules" return-type="Collection">
+			<finder-column comparator="&lt;" name="createEvent" />
+			<finder-column comparator="&gt;=" name="modifiedEvent" />
+			<finder-column name="isActive" />
+			<finder-column name="hasSchedules" />
 		</finder>
 		<finder name="ModifiedDateAndIsActive" return-type="Collection">
 			<finder-column comparator="&gt;=" name="modifiedEvent" />
