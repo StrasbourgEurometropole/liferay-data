@@ -376,10 +376,15 @@ public class EventApplication extends Application {
 
         JSONArray jsonIds = JSONFactoryUtil.createJSONArray();
         if (hits != null) {
+            List<CacheJson> cacheJsons = cacheJsonLocalService.getCacheJsons(-1,-1);
             for (Document document : hits.getDocs()) {
                 long id = Long.parseLong(document.get(Field.ENTRY_CLASS_PK));
                 if(campaignsTitle.isEmpty() || campaignsTitle.contains(document.get("campaign"))) {
-                    jsonIds.put(id);
+
+                    // on ne prend que les event présent dans cacheJson avec des schedules
+                    CacheJson cacheJson = cacheJsons.stream().filter(c -> c.getEventId() == id).findFirst().orElse(null);
+                    if(Validator.isNotNull(cacheJson) && cacheJson.getHasSchedules())
+                        jsonIds.put(id);
                 }
             }
         }
