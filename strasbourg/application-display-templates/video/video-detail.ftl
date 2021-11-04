@@ -6,7 +6,7 @@
    <#assign homeURL = "/" />
 </#if>
 
-<div class="seu-container"> 
+<div class="seu-container" style="margin-bottom: 50px"> 
     <a href="#" class="add-favorites"
         data-type="3" 
         data-title="${entry.getTitle(locale)}" 
