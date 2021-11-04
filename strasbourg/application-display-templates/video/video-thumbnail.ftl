@@ -46,7 +46,7 @@
             </a>
             -->
             <a href="#" class="item-misc"
-            data-type="2" 
+            data-type="3" 
             data-title="${entry.getTitle(locale)}" 
             data-url="${themeDisplay.getPortalURL()}${homeURL}video/-/entity/id/${entry.videoId}" 
             data-id="${entry.videoId}">
