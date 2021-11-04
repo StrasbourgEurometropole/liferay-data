@@ -1,18 +1,18 @@
 <!-- Webmag - Vidéo -->
 <#setting locale = locale />
 <#assign GroupLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.GroupLocalService")>
-<#assign videoFriendlyURL = GroupLocalService.fetchGroup(themeDisplay.getCompanyId(),"Vidéos").getFriendlyURL()>
 
 <#list entries as curEntry>
 
     <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-        <#assign videoURL = "/web${videoFriendlyURL}/" />
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
     <#else>
-        <#assign videoURL = "http://videos.strasbourg.eu/" />
+    <#assign homeURL = "/" />
     </#if>
 
     <#assign entry = curEntry.getAssetRenderer().getVideo() />
-    <#assign viewURL = videoURL + "video/-/entity/id/" + entry.getVideoId() />
+    <#assign viewURL = homeURL + "video/-/entity/id/" + entry.getVideoId() />
+    <#assign videoURL = homeURL + "videos" />
 
     <div id="hp-video" class="hp-video" style="background-image: url(${entry.getImageURL()});" data-scroll-animation>
         <div class="hp-video__text">
