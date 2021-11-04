@@ -33,7 +33,7 @@
     <div class="item-right">
         <a href="${detailURLFilter}" class="item-content">
             <h3 class="item-title" data-dot="2">${entry.getTitle(locale)}</h3>
-            <div class="item-description" data-dot="1">${entry.getDescription(locale)}</div>
+            <div class="item-description" data-dot="1">${entry.getDescription(locale)?replace("<[^>]*>", "", "r")[0..*100]}...</div>
             <div class="item-categories" data-dot="1">${entry.getThemesLabel(locale)}</div>
         </a>
         <div class="item-infos">
