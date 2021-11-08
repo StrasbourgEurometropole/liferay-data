@@ -1,21 +1,22 @@
 package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalService;
 import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.model.CacheAlertJSON;
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.ArretLocalService;
-import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
+import eu.strasbourg.service.gtfs.service.CacheAlertJSONLocalService;
+import eu.strasbourg.service.gtfs.service.CacheHoursJSONLocalService;
 import eu.strasbourg.service.gtfs.service.LigneLocalService;
-import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.service.WSTransport;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
@@ -30,8 +31,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Component(
         property = {
@@ -169,26 +173,12 @@ public class TransportApplication extends Application {
                 if(Validator.isNull(stopCode)){
                         return WSResponseUtil.buildErrorResponse(500, "No stopCode");
                 }
-                List<Arret> arrets = _arretLocalService.getArrets(-1,-1).stream().filter(a -> a.getCode().equals(stopCode)).collect(Collectors.toList());
+                List<Arret> arrets = _arretLocalService.getByStopCode(stopCode);
                 if(Validator.isNull(arrets) || arrets.isEmpty()){
                         return WSResponseUtil.buildErrorResponse(500, "Not valid stopCode");
                 }
                 try{
-                        JSONArray arretsRealTime = ArretServiceUtil.getArretRealTime(stopCode);
-                        JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
-                        if(arretsRealTime != null) {
-                                for(int i = 0; i < arretsRealTime.length(); i++){
-                                        JSONObject arretRealTime = arretsRealTime.getJSONObject(i);
-                                        JSONObject monitoredVehicleJourney = arretRealTime.getJSONObject("MonitoredVehicleJourney");
-                                        JSONObject monitoredCall = monitoredVehicleJourney.getJSONObject("MonitoredCall");
-                                        JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
-                                        scheduleJSON.put("lineNumber", monitoredVehicleJourney.getString("LineRef"));
-                                        scheduleJSON.put("destinationName", monitoredVehicleJourney.getString("DestinationName"));
-                                        scheduleJSON.put("departureTime", monitoredCall.getString("ExpectedDepartureTime"));
-                                        schedulesJSON.put(scheduleJSON);
-                                }
-                        }
-                        json.put("schedules", schedulesJSON);
+                        json = JSONFactoryUtil.createJSONObject(cacheHoursJsonLocalService.getJsonHour(stopCode));
                 } catch(Exception e){
                         log.error(e);
                         return WSResponseUtil.buildErrorResponse(500, e.getMessage());
@@ -201,23 +191,14 @@ public class TransportApplication extends Application {
         @Path("/get-alerts")
         public Response getAlerts() {
                 JSONObject json;
-                try{
-                        // Recuperation des constantes de requetage de l'API19f7805f-0b98-4451-aa1b-96939a844dfe
-                        String urlSearch = StrasbourgPropsUtil.getCTSServiceRealTimeURL();
-                        String basicAuthUser = StrasbourgPropsUtil.getCTSServiceRealTimeToken();
-                        String basicAuthPwd = "";
-
-                        // Construction de l'URL
-                        String url = urlSearch + "general-message";
-
-                        // Envoie de la requete
-                        JSONObject response = JSONHelper.readJsonFromURL(url, basicAuthUser, basicAuthPwd);
-
-                        // Traitement de la reponse
-                        JSONArray generalMessageDeliveries = response.getJSONObject("ServiceDelivery").getJSONArray("GeneralMessageDelivery");
-                        json = CSMapJSonHelper.alertCSMapJSON(generalMessageDeliveries);
-
-                } catch(Exception e){
+                try {
+                        // On récupère le cache du json des alertes
+                        CacheAlertJSON cache = cacheAlertJsonLocalService.getCacheAlertJSONs(-1, -1).get(0);
+                        json = JSONFactoryUtil.createJSONObject(cache.getJsonAlert());
+                        if(json.has("error")){
+                                return WSResponseUtil.buildErrorResponse(500, json.getString("error"));
+                        }
+                } catch (JSONException e) {
                         log.error(e);
                         return WSResponseUtil.buildErrorResponse(500, e.getMessage());
                 }
@@ -239,4 +220,20 @@ public class TransportApplication extends Application {
 
         @Reference
         protected ArretLocalService _arretLocalService;
+
+        @Reference
+        protected CacheAlertJSONLocalService cacheAlertJsonLocalService;
+
+        @Reference(unbind = "-")
+        protected void setCacheAlertJsonLocalService(CacheAlertJSONLocalService cacheAlertJsonLocalService) {
+                this.cacheAlertJsonLocalService = cacheAlertJsonLocalService;
+        }
+
+        @Reference
+        protected CacheHoursJSONLocalService cacheHoursJsonLocalService;
+
+        @Reference(unbind = "-")
+        protected void setCacheHoursJsonLocalService(CacheHoursJSONLocalService cacheHoursJsonLocalService) {
+                this.cacheHoursJsonLocalService = cacheHoursJsonLocalService;
+        }
 }

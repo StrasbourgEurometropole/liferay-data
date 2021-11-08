@@ -14,6 +14,10 @@
 	<bean class="eu.strasbourg.service.gtfs.service.impl.ArretLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.ArretLocalService" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.ArretServiceImpl" id="eu.strasbourg.service.gtfs.service.ArretService" />
 	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.ArretPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.ArretPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.impl.CacheAlertJSONLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.CacheAlertJSONLocalService" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CacheAlertJSONPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CacheAlertJSONPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.impl.CacheHoursJSONLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.CacheHoursJSONLocalService" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CacheHoursJSONPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.CalendarLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.CalendarLocalService" />
 	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CalendarPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CalendarPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.CalendarDateLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.CalendarDateLocalService" />

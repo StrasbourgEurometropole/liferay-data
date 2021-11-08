@@ -42,6 +42,22 @@ create table gtfs_Arret (
 	type_ INTEGER
 );
 
+create table gtfs_CacheAlertJSON (
+	uuid_ VARCHAR(75) null,
+	cacheId LONG not null primary key,
+	jsonAlert TEXT null,
+	creationDate DATE null,
+	modifiedDate DATE null
+);
+
+create table gtfs_CacheHoursJSON (
+	uuid_ VARCHAR(75) null,
+	stopCode VARCHAR(75) not null primary key,
+	jsonHour TEXT null,
+	creationDate DATE null,
+	modifiedDate DATE null
+);
+
 create table gtfs_Calendar (
 	uuid_ VARCHAR(75) null,
 	id_ LONG not null primary key,

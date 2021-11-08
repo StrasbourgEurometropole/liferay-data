@@ -144,17 +144,19 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 			"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.Arret"),
 		true);
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long CODE_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long STATUS_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long STOPID_COLUMN_BITMASK = 8L;
+	public static final long STATUS_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long STOPID_COLUMN_BITMASK = 16L;
 
-	public static final long ARRETID_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
+
+	public static final long ARRETID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -989,7 +991,17 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setCode(String code) {
+		_columnBitmask |= CODE_COLUMN_BITMASK;
+
+		if (_originalCode == null) {
+			_originalCode = _code;
+		}
+
 		_code = code;
+	}
+
+	public String getOriginalCode() {
+		return GetterUtil.getString(_originalCode);
 	}
 
 	@JSON
@@ -1258,6 +1270,8 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 		arretModelImpl._originalStopId = arretModelImpl._stopId;
 
+		arretModelImpl._originalCode = arretModelImpl._code;
+
 		arretModelImpl._columnBitmask = 0;
 	}
 
@@ -1461,6 +1475,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 	private String _originalStopId;
 	private String _title;
 	private String _code;
+	private String _originalCode;
 	private String _latitude;
 	private String _longitude;
 	private int _type;

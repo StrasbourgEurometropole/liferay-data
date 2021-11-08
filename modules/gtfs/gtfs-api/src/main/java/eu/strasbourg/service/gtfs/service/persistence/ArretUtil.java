@@ -914,6 +914,167 @@ public class ArretUtil {
 	}
 
 	/**
+	 * Returns all the arrets where code = &#63;.
+	 *
+	 * @param code the code
+	 * @return the matching arrets
+	 */
+	public static List<Arret> findByCode(String code) {
+		return getPersistence().findByCode(code);
+	}
+
+	/**
+	 * Returns a range of all the arrets where code = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArretModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param code the code
+	 * @param start the lower bound of the range of arrets
+	 * @param end the upper bound of the range of arrets (not inclusive)
+	 * @return the range of matching arrets
+	 */
+	public static List<Arret> findByCode(String code, int start, int end) {
+		return getPersistence().findByCode(code, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the arrets where code = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArretModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param code the code
+	 * @param start the lower bound of the range of arrets
+	 * @param end the upper bound of the range of arrets (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching arrets
+	 */
+	public static List<Arret> findByCode(
+		String code, int start, int end,
+		OrderByComparator<Arret> orderByComparator) {
+
+		return getPersistence().findByCode(code, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the arrets where code = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArretModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param code the code
+	 * @param start the lower bound of the range of arrets
+	 * @param end the upper bound of the range of arrets (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching arrets
+	 */
+	public static List<Arret> findByCode(
+		String code, int start, int end,
+		OrderByComparator<Arret> orderByComparator, boolean retrieveFromCache) {
+
+		return getPersistence().findByCode(
+			code, start, end, orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	 * Returns the first arret in the ordered set where code = &#63;.
+	 *
+	 * @param code the code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching arret
+	 * @throws NoSuchArretException if a matching arret could not be found
+	 */
+	public static Arret findByCode_First(
+			String code, OrderByComparator<Arret> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchArretException {
+
+		return getPersistence().findByCode_First(code, orderByComparator);
+	}
+
+	/**
+	 * Returns the first arret in the ordered set where code = &#63;.
+	 *
+	 * @param code the code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching arret, or <code>null</code> if a matching arret could not be found
+	 */
+	public static Arret fetchByCode_First(
+		String code, OrderByComparator<Arret> orderByComparator) {
+
+		return getPersistence().fetchByCode_First(code, orderByComparator);
+	}
+
+	/**
+	 * Returns the last arret in the ordered set where code = &#63;.
+	 *
+	 * @param code the code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching arret
+	 * @throws NoSuchArretException if a matching arret could not be found
+	 */
+	public static Arret findByCode_Last(
+			String code, OrderByComparator<Arret> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchArretException {
+
+		return getPersistence().findByCode_Last(code, orderByComparator);
+	}
+
+	/**
+	 * Returns the last arret in the ordered set where code = &#63;.
+	 *
+	 * @param code the code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching arret, or <code>null</code> if a matching arret could not be found
+	 */
+	public static Arret fetchByCode_Last(
+		String code, OrderByComparator<Arret> orderByComparator) {
+
+		return getPersistence().fetchByCode_Last(code, orderByComparator);
+	}
+
+	/**
+	 * Returns the arrets before and after the current arret in the ordered set where code = &#63;.
+	 *
+	 * @param arretId the primary key of the current arret
+	 * @param code the code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next arret
+	 * @throws NoSuchArretException if a arret with the primary key could not be found
+	 */
+	public static Arret[] findByCode_PrevAndNext(
+			long arretId, String code,
+			OrderByComparator<Arret> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchArretException {
+
+		return getPersistence().findByCode_PrevAndNext(
+			arretId, code, orderByComparator);
+	}
+
+	/**
+	 * Removes all the arrets where code = &#63; from the database.
+	 *
+	 * @param code the code
+	 */
+	public static void removeByCode(String code) {
+		getPersistence().removeByCode(code);
+	}
+
+	/**
+	 * Returns the number of arrets where code = &#63;.
+	 *
+	 * @param code the code
+	 * @return the number of matching arrets
+	 */
+	public static int countByCode(String code) {
+		return getPersistence().countByCode(code);
+	}
+
+	/**
 	 * Caches the arret in the entity cache if it is enabled.
 	 *
 	 * @param arret the arret

@@ -1,6 +1,6 @@
 package eu.strasbourg.webservice.csmap.application;
 
-import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -8,6 +8,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
 import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.opendata.geo.district.OpenDataGeoDistrictService;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
@@ -22,16 +24,13 @@ import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 
@@ -97,6 +96,11 @@ public class ProfileApplication extends Application {
 
                 if (Validator.isNotNull(jsonPublikUser.getString("photo")))
                     jsonResponse.put(WSConstants.JSON_IMAGE_URL, jsonPublikUser.getString("photo"));
+
+                String district = getDistrict(jsonPublikUser.getString("address"),
+                        jsonPublikUser.getString("zipcode"), jsonPublikUser.getString("city"));
+                if (Validator.isNotNull(district))
+                    jsonResponse.put(WSConstants.JSON_DISTRICT, district);
             }
         } catch (NoJWTInHeaderException e) {
             log.error(e.getMessage());
@@ -142,6 +146,21 @@ public class ProfileApplication extends Application {
         }
     }
 
+    // récupération du code du quartier de l'utilisateur
+    public String getDistrict(String address, String zipCode, String city) {
+        if (city.toLowerCase().equals("strasbourg")) {
+            try {
+                AssetCategory district = openDataGeoDistrictService.getDistrictByAddress(address, zipCode, city);
+                if (Validator.isNotNull(district))
+                    return AssetVocabularyHelper.getExternalId(district);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
     @Reference(unbind = "-")
     protected void setWSAuthenticator(WSAuthenticator authenticator) {
         this.authenticator = authenticator;
@@ -149,5 +168,12 @@ public class ProfileApplication extends Application {
 
     @Reference
     protected WSAuthenticator authenticator;
+
+    private OpenDataGeoDistrictService openDataGeoDistrictService;
+
+    @Reference(unbind = "-")
+    public void setOpenDataGeoDistrictService(OpenDataGeoDistrictService openDataGeoDistrictService) {
+        this.openDataGeoDistrictService = openDataGeoDistrictService;
+    }
 
 }

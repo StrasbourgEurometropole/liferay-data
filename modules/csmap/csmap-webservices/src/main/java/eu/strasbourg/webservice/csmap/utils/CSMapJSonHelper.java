@@ -31,7 +31,6 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.service.WSPlace;
-import eu.strasbourg.webservice.csmap.service.WSTransport;
 
 import java.net.URISyntaxException;
 import java.text.DateFormat;
@@ -277,6 +276,22 @@ public class CSMapJSonHelper {
         return  jsonCategory;
     }
 
+    static public JSONObject territoriesCSMapJSON(AssetCategory category) {
+        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
+        if (category != null) {
+            String externalId = AssetVocabularyHelper.getExternalId(category);
+            jsonCategory.put(WSConstants.JSON_CATEG_ID, externalId);
+            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
+            if (Validator.isNotNull(parentExternalId)) {
+                jsonCategory.put(WSConstants.JSON_PARENT_ID, parentExternalId);
+            }
+            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
+            nameJSON.put(WSConstants.JSON_LANGUAGE_FRANCE, category.getTitle(Locale.FRANCE));
+            jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
+        }
+        return  jsonCategory;
+    }
+
     static public JSONObject eventTypesCSMapJSON(AssetCategory category) {
         JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
         if (category != null) {
@@ -339,47 +354,6 @@ public class CSMapJSonHelper {
         json.put("type", line.getType());
         json.put("backgroundColor", line.getBackgroundColor());
         json.put("textColor", line.getTextColor());
-        return json;
-    }
-
-    static public JSONObject alertCSMapJSON(JSONArray generalMessageDeliveries) {
-        JSONObject json = JSONFactoryUtil.createJSONObject();
-        JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
-        for(int generalMessageDeliveriesIndex = 0; generalMessageDeliveriesIndex < generalMessageDeliveries.length(); generalMessageDeliveriesIndex++){
-            JSONObject generalMessageDelivery = generalMessageDeliveries.getJSONObject(generalMessageDeliveriesIndex);
-            JSONArray infoMessages = generalMessageDelivery.getJSONArray("InfoMessage");
-            for(int infoMessagesIndex = 0; infoMessagesIndex < infoMessages.length(); infoMessagesIndex++){
-                JSONObject jsonAlert = JSONFactoryUtil.createJSONObject();
-                JSONObject infoMessage = infoMessages.getJSONObject(infoMessagesIndex);
-                JSONObject content = infoMessage.getJSONObject("Content");
-                jsonAlert.put("linesNumber", content.getJSONArray("ImpactedLineRef"));
-                jsonAlert.put("startDate", content.getString("ImpactStartDateTime"));
-                jsonAlert.put("endDate", content.getString("ImpactEndDateTime"));
-                JSONObject title = JSONFactoryUtil.createJSONObject();
-                JSONObject period = JSONFactoryUtil.createJSONObject();
-                JSONObject details = JSONFactoryUtil.createJSONObject();
-                JSONArray messages = content.getJSONArray("Message");
-                for(int messagesIndex = 0; messagesIndex < messages.length(); messagesIndex++){
-                    JSONObject message = messages.getJSONObject(messagesIndex);
-                    String messageZoneRef = message.getString("MessageZoneRef");
-                    JSONArray messageTexts = message.getJSONArray("MessageText");
-                    if(messageZoneRef.equals("title")){
-                        title = WSTransport.getJSONValue(title,messageTexts);
-                    }
-                    if(messageZoneRef.equals("period")){
-                        period = WSTransport.getJSONValue(period,messageTexts);
-                    }
-                    if(messageZoneRef.equals("details")){
-                        details = WSTransport.getJSONValue(details,messageTexts);
-                    }
-                }
-                jsonAlert.put("title", title);
-                jsonAlert.put("period", period);
-                jsonAlert.put("details", details);
-                jsonArray.put(jsonAlert);
-            }
-        }
-        json.put("alerts", jsonArray);
         return json;
     }
 
