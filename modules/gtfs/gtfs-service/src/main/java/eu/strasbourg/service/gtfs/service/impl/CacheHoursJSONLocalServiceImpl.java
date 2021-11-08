@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.gtfs.model.CacheHoursJSON;
 import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
+import eu.strasbourg.service.gtfs.service.CacheHoursJSONLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.CacheHoursJSONLocalServiceBaseImpl;
 
 import java.util.Date;
@@ -94,7 +95,9 @@ public class CacheHoursJSONLocalServiceImpl
 			}finally {
 				cache.setJsonHour(json.toString());
 				cache.setModifiedDate(now);
-				this.updateCacheHoursJSON(cache);
+				//TODO trouver la solution au problème d'insersion en BDD
+//				this.updateCacheHoursJSON(cache);
+				CacheHoursJSONLocalServiceUtil.updateCacheHoursJSON(cache);
 			}
 		}
 
