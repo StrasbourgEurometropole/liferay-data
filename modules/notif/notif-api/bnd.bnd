@@ -1,6 +1,58 @@
 Bundle-Name: notif-api
 Bundle-SymbolicName: eu.strasbourg.service.notif.api
 Bundle-Version: 1.0.0
+Bundle-ClassPath: \
+  .,\
+ lib/firebase-admin.jar,\
+ lib/api-common.jar,\
+ lib/google-oauth-client.jar,\
+ lib/google-api-client.jar,\
+ lib/google-http-client.jar,\
+ lib/google-http-client-apache-v2.jar,\
+ lib/google-api-client-gson.jar,\
+ lib/google-http-client-gson.jar,\
+ lib/google-api-client-jackson2.jar,\
+ lib/google-http-client-jackson2.jar,\
+ lib/gax.jar,\
+ lib/gax-grpc.jar,\
+ lib/google-auth-library-oauth2-http.jar,\
+ lib/google-auth-library-credentials.jar,\
+ lib/google-cloud-storage.jar,\
+ lib/google-cloud-firestore.jar,\
+ lib/google-api-services-storage.jar,\
+ lib/google-cloud-core.jar,\
+ lib/google-cloud-core-http.jar,\
+ lib/auto-value-annotations.jar,\
+ lib/guava.jar,\
+ lib/jsr305.jar,\
+ lib/httpcore.jar,\
+ lib/httpclient.jar,\
+
+-includeresource: \
+ lib/firebase-admin.jar=firebase-admin-8.1.0.jar,\
+ lib/api-common.jar=api-common-1.10.4.jar,\
+ lib/google-oauth-client.jar=google-oauth-client-1.32.1.jar,\
+ lib/google-api-client.jar=google-api-client-1.31.4.jar,\
+ lib/google-http-client.jar=google-http-client-1.39.2.jar,\
+ lib/google-http-client-apache-v2.jar=google-http-client-apache-v2-1.39.2.jar,\
+ lib/google-api-client-gson.jar=google-api-client-gson-1.31.4.jar,\
+ lib/google-http-client-gson.jar=google-http-client-gson-1.39.2.jar,\
+ lib/google-api-client-jackson2.jar=google-api-client-jackson2-1.31.4.jar,\
+ lib/google-http-client-jackson2.jar=google-http-client-jackson2-1.39.2.jar,\
+ lib/gax.jar=gax-1.63.0.jar,\
+ lib/gax-grpc.jar=gax-grpc-1.63.0.jar,\
+ lib/google-auth-library-oauth2-http.jar=google-auth-library-oauth2-http-1.1.0.jar,\
+ lib/google-auth-library-credentials.jar=google-auth-library-credentials-1.1.0.jar,\
+ lib/google-cloud-storage.jar=google-cloud-storage-1.113.16.jar,\
+ lib/google-cloud-firestore.jar=google-cloud-firestore-2.2.7.jar,\
+ lib/google-api-services-storage.jar=google-api-services-storage-v1-rev171-1.25.0.jar,\
+ lib/google-cloud-core.jar=google-cloud-core-1.94.8.jar,\
+ lib/google-cloud-core-http.jar=google-cloud-core-http-1.94.8.jar,\
+ lib/auto-value-annotations.jar=auto-value-annotations-1.8.1.jar,\
+ lib/guava.jar=guava-30.1.1-jre.jar,\
+ lib/jsr305.jar=jsr305-3.0.2.jar,\
+ META-INF/service.xml=../notif-service/service.xml,\
+
 Export-Package: \
     eu.strasbourg.service.notif.constants,\
 	eu.strasbourg.service.notif.exception,\
@@ -9,4 +61,5 @@ Export-Package: \
 	eu.strasbourg.service.notif.service.persistence,\
     eu.strasbourg.service.notif.helper
 -check: EXPORTS
--includeresource: META-INF/service.xml=../notif-service/service.xml
+
+-fixupmessages "Classes found in the wrong directory"; restrict:=error; is:=warning

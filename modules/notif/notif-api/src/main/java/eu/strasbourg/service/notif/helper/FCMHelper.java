@@ -5,8 +5,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
-import java.util.concurrent.ExecutionException;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import eu.strasbourg.service.notif.model.Notification;
@@ -17,11 +15,12 @@ import org.slf4j.LoggerFactory;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 public class FCMHelper {
-    Logger logger = LoggerFactory.getLogger(FCMHelper.class);
+    static Logger logger = LoggerFactory.getLogger(FCMHelper.class);
 
-    public FirebaseApp initializeFCM(){
+    public static FirebaseApp initializeFCM(){
         FirebaseApp app = null;
         try {
             FileInputStream firebaseConfigPath = new FileInputStream(StrasbourgPropsUtil.getFCMConfigurationFile());
@@ -41,9 +40,16 @@ public class FCMHelper {
         return app;
     }
 
-    public String sendNotificationToTopic(Notification notification, String topic)
-            throws InterruptedException, ExecutionException {
+    public static String sendNotificationToTopic(Notification notification, String topic)
+            throws ExecutionException, InterruptedException {
         Locale locale = Locale.FRANCE;
+        String title = notification.getTitle(locale);
+        String body = notification.getSubtitle(locale) + "\n" + notification.getContent(locale);
+        return sendNotificationToTopic(title, body, topic);
+    }
+
+    public static String sendNotificationToTopic(String title, String body, String topic)
+            throws InterruptedException, ExecutionException {
         FirebaseApp app = initializeFCM();
         Message message = Message.builder()
                         //.setApnsConfig(apnsConfig)
@@ -51,8 +57,9 @@ public class FCMHelper {
                         .setTopic(topic)
                         .setNotification(com.google.firebase.messaging.Notification
                             .builder()
-                            .setTitle(notification.getTitle(locale))
-                            .setBody(notification.getSubtitle(locale) + "\n" + notification.getContent(locale))
+                            .setTitle(title)
+                            .setBody(body)
+                            //.setImage(stringImageUrl)
                             .build())
                         .build();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
