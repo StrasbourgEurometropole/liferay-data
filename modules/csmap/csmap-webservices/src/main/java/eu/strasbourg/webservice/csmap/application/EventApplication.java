@@ -114,16 +114,18 @@ public class EventApplication extends Application {
             json.put(WSConstants.JSON_UPDATE, jsonModif);
 
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-            // On récupère tous les events qui ont été dépubliés
-            List<CacheJson> depubications = cacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
-            for (CacheJson cache: depubications) {
-                jsonSuppr.put(cache.getEventId());
-            }
+            if(!lastUpdateTimeString.equals("0")) {
+                // On récupère tous les events qui ont été dépubliés
+                List<CacheJson> depubications = cacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
+                for (CacheJson cache : depubications) {
+                    jsonSuppr.put(cache.getEventId());
+                }
 
-            // On récupère tous les events qui ont été supprimés
-            List<Historic> suppressions = historicLocalService.getBySuppressionDate(lastUpdateTime);
-            for (Historic histo: suppressions) {
-                jsonSuppr.put(histo.getEventId());
+                // On récupère tous les events qui ont été supprimés
+                List<Historic> suppressions = historicLocalService.getBySuppressionDate(lastUpdateTime);
+                for (Historic histo : suppressions) {
+                    jsonSuppr.put(histo.getEventId());
+                }
             }
             json.put(WSConstants.JSON_DELETE, jsonSuppr);
 
@@ -170,12 +172,12 @@ public class EventApplication extends Application {
         }
 
         try {
-            // On récupère les catégories du vocabulaire des lieux
-            AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
+            // On récupère les catégories du vocabulaire des thèmes agenda
+            AssetVocabulary eventThemeVocabulary = AssetVocabularyHelper
                     .getGlobalVocabulary(VocabularyNames.EVENT_THEME);
             List<AssetCategory> categories = new ArrayList<>();
-            if (Validator.isNotNull(placeTypeVocabulary))
-                categories = placeTypeVocabulary.getCategories();
+            if (Validator.isNotNull(eventThemeVocabulary))
+                categories = eventThemeVocabulary.getCategories();
 
             // On récupère toutes les catégories qui ont été ajoutées ou modifiées
             JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
@@ -195,9 +197,9 @@ public class EventApplication extends Application {
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 
             if (Validator.isNotNull(ids_themes)) {
-                if (Validator.isNotNull(placeTypeVocabulary))
+                if (Validator.isNotNull(eventThemeVocabulary))
                     for (String idCategory : ids_themes.split(",")) {
-                        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory);
+                        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(eventThemeVocabulary, idCategory);
                         if (Validator.isNull(category)) {
                             jsonSuppr.put(idCategory);
                         }
@@ -247,12 +249,12 @@ public class EventApplication extends Application {
         }
 
         try {
-            // On récupère les catégories du vocabulaire des lieux
-            AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
+            // On récupère les catégories du vocabulaire des types agenda
+            AssetVocabulary eventTypeVocabulary = AssetVocabularyHelper
                     .getGlobalVocabulary(VocabularyNames.EVENT_TYPE);
             List<AssetCategory> categories = new ArrayList<>();
-            if (Validator.isNotNull(placeTypeVocabulary))
-                categories = placeTypeVocabulary.getCategories();
+            if (Validator.isNotNull(eventTypeVocabulary))
+                categories = eventTypeVocabulary.getCategories();
 
             // On récupère toutes les catégories qui ont été ajoutées ou modifiées
             JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
@@ -272,9 +274,9 @@ public class EventApplication extends Application {
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 
             if (Validator.isNotNull(ids_types)) {
-                if (Validator.isNotNull(placeTypeVocabulary))
+                if (Validator.isNotNull(eventTypeVocabulary))
                     for (String idCategory : ids_types.split(",")) {
-                        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory);
+                        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(eventTypeVocabulary, idCategory);
                         if (Validator.isNull(category)) {
                             jsonSuppr.put(idCategory);
                         }
@@ -357,19 +359,19 @@ public class EventApplication extends Application {
 
         // campaigns
         // on récupère le nom de la campagne et non l'id
-        String campaignsTitle = "";
+        StringBuilder campaignsTitle = new StringBuilder();
         if (!agenda.getCampaignsIds().isEmpty()){
             for (String campaignId : agenda.getCampaignsIds().split(",")) {
                 Campaign campaign = campaignLocalService.fetchCampaign(Long.parseLong(campaignId));
                 if (Validator.isNotNull(campaign)) {
-                    if (!campaignsTitle.isEmpty())
-                        campaignsTitle += ",";
-                    campaignsTitle += FriendlyURLNormalizerUtil
-                            .normalize(campaign.getTitleCurrentValue());
+                    if (campaignsTitle.length() > 0)
+                        campaignsTitle.append(",");
+                    campaignsTitle.append(FriendlyURLNormalizerUtil
+                            .normalize(campaign.getTitleCurrentValue()));
                 }
             }
         }
-        String[] campaignsArray = StringUtil.split(campaignsTitle);
+        String[] campaignsArray = StringUtil.split(campaignsTitle.toString());
 
         // Recherche
         Hits hits = SearchHelper.getEventsAgendaWebServiceSearchHits(className, categoriesIds, tagsArray, campaignsArray);
@@ -378,7 +380,7 @@ public class EventApplication extends Application {
         if (hits != null) {
             for (Document document : hits.getDocs()) {
                 long id = Long.parseLong(document.get(Field.ENTRY_CLASS_PK));
-                if(campaignsTitle.isEmpty() || campaignsTitle.contains(document.get("campaign"))) {
+                if((campaignsTitle.length() == 0) || campaignsTitle.toString().contains(document.get("campaign"))) {
                     jsonIds.put(id);
                 }
             }

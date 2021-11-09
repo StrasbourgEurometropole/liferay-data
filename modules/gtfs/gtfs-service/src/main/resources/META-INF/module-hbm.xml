@@ -5,6 +5,8 @@
 	<import class="eu.strasbourg.service.gtfs.model.Agency" />
 	<import class="eu.strasbourg.service.gtfs.model.Alert" />
 	<import class="eu.strasbourg.service.gtfs.model.Arret" />
+	<import class="eu.strasbourg.service.gtfs.model.CacheAlertJSON" />
+	<import class="eu.strasbourg.service.gtfs.model.CacheHoursJSON" />
 	<import class="eu.strasbourg.service.gtfs.model.Calendar" />
 	<import class="eu.strasbourg.service.gtfs.model.CalendarDate" />
 	<import class="eu.strasbourg.service.gtfs.model.Direction" />
@@ -60,6 +62,24 @@
 		<property name="latitude" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="longitude" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="type_" name="type" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="eu.strasbourg.service.gtfs.model.impl.CacheAlertJSONImpl" table="gtfs_CacheAlertJSON">
+		<id name="cacheId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="jsonAlert" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="creationDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="eu.strasbourg.service.gtfs.model.impl.CacheHoursJSONImpl" table="gtfs_CacheHoursJSON">
+		<id name="stopCode" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="jsonHour" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="creationDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="eu.strasbourg.service.gtfs.model.impl.CalendarImpl" table="gtfs_Calendar">
 		<id column="id_" name="id" type="long">

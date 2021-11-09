@@ -1518,15 +1518,14 @@ public class EventImpl extends EventBaseImpl {
 		}
 		jsonEvent.put("schedules", schedulesJSON);
 
-		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
-		if (jsonTypes.length() > 0) {
-			jsonEvent.put("types", jsonTypes);
-		}
-
 		JSONArray jsonThemes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThemes());
-		if (jsonThemes.length() > 0) {
-			jsonEvent.put("themes", jsonThemes);
-		}
+		jsonEvent.put("themes", jsonThemes);
+
+		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
+		jsonEvent.put("types", jsonTypes);
+
+		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritories());
+		jsonEvent.put("territoires", jsonTerritories);
 
 		List<String> mercators = this.getMercators();
 		if(mercators.size() == 2) {
