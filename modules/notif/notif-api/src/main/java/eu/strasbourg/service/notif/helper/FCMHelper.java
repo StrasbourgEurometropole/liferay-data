@@ -7,10 +7,10 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 public class FCMHelper {
-    static Logger logger = LoggerFactory.getLogger(FCMHelper.class);
+    public final static Log log = LogFactoryUtil.getLog(FCMHelper.class);
 
     public static FirebaseApp initializeFCM(){
         FirebaseApp app = null;
@@ -29,13 +29,13 @@ public class FCMHelper {
                     .build();
             if (FirebaseApp.getApps().isEmpty()) {
                 app = FirebaseApp.initializeApp(options);
-                logger.info("Firebase application has been initialized");
+                log.info("Firebase application has been initialized");
             }
             else {
                 app = FirebaseApp.getApps().get(0);
             }
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
         }
         return app;
     }
@@ -65,7 +65,7 @@ public class FCMHelper {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonOutput = gson.toJson(message);
         String response = FirebaseMessaging.getInstance(app).sendAsync(message).get();
-        logger.info("Sent message to topic. Topic: " + topic + ", " + response + " msg " + jsonOutput);
+        log.info("Sent message to topic. Topic: " + topic + ", " + response + " msg " + jsonOutput);
 
         return response;
     }
