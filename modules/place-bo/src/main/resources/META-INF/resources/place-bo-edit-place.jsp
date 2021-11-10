@@ -24,6 +24,8 @@
 <div class="container-fluid-1280 main-content-body">
 	<liferay-ui:error key="alias-error" message="alias-error" />
 	<liferay-ui:error key="period-error" message="period-error" />
+	<liferay-ui:error key="slot-error" message="slot-error" />
+	<liferay-ui:error key="schedule-exception-error" message="schedule-exception-error" />
 	<div class="error"></div>
 
 	<aui:form action="${savePlaceURL}" method="post" name="fm">
