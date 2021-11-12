@@ -56,30 +56,35 @@ public class SearchHelperV2{
 	 * recherche d'assets V2
 	 *
 	 * @param searchContext
+	 *            Utilisé pour récupérer le companyId
 	 * @param assetTypes
-	 *            Liste d'AssetType
+	 *            Liste d'AssetType _className, scopeGroupIDs, structureID, assetPrefilterList_ (utilisé dans la query)
 	 * @param isDisplayField
-	 *            Si la recherche se fait par rapport à des dates
+	 *            Si la recherche se fait par rapport à des dates (utilisé dans la query)
 	 * @param filterField
-	 *            Champs au format date sur lequel le filtre se fait le filtre
+	 *            Champs au format date sur lequel le filtre se fait (utilisé dans la query)
 	 * @param seed
-	 *            int pour le tri aléatoire
+	 *            int random pour le tri aléatoire
 	 * @param sortingFieldsAndTypes
 	 *            Map contenant les champs et les types des tri
+	 * @param categoriesIdsForGroupBy
+	 *            Catégories du vocabulaire sur lequel on veut le regroupement
 	 * @param keywords
-	 *            Mots clés de recherche
+	 *            Mots clés de recherche (utilisé dans la query)
 	 * @param fromDate
-	 *            Date de début, sous le format "yyyyMMdd000000"
+	 *            Date de début, sous le format "yyyyMMdd000000" (utilisé dans la query)
 	 * @param toDate
-	 *            Date de fin, sous le format "yyyyMMdd000000"
+	 *            Date de fin, sous le format "yyyyMMdd000000" (utilisé dans la query)
 	 * @param categoriesIds
 	 *            Liste de tableaux d'ids de catégories (provenant de la
 	 *            recherche utilisateur) - un OU est effectué entre chaque id de
-	 *            chaque tableau, et UN entre chaque liste
+	 *            chaque tableau, et UN entre chaque liste (utilisé dans la query)
 	 * @param idSIGPlace
-	 * 			  L'id SIG du lieu
+	 * 			  L'id SIG du lieu (utilisé dans la query)
+	 * @param classNamesSelected
+	 *            Liste des classNames sélectionnés par l'utilisateur (utilisé dans la query)
 	 * @param locale
-	 *            Locale
+	 *            Locale utile pour la recherche de mots clé (utilisé dans la query)
 	 * @param start
 	 *            Pagination : début
 	 * @param end
@@ -131,12 +136,12 @@ public class SearchHelperV2{
 
 		// Regroupement
 		if(categoriesIdsForGroupBy[0] != 0){
-			// tri par type d'asset
 			GroupByRequest groupByRequest;
 			if(categoriesIdsForGroupBy[0] > 0){
 				// tri sur les catégories
 				groupByRequest = groupByRequestFactory.getGroupByRequest(Field.ASSET_CATEGORY_IDS);
 			}else{
+				// tri par type d'asset
 				groupByRequest = groupByRequestFactory.getGroupByRequest(Field.ENTRY_CLASS_NAME);
 			}
 			searchRequestBuilder = searchRequestBuilder.groupByRequests(groupByRequest);
