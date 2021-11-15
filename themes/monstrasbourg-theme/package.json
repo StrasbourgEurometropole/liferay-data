@@ -35,17 +35,5 @@
 		"gulp-sourcemaps": "^2.6.3",
 		"natives": "^1.1.6",
 		"node-sass": "^4.10.0"
-	},
-	"browserslist": [
-		"defaults"
-	],
-	"postcss": {
-		"plugins": {
-			"autoprefixer": {}
-		}
-	},
-	"scripts": {
-		"build:css": "postcss src/app.css -o build/app.css",
-		"build": "npm run build:css"
 	}
 }

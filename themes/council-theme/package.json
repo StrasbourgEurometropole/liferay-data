@@ -46,24 +46,12 @@
 		"liferay-frontend-common-css": "^1.0.4",
 		"liferay-frontend-theme-styled": "^4.0.21",
 		"liferay-frontend-theme-unstyled": "^4.0.17",
-		"liferay-font-awesome": "^3.4.0"
+		"liferay-font-awesome": "3.4.0"
 	},
 	"publishConfig": {
 		"tag": "7_0_x"
 	},
 	"dependencies": {
 		"sortablejs": "^1.8.4"
-	},
-	"browserslist": [
-		"defaults"
-	],
-	"postcss": {
-		"plugins": {
-			"autoprefixer": {}
-		}
-	},
-	"scripts": {
-		"build:css": "postcss src/app.css -o build/app.css",
-		"build": "npm run build:css"
 	}
 }

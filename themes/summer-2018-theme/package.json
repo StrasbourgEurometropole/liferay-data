@@ -7,7 +7,7 @@
 		"gulp-load-plugins": "latest",
 		"gulp-notify": "latest",
 		"gulp-rename": "latest",
-		"gulp-sass": "latest",
+		"gulp-sass": "^4.1.0",
 		"gulp-tinypng": "latest",
 		"gulp-uglify": "latest",
 		"liferay-theme-tasks": "^9.5.0",
@@ -33,17 +33,5 @@
 	"dependencies": {
 		"gulp-ruby-sass": "^3.0.0",
 		"natives": "^1.1.6"
-	},
-	"browserslist": [
-		"defaults"
-	],
-	"postcss": {
-		"plugins": {
-			"autoprefixer": {}
-		}
-	},
-	"scripts": {
-		"build:css": "postcss src/app.css -o build/app.css",
-		"build": "npm run build:css"
 	}
 }

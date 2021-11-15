@@ -45,6 +45,7 @@ gulp.task('css', function() {
     .pipe(plugins.sass({
       sourceComments: 'map'
     }))
+    .pipe(plugins.autoprefixer())  
     .pipe(plugins.sourcemaps.write('.'))
     .pipe(gulp.dest('./src/css/'))
 });

@@ -36,6 +36,7 @@ gulp.task('css', function () {
 
     return gulp.src([source + '/t_main.scss', source + 'override/*.scss'])
     .pipe(plugins.sass({outputStyle: 'compressed'}))
+    .pipe(plugins.autoprefixer())
     .pipe(gulp.dest(destination));
 });
 

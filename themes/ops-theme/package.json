@@ -9,7 +9,8 @@
 		"gulp-load-plugins": "latest",
 		"gulp-notify": "latest",
 		"gulp-rename": "latest",
-		"gulp-sass": "latest",
+		"gulp-sass": "^3.0.0",
+		"gulp-sass-glob-import": "^0.1.0",
 		"gulp-tinypng": "latest",
 		"gulp-uglify": "latest",
 		"gulp-util": "^3.0.8",
@@ -35,17 +36,5 @@
 	},
 	"main": "package.json",
 	"name": "ops-theme",
-	"version": "1.0.0",
-	"browserslist": [
-		"defaults"
-	],
-	"postcss": {
-		"plugins": {
-			"autoprefixer": {}
-		}
-	},
-	"scripts": {
-		"build:css": "postcss src/app.css -o build/app.css",
-		"build": "npm run build:css"
-	}
+	"version": "1.0.0"
 }

@@ -52,17 +52,5 @@
 	},
 	"dependencies": {
 		"sortablejs": "^1.8.4"
-	},
-	"browserslist": [
-		"defaults"
-	],
-	"postcss": {
-		"plugins": {
-			"autoprefixer": {}
-		}
-	},
-	"scripts": {
-		"build:css": "postcss src/app.css -o build/app.css",
-		"build": "npm run build:css"
 	}
 }

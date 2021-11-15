@@ -29,21 +29,9 @@
 	},
 	"main": "package.json",
 	"name": "christmas-2018-theme",
-	"version": "^1.0.0",
+	"version": "1.0.0",
 	"dependencies": {
 		"del": "^3.0.0",
 		"gulp-remove-sourcemaps": "^1.0.0"
-	},
-	"browserslist": [
-		"defaults"
-	],
-	"postcss": {
-		"plugins": {
-			"autoprefixer": {}
-		}
-	},
-	"scripts": {
-		"build:css": "postcss src/app.css -o build/app.css",
-		"build": "npm run build:css"
 	}
 }

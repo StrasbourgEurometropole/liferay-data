@@ -38,6 +38,7 @@ gulp.task('css', function () {
             console.log(err.toString());
             this.emit('end');
         })
+        .pipe(plugins.autoprefixer())
         .pipe(gulp.dest('./src/css/'));
 });
 
@@ -70,7 +71,7 @@ gulp.task('toprod', function () {
             console.log(err.toString());
             this.emit('end');
         })
-        .pipe(plugins.autoprefixer(autoprefixer_options))
+        .pipe(plugins.autoprefixer())
         .pipe(gulp.dest('./src/css/'));
 
     return true;

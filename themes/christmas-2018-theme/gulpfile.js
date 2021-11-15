@@ -26,6 +26,7 @@ gulp.task('css', function () {
 
     return gulp.src(source + '/style.scss')
     .pipe(plugins.sass({outputStyle: 'compressed'}))
+    .pipe(plugins.autoprefixer())
     .pipe(gulp.dest(destination));
 });
 
