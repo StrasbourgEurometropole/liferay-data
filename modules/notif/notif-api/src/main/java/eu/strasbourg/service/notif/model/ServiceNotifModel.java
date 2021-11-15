@@ -24,6 +24,8 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
+
 /**
  * The base model interface for the ServiceNotif service. Represents a row in the &quot;notif_ServiceNotif&quot; database table, with each column mapped to a property of this class.
  *
@@ -114,6 +116,86 @@ public interface ServiceNotifModel extends BaseModel<ServiceNotif> {
 	 * @param pictoId the picto ID of this service notif
 	 */
 	public void setPictoId(long pictoId);
+
+	/**
+	 * Returns the csmap subscription label of this service notif.
+	 *
+	 * @return the csmap subscription label of this service notif
+	 */
+	@AutoEscape
+	public String getCsmapSubscriptionLabel();
+
+	/**
+	 * Sets the csmap subscription label of this service notif.
+	 *
+	 * @param csmapSubscriptionLabel the csmap subscription label of this service notif
+	 */
+	public void setCsmapSubscriptionLabel(String csmapSubscriptionLabel);
+
+	/**
+	 * Returns the csmap subscription mandatory of this service notif.
+	 *
+	 * @return the csmap subscription mandatory of this service notif
+	 */
+	public boolean getCsmapSubscriptionMandatory();
+
+	/**
+	 * Returns <code>true</code> if this service notif is csmap subscription mandatory.
+	 *
+	 * @return <code>true</code> if this service notif is csmap subscription mandatory; <code>false</code> otherwise
+	 */
+	public boolean isCsmapSubscriptionMandatory();
+
+	/**
+	 * Sets whether this service notif is csmap subscription mandatory.
+	 *
+	 * @param csmapSubscriptionMandatory the csmap subscription mandatory of this service notif
+	 */
+	public void setCsmapSubscriptionMandatory(
+		boolean csmapSubscriptionMandatory);
+
+	/**
+	 * Returns the csmap topic of this service notif.
+	 *
+	 * @return the csmap topic of this service notif
+	 */
+	@AutoEscape
+	public String getCsmapTopic();
+
+	/**
+	 * Sets the csmap topic of this service notif.
+	 *
+	 * @param csmapTopic the csmap topic of this service notif
+	 */
+	public void setCsmapTopic(String csmapTopic);
+
+	/**
+	 * Returns the create date of this service notif.
+	 *
+	 * @return the create date of this service notif
+	 */
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this service notif.
+	 *
+	 * @param createDate the create date of this service notif
+	 */
+	public void setCreateDate(Date createDate);
+
+	/**
+	 * Returns the modified date of this service notif.
+	 *
+	 * @return the modified date of this service notif
+	 */
+	public Date getModifiedDate();
+
+	/**
+	 * Sets the modified date of this service notif.
+	 *
+	 * @param modifiedDate the modified date of this service notif
+	 */
+	public void setModifiedDate(Date modifiedDate);
 
 	@Override
 	public boolean isNew();

@@ -38,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -68,7 +69,11 @@ public class ServiceNotifModelImpl
 
 	public static final Object[][] TABLE_COLUMNS = {
 		{"serviceId", Types.BIGINT}, {"organisationId", Types.BIGINT},
-		{"name", Types.VARCHAR}, {"pictoId", Types.BIGINT}
+		{"name", Types.VARCHAR}, {"pictoId", Types.BIGINT},
+		{"csmapSubscriptionLabel", Types.VARCHAR},
+		{"csmapSubscriptionMandatory", Types.BOOLEAN},
+		{"csmapTopic", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
+		{"modifiedDate", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -79,10 +84,15 @@ public class ServiceNotifModelImpl
 		TABLE_COLUMNS_MAP.put("organisationId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("pictoId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("csmapSubscriptionLabel", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("csmapSubscriptionMandatory", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("csmapTopic", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table notif_ServiceNotif (serviceId LONG not null primary key,organisationId LONG,name VARCHAR(400) null,pictoId LONG)";
+		"create table notif_ServiceNotif (serviceId LONG not null primary key,organisationId LONG,name VARCHAR(400) null,pictoId LONG,csmapSubscriptionLabel VARCHAR(200) null,csmapSubscriptionMandatory BOOLEAN,csmapTopic VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table notif_ServiceNotif";
 
@@ -113,9 +123,11 @@ public class ServiceNotifModelImpl
 			"value.object.column.bitmask.enabled.eu.strasbourg.service.notif.model.ServiceNotif"),
 		true);
 
-	public static final long ORGANISATIONID_COLUMN_BITMASK = 1L;
+	public static final long CSMAPTOPIC_COLUMN_BITMASK = 1L;
 
-	public static final long NAME_COLUMN_BITMASK = 2L;
+	public static final long ORGANISATIONID_COLUMN_BITMASK = 2L;
+
+	public static final long NAME_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.notif.service.util.ServiceProps.get(
@@ -330,6 +342,119 @@ public class ServiceNotifModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"csmapSubscriptionLabel",
+			new Function<ServiceNotif, Object>() {
+
+				@Override
+				public Object apply(ServiceNotif serviceNotif) {
+					return serviceNotif.getCsmapSubscriptionLabel();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"csmapSubscriptionLabel",
+			new BiConsumer<ServiceNotif, Object>() {
+
+				@Override
+				public void accept(
+					ServiceNotif serviceNotif, Object csmapSubscriptionLabel) {
+
+					serviceNotif.setCsmapSubscriptionLabel(
+						(String)csmapSubscriptionLabel);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"csmapSubscriptionMandatory",
+			new Function<ServiceNotif, Object>() {
+
+				@Override
+				public Object apply(ServiceNotif serviceNotif) {
+					return serviceNotif.getCsmapSubscriptionMandatory();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"csmapSubscriptionMandatory",
+			new BiConsumer<ServiceNotif, Object>() {
+
+				@Override
+				public void accept(
+					ServiceNotif serviceNotif,
+					Object csmapSubscriptionMandatory) {
+
+					serviceNotif.setCsmapSubscriptionMandatory(
+						(Boolean)csmapSubscriptionMandatory);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"csmapTopic",
+			new Function<ServiceNotif, Object>() {
+
+				@Override
+				public Object apply(ServiceNotif serviceNotif) {
+					return serviceNotif.getCsmapTopic();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"csmapTopic",
+			new BiConsumer<ServiceNotif, Object>() {
+
+				@Override
+				public void accept(
+					ServiceNotif serviceNotif, Object csmapTopic) {
+
+					serviceNotif.setCsmapTopic((String)csmapTopic);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<ServiceNotif, Object>() {
+
+				@Override
+				public Object apply(ServiceNotif serviceNotif) {
+					return serviceNotif.getCreateDate();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"createDate",
+			new BiConsumer<ServiceNotif, Object>() {
+
+				@Override
+				public void accept(
+					ServiceNotif serviceNotif, Object createDate) {
+
+					serviceNotif.setCreateDate((Date)createDate);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<ServiceNotif, Object>() {
+
+				@Override
+				public Object apply(ServiceNotif serviceNotif) {
+					return serviceNotif.getModifiedDate();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			new BiConsumer<ServiceNotif, Object>() {
+
+				@Override
+				public void accept(
+					ServiceNotif serviceNotif, Object modifiedDate) {
+
+					serviceNotif.setModifiedDate((Date)modifiedDate);
+				}
+
+			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -396,6 +521,89 @@ public class ServiceNotifModelImpl
 		_pictoId = pictoId;
 	}
 
+	@Override
+	public String getCsmapSubscriptionLabel() {
+		if (_csmapSubscriptionLabel == null) {
+			return "";
+		}
+		else {
+			return _csmapSubscriptionLabel;
+		}
+	}
+
+	@Override
+	public void setCsmapSubscriptionLabel(String csmapSubscriptionLabel) {
+		_csmapSubscriptionLabel = csmapSubscriptionLabel;
+	}
+
+	@Override
+	public boolean getCsmapSubscriptionMandatory() {
+		return _csmapSubscriptionMandatory;
+	}
+
+	@Override
+	public boolean isCsmapSubscriptionMandatory() {
+		return _csmapSubscriptionMandatory;
+	}
+
+	@Override
+	public void setCsmapSubscriptionMandatory(
+		boolean csmapSubscriptionMandatory) {
+
+		_csmapSubscriptionMandatory = csmapSubscriptionMandatory;
+	}
+
+	@Override
+	public String getCsmapTopic() {
+		if (_csmapTopic == null) {
+			return "";
+		}
+		else {
+			return _csmapTopic;
+		}
+	}
+
+	@Override
+	public void setCsmapTopic(String csmapTopic) {
+		_columnBitmask |= CSMAPTOPIC_COLUMN_BITMASK;
+
+		if (_originalCsmapTopic == null) {
+			_originalCsmapTopic = _csmapTopic;
+		}
+
+		_csmapTopic = csmapTopic;
+	}
+
+	public String getOriginalCsmapTopic() {
+		return GetterUtil.getString(_originalCsmapTopic);
+	}
+
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		_modifiedDate = modifiedDate;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -431,6 +639,12 @@ public class ServiceNotifModelImpl
 		serviceNotifImpl.setOrganisationId(getOrganisationId());
 		serviceNotifImpl.setName(getName());
 		serviceNotifImpl.setPictoId(getPictoId());
+		serviceNotifImpl.setCsmapSubscriptionLabel(getCsmapSubscriptionLabel());
+		serviceNotifImpl.setCsmapSubscriptionMandatory(
+			isCsmapSubscriptionMandatory());
+		serviceNotifImpl.setCsmapTopic(getCsmapTopic());
+		serviceNotifImpl.setCreateDate(getCreateDate());
+		serviceNotifImpl.setModifiedDate(getModifiedDate());
 
 		serviceNotifImpl.resetOriginalValues();
 
@@ -496,6 +710,11 @@ public class ServiceNotifModelImpl
 
 		serviceNotifModelImpl._setOriginalOrganisationId = false;
 
+		serviceNotifModelImpl._originalCsmapTopic =
+			serviceNotifModelImpl._csmapTopic;
+
+		serviceNotifModelImpl._setModifiedDate = false;
+
 		serviceNotifModelImpl._columnBitmask = 0;
 	}
 
@@ -517,6 +736,47 @@ public class ServiceNotifModelImpl
 		}
 
 		serviceNotifCacheModel.pictoId = getPictoId();
+
+		serviceNotifCacheModel.csmapSubscriptionLabel =
+			getCsmapSubscriptionLabel();
+
+		String csmapSubscriptionLabel =
+			serviceNotifCacheModel.csmapSubscriptionLabel;
+
+		if ((csmapSubscriptionLabel != null) &&
+			(csmapSubscriptionLabel.length() == 0)) {
+
+			serviceNotifCacheModel.csmapSubscriptionLabel = null;
+		}
+
+		serviceNotifCacheModel.csmapSubscriptionMandatory =
+			isCsmapSubscriptionMandatory();
+
+		serviceNotifCacheModel.csmapTopic = getCsmapTopic();
+
+		String csmapTopic = serviceNotifCacheModel.csmapTopic;
+
+		if ((csmapTopic != null) && (csmapTopic.length() == 0)) {
+			serviceNotifCacheModel.csmapTopic = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			serviceNotifCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			serviceNotifCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			serviceNotifCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			serviceNotifCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
 
 		return serviceNotifCacheModel;
 	}
@@ -593,6 +853,13 @@ public class ServiceNotifModelImpl
 	private boolean _setOriginalOrganisationId;
 	private String _name;
 	private long _pictoId;
+	private String _csmapSubscriptionLabel;
+	private boolean _csmapSubscriptionMandatory;
+	private String _csmapTopic;
+	private String _originalCsmapTopic;
+	private Date _createDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private long _columnBitmask;
 	private ServiceNotif _escapedModel;
 

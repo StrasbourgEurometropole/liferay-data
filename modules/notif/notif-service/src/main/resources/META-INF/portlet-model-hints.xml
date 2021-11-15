@@ -52,5 +52,12 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="pictoId" type="long" />
+		<field name="csmapSubscriptionLabel" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="csmapSubscriptionMandatory" type="boolean" />
+		<field name="csmapTopic" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
 	</model>
 </model-hints>

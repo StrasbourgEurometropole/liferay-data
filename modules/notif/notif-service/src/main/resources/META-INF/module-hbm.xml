@@ -63,5 +63,10 @@
 		<property name="organisationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="pictoId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="csmapSubscriptionLabel" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="csmapSubscriptionMandatory" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="csmapTopic" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 </hibernate-mapping>

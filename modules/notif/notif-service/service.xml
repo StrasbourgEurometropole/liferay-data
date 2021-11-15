@@ -92,6 +92,11 @@
 		<column name="organisationId" type="long" />
 		<column name="name" type="String" />
 		<column name="pictoId" type="long" />
+		<column name="csmapSubscriptionLabel" type="String" />
+		<column name="csmapSubscriptionMandatory" type="boolean" />
+		<column name="csmapTopic" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -100,6 +105,10 @@
 
 		<finder name="OrganisationIds" return-type="Collection">
 			<finder-column name="organisationId" arrayable-operator="OR" />
+		</finder>
+
+		<finder name="Topic" return-type="ServiceNotif">
+			<finder-column name="csmapTopic"/>
 		</finder>
 	</entity>
 </service-builder>

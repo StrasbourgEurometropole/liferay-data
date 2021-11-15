@@ -25,6 +25,8 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -68,8 +70,12 @@ public class SaveServiceActionCommand implements MVCActionCommand {
 
             // Si édition ou création d'une nouvelle entrée
             ServiceNotif service;
+            SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+            Date date = new Date(System.currentTimeMillis());
+            System.out.println(formatter.format(date));
             if (this.serviceId == 0) {
                 service = _serviceNotifLocalService.createService();
+                service.setCreateDate(date);
             } else {
                 service = _serviceNotifLocalService.fetchServiceNotif(this.serviceId);
             }
@@ -81,6 +87,20 @@ public class SaveServiceActionCommand implements MVCActionCommand {
             // Champ : organisation
             long organizationId = ParamUtil.getLong(request, "organization");
             service.setOrganisationId(organizationId);
+
+            // Champ : csmapSubscriptionLabel
+            String csmapSubscriptionLabel = ParamUtil.getString(request, "csmapSubscriptionLabel");
+            service.setCsmapSubscriptionLabel(csmapSubscriptionLabel);
+
+            // Champ : csmapSubscriptionMandatory
+            boolean csmapSubscriptionMandatory = ParamUtil.getBoolean(request, "csmapSubscriptionMandatory");
+            service.setCsmapSubscriptionMandatory(csmapSubscriptionMandatory);
+
+            // Champ : csmapTopic
+            service.setCsmapTopic("SERVICE_"+service.getServiceId());
+
+            // Champ : modifiedDate
+            service.setModifiedDate(date);
 
             // Champ : picto
             Long pictoId = ParamUtil.getLong(request, "pictoId");

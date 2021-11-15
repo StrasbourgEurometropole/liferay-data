@@ -268,6 +268,51 @@ public interface ServiceNotifPersistence extends BasePersistence<ServiceNotif> {
 	public int countByOrganisationIds(long[] organisationIds);
 
 	/**
+	 * Returns the service notif where csmapTopic = &#63; or throws a <code>NoSuchServiceNotifException</code> if it could not be found.
+	 *
+	 * @param csmapTopic the csmap topic
+	 * @return the matching service notif
+	 * @throws NoSuchServiceNotifException if a matching service notif could not be found
+	 */
+	public ServiceNotif findByTopic(String csmapTopic)
+		throws NoSuchServiceNotifException;
+
+	/**
+	 * Returns the service notif where csmapTopic = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param csmapTopic the csmap topic
+	 * @return the matching service notif, or <code>null</code> if a matching service notif could not be found
+	 */
+	public ServiceNotif fetchByTopic(String csmapTopic);
+
+	/**
+	 * Returns the service notif where csmapTopic = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param csmapTopic the csmap topic
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching service notif, or <code>null</code> if a matching service notif could not be found
+	 */
+	public ServiceNotif fetchByTopic(
+		String csmapTopic, boolean retrieveFromCache);
+
+	/**
+	 * Removes the service notif where csmapTopic = &#63; from the database.
+	 *
+	 * @param csmapTopic the csmap topic
+	 * @return the service notif that was removed
+	 */
+	public ServiceNotif removeByTopic(String csmapTopic)
+		throws NoSuchServiceNotifException;
+
+	/**
+	 * Returns the number of service notifs where csmapTopic = &#63;.
+	 *
+	 * @param csmapTopic the csmap topic
+	 * @return the number of matching service notifs
+	 */
+	public int countByTopic(String csmapTopic);
+
+	/**
 	 * Caches the service notif in the entity cache if it is enabled.
 	 *
 	 * @param serviceNotif the service notif
