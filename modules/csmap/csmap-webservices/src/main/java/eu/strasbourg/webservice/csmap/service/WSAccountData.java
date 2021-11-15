@@ -207,7 +207,7 @@ public class WSAccountData {
                 // Forfaits
                 List<Forfait> forfaits = dossier.getForfaits();
                 if (forfaits.isEmpty() && dossier.getZone().getTypeUsager().getCode().equals("RESID")) {
-                    file.put("messageNoForfait", "Vous n'avez aucun forfait en cours ou à venir");
+                    file.put("messageNoForfait", "Vous n'avez aucun forfait en cours ou \u00E0 venir");
                 }
 
                 // Contractant principal

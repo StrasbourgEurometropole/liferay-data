@@ -180,17 +180,32 @@ public interface CacheJsonLocalService
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	/**
-	 * Retourne les caches d'un lieu créé après une date et actif
+	 * Retourne les caches d'un event créé après une date et actif
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CacheJson> getByCreatedDateAndIsActive(Date date);
 
 	/**
-	 * Retourne les caches d'un lieu modifié après une date, créé avant cette date et actif
+	 * Retourne les caches d'un event créé après une date, actif et avec schedules
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CacheJson> getByCreatedDateAndIsActiveAndWithSchedules(
+		Date date);
+
+	/**
+	 * Retourne les caches d'un event modifié après une date, créé avant cette date et actif
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CacheJson> getByCreatedDateAndModifiedDateAndIsActive(
 		Date date);
+
+	/**
+	 * Retourne les caches d'un event modifié après une date, créé avant cette date, actif
+	 * et avec schedules
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CacheJson>
+		getByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(Date date);
 
 	/**
 	 * Retourne les caches d'un lieu modifié après une date et inactif
