@@ -11,7 +11,8 @@ Export-Package: \
 	eu.strasbourg.service.notif.exception,\
 	eu.strasbourg.service.notif.model,\
 	eu.strasbourg.service.notif.service,\
-	eu.strasbourg.service.notif.service.persistence
+	eu.strasbourg.service.notif.service.persistence,\
+	eu.strasbourg.service.notif.helper
 -check: EXPORTS
 
 Import-Package: *;resolution:=optional

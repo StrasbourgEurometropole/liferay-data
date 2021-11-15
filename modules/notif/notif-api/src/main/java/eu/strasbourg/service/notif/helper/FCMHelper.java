@@ -13,12 +13,11 @@ import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
+
 
 public class FCMHelper {
-    public final static Log log = LogFactoryUtil.getLog(FCMHelper.class);
+    private final static Log log = LogFactoryUtil.getLog(FCMHelper.class);
 
     public static FirebaseApp initializeFCM(){
         FirebaseApp app = null;
@@ -34,37 +33,66 @@ public class FCMHelper {
             else {
                 app = FirebaseApp.getApps().get(0);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return app;
     }
 
-    public static String sendNotificationToTopic(Notification notification, String topic)
-            throws ExecutionException, InterruptedException {
+    public static String sendNotificationToTopic(Notification notification, String topic) {
         Locale locale = Locale.FRANCE;
         String title = notification.getTitle(locale);
         String body = notification.getSubtitle(locale) + "\n" + notification.getContent(locale);
         return sendNotificationToTopic(title, body, topic);
     }
 
-    public static String sendNotificationToTopic(String title, String body, String topic)
-            throws InterruptedException, ExecutionException {
-        FirebaseApp app = initializeFCM();
+    public static String sendNotificationToTopic(String title, String body, String topic) {
+        initializeFCM();
         Message message = Message.builder()
-                        //.setApnsConfig(apnsConfig)
-                        //.setAndroidConfig(androidConfig)
-                        .setTopic(topic)
-                        .setNotification(com.google.firebase.messaging.Notification
-                            .builder()
-                            .setTitle(title)
-                            .setBody(body)
-                            //.setImage(stringImageUrl)
-                            .build())
-                        .build();
+                //.setApnsConfig(apnsConfig)
+                //.setAndroidConfig(androidConfig)
+                .setTopic(topic)
+                .setNotification(com.google.firebase.messaging.Notification
+                        .builder()
+                        .setTitle(title)
+                        .setBody(body)
+                        //.setImage(stringImageUrl)
+                        .build())
+                .build();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonOutput = gson.toJson(message);
-        String response = FirebaseMessaging.getInstance(app).sendAsync(message).get();
+        String response = null;
+        try {
+            response = FirebaseMessaging.getInstance().send(message);
+        } catch (Exception e) {
+            log.error(e);
+        }
+        log.info("Sent message to topic. Topic: " + topic + ", " + response + " msg " + jsonOutput);
+
+        return response;
+    }
+
+    public static String sendNotificationToTopic(String title, String body, String stringImageUrl, String topic) {
+        initializeFCM();
+        Message message = Message.builder()
+                //.setApnsConfig(apnsConfig)
+                //.setAndroidConfig(androidConfig)
+                .setTopic(topic)
+                .setNotification(com.google.firebase.messaging.Notification
+                        .builder()
+                        .setTitle(title)
+                        .setBody(body)
+                        .setImage(stringImageUrl)
+                        .build())
+                .build();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonOutput = gson.toJson(message);
+        String response = null;
+        try {
+            response = FirebaseMessaging.getInstance().send(message);
+        } catch (Exception e) {
+            log.error(e);
+        }
         log.info("Sent message to topic. Topic: " + topic + ", " + response + " msg " + jsonOutput);
 
         return response;
