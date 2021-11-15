@@ -7,7 +7,11 @@ dependencies {
 	compileOnly group: "org.osgi", name: "org.osgi.annotation.versioning"
 	compileOnly group: "org.osgi", name: "org.osgi.core"
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+
+	compileOnly group: 'org.apache.servicemix.bundles', name: 'org.apache.servicemix.bundles.twitter4j', version: '4.0.7_1'
+
 	compileOnly project(":modules:csmap:csmap-api")
+	compile project (':modules:utils')
 }
 
 buildService {
