@@ -57,6 +57,7 @@
 		<property name="modifiedEvent" type="org.hibernate.type.TimestampType" />
 		<property name="isActive" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="regeneratedDate" type="org.hibernate.type.TimestampType" />
+		<property name="hasSchedules" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.CampaignImpl" table="agenda_Campaign">
 		<id name="campaignId" type="long">

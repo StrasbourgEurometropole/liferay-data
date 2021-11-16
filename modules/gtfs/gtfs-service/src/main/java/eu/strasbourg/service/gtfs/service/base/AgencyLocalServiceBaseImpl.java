@@ -15,6 +15,7 @@
 package eu.strasbourg.service.gtfs.service.base;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -40,6 +41,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.gtfs.model.Agency;
 import eu.strasbourg.service.gtfs.service.AgencyLocalService;
 import eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence;
@@ -58,9 +60,11 @@ import eu.strasbourg.service.gtfs.service.persistence.StopTimePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.TripFinder;
 import eu.strasbourg.service.gtfs.service.persistence.TripPersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the agency local service.

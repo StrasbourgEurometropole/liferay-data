@@ -58,4 +58,12 @@
 		</finder>
 	</entity>
 
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="Thematic" uuid="true">
+		<!-- PK fields -->
+		<column name="thematicId" primary="true" type="long" />
+		<column name="name" type="String" />
+		<column name="favorite" type="String" />
+		<column name="topics" type="String" />
+	</entity>
+
 </service-builder>

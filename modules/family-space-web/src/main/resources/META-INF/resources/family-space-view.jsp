@@ -21,7 +21,7 @@
             instanceId="family-space" />
         <!-- accéder à l'espace famille -->
         <div align="center">
-            <a href="${familySpaceURL}" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="access-family-space" /> (<liferay-ui:message key="eu.new-window" />)">
+            <a href="${dc.familySpaceURL}" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="access-family-space" /> (<liferay-ui:message key="eu.new-window" />)">
                 <span class="flexbox">
                     <span class="btn-text"><liferay-ui:message key="access-family-space" /></span>
                     <span class="btn-arrow"></span>

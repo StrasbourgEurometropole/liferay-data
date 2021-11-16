@@ -1,16 +1,5 @@
 package eu.strasbourg.portlet.resid.configuration;
 
-import java.util.List;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -19,8 +8,15 @@ import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Component(
 	configurationPid = "eu.strasbourg.portlet.resid.configuration.ResidConfiguration",
@@ -50,10 +46,6 @@ public class ResidConfigurationAction
 			String liaisonURL = ParamUtil.getString(request, "liaisonURL");
 			setPreference(request, "liaisonURL", liaisonURL);
 
-			// URL resid
-			String residURL = ParamUtil.getString(request, "residURL");
-			setPreference(request, "residURL", residURL);
-
 			// Listes des zones
 			int nbZone = ParamUtil.getInteger(request, "nbZone");
 			String[] zones = new String[nbZone];
@@ -82,7 +74,6 @@ public class ResidConfigurationAction
 				.getPortletDisplay().getPortletInstanceConfiguration(
 						ResidConfiguration.class);
 			request.setAttribute("liaisonURL", configuration.liaisonURL());
-			request.setAttribute("residURL", configuration.residURL());
 			request.setAttribute("zones", configuration.zones());
 			
 		} catch (ConfigurationException e) {

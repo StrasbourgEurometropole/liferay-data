@@ -112,7 +112,7 @@ public class EventImpl extends EventBaseImpl {
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a event model
-	 * instance should use the {@link eu.strasbourg.service.agenda.model.Event}
+	 * instance should use the {@link eu.strasbourg.service.agenda.getCSmodel.Event}
 	 * interface instead.
 	 */
 	public EventImpl() {
@@ -1455,8 +1455,8 @@ public class EventImpl extends EventBaseImpl {
 		if (Validator.isNotNull(this.getPrice())) {
 			String price = this.getPriceCurrentValue();
 			String regexInt = "([0-9]+)";
-			String regexDouble = "([0-9]+)\\.([0-9]+)";
-			String regexDoubleSimple = "([0-9]+)\\.([0-9]{1})";
+			String regexDouble = "([0-9]+)[\\.|,]([0-9]+)";
+			String regexDoubleSimple = "([0-9]+)[\\.|,]([0-9]{1})";
 			if (Pattern.matches(regexInt, price)){
 				JSONObject jsonPrice = JSONFactoryUtil.createJSONObject();
 				jsonPrice.put("fr_FR", price + " \u20ac");
@@ -1475,7 +1475,7 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		Date now = new Date();
-		Date datePlusDays = Date.from(LocalDate.now().plusDays(60).atStartOfDay()
+		Date datePlusDays = Date.from(LocalDate.now().plusDays(120).atStartOfDay()
 				.atZone(ZoneId.systemDefault()).toInstant());
 		Map<List<Date>, Map<Locale, String>> periods = new HashMap<>();
 		for (EventPeriod period : this.getEventPeriods()) {

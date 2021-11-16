@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.model.CacheJson;
 import eu.strasbourg.service.agenda.model.Event;
@@ -47,7 +48,7 @@ public class CacheJsonLocalServiceImpl extends CacheJsonLocalServiceBaseImpl {
 	 */
 
 	/**
-	 * Retourne les caches d'un lieu créé après une date et actif
+	 * Retourne les caches d'un event créé après une date et actif
 	 */
 	@Override
 	public List<CacheJson> getByCreatedDateAndIsActive(Date date) {
@@ -56,11 +57,29 @@ public class CacheJsonLocalServiceImpl extends CacheJsonLocalServiceBaseImpl {
 
 
 	/**
-	 * Retourne les caches d'un lieu modifié après une date, créé avant cette date et actif
+	 * Retourne les caches d'un event modifié après une date, créé avant cette date et actif
 	 */
 	@Override
 	public List<CacheJson> getByCreatedDateAndModifiedDateAndIsActive(Date date) {
 		return this.cacheJsonPersistence.findByCreatedDateAndModifiedDateAndIsActive(date, date, true);
+	}
+
+	/**
+	 * Retourne les caches d'un event créé après une date, actif et avec schedules
+	 */
+	@Override
+	public List<CacheJson> getByCreatedDateAndIsActiveAndWithSchedules(Date date) {
+		return this.cacheJsonPersistence.findByCreatedDateAndIsActiveAndWithSchedules(date, true, true);
+	}
+
+
+	/**
+	 * Retourne les caches d'un event modifié après une date, créé avant cette date, actif
+	 * et avec schedules
+	 */
+	@Override
+	public List<CacheJson> getByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(Date date) {
+		return this.cacheJsonPersistence.findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(date, date, true, true);
 	}
 
 
@@ -87,7 +106,12 @@ public class CacheJsonLocalServiceImpl extends CacheJsonLocalServiceBaseImpl {
 		for (CacheJson cache : caches) {
 			Event event = EventLocalServiceUtil.fetchEvent(cache.getEventId());
 			if(Validator.isNotNull(event)){
-				cache.setJsonEvent(event.getCSMapJSON().toString());
+				JSONObject csmapJson = event.getCSMapJSON();
+				cache.setJsonEvent(csmapJson.toString());
+				if(csmapJson.getJSONArray("schedules").length() > 0)
+					cache.setHasSchedules(true);
+				else
+					cache.setHasSchedules(false);
 				cache.setRegeneratedDate(new Date());
 				cache.setModifiedEvent(new Date());
 				this.updateCacheJson(cache);
