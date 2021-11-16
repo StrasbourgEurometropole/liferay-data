@@ -96,12 +96,15 @@ public class FavoriteApplication extends Application {
 
             for (Favorite favorite : favorites) {
                 if (lastUpdateTime.before(favorite.getCreateDate())) {
-                    if (!idsFavorite.contains(String.valueOf(favorite.getFavoriteId()))) {
-                        jsonAjout.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
+                    try {
+                        if (!idsFavorite.contains(String.valueOf(favorite.getFavoriteId())))
+                            jsonAjout.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
+                        else if (lastUpdateTime.before(favorite.getModifiedDate()))
+                            jsonModif.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
+                    } catch (NullPointerException e) {
+                        log.error(e);
                     }
                 }
-                else if (lastUpdateTime.before(favorite.getModifiedDate()))
-                    jsonModif.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
             }
 
             json.put(WSConstants.JSON_ADD, jsonAjout);
