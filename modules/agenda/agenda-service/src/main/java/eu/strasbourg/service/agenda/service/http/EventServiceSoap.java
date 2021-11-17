@@ -205,7 +205,7 @@ public class EventServiceSoap {
 		}
 	}
 
-	public static String getEventsByCategory(long categoryId)
+	public static String getEventsByCategory(String categoryId)
 		throws RemoteException {
 
 		try {

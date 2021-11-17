@@ -65,7 +65,7 @@ public class PetitionCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(77);
+		StringBundler sb = new StringBundler(79);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -93,6 +93,8 @@ public class PetitionCacheModel
 		sb.append(statusDate);
 		sb.append(", title=");
 		sb.append(title);
+		sb.append(", summary=");
+		sb.append(summary);
 		sb.append(", description=");
 		sb.append(description);
 		sb.append(", placeTextArea=");
@@ -207,6 +209,13 @@ public class PetitionCacheModel
 		}
 		else {
 			petitionImpl.setTitle(title);
+		}
+
+		if (summary == null) {
+			petitionImpl.setSummary("");
+		}
+		else {
+			petitionImpl.setSummary(summary);
 		}
 
 		if (description == null) {
@@ -386,6 +395,7 @@ public class PetitionCacheModel
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
+		summary = objectInput.readUTF();
 		description = objectInput.readUTF();
 		placeTextArea = objectInput.readUTF();
 		filesDownload = objectInput.readUTF();
@@ -463,6 +473,13 @@ public class PetitionCacheModel
 		}
 		else {
 			objectOutput.writeUTF(title);
+		}
+
+		if (summary == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(summary);
 		}
 
 		if (description == null) {
@@ -607,6 +624,7 @@ public class PetitionCacheModel
 	public String statusByUserName;
 	public long statusDate;
 	public String title;
+	public String summary;
 	public String description;
 	public String placeTextArea;
 	public String filesDownload;

@@ -51,9 +51,10 @@ public class DeliberationServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getUserFront(
-		long officialId, String officialDeviceInfo) {
+		long officialId, String officialDeviceInfo, long councilSessionId) {
 
-		return getService().getUserFront(officialId, officialDeviceInfo);
+		return getService().getUserFront(
+			officialId, officialDeviceInfo, councilSessionId);
 	}
 
 	public static DeliberationService getService() {

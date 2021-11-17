@@ -96,6 +96,7 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			String externalImageURL = ParamUtil.getString(request, "externalImageURL");
 			String externalImageCopyright = ParamUtil.getString(request, "externalImageCopyright");
 			String description = ParamUtil.getString(request, "description");
+			String summary = ParamUtil.getString(request, "summary");
 			Boolean isSupported = ParamUtil.getBoolean(request, "isSupported");
 			String supportedBy = ParamUtil.getString(request, "supportedBy");
 			
@@ -163,7 +164,13 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 
 			petition.setDescription(description);
-			
+
+			// ---------------------------------------------------------------
+			// -------------------------- SUMMARY ----------------------------
+			// ---------------------------------------------------------------
+
+			petition.setSummary(summary);
+
 			// ---------------------------------------------------------------
 			// -------------------------- DESCRIPTION ------------------------
 			// ---------------------------------------------------------------

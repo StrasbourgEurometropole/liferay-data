@@ -72,7 +72,7 @@
         /* ------------------------------------ FILTERS */
         .filtres{
 
-            &__title{
+            &__title, &__title label{
                 font-family: $fancy-font;
             }
             &__list{
@@ -179,19 +179,6 @@
                                 }
                             }
                         }
-                        &--favorite{
-                            [type="checkbox"]{
-                                & + label{
-                                    color: $third-color !important;
-                                    &:before{
-                                        border-color: $third-color !important;
-                                    }
-                                    &:after{
-                                        background-color: $third-color !important;
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
 
@@ -204,6 +191,9 @@
                         color: $core-color;
                         .icon{
                             background-image: url( svg-bg-uri($svg-poi-list, $core-color) );
+                        }
+                        @include RWD(desktop){
+                            display: none;
                         }
                     }
                     &__item{

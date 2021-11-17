@@ -8,6 +8,7 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.portlet.familySpace.configuration.FamilySpaceConfiguration;
 import eu.strasbourg.utils.PortletHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import javax.portlet.PortletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +53,7 @@ public class FamilySpaceDisplayContext {
 	}
 
 	public String getFamilySpaceURL() {
-		String familySpaceURL = configuration.familySpaceURL();
+		String familySpaceURL = StrasbourgPropsUtil.getFamilySpaceURL();
 		if (Validator.isNull(familySpaceURL)) {
 			familySpaceURL = "#";
 		}

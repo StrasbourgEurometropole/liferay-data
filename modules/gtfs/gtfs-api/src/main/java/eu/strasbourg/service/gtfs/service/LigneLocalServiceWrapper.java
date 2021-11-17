@@ -277,6 +277,36 @@ public class LigneLocalServiceWrapper
 		return _ligneLocalService.getByRouteId(routeId);
 	}
 
+	/**
+	 * Retourne les lignes qui possedent les memes donnees
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Ligne>
+		getByShortNameAndStatus(String shortName, int status) {
+
+		return _ligneLocalService.getByShortNameAndStatus(shortName, status);
+	}
+
+	/**
+	 * Retourne toutes les lignes avec un status choisi
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Ligne> getByStatus(
+		int status) {
+
+		return _ligneLocalService.getByStatus(status);
+	}
+
+	/**
+	 * Retourne toutes les lignes avec un status choisi par modifiedDate
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Ligne>
+		getByStatusAndModifiedDate(int status) {
+
+		return _ligneLocalService.getByStatusAndModifiedDate(status);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(

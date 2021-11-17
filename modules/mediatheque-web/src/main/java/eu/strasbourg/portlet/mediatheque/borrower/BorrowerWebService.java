@@ -17,7 +17,7 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 public class BorrowerWebService {
 
-	public static BorrowerResponse getResponse(String publikInternalId, PortletRequest resourceRequest) {
+	public static BorrowerResponse getResponse(String publikInternalId) {
 
 		Map<String, Object> params = new LinkedHashMap<String, Object>();
 		params.put("sub", publikInternalId);

@@ -63,6 +63,8 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 		attributes.put("createEvent", getCreateEvent());
 		attributes.put("modifiedEvent", getModifiedEvent());
 		attributes.put("isActive", isIsActive());
+		attributes.put("regeneratedDate", getRegeneratedDate());
+		attributes.put("hasSchedules", isHasSchedules());
 
 		return attributes;
 	}
@@ -104,6 +106,18 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 		if (isActive != null) {
 			setIsActive(isActive);
 		}
+
+		Date regeneratedDate = (Date)attributes.get("regeneratedDate");
+
+		if (regeneratedDate != null) {
+			setRegeneratedDate(regeneratedDate);
+		}
+
+		Boolean hasSchedules = (Boolean)attributes.get("hasSchedules");
+
+		if (hasSchedules != null) {
+			setHasSchedules(hasSchedules);
+		}
 	}
 
 	@Override
@@ -141,6 +155,16 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _cacheJson.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the has schedules of this cache json.
+	 *
+	 * @return the has schedules of this cache json
+	 */
+	@Override
+	public boolean getHasSchedules() {
+		return _cacheJson.getHasSchedules();
 	}
 
 	/**
@@ -189,6 +213,16 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	}
 
 	/**
+	 * Returns the regenerated date of this cache json.
+	 *
+	 * @return the regenerated date of this cache json
+	 */
+	@Override
+	public Date getRegeneratedDate() {
+		return _cacheJson.getRegeneratedDate();
+	}
+
+	/**
 	 * Returns the uuid of this cache json.
 	 *
 	 * @return the uuid of this cache json
@@ -211,6 +245,16 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	@Override
 	public boolean isEscapedModel() {
 		return _cacheJson.isEscapedModel();
+	}
+
+	/**
+	 * Returns <code>true</code> if this cache json is has schedules.
+	 *
+	 * @return <code>true</code> if this cache json is has schedules; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isHasSchedules() {
+		return _cacheJson.isHasSchedules();
 	}
 
 	/**
@@ -276,6 +320,16 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	}
 
 	/**
+	 * Sets whether this cache json is has schedules.
+	 *
+	 * @param hasSchedules the has schedules of this cache json
+	 */
+	@Override
+	public void setHasSchedules(boolean hasSchedules) {
+		_cacheJson.setHasSchedules(hasSchedules);
+	}
+
+	/**
 	 * Sets whether this cache json is is active.
 	 *
 	 * @param isActive the is active of this cache json
@@ -323,6 +377,16 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_cacheJson.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	 * Sets the regenerated date of this cache json.
+	 *
+	 * @param regeneratedDate the regenerated date of this cache json
+	 */
+	@Override
+	public void setRegeneratedDate(Date regeneratedDate) {
+		_cacheJson.setRegeneratedDate(regeneratedDate);
 	}
 
 	/**

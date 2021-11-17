@@ -48,6 +48,7 @@ public class CouncilSessionSoap implements Serializable {
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDate(model.getDate());
+		soapModel.setLastDelibProcessed(model.getLastDelibProcessed());
 		soapModel.setOfficialLeaderId(model.getOfficialLeaderId());
 		soapModel.setTypeId(model.getTypeId());
 
@@ -220,6 +221,14 @@ public class CouncilSessionSoap implements Serializable {
 		_date = date;
 	}
 
+	public long getLastDelibProcessed() {
+		return _lastDelibProcessed;
+	}
+
+	public void setLastDelibProcessed(long lastDelibProcessed) {
+		_lastDelibProcessed = lastDelibProcessed;
+	}
+
 	public long getOfficialLeaderId() {
 		return _officialLeaderId;
 	}
@@ -250,6 +259,7 @@ public class CouncilSessionSoap implements Serializable {
 	private Date _statusDate;
 	private String _title;
 	private Date _date;
+	private long _lastDelibProcessed;
 	private long _officialLeaderId;
 	private long _typeId;
 

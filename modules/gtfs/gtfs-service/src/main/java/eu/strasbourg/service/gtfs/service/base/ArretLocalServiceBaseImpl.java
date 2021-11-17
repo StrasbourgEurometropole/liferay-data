@@ -64,6 +64,8 @@ import eu.strasbourg.service.gtfs.service.ArretLocalService;
 import eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.AlertPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.ArretPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.CacheAlertJSONPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarDatePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.DirectionPersistence;
@@ -626,6 +628,92 @@ public abstract class ArretLocalServiceBaseImpl
 	 */
 	public void setArretPersistence(ArretPersistence arretPersistence) {
 		this.arretPersistence = arretPersistence;
+	}
+
+	/**
+	 * Returns the cache alert json local service.
+	 *
+	 * @return the cache alert json local service
+	 */
+	public eu.strasbourg.service.gtfs.service.CacheAlertJSONLocalService
+		getCacheAlertJSONLocalService() {
+
+		return cacheAlertJSONLocalService;
+	}
+
+	/**
+	 * Sets the cache alert json local service.
+	 *
+	 * @param cacheAlertJSONLocalService the cache alert json local service
+	 */
+	public void setCacheAlertJSONLocalService(
+		eu.strasbourg.service.gtfs.service.CacheAlertJSONLocalService
+			cacheAlertJSONLocalService) {
+
+		this.cacheAlertJSONLocalService = cacheAlertJSONLocalService;
+	}
+
+	/**
+	 * Returns the cache alert json persistence.
+	 *
+	 * @return the cache alert json persistence
+	 */
+	public CacheAlertJSONPersistence getCacheAlertJSONPersistence() {
+		return cacheAlertJSONPersistence;
+	}
+
+	/**
+	 * Sets the cache alert json persistence.
+	 *
+	 * @param cacheAlertJSONPersistence the cache alert json persistence
+	 */
+	public void setCacheAlertJSONPersistence(
+		CacheAlertJSONPersistence cacheAlertJSONPersistence) {
+
+		this.cacheAlertJSONPersistence = cacheAlertJSONPersistence;
+	}
+
+	/**
+	 * Returns the cache hours json local service.
+	 *
+	 * @return the cache hours json local service
+	 */
+	public eu.strasbourg.service.gtfs.service.CacheHoursJSONLocalService
+		getCacheHoursJSONLocalService() {
+
+		return cacheHoursJSONLocalService;
+	}
+
+	/**
+	 * Sets the cache hours json local service.
+	 *
+	 * @param cacheHoursJSONLocalService the cache hours json local service
+	 */
+	public void setCacheHoursJSONLocalService(
+		eu.strasbourg.service.gtfs.service.CacheHoursJSONLocalService
+			cacheHoursJSONLocalService) {
+
+		this.cacheHoursJSONLocalService = cacheHoursJSONLocalService;
+	}
+
+	/**
+	 * Returns the cache hours json persistence.
+	 *
+	 * @return the cache hours json persistence
+	 */
+	public CacheHoursJSONPersistence getCacheHoursJSONPersistence() {
+		return cacheHoursJSONPersistence;
+	}
+
+	/**
+	 * Sets the cache hours json persistence.
+	 *
+	 * @param cacheHoursJSONPersistence the cache hours json persistence
+	 */
+	public void setCacheHoursJSONPersistence(
+		CacheHoursJSONPersistence cacheHoursJSONPersistence) {
+
+		this.cacheHoursJSONPersistence = cacheHoursJSONPersistence;
 	}
 
 	/**
@@ -1356,6 +1444,24 @@ public abstract class ArretLocalServiceBaseImpl
 
 	@BeanReference(type = ArretPersistence.class)
 	protected ArretPersistence arretPersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.CacheAlertJSONLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.CacheAlertJSONLocalService
+		cacheAlertJSONLocalService;
+
+	@BeanReference(type = CacheAlertJSONPersistence.class)
+	protected CacheAlertJSONPersistence cacheAlertJSONPersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.CacheHoursJSONLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.CacheHoursJSONLocalService
+		cacheHoursJSONLocalService;
+
+	@BeanReference(type = CacheHoursJSONPersistence.class)
+	protected CacheHoursJSONPersistence cacheHoursJSONPersistence;
 
 	@BeanReference(
 		type = eu.strasbourg.service.gtfs.service.CalendarLocalService.class

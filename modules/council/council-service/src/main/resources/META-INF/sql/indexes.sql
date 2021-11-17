@@ -19,6 +19,7 @@ create unique index IX_A4EFA91A on council_OfficialTypeCouncil (uuid_[$COLUMN_LE
 
 create index IX_E8C66479 on council_Procuration (councilSessionId, officialUnavailableId, isAbsent);
 create index IX_818F2BBD on council_Procuration (councilSessionId, officialVotersId, officialUnavailableId);
+create index IX_CA089395 on council_Procuration (officialUnavailableId, isAbsent, presential, procurationMode, startDelib, startHour);
 create index IX_BF3B2FDE on council_Procuration (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_AEA15E0 on council_Procuration (uuid_[$COLUMN_LENGTH:75$], groupId);
 

@@ -50,6 +50,15 @@ public class CouncilSessionLocalServiceWrapper
 	}
 
 	/**
+	 * Calcul de la date pour trouver le conseil
+	 * Si la date du jour moins 6h est sur le jour d'avant, alors on fait la recherche sur le jour d'avant
+	 */
+	@Override
+	public java.util.GregorianCalendar calculDateForFindCouncil() {
+		return _councilSessionLocalService.calculDateForFindCouncil();
+	}
+
+	/**
 	 * Creates a new council session with the primary key. Does not add the council session to the database.
 	 *
 	 * @param councilSessionId the primary key for the new council session
@@ -415,17 +424,6 @@ public class CouncilSessionLocalServiceWrapper
 	@Override
 	public boolean hasDelib(long councilSessionId) {
 		return _councilSessionLocalService.hasDelib(councilSessionId);
-	}
-
-	/**
-	 * Si la date avec l'ID donné est déjà utilisé par une autre session
-	 */
-	@Override
-	public boolean isDateAlreadyUsed(
-		java.util.Date date, long councilSessionId) {
-
-		return _councilSessionLocalService.isDateAlreadyUsed(
-			date, councilSessionId);
 	}
 
 	/**

@@ -134,12 +134,17 @@
 	position:relative;
 }
 
-//Tous les ul qui sera dans le mmenu
+//Tous les ul qui seront dans le mmenu
 .mm-listview{
 	list-style: none;
 	display: block;
 	padding: 0px;
 	margin: 0;
+	
+	// les pictos de réseaux sociaux
+	.mm-listview{
+		display: flex;
+	}
 }
 
 //Tout le site

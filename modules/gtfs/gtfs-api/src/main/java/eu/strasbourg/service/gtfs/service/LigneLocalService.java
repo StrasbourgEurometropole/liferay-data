@@ -42,8 +42,8 @@ import eu.strasbourg.service.gtfs.model.Ligne;
 
 import java.io.Serializable;
 
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Provides the local service interface for Ligne. Methods of this
@@ -215,7 +215,7 @@ public interface LigneLocalService
 	 * Retourne la liste de toutes les lignes
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Map<String, Ligne> getAll();
+	public java.util.Map<String, Ligne> getAll();
 
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à l'entree
@@ -234,6 +234,24 @@ public interface LigneLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Ligne getByRouteId(String routeId);
+
+	/**
+	 * Retourne les lignes qui possedent les memes donnees
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Ligne> getByShortNameAndStatus(String shortName, int status);
+
+	/**
+	 * Retourne toutes les lignes avec un status choisi
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Ligne> getByStatus(int status);
+
+	/**
+	 * Retourne toutes les lignes avec un status choisi par modifiedDate
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Ligne> getByStatusAndModifiedDate(int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
@@ -274,7 +292,7 @@ public interface LigneLocalService
 	 * Recuperer toutes les couleurs de ligne au format HashMap
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Map<String, String[]> getLigneColorsFreemarker();
+	public java.util.Map<String, String[]> getLigneColorsFreemarker();
 
 	/**
 	 * Returns a range of all the lignes.
@@ -383,7 +401,7 @@ public interface LigneLocalService
 	 */
 	public Ligne updateStatus(
 			long userId, long entryId, int status, ServiceContext sc,
-			Map<String, Serializable> workflowContext)
+			java.util.Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 }

@@ -32,6 +32,8 @@ public class WSConstants {
     public static final String GIVEN_NAME = "given_name";
     public static final String FAMILY_NAME = "family_name";
     public static final String EMAIL = "email";
+    public static final String ACCORD_PLACIT = "accord_placit";
+    public static final String LISTING_PLACIT = "accord_placit_listing";
 
     /** Token config */
     public static final int TOKEN_LENGTH = 255;
@@ -62,7 +64,6 @@ public class WSConstants {
     public static final String JSON_PLACE_NAME = "name";
     public static final String JSON_PLACE_OPDENDATA_URL= "openDataURL";
     public static final String JSON_PLACE_TYPES= "types";
-
     // Place catégories
     public static final String JSON_CATEG_ID = "id";
     public static final String JSON_PARENT_ID = "parentId";
@@ -81,6 +82,7 @@ public class WSConstants {
     public static final String JSON_POSTAL_CODE = "postalCode";
     public static final String JSON_CITY = "city";
     public static final String JSON_IMAGE_URL = "imageURL";
+    public static final String JSON_DISTRICT = "district";
     // Account-Data
     public static final String JSON_TITLE = "title";
     public static final String JSON_STATUS = "status";
@@ -110,6 +112,10 @@ public class WSConstants {
     public static final String JSON_SETTINGS_REPORTURL = "reportUrl";
     public static final String JSON_SETTINGS_CODE = "code";
     public static final String JSON_SETTINGS_ISACTIVE = "isActive";
+    // Agenda
+    public static final String JSON_AGENDA_PRINCIPAL = "principal";
+    public static final String JSON_AGENDA_THEMATIQUE = "thematique";
+    public static final String JSON_IDS = "ids";
 
 
     /** Config */
@@ -141,7 +147,7 @@ public class WSConstants {
     /** Erreurs */
     // Global
     public static final String ERROR_NO_JWT_IN_HEADER = "No JWT in header";
-    public static final String ERROR_INVALID_TOKEN = "Invalid token receives during authentication";
+    public static final String ERROR_INVALID_TOKEN = "Invalid token received during authentication";
     public static final String ERROR_NO_SUB_IN_JWT = "No sub in JWT";
     public static final String ERROR_SUB_NOT_RECOGNISE = "Sub not recognise";
     // Auth

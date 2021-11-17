@@ -89,8 +89,7 @@ public class CommentModelImpl
 		{"text_", Types.CLOB}, {"level", Types.INTEGER},
 		{"userQuality", Types.VARCHAR}, {"modifiedByUserDate", Types.TIMESTAMP},
 		{"assetEntryId", Types.BIGINT}, {"publikId", Types.VARCHAR},
-		{"parentCommentId", Types.BIGINT},
-		{"urlProjectCommentaire", Types.VARCHAR}
+		{"parentCommentId", Types.BIGINT}, {"urlProjectCommentaire", Types.CLOB}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -116,11 +115,11 @@ public class CommentModelImpl
 		TABLE_COLUMNS_MAP.put("assetEntryId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("parentCommentId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("urlProjectCommentaire", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("urlProjectCommentaire", Types.CLOB);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,text_ TEXT null,level INTEGER,userQuality VARCHAR(75) null,modifiedByUserDate DATE null,assetEntryId LONG,publikId VARCHAR(75) null,parentCommentId LONG,urlProjectCommentaire VARCHAR(75) null)";
+		"create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,text_ TEXT null,level INTEGER,userQuality VARCHAR(75) null,modifiedByUserDate DATE null,assetEntryId LONG,publikId VARCHAR(75) null,parentCommentId LONG,urlProjectCommentaire TEXT null)";
 
 	public static final String TABLE_SQL_DROP = "drop table comment_Comment";
 

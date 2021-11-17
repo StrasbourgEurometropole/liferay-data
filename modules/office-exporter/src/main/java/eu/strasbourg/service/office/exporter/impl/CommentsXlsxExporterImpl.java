@@ -1,6 +1,21 @@
 package eu.strasbourg.service.office.exporter.impl;
 
-import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalService;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.office.exporter.api.CommentsXlsxExporter;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -9,25 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
-import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ResourceBundleUtil;
-import com.liferay.portal.kernel.util.Validator;
-
-import eu.strasbourg.service.comment.model.Comment;
-import eu.strasbourg.service.comment.service.CommentLocalService;
-import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
-import eu.strasbourg.service.office.exporter.api.CommentsXlsxExporter;
+import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
 @Component(
         immediate = true,
         property = {},
@@ -61,8 +58,10 @@ public class CommentsXlsxExporterImpl implements CommentsXlsxExporter {
         	LanguageUtil.get(bundle, "commentType"),
         	LanguageUtil.get(bundle, "commentName"),
             LanguageUtil.get(bundle, "modification-date"),
-            LanguageUtil.get(bundle, "comment-level"),
-            LanguageUtil.get(bundle, "comment")}};
+                LanguageUtil.get(bundle, "comment-level"),
+                LanguageUtil.get(bundle, "comment"),
+                LanguageUtil.get(bundle, "comment-in-quality-of"),
+                LanguageUtil.get(bundle, "user-name")}};
         
         // Parcours des commentaires et creation de la ligne a ajouter dans l'excel
         for (Comment comment : comments) {
@@ -75,7 +74,9 @@ public class CommentsXlsxExporterImpl implements CommentsXlsxExporter {
             		title,
                     dateCreate,
                     comment.getLevel(),
-                    unescapeHtml4(comment.getText())
+                    unescapeHtml4(comment.getText()),
+                    unescapeHtml4(comment.getUserQuality()),
+                    comment.getPublikUserName()
                     };
             
             commentData = ArrayUtil.append(commentData, commentRow);

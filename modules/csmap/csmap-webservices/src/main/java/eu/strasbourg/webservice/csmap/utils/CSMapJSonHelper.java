@@ -1,6 +1,7 @@
 package eu.strasbourg.webservice.csmap.utils;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetCategoryProperty;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -22,17 +23,24 @@ import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
-import eu.strasbourg.service.place.service.PlaceLocalService;
+import eu.strasbourg.service.notif.model.ServiceNotif;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.service.WSPlace;
 
 import java.net.URISyntaxException;
 import java.text.DateFormat;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class CSMapJSonHelper {
     static public JSONObject placeCategoryCSMapJSON(AssetCategory category, String urlPicto, boolean maj) {
@@ -139,7 +147,14 @@ public class CSMapJSonHelper {
             List<JournalArticle> emergencyHelps = (List<JournalArticle>) emergencyHelpEntry.getValue();
 
             emergencyHelpJSON.put(WSConstants.JSON_WC_CATEGORY_ID, category.getCategoryId());
-            emergencyHelpJSON.put(WSConstants.JSON_WC_CATEGORY_ORDER, AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "order").getValue());
+            int order = 1;
+            try {
+                AssetCategoryProperty assetCategoryProperty = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "order");
+                if(Validator.isNotNull(assetCategoryProperty) && Validator.isNotNull(assetCategoryProperty.getValue()))
+                    order = Integer.parseInt(assetCategoryProperty.getValue());
+            } catch (PortalException | NumberFormatException e) {
+            }
+            emergencyHelpJSON.put(WSConstants.JSON_WC_CATEGORY_ORDER, order);
             // CategoryTitle en fonction des differentes langues
             JSONObject categoryTitleJSON = JSONFactoryUtil.createJSONObject();
             categoryTitleJSON.put("fr_FR", category.getTitle(Locale.FRANCE));
@@ -262,6 +277,22 @@ public class CSMapJSonHelper {
         return  jsonCategory;
     }
 
+    static public JSONObject territoriesCSMapJSON(AssetCategory category) {
+        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
+        if (category != null) {
+            String externalId = AssetVocabularyHelper.getExternalId(category);
+            jsonCategory.put(WSConstants.JSON_CATEG_ID, externalId);
+            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
+            if (Validator.isNotNull(parentExternalId)) {
+                jsonCategory.put(WSConstants.JSON_PARENT_ID, parentExternalId);
+            }
+            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
+            nameJSON.put(WSConstants.JSON_LANGUAGE_FRANCE, category.getTitle(Locale.FRANCE));
+            jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
+        }
+        return  jsonCategory;
+    }
+
     static public JSONObject eventTypesCSMapJSON(AssetCategory category) {
         JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
         if (category != null) {
@@ -289,7 +320,7 @@ public class CSMapJSonHelper {
         } else if(favorite.getTypeId()== FavoriteType.EVENT.getId()) {
             jsonFavorite.put("elementId", EventLocalServiceUtil.fetchEvent(favorite.getEntityId()).getEventId());
         } else if(favorite.getTypeId()== FavoriteType.ARRET.getId()) {
-            jsonFavorite.put("elementId", ArretLocalServiceUtil.fetchArret(favorite.getEntityId()).getArretId());
+            jsonFavorite.put("elementId", ArretLocalServiceUtil.fetchArret(favorite.getEntityId()).getStopId());
         }
         jsonFavorite.put("content", favorite.getContent());
         return jsonFavorite;
@@ -297,6 +328,7 @@ public class CSMapJSonHelper {
 
     static public JSONObject arretCSMapJSON(Arret arret) {
         JSONObject json = JSONFactoryUtil.createJSONObject();
+        json.put("stopId", arret.getStopId());
         json.put("stopCode", arret.getCode());
         json.put("title", arret.getTitle());
         json.put("type", arret.getType());
@@ -309,10 +341,8 @@ public class CSMapJSonHelper {
         for(Direction direction : directions){
             String lineName = LigneLocalServiceUtil.getByRouteId(direction.getRouteId()).getShortName();
             if(!lineNumbers.contains(lineName)) {
-                JSONObject lineJSON = JSONFactoryUtil.createJSONObject();
-                lineJSON.put("lineNumber", lineName);
                 lineNumbers.add(lineName);
-                linesJSON.put(lineJSON);
+                linesJSON.put(lineName);
             }
         }
         json.put("lines", linesJSON);
@@ -325,6 +355,21 @@ public class CSMapJSonHelper {
         json.put("type", line.getType());
         json.put("backgroundColor", line.getBackgroundColor());
         json.put("textColor", line.getTextColor());
+        return json;
+    }
+
+    static public JSONObject serviceCSMapJSON(ServiceNotif service) {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+        json.put("topic",service.getCsmapTopic());
+        String name = "";
+        String label = service.getCsmapSubscriptionLabel();
+        if(Validator.isNotNull(label) ||label!=""){
+            name = label;
+        } else {
+            name = service.getName();
+        }
+        json.put("name",name);
+        json.put("mandatory",service.getCsmapSubscriptionMandatory());
         return json;
     }
 

@@ -38,6 +38,7 @@ var frontSpecifiqueListeAbstention = document.getElementById("liste-abstention")
 var frontSpecifiqueEncartPour = document.getElementById("encart-pour");
 var frontSpecifiqueEncartContre = document.getElementById("encart-contre");
 var frontSpecifiqueEncartAbstention = document.getElementById("encart-abstention");
+var frontNombreVotes = document.getElementById("nombre-votes");
 
 if(useSkypeView) {
     /* On peut direct cacher le refresh si présentation Skype*/

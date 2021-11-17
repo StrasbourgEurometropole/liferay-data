@@ -247,6 +247,19 @@ public class ProcurationLocalServiceWrapper
 	}
 
 	/**
+	 * Recherche d'une procuration pour un officiel
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.Procuration>
+		findByCouncilSessionIdAndOfficialUnavailableId(
+			long councilSessionId, long officialId) {
+
+		return _procurationLocalService.
+			findByCouncilSessionIdAndOfficialUnavailableId(
+				councilSessionId, officialId);
+	}
+
+	/**
 	 * Recherche par ID de CouncilSession, élu et mandataire,
 	 */
 	@Override
@@ -410,6 +423,16 @@ public class ProcurationLocalServiceWrapper
 	@Override
 	public int getProcurationsCount() {
 		return _procurationLocalService.getProcurationsCount();
+	}
+
+	/**
+	 * Recherche d'une procuration active
+	 * Si une procuration est active, alors l'élu est absent
+	 */
+	@Override
+	public boolean isOfficialAbsent(long councilSessionId, long officialId) {
+		return _procurationLocalService.isOfficialAbsent(
+			councilSessionId, officialId);
 	}
 
 	/**

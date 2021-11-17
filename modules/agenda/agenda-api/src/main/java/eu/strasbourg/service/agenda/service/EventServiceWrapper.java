@@ -63,7 +63,7 @@ public class EventServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getEventsByCategory(
-			long categoryId)
+			String categoryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _eventService.getEventsByCategory(categoryId);

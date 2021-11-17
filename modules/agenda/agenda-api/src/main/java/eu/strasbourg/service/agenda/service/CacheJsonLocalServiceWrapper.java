@@ -205,7 +205,7 @@ public class CacheJsonLocalServiceWrapper
 	}
 
 	/**
-	 * Retourne les caches d'un lieu créé après une date et actif
+	 * Retourne les caches d'un event créé après une date et actif
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.CacheJson>
@@ -215,7 +215,18 @@ public class CacheJsonLocalServiceWrapper
 	}
 
 	/**
-	 * Retourne les caches d'un lieu modifié après une date, créé avant cette date et actif
+	 * Retourne les caches d'un event créé après une date, actif et avec schedules
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.CacheJson>
+		getByCreatedDateAndIsActiveAndWithSchedules(java.util.Date date) {
+
+		return _cacheJsonLocalService.
+			getByCreatedDateAndIsActiveAndWithSchedules(date);
+	}
+
+	/**
+	 * Retourne les caches d'un event modifié après une date, créé avant cette date et actif
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.CacheJson>
@@ -223,6 +234,19 @@ public class CacheJsonLocalServiceWrapper
 
 		return _cacheJsonLocalService.
 			getByCreatedDateAndModifiedDateAndIsActive(date);
+	}
+
+	/**
+	 * Retourne les caches d'un event modifié après une date, créé avant cette date, actif
+	 * et avec schedules
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.CacheJson>
+		getByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(
+			java.util.Date date) {
+
+		return _cacheJsonLocalService.
+			getByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(date);
 	}
 
 	/**
@@ -314,6 +338,14 @@ public class CacheJsonLocalServiceWrapper
 		eu.strasbourg.service.agenda.model.CacheJson cacheJson) {
 
 		return _cacheJsonLocalService.updateCacheJson(cacheJson);
+	}
+
+	/**
+	 * Met à jour les jsonEvent des event
+	 */
+	@Override
+	public void updateJsonEvent() {
+		_cacheJsonLocalService.updateJsonEvent();
 	}
 
 	@Override

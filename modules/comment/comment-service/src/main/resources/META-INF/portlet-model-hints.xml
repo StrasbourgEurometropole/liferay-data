@@ -30,7 +30,9 @@
 		<field name="assetEntryId" type="long" />
 		<field name="publikId" type="String" />
 		<field name="parentCommentId" type="long" />
-		<field name="urlProjectCommentaire" type="String" />
+		<field name="urlProjectCommentaire" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 	</model>
 	<model name="eu.strasbourg.service.comment.model.Signalement">
 		<field name="uuid" type="String" />

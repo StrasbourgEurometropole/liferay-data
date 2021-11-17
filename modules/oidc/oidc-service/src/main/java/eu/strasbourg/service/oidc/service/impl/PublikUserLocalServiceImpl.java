@@ -14,7 +14,12 @@
 
 package eu.strasbourg.service.oidc.service.impl;
 
-import com.liferay.portal.kernel.dao.orm.*;
+import com.liferay.portal.kernel.dao.orm.Disjunction;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -40,21 +45,22 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.model.impl.PublikUserImpl;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.oidc.service.base.PublikUserLocalServiceBaseImpl;
-import eu.strasbourg.service.project.model.ProjectFollowed;
-import eu.strasbourg.service.project.model.Petition;
-import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetSupport;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.InitiativeHelp;
+import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.ProjectFollowed;
+import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
-import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
-import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
-import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -118,12 +124,15 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	 */
 	@Override
 	public void updateUserInfoInDatabase(String internalId, String accessToken, String givenName,
-										  String familyName, String email, String photo) {
+										  String familyName, String email, String photo, String accordPlacit, String listingPlacit) {
 		if (internalId != null && internalId.length() > 0) {
 			PublikUser user = publikUserLocalService.getByPublikUserId(internalId);
 			if (user == null) {
 				user = publikUserLocalService.createPublikUser();
 				user.setPublikId(internalId);
+				if(accordPlacit != null && accordPlacit.equals("true"))
+					user.setPactSignature(new Date());
+				user.setPactDisplay(listingPlacit != null && listingPlacit.equals("true") ? true : false);
 			}
 			user.setAccessToken(accessToken);
 			user.setFirstName(givenName);

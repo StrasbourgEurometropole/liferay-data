@@ -193,10 +193,14 @@ public class WSAuthenticator {
                 StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
         String email = JWTUtils.getJWTClaim(jwt, WSConstants.EMAIL,
                 StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+        String accordPlacit = JWTUtils.getJWTClaim(jwt, WSConstants.ACCORD_PLACIT,
+                StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+        String listingPlacit = JWTUtils.getJWTClaim(jwt, WSConstants.LISTING_PLACIT,
+                StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
         String photo = PublikApiClient.getUserPhoto(internalId);
 
         publikUserLocalService.updateUserInfoInDatabase(
-                internalId, accessToken, givenName, familyName, email, photo);
+                internalId, accessToken, givenName, familyName, email, photo, accordPlacit, listingPlacit);
     }
 
     @Reference(unbind = "-")

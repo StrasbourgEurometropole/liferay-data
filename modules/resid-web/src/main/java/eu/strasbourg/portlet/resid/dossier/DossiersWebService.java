@@ -1,9 +1,9 @@
 package eu.strasbourg.portlet.resid.dossier;
 
-import java.net.HttpURLConnection;
-
 import eu.strasbourg.utils.PasserelleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+
+import java.net.HttpURLConnection;
 
 public class DossiersWebService {
 
@@ -11,7 +11,7 @@ public class DossiersWebService {
 		DossiersResponse dossiersResponse = null;
 		try {
 			// On récupère le JSON
-			String url = StrasbourgPropsUtil.getResidantURL() + identifiantOpenId;
+			String url = StrasbourgPropsUtil.getResidantWebServiceURL() + identifiantOpenId;
 			HttpURLConnection httpConn = PasserelleHelper.readFromURL(url);
 			if(httpConn.getContentType().contains("application/json")) {
 				dossiersResponse = new DossiersResponse(PasserelleHelper.readJson(httpConn));

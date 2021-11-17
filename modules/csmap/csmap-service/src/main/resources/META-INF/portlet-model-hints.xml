@@ -1,6 +1,41 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="eu.strasbourg.service.csmap.model.Agenda">
+		<field name="uuid" type="String" />
+		<field name="agendaId" type="long" />
+		<field localized="true" name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="editorialTitle" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="subtitle" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="imageId" type="Long" />
+		<field name="isPrincipal" type="Boolean" />
+		<field name="isActive" type="Boolean" />
+		<field name="campaignsIds" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="themesIds" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="typesIds" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="tags" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+	</model>
+	<model name="eu.strasbourg.service.csmap.model.PlaceCategories">
+		<field name="uuid" type="String" />
+		<field name="placeCategoriesId" type="long" />
+		<field name="categoriesIds" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+	</model>
 	<model name="eu.strasbourg.service.csmap.model.RefreshToken">
 		<field name="uuid" type="String" />
 		<field name="refreshTokenId" type="long" />
@@ -10,6 +45,17 @@
 		</field>
 		<field name="publikId" type="String">
 			<hint name="max-length">200</hint>
+		</field>
+	</model>
+	<model name="eu.strasbourg.service.csmap.model.Thematic">
+		<field name="uuid" type="String" />
+		<field name="thematicId" type="long" />
+		<field name="name" type="String" />
+		<field name="favorite" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="topics" type="String">
+			<hint-collection name="TEXTAREA" />
 		</field>
 	</model>
 </model-hints>

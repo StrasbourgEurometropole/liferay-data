@@ -265,7 +265,7 @@
                      </aui:input>
 
                     <%-- Champ : Nombre jauge max   --%>
-                    <aui:input name="maxGauge" id="maxGauge" label="maxGauge" type="number" style="width:47%;" >
+                    <aui:input name="maxGauge" id="maxGauge" label="maxGauge" type="number" min="0" max="99999" >
                         <aui:validator name="number" />
                         <aui:validator name="required"
                             errorMessage="this-field-is-required" />
@@ -347,7 +347,6 @@
 <liferay-util:html-top>
 	<script>
 		var getPeriodRowJSPURL = '${periodRowURL}';
-		var placeAutocompleteURL = '${placeAutocompleteURL}';
 	</script>
 </liferay-util:html-top>
 <liferay-util:html-bottom>

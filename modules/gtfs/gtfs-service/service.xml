@@ -96,6 +96,9 @@
 		<finder name="StopId" return-type="Arret">
 			<finder-column name="stopId" />
 		</finder>
+		<finder name="Code" return-type="Collection">
+			<finder-column name="code" />
+		</finder>
 		
 
 		<!-- References -->
@@ -183,6 +186,13 @@
 		</finder>
 		<finder name="RouteId" return-type="Ligne">
 			<finder-column name="routeId" />
+		</finder>
+		<finder name="Status" return-type="Collection">
+			<finder-column name="status" />
+		</finder>
+		<finder name="ShortNameAndStatus" return-type="Collection">
+			<finder-column name="shortName" />
+			<finder-column name="status" />
 		</finder>
 
 		<!-- References -->
@@ -416,6 +426,40 @@
 		</finder>
 		<finder name="TripId" return-type="Collection">
 			<finder-column name="trip_id" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" name="CacheAlertJSON"
+			cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="cacheId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="jsonAlert" type="String" />
+		<column name="creationDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<finder name="cacheId" return-type="Collection">
+			<finder-column name="cacheId" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" name="CacheHoursJSON"
+			cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="stopCode" primary="true" type="String" />
+
+		<!-- Informations générales -->
+		<column name="jsonHour" type="String" />
+		<column name="creationDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<finder name="stopCode" return-type="Collection">
+			<finder-column name="stopCode" />
 		</finder>
 
 	</entity>

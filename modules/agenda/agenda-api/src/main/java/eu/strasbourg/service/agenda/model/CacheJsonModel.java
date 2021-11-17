@@ -153,6 +153,41 @@ public interface CacheJsonModel extends BaseModel<CacheJson> {
 	 */
 	public void setIsActive(boolean isActive);
 
+	/**
+	 * Returns the regenerated date of this cache json.
+	 *
+	 * @return the regenerated date of this cache json
+	 */
+	public Date getRegeneratedDate();
+
+	/**
+	 * Sets the regenerated date of this cache json.
+	 *
+	 * @param regeneratedDate the regenerated date of this cache json
+	 */
+	public void setRegeneratedDate(Date regeneratedDate);
+
+	/**
+	 * Returns the has schedules of this cache json.
+	 *
+	 * @return the has schedules of this cache json
+	 */
+	public boolean getHasSchedules();
+
+	/**
+	 * Returns <code>true</code> if this cache json is has schedules.
+	 *
+	 * @return <code>true</code> if this cache json is has schedules; <code>false</code> otherwise
+	 */
+	public boolean isHasSchedules();
+
+	/**
+	 * Sets whether this cache json is has schedules.
+	 *
+	 * @param hasSchedules the has schedules of this cache json
+	 */
+	public void setHasSchedules(boolean hasSchedules);
+
 	@Override
 	public boolean isNew();
 

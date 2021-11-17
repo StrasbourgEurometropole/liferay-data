@@ -160,11 +160,12 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 						paragraph.add(LanguageUtil.get(locale, "eu.offer-full-time-true"));
 					else
 						paragraph.add(LanguageUtil.get(locale, "eu.offer-full-time-false"));
+					paragraph.add(" - " + offer.getFullTimeDescription(locale));
 					paragraph.add("\n");
 				}
 
 				List<List> gradeRanges = offer.getGradeRanges();
-				if (Validator.isNotNull(gradeRanges) && !offer.getTypeRecrutement().getTitle(locale).equals("Stage")) {
+				if (Validator.isNotNull(gradeRanges) && !gradeRanges.isEmpty() && !offer.getTypeRecrutement().getTitle(locale).equals("Stage")) {
 					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-grade") + " : ").setFont(fontBold).setFontSize(12f));
 					String grades = "";
 					for (List<AssetCategory> gradeRange : gradeRanges) {

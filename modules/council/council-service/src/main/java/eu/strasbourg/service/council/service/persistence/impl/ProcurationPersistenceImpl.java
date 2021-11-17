@@ -2569,6 +2569,595 @@ public class ProcurationPersistenceImpl
 			"procuration.officialVotersId = ?";
 
 	private FinderPath
+		_finderPathWithPaginationFindByCouncilSessionIdAndOfficialUnavailableId;
+	private FinderPath
+		_finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialUnavailableId;
+	private FinderPath
+		_finderPathCountByCouncilSessionIdAndOfficialUnavailableId;
+
+	/**
+	 * Returns all the procurations where councilSessionId = &#63; and officialUnavailableId = &#63;.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @return the matching procurations
+	 */
+	@Override
+	public List<Procuration> findByCouncilSessionIdAndOfficialUnavailableId(
+		long councilSessionId, long officialUnavailableId) {
+
+		return findByCouncilSessionIdAndOfficialUnavailableId(
+			councilSessionId, officialUnavailableId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the procurations where councilSessionId = &#63; and officialUnavailableId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @param start the lower bound of the range of procurations
+	 * @param end the upper bound of the range of procurations (not inclusive)
+	 * @return the range of matching procurations
+	 */
+	@Override
+	public List<Procuration> findByCouncilSessionIdAndOfficialUnavailableId(
+		long councilSessionId, long officialUnavailableId, int start, int end) {
+
+		return findByCouncilSessionIdAndOfficialUnavailableId(
+			councilSessionId, officialUnavailableId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the procurations where councilSessionId = &#63; and officialUnavailableId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @param start the lower bound of the range of procurations
+	 * @param end the upper bound of the range of procurations (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching procurations
+	 */
+	@Override
+	public List<Procuration> findByCouncilSessionIdAndOfficialUnavailableId(
+		long councilSessionId, long officialUnavailableId, int start, int end,
+		OrderByComparator<Procuration> orderByComparator) {
+
+		return findByCouncilSessionIdAndOfficialUnavailableId(
+			councilSessionId, officialUnavailableId, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the procurations where councilSessionId = &#63; and officialUnavailableId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @param start the lower bound of the range of procurations
+	 * @param end the upper bound of the range of procurations (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching procurations
+	 */
+	@Override
+	public List<Procuration> findByCouncilSessionIdAndOfficialUnavailableId(
+		long councilSessionId, long officialUnavailableId, int start, int end,
+		OrderByComparator<Procuration> orderByComparator,
+		boolean retrieveFromCache) {
+
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			pagination = false;
+			finderPath =
+				_finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialUnavailableId;
+			finderArgs = new Object[] {councilSessionId, officialUnavailableId};
+		}
+		else {
+			finderPath =
+				_finderPathWithPaginationFindByCouncilSessionIdAndOfficialUnavailableId;
+			finderArgs = new Object[] {
+				councilSessionId, officialUnavailableId, start, end,
+				orderByComparator
+			};
+		}
+
+		List<Procuration> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Procuration>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Procuration procuration : list) {
+					if ((councilSessionId !=
+							procuration.getCouncilSessionId()) ||
+						(officialUnavailableId !=
+							procuration.getOfficialUnavailableId())) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_PROCURATION_WHERE);
+
+			query.append(
+				_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALUNAVAILABLEID_COUNCILSESSIONID_2);
+
+			query.append(
+				_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALUNAVAILABLEID_OFFICIALUNAVAILABLEID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(ProcurationModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(councilSessionId);
+
+				qPos.add(officialUnavailableId);
+
+				if (!pagination) {
+					list = (List<Procuration>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Procuration>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first procuration in the ordered set where councilSessionId = &#63; and officialUnavailableId = &#63;.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching procuration
+	 * @throws NoSuchProcurationException if a matching procuration could not be found
+	 */
+	@Override
+	public Procuration findByCouncilSessionIdAndOfficialUnavailableId_First(
+			long councilSessionId, long officialUnavailableId,
+			OrderByComparator<Procuration> orderByComparator)
+		throws NoSuchProcurationException {
+
+		Procuration procuration =
+			fetchByCouncilSessionIdAndOfficialUnavailableId_First(
+				councilSessionId, officialUnavailableId, orderByComparator);
+
+		if (procuration != null) {
+			return procuration;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("councilSessionId=");
+		msg.append(councilSessionId);
+
+		msg.append(", officialUnavailableId=");
+		msg.append(officialUnavailableId);
+
+		msg.append("}");
+
+		throw new NoSuchProcurationException(msg.toString());
+	}
+
+	/**
+	 * Returns the first procuration in the ordered set where councilSessionId = &#63; and officialUnavailableId = &#63;.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching procuration, or <code>null</code> if a matching procuration could not be found
+	 */
+	@Override
+	public Procuration fetchByCouncilSessionIdAndOfficialUnavailableId_First(
+		long councilSessionId, long officialUnavailableId,
+		OrderByComparator<Procuration> orderByComparator) {
+
+		List<Procuration> list = findByCouncilSessionIdAndOfficialUnavailableId(
+			councilSessionId, officialUnavailableId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last procuration in the ordered set where councilSessionId = &#63; and officialUnavailableId = &#63;.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching procuration
+	 * @throws NoSuchProcurationException if a matching procuration could not be found
+	 */
+	@Override
+	public Procuration findByCouncilSessionIdAndOfficialUnavailableId_Last(
+			long councilSessionId, long officialUnavailableId,
+			OrderByComparator<Procuration> orderByComparator)
+		throws NoSuchProcurationException {
+
+		Procuration procuration =
+			fetchByCouncilSessionIdAndOfficialUnavailableId_Last(
+				councilSessionId, officialUnavailableId, orderByComparator);
+
+		if (procuration != null) {
+			return procuration;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("councilSessionId=");
+		msg.append(councilSessionId);
+
+		msg.append(", officialUnavailableId=");
+		msg.append(officialUnavailableId);
+
+		msg.append("}");
+
+		throw new NoSuchProcurationException(msg.toString());
+	}
+
+	/**
+	 * Returns the last procuration in the ordered set where councilSessionId = &#63; and officialUnavailableId = &#63;.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching procuration, or <code>null</code> if a matching procuration could not be found
+	 */
+	@Override
+	public Procuration fetchByCouncilSessionIdAndOfficialUnavailableId_Last(
+		long councilSessionId, long officialUnavailableId,
+		OrderByComparator<Procuration> orderByComparator) {
+
+		int count = countByCouncilSessionIdAndOfficialUnavailableId(
+			councilSessionId, officialUnavailableId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Procuration> list = findByCouncilSessionIdAndOfficialUnavailableId(
+			councilSessionId, officialUnavailableId, count - 1, count,
+			orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the procurations before and after the current procuration in the ordered set where councilSessionId = &#63; and officialUnavailableId = &#63;.
+	 *
+	 * @param procurationId the primary key of the current procuration
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next procuration
+	 * @throws NoSuchProcurationException if a procuration with the primary key could not be found
+	 */
+	@Override
+	public Procuration[]
+			findByCouncilSessionIdAndOfficialUnavailableId_PrevAndNext(
+				long procurationId, long councilSessionId,
+				long officialUnavailableId,
+				OrderByComparator<Procuration> orderByComparator)
+		throws NoSuchProcurationException {
+
+		Procuration procuration = findByPrimaryKey(procurationId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Procuration[] array = new ProcurationImpl[3];
+
+			array[0] =
+				getByCouncilSessionIdAndOfficialUnavailableId_PrevAndNext(
+					session, procuration, councilSessionId,
+					officialUnavailableId, orderByComparator, true);
+
+			array[1] = procuration;
+
+			array[2] =
+				getByCouncilSessionIdAndOfficialUnavailableId_PrevAndNext(
+					session, procuration, councilSessionId,
+					officialUnavailableId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Procuration
+		getByCouncilSessionIdAndOfficialUnavailableId_PrevAndNext(
+			Session session, Procuration procuration, long councilSessionId,
+			long officialUnavailableId,
+			OrderByComparator<Procuration> orderByComparator,
+			boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(4);
+		}
+
+		query.append(_SQL_SELECT_PROCURATION_WHERE);
+
+		query.append(
+			_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALUNAVAILABLEID_COUNCILSESSIONID_2);
+
+		query.append(
+			_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALUNAVAILABLEID_OFFICIALUNAVAILABLEID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(ProcurationModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(councilSessionId);
+
+		qPos.add(officialUnavailableId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(procuration)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Procuration> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the procurations where councilSessionId = &#63; and officialUnavailableId = &#63; from the database.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 */
+	@Override
+	public void removeByCouncilSessionIdAndOfficialUnavailableId(
+		long councilSessionId, long officialUnavailableId) {
+
+		for (Procuration procuration :
+				findByCouncilSessionIdAndOfficialUnavailableId(
+					councilSessionId, officialUnavailableId, QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS, null)) {
+
+			remove(procuration);
+		}
+	}
+
+	/**
+	 * Returns the number of procurations where councilSessionId = &#63; and officialUnavailableId = &#63;.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @return the number of matching procurations
+	 */
+	@Override
+	public int countByCouncilSessionIdAndOfficialUnavailableId(
+		long councilSessionId, long officialUnavailableId) {
+
+		FinderPath finderPath =
+			_finderPathCountByCouncilSessionIdAndOfficialUnavailableId;
+
+		Object[] finderArgs = new Object[] {
+			councilSessionId, officialUnavailableId
+		};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_PROCURATION_WHERE);
+
+			query.append(
+				_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALUNAVAILABLEID_COUNCILSESSIONID_2);
+
+			query.append(
+				_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALUNAVAILABLEID_OFFICIALUNAVAILABLEID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(councilSessionId);
+
+				qPos.add(officialUnavailableId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String
+		_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALUNAVAILABLEID_COUNCILSESSIONID_2 =
+			"procuration.councilSessionId = ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALUNAVAILABLEID_OFFICIALUNAVAILABLEID_2 =
+			"procuration.officialUnavailableId = ?";
+
+	private FinderPath
 		_finderPathFetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds;
 	private FinderPath
 		_finderPathCountByCouncilSessionIdAndOfficialVotersAndUnavailableIds;
@@ -3602,6 +4191,18 @@ public class ProcurationPersistenceImpl
 				_finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialVotersId,
 				args);
 
+			args = new Object[] {
+				procurationModelImpl.getCouncilSessionId(),
+				procurationModelImpl.getOfficialUnavailableId()
+			};
+
+			finderCache.removeResult(
+				_finderPathCountByCouncilSessionIdAndOfficialUnavailableId,
+				args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialUnavailableId,
+				args);
+
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
@@ -3698,6 +4299,35 @@ public class ProcurationPersistenceImpl
 					args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialVotersId,
+					args);
+			}
+
+			if ((procurationModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialUnavailableId.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					procurationModelImpl.getOriginalCouncilSessionId(),
+					procurationModelImpl.getOriginalOfficialUnavailableId()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByCouncilSessionIdAndOfficialUnavailableId,
+					args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialUnavailableId,
+					args);
+
+				args = new Object[] {
+					procurationModelImpl.getCouncilSessionId(),
+					procurationModelImpl.getOfficialUnavailableId()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByCouncilSessionIdAndOfficialUnavailableId,
+					args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialUnavailableId,
 					args);
 			}
 		}
@@ -4249,6 +4879,37 @@ public class ProcurationPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByCouncilSessionIdAndOfficialVotersId",
 			new String[] {Long.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByCouncilSessionIdAndOfficialUnavailableId =
+			new FinderPath(
+				ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+				ProcurationModelImpl.FINDER_CACHE_ENABLED,
+				ProcurationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"findByCouncilSessionIdAndOfficialUnavailableId",
+				new String[] {
+					Long.class.getName(), Long.class.getName(),
+					Integer.class.getName(), Integer.class.getName(),
+					OrderByComparator.class.getName()
+				});
+
+		_finderPathWithoutPaginationFindByCouncilSessionIdAndOfficialUnavailableId =
+			new FinderPath(
+				ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+				ProcurationModelImpl.FINDER_CACHE_ENABLED,
+				ProcurationImpl.class,
+				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+				"findByCouncilSessionIdAndOfficialUnavailableId",
+				new String[] {Long.class.getName(), Long.class.getName()},
+				ProcurationModelImpl.COUNCILSESSIONID_COLUMN_BITMASK |
+				ProcurationModelImpl.OFFICIALUNAVAILABLEID_COLUMN_BITMASK);
+
+		_finderPathCountByCouncilSessionIdAndOfficialUnavailableId =
+			new FinderPath(
+				ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+				ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+				"countByCouncilSessionIdAndOfficialUnavailableId",
+				new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathFetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds =
 			new FinderPath(

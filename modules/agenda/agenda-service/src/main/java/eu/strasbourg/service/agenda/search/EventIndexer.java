@@ -1,18 +1,5 @@
 package eu.strasbourg.service.agenda.search;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -27,12 +14,22 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @Component(immediate = true, service = Indexer.class)
 public class EventIndexer extends BaseIndexer<Event> {
@@ -82,6 +79,7 @@ public class EventIndexer extends BaseIndexer<Event> {
 		}
 		document.addLocalizedText(Field.TITLE, titleFieldMap);
 		document.addText("idSIGPlace", event.getPlaceSIGId());
+		document.addText("campaign", event.getSource());
 		document.addLocalizedText(Field.DESCRIPTION, event.getDescriptionMap());
 		document.addNumber(Field.STATUS, event.getStatus());
 		

@@ -69,8 +69,9 @@ public class CacheJsonModelImpl
 
 	public static final Object[][] TABLE_COLUMNS = {
 		{"uuid_", Types.VARCHAR}, {"eventId", Types.BIGINT},
-		{"jsonEvent", Types.VARCHAR}, {"createEvent", Types.TIMESTAMP},
-		{"modifiedEvent", Types.TIMESTAMP}, {"isActive", Types.BOOLEAN}
+		{"jsonEvent", Types.CLOB}, {"createEvent", Types.TIMESTAMP},
+		{"modifiedEvent", Types.TIMESTAMP}, {"isActive", Types.BOOLEAN},
+		{"regeneratedDate", Types.TIMESTAMP}, {"hasSchedules", Types.BOOLEAN}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -79,14 +80,16 @@ public class CacheJsonModelImpl
 	static {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("eventId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("jsonEvent", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("jsonEvent", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("createEvent", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedEvent", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("isActive", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("regeneratedDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("hasSchedules", Types.BOOLEAN);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_CacheJson (uuid_ VARCHAR(75) null,eventId LONG not null primary key,jsonEvent VARCHAR(75) null,createEvent DATE null,modifiedEvent DATE null,isActive BOOLEAN)";
+		"create table agenda_CacheJson (uuid_ VARCHAR(75) null,eventId LONG not null primary key,jsonEvent TEXT null,createEvent DATE null,modifiedEvent DATE null,isActive BOOLEAN,regeneratedDate DATE null,hasSchedules BOOLEAN)";
 
 	public static final String TABLE_SQL_DROP = "drop table agenda_CacheJson";
 
@@ -121,11 +124,15 @@ public class CacheJsonModelImpl
 
 	public static final long EVENTID_COLUMN_BITMASK = 2L;
 
-	public static final long ISACTIVE_COLUMN_BITMASK = 4L;
+	public static final long HASSCHEDULES_COLUMN_BITMASK = 4L;
 
-	public static final long MODIFIEDEVENT_COLUMN_BITMASK = 8L;
+	public static final long ISACTIVE_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long MODIFIEDEVENT_COLUMN_BITMASK = 16L;
+
+	public static final long REGENERATEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long UUID_COLUMN_BITMASK = 64L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
@@ -375,6 +382,48 @@ public class CacheJsonModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"regeneratedDate",
+			new Function<CacheJson, Object>() {
+
+				@Override
+				public Object apply(CacheJson cacheJson) {
+					return cacheJson.getRegeneratedDate();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"regeneratedDate",
+			new BiConsumer<CacheJson, Object>() {
+
+				@Override
+				public void accept(
+					CacheJson cacheJson, Object regeneratedDate) {
+
+					cacheJson.setRegeneratedDate((Date)regeneratedDate);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"hasSchedules",
+			new Function<CacheJson, Object>() {
+
+				@Override
+				public Object apply(CacheJson cacheJson) {
+					return cacheJson.getHasSchedules();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"hasSchedules",
+			new BiConsumer<CacheJson, Object>() {
+
+				@Override
+				public void accept(CacheJson cacheJson, Object hasSchedules) {
+					cacheJson.setHasSchedules((Boolean)hasSchedules);
+				}
+
+			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -511,6 +560,53 @@ public class CacheJsonModelImpl
 		return _originalIsActive;
 	}
 
+	@Override
+	public Date getRegeneratedDate() {
+		return _regeneratedDate;
+	}
+
+	@Override
+	public void setRegeneratedDate(Date regeneratedDate) {
+		_columnBitmask |= REGENERATEDDATE_COLUMN_BITMASK;
+
+		if (_originalRegeneratedDate == null) {
+			_originalRegeneratedDate = _regeneratedDate;
+		}
+
+		_regeneratedDate = regeneratedDate;
+	}
+
+	public Date getOriginalRegeneratedDate() {
+		return _originalRegeneratedDate;
+	}
+
+	@Override
+	public boolean getHasSchedules() {
+		return _hasSchedules;
+	}
+
+	@Override
+	public boolean isHasSchedules() {
+		return _hasSchedules;
+	}
+
+	@Override
+	public void setHasSchedules(boolean hasSchedules) {
+		_columnBitmask |= HASSCHEDULES_COLUMN_BITMASK;
+
+		if (!_setOriginalHasSchedules) {
+			_setOriginalHasSchedules = true;
+
+			_originalHasSchedules = _hasSchedules;
+		}
+
+		_hasSchedules = hasSchedules;
+	}
+
+	public boolean getOriginalHasSchedules() {
+		return _originalHasSchedules;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -548,6 +644,8 @@ public class CacheJsonModelImpl
 		cacheJsonImpl.setCreateEvent(getCreateEvent());
 		cacheJsonImpl.setModifiedEvent(getModifiedEvent());
 		cacheJsonImpl.setIsActive(isIsActive());
+		cacheJsonImpl.setRegeneratedDate(getRegeneratedDate());
+		cacheJsonImpl.setHasSchedules(isHasSchedules());
 
 		cacheJsonImpl.resetOriginalValues();
 
@@ -626,6 +724,14 @@ public class CacheJsonModelImpl
 
 		cacheJsonModelImpl._setOriginalIsActive = false;
 
+		cacheJsonModelImpl._originalRegeneratedDate =
+			cacheJsonModelImpl._regeneratedDate;
+
+		cacheJsonModelImpl._originalHasSchedules =
+			cacheJsonModelImpl._hasSchedules;
+
+		cacheJsonModelImpl._setOriginalHasSchedules = false;
+
 		cacheJsonModelImpl._columnBitmask = 0;
 	}
 
@@ -670,6 +776,17 @@ public class CacheJsonModelImpl
 		}
 
 		cacheJsonCacheModel.isActive = isIsActive();
+
+		Date regeneratedDate = getRegeneratedDate();
+
+		if (regeneratedDate != null) {
+			cacheJsonCacheModel.regeneratedDate = regeneratedDate.getTime();
+		}
+		else {
+			cacheJsonCacheModel.regeneratedDate = Long.MIN_VALUE;
+		}
+
+		cacheJsonCacheModel.hasSchedules = isHasSchedules();
 
 		return cacheJsonCacheModel;
 	}
@@ -753,6 +870,11 @@ public class CacheJsonModelImpl
 	private boolean _isActive;
 	private boolean _originalIsActive;
 	private boolean _setOriginalIsActive;
+	private Date _regeneratedDate;
+	private Date _originalRegeneratedDate;
+	private boolean _hasSchedules;
+	private boolean _originalHasSchedules;
+	private boolean _setOriginalHasSchedules;
 	private long _columnBitmask;
 	private CacheJson _escapedModel;
 

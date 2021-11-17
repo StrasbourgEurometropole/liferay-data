@@ -1,23 +1,21 @@
 package eu.strasbourg.portlet.twitter;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.twitter.configuration.TwitterConfiguration;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.io.IOException;
+import java.util.List;
 
 @Component(
 	immediate = true,
@@ -28,6 +26,8 @@ import eu.strasbourg.portlet.twitter.configuration.TwitterConfiguration;
 		"com.liferay.portlet.css-class-wrapper=twitter-portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/twitter-view.jsp",
+			"javax.portlet.init-param.config-template=/configuration/twitter-configuration.jsp",
+			"javax.portlet.name=" + StrasbourgPortletKeys.TWITTER_WEB,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" },
 	service = Portlet.class)

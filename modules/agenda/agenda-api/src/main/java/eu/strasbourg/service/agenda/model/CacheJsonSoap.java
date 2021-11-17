@@ -40,6 +40,8 @@ public class CacheJsonSoap implements Serializable {
 		soapModel.setCreateEvent(model.getCreateEvent());
 		soapModel.setModifiedEvent(model.getModifiedEvent());
 		soapModel.setIsActive(model.isIsActive());
+		soapModel.setRegeneratedDate(model.getRegeneratedDate());
+		soapModel.setHasSchedules(model.isHasSchedules());
 
 		return soapModel;
 	}
@@ -145,11 +147,33 @@ public class CacheJsonSoap implements Serializable {
 		_isActive = isActive;
 	}
 
+	public Date getRegeneratedDate() {
+		return _regeneratedDate;
+	}
+
+	public void setRegeneratedDate(Date regeneratedDate) {
+		_regeneratedDate = regeneratedDate;
+	}
+
+	public boolean getHasSchedules() {
+		return _hasSchedules;
+	}
+
+	public boolean isHasSchedules() {
+		return _hasSchedules;
+	}
+
+	public void setHasSchedules(boolean hasSchedules) {
+		_hasSchedules = hasSchedules;
+	}
+
 	private String _uuid;
 	private long _eventId;
 	private String _jsonEvent;
 	private Date _createEvent;
 	private Date _modifiedEvent;
 	private boolean _isActive;
+	private Date _regeneratedDate;
+	private boolean _hasSchedules;
 
 }

@@ -107,3 +107,12 @@ $path: '../fonts/';
         font-weight: 700;
         font-style: normal;
     }
+
+// Amiko
+    // Bold
+    @font-face {
+        font-family: 'Amiko';
+        src: url('#{$path}Amiko-Bold.ttf') format('truetype');
+        font-weight: 700;
+        font-style: normal;
+    }

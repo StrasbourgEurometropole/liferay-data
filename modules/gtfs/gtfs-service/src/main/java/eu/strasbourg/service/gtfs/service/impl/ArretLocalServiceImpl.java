@@ -23,9 +23,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
-import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
@@ -37,18 +34,20 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.*;
-import java.util.stream.LongStream;
-
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.ArretLocalServiceBaseImpl;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the arret local service.
@@ -310,7 +309,7 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 		}
 		return attachedVocabularies;
 	}
-	
+
 	/**
 	 * Retourne toutes les entrees d'un groupe
 	 */
@@ -318,13 +317,29 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 	public List<Arret> getByGroupId(long groupId) {
 		return this.arretPersistence.findByGroupId(groupId);
 	}
-	
+
+	/**
+	 * Retourne tous les arret avec un status choisi
+	 */
+	@Override
+	public List<Arret> getByStatus(int status) {
+		return this.arretPersistence.findByStatus(status);
+	}
+
 	/**
 	 * Retourne un arret via son stopId CTS
 	 */
 	@Override
 	public Arret getByStopId(String stopId) {
 		return this.arretPersistence.fetchByStopId(stopId);
+	}
+
+	/**
+	 * Retourne les arrets via le stopCode
+	 */
+	@Override
+	public List<Arret> getByStopCode(String stopCode) {
+		return this.arretPersistence.findByCode(stopCode);
 	}
 	
 	/**

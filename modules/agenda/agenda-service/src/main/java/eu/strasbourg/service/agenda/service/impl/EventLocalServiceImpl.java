@@ -14,15 +14,6 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -34,6 +25,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
@@ -52,21 +44,41 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.agenda.exception.NoSuchEventException;
+import eu.strasbourg.service.agenda.model.CacheJson;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventModel;
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.model.EventPeriod;
-import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.agenda.model.Historic;
 import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventLocalServiceBaseImpl;
 import eu.strasbourg.service.agenda.utils.AgendaImporter;
-import eu.strasbourg.service.agenda.model.CacheJson;
-import eu.strasbourg.service.agenda.model.Historic;
+import eu.strasbourg.service.comment.exception.NoSuchCommentException;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.Serializable;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the event local service.
@@ -210,7 +222,13 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 				this.historicLocalService.deleteHistoric(event.getEventId());
 		}
 		cacheJson.setModifiedEvent(event.getModifiedDate());
-		cacheJson.setJsonEvent(event.getCSMapJSON().toString());
+		JSONObject csmapJson = event.getCSMapJSON();
+		cacheJson.setJsonEvent(csmapJson.toString());
+		if(csmapJson.getJSONArray("schedules").length() > 0)
+			cacheJson.setHasSchedules(true);
+		else
+			cacheJson.setHasSchedules(false);
+		cacheJson.setRegeneratedDate(event.getModifiedDate());
 		cacheJson.setIsActive((event.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
 		this.cacheJsonLocalService.updateCacheJson(cacheJson);
 
@@ -290,6 +308,14 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		Event liveEvent = event.getLiveVersion();
 		if (status == WorkflowConstants.STATUS_DRAFT && liveEvent != null) {
 			this.removeEvent(liveEvent.getEventId());
+		}
+
+		//Mise à jour pour CSMap
+		CacheJson cacheJson = this.cacheJsonLocalService.fetchCacheJson(event.getEventId());
+		if(Validator.isNotNull(cacheJson)){
+			cacheJson.setModifiedEvent(event.getModifiedDate());
+			cacheJson.setIsActive((event.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
+			this.cacheJsonLocalService.updateCacheJson(cacheJson);
 		}
 
 		return event;
@@ -392,6 +418,19 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			// Supprime l'assetEntry
 			AssetEntryLocalServiceUtil.deleteEntry(Event.class.getName(),
 				eventId);
+
+			// Supprime les Comments
+			try {
+				// Récupère uniquement les commentaires de niveau 1, les enfants sont gérés par la méthode de supprssion
+				List<Comment> comments = CommentLocalServiceUtil.getByAssetEntryAndLevel(entry.getEntryId(), 1,0);
+				if (comments != null && !comments.isEmpty()) {
+					for (Comment comment : comments) {
+						CommentLocalServiceUtil.removeComment(comment.getCommentId());
+					}
+				}
+			} catch (NoSuchCommentException e) {
+				_log.error(e);
+			}
 
 			// Supprime les périodes
 			List<EventPeriod> periods = EventPeriodLocalServiceUtil
@@ -619,6 +658,99 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	@Override
 	public List<Event> findByPlaceSIGId(String placeSIGId) {
 		return eventPersistence.findByPlaceSIGId(placeSIGId);
+	}
+
+	/**
+	 * Transform le timeDetail en startTime et endTime si on peut
+	 */
+	@Override
+	public List<String[]> getTimeDetailFormated(String timeDetail){
+		List<String[]> timesSchedule = new ArrayList<>();
+
+		// regexp de l'heure
+		String timeRegex = "(\\d|([01]\\d|2[0-4]))( ?(h|:) ?)([0-5](\\d)?)?(( ?(m|:) ?)([0-5](\\d)?)?)?";
+
+		Pattern timePattern = Pattern.compile(timeRegex, Pattern.CASE_INSENSITIVE);
+		Pattern between2TimesPattern = Pattern.compile("( ?[-àa>\\u00E0] ?)", Pattern.CASE_INSENSITIVE);
+
+		// on récupère toutes les heures trouvées
+		Matcher timesMatcher = timePattern.matcher(timeDetail);
+		// on récupère dans une liste tout ce qu'il y a entre les heures
+		List<String> timesTexts = timePattern.splitAsStream(timeDetail).collect(Collectors.toList());
+
+		String startTime = "", endTime = "";
+		int i = 0;
+		while(timesMatcher.find()) { // se positionne sur l'heure suivante (commence par la 1ere)
+			if(Validator.isNull(startTime))
+				startTime = getTimeFormated(timesMatcher.group()); // .group récupère la valeur de l'heure
+			else {
+				String between2Times = timesTexts.get(i);
+				List<String> between2TimesTexts = between2TimesPattern.splitAsStream(between2Times).collect(Collectors.toList());
+				if (between2TimesTexts.size() == 0 || Validator.isNull(between2TimesTexts.get(0))) {
+					Matcher between2TimesMarcher = between2TimesPattern.matcher(between2Times);
+					if (between2TimesMarcher.find()) {
+						endTime = getTimeFormated(timesMatcher.group());
+						String[] timeSchedule = {startTime, endTime};
+						timesSchedule.add(timeSchedule);
+						startTime = "";
+						endTime = "";
+					}
+				}else{
+					// si on rentre là c'est qu'on n'a pas d'heure de fin
+					endTime = null;
+					String[] timeSchedule = {startTime, endTime};
+					timesSchedule.add(timeSchedule);
+					startTime = getTimeFormated(timesMatcher.group());
+					endTime = "";
+				}
+			}
+			i++;
+		}
+
+		// c'est une phrase et non un horaire on renvoi minuit
+		if(i == 0) {
+			startTime = "00:00:00";
+			endTime = null;
+			String[] timeSchedule = {startTime, endTime};
+			timesSchedule.add(timeSchedule);
+		}else{
+			if(Validator.isNotNull(startTime)) {
+				if(Validator.isNull(endTime)) {
+					endTime = null;
+				}
+				String[] timeSchedule = {startTime, endTime};
+				timesSchedule.add(timeSchedule);
+			}
+		}
+
+		return timesSchedule;
+	}
+
+	private String getTimeFormated(String time){
+		String hourRegex = "( ?(h|:) ?)";
+		Pattern formatHourPattern = Pattern.compile(hourRegex, Pattern.CASE_INSENSITIVE);
+		// on récupère dans une liste tout ce qu'il y a entre les regex trouvé
+		List<String> heureMinuteSeconde = formatHourPattern.splitAsStream(time).collect(Collectors.toList());
+		String heure = (String.valueOf(heureMinuteSeconde.get(0)).length() == 1 ? "0" : "") + heureMinuteSeconde.get(0);
+
+		String minute = "00";
+		String seconde = "00";
+		if(heureMinuteSeconde.size() > 1){
+			if(heureMinuteSeconde.size() == 2){
+				String minuteRegex = "( ?m ?)";
+				Pattern formatMinutePattern = Pattern.compile(minuteRegex, Pattern.CASE_INSENSITIVE);
+				List<String> minuteSeconde = formatMinutePattern.splitAsStream(heureMinuteSeconde.get(heureMinuteSeconde.size() - 1)).collect(Collectors.toList());
+				minute = (String.valueOf(minuteSeconde.get(0)).length() == 1 ? "0" : "") + minuteSeconde.get(0);
+				if(minuteSeconde.size() > 1){
+					seconde = (String.valueOf(minuteSeconde.get(minuteSeconde.size()-1)).length() == 1 ? "0" : "") + minuteSeconde.get(minuteSeconde.size()-1);
+				}
+			}else{
+				minute = (String.valueOf(heureMinuteSeconde.get(1)).length() == 1 ? "0" : "") + heureMinuteSeconde.get(1);
+				seconde = (String.valueOf(heureMinuteSeconde.get(2)).length() == 1 ? "0" : "") + heureMinuteSeconde.get(2);
+			}
+		}
+
+		return heure + ":" + minute + ":" + seconde;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());

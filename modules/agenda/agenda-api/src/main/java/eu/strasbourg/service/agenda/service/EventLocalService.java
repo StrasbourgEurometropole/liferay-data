@@ -44,8 +44,8 @@ import eu.strasbourg.service.agenda.model.Event;
 import java.io.IOException;
 import java.io.Serializable;
 
-import java.util.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Event. Methods of this
@@ -409,6 +409,12 @@ public interface EventLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Event> getPublished();
 
+	/**
+	 * Transform le timeDetail en startTime et endTime si on peut
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<String[]> getTimeDetailFormated(String timeDetail);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasManifestationEvent(long manifestationId, long eventId);
 
@@ -465,7 +471,7 @@ public interface EventLocalService
 	 */
 	public Event updateStatus(
 			long userId, long entryId, int status, ServiceContext sc,
-			java.util.Map<String, Serializable> workflowContext)
+			Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 }

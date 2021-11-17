@@ -39,6 +39,12 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.comment.exception.NoSuchCommentException;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.like.model.Like;
+import eu.strasbourg.service.like.model.LikeType;
+import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.ParticipationLocalServiceBaseImpl;
@@ -250,6 +256,30 @@ public class ParticipationLocalServiceImpl
                         placitPlace.getPlacitPlaceId());
             }
 
+            // Supprime les Comments
+            try {
+                // Récupère uniquement les commentaires de niveau 1, les enfants sont gérés par la méthode de supprssion
+                List<Comment> comments = CommentLocalServiceUtil.getByAssetEntryAndLevel(entry.getEntryId(), 1,0);
+                if (comments != null && !comments.isEmpty()) {
+                    for (Comment comment : comments) {
+                        CommentLocalServiceUtil.removeComment(comment.getCommentId());
+                    }
+                }
+            } catch (NoSuchCommentException e) {
+                _log.error(e);
+            }
+
+            // Supprime les Likes
+            try {
+                List<Like> likes = LikeLocalServiceUtil.getByEntityIdAndTypeId(participationId, LikeType.PARTICIPATION.getId());
+                if (likes != null && !likes.isEmpty()) {
+                    for (Like like : likes) {
+                        LikeLocalServiceUtil.deleteLike(like);
+                    }
+                }
+            } catch (Exception e) {
+                _log.error(e);
+            }
         }
 
         // Supprime la participation

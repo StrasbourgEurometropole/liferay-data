@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-lazy="false">
+	<import class="eu.strasbourg.service.notif.model.Message" />
+	<import class="eu.strasbourg.service.notif.model.NatureNotif" />
+	<import class="eu.strasbourg.service.notif.model.Notification" />
+	<import class="eu.strasbourg.service.notif.model.ServiceNotif" />
+	<class name="eu.strasbourg.service.notif.model.impl.MessageImpl" table="notif_Message">
+		<id name="messageId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="serviceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="eu.strasbourg.service.notif.model.impl.NatureNotifImpl" table="notif_NatureNotif">
+		<id name="natureId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="serviceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="eu.strasbourg.service.notif.model.impl.NotificationImpl" table="notif_Notification">
+		<id name="notificationId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="statusByUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="statusDate" type="org.hibernate.type.TimestampType" />
+		<property name="serviceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="isAlert" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="natureId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="subtitle" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="startDate" type="org.hibernate.type.TimestampType" />
+		<property name="endDate" type="org.hibernate.type.TimestampType" />
+		<property name="broadcastDate" type="org.hibernate.type.TimestampType" />
+		<property name="messageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="labelUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="typeBroadcast" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="district" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="broadcastChannels" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="sendStatusCsmap" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="sendStatusTwitter" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="sendStatusMonst" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="sendStatusMail" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="sendStatusSegur" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="eu.strasbourg.service.notif.model.impl.ServiceNotifImpl" table="notif_ServiceNotif">
+		<id name="serviceId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="organisationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="pictoId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="csmapSubscriptionLabel" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="csmapSubscriptionMandatory" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="csmapTopic" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+	</class>
+</hibernate-mapping>

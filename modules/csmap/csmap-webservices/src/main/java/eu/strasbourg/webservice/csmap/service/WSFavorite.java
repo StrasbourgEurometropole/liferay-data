@@ -4,6 +4,7 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
@@ -25,14 +26,15 @@ public class WSFavorite {
             if (favorite.getUrl().isEmpty() || Validator.isNull(favorite.getUrl())) {
                 favorite.setUrl(StrasbourgPropsUtil.getURL() + "/lieu/-/entity/sig/" + elementIdFavorite);
             }
-        } else if (typeFavorite == FavoriteType.EVENT.getId() || typeFavorite == FavoriteType.ARRET.getId()) {
+        } else if (typeFavorite == FavoriteType.ARRET.getId()) {
+            favorite.setEntityId(ArretLocalServiceUtil.getByStopId(elementIdFavorite).getArretId());
+            if (favorite.getUrl().isEmpty() || Validator.isNull(favorite.getUrl())) {
+                favorite.setUrl(StrasbourgPropsUtil.getURL() + "/arret/-/entity/id/" + favorite.getEntityId());
+            }
+        } else if (typeFavorite == FavoriteType.EVENT.getId()) {
             favorite.setEntityId(Long.parseLong(elementIdFavorite));
             if (favorite.getUrl().isEmpty() || Validator.isNull(favorite.getUrl())) {
-                if (typeFavorite == FavoriteType.EVENT.getId()) {
-                    favorite.setUrl(StrasbourgPropsUtil.getURL() + "/evenement/-/entity/id/" + elementIdFavorite);
-                } else if (typeFavorite == FavoriteType.ARRET.getId()) {
-                    favorite.setUrl(StrasbourgPropsUtil.getURL() + "/arret/-/entity/id/" + elementIdFavorite);
-                }
+                favorite.setUrl(StrasbourgPropsUtil.getURL() + "/evenement/-/entity/id/" + elementIdFavorite);
             }
         }
         favorite.setOrder(orderFavorite);

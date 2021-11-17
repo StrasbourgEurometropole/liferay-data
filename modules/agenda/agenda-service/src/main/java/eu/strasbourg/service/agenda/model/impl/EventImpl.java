@@ -72,6 +72,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -111,7 +112,7 @@ public class EventImpl extends EventBaseImpl {
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a event model
-	 * instance should use the {@link eu.strasbourg.service.agenda.model.Event}
+	 * instance should use the {@link eu.strasbourg.service.agenda.getCSmodel.Event}
 	 * interface instead.
 	 */
 	public EventImpl() {
@@ -1393,7 +1394,9 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("idSurfs", this.getPlaceSIGId());
 			Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-			jsonPlace.put("name", place.getName());
+			JSONObject placeName = JSONFactoryUtil.createJSONObject();
+			placeName.put("fr_FR", this.getTitle(Locale.FRANCE));
+			jsonPlace.put("name", placeName);
 			String street = place.getAddressStreet();
 			if(!street.isEmpty() || Validator.isNotNull(street)){
 				jsonPlace.put("street", street);
@@ -1452,8 +1455,8 @@ public class EventImpl extends EventBaseImpl {
 		if (Validator.isNotNull(this.getPrice())) {
 			String price = this.getPriceCurrentValue();
 			String regexInt = "([0-9]+)";
-			String regexDouble = "([0-9]+)\\.([0-9]+)";
-			String regexDoubleSimple = "([0-9]+)\\.([0-9]{1})";
+			String regexDouble = "([0-9]+)[\\.|,]([0-9]+)";
+			String regexDoubleSimple = "([0-9]+)[\\.|,]([0-9]{1})";
 			if (Pattern.matches(regexInt, price)){
 				JSONObject jsonPrice = JSONFactoryUtil.createJSONObject();
 				jsonPrice.put("fr_FR", price + " \u20ac");
@@ -1471,38 +1474,58 @@ public class EventImpl extends EventBaseImpl {
 			}
 		}
 
-		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
+		Date now = new Date();
+		Date datePlusDays = Date.from(LocalDate.now().plusDays(120).atStartOfDay()
+				.atZone(ZoneId.systemDefault()).toInstant());
+		Map<List<Date>, Map<Locale, String>> periods = new HashMap<>();
 		for (EventPeriod period : this.getEventPeriods()) {
-			SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = period.getStartDate();
-			LocalDate currentDate = LocalDate.now();
-			LocalDate datePlusDays = currentDate.plusDays(30);
-			LocalDate localDate = date.toInstant()
-					.atZone(ZoneId.systemDefault())
-					.toLocalDate();
-			if (localDate.isBefore(datePlusDays)) {
-				JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
+			Map<Locale, String> timeDetail = new HashMap<>();
+			if (Validator.isNotNull(period.getTimeDetail())) {
+				timeDetail = period.getTimeDetailMap();
+			}
+			Date startDate = period.getStartDate().after(now) ?  period.getStartDate() : now;
+			Date endDate = period.getEndDate().after(datePlusDays) ?  datePlusDays : period.getEndDate();
+			periods.put(DateHelper.getDaysBetweenDates(startDate, endDate), timeDetail);
+		}
+		JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
+		SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		for (Entry<List<Date>, Map<Locale, String>> period : periods.entrySet()) {
+			String timeDetail = period.getValue().get(Locale.FRANCE);
+			List<String[]> timesDetailSchedule = new ArrayList<>();
+			if(Validator.isNotNull(timeDetail))
+				timesDetailSchedule = EventLocalServiceUtil.getTimeDetailFormated(timeDetail);
 
-				periodJSON.put("date", dateFormat.format(date));
-
-				if (Validator.isNotNull(period.getTimeDetail())) {
-					periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
+			List<Date> dates = period.getKey();
+			for (Date date : dates) {
+				for (String[] timeDetailSchedule : timesDetailSchedule) {
+					JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
+					scheduleJSON.put("startDate", dateFormat.format(date) + " " + timeDetailSchedule[0]);
+					// si l'heure de fin est < à l'heure de début, on ajoute 1 à la date de fin
+					LocalTime startTime = LocalTime.parse(timeDetailSchedule[0]);
+					if(Validator.isNotNull(timeDetailSchedule[1])) {
+						LocalTime endTime = LocalTime.parse(timeDetailSchedule[1]);
+						if (startTime.isAfter(endTime)) {
+							LocalDate tomorrow = date.toInstant().atZone(ZoneId.systemDefault())
+									.toLocalDate().plusDays(1);
+							scheduleJSON.put("endDate", dateFormat.format(Date.from(tomorrow.atStartOfDay().atZone(ZoneId.systemDefault())
+									.toInstant())) + " " + timeDetailSchedule[1]);
+						} else
+							scheduleJSON.put("endDate", dateFormat.format(date) + " " + timeDetailSchedule[1]);
+					}
+					schedulesJSON.put(scheduleJSON);
 				}
-				periodsJSON.put(periodJSON);
 			}
 		}
-
-		jsonEvent.put("schedules", periodsJSON);
-
-		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
-		if (jsonTypes.length() > 0) {
-			jsonEvent.put("types", jsonTypes);
-		}
+		jsonEvent.put("schedules", schedulesJSON);
 
 		JSONArray jsonThemes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThemes());
-		if (jsonThemes.length() > 0) {
-			jsonEvent.put("themes", jsonThemes);
-		}
+		jsonEvent.put("themes", jsonThemes);
+
+		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
+		jsonEvent.put("types", jsonTypes);
+
+		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritories());
+		jsonEvent.put("territoires", jsonTerritories);
 
 		List<String> mercators = this.getMercators();
 		if(mercators.size() == 2) {
