@@ -185,6 +185,8 @@ public class TransportApplication extends Application {
                         log.error(e);
                         return WSResponseUtil.buildErrorResponse(500, e.getMessage());
                 }
+                if(json.length() == 0)
+                        return WSResponseUtil.buildOkResponse(json, 201);
                 return WSResponseUtil.buildOkResponse(json);
         }
 

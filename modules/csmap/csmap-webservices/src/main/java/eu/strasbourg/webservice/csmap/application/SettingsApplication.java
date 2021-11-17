@@ -138,6 +138,11 @@ public class SettingsApplication extends Application {
 
         try {
             List<Thematic> thematics = thematicLocalService.getThematics(-1,-1);
+
+            if(thematics.isEmpty()){
+                return WSResponseUtil.buildOkResponse(json,201);
+            }
+
             for(Thematic thematic : thematics){
                 JSONObject jsonThematic = JSONFactoryUtil.createJSONObject();
                 jsonThematic.put("name", thematic.getName());
