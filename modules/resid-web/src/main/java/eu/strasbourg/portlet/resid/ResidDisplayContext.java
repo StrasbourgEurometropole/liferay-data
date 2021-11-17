@@ -1,20 +1,19 @@
 package eu.strasbourg.portlet.resid;
 
-import java.time.LocalDate;
-
-import javax.portlet.PortletRequest;
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.portlet.resid.configuration.ResidConfiguration;
 import eu.strasbourg.portlet.resid.dossier.DossiersResponse;
 import eu.strasbourg.utils.PortletHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+
+import javax.portlet.PortletRequest;
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 
 public class ResidDisplayContext {
 
@@ -38,7 +37,7 @@ public class ResidDisplayContext {
 	}
 
 	public String getResidURL() {
-		String residURL = configuration.residURL();
+		String residURL = StrasbourgPropsUtil.getResidantURL();
 		if (Validator.isNull(residURL)) {
 			residURL = "#";
 		}

@@ -98,7 +98,7 @@ public class EventApplication extends Application {
 
         try {
             // On récupère tous les events qui ont été ajoutés
-            List<CacheJson> ajouts = cacheJsonLocalService.getByCreatedDateAndIsActive(lastUpdateTime);
+            List<CacheJson> ajouts = cacheJsonLocalService.getByCreatedDateAndIsActiveAndWithSchedules(lastUpdateTime);
             JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
             for (CacheJson cache: ajouts) {
                 jsonAjout.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
@@ -106,7 +106,7 @@ public class EventApplication extends Application {
             json.put(WSConstants.JSON_ADD, jsonAjout);
 
             // On récupère tous les events qui ont été modifiés
-            List<CacheJson> modifications = cacheJsonLocalService.getByCreatedDateAndModifiedDateAndIsActive(lastUpdateTime);
+            List<CacheJson> modifications = cacheJsonLocalService.getByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(lastUpdateTime);
             JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
             for (CacheJson cache: modifications) {
                 jsonModif.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
@@ -114,10 +114,11 @@ public class EventApplication extends Application {
             json.put(WSConstants.JSON_UPDATE, jsonModif);
 
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
+
             if(!lastUpdateTimeString.equals("0")) {
                 // On récupère tous les events qui ont été dépubliés
-                List<CacheJson> depubications = cacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
-                for (CacheJson cache : depubications) {
+                List<CacheJson> depublications = cacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
+                for (CacheJson cache: depublications) {
                     jsonSuppr.put(cache.getEventId());
                 }
 
@@ -378,10 +379,15 @@ public class EventApplication extends Application {
 
         JSONArray jsonIds = JSONFactoryUtil.createJSONArray();
         if (hits != null) {
+            List<CacheJson> cacheJsons = cacheJsonLocalService.getCacheJsons(-1,-1);
             for (Document document : hits.getDocs()) {
                 long id = Long.parseLong(document.get(Field.ENTRY_CLASS_PK));
+
                 if((campaignsTitle.length() == 0) || campaignsTitle.toString().contains(document.get("campaign"))) {
-                    jsonIds.put(id);
+                    // on ne prend que les event présent dans cacheJson avec des schedules
+                    CacheJson cacheJson = cacheJsons.stream().filter(c -> c.getEventId() == id).findFirst().orElse(null);
+                    if(Validator.isNotNull(cacheJson) && cacheJson.getHasSchedules())
+                        jsonIds.put(id);
                 }
             }
         }
