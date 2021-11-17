@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import eu.strasbourg.service.notif.exception.NoSuchServiceNotifException;
 import eu.strasbourg.service.notif.model.ServiceNotif;
 
 import java.io.Serializable;
@@ -186,6 +187,10 @@ public interface ServiceNotifLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<ServiceNotif> getByOrganisationIds(long[] organisationIds);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ServiceNotif getByTopic(String topic)
+		throws NoSuchServiceNotifException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();

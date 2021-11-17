@@ -422,7 +422,7 @@ public class EventServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByCategory(
-			HttpPrincipal httpPrincipal, long categoryId)
+			HttpPrincipal httpPrincipal, String categoryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
@@ -586,7 +586,7 @@ public class EventServiceHttp {
 	private static final Class<?>[] _getEventsByDateParameterTypes9 =
 		new Class[] {String.class};
 	private static final Class<?>[] _getEventsByCategoryParameterTypes10 =
-		new Class[] {long.class};
+		new Class[] {String.class};
 	private static final Class<?>[] _getEventsByPlaceParameterTypes11 =
 		new Class[] {String.class};
 	private static final Class<?>[] _getEventsByLanguageParameterTypes12 =

@@ -14,11 +14,7 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -37,8 +33,6 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.base.EventServiceBaseImpl;
 import eu.strasbourg.service.place.model.Place;
@@ -47,6 +41,14 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the event remote service.
@@ -199,14 +201,20 @@ public class EventServiceImpl extends EventServiceBaseImpl {
     }
 
     @Override
-    public JSONObject getEventsByCategory(long categoryId)
+    public JSONObject getEventsByCategory(String categoryId)
             throws PortalException {
         if (!isAuthorized()) {
             return error("not authorized");
         }
 
+        // on récupère la catégorie liée à l'externalId de la catégorie (categoryId)
+        long categId = 0;
+        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(categoryId);
+        if(Validator.isNotNull(category))
+            categId = category.getCategoryId();
+
         Hits hits = SearchHelper.getEventWebServiceSearchHits(
-                Event.class.getName(), null, categoryId, null);
+                Event.class.getName(), null, categId, null);
         List<Event> events = new ArrayList<Event>();
         for (Document document : hits.getDocs()) {
             Event event = this.eventLocalService.fetchEvent(

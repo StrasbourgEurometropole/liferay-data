@@ -353,6 +353,24 @@ public class ArretLocalServiceUtil {
 	}
 
 	/**
+	 * Retourne tous les arret avec un status choisi
+	 */
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Arret>
+		getByStatus(int status) {
+
+		return getService().getByStatus(status);
+	}
+
+	/**
+	 * Retourne les arrets via le stopCode
+	 */
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Arret>
+		getByStopCode(String stopCode) {
+
+		return getService().getByStopCode(stopCode);
+	}
+
+	/**
 	 * Retourne un arret via son stopId CTS
 	 */
 	public static eu.strasbourg.service.gtfs.model.Arret getByStopId(

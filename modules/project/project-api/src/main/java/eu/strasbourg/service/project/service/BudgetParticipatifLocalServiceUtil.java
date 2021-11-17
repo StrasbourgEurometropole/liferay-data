@@ -541,6 +541,16 @@ public class BudgetParticipatifLocalServiceUtil {
 		return getService().getSortedByNbSupports(groupId, phase);
 	}
 
+	/**
+	 * On randomise la date de modifications des budgets participatifs
+	 * Cela permet de simuler un tri aléatoire
+	 */
+	public static void randomizeModifiedDate()
+		throws com.liferay.portal.kernel.search.SearchException {
+
+		getService().randomizeModifiedDate();
+	}
+
 	public static void removeBudgetParticipatif(long budgetId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 

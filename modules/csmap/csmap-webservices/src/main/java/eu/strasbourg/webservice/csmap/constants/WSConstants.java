@@ -32,6 +32,8 @@ public class WSConstants {
     public static final String GIVEN_NAME = "given_name";
     public static final String FAMILY_NAME = "family_name";
     public static final String EMAIL = "email";
+    public static final String ACCORD_PLACIT = "accord_placit";
+    public static final String LISTING_PLACIT = "accord_placit_listing";
 
     /** Token config */
     public static final int TOKEN_LENGTH = 255;
@@ -80,6 +82,7 @@ public class WSConstants {
     public static final String JSON_POSTAL_CODE = "postalCode";
     public static final String JSON_CITY = "city";
     public static final String JSON_IMAGE_URL = "imageURL";
+    public static final String JSON_DISTRICT = "district";
     // Account-Data
     public static final String JSON_TITLE = "title";
     public static final String JSON_STATUS = "status";

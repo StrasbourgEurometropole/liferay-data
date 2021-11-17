@@ -1,17 +1,5 @@
 package eu.strasbourg.portlet.mediatheque.configuration;
 
-import java.util.Locale;
-import java.util.Map;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -22,8 +10,17 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(
 	configurationPid = "eu.strasbourg.portlet.mediatheque.configuration.MediathequeConfiguration",
@@ -76,10 +73,6 @@ public class MediathequeConfigurationAction
 			// URL contact
 			String contactURL = ParamUtil.getString(request, "contactURL");
 			setPreference(request, "contactURL", contactURL);
-			
-			// URL médiathèque
-			String mediathequeURL = ParamUtil.getString(request, "mediathequeURL");
-			setPreference(request, "mediathequeURL", mediathequeURL);
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -102,8 +95,7 @@ public class MediathequeConfigurationAction
 			request.setAttribute("demarche", configuration.demarcheXML());
 			request.setAttribute("retourURL", configuration.retourURL());
 			request.setAttribute("contactURL", configuration.contactURL());
-			request.setAttribute("mediathequeURL", configuration.mediathequeURL());
-			
+
 		} catch (ConfigurationException e) {
 			_log.error(e);
 		}

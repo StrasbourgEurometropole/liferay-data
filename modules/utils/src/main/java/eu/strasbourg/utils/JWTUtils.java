@@ -1,9 +1,5 @@
 package eu.strasbourg.utils;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Calendar;
-import java.util.Date;
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -11,6 +7,10 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
+import java.util.Date;
 
 public class JWTUtils {
 
@@ -68,7 +68,7 @@ public class JWTUtils {
 			DecodedJWT jwt = verifier.verify(token);
 			Claim jwtClaim = jwt.getClaim(claim);
 			if (jwtClaim != null) {
-				return jwtClaim.asString();
+				return jwtClaim.as(String.class);
 			}
 			return "";
 		} catch (UnsupportedEncodingException exception) {

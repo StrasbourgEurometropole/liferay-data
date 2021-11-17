@@ -19,6 +19,8 @@ import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.Order;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -297,22 +299,28 @@ public class NotificationLocalServiceImpl
 		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
 		Criterion greater = RestrictionsFactoryUtil.le("startDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
 		Criterion lesser = RestrictionsFactoryUtil.ge("endDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		Order order = OrderFactoryUtil.desc("startDate");
 		dq.add(greater);
 		dq.add(lesser);
+		dq.addOrder(order);
 		return NotificationLocalServiceUtil.dynamicQuery(dq);
 	}
 	@Override
 	public List<Notification> getToComeNotifications() {
 		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
 		Criterion lesser = RestrictionsFactoryUtil.gt("startDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		Order order = OrderFactoryUtil.desc("startDate");
 		dq.add(lesser);
+		dq.addOrder(order);
 		return NotificationLocalServiceUtil.dynamicQuery(dq);
 	}
 	@Override
 	public List<Notification> getPastNotifications() {
 		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
 		Criterion greater = RestrictionsFactoryUtil.lt("endDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		Order order = OrderFactoryUtil.desc("startDate");
 		dq.add(greater);
+		dq.addOrder(order);
 		return NotificationLocalServiceUtil.dynamicQuery(dq);
 	}
 }

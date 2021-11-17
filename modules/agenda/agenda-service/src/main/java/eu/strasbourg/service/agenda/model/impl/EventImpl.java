@@ -72,6 +72,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -111,7 +112,7 @@ public class EventImpl extends EventBaseImpl {
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a event model
-	 * instance should use the {@link eu.strasbourg.service.agenda.model.Event}
+	 * instance should use the {@link eu.strasbourg.service.agenda.getCSmodel.Event}
 	 * interface instead.
 	 */
 	public EventImpl() {
@@ -1454,8 +1455,8 @@ public class EventImpl extends EventBaseImpl {
 		if (Validator.isNotNull(this.getPrice())) {
 			String price = this.getPriceCurrentValue();
 			String regexInt = "([0-9]+)";
-			String regexDouble = "([0-9]+)\\.([0-9]+)";
-			String regexDoubleSimple = "([0-9]+)\\.([0-9]{1})";
+			String regexDouble = "([0-9]+)[\\.|,]([0-9]+)";
+			String regexDoubleSimple = "([0-9]+)[\\.|,]([0-9]{1})";
 			if (Pattern.matches(regexInt, price)){
 				JSONObject jsonPrice = JSONFactoryUtil.createJSONObject();
 				jsonPrice.put("fr_FR", price + " \u20ac");
@@ -1474,7 +1475,7 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		Date now = new Date();
-		Date datePlusDays = Date.from(LocalDate.now().plusDays(60).atStartOfDay()
+		Date datePlusDays = Date.from(LocalDate.now().plusDays(120).atStartOfDay()
 				.atZone(ZoneId.systemDefault()).toInstant());
 		Map<List<Date>, Map<Locale, String>> periods = new HashMap<>();
 		for (EventPeriod period : this.getEventPeriods()) {
@@ -1489,31 +1490,42 @@ public class EventImpl extends EventBaseImpl {
 		JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
 		SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		for (Entry<List<Date>, Map<Locale, String>> period : periods.entrySet()) {
-			JSONObject timeDetailJSON = JSONFactoryUtil.createJSONObject();
 			String timeDetail = period.getValue().get(Locale.FRANCE);
+			List<String[]> timesDetailSchedule = new ArrayList<>();
 			if(Validator.isNotNull(timeDetail))
-				timeDetail = EventLocalServiceUtil.getTimeDetailFormated(timeDetail);
+				timesDetailSchedule = EventLocalServiceUtil.getTimeDetailFormated(timeDetail);
 
-			timeDetailJSON.put("fr_FR", timeDetail);
 			List<Date> dates = period.getKey();
 			for (Date date : dates) {
-				JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
-				scheduleJSON.put("date", dateFormat.format(date));
-				scheduleJSON.put("timeDetail", timeDetailJSON);
-				schedulesJSON.put(scheduleJSON);
+				for (String[] timeDetailSchedule : timesDetailSchedule) {
+					JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
+					scheduleJSON.put("startDate", dateFormat.format(date) + " " + timeDetailSchedule[0]);
+					// si l'heure de fin est < à l'heure de début, on ajoute 1 à la date de fin
+					LocalTime startTime = LocalTime.parse(timeDetailSchedule[0]);
+					if(Validator.isNotNull(timeDetailSchedule[1])) {
+						LocalTime endTime = LocalTime.parse(timeDetailSchedule[1]);
+						if (startTime.isAfter(endTime)) {
+							LocalDate tomorrow = date.toInstant().atZone(ZoneId.systemDefault())
+									.toLocalDate().plusDays(1);
+							scheduleJSON.put("endDate", dateFormat.format(Date.from(tomorrow.atStartOfDay().atZone(ZoneId.systemDefault())
+									.toInstant())) + " " + timeDetailSchedule[1]);
+						} else
+							scheduleJSON.put("endDate", dateFormat.format(date) + " " + timeDetailSchedule[1]);
+					}
+					schedulesJSON.put(scheduleJSON);
+				}
 			}
 		}
 		jsonEvent.put("schedules", schedulesJSON);
 
-		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
-		if (jsonTypes.length() > 0) {
-			jsonEvent.put("types", jsonTypes);
-		}
-
 		JSONArray jsonThemes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThemes());
-		if (jsonThemes.length() > 0) {
-			jsonEvent.put("themes", jsonThemes);
-		}
+		jsonEvent.put("themes", jsonThemes);
+
+		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
+		jsonEvent.put("types", jsonTypes);
+
+		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritories());
+		jsonEvent.put("territoires", jsonTerritories);
 
 		List<String> mercators = this.getMercators();
 		if(mercators.size() == 2) {

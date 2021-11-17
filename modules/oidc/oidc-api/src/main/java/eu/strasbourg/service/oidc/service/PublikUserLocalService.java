@@ -16,7 +16,6 @@ package eu.strasbourg.service.oidc.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.dao.orm.*;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -342,6 +341,7 @@ public interface PublikUserLocalService
 	 */
 	public void updateUserInfoInDatabase(
 		String internalId, String accessToken, String givenName,
-		String familyName, String email, String photo);
+		String familyName, String email, String photo, String accordPlacit,
+		String listingPlacit);
 
 }

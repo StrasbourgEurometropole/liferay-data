@@ -18,7 +18,4 @@ public interface FamilySpaceConfiguration {
 	@Meta.AD(name = "linkAccountURL", deflt = "", required = false)
 	public String linkAccountURL();
 
-	@Meta.AD(name = "familySpaceURL", deflt = "", required = false)
-	public String familySpaceURL();
-
 }

@@ -5,11 +5,16 @@ create index IX_A2EDAC0D on gtfs_Alert (groupId);
 create index IX_34C6E9F1 on gtfs_Alert (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_2E3338B3 on gtfs_Alert (uuid_[$COLUMN_LENGTH:75$], groupId);
 
+create index IX_A701771 on gtfs_Arret (code_[$COLUMN_LENGTH:75$]);
 create index IX_19AE1219 on gtfs_Arret (groupId);
 create index IX_C5E4B797 on gtfs_Arret (status);
 create index IX_DD7BF9A2 on gtfs_Arret (stopId[$COLUMN_LENGTH:75$]);
 create index IX_C8A9165 on gtfs_Arret (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_35E22D27 on gtfs_Arret (uuid_[$COLUMN_LENGTH:75$], groupId);
+
+create index IX_DBED97A7 on gtfs_CacheAlertJSON (uuid_[$COLUMN_LENGTH:75$]);
+
+create index IX_652874D4 on gtfs_CacheHoursJSON (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_5FE52E4F on gtfs_Calendar (end_date);
 create index IX_308C9122 on gtfs_Calendar (service_id[$COLUMN_LENGTH:75$]);
@@ -34,6 +39,7 @@ create unique index IX_B213A8A5 on gtfs_ImportHistoric (uuid_[$COLUMN_LENGTH:75$
 create index IX_DCE6BE88 on gtfs_Ligne (groupId);
 create index IX_3F498552 on gtfs_Ligne (routeId[$COLUMN_LENGTH:75$]);
 create index IX_EEDA135B on gtfs_Ligne (shortName[$COLUMN_LENGTH:75$], status);
+create index IX_FDBD4148 on gtfs_Ligne (status);
 create index IX_AC2B71D6 on gtfs_Ligne (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_387275D8 on gtfs_Ligne (uuid_[$COLUMN_LENGTH:75$], groupId);
 

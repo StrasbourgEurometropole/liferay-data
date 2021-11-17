@@ -636,6 +636,22 @@ public class VideoImpl extends VideoBaseImpl {
     }
 
     /**
+     * Retourne les thèmes de la vidéo
+     */
+    @Override
+    public String getThemesLabel(Locale locale) {
+        List<AssetCategory> themes = this.getThemes();
+        String label = "";
+        for (AssetCategory theme : themes) {
+            if (label.length() > 0) {
+                label += ", ";
+            }
+            label += theme.getTitle(locale);
+        }
+        return label;
+    }
+
+    /**
      * Retourne la vidéo au format JSON
      */
     @Override

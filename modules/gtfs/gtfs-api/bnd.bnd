@@ -1,6 +1,6 @@
 Bundle-SymbolicName: gtfs-api
 Bundle-Version: 1.31.0
-Export-Package:\
+Export-Package: \
 	eu.strasbourg.service.gtfs.exception,\
 	eu.strasbourg.service.gtfs.model,\
 	eu.strasbourg.service.gtfs.service,\

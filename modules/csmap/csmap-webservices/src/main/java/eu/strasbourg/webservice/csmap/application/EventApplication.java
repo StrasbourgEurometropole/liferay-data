@@ -97,16 +97,16 @@ public class EventApplication extends Application {
         JSONObject json = JSONFactoryUtil.createJSONObject();
 
         try {
-            // On récupère tous les lieux qui ont été ajoutés
-            List<CacheJson> ajouts = cacheJsonLocalService.getByCreatedDateAndIsActive(lastUpdateTime);
+            // On récupère tous les events qui ont été ajoutés
+            List<CacheJson> ajouts = cacheJsonLocalService.getByCreatedDateAndIsActiveAndWithSchedules(lastUpdateTime);
             JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
             for (CacheJson cache: ajouts) {
                 jsonAjout.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
             }
             json.put(WSConstants.JSON_ADD, jsonAjout);
 
-            // On récupère tous les lieux qui ont été modifiés
-            List<CacheJson> modifications = cacheJsonLocalService.getByCreatedDateAndModifiedDateAndIsActive(lastUpdateTime);
+            // On récupère tous les events qui ont été modifiés
+            List<CacheJson> modifications = cacheJsonLocalService.getByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(lastUpdateTime);
             JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
             for (CacheJson cache: modifications) {
                 jsonModif.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
@@ -114,16 +114,19 @@ public class EventApplication extends Application {
             json.put(WSConstants.JSON_UPDATE, jsonModif);
 
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-            // On récupère tous les lieux qui ont été dépubliés
-            List<CacheJson> depubications = cacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
-            for (CacheJson cache: depubications) {
-                jsonSuppr.put(cache.getEventId());
-            }
 
-            // On récupère tous les lieux qui ont été supprimés
-            List<Historic> suppressions = historicLocalService.getBySuppressionDate(lastUpdateTime);
-            for (Historic histo: suppressions) {
-                jsonSuppr.put(histo.getEventId());
+            if(!lastUpdateTimeString.equals("0")) {
+                // On récupère tous les events qui ont été dépubliés
+                List<CacheJson> depublications = cacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
+                for (CacheJson cache: depublications) {
+                    jsonSuppr.put(cache.getEventId());
+                }
+
+                // On récupère tous les events qui ont été supprimés
+                List<Historic> suppressions = historicLocalService.getBySuppressionDate(lastUpdateTime);
+                for (Historic histo : suppressions) {
+                    jsonSuppr.put(histo.getEventId());
+                }
             }
             json.put(WSConstants.JSON_DELETE, jsonSuppr);
 
@@ -170,12 +173,12 @@ public class EventApplication extends Application {
         }
 
         try {
-            // On récupère les catégories du vocabulaire des lieux
-            AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
+            // On récupère les catégories du vocabulaire des thèmes agenda
+            AssetVocabulary eventThemeVocabulary = AssetVocabularyHelper
                     .getGlobalVocabulary(VocabularyNames.EVENT_THEME);
             List<AssetCategory> categories = new ArrayList<>();
-            if (Validator.isNotNull(placeTypeVocabulary))
-                categories = placeTypeVocabulary.getCategories();
+            if (Validator.isNotNull(eventThemeVocabulary))
+                categories = eventThemeVocabulary.getCategories();
 
             // On récupère toutes les catégories qui ont été ajoutées ou modifiées
             JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
@@ -195,9 +198,9 @@ public class EventApplication extends Application {
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 
             if (Validator.isNotNull(ids_themes)) {
-                if (Validator.isNotNull(placeTypeVocabulary))
+                if (Validator.isNotNull(eventThemeVocabulary))
                     for (String idCategory : ids_themes.split(",")) {
-                        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory);
+                        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(eventThemeVocabulary, idCategory);
                         if (Validator.isNull(category)) {
                             jsonSuppr.put(idCategory);
                         }
@@ -213,8 +216,6 @@ public class EventApplication extends Application {
         }
         return WSResponseUtil.buildOkResponse(json);
     }
-
-
 
     @POST
     @Produces("application/json")
@@ -249,12 +250,12 @@ public class EventApplication extends Application {
         }
 
         try {
-            // On récupère les catégories du vocabulaire des lieux
-            AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
+            // On récupère les catégories du vocabulaire des types agenda
+            AssetVocabulary eventTypeVocabulary = AssetVocabularyHelper
                     .getGlobalVocabulary(VocabularyNames.EVENT_TYPE);
             List<AssetCategory> categories = new ArrayList<>();
-            if (Validator.isNotNull(placeTypeVocabulary))
-                categories = placeTypeVocabulary.getCategories();
+            if (Validator.isNotNull(eventTypeVocabulary))
+                categories = eventTypeVocabulary.getCategories();
 
             // On récupère toutes les catégories qui ont été ajoutées ou modifiées
             JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
@@ -274,9 +275,9 @@ public class EventApplication extends Application {
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 
             if (Validator.isNotNull(ids_types)) {
-                if (Validator.isNotNull(placeTypeVocabulary))
+                if (Validator.isNotNull(eventTypeVocabulary))
                     for (String idCategory : ids_types.split(",")) {
-                        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory);
+                        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(eventTypeVocabulary, idCategory);
                         if (Validator.isNull(category)) {
                             jsonSuppr.put(idCategory);
                         }
@@ -359,29 +360,34 @@ public class EventApplication extends Application {
 
         // campaigns
         // on récupère le nom de la campagne et non l'id
-        String campaignsTitle = "";
+        StringBuilder campaignsTitle = new StringBuilder();
         if (!agenda.getCampaignsIds().isEmpty()){
             for (String campaignId : agenda.getCampaignsIds().split(",")) {
                 Campaign campaign = campaignLocalService.fetchCampaign(Long.parseLong(campaignId));
                 if (Validator.isNotNull(campaign)) {
-                    if (!campaignsTitle.isEmpty())
-                        campaignsTitle += ",";
-                    campaignsTitle += FriendlyURLNormalizerUtil
-                            .normalize(campaign.getTitleCurrentValue());
+                    if (campaignsTitle.length() > 0)
+                        campaignsTitle.append(",");
+                    campaignsTitle.append(FriendlyURLNormalizerUtil
+                            .normalize(campaign.getTitleCurrentValue()));
                 }
             }
         }
-        String[] campaignsArray = StringUtil.split(campaignsTitle);
+        String[] campaignsArray = StringUtil.split(campaignsTitle.toString());
 
         // Recherche
         Hits hits = SearchHelper.getEventsAgendaWebServiceSearchHits(className, categoriesIds, tagsArray, campaignsArray);
 
         JSONArray jsonIds = JSONFactoryUtil.createJSONArray();
         if (hits != null) {
+            List<CacheJson> cacheJsons = cacheJsonLocalService.getCacheJsons(-1,-1);
             for (Document document : hits.getDocs()) {
                 long id = Long.parseLong(document.get(Field.ENTRY_CLASS_PK));
-                if(campaignsTitle.isEmpty() || campaignsTitle.contains(document.get("campaign"))) {
-                    jsonIds.put(id);
+
+                if((campaignsTitle.length() == 0) || campaignsTitle.toString().contains(document.get("campaign"))) {
+                    // on ne prend que les event présent dans cacheJson avec des schedules
+                    CacheJson cacheJson = cacheJsons.stream().filter(c -> c.getEventId() == id).findFirst().orElse(null);
+                    if(Validator.isNotNull(cacheJson) && cacheJson.getHasSchedules())
+                        jsonIds.put(id);
                 }
             }
         }
@@ -389,13 +395,16 @@ public class EventApplication extends Application {
         return jsonIds;
     }
 
+    @Reference
+    protected CacheJsonLocalService cacheJsonLocalService;
+
     @Reference(unbind = "-")
     protected void setCacheJsonLocalService(CacheJsonLocalService cacheJsonLocalService) {
         this.cacheJsonLocalService = cacheJsonLocalService;
     }
 
     @Reference
-    protected eu.strasbourg.service.agenda.service.CacheJsonLocalService cacheJsonLocalService;
+    protected HistoricLocalService historicLocalService;
 
     @Reference(unbind = "-")
     protected void setHistoricLocalService(HistoricLocalService historicLocalService) {
@@ -403,16 +412,12 @@ public class EventApplication extends Application {
     }
 
     @Reference
-    protected eu.strasbourg.service.agenda.service.HistoricLocalService historicLocalService;
+    protected AgendaLocalService agendaLocalService;
 
     @Reference(unbind = "-")
     protected void setAgendaLocalService(AgendaLocalService agendaLocalService) {
         this.agendaLocalService = agendaLocalService;
     }
-
-
-    @Reference
-    protected AgendaLocalService agendaLocalService;
 
     @Reference
     protected CampaignLocalService campaignLocalService;

@@ -41,8 +41,8 @@ import eu.strasbourg.service.gtfs.model.ImportHistoric;
 
 import java.io.Serializable;
 
-import java.util.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Arret. Methods of this
@@ -214,7 +214,7 @@ public interface ArretLocalService
 	 * Retourne la liste de tous les arrets
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.Map<String, Arret> getAll();
+	public Map<String, Arret> getAll();
 
 	/**
 	 * Returns the arret with the primary key.
@@ -298,6 +298,18 @@ public interface ArretLocalService
 	public List<Arret> getByGroupId(long groupId);
 
 	/**
+	 * Retourne tous les arret avec un status choisi
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Arret> getByStatus(int status);
+
+	/**
+	 * Retourne les arrets via le stopCode
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Arret> getByStopCode(String stopCode);
+
+	/**
 	 * Retourne un arret via son stopId CTS
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -376,7 +388,7 @@ public interface ArretLocalService
 	 */
 	public Arret updateStatus(
 			long userId, long entryId, int status, ServiceContext sc,
-			java.util.Map<String, Serializable> workflowContext)
+			Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 }

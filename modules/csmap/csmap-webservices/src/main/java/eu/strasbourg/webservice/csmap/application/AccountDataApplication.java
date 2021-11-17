@@ -142,12 +142,12 @@ public class AccountDataApplication extends Application {
 
             response = WSAccountData.getResid(publikUser.getPublikId());
             int httpResponseCode = (int)response.get("responseCode");
-            String httpResponseMessage = (String)response.get("errorDescription");
 
             if (httpResponseCode == 200) {
                 return WSResponseUtil.buildOkResponse(response);
             }
             if (httpResponseCode == 500 || httpResponseCode == 400) {
+                String httpResponseMessage = (String)response.get("errorDescription");
                 return WSResponseUtil.buildErrorResponse(httpResponseCode, httpResponseMessage);
             }
 

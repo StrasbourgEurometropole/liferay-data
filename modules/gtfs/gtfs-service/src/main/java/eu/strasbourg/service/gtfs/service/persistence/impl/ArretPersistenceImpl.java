@@ -2692,6 +2692,545 @@ public class ArretPersistenceImpl
 	private static final String _FINDER_COLUMN_STOPID_STOPID_3 =
 		"(arret.stopId IS NULL OR arret.stopId = '')";
 
+	private FinderPath _finderPathWithPaginationFindByCode;
+	private FinderPath _finderPathWithoutPaginationFindByCode;
+	private FinderPath _finderPathCountByCode;
+
+	/**
+	 * Returns all the arrets where code = &#63;.
+	 *
+	 * @param code the code
+	 * @return the matching arrets
+	 */
+	@Override
+	public List<Arret> findByCode(String code) {
+		return findByCode(code, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the arrets where code = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArretModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param code the code
+	 * @param start the lower bound of the range of arrets
+	 * @param end the upper bound of the range of arrets (not inclusive)
+	 * @return the range of matching arrets
+	 */
+	@Override
+	public List<Arret> findByCode(String code, int start, int end) {
+		return findByCode(code, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the arrets where code = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArretModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param code the code
+	 * @param start the lower bound of the range of arrets
+	 * @param end the upper bound of the range of arrets (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching arrets
+	 */
+	@Override
+	public List<Arret> findByCode(
+		String code, int start, int end,
+		OrderByComparator<Arret> orderByComparator) {
+
+		return findByCode(code, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the arrets where code = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArretModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param code the code
+	 * @param start the lower bound of the range of arrets
+	 * @param end the upper bound of the range of arrets (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching arrets
+	 */
+	@Override
+	public List<Arret> findByCode(
+		String code, int start, int end,
+		OrderByComparator<Arret> orderByComparator, boolean retrieveFromCache) {
+
+		code = Objects.toString(code, "");
+
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			pagination = false;
+			finderPath = _finderPathWithoutPaginationFindByCode;
+			finderArgs = new Object[] {code};
+		}
+		else {
+			finderPath = _finderPathWithPaginationFindByCode;
+			finderArgs = new Object[] {code, start, end, orderByComparator};
+		}
+
+		List<Arret> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Arret>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Arret arret : list) {
+					if (!code.equals(arret.getCode())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_ARRET_WHERE);
+
+			boolean bindCode = false;
+
+			if (code.isEmpty()) {
+				query.append(_FINDER_COLUMN_CODE_CODE_3);
+			}
+			else {
+				bindCode = true;
+
+				query.append(_FINDER_COLUMN_CODE_CODE_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(ArretModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindCode) {
+					qPos.add(code);
+				}
+
+				if (!pagination) {
+					list = (List<Arret>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Arret>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first arret in the ordered set where code = &#63;.
+	 *
+	 * @param code the code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching arret
+	 * @throws NoSuchArretException if a matching arret could not be found
+	 */
+	@Override
+	public Arret findByCode_First(
+			String code, OrderByComparator<Arret> orderByComparator)
+		throws NoSuchArretException {
+
+		Arret arret = fetchByCode_First(code, orderByComparator);
+
+		if (arret != null) {
+			return arret;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("code=");
+		msg.append(code);
+
+		msg.append("}");
+
+		throw new NoSuchArretException(msg.toString());
+	}
+
+	/**
+	 * Returns the first arret in the ordered set where code = &#63;.
+	 *
+	 * @param code the code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching arret, or <code>null</code> if a matching arret could not be found
+	 */
+	@Override
+	public Arret fetchByCode_First(
+		String code, OrderByComparator<Arret> orderByComparator) {
+
+		List<Arret> list = findByCode(code, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last arret in the ordered set where code = &#63;.
+	 *
+	 * @param code the code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching arret
+	 * @throws NoSuchArretException if a matching arret could not be found
+	 */
+	@Override
+	public Arret findByCode_Last(
+			String code, OrderByComparator<Arret> orderByComparator)
+		throws NoSuchArretException {
+
+		Arret arret = fetchByCode_Last(code, orderByComparator);
+
+		if (arret != null) {
+			return arret;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("code=");
+		msg.append(code);
+
+		msg.append("}");
+
+		throw new NoSuchArretException(msg.toString());
+	}
+
+	/**
+	 * Returns the last arret in the ordered set where code = &#63;.
+	 *
+	 * @param code the code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching arret, or <code>null</code> if a matching arret could not be found
+	 */
+	@Override
+	public Arret fetchByCode_Last(
+		String code, OrderByComparator<Arret> orderByComparator) {
+
+		int count = countByCode(code);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Arret> list = findByCode(
+			code, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the arrets before and after the current arret in the ordered set where code = &#63;.
+	 *
+	 * @param arretId the primary key of the current arret
+	 * @param code the code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next arret
+	 * @throws NoSuchArretException if a arret with the primary key could not be found
+	 */
+	@Override
+	public Arret[] findByCode_PrevAndNext(
+			long arretId, String code,
+			OrderByComparator<Arret> orderByComparator)
+		throws NoSuchArretException {
+
+		code = Objects.toString(code, "");
+
+		Arret arret = findByPrimaryKey(arretId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Arret[] array = new ArretImpl[3];
+
+			array[0] = getByCode_PrevAndNext(
+				session, arret, code, orderByComparator, true);
+
+			array[1] = arret;
+
+			array[2] = getByCode_PrevAndNext(
+				session, arret, code, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Arret getByCode_PrevAndNext(
+		Session session, Arret arret, String code,
+		OrderByComparator<Arret> orderByComparator, boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_ARRET_WHERE);
+
+		boolean bindCode = false;
+
+		if (code.isEmpty()) {
+			query.append(_FINDER_COLUMN_CODE_CODE_3);
+		}
+		else {
+			bindCode = true;
+
+			query.append(_FINDER_COLUMN_CODE_CODE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(ArretModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindCode) {
+			qPos.add(code);
+		}
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(arret)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Arret> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the arrets where code = &#63; from the database.
+	 *
+	 * @param code the code
+	 */
+	@Override
+	public void removeByCode(String code) {
+		for (Arret arret :
+				findByCode(code, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			remove(arret);
+		}
+	}
+
+	/**
+	 * Returns the number of arrets where code = &#63;.
+	 *
+	 * @param code the code
+	 * @return the number of matching arrets
+	 */
+	@Override
+	public int countByCode(String code) {
+		code = Objects.toString(code, "");
+
+		FinderPath finderPath = _finderPathCountByCode;
+
+		Object[] finderArgs = new Object[] {code};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_ARRET_WHERE);
+
+			boolean bindCode = false;
+
+			if (code.isEmpty()) {
+				query.append(_FINDER_COLUMN_CODE_CODE_3);
+			}
+			else {
+				bindCode = true;
+
+				query.append(_FINDER_COLUMN_CODE_CODE_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindCode) {
+					qPos.add(code);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_CODE_CODE_2 = "arret.code = ?";
+
+	private static final String _FINDER_COLUMN_CODE_CODE_3 =
+		"(arret.code IS NULL OR arret.code = '')";
+
 	public ArretPersistenceImpl() {
 		setModelClass(Arret.class);
 
@@ -3071,6 +3610,12 @@ public class ArretPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByStatus, args);
 
+			args = new Object[] {arretModelImpl.getCode()};
+
+			finderCache.removeResult(_finderPathCountByCode, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByCode, args);
+
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
@@ -3151,6 +3696,23 @@ public class ArretPersistenceImpl
 				finderCache.removeResult(_finderPathCountByStatus, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByStatus, args);
+			}
+
+			if ((arretModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByCode.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {arretModelImpl.getOriginalCode()};
+
+				finderCache.removeResult(_finderPathCountByCode, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCode, args);
+
+				args = new Object[] {arretModelImpl.getCode()};
+
+				finderCache.removeResult(_finderPathCountByCode, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCode, args);
 			}
 		}
 
@@ -3700,6 +4262,28 @@ public class ArretPersistenceImpl
 			ArretModelImpl.ENTITY_CACHE_ENABLED,
 			ArretModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStopId",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByCode = new FinderPath(
+			ArretModelImpl.ENTITY_CACHE_ENABLED,
+			ArretModelImpl.FINDER_CACHE_ENABLED, ArretImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCode",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByCode = new FinderPath(
+			ArretModelImpl.ENTITY_CACHE_ENABLED,
+			ArretModelImpl.FINDER_CACHE_ENABLED, ArretImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCode",
+			new String[] {String.class.getName()},
+			ArretModelImpl.CODE_COLUMN_BITMASK);
+
+		_finderPathCountByCode = new FinderPath(
+			ArretModelImpl.ENTITY_CACHE_ENABLED,
+			ArretModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCode",
 			new String[] {String.class.getName()});
 	}
 

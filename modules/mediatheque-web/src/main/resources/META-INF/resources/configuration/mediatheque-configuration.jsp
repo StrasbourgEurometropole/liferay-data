@@ -31,10 +31,6 @@
 			<aui:input name="contactURL" value="${contactURL}" type="text" label="contact-URL" />
 		</aui:fieldset>
 		
-		<aui:fieldset>
-			<aui:input name="mediathequeURL" value="${mediathequeURL}" type="text" label="mediatheque-URL" />
-		</aui:fieldset>
-		
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>
 		</aui:button-row>

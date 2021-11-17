@@ -45,6 +45,12 @@
                     <liferay-ui:message key="this-field-is-required" />
                 </div>
 
+                <%-- Champ : Label abonnement de Strasapp --%>
+                <aui:input name="csmapSubscriptionLabel" id="csmapSubscriptionLabel" label="eu.strasbourg.notif.csmapSubscriptionLabel" required="false"/>
+
+                <%-- Champ : Abonnement Strasapp --%>
+                <aui:input name="csmapSubscriptionMandatory" id="csmapSubscriptionMandatory" label="eu.strasbourg.notif.csmapSubscriptionMandatory" required="false"/>
+
                 <%-- Champ : Pictogramme   --%>
 				<strasbourg-picker:image label="eu.strasbourg.notif.service.picto" name="pictoId"
 					required="false" value="${dc.service.pictoId}" global="true" />
