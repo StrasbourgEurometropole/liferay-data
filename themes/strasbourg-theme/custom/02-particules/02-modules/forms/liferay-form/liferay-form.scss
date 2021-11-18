@@ -7,93 +7,46 @@
     textarea.ddm-field-text.form-control {
         border-color: white;
     }
-    /* modif mantis 5636
     .form-text {
         font-size: 1.2rem;
-    }*/
+    }
     label, .lfr-ddm-legend {
         font-size: 1.8rem;
         font-weight: 600;
     }
-
-    // ajout mantis 5636
-    .btn:focus, .btn.focus, .form-control:focus {
-        border: none;
-        box-shadow: 0 0 0 0.2rem rgba(49, 69, 83, 0.25);
-    }
-
-    .input-group-inset:focus ~ .input-group-inset-item{
-        border: none;
-        box-shadow: 0.25rem 0.15rem 0 0.05rem  rgba(49, 69, 83, 0.25), 0.25rem -0.15rem 0 0.05rem  rgba(49, 69, 83, 0.25);
-    }
-
-    label{
-        color: #505050;
-    }
-    // fin ajout mantis 5636
 }
 
 .lfr-ddm-form-pagination-controls button.btn.btn-primary.lfr-ddm-form-submit.pull-right {
-    width: 150px;
-    height: 50px;
-    font-size: 1.8rem;
-    display: inline-block;
-    border-color: transparent;
-    background-color: #46cfc0;
-    color: #31455d;
-    font-family: MontSerrat,arial;
-
-    &:hover{
-        background-color: #31455d;
-        color: #46cfc0;
-    }        
-    &:after{
-        content: '';
+        width: 150px;
+        height: 50px;
+        font-size: 1.8rem;
         display: inline-block;
-        width: 20px;
-        height: 20px;
-        background-size: 14px;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
-        vertical-align: middle;
-        margin-left: 20px;
-    }
-    &:hover, &:focus{
-        background-color: $core-color;
-        color: $second-color;
+        border-color: transparent;
+        background-color: #46cfc0;
+        color: #31455d;
+        font-family: MontSerrat,arial;
+
+        &:hover{
+            background-color: #31455d;
+            color: #46cfc0;
+        }        
         &:after{
-            background-image: url( svg-bg-uri($svg-arrow1, $second-color) );
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-size: 14px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+            vertical-align: middle;
+            margin-left: 20px;
+        }
+        &:hover, &:focus{
+            background-color: $core-color;
+            color: $second-color;
+            &:after{
+                background-image: url( svg-bg-uri($svg-arrow1, $second-color) );
+            }
         }
     }
-}
-
-// ajout mantis 5636
-.portlet-forms .lfr-ddm-form-page-description{
-    font-size: 1.8rem;
-}
-
-.form-builder-layout * :not(.dropdown-menu *) {
-    font-size: 1.8rem;
-}
-
-.portlet-forms .ddm-form-basic-info {
-
-    .ddm-form-name {
-        font-family: MontSerrat,arial;
-        color: #505050;
-        font-size: 3.7rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        line-height: 1.2;
-        word-break: break-word;
-        hyphens: auto;
-        margin-bottom: 10px;
-        margin-top: 50px;
-        z-index: 1;
-    }
-
-    .ddm-form-description{
-        margin-bottom: 30px;
-    }
-}
