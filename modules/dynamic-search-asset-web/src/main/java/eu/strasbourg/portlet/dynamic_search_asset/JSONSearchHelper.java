@@ -52,7 +52,7 @@ public class JSONSearchHelper {
             case Constants.SEARCH_FORM_PLACIT :
                 jsonEvent.put(
                         Constants.ATTRIBUTE_LINK,
-                        Utils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_URL + event.getEventId()
+                        Utils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_URL + event.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(event.getTitle(locale))
                 );
 
                 jsonEvent.put(
