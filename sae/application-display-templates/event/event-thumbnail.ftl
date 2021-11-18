@@ -1,5 +1,6 @@
 <!-- Vignette événement -->
 <#setting locale = locale />
+<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 <#assign fromSearch = renderRequest.getAttribute("fromSearchPortlet")!false >
 <#assign plId = 0 />
 <#if fromSearch>
