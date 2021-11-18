@@ -147,14 +147,16 @@ public class SettingsApplication extends Application {
                 JSONObject jsonThematic = JSONFactoryUtil.createJSONObject();
                 jsonThematic.put("name", thematic.getName());
                 jsonThematic.put("favorite", thematic.getFavorite());
-                JSONArray jsonTopics = JSONFactoryUtil.createJSONArray();
-                for(String topic : thematic.getTopics().split(",")){
-                    jsonTopics.put(topic);
+                String topics = thematic.getTopics();
+                if(Validator.isNotNull(thematic.getTopics()) && !topics.equals("")) {
+                    JSONArray jsonTopics = JSONFactoryUtil.createJSONArray();
+                    for (String topic : topics.split(",")) {
+                        jsonTopics.put(topic);
+                    }
+                    jsonThematic.put("topics", jsonTopics);
                 }
-                jsonThematic.put("topics", jsonTopics);
                 json.put(jsonThematic);
             }
-
         } catch (Exception e) {
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
