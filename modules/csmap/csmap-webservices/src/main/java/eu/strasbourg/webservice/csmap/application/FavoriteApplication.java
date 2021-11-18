@@ -195,7 +195,7 @@ public class FavoriteApplication extends Application {
                         jsonResult.put("favoriteId", favorite.getFavoriteId());
                         jsonResult.put("csmapId", csmapIdFavorite);
                         json.put(jsonResult);
-                    } catch (Exception e){
+                    } catch (NullPointerException e){
                         if(Validator.isNotNull(favoriteExist) && !favoriteExist.isEmpty()) {
                             for(Favorite fav : favoriteExist)
                             favoriteLocalService.deleteFavorite(fav);
@@ -243,7 +243,7 @@ public class FavoriteApplication extends Application {
                             jsonResult.put("csmapId", csmapIdFavorite);
                             json.put(jsonResult);
                         }
-                    } catch (Exception e){
+                    } catch (NullPointerException e){
                         if(Validator.isNotNull(favorite))
                             favoriteLocalService.deleteFavorite(favorite);
                         JSONObject jsonResult = JSONFactoryUtil.createJSONObject();
