@@ -323,4 +323,19 @@ public class NotificationLocalServiceImpl
 		dq.addOrder(order);
 		return NotificationLocalServiceUtil.dynamicQuery(dq);
 	}
+	@Override
+	public List<Notification> getNotificationsToSend() {
+		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
+		Criterion broadcastDate = RestrictionsFactoryUtil.le("broadcastDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		Criterion endDate = RestrictionsFactoryUtil.ge("endDate", Date.from(LocalDateTime.now().minusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
+		Criterion isSend = RestrictionsFactoryUtil.eq("isSend", false);
+		Criterion status = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
+		Order order = OrderFactoryUtil.desc("startDate");
+		dq.add(broadcastDate);
+		dq.add(endDate);
+		dq.add(isSend);
+		dq.add(status);
+		dq.addOrder(order);
+		return NotificationLocalServiceUtil.dynamicQuery(dq);
+	}
 }

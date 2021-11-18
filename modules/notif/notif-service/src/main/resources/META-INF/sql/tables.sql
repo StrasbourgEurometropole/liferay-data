@@ -42,7 +42,8 @@ create table notif_Notification (
 	sendStatusTwitter LONG,
 	sendStatusMonst LONG,
 	sendStatusMail LONG,
-	sendStatusSegur LONG
+	sendStatusSegur LONG,
+	isSend BOOLEAN
 );
 
 create table notif_ServiceNotif (

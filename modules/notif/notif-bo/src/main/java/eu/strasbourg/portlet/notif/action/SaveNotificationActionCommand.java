@@ -162,6 +162,9 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
             String broadcastChannels = ParamUtil.getString(request, "broadcast-channels");
             notification.setBroadcastChannels(broadcastChannels);
 
+            // Champ : isSend
+            notification.setIsSend(false);
+
             // mise à 1 du sendStatus des channels choisis
             for (String broadcastChannelId : broadcastChannels.split(",")) {
                 // on réinitialise les statuts d'envoi si le scheduler n'est pas encore passé dessus

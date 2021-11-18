@@ -9,10 +9,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import java.io.FileInputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 
@@ -41,8 +44,12 @@ public class FCMHelper {
 
     public static String sendNotificationToTopic(Notification notification, String topic) {
         Locale locale = Locale.FRANCE;
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
         String title = notification.getTitle(locale);
-        String body = notification.getSubtitle(locale) + "\n" + notification.getContent(locale);
+        String body = notification.getSubtitle(locale) + "\n"
+                + df.format(notification.getStartDate()) + " - "
+                + df.format(notification.getEndDate()) + "\n\n"
+                + notification.getContent(locale);
         return sendNotificationToTopic(title, body, topic);
     }
 
@@ -66,6 +73,7 @@ public class FCMHelper {
             response = FirebaseMessaging.getInstance().send(message);
         } catch (Exception e) {
             log.error(e);
+            response = "fail";
         }
         log.info("Sent message to topic. Topic: " + topic + ", " + response + " msg " + jsonOutput);
 
