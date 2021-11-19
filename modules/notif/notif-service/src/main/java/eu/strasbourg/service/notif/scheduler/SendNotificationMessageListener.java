@@ -1,4 +1,4 @@
-package eu.strasbourg.service.notif.service.scheduler;
+package eu.strasbourg.service.notif.scheduler;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -36,13 +36,13 @@ public class SendNotificationMessageListener
 
 		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
 		Calendar now = Calendar.getInstance();
-		now.add(Calendar.MINUTE, 1);
+		now.add(Calendar.MINUTE, 5);
 		Date fiveMinutesFromNow = now.getTime();
 
-		// Création du trigger "Tous les jours à 1h45"
+		// Création du trigger "Toutes les 5 minutes"
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				"0 */1 * * * ?");
+				"0 */5 * * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
