@@ -40,7 +40,7 @@ public class OpenDataGeoCityServiceImpl implements OpenDataGeoCityService {
     }
 
     /**
-     * Retourne les coordonnées d'un quartier
+     * Retourne les coordonnées d'un quartier/une commune
      */
     @Override
     public JSONObject getCoordinatesForNumCom(String number) throws Exception {

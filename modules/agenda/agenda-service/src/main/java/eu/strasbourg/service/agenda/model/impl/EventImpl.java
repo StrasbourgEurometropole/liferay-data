@@ -44,8 +44,6 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import eu.strasbourg.service.adict.AdictService;
-import eu.strasbourg.service.adict.AdictServiceTracker;
 import eu.strasbourg.service.agenda.custom.beans.RodrigueEventSession;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventParticipation;
@@ -103,9 +101,6 @@ import java.util.stream.Collectors;
 public class EventImpl extends EventBaseImpl {
 
 	private static final long serialVersionUID = -263639533491031888L;
-
-	private AdictService adictService;
-	private AdictServiceTracker adictServiceTracker;
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -368,27 +363,7 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public List<String> getMercators() {
-		if (this.getPlace() == null) {
-			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = null;
-			try {
-				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			if (coorResult != null) {
-				String mercatorX = coorResult.get(0).toString();
-				String mercatorY = coorResult.get(1).toString();
-
-				return Arrays.asList(mercatorX, mercatorY);
-			} else {
-				return new ArrayList<String>();
-			}
-		} else {
-			return Arrays.asList(this.getPlace().getMercatorX(), this.getPlace().getMercatorY());
-		}
+		return Arrays.asList(this.getMercatorX(), this.getMercatorY());
 	}
 
 	/**
@@ -663,18 +638,6 @@ public class EventImpl extends EventBaseImpl {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Recupere le service du module Adict sans passer par reference
-	 */
-	private AdictService getAdictService() {
-		if (adictService == null) {
-			adictServiceTracker = new AdictServiceTracker(this);
-			adictServiceTracker.open();
-			adictService = adictServiceTracker.getService();
-		}
-		return adictService;
 	}
 
 	/**
@@ -1283,42 +1246,16 @@ public class EventImpl extends EventBaseImpl {
 		geometry.put("type", "Point");
 		JSONArray coordinates = JSONFactoryUtil.createJSONArray();
 		// récupère le marker du lieu ou se déroule l'évènement
-		if (place != null) {
-			coordinates.put(Float.valueOf(place.getMercatorX()));
-			coordinates.put(Float.valueOf(place.getMercatorY()));
-		} else {
-			// Si c'est un lieu manuel on récupère ses coordonnées
-			String address = this.getPlaceAddress(locale) + " " + this.getPlaceZipCode() + " "
-					+ this.getPlaceCity(locale);
-			coordinates = getCoordinateForAddress(address);
-		}
+		if(Validator.isNotNull(this.getMercatorX()))
+			coordinates.put(Float.valueOf(this.getMercatorX()));
+		if(Validator.isNotNull(this.getMercatorY()))
+			coordinates.put(Float.valueOf(this.getMercatorY()));
 		if (coordinates != null) {
 			geometry.put("coordinates", coordinates);
 			feature.put("geometry", geometry);
 		}
 
 		return feature;
-	}
-
-	/**
-	 * Retourne les coordonnées d'une adresse en JSon
-	 */
-	private static JSONArray getCoordinateForAddress(String address) {
-		JSONArray coordinates = null;
-		try {
-			String urlSearch = StrasbourgPropsUtil.getAdictBaseURL();
-			String url = urlSearch + HtmlUtil.escapeURL(address);
-			JSONObject addresses = JSONHelper.readJsonFromURL(url);
-			JSONArray features = addresses.getJSONArray("features");
-			if (features.length() > 0) {
-				JSONObject geometry = features.getJSONObject(0).getJSONObject("geometry");
-				coordinates = geometry.getJSONArray("coordinates");
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return coordinates;
 	}
 
 	/**
