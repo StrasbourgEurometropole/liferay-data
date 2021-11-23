@@ -11,8 +11,12 @@ import eu.strasbourg.service.notif.constants.SendStatus;
 import eu.strasbourg.service.notif.constants.TypeBroadcast;
 import eu.strasbourg.service.notif.helper.FCMHelper;
 import eu.strasbourg.service.notif.model.Notification;
+import eu.strasbourg.service.notif.model.ServiceNotif;
 import eu.strasbourg.service.notif.service.NotificationLocalService;
+import eu.strasbourg.service.notif.service.ServiceNotifLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.osgi.service.component.annotations.*;
 
 import java.util.Calendar;
@@ -36,13 +40,13 @@ public class SendNotificationMessageListener
 
 		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
 		Calendar now = Calendar.getInstance();
-		now.add(Calendar.MINUTE, 5);
+		now.add(Calendar.MINUTE, 1);
 		Date fiveMinutesFromNow = now.getTime();
 
 		// Création du trigger "Toutes les 5 minutes"
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				"0 */5 * * * ?");
+				"0 */1 * * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
@@ -66,14 +70,21 @@ public class SendNotificationMessageListener
 			for(String broadcastChannel : notif.getBroadcastChannels().split(","))
 				if(Integer.valueOf(broadcastChannel) == BroadcastChannel.CSMAP.getId()) {
 					String topic;
+					String imageUrl = null;
+					ServiceNotif service = ServiceNotifLocalServiceUtil.getServiceNotif(notif.getServiceId());
+					if(service.getPictoId()!=0){
+						imageUrl = StrasbourgPropsUtil.getURL() + FileEntryHelper.getFileEntryURL(service.getPictoId());
+					} else {
+						imageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/250px-Image_created_with_a_mobile_phone.png";
+					}
 					if (notif.getTypeBroadcast() == TypeBroadcast.DISTRICT.getId()){
 						topic = AssetVocabularyHelper.getCategoryProperty(notif.getDistrict(), "SIG");
 					} else if (notif.getTypeBroadcast() == TypeBroadcast.DEFAULT.getId()){
-						topic = "SERVICE_" + notif.getServiceId();
+						topic = "SERVICE_" + service.getServiceId();
 					} else {
 						topic = "all";
 					}
-					String response = FCMHelper.sendNotificationToTopic(notif, topic);
+					String response = FCMHelper.sendNotificationToTopic(notif, imageUrl, topic);
 					if(response.contains("fail")){
 						notif.setSendStatusCsmap(SendStatus.ERROR.getId());
 					} else {

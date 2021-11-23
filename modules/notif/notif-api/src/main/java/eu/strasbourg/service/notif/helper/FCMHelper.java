@@ -10,13 +10,14 @@ import com.google.gson.GsonBuilder;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import java.io.FileInputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.util.*;
 
 
 public class FCMHelper {
@@ -42,7 +43,8 @@ public class FCMHelper {
         return app;
     }
 
-    public static String sendNotificationToTopic(Notification notification, String topic) {
+    public static Map<String,String> generateNotifText (Notification notification){
+        Map<String,String> notifText = new HashMap<>();
         Locale locale = Locale.FRANCE;
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
         String title = notification.getTitle(locale);
@@ -50,49 +52,39 @@ public class FCMHelper {
                 + df.format(notification.getStartDate()) + " - "
                 + df.format(notification.getEndDate()) + "\n\n"
                 + notification.getContent(locale);
-        return sendNotificationToTopic(title, body, topic);
+        notifText.put("title",title);
+        notifText.put("body",body);
+        return notifText;
     }
 
-    public static String sendNotificationToTopic(String title, String body, String topic) {
+    public static String sendNotificationToTopic(Notification notification, String imageURL, String topic) {
+        Map<String,String> notifText = generateNotifText(notification);
+        return sendNotificationToTopic(notifText.get("title"), notifText.get("body"), imageURL, topic);
+    }
+
+    public static String sendNotificationToTopic(String title, String body, String imageUrl, String topic) {
         initializeFCM();
-        Message message = Message.builder()
-                //.setApnsConfig(apnsConfig)
-                //.setAndroidConfig(androidConfig)
-                .setTopic(topic)
-                .setNotification(com.google.firebase.messaging.Notification
-                        .builder()
-                        .setTitle(title)
-                        .setBody(body)
-                        //.setImage(stringImageUrl)
-                        .build())
-                .build();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String jsonOutput = gson.toJson(message);
-        String response = null;
-        try {
-            response = FirebaseMessaging.getInstance().send(message);
-        } catch (Exception e) {
-            log.error(e);
-            response = "fail";
+        Message message;
+        if(Validator.isNotNull(imageUrl)){
+            message = Message.builder()
+                    .setTopic(topic)
+                    .setNotification(com.google.firebase.messaging.Notification
+                            .builder()
+                            .setTitle(title)
+                            .setBody(body)
+                            .setImage(imageUrl)
+                            .build())
+                    .build();
+        } else {
+            message = Message.builder()
+                    .setTopic(topic)
+                    .setNotification(com.google.firebase.messaging.Notification
+                            .builder()
+                            .setTitle(title)
+                            .setBody(body)
+                            .build())
+                    .build();
         }
-        log.info("Sent message to topic. Topic: " + topic + ", " + response + " msg " + jsonOutput);
-
-        return response;
-    }
-
-    public static String sendNotificationToTopic(String title, String body, String stringImageUrl, String topic) {
-        initializeFCM();
-        Message message = Message.builder()
-                //.setApnsConfig(apnsConfig)
-                //.setAndroidConfig(androidConfig)
-                .setTopic(topic)
-                .setNotification(com.google.firebase.messaging.Notification
-                        .builder()
-                        .setTitle(title)
-                        .setBody(body)
-                        .setImage(stringImageUrl)
-                        .build())
-                .build();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonOutput = gson.toJson(message);
         String response = null;
