@@ -1,25 +1,5 @@
 package eu.strasbourg.portlet.projectpopup.resource;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-import javax.mail.internet.InternetAddress;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import com.liferay.portal.kernel.template.*;
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -32,6 +12,11 @@ import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.template.Template;
+import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateManagerUtil;
+import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.URLTemplateResource;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
@@ -40,16 +25,32 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.InitiativeHelp;
+import eu.strasbourg.service.project.model.InitiativeHelpModel;
 import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.mail.internet.InternetAddress;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @Component(
 	immediate = true,
@@ -74,25 +75,6 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
     private static final String DISPLAY_HELP = "displayHelp";
     private static final String SAVEINFO = "saveinfo";
     private static final String FORMATTED_DATE_PATTERN = "dd/MM/yyyy";
-    
-    // Variables tempons
-    private String publikID;
-    private PublikUser user;
-    private boolean isUserAlredyHelp;
-    private long entryID;
-    private DateFormat dateFormat;
-    private Initiative initiative;
-    private InitiativeHelp existantInitiativeHelp;
-    private String initiativeHelpTypeIds;
-    private String initiativeHelpMessage;
-    private boolean displayHelp;
-    private Date birthday;
-    private String address;
-    private String city;
-    private long postalcode;
-    private String phone;
-    private String mobile;
-    private String message;
 	
     @Override
 	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
@@ -100,68 +82,84 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
         // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour
         boolean result = false;
         boolean saveInfo = false;
+
+        // Initialisations respectives de : isUserAlredyHelp
+        boolean isUserAlredyHelp = false;
         
         // Recuperation de l'utilsiteur Publik ayant lance la demande
-        this.publikID = getPublikID(request);
+        PublikUser user = null;
+        String publikID = getPublikID(request);
+        if (publikID != null && !publikID.isEmpty()) {
+            user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+        }
         
         // Recuperation de l'initiative en question
-        this.entryID = ParamUtil.getLong(request, ENTRY_ID);
-        
-        // Recuperation des informations du formulaire
-        this.dateFormat = new SimpleDateFormat(FORMATTED_DATE_PATTERN);
-        this.initiativeHelpTypeIds = ParamUtil.getString(request, INITIATIVE_HELP_TYPE_IDS);
-        this.initiativeHelpMessage = ParamUtil.getString(request, INITIATIVE_HELP_MESSAGE);
-        this.birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
-        this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
-        this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
-        this.postalcode = ParamUtil.getLong(request, POSTALCODE);
-        this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
-        this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
-        this.displayHelp = ParamUtil.getBoolean(request, DISPLAY_HELP);
+        Initiative initiative = null;
+        long entryID = ParamUtil.getLong(request, ENTRY_ID);
+        try {
+            AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(entryID);
+            initiative = InitiativeLocalServiceUtil.getInitiative(assetEntry.getClassPK());
+        } catch (PortalException e1) {
+            _log.error(e1);
+        }
         
         // Verification de la validite des informations
-        if (validate(request)) {
+        String message = validate(publikID, user,  initiative);
+        if (message.equals("")) {
         	
         	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
             saveInfo = ParamUtil.getBoolean(request, SAVEINFO);
+
+            // Recuperation des informations du formulaire
+            String initiativeHelpTypeIds = ParamUtil.getString(request, INITIATIVE_HELP_TYPE_IDS);
+            String initiativeHelpMessage = ParamUtil.getString(request, INITIATIVE_HELP_MESSAGE);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dateFormat = new SimpleDateFormat(FORMATTED_DATE_PATTERN);
+            Date birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
+            String dateNaiss = sdf.format(birthday);
+            String address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
+            String city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
+            long postalcode = ParamUtil.getLong(request, POSTALCODE);
+            String phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
+            String mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
+            boolean displayHelp = ParamUtil.getBoolean(request, DISPLAY_HELP);
+
             if (saveInfo) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String dateNaiss = sdf.format(ParamUtil.getDate(request, "birthday", dateFormat));
                 PublikApiClient.setAllUserDetails(
-                		this.publikID, 
-                		this.user.getLastName(), 
-                		this.address, 
-                		"" + this.postalcode,
-                		this.city,
+                		publikID,
+                		user.getLastName(),
+                		address,
+                		"" + postalcode,
+                		city,
                 		dateNaiss, 
-                		this.phone,
-                		this.mobile
+                		phone,
+                		mobile
                 );
             }
             
             // Existance d'une aide de l'utilisateur pour cette initiative
-            this.existantInitiativeHelp = InitiativeHelpLocalServiceUtil.getByPublikUserIdAndInitiativeId(
-					this.publikID, 
-					this.initiative.getInitiativeId());
-            this.isUserAlredyHelp = this.existantInitiativeHelp != null;
+            InitiativeHelp existantInitiativeHelp = InitiativeHelpLocalServiceUtil.getByPublikUserIdAndInitiativeId(
+                    publikID,
+                    initiative.getInitiativeId());
+            isUserAlredyHelp = existantInitiativeHelp != null;
             
             // Selon le resultat precedent, etrait ou ajout d'une aide
-            if(this.isUserAlredyHelp)
-            	result = removeInitiativeHelp(request);
+            if(isUserAlredyHelp)
+            	result = removeInitiativeHelp(existantInitiativeHelp);
         	else {
-        		result = sendInitiativeHelp(request);	
+        		result = sendInitiativeHelp(request, initiativeHelpTypeIds, initiativeHelpMessage, publikID, initiative, displayHelp);
         		
         		if(result)
         			//envoi du mail de confirmation au porteur et à l'administrateur
-        			sendHelpMailConfirmation(request, this.publikID);
+        			sendHelpMailConfirmation(request, publikID, initiative, initiativeHelpMessage);
         	}
         }
         
         // Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
-        jsonResponse.put("cmd", this.isUserAlredyHelp ? "remove-initiative-help" : "send-initiative-help");
-        jsonResponse.put("message", this.message);
+        jsonResponse.put("cmd", isUserAlredyHelp ? "remove-initiative-help" : "send-initiative-help");
+        jsonResponse.put("message", message);
         jsonResponse.put("savedInfo", saveInfo);
 
         // Recuperation de l'élément d'écriture de la réponse
@@ -175,11 +173,11 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 
         return result;
 	}
-    
+
     /**
 	 * Envoi du mail de confirmation de l'aide au porteur de l'initiative et à l'administrateur du site
 	 */
-    private void sendHelpMailConfirmation(ResourceRequest request, String userId) {
+    private void sendHelpMailConfirmation(ResourceRequest request, String userId, Initiative initiative, String initiativeHelpMessage) {
     	
     	try {
 	    	JSONObject jsonUser = PublikApiClient.getUserDetails(userId);
@@ -198,8 +196,8 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
             context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
             context.put("headerImage", headerImage.toString());
             context.put("footerImage", btnImage.toString());
-            context.put("Title", this.initiative.getTitle());
-            context.put("Message", this.initiativeHelpMessage);
+            context.put("Title", initiative.getTitle());
+            context.put("Message", initiativeHelpMessage);
 
             StringWriter out = new StringWriter();
 
@@ -222,7 +220,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 					themeDisplay.getScopeGroup().getName(request.getLocale()));
 			
 			InternetAddress[] toAddresses = new InternetAddress[0];
-			InternetAddress address = new InternetAddress(this.initiative.getAuthor().getEmail());
+			InternetAddress address = new InternetAddress(initiative.getAuthor().getEmail());
 			toAddresses = ArrayUtil.append(toAddresses, address);
 			
 			// envoi du mail aux utilisateurs
@@ -237,7 +235,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 	 * Envoi de la demande d'aide
 	 * @return Si la demande s'est bien passee
 	 */
-	private boolean sendInitiativeHelp(ResourceRequest request) throws PortletException {
+	private boolean sendInitiativeHelp(ResourceRequest request, String initiativeHelpTypeIds, String initiativeHelpMessage, String publikID, Initiative initiative, boolean displayHelp) throws PortletException {
         ServiceContext sc;
         InitiativeHelp initiativeHelp;
         
@@ -247,11 +245,11 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 
             initiativeHelp = InitiativeHelpLocalServiceUtil.createInitiativeHelp(sc);
 
-            initiativeHelp.setHelpTypes(this.initiativeHelpTypeIds);
-            initiativeHelp.setMessage(this.initiativeHelpMessage);
-            initiativeHelp.setPublikUserId(this.publikID);
-            initiativeHelp.setInitiativeId(this.initiative.getInitiativeId());
-            initiativeHelp.setHelpDisplay(this.displayHelp);
+            initiativeHelp.setHelpTypes(initiativeHelpTypeIds);
+            initiativeHelp.setMessage(initiativeHelpMessage);
+            initiativeHelp.setPublikUserId(publikID);
+            initiativeHelp.setInitiativeId(initiative.getInitiativeId());
+            initiativeHelp.setHelpDisplay(displayHelp);
 
             initiativeHelp = InitiativeHelpLocalServiceUtil.updateInitiativeHelp(initiativeHelp);
 
@@ -268,10 +266,8 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 	 * Envoi de la demande de retrait de l'aide
 	 * @return Si la demande s'est bien passee
 	 */
-	private boolean removeInitiativeHelp(ResourceRequest request) throws PortletException {
-        InitiativeHelp initiativeHelp;
-        
-        initiativeHelp = InitiativeHelpLocalServiceUtil.removeInitiativeHelp(existantInitiativeHelp.getInitiativeHelpId());
+	private boolean removeInitiativeHelp(InitiativeHelpModel existantInitiativeHelp) {
+        InitiativeHelp initiativeHelp = InitiativeHelpLocalServiceUtil.removeInitiativeHelp(existantInitiativeHelp.getInitiativeHelpId());
         
         _log.info("Aide d'initiative supprime : " + initiativeHelp);
         return true;
@@ -281,67 +277,28 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 	/**
 	 * Verification des information du formulaire issu de la requete et validation
 	 * du contexte fonctionnel de la requete (ex: vote possible, entite perime, etc)
-	 * @return Si la requete est tangible
+	 * @return le message d'erreur s'il y a une erreur
 	 */
-	private boolean validate(ResourceRequest request) {
+	private String validate(String publikID, PublikUser user, Initiative initiative) {
         
         // utilisateur 
-        if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non recconu";
-            return false;
+        if (publikID == null || publikID.isEmpty()) {
+            return "Utilisateur non recconu";
         } else {
-        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
         	
-        	if (this.user.isBanned()) {
-        		this.message = "Vous ne pouvez soutenir ce projet";
-        		return false;
-        	} else if (this.user.getPactSignature() == null) {
-        		this.message = "Vous devez signer le Pacte pour proposer votre aide";
-        		return false;
+        	if (user.isBanned()) {
+                return "Vous ne pouvez soutenir ce projet";
+        	} else if (user.getPactSignature() == null) {
+                return "Vous devez signer le Pacte pour proposer votre aide";
         	}
         }
         
         // Initiative
-        try {
-            AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(this.entryID);
-			this.initiative = InitiativeLocalServiceUtil.getInitiative(assetEntry.getClassPK());
-			
-			if (this.initiative == null) {
-				this.message = "Erreur lors de la recherche de l'initiative";
-				return false;
-			}
-		} catch (PortalException e1) {
-			_log.error(e1);
-			this.message = "Erreur lors de la recherche de l'initiative";
-			return false;
-		}
-        
-        /**desactivation de la verification de certains champs obligatoires
-        // birthday
-        if (Validator.isNull(this.birthday)) {
-            this.message = "Date de naissance non valide";
-            return false;
+        if (initiative == null) {
+            return  "Erreur lors de la recherche de l'initiative";
         }
 
-        // city
-        if (Validator.isNull(this.city)) {
-            this.message = "Ville non valide";
-            return false;
-        }
-
-        // address
-        if (Validator.isNull(this.address)) {
-            this.message = "Adresse non valide";
-            return false;
-        }
-
-        // postalcode
-        if (Validator.isNull(this.postalcode)) {
-            this.message = "Code postal non valide";
-            return false;
-        }**/
-        
-        return true;
+        return "";
     }
 	
 	/**
