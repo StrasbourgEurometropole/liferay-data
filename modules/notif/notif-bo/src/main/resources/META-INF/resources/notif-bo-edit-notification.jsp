@@ -17,7 +17,7 @@
 	<liferay-ui:error key="broadcast-date-error" message="eu.strasbourg.notification.broadcast-error" />
 	<liferay-ui:error key="title-error" message="eu.strasbourg.notification.title-error" />
 	<liferay-ui:error key="start-date-error" message="eu.strasbourg.notification.start-date-error" />
-	<liferay-ui:error key="end-date-error" message="eu.strasbourg.notification.end-date-error" />
+	<liferay-ui:error key="dates-error" message="eu.strasbourg.notification.dates-error" />
 	<liferay-ui:error key="content-error" message="eu.strasbourg.notification.content-error" />
 	<liferay-ui:error key="broadcast-type-error" message="eu.strasbourg.notification.broadcast-type-error" />
     <liferay-ui:error key="district-error" message="eu.strasbourg.notification.district-error" />
@@ -111,23 +111,12 @@
                     </aui:input>
                 </div>
 
-                <%-- Champ : Date de fin --%>
-                <aui:input name="endDate" label="eu.strasbourg.notif.notification.end-date" required="true" disabled="${dc.isOnlyView()}" />
-                <!-- Hack pour ajouter une validation -->
-                <div class="has-error form-group">
-                    <aui:input type="hidden" name="endDateValidatorInputHelper" value="placeholder">
-                        <aui:validator name="custom" errorMessage="this-field-is-required">
-                            function (val, fieldNode, ruleValue) {
-                                var validate = document.getElementById('_eu_strasbourg_portlet_notif_NotifBOPortlet_endDate').value.length > 0;
-                                if (!validate) {
-                                    document.getElementById("_eu_strasbourg_portlet_notif_NotifBOPortlet_endDate").scrollIntoView();
-                                    event.preventDefault();
-                                }
-                                return validate;
-                            }
-                        </aui:validator>
-                    </aui:input>
+                <div class="incorrect-date" style="display: none">
+                    <liferay-ui:message key="incorrect-date" />
                 </div>
+
+                <%-- Champ : Date de fin --%>
+                <aui:input name="endDate" label="eu.strasbourg.notif.notification.end-date" required="false" disabled="${dc.isOnlyView()}" />
 
                 <%-- Champ : Message --%>
                 <aui:select cssClass="toCustomSelect" id="message" name="message" label="eu.strasbourg.notif.message" required="false" disabled="${dc.isOnlyView()}" >

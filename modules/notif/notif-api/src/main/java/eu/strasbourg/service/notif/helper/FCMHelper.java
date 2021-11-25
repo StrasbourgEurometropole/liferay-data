@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
@@ -17,7 +16,9 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 import java.io.FileInputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 
 public class FCMHelper {
@@ -43,28 +44,39 @@ public class FCMHelper {
         return app;
     }
 
-    public static Map<String,String> generateNotifText (Notification notification){
-        Map<String,String> notifText = new HashMap<>();
+    public static String generateNotifText (Notification notification){
         Locale locale = Locale.FRANCE;
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
-        String title = notification.getTitle(locale);
-        String body = notification.getSubtitle(locale) + "\n"
-                + df.format(notification.getStartDate()) + " - "
-                + df.format(notification.getEndDate()) + "\n\n"
-                + notification.getContent(locale);
-        notifText.put("title",title);
-        notifText.put("body",body);
-        return notifText;
+        String body = "";
+        if(Validator.isNotNull(notification.getSubtitle(locale))) {
+            body += notification.getSubtitle(locale) + "\n\n";
+        }
+        body += notification.getContent(locale);
+        return body;
     }
 
     public static String sendNotificationToTopic(Notification notification, String imageURL, String topic) {
-        Map<String,String> notifText = generateNotifText(notification);
-        return sendNotificationToTopic(notifText.get("title"), notifText.get("body"), imageURL, topic);
+        String notifText = generateNotifText(notification);
+
+        Locale locale = Locale.FRANCE;
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        Map<String, String> datas = new HashMap<>();
+        datas.put("title", notification.getTitle(locale));
+        if(Validator.isNotNull(notification.getSubtitle(locale)))
+            datas.put("subtitle", notification.getSubtitle(locale));
+        datas.put("startDate", df.format(notification.getStartDate()));
+        if(Validator.isNotNull(notification.getEndDate()))
+            datas.put("endDate", df.format(notification.getEndDate()));
+        datas.put("message", notification.getContent(locale));
+        if(Validator.isNotNull(imageURL))
+            datas.put("image", imageURL);
+
+        return sendNotificationToTopic(notification.getTitle(locale), notifText, imageURL, topic, datas);
     }
 
-    public static String sendNotificationToTopic(String title, String body, String imageUrl, String topic) {
+    public static String sendNotificationToTopic(String title, String body, String imageUrl, String topic, Map<String, String> datas) {
         initializeFCM();
         Message message;
+
         if(Validator.isNotNull(imageUrl)){
             message = Message.builder()
                     .setTopic(topic)
@@ -74,6 +86,7 @@ public class FCMHelper {
                             .setBody(body)
                             .setImage(imageUrl)
                             .build())
+                    .putAllData(datas)
                     .build();
         } else {
             message = Message.builder()
@@ -83,6 +96,7 @@ public class FCMHelper {
                             .setTitle(title)
                             .setBody(body)
                             .build())
+                    .putAllData(datas)
                     .build();
         }
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

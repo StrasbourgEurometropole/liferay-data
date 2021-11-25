@@ -294,6 +294,7 @@ public class NotificationLocalServiceImpl
 
 		return notificationPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+
 	@Override
 	public List<Notification> getInProgressNotifications() {
 		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
@@ -305,6 +306,7 @@ public class NotificationLocalServiceImpl
 		dq.addOrder(order);
 		return NotificationLocalServiceUtil.dynamicQuery(dq);
 	}
+
 	@Override
 	public List<Notification> getToComeNotifications() {
 		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
@@ -314,25 +316,29 @@ public class NotificationLocalServiceImpl
 		dq.addOrder(order);
 		return NotificationLocalServiceUtil.dynamicQuery(dq);
 	}
+
 	@Override
 	public List<Notification> getPastNotifications() {
 		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
 		Criterion greater = RestrictionsFactoryUtil.lt("endDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		Criterion nullValue = RestrictionsFactoryUtil.isNull("endDate");
+		Criterion greaterOrNull = RestrictionsFactoryUtil.or(nullValue,greater);
 		Order order = OrderFactoryUtil.desc("startDate");
-		dq.add(greater);
+		dq.add(greaterOrNull);
 		dq.addOrder(order);
 		return NotificationLocalServiceUtil.dynamicQuery(dq);
 	}
+
 	@Override
 	public List<Notification> getNotificationsToSend() {
 		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
-		Criterion broadcastDate = RestrictionsFactoryUtil.le("broadcastDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
-		Criterion endDate = RestrictionsFactoryUtil.ge("endDate", Date.from(LocalDateTime.now().minusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
+		Criterion broadcastDate = RestrictionsFactoryUtil.lt("broadcastDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		Criterion broadcastDate2 = RestrictionsFactoryUtil.gt("broadcastDate", Date.from(LocalDateTime.now().minusHours(2).atZone(ZoneId.systemDefault()).toInstant()));
 		Criterion isSend = RestrictionsFactoryUtil.eq("isSend", false);
 		Criterion status = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
 		Order order = OrderFactoryUtil.desc("startDate");
 		dq.add(broadcastDate);
-		dq.add(endDate);
+		dq.add(broadcastDate2);
 		dq.add(isSend);
 		dq.add(status);
 		dq.addOrder(order);

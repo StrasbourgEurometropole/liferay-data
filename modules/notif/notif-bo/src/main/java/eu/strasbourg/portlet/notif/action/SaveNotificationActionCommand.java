@@ -122,11 +122,13 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
             notification.setSubtitleMap(subtitle);
 
             // Champ : date de fin
-            Date endDate = ParamUtil.getDate(request,
-                    "endDate" , dateFormat);
-            LocalDateTime end = new Timestamp(endDate.getTime())
-                    .toLocalDateTime().withHour(0).withMinute(0).withSecond(0).withNano(0);
-            notification.setEndDate(Timestamp.valueOf(end));
+            String endDateString = ParamUtil.getString(request, "endDate");
+            if (Validator.isNotNull(endDateString)) {
+                Date endDate = ParamUtil.getDate(request, "endDate" , dateFormat);
+                LocalDateTime end = new Timestamp(endDate.getTime())
+                        .toLocalDateTime().withHour(0).withMinute(0).withSecond(0).withNano(0);
+                notification.setEndDate(Timestamp.valueOf(end));
+            }
 
             // Champ : message
             Long messageId = ParamUtil.getLong(request, "message");
@@ -234,7 +236,8 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
         }
 
         // Date de début
-        if (Validator.isNull(ParamUtil.getDate(request, "broadcastDate", dateFormat))) {
+        String broadcastDateString = ParamUtil.getString(request, "broadcastDate");
+        if (Validator.isNull(broadcastDateString)) {
             SessionErrors.add(request, "broadcast-date-error");
             isValid = false;
         }
@@ -246,15 +249,21 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
         }
 
         // Date de début
-        if (Validator.isNull(ParamUtil.getDate(request, "startDate", dateFormat))) {
+        String startDateString = ParamUtil.getString(request, "startDate");
+        if (Validator.isNull(startDateString)) {
             SessionErrors.add(request, "start-date-error");
             isValid = false;
         }
 
-        // Date de fin
-        if (Validator.isNull(ParamUtil.getDate(request, "endDate", dateFormat))) {
-            SessionErrors.add(request, "end-date-error");
-            isValid = false;
+        // Comparaison date de début et date de fin
+        String endDateString = ParamUtil.getString(request, "endDate");
+        if (Validator.isNotNull(endDateString)) {
+            Date startDate = ParamUtil.getDate(request, "startDate" , dateFormat);
+            Date endDate = ParamUtil.getDate(request, "endDate" , dateFormat);
+            if (startDate.after(endDate)) {
+                SessionErrors.add(request, "dates-error");
+                isValid = false;
+            }
         }
 
         // Contenu
