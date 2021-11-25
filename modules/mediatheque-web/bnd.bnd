@@ -4,5 +4,6 @@ Bundle-Version: 1.0.0
 Export-Package: \
     eu.strasbourg.portlet.mediatheque.constants,\
     eu.strasbourg.portlet.mediatheque.borrower,\
+    eu.strasbourg.portlet.mediatheque.mapping,\
     eu.strasbourg.portlet.mediatheque.portlet
 

@@ -20,8 +20,5 @@ public interface MediathequeConfiguration {
 	
 	@Meta.AD(name = "contactURL", deflt = "", required = false)
 	public String contactURL();
-	
-	@Meta.AD(name = "mediathequeURL", deflt = "", required = false)
-	public String mediathequeURL();
 
 }

@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -415,6 +416,12 @@ public interface BudgetParticipatifLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<BudgetParticipatif> getSortedByNbSupports(
 		long groupId, AssetCategory phase);
+
+	/**
+	 * On randomise la date de modifications des budgets participatifs
+	 * Cela permet de simuler un tri aléatoire
+	 */
+	public void randomizeModifiedDate() throws SearchException;
 
 	public void removeBudgetParticipatif(long budgetId) throws PortalException;
 

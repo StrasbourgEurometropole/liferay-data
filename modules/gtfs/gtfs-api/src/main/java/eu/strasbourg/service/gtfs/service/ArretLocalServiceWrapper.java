@@ -363,6 +363,16 @@ public class ArretLocalServiceWrapper
 	}
 
 	/**
+	 * Retourne tous les arret avec un status choisi
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Arret> getByStatus(
+		int status) {
+
+		return _arretLocalService.getByStatus(status);
+	}
+
+	/**
 	 * Retourne un arret via son stopId CTS
 	 */
 	@Override

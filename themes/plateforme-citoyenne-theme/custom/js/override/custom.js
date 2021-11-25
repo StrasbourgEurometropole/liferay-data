@@ -1006,10 +1006,8 @@ function createNews(news){
                     '<img src="' + news.thumbnail + '?imagePreview=1" loading="lazy" alt="Image" width="360" height="174" class="fit-cover"/>' +
                 '</figure>' +
                 '<span>';
-                for(var i = 0 ; i < news.jsonVocabulariesTitle.length ; i++){
-                    vignette += news.jsonVocabulariesTitle[i]["fr_FR"] + (i != (news.jsonVocabulariesTitle.length - 1) ? ', ' : '');
+                    vignette += news.jsonVocabulariesTitle;
 
-                }
     vignette +=
                 '</span>' +
             '</div>' +

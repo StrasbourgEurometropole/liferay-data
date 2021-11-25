@@ -413,10 +413,12 @@ public class PublikUserLocalServiceUtil {
 	 */
 	public static void updateUserInfoInDatabase(
 		String internalId, String accessToken, String givenName,
-		String familyName, String email, String photo) {
+		String familyName, String email, String photo, String accordPlacit,
+		String listingPlacit) {
 
 		getService().updateUserInfoInDatabase(
-			internalId, accessToken, givenName, familyName, email, photo);
+			internalId, accessToken, givenName, familyName, email, photo,
+			accordPlacit, listingPlacit);
 	}
 
 	public static PublikUserLocalService getService() {

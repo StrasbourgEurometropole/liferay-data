@@ -1,6 +1,7 @@
 package eu.strasbourg.webservice.csmap.utils;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetCategoryProperty;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -22,17 +23,24 @@ import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
-import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.service.WSPlace;
+import eu.strasbourg.webservice.csmap.service.WSTransport;
 
 import java.net.URISyntaxException;
 import java.text.DateFormat;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class CSMapJSonHelper {
     static public JSONObject placeCategoryCSMapJSON(AssetCategory category, String urlPicto, boolean maj) {
@@ -139,7 +147,14 @@ public class CSMapJSonHelper {
             List<JournalArticle> emergencyHelps = (List<JournalArticle>) emergencyHelpEntry.getValue();
 
             emergencyHelpJSON.put(WSConstants.JSON_WC_CATEGORY_ID, category.getCategoryId());
-            emergencyHelpJSON.put(WSConstants.JSON_WC_CATEGORY_ORDER, AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "order").getValue());
+            int order = 1;
+            try {
+                AssetCategoryProperty assetCategoryProperty = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "order");
+                if(Validator.isNotNull(assetCategoryProperty) && Validator.isNotNull(assetCategoryProperty.getValue()))
+                    order = Integer.parseInt(assetCategoryProperty.getValue());
+            } catch (PortalException | NumberFormatException e) {
+            }
+            emergencyHelpJSON.put(WSConstants.JSON_WC_CATEGORY_ORDER, order);
             // CategoryTitle en fonction des differentes langues
             JSONObject categoryTitleJSON = JSONFactoryUtil.createJSONObject();
             categoryTitleJSON.put("fr_FR", category.getTitle(Locale.FRANCE));
@@ -324,6 +339,47 @@ public class CSMapJSonHelper {
         json.put("type", line.getType());
         json.put("backgroundColor", line.getBackgroundColor());
         json.put("textColor", line.getTextColor());
+        return json;
+    }
+
+    static public JSONObject alertCSMapJSON(JSONArray generalMessageDeliveries) {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+        JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
+        for(int generalMessageDeliveriesIndex = 0; generalMessageDeliveriesIndex < generalMessageDeliveries.length(); generalMessageDeliveriesIndex++){
+            JSONObject generalMessageDelivery = generalMessageDeliveries.getJSONObject(generalMessageDeliveriesIndex);
+            JSONArray infoMessages = generalMessageDelivery.getJSONArray("InfoMessage");
+            for(int infoMessagesIndex = 0; infoMessagesIndex < infoMessages.length(); infoMessagesIndex++){
+                JSONObject jsonAlert = JSONFactoryUtil.createJSONObject();
+                JSONObject infoMessage = infoMessages.getJSONObject(infoMessagesIndex);
+                JSONObject content = infoMessage.getJSONObject("Content");
+                jsonAlert.put("linesNumber", content.getJSONArray("ImpactedLineRef"));
+                jsonAlert.put("startDate", content.getString("ImpactStartDateTime"));
+                jsonAlert.put("endDate", content.getString("ImpactEndDateTime"));
+                JSONObject title = JSONFactoryUtil.createJSONObject();
+                JSONObject period = JSONFactoryUtil.createJSONObject();
+                JSONObject details = JSONFactoryUtil.createJSONObject();
+                JSONArray messages = content.getJSONArray("Message");
+                for(int messagesIndex = 0; messagesIndex < messages.length(); messagesIndex++){
+                    JSONObject message = messages.getJSONObject(messagesIndex);
+                    String messageZoneRef = message.getString("MessageZoneRef");
+                    JSONArray messageTexts = message.getJSONArray("MessageText");
+                    if(messageZoneRef.equals("title")){
+                        title = WSTransport.getJSONValue(title,messageTexts);
+                    }
+                    if(messageZoneRef.equals("period")){
+                        period = WSTransport.getJSONValue(period,messageTexts);
+                    }
+                    if(messageZoneRef.equals("details")){
+                        details = WSTransport.getJSONValue(details,messageTexts);
+                    }
+                }
+                jsonAlert.put("title", title);
+                jsonAlert.put("period", period);
+                jsonAlert.put("details", details);
+                jsonArray.put(jsonAlert);
+            }
+        }
+        json.put("alerts", jsonArray);
         return json;
     }
 

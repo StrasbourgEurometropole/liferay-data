@@ -9,6 +9,7 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -65,6 +66,7 @@ import eu.strasbourg.utils.LayoutHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -398,14 +400,16 @@ public class SearchAssetPortlet extends MVCPortlet {
                                 imageURL = AssetPublisherTemplateHelper.getDocumentUrl(thumbnail);
                             }
                             json.put("thumbnail", imageURL);
-                            JSONArray jsonVocabulariesTitle = JSONFactoryUtil.createJSONArray();
+
                             AssetEntry asset = AssetEntryLocalServiceUtil.getAssetEntry(entry.getEntryId());
                             List<AssetCategory> listVocabulary = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
                                     asset, "territoire");
-                            for (AssetCategory assetCategory : listVocabulary) {
-                                jsonVocabulariesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
-                            }
-                            json.put("jsonVocabulariesTitle", jsonVocabulariesTitle);
+                            List<AssetCategory> districtCategories = AssetVocabularyHelper.getDistrictCategories(listVocabulary);
+                            List<AssetCategory> cityCategories = AssetVocabularyHelper.getCityCategories(listVocabulary);
+
+                            String districts = AssetVocabularyHelper.getDistrictTitle(Locale.FRANCE, districtCategories, cityCategories);
+                            json.put("jsonVocabulariesTitle", districts);
+
                             SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
                             json.put("modifiedDate", dateFormat.format(journalArticle.getModifiedDate()));
                             String chapo = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "chapo", Locale.FRANCE);

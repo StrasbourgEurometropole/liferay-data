@@ -103,9 +103,6 @@ import java.util.Locale;
 	service = Portlet.class
 )
 public class DynamicSearchAssetWebPortlet extends MVCPortlet {
-
-	
-	private DynamicSearchAssetConfiguration configuration;
 	
 	private List<AssetEntry> assetEntries;
 	private long totalResult;
@@ -118,7 +115,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		try {
 			// Recuperation du contexte de la requete
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-			this.configuration = themeDisplay.getPortletDisplay()
+			DynamicSearchAssetConfiguration configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class);
 			
 			// Recuperation et attribution des informations de l'utilisateur
@@ -138,7 +135,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			request.setAttribute("dynamicSearch", dynamicSearch);
 			
 			// Recuperation des classes demandees
-			List<String> classNames = this.getConfiguredClassNamesList();
+			List<String> classNames = this.getConfiguredClassNamesList(configuration);
 			request.setAttribute("classNames", classNames);
 			
 		} catch (ConfigurationException e) {
@@ -162,6 +159,8 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		try {
 			// Recuperation du contexte de la requete
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+			DynamicSearchAssetConfiguration configuration = themeDisplay.getPortletDisplay()
+					.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class);
 			long groupId = themeDisplay.getLayout().getGroupId();
 			String resourceID = request.getResourceID();	
 			
@@ -181,7 +180,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 					classNames = selectedClassNames.split(",");
 				else {
 					// si le paramètre n'existe pas on prend les className de la configuration
-					String configurationClassNames = this.getConfiguredClassNames();
+					String configurationClassNames = this.getConfiguredClassNames(configuration);
 					classNames = configurationClassNames.split(",");
 				}
 
@@ -189,21 +188,21 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				String keywords = ParamUtil.getString(request, "keywords");
 				
 				// Inclusion ou non du scope global
-				boolean globalScope = this.configuration.globalScope();
+				boolean globalScope = configuration.globalScope();
 				long globalGroupId = themeDisplay.getCompanyGroupId();
 				
 				// Recuperation du nombre de resultat max demande
-				int maxResults = (int) this.configuration.delta();
+				int maxResults = (int) configuration.delta();
 				
 				// Recuperation de la configuration du prefiltre par date de la configuration
-				boolean useDatePrefilter = this.configuration.dateField();
-				long dateRangeFrom = (int) this.configuration.dateRangeFrom();
-				long dateRangeTo = (int) this.configuration.dateRangeTo();
+				boolean useDatePrefilter = configuration.dateField();
+				long dateRangeFrom = (int) configuration.dateRangeFrom();
+				long dateRangeTo = (int) configuration.dateRangeTo();
 				LocalDate fromDate = LocalDate.now().plusDays(dateRangeFrom);
 				LocalDate toDate = LocalDate.now().plusDays(dateRangeTo);
 				
 				// Recuperation de la configuration des prefiltre sur les categories
-				String prefilterCategoriesIdsString = this.configuration.prefilterCategoriesIds();
+				String prefilterCategoriesIdsString = configuration.prefilterCategoriesIds();
 				List<Long[]> prefilterCategoriesIds = new ArrayList<>();
 				for (String prefilterCategoriesIdsGroupByVocabulary : prefilterCategoriesIdsString.split(";")) {
 					Long[] prefilterCategoriesIdsForVocabulary = ArrayUtil
@@ -212,7 +211,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				}
 				
 				// Recuperation de la configuration des prefiltre sur les etiquettes
-				String prefilterTagsNamesString = this.configuration.prefilterTagsNames();
+				String prefilterTagsNamesString = configuration.prefilterTagsNames();
 				String[] prefilterTagsNames = StringUtil.split(prefilterTagsNamesString);
 				
 				// Recherche
@@ -258,9 +257,9 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 
 				this.assetEntries = results;
 				
-				this.applyTemplateBehaviors();
+				this.applyTemplateBehaviors(configuration);
 				
-				JSONArray jsonResponse = this.constructJSONSelection(request);
+				JSONArray jsonResponse = this.constructJSONSelection(request, configuration);
 				
 				// Recuperation de l'élément d'écriture de la réponse
 				PrintWriter writer = response.getWriter();
@@ -277,7 +276,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	 * Applique un comportement de filtrage suplémentaire selon le template 
 	 * de formulaire configuré
 	 */
-	private void applyTemplateBehaviors() {
+	private void applyTemplateBehaviors(DynamicSearchAssetConfiguration configuration) {
 		
 		String searchForm = configuration.searchForm();
 
@@ -330,7 +329,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	 * @throws  PortalException
 	 */
 	@SuppressWarnings("JavaDoc")
-	private JSONArray constructJSONSelection(ResourceRequest request) throws PortalException {
+	private JSONArray constructJSONSelection(ResourceRequest request, DynamicSearchAssetConfiguration configuration) throws PortalException {
 		
 		// Récupération du contexte de la requète
 		String publikUserId = this.getPublikID(request);
@@ -490,15 +489,15 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	/**
 	 * Retourne la liste des class names configurés recherchable
 	 */
-	public String getConfiguredClassNames() {
-		String classNames = this.configuration.assetClassNames();
-		if (this.configuration.searchNews()) {
+	public String getConfiguredClassNames(DynamicSearchAssetConfiguration configuration) {
+		String classNames = configuration.assetClassNames();
+		if (configuration.searchNews()) {
 			if (Validator.isNotNull(classNames)) {
 				classNames += ",";
 			}
 			classNames += JournalArticle.class.getName();
 		}
-		if (this.configuration.searchDocument()) {
+		if (configuration.searchDocument()) {
 			if (Validator.isNotNull(classNames)) {
 				classNames += ",";
 			}
@@ -510,8 +509,8 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	/**
 	 * Retourne la liste des class names configurés recherchable
 	 */
-	public List<String> getConfiguredClassNamesList() {
-		List<String> classNames = new ArrayList<String>(Arrays.asList(this.getConfiguredClassNames().split(",")));
+	public List<String> getConfiguredClassNamesList(DynamicSearchAssetConfiguration configuration) {
+		List<String> classNames = new ArrayList<String>(Arrays.asList(this.getConfiguredClassNames(configuration).split(",")));
 		return classNames;
 	}
 	
