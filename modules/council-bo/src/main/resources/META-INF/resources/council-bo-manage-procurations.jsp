@@ -115,12 +115,6 @@
                      </button>
                     <p id="refreshTimer" name="refreshTimer" style="display: inline-block;"></p>
                     <p id="refreshTimerValue" name="refreshTimerValue" style="display : none;">30000</p>
-
-                    <div style="float:right;" id="countOfficialsVoting">
-                        <label style='color:${dc.color}'>
-                            <liferay-ui:message key="officials-voting" /> ${dc.countOfficialVoting}
-                        </label>
-                    </div>
                 </div>
 
                 <div id="procurations-table">
@@ -296,11 +290,12 @@
 <aui:script>
     function getProcurations() {
 
-        var procurationsTable = document.getElementById("procurations-table");
-        procurationsTable.style.display="none";
-        var refreshTable = setTimeout(function(){
-            procurationsTable.style.display="block"
-        }, 300);
+    var procurationsTable = document.getElementById("procurations-table");
+    procurationsTable.style.display="none"
+    var refreshTable = setTimeout(function(){
+        procurationsTable.style.display="block"
+
+    }, 300);
 
         AUI().use('aui-io-request', function(A) {
             try {
@@ -310,10 +305,6 @@
                     on: {
                         complete: function(e) {
                             var data = JSON.parse(e.details[1].responseText);
-                            var color = "red";
-                            if(data.countOfficialVoting >= data.quorum)
-                                color = "green";
-                            document.getElementById('countOfficialsVoting').innerHTML = "<label style='color:" + color + "'>" + Liferay.Language.get('officials-voting') + " " + data.countOfficialVoting + "</label>";
                             Array.prototype.forEach.call(data.official, function(official, i){
                                     var officialId = official.officialId;
                                     if(official.hasProcuration==true){

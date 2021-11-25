@@ -5,10 +5,14 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.council.utils.PrintPDF;
 import eu.strasbourg.service.council.constants.ProcurationModeEnum;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
@@ -16,8 +20,8 @@ import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
-import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService;
 import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
+import eu.strasbourg.utils.ZipHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -25,6 +29,7 @@ import org.osgi.service.component.annotations.Reference;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +54,6 @@ public class ReloadProcurationsResourceCommand implements MVCResourceCommand {
      * Service
      */
     private CouncilSessionLocalService councilSessionLocalService;
-    private OfficialTypeCouncilLocalService officialTypeCouncilLocalService;
 
     /**
      * Params
@@ -114,19 +118,6 @@ public class ReloadProcurationsResourceCommand implements MVCResourceCommand {
             }
             associatedProcuration.put("official", officialsJSON);
 
-            // Récupération du quorum et du nombre de votants
-            // nombre d'élus actifs
-            int countOfficialActive = officials.size();
-            //  Calcule la valeur du quorum
-            int quorum = (int)Math.floor(((double) countOfficialActive / 2) + 1);
-            associatedProcuration.put("quorum", quorum);
-
-            // List des procurations d'élus qui sont absents
-            List<Procuration> absents = new ArrayList<>(procurations.stream().filter(x -> x.getEndDelib()==0).collect(Collectors.toList()));
-            // nombre de votants
-            int countOfficialVoting = countOfficialActive - absents.size();
-            associatedProcuration.put("countOfficialVoting", countOfficialVoting);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -149,11 +140,6 @@ public class ReloadProcurationsResourceCommand implements MVCResourceCommand {
     @Reference(unbind = "-")
     protected void setCouncilSessionLocalService(CouncilSessionLocalService councilSessionLocalService) {
         this.councilSessionLocalService = councilSessionLocalService;
-    }
-
-    @Reference(unbind = "-")
-    protected void setOfficialTypeCouncilLocalService(OfficialTypeCouncilLocalService officialTypeCouncilLocalService) {
-        this.officialTypeCouncilLocalService = officialTypeCouncilLocalService;
     }
 
 }

@@ -114,23 +114,52 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
             }
         }
 
-        // nombre d'élus actifs
         int countOfficialActive = officials.size();
+        // List des elus qui sont absents mais ont pas donné de procuration
+        List<Procuration> absentsWithNoProc = new ArrayList<>(procurations.stream().filter(x -> x.getOfficialVotersId() == 0 && x.getEndDelib()==-1).collect(Collectors.toList()));
+        // List des elus qui sont absents et ont  donné  procuration
+        List<Procuration> absentsWithProc = new ArrayList<>(procurations.stream().filter(x -> x.getOfficialVotersId() != 0 && x.getEndDelib()==-1).collect(Collectors.toList()));
+        // List d'id des elus qui sont absents mais ont pas donné de procuration
+        List<Long> absentsWithNoProcId = new ArrayList<>();
+        // List d'id des elus qui sont absents et ont donné procuration
+        List<Long> absentsWithProcId = new ArrayList<>();
+        // List d'id des elus qui sont absents et ont donné procuration à une personne absente
+        List<Long> notCountedInQuorum = new ArrayList<>();
+        // Verifie qu'il n'y pas plusieurs fois le meme elu
+        for(Procuration absentWithNoProc : absentsWithNoProc){
+            if(!absentsWithNoProcId.contains(absentWithNoProc.getOfficialUnavailableId())){
+                absentsWithNoProcId.add(absentWithNoProc.getOfficialUnavailableId());
+            }
+        }
+        // Verifie qu'il n'y pas plusieurs fois le meme elu
+        for(Procuration absentWithProc : absentsWithProc){
+            if(!absentsWithProcId.contains(absentWithProc.getOfficialUnavailableId())){
+                absentsWithProcId.add(absentWithProc.getOfficialUnavailableId());
+            } else {
+                absentsWithProc.remove(absentWithProc);
+            }
+        }
+        // Verifie si un elu a donné sa procuration à un elu absent
+        for(Procuration absentWithProc : absentsWithProc){
+            if(absentsWithNoProc.contains(absentWithProc.getOfficialVotersId())){
+                notCountedInQuorum.add(absentWithProc.getOfficialUnavailableId());
+            }
+            if(absentsWithProcId.contains(absentWithProc.getOfficialVotersId())){
+                notCountedInQuorum.add(absentWithProc.getOfficialUnavailableId());
+            }
+        }
+        int countAbsent = absentsWithNoProcId.size()+notCountedInQuorum.size();
+        int countOfficialVoting = countOfficialActive - countAbsent;
+
         deliberation.setCountOfficialsActive(countOfficialActive);
-
-
-        // List des procurations d'élus qui sont absents
-        List<Procuration> absents = new ArrayList<>(procurations.stream().filter(x -> x.getEndDelib()==0).collect(Collectors.toList()));
-
-        // nombre de votants
-        int countOfficialVoting = countOfficialActive - absents.size();
         deliberation.setCountOfficialsVoting(countOfficialVoting);
 
         //  Set de la date de début de vote
         deliberation.setBeginningVoteDate(new Date());
 
+
         //  Calcule la valeur du quorum
-        int quorum = (int)Math.floor(((double) countOfficialActive / 2) + 1);
+        int quorum = (int)Math.floor(((double) countOfficialActive / 3) + 1);
 
         //  Vérifie la présence du quorum
         if(countOfficialVoting >= quorum) {
