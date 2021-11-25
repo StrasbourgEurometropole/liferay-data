@@ -82,6 +82,7 @@ public class WSConstants {
     public static final String JSON_POSTAL_CODE = "postalCode";
     public static final String JSON_CITY = "city";
     public static final String JSON_IMAGE_URL = "imageURL";
+    public static final String JSON_DISTRICT = "district";
     // Account-Data
     public static final String JSON_TITLE = "title";
     public static final String JSON_STATUS = "status";

@@ -6,8 +6,8 @@ create unique index IX_F53FD6CF on agenda_AgendaExport (uuid_[$COLUMN_LENGTH:75$
 create index IX_52D68D89 on agenda_AgendaExportPeriod (agendaExportId);
 create index IX_144F1DBA on agenda_AgendaExportPeriod (uuid_[$COLUMN_LENGTH:75$]);
 
-create index IX_DB52A855 on agenda_CacheJson (createEvent, isActive);
-create index IX_856DB394 on agenda_CacheJson (createEvent, modifiedEvent, isActive);
+create index IX_A66D2C4B on agenda_CacheJson (createEvent, isActive, hasSchedules);
+create index IX_8FD81D4A on agenda_CacheJson (createEvent, modifiedEvent, isActive, hasSchedules);
 create index IX_D5F405E8 on agenda_CacheJson (modifiedEvent, isActive);
 create index IX_DE613961 on agenda_CacheJson (regeneratedDate, isActive);
 create index IX_17D24A17 on agenda_CacheJson (uuid_[$COLUMN_LENGTH:75$]);

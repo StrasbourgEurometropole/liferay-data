@@ -64,6 +64,7 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 		attributes.put("modifiedEvent", getModifiedEvent());
 		attributes.put("isActive", isIsActive());
 		attributes.put("regeneratedDate", getRegeneratedDate());
+		attributes.put("hasSchedules", isHasSchedules());
 
 		return attributes;
 	}
@@ -111,6 +112,12 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 		if (regeneratedDate != null) {
 			setRegeneratedDate(regeneratedDate);
 		}
+
+		Boolean hasSchedules = (Boolean)attributes.get("hasSchedules");
+
+		if (hasSchedules != null) {
+			setHasSchedules(hasSchedules);
+		}
 	}
 
 	@Override
@@ -148,6 +155,16 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _cacheJson.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the has schedules of this cache json.
+	 *
+	 * @return the has schedules of this cache json
+	 */
+	@Override
+	public boolean getHasSchedules() {
+		return _cacheJson.getHasSchedules();
 	}
 
 	/**
@@ -231,6 +248,16 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	}
 
 	/**
+	 * Returns <code>true</code> if this cache json is has schedules.
+	 *
+	 * @return <code>true</code> if this cache json is has schedules; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isHasSchedules() {
+		return _cacheJson.isHasSchedules();
+	}
+
+	/**
 	 * Returns <code>true</code> if this cache json is is active.
 	 *
 	 * @return <code>true</code> if this cache json is is active; <code>false</code> otherwise
@@ -290,6 +317,16 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_cacheJson.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	 * Sets whether this cache json is has schedules.
+	 *
+	 * @param hasSchedules the has schedules of this cache json
+	 */
+	@Override
+	public void setHasSchedules(boolean hasSchedules) {
+		_cacheJson.setHasSchedules(hasSchedules);
 	}
 
 	/**

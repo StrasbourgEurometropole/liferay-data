@@ -1985,6 +1985,22 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	 * Renvoie le titre du lieu pour friendlyUrl
+	 */
+	@Override
+	public String getNormalizedAlias() {
+		return _place.getNormalizedAlias();
+	}
+
+	/**
+	 * Renvoie le titre du lieu pour friendlyUrl
+	 */
+	@Override
+	public String getNormalizedAlias(java.util.Locale locale) {
+		return _place.getNormalizedAlias(locale);
+	}
+
+	/**
 	 * Retourne les Periods du lieux
 	 */
 	@Override

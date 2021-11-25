@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
@@ -221,7 +222,12 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 				this.historicLocalService.deleteHistoric(event.getEventId());
 		}
 		cacheJson.setModifiedEvent(event.getModifiedDate());
-		cacheJson.setJsonEvent(event.getCSMapJSON().toString());
+		JSONObject csmapJson = event.getCSMapJSON();
+		cacheJson.setJsonEvent(csmapJson.toString());
+		if(csmapJson.getJSONArray("schedules").length() > 0)
+			cacheJson.setHasSchedules(true);
+		else
+			cacheJson.setHasSchedules(false);
 		cacheJson.setRegeneratedDate(event.getModifiedDate());
 		cacheJson.setIsActive((event.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
 		this.cacheJsonLocalService.updateCacheJson(cacheJson);

@@ -35,7 +35,8 @@ create table agenda_CacheJson (
 	createEvent DATE null,
 	modifiedEvent DATE null,
 	isActive BOOLEAN,
-	regeneratedDate DATE null
+	regeneratedDate DATE null,
+	hasSchedules BOOLEAN
 );
 
 create table agenda_Campaign (

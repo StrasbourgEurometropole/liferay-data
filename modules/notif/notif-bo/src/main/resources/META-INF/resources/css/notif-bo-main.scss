@@ -1,0 +1,39 @@
+.help-block {
+    color: #DA1414;
+}
+
+.lfr-input-time input:not(.hasTime) {
+    display: none;
+}
+
+table {
+	border: #869CAD;
+}
+
+table.broadcast-channels tr{
+	vertical-align: middle;
+	text-align: center;
+	height: 50px;
+}
+
+table.broadcast-channels th{
+	padding: 10px;
+	text-align: center;
+	font-size: 18px;
+	background-color: #ddd;
+	width: 25%;
+}
+
+.filterButtons{
+    display: flex;
+    justify-content: space-around;
+    max-width: 800px;
+    margin: 0 auto 20px;
+}
+
+.btn.selected{
+    color: #FFF;
+    background-color: #0B5FFF;
+    border-color: #0B5FFF;
+    box-shadow: none;
+}

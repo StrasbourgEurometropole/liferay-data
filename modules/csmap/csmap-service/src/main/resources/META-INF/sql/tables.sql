@@ -26,3 +26,11 @@ create table csmap_RefreshToken (
 	value VARCHAR(300) null,
 	publikId VARCHAR(200) null
 );
+
+create table csmap_Thematic (
+	uuid_ VARCHAR(75) null,
+	thematicId LONG not null primary key,
+	name VARCHAR(75) null,
+	favorite STRING null,
+	topics STRING null
+);

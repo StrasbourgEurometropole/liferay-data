@@ -249,6 +249,11 @@ public interface Video extends PersistedModel, VideoModel {
 		getThemes();
 
 	/**
+	 * Retourne les thèmes de la vidéo
+	 */
+	public String getThemesLabel(java.util.Locale locale);
+
+	/**
 	 * Retourne la vidéo au format JSON
 	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
