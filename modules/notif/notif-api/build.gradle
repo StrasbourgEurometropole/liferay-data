@@ -3,8 +3,14 @@ dependencies {
 
 	compileOnly group: "com.liferay", name: "com.liferay.osgi.util"
 	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
-
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
-
 	compileOnly group: "org.osgi", name: "org.osgi.core"
+
+
+	compileInclude group: "com.google.firebase", name: "firebase-admin", version: "8.1.0"
+	compileInclude group: 'com.aayushatharva.brotli4j', name: 'brotli4j', version: '1.6.0'
+	compileInclude group: 'com.github.luben', name: 'zstd-jni', version: '1.5.0-4'
+	compileInclude group: 'com.google.guava', name: 'guava', version: '23.0'
+
+	compile project(":modules:utils")
 }

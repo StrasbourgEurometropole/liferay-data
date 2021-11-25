@@ -28,6 +28,7 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * The implementation of the cache alert json local service.
@@ -76,8 +77,9 @@ public class CacheAlertJSONLocalServiceImpl
 			log.error(e);
 			json.put("error", e.getMessage());
 		}finally {
-			CacheAlertJSON cache = this.cacheAlertJSONLocalService.getCacheAlertJSONs(-1, -1).get(0);
-			if (Validator.isNotNull(cache)) {
+			List<CacheAlertJSON> caches = this.cacheAlertJSONLocalService.getCacheAlertJSONs(-1, -1);
+			if (Validator.isNotNull(caches) && !caches.isEmpty()) {
+				CacheAlertJSON cache = caches.get(0);
 				cache.setJsonAlert(json.toString());
 				cache.setModifiedDate(new Date());
 				this.updateCacheAlertJSON(cache);

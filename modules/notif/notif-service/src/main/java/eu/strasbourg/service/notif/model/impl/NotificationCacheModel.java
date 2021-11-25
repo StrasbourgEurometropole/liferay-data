@@ -66,7 +66,7 @@ public class NotificationCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(65);
+		StringBundler sb = new StringBundler(67);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -132,6 +132,8 @@ public class NotificationCacheModel
 		sb.append(sendStatusMail);
 		sb.append(", sendStatusSegur=");
 		sb.append(sendStatusSegur);
+		sb.append(", isSend=");
+		sb.append(isSend);
 		sb.append("}");
 
 		return sb.toString();
@@ -268,6 +270,7 @@ public class NotificationCacheModel
 		notificationImpl.setSendStatusMonst(sendStatusMonst);
 		notificationImpl.setSendStatusMail(sendStatusMail);
 		notificationImpl.setSendStatusSegur(sendStatusSegur);
+		notificationImpl.setIsSend(isSend);
 
 		notificationImpl.resetOriginalValues();
 
@@ -325,6 +328,8 @@ public class NotificationCacheModel
 		sendStatusMail = objectInput.readLong();
 
 		sendStatusSegur = objectInput.readLong();
+
+		isSend = objectInput.readBoolean();
 	}
 
 	@Override
@@ -434,6 +439,8 @@ public class NotificationCacheModel
 		objectOutput.writeLong(sendStatusMail);
 
 		objectOutput.writeLong(sendStatusSegur);
+
+		objectOutput.writeBoolean(isSend);
 	}
 
 	public String uuid;
@@ -468,5 +475,6 @@ public class NotificationCacheModel
 	public long sendStatusMonst;
 	public long sendStatusMail;
 	public long sendStatusSegur;
+	public boolean isSend;
 
 }

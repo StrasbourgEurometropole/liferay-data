@@ -372,6 +372,13 @@ public class NotificationLocalServiceWrapper
 		return _notificationLocalService.getNotificationsCount();
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.notif.model.Notification>
+		getNotificationsToSend() {
+
+		return _notificationLocalService.getNotificationsToSend();
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

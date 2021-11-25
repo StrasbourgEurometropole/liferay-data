@@ -1,11 +1,18 @@
 Bundle-Name: notif-api
 Bundle-SymbolicName: eu.strasbourg.service.notif.api
 Bundle-Version: 1.0.0
+
+
+-includeresource: \
+ META-INF/service.xml=../notif-service/service.xml,\
+
 Export-Package: \
     eu.strasbourg.service.notif.constants,\
 	eu.strasbourg.service.notif.exception,\
 	eu.strasbourg.service.notif.model,\
 	eu.strasbourg.service.notif.service,\
-	eu.strasbourg.service.notif.service.persistence
+	eu.strasbourg.service.notif.service.persistence,\
+	eu.strasbourg.service.notif.helper
 -check: EXPORTS
--includeresource: META-INF/service.xml=../notif-service/service.xml
+
+Import-Package: *;resolution:=optional

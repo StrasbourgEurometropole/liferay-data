@@ -91,6 +91,7 @@ public class NotificationWrapper
 		attributes.put("sendStatusMonst", getSendStatusMonst());
 		attributes.put("sendStatusMail", getSendStatusMail());
 		attributes.put("sendStatusSegur", getSendStatusSegur());
+		attributes.put("isSend", getIsSend());
 
 		return attributes;
 	}
@@ -288,6 +289,12 @@ public class NotificationWrapper
 		if (sendStatusSegur != null) {
 			setSendStatusSegur(sendStatusSegur);
 		}
+
+		Boolean isSend = (Boolean)attributes.get("isSend");
+
+		if (isSend != null) {
+			setIsSend(isSend);
+		}
 	}
 
 	@Override
@@ -471,6 +478,16 @@ public class NotificationWrapper
 	@Override
 	public int getIsAlert() {
 		return _notification.getIsAlert();
+	}
+
+	/**
+	 * Returns the is send of this notification.
+	 *
+	 * @return the is send of this notification
+	 */
+	@Override
+	public Boolean getIsSend() {
+		return _notification.getIsSend();
 	}
 
 	/**
@@ -1287,6 +1304,16 @@ public class NotificationWrapper
 	@Override
 	public void setIsAlert(int isAlert) {
 		_notification.setIsAlert(isAlert);
+	}
+
+	/**
+	 * Sets the is send of this notification.
+	 *
+	 * @param isSend the is send of this notification
+	 */
+	@Override
+	public void setIsSend(Boolean isSend) {
+		_notification.setIsSend(isSend);
 	}
 
 	/**

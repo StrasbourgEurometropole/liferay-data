@@ -290,6 +290,9 @@ public interface NotificationLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getNotificationsCount();
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Notification> getNotificationsToSend();
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

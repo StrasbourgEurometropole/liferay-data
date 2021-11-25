@@ -69,6 +69,7 @@
 		<column name="sendStatusMonst" type="long" />
 		<column name="sendStatusMail" type="long" />
 		<column name="sendStatusSegur" type="long" />
+		<column name="isSend" type="Boolean" />
 
 		<!-- Order -->
 		<order by="desc">
