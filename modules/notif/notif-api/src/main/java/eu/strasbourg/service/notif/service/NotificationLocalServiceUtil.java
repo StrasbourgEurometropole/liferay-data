@@ -395,6 +395,10 @@ public class NotificationLocalServiceUtil {
 		return getService().removeNotification(notificationId);
 	}
 
+	public static void sendNotifications() {
+		getService().sendNotifications();
+	}
+
 	/**
 	 * Updates the notification in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *

@@ -63,37 +63,7 @@ public class SendNotificationMessageListener
 	@Override
 	protected void doReceive(Message message) throws Exception {
 		this.log.info("Start sending notifications");
-		List<Notification> notifs = _notificationLocalService.getNotificationsToSend();
-		for(Notification notif : notifs){
-			notif.setSendStatusCsmap(SendStatus.SENDING.getId());
-			_notificationLocalService.updateNotification(notif);
-			for(String broadcastChannel : notif.getBroadcastChannels().split(","))
-				if(Integer.valueOf(broadcastChannel) == BroadcastChannel.CSMAP.getId()) {
-					String topic;
-					String imageUrl = null;
-					ServiceNotif service = ServiceNotifLocalServiceUtil.getServiceNotif(notif.getServiceId());
-					if(service.getPictoId()!=0){
-						imageUrl = StrasbourgPropsUtil.getURL() + FileEntryHelper.getFileEntryURL(service.getPictoId());
-					} else {
-						imageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/250px-Image_created_with_a_mobile_phone.png";
-					}
-					if (notif.getTypeBroadcast() == TypeBroadcast.DISTRICT.getId()){
-						topic = AssetVocabularyHelper.getCategoryProperty(notif.getDistrict(), "SIG");
-					} else if (notif.getTypeBroadcast() == TypeBroadcast.DEFAULT.getId()){
-						topic = "SERVICE_" + service.getServiceId();
-					} else {
-						topic = "all";
-					}
-					String response = FCMHelper.sendNotificationToTopic(notif, imageUrl, topic);
-					if(response.contains("fail")){
-						notif.setSendStatusCsmap(SendStatus.ERROR.getId());
-					} else {
-						notif.setSendStatusCsmap(SendStatus.SEND.getId());
-					}
-					notif.setIsSend(true);
-					_notificationLocalService.updateNotification(notif);
-				}
-		}
+		_notificationLocalService.sendNotifications();
 		this.log.info("Finish sending notifications");
 	}
 

@@ -422,6 +422,11 @@ public class NotificationLocalServiceWrapper
 		return _notificationLocalService.removeNotification(notificationId);
 	}
 
+	@Override
+	public void sendNotifications() {
+		_notificationLocalService.sendNotifications();
+	}
+
 	/**
 	 * Updates the notification in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
