@@ -67,6 +67,10 @@ public class FCMHelper {
         if(Validator.isNotNull(notification.getEndDate()))
             datas.put("endDate", df.format(notification.getEndDate()));
         datas.put("message", notification.getContent(locale));
+        if(Validator.isNotNull(notification.getUrl(locale)))
+            datas.put("url", notification.getUrl(locale));
+        if(Validator.isNotNull(notification.getLabelUrl(locale)))
+            datas.put("labelUrl", notification.getLabelUrl(locale));
         if(Validator.isNotNull(imageURL))
             datas.put("image", imageURL);
 
