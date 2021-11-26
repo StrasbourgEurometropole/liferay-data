@@ -210,7 +210,7 @@ public class SettingsApplication extends Application {
 
         // AJout du topic ALL
         JSONObject jsonAll = JSONFactoryUtil.createJSONObject();
-        jsonAll.put("topic","all");
+        jsonAll.put("topic","alerte");
         jsonAll.put("name","Alertes");
         jsonAll.put("mandatory",true);
         jsonModif.put(jsonAll);

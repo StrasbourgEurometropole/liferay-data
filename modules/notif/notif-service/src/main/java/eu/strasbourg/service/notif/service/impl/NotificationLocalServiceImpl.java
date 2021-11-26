@@ -376,9 +376,9 @@ public class NotificationLocalServiceImpl
 						if (notif.getTypeBroadcast() == TypeBroadcast.DISTRICT.getId()){
 							topic = AssetVocabularyHelper.getCategoryProperty(notif.getDistrict(), "SIG");
 						} else if (notif.getTypeBroadcast() == TypeBroadcast.DEFAULT.getId()){
-							topic = "SERVICE_" + service.getServiceId();
+							topic = service.getCsmapTopic();
 						} else {
-							topic = "all";
+							topic = "alerte";
 						}
 						String response = FCMHelper.sendNotificationToTopic(notif, imageUrl, topic);
 						if(response.contains("fail")){
