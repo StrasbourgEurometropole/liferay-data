@@ -208,6 +208,13 @@ public class SettingsApplication extends Application {
                 jsonModif.put(CSMapJSonHelper.serviceCSMapJSON(service));
         }
 
+        // AJout du topic ALL
+        JSONObject jsonAll = JSONFactoryUtil.createJSONObject();
+        jsonAll.put("topic","all");
+        jsonAll.put("name","Alertes");
+        jsonAll.put("mandatory",true);
+        jsonModif.put(jsonAll);
+
         json.put(WSConstants.JSON_ADD, jsonAjout);
         json.put(WSConstants.JSON_UPDATE, jsonModif);
 
