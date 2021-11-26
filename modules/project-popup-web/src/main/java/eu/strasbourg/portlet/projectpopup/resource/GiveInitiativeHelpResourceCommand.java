@@ -127,7 +127,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
             if (saveInfo) {
                 PublikApiClient.setAllUserDetails(
                 		publikID,
-                		user.getLastName(),
+                        user != null ? user.getLastName() : null,
                 		address,
                 		"" + postalcode,
                 		city,
@@ -138,9 +138,12 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
             }
             
             // Existance d'une aide de l'utilisateur pour cette initiative
-            InitiativeHelp existantInitiativeHelp = InitiativeHelpLocalServiceUtil.getByPublikUserIdAndInitiativeId(
-                    publikID,
-                    initiative.getInitiativeId());
+            InitiativeHelp existantInitiativeHelp = null;
+            if (initiative != null) {
+                existantInitiativeHelp = InitiativeHelpLocalServiceUtil.getByPublikUserIdAndInitiativeId(
+                        publikID,
+                        initiative.getInitiativeId());
+            }
             isUserAlredyHelp = existantInitiativeHelp != null;
             
             // Selon le resultat precedent, etrait ou ajout d'une aide
@@ -169,7 +172,9 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
         } catch (IOException e) {
         	_log.error(e);
         }
-        writer.print(jsonResponse.toString());
+        if (writer != null) {
+            writer.print(jsonResponse.toString());
+        }
 
         return result;
 	}
@@ -186,16 +191,16 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 	    	// récupération des images
 			StringBuilder hostUrl = new StringBuilder("https://");
 			hostUrl.append(request.getServerName());
-			StringBuilder headerImage = new StringBuilder(hostUrl)
-					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
-			StringBuilder btnImage = new StringBuilder(hostUrl)
-					.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
+            String headerImage = hostUrl +
+                    "/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png";
+            String btnImage = hostUrl +
+                    "/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png";
 
             // préparation du template de mail
             Map<String, Object> context = new HashMap<>();
             context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
-            context.put("headerImage", headerImage.toString());
-            context.put("footerImage", btnImage.toString());
+            context.put("headerImage", headerImage);
+            context.put("footerImage", btnImage);
             context.put("Title", initiative.getTitle());
             context.put("Message", initiativeHelpMessage);
 
@@ -248,7 +253,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
             initiativeHelp.setHelpTypes(initiativeHelpTypeIds);
             initiativeHelp.setMessage(initiativeHelpMessage);
             initiativeHelp.setPublikUserId(publikID);
-            initiativeHelp.setInitiativeId(initiative.getInitiativeId());
+            initiativeHelp.setInitiativeId(initiative != null ? initiative.getInitiativeId() : 0);
             initiativeHelp.setHelpDisplay(displayHelp);
 
             initiativeHelp = InitiativeHelpLocalServiceUtil.updateInitiativeHelp(initiativeHelp);
@@ -285,7 +290,6 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
         if (publikID == null || publikID.isEmpty()) {
             return "Utilisateur non recconu";
         } else {
-        	
         	if (user.isBanned()) {
                 return "Vous ne pouvez soutenir ce projet";
         	} else if (user.getPactSignature() == null) {
