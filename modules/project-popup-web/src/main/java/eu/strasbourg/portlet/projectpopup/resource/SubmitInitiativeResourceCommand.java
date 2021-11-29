@@ -45,6 +45,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import javax.mail.internet.InternetAddress;
+import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
@@ -98,7 +99,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	
 	@Override
-	public boolean serveResource(ResourceRequest request, ResourceResponse response) {
+	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
         // Recuperation du contexte de la requete
         ServiceContext sc = null;
         try {
@@ -197,7 +198,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 
             } catch (PortalException | IOException e) {
                 _log.error(e);
-                message = "error";
+                throw new PortletException(e);
             }
             _log.info("Initiative cree : " + initiative);
 

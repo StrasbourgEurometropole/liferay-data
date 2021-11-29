@@ -103,7 +103,6 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
     private static final String THEME = "theme";
-    private static final String PHOTO = "budgetPhoto";
     private static final String VIDEO = "video";
     private static final String SAVEINFO = "saveinfo";
     private static final String PATTERN = "dd/MM/yyyy";
@@ -167,7 +166,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         long themeId = ParamUtil.getLong(request, THEME);
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         String photoFileName = uploadRequest.getFileName("budgetPhoto");
-        File photoFile = uploadRequest.getFile(PHOTO);
+        File photoFile = uploadRequest.getFile("budgetPhoto");
         File[] documentFiles = uploadRequest.getFiles("budgetFile");
         String[] documentsFileNames = uploadRequest.getFileNames("budgetFile");
         
@@ -281,7 +280,8 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                 result = true;
                 sendBPMailConfirmation(request, themeDisplay, title, squiredescription, user);
             }
-        }
+        }else if(message.equals("error"))
+            message = "";
         
         // Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
@@ -623,8 +623,9 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         if (!validateFileName(photoFileName)) {
             return "Nom du fichier de l'image non valide";
         }
-        if (!antiVirusVerif(new File[]{photoFile}).equals("")) {
-            return "error";
+        String message = antiVirusVerif(new File[]{photoFile});
+        if (!message.equals("")) {
+            return message;
         }
 
         // Documents
@@ -637,8 +638,11 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                 if (!validateFileSizes(configuration, documentFiles)) {
                     return LanguageUtil.get(languageBundle, ERROR_FILE_TO_LARGE)
                             + ParamUtil.getLong(request, "sizeFile") + "Mo)";
-                } else if (!antiVirusVerif(documentFiles).equals("")) {
-                    return "error";
+                } else {
+                    message = antiVirusVerif(documentFiles);
+                    if (!message.equals("")) {
+                        return message;
+                    }
                 }
             }
         }
