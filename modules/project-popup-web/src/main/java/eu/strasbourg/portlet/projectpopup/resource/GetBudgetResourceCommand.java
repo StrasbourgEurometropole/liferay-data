@@ -38,21 +38,20 @@ import java.util.List;
 )
 public class GetBudgetResourceCommand implements MVCResourceCommand {
 
-	private long entryID;
-	
+
 	@Override
 	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
 		boolean success = true;
 		
 		// Recuperation de l'id de l'entité
-        this.entryID = ParamUtil.getLong(request, "entryId");
+		long entryID = ParamUtil.getLong(request, "entryId");
 
 		// Retour des informations de la requete en JSON
 		JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
 
         try {
         	// Recuperation du budget participatif à modifier
-        	AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(this.entryID);
+        	AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(entryID);
         	if(assetEntry != null) {
 				BudgetParticipatif bp = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(assetEntry.getClassPK());
 
