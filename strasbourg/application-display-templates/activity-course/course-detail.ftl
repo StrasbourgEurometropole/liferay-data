@@ -168,7 +168,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     <div class="tab-title">${periodPlace.placeName}</div>
                                     <#if periodPlace.placeSigId?has_content>
                                         <div class="rte" style="margin-top: -5px; margin-bottom: 10px;">
-                                            <a href="${homeURL}lieu/-/entity/sig/${periodPlace.placeSigId}/${periodPlace.getNormalizedAlias(locale)}"><@liferay_ui.message key="eu.activity.see-place-detail" /></a>
+                                            <a href="${homeURL}lieu/-/entity/sig/${periodPlace.placeSigId}/${uriHelper.normalizeToFriendlyUrl(periodPlace.placeName)}"><@liferay_ui.message key="eu.activity.see-place-detail" /></a>
                                         </div>
                                     </#if>
                                     <ul class="schedule-list" style="margin-bottom: 10px;">
