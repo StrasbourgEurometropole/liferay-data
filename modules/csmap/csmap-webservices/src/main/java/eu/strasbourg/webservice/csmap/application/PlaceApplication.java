@@ -2,7 +2,6 @@ package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.journal.model.JournalArticle;
@@ -20,9 +19,7 @@ import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import eu.strasbourg.service.csmap.model.PlaceCategories;
 import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalService;
-import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalServiceUtil;
 import eu.strasbourg.service.place.model.CacheJson;
 import eu.strasbourg.service.place.model.Historic;
 import eu.strasbourg.service.place.service.CacheJsonLocalService;
@@ -32,10 +29,10 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
+import eu.strasbourg.utils.constants.CategoryNames;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.place.NoDefaultPictoException;
-import eu.strasbourg.webservice.csmap.service.WSEmergencies;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSCSMapUtil;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
@@ -57,6 +54,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author angelique.champougny
@@ -385,6 +383,91 @@ public class PlaceApplication extends Application {
         }
         return WSResponseUtil.buildOkResponse(json);
 
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("/get-territoires")
+    public Response getTerritoires(
+            @FormParam("ids_territoires") String ids_territoires) {
+        return getTerritoires("0", ids_territoires);
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("/get-territoires/{last_update_time}")
+    public Response getTerritoires(
+            @PathParam("last_update_time") String lastUpdateTimeString,
+            @FormParam("ids_territoires") String ids_territoires) {
+
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        // On transforme la date string en date
+        Date lastUpdateTime;
+        try {
+            long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+        } catch (Exception e) {
+            return WSResponseUtil.lastUpdateTimeFormatError();
+        }
+
+        // On vérifie que les ids sont renseignés
+        if (Validator.isNull(ids_territoires)) {
+            ids_territoires = "";
+        }
+
+        try {
+            // On récupère les catégories du vocabulaire des territoires
+            AssetVocabulary territoryVocabulary = AssetVocabularyHelper
+                    .getGlobalVocabulary(VocabularyNames.TERRITORY);
+            List<AssetCategory> categories = new ArrayList<>();
+            if (Validator.isNotNull(territoryVocabulary))
+                categories = territoryVocabulary.getCategories();
+
+            // On récupère les catégories enfants de old_france
+            AssetCategory oldFrance = categories.stream().filter(c -> c.getName().equals(CategoryNames.OLD_FRANCE)).findFirst().get();
+            if (Validator.isNotNull(oldFrance)){
+                List<AssetCategory> categoriesOldFrance = AssetVocabularyHelper.getCategoriesWithChild(oldFrance);
+                List<AssetCategory> categoriesOldFranceWithChild = AssetVocabularyHelper.getCategoriesWithChild(categoriesOldFrance);
+                // on enlève les catégories de oldFrance aux catégories
+                categories = categories.stream().filter(c -> !categoriesOldFranceWithChild.contains(c)).collect(Collectors.toList());
+            }
+
+            // On récupère toutes les catégories qui ont été ajoutées ou modifiées
+            JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+            JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+
+            for (AssetCategory categ : categories) {
+                if (lastUpdateTime.before(categ.getCreateDate()))
+                    jsonAjout.put(CSMapJSonHelper.territoriesCSMapJSON(categ));
+                else if (lastUpdateTime.before(categ.getModifiedDate()))
+                    jsonModif.put(CSMapJSonHelper.territoriesCSMapJSON(categ));
+            }
+
+            json.put(WSConstants.JSON_ADD, jsonAjout);
+            json.put(WSConstants.JSON_UPDATE, jsonModif);
+
+            // On récupère toutes les catégories qui ont été supprimées
+            JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
+
+            if (Validator.isNotNull(ids_territoires)) {
+                if (Validator.isNotNull(territoryVocabulary))
+                    for (String idCategory : ids_territoires.split(",")) {
+                        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, idCategory);
+                        if (Validator.isNull(category)) {
+                            jsonSuppr.put(idCategory);
+                        }
+                    }
+            }
+            json.put(WSConstants.JSON_DELETE, jsonSuppr);
+
+            if (jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+                return WSResponseUtil.buildOkResponse(json, 201);
+        } catch (PortalException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(json);
     }
 
     @Reference(unbind = "-")

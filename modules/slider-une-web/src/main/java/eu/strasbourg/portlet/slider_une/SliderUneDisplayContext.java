@@ -15,6 +15,7 @@ import eu.strasbourg.portlet.slider_une.configuration.SliderUneConfiguration;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.PortalHelper;
+import eu.strasbourg.utils.UriHelper;
 
 import javax.portlet.RenderRequest;
 import java.io.StringReader;

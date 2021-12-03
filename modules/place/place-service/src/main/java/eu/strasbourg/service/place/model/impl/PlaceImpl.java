@@ -1152,6 +1152,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 
         jsonPlace.put("idSurfs", this.getSIGid());
         jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getAliasMap()));
+        jsonPlace.put("normalizedAlias", UriHelper.normalizeToFriendlyUrl(this.getAlias(Locale.FRANCE)));
         jsonPlace.put("address", this.getAddressStreet() + " " + this.getAddressZipCode() + " "
                 + this.getCity(Locale.getDefault()) + " " + this.getAddressCountry());
         if (Validator.isNotNull(this.getAddressDistribution())) {
@@ -1290,7 +1291,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
 
         // URL du lieu
-        jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId());
+        jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getAlias(Locale.FRANCE)));
 
         // Image principale
         if (Validator.isNotNull(this.getImageURL())) {
@@ -1488,7 +1489,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
 
         // URL du lieu
-        properties.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId());
+        properties.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getAlias(Locale.FRANCE)));
 
         // Image principale
         if (Validator.isNotNull(this.getImageURL())) {
@@ -1659,7 +1660,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("caracteristiques", this.getCharacteristics(Locale.FRANCE));
         jsonPlace.put("idSurfs", this.getSIGid());
         jsonPlace.put("nomLieu", this.getAlias(Locale.FRANCE));
-        jsonPlace.put("friendlyUrl", "https://www.strasbourg.eu/lieu/-/entity/sig/" + this.getSIGid());
+        jsonPlace.put("friendlyUrl", "https://www.strasbourg.eu/lieu/-/entity/sig/" + this.getSIGid() + "/" + this.getNormalizedAlias(Locale.FRANCE));
         jsonPlace.put("infosComplementaires", this.getAdditionalInformation(Locale.FRANCE));
 
         JSONObject territory = JSONFactoryUtil.createJSONObject();
@@ -1725,7 +1726,7 @@ public class PlaceImpl extends PlaceBaseImpl {
             } else {
                 url = "https://" + virtualHostName + "/";
             }
-            url += "lieu/-/entity/sig/" + this.getSIGid();
+            url += "lieu/-/entity/sig/" + this.getSIGid() + "/" + this.getNormalizedAlias(locale);
             properties.put("url", url);
         }
 
@@ -1954,7 +1955,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         if (Validator.isNotNull(this.getMercatorY())) {
             jsonPlace.put("mercatorY", this.getMercatorY());
         }
-        jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId());
+        jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getAlias(Locale.FRANCE)));
 
         return jsonPlace;
     }
@@ -1999,5 +2000,21 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
 
         return json;
+    }
+
+    /**
+     * Renvoie le titre du lieu pour friendlyUrl
+     */
+    @Override
+    public String getNormalizedAlias() {
+        return UriHelper.normalizeToFriendlyUrl(this.getAlias(Locale.FRANCE));
+    }
+
+    /**
+     * Renvoie le titre du lieu pour friendlyUrl
+     */
+    @Override
+    public String getNormalizedAlias(Locale locale) {
+        return UriHelper.normalizeToFriendlyUrl(this.getAlias(locale));
     }
 }

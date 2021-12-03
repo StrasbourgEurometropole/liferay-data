@@ -23,6 +23,8 @@
 	<liferay-ui:error key="name-error" message="name-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="period-error" message="period-error" />
+	<liferay-ui:error key="slot-error" message="slot-error" />
+	<liferay-ui:error key="schedule-exception-error" message="schedule-exception-error" />
 	<div class="error"></div>
 
 	<aui:form action="${saveSubPlaceURL}" method="post" name="fm">

@@ -50,6 +50,24 @@
 		<field name="longitude" type="String" />
 		<field name="type" type="int" />
 	</model>
+	<model name="eu.strasbourg.service.gtfs.model.CacheAlertJSON">
+		<field name="uuid" type="String" />
+		<field name="cacheId" type="long" />
+		<field name="jsonAlert" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="creationDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.CacheHoursJSON">
+		<field name="uuid" type="String" />
+		<field name="stopCode" type="String" />
+		<field name="jsonHour" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="creationDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Calendar">
 		<field name="uuid" type="String" />
 		<field name="id" type="long" />

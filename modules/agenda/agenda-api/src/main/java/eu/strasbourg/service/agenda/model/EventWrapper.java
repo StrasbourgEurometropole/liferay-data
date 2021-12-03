@@ -1409,6 +1409,22 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	 * Renvoie le titre de l'event pour friendlyUrl
+	 */
+	@Override
+	public String getNormalizedTitle() {
+		return _event.getNormalizedTitle();
+	}
+
+	/**
+	 * Renvoie le titre de l'event pour friendlyUrl
+	 */
+	@Override
+	public String getNormalizedTitle(java.util.Locale locale) {
+		return _event.getNormalizedTitle(locale);
+	}
+
+	/**
 	 * Returns the phone of this event.
 	 *
 	 * @return the phone of this event

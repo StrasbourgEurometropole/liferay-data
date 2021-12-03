@@ -849,6 +849,477 @@ public class CacheJsonUtil {
 	}
 
 	/**
+	 * Returns all the cache jsons where createEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * @param createEvent the create event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @return the matching cache jsons
+	 */
+	public static List<CacheJson> findByCreatedDateAndIsActiveAndWithSchedules(
+		Date createEvent, boolean isActive, boolean hasSchedules) {
+
+		return getPersistence().findByCreatedDateAndIsActiveAndWithSchedules(
+			createEvent, isActive, hasSchedules);
+	}
+
+	/**
+	 * Returns a range of all the cache jsons where createEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param createEvent the create event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param start the lower bound of the range of cache jsons
+	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @return the range of matching cache jsons
+	 */
+	public static List<CacheJson> findByCreatedDateAndIsActiveAndWithSchedules(
+		Date createEvent, boolean isActive, boolean hasSchedules, int start,
+		int end) {
+
+		return getPersistence().findByCreatedDateAndIsActiveAndWithSchedules(
+			createEvent, isActive, hasSchedules, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the cache jsons where createEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param createEvent the create event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param start the lower bound of the range of cache jsons
+	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching cache jsons
+	 */
+	public static List<CacheJson> findByCreatedDateAndIsActiveAndWithSchedules(
+		Date createEvent, boolean isActive, boolean hasSchedules, int start,
+		int end, OrderByComparator<CacheJson> orderByComparator) {
+
+		return getPersistence().findByCreatedDateAndIsActiveAndWithSchedules(
+			createEvent, isActive, hasSchedules, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the cache jsons where createEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param createEvent the create event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param start the lower bound of the range of cache jsons
+	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching cache jsons
+	 */
+	public static List<CacheJson> findByCreatedDateAndIsActiveAndWithSchedules(
+		Date createEvent, boolean isActive, boolean hasSchedules, int start,
+		int end, OrderByComparator<CacheJson> orderByComparator,
+		boolean retrieveFromCache) {
+
+		return getPersistence().findByCreatedDateAndIsActiveAndWithSchedules(
+			createEvent, isActive, hasSchedules, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	 * Returns the first cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * @param createEvent the create event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching cache json
+	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 */
+	public static CacheJson findByCreatedDateAndIsActiveAndWithSchedules_First(
+			Date createEvent, boolean isActive, boolean hasSchedules,
+			OrderByComparator<CacheJson> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchCacheJsonException {
+
+		return getPersistence().
+			findByCreatedDateAndIsActiveAndWithSchedules_First(
+				createEvent, isActive, hasSchedules, orderByComparator);
+	}
+
+	/**
+	 * Returns the first cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * @param createEvent the create event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
+	 */
+	public static CacheJson fetchByCreatedDateAndIsActiveAndWithSchedules_First(
+		Date createEvent, boolean isActive, boolean hasSchedules,
+		OrderByComparator<CacheJson> orderByComparator) {
+
+		return getPersistence().
+			fetchByCreatedDateAndIsActiveAndWithSchedules_First(
+				createEvent, isActive, hasSchedules, orderByComparator);
+	}
+
+	/**
+	 * Returns the last cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * @param createEvent the create event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching cache json
+	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 */
+	public static CacheJson findByCreatedDateAndIsActiveAndWithSchedules_Last(
+			Date createEvent, boolean isActive, boolean hasSchedules,
+			OrderByComparator<CacheJson> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchCacheJsonException {
+
+		return getPersistence().
+			findByCreatedDateAndIsActiveAndWithSchedules_Last(
+				createEvent, isActive, hasSchedules, orderByComparator);
+	}
+
+	/**
+	 * Returns the last cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * @param createEvent the create event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
+	 */
+	public static CacheJson fetchByCreatedDateAndIsActiveAndWithSchedules_Last(
+		Date createEvent, boolean isActive, boolean hasSchedules,
+		OrderByComparator<CacheJson> orderByComparator) {
+
+		return getPersistence().
+			fetchByCreatedDateAndIsActiveAndWithSchedules_Last(
+				createEvent, isActive, hasSchedules, orderByComparator);
+	}
+
+	/**
+	 * Returns the cache jsons before and after the current cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * @param eventId the primary key of the current cache json
+	 * @param createEvent the create event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next cache json
+	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
+	 */
+	public static CacheJson[]
+			findByCreatedDateAndIsActiveAndWithSchedules_PrevAndNext(
+				long eventId, Date createEvent, boolean isActive,
+				boolean hasSchedules,
+				OrderByComparator<CacheJson> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchCacheJsonException {
+
+		return getPersistence().
+			findByCreatedDateAndIsActiveAndWithSchedules_PrevAndNext(
+				eventId, createEvent, isActive, hasSchedules,
+				orderByComparator);
+	}
+
+	/**
+	 * Removes all the cache jsons where createEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63; from the database.
+	 *
+	 * @param createEvent the create event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 */
+	public static void removeByCreatedDateAndIsActiveAndWithSchedules(
+		Date createEvent, boolean isActive, boolean hasSchedules) {
+
+		getPersistence().removeByCreatedDateAndIsActiveAndWithSchedules(
+			createEvent, isActive, hasSchedules);
+	}
+
+	/**
+	 * Returns the number of cache jsons where createEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * @param createEvent the create event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @return the number of matching cache jsons
+	 */
+	public static int countByCreatedDateAndIsActiveAndWithSchedules(
+		Date createEvent, boolean isActive, boolean hasSchedules) {
+
+		return getPersistence().countByCreatedDateAndIsActiveAndWithSchedules(
+			createEvent, isActive, hasSchedules);
+	}
+
+	/**
+	 * Returns all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * @param createEvent the create event
+	 * @param modifiedEvent the modified event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @return the matching cache jsons
+	 */
+	public static List<CacheJson>
+		findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(
+			Date createEvent, Date modifiedEvent, boolean isActive,
+			boolean hasSchedules) {
+
+		return getPersistence().
+			findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(
+				createEvent, modifiedEvent, isActive, hasSchedules);
+	}
+
+	/**
+	 * Returns a range of all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param createEvent the create event
+	 * @param modifiedEvent the modified event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param start the lower bound of the range of cache jsons
+	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @return the range of matching cache jsons
+	 */
+	public static List<CacheJson>
+		findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(
+			Date createEvent, Date modifiedEvent, boolean isActive,
+			boolean hasSchedules, int start, int end) {
+
+		return getPersistence().
+			findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(
+				createEvent, modifiedEvent, isActive, hasSchedules, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param createEvent the create event
+	 * @param modifiedEvent the modified event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param start the lower bound of the range of cache jsons
+	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching cache jsons
+	 */
+	public static List<CacheJson>
+		findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(
+			Date createEvent, Date modifiedEvent, boolean isActive,
+			boolean hasSchedules, int start, int end,
+			OrderByComparator<CacheJson> orderByComparator) {
+
+		return getPersistence().
+			findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(
+				createEvent, modifiedEvent, isActive, hasSchedules, start, end,
+				orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param createEvent the create event
+	 * @param modifiedEvent the modified event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param start the lower bound of the range of cache jsons
+	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching cache jsons
+	 */
+	public static List<CacheJson>
+		findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(
+			Date createEvent, Date modifiedEvent, boolean isActive,
+			boolean hasSchedules, int start, int end,
+			OrderByComparator<CacheJson> orderByComparator,
+			boolean retrieveFromCache) {
+
+		return getPersistence().
+			findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(
+				createEvent, modifiedEvent, isActive, hasSchedules, start, end,
+				orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	 * Returns the first cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * @param createEvent the create event
+	 * @param modifiedEvent the modified event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching cache json
+	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 */
+	public static CacheJson
+			findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules_First(
+				Date createEvent, Date modifiedEvent, boolean isActive,
+				boolean hasSchedules,
+				OrderByComparator<CacheJson> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchCacheJsonException {
+
+		return getPersistence().
+			findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules_First(
+				createEvent, modifiedEvent, isActive, hasSchedules,
+				orderByComparator);
+	}
+
+	/**
+	 * Returns the first cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * @param createEvent the create event
+	 * @param modifiedEvent the modified event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
+	 */
+	public static CacheJson
+		fetchByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules_First(
+			Date createEvent, Date modifiedEvent, boolean isActive,
+			boolean hasSchedules,
+			OrderByComparator<CacheJson> orderByComparator) {
+
+		return getPersistence().
+			fetchByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules_First(
+				createEvent, modifiedEvent, isActive, hasSchedules,
+				orderByComparator);
+	}
+
+	/**
+	 * Returns the last cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * @param createEvent the create event
+	 * @param modifiedEvent the modified event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching cache json
+	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 */
+	public static CacheJson
+			findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules_Last(
+				Date createEvent, Date modifiedEvent, boolean isActive,
+				boolean hasSchedules,
+				OrderByComparator<CacheJson> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchCacheJsonException {
+
+		return getPersistence().
+			findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules_Last(
+				createEvent, modifiedEvent, isActive, hasSchedules,
+				orderByComparator);
+	}
+
+	/**
+	 * Returns the last cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * @param createEvent the create event
+	 * @param modifiedEvent the modified event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
+	 */
+	public static CacheJson
+		fetchByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules_Last(
+			Date createEvent, Date modifiedEvent, boolean isActive,
+			boolean hasSchedules,
+			OrderByComparator<CacheJson> orderByComparator) {
+
+		return getPersistence().
+			fetchByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules_Last(
+				createEvent, modifiedEvent, isActive, hasSchedules,
+				orderByComparator);
+	}
+
+	/**
+	 * Returns the cache jsons before and after the current cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * @param eventId the primary key of the current cache json
+	 * @param createEvent the create event
+	 * @param modifiedEvent the modified event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next cache json
+	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
+	 */
+	public static CacheJson[]
+			findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules_PrevAndNext(
+				long eventId, Date createEvent, Date modifiedEvent,
+				boolean isActive, boolean hasSchedules,
+				OrderByComparator<CacheJson> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchCacheJsonException {
+
+		return getPersistence().
+			findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules_PrevAndNext(
+				eventId, createEvent, modifiedEvent, isActive, hasSchedules,
+				orderByComparator);
+	}
+
+	/**
+	 * Removes all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63; from the database.
+	 *
+	 * @param createEvent the create event
+	 * @param modifiedEvent the modified event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 */
+	public static void
+		removeByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(
+			Date createEvent, Date modifiedEvent, boolean isActive,
+			boolean hasSchedules) {
+
+		getPersistence().
+			removeByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(
+				createEvent, modifiedEvent, isActive, hasSchedules);
+	}
+
+	/**
+	 * Returns the number of cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63; and hasSchedules = &#63;.
+	 *
+	 * @param createEvent the create event
+	 * @param modifiedEvent the modified event
+	 * @param isActive the is active
+	 * @param hasSchedules the has schedules
+	 * @return the number of matching cache jsons
+	 */
+	public static int
+		countByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(
+			Date createEvent, Date modifiedEvent, boolean isActive,
+			boolean hasSchedules) {
+
+		return getPersistence().
+			countByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(
+				createEvent, modifiedEvent, isActive, hasSchedules);
+	}
+
+	/**
 	 * Returns all the cache jsons where modifiedEvent &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param modifiedEvent the modified event

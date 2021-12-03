@@ -4,6 +4,7 @@
 	<portlet:param name="redirectURL" value="${redirectURL}" />
 	<portlet:param name="cmd" value="saveProfil" />
 </portlet:actionURL>
+<jsp:useBean id="uriHelper" class="eu.strasbourg.utils.UriHelper"/>
 
 <c:if test="${!isUserloggedIn}">
 	<script>
@@ -327,7 +328,7 @@
 											${event.getPlaceAlias(locale)}
 										</p>
 										<a
-											href="${homeURL}detail-evenement/-/entity/id/${event.eventId}"
+											href="${homeURL}detail-evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}"
 											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${event.getTitle(locale)}</h3></a>
 									</div>
 									<div class="pro-footer-event">
