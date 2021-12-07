@@ -73,6 +73,10 @@ public class FCMHelper {
             datas.put("labelUrl", notification.getLabelUrl(locale));
         if(Validator.isNotNull(imageURL))
             datas.put("image", imageURL);
+        if(notification.getIsAlert()==1)
+            datas.put("isAlert", "true");
+        else
+            datas.put("isAlert", "false");
 
         return sendNotificationToTopic(notification.getTitle(locale), notifText, imageURL, topic, datas);
     }
