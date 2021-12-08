@@ -18,6 +18,7 @@ import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
 import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
 import eu.strasbourg.webservice.csmap.service.WSFavorite;
@@ -113,7 +114,7 @@ public class FavoriteApplication extends Application {
 
             // On récupère toutes les catégories qui ont été supprimées
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-            if (Validator.isNotNull(idsFavorite)) {
+            if (Validator.isNotNull(idsFavorite) && idsFavorite != "") {
                 for (String idFavorite : idsFavorite.split(",")) {
                     Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(Long.parseLong(idFavorite));
                     if (Validator.isNull(favorite)) {
@@ -129,6 +130,9 @@ public class FavoriteApplication extends Application {
         } catch (NoJWTInHeaderException e) {
             log.error(e.getMessage());
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         }  catch (Exception e){
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
@@ -198,7 +202,7 @@ public class FavoriteApplication extends Application {
                     } catch (NullPointerException e){
                         if(Validator.isNotNull(favoriteExist) && !favoriteExist.isEmpty()) {
                             for(Favorite fav : favoriteExist)
-                            favoriteLocalService.deleteFavorite(fav);
+                                favoriteLocalService.deleteFavorite(fav);
                         }
                         JSONObject jsonResult = JSONFactoryUtil.createJSONObject();
                         jsonResult.put("favoriteId", 0);
@@ -258,14 +262,20 @@ public class FavoriteApplication extends Application {
                 for (int j = 0; j < jsonDeletes.length(); j++) {
                     JSONObject jsonDelete = jsonDeletes.getJSONObject(j);
                     long idFavorite = jsonDelete.getLong("favoriteId");
-                    FavoriteLocalServiceUtil.deleteFavorite(idFavorite);
+                    Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(idFavorite);
+                    if (Validator.isNull(favorite)) {
+                        FavoriteLocalServiceUtil.deleteFavorite(idFavorite);
+                    }
                 }
             }
-            if(jsonAdds.length() == 0)
+            if(json.length() == 0)
                 return WSResponseUtil.buildOkResponse(json, 201);
         } catch (NoJWTInHeaderException e) {
             log.error(e.getMessage());
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         } catch (Exception e) {
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());

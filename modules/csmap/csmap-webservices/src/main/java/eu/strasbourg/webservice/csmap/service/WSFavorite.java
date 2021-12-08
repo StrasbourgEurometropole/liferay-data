@@ -9,6 +9,7 @@ import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
+import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.place.model.Place;
@@ -33,20 +34,16 @@ public class WSFavorite {
         favorite.setPublikUserId(publikUser.getPublikId());
         favorite.setTypeId(typeFavorite);
         if (typeFavorite == FavoriteType.PLACE.getId()) {
-            favorite.setEntityId(PlaceLocalServiceUtil.getPlaceBySIGId(elementIdFavorite).getPlaceId());
+            Place place = PlaceLocalServiceUtil.getPlaceBySIGId(elementIdFavorite);
+            favorite.setEntityId(place.getPlaceId());
             if (favorite.getUrl().isEmpty() || Validator.isNull(favorite.getUrl())) {
-                try {
-                    Place place = PlaceLocalServiceUtil.getPlace(Long.parseLong(elementIdFavorite));
-                    favorite.setUrl(StrasbourgPropsUtil.getURL() + "/lieu/-/entity/sig/" + elementIdFavorite + "/" + place.getNormalizedAlias(Locale.FRANCE));
-                } catch (PortalException e) {
-                    log.error(e);
-                    favorite.setUrl(StrasbourgPropsUtil.getURL() + "/lieu/-/entity/sig/" + elementIdFavorite);
-                }
+                favorite.setUrl(StrasbourgPropsUtil.getURL() + "/lieu/-/entity/sig/" + elementIdFavorite + "/" + place.getNormalizedAlias(Locale.FRANCE));
             }
         } else if (typeFavorite == FavoriteType.ARRET.getId()) {
-            favorite.setEntityId(ArretLocalServiceUtil.getByStopId(elementIdFavorite).getArretId());
+            Arret arret = ArretLocalServiceUtil.getByStopId(elementIdFavorite);
+            favorite.setEntityId(arret.getArretId());
             if (favorite.getUrl().isEmpty() || Validator.isNull(favorite.getUrl())) {
-                favorite.setUrl(StrasbourgPropsUtil.getURL() + "/arret/-/entity/id/" + favorite.getEntityId());
+                favorite.setUrl(StrasbourgPropsUtil.getURL() + "/arret/-/entity/id/" + arret.getArretId());
             }
         } else if (typeFavorite == FavoriteType.EVENT.getId()) {
             favorite.setEntityId(Long.parseLong(elementIdFavorite));
