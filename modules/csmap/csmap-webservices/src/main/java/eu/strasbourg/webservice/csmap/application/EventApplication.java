@@ -313,7 +313,7 @@ public class EventApplication extends Application {
             jsonThematique.put(WSConstants.JSON_IDS, jsonIds);
 
             JSONObject jsonTitle = JSONFactoryUtil.createJSONObject();
-            jsonTitle.put(WSConstants.JSON_LANGUAGE_FRANCE, thematique.getTitle(Locale.FRANCE));
+            jsonTitle.put(WSConstants.JSON_LANGUAGE_FRANCE, thematique.getEditorialTitle(Locale.FRANCE));
             jsonThematique.put(WSConstants.JSON_TITLE, jsonTitle);
 
             JSONObject jsonSubtitle = JSONFactoryUtil.createJSONObject();
