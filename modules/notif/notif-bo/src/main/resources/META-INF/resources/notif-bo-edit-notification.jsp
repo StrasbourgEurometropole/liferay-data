@@ -130,15 +130,15 @@
                 <%-- Champ : Contenu --%>
                 <aui:input name="content" label="eu.strasbourg.notif.content" required="true" localized="true" type="textarea" disabled="${dc.isOnlyView()}" />
 
-                <div class="incorrect-labelUrl-url" style="display: none">
-                    <liferay-ui:message key="eu.strasbourg.notification.labelUrl-url-error" />
-                </div>
-
                 <%-- Champ : Label de l'URL --%>
                 <aui:input name="labelUrl" label="eu.strasbourg.notif.label-url" localized="true" required="false" type="text" disabled="${dc.isOnlyView()}" />
 
                 <%-- Champ : URL --%>
                 <aui:input name="url" label="eu.strasbourg.notif.url" localized="true" required="false" type="text" disabled="${dc.isOnlyView()}" />
+
+                <div class="incorrect-labelUrl-url" style="display: none">
+                    <liferay-ui:message key="eu.strasbourg.notification.labelUrl-url-error" />
+                </div>
 
             </aui:fieldset>
 

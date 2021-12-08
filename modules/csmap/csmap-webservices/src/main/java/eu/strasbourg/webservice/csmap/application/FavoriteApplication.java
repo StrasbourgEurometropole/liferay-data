@@ -263,7 +263,7 @@ public class FavoriteApplication extends Application {
                     JSONObject jsonDelete = jsonDeletes.getJSONObject(j);
                     long idFavorite = jsonDelete.getLong("favoriteId");
                     Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(idFavorite);
-                    if (Validator.isNull(favorite)) {
+                    if (Validator.isNotNull(favorite)) {
                         FavoriteLocalServiceUtil.deleteFavorite(idFavorite);
                     }
                 }
