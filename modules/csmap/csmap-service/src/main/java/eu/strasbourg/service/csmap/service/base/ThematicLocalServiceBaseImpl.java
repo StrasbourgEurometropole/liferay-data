@@ -36,22 +36,19 @@ import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
-
 import eu.strasbourg.service.csmap.model.Thematic;
 import eu.strasbourg.service.csmap.service.ThematicLocalService;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
+import eu.strasbourg.service.csmap.service.persistence.CacheAgendaJsonPersistence;
 import eu.strasbourg.service.csmap.service.persistence.PlaceCategoriesPersistence;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
 import eu.strasbourg.service.csmap.service.persistence.ThematicPersistence;
-
-import java.io.Serializable;
-
-import java.util.List;
-
-import javax.sql.DataSource;
-
 import org.osgi.annotation.versioning.ProviderType;
 import org.osgi.service.component.annotations.Reference;
+
+import javax.sql.DataSource;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the base implementation for the thematic local service.
@@ -383,6 +380,9 @@ public abstract class ThematicLocalServiceBaseImpl
 
 	@Reference
 	protected AgendaPersistence agendaPersistence;
+
+	@Reference
+	protected CacheAgendaJsonPersistence cacheAgendaJsonPersistence;
 
 	@Reference
 	protected PlaceCategoriesPersistence placeCategoriesPersistence;

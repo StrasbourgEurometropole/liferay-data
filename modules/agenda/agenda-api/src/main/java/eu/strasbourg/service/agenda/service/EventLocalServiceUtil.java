@@ -622,7 +622,7 @@ public class EventLocalServiceUtil {
 	}
 
 	/**
-	 * Met à jour une édition et l'enregistre en base de données
+	 * Met à jour un event et l'enregistre en base de données
 	 *
 	 * @throws IOException
 	 */

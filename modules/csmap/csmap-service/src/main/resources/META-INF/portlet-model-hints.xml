@@ -29,6 +29,12 @@
 			<hint-collection name="TEXTAREA" />
 		</field>
 	</model>
+	<model name="eu.strasbourg.service.csmap.model.CacheAgendaJson">
+		<field name="cacheId" type="long" />
+		<field name="json" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+	</model>
 	<model name="eu.strasbourg.service.csmap.model.PlaceCategories">
 		<field name="uuid" type="String" />
 		<field name="placeCategoriesId" type="long" />

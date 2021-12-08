@@ -13,6 +13,11 @@ create table csmap_Agenda (
 	tags STRING null
 );
 
+create table csmap_CacheAgendaJson (
+	cacheId LONG not null primary key,
+	json TEXT null
+);
+
 create table csmap_PlaceCategories (
 	uuid_ VARCHAR(75) null,
 	placeCategoriesId LONG not null primary key,
