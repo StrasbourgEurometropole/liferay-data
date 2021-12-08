@@ -406,14 +406,74 @@ public class VariousDataApplication extends Application {
             }
 
             // Ajout de ADD dans le JSON final
-            json.put(WSConstants.JSON_ADD, CSMapJSonHelper.generalConditionsCSMapJSON(generalConditionsAdd));
+            json.put(WSConstants.JSON_ADD, CSMapJSonHelper.simpleContentCSMapJSON(generalConditionsAdd));
             // Ajout de UPDATE dans le JSON final
-            json.put(WSConstants.JSON_UPDATE, CSMapJSonHelper.generalConditionsCSMapJSON(generalConditionsUpdate));
-            // Ajout de DELETE dans le JSON final
+            json.put(WSConstants.JSON_UPDATE, CSMapJSonHelper.simpleContentCSMapJSON(generalConditionsUpdate));
 
-        }catch (PortalException e) {
+        }catch (Exception e) {
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(json);
+
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("/get-accessibility")
+    public Response getAccessibility() {
+        return getAccessibility("0");
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("/get-accessibility/{last_update_time}")
+    public Response getAccessibility(
+            @PathParam("last_update_time") String lastUpdateTimeString){
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        // On transforme la date string en date
+        Date lastUpdateTime;
+        try {
+            long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+        }catch (Exception e) {
+            return WSResponseUtil.lastUpdateTimeFormatError();
+        }
+
+        try {
+            Group csmapGroup = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_CSMAP);
+            long csmapGroupId = csmapGroup.getGroupId();
+            JournalFolder accessibilityFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId,WSConstants.FOLDER_DIVERS);
+            long accessibilityFolderId = accessibilityFolder.getFolderId();
+
+            // Recuperation des JournalArticle dans le dossier Numeros urgence
+            List<JournalArticle> accessibilitys = new ArrayList<>(JournalArticleLocalServiceUtil.getArticles(csmapGroupId, accessibilityFolderId));
+            // Recuperation des Numeros urgence a ADD et UPDATE
+            List<JournalArticle> accessibilityAdd = new ArrayList<>();
+            List<JournalArticle> accessibilityUpdate = new ArrayList<>();
+
+            // Verification des Numeros urgence si nouveau ou modifie
+            for (JournalArticle accessibility : accessibilitys) {
+                if(accessibility.getTitle(Locale.FRANCE).equals(WSConstants.ACCESSIBILITY) && accessibility.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                    if (lastUpdateTime.before(accessibility.getCreateDate())) {
+                        accessibilityAdd.add(accessibility);
+                    }
+                    else if (lastUpdateTime.before(accessibility.getModifiedDate())) {
+                        accessibilityUpdate.add(accessibility);
+                    }
+                }
+            }
+
+            if(accessibilityAdd.isEmpty() && accessibilityUpdate.isEmpty()){
+                return WSResponseUtil.buildOkResponse(json,201);
+            }
+
+            // Ajout de ADD dans le JSON final
+            json.put(WSConstants.JSON_ADD, CSMapJSonHelper.simpleContentCSMapJSON(accessibilityAdd));
+            // Ajout de UPDATE dans le JSON final
+            json.put(WSConstants.JSON_UPDATE, CSMapJSonHelper.simpleContentCSMapJSON(accessibilityUpdate));
+
         }catch (Exception e) {
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());

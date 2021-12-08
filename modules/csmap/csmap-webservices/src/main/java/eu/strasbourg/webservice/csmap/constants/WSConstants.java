@@ -139,6 +139,7 @@ public class WSConstants {
     public static final String FOLDER_EMERGENCY_HELPS = "Aides urgence";
     public static final String FOLDER_SOCIAL_NETWORK = "R\u00e9seaux sociaux";
     public static final String GENERAL_CONDITIONS = "Mentions l\u00e9gales";
+    public static final String ACCESSIBILITY = "Accessibilit\u00e9";
 
     // Settings
     public static final String FOLDER_PARAMETRAGE = "Param\u00e9trage";
