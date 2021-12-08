@@ -293,6 +293,28 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
             isValid = false;
         }
 
+        // Champs URL et Label URL
+        Map<Locale, String> labelUrls = LocalizationUtil
+                .getLocalizationMap(request, "labelUrl");
+        Map<Locale, String> urls = LocalizationUtil
+                .getLocalizationMap(request, "url");
+        Boolean labelUrlValue = false;
+        Boolean urlValue = false;
+        for (Map.Entry<Locale, String> entry : labelUrls.entrySet()) {
+            if(Validator.isNotNull(entry.getValue())){
+                labelUrlValue = true;
+            }
+        }
+        for (Map.Entry<Locale, String> entry : urls.entrySet()) {
+            if(Validator.isNotNull(entry.getValue())){
+                urlValue = true;
+            }
+        }
+        if(labelUrlValue!=urlValue) {
+            SessionErrors.add(request, "labelUrl-url-error");
+            isValid = false;
+        }
+
         return isValid;
     }
 
