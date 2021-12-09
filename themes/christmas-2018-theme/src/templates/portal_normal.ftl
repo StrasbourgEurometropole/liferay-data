@@ -18,6 +18,7 @@
     <@liferay_util["include"] page=top_head_include />
     
     <link href="/o/christmas-2018-theme/css/style.css" rel="stylesheet">
+	  <link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
 
     <script>
       <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
