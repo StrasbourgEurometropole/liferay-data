@@ -1,9 +1,7 @@
 @font-face {
   font-family: 'smurf';
   src:
-    url('smurf.ttf?mw0uu3') format('truetype'),
-    url('smurf.woff?mw0uu3') format('woff'),
-    url('smurf.svg?mw0uu3#smurf') format('svg');
+    url('smurf.woff?mw0uu3') format('woff');
   font-weight: normal;
   font-style: normal;
 }

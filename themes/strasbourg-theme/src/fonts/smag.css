@@ -1,9 +1,7 @@
 @font-face {
   font-family: 'smag';
   src:
-    url('smag.ttf?ae96ar') format('truetype'),
-    url('smag.woff?ae96ar') format('woff'),
-    url('smag.svg?ae96ar#smag') format('svg');
+    url('smag.woff?ae96ar') format('woff');
   font-weight: normal;
   font-style: normal;
 }
