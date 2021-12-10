@@ -1453,7 +1453,7 @@ public class EventImpl extends EventBaseImpl {
 		jsonEvent.put("freeEntry", this.getFree());
 
 		if (Validator.isNotNull(this.getPrice())) {
-			String price = this.getPriceCurrentValue();
+			String price = this.getPrice(Locale.FRANCE);
 			String regexInt = "([0-9]+)";
 			String regexDouble = "([0-9]+)[\\.|,]([0-9]+)";
 			String regexDoubleSimple = "([0-9]+)[\\.|,]([0-9]{1})";
