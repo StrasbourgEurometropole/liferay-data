@@ -360,4 +360,14 @@ public interface Event extends EventModel, PersistedModel {
 	 */
 	public com.liferay.portal.kernel.json.JSONObject getCSMapJSON();
 
+	/**
+	 * Renvoie le titre de l'event pour friendlyUrl
+	 */
+	public String getNormalizedTitle();
+
+	/**
+	 * Renvoie le titre de l'event pour friendlyUrl
+	 */
+	public String getNormalizedTitle(java.util.Locale locale);
+
 }

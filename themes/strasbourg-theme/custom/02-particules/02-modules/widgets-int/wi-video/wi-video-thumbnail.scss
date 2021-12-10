@@ -1,0 +1,50 @@
+.grid-item .item-right{
+    .item-description{
+        color: $c_grey_txt;
+    }
+
+    .date{
+        font-family: "MontSerrat", arial;
+        font-size: 1.4rem;
+        text-transform: none;
+        font-weight: 400;
+        position: relative;
+        height: 50%;
+        display: flex;
+        align-items: center;
+        &:before{
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-size: 12px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url( svg-bg-uri($svg-calendar, $c_grey_txt) );
+            position: absolute;
+            top: 50%; left: 0;
+            transform: translateY(-50%);   
+        }
+        &:after{
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translate(-50%, 0%);
+            height: 1px;
+            width: 80%;
+            background-color: #f6f6f6;
+            @include RWD(tablet){
+                display: none;
+            }
+        }
+        & + .item-misc{
+            margin-top: 15px;
+        }
+        
+        .text{
+            margin-left: 30px;
+        }
+    }
+}
+

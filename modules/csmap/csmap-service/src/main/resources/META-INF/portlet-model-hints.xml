@@ -47,4 +47,15 @@
 			<hint name="max-length">200</hint>
 		</field>
 	</model>
+	<model name="eu.strasbourg.service.csmap.model.Thematic">
+		<field name="uuid" type="String" />
+		<field name="thematicId" type="long" />
+		<field name="name" type="String" />
+		<field name="favorite" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="topics" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+	</model>
 </model-hints>

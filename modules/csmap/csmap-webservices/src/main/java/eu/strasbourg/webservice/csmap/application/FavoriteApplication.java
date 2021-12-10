@@ -6,6 +6,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalService;
@@ -17,6 +18,7 @@ import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
 import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
 import eu.strasbourg.webservice.csmap.service.WSFavorite;
@@ -96,12 +98,15 @@ public class FavoriteApplication extends Application {
 
             for (Favorite favorite : favorites) {
                 if (lastUpdateTime.before(favorite.getCreateDate())) {
-                    if (!idsFavorite.contains(String.valueOf(favorite.getFavoriteId()))) {
-                        jsonAjout.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
+                    try {
+                        if (!idsFavorite.contains(String.valueOf(favorite.getFavoriteId())))
+                            jsonAjout.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
+                        else if (lastUpdateTime.before(favorite.getModifiedDate()))
+                            jsonModif.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
+                    } catch (NullPointerException e) {
+                        log.error(e);
                     }
                 }
-                else if (lastUpdateTime.before(favorite.getModifiedDate()))
-                    jsonModif.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
             }
 
             json.put(WSConstants.JSON_ADD, jsonAjout);
@@ -109,7 +114,7 @@ public class FavoriteApplication extends Application {
 
             // On récupère toutes les catégories qui ont été supprimées
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-            if (Validator.isNotNull(idsFavorite)) {
+            if (Validator.isNotNull(idsFavorite) && idsFavorite != "") {
                 for (String idFavorite : idsFavorite.split(",")) {
                     Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(Long.parseLong(idFavorite));
                     if (Validator.isNull(favorite)) {
@@ -125,6 +130,9 @@ public class FavoriteApplication extends Application {
         } catch (NoJWTInHeaderException e) {
             log.error(e.getMessage());
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         }  catch (Exception e){
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
@@ -154,38 +162,53 @@ public class FavoriteApplication extends Application {
                     String elementIdFavorite = jsonAdd.getString("elementId");
                     int orderFavorite = jsonAdd.getInt("order");
                     String contentFavorite = jsonAdd.getString("content");
-                    List<Favorite> favoriteExist;
-                    // Verifie si le favori n'existe pas déjà, s'il existe on l'update
-                    if(Validator.isNull(elementIdFavorite)){
-                        if(Validator.isNull(contentFavorite)){
-                            favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite,0,publikUser.getPublikId(),null);
-                        }else{
-                            favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite,0,publikUser.getPublikId(),contentFavorite);
+                    List<Favorite> favoriteExist = null;
+                    // Verifie si l'entite existe encore
+                    try {
+                        // Verifie si le favori n'existe pas déjà, s'il existe on l'update
+                        if(Validator.isNull(elementIdFavorite)){
+                            if(Validator.isNull(contentFavorite)){
+                                favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite,0,publikUser.getPublikId(),null);
+                            }else{
+                                favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite,0,publikUser.getPublikId(),contentFavorite);
+                            }
+                        }else {
+                            long elementIdForSearch;
+                            if (typeFavorite == FavoriteType.PLACE.getId()) {
+                                elementIdForSearch = PlaceLocalServiceUtil.getPlaceBySIGId(elementIdFavorite).getPlaceId();
+                            } else if(typeFavorite == FavoriteType.ARRET.getId()) {
+                                elementIdForSearch = ArretLocalServiceUtil.getByStopId(elementIdFavorite).getArretId();
+                            } else if(typeFavorite == FavoriteType.EVENT.getId()) {
+                                long entityId = Long.parseLong(elementIdFavorite);
+                                elementIdForSearch = EventLocalServiceUtil.fetchEvent(entityId).getEventId();
+                            } else {
+                                elementIdForSearch = Long.parseLong(elementIdFavorite);
+                            }
+                            if (Validator.isNull(contentFavorite)) {
+                                favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite, elementIdForSearch, publikUser.getPublikId(), null);
+                            } else {
+                                favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite, elementIdForSearch, publikUser.getPublikId(), contentFavorite);
+                            }
                         }
-                    }else {
-                        long elementIdForSearch;
-                        if (typeFavorite == FavoriteType.PLACE.getId()) {
-                            elementIdForSearch = PlaceLocalServiceUtil.getPlaceBySIGId(elementIdFavorite).getPlaceId();
-                        } else if(typeFavorite == FavoriteType.ARRET.getId()) {
-                            elementIdForSearch = ArretLocalServiceUtil.getByStopId(elementIdFavorite).getArretId();
-                        } else {
-                            elementIdForSearch = Long.parseLong(elementIdFavorite);
+                        if(Validator.isNull(favoriteExist) || favoriteExist.isEmpty()) {
+                            favorite = WSFavorite.createOrUpdateFavorite(null, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
+                        } else{
+                            favorite = WSFavorite.createOrUpdateFavorite(favoriteExist.get(0), titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
                         }
-                        if (Validator.isNull(contentFavorite)) {
-                            favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite, elementIdForSearch, publikUser.getPublikId(), null);
-                        } else {
-                            favoriteExist = favoriteLocalService.getByTypeIdAndEntityIdAndPublikUserIdAndContent(typeFavorite, elementIdForSearch, publikUser.getPublikId(), contentFavorite);
+                        JSONObject jsonResult = JSONFactoryUtil.createJSONObject();
+                        jsonResult.put("favoriteId", favorite.getFavoriteId());
+                        jsonResult.put("csmapId", csmapIdFavorite);
+                        json.put(jsonResult);
+                    } catch (NullPointerException e){
+                        if(Validator.isNotNull(favoriteExist) && !favoriteExist.isEmpty()) {
+                            for(Favorite fav : favoriteExist)
+                                favoriteLocalService.deleteFavorite(fav);
                         }
+                        JSONObject jsonResult = JSONFactoryUtil.createJSONObject();
+                        jsonResult.put("favoriteId", 0);
+                        jsonResult.put("csmapId", csmapIdFavorite);
+                        json.put(jsonResult);
                     }
-                    if(Validator.isNull(favoriteExist) || favoriteExist.isEmpty()) {
-                        favorite = WSFavorite.createOrUpdateFavorite(null, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
-                    } else{
-                        favorite = WSFavorite.createOrUpdateFavorite(favoriteExist.get(0), titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
-                    }
-                    JSONObject jsonResult = JSONFactoryUtil.createJSONObject();
-                    jsonResult.put("favoriteId", favorite.getFavoriteId());
-                    jsonResult.put("csmapId", csmapIdFavorite);
-                    json.put(jsonResult);
                 }
             }
             JSONArray jsonUpdates = jsonFavorites.getJSONArray("UPDATE");
@@ -201,16 +224,34 @@ public class FavoriteApplication extends Application {
                     String contentFavorite = jsonUpdate.getString("content");
                     Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(idFavorite);
                     boolean isNew = false;
-                    // Verifie si le favori existe, s'il n'existe pas on le recree
-                    if(Validator.isNull(favorite)){
-                        favorite = WSFavorite.createOrUpdateFavorite(null, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
-                        isNew =true;
-                    } else{
-                        favorite = WSFavorite.createOrUpdateFavorite(favorite, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
-                    }
-                    if(isNew){
+                    // Verifie si l'entite existe encore
+                    try {
+                        if (typeFavorite == FavoriteType.PLACE.getId()) {
+                            PlaceLocalServiceUtil.getPlaceBySIGId(elementIdFavorite).getPlaceId();
+                        } else if(typeFavorite == FavoriteType.ARRET.getId()) {
+                            ArretLocalServiceUtil.getByStopId(elementIdFavorite).getArretId();
+                        } else if(typeFavorite == FavoriteType.EVENT.getId()) {
+                            long entityId = Long.parseLong(elementIdFavorite);
+                            EventLocalServiceUtil.fetchEvent(entityId).getEventId();
+                        }
+                        // Verifie si le favori existe, s'il n'existe pas on le recree
+                        if(Validator.isNull(favorite)){
+                            favorite = WSFavorite.createOrUpdateFavorite(null, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
+                            isNew =true;
+                        } else{
+                            favorite = WSFavorite.createOrUpdateFavorite(favorite, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
+                        }
+                        if(isNew){
+                            JSONObject jsonResult = JSONFactoryUtil.createJSONObject();
+                            jsonResult.put("favoriteId", favorite.getFavoriteId());
+                            jsonResult.put("csmapId", csmapIdFavorite);
+                            json.put(jsonResult);
+                        }
+                    } catch (NullPointerException e){
+                        if(Validator.isNotNull(favorite))
+                            favoriteLocalService.deleteFavorite(favorite);
                         JSONObject jsonResult = JSONFactoryUtil.createJSONObject();
-                        jsonResult.put("favoriteId", favorite.getFavoriteId());
+                        jsonResult.put("favoriteId", 0);
                         jsonResult.put("csmapId", csmapIdFavorite);
                         json.put(jsonResult);
                     }
@@ -221,14 +262,20 @@ public class FavoriteApplication extends Application {
                 for (int j = 0; j < jsonDeletes.length(); j++) {
                     JSONObject jsonDelete = jsonDeletes.getJSONObject(j);
                     long idFavorite = jsonDelete.getLong("favoriteId");
-                    FavoriteLocalServiceUtil.deleteFavorite(idFavorite);
+                    Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(idFavorite);
+                    if (Validator.isNotNull(favorite)) {
+                        FavoriteLocalServiceUtil.deleteFavorite(idFavorite);
+                    }
                 }
             }
-            if(jsonAdds.length() == 0)
+            if(json.length() == 0)
                 return WSResponseUtil.buildOkResponse(json, 201);
         } catch (NoJWTInHeaderException e) {
             log.error(e.getMessage());
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         } catch (Exception e) {
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());

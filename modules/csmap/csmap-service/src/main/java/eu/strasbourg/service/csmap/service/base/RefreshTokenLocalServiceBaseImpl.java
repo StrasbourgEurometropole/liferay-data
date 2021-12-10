@@ -42,6 +42,7 @@ import eu.strasbourg.service.csmap.service.RefreshTokenLocalService;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
 import eu.strasbourg.service.csmap.service.persistence.PlaceCategoriesPersistence;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
+import eu.strasbourg.service.csmap.service.persistence.ThematicPersistence;
 
 import java.io.Serializable;
 
@@ -396,6 +397,9 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 
 	@Reference
 	protected RefreshTokenPersistence refreshTokenPersistence;
+
+	@Reference
+	protected ThematicPersistence thematicPersistence;
 
 	@Reference
 	protected com.liferay.counter.kernel.service.CounterLocalService

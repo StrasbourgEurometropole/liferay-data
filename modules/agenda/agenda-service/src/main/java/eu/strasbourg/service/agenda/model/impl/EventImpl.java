@@ -750,6 +750,7 @@ public class EventImpl extends EventBaseImpl {
 				dateTimeFormat.format(this.getModifiedDate()));
 
 		jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
+		jsonEvent.put("normalizedTitle", UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
 
 		if (Validator.isNotNull(this.getSubtitle())) {
 			jsonEvent.put("subtitle", JSONHelper.getJSONFromI18nMap(this.getSubtitleMap()));
@@ -886,7 +887,7 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("services", jsonServices);
 		}
 
-		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
+		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
 
 		List<String> mercators = this.getMercators();
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
@@ -1049,7 +1050,7 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("services", jsonServices);
 		}
 
-		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
+		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
 
 		List<String> mercators = this.getMercators();
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
@@ -1243,7 +1244,7 @@ public class EventImpl extends EventBaseImpl {
 			} else {
 				url = "https://" + virtualHostName + "/";
 			}
-			url += "evenement/-/entity/id/" + this.getEventId();
+			url += "evenement/-/entity/id/" + this.getEventId() + "/" + this.getNormalizedTitle(locale);
 			properties.put("url", url);
 		}
 		properties.put("sigId", this.getPlaceSIGId() + "_" + this.getEventId());
@@ -1395,7 +1396,7 @@ public class EventImpl extends EventBaseImpl {
 			Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
 			JSONObject placeName = JSONFactoryUtil.createJSONObject();
-			placeName.put("fr_FR", this.getTitle(Locale.FRANCE));
+			placeName.put("fr_FR", place.getAlias(Locale.FRANCE));
 			jsonPlace.put("name", placeName);
 			String street = place.getAddressStreet();
 			if(!street.isEmpty() || Validator.isNotNull(street)){
@@ -1475,7 +1476,7 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		Date now = new Date();
-		Date datePlusDays = Date.from(LocalDate.now().plusDays(60).atStartOfDay()
+		Date datePlusDays = Date.from(LocalDate.now().plusDays(120).atStartOfDay()
 				.atZone(ZoneId.systemDefault()).toInstant());
 		Map<List<Date>, Map<Locale, String>> periods = new HashMap<>();
 		for (EventPeriod period : this.getEventPeriods()) {
@@ -1518,15 +1519,14 @@ public class EventImpl extends EventBaseImpl {
 		}
 		jsonEvent.put("schedules", schedulesJSON);
 
-		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
-		if (jsonTypes.length() > 0) {
-			jsonEvent.put("types", jsonTypes);
-		}
-
 		JSONArray jsonThemes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThemes());
-		if (jsonThemes.length() > 0) {
-			jsonEvent.put("themes", jsonThemes);
-		}
+		jsonEvent.put("themes", jsonThemes);
+
+		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
+		jsonEvent.put("types", jsonTypes);
+
+		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritories());
+		jsonEvent.put("territoires", jsonTerritories);
 
 		List<String> mercators = this.getMercators();
 		if(mercators.size() == 2) {
@@ -1551,4 +1551,21 @@ public class EventImpl extends EventBaseImpl {
 
 		return jsonEvent;
 	}
+
+	/**
+	 * Renvoie le titre de l'event pour friendlyUrl
+	 */
+	@Override
+	public String getNormalizedTitle() {
+		return UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE));
+	}
+
+	/**
+	 * Renvoie le titre de l'event pour friendlyUrl
+	 */
+	@Override
+	public String getNormalizedTitle(Locale locale) {
+		return UriHelper.normalizeToFriendlyUrl(this.getTitle(locale));
+	}
+
 }
