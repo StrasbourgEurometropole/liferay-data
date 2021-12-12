@@ -10,5 +10,4 @@ dependencies {
 	compile project (':modules:agenda:agenda-api')
 	compile project (':modules:csmap:csmap-api')
 	compile project (':modules:utils')
-	compile project (':modules:csmap:csmap-bo:csmap-bo-panel-category')
 }
