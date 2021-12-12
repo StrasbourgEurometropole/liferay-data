@@ -64,6 +64,9 @@ public class AuthApplication extends Application {
     @GET
     @Produces("application/json")
     @Path("/authentication/{code}")
+    /**
+     * Utilisé pour RETROCOMPATIBILITE avec l'authentification sans NONCE
+     */
     public Response authentication(
             @PathParam("code") String code) {
         JSONObject jsonResponse =JSONFactoryUtil.createJSONObject();
@@ -71,6 +74,56 @@ public class AuthApplication extends Application {
         try {
 
             JSONObject authentikJSON = authenticator.sendTokenRequest(code);
+
+            if (Validator.isNull(authentikJSON))
+                throw new AuthenticationFailedException();
+
+            String authentikJWT = authentikJSON.getString(WSConstants.ID_TOKEN);
+            String accessToken = authentikJSON.getString(WSConstants.ACCESS_TOKEN);
+
+            boolean isJwtValid = JWTUtils.checkJWT(
+                    authentikJWT,
+                    StrasbourgPropsUtil.getCSMAPPublikClientSecret(),
+                    StrasbourgPropsUtil.getPublikIssuer());
+
+            if (!isJwtValid)
+                throw new InvalidJWTException();
+
+            String sub = JWTUtils.getJWTClaim(authentikJWT, WSConstants.SUB,
+                    StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+
+            authenticator.updateUserFromAuthentikInDatabase(authentikJWT, accessToken);
+
+            String csmapJWT = JWTUtils.createJWT(
+                    sub, WSConstants.JWT_VALIDITY_SECONDS,
+                    StrasbourgPropsUtil.getCSMAPInternalSecret());
+            RefreshToken refreshToken = authenticator.generateAndSaveRefreshTokenForUser(sub);
+
+            jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
+            jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, refreshToken.getValue());
+
+        } catch (InvalidJWTException | IOException | AuthenticationFailedException e) {
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        } catch (RefreshTokenCreationFailedException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
+
+        return WSResponseUtil.buildOkResponse(jsonResponse);
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("/authentication/{code}/{nonce}")
+    public Response authentication(
+            @PathParam("code") String code,
+            @PathParam("nonce") String nonce) {
+
+        JSONObject jsonResponse =JSONFactoryUtil.createJSONObject();
+
+        try {
+
+            JSONObject authentikJSON = authenticator.sendTokenRequest(code, nonce);
 
             if (Validator.isNull(authentikJSON))
                 throw new AuthenticationFailedException();

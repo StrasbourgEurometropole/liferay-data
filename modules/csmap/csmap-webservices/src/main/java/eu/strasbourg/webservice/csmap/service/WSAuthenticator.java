@@ -49,9 +49,17 @@ import java.util.Date;
 public class WSAuthenticator {
 
     /**
+     * RETROCOMPATIBILITE avec les appareils encore en simple code (Sans el NONCE)
      * Envoi de la requête vers l'IdP afin de récupérer un access token et l'id token
      */
     public JSONObject sendTokenRequest(String code) throws IOException {
+        return sendTokenRequest(code, null);
+    }
+
+    /**
+     * Envoi de la requête vers l'IdP afin de récupérer un access token et l'id token
+     */
+    public JSONObject sendTokenRequest(String code, String nonce) throws IOException {
         // Récupération des URL/URI configurables
         String authURL = StrasbourgPropsUtil.getPublikTokenURL();
         String redirectURI = WSConstants.REDIRECT_URI;
@@ -69,6 +77,9 @@ public class WSAuthenticator {
 
         // Paramètres
         String parameters = "grant_type=authorization_code&code=" + code + "&redirect_uri=" + redirectURI;
+        if(Validator.isNotNull(nonce)) {
+            parameters += "&nonce="+nonce;
+        }
         byte[] postData = parameters.getBytes(StandardCharsets.UTF_8);
         int postDataLength = postData.length;
         connection.setDoOutput(true);
