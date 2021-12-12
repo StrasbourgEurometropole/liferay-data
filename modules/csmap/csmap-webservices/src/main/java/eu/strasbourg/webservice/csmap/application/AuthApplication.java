@@ -28,10 +28,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -112,11 +109,11 @@ public class AuthApplication extends Application {
         return WSResponseUtil.buildOkResponse(jsonResponse);
     }
 
-    @GET
+    @POST
     @Produces("application/json")
-    @Path("/get-new-jwt/{refreshToken}")
+    @Path("/get-new-jwt")
     public Response getNewJWT(
-            @PathParam("refreshToken") String refreshTokenvalue) {
+            @FormParam("refreshToken") String refreshTokenvalue) {
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
 
         try {
@@ -162,11 +159,11 @@ public class AuthApplication extends Application {
         return WSResponseUtil.buildOkResponse(jsonResponse);
     }
 
-    @GET
+    @POST
     @Produces("application/json")
-    @Path("/logout/{refreshToken}")
+    @Path("/logout")
     public Response logout(
-            @PathParam("refreshToken") String refreshTokenvalue) {
+            @FormParam("refreshToken") String refreshTokenvalue) {
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         try {
             RefreshTokenLocalServiceUtil.removeRefreshToken(RefreshTokenLocalServiceUtil.fetchByValue(refreshTokenvalue).getRefreshTokenId());
