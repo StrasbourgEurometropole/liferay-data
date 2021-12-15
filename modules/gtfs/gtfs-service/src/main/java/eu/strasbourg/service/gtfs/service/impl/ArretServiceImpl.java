@@ -43,7 +43,7 @@ public class ArretServiceImpl extends ArretServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.gtfs.service.ArretServiceUtil} to access the arret remote service.
 	 */
-	
+
 	/**
 	 * Recuperer les donnees temps real de la CTS pour un arret
 	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
@@ -51,6 +51,15 @@ public class ArretServiceImpl extends ArretServiceBaseImpl {
 	@Override
 	public JSONArray getArretRealTime(String stopCode) {
 		return CTSService.stopMonitoring(stopCode);
+	}
+
+	/**
+	 * Recuperer les donnees temps real de la CTS pour un arret
+	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
+	 */
+	@Override
+	public JSONArray getArretRealTime(String stopCode, int timeOut) {
+		return CTSService.stopMonitoring(stopCode, timeOut);
 	}
 	
 }

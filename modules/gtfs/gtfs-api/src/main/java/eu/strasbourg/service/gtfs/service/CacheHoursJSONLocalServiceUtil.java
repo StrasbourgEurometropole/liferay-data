@@ -239,8 +239,8 @@ public class CacheHoursJSONLocalServiceUtil {
 	/**
 	 * Met à jour le jsonHour du stop
 	 */
-	public static String getJsonHour(String stopCode) {
-		return getService().getJsonHour(stopCode);
+	public static String getJsonHour(String stopCode, int timeOut) {
+		return getService().getJsonHour(stopCode, timeOut);
 	}
 
 	/**

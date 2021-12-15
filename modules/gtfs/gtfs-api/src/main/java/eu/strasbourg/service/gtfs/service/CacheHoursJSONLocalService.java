@@ -211,7 +211,7 @@ public interface CacheHoursJSONLocalService
 	 * Met à jour le jsonHour du stop
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public String getJsonHour(String stopCode);
+	public String getJsonHour(String stopCode, int timeOut);
 
 	/**
 	 * Returns the OSGi service identifier.

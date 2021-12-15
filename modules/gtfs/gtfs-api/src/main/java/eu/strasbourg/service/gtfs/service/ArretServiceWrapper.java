@@ -46,6 +46,18 @@ public class ArretServiceWrapper
 	}
 
 	/**
+	 * Recuperer les donnees temps real de la CTS pour un arret
+	 *
+	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getArretRealTime(
+		String stopCode, int timeOut) {
+
+		return _arretService.getArretRealTime(stopCode, timeOut);
+	}
+
+	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier

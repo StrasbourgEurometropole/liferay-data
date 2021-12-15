@@ -73,7 +73,7 @@ public class AuthApplication extends Application {
 
         try {
 
-            JSONObject authentikJSON = authenticator.sendTokenRequest(code);
+            JSONObject authentikJSON = authenticator.sendTokenRequest(code, WSConstants.TIMEOUT);
 
             if (Validator.isNull(authentikJSON))
                 throw new AuthenticationFailedException();

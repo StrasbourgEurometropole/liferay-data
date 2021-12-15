@@ -5,6 +5,8 @@ import com.liferay.portal.kernel.json.JSONObject;
 
 public interface OpenDataGeoDistrictService {
     public AssetCategory getDistrictByAddress(String address, String zipCode, String city) throws Exception;
+    public AssetCategory getDistrictByAddress(String address, String zipCode, String city, int timeOut) throws Exception;
     public JSONObject getCoordinatesForSigId(String sigID) throws Exception;
     public String getSigIdForCoordinates(String x, String y) throws Exception;
+    public String getSigIdForCoordinates(String x, String y, int timeOut) throws Exception;
 }

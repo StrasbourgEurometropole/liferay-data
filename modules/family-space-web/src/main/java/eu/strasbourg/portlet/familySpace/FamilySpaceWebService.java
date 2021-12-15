@@ -13,6 +13,10 @@ import java.util.Map;
 public class FamilySpaceWebService {
 
 	public static FamilySpaceResponse getResponse(String publikInternalId) {
+		return getResponse(publikInternalId, StrasbourgPropsUtil.getWebServiceDefaultTimeout()) ;
+	}
+
+	public static FamilySpaceResponse getResponse(String publikInternalId, int timeOut) {
 
 		Map<String, Object> params = new LinkedHashMap<String, Object>();
 		FamilySpaceResponse familySpaceResponse = null;
@@ -21,10 +25,10 @@ public class FamilySpaceWebService {
 			String url = StrasbourgPropsUtil.getFamilySpaceWebServiceURL() + publikInternalId;
 			// url = "https://webservices.strasbourg.eu/wdmiam/InfosFamilles.svc/IdentifiantOpenId/";
 			// url +=  "00e112a761d24a1ca57798e8867c97bc";
-			HttpURLConnection httpConn = PasserelleHelper.readFromURL(url);
+			HttpURLConnection httpConn = PasserelleHelper.readFromURL(url, timeOut);
 			//if(httpConn.getContentType().contains("application/json")) {
-				JSONObject jsonResponse = PasserelleHelper.readJson(httpConn);
-				familySpaceResponse = new FamilySpaceResponse(jsonResponse);
+			JSONObject jsonResponse = PasserelleHelper.readJson(httpConn);
+			familySpaceResponse = new FamilySpaceResponse(jsonResponse);
 			//}
 		} catch (IOException | JSONException ex) {
 			ex.printStackTrace();

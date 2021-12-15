@@ -53,19 +53,36 @@ public class WSAuthenticator {
      * Envoi de la requête vers l'IdP afin de récupérer un access token et l'id token
      */
     public JSONObject sendTokenRequest(String code) throws IOException {
-        return sendTokenRequest(code, null);
+        return sendTokenRequest(code, null, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+    }
+
+    /**
+     * RETROCOMPATIBILITE avec les appareils encore en simple code (Sans el NONCE)
+     * Envoi de la requête vers l'IdP afin de récupérer un access token et l'id token
+     */
+    public JSONObject sendTokenRequest(String code, int timeOut) throws IOException {
+        return sendTokenRequest(code, null, timeOut);
     }
 
     /**
      * Envoi de la requête vers l'IdP afin de récupérer un access token et l'id token
      */
     public JSONObject sendTokenRequest(String code, String nonce) throws IOException {
+        return sendTokenRequest(code, nonce, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+    }
+
+    /**
+     * Envoi de la requête vers l'IdP afin de récupérer un access token et l'id token
+     */
+    public JSONObject sendTokenRequest(String code, String nonce, int timeOut) throws IOException {
         // Récupération des URL/URI configurables
         String authURL = StrasbourgPropsUtil.getPublikTokenURL();
         String redirectURI = WSConstants.REDIRECT_URI;
 
         // Initialisation de la requête
         HttpURLConnection connection = (HttpURLConnection) new URL(authURL).openConnection();
+        connection.setConnectTimeout(timeOut);
+        connection.setReadTimeout(timeOut);
         connection.setRequestMethod("POST");
 
         // Authentification
