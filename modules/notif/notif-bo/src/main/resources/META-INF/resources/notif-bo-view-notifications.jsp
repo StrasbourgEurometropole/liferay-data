@@ -71,6 +71,14 @@
 				className="eu.strasbourg.service.notif.model.Notification"
 				modelVar="notification" keyProperty="notificationId" rowIdProperty="notificationId">
 
+                <!-- ACTION : Modifier/Voir -->
+                <liferay-portlet:renderURL varImpl="editNotificationURL">
+                    <portlet:param name="cmd" value="editNotification" />
+                    <portlet:param name="notificationId" value="${notification.notificationId}" />
+                    <portlet:param name="returnURL" value="${notificationsURL}" />
+                    <portlet:param name="mvcPath" value="/notif-bo-edit-notification.jsp" />
+                </liferay-portlet:renderURL>
+
                 <!-- Colonne : nom du service -->
                 <c:if test="${isAdminNotification || dc.hasMultipleServices()}">
                     <liferay-ui:search-container-column-text
@@ -91,7 +99,7 @@
 					value="${dc.getNature(notification.natureId)}" />
 
                 <!-- Colonne : titre -->
-				<liferay-ui:search-container-column-text cssClass="content-column"
+				<liferay-ui:search-container-column-text cssClass="content-column" href="${editNotificationURL}"
 					name="eu.strasbourg.notif.notification.title" truncate="true"
 					value="${notification.getTitle(locale)}" />
 
@@ -122,12 +130,6 @@
 					<liferay-ui:icon-menu markupView="lexicon">
 
 						<!-- ACTION : Modifier/Voir -->
-                        <liferay-portlet:renderURL varImpl="editNotificationURL">
-                            <portlet:param name="cmd" value="editNotification" />
-                            <portlet:param name="notificationId" value="${notification.notificationId}" />
-                            <portlet:param name="returnURL" value="${notificationsURL}" />
-                            <portlet:param name="mvcPath" value="/notif-bo-edit-notification.jsp" />
-                        </liferay-portlet:renderURL>
 						<c:if test="${dc.hasPermission('EDIT_NOTIFICATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
                             <c:if test="${dc.canUpdateOrDeleteNotification(notification.userId)}">
                                 <liferay-ui:icon message="edit" url="${editNotificationURL}" />
