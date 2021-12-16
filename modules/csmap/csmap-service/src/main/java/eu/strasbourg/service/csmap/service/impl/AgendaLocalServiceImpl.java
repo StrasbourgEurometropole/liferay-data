@@ -17,7 +17,6 @@ package eu.strasbourg.service.csmap.service.impl;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import eu.strasbourg.service.csmap.model.Agenda;
-import eu.strasbourg.service.csmap.service.CacheAgendaJsonLocalServiceUtil;
 import eu.strasbourg.service.csmap.service.base.AgendaLocalServiceBaseImpl;
 import org.osgi.service.component.annotations.Component;
 
@@ -61,9 +60,6 @@ public class AgendaLocalServiceImpl extends AgendaLocalServiceBaseImpl {
 	public Agenda updateAgenda(Agenda agenda){
 		this.agendaPersistence.update(agenda);
 
-		//Mise à jour pour CSMap
-		CacheAgendaJsonLocalServiceUtil.updateCacheAgendaJson();
-
 		return agenda;
 	}
 	/**
@@ -76,9 +72,6 @@ public class AgendaLocalServiceImpl extends AgendaLocalServiceBaseImpl {
 	@Override
 	public Agenda deleteAgenda(long agendaId) throws PortalException {
 		Agenda agenda = this.agendaPersistence.remove(agendaId);
-
-		//Mise à jour pour CSMap
-		CacheAgendaJsonLocalServiceUtil.updateCacheAgendaJson();
 
 		return agenda;
 	}

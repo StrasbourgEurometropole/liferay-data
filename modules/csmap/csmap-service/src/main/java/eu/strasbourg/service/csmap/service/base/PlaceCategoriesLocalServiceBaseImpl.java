@@ -36,19 +36,23 @@ import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
+
 import eu.strasbourg.service.csmap.model.PlaceCategories;
 import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalService;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
-import eu.strasbourg.service.csmap.service.persistence.CacheAgendaJsonPersistence;
+import eu.strasbourg.service.csmap.service.persistence.CsmapCachePersistence;
 import eu.strasbourg.service.csmap.service.persistence.PlaceCategoriesPersistence;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
 import eu.strasbourg.service.csmap.service.persistence.ThematicPersistence;
-import org.osgi.annotation.versioning.ProviderType;
-import org.osgi.service.component.annotations.Reference;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 import javax.sql.DataSource;
-import java.io.Serializable;
-import java.util.List;
+
+import org.osgi.annotation.versioning.ProviderType;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * Provides the base implementation for the place categories local service.
@@ -393,7 +397,7 @@ public abstract class PlaceCategoriesLocalServiceBaseImpl
 	protected AgendaPersistence agendaPersistence;
 
 	@Reference
-	protected CacheAgendaJsonPersistence cacheAgendaJsonPersistence;
+	protected CsmapCachePersistence csmapCachePersistence;
 
 	protected PlaceCategoriesLocalService placeCategoriesLocalService;
 

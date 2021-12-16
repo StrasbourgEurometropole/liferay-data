@@ -17,23 +17,23 @@ package eu.strasbourg.service.csmap.model.impl;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
- * The extended model implementation for the CacheAgendaJson service. Represents a row in the &quot;csmap_CacheAgendaJson&quot; database table, with each column mapped to a property of this class.
+ * The extended model implementation for the CsmapCache service. Represents a row in the &quot;csmap_CsmapCache&quot; database table, with each column mapped to a property of this class.
  *
  * <p>
- * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>eu.strasbourg.service.csmap.model.CacheAgendaJson<code> interface.
+ * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>eu.strasbourg.service.csmap.model.CsmapCache<code> interface.
  * </p>
  *
  * @author Brian Wing Shun Chan
  */
 @ProviderType
-public class CacheAgendaJsonImpl extends CacheAgendaJsonBaseImpl {
+public class CsmapCacheImpl extends CsmapCacheBaseImpl {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. All methods that expect a cache agenda json model instance should use the {@link eu.strasbourg.service.csmap.model.CacheAgendaJson} interface instead.
+	 * Never reference this class directly. All methods that expect a csmap cache model instance should use the {@link eu.strasbourg.service.csmap.model.CsmapCache} interface instead.
 	 */
-	public CacheAgendaJsonImpl() {
+	public CsmapCacheImpl() {
 	}
 
 }

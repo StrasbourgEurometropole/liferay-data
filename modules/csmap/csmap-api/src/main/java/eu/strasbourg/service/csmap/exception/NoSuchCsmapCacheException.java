@@ -21,20 +21,20 @@ import com.liferay.portal.kernel.exception.NoSuchModelException;
  * @author Brian Wing Shun Chan
  */
 @ProviderType
-public class NoSuchCacheAgendaJsonException extends NoSuchModelException {
+public class NoSuchCsmapCacheException extends NoSuchModelException {
 
-	public NoSuchCacheAgendaJsonException() {
+	public NoSuchCsmapCacheException() {
 	}
 
-	public NoSuchCacheAgendaJsonException(String msg) {
+	public NoSuchCsmapCacheException(String msg) {
 		super(msg);
 	}
 
-	public NoSuchCacheAgendaJsonException(String msg, Throwable cause) {
+	public NoSuchCsmapCacheException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
 
-	public NoSuchCacheAgendaJsonException(Throwable cause) {
+	public NoSuchCsmapCacheException(Throwable cause) {
 		super(cause);
 	}
 

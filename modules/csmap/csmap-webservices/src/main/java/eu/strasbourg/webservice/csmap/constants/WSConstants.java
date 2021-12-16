@@ -112,8 +112,11 @@ public class WSConstants {
     public static final String JSON_SETTINGS_REPORTURL = "reportUrl";
     public static final String JSON_SETTINGS_CODE = "code";
     public static final String JSON_SETTINGS_ISACTIVE = "isActive";
+    public static final String TOPIC_ALERTE = "alerte";
     // Agenda
     public static final String JSON_AGENDA_PRINCIPAL = "principal";
+    public static final String JSON_AGENDA_THEMATIQUE = "thematique";
+    public static final String JSON_IDS = "ids";
 
 
     /** Config */
@@ -136,6 +139,7 @@ public class WSConstants {
     public static final String FOLDER_EMERGENCY_HELPS = "Aides urgence";
     public static final String FOLDER_SOCIAL_NETWORK = "R\u00e9seaux sociaux";
     public static final String GENERAL_CONDITIONS = "Mentions l\u00e9gales";
+    public static final String ACCESSIBILITY = "Accessibilit\u00e9";
 
     // Settings
     public static final String FOLDER_PARAMETRAGE = "Param\u00e9trage";

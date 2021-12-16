@@ -13,9 +13,14 @@ create table csmap_Agenda (
 	tags STRING null
 );
 
-create table csmap_CacheAgendaJson (
+create table csmap_CsmapCache (
 	cacheId LONG not null primary key,
-	json TEXT null
+	codeCache LONG,
+	description VARCHAR(75) null,
+	cacheJson VARCHAR(75) null,
+	isLastProcessSuccess BOOLEAN,
+	modifiedDate DATE null,
+	processedDate DATE null
 );
 
 create table csmap_PlaceCategories (
