@@ -325,7 +325,7 @@ public class PlaceApplication extends Application {
             Group group = CompanyLocalServiceUtil.getCompany(PortalUtil.getDefaultCompanyId()).getGroup();
             Group csmapGroup = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_CSMAP);
             long csmapGroupId = csmapGroup.getGroupId();
-            JournalFolder placesFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId, WSConstants.FOLDER_LIEUX);
+            JournalFolder placesFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId, WSConstants.FOLDER_POI_SIMPLE);
             long placesFolderId = placesFolder.getFolderId();
             DDMStructure structure = WSCSMapUtil.getStructureByGroupAndName(group.getGroupId(), WSConstants.STRUCTURE_POI_SIMPLE);
             ;

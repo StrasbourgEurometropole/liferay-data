@@ -124,7 +124,7 @@ public class WSConstants {
     public static final String GROUP_KEY_CSMAP = "CSMAP";
 
     // Place
-    public static final String FOLDER_LIEUX = "Lieux";
+    public static final String FOLDER_POI_SIMPLE = "POI simple";
     public static final String STRUCTURE_POI_SIMPLE = "POI simple";
 
     // Various-Data
