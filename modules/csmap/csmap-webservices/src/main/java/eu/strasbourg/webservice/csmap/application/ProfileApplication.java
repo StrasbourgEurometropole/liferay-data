@@ -80,7 +80,7 @@ public class ProfileApplication extends Application {
                 else
                     return WSResponseUtil.buildErrorResponse(500, "first-name introuvable");
 
-                if (Validator.isNotNull(jsonPublikUser.getString("last_name")))
+                if (Validator.isNotNull(jsonPublikUser.getString("email")))
                     jsonResponse.put(WSConstants.JSON_EMAIL, jsonPublikUser.getString("email"));
                 else
                     return WSResponseUtil.buildErrorResponse(500, "email introuvable");
