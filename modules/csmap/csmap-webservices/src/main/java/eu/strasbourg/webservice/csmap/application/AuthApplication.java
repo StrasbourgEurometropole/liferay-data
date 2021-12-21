@@ -5,7 +5,9 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.csmap.exception.NoSuchBaseNonceException;
 import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
+import eu.strasbourg.service.csmap.model.BaseNonce;
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.service.RefreshTokenLocalServiceUtil;
 import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
@@ -20,6 +22,10 @@ import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
 import eu.strasbourg.webservice.csmap.exception.NoSubInJWTException;
 import eu.strasbourg.webservice.csmap.exception.auth.AuthenticationFailedException;
 import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
+import eu.strasbourg.webservice.csmap.exception.auth.BaseNonceCreationFailedException;
+import eu.strasbourg.webservice.csmap.exception.auth.BaseNonceExpiredException;
+import eu.strasbourg.webservice.csmap.exception.auth.InvalidNonceException;
+import eu.strasbourg.webservice.csmap.exception.auth.NoCodeVerifierException;
 import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenExpiredException;
 import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenCreationFailedException;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
@@ -60,6 +66,27 @@ public class AuthApplication extends Application {
     }
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
+
+    @GET
+    @Produces("application/json")
+    @Path("/get-base-nonce}")
+    /**
+     * Créer un NONCE en BDD
+     */
+    public Response getBaseNonce() {
+        JSONObject jsonResponse =JSONFactoryUtil.createJSONObject();
+        try {
+
+            BaseNonce baseNonce = authenticator.generateAndSaveBaseNonce();
+            jsonResponse.put(WSConstants.JSON_BASE_NONCE, baseNonce.getValue());
+
+        } catch (BaseNonceCreationFailedException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
+
+        return WSResponseUtil.buildOkResponse(jsonResponse);
+    }
 
     @GET
     @Produces("application/json")
@@ -114,16 +141,20 @@ public class AuthApplication extends Application {
 
     @GET
     @Produces("application/json")
-    @Path("/authentication/{code}/{nonce}")
+    @Path("/authentication/{code}/{baseNonce}/{codeVerifier}")
     public Response authentication(
             @PathParam("code") String code,
-            @PathParam("nonce") String nonce) {
+            @PathParam("baseNonce") String baseNonce,
+            @PathParam("codeVerifier") String codeVerifier) {
 
         JSONObject jsonResponse =JSONFactoryUtil.createJSONObject();
 
         try {
+            if(Validator.isNull(codeVerifier))
+                throw new NoCodeVerifierException();
+            BaseNonce validBaseNonce = authenticator.controlBaseNonce(baseNonce);
 
-            JSONObject authentikJSON = authenticator.sendTokenRequest(code, nonce);
+            JSONObject authentikJSON = authenticator.sendTokenRequest(code);
 
             if (Validator.isNull(authentikJSON))
                 throw new AuthenticationFailedException();
@@ -139,6 +170,14 @@ public class AuthApplication extends Application {
             if (!isJwtValid)
                 throw new InvalidJWTException();
 
+            boolean isNonceValid = authenticator.checkNonce(
+                    authentikJWT,
+                    baseNonce,
+                    codeVerifier);
+
+            if (!isNonceValid)
+                throw new InvalidNonceException();
+
             String sub = JWTUtils.getJWTClaim(authentikJWT, WSConstants.SUB,
                     StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
 
@@ -152,7 +191,7 @@ public class AuthApplication extends Application {
             jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
             jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, refreshToken.getValue());
 
-        } catch (InvalidJWTException | IOException | AuthenticationFailedException e) {
+        } catch (InvalidJWTException | IOException | AuthenticationFailedException | BaseNonceExpiredException | NoSuchBaseNonceException | NoCodeVerifierException | InvalidNonceException e) {
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         } catch (RefreshTokenCreationFailedException e) {
             log.error(e);

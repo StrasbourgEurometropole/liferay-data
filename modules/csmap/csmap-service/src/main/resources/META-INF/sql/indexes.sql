@@ -1,6 +1,8 @@
 create index IX_11EF1D93 on csmap_Agenda (isPrincipal, isActive);
 create index IX_89D4E52F on csmap_Agenda (uuid_[$COLUMN_LENGTH:75$]);
 
+create index IX_D68E97D0 on csmap_BaseNonce (value[$COLUMN_LENGTH:75$]);
+
 create index IX_24001F16 on csmap_PlaceCategories (categoriesIds[$COLUMN_LENGTH:4000$]);
 create index IX_C04F161E on csmap_PlaceCategories (uuid_[$COLUMN_LENGTH:75$]);
 
