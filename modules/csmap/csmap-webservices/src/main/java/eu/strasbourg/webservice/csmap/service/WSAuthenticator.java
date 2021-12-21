@@ -179,7 +179,7 @@ public class WSAuthenticator {
         BaseNonce baseNonce = baseNonceLocalService.fetchByValue(baseNonceValue);
 
         if (Validator.isNull(baseNonce))
-            throw new NoSuchBaseNonceException(baseNonceValue);
+            throw new NoSuchBaseNonceException(WSConstants.ERROR_NO_SUCH_BASE_NONCE +" : " +  baseNonceValue);
 
         if (!WSTokenUtil.isBaseNonceDateValid(baseNonce.getCreateDate(),
                 WSConstants.BASE_NONCE_VALIDITY_SECONDS)) {
@@ -209,6 +209,14 @@ public class WSAuthenticator {
         }
 
         return result;
+    }
+
+    /**
+     * Suppression du base Nonce
+     * @param baseNonce base nonce à supprimer
+     */
+    public void deleteBaseNonce(BaseNonce baseNonce) {
+        baseNonceLocalService.deleteBaseNonce(baseNonce);
     }
 
     /**

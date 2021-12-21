@@ -163,6 +163,7 @@ public class WSConstants {
     public static final String ERROR_REFREH_TOKEN_CREATION = "An error occurs during refresh token creation";
     public static final String ERROR_BASE_NONCE_CREATION = "An error occurs during refresh token creation";
     public static final String ERROR_BASE_NONCE_EXPIRED = "Base Nonce is no longer valid";
+    public static final String ERROR_NO_SUCH_BASE_NONCE = "No such Base Nonce in database";
     public static final String ERROR_NO_CODE_VERIFIER = "No code verifier in parameter";
     public static final String ERROR_INVALID_NONCE = "Invalid nonce received during authentication";
     // Place

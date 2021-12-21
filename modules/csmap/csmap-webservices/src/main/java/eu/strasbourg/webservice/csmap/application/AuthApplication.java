@@ -69,7 +69,7 @@ public class AuthApplication extends Application {
 
     @GET
     @Produces("application/json")
-    @Path("/get-base-nonce}")
+    @Path("/get-base-nonce")
     /**
      * Créer un NONCE en BDD
      */
@@ -190,6 +190,9 @@ public class AuthApplication extends Application {
 
             jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
             jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, refreshToken.getValue());
+
+            // On supprime maintenant le Base Nonce en BDD pusiqu'il n'est utilisable qu'une seule fois
+            authenticator.deleteBaseNonce(validBaseNonce);
 
         } catch (InvalidJWTException | IOException | AuthenticationFailedException | BaseNonceExpiredException | NoSuchBaseNonceException | NoCodeVerifierException | InvalidNonceException e) {
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
