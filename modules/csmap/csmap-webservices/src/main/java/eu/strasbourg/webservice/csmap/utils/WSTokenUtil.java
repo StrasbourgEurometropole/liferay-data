@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -55,4 +58,30 @@ public class WSTokenUtil {
         return result;
     }
 
+    public static boolean isBaseNonceDateValid(Date date, int validitySecond) {
+        boolean result = false;
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.SECOND, validitySecond);
+
+        Date tokenDatePlusValiditySeconds = c.getTime();
+        Date now = new Date();
+
+        if (now.compareTo(tokenDatePlusValiditySeconds) < 0)
+            result = true;
+
+        return result;
+    }
+
+    public static String hashCodeVerifier(String codeVerifier) throws NoSuchAlgorithmException {
+        String codeChallenge = null;
+
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hash256 = digest.digest(codeVerifier.getBytes(StandardCharsets.UTF_8));
+
+        codeChallenge = Base64.getEncoder().encodeToString(hash256);
+
+        return codeChallenge;
+    }
 }
