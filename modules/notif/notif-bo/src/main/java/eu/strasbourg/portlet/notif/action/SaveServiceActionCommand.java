@@ -207,6 +207,11 @@ public class SaveServiceActionCommand implements MVCActionCommand {
                 isValid = false;
                 break;
             }
+            if (ParamUtil.getString(request, "content" + index).length() > 1000) {
+                SessionErrors.add(request, "eu.strasbourg.service.messages-length-error.back");
+                isValid = false;
+                break;
+            }
         }
 
         return isValid;

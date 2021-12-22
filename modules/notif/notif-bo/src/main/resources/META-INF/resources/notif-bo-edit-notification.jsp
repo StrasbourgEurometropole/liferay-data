@@ -16,12 +16,17 @@
 	<liferay-ui:error key="nature-error" message="eu.strasbourg.notification.nature-error" />
 	<liferay-ui:error key="broadcast-date-error" message="eu.strasbourg.notification.broadcast-error" />
 	<liferay-ui:error key="title-error" message="eu.strasbourg.notification.title-error" />
+	<liferay-ui:error key="title-length-error" message="eu.strasbourg.notification.title-length-error" />
+	<liferay-ui:error key="subtitle-length-error" message="eu.strasbourg.notification.subtitle-length-error" />
 	<liferay-ui:error key="start-date-error" message="eu.strasbourg.notification.start-date-error" />
 	<liferay-ui:error key="dates-error" message="eu.strasbourg.notification.dates-error" />
 	<liferay-ui:error key="content-error" message="eu.strasbourg.notification.content-error" />
+	<liferay-ui:error key="content-length-error" message="eu.strasbourg.service.messages-length-error.back" />
 	<liferay-ui:error key="broadcast-type-error" message="eu.strasbourg.notification.broadcast-type-error" />
     <liferay-ui:error key="district-error" message="eu.strasbourg.notification.district-error" />
     <liferay-ui:error key="broadcast-channels-error" message="eu.strasbourg.notification.broadcast-channels-error" />
+	<liferay-ui:error key="url-length-error" message="eu.strasbourg.notification.url-length-error" />
+	<liferay-ui:error key="labelUrl-length-error" message="eu.strasbourg.notification.labelUrl-length-error" />
 
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
@@ -88,10 +93,13 @@
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="eu.strasbourg.notif.notification">
 
                 <%-- Champ : Titre --%>
-                <aui:input name="title" label="eu.strasbourg.notif.title" localized="true" required="true" type="text" disabled="${dc.isOnlyView()}" />
-
+                <aui:input name="title" label="eu.strasbourg.notif.title" localized="true" required="true" type="text" disabled="${dc.isOnlyView()}" >
+                    <aui:validator name="maxLength">150</aui:validator>
+                </aui:input>
                 <%-- Champ : Sous-Titre --%>
-                <aui:input name="subtitle" label="eu.strasbourg.notif.subtitle" required="false" localized="true" type="textarea" disabled="${dc.isOnlyView()}" />
+                <aui:input name="subtitle" label="eu.strasbourg.notif.subtitle" required="false" localized="true" type="textarea" disabled="${dc.isOnlyView()}" >
+                    <aui:validator name="maxLength">100</aui:validator>
+                </aui:input>
 
                 <%-- Champ : Date de début --%>
                 <aui:input name="startDate" label="eu.strasbourg.notif.notification.start-date" required="true" disabled="${dc.isOnlyView()}" />
@@ -128,13 +136,19 @@
                 </aui:select>
 
                 <%-- Champ : Contenu --%>
-                <aui:input name="content" label="eu.strasbourg.notif.content" required="true" localized="true" type="textarea" disabled="${dc.isOnlyView()}" />
+                <aui:input name="content" label="eu.strasbourg.notif.content" required="true" localized="true" type="textarea" disabled="${dc.isOnlyView()}" >
+                    <aui:validator name="maxLength">1000</aui:validator>
+                </aui:input>
 
                 <%-- Champ : Label de l'URL --%>
-                <aui:input name="labelUrl" label="eu.strasbourg.notif.label-url" localized="true" required="false" type="text" disabled="${dc.isOnlyView()}" />
+                <aui:input name="labelUrl" label="eu.strasbourg.notif.label-url" localized="true" required="false" type="text" disabled="${dc.isOnlyView()}" >
+                    <aui:validator name="maxLength">100</aui:validator>
+                </aui:input>
 
                 <%-- Champ : URL --%>
-                <aui:input name="url" label="eu.strasbourg.notif.url" localized="true" required="false" type="text" disabled="${dc.isOnlyView()}" />
+                <aui:input name="url" label="eu.strasbourg.notif.url" localized="true" required="false" type="text" disabled="${dc.isOnlyView()}" >
+                    <aui:validator name="maxLength">450</aui:validator>
+                </aui:input>
 
                 <div class="incorrect-labelUrl-url" style="display: none">
                     <liferay-ui:message key="eu.strasbourg.notification.labelUrl-url-error" />

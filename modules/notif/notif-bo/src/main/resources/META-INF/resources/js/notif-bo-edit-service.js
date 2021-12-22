@@ -52,9 +52,21 @@ function submitForm(event) {
                         content.scrollIntoView();
                         allValidate = false;
                     }
-                }else{
+                }if(content.value.length > 1000){
+                     // on affiche le message d'erreur
+                     messageField.getElementsByClassName('length-error')[0].style.display = "block";
+                     // on affiche l'input en erreur
+                     content.closest(".form-group").classList.add('has-error');
+                     if(allValidate){
+                         // on scroll sur l'erreur
+                         content.scrollIntoView();
+                         allValidate = false;
+                     }
+                }
+                else{
                     // on masque le message d'erreur
                     messageField.getElementsByClassName('help-block')[0].style.display = "none";
+                    messageField.getElementsByClassName('length-error')[0].style.display = "none";
                 }
             }
         });
