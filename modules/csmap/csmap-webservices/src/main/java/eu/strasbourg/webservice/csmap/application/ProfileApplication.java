@@ -1,16 +1,11 @@
 package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.counter.kernel.service.CounterLocalService;
-import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
-import eu.strasbourg.service.csmap.model.CsmapCache;
-import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
 import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.opendata.geo.district.OpenDataGeoDistrictService;
@@ -36,10 +31,8 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Collections;
+import java.util.Set;
 
 /**
  * @author angelique.champougny
@@ -63,60 +56,51 @@ public class ProfileApplication extends Application {
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
-    private final String stringJson = "json";
-    private final String stringResponse = "response";
-
     @GET
     @Produces("application/json")
     @Path("get-profile")
     public Response getProfile(
             @Context HttpHeaders httpHeaders) {
-        Response response;
+        JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+
         try {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
 
             // On récupère le user
             JSONObject jsonPublikUser = PublikApiClient.getUserDetails(publikUser.getPublikId());
-            long codeCache = CodeCacheEnum.PROFILE.getId();
-            CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(codeCache);
 
             if (Validator.isNotNull(publikUser)) {
-                if (Validator.isNotNull(jsonPublikUser.getString("modified"))) {
-                    String str = jsonPublikUser.getString("modified");
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX");
-                    LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
-                    Date date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
-                    Map<String, Object> map = profileCSMapJSON(jsonPublikUser);
-                    if (Validator.isNotNull(cache)) {
-                        if (!cache.getModifiedDate().equals(date)) {
-                            cache.setCacheJson((String) map.get(stringJson));
-                            cache.setModifiedDate(date);
-                            cache.setProcessedDate(date);
-                            cache.setIsLastProcessSuccess(true);
-                            response = (Response) profileCSMapJSON(jsonPublikUser).get(stringResponse);
-                            csmapCacheLocalService.updateCsmapCache(cache);
-                        } else {
-                            response = WSResponseUtil.buildOkResponse(JSONFactoryUtil.createJSONObject(cache.getCacheJson()));
-                            cache.setProcessedDate(date);
-                            cache.setIsLastProcessSuccess(true);
-                            csmapCacheLocalService.updateCsmapCache(cache);
-                        }
-                    } else {
-                        long id = counterLocalService.increment();
-                        cache = csmapCacheLocalService.createCsmapCache(id);
-                        cache.setCodeCache(codeCache);
-                        cache.setCacheJson((String) map.get(stringJson));
-                        cache.setModifiedDate(date);
-                        cache.setProcessedDate(date);
-                        cache.setIsLastProcessSuccess(true);
-                        response = (Response) profileCSMapJSON(jsonPublikUser).get(stringResponse);
-                        csmapCacheLocalService.updateCsmapCache(cache);
-                    }
-                } else {
-                    response = (Response) profileCSMapJSON(jsonPublikUser).get(stringResponse);
-                }
-            } else {
-                response = WSResponseUtil.buildErrorResponse(500, "No publikUser");
+                if (Validator.isNotNull(jsonPublikUser.getString("last_name")))
+                    jsonResponse.put(WSConstants.JSON_LAST_NAME, jsonPublikUser.getString("last_name"));
+                else
+                    return WSResponseUtil.buildErrorResponse(500, "last-name introuvable");
+
+                if (Validator.isNotNull(jsonPublikUser.getString("first_name")))
+                    jsonResponse.put(WSConstants.JSON_FIRST_NAME, jsonPublikUser.getString("first_name"));
+                else
+                    return WSResponseUtil.buildErrorResponse(500, "first-name introuvable");
+
+                if (Validator.isNotNull(jsonPublikUser.getString("last_name")))
+                    jsonResponse.put(WSConstants.JSON_EMAIL, jsonPublikUser.getString("email"));
+                else
+                    return WSResponseUtil.buildErrorResponse(500, "email introuvable");
+
+                if (Validator.isNotNull(jsonPublikUser.getString("address")))
+                    jsonResponse.put(WSConstants.JSON_ADDRESS, jsonPublikUser.getString("address"));
+
+                if (Validator.isNotNull(jsonPublikUser.getString("zipcode")))
+                    jsonResponse.put(WSConstants.JSON_POSTAL_CODE, jsonPublikUser.getString("zipcode"));
+
+                if (Validator.isNotNull(jsonPublikUser.getString("city")))
+                    jsonResponse.put(WSConstants.JSON_CITY, jsonPublikUser.getString("city"));
+
+                if (Validator.isNotNull(jsonPublikUser.getString("photo")))
+                    jsonResponse.put(WSConstants.JSON_IMAGE_URL, jsonPublikUser.getString("photo"));
+
+                String district = getDistrict(jsonPublikUser.getString("address"),
+                        jsonPublikUser.getString("zipcode"), jsonPublikUser.getString("city"));
+                if (Validator.isNotNull(district))
+                    jsonResponse.put(WSConstants.JSON_DISTRICT, district);
             }
         } catch (NoJWTInHeaderException e) {
             log.error(e.getMessage());
@@ -124,11 +108,9 @@ public class ProfileApplication extends Application {
         } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
             log.error(e.getMessage());
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
-        } catch (Exception e) {
-            log.error(e);
-            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
-        return response;
+
+        return WSResponseUtil.buildOkResponse(jsonResponse);
     }
 
     @POST
@@ -164,54 +146,6 @@ public class ProfileApplication extends Application {
         }
     }
 
-    //Renvoi une map avec obligatoirement response et json.
-    public Map<String, Object> profileCSMapJSON(JSONObject jsonPublikUser){
-        Map<String, Object> map = new HashMap<>();
-        JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
-        if (Validator.isNotNull(jsonPublikUser.getString("last_name")))
-            jsonResponse.put(WSConstants.JSON_LAST_NAME, jsonPublikUser.getString("last_name"));
-        else
-            map.put(stringResponse, WSResponseUtil.buildErrorResponse(500, "last-name introuvable"));
-            map.put(stringJson, "");
-
-        if (Validator.isNotNull(jsonPublikUser.getString("first_name")))
-            jsonResponse.put(WSConstants.JSON_FIRST_NAME, jsonPublikUser.getString("first_name"));
-        else
-            map.put(stringResponse, WSResponseUtil.buildErrorResponse(500, "first-name introuvable"));
-            map.put(stringJson, "");
-
-        if (Validator.isNotNull(jsonPublikUser.getString("last_name")))
-            jsonResponse.put(WSConstants.JSON_EMAIL, jsonPublikUser.getString("email"));
-        else
-            map.put(stringResponse, WSResponseUtil.buildErrorResponse(500, "email introuvable"));
-            map.put(stringJson, "");
-
-        if (Validator.isNotNull(jsonPublikUser.getString("address")))
-            jsonResponse.put(WSConstants.JSON_ADDRESS, jsonPublikUser.getString("address"));
-
-        if (Validator.isNotNull(jsonPublikUser.getString("zipcode")))
-            jsonResponse.put(WSConstants.JSON_POSTAL_CODE, jsonPublikUser.getString("zipcode"));
-
-        if (Validator.isNotNull(jsonPublikUser.getString("city")))
-            jsonResponse.put(WSConstants.JSON_CITY, jsonPublikUser.getString("city"));
-
-        if (Validator.isNotNull(jsonPublikUser.getString("photo")))
-            jsonResponse.put(WSConstants.JSON_IMAGE_URL, jsonPublikUser.getString("photo"));
-
-        String district = getDistrict(jsonPublikUser.getString("address"),
-                jsonPublikUser.getString("zipcode"), jsonPublikUser.getString("city"));
-        if (Validator.isNotNull(district))
-            jsonResponse.put(WSConstants.JSON_DISTRICT, district);
-
-        if(!map.containsKey(stringResponse)) {
-            map.put(stringResponse, WSResponseUtil.buildOkResponse(jsonResponse));
-        }
-        if(!map.containsKey(stringJson)) {
-            map.put(stringJson, jsonResponse.toString());
-        }
-        return map;
-    }
-
     // récupération du code du quartier de l'utilisateur
     public String getDistrict(String address, String zipCode, String city) {
         if (city.toLowerCase().equals("strasbourg")) {
@@ -225,14 +159,6 @@ public class ProfileApplication extends Application {
         }
 
         return null;
-    }
-
-    @Reference
-    protected CsmapCacheLocalService csmapCacheLocalService;
-
-    @Reference(unbind = "-")
-    protected void setCsmapCacheLocalService(CsmapCacheLocalService csmapCacheLocalService) {
-        this.csmapCacheLocalService = csmapCacheLocalService;
     }
 
     @Reference(unbind = "-")
@@ -249,12 +175,5 @@ public class ProfileApplication extends Application {
     public void setOpenDataGeoDistrictService(OpenDataGeoDistrictService openDataGeoDistrictService) {
         this.openDataGeoDistrictService = openDataGeoDistrictService;
     }
-
-    @Reference(unbind = "-")
-    protected void setCounterLocalService(CounterLocalService counterLocalService) {
-        this.counterLocalService = counterLocalService;
-    }
-
-    private CounterLocalService counterLocalService;
 
 }
