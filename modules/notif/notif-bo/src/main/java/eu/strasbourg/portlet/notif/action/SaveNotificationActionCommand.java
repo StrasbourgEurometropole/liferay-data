@@ -235,7 +235,7 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
             isValid = false;
         }
 
-        // Date de début
+        // Date de diffusion
         String broadcastDateString = ParamUtil.getString(request, "broadcastDate");
         if (Validator.isNull(broadcastDateString)) {
             SessionErrors.add(request, "broadcast-date-error");
@@ -245,6 +245,15 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
         // titre
         if (Validator.isNull(ParamUtil.getString(request, "title"))) {
             SessionErrors.add(request, "title-error");
+            isValid = false;
+        } else if (ParamUtil.getString(request, "title").length() > 150) {
+            SessionErrors.add(request, "title-length-error");
+            isValid = false;
+        }
+
+        // Sous-titre
+        if (ParamUtil.getString(request, "subtitle").length() > 100) {
+            SessionErrors.add(request, "subtitle-length-error");
             isValid = false;
         }
 
@@ -269,6 +278,9 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
         // Contenu
         if (Validator.isNull(ParamUtil.getString(request, "content"))) {
             SessionErrors.add(request, "content-error");
+            isValid = false;
+        } else if (ParamUtil.getString(request, "content").length() > 1000) {
+            SessionErrors.add(request, "content-length-error");
             isValid = false;
         }
 
@@ -312,6 +324,18 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
         }
         if(labelUrlValue!=urlValue) {
             SessionErrors.add(request, "labelUrl-url-error");
+            isValid = false;
+        }
+
+        // URL
+        if (ParamUtil.getString(request, "url").length() > 450) {
+            SessionErrors.add(request, "url-length-error");
+            isValid = false;
+        }
+
+        // Label URL
+        if (ParamUtil.getString(request, "labelUrl").length() > 100) {
+            SessionErrors.add(request, "labelUrl-length-error");
             isValid = false;
         }
 
