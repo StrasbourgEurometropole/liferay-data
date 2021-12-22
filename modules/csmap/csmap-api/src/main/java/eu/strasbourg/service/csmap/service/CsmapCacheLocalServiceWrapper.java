@@ -191,6 +191,13 @@ public class CsmapCacheLocalServiceWrapper
 	}
 
 	@Override
+	public eu.strasbourg.service.csmap.model.CsmapCache fetchByCodeCache(
+		long codeCache) {
+
+		return _csmapCacheLocalService.fetchByCodeCache(codeCache);
+	}
+
+	@Override
 	public eu.strasbourg.service.csmap.model.CsmapCache fetchCsmapCache(
 		long cacheId) {
 
@@ -198,17 +205,15 @@ public class CsmapCacheLocalServiceWrapper
 	}
 
 	@Override
-	public eu.strasbourg.service.csmap.model.CsmapCache findByCodeCache(
-		long codeCache) {
-
-		return _csmapCacheLocalService.findByCodeCache(codeCache);
-	}
-
-	@Override
 	public java.util.List<eu.strasbourg.service.csmap.model.CsmapCache>
 		findLastProcessNotSuccess() {
 
 		return _csmapCacheLocalService.findLastProcessNotSuccess();
+	}
+
+	@Override
+	public void generateCsmapCache(long codeCache) {
+		_csmapCacheLocalService.generateCsmapCache(codeCache);
 	}
 
 	@Override
@@ -271,6 +276,11 @@ public class CsmapCacheLocalServiceWrapper
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getJsonVide() {
 		return _csmapCacheLocalService.getJsonVide();
+	}
+
+	@Override
+	public java.util.Date getLastModifiedEvent() {
+		return _csmapCacheLocalService.getLastModifiedEvent();
 	}
 
 	/**

@@ -1,14 +1,12 @@
 package eu.strasbourg.service.csmap.scheduler;
 
-import com.liferay.counter.kernel.service.CounterLocalService;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.*;
-import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.agenda.service.EventLocalService;
 import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
-import eu.strasbourg.service.csmap.model.CsmapCache;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
 import org.osgi.service.component.annotations.*;
 
@@ -20,9 +18,9 @@ import java.util.Date;
  * publication a été programmée et dont la date de publication est désormais
  * dépassée
  */
-@Component(immediate = true, service = CsmapCacheEventListener.class)
-public class CsmapCacheEventListener
-	extends BaseMessageListener {
+@Component(immediate = true, service = CsmapCacheListener.class)
+public class CsmapCacheListener
+		extends BaseMessageListener {
 
 	@Activate
 	@Modified
@@ -31,7 +29,7 @@ public class CsmapCacheEventListener
 
 		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
 		Calendar now = Calendar.getInstance();
-		now.add(Calendar.MINUTE, 5);
+		now.add(Calendar.MINUTE, 1);
 		Date fiveMinutesFromNow = now.getTime();
 
 		// Création du trigger "Toutes les 2 minutes"
@@ -52,29 +50,15 @@ public class CsmapCacheEventListener
 	}
 
 	@Override
-	protected void doReceive(Message message) throws Exception {
-		long codeCache = CodeCacheEnum.EVENT.getId();
-		CsmapCache cacheEvent = _csmapCacheLocalService.findByCodeCache(codeCache);
-		if(Validator.isNull(cacheEvent)){
-			long id = _counterLocalService.increment();
-			cacheEvent = _csmapCacheLocalService.createCsmapCache(id);
-			cacheEvent.setCodeCache(codeCache);
-		}
-	}
-
-	@Reference(unbind = "-")
-	protected void setEventLocalService(EventLocalService eventLocalService) {
-		_eventLocalService = eventLocalService;
-	}
-
-	@Reference(unbind = "-")
-	protected void setCsmapCacheLocalService(CsmapCacheLocalService csmapCacheLocalService) {
-		_csmapCacheLocalService = csmapCacheLocalService;
-	}
-
-	@Reference(unbind = "-")
-	protected void setCounterLocalService(CounterLocalService counterLocalService) {
-		_counterLocalService = counterLocalService;
+	protected void doReceive(Message message) {
+		this.log.info("Start csmap caching");
+		this.log.info("Start csmap event caching");
+		_csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.EVENT.getId());
+		this.log.info("End csmap event caching");
+		this.log.info("Start csmap agenda caching");
+		_csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.AGENDA.getId());
+		this.log.info("End csmap agenda caching");
+		this.log.info("End csmap caching");
 	}
 
 	@Reference(unbind = "-")
@@ -89,9 +73,13 @@ public class CsmapCacheEventListener
 		_triggerFactory = triggerFactory;
 	}
 
+	@Reference(unbind = "-")
+	protected void setCsmapCacheLocalService(CsmapCacheLocalService csmapCacheLocalService) {
+		_csmapCacheLocalService = csmapCacheLocalService;
+	}
+
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
-	private EventLocalService _eventLocalService;
-	private CsmapCacheLocalService _csmapCacheLocalService;
-	private CounterLocalService _counterLocalService;
 	private TriggerFactory _triggerFactory;
+	private CsmapCacheLocalService _csmapCacheLocalService;
+	private final Log log = LogFactoryUtil.getLog(this.getClass());
 }

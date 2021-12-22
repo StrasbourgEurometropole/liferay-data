@@ -186,22 +186,26 @@ public class CsmapCacheLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	public static eu.strasbourg.service.csmap.model.CsmapCache fetchByCodeCache(
+		long codeCache) {
+
+		return getService().fetchByCodeCache(codeCache);
+	}
+
 	public static eu.strasbourg.service.csmap.model.CsmapCache fetchCsmapCache(
 		long cacheId) {
 
 		return getService().fetchCsmapCache(cacheId);
 	}
 
-	public static eu.strasbourg.service.csmap.model.CsmapCache findByCodeCache(
-		long codeCache) {
-
-		return getService().findByCodeCache(codeCache);
-	}
-
 	public static java.util.List<eu.strasbourg.service.csmap.model.CsmapCache>
 		findLastProcessNotSuccess() {
 
 		return getService().findLastProcessNotSuccess();
+	}
+
+	public static void generateCsmapCache(long codeCache) {
+		getService().generateCsmapCache(codeCache);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
@@ -259,6 +263,10 @@ public class CsmapCacheLocalServiceUtil {
 
 	public static com.liferay.portal.kernel.json.JSONObject getJsonVide() {
 		return getService().getJsonVide();
+	}
+
+	public static java.util.Date getLastModifiedEvent() {
+		return getService().getLastModifiedEvent();
 	}
 
 	/**

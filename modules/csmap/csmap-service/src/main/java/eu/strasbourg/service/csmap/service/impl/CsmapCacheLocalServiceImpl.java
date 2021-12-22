@@ -14,19 +14,25 @@
 
 package eu.strasbourg.service.csmap.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.liferay.counter.kernel.service.CounterLocalService;
 import com.liferay.portal.aop.AopService;
-
+import com.liferay.portal.kernel.dao.orm.SQLQuery;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import eu.strasbourg.service.agenda.exception.NoSuchManifestationException;
-import eu.strasbourg.service.agenda.model.Manifestation;
-import eu.strasbourg.service.csmap.exception.NoSuchCsmapCacheException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
 import eu.strasbourg.service.csmap.model.CsmapCache;
 import eu.strasbourg.service.csmap.service.base.CsmapCacheLocalServiceBaseImpl;
-
+import eu.strasbourg.service.csmap.utils.ApiCsmapUtil;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,21 +53,17 @@ import java.util.List;
 	service = AopService.class
 )
 public class CsmapCacheLocalServiceImpl extends CsmapCacheLocalServiceBaseImpl {
-
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. Use <code>eu.strasbourg.service.csmap.service.CsmapCacheLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.csmap.service.CsmapCacheLocalServiceUtil</code>.
 	 */
 
+	private final Log log = LogFactoryUtil.getLog(this.getClass());
+
 	@Override
-	public CsmapCache findByCodeCache(long codeCache) {
-		try {
-			return csmapCachePersistence.findByCodeCache(codeCache);
-		} catch (NoSuchCsmapCacheException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public CsmapCache fetchByCodeCache(long codeCache) {
+		return csmapCachePersistence.fetchByCodeCache(codeCache);
 	}
 
 	@Override
@@ -80,4 +82,74 @@ public class CsmapCacheLocalServiceImpl extends CsmapCacheLocalServiceBaseImpl {
 		json.put("DELETE", jsonSuppr);
 		return json;
 	}
+
+	@Override
+	public void generateCsmapCache(long codeCache) {
+		Date date = new Date(System.currentTimeMillis());
+		CsmapCache cache = null;
+		try {
+			cache = fetchByCodeCache(codeCache);
+			JSONObject json = null;
+			if (codeCache == CodeCacheEnum.AGENDA.getId()) {
+				json = ApiCsmapUtil.getAgenda();
+			}
+
+			if (Validator.isNull(cache)) {
+				long id = _counterLocalService.increment();
+				cache = createCsmapCache(id);
+				cache.setCodeCache(codeCache);
+				cache.setCacheJson(String.valueOf(json));
+				cache.setModifiedDate(date);
+				cache.setIsLastProcessSuccess(true);
+			} else if(codeCache == CodeCacheEnum.EVENT.getId()) {
+				if(cache.getModifiedDate().before(getLastModifiedEvent())){
+					cache.setCacheJson(String.valueOf(ApiCsmapUtil.getEvents("0")));
+					cache.setModifiedDate(date);
+					cache.setIsLastProcessSuccess(true);
+				}
+			} else {
+				ObjectMapper mapper = new ObjectMapper();
+				if (!mapper.readTree(cache.getCacheJson()).equals(mapper.readTree(json.toString()))) {
+					cache.setCacheJson(json.toString());
+					cache.setModifiedDate(date);
+				}
+				cache.setIsLastProcessSuccess(true);
+			}
+		}
+		catch(Exception e){
+			log.error(e);
+			if(Validator.isNotNull(cache))
+				cache.setIsLastProcessSuccess(false);
+		}
+		if(Validator.isNotNull(cache)) {
+			cache.setProcessedDate(date);
+			updateCsmapCache(cache);
+		}
+	}
+
+	@Override
+	public Date getLastModifiedEvent(){
+		// Permet la récupération de toutes les catégories entières
+		Session session = csmapCachePersistence.getCurrentSession();
+
+		SQLQuery query_cacheJson = session.createSQLQuery(this.query_cacheJson);
+		SQLQuery query_historic = session.createSQLQuery(this.query_historic);
+		Date cacheJsonDate = (Date) query_cacheJson.iterateNext();
+		Date historicDate = (Date) query_historic.iterateNext();
+		if(cacheJsonDate.before(historicDate)){
+			return historicDate;
+		} else {
+			return cacheJsonDate;
+		}
+	}
+
+	private String query_cacheJson = "SELECT modifiedEvent FROM Agenda_Cachejson order by modifiedEvent desc limit 1";
+	private String query_historic = "SELECT suppressionDate FROM Agenda_Historic order by suppressionDate desc limit 1";
+
+	@Reference(unbind = "-")
+	protected void setCounterLocalService(CounterLocalService counterLocalService) {
+		_counterLocalService = counterLocalService;
+	}
+
+	private CounterLocalService _counterLocalService;
 }

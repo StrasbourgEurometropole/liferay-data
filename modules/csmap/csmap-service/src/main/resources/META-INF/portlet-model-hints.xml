@@ -33,7 +33,9 @@
 		<field name="cacheId" type="long" />
 		<field name="codeCache" type="long" />
 		<field name="description" type="String" />
-		<field name="cacheJson" type="String" />
+		<field name="cacheJson" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
 		<field name="isLastProcessSuccess" type="Boolean" />
 		<field name="modifiedDate" type="Date" />
 		<field name="processedDate" type="Date" />

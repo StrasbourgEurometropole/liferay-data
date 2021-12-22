@@ -9,28 +9,17 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.Document;
-import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.agenda.model.CacheJson;
-import eu.strasbourg.service.agenda.model.Campaign;
-import eu.strasbourg.service.agenda.model.Event;
-import eu.strasbourg.service.agenda.model.Historic;
 import eu.strasbourg.service.agenda.service.CacheJsonLocalService;
 import eu.strasbourg.service.agenda.service.CampaignLocalService;
 import eu.strasbourg.service.agenda.service.HistoricLocalService;
-import eu.strasbourg.service.csmap.model.Agenda;
+import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
+import eu.strasbourg.service.csmap.model.CsmapCache;
 import eu.strasbourg.service.csmap.service.AgendaLocalService;
+import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
+import eu.strasbourg.service.csmap.utils.ApiCsmapUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
-import eu.strasbourg.utils.FileEntryHelper;
-import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
-import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
@@ -39,21 +28,13 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.time.format.DateTimeParseException;
+import java.util.*;
+
+import static com.liferay.portal.kernel.json.JSONFactoryUtil.createJSONObject;
 
 @Component(
         property = {
@@ -84,54 +65,34 @@ public class EventApplication extends Application {
     @Path("/get-events/{last_update_time}")
     public Response getEvents(
             @PathParam("last_update_time") String lastUpdateTimeString) {
-
-        // On transforme la date string en date
+        JSONObject json;
+        CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(CodeCacheEnum.EVENT.getId());
         Date lastUpdateTime;
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
         } catch (Exception e) {
-            return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
+            throw new DateTimeParseException("Le timestamp n'est pas bon format",lastUpdateTimeString,0);
         }
-
-        JSONObject json = JSONFactoryUtil.createJSONObject();
-
         try {
-            // On récupère tous les events qui ont été ajoutés
-            List<CacheJson> ajouts = cacheJsonLocalService.getByCreatedDateAndIsActiveAndWithSchedules(lastUpdateTime);
-            JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
-            for (CacheJson cache: ajouts) {
-                jsonAjout.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
-            }
-            json.put(WSConstants.JSON_ADD, jsonAjout);
-
-            // On récupère tous les events qui ont été modifiés
-            List<CacheJson> modifications = cacheJsonLocalService.getByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(lastUpdateTime);
-            JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-            for (CacheJson cache: modifications) {
-                jsonModif.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
-            }
-            json.put(WSConstants.JSON_UPDATE, jsonModif);
-
-            JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-
-            if(!lastUpdateTimeString.equals("0")) {
-                // On récupère tous les events qui ont été dépubliés
-                List<CacheJson> depublications = cacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
-                for (CacheJson cache: depublications) {
-                    jsonSuppr.put(cache.getEventId());
+            if(Validator.isNotNull(cache)){
+                if(lastUpdateTimeString.equals("0")){
+                    json = createJSONObject(cache.getCacheJson());
+                } else if(lastUpdateTime.before(cache.getModifiedDate())){
+                    json = ApiCsmapUtil.getEvents(lastUpdateTimeString);
+                } else {
+                    json = csmapCacheLocalService.getJsonVide();
                 }
-
-                // On récupère tous les events qui ont été supprimés
-                List<Historic> suppressions = historicLocalService.getBySuppressionDate(lastUpdateTime);
-                for (Historic histo : suppressions) {
-                    jsonSuppr.put(histo.getEventId());
-                }
+            } else {
+                json = ApiCsmapUtil.getEvents(lastUpdateTimeString);
             }
-            json.put(WSConstants.JSON_DELETE, jsonSuppr);
 
-            if(jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+            if( json.getJSONArray("ADD").length() == 0 &&
+                json.getJSONArray("UPDATE").length() == 0 &&
+                json.getJSONArray("DELETE").length() == 0)
                 return WSResponseUtil.buildOkResponse(json, 201);
+        } catch (DateTimeParseException e) {
+            return WSResponseUtil.lastUpdateTimeFormatError();
         } catch (JSONException e) {
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
@@ -156,7 +117,7 @@ public class EventApplication extends Application {
             @FormParam("ids_themes") String ids_themes) {
 
 
-        JSONObject json = JSONFactoryUtil.createJSONObject();
+        JSONObject json = createJSONObject();
 
         // On transforme la date string en date
         Date lastUpdateTime;
@@ -233,7 +194,7 @@ public class EventApplication extends Application {
             @FormParam("ids_types") String ids_types) {
 
 
-        JSONObject json = JSONFactoryUtil.createJSONObject();
+        JSONObject json = createJSONObject();
 
         // On transforme la date string en date
         Date lastUpdateTime;
@@ -298,101 +259,19 @@ public class EventApplication extends Application {
     @Produces("application/json")
     @Path("/get-agendas")
     public Response getAgendas() {
-
-        JSONObject json = JSONFactoryUtil.createJSONObject();
-
-        // On récupère tous les ids events de l'agenda principal
-        Agenda principal = agendaLocalService.getAgendaPrincipal();
-        JSONObject jsonPrincipal = JSONFactoryUtil.createJSONObject();
-        JSONArray jsonIds = getJsonIds(principal);
-        jsonPrincipal.put(WSConstants.JSON_IDS, jsonIds);
-        json.put(WSConstants.JSON_AGENDA_PRINCIPAL, jsonPrincipal);
-
-        // On récupère tous les ids events de l'agenda thématique s'il y en a un
-        Agenda thematique = agendaLocalService.getAgendaThematiqueActif();
-        JSONObject jsonThematique = JSONFactoryUtil.createJSONObject();
-        if(Validator.isNotNull(thematique)) {
-            jsonIds = getJsonIds(thematique);
-            jsonThematique.put(WSConstants.JSON_IDS, jsonIds);
-
-            JSONObject jsonTitle = JSONFactoryUtil.createJSONObject();
-            jsonTitle.put(WSConstants.JSON_LANGUAGE_FRANCE, thematique.getTitle(Locale.FRANCE));
-            jsonThematique.put(WSConstants.JSON_TITLE, jsonTitle);
-
-            JSONObject jsonSubtitle = JSONFactoryUtil.createJSONObject();
-            jsonSubtitle.put(WSConstants.JSON_LANGUAGE_FRANCE, thematique.getSubtitle(Locale.FRANCE));
-            jsonThematique.put(WSConstants.JSON_SUBTITLE, jsonSubtitle);
-
-            String imageURL = "";
-            try {
-                if (thematique.getImageId() != null && thematique.getImageId() > 0)
-                    imageURL = StrasbourgPropsUtil.getURL() + UriHelper.appendUriImagePreview(FileEntryHelper.getFileEntryURLWithTimeStamp(thematique.getImageId()));
-            } catch (URISyntaxException e) {
-                log.error(e);
+        JSONObject json;
+        try {
+            CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(CodeCacheEnum.AGENDA.getId());
+            if(Validator.isNotNull(cache)){
+                json = JSONFactoryUtil.createJSONObject(cache.getCacheJson());
+            } else {
+                json = ApiCsmapUtil.getAgenda();
             }
-            jsonThematique.put(WSConstants.JSON_IMAGE_URL, imageURL);
-
+        } catch (Exception e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
-        json.put(WSConstants.JSON_AGENDA_THEMATIQUE, jsonThematique);
-
-        if(jsonPrincipal.length() == 0)
-            return WSResponseUtil.buildErrorResponse(500, "agenda principal inexistant");
-
         return WSResponseUtil.buildOkResponse(json);
-    }
-
-    private JSONArray getJsonIds(Agenda agenda) {
-
-        // ClassNames de la configuration
-        String className = Event.class.getName();
-
-        // catégories
-        List<Long[]> categoriesIds = new ArrayList<>();
-        Long[] categoriesIdsForTheme = ArrayUtil
-                .toLongArray(StringUtil.split(agenda.getThemesIds(), ",", 0));
-        categoriesIds.add(categoriesIdsForTheme);
-        Long[] categoriesIdsForType = ArrayUtil
-                .toLongArray(StringUtil.split(agenda.getTypesIds(), ",", 0));
-        categoriesIds.add(categoriesIdsForType);
-
-        // tags
-        String[] tagsArray = StringUtil.split(agenda.getTags());
-
-        // campaigns
-        // on récupère le nom de la campagne et non l'id
-        StringBuilder campaignsTitle = new StringBuilder();
-        if (!agenda.getCampaignsIds().isEmpty()){
-            for (String campaignId : agenda.getCampaignsIds().split(",")) {
-                Campaign campaign = campaignLocalService.fetchCampaign(Long.parseLong(campaignId));
-                if (Validator.isNotNull(campaign)) {
-                    if (campaignsTitle.length() > 0)
-                        campaignsTitle.append(",");
-                    campaignsTitle.append(FriendlyURLNormalizerUtil
-                            .normalize(campaign.getTitleCurrentValue()));
-                }
-            }
-        }
-        String[] campaignsArray = StringUtil.split(campaignsTitle.toString());
-
-        // Recherche
-        Hits hits = SearchHelper.getEventsAgendaWebServiceSearchHits(className, categoriesIds, tagsArray, campaignsArray);
-
-        JSONArray jsonIds = JSONFactoryUtil.createJSONArray();
-        if (hits != null) {
-            List<CacheJson> cacheJsons = cacheJsonLocalService.getCacheJsons(-1,-1);
-            for (Document document : hits.getDocs()) {
-                long id = Long.parseLong(document.get(Field.ENTRY_CLASS_PK));
-
-                if((campaignsTitle.length() == 0) || campaignsTitle.toString().contains(document.get("campaign"))) {
-                    // on ne prend que les event présent dans cacheJson avec des schedules
-                    CacheJson cacheJson = cacheJsons.stream().filter(c -> c.getEventId() == id).findFirst().orElse(null);
-                    if(Validator.isNotNull(cacheJson) && cacheJson.getHasSchedules())
-                        jsonIds.put(id);
-                }
-            }
-        }
-
-        return jsonIds;
     }
 
     @Reference
@@ -409,6 +288,14 @@ public class EventApplication extends Application {
     @Reference(unbind = "-")
     protected void setHistoricLocalService(HistoricLocalService historicLocalService) {
         this.historicLocalService = historicLocalService;
+    }
+
+    @Reference
+    protected CsmapCacheLocalService csmapCacheLocalService;
+
+    @Reference(unbind = "-")
+    protected void setCsmapCacheLocalService(CsmapCacheLocalService csmapCacheLocalService) {
+        this.csmapCacheLocalService = csmapCacheLocalService;
     }
 
     @Reference

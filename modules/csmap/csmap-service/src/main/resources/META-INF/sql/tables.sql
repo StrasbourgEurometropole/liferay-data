@@ -17,7 +17,7 @@ create table csmap_CsmapCache (
 	cacheId LONG not null primary key,
 	codeCache LONG,
 	description VARCHAR(75) null,
-	cacheJson VARCHAR(75) null,
+	cacheJson STRING null,
 	isLastProcessSuccess BOOLEAN,
 	modifiedDate DATE null,
 	processedDate DATE null

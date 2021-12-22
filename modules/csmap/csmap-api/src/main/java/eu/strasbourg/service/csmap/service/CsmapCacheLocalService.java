@@ -35,6 +35,7 @@ import eu.strasbourg.service.csmap.model.CsmapCache;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -174,11 +175,14 @@ public interface CsmapCacheLocalService
 		DynamicQuery dynamicQuery, Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public CsmapCache fetchByCodeCache(long codeCache);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CsmapCache fetchCsmapCache(long cacheId);
 
-	public CsmapCache findByCodeCache(long codeCache);
-
 	public List<CsmapCache> findLastProcessNotSuccess();
+
+	public void generateCsmapCache(long codeCache);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
@@ -220,6 +224,9 @@ public interface CsmapCacheLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getJsonVide();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Date getLastModifiedEvent();
 
 	/**
 	 * Returns the OSGi service identifier.
