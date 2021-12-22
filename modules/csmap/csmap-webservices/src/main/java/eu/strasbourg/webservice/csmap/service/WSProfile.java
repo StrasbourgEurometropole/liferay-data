@@ -1,27 +1,16 @@
 package eu.strasbourg.webservice.csmap.service;
 
-import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.opendata.geo.district.OpenDataGeoDistrictService;
-import eu.strasbourg.service.opendata.geo.district.impl.OpenDataGeoDistrictServiceImpl;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import org.osgi.service.component.annotations.Reference;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Base64;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 public class WSProfile {
 
