@@ -21,7 +21,7 @@
 	<liferay-ui:error key="start-date-error" message="eu.strasbourg.notification.start-date-error" />
 	<liferay-ui:error key="dates-error" message="eu.strasbourg.notification.dates-error" />
 	<liferay-ui:error key="content-error" message="eu.strasbourg.notification.content-error" />
-	<liferay-ui:error key="content-length-error" message="eu.strasbourg.service.messages-length-error.back" />
+	<liferay-ui:error key="content-length-error" message="eu.strasbourg.service.content-length-error" />
 	<liferay-ui:error key="broadcast-type-error" message="eu.strasbourg.notification.broadcast-type-error" />
     <liferay-ui:error key="district-error" message="eu.strasbourg.notification.district-error" />
     <liferay-ui:error key="broadcast-channels-error" message="eu.strasbourg.notification.broadcast-channels-error" />
