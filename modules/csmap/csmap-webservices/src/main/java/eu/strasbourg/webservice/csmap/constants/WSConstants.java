@@ -74,9 +74,6 @@ public class WSConstants {
     public static final String JSON_NAME = "name";
     public static final String JSON_PICTO = "picto";
     public static final String JSON_PICTO_URL = "pictoURL";
-    public static final String JSON_COLOR_GRADIENT = "color_gradient";
-    public static final String JSON_COLOR_GRADIENT_START = "start";
-    public static final String JSON_COLOR_GRADIENT_END = "end";
     public static final String JSON_MAJ = "maj";
     // Profil
     public static final String JSON_LAST_NAME = "lastname";

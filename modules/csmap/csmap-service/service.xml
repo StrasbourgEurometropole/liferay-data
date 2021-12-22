@@ -81,6 +81,24 @@
 		</finder>
 	</entity>
 
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="CsmapCache" uuid="false">
+		<!-- PK fields -->
+		<column name="cacheId" primary="true" type="long" />
+		<column name="codeCache" type="long" />
+		<column name="description" type="String" />
+		<column name="cacheJson" type="String" />
+		<column name="isLastProcessSuccess" type="Boolean" />
+		<column name="modifiedDate" type="Date" />
+		<column name="processedDate" type="Date" />
+
+		<finder name="CodeCache" return-type="CsmapCache" db-index="true" >
+			<finder-column name="codeCache" />
+		</finder>
+		<finder name="LastProcessNotSuccess" return-type="Collection" db-index="true" >
+			<finder-column name="isLastProcessSuccess" />
+		</finder>
+	</entity>
+
 	<entity local-service="true" remote-service="false" cache-enabled="false" name="Thematic" uuid="true">
 		<!-- PK fields -->
 		<column name="thematicId" primary="true" type="long" />

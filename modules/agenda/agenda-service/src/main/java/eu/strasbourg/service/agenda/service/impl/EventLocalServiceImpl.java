@@ -130,7 +130,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Met à jour une édition et l'enregistre en base de données
+	 * Met à jour un event et l'enregistre en base de données
 	 * @throws IOException 
 	 */
 	@Override
@@ -766,6 +766,5 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	)
 	protected eu.strasbourg.service.agenda.service.HistoricLocalService
 			historicLocalService;
-
 
 }

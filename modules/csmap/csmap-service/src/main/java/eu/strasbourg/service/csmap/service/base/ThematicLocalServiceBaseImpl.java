@@ -41,6 +41,7 @@ import eu.strasbourg.service.csmap.model.Thematic;
 import eu.strasbourg.service.csmap.service.ThematicLocalService;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
 import eu.strasbourg.service.csmap.service.persistence.BaseNoncePersistence;
+import eu.strasbourg.service.csmap.service.persistence.CsmapCachePersistence;
 import eu.strasbourg.service.csmap.service.persistence.PlaceCategoriesPersistence;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
 import eu.strasbourg.service.csmap.service.persistence.ThematicPersistence;
@@ -387,6 +388,7 @@ public abstract class ThematicLocalServiceBaseImpl
 
 	@Reference
 	protected BaseNoncePersistence baseNoncePersistence;
+	protected CsmapCachePersistence csmapCachePersistence;
 
 	@Reference
 	protected PlaceCategoriesPersistence placeCategoriesPersistence;

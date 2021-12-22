@@ -18,6 +18,15 @@ create table csmap_BaseNonce (
 	createDate DATE null,
 	value VARCHAR(75) null
 );
+create table csmap_CsmapCache (
+	cacheId LONG not null primary key,
+	codeCache LONG,
+	description VARCHAR(75) null,
+	cacheJson STRING null,
+	isLastProcessSuccess BOOLEAN,
+	modifiedDate DATE null,
+	processedDate DATE null
+);
 
 create table csmap_PlaceCategories (
 	uuid_ VARCHAR(75) null,

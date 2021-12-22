@@ -65,7 +65,7 @@ public class PublikUserCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -103,6 +103,10 @@ public class PublikUserCacheModel
 		sb.append(imageURL);
 		sb.append(", pactDisplay=");
 		sb.append(pactDisplay);
+		sb.append(", csmapJSON=");
+		sb.append(csmapJSON);
+		sb.append(", modifiedDateJSON=");
+		sb.append(modifiedDateJSON);
 		sb.append("}");
 
 		return sb.toString();
@@ -223,6 +227,20 @@ public class PublikUserCacheModel
 
 		publikUserImpl.setPactDisplay(pactDisplay);
 
+		if (csmapJSON == null) {
+			publikUserImpl.setCsmapJSON("");
+		}
+		else {
+			publikUserImpl.setCsmapJSON(csmapJSON);
+		}
+
+		if (modifiedDateJSON == Long.MIN_VALUE) {
+			publikUserImpl.setModifiedDateJSON(null);
+		}
+		else {
+			publikUserImpl.setModifiedDateJSON(new Date(modifiedDateJSON));
+		}
+
 		publikUserImpl.resetOriginalValues();
 
 		return publikUserImpl;
@@ -251,6 +269,8 @@ public class PublikUserCacheModel
 		imageURL = objectInput.readUTF();
 
 		pactDisplay = objectInput.readBoolean();
+		csmapJSON = objectInput.readUTF();
+		modifiedDateJSON = objectInput.readLong();
 	}
 
 	@Override
@@ -342,6 +362,15 @@ public class PublikUserCacheModel
 		}
 
 		objectOutput.writeBoolean(pactDisplay);
+
+		if (csmapJSON == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(csmapJSON);
+		}
+
+		objectOutput.writeLong(modifiedDateJSON);
 	}
 
 	public String uuid;
@@ -362,5 +391,7 @@ public class PublikUserCacheModel
 	public String banishDescription;
 	public String imageURL;
 	public boolean pactDisplay;
+	public String csmapJSON;
+	public long modifiedDateJSON;
 
 }

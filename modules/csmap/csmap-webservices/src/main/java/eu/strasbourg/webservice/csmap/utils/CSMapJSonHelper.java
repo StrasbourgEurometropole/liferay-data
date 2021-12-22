@@ -25,63 +25,17 @@ import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
 import eu.strasbourg.service.notif.model.ServiceNotif;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.AssetPublisherTemplateHelper;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.JournalArticleHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
-import eu.strasbourg.utils.UriHelper;
+import eu.strasbourg.utils.*;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.service.WSPlace;
+import eu.strasbourg.webservice.csmap.service.WSProfile;
 
+import javax.ws.rs.core.Response;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class CSMapJSonHelper {
-    static public JSONObject placeCategoryCSMapJSON(AssetCategory category, String urlPicto, boolean maj) {
-        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
-        if (category != null) {
-            String externalId = AssetVocabularyHelper.getExternalId(category);
-            jsonCategory.put(WSConstants.JSON_CATEG_ID, externalId);
-            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
-            if (Validator.isNotNull(parentExternalId)) {
-                jsonCategory.put(WSConstants.JSON_PARENT_ID, parentExternalId);
-            }
-            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
-            nameJSON.put(WSConstants.JSON_LANGUAGE_FRANCE, category.getTitle(Locale.FRANCE));
-            jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
-            JSONObject jsonPicto = JSONFactoryUtil.createJSONObject();
-            jsonPicto.put(WSConstants.JSON_PICTO_URL, StrasbourgPropsUtil.getURL() + urlPicto);
-            jsonPicto.put(WSConstants.JSON_MAJ, maj);
-            jsonCategory.put(WSConstants.JSON_PICTO, jsonPicto);
-            JSONObject colorJSON = JSONFactoryUtil.createJSONObject();
-            String gradient_start = "#939393";
-            String gradient_end = "#CECFCF";
-            try {
-                String gradient = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_start").getValue();
-                if(WSPlace.isValidHexaCode(gradient)){
-                    gradient_start = "#"+gradient;
-                }
-            } catch(PortalException e){/* Using the default value */}
-            try {
-                String gradient = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_end").getValue();
-                if(WSPlace.isValidHexaCode(gradient)){
-                    gradient_end = "#"+gradient;
-                }
-            } catch(PortalException e){/* Using the default value */}
-            colorJSON.put(WSConstants.JSON_COLOR_GRADIENT_START, gradient_start);
-            colorJSON.put(WSConstants.JSON_COLOR_GRADIENT_END, gradient_end);
-            jsonCategory.put(WSConstants.JSON_COLOR_GRADIENT, colorJSON);
 
-
-        }
-        return  jsonCategory;
-    }
 
     public static JSONObject getBreveCSMapJSON(JournalArticle breve) {
         JSONObject jsonJournalArticle = JSONFactoryUtil.createJSONObject();

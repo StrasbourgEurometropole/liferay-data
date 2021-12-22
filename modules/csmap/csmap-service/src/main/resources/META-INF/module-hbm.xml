@@ -4,6 +4,7 @@
 <hibernate-mapping auto-import="false" default-lazy="false">
 	<import class="eu.strasbourg.service.csmap.model.Agenda" />
 	<import class="eu.strasbourg.service.csmap.model.BaseNonce" />
+	<import class="eu.strasbourg.service.csmap.model.CsmapCache" />
 	<import class="eu.strasbourg.service.csmap.model.PlaceCategories" />
 	<import class="eu.strasbourg.service.csmap.model.RefreshToken" />
 	<import class="eu.strasbourg.service.csmap.model.Thematic" />
@@ -29,6 +30,17 @@
 		</id>
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="createDate" type="org.hibernate.type.TimestampType" />
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="value" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="eu.strasbourg.service.csmap.model.impl.CsmapCacheImpl" table="csmap_CsmapCache">
+		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="cacheId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="codeCache" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="cacheJson" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="isLastProcessSuccess" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="processedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="eu.strasbourg.service.csmap.model.impl.PlaceCategoriesImpl" table="csmap_PlaceCategories">
 		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="placeCategoriesId" type="long">

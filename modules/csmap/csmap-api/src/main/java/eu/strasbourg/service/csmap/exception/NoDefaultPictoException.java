@@ -1,6 +1,4 @@
-package eu.strasbourg.webservice.csmap.exception.place;
-
-import eu.strasbourg.webservice.csmap.constants.WSConstants;
+package eu.strasbourg.service.csmap.exception;
 
 /**
  * Exception levé quand aucun picto par défaut n'est présent dans la doclib
@@ -8,19 +6,19 @@ import eu.strasbourg.webservice.csmap.constants.WSConstants;
 public class NoDefaultPictoException extends Exception {
 
     public NoDefaultPictoException() {
-        super(WSConstants.ERROR_NO_DEFAULT_PICTO);
+        super("No default picto available for this application");
     }
 
     public NoDefaultPictoException(String msg) {
-        super(WSConstants.ERROR_NO_DEFAULT_PICTO + " : " + msg);
+        super("No default picto available for this application" + " : " + msg);
     }
 
     public NoDefaultPictoException(String msg, Throwable cause) {
-        super(WSConstants.ERROR_NO_DEFAULT_PICTO + " : " + msg, cause);
+        super("No default picto available for this application" + " : " + msg, cause);
     }
 
     public NoDefaultPictoException(Throwable cause) {
-        super(WSConstants.ERROR_NO_DEFAULT_PICTO, cause);
+        super("No default picto available for this application", cause);
     }
 
 }

@@ -63,5 +63,9 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="pactDisplay" type="boolean" />
+		<field name="csmapJSON" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="modifiedDateJSON" type="Date" />
 	</model>
 </model-hints>
