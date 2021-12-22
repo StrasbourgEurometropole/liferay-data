@@ -92,6 +92,8 @@ public class CsmapCacheLocalServiceImpl extends CsmapCacheLocalServiceBaseImpl {
 			JSONObject json = null;
 			if (codeCache == CodeCacheEnum.AGENDA.getId()) {
 				json = ApiCsmapUtil.getAgenda();
+			} else if (codeCache == CodeCacheEnum.CATEGORIES.getId()) {
+				json = ApiCsmapUtil.getCategories("0","");
 			}
 
 			if (Validator.isNull(cache)) {

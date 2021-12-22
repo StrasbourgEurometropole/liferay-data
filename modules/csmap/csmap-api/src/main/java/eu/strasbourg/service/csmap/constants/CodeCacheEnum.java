@@ -7,7 +7,8 @@ import java.util.List;
 public enum CodeCacheEnum {
     AGENDA(1, "Agenda"),
     EVENT(2, "Event"),
-    CATEGORIES(3, "Categories");
+    CATEGORIES(3, "Categories"),
+    PROFILE(4, "Profile");
 
     private long id;
     private String name;

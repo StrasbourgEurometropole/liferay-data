@@ -1,5 +1,10 @@
 package eu.strasbourg.service.csmap.utils;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -18,13 +23,17 @@ import eu.strasbourg.service.agenda.model.Historic;
 import eu.strasbourg.service.agenda.service.CacheJsonLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.HistoricLocalServiceUtil;
+import eu.strasbourg.service.csmap.exception.NoDefaultPictoException;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalServiceUtil;
+import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalServiceUtil;
 import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.net.URISyntaxException;
-import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ApiCsmapUtil {
 
@@ -32,12 +41,8 @@ public class ApiCsmapUtil {
 
         // On transforme la date string en date
         Date lastUpdateTime;
-        try {
-            long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
-            lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
-        } catch (Exception e) {
-            throw new DateTimeParseException("Le timestamp n'est pas bon format",lastUpdateTimeString,0);
-        }
+        long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+        lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
 
         JSONObject json = JSONFactoryUtil.createJSONObject();
 
@@ -71,6 +76,95 @@ public class ApiCsmapUtil {
             for (Historic histo : suppressions) {
                 jsonSuppr.put(histo.getEventId());
             }
+        }
+        json.put("DELETE", jsonSuppr);
+
+        return json;
+    }
+
+    public static JSONObject getCategories(String lastUpdateTimeString, String idsCategory) throws PortalException, NoDefaultPictoException {
+
+        // On transforme la date string en date
+        Date lastUpdateTime;
+        long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+        lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        if (Validator.isNull(idsCategory)) {
+            idsCategory = "";
+        }
+        // On récupère les pictos du vocabulaire
+        Map<String, DLFileEntry> pictos = FileEntryHelper.getPictoForVocabulary(VocabularyNames.PLACE_TYPE, "CSMap");
+
+        // On récupère l'URL du picto par défaut
+        String pictoDefaultURL = "";
+        DLFileEntry picto = pictos.get("Defaut");
+        if (Validator.isNull(picto))
+            throw new NoDefaultPictoException();
+        pictoDefaultURL = FileEntryHelper.getFileEntryURL(picto);
+
+        // On récupère la configuration pour les catégorie de lieu (fait dans le BO)
+        String categoriesBo = PlaceCategoriesLocalServiceUtil.getPlaceCategories().getCategoriesIds();
+        String sigIdCategoriesBo = "";
+
+        // On récupère les catégories du vocabulaire des lieux
+        AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
+                .getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
+        List<AssetCategory> categories = new ArrayList<>();
+        List<AssetCategory> sortedCategories = new ArrayList<>();
+
+        if (Validator.isNotNull(placeTypeVocabulary))
+            categories = placeTypeVocabulary.getCategories();
+
+        for (AssetCategory category : categories) {
+            if (Validator.isNotNull(categoriesBo)) {
+                if (categoriesBo.contains(String.valueOf(category.getCategoryId()))) {
+                    // On ajoute les catégories de categoriesBo
+                    sortedCategories.add(category);
+                    sigIdCategoriesBo += "," + AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), "SIG");
+                }
+            } else {
+                // Dans le cas où categoriesBo est null on ajoute toutes les catégories
+                sortedCategories.add(category);
+            }
+        }
+
+        // On récupère toutes les catégories qui ont été ajoutées ou modifiées
+        JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+        JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+
+        for (AssetCategory categ : sortedCategories) {
+            // récupère l'URL du picto de la catégorie
+            String pictoURL;
+            picto = pictos.get(AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(), "SIG"));
+            boolean updatePicto = false;
+
+            if (picto != null) {
+                pictoURL = FileEntryHelper.getFileEntryURL(picto);
+                updatePicto = lastUpdateTime.before(picto.getModifiedDate());
+            } else
+                pictoURL = pictoDefaultURL;
+
+            if (!idsCategory.contains(AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(), "SIG")))
+                jsonAjout.put(placeCategoryCSMapJSON(categ, pictoURL, true));
+            else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
+                jsonModif.put(placeCategoryCSMapJSON(categ, pictoURL, updatePicto));
+        }
+
+        json.put("ADD", jsonAjout);
+        json.put("UPDATE", jsonModif);
+
+        // On récupère toutes les catégories qui ont été supprimées
+        JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
+
+        if (idsCategory != "") {
+            if (Validator.isNotNull(placeTypeVocabulary))
+                for (String idCategory : idsCategory.split(",")) {
+                    if (AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null ||
+                            (Validator.isNotNull(sigIdCategoriesBo) && !sigIdCategoriesBo.contains(String.valueOf(idCategory))))
+                        jsonSuppr.put(idCategory);
+                }
         }
         json.put("DELETE", jsonSuppr);
 
@@ -173,5 +267,70 @@ public class ApiCsmapUtil {
             jsonIds.put(id);
         }
         return jsonIds;
+    }
+
+    public static JSONObject placeCategoryCSMapJSON(AssetCategory category, String urlPicto, boolean maj) {
+        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
+        if (category != null) {
+            String externalId = AssetVocabularyHelper.getExternalId(category);
+            jsonCategory.put("id", externalId);
+            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
+            if (Validator.isNotNull(parentExternalId)) {
+                jsonCategory.put("parentId", parentExternalId);
+            }
+            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
+            nameJSON.put("fr_FR", category.getTitle(Locale.FRANCE));
+            jsonCategory.put("name", nameJSON);
+            JSONObject jsonPicto = JSONFactoryUtil.createJSONObject();
+            jsonPicto.put("pictoURL", StrasbourgPropsUtil.getURL() + urlPicto);
+            jsonPicto.put("maj", maj);
+            jsonCategory.put("picto", jsonPicto);
+            JSONObject colorJSON = JSONFactoryUtil.createJSONObject();
+            String gradient_start = "#939393";
+            String gradient_end = "#CECFCF";
+            try {
+                String gradient = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_start").getValue();
+                if(isValidHexaCode(gradient)){
+                    gradient_start = "#"+gradient;
+                }
+            } catch(PortalException e){/* Using the default value */}
+            try {
+                String gradient = AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(category.getCategoryId(), "csmap_gradient_end").getValue();
+                if(isValidHexaCode(gradient)){
+                    gradient_end = "#"+gradient;
+                }
+            } catch(PortalException e){/* Using the default value */}
+            colorJSON.put("start", gradient_start);
+            colorJSON.put("end", gradient_end);
+            jsonCategory.put("color_gradient", colorJSON);
+
+
+        }
+        return  jsonCategory;
+    }
+
+    // Function to validate hexadecimal color code .
+    public static boolean isValidHexaCode(String str)
+    {
+        // Regex to check valid hexadecimal color code.
+        String regex = "([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
+
+        // Compile the ReGex
+        Pattern p = Pattern.compile(regex);
+
+        // If the string is empty
+        // return false
+        if (str == null) {
+            return false;
+        }
+
+        // Pattern class contains matcher() method
+        // to find matching between given string
+        // and regular expression.
+        Matcher m = p.matcher(str);
+
+        // Return if the string
+        // matched the ReGex
+        return m.matches();
     }
 }

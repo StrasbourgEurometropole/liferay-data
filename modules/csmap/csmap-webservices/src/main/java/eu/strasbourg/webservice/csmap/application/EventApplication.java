@@ -31,7 +31,6 @@ import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.time.format.DateTimeParseException;
 import java.util.*;
 
 import static com.liferay.portal.kernel.json.JSONFactoryUtil.createJSONObject;
@@ -65,15 +64,18 @@ public class EventApplication extends Application {
     @Path("/get-events/{last_update_time}")
     public Response getEvents(
             @PathParam("last_update_time") String lastUpdateTimeString) {
+
         JSONObject json;
         CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(CodeCacheEnum.EVENT.getId());
         Date lastUpdateTime;
+
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
         } catch (Exception e) {
-            throw new DateTimeParseException("Le timestamp n'est pas bon format",lastUpdateTimeString,0);
+            return WSResponseUtil.lastUpdateTimeFormatError();
         }
+
         try {
             if(Validator.isNotNull(cache)){
                 if(lastUpdateTimeString.equals("0")){
@@ -91,8 +93,6 @@ public class EventApplication extends Application {
                 json.getJSONArray("UPDATE").length() == 0 &&
                 json.getJSONArray("DELETE").length() == 0)
                 return WSResponseUtil.buildOkResponse(json, 201);
-        } catch (DateTimeParseException e) {
-            return WSResponseUtil.lastUpdateTimeFormatError();
         } catch (JSONException e) {
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());

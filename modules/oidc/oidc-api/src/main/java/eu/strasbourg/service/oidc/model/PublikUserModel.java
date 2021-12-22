@@ -344,6 +344,35 @@ public interface PublikUserModel extends BaseModel<PublikUser> {
 	 */
 	public void setPactDisplay(boolean pactDisplay);
 
+	/**
+	 * Returns the csmap json of this publik user.
+	 *
+	 * @return the csmap json of this publik user
+	 */
+	@AutoEscape
+	public String getCsmapJSON();
+
+	/**
+	 * Sets the csmap json of this publik user.
+	 *
+	 * @param csmapJSON the csmap json of this publik user
+	 */
+	public void setCsmapJSON(String csmapJSON);
+
+	/**
+	 * Returns the modified date json of this publik user.
+	 *
+	 * @return the modified date json of this publik user
+	 */
+	public Date getModifiedDateJSON();
+
+	/**
+	 * Sets the modified date json of this publik user.
+	 *
+	 * @param modifiedDateJSON the modified date json of this publik user
+	 */
+	public void setModifiedDateJSON(Date modifiedDateJSON);
+
 	@Override
 	public boolean isNew();
 

@@ -58,6 +58,9 @@ public class CsmapCacheListener
 		this.log.info("Start csmap agenda caching");
 		_csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.AGENDA.getId());
 		this.log.info("End csmap agenda caching");
+		this.log.info("Start csmap categories caching");
+		_csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.CATEGORIES.getId());
+		this.log.info("End csmap categories caching");
 		this.log.info("End csmap caching");
 	}
 
