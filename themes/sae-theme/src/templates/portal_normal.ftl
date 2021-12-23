@@ -47,6 +47,7 @@
 
     <link rel="stylesheet" type="text/css" href="${css_folder}/sae.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="${css_folder}/swiper-bundle.min.css" media="screen" />
+	  <link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
     <script type="text/javascript" src="${javascript_folder}/swiper-bundle.min.js" charset="utf-8"></script>

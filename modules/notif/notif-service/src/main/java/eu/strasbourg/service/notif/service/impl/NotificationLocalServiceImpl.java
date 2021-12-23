@@ -24,6 +24,8 @@ import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
@@ -35,9 +37,19 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
+import eu.strasbourg.service.notif.constants.BroadcastChannel;
+import eu.strasbourg.service.notif.constants.SendStatus;
+import eu.strasbourg.service.notif.constants.TypeBroadcast;
+import eu.strasbourg.service.notif.exception.NoSuchServiceNotifException;
+import eu.strasbourg.service.notif.helper.FCMHelper;
 import eu.strasbourg.service.notif.model.Notification;
+import eu.strasbourg.service.notif.model.ServiceNotif;
 import eu.strasbourg.service.notif.service.NotificationLocalServiceUtil;
+import eu.strasbourg.service.notif.service.ServiceNotifLocalServiceUtil;
 import eu.strasbourg.service.notif.service.base.NotificationLocalServiceBaseImpl;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -62,6 +74,7 @@ import java.util.Map;
 public class NotificationLocalServiceImpl
 	extends NotificationLocalServiceBaseImpl {
 
+	private final Log log = LogFactoryUtil.getLog(this.getClass());
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -294,6 +307,7 @@ public class NotificationLocalServiceImpl
 
 		return notificationPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+
 	@Override
 	public List<Notification> getInProgressNotifications() {
 		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
@@ -305,6 +319,7 @@ public class NotificationLocalServiceImpl
 		dq.addOrder(order);
 		return NotificationLocalServiceUtil.dynamicQuery(dq);
 	}
+
 	@Override
 	public List<Notification> getToComeNotifications() {
 		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
@@ -314,13 +329,76 @@ public class NotificationLocalServiceImpl
 		dq.addOrder(order);
 		return NotificationLocalServiceUtil.dynamicQuery(dq);
 	}
+
 	@Override
 	public List<Notification> getPastNotifications() {
 		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
 		Criterion greater = RestrictionsFactoryUtil.lt("endDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		Criterion nullValue = RestrictionsFactoryUtil.isNull("endDate");
+		Criterion greaterOrNull = RestrictionsFactoryUtil.or(nullValue,greater);
 		Order order = OrderFactoryUtil.desc("startDate");
-		dq.add(greater);
+		dq.add(greaterOrNull);
 		dq.addOrder(order);
 		return NotificationLocalServiceUtil.dynamicQuery(dq);
+	}
+
+	@Override
+	public List<Notification> getNotificationsToSend() {
+		DynamicQuery dq = NotificationLocalServiceUtil.dynamicQuery();
+		Criterion broadcastDate = RestrictionsFactoryUtil.lt("broadcastDate", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		Criterion broadcastDate2 = RestrictionsFactoryUtil.gt("broadcastDate", Date.from(LocalDateTime.now().minusHours(2).atZone(ZoneId.systemDefault()).toInstant()));
+		Criterion isSend = RestrictionsFactoryUtil.eq("isSend", false);
+		Criterion status = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
+		Order order = OrderFactoryUtil.desc("startDate");
+		dq.add(broadcastDate);
+		dq.add(broadcastDate2);
+		dq.add(isSend);
+		dq.add(status);
+		dq.addOrder(order);
+		return NotificationLocalServiceUtil.dynamicQuery(dq);
+	}
+
+	@Override
+	public void sendNotifications() {
+		List<Notification> notifs = this.getNotificationsToSend();
+		for(Notification notif : notifs){
+			notif.setSendStatusCsmap(SendStatus.SENDING.getId());
+			this.updateNotification(notif);
+			for(String broadcastChannel : notif.getBroadcastChannels().split(","))
+				if(Integer.valueOf(broadcastChannel) == BroadcastChannel.CSMAP.getId()) {
+					String topic;
+					String imageUrl = null;
+					try {
+						ServiceNotif service = ServiceNotifLocalServiceUtil.getServiceNotif(notif.getServiceId());
+						if(service.getPictoId()!=0){
+							imageUrl = StrasbourgPropsUtil.getURL() + FileEntryHelper.getFileEntryURL(service.getPictoId());
+						}
+						if (notif.getTypeBroadcast() == TypeBroadcast.DISTRICT.getId()){
+							topic = AssetVocabularyHelper.getCategoryProperty(notif.getDistrict(), "SIG");
+						} else if (notif.getTypeBroadcast() == TypeBroadcast.DEFAULT.getId()){
+							topic = service.getCsmapTopic();
+						} else {
+							topic = "alerte";
+						}
+						String response = FCMHelper.sendNotificationToTopic(notif, imageUrl, topic);
+						if(response.contains("fail")){
+							notif.setSendStatusCsmap(SendStatus.ERROR.getId());
+						} else {
+							notif.setSendStatusCsmap(SendStatus.SEND.getId());
+						}
+						notif.setIsSend(true);
+						this.updateNotification(notif);
+					} catch (NoSuchServiceNotifException e) {
+						log.error("Pas de servcie trouv\u00e9 pour la notification " + notif.getNotificationId());
+						notif.setSendStatusCsmap(SendStatus.ERROR.getId());
+						this.updateNotification(notif);
+					} catch (PortalException e) {
+						log.error(e);
+						notif.setSendStatusCsmap(SendStatus.ERROR.getId());
+						this.updateNotification(notif);
+					}
+
+				}
+		}
 	}
 }

@@ -2,7 +2,6 @@ package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalFolder;
@@ -19,7 +18,12 @@ import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
+import eu.strasbourg.service.csmap.exception.NoDefaultPictoException;
+import eu.strasbourg.service.csmap.model.CsmapCache;
+import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
 import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalService;
+import eu.strasbourg.service.csmap.utils.ApiCsmapUtil;
 import eu.strasbourg.service.place.model.CacheJson;
 import eu.strasbourg.service.place.model.Historic;
 import eu.strasbourg.service.place.service.CacheJsonLocalService;
@@ -27,12 +31,10 @@ import eu.strasbourg.service.place.service.HistoricLocalService;
 import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
-import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.constants.CategoryNames;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.exception.place.NoDefaultPictoException;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSCSMapUtil;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
@@ -40,21 +42,13 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.liferay.portal.kernel.json.JSONFactoryUtil.createJSONObject;
 
 /**
  * @author angelique.champougny
@@ -190,96 +184,37 @@ public class PlaceApplication extends Application {
             @PathParam("last_update_time") String lastUpdateTimeString,
             @FormParam("ids_category") String idsCategory) {
 
-        // On transforme la date string en date
+        JSONObject json;
+        CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(CodeCacheEnum.CATEGORIES.getId());
         Date lastUpdateTime;
+
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
         } catch (Exception e) {
-            return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
+            return WSResponseUtil.lastUpdateTimeFormatError();
         }
-
-        JSONObject json = JSONFactoryUtil.createJSONObject();
 
         try {
             if (Validator.isNull(idsCategory)) {
                 idsCategory = "";
             }
-            // On récupère les pictos du vocabulaire
-            Map<String, DLFileEntry> pictos = FileEntryHelper.getPictoForVocabulary(VocabularyNames.PLACE_TYPE, "CSMap");
 
-            // On récupère l'URL du picto par défaut
-            String pictoDefaultURL = "";
-            DLFileEntry picto = pictos.get("Defaut");
-            if (Validator.isNull(picto))
-                throw new NoDefaultPictoException();
-            pictoDefaultURL = FileEntryHelper.getFileEntryURL(picto);
-
-            // On récupère la configuration pour les catégorie de lieu (fait dans le BO)
-            String categoriesBo = placeCategoriesLocalService.getPlaceCategories().getCategoriesIds();
-            String sigIdCategoriesBo = "";
-
-            // On récupère les catégories du vocabulaire des lieux
-            AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
-                    .getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
-            List<AssetCategory> categories = new ArrayList<>();
-            List<AssetCategory> sortedCategories = new ArrayList<>();
-
-            if (Validator.isNotNull(placeTypeVocabulary))
-                categories = placeTypeVocabulary.getCategories();
-
-            for (AssetCategory category : categories) {
-                if (Validator.isNotNull(categoriesBo)) {
-                    if (categoriesBo.contains(String.valueOf(category.getCategoryId()))) {
-						// On ajoute les catégories de categoriesBo
-                        sortedCategories.add(category);
-                        sigIdCategoriesBo += "," + AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), "SIG");
-                    }
+            if(Validator.isNotNull(cache)){
+                if(lastUpdateTimeString.equals("0")){
+                    json = createJSONObject(cache.getCacheJson());
+                } else if(lastUpdateTime.before(cache.getModifiedDate())){
+                    json = ApiCsmapUtil.getCategories(lastUpdateTimeString, idsCategory);
                 } else {
-					// Dans le cas où categoriesBo est null on ajoute toutes les catégories
-                    sortedCategories.add(category);
+                    json = csmapCacheLocalService.getJsonVide();
                 }
+            } else {
+                json = ApiCsmapUtil.getCategories(lastUpdateTimeString, idsCategory);
             }
 
-            // On récupère toutes les catégories qui ont été ajoutées ou modifiées
-            JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
-            JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-
-            for (AssetCategory categ : sortedCategories) {
-                // récupère l'URL du picto de la catégorie
-                String pictoURL;
-                picto = pictos.get(AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(), "SIG"));
-                boolean updatePicto = false;
-
-                if (picto != null) {
-                    pictoURL = FileEntryHelper.getFileEntryURL(picto);
-                    updatePicto = lastUpdateTime.before(picto.getModifiedDate());
-                } else
-                    pictoURL = pictoDefaultURL;
-
-                if (!idsCategory.contains(AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(), "SIG")))
-                    jsonAjout.put(CSMapJSonHelper.placeCategoryCSMapJSON(categ, pictoURL, true));
-                else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
-                    jsonModif.put(CSMapJSonHelper.placeCategoryCSMapJSON(categ, pictoURL, updatePicto));
-            }
-
-            json.put(WSConstants.JSON_ADD, jsonAjout);
-            json.put(WSConstants.JSON_UPDATE, jsonModif);
-
-            // On récupère toutes les catégories qui ont été supprimées
-            JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-
-            if (idsCategory != "") {
-                if (Validator.isNotNull(placeTypeVocabulary))
-                    for (String idCategory : idsCategory.split(",")) {
-                        if (AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null ||
-                                (Validator.isNotNull(sigIdCategoriesBo) && !sigIdCategoriesBo.contains(String.valueOf(idCategory))))
-                            jsonSuppr.put(idCategory);
-                    }
-            }
-            json.put(WSConstants.JSON_DELETE, jsonSuppr);
-
-            if (jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+            if( json.getJSONArray("ADD").length() == 0 &&
+                json.getJSONArray("UPDATE").length() == 0 &&
+                json.getJSONArray("DELETE").length() == 0)
                 return WSResponseUtil.buildOkResponse(json, 201);
         } catch (PortalException | NoDefaultPictoException e) {
             log.error(e);
@@ -325,7 +260,7 @@ public class PlaceApplication extends Application {
             Group group = CompanyLocalServiceUtil.getCompany(PortalUtil.getDefaultCompanyId()).getGroup();
             Group csmapGroup = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_CSMAP);
             long csmapGroupId = csmapGroup.getGroupId();
-            JournalFolder placesFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId, WSConstants.FOLDER_LIEUX);
+            JournalFolder placesFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId, WSConstants.FOLDER_POI_SIMPLE);
             long placesFolderId = placesFolder.getFolderId();
             DDMStructure structure = WSCSMapUtil.getStructureByGroupAndName(group.getGroupId(), WSConstants.STRUCTURE_POI_SIMPLE);
             ;
@@ -468,6 +403,14 @@ public class PlaceApplication extends Application {
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
         return WSResponseUtil.buildOkResponse(json);
+    }
+
+    @Reference
+    protected CsmapCacheLocalService csmapCacheLocalService;
+
+    @Reference(unbind = "-")
+    protected void setCsmapCacheLocalService(CsmapCacheLocalService csmapCacheLocalService) {
+        this.csmapCacheLocalService = csmapCacheLocalService;
     }
 
     @Reference(unbind = "-")

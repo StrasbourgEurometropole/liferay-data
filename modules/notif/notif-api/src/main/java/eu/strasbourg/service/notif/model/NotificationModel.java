@@ -1007,6 +1007,20 @@ public interface NotificationModel
 	public void setSendStatusSegur(long sendStatusSegur);
 
 	/**
+	 * Returns the is send of this notification.
+	 *
+	 * @return the is send of this notification
+	 */
+	public Boolean getIsSend();
+
+	/**
+	 * Sets the is send of this notification.
+	 *
+	 * @param isSend the is send of this notification
+	 */
+	public void setIsSend(Boolean isSend);
+
+	/**
 	 * Returns <code>true</code> if this notification is approved.
 	 *
 	 * @return <code>true</code> if this notification is approved; <code>false</code> otherwise

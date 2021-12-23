@@ -299,6 +299,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 				}
 				switch (place.getRTType()) {
 					case "1": // Piscines
+					case "4": // Patinoires
 						jsonPlace.put("occupation", realtime.getOccupationLabel());
 						jsonPlace.put("available", org.json.JSONObject.NULL);
 						jsonPlace.put("capacity", org.json.JSONObject.NULL);

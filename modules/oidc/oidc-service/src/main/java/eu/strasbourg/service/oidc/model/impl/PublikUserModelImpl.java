@@ -79,7 +79,8 @@ public class PublikUserModelImpl
 		{"email", Types.VARCHAR}, {"mapConfig", Types.VARCHAR},
 		{"displayConfig", Types.VARCHAR}, {"pactSignature", Types.TIMESTAMP},
 		{"banishDate", Types.TIMESTAMP}, {"banishDescription", Types.CLOB},
-		{"imageURL", Types.VARCHAR}, {"pactDisplay", Types.BOOLEAN}
+		{"imageURL", Types.VARCHAR}, {"pactDisplay", Types.BOOLEAN},
+		{"csmapJSON", Types.VARCHAR}, {"modifiedDateJSON", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -104,10 +105,12 @@ public class PublikUserModelImpl
 		TABLE_COLUMNS_MAP.put("banishDescription", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("imageURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("pactDisplay", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("csmapJSON", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("modifiedDateJSON", Types.TIMESTAMP);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,userId LONG,userName VARCHAR(75) null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null,mapConfig VARCHAR(1000) null,displayConfig TEXT null,pactSignature DATE null,banishDate DATE null,banishDescription TEXT null,imageURL VARCHAR(400) null,pactDisplay BOOLEAN)";
+		"create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,userId LONG,userName VARCHAR(75) null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null,mapConfig VARCHAR(1000) null,displayConfig TEXT null,pactSignature DATE null,banishDate DATE null,banishDescription TEXT null,imageURL VARCHAR(400) null,pactDisplay BOOLEAN,csmapJSON STRING null,modifiedDateJSON DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table publik_PublikUser";
 
@@ -641,6 +644,48 @@ public class PublikUserModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"csmapJSON",
+			new Function<PublikUser, Object>() {
+
+				@Override
+				public Object apply(PublikUser publikUser) {
+					return publikUser.getCsmapJSON();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"csmapJSON",
+			new BiConsumer<PublikUser, Object>() {
+
+				@Override
+				public void accept(PublikUser publikUser, Object csmapJSON) {
+					publikUser.setCsmapJSON((String)csmapJSON);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDateJSON",
+			new Function<PublikUser, Object>() {
+
+				@Override
+				public Object apply(PublikUser publikUser) {
+					return publikUser.getModifiedDateJSON();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"modifiedDateJSON",
+			new BiConsumer<PublikUser, Object>() {
+
+				@Override
+				public void accept(
+					PublikUser publikUser, Object modifiedDateJSON) {
+
+					publikUser.setModifiedDateJSON((Date)modifiedDateJSON);
+				}
+
+			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -932,6 +977,31 @@ public class PublikUserModelImpl
 		_pactDisplay = pactDisplay;
 	}
 
+	@Override
+	public String getCsmapJSON() {
+		if (_csmapJSON == null) {
+			return "";
+		}
+		else {
+			return _csmapJSON;
+		}
+	}
+
+	@Override
+	public void setCsmapJSON(String csmapJSON) {
+		_csmapJSON = csmapJSON;
+	}
+
+	@Override
+	public Date getModifiedDateJSON() {
+		return _modifiedDateJSON;
+	}
+
+	@Override
+	public void setModifiedDateJSON(Date modifiedDateJSON) {
+		_modifiedDateJSON = modifiedDateJSON;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -981,6 +1051,8 @@ public class PublikUserModelImpl
 		publikUserImpl.setBanishDescription(getBanishDescription());
 		publikUserImpl.setImageURL(getImageURL());
 		publikUserImpl.setPactDisplay(isPactDisplay());
+		publikUserImpl.setCsmapJSON(getCsmapJSON());
+		publikUserImpl.setModifiedDateJSON(getModifiedDateJSON());
 
 		publikUserImpl.resetOriginalValues();
 
@@ -1184,6 +1256,23 @@ public class PublikUserModelImpl
 
 		publikUserCacheModel.pactDisplay = isPactDisplay();
 
+		publikUserCacheModel.csmapJSON = getCsmapJSON();
+
+		String csmapJSON = publikUserCacheModel.csmapJSON;
+
+		if ((csmapJSON != null) && (csmapJSON.length() == 0)) {
+			publikUserCacheModel.csmapJSON = null;
+		}
+
+		Date modifiedDateJSON = getModifiedDateJSON();
+
+		if (modifiedDateJSON != null) {
+			publikUserCacheModel.modifiedDateJSON = modifiedDateJSON.getTime();
+		}
+		else {
+			publikUserCacheModel.modifiedDateJSON = Long.MIN_VALUE;
+		}
+
 		return publikUserCacheModel;
 	}
 
@@ -1274,6 +1363,8 @@ public class PublikUserModelImpl
 	private String _banishDescription;
 	private String _imageURL;
 	private boolean _pactDisplay;
+	private String _csmapJSON;
+	private Date _modifiedDateJSON;
 	private long _columnBitmask;
 	private PublikUser _escapedModel;
 

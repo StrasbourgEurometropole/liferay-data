@@ -122,11 +122,13 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
             notification.setSubtitleMap(subtitle);
 
             // Champ : date de fin
-            Date endDate = ParamUtil.getDate(request,
-                    "endDate" , dateFormat);
-            LocalDateTime end = new Timestamp(endDate.getTime())
-                    .toLocalDateTime().withHour(0).withMinute(0).withSecond(0).withNano(0);
-            notification.setEndDate(Timestamp.valueOf(end));
+            String endDateString = ParamUtil.getString(request, "endDate");
+            if (Validator.isNotNull(endDateString)) {
+                Date endDate = ParamUtil.getDate(request, "endDate" , dateFormat);
+                LocalDateTime end = new Timestamp(endDate.getTime())
+                        .toLocalDateTime().withHour(0).withMinute(0).withSecond(0).withNano(0);
+                notification.setEndDate(Timestamp.valueOf(end));
+            }
 
             // Champ : message
             Long messageId = ParamUtil.getLong(request, "message");
@@ -161,6 +163,9 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
             // Champ : broadcast-channels
             String broadcastChannels = ParamUtil.getString(request, "broadcast-channels");
             notification.setBroadcastChannels(broadcastChannels);
+
+            // Champ : isSend
+            notification.setIsSend(false);
 
             // mise à 1 du sendStatus des channels choisis
             for (String broadcastChannelId : broadcastChannels.split(",")) {
@@ -230,8 +235,9 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
             isValid = false;
         }
 
-        // Date de début
-        if (Validator.isNull(ParamUtil.getDate(request, "broadcastDate", dateFormat))) {
+        // Date de diffusion
+        String broadcastDateString = ParamUtil.getString(request, "broadcastDate");
+        if (Validator.isNull(broadcastDateString)) {
             SessionErrors.add(request, "broadcast-date-error");
             isValid = false;
         }
@@ -240,23 +246,41 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
         if (Validator.isNull(ParamUtil.getString(request, "title"))) {
             SessionErrors.add(request, "title-error");
             isValid = false;
+        } else if (ParamUtil.getString(request, "title").length() > 150) {
+            SessionErrors.add(request, "title-length-error");
+            isValid = false;
+        }
+
+        // Sous-titre
+        if (ParamUtil.getString(request, "subtitle").length() > 100) {
+            SessionErrors.add(request, "subtitle-length-error");
+            isValid = false;
         }
 
         // Date de début
-        if (Validator.isNull(ParamUtil.getDate(request, "startDate", dateFormat))) {
+        String startDateString = ParamUtil.getString(request, "startDate");
+        if (Validator.isNull(startDateString)) {
             SessionErrors.add(request, "start-date-error");
             isValid = false;
         }
 
-        // Date de fin
-        if (Validator.isNull(ParamUtil.getDate(request, "endDate", dateFormat))) {
-            SessionErrors.add(request, "end-date-error");
-            isValid = false;
+        // Comparaison date de début et date de fin
+        String endDateString = ParamUtil.getString(request, "endDate");
+        if (Validator.isNotNull(endDateString)) {
+            Date startDate = ParamUtil.getDate(request, "startDate" , dateFormat);
+            Date endDate = ParamUtil.getDate(request, "endDate" , dateFormat);
+            if (startDate.after(endDate)) {
+                SessionErrors.add(request, "dates-error");
+                isValid = false;
+            }
         }
 
         // Contenu
         if (Validator.isNull(ParamUtil.getString(request, "content"))) {
             SessionErrors.add(request, "content-error");
+            isValid = false;
+        } else if (ParamUtil.getString(request, "content").length() > 1000) {
+            SessionErrors.add(request, "content-length-error");
             isValid = false;
         }
 
@@ -278,6 +302,40 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
         // Canaux de diffusion
         if (Validator.isNull(ParamUtil.getLong(request, "broadcast-channels"))) {
             SessionErrors.add(request, "broadcast-channels-error");
+            isValid = false;
+        }
+
+        // Champs URL et Label URL
+        Map<Locale, String> labelUrls = LocalizationUtil
+                .getLocalizationMap(request, "labelUrl");
+        Map<Locale, String> urls = LocalizationUtil
+                .getLocalizationMap(request, "url");
+        Boolean labelUrlValue = false;
+        Boolean urlValue = false;
+        for (Map.Entry<Locale, String> entry : labelUrls.entrySet()) {
+            if(Validator.isNotNull(entry.getValue())){
+                labelUrlValue = true;
+            }
+        }
+        for (Map.Entry<Locale, String> entry : urls.entrySet()) {
+            if(Validator.isNotNull(entry.getValue())){
+                urlValue = true;
+            }
+        }
+        if(labelUrlValue!=urlValue) {
+            SessionErrors.add(request, "labelUrl-url-error");
+            isValid = false;
+        }
+
+        // URL
+        if (ParamUtil.getString(request, "url").length() > 450) {
+            SessionErrors.add(request, "url-length-error");
+            isValid = false;
+        }
+
+        // Label URL
+        if (ParamUtil.getString(request, "labelUrl").length() > 100) {
+            SessionErrors.add(request, "labelUrl-length-error");
             isValid = false;
         }
 

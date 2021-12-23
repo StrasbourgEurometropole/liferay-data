@@ -98,7 +98,8 @@ public class NotificationModelImpl
 		{"typeBroadcast", Types.BIGINT}, {"district", Types.BIGINT},
 		{"broadcastChannels", Types.VARCHAR}, {"sendStatusCsmap", Types.BIGINT},
 		{"sendStatusTwitter", Types.BIGINT}, {"sendStatusMonst", Types.BIGINT},
-		{"sendStatusMail", Types.BIGINT}, {"sendStatusSegur", Types.BIGINT}
+		{"sendStatusMail", Types.BIGINT}, {"sendStatusSegur", Types.BIGINT},
+		{"isSend", Types.BOOLEAN}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -137,10 +138,11 @@ public class NotificationModelImpl
 		TABLE_COLUMNS_MAP.put("sendStatusMonst", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("sendStatusMail", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("sendStatusSegur", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("isSend", Types.BOOLEAN);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table notif_Notification (uuid_ VARCHAR(75) null,notificationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,serviceId LONG,isAlert INTEGER,natureId LONG,title STRING null,subtitle STRING null,startDate DATE null,endDate DATE null,broadcastDate DATE null,messageId LONG,content STRING null,labelUrl STRING null,url STRING null,typeBroadcast LONG,district LONG,broadcastChannels VARCHAR(75) null,sendStatusCsmap LONG,sendStatusTwitter LONG,sendStatusMonst LONG,sendStatusMail LONG,sendStatusSegur LONG)";
+		"create table notif_Notification (uuid_ VARCHAR(75) null,notificationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,serviceId LONG,isAlert INTEGER,natureId LONG,title STRING null,subtitle STRING null,startDate DATE null,endDate DATE null,broadcastDate DATE null,messageId LONG,content STRING null,labelUrl STRING null,url STRING null,typeBroadcast LONG,district LONG,broadcastChannels VARCHAR(75) null,sendStatusCsmap LONG,sendStatusTwitter LONG,sendStatusMonst LONG,sendStatusMail LONG,sendStatusSegur LONG,isSend BOOLEAN)";
 
 	public static final String TABLE_SQL_DROP = "drop table notif_Notification";
 
@@ -984,6 +986,26 @@ public class NotificationModelImpl
 					Notification notification, Object sendStatusSegur) {
 
 					notification.setSendStatusSegur((Long)sendStatusSegur);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"isSend",
+			new Function<Notification, Object>() {
+
+				@Override
+				public Object apply(Notification notification) {
+					return notification.getIsSend();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"isSend",
+			new BiConsumer<Notification, Object>() {
+
+				@Override
+				public void accept(Notification notification, Object isSend) {
+					notification.setIsSend((Boolean)isSend);
 				}
 
 			});
@@ -1898,6 +1920,16 @@ public class NotificationModelImpl
 	}
 
 	@Override
+	public Boolean getIsSend() {
+		return _isSend;
+	}
+
+	@Override
+	public void setIsSend(Boolean isSend) {
+		_isSend = isSend;
+	}
+
+	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
 			PortalUtil.getClassNameId(Notification.class.getName()));
@@ -2194,6 +2226,7 @@ public class NotificationModelImpl
 		notificationImpl.setSendStatusMonst(getSendStatusMonst());
 		notificationImpl.setSendStatusMail(getSendStatusMail());
 		notificationImpl.setSendStatusSegur(getSendStatusSegur());
+		notificationImpl.setIsSend(getIsSend());
 
 		notificationImpl.resetOriginalValues();
 
@@ -2442,6 +2475,8 @@ public class NotificationModelImpl
 
 		notificationCacheModel.sendStatusSegur = getSendStatusSegur();
 
+		notificationCacheModel.isSend = getIsSend();
+
 		return notificationCacheModel;
 	}
 
@@ -2556,6 +2591,7 @@ public class NotificationModelImpl
 	private long _sendStatusMonst;
 	private long _sendStatusMail;
 	private long _sendStatusSegur;
+	private Boolean _isSend;
 	private long _columnBitmask;
 	private Notification _escapedModel;
 

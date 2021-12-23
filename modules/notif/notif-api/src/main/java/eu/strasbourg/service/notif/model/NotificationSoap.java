@@ -66,6 +66,7 @@ public class NotificationSoap implements Serializable {
 		soapModel.setSendStatusMonst(model.getSendStatusMonst());
 		soapModel.setSendStatusMail(model.getSendStatusMail());
 		soapModel.setSendStatusSegur(model.getSendStatusSegur());
+		soapModel.setIsSend(model.getIsSend());
 
 		return soapModel;
 	}
@@ -375,6 +376,14 @@ public class NotificationSoap implements Serializable {
 		_sendStatusSegur = sendStatusSegur;
 	}
 
+	public Boolean getIsSend() {
+		return _isSend;
+	}
+
+	public void setIsSend(Boolean isSend) {
+		_isSend = isSend;
+	}
+
 	private String _uuid;
 	private long _notificationId;
 	private long _groupId;
@@ -407,5 +416,6 @@ public class NotificationSoap implements Serializable {
 	private long _sendStatusMonst;
 	private long _sendStatusMail;
 	private long _sendStatusSegur;
+	private Boolean _isSend;
 
 }

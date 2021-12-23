@@ -75,6 +75,8 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		attributes.put("banishDescription", getBanishDescription());
 		attributes.put("imageURL", getImageURL());
 		attributes.put("pactDisplay", isPactDisplay());
+		attributes.put("csmapJSON", getCsmapJSON());
+		attributes.put("modifiedDateJSON", getModifiedDateJSON());
 
 		return attributes;
 	}
@@ -188,6 +190,18 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		if (pactDisplay != null) {
 			setPactDisplay(pactDisplay);
 		}
+
+		String csmapJSON = (String)attributes.get("csmapJSON");
+
+		if (csmapJSON != null) {
+			setCsmapJSON(csmapJSON);
+		}
+
+		Date modifiedDateJSON = (Date)attributes.get("modifiedDateJSON");
+
+		if (modifiedDateJSON != null) {
+			setModifiedDateJSON(modifiedDateJSON);
+		}
 	}
 
 	@Override
@@ -240,6 +254,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public Date getCreateDate() {
 		return _publikUser.getCreateDate();
+	}
+
+	/**
+	 * Returns the csmap json of this publik user.
+	 *
+	 * @return the csmap json of this publik user
+	 */
+	@Override
+	public String getCsmapJSON() {
+		return _publikUser.getCsmapJSON();
 	}
 
 	/**
@@ -323,6 +347,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public Date getModifiedDate() {
 		return _publikUser.getModifiedDate();
+	}
+
+	/**
+	 * Returns the modified date json of this publik user.
+	 *
+	 * @return the modified date json of this publik user
+	 */
+	@Override
+	public Date getModifiedDateJSON() {
+		return _publikUser.getModifiedDateJSON();
 	}
 
 	/**
@@ -509,6 +543,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
+	 * Sets the csmap json of this publik user.
+	 *
+	 * @param csmapJSON the csmap json of this publik user
+	 */
+	@Override
+	public void setCsmapJSON(String csmapJSON) {
+		_publikUser.setCsmapJSON(csmapJSON);
+	}
+
+	/**
 	 * Sets the display config of this publik user.
 	 *
 	 * @param displayConfig the display config of this publik user
@@ -593,6 +637,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_publikUser.setModifiedDate(modifiedDate);
+	}
+
+	/**
+	 * Sets the modified date json of this publik user.
+	 *
+	 * @param modifiedDateJSON the modified date json of this publik user
+	 */
+	@Override
+	public void setModifiedDateJSON(Date modifiedDateJSON) {
+		_publikUser.setModifiedDateJSON(modifiedDateJSON);
 	}
 
 	@Override

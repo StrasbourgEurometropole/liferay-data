@@ -1,4 +1,5 @@
 var namespace = "_eu_strasbourg_portlet_notif_NotifBOPortlet_";
+var namespaceAUI = "#" + namespace;
 
 var selectServices = document.getElementById(namespace + "service");
 var selectNactures = document.getElementById(namespace + 'nature');
@@ -7,6 +8,8 @@ var content = document.getElementById(namespace + 'content');
 var notificationType = document.getElementById(namespace + "notificationType");
 var selectBroadcastTypes = document.getElementById(namespace + 'broadcast-type');
 var selectDistricts = document.getElementById(namespace + 'district');
+var labelUrl = document.getElementById(namespace + 'labelUrl');
+var url = document.getElementById(namespace + 'url');
 
 //Initialisation de l'affichage des champs
 initialiseNatures();
@@ -139,6 +142,34 @@ submitButton.onclick = function(event){
         }
     });
 
+    var startDate = $(namespaceAUI + "startDate").val();
+    var endDate = $(namespaceAUI + "endDate").val();
+    if(endDate != ""){
+        // on vérifie que la date de début soit <= à la date de fin
+        if(!comparDatesYMD(startDate, endDate)){
+            $('.incorrect-date').show();
+            if(allValidate){
+                $('html,body').animate({scrollTop: $(namespaceAUI + "startDate").offset().top - 100}, 'slow');
+                allValidate = false;
+            }
+        }else{
+            $('.incorrect-date').hide();
+        }
+    }
+
+    var labelUrlValue = labelUrl.value;
+    var urlValue = url.value;
+    debugger;
+    if (labelUrlValue !== "" && urlValue === "" || labelUrlValue === "" && urlValue !== "") {
+        $('.incorrect-labelUrl-url').show();
+        if(allValidate){
+            $('html,body').animate({scrollTop: $(namespaceAUI + "content").offset().top - 100}, 'slow');
+            allValidate = false;
+        }
+    } else {
+        $('.incorrect-labelUrl-url').hide();
+    }
+
     if (!allValidate) {
        event.preventDefault();
     }
@@ -149,4 +180,25 @@ function submitForm(event) {
     // on enlève le disable pour pouvoir récupérer les infos
     content.disabled = false;
     selectBroadcastTypes.disabled = false;
+}
+
+function comparDatesYMD(startDate, endDate) {
+	var startDay = parseInt(startDate.substr(0, 2));
+	var startMonth = parseInt(startDate.substr(3, 2)) - 1;
+	var startYear = parseInt(startDate.substr(6, 4));
+	var date1 = new Date(startYear, startMonth, startDay, 0, 0, 0, 0);
+
+    var endDay = parseInt(endDate.substr(0, 2));
+    var endMonth = parseInt(endDate.substr(3, 2)) - 1;
+    var endYear = parseInt(endDate.substr(6, 4));
+    var date2 = new Date(endYear, endMonth, endDay, 0, 0, 0, 0);
+
+	// si la date d'arrviée et superieur a la date de depart en afficher un
+	// message d'erreur
+	if (date1.getTime() > date2.getTime()) {
+		return false;
+	} else {
+		return true;
+	}
+
 }

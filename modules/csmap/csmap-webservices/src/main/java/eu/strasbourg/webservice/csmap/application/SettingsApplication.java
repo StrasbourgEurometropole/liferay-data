@@ -33,6 +33,7 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 import java.util.*;
 
+
 @Component(
         property = {
         JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=" + WSConstants.APP_GROUP_BASE + WSConstants.APP_SETTINGS_BASE,
@@ -208,6 +209,13 @@ public class SettingsApplication extends Application {
                 jsonModif.put(CSMapJSonHelper.serviceCSMapJSON(service));
         }
 
+        // AJout du topic ALL
+        JSONObject jsonAll = JSONFactoryUtil.createJSONObject();
+        jsonAll.put("topic",WSConstants.TOPIC_ALERTE);
+        jsonAll.put("name","Alertes");
+        jsonAll.put("mandatory",true);
+        jsonModif.put(jsonAll);
+
         json.put(WSConstants.JSON_ADD, jsonAjout);
         json.put(WSConstants.JSON_UPDATE, jsonModif);
 
@@ -217,7 +225,9 @@ public class SettingsApplication extends Application {
         if (Validator.isNotNull(topics)) {
                 for (String topic : topics.split(",")) {
                     try {
-                        serviceNotifLocalService.getByTopic(topic);
+                        if(!topic.equals(WSConstants.TOPIC_ALERTE)) {
+                            serviceNotifLocalService.getByTopic(topic);
+                        }
                     } catch (NoSuchServiceNotifException e) {
                         jsonSuppr.put(topic);
                     }

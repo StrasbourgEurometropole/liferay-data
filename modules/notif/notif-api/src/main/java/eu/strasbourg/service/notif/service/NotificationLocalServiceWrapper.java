@@ -372,6 +372,13 @@ public class NotificationLocalServiceWrapper
 		return _notificationLocalService.getNotificationsCount();
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.notif.model.Notification>
+		getNotificationsToSend() {
+
+		return _notificationLocalService.getNotificationsToSend();
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -413,6 +420,11 @@ public class NotificationLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _notificationLocalService.removeNotification(notificationId);
+	}
+
+	@Override
+	public void sendNotifications() {
+		_notificationLocalService.sendNotifications();
 	}
 
 	/**

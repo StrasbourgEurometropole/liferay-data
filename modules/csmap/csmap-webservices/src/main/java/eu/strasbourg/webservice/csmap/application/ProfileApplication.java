@@ -66,41 +66,52 @@ public class ProfileApplication extends Application {
         try {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
 
-            // On récupère le user
-            JSONObject jsonPublikUser = PublikApiClient.getUserDetails(publikUser.getPublikId());
-
             if (Validator.isNotNull(publikUser)) {
-                if (Validator.isNotNull(jsonPublikUser.getString("last_name")))
-                    jsonResponse.put(WSConstants.JSON_LAST_NAME, jsonPublikUser.getString("last_name"));
-                else
-                    return WSResponseUtil.buildErrorResponse(500, "last-name introuvable");
 
-                if (Validator.isNotNull(jsonPublikUser.getString("first_name")))
-                    jsonResponse.put(WSConstants.JSON_FIRST_NAME, jsonPublikUser.getString("first_name"));
-                else
-                    return WSResponseUtil.buildErrorResponse(500, "first-name introuvable");
+                // On récupère le user
+                JSONObject jsonPublikUser = PublikApiClient.getUserDetails(publikUser.getPublikId());
 
-                if (Validator.isNotNull(jsonPublikUser.getString("last_name")))
-                    jsonResponse.put(WSConstants.JSON_EMAIL, jsonPublikUser.getString("email"));
-                else
-                    return WSResponseUtil.buildErrorResponse(500, "email introuvable");
+                if (Validator.isNotNull(publikUser)) {
+                    if (Validator.isNotNull(jsonPublikUser.getString("last_name")))
+                        jsonResponse.put(WSConstants.JSON_LAST_NAME, jsonPublikUser.getString("last_name"));
+                    else
+                        return WSResponseUtil.buildErrorResponse(500, "last-name introuvable");
 
-                if (Validator.isNotNull(jsonPublikUser.getString("address")))
-                    jsonResponse.put(WSConstants.JSON_ADDRESS, jsonPublikUser.getString("address"));
+                    if (Validator.isNotNull(jsonPublikUser.getString("first_name")))
+                        jsonResponse.put(WSConstants.JSON_FIRST_NAME, jsonPublikUser.getString("first_name"));
+                    else
+                        return WSResponseUtil.buildErrorResponse(500, "first-name introuvable");
 
-                if (Validator.isNotNull(jsonPublikUser.getString("zipcode")))
-                    jsonResponse.put(WSConstants.JSON_POSTAL_CODE, jsonPublikUser.getString("zipcode"));
+                    if (Validator.isNotNull(jsonPublikUser.getString("email")))
+                        jsonResponse.put(WSConstants.JSON_EMAIL, jsonPublikUser.getString("email"));
+                    else
+                        return WSResponseUtil.buildErrorResponse(500, "email introuvable");
 
-                if (Validator.isNotNull(jsonPublikUser.getString("city")))
-                    jsonResponse.put(WSConstants.JSON_CITY, jsonPublikUser.getString("city"));
+                    if (Validator.isNotNull(jsonPublikUser.getString("address")))
+                        jsonResponse.put(WSConstants.JSON_ADDRESS, jsonPublikUser.getString("address"));
 
-                if (Validator.isNotNull(jsonPublikUser.getString("photo")))
-                    jsonResponse.put(WSConstants.JSON_IMAGE_URL, jsonPublikUser.getString("photo"));
+                    if (Validator.isNotNull(jsonPublikUser.getString("zipcode")))
+                        jsonResponse.put(WSConstants.JSON_POSTAL_CODE, jsonPublikUser.getString("zipcode"));
 
-                String district = getDistrict(jsonPublikUser.getString("address"),
-                        jsonPublikUser.getString("zipcode"), jsonPublikUser.getString("city"));
-                if (Validator.isNotNull(district))
-                    jsonResponse.put(WSConstants.JSON_DISTRICT, district);
+                    if (Validator.isNotNull(jsonPublikUser.getString("city")))
+                        jsonResponse.put(WSConstants.JSON_CITY, jsonPublikUser.getString("city"));
+
+                    if (Validator.isNotNull(jsonPublikUser.getString("photo")))
+                        jsonResponse.put(WSConstants.JSON_IMAGE_URL, jsonPublikUser.getString("photo"));
+
+                    if (Validator.isNotNull(jsonPublikUser.getString("address")) &&
+                            Validator.isNotNull(jsonPublikUser.getString("zipcode")) &&
+                            Validator.isNotNull(jsonPublikUser.getString("city"))) {
+                        try {
+                            String district = getDistrict(jsonPublikUser.getString("address"),
+                                    jsonPublikUser.getString("zipcode"), jsonPublikUser.getString("city"));
+                            if (Validator.isNotNull(district))
+                                jsonResponse.put(WSConstants.JSON_DISTRICT, district);
+                        }catch (Exception e){
+                            log.error(e);
+                        }
+                    }
+                }
             }
         } catch (NoJWTInHeaderException e) {
             log.error(e.getMessage());
@@ -161,6 +172,7 @@ public class ProfileApplication extends Application {
         return null;
     }
 
+
     @Reference(unbind = "-")
     protected void setWSAuthenticator(WSAuthenticator authenticator) {
         this.authenticator = authenticator;
@@ -175,5 +187,4 @@ public class ProfileApplication extends Application {
     public void setOpenDataGeoDistrictService(OpenDataGeoDistrictService openDataGeoDistrictService) {
         this.openDataGeoDistrictService = openDataGeoDistrictService;
     }
-
 }

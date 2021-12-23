@@ -8,6 +8,7 @@
 *.tar.gz
 *.cer
 .env
+*fcm-settings.json
 *portal-ext.properties
 *portal-setup-wizard.properties
 *jdbc_ping.xml

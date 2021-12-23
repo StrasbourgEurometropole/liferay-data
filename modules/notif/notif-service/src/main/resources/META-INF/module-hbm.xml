@@ -55,6 +55,7 @@
 		<property name="sendStatusMonst" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="sendStatusMail" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="sendStatusSegur" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="isSend" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 	<class name="eu.strasbourg.service.notif.model.impl.ServiceNotifImpl" table="notif_ServiceNotif">
 		<id name="serviceId" type="long">

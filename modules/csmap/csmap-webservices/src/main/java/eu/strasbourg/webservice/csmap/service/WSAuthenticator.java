@@ -7,8 +7,11 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.csmap.exception.NoSuchBaseNonceException;
 import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
+import eu.strasbourg.service.csmap.model.BaseNonce;
 import eu.strasbourg.service.csmap.model.RefreshToken;
+import eu.strasbourg.service.csmap.service.BaseNonceLocalService;
 import eu.strasbourg.service.csmap.service.RefreshTokenLocalService;
 import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
 import eu.strasbourg.service.oidc.model.PublikUser;
@@ -21,6 +24,8 @@ import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
 import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
 import eu.strasbourg.webservice.csmap.exception.NoSubInJWTException;
+import eu.strasbourg.webservice.csmap.exception.auth.BaseNonceCreationFailedException;
+import eu.strasbourg.webservice.csmap.exception.auth.BaseNonceExpiredException;
 import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenExpiredException;
 import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenCreationFailedException;
 import eu.strasbourg.webservice.csmap.utils.WSTokenUtil;
@@ -36,6 +41,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Date;
 
@@ -117,6 +123,25 @@ public class WSAuthenticator {
     }
 
     /**
+     * Génére et enregistre un BaseNonce
+     */
+    public BaseNonce generateAndSaveBaseNonce() throws BaseNonceCreationFailedException {
+        try {
+            ServiceContext sc = ServiceContextHelper.generateGlobalServiceContext();
+
+            BaseNonce baseNonce = baseNonceLocalService.createBaseNonce(sc);
+
+            baseNonce.setCreateDate(new Date());
+            baseNonce.setValue(WSTokenUtil.generateRandomToken(WSConstants.BASE_NONCE_LENGTH));
+
+            return baseNonceLocalService.updateBaseNonce(baseNonce, sc);
+        } catch (PortalException e) {
+            throw new BaseNonceCreationFailedException(e);
+        }
+    }
+
+
+    /**
      * Recherche le refresh token en base, vérifie sa validité
      * Supprime le refresh token trouvé si ce dernier n'est plus valide
      *
@@ -139,6 +164,59 @@ public class WSAuthenticator {
         }
 
         return refreshToken;
+    }
+
+    /**
+     * Recherche le baseNonce en base, vérifie sa validité
+     *
+     * @param baseNonceValue la valeur du baseNonce (le baseNonce en lui-même et non l'objet du service)
+     * @return le baseNonce valide trouvé en base
+     * @throws NoSuchBaseNonceException Le baseNonce n'existe pas en base
+     * @throws BaseNonceExpiredException Le baseNonce trouvé en base est expiré
+     */
+    public BaseNonce controlBaseNonce(String baseNonceValue)
+            throws NoSuchBaseNonceException, BaseNonceExpiredException {
+        BaseNonce baseNonce = baseNonceLocalService.fetchByValue(baseNonceValue);
+
+        if (Validator.isNull(baseNonce))
+            throw new NoSuchBaseNonceException(WSConstants.ERROR_NO_SUCH_BASE_NONCE +" : " +  baseNonceValue);
+
+        if (!WSTokenUtil.isBaseNonceDateValid(baseNonce.getCreateDate(),
+                WSConstants.BASE_NONCE_VALIDITY_SECONDS)) {
+            throw new BaseNonceExpiredException(baseNonceValue);
+        }
+
+        return baseNonce;
+    }
+
+    public boolean checkNonce(String idToken, String baseNonce, String codeVerifier) {
+        boolean result = false;
+
+        try {
+            String codeChallenge = WSTokenUtil.hashCodeVerifier(codeVerifier);
+            String nonce = baseNonce + codeChallenge;
+
+            String codeTochallenge = JWTUtils.getJWTClaim(idToken, WSConstants.NONCE,
+                    StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+
+            if(nonce.equals(codeTochallenge)) {
+                result = true;
+            }
+
+        } catch (NoSuchAlgorithmException e) {
+            _log.error("Algorithme inexistant lors du hashe du code_verifier en code_challenge");
+            return false;
+        }
+
+        return result;
+    }
+
+    /**
+     * Suppression du base Nonce
+     * @param baseNonce base nonce à supprimer
+     */
+    public void deleteBaseNonce(BaseNonce baseNonce) {
+        baseNonceLocalService.deleteBaseNonce(baseNonce);
     }
 
     /**
@@ -212,6 +290,9 @@ public class WSAuthenticator {
     protected void setPublikUserLocalService(PublikUserLocalService publikUserLocalService) {
         this.publikUserLocalService = publikUserLocalService;
     }
+
+    @Reference
+    protected BaseNonceLocalService baseNonceLocalService;
 
     @Reference
     protected RefreshTokenLocalService refreshTokenLocalService;
