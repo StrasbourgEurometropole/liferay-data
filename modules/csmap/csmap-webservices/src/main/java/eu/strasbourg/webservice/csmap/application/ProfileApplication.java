@@ -13,6 +13,7 @@ import eu.strasbourg.service.csmap.model.CsmapCache;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
 import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
 import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.opendata.geo.district.OpenDataGeoDistrictService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.PublikApiClient;
@@ -77,46 +78,32 @@ public class ProfileApplication extends Application {
 
             // On récupère le user
             JSONObject jsonPublikUser = PublikApiClient.getUserDetails(publikUser.getPublikId());
-            long codeCache = CodeCacheEnum.PROFILE.getId();
-            CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(codeCache);
 
-            if (Validator.isNotNull(publikUser)) {
-                if (Validator.isNotNull(jsonPublikUser.getString("modified"))) {
+            if (Validator.isNotNull(jsonPublikUser.getString("modified"))) {
+                try {
                     String str = jsonPublikUser.getString("modified");
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX");
                     LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
                     Date date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
-                    Map<String, Object> map = profileCSMapJSON(jsonPublikUser);
-                    if (Validator.isNotNull(cache)) {
-                        if (!cache.getModifiedDate().equals(date)) {
-                            cache.setCacheJson((String) map.get(stringJson));
-                            cache.setModifiedDate(date);
-                            cache.setProcessedDate(date);
-                            cache.setIsLastProcessSuccess(true);
-                            response = (Response) profileCSMapJSON(jsonPublikUser).get(stringResponse);
-                            csmapCacheLocalService.updateCsmapCache(cache);
-                        } else {
-                            response = WSResponseUtil.buildOkResponse(JSONFactoryUtil.createJSONObject(cache.getCacheJson()));
-                            cache.setProcessedDate(date);
-                            cache.setIsLastProcessSuccess(true);
-                            csmapCacheLocalService.updateCsmapCache(cache);
+                    if (Validator.isNull(publikUser.getModifiedDateJSON()) || !publikUser.getModifiedDateJSON().equals(date)) {
+                        Map<String, Object> map = profileCSMapJSON(jsonPublikUser);
+                        String jsonValue = (String) map.get(stringJson);
+                        if(Validator.isNotNull(jsonValue)){
+                            publikUser.setCsmapJSON(jsonValue);
+                            publikUser.setModifiedDateJSON(date);
+                            PublikUserLocalServiceUtil.updatePublikUser(publikUser);
                         }
+                        response = (Response) map.get(stringResponse);
                     } else {
-                        long id = counterLocalService.increment();
-                        cache = csmapCacheLocalService.createCsmapCache(id);
-                        cache.setCodeCache(codeCache);
-                        cache.setCacheJson((String) map.get(stringJson));
-                        cache.setModifiedDate(date);
-                        cache.setProcessedDate(date);
-                        cache.setIsLastProcessSuccess(true);
-                        response = (Response) profileCSMapJSON(jsonPublikUser).get(stringResponse);
-                        csmapCacheLocalService.updateCsmapCache(cache);
+                        response = WSResponseUtil.buildOkResponse(JSONFactoryUtil.createJSONObject(publikUser.getCsmapJSON()));
                     }
-                } else {
-                    response = (Response) profileCSMapJSON(jsonPublikUser).get(stringResponse);
+                } catch (Exception e){
+                    Map<String, Object> map = profileCSMapJSON(jsonPublikUser);
+                    response = (Response) map.get(stringResponse);
                 }
             } else {
-                response = WSResponseUtil.buildErrorResponse(500, "No publikUser");
+                Map<String, Object> map = profileCSMapJSON(jsonPublikUser);
+                response = (Response) map.get(stringResponse);
             }
         } catch (NoJWTInHeaderException e) {
             log.error(e.getMessage());
@@ -170,21 +157,24 @@ public class ProfileApplication extends Application {
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         if (Validator.isNotNull(jsonPublikUser.getString("last_name")))
             jsonResponse.put(WSConstants.JSON_LAST_NAME, jsonPublikUser.getString("last_name"));
-        else
+        else {
             map.put(stringResponse, WSResponseUtil.buildErrorResponse(500, "last-name introuvable"));
-        map.put(stringJson, "");
+            map.put(stringJson, "");
+        }
 
         if (Validator.isNotNull(jsonPublikUser.getString("first_name")))
             jsonResponse.put(WSConstants.JSON_FIRST_NAME, jsonPublikUser.getString("first_name"));
-        else
+        else {
             map.put(stringResponse, WSResponseUtil.buildErrorResponse(500, "first-name introuvable"));
-        map.put(stringJson, "");
+            map.put(stringJson, "");
+        }
 
         if (Validator.isNotNull(jsonPublikUser.getString("last_name")))
             jsonResponse.put(WSConstants.JSON_EMAIL, jsonPublikUser.getString("email"));
-        else
+        else {
             map.put(stringResponse, WSResponseUtil.buildErrorResponse(500, "email introuvable"));
-        map.put(stringJson, "");
+            map.put(stringJson, "");
+        }
 
         if (Validator.isNotNull(jsonPublikUser.getString("address")))
             jsonResponse.put(WSConstants.JSON_ADDRESS, jsonPublikUser.getString("address"));
