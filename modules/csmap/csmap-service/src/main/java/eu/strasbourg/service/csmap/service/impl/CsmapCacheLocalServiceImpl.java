@@ -135,8 +135,8 @@ public class CsmapCacheLocalServiceImpl extends CsmapCacheLocalServiceBaseImpl {
 					if(cache.getModifiedDate().before(getLastModifiedEvent())){
 						cache.setCacheJson(String.valueOf(ApiCsmapUtil.getEvents("0")));
 						cache.setModifiedDate(date);
-						cache.setIsLastProcessSuccess(true);
 					}
+					cache.setIsLastProcessSuccess(true);
 				}
 			}
 		}

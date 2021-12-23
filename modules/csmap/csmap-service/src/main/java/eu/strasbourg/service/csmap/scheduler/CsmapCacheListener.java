@@ -29,7 +29,7 @@ public class CsmapCacheListener
 
 		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
 		Calendar now = Calendar.getInstance();
-		now.add(Calendar.MINUTE, 1);
+		now.add(Calendar.MINUTE, 5);
 		Date fiveMinutesFromNow = now.getTime();
 
 		// Création du trigger "Toutes les 2 minutes"
