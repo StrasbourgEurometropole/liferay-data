@@ -3,6 +3,7 @@
 
 <hibernate-mapping auto-import="false" default-lazy="false">
 	<import class="eu.strasbourg.service.csmap.model.Agenda" />
+	<import class="eu.strasbourg.service.csmap.model.BaseNonce" />
 	<import class="eu.strasbourg.service.csmap.model.CsmapCache" />
 	<import class="eu.strasbourg.service.csmap.model.PlaceCategories" />
 	<import class="eu.strasbourg.service.csmap.model.RefreshToken" />
@@ -22,6 +23,13 @@
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="themesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="typesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="tags" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="eu.strasbourg.service.csmap.model.impl.BaseNonceImpl" table="csmap_BaseNonce">
+		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="baseNonceId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="createDate" type="org.hibernate.type.TimestampType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="value" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.csmap.model.impl.CsmapCacheImpl" table="csmap_CsmapCache">
 		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="cacheId" type="long">

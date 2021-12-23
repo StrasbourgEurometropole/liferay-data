@@ -158,7 +158,7 @@ public class CSMapJSonHelper {
         return  jsonJournalArticle;
     }
 
-    public static JSONObject generalConditionsCSMapJSON(List<JournalArticle> generalConditions) throws PortalException {
+    public static JSONObject simpleContentCSMapJSON(List<JournalArticle> generalConditions) throws PortalException {
         JSONObject json = JSONFactoryUtil.createJSONObject();
         for (JournalArticle generalCondition : generalConditions) {
             // CategoryTitle en fonction des differentes langues

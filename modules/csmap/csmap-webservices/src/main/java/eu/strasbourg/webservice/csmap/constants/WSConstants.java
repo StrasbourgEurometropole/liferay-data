@@ -29,6 +29,7 @@ public class WSConstants {
     public static final String ID_TOKEN = "id_token";
     public static final String ACCESS_TOKEN = "access_token";
     public static final String SUB = "sub";
+    public static final String NONCE = "nonce";
     public static final String GIVEN_NAME = "given_name";
     public static final String FAMILY_NAME = "family_name";
     public static final String EMAIL = "email";
@@ -57,6 +58,9 @@ public class WSConstants {
     // Auth
     public static final String JSON_REFRESH_TOKEN = "refreshToken";
     public static final String JSON_JWT_CSM = "JWT_CSM";
+    public static final String JSON_BASE_NONCE = "baseNonce";
+    public static final int BASE_NONCE_LENGTH = 36;
+    public static final int BASE_NONCE_VALIDITY_SECONDS = 1800;
     // Place
     public static final String JSON_ADD = "ADD";
     public static final String JSON_UPDATE = "UPDATE";
@@ -121,7 +125,7 @@ public class WSConstants {
     public static final String GROUP_KEY_CSMAP = "CSMAP";
 
     // Place
-    public static final String FOLDER_LIEUX = "Lieux";
+    public static final String FOLDER_POI_SIMPLE = "POI simple";
     public static final String STRUCTURE_POI_SIMPLE = "POI simple";
 
     // Various-Data
@@ -154,6 +158,11 @@ public class WSConstants {
     public static final String ERROR_REFRESH_TOKEN_INVALID = "Refresh token invalid";
     public static final String ERROR_REFRESH_TOKEN_EXPIRED = "Refresh token is no longer valid";
     public static final String ERROR_REFREH_TOKEN_CREATION = "An error occurs during refresh token creation";
+    public static final String ERROR_BASE_NONCE_CREATION = "An error occurs during refresh token creation";
+    public static final String ERROR_BASE_NONCE_EXPIRED = "Base Nonce is no longer valid";
+    public static final String ERROR_NO_SUCH_BASE_NONCE = "No such Base Nonce in database";
+    public static final String ERROR_NO_CODE_VERIFIER = "No code verifier in parameter";
+    public static final String ERROR_INVALID_NONCE = "Invalid nonce received during authentication";
     // Place
     public static final String ERROR_NO_DEFAULT_PICTO = "No default picto available for this application";
 

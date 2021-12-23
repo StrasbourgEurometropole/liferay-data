@@ -29,6 +29,29 @@
 
 	</entity>
 
+	<entity local-service="true" cache-enabled="true" name="BaseNonce" remote-service="false" uuid="false">
+
+		<!-- PK fields -->
+		<column name="baseNonceId" primary="true" type="long" />
+
+		<!-- Audit fields -->
+		<column name="createDate" type="Date" />
+
+		<!-- Other fields -->
+		<column name="value" type="String" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="createDate" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="Value" return-type="BaseNonce">
+			<finder-column name="value" />
+		</finder>
+
+	</entity>
+
 	<entity local-service="true" remote-service="false" cache-enabled="false" name="PlaceCategories" uuid="true">
 		<!-- PK fields -->
 		<column name="placeCategoriesId" primary="true" type="long" />

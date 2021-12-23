@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalService;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
+import eu.strasbourg.service.csmap.service.persistence.BaseNoncePersistence;
 import eu.strasbourg.service.csmap.service.persistence.CsmapCachePersistence;
 import eu.strasbourg.service.csmap.service.persistence.PlaceCategoriesPersistence;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
@@ -384,6 +385,9 @@ public abstract class AgendaLocalServiceBaseImpl
 
 	@Reference
 	protected AgendaPersistence agendaPersistence;
+
+	@Reference
+	protected BaseNoncePersistence baseNoncePersistence;
 
 	@Reference
 	protected CsmapCachePersistence csmapCachePersistence;

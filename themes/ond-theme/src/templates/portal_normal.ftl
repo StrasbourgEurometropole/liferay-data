@@ -46,6 +46,9 @@
 		<link href='//fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 	    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 		<link href='//fonts.googleapis.com/css?family=Lato:400,700,900,300' rel='stylesheet' type='text/css' />
+
+		<!-- Correction probleme asset-detail -->
+		<link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
 	       
 		<!-- jQuery 1.9.1 -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>

@@ -8,6 +8,8 @@ var content = document.getElementById(namespace + 'content');
 var notificationType = document.getElementById(namespace + "notificationType");
 var selectBroadcastTypes = document.getElementById(namespace + 'broadcast-type');
 var selectDistricts = document.getElementById(namespace + 'district');
+var labelUrl = document.getElementById(namespace + 'labelUrl');
+var url = document.getElementById(namespace + 'url');
 
 //Initialisation de l'affichage des champs
 initialiseNatures();
@@ -153,6 +155,19 @@ submitButton.onclick = function(event){
         }else{
             $('.incorrect-date').hide();
         }
+    }
+
+    var labelUrlValue = labelUrl.value;
+    var urlValue = url.value;
+    debugger;
+    if (labelUrlValue !== "" && urlValue === "" || labelUrlValue === "" && urlValue !== "") {
+        $('.incorrect-labelUrl-url').show();
+        if(allValidate){
+            $('html,body').animate({scrollTop: $(namespaceAUI + "content").offset().top - 100}, 'slow');
+            allValidate = false;
+        }
+    } else {
+        $('.incorrect-labelUrl-url').hide();
     }
 
     if (!allValidate) {

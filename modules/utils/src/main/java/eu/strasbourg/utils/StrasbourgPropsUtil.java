@@ -362,7 +362,7 @@ public class StrasbourgPropsUtil {
 	public static int getCSMAPRefreshTokenNbValidityDays() {
 		int result;
 		try {
-			String property = PropsUtil.get("eu.strasbourg.entraide.user.submit.bcc.mail");
+			String property = PropsUtil.get("eu.strasbourg.csmap.refresh.token.nb.validity.days");
 			result = Integer.parseInt(property);
 		} catch (Exception ignored) {
 			result = 90;

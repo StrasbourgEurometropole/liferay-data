@@ -29,6 +29,11 @@
 			<hint-collection name="TEXTAREA" />
 		</field>
 	</model>
+	<model name="eu.strasbourg.service.csmap.model.BaseNonce">
+		<field name="baseNonceId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="value" type="String" />
+	</model>
 	<model name="eu.strasbourg.service.csmap.model.CsmapCache">
 		<field name="cacheId" type="long" />
 		<field name="codeCache" type="long" />

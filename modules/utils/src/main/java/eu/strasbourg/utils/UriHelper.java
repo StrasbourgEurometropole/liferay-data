@@ -26,6 +26,6 @@ public class UriHelper {
     }
 
     public static String normalizeToFriendlyUrl(String s){
-        return FriendlyURLNormalizerUtil.normalize(s);
+        return  FriendlyURLNormalizerUtil.normalizeWithPeriodsAndSlashes(s);
     }
 }

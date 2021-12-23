@@ -13,6 +13,11 @@ create table csmap_Agenda (
 	tags STRING null
 );
 
+create table csmap_BaseNonce (
+	baseNonceId LONG not null primary key,
+	createDate DATE null,
+	value VARCHAR(75) null
+);
 create table csmap_CsmapCache (
 	cacheId LONG not null primary key,
 	codeCache LONG,
