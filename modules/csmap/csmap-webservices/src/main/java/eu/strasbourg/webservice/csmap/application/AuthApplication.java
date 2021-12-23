@@ -297,6 +297,24 @@ public class AuthApplication extends Application {
         return WSResponseUtil.buildOkResponse(jsonResponse);
     }
 
+    @GET
+    @Produces("application/json")
+    @Path("/logout/{refreshToken}")
+    /**
+     * Utilisé comme chemin de transition/retrocomaptibilité avec le POST
+     */
+    public Response legacyLogout(
+            @PathParam("refreshToken") String refreshTokenvalue) {
+        JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+        try {
+            RefreshTokenLocalServiceUtil.removeRefreshToken(RefreshTokenLocalServiceUtil.fetchByValue(refreshTokenvalue).getRefreshTokenId());
+        } catch (NullPointerException e) {
+            return WSResponseUtil.buildErrorResponse(400, "RefreshToken is invalid");
+        } catch (NoSuchRefreshTokenException e) {
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(jsonResponse);
+    }
 
     @Reference(unbind = "-")
     protected void setWSAuthenticator(WSAuthenticator authenticator) {
